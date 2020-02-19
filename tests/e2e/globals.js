@@ -146,10 +146,11 @@ async function initialiseDefaults(browser) {
   }
   browser.globals.feURI = browser.launch_url = feURI
   browser.globals.apiURI = apiURI
+  browser.globals.slug = "/" + networkData.slug
   browser.globals.expectedDiff = networkData.expectedDiff
   // checking the API for a localhost API
   if (apiURI.indexOf("//localhost:") !== -1) {
-    apiUp(browser)
+    await apiUp(browser)
   }
   // checking if network is local, the API should be local too
   if (network.indexOf("local-") === 0) {
@@ -160,50 +161,58 @@ async function initialiseDefaults(browser) {
     }
   }
   // open default page
-  await browser.url(browser.launch_url).then(() => {
-    browser.execute(
-      function(apiURI) {
-        // setting the api to localStorage
-        window.localStorage.setItem("persistentapi", apiURI)
-
-        // clear data from older tests
-        window.localStorage.removeItem(`cosmos-wallets-index`)
-      },
-      [apiURI]
-    )
-  })
+  await browser
+    .url(browser.launch_url + browser.globals.slug + "/portfolio")
+    .then(() => {
+      browser.execute(
+        function(apiURI, network) {
+          // setting the api to localStorage
+          window.localStorage.setItem("persistentapi", apiURI)
+          // clear data from older tests
+          window.localStorage.removeItem(`cosmos-wallets-index`)
+          window.localStorage.setItem(`network`, `"${network}"`)
+          window.localStorage.setItem(`isE2eTest`, `"true"`)
+        },
+        [apiURI, network]
+      )
+    })
   return networkData
 }
 
 async function defineNeededValidators(browser, networkData) {
   // need to store validators, cause they can shuffle during the test
-  await browser.url(browser.launch_url + "/validators", async () => {
-    const validators = await browser.execute(
-      function() {
-        return new Promise(resolve => {
-          let attempts = 5
-          const f = () => {
-            const validatorLIs = document.getElementsByClassName("li-validator")
-            if (validatorLIs.length < 2 && attempts-- > 0) {
-              setTimeout(f, 2000)
-              return false
+  await browser.url(
+    browser.launch_url + browser.globals.slug + "/validators",
+    async () => {
+      const validators = await browser.execute(
+        function() {
+          return new Promise(resolve => {
+            let attempts = 5
+            const f = () => {
+              const validatorLIs = document.getElementsByClassName(
+                "li-validator"
+              )
+              if (validatorLIs.length < 2 && attempts-- > 0) {
+                setTimeout(f, 2000)
+                return false
+              }
+              if (validatorLIs.length < 2) {
+                throw new Error(`No enough validators to check`)
+              }
+              resolve({
+                first: validatorLIs[0].getAttribute("data-name"),
+                second: validatorLIs[1].getAttribute("data-name")
+              })
             }
-            if (validatorLIs.length < 2) {
-              throw new Error(`No enough validators to check`)
-            }
-            resolve({
-              first: validatorLIs[0].getAttribute("data-name"),
-              second: validatorLIs[1].getAttribute("data-name")
-            })
-          }
-          f()
-        })
-      },
-      [browser, networkData]
-    )
-    browser.globals.validatorOneName = validators.value.first
-    browser.globals.validatorTwoName = validators.value.second
-  })
+            f()
+          })
+        },
+        [browser, networkData]
+      )
+      browser.globals.validatorOneName = validators.value.first
+      browser.globals.validatorTwoName = validators.value.second
+    }
+  )
 }
 
 async function storeAccountData(browser, networkData) {
@@ -251,50 +260,61 @@ async function storeAccountData(browser, networkData) {
 
 async function fundingTempAccount(browser, networkData) {
   // remember the hash of the last transaction
-  await browser.url(browser.launch_url + "/transactions", async () => {
-    browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
-  })
-  return browser.url(browser.launch_url + "/portfolio", async () => {
-    //browser.click(".modal-tutorial .close")
-    await actionModalCheckout(
-      browser,
-      ".send-button",
-      // actions to do on details page
-      () => {
-        browser.setValue("#send-address", browser.globals.address)
-        browser.clearValue("#amount")
-        browser.setValue("#amount", networkData.fundingAmount)
-      },
-      // expected subtotal
-      networkData.fundingAmount,
-      networkData.fundingAmount,
-      networkData.fundingAmount
-    )
-    // check if the hash is changed
-    await browser.url(browser.launch_url + "/transactions", async () => {
-      // check if tx shows
-      await waitForText(
+  await browser.url(
+    browser.launch_url + browser.globals.slug + "/transactions",
+    async () => {
+      browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
+    }
+  )
+  return browser.url(
+    browser.launch_url + browser.globals.slug + "/portfolio",
+    async () => {
+      //browser.click(".modal-tutorial .close")
+      await actionModalCheckout(
         browser,
-        ".tx:nth-of-type(1) .tx__content .tx__content__left",
-        "Sent"
+        ".send-button",
+        // actions to do on details page
+        () => {
+          browser.setValue("#send-address", browser.globals.address)
+          browser.clearValue("#amount")
+          browser.setValue("#amount", networkData.fundingAmount)
+        },
+        // expected subtotal
+        networkData.fundingAmount,
+        networkData.fundingAmount,
+        networkData.fundingAmount
       )
-      await waitForText(
-        browser,
-        ".tx:nth-of-type(1) .tx__content .tx__content__right",
-        `${networkData.fundingAmount} ${browser.globals.denom}`
+      // check if the hash is changed
+      await browser.url(
+        browser.launch_url + browser.globals.slug + "/transactions",
+        async () => {
+          // check if tx shows
+          await waitForText(
+            browser,
+            ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
+            "Sent",
+            20
+          )
+          await waitForText(
+            browser,
+            ".tx:nth-of-type(1) .tx__content .tx__content__right",
+            `${networkData.fundingAmount} ${browser.globals.denom}`
+          )
+          let hash = (await getLastActivityItemHash(browser)).value
+          if (hash == browser.globals.lastHash) {
+            throw new Error(`Hash didn't changed!`)
+          }
+        }
       )
-      let hash = (await getLastActivityItemHash(browser)).value
-      if (hash == browser.globals.lastHash) {
-        throw new Error(`Hash didn't changed!`)
-      }
-    })
-  })
+      await browser.pause(5000000)
+    }
+  )
 }
 
 async function createAccountAndFundIt(browser, done, networkData) {
   // changing network
-  browser.url(browser.launch_url)
-  browser.execute(
+  await browser.url(browser.launch_url)
+  await browser.execute(
     function(networkData) {
       window.localStorage.setItem(`network`, `"${networkData.network}"`)
       return true

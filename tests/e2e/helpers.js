@@ -190,7 +190,7 @@ async function actionModalCheckout(
       browser.click("#closeBtn")
     })
   // go to portfolio to remember balances
-  browser.url(browser.launch_url + "/portfolio")
+  browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
 
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
@@ -227,19 +227,22 @@ async function actionModalCheckout(
 
 async function getAccountBallance(browser) {
   // save denom
-  return await browser.url(browser.launch_url + "/portfolio", async () => {
-    // waiting till balance loaded
-    await browser.waitForElementVisible(".total-atoms h3", 5000, false)
-    await browser.getText(".total-atoms h3", result => {
-      browser.globals.denom = result.value.replace("Total ", "")
-    })
-    await browser.getText(".available-atoms h2", result => {
-      browser.globals.availableAtoms = result.value.replace(",", "")
-    })
-    await browser.getText(".total-atoms__value", result => {
-      browser.globals.totalAtoms = result.value.replace(",", "")
-    })
-  })
+  return await browser.url(
+    browser.launch_url + browser.globals.slug + "/portfolio",
+    async () => {
+      // waiting till balance loaded
+      await browser.waitForElementVisible(".total-atoms h3", 5000, false)
+      await browser.getText(".total-atoms h3", result => {
+        browser.globals.denom = result.value.replace("Total ", "")
+      })
+      await browser.getText(".available-atoms h2", result => {
+        browser.globals.availableAtoms = result.value.replace(",", "")
+      })
+      await browser.getText(".total-atoms__value", result => {
+        browser.globals.totalAtoms = result.value.replace(",", "")
+      })
+    }
+  )
 }
 
 async function nextBlock(browser) {

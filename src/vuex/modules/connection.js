@@ -22,8 +22,9 @@ export default function({ apollo }) {
   }
 
   const actions = {
-    async checkForPersistedNetwork({ dispatch, commit }) {
+    async checkForPersistedNetwork({ dispatch }) {
       const persistedNetwork = JSON.parse(localStorage.getItem(`network`))
+      // just to disbale network change on e2e tests
       const { data } = await apollo.query({
         query: Networks,
         fetchPolicy: "cache-first"
@@ -33,25 +34,20 @@ export default function({ apollo }) {
         ? data.networks.find(network => network.id == persistedNetwork)
         : false
       if (persistedNetwork && storedNetwork) {
-        await commit(`setNetworkId`, storedNetwork.id)
-        await commit(`setNetworkSlug`, storedNetwork.slug)
+        await dispatch(`setNetwork`, storedNetwork)
       } else {
         const defaultNetwork = data.networks.find(
           network => network.id == state.externals.config.network
         )
         if (defaultNetwork) {
           // remove additional execution of checkForPersistedNetwork
-          await commit(`setNetworkId`, defaultNetwork.id)
-          await commit(`setNetworkSlug`, defaultNetwork.slug)
-          await dispatch(`persistNetwork`, defaultNetwork)
+          await dispatch(`setNetwork`, defaultNetwork)
         } else {
           // otherwise we connect to a fallback network
           const fallbackNetwork = data.networks.find(
             network => network.id == state.externals.config.fallbackNetwork
           )
-          await commit(`setNetworkId`, fallbackNetwork.id)
-          await commit(`setNetworkSlug`, fallbackNetwork.slug)
-          await dispatch(`persistNetwork`, fallbackNetwork)
+          await dispatch(`setNetwork`, fallbackNetwork)
         }
       }
     },
