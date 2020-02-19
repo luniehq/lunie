@@ -117,10 +117,6 @@ export default {
       type: String,
       default: () => "returns"
     },
-    isMultiDenomReward: {
-      type: Boolean,
-      default: false
-    },
     stakingDenom: {
       type: String,
       default: ""

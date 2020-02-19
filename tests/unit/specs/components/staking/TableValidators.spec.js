@@ -48,28 +48,6 @@ describe(`TableValidators`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should add smallName property to validators`, () => {
-    expect(wrapper.vm.showingValidators[0].smallName).toBe(`cosmos1a`)
-  })
-
-  it(`should return true if rewards contain multiple denoms`, () => {
-    wrapper.setData({
-      rewards: [
-        {
-          validator: { name: "cosmos1a", operatorAddress: "cosmos1a" },
-          amount: 1,
-          denom: `utoken1`
-        },
-        {
-          validator: { name: "cosmos1a", operatorAddress: "cosmos1a" },
-          amount: 2,
-          denom: `utoken2`
-        }
-      ]
-    })
-    expect(wrapper.vm.isMultiDenomReward).toBe(true)
-  })
-
   it(`should sort the delegates by selected property`, () => {
     wrapper.vm.sort.property = `operatorAddress`
     wrapper.vm.sort.order = `desc`

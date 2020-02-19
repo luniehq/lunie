@@ -21,7 +21,6 @@
           :delegation="getDelegation(validator)"
           :rewards="getRewards(validator)"
           :show-on-mobile="showOnMobile"
-          :is-multi-denom-reward="isMultiDenomReward"
           :staking-denom="stakingDenom"
         />
       </tbody>
@@ -103,13 +102,6 @@ export default {
           tooltip: `Percentage of voting shares`
         }
       ]
-    },
-    isMultiDenomReward() {
-      if (this.rewards && this.rewards.length > 0) {
-        return this.rewards[0].denom !== this.rewards[1].denom ? true : false
-      } else {
-        return false
-      }
     }
   },
   watch: {

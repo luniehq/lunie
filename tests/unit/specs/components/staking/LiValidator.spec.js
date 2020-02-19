@@ -4,7 +4,7 @@ import VueApollo from "vue-apollo"
 import LiValidator from "src/components/staking/LiValidator"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 localVue.use(VueApollo)
 
 describe(`LiValidator`, () => {
