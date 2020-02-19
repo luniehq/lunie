@@ -780,13 +780,19 @@ export default {
         .sort((a, b) => b.amount - a.amount)[0]
     },
     selectFeeTokenAmount() {
-      // here we assume that in all multidenom networks we will be able to pay fees with non-staking tokens
-      if (this.isMultiDenomNetwork && this.selectedBalance) {
-        return this.selectedBalance && this.selectedBalance.amount > 0.001
-          ? this.selectedBalance.amount
-          : this.overview.liquidStake > 0.001
-          ? this.overview.liquidStake
-          : this.selectMaxBalanceToken().amount
+      if (this.selectedBalance) {
+        // here we assume that in all multidenom networks we will be able to pay fees with non-staking tokens
+        if (this.isMultiDenomNetwork && this.selectedBalance) {
+          return this.selectedBalance && this.selectedBalance.amount > 0.001
+            ? this.selectedBalance.amount
+            : this.overview.liquidStake > 0.001
+            ? this.overview.liquidStake
+            : this.selectMaxBalanceToken().amount
+        } else {
+          return this.balances.find(
+            ({ denom }) => denom === this.network.stakingDenom
+          ).amount
+        }
       } else {
         return this.balances.find(
           ({ denom }) => denom === this.network.stakingDenom
@@ -794,16 +800,20 @@ export default {
       }
     },
     selectFeeTokenDenom() {
-      if (this.isMultiDenomNetwork && this.selectedBalance) {
-        return this.selectedBalance && this.selectedBalance.amount > 0.001
-          ? this.selectedBalance.denom
-          : this.overview.liquidStake > 0.001
-          ? this.network.stakingDenom
-          : this.selectMaxBalanceToken().denom
+      if (this.selectedBalance) {
+        if (this.isMultiDenomNetwork && this.selectedBalance) {
+          return this.selectedBalance && this.selectedBalance.amount > 0.001
+            ? this.selectedBalance.denom
+            : this.overview.liquidStake > 0.001
+            ? this.network.stakingDenom
+            : this.selectMaxBalanceToken().denom
+        } else {
+          return this.balances.find(
+            ({ denom }) => denom === this.network.stakingDenom
+          ).denom
+        }
       } else {
-        return this.balances.find(
-          ({ denom }) => denom === this.network.stakingDenom
-        ).denom
+        return this.network.stakingDenom
       }
     }
   },
