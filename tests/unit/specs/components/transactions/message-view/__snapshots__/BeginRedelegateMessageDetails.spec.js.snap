@@ -28,7 +28,7 @@ exports[`BeginRedelegateMessageDetails renders a redelegate transaction message 
       cosmos…mos1 
     </router-link-stub>
     <i
-      class="material-icons arrow"
+      class="material-icons notranslate arrow"
     >
       arrow_right_alt
     </i>

@@ -8,7 +8,7 @@ exports[`TmDataEmpty has the expected html structure 1`] = `
     class="tm-data-msg__icon"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       info_outline
     </i>

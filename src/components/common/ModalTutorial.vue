@@ -5,14 +5,14 @@
         <div class="modal-tutorial-button-container">
           <div>
             <a href="#" @click.prevent="prevLink">
-              <i class="material-icons chevron_left"></i>
+              <i class="material-icons notranslate chevron_left"></i>
             </a>
             <a href="#" @click.prevent="nextLink">
-              <i class="material-icons chevron_right"></i>
+              <i class="material-icons notranslate chevron_right"></i>
             </a>
           </div>
           <a href="#" @click.prevent="close">
-            <i class="material-icons close"></i>
+            <i class="material-icons notranslate close"></i>
           </a>
         </div>
         <div class="top-bg" :class="background"></div>
@@ -48,7 +48,7 @@
             >
               {{ finalStep ? `Read the full guide` : `Next step` }}
               <i
-                class="material-icons arrow_forward"
+                class="material-icons notranslate arrow_forward"
                 :class="finalStep ? `final-step` : ``"
               ></i>
             </button>

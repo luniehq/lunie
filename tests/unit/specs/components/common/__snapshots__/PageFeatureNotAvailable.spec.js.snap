@@ -19,7 +19,7 @@ exports[`PageFeatureNotAvailable shows a warning about a feature not being avail
         class="tm-data-msg__icon"
       >
         <i
-          class="material-icons"
+          class="material-icons notranslate"
         >
           timeline
         </i>

@@ -17,7 +17,7 @@
         @click="orderBy(property.value)"
       >
         {{ property.title }}
-        <i class="material-icons">arrow_drop_up</i>
+        <i class="material-icons notranslate">arrow_drop_up</i>
       </a>
       <span v-else>{{ property.title }}</span>
     </th>

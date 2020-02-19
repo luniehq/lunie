@@ -25,7 +25,7 @@
         v-else-if="connected && network === networkitem.id"
         class="network-selected"
       >
-        <i class="material-icons">check</i>
+        <i class="material-icons notranslate">check</i>
       </div>
     </div>
   </div>

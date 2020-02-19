@@ -186,7 +186,7 @@ export default {
     max_memo_characters: 256,
     editMemo: false,
     isFirstLoad: true,
-    selectedToken: ``,
+    selectedToken: undefined,
     balances: [],
     denom: ``
   }),
@@ -245,6 +245,9 @@ export default {
       }
     },
     balances: function(balances) {
+      // if there is already a token selected don't reset it
+      if (this.selectedToken) return
+
       // in case the account has no balances we will display the staking denom received from the denom query
       if (balances.length === 0) {
         this.selectedToken = this.denom
