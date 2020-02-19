@@ -302,14 +302,7 @@ export default {
   computed: {
     ...mapState([`connection`]),
     ...mapGetters([`network`]),
-    ...mapGetters({ userAddress: `address` }),
-    isMultiDenomReward() {
-      if (this.rewards && this.rewards.length > 0) {
-        return this.rewards.length > 1 ? true : false
-      } else {
-        return false
-      }
-    }
+    ...mapGetters({ userAddress: `address` })
   },
   mounted() {
     this.$apollo.queries.rewards.refetch()

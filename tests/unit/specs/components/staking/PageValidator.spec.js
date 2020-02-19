@@ -125,25 +125,6 @@ describe(`PageValidator`, () => {
     PageValidator.methods.handleIntercom.call(self)
     expect(self.$store.dispatch).toHaveBeenCalledWith("displayMessenger")
   })
-  it(`returns true if the validator holds a multidenom reward`, () => {
-    wrapper.setData({
-      rewards: [
-        {
-          amount: 1,
-          denom: `utoken1`
-        },
-        {
-          amount: 2,
-          denom: `utoken2`
-        },
-        {
-          amount: 3,
-          denom: `utoken3`
-        }
-      ]
-    })
-    expect(wrapper.vm.isMultiDenomReward).toBe(true)
-  })
   it(`should filter the staking denom reward`, () => {
     const rewards = [
       {
