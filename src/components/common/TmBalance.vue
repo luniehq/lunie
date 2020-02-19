@@ -270,6 +270,7 @@ export default {
         return [this.stakingDenom]
       }
     },
+    // TODO: replace for the multi field in the network schema
     isMultiDenomReward() {
       if (this.overview.rewards && this.overview.rewards.length > 0) {
         return this.overview.rewards[0].denom !== this.overview.rewards[1].denom
