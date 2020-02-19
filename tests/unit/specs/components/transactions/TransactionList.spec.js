@@ -45,6 +45,9 @@ describe(`TransactionList`, () => {
         transactions: txs,
         validators: {},
         address: "cosmos1"
+      },
+      directives: {
+        infiniteScroll: () => {}
       }
     })
   })
