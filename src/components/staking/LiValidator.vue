@@ -51,7 +51,11 @@
               )
             "
           >
-            <span>+{{ filterStakingDenomReward() }}</span>
+            <span
+              >+{{
+                filterStakingDenomReward() | bigFigureOrShortDecimals
+              }}</span
+            >
           </h5>
         </div>
       </div>
@@ -130,9 +134,7 @@ export default {
       const stakingDenomRewards = this.rewards.filter(
         reward => reward.denom === this.toMicroDenom(this.stakingDenom)
       )
-      return bigFigureOrShortDecimals(stakingDenomRewards[0].amount).concat(
-        this.isMultiDenomReward ? ` ${this.stakingDenom}` : ``
-      )
+      return stakingDenomRewards[0].amount
     }
   }
 }

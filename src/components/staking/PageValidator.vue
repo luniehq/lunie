@@ -350,9 +350,7 @@ export default {
         const stakingDenomRewards = this.rewards.filter(
           reward => reward.denom === this.toMicroDenom(this.stakingDenom)
         )
-        return shortDecimals(stakingDenomRewards[0].amount).concat(
-          this.isMultiDenomReward ? ` ${this.stakingDenom}` : ``
-        )
+        return stakingDenomRewards[0].amount
       }
     }
   },
@@ -661,10 +659,12 @@ span {
   border-color: var(--success);
 }
 
-.validator-status-detailed {
+.validator-status-detailed,
+.no-img-info {
   display: block;
-  margin-top: 0.4rem;
+  margin-top: 1rem;
   font-size: 0.8rem;
+  color: var(--dim);
 }
 
 @media screen and (max-width: 425px) {
