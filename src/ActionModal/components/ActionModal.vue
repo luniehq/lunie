@@ -512,10 +512,12 @@ export default {
       }
       // default to the staking denom for fees
       const denom = this.selectedDenom || this.network.stakingDenom
-
-      const balance = this.balances.find(
+      let balance = this.balances.find(
         ({ denom: balanceDenom }) => balanceDenom === denom
       )
+      if (!balance) {
+        balance = defaultBalance
+      }
       // some API responses don't have gasPrices set
       if (!balance.gasPrice) balance.gasPrice = defaultBalance.gasPrice
       return balance
