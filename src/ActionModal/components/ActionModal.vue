@@ -492,20 +492,15 @@ export default {
         account: this.overview.accountInformation
       }
     },
-    // TODO: delete in favor of the multi field in network
-    isMultiDenomNetwork() {
-      return this.balances.length > 1 &&
-        this.balances[0].denom !== this.balances[1].denom
-        ? true
-        : false
-    },
     getDenom() {
       return this.selectedDenom || this.network.stakingDenom
     },
     selectedBalance() {
+      // Here is a good use case for the multi field I proposed for the network schema...
       const defaultBalance = {
         amount: 0,
-        gasPrice: 4e-7 // TODO: temporary fix for claim rewards for NGM
+        // awful network-specific logic. But how to do it otherwise?
+        gasPrice: this.network.stakingDenom === `NGM` ? 4e-7 : config.default_gas_price
       }
       if (this.balances.length === 0 || !this.network) {
         return defaultBalance
