@@ -47,7 +47,11 @@
                     }}
                   </h2>
                   <div class="rewards multi-denom">
-                    <h2 v-if="isMultiDenomNetwork">
+                    <h2
+                      v-if="
+                        isMultiDenomNetwork && overview.totalRewards > 0.001
+                      "
+                    >
                       +{{
                         overview.totalRewards
                           | bigFigureOrShortDecimals
