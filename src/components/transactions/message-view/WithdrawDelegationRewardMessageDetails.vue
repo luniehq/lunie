@@ -1,16 +1,13 @@
 <template>
   <div class="tx__content">
-    <TransactionIcon
-      :transaction-group="transaction.group"
-      :transaction-type="type"
-    />
+    <TransactionIcon :transaction-type="type" />
     <div v-if="getValidators && getValidators.length === 1">
       <div class="tx__content__left">
         <h3>{{ caption }}</h3>
         <div class="multi-claim-reward-row">
           <span>Rewards from&nbsp;</span>
           <router-link
-            :to="`/staking/validators/${transaction.value.validator_address}`"
+            :to="`/staking/validators/${transaction.details.from[0]}`"
             class="validator-link"
           >
             <Avatar
@@ -27,10 +24,7 @@
               class="validator-image"
               :alt="`validator logo for ` + getValidators[0].name"
             />
-            {{
-              transaction.value.validator_address
-                | resolveValidatorName(validators)
-            }}
+            {{ transaction.details.from[0] | resolveValidatorName(validators) }}
           </router-link>
         </div>
       </div>
@@ -122,19 +116,9 @@ export default {
   },
   computed: {
     getValidators() {
-      if (this.transaction.withdrawValidators) {
-        let validators = []
-        JSON.parse(this.transaction.withdrawValidators).forEach(msg => {
-          validators.push(this.validators[msg.value.validator_address] || {})
-        })
-        return validators
-      } else if (this.transaction.value.validator_address) {
-        // Theoretically this shouldn't ever be triggered
-        return [this.validators[this.transaction.value.validator_address]]
-      } else {
-        // This would be an error
-        return null
-      }
+      return this.transaction.details.from.map(validatorAddress => {
+        return this.validators[validatorAddress] || {}
+      })
     }
   }
 }

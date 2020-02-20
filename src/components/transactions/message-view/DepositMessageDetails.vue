@@ -1,37 +1,30 @@
 <template>
   <div class="tx__content">
-    <TransactionIcon
-      :transaction-group="transaction.group"
-      :transaction-type="type"
-    />
+    <TransactionIcon :transaction-type="type" />
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
       <span>On&nbsp;</span>
-      <router-link :to="`/governance/${transaction.value.proposal_id}`"
-        >Proposal &#35;{{ transaction.value.proposal_id }}</router-link
+      <router-link :to="`/proposals/${transaction.details.proposalId}`"
+        >Proposal &#35;{{ transaction.details.proposalId }}</router-link
       >
     </div>
     <div class="tx__content__right">
       <p class="amount">
-        {{ deposit.amount | atoms | prettyLong }}&nbsp;
-        {{ deposit.denom | viewDenom }}
+        {{ transaction.details.amount.amount | prettyLong }}&nbsp;
+        {{ transaction.details.amount.denom }}
       </p>
     </div>
   </div>
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from "scripts/num.js"
-import { formatBech32 } from "src/filters"
+import { prettyLong } from "scripts/num.js"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `deposit-message-details`,
   filters: {
-    atoms,
-    viewDenom,
-    prettyLong,
-    formatBech32
+    prettyLong
   },
   components: {
     TransactionIcon
@@ -50,11 +43,6 @@ export default {
     return {
       type: `Deposit`,
       caption: `Deposit`
-    }
-  },
-  computed: {
-    deposit() {
-      return this.transaction.value.amount[0]
     }
   }
 }
