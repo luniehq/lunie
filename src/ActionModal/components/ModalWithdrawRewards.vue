@@ -96,17 +96,18 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.rewards
       },
+      /* istanbul ignore next */
       skip() {
         return !this.address
       }
@@ -121,11 +122,13 @@ export default {
         }
       `,
       fetchPolicy: "cache-first",
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network
         }
       },
+      /* istanbul ignore next */
       update(data) {
         if (data.network) return data.network.stakingDenom
         return ""
