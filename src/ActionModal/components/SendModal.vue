@@ -39,36 +39,12 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="getDenoms.length > 1"
-      :error="$v.selectedToken.$error"
-      class="action-modal-form-group"
-      field-id="selected-token"
-      field-label="Token"
-    >
-      <TmField
-        id="token"
-        v-model="selectedToken"
-        :title="`Select the token you wish to operate with`"
-        :options="getDenoms"
-        placeholder="Select the token"
-        type="select"
-      />
-      <TmFormMsg
-        v-if="$v.selectedToken.$error && !$v.selectedToken.required"
-        name="Token"
-        type="required"
-      />
-    </TmFormGroup>
-    <TmFormGroup
       id="form-group-amount"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
-      <span v-if="selectedToken" class="input-suffix max-button">{{
-        selectedToken
-      }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -78,6 +54,15 @@
           placeholder="0"
           type="number"
           @keyup.enter.native="enterPressed"
+        />
+        <TmField
+          id="token"
+          v-model="selectedToken"
+          :title="`Select the token you wish to operate with`"
+          :options="getDenoms"
+          class="tm-field-token-selector"
+          placeholder="Select the token"
+          type="select"
         />
         <TmBtn
           type="button"
@@ -403,8 +388,26 @@ export default {
   font-size: 12px;
   cursor: pointer;
 }
-
+.tm-field-addon {
+  border-right: 0;
+}
+.tm-field-addon:focus {
+  border-color: var(--input-bc);
+}
 #form-group-amount {
   margin-bottom: 30px;
+}
+.tm-field-token-selector {
+  width: 80px;
+}
+.tm-field-token-selector >>> .tm-field-select {
+  border-left: 0;
+  border-radius: 0 !important;
+}
+.tm-field-token-selector >>> .tm-field-select:focus {
+  border-color: var(--input-bc);
+}
+.tm-field-token-selector >>> .tm-field-select-addon {
+  border: 0;
 }
 </style>
