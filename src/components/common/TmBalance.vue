@@ -288,7 +288,7 @@ export default {
       if (this.overview.rewards && this.overview.rewards.length > 0) {
         let rewardsAccumulator = 0
         this.overview.rewards
-          .filter(reward => reward.denom === denom.toLowerCase())
+          .filter(reward => reward.denom === denom)
           .forEach(reward => {
             rewardsAccumulator += parseFloat(reward.amount)
           })

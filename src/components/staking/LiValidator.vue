@@ -45,9 +45,7 @@
           <h5
             v-if="
               rewards.find(
-                reward =>
-                  reward.denom === toMicroDenom(stakingDenom) &&
-                  reward.amount > 0.001
+                reward => reward.denom === stakingDenom && reward.amount > 0.001
               )
             "
           >
@@ -79,7 +77,6 @@ import {
   bigFigureOrShortDecimals,
   atoms
 } from "scripts/num"
-import { toMicroDenom } from "src/scripts/common"
 import Avatar from "common/Avatar"
 
 export default {
@@ -123,12 +120,11 @@ export default {
     }
   },
   methods: {
-    toMicroDenom,
     bigFigureOrPercent,
     bigFigureOrShortDecimals,
     filterStakingDenomReward() {
       const stakingDenomRewards = this.rewards.filter(
-        reward => reward.denom === this.toMicroDenom(this.stakingDenom)
+        reward => reward.denom === this.stakingDenom
       )
       return stakingDenomRewards[0].amount
     }

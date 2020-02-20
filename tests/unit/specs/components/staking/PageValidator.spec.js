@@ -129,19 +129,19 @@ describe(`PageValidator`, () => {
     const rewards = [
       {
         amount: 1,
-        denom: `utoken1`
+        denom: `TOKEN1`
       },
       {
         amount: 2,
-        denom: `utoken2`
+        denom: `TOKEN2`
       },
       {
         amount: 3,
-        denom: `utoken3`
+        denom: `TOKEN3`
       }
     ]
     const self = {
-      stakingDenom: `UTOKEN1`,
+      stakingDenom: `TOKEN1`,
       rewards: rewards,
       toMicroDenom
     }

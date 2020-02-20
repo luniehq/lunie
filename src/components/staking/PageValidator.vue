@@ -205,7 +205,6 @@ import moment from "moment"
 import { mapGetters, mapState } from "vuex"
 import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
-import { toMicroDenom } from "src/scripts/common"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
@@ -316,7 +315,6 @@ export default {
     this.$apollo.queries.delegation.refetch()
   },
   methods: {
-    toMicroDenom,
     shortDecimals,
     fullDecimals,
     atoms,
@@ -348,7 +346,7 @@ export default {
     filterStakingDenomReward() {
       if (this.rewards && this.rewards.length > 0) {
         const stakingDenomRewards = this.rewards.filter(
-          reward => reward.denom === this.toMicroDenom(this.stakingDenom)
+          reward => reward.denom === this.stakingDenom
         )
         return stakingDenomRewards[0].amount
       }
