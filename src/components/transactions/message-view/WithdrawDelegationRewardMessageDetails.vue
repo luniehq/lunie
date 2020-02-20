@@ -1,11 +1,11 @@
 <template>
   <div class="tx__content">
     <TransactionIcon :transaction-type="type" />
-    <div v-if="getValidators && getValidators.length === 1">
+    <template v-if="getValidators && getValidators.length === 1">
       <div class="tx__content__left">
         <h3>{{ caption }}</h3>
         <div class="multi-claim-reward-row">
-          <span>Rewards from&nbsp;</span>
+          <span>Rewards from</span>&nbsp;&nbsp;
           <router-link
             :to="`/staking/validators/${transaction.details.from[0]}`"
             class="validator-link"
@@ -28,7 +28,13 @@
           </router-link>
         </div>
       </div>
-    </div>
+      <div class="tx__content__right">
+        <p class="amount">
+          {{ transaction.details.amount.amount | prettyLong }}&nbsp;
+          {{ transaction.details.amount.denom }}
+        </p>
+      </div>
+    </template>
     <div
       v-if="getValidators && getValidators.length > 1"
       class="validators-images-row"
@@ -157,5 +163,8 @@ export default {
 }
 .multi-claim-reward-row.validatorsToggle {
   display: block;
+}
+.tx a {
+  margin-left: 0.1rem;
 }
 </style>
