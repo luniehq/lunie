@@ -64,9 +64,7 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{
-              selectFeeTokenDenom() | viewDenom
-            }}</span>
+            <span class="input-suffix">{{ selectedDenom }}</span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -96,14 +94,14 @@
           <TableInvoice
             :amount="Number(amount)"
             :estimated-fee="estimatedFee"
-            :bond-denom="selectFeeTokenDenom()"
+            :bond-denom="selectedDenom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
             name="Total"
             type="between"
             min="0"
-            :max="selectFeeTokenAmount()"
+            :max="selectedBalance.amount"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
@@ -391,9 +389,9 @@ export default {
       type: Boolean,
       default: false
     },
-    selectedBalance: {
-      type: Object,
-      default: () => {}
+    selectedDenom: {
+      type: String,
+      default: ``
     }
   },
   data: () => ({
@@ -418,7 +416,8 @@ export default {
     network: {},
     overview: {},
     isMobileApp: config.mobileApp,
-    useTxService: config.enableTxAPI
+    useTxService: config.enableTxAPI,
+    balances: []
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -499,6 +498,19 @@ export default {
         this.balances[0].denom !== this.balances[1].denom
         ? true
         : false
+    },
+    selectedBalance() {
+      const defaultBalance = {
+        amount: 0,
+        gasPrice: config.default_gas_price.toFixed(9)
+      }
+      if (!this.selectedDenom || this.balances.length === 0)
+        return defaultBalance
+
+      return (
+        this.balances.find(({ denom }) => denom === this.selectedDenom) ||
+        defaultBalance
+      )
     }
   },
   watch: {
@@ -520,17 +532,9 @@ export default {
     "$apollo.loading": function(loading) {
       this.loaded = this.loaded || !loading
     },
-    // wait for query balances to finish to get the gas price (if we are in a multidenom network)
-    balances: {
-      handler() {
-        this.gasPriceSetter()
-      }
-    },
     selectedBalance: {
-      handler() {
-        if (this.balances) {
-          this.gasPriceSetter()
-        }
+      handler(selectedBalance) {
+        this.gasPrice = selectedBalance.gasPrice
       }
     }
   },
@@ -613,20 +617,6 @@ export default {
           break
       }
     },
-    gasPriceSetter() {
-      this.gasPrice =
-        this.isMultiDenomNetwork && this.balances.length > 0
-          ? // if it finds the selected fee token denom in the balances array, then returns its gas price
-            // otherwise returns the default for Cosmos
-            (this.gasPrice = this.balances.find(
-              ({ denom }) => denom === this.selectFeeTokenDenom()
-            ).gasPrice
-              ? this.balances.find(
-                  ({ denom }) => denom === this.selectFeeTokenDenom()
-                ).gasPrice
-              : config.default_gas_price.toFixed(9))
-          : config.default_gas_price.toFixed(9)
-    },
     async validateChangeStep() {
       if (this.disabled) return
 
@@ -682,9 +672,9 @@ export default {
       }
 
       // limit fees to the maximum the user has
-      if (this.invoiceTotal > this.selectFeeTokenAmount()) {
+      if (this.invoiceTotal > this.selectedBalance.amount) {
         this.gasPrice =
-          (Number(this.selectFeeTokenAmount()) - Number(this.amount)) /
+          (Number(this.selectedBalance.amount) - Number(this.amount)) /
           this.gasEstimate
       }
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
@@ -708,7 +698,7 @@ export default {
         gasEstimate: this.gasEstimate,
         gasPrice: {
           amount: this.gasPrice,
-          denom: this.selectFeeTokenDenom()
+          denom: this.selectedDenom
         },
         submitType: this.selectedSignMethod,
         password: this.password
@@ -773,48 +763,6 @@ export default {
       this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
-    },
-    selectMaxBalanceToken() {
-      return this.balances
-        .filter(({ amount }) => amount > 0.001)
-        .sort((a, b) => b.amount - a.amount)[0]
-    },
-    selectFeeTokenAmount() {
-      if (this.selectedBalance) {
-        // here we assume that in all multidenom networks we will be able to pay fees with non-staking tokens
-        if (this.isMultiDenomNetwork && this.selectedBalance) {
-          return this.selectedBalance && this.selectedBalance.amount > 0.001
-            ? this.selectedBalance.amount
-            : this.overview.liquidStake > 0.001
-            ? this.overview.liquidStake
-            : this.selectMaxBalanceToken().amount
-        } else {
-          return this.balances.find(
-            ({ denom }) => denom === this.network.stakingDenom
-          ).amount
-        }
-      } else {
-        return this.balances.find(
-          ({ denom }) => denom === this.network.stakingDenom
-        ).amount
-      }
-    },
-    selectFeeTokenDenom() {
-      if (this.selectedBalance) {
-        if (this.isMultiDenomNetwork && this.selectedBalance) {
-          return this.selectedBalance && this.selectedBalance.amount > 0.001
-            ? this.selectedBalance.denom
-            : this.overview.liquidStake > 0.001
-            ? this.network.stakingDenom
-            : this.selectMaxBalanceToken().denom
-        } else {
-          return this.balances.find(
-            ({ denom }) => denom === this.network.stakingDenom
-          ).denom
-        }
-      } else {
-        return this.network.stakingDenom
-      }
     }
   },
   validations() {
@@ -832,10 +780,10 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        between: between(0, this.selectFeeTokenAmount())
+        between: between(0, this.selectedBalance.amount)
       },
       invoiceTotal: {
-        between: between(0, this.selectFeeTokenAmount())
+        between: between(0, this.selectedBalance.amount)
       }
     }
   },
