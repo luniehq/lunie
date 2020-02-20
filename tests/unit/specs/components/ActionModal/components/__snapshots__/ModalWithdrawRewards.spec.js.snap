@@ -4,7 +4,7 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
 <actionmodal-stub
   amount="0"
   class="modal-withdraw-rewards"
-  denom="stake"
+  denom="STAKE"
   featureflag="claim_rewards"
   id="modal-withdraw-rewards"
   notifymessage="[object Object]"

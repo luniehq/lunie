@@ -13,7 +13,7 @@ describe(`ModalWithdrawRewards`, () => {
     propsData = {
       validatorAddress: "cosmos1234567",
       rewards: 0,
-      denom: "stake"
+      denom: "STAKE"
     }
 
     wrapper = shallowMount(ModalWithdrawRewards, {
@@ -32,6 +32,24 @@ describe(`ModalWithdrawRewards`, () => {
     const $refs = { actionModal: { open: jest.fn() } }
     ModalWithdrawRewards.methods.open.call({ $refs })
     expect($refs.actionModal.open).toHaveBeenCalled()
+  })
+
+  it(`filters the staking denom rewards to display as totalRewards`, () => {
+    const self = {
+      rewards: [
+        {
+          denom: `STAKE`,
+          amount: 1
+        },
+        {
+          denom: `NOTSTAKE`,
+          amount: 2
+        }
+      ],
+      denom: "STAKE"
+    }
+    const totalRewards = ModalWithdrawRewards.computed.totalRewards.call(self)
+    expect(totalRewards).toEqual(`1.000000`)
   })
 
   it(`should display message when withdrawing from multiple validators`, () => {
