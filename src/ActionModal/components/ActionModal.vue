@@ -505,7 +505,7 @@ export default {
     selectedBalance() {
       const defaultBalance = {
         amount: 0,
-        gasPrice: config.default_gas_price
+        gasPrice: 4e-7 // TODO: temporary fix for claim rewards for NGM
       }
       if (this.balances.length === 0 || !this.network) {
         return defaultBalance
