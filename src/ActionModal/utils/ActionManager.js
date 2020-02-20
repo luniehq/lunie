@@ -251,6 +251,7 @@ function getTop5RewardsValidators(bondDenom, rewards) {
   // Compares the amount in a [address1, {denom: amount}] array
   const byBalance = (a, b) => b.amount - a.amount
   const validatorList = rewards
+    .filter(({ denom }) => denom == bondDenom)
     .sort(byBalance)
     .slice(0, 5) // Just the top 5
     .map(({ validator }) => validator.operatorAddress)

@@ -9,6 +9,7 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
   id="modal-withdraw-rewards"
   notifymessage="[object Object]"
   rewards="0"
+  selecteddenom=""
   submissionerrorprefix="Withdrawal failed"
   title="Claim Rewards"
   transactiondata="[object Object]"

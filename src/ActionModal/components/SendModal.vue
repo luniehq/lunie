@@ -7,6 +7,7 @@
     title="Send"
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
+    :selected-denom="selectedToken"
     :notify-message="notifyMessage"
     feature-flag="send"
     @close="clear"
@@ -193,13 +194,11 @@ export default {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
     selectedBalance() {
-      const selectedBalance = this.balances.filter(
-        balance => balance.denom === this.selectedToken || this.denoms[0]
+      return (
+        this.balances.find(({ denom }) => denom === this.selectedToken) || {
+          amount: 0
+        }
       )
-      if (selectedBalance.length > 0) {
-        return selectedBalance[0]
-      }
-      return { amount: 0 }
     },
     transactionData() {
       if (isNaN(this.amount) || !this.address || !this.selectedToken) {
