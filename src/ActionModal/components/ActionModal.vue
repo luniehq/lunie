@@ -64,7 +64,7 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{ selectedDenom }}</span>
+            <span class="input-suffix">{{ getDenom }}</span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -94,7 +94,7 @@
           <TableInvoice
             :amount="Number(amount)"
             :estimated-fee="estimatedFee"
-            :bond-denom="selectedDenom"
+            :bond-denom="getDenom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
@@ -499,6 +499,9 @@ export default {
         ? true
         : false
     },
+    getDenom() {
+      return this.selectedDenom || this.network.stakingDenom
+    },
     selectedBalance() {
       const defaultBalance = {
         amount: 0,
@@ -699,12 +702,11 @@ export default {
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
       const { type, memo, ...properties } = this.transactionData
-
       const feeProperties = {
         gasEstimate: this.gasEstimate,
         gasPrice: {
           amount: this.gasPrice,
-          denom: this.selectedDenom
+          denom: this.getDenom
         },
         submitType: this.selectedSignMethod,
         password: this.password
