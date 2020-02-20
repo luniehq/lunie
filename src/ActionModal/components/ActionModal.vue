@@ -502,12 +502,16 @@ export default {
     selectedBalance() {
       const defaultBalance = {
         amount: 0,
-        gasPrice: config.default_gas_price.toFixed(9)
+        gasPrice: config.default_gas_price
       }
-      if (!this.selectedDenom || this.balances.length === 0)
+      if (this.balances.length === 0 || !this.network) {
         return defaultBalance
+      }
+      // default to the staking denom for fees
+      const denom = this.selectedDenom || this.network.stakingDenom
 
-      const balance = this.balances.find(({ denom }) => denom === this.selectedDenom)
+      const balance = this.balances
+        .find(({ denom: balanceDenom }) => balanceDenom === denom)
       // some API responses don't have gasPrices set
       if (!balance.gasPrice) balance.gasPrice = defaultBalance.gasPrice
       return balance
@@ -533,6 +537,7 @@ export default {
       this.loaded = this.loaded || !loading
     },
     selectedBalance: {
+      immediate: true,
       handler(selectedBalance) {
         this.gasPrice = selectedBalance.gasPrice
       }

@@ -49,7 +49,7 @@ describe(`ActionModal`, () => {
 
   const balances = [
     {
-      denom: "token1",
+      denom: "STAKE",
       amount: 1,
       gasPrice: 0.001
     },
