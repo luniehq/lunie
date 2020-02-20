@@ -500,7 +500,8 @@ export default {
       const defaultBalance = {
         amount: 0,
         // awful network-specific logic. But how to do it otherwise?
-        gasPrice: this.network.stakingDenom === `NGM` ? 4e-7 : config.default_gas_price
+        gasPrice:
+          this.network.stakingDenom === `NGM` ? 4e-7 : config.default_gas_price
       }
       if (this.balances.length === 0 || !this.network) {
         return defaultBalance
