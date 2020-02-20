@@ -62,10 +62,23 @@ export default {
         type: transaction.WITHDRAW
       }
     },
+    isMultiDenomNetwork() {
+      return this.rewards.length > 1 &&
+        this.rewards[0].denom !== this.rewards[1].denom
+        ? true
+        : false
+    },
     totalRewards() {
-      return this.rewards
-        .reduce((sum, { amount }) => sum + Number(amount), 0)
-        .toFixed(6)
+      if (this.isMultiDenomNetwork) {
+        return this.rewards
+          .filter(({ denom }) => denom === this.denom)
+          .reduce((sum, { amount }) => sum + Number(amount), 0)
+          .toFixed(6)
+      } else {
+        return this.rewards
+          .reduce((sum, { amount }) => sum + Number(amount), 0)
+          .toFixed(6)
+      }
     },
     notifyMessage() {
       return {
