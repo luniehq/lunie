@@ -12,10 +12,7 @@ function resolve(dir) {
 }
 
 const config = {
-  devtool:
-    process.env.NODE_ENV === 'development'
-      ? 'inline-cheap-source-map'
-      : undefined,
+  devtool: 'inline-cheap-source-map',
   mode: process.env.NODE_ENV,
   context: resolve('src'),
   entry: {
@@ -30,6 +27,7 @@ const config = {
   resolve: {
     alias: {
       assets: resolve('lunie/src/assets'),
+      'common/Avatar': resolve('./src/components/BlankAvatar'),
       common: resolve('lunie/src/components/common'),
       transactions: resolve('lunie/src/components/transactions'),
       modules: resolve('lunie/src/vuex/modules'),
