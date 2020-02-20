@@ -4,9 +4,9 @@
       <div :key="group[0].title">
         <h3>{{ group[0].title }}</h3>
         <TransactionItem
-          v-for="tx in transactions"
-          :key="tx.hash"
-          :transaction="tx"
+          v-for="item in group"
+          :key="item.tx.hash"
+          :transaction="item.tx"
           :validators="validators"
           :address="address"
         />
