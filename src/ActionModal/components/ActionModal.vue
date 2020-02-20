@@ -400,7 +400,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: (config.default_gas_price / 4).toFixed(9), // as we bump the gas amount by 4 in the API
+    gasPrice: 0,
     submissionError: null,
     show: false,
     loaded: false,
@@ -507,10 +507,10 @@ export default {
       if (!this.selectedDenom || this.balances.length === 0)
         return defaultBalance
 
-      return (
-        this.balances.find(({ denom }) => denom === this.selectedDenom) ||
-        defaultBalance
-      )
+      const balance = this.balances.find(({ denom }) => denom === this.selectedDenom)
+      // some API responses don't have gasPrices set
+      if (!balance.gasPrice) balance.gasPrice = defaultBalance.gasPrice
+      return balance
     }
   },
   watch: {
