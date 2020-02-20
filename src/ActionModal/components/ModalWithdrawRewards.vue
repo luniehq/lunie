@@ -91,6 +91,7 @@ export default {
               operatorAddress
             }
             amount
+            denom
           }
         }
       `,
