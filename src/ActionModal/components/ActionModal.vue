@@ -541,7 +541,6 @@ export default {
       this.loaded = this.loaded || !loading
     },
     selectedBalance: {
-      immediate: true,
       handler(selectedBalance) {
         this.gasPrice = selectedBalance.gasPrice
       }
