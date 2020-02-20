@@ -292,8 +292,7 @@ async function fundingTempAccount(browser, networkData) {
           await waitForText(
             browser,
             ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
-            "Sent",
-            20
+            "Sent"
           )
           await waitForText(
             browser,
@@ -306,7 +305,6 @@ async function fundingTempAccount(browser, networkData) {
           }
         }
       )
-      await browser.pause(5000000)
     }
   )
 }

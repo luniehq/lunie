@@ -25,6 +25,7 @@ async function awaitBalance(browser, balance) {
 }
 async function waitFor(check, iterations = 10, timeout = 1000) {
   while (--iterations) {
+    console.log(iterations)
     try {
       await check()
       return
@@ -142,7 +143,7 @@ async function actionModalCheckout(
       sheet.cssRules.length
     )
   })
-
+  await browser.expect.element(btnSelector).to.be.visible.before(10000)
   await browser.click(btnSelector)
   browser.expect.element(".action-modal").to.be.visible.before(10000)
 
@@ -231,7 +232,7 @@ async function getAccountBallance(browser) {
     browser.launch_url + browser.globals.slug + "/portfolio",
     async () => {
       // waiting till balance loaded
-      await browser.waitForElementVisible(".total-atoms h3", 5000, false)
+      await browser.waitForElementVisible(".total-atoms h2", 5000, false)
       await browser.getText(".total-atoms h3", result => {
         browser.globals.denom = result.value.replace("Total ", "")
       })
