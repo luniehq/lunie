@@ -492,13 +492,6 @@ export default {
         account: this.overview.accountInformation
       }
     },
-    // TODO: delete in favor of the multi field in network
-    isMultiDenomNetwork() {
-      return this.balances.length > 1 &&
-        this.balances[0].denom !== this.balances[1].denom
-        ? true
-        : false
-    },
     getDenom() {
       return this.selectedDenom || this.network.stakingDenom
     },
