@@ -48,10 +48,6 @@ describe(`TableValidators`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should add smallName property to validators`, () => {
-    expect(wrapper.vm.showingValidators[0].smallName).toBe(`cosmos1a`)
-  })
-
   it(`should sort the delegates by selected property`, () => {
     wrapper.vm.sort.property = `operatorAddress`
     wrapper.vm.sort.order = `desc`

@@ -42,8 +42,18 @@
           <h4>
             {{ delegation.amount | bigFigureOrShortDecimals }}
           </h4>
-          <h5 v-if="rewards.amount > 0.001">
-            +{{ rewards.amount | bigFigureOrShortDecimals }}
+          <h5
+            v-if="
+              rewards.find(
+                reward => reward.denom === stakingDenom && reward.amount > 0.001
+              )
+            "
+          >
+            <span
+              >+{{
+                filterStakingDenomReward() | bigFigureOrShortDecimals
+              }}</span
+            >
           </h5>
         </div>
       </div>
@@ -85,26 +95,39 @@ export default {
       type: Object,
       required: true
     },
+    /* istanbul ignore next */
     delegation: {
       type: Object,
       default: () => ({})
     },
+    /* istanbul ignore next */
     rewards: {
-      type: Object,
+      type: Array,
       default: () => ({})
     },
     index: {
       type: Number,
       required: true
     },
+    /* istanbul ignore next */
     showOnMobile: {
       type: String,
-      /* istanbul ignore next */
       default: () => "returns"
+    },
+    stakingDenom: {
+      type: String,
+      default: ""
     }
   },
   methods: {
-    bigFigureOrPercent
+    bigFigureOrPercent,
+    bigFigureOrShortDecimals,
+    filterStakingDenomReward() {
+      const stakingDenomRewards = this.rewards.filter(
+        reward => reward.denom === this.stakingDenom
+      )
+      return stakingDenomRewards[0].amount
+    }
   }
 }
 </script>
