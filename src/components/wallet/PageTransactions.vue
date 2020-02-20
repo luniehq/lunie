@@ -93,6 +93,7 @@ export default {
             }
             details {
               ... on SendTx {
+                from
                 to
                 amount {
                   denom
@@ -183,6 +184,7 @@ export default {
               }
               details {
                 ... on SendTx {
+                  from
                   to
                   amount {
                     denom

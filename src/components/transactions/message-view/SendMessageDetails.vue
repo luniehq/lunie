@@ -13,7 +13,7 @@
       </template>
       <template v-else>
         <span>From&nbsp;</span>
-        <Bech32 :address="transaction.details.to[0]" />
+        <Bech32 :address="transaction.details.from[0]" />
       </template>
     </div>
     <div class="tx__content__right">
@@ -52,10 +52,10 @@ export default {
   },
   computed: {
     toYourself() {
-      return this.transaction.details.to[0] === this.sessionAddress
+      return this.transaction.details.from[0] === this.transaction.details.to[0]
     },
     sentFromSessionAddress() {
-      return this.transaction.details.to[0] !== this.sessionAddress
+      return this.transaction.details.from[0] === this.sessionAddress
     },
     type() {
       if (this.transaction.details.to[0] === this.sessionAddress) {

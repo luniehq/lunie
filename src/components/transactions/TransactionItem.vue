@@ -75,7 +75,6 @@ export default {
   }),
   computed: {
     messageTypeComponent: function() {
-      console.log(this.transaction.type)
       switch (this.transaction.type) {
         case messageType.SEND:
           return `send-message-details`
