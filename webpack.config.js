@@ -12,10 +12,7 @@ function resolve(dir) {
 }
 
 const config = {
-  devtool:
-    process.env.NODE_ENV === 'development'
-      ? 'inline-cheap-source-map'
-      : undefined,
+  devtool: 'inline-cheap-source-map',
   mode: process.env.NODE_ENV,
   context: resolve('src'),
   entry: {
