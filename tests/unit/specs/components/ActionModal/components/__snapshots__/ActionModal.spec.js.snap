@@ -6,7 +6,16 @@ exports[`ActionModal back button renders and functions 1`] = `
   name="slide-fade"
   tabindex="0"
 >
-  <!---->
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
    
   <div
     class="action-modal-icon action-modal-close"
@@ -29,7 +38,7 @@ exports[`ActionModal back button renders and functions 1`] = `
     </span>
      
     <steps-stub
-      activestep="details"
+      activestep="sign"
       steps="Details,Fees,Sign"
     />
      
@@ -38,7 +47,25 @@ exports[`ActionModal back button renders and functions 1`] = `
    
   <div
     class="action-modal-form"
-  />
+  >
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
    
   <!---->
    
@@ -56,7 +83,7 @@ exports[`ActionModal back button renders and functions 1`] = `
        
       <tmbtn-stub
         type="primary"
-        value="Next"
+        value="Send"
       />
     </tmformgroup-stub>
   </div>
@@ -516,7 +543,16 @@ exports[`ActionModal should show the action modal when user has logged in with e
   name="slide-fade"
   tabindex="0"
 >
-  <!---->
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
    
   <div
     class="action-modal-icon action-modal-close"
@@ -539,7 +575,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     </span>
      
     <steps-stub
-      activestep="details"
+      activestep="fees"
       steps="Details,Fees,Sign"
     />
      
@@ -548,7 +584,17 @@ exports[`ActionModal should show the action modal when user has logged in with e
    
   <div
     class="action-modal-form"
-  />
+  >
+    <!---->
+     
+    <tableinvoice-stub
+      amount="0"
+      bonddenom=""
+      estimatedfee="0"
+    />
+     
+    <!---->
+  </div>
    
   <!---->
    
@@ -764,7 +810,16 @@ exports[`ActionModal should show the action modal when user has logged in with l
   name="slide-fade"
   tabindex="0"
 >
-  <!---->
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
    
   <div
     class="action-modal-icon action-modal-close"
@@ -787,7 +842,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </span>
      
     <steps-stub
-      activestep="details"
+      activestep="fees"
       steps="Details,Fees,Sign"
     />
      
@@ -796,7 +851,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
    
   <div
     class="action-modal-form"
-  />
+  >
+    <!---->
+     
+    <tableinvoice-stub
+      amount="0"
+      bonddenom=""
+      estimatedfee="0"
+    />
+     
+    <!---->
+  </div>
    
   <!---->
    
@@ -990,7 +1055,16 @@ exports[`ActionModal should show the action modal when user has logged in with l
   name="slide-fade"
   tabindex="0"
 >
-  <!---->
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
    
   <div
     class="action-modal-icon action-modal-close"
@@ -1013,7 +1087,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </span>
      
     <steps-stub
-      activestep="details"
+      activestep="fees"
       steps="Details,Fees,Sign"
     />
      
@@ -1022,7 +1096,17 @@ exports[`ActionModal should show the action modal when user has logged in with l
    
   <div
     class="action-modal-form"
-  />
+  >
+    <!---->
+     
+    <tableinvoice-stub
+      amount="0"
+      bonddenom=""
+      estimatedfee="0"
+    />
+     
+    <!---->
+  </div>
    
   <!---->
    
@@ -1053,7 +1137,16 @@ exports[`ActionModal should show the action modal when user has logged in with l
   name="slide-fade"
   tabindex="0"
 >
-  <!---->
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
    
   <div
     class="action-modal-icon action-modal-close"
@@ -1076,7 +1169,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </span>
      
     <steps-stub
-      activestep="details"
+      activestep="sign"
       steps="Details,Fees,Sign"
     />
      
@@ -1085,7 +1178,25 @@ exports[`ActionModal should show the action modal when user has logged in with l
    
   <div
     class="action-modal-form"
-  />
+  >
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
    
   <!---->
    
@@ -1103,7 +1214,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
        
       <tmbtn-stub
         type="primary"
-        value="Next"
+        value="Send"
       />
     </tmformgroup-stub>
   </div>
@@ -1139,7 +1250,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     </span>
      
     <steps-stub
-      activestep="details"
+      activestep="sign"
       steps="Details,Fees,Sign"
     />
      
@@ -1148,7 +1259,25 @@ exports[`ActionModal should show the action modal when user has logged in with l
    
   <div
     class="action-modal-form"
-  />
+  >
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
    
   <!---->
    
@@ -1165,8 +1294,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
       />
        
       <tmbtn-stub
+        disabled="true"
         type="primary"
-        value="Next"
+        value="Sending..."
       />
     </tmformgroup-stub>
   </div>

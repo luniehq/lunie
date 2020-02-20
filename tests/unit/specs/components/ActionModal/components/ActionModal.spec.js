@@ -414,7 +414,19 @@ describe(`ActionModal`, () => {
       it(`when gas price is set on dev mode session`, () => {
         wrapper.vm.step = `fees`
         wrapper.vm.session.experimentalMode = true
-        wrapper.setData({ gasPrice: 2.5e-8 })
+        wrapper.setData({
+          gasPrice: 2.5e-8,
+          gasEstimate: 2,
+          balances: [
+            {
+              denom: "STAKE",
+              amount: 1211
+            }
+          ]
+        })
+        wrapper.setProps({
+          selectedDenom: "STAKE"
+        })
         expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(true)
       })
     })
@@ -445,8 +457,19 @@ describe(`ActionModal`, () => {
 
   describe(`validates total price does not exceed available atoms`, () => {
     beforeEach(() => {
-      wrapper.setData({ gasPrice: 10 })
-      wrapper.setData({ gasEstimate: 2 })
+      wrapper.setData({
+        gasPrice: 10,
+        gasEstimate: 2,
+        balances: [
+          {
+            denom: "STAKE",
+            amount: 1211
+          }
+        ]
+      })
+      wrapper.setProps({
+        selectedDenom: "STAKE"
+      })
     })
 
     describe(`success`, () => {

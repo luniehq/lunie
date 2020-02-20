@@ -283,8 +283,7 @@ describe(`SendModal`, () => {
       expect(wrapper.vm.selectedBalance.amount).toBe(1)
     })
 
-    it(`it automatically picks the balance from the balances array when
-    balances are only one denom`, async () => {
+    it(`it automatically sets the token to the first token in the balances`, async () => {
       wrapper.setData({
         selectedToken: ``,
         balances: [
@@ -294,6 +293,12 @@ describe(`SendModal`, () => {
           }
         ]
       })
+      SendModal.watch.balances.call(wrapper.vm, [
+        {
+          amount: 1,
+          denom: "STAKE"
+        }
+      ])
       expect(wrapper.vm.selectedBalance.amount).toBe(1)
     })
     // This one creates a lot of ugly errors
