@@ -27,6 +27,7 @@ const config = {
   resolve: {
     alias: {
       assets: resolve('lunie/src/assets'),
+      'common/Avatar': resolve('./src/components/BlankAvatar'),
       common: resolve('lunie/src/components/common'),
       transactions: resolve('lunie/src/components/transactions'),
       modules: resolve('lunie/src/vuex/modules'),
