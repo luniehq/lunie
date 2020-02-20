@@ -288,6 +288,7 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
+import { gasPricesDictionary } from "src/scripts/common"
 import { viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track, sendEvent } from "scripts/google-analytics"
@@ -496,12 +497,10 @@ export default {
       return this.selectedDenom || this.network.stakingDenom
     },
     selectedBalance() {
-      // Here is a good use case for the multi field I proposed for the network schema...
       const defaultBalance = {
         amount: 0,
         // awful network-specific logic. But how to do it otherwise?
-        gasPrice:
-          this.network.stakingDenom === `NGM` ? 4e-7 : config.default_gas_price
+        gasPrice: gasPricesDictionary(this.getDenom)
       }
       if (this.balances.length === 0 || !this.network) {
         return defaultBalance
