@@ -227,4 +227,16 @@ describe(`TmSessionSignIn`, () => {
       testnet: true
     })
   })
+
+  it(`displays an error message if networkOfAddress is false`, async () => {
+    wrapper.setData({
+      signInAddress: `terradefault`,
+      signInPassword: `1234567890`,
+      testnet: false,
+      addressPrefixes,
+      error: ``
+    })
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.error).toBe(`No mainnet for this address found`)
+  })
 })
