@@ -28,14 +28,14 @@ import TransactionMetadata from "./TransactionMetadata"
 import Bech32 from "common/Bech32"
 
 import {
-  SendMessageDetails,
-  DelegateMessageDetails,
-  DepositMessageDetails,
-  SubmitProposalMessageDetails,
-  UndelegateMessageDetails,
-  VoteMessageDetails,
-  BeginRedelegateMessageDetails,
-  WithdrawDelegationRewardMessageDetails
+  SendTxDetails,
+  StakeTxDetails,
+  RestakeTxDetails,
+  UnstakeTxDetails,
+  ClaimRewardsTxDetails,
+  SubmitProposalTxDetails,
+  DepositTxDetails,
+  VoteTxDetails
 } from "./message-view"
 
 export default {
@@ -43,14 +43,14 @@ export default {
   components: {
     TransactionMetadata,
     Bech32,
-    SendMessageDetails,
-    DelegateMessageDetails,
-    DepositMessageDetails,
-    SubmitProposalMessageDetails,
-    UndelegateMessageDetails,
-    VoteMessageDetails,
-    BeginRedelegateMessageDetails,
-    WithdrawDelegationRewardMessageDetails
+    SendTxDetails,
+    StakeTxDetails,
+    RestakeTxDetails,
+    UnstakeTxDetails,
+    ClaimRewardsTxDetails,
+    SubmitProposalTxDetails,
+    DepositTxDetails,
+    VoteTxDetails
   },
   props: {
     transaction: {

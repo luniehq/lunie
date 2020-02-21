@@ -2,7 +2,7 @@ import SendTxDetails from "./SendTxDetails"
 import StakeTxDetails from "./StakeTxDetails"
 import RestakeTxDetails from "./RestakeTxDetails"
 import UnstakeTxDetails from "./UnstakeTxDetails"
-import ClaimRewardsTx from "./ClaimRewardsTx"
+import ClaimRewardsTxDetails from "./ClaimRewardsTxDetails"
 import SubmitProposalTxDetails from "./SubmitProposalTxDetails"
 import DepositTxDetails from "./DepositTxDetails"
 import VoteTxDetails from "./VoteTxDetails"
@@ -12,7 +12,7 @@ export {
   StakeTxDetails,
   RestakeTxDetails,
   UnstakeTxDetails,
-  ClaimRewardsTx,
+  ClaimRewardsTxDetails,
   SubmitProposalTxDetails,
   DepositTxDetails,
   VoteTxDetails
