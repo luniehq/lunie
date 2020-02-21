@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     validator() {
-      return this.validators[this.transaction.value.validator_address] || false
+      return this.validators[this.transaction.details.from[0]] || false
     }
   }
 }
