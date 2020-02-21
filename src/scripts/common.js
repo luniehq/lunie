@@ -62,5 +62,5 @@ export function gasPricesDictionary(denom) {
     LUNA: "6.5e-9",
     NGM: "4e-7"
   }
-  return lookup[denom] ? lookup[denom] : `6.5e-9`
+  return lookup[denom] || `6.5e-9`
 }
