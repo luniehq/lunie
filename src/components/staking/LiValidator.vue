@@ -72,10 +72,7 @@
 </template>
 
 <script>
-import {
-  bigFigureOrPercent,
-  bigFigureOrShortDecimals
-} from "scripts/num"
+import { bigFigureOrPercent, bigFigureOrShortDecimals } from "scripts/num"
 import Avatar from "common/Avatar"
 
 export default {
