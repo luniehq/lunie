@@ -1,11 +1,11 @@
 import { shallowMount } from "@vue/test-utils"
-import RestakeTxDetails from "src/components/transactions/message-view/RestakeTxDetails"
+import DepositTxDetails from "src/components/transactions/message-view/DepositTxDetails"
 
-describe(`RestakeTxDetails`, () => {
+describe(`DepositTxDetails`, () => {
   let wrapper
 
   const tx = {
-    type: "RestakeTx",
+    type: "DepositTx",
     hash: "3CA728671B8078E71697B62237AD694052779F80B56880F6A6F1702F53EA3081",
     height: 308453,
     timestamp: "2020-01-10T09:02:54Z",
@@ -18,8 +18,7 @@ describe(`RestakeTxDetails`, () => {
       }
     ],
     details: {
-      from: ["cosmosvaloper123"],
-      to: ["cosmosvaloper456"],
+      proposalId: 1,
       amount: {
         denom: "ATOM",
         amount: "10"
@@ -27,8 +26,8 @@ describe(`RestakeTxDetails`, () => {
     }
   }
 
-  it(`renders a restake transaction message`, () => {
-    wrapper = shallowMount(RestakeTxDetails, {
+  it(`renders a deposit transaction message`, () => {
+    wrapper = shallowMount(DepositTxDetails, {
       propsData: {
         transaction: tx,
         validators: {}
