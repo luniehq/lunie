@@ -213,4 +213,30 @@ describe(`TmSessionSignIn`, () => {
       testnet: true
     })
   })
+
+  it(`checks that the address is valid address of the network and selects testnet if testnet is set to true`, () => {
+    const self = {
+      addressPrefixes,
+      testnet: true,
+      signInAddress: addresses[0]
+    }
+    const signInNetwork = TmSessionSignIn.computed.networkOfAddress.call(self)
+    expect(signInNetwork).toEqual({
+      address_prefix: "cosmos",
+      id: "cosmos-hub-testnet",
+      testnet: true
+    })
+  })
+
+  it(`displays an error message if networkOfAddress is false`, async () => {
+    wrapper.setData({
+      signInAddress: `terradefault`,
+      signInPassword: `1234567890`,
+      testnet: false,
+      addressPrefixes,
+      error: ``
+    })
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.error).toBe(`No mainnet for this address found`)
+  })
 })
