@@ -37,6 +37,29 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
   console.error("Condition was not meet in time")
   process.exit(2) // exiting here so the e2e tests actually fail. if not they pass
 }
+
+async function fundMasterAccount(browser, network, address) {
+  /*
+   * there is a riot channel that funds the gaia testnet
+   * we will sign in to riot and request the new account to be funded
+   */
+  if (network == "cosmos-hub-testnet") {
+    await browser.url("https://riot.im/app/#/login")
+    await browser.waitForElementVisible("#mx_PasswordLogin_username", 60000)
+    await browser.setValue("#mx_PasswordLogin_username", "luniestaking")
+    await browser.setValue("#mx_PasswordLogin_password", process.env.CHT_PWD)
+    await browser.click(".mx_Login_submit")
+    await browser.waitForElementVisible(".mx_RoomHeader_settingsButton", 60000)
+    await browser.url("https://riot.im/app/#/room/#cosmos-faucet:matrix.org")
+    await browser.setValue(
+      ".mx_BasicMessageComposer_input",
+      `show me the money! ${address}` // required message to get the account funded
+    )
+    await browser.keys(browser.Keys.ENTER)
+  }
+  return true
+}
+
 async function waitForText(
   browser,
   selector,
@@ -54,6 +77,53 @@ async function waitForText(
   )
 }
 
+async function getLastActivityItemHash(browser) {
+  return await browser.execute(function() {
+    return new Promise(resolve => {
+      let attempts = 5
+      let step = 1
+      const f = () => {
+        if (step == 1) {
+          const container = document.querySelector(".tx-container .tx")
+          if (!container && attempts-- > 0) {
+            setTimeout(f, 2000)
+            return false
+          }
+          if (container) {
+            container.click()
+            step = 2
+            attempts = 5
+            f()
+          } else {
+            resolve()
+          }
+        } else if (step == 2) {
+          const hash = document.querySelector(
+            ".tx-container:nth-of-type(1) .hash"
+          )
+          if (!hash && attempts-- > 0) {
+            setTimeout(f, 2000)
+            return false
+          }
+          resolve(hash ? hash.textContent : false)
+        }
+      }
+      f()
+    })
+  })
+}
+
+// fetching errors from console
+async function checkBrowserLogs(browser) {
+  browser.getLog("browser", function(logEntriesArray) {
+    logEntriesArray.forEach(function(log) {
+      if (log.level == "ERROR") {
+        throw new Error(log.message)
+      }
+    })
+  })
+}
+
 // performs some details actions and handles checking of the invoice step + signing
 async function actionModalCheckout(
   browser,
@@ -63,41 +133,25 @@ async function actionModalCheckout(
   expectedTotalChange = 0,
   expectedAvailableTokensChange = 0
 ) {
-  // grab page we came from as we want to go to another page and come back
-  let sourcePage
-  browser.url(function(result) {
-    sourcePage = result.value
+  // deacivate intercom
+  // can't be inserted before each as it would be removed on a refresh
+  await browser.execute(function() {
+    var sheet = window.document.styleSheets[0]
+    sheet.insertRule(
+      "#intercom-container { display: none !important; }",
+      sheet.cssRules.length
+    )
   })
 
-  // go to portfolio to remember balances
-  browser.url(browser.launch_url + "#/portfolio")
-
-  // remember balance to compare later if send got through
-  browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
-  browser.expect
-    .element(".total-atoms__value")
-    .text.not.to.contain("--")
-    .before(10 * 1000)
-  const balanceBefore = await getBalance(browser)
-  const availableTokensBefore = await getAvailableTokens(browser)
-
-  // go back to source page to checkout
-  browser.url(sourcePage)
-
-  browser.pause(500)
-
-  // open modal and enter amount
-  browser.expect.element(btnSelector).to.be.visible.before(10000)
-  browser.click(btnSelector)
-
+  await browser.click(btnSelector)
   browser.expect.element(".action-modal").to.be.visible.before(10000)
 
-  browser.pause(500)
+  await browser.pause(500)
 
   await detailsActionFn()
 
   // proceed to invoice step
-  browser.click(".action-modal-footer .button")
+  browser.click(".action-modal-footer .button:nth-of-type(2)")
   browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
 
   // check invoice
@@ -123,15 +177,20 @@ async function actionModalCheckout(
   // await nextBlock(browser)
 
   // submit
-  browser.click(".action-modal-footer .button")
-  browser.setValue("#password", "1234567890")
-  browser.click(".action-modal-footer .button")
+  browser.click(".action-modal-footer .button:nth-of-type(2)")
+  browser.setValue("#password", browser.globals.password)
+  browser.click(".action-modal-footer .button:nth-of-type(2)")
+  browser.pause(5000)
 
-  browser.expect.element(".success-step").to.be.present.before(20 * 1000)
-  browser.click("#closeBtn")
-
+  await browser.expect.element(".success-step").to.be.present.before(30 * 1000)
+  // wait for success-step modal
+  await browser.expect
+    .element("#closeBtn")
+    .to.be.present.before(30 * 1000, () => {
+      browser.click("#closeBtn")
+    })
   // go to portfolio to remember balances
-  browser.url(browser.launch_url + "#/portfolio")
+  browser.url(browser.launch_url + "/portfolio")
 
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
@@ -139,10 +198,10 @@ async function actionModalCheckout(
   await waitFor(
     async () => {
       const approximatedBalanceAfter =
-        balanceBefore - expectedTotalChange - fees
+        browser.globals.totalAtoms - expectedTotalChange - fees
       expect(
         Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
-      ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
+      ).to.be.lessThan(browser.globals.expectedDiff) // acounting for rewards being withdrawn on an undelegation
     },
     10,
     2000
@@ -151,19 +210,41 @@ async function actionModalCheckout(
   await waitFor(
     async () => {
       const approximatedAvailableBalanceAfter =
-        availableTokensBefore - expectedAvailableTokensChange - fees
+        browser.globals.availableAtoms - expectedAvailableTokensChange - fees
       expect(
         Math.abs(
           approximatedAvailableBalanceAfter -
             (await getAvailableTokens(browser))
         )
-      ).to.be.lessThan(2) // acounting for rewards being withdrawn on an undelegation
+      ).to.be.lessThan(browser.globals.expectedDiff) // acounting for rewards being withdrawn on an undelegation
     },
     10,
     2000
   )
+  //})
+  //browser.expect.element(".success-step").to.be.present.before(20 * 1000)
 }
+
+async function getAccountBallance(browser) {
+  // save denom
+  return await browser.url(browser.launch_url + "/portfolio", async () => {
+    // waiting till balance loaded
+    await browser.waitForElementVisible(".total-atoms h3", 5000, false)
+    await browser.getText(".total-atoms h3", result => {
+      browser.globals.denom = result.value.replace("Total ", "")
+    })
+    await browser.getText(".available-atoms h2", result => {
+      browser.globals.availableAtoms = result.value.replace(",", "")
+    })
+    await browser.getText(".total-atoms__value", result => {
+      browser.globals.totalAtoms = result.value.replace(",", "")
+    })
+  })
+}
+
 async function nextBlock(browser) {
+  // should be fixed
+  browser
   browser.expect
     .element(`#tm-connected-network__block`)
     .to.be.visible.before(10000)
@@ -185,5 +266,9 @@ module.exports = {
   waitFor,
   waitForText,
   actionModalCheckout,
-  nextBlock
+  getLastActivityItemHash,
+  nextBlock,
+  getAccountBallance,
+  checkBrowserLogs,
+  fundMasterAccount
 }

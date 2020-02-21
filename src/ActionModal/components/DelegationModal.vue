@@ -3,7 +3,7 @@
     id="delegation-modal"
     ref="actionModal"
     :validate="validateForm"
-    :amount="amount"
+    :amount="isRedelegation ? 0 : amount"
     :title="isRedelegation ? 'Restake' : 'Stake'"
     class="delegation-modal"
     submission-error-prefix="Staking failed"
@@ -230,7 +230,7 @@ export default {
       return this.fromOptions[this.fromSelectedIndex].address
     },
     transactionData() {
-      if (!this.targetValidator.operatorAddress) return {}
+      if (!this.targetValidator.operatorAddress || isNaN(this.amount)) return {}
 
       if (this.isRedelegation) {
         return {
@@ -385,6 +385,9 @@ export default {
           address: this.address,
           denom: this.denom
         }
+      },
+      update(data) {
+        return data.balance || { amount: 0 }
       }
     },
     denom: {
@@ -405,7 +408,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.network.stakingDenom
+        return data.network ? data.network.stakingDenom : ""
       }
     }
   },

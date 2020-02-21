@@ -4,7 +4,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div class="session-frame" name="component-fade" mode="out-in">
   <router-link-stub to="/"><img src="~assets/images/lunie-logo-white.svg" class="session-logo"></router-link-stub>
   <div class="session-outer-container">
-    <div class="session"><a><i class="material-icons circle back">arrow_back</i></a>
+    <div class="session"><a><i class="material-icons notranslate circle back">arrow_back</i></a>
       <h2 class="session-title">
         Use my Ledger Nano
       </h2>
@@ -20,7 +20,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
               <!----> <button class="button">
                 Sign In
               </button>
-            </div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="display: none;">
+            </div>
           </div>
         </div>
       </div>
@@ -28,7 +28,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
   </div>
   <div class="session-close"><button class="button session-close-button" color="secondary">
       Back to Lunie
-    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
+    </button> <a class="user-box"><i class="material-icons notranslate">close</i></a></div>
 </div>
 `;
 
@@ -36,14 +36,13 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div class="session-frame" name="component-fade" mode="out-in">
   <router-link-stub to="/"><img src="~assets/images/lunie-logo-white.svg" class="session-logo"></router-link-stub>
   <div class="session-outer-container">
-    <div class="session"><a><i class="material-icons circle back">arrow_back</i></a>
+    <div class="session"><a><i class="material-icons notranslate circle back">arrow_back</i></a>
       <h2 class="session-title">
         Use my Ledger Nano
       </h2>
       <div class="session-main">
         <div class="tm-hardware-state">
-          <div class="tm-hardware-state-content">
-            <!---->
+          <div class="tm-hardware-state-content"><img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" class="tm-hardware-state__icon">
             <div class="tm-hardware-state__label">
               <p>
                 Please plug in your Ledger&nbsp;Nano and open the Cosmos Ledger
@@ -52,7 +51,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
               <!----> <button class="button" disabled="disabled">
                 Waiting for Ledger
               </button>
-            </div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="">
+            </div>
           </div>
         </div>
       </div>
@@ -60,7 +59,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
   </div>
   <div class="session-close"><button class="button session-close-button" color="secondary">
       Back to Lunie
-    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
+    </button> <a class="user-box"><i class="material-icons notranslate">close</i></a></div>
 </div>
 `;
 
@@ -68,19 +67,18 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div class="session-frame" name="component-fade" mode="out-in">
   <router-link-stub to="/"><img src="~assets/images/lunie-logo-white.svg" class="session-logo"></router-link-stub>
   <div class="session-outer-container">
-    <div class="session"><a><i class="material-icons circle back">arrow_back</i></a>
+    <div class="session"><a><i class="material-icons notranslate circle back">arrow_back</i></a>
       <h2 class="session-title">
         Use my Ledger Nano
       </h2>
       <div class="session-main">
         <div class="tm-hardware-state">
-          <div class="tm-hardware-state-content">
-            <!---->
+          <div class="tm-hardware-state-content"><img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" class="tm-hardware-state__icon">
             <div class="tm-hardware-state__label">
               <!---->
               <!----> <button class="button" disabled="disabled">
 
-              </button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="">
+              </button></div>
           </div>
         </div>
       </div>
@@ -88,7 +86,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
   </div>
   <div class="session-close"><button class="button session-close-button" color="secondary">
       Back to Lunie
-    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
+    </button> <a class="user-box"><i class="material-icons notranslate">close</i></a></div>
 </div>
 `;
 
@@ -115,7 +113,7 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
     >
       <a>
         <i
-          class="material-icons circle back"
+          class="material-icons notranslate circle back"
         >
           arrow_back
         </i>
@@ -166,12 +164,6 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
 
               </button>
             </div>
-             
-            <img
-              alt="a small spinning circle to display loading"
-              src="~assets/images/loader.svg"
-              style="display: none;"
-            />
           </div>
         </div>
       </div>
@@ -194,7 +186,7 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
       class="user-box"
     >
       <i
-        class="material-icons"
+        class="material-icons notranslate"
       >
         close
       </i>
@@ -226,7 +218,7 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
     >
       <a>
         <i
-          class="material-icons circle back"
+          class="material-icons notranslate circle back"
         >
           arrow_back
         </i>
@@ -271,12 +263,6 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
 
               </button>
             </div>
-             
-            <img
-              alt="a small spinning circle to display loading"
-              src="~assets/images/loader.svg"
-              style="display: none;"
-            />
           </div>
         </div>
       </div>
@@ -299,7 +285,7 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
       class="user-box"
     >
       <i
-        class="material-icons"
+        class="material-icons notranslate"
       >
         close
       </i>
@@ -312,7 +298,7 @@ exports[`TmSessionHardware sign in does show the instructions to enable HID on W
 <div class="session-frame" name="component-fade" mode="out-in">
   <router-link-stub to="/"><img src="~assets/images/lunie-logo-white.svg" class="session-logo"></router-link-stub>
   <div class="session-outer-container">
-    <div class="session"><a><i class="material-icons circle back">arrow_back</i></a>
+    <div class="session"><a><i class="material-icons notranslate circle back">arrow_back</i></a>
       <h2 class="session-title">
         Use my Ledger Nano
       </h2>
@@ -326,7 +312,7 @@ exports[`TmSessionHardware sign in does show the instructions to enable HID on W
               <!---->
               <!----> <button class="button">
                 Sign In
-              </button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="display: none;">
+              </button></div>
           </div>
         </div>
       </div>
@@ -334,7 +320,7 @@ exports[`TmSessionHardware sign in does show the instructions to enable HID on W
   </div>
   <div class="session-close"><button class="button session-close-button" color="secondary">
       Back to Lunie
-    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
+    </button> <a class="user-box"><i class="material-icons notranslate">close</i></a></div>
 </div>
 `;
 
@@ -342,7 +328,7 @@ exports[`TmSessionHardware sign in does show the instructions to fix connection 
 <div class="session-frame" name="component-fade" mode="out-in">
   <router-link-stub to="/"><img src="~assets/images/lunie-logo-white.svg" class="session-logo"></router-link-stub>
   <div class="session-outer-container">
-    <div class="session"><a><i class="material-icons circle back">arrow_back</i></a>
+    <div class="session"><a><i class="material-icons notranslate circle back">arrow_back</i></a>
       <h2 class="session-title">
         Use my Ledger Nano
       </h2>
@@ -357,12 +343,12 @@ exports[`TmSessionHardware sign in does show the instructions to fix connection 
               Please visit the following site to learn more about how to fix them:
               <div class="copy-feature-link">
                 https://support.ledger.com/hc/en-us/articles/360019301813-Fix-USB-issues
-                <i class="material-icons copied">
+                <i class="material-icons notranslate copied">
                   check
                 </i></div> <br> <br>
               <!----> <button class="button">
                 Sign In
-              </button></div> <img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" style="display: none;">
+              </button></div>
           </div>
         </div>
       </div>
@@ -370,6 +356,6 @@ exports[`TmSessionHardware sign in does show the instructions to fix connection 
   </div>
   <div class="session-close"><button class="button session-close-button" color="secondary">
       Back to Lunie
-    </button> <a class="user-box"><i class="material-icons">close</i></a></div>
+    </button> <a class="user-box"><i class="material-icons notranslate">close</i></a></div>
 </div>
 `;

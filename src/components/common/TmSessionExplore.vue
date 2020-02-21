@@ -1,7 +1,7 @@
 <template>
   <SessionFrame>
     <TmFormStruct :submit="onSubmit">
-      <h2 class="session-title">
+      <h2 class="session-title bottom-indent">
         Explore with any address
       </h2>
 
@@ -14,7 +14,7 @@
         >
           <div class="tm-li-session">
             <div class="tm-li-session-icon">
-              <i class="material-icons circle">
+              <i class="material-icons notranslate circle">
                 {{ getAddressIcon(account.type) }}
               </i>
             </div>
@@ -27,7 +27,7 @@
               </div>
             </div>
             <div class="tm-li-session-icon">
-              <i class="material-icons">arrow_forward</i>
+              <i class="material-icons notranslate">arrow_forward</i>
             </div>
           </div>
         </div>
@@ -63,13 +63,21 @@
             name="You can only sign in with a regular address"
             type="custom"
           />
-          <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.isANetworkAddress"
-            name="This address doesn't belong to the network you are currently connected to"
-            type="custom"
-          />
+          <TmFormMsg v-else-if="error" :name="error" type="custom" />
         </TmFormGroup>
       </div>
+      <TmFormGroup
+        class="field-checkbox"
+        field-id="sign-up-warning"
+        field-label
+      >
+        <div class="field-checkbox-input">
+          <label class="field-checkbox-label" for="select-testnet">
+            <input id="select-testnet" v-model="testnet" type="checkbox" />
+            This is a testnet address</label
+          >
+        </div>
+      </TmFormGroup>
       <div class="session-footer">
         <TmBtn value="Explore" />
       </div>
@@ -79,7 +87,6 @@
 
 <script>
 import { mapState, mapGetters } from "vuex"
-import config from "src/../config"
 import { required } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import SessionFrame from "common/SessionFrame"
@@ -90,6 +97,7 @@ import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 import { formatBech32 } from "src/filters"
 import { isAddress } from "web3-utils"
+import gql from "graphql-tag"
 const isEthereumAddress = isAddress
 
 export default {
@@ -107,17 +115,36 @@ export default {
   },
   data: () => ({
     address: ``,
-    error: ``
+    error: ``,
+    addressPrefixes: [],
+    testnet: false
   }),
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`network`]),
     filteredAddresses() {
+      const selectedNetwork = this.addressPrefixes.find(
+        ({ id }) => id === this.network
+      )
+      // handling query not loaded yet or failed
+      if (!selectedNetwork) return []
+
       return this.session.addresses
         .filter(address =>
-          address.address.startsWith(config.bech32Prefixes[this.network])
+          address.address.startsWith(selectedNetwork.address_prefix)
         )
         .slice(-3)
+    },
+    networkOfAddress() {
+      const selectedNetworksArray = this.addressPrefixes.filter(
+        ({ address_prefix }) => this.address.startsWith(address_prefix)
+      )
+
+      const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
+        this.testnet ? testnet === true : testnet === false
+      )
+
+      return selectedNetwork
     }
   },
   mounted() {
@@ -125,13 +152,24 @@ export default {
   },
   methods: {
     async onSubmit() {
+      this.error = null
       this.$v.$touch()
       if (this.$v.$error) return
 
+      if (!this.networkOfAddress) {
+        this.error = `No ${
+          this.testnet ? "testnet" : "mainnet"
+        } for this address found`
+        return
+      }
+
+      // needs to be done first because if not we are logging into the current network
+      await this.selectNetworkByAddress()
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
         address: this.address
       })
+
       localStorage.setItem(`prevAddress`, this.address)
       this.$router.push(`/`)
     },
@@ -144,6 +182,7 @@ export default {
       }
     },
     isNotAValidatorAddress(param) {
+      // TODO this only works for cosmos
       if (param.substring(0, 13) !== "cosmosvaloper") {
         return true
       } else {
@@ -163,12 +202,8 @@ export default {
         return false
       }
     },
-    isANetworkAddress(param) {
-      if (param.startsWith(config.bech32Prefixes[this.network])) {
-        return true
-      } else {
-        return false
-      }
+    async selectNetworkByAddress() {
+      this.$store.dispatch(`setNetwork`, this.networkOfAddress)
     },
     getAddressIcon(addressType) {
       if (addressType === "explore") return `language`
@@ -182,9 +217,9 @@ export default {
       if (addressType === "extension") return `Lunie Browser Extension`
       if (addressType === "local") return `Mobile App`
     },
-    exploreWith(address) {
+    async exploreWith(address) {
       this.address = address
-      this.onSubmit()
+      await this.onSubmit()
     },
     isEthereumAddress(address) {
       return isEthereumAddress(address)
@@ -199,9 +234,26 @@ export default {
         required,
         addressValidate: this.addressValidate,
         isNotAValidatorAddress: this.isNotAValidatorAddress,
-        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix,
-        isANetworkAddress: this.isANetworkAddress
+        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
       }
+    }
+  },
+  apollo: {
+    addressPrefixes: {
+      query: gql`
+        query Network {
+          networks {
+            id
+            address_prefix
+            testnet
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      update(data) {
+        return data.networks || []
+      },
+      fetchPolicy: "cache-first"
     }
   }
 }
@@ -256,7 +308,12 @@ export default {
 
 .material-icons.circle {
   border: 2px solid var(--dim);
+  color: var(--dim);
   border-radius: 50%;
   padding: 0.5rem;
+}
+
+.button {
+  min-width: 90px;
 }
 </style>

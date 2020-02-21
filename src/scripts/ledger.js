@@ -1,4 +1,5 @@
 import config from "src/../config"
+import gql from "graphql-tag"
 
 function parseLedgerErrors(error) {
   // TODO move this error rewrite into the ledger lib
@@ -11,8 +12,8 @@ function parseLedgerErrors(error) {
   throw error
 }
 
-export const getAddressFromLedger = async network => {
-  const ledger = await getLedgerConnector(network)
+export const getAddressFromLedger = async (networkId, apollo) => {
+  const ledger = await getLedgerConnector(networkId, apollo)
 
   try {
     const address = await ledger.getCosmosAddress() // TODO this should become `getAddress` to also work for not Cosmos networks
@@ -23,12 +24,14 @@ export const getAddressFromLedger = async network => {
   } finally {
     // cleanup. if we leave this open, the next connection will brake for HID
     // TODO move this into the leder lib
-    ledger.cosmosApp.transport.close()
+    if (ledger && ledger.cosmosApp) {
+      ledger.cosmosApp.transport.close()
+    }
   }
 }
 
-export async function showAddressOnLedger(network) {
-  const ledger = await getLedgerConnector(network)
+export async function showAddressOnLedger(networkId, apollo) {
+  const ledger = await getLedgerConnector(networkId, apollo)
 
   try {
     await ledger.confirmLedgerAddress()
@@ -37,18 +40,35 @@ export async function showAddressOnLedger(network) {
   } finally {
     // cleanup. if we leave this open, the next connection will brake for HID
     // TODO move this into the leder lib
-    ledger.cosmosApp.transport.close()
+    if (ledger && ledger.cosmosApp) {
+      ledger.cosmosApp.transport.close()
+    }
   }
 }
 
-async function getLedgerConnector(network) {
-  switch (network) {
-    case "cosmos-hub-mainnet":
-    case "cosmos-hub-testnet":
-    case "regen-testnet":
-    case "regen-mainnet":
-    case "terra-testnet":
-    case "terra-mainnet": {
+async function getLedgerConnector(networkId, apollo) {
+  const {
+    data: { network }
+  } = await apollo.query({
+    query: gql`
+      query Network {
+        network(id: "${networkId}") {
+          id
+          ledger_app,
+          address_prefix
+        }
+      }
+    `,
+    fetchPolicy: "cache-first"
+  })
+
+  if (!network)
+    throw new Error(
+      "Couldn't get network information. Please try again later or contact the Lunie team."
+    )
+
+  switch (network.ledger_app) {
+    case "cosmos": {
       const { default: Ledger } = await import("@lunie/cosmos-ledger")
 
       const HDPATH = [44, 118, 0, 0, 0]
@@ -57,7 +77,7 @@ async function getLedgerConnector(network) {
           testModeAllowed: config.testModeAllowed
         },
         HDPATH,
-        config.bech32Prefixes[network]
+        network.address_prefix
       )
 
       return ledger

@@ -3,7 +3,7 @@
     <p>
       <slot />
     </p>
-    <i class="material-icons close-icon" @click="close()">close</i>
+    <i class="material-icons notranslate close-icon" @click="close()">close</i>
   </div>
 </template>
 

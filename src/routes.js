@@ -118,6 +118,26 @@ export default [
     }
   },
   {
+    path: `/selectnetwork`,
+    name: `select-network`,
+    components: {
+      session: () => import(`./components/common/TmSelectNetwork`)
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
+    path: `/selectnetwork/:recover`,
+    name: `select-network-recover`,
+    components: {
+      session: () => import(`./components/common/TmSelectNetwork`)
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
     path: `/create`,
     name: `create`,
     components: {
@@ -227,6 +247,16 @@ export default [
   },
   {
     path: `/extension`,
+    name: `extension`,
+    components: {
+      session: () => import(`./components/common/TmSessionExtension`)
+    },
+    meta: {
+      feature: "Session"
+    }
+  },
+  {
+    path: `/extension/:address/:network`,
     name: `extension`,
     components: {
       session: () => import(`./components/common/TmSessionExtension`)

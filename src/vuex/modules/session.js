@@ -128,8 +128,12 @@ export default () => {
           connection: { network }
         }
       },
-      { address, sessionType = `ledger` }
+      { address, sessionType = `ledger`, networkId }
     ) {
+      if (networkId && network !== networkId) {
+        await commit(`setNetworkId`, networkId)
+        await dispatch(`persistNetwork`, { id: networkId })
+      }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)

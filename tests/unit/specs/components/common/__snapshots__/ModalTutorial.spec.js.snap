@@ -11,32 +11,38 @@ exports[`TmModal has the expected html structure 1`] = `
     <div
       class="modal-tutorial-header"
     >
-      <a
-        href="#"
+      <div
+        class="modal-tutorial-button-container"
       >
-        <i
-          class="material-icons chevron_left"
-        />
-      </a>
-       
-      <a
-        href="#"
-      >
-        <i
-          class="material-icons chevron_right"
-        />
-      </a>
-       
-      <a
-        href="#"
-      >
-        <i
-          class="material-icons close"
-        />
-      </a>
+        <div>
+          <a
+            href="#"
+          >
+            <i
+              class="material-icons notranslate chevron_left"
+            />
+          </a>
+           
+          <a
+            href="#"
+          >
+            <i
+              class="material-icons notranslate chevron_right"
+            />
+          </a>
+        </div>
+         
+        <a
+          href="#"
+        >
+          <i
+            class="material-icons notranslate close"
+          />
+        </a>
+      </div>
        
       <div
-        class="top-bg"
+        class="top-bg red"
       />
     </div>
      
@@ -70,9 +76,9 @@ exports[`TmModal has the expected html structure 1`] = `
         </div>
       </div>
        
-      <h1>
+      <h2>
         How to get tokens?
-      </h1>
+      </h2>
        
       <p>
         <span
@@ -105,7 +111,7 @@ exports[`TmModal has the expected html structure 1`] = `
             Next step
             
         <i
-          class="material-icons arrow_forward"
+          class="material-icons notranslate arrow_forward"
         />
       </button>
       <!---->

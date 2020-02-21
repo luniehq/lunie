@@ -4,6 +4,7 @@ import TmSessionSignUpSeed from "common/TmSessionSignUpSeed"
 
 describe(`TmSessionSignUpSeed`, () => {
   const localVue = createLocalVue()
+  localVue.directive(`focus`, () => {})
   localVue.use(Vuelidate)
 
   let wrapper, $store

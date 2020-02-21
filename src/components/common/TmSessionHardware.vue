@@ -24,7 +24,7 @@
               >
                 {{ hidFeatureLink }}
                 <i
-                  class="material-icons copied"
+                  class="material-icons notranslate copied"
                   :class="{ active: copySuccess }"
                 >
                   check
@@ -46,7 +46,10 @@
               class="copy-feature-link"
             >
               {{ linuxLedgerConnectionLink }}
-              <i class="material-icons copied" :class="{ active: copySuccess }">
+              <i
+                class="material-icons notranslate copied"
+                :class="{ active: copySuccess }"
+              >
                 check
               </i>
             </div>
@@ -89,6 +92,7 @@ import { mapState, mapGetters } from "vuex"
 import HardwareState from "common/TmHardwareState"
 import SessionFrame from "common/SessionFrame"
 import { getAddressFromLedger } from "scripts/ledger"
+import * as Sentry from "@sentry/browser"
 
 export default {
   name: `session-hardware`,
@@ -135,11 +139,12 @@ export default {
       this.status = `detect`
       this.address = null
       try {
-        this.address = await getAddressFromLedger(this.networkId)
+        this.address = await getAddressFromLedger(this.networkId, this.$apollo)
         this.$router.push(`/`)
-      } catch ({ message }) {
+      } catch (error) {
         this.status = `connect`
-        this.connectionError = message
+        this.connectionError = error.message
+        Sentry.captureException(error)
         return
       }
 

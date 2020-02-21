@@ -7,7 +7,7 @@ exports[`Bar shows a primary bar 1`] = `
   <p />
    
   <i
-    class="material-icons close-icon"
+    class="material-icons notranslate close-icon"
   >
     close
   </i>

@@ -6,9 +6,12 @@
         :transaction="transaction"
         :validators="validators"
         :session-address="address"
+        :show="show"
       />
       <div class="toggle" :class="{ up: show }">
-        <i class="material-icons toggle-icon">keyboard_arrow_down</i>
+        <i class="material-icons notranslate toggle-icon">
+          keyboard_arrow_down
+        </i>
       </div>
     </div>
     <transition name="slide-out">
@@ -29,14 +32,10 @@ import {
   MultiSendMessageDetails,
   DelegateMessageDetails,
   DepositMessageDetails,
-  EditValidatorMessageDetails,
   SubmitProposalMessageDetails,
   UndelegateMessageDetails,
-  UnjailMessageDetails,
-  CreateValidatorMessageDetails,
   VoteMessageDetails,
   BeginRedelegateMessageDetails,
-  SetWithdrawAddressMessageDetails,
   WithdrawDelegationRewardMessageDetails
 } from "./message-view"
 
@@ -49,14 +48,10 @@ export default {
     MultiSendMessageDetails,
     DelegateMessageDetails,
     DepositMessageDetails,
-    EditValidatorMessageDetails,
     SubmitProposalMessageDetails,
     UndelegateMessageDetails,
-    UnjailMessageDetails,
-    CreateValidatorMessageDetails,
     VoteMessageDetails,
     BeginRedelegateMessageDetails,
-    SetWithdrawAddressMessageDetails,
     WithdrawDelegationRewardMessageDetails
   },
   props: {
@@ -92,24 +87,16 @@ export default {
           return `multi-send-message-details`
         case messageType.DELEGATE:
           return `delegate-message-details`
-        case messageType.CREATE_VALIDATOR:
-          return `create-validator-message-details`
-        case messageType.EDIT_VALIDATOR:
-          return `edit-validator-message-details`
         case messageType.UNDELEGATE:
           return `undelegate-message-details`
         case messageType.BEGIN_REDELEGATE:
           return `begin-redelegate-message-details`
-        case messageType.UNJAIL:
-          return `unjail-message-details`
         case messageType.SUBMIT_PROPOSAL:
           return `submit-proposal-message-details`
         case messageType.DEPOSIT:
           return `deposit-message-details`
         case messageType.VOTE:
           return `vote-message-details`
-        case messageType.SET_WITHDRAW_ADDRESS:
-          return `set-withdraw-address-message-details`
         case messageType.WITHDRAW_DELEGATION_REWARD:
           return `withdraw-delegation-reward-message-details`
         /* istanbul ignore next */

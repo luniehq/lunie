@@ -14,7 +14,7 @@ exports[`TransactionMetadata renders correct transaction metadata 1`] = `
     
      
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       access_time
     </i>

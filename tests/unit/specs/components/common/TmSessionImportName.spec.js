@@ -20,7 +20,7 @@ describe(`TmSessionImportName`, () => {
   beforeEach(() => {
     getters = {
       connected: () => true,
-      network: "fabo-net"
+      network: "cosmos-hub-mainnet"
     }
     $store = {
       state: {
@@ -34,7 +34,7 @@ describe(`TmSessionImportName`, () => {
       },
       getters,
       commit: jest.fn(),
-      dispatch: jest.fn(async () => true),
+      dispatch: jest.fn(async () => `cosmos1234`),
       mutations: {
         updateField: jest.fn()
       }

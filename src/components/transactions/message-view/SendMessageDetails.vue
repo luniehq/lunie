@@ -21,7 +21,7 @@
       <template v-else>
         <span>From&nbsp;</span>
         <Bech32 :address="transaction.value.from_address" />
-        <i class="material-icons arrow">arrow_right_alt</i>
+        <i class="material-icons notranslate arrow">arrow_right_alt</i>
         <Bech32 :address="transaction.value.to_address" />
       </template>
     </div>

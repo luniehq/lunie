@@ -57,6 +57,24 @@
   <div id="app"></div>
   <!-- built files will be auto injected -->
 
+  <script>
+    // check for the current version on the server and refresh the page if that is the local version is outdated
+    // in plain JS so this is served with the index.html ans executed immediatly
+    if ("<%= process.env.NODE_ENV  %>" === "production") {
+      async function main() {
+        const currentVersion = "<%= process.env.LUNIE_VERSION %>"
+        const { version } = await fetch("/version.json", { cache: "no-store" }).then(res => res.json())
+
+        if (version !== currentVersion) {
+          location.reload(true)
+        }
+      }
+
+      main()
+    }
+
+  </script>
+
   <% if (!process.env.VUE_APP_E2E) { %>
   <script async src='https://www.google-analytics.com/analytics.js'></script>
 

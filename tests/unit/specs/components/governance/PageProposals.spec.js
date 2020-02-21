@@ -9,7 +9,14 @@ describe(`PageProposals`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
-      state: {},
+      state: {
+        connection: {
+          network: "cosmos-hub-mainnet"
+        },
+        session: {
+          experimentalMode: true
+        }
+      },
       getters: {}
     }
     $apollo = {
@@ -69,5 +76,21 @@ describe(`PageProposals`, () => {
     wrapper.vm.$apollo.queries.proposals.refetch = jest.fn()
     wrapper.vm.afterPropose()
     expect(wrapper.vm.$apollo.queries.proposals.refetch).toHaveBeenCalled()
+  })
+
+  it(`should show How Cosmos Governance Works tutorial`, () => {
+    wrapper.setData({
+      showTutorial: false
+    })
+    wrapper.vm.openTutorial()
+    expect(wrapper.vm.showTutorial).toBe(true)
+  })
+
+  it(`should hide How Cosmos Governance Works tutorial`, () => {
+    wrapper.setData({
+      showTutorial: true
+    })
+    wrapper.vm.hideTutorial()
+    expect(wrapper.vm.showTutorial).toBe(false)
   })
 })

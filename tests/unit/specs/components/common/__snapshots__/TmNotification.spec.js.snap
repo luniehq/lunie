@@ -87,7 +87,7 @@ exports[`TmNotification.vue has the expected html structure 3`] = `
       class="icon"
     >
       <i
-        class="material-icons"
+        class="material-icons notranslate"
       >
         search
       </i>

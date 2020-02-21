@@ -65,7 +65,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.delegations
+        return data.delegations || []
       }
     },
     $subscribe: {

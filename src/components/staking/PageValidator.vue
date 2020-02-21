@@ -9,16 +9,23 @@
     class="small"
   >
     <template v-if="validator.operatorAddress" slot="managed-body">
-      <button
-        class="validators-list-button"
-        color="secondary"
-        @click="$router.push(`/validators`)"
-      >
-        <div style="display:flex; flex-direction:row; align-items: center;">
-          <i class="material-icons arrow">arrow_back</i>
+      <div class="button-container">
+        <button class="back-button" @click="$router.push(`/validators`)">
+          <i class="material-icons notranslate arrow">arrow_back</i>
           Back to Validators
-        </div>
-      </button>
+        </button>
+        <button
+          v-if="
+            connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet'
+          "
+          class="tutorial-button"
+          @click="openTutorial()"
+        >
+          <i v-if="false" class="material-icons notranslate">help_outline</i>
+          <span v-else>Want to learn about staking?</span>
+        </button>
+      </div>
       <div class="status-button-container">
         <div class="status-container">
           <span :class="validator.status | toLower" class="validator-status">
@@ -34,36 +41,47 @@
       </div>
       <tr class="li-validator">
         <td class="data-table__row__info">
-          <Avatar
-            v-if="!validator.picture || validator.picture === 'null'"
-            class="li-validator-image"
-            alt="generic geometric symbol - generated avatar from address"
-            :address="validator.operatorAddress"
-          />
-          <img
-            v-else-if="validator.picture"
-            :src="validator.picture"
-            :alt="`validator logo for ` + validator.name"
-            class="li-validator-image"
-          />
-          <div class="validator-info">
-            <h3 class="li-validator-name">
-              {{ validator.name }}
-            </h3>
-            <div v-if="delegation.amount">
-              <h4>{{ delegation.amount | fullDecimals }}</h4>
-              <h5 v-if="rewards">
-                +{{ rewards.amount | fullDecimals | noBlanks }}
-              </h5>
+          <div class="li-validator-name-row">
+            <Avatar
+              v-if="!validator.picture || validator.picture === 'null'"
+              class="li-validator-image"
+              alt="generic geometric symbol - generated avatar from address"
+              :address="validator.operatorAddress"
+            />
+            <img
+              v-else-if="validator.picture"
+              :src="validator.picture"
+              :alt="`validator logo for ` + validator.name"
+              class="li-validator-image"
+            />
+            <div class="validator-info">
+              <h3 class="li-validator-name">
+                {{ validator.name }}
+              </h3>
+              <div v-if="delegation.amount">
+                <h4>{{ delegation.amount | fullDecimals }}</h4>
+                <h5 v-if="rewards">
+                  +{{ filterStakingDenomReward() | noBlanks }}
+                </h5>
+              </div>
             </div>
           </div>
+          <span
+            v-if="!validator.picture || validator.picture === 'null'"
+            class="no-img-info"
+          >
+            Looks like we don't have this validator logo — if this is your
+            validator
+            <a class="intercom-button" @click="handleIntercom()">contact us</a>.
+          </span>
         </td>
       </tr>
 
-      <div class="button-container">
+      <div class="action-button-container">
         <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
         <TmBtn
           id="undelegation-btn"
+          class="undelegation-btn"
           :disabled="delegation.amount === 0"
           value="Unstake"
           type="secondary"
@@ -168,6 +186,17 @@
         all validators
       </div>
     </template>
+    <ModalTutorial
+      v-if="
+        showTutorial &&
+          (connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet')
+      "
+      :steps="cosmosStakingTutorial.steps"
+      :fullguide="cosmosStakingTutorial.fullguide"
+      :background="cosmosStakingTutorial.background"
+      :close="hideTutorial"
+    />
   </TmPage>
 </template>
 
@@ -184,6 +213,7 @@ import Bech32 from "common/Bech32"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
 import { ValidatorProfile, UserTransactionAdded } from "src/gql"
+import ModalTutorial from "common/ModalTutorial"
 
 function getStatusText(statusDetailed) {
   switch (statusDetailed) {
@@ -192,7 +222,7 @@ function getStatusText(statusDetailed) {
     case "banned":
       return "Validator is permanently banned from the network"
     default:
-      return "Validator is online and earning rewards"
+      return "Validator is online and generating rewards"
   }
 }
 
@@ -204,7 +234,8 @@ export default {
     UndelegationModal,
     Avatar,
     TmBtn,
-    TmPage
+    TmPage,
+    ModalTutorial
   },
   filters: {
     shortDecimals,
@@ -225,10 +256,56 @@ export default {
     rewards: 0,
     delegation: {},
     error: false,
-    loaded: false
+    loaded: false,
+    showTutorial: false,
+    isMostRelevantRewardSelected: false,
+    mostRelevantReward: ``,
+    cosmosStakingTutorial: {
+      fullguide: `https://lunie.io/guides/how-cosmos-staking-works/`,
+      background: `blue`,
+      steps: [
+        {
+          title: "Intro to staking",
+          // Each content array item will be enclosed in a span (newline)
+          content: [
+            "First things first, you'll need to have some staking tokens. On this network, they are called ATOMs."
+          ]
+        },
+        {
+          title: "Validators",
+          content: [
+            "Validators are network operators who collect a fee for maintaining the integrity of the blockchain."
+          ]
+        },
+        {
+          title: "Choosing a validator",
+          content: [
+            "You can 'stake' your tokens with any validator you like. Choose by comparing their commission rate, their uptime history, and how they vote on proposals."
+          ]
+        },
+        {
+          title: "Earning rewards",
+          content: [
+            "Once you 'stake' your tokens, you'll instantly start earning rewards. Look for the “Claim Rewards” button on your portfolio page to add your rewards to your wallet."
+          ]
+        },
+        {
+          title: "Lock-up period",
+          content: [
+            "While your tokens are 'staked' you will not be able to transfer or spend them. It will take 21 days for your tokens to be in your wallet after you 'unstake' them."
+          ]
+        },
+        {
+          title: "Have more questions?",
+          content: [
+            "Check out our full staking guide for an in depth explanation of all things staking."
+          ]
+        }
+      ]
+    }
   }),
   computed: {
-    ...mapState([`session`]),
+    ...mapState([`connection`]),
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` })
   },
@@ -238,18 +315,39 @@ export default {
   },
   methods: {
     shortDecimals,
+    fullDecimals,
     percent,
     fromNow,
     noBlanks,
     moment,
+    /* istanbul ignore next */
     onDelegation() {
       this.$refs.delegationModal.open()
     },
+    /* istanbul ignore next */
     onUndelegation() {
       this.$refs.undelegationModal.open()
     },
+    /* istanbul ignore next */
     isBlankField(field, alternateFilter) {
       return field ? alternateFilter(field) : noBlanks(field)
+    },
+    openTutorial() {
+      this.showTutorial = true
+    },
+    hideTutorial() {
+      this.showTutorial = false
+    },
+    handleIntercom() {
+      this.$store.dispatch(`displayMessenger`)
+    },
+    filterStakingDenomReward() {
+      if (this.rewards && this.rewards.length > 0) {
+        const stakingDenomRewards = this.rewards.filter(
+          reward => reward.denom === this.stakingDenom
+        )
+        return stakingDenomRewards[0].amount
+      }
     }
   },
   apollo: {
@@ -269,19 +367,25 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.userAddress
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.userAddress,
           operatorAddress: this.$route.params.validator
         }
       },
+      /* istanbul ignore next */
       update(result) {
+        if (!result.delegation) {
+          return {
+            amount: 0
+          }
+        }
         /* istanbul ignore next */
         return {
           ...result.delegation,
@@ -302,53 +406,79 @@ export default {
             operatorAddress: $operatorAddress
           ) {
             amount
+            denom
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.userAddress
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.userAddress,
           operatorAddress: this.$route.params.validator
         }
       },
+      /* istanbul ignore next */
       update(result) {
-        /* istanbul ignore next */
-        return result.rewards.length > 0 ? result.rewards[0] : { amount: 0 }
+        return result.rewards && result.rewards.length > 0
+          ? result.rewards
+          : { amount: 0 }
       }
     },
     validator: {
       query: ValidatorProfile,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           operatorAddress: this.$route.params.validator
         }
       },
+      /* istanbul ignore next */
       update(result) {
-        /* istanbul ignore next */
+        if (!result.validator) return {}
+
         this.loaded = true
-        /* istanbul ignore next */
         return {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed)
         }
       }
     },
+    stakingDenom: {
+      query: gql`
+        query Network($networkId: String!) {
+          network(id: $networkId) {
+            id
+            stakingDenom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        if (!data.network) return ""
+        return data.network.stakingDenom
+      }
+    },
     $subscribe: {
       blockAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network
           }
         },
+        /* istanbul ignore next */
         query() {
           return gql`
             subscription($networkId: String!) {
@@ -359,26 +489,26 @@ export default {
             }
           `
         },
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           this.$apollo.queries.rewards.refetch()
         }
       },
       userTransactionAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network,
             address: this.userAddress
           }
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.userAddress
         },
         query: UserTransactionAdded,
+        /* istanbul ignore next */
         result({ data }) {
-          /* istanbul ignore next */
           if (data.userTransactionAdded.success) {
             this.$apollo.queries.delegation.refetch()
           }
@@ -389,26 +519,37 @@ export default {
 }
 </script>
 <style scoped>
-.validators-list-button {
-  margin: 0 0 20px 10px;
-  width: 177px;
-  height: 40px;
-  background-color: #272b48;
+.back-button,
+.tutorial-button {
+  padding: 0.5rem 1rem;
+  width: auto;
   font-size: 14px;
+  background: transparent;
   color: #7a88b8;
-  border: 1px solid rgb(122, 136, 184, 0.1);
-  border-radius: 5px;
+  border: 2px solid rgb(122, 136, 184, 0.1);
+  border-radius: 0.5rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: var(--sans);
 }
 
-.validators-list-button:hover {
-  background: #445381;
-  color: #f1f3f7;
-  border-color: #445381;
+.back-button i {
+  padding-right: 1rem;
 }
 
-i.arrow {
-  padding-right: 20px;
+.back-button i,
+.tutorial-button i {
+  font-size: 1rem;
+}
+
+.tutorial-button span {
+  font-size: 14px;
+}
+
+.back-button:hover,
+.tutorial-button:hover {
+  background-color: rgba(255, 255, 255, 0.02);
 }
 
 .li-validator {
@@ -451,6 +592,16 @@ i.arrow {
   color: var(--success);
 }
 
+.li-validator > .data-table__row__info {
+  display: block;
+  width: 100%;
+}
+
+.li-validator .li-validator-name-row {
+  display: flex;
+  align-items: center;
+}
+
 span {
   font-size: 12px;
   line-height: normal;
@@ -462,12 +613,21 @@ span {
 }
 
 .button-container {
+  justify-content: space-between;
+}
+
+.button-container,
+.action-button-container {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   padding: 0.5rem 1rem;
+}
+
+.action-button-container {
   border-bottom: 1px solid var(--bc-dim);
 }
 
+.action-button-container button:first-child,
 .button-container button:first-child {
   margin-right: 0.5rem;
 }
@@ -495,10 +655,12 @@ span {
   border-color: var(--success);
 }
 
-.validator-status-detailed {
+.validator-status-detailed,
+.no-img-info {
   display: block;
-  margin-top: 0.4rem;
+  margin-top: 1rem;
   font-size: 0.8rem;
+  color: var(--dim);
 }
 
 @media screen and (max-width: 425px) {
@@ -511,17 +673,12 @@ span {
 @media screen and (max-width: 667px) {
   .button-container {
     width: 100%;
-    padding: 1rem;
+    padding: 0 1rem;
   }
 
-  .button-container button {
+  .button-container button,
+  .action-button-container button {
     width: 50%;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .validators-list-button {
-    display: none;
   }
 }
 </style>

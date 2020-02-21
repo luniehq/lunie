@@ -4,7 +4,7 @@
       <h2 class="session-title">
         Recover with backup code
       </h2>
-      <div class="session-main">
+      <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Recover" />
         <TmFormGroup
           :error="$v.$error && $v.seed.$invalid"

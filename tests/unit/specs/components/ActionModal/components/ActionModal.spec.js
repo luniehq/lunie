@@ -47,11 +47,23 @@ describe(`ActionModal`, () => {
     totalStake: 1430000000
   }
 
+  const balances = [
+    {
+      denom: "STAKE",
+      amount: 1,
+      gasPrice: 0.001
+    },
+    {
+      denom: "token2",
+      amount: 2,
+      gasPrice: 0.002
+    }
+  ]
+
   const network = {
     id: "cosmos-hub-testnet",
     stakingDenom: "STAKE",
     chain_id: "gaia-13006",
-    rpc_url: "wss://gaia-13006.lunie.io:26657/websocket",
     api_url: "https://gaia-13006.lunie.io",
     action_send: true // to enable the feature send, needs to match the title of the ActionModal
   }
@@ -92,6 +104,9 @@ describe(`ActionModal`, () => {
     queries: {
       overview: {
         refetch: jest.fn()
+      },
+      balances: {
+        refetch: jest.fn()
       }
     }
   }
@@ -111,6 +126,7 @@ describe(`ActionModal`, () => {
           currrentModalOpen: false
         },
         overview,
+        balances,
         delegations
       },
       getters: {
@@ -147,7 +163,7 @@ describe(`ActionModal`, () => {
         sequence: 0
       }
     }
-    wrapper.setData({ network, overview, context })
+    wrapper.setData({ network, overview, balances, context, loaded: true })
     wrapper.vm.open()
   })
 
@@ -176,6 +192,7 @@ describe(`ActionModal`, () => {
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
+      sendEvent: jest.fn(),
       connectLedger: () => {},
       onSendingFailed: jest.fn(),
       createContext: jest.fn()
@@ -192,6 +209,37 @@ describe(`ActionModal`, () => {
     expect(self.submissionError).toEqual(`PREFIX: some kind of error message.`)
   })
 
+  it(`should trigger onSendingFailed if transaction data is empty`, async () => {
+    const ActionManagerSend = jest
+      .fn()
+      .mockRejectedValue(new Error(`some kind of error message`))
+    const $store = { dispatch: jest.fn() }
+    const self = {
+      $store,
+      $apollo,
+      actionManager: {
+        setContext: () => {},
+        simulate: () => 12345,
+        send: ActionManagerSend,
+        simulateTxAPI: jest.fn(),
+        sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
+      },
+      transactionData: {},
+      network: {
+        stakingDenom: "ATOM"
+      },
+      submissionErrorPrefix: `PREFIX`,
+      trackEvent: jest.fn(),
+      connectLedger: () => {},
+      onSendingFailed: jest.fn(),
+      createContext: jest.fn()
+    }
+    await ActionModal.methods.submit.call(self)
+    expect(self.onSendingFailed).toHaveBeenCalledWith(
+      new Error(`Error in transaction data`)
+    )
+  })
+
   it(`should default to submissionError being null`, () => {
     expect(wrapper.vm.submissionError).toBe(null)
   })
@@ -202,6 +250,22 @@ describe(`ActionModal`, () => {
 
     expect(wrapper.isEmpty()).not.toBe(true)
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
+  })
+
+  it("shows loading when there is still data to be loaded", () => {
+    wrapper.setData({ loaded: false })
+
+    expect(wrapper.find("TmDataLoading-stub").exists()).toBe(true)
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it("sets the loaded state when apollo is done loading", () => {
+    let self = { loaded: false }
+    ActionModal.watch["$apollo.loading"].call(self, true)
+    expect(self.loaded).toBe(false)
+
+    ActionModal.watch["$apollo.loading"].call(self, false)
+    expect(self.loaded).toBe(true)
   })
 
   it(`should confirm modal closing`, () => {
@@ -350,7 +414,19 @@ describe(`ActionModal`, () => {
       it(`when gas price is set on dev mode session`, () => {
         wrapper.vm.step = `fees`
         wrapper.vm.session.experimentalMode = true
-        wrapper.setData({ gasPrice: 2.5e-8 })
+        wrapper.setData({
+          gasPrice: 2.5e-8,
+          gasEstimate: 2,
+          balances: [
+            {
+              denom: "STAKE",
+              amount: 1211
+            }
+          ]
+        })
+        wrapper.setProps({
+          selectedDenom: "STAKE"
+        })
         expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(true)
       })
     })
@@ -381,8 +457,19 @@ describe(`ActionModal`, () => {
 
   describe(`validates total price does not exceed available atoms`, () => {
     beforeEach(() => {
-      wrapper.setData({ gasPrice: 10 })
-      wrapper.setData({ gasEstimate: 2 })
+      wrapper.setData({
+        gasPrice: 10,
+        gasEstimate: 2,
+        balances: [
+          {
+            denom: "STAKE",
+            amount: 1211
+          }
+        ]
+      })
+      wrapper.setProps({
+        selectedDenom: "STAKE"
+      })
     })
 
     describe(`success`, () => {
@@ -552,10 +639,10 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.txHash).toBe("HASH1234HASH")
     })
 
-    it(`should submit transaction using transactino api`, async () => {
+    it(`should submit transaction using transaction api`, async () => {
       const transactionProperties = {
         type: "MsgSend",
-        toAddress: "comsos12345",
+        toAddress: "cosmos12345",
         amounts: [
           {
             amount: "10",
@@ -568,7 +655,8 @@ describe(`ActionModal`, () => {
         step: `sign`,
         gasEstimate: 12345,
         submissionError: null,
-        useTxService: true
+        useTxService: true,
+        balances
       }
 
       wrapper.setProps({ transactionProperties })
@@ -613,6 +701,43 @@ describe(`ActionModal`, () => {
 
       expect(wrapper.html()).toContain("Transaction failed: invalid request.")
       expect(wrapper.vm.step).toBe("sign")
+    })
+
+    it(`Should call onSendingFailed if transaction data is empty`, async () => {
+      const ActionManagerSend = jest
+        .fn()
+        .mockRejectedValue(new Error(`Error in transaction data`))
+      const $store = { dispatch: jest.fn() }
+      const self = {
+        $store,
+        $apollo,
+        actionManager: {
+          setContext: () => {},
+          simulate: () => 12345,
+          send: ActionManagerSend,
+          simulateTxAPI: jest.fn(),
+          sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
+        },
+        transactionData: {},
+        network: {
+          stakingDenom: "ATOM"
+        },
+        submissionErrorPrefix: `PREFIX`,
+        trackEvent: jest.fn(),
+        connectLedger: () => {},
+        onSendingFailed: jest.fn(),
+        createContext: jest.fn()
+      }
+      await ActionModal.methods.submit.call(self)
+      expect(self.onSendingFailed).toHaveBeenCalledWith(
+        new Error(`Error in transaction data`)
+      )
+
+      ActionModal.methods.onSendingFailed.call(
+        self,
+        new Error(`Error in transaction data`)
+      )
+      expect(self.submissionError).toEqual(`PREFIX: Error in transaction data.`)
     })
   })
 
@@ -816,5 +941,66 @@ describe(`ActionModal`, () => {
     await wrapper.vm.open()
     expect(wrapper.element).toMatchSnapshot()
     expect(wrapper.exists("featurenotavailable-stub")).toBe(true)
+  })
+
+  it("triggers the tx included functions on subscription", () => {
+    const hash = "superhash"
+    const self = {
+      onTxIncluded: jest.fn(),
+      txHash: hash
+    }
+    ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
+      data: {
+        userTransactionAdded: {
+          hash,
+          success: true
+        }
+      }
+    })
+
+    expect(self.onTxIncluded).toHaveBeenCalled()
+  })
+
+  it("triggers the tx inclusion failure functions on subscription", () => {
+    const hash = "superhash"
+    const self = {
+      onTxIncluded: jest.fn(),
+      onSendingFailed: jest.fn(),
+      txHash: hash
+    }
+    ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
+      data: {
+        userTransactionAdded: {
+          hash,
+          success: false,
+          log: "error"
+        }
+      }
+    })
+
+    expect(self.onSendingFailed).toHaveBeenCalledWith(new Error("error"))
+  })
+
+  it(`triggers sendEvent to Google Analytics`, () => {
+    const self = {
+      $emit: jest.fn(),
+      trackEvent: jest.fn(),
+      sendEvent: jest.fn(),
+      network: {
+        id: "testnetwork"
+      },
+      session: {
+        address: "testaddress"
+      },
+      $apollo: {
+        queries: {
+          overview: { refetch: jest.fn() }
+        }
+      }
+    }
+    const spy = jest.spyOn(self, `sendEvent`)
+    ActionModal.methods.onTxIncluded.call(self)
+    expect(spy).toHaveBeenCalled()
+    self.sendEvent.mockClear()
   })
 })

@@ -32,6 +32,38 @@ module.exports.disableGoogleAnalytics = function disableGoogleAnalytics(gaUID) {
   window[`ga-disable-${gaUID}`] = true
 }
 
+/*
+GA takes parameters like dimension1 or dimension2. This replaces the human readable values with the by GA required values.
+*/
+function customToNum(custom) {
+  const dimensions = {
+    network: 1,
+    address: 2
+  }
+  if (typeof dimensions[custom] !== "undefined") {
+    return "dimension" + dimensions[custom]
+  }
+  return false
+}
+
+module.exports.sendEvent = function event(customObject, ...args) {
+  if (window.ga) {
+    let newKey
+    // converting customObject to ga metrics ids
+    Object.keys(customObject).map(key => {
+      if ((newKey = customToNum(key))) {
+        Object.defineProperty(
+          customObject,
+          newKey,
+          Object.getOwnPropertyDescriptor(customObject, key)
+        )
+      }
+      delete customObject[key]
+    })
+    window.ga(`send`, `event`, ...args, customObject)
+  }
+}
+
 module.exports.track = function track(...args) {
   if (window.ga) {
     window.ga(`send`, ...args)

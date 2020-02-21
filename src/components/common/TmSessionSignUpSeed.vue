@@ -8,7 +8,7 @@
         <InsecureModeWarning />
       </div>
       <div v-else>
-        <div class="session-main">
+        <div class="session-main bottom-indent reorder">
           <Steps
             v-if="!session.mobile"
             :steps="[`Create`, `Password`, `Backup`]"
@@ -26,6 +26,7 @@
                 <input
                   id="sign-up-warning"
                   v-model="fieldWarning"
+                  v-focus
                   type="checkbox"
                 />
                 I understand that lost seeds cannot be recovered.</label
@@ -126,8 +127,3 @@ export default {
   })
 }
 </script>
-<style>
-.session .field-checkbox-input {
-  text-align: center;
-}
-</style>

@@ -7,6 +7,41 @@ describe(`TmSessionExplore`, () => {
   localVue.use(Vuelidate)
 
   let wrapper, $store
+  const addressPrefixes = [
+    {
+      id: "cosmos-hub-testnet",
+      address_prefix: "cosmos",
+      testnet: true
+    },
+    {
+      id: "cosmos-hub-mainnet",
+      address_prefix: "cosmos",
+      testnet: false
+    },
+    {
+      id: "terra-testnet",
+      address_prefix: "terra",
+      testnet: true
+    }
+  ]
+  const addresses = [
+    {
+      address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
+      type: `explore`
+    },
+    {
+      address: `cosmos1unc788q8md2jymsns24eyhua58palg5kc7cstv`,
+      type: `ledger`
+    },
+    {
+      address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8klc`,
+      type: `extension`
+    },
+    {
+      address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8xyz`,
+      type: `local`
+    }
+  ]
 
   beforeEach(() => {
     $store = {
@@ -18,24 +53,7 @@ describe(`TmSessionExplore`, () => {
       state: {
         session: {
           address: ``,
-          addresses: [
-            {
-              address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
-              type: `explore`
-            },
-            {
-              address: `cosmos1unc788q8md2jymsns24eyhua58palg5kc7cstv`,
-              type: `ledger`
-            },
-            {
-              address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8klc`,
-              type: `extension`
-            },
-            {
-              address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8xyz`,
-              type: `local`
-            }
-          ]
+          addresses
         }
       }
     }
@@ -48,6 +66,16 @@ describe(`TmSessionExplore`, () => {
         },
         $store
       }
+    })
+
+    wrapper.setData({
+      addressPrefixes: [
+        {
+          id: "cosmos-hub-testnet",
+          address_prefix: "cosmos",
+          testnet: false
+        }
+      ]
     })
   })
 
@@ -142,5 +170,19 @@ describe(`TmSessionExplore`, () => {
     const ethereumAddress = `0x28f4961F8b06F7361A1efD5E700DE717b1db5292`
     const check = TmSessionExplore.methods.isEthereumAddress(ethereumAddress)
     expect(check).toBe(true)
+  })
+
+  it(`checks that the address is valid address of the network and selects testnet if testnet is set to true`, () => {
+    const self = {
+      addressPrefixes,
+      testnet: true,
+      address: addresses[0].address
+    }
+    const signInNetwork = TmSessionExplore.computed.networkOfAddress.call(self)
+    expect(signInNetwork).toEqual({
+      address_prefix: "cosmos",
+      id: "cosmos-hub-testnet",
+      testnet: true
+    })
   })
 })

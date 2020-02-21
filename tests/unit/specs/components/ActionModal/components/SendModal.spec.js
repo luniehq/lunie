@@ -174,6 +174,28 @@ describe(`SendModal`, () => {
     })
   })
 
+  it("should return empty transaction data if amount is NaN", () => {
+    wrapper.setProps({
+      denom: `STAKE`
+    })
+    wrapper.setData({
+      address: `cosmos12345`,
+      amount: `NaN`
+    })
+    expect(wrapper.vm.transactionData).toEqual({})
+  })
+
+  it(`sends an event on success`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    SendModal.methods.onSuccess.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(
+      "success",
+      expect.objectContaining({})
+    )
+  })
+
   it("should return notification message", () => {
     wrapper.setProps({
       denom: `STAKE`
@@ -261,16 +283,22 @@ describe(`SendModal`, () => {
       expect(wrapper.vm.selectedBalance.amount).toBe(1)
     })
 
-    it(`it automatically picks the balance from the balances array when
-    balances are only one denom`, async () => {
+    it(`it automatically sets the token to the first token in the balances`, async () => {
       wrapper.setData({
+        selectedToken: ``,
         balances: [
           {
             amount: 1,
-            denom: "TOKEN1"
+            denom: "STAKE"
           }
         ]
       })
+      SendModal.watch.balances.call(wrapper.vm, [
+        {
+          amount: 1,
+          denom: "STAKE"
+        }
+      ])
       expect(wrapper.vm.selectedBalance.amount).toBe(1)
     })
     // This one creates a lot of ugly errors

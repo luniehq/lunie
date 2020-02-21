@@ -3,7 +3,7 @@
     id="undelegation-modal"
     ref="actionModal"
     :validate="validateForm"
-    :amount="0"
+    :amount="amount"
     :title="isRedelegation ? 'Restake' : 'Unstake'"
     class="undelegation-modal"
     :submission-error-prefix="
@@ -167,9 +167,15 @@ export default {
       return delegation ? Number(delegation.amount) : 0
     },
     transactionData() {
-      if (!this.sourceValidator.operatorAddress) return {}
-
       if (this.isRedelegation) {
+        if (
+          isNaN(this.amount) ||
+          !this.sourceValidator.operatorAddress ||
+          !this.toSelectedIndex ||
+          !this.denom
+        ) {
+          return {}
+        }
         return {
           type: transaction.REDELEGATE,
           validatorSourceAddress: this.sourceValidator.operatorAddress,
@@ -178,6 +184,13 @@ export default {
           denom: toMicroDenom(this.denom)
         }
       } else {
+        if (
+          isNaN(this.amount) ||
+          !this.sourceValidator.operatorAddress ||
+          !this.denom
+        ) {
+          return {}
+        }
         return {
           type: transaction.UNDELEGATE,
           validatorAddress: this.sourceValidator.operatorAddress,
@@ -308,20 +321,46 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.delegations
+      }
+    },
+    balance: {
+      query: gql`
+        query Balance($networkId: String!, $address: String!, $denom: String!) {
+          balance(networkId: $networkId, address: $address, denom: $denom) {
+            amount
+            denom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      skip() {
+        return !this.userAddress
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.userAddress,
+          denom: this.denom
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        return data.balance || { amount: 0 }
       }
     },
     denom: {
@@ -334,15 +373,15 @@ export default {
         }
       `,
       fetchPolicy: "cache-first",
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
-        return data.network.stakingDenom
+        return data.network ? data.network.stakingDenom : ""
       }
     },
     validators: {
@@ -356,34 +395,34 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
-        return data.validators
+        return data.validators || []
       }
     },
 
     $subscribe: {
       userTransactionAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network,
             address: this.userAddress
           }
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.userAddress
         },
         query: UserTransactionAdded,
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           this.$apollo.queries.delegations.refetch()
         }
       }

@@ -7,7 +7,7 @@
       <div class="session-outer-container">
         <div class="session">
           <a v-if="!hideBack" @click="goBack">
-            <i class="material-icons circle back">arrow_back</i>
+            <i class="material-icons notranslate circle back">arrow_back</i>
           </a>
           <slot></slot>
         </div>
@@ -20,7 +20,7 @@
           @click.native="$router.push(`/`)"
         />
         <a class="user-box" @click="$router.push(`/`)">
-          <i class="material-icons">close</i>
+          <i class="material-icons notranslate">close</i>
         </a>
       </div>
     </div>
