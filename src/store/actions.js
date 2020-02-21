@@ -36,7 +36,6 @@ export default ({ apollo }) => {
   }
 
   const setNetwork = ({ commit }, network) => {
-    console.log('setNetworkId', network.id)
     commit('setNetworkId', network.id)
   }
 

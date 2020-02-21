@@ -16,6 +16,12 @@ export function signMessageHandler(
   sendResponse
 ) {
   switch (message.type) {
+    case 'LUNIE_SIGN_REQUEST_CANCEL': {
+      signRequestQueue.unqueueSignRequestForTab({
+        tabID: sender.tab.id
+      })
+      break
+    }
     case 'LUNIE_SIGN_REQUEST': {
       const { signMessage, senderAddress, network } = message.payload
       const wallet = getWalletFromIndex(getWalletIndex(), senderAddress)
