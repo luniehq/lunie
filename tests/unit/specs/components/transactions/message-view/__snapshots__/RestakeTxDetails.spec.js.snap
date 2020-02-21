@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RestakeTxDetails renders a redelegate transaction message 1`] = `
+exports[`RestakeTxDetails renders a restake transaction message 1`] = `
 <div
   class="tx__content"
 >
