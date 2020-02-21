@@ -14,7 +14,7 @@
         >
           <div class="tm-li-session">
             <div class="tm-li-session-icon">
-              <i class="material-icons circle">
+              <i class="material-icons notranslate circle">
                 {{ getAddressIcon(account.type) }}
               </i>
             </div>
@@ -27,7 +27,7 @@
               </div>
             </div>
             <div class="tm-li-session-icon">
-              <i class="material-icons">arrow_forward</i>
+              <i class="material-icons notranslate">arrow_forward</i>
             </div>
           </div>
         </div>
@@ -66,19 +66,19 @@
           <TmFormMsg v-else-if="error" :name="error" type="custom" />
         </TmFormGroup>
       </div>
+      <TmFormGroup
+        class="field-checkbox"
+        field-id="sign-up-warning"
+        field-label
+      >
+        <div class="field-checkbox-input">
+          <label class="field-checkbox-label" for="select-testnet">
+            <input id="select-testnet" v-model="testnet" type="checkbox" />
+            This is a testnet address</label
+          >
+        </div>
+      </TmFormGroup>
       <div class="session-footer">
-        <TmFormGroup
-          class="field-checkbox"
-          field-id="sign-up-warning"
-          field-label
-        >
-          <div class="field-checkbox-input">
-            <label class="field-checkbox-label" for="select-testnet">
-              <input id="select-testnet" v-model="testnet" type="checkbox" />
-              Select testnet</label
-            >
-          </div>
-        </TmFormGroup>
         <TmBtn value="Explore" />
       </div>
     </TmFormStruct>
@@ -308,29 +308,12 @@ export default {
 
 .material-icons.circle {
   border: 2px solid var(--dim);
+  color: var(--dim);
   border-radius: 50%;
   padding: 0.5rem;
 }
 
-.field-checkbox-label {
-  color: var(--link);
-}
-
-.field-checkbox-label:hover {
-  color: var(--link-hover);
-}
-
-input[type="checkbox"] {
-  vertical-align: middle;
-}
-
-.session-footer {
-  justify-content: space-between;
-}
-
-@media screen and (min-width: 667px) {
-  .field-checkbox-input {
-    padding-left: 0;
-  }
+.button {
+  min-width: 90px;
 }
 </style>

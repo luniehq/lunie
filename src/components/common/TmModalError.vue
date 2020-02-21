@@ -2,7 +2,7 @@
   <div class="tm-modal-error__wrapper">
     <div class="tm-modal-error">
       <div class="tm-modal-error__icon">
-        <i class="material-icons">{{ icon }}</i>
+        <i class="material-icons notranslate">{{ icon }}</i>
       </div>
       <div class="tm-modal-error__title">
         {{ title }}

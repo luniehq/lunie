@@ -1,1 +1,1 @@
-[Added] [#3537](https://github.com/cosmos/lunie/issues/3537) add custom metrics for GA @iambeone
+[Fixed] Fix success screen showing different denom in multi denom setup @faboweb

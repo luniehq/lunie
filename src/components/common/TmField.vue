@@ -23,7 +23,7 @@
       </template>
     </select>
     <div class="tm-field-select-addon">
-      <i class="material-icons">arrow_drop_down</i>
+      <i class="material-icons notranslate">arrow_drop_down</i>
     </div>
   </div>
 
@@ -192,7 +192,8 @@ export default {
 
 <style>
 input[type="checkbox"] {
-  margin: 0.5rem 0.5rem 0.5rem 0;
+  margin: 0.3rem 0.3rem 0.5rem 0;
+  vertical-align: middle;
 }
 
 .tm-field {

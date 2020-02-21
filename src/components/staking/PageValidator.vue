@@ -11,11 +11,18 @@
     <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="button-container">
         <button class="back-button" @click="$router.push(`/validators`)">
-          <i class="material-icons arrow">arrow_back</i>
+          <i class="material-icons notranslate arrow">arrow_back</i>
           Back to Validators
         </button>
-        <button class="tutorial-button" @click="openTutorial()">
-          <i v-if="false" class="material-icons">help_outline</i>
+        <button
+          v-if="
+            connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet'
+          "
+          class="tutorial-button"
+          @click="openTutorial()"
+        >
+          <i v-if="false" class="material-icons notranslate">help_outline</i>
           <span v-else>Want to learn about staking?</span>
         </button>
       </div>
@@ -54,7 +61,7 @@
               <div v-if="delegation.amount">
                 <h4>{{ delegation.amount | fullDecimals }}</h4>
                 <h5 v-if="rewards">
-                  +{{ rewards.amount | fullDecimals | noBlanks }}
+                  +{{ filterStakingDenomReward() | noBlanks }}
                 </h5>
               </div>
             </div>
@@ -252,6 +259,8 @@ export default {
     error: false,
     loaded: false,
     showTutorial: false,
+    isMostRelevantRewardSelected: false,
+    mostRelevantReward: ``,
     cosmosStakingTutorial: {
       fullguide: `https://lunie.io/guides/how-cosmos-staking-works/`,
       background: `blue`,
@@ -307,17 +316,21 @@ export default {
   },
   methods: {
     shortDecimals,
+    fullDecimals,
     atoms,
     percent,
     fromNow,
     noBlanks,
     moment,
+    /* istanbul ignore next */
     onDelegation() {
       this.$refs.delegationModal.open()
     },
+    /* istanbul ignore next */
     onUndelegation() {
       this.$refs.undelegationModal.open()
     },
+    /* istanbul ignore next */
     isBlankField(field, alternateFilter) {
       return field ? alternateFilter(field) : noBlanks(field)
     },
@@ -329,6 +342,14 @@ export default {
     },
     handleIntercom() {
       this.$store.dispatch(`displayMessenger`)
+    },
+    filterStakingDenomReward() {
+      if (this.rewards && this.rewards.length > 0) {
+        const stakingDenomRewards = this.rewards.filter(
+          reward => reward.denom === this.stakingDenom
+        )
+        return stakingDenomRewards[0].amount
+      }
     }
   },
   apollo: {
@@ -348,18 +369,19 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.userAddress
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.userAddress,
           operatorAddress: this.$route.params.validator
         }
       },
+      /* istanbul ignore next */
       update(result) {
         if (!result.delegation) {
           return {
@@ -386,57 +408,79 @@ export default {
             operatorAddress: $operatorAddress
           ) {
             amount
+            denom
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.userAddress
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.userAddress,
           operatorAddress: this.$route.params.validator
         }
       },
+      /* istanbul ignore next */
       update(result) {
-        /* istanbul ignore next */
         return result.rewards && result.rewards.length > 0
-          ? result.rewards[0]
+          ? result.rewards
           : { amount: 0 }
       }
     },
     validator: {
       query: ValidatorProfile,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           operatorAddress: this.$route.params.validator
         }
       },
+      /* istanbul ignore next */
       update(result) {
         if (!result.validator) return {}
 
-        /* istanbul ignore next */
         this.loaded = true
-        /* istanbul ignore next */
         return {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed)
         }
       }
     },
+    stakingDenom: {
+      query: gql`
+        query Network($networkId: String!) {
+          network(id: $networkId) {
+            id
+            stakingDenom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        if (!data.network) return ""
+        return data.network.stakingDenom
+      }
+    },
     $subscribe: {
       blockAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network
           }
         },
+        /* istanbul ignore next */
         query() {
           return gql`
             subscription($networkId: String!) {
@@ -447,26 +491,26 @@ export default {
             }
           `
         },
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           this.$apollo.queries.rewards.refetch()
         }
       },
       userTransactionAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network,
             address: this.userAddress
           }
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.userAddress
         },
         query: UserTransactionAdded,
+        /* istanbul ignore next */
         result({ data }) {
-          /* istanbul ignore next */
           if (data.userTransactionAdded.success) {
             this.$apollo.queries.delegation.refetch()
           }
@@ -613,10 +657,12 @@ span {
   border-color: var(--success);
 }
 
-.validator-status-detailed {
+.validator-status-detailed,
+.no-img-info {
   display: block;
-  margin-top: 0.4rem;
+  margin-top: 1rem;
   font-size: 0.8rem;
+  color: var(--dim);
 }
 
 @media screen and (max-width: 425px) {

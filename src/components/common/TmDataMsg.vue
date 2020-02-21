@@ -1,7 +1,7 @@
 <template>
   <div class="tm-data-msg">
     <div class="tm-data-msg__icon" :class="{ success: success }">
-      <i :class="spinnerClass" class="material-icons">{{ icon }}</i>
+      <i :class="spinnerClass" class="material-icons notranslate">{{ icon }}</i>
     </div>
     <div class="tm-data-msg__text">
       <h2 class="tm-data-msg__title">

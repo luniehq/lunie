@@ -19,10 +19,12 @@
         </router-link>
         <template v-if="!desktop">
           <div v-if="open" class="close-menu" @click="close()">
-            <i class="material-icons mobile-menu-action">close</i>
+            <i class="material-icons notranslate mobile-menu-action">close</i>
           </div>
           <div v-if="!open" class="open-menu" @click="show()">
-            <i class="material-icons mobile-menu-action">more_vert</i>
+            <i class="material-icons notranslate mobile-menu-action">
+              more_vert
+            </i>
           </div>
         </template>
       </div>

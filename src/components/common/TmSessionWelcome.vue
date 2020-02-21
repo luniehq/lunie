@@ -9,7 +9,7 @@
         />
       </router-link>
       <router-link to="/" class="session-close-mobile user-box">
-        <i class="material-icons">close</i>
+        <i class="material-icons notranslate">close</i>
       </router-link>
 
       <h2 class="session-title welcome">

@@ -15,7 +15,7 @@
               :style="{ visibility: getPrevProposalId ? 'visible' : 'hidden' }"
               class="read-more-link"
             >
-              <i class="material-icons">chevron_left</i>
+              <i class="material-icons notranslate">chevron_left</i>
             </router-link>
             <h2 class="proposal-title">{{ proposal.title }}</h2>
             <router-link
@@ -23,7 +23,7 @@
               :style="{ visibility: getNextProposalId ? 'visible' : 'hidden' }"
               class="read-more-link"
             >
-              <i class="material-icons">chevron_right</i>
+              <i class="material-icons notranslate">chevron_right</i>
             </router-link>
           </div>
           <p class="proposer">

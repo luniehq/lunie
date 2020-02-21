@@ -27,7 +27,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons circle"
+              class="material-icons notranslate circle"
             >
               
               vpn_key
@@ -59,7 +59,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               arrow_forward
             </i>
@@ -76,7 +76,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons circle"
+              class="material-icons notranslate circle"
             >
               
               laptop
@@ -108,7 +108,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               arrow_forward
             </i>
@@ -125,7 +125,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons circle"
+              class="material-icons notranslate circle"
             >
               
               phone_iphone
@@ -157,7 +157,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             class="tm-li-session-icon"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               arrow_forward
             </i>
@@ -183,31 +183,31 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
       </tmformgroup-stub>
     </div>
      
+    <tmformgroup-stub
+      class="field-checkbox"
+      fieldid="sign-up-warning"
+      fieldlabel=""
+    >
+      <div
+        class="field-checkbox-input"
+      >
+        <label
+          class="field-checkbox-label"
+          for="select-testnet"
+        >
+          <input
+            id="select-testnet"
+            type="checkbox"
+          />
+          
+          This is a testnet address
+        </label>
+      </div>
+    </tmformgroup-stub>
+     
     <div
       class="session-footer"
     >
-      <tmformgroup-stub
-        class="field-checkbox"
-        fieldid="sign-up-warning"
-        fieldlabel=""
-      >
-        <div
-          class="field-checkbox-input"
-        >
-          <label
-            class="field-checkbox-label"
-            for="select-testnet"
-          >
-            <input
-              id="select-testnet"
-              type="checkbox"
-            />
-            
-            Select testnet
-          </label>
-        </div>
-      </tmformgroup-stub>
-       
       <tmbtn-stub
         value="Explore"
       />

@@ -47,11 +47,23 @@ describe(`ActionModal`, () => {
     totalStake: 1430000000
   }
 
+  const balances = [
+    {
+      denom: "STAKE",
+      amount: 1,
+      gasPrice: 0.001
+    },
+    {
+      denom: "token2",
+      amount: 2,
+      gasPrice: 0.002
+    }
+  ]
+
   const network = {
     id: "cosmos-hub-testnet",
     stakingDenom: "STAKE",
     chain_id: "gaia-13006",
-    rpc_url: "wss://gaia-13006.lunie.io:26657/websocket",
     api_url: "https://gaia-13006.lunie.io",
     action_send: true // to enable the feature send, needs to match the title of the ActionModal
   }
@@ -92,6 +104,9 @@ describe(`ActionModal`, () => {
     queries: {
       overview: {
         refetch: jest.fn()
+      },
+      balances: {
+        refetch: jest.fn()
       }
     }
   }
@@ -111,6 +126,7 @@ describe(`ActionModal`, () => {
           currrentModalOpen: false
         },
         overview,
+        balances,
         delegations
       },
       getters: {
@@ -147,7 +163,7 @@ describe(`ActionModal`, () => {
         sequence: 0
       }
     }
-    wrapper.setData({ network, overview, context, loaded: true })
+    wrapper.setData({ network, overview, balances, context, loaded: true })
     wrapper.vm.open()
   })
 
@@ -398,7 +414,19 @@ describe(`ActionModal`, () => {
       it(`when gas price is set on dev mode session`, () => {
         wrapper.vm.step = `fees`
         wrapper.vm.session.experimentalMode = true
-        wrapper.setData({ gasPrice: 2.5e-8 })
+        wrapper.setData({
+          gasPrice: 2.5e-8,
+          gasEstimate: 2,
+          balances: [
+            {
+              denom: "STAKE",
+              amount: 1211
+            }
+          ]
+        })
+        wrapper.setProps({
+          selectedDenom: "STAKE"
+        })
         expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(true)
       })
     })
@@ -429,8 +457,19 @@ describe(`ActionModal`, () => {
 
   describe(`validates total price does not exceed available atoms`, () => {
     beforeEach(() => {
-      wrapper.setData({ gasPrice: 10 })
-      wrapper.setData({ gasEstimate: 2 })
+      wrapper.setData({
+        gasPrice: 10,
+        gasEstimate: 2,
+        balances: [
+          {
+            denom: "STAKE",
+            amount: 1211
+          }
+        ]
+      })
+      wrapper.setProps({
+        selectedDenom: "STAKE"
+      })
     })
 
     describe(`success`, () => {
@@ -616,7 +655,8 @@ describe(`ActionModal`, () => {
         step: `sign`,
         gasEstimate: 12345,
         submissionError: null,
-        useTxService: true
+        useTxService: true,
+        balances
       }
 
       wrapper.setProps({ transactionProperties })
@@ -946,6 +986,12 @@ describe(`ActionModal`, () => {
       $emit: jest.fn(),
       trackEvent: jest.fn(),
       sendEvent: jest.fn(),
+      network: {
+        id: "testnetwork"
+      },
+      session: {
+        address: "testaddress"
+      },
       $apollo: {
         queries: {
           overview: { refetch: jest.fn() }

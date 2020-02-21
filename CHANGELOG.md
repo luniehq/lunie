@@ -7,6 +7,56 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.164] - 2020-02-18
+
+### Added
+
+- [#3563](https://github.com/cosmos/lunie/issues/3563) Prevent Google Translate to translate material icons @mariopino
+- [#3540](https://github.com/cosmos/lunie/pull/3540) Format big percentages as needed for e-money @mariopino
+
+### Changed
+
+- [#3542](https://github.com/cosmos/lunie/pull/3542) Now it is possible to create an account in Lunie when connected to a testnet @Bitcoinera
+
+### Fixed
+
+- analytics data sent fix @iambeone
+
+### Code Improvements
+
+- [#3551](https://github.com/cosmos/lunie/pull/3551) Improves the testnet checkbox styles @Bitcoinera
+
+### Repository
+
+- remove alert action @iambeone
+
+## [1.0.163] - 2020-02-09
+
+### Added
+
+- apollo error handling @iambeone
+- [#3537](https://github.com/cosmos/lunie/issues/3537) add custom metrics for GA @iambeone
+- [#3383](https://github.com/cosmos/lunie/issues/3383) Added message about past chain transactions not being present @faboweb
+- [#3532](https://github.com/cosmos/lunie/issues/3532) Added note about emailing us when validator image is missing @faboweb
+
+### Changed
+
+- pass local error to console @iambeone
+
+### Fixed
+
+- network list fetching fixed @iambeone
+- [#3244](https://github.com/cosmos/lunie/issues/3244) Fixes claiming transactions considering only the first claiming tx @Bitcoinera
+- [#3530](https://github.com/cosmos/lunie/issues/3530) Fix Safari bug where variable is not available in context @faboweb
+- Fix script to fund e2e master account @faboweb
+- [#3476](https://github.com/cosmos/lunie/issues/3476) Prevent bad amounts to be send to backend @mariopino
+
+### Repository
+
+- pr alert fixed @iambeone
+- [#3547](https://github.com/cosmos/lunie/pull/3547) Adds a script to serve the app without using kill-port. Especially good for Windows. @Bitcoinera
+- Fix release process as tags are not merged to develop @faboweb
+
 ## [1.0.162] - 2020-02-03
 
 ### Added
