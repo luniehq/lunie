@@ -86,7 +86,7 @@ describe(`number helper`, () => {
   })
 
   it(`should format a very big number. Convert it to trillions`, () => {
-    expect(bigFigure(`-8719010560462937.9`)).toBe(`-8,719 T`)
+    expect(bigFigure(`-9010560462937.9`)).toBe(`-9 T`)
   })
 
   it(`should format a very big number. Convert it to billions`, () => {
@@ -95,6 +95,10 @@ describe(`number helper`, () => {
 
   it(`should format a very big number. Convert it to millions`, () => {
     expect(bigFigure(`7010560.46`)).toBe(`7 M`)
+  })
+
+  it(`should format a very big number. If the number is bigger than 99 trillions return infinity`, () => {
+    expect(bigFigure(`109010560462937.9`)).toBe(`∞`)
   })
 
   it(`should apply the shortDecimals filter over the bigFigure one`, () => {

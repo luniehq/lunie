@@ -88,7 +88,9 @@ export function bigFigure(number = 0) {
   let formatted = Math.round(number * 100) / 100
 
   let suffix = ""
-  if (Math.abs(Number(formatted)) >= 1e12) {
+  if (Math.abs(Number(formatted)) >= 1e14) {
+    return `∞`
+  } else if (Math.abs(Number(formatted)) >= 1e12) {
     formatted = Number(formatted) / 1e12
     suffix = "T"
   } else if (Math.abs(Number(formatted)) >= 1e9) {
