@@ -1,11 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BeginRedelegateMessageDetails renders a redelegate transaction message 1`] = `
+exports[`RestakeTxDetails renders a redelegate transaction message 1`] = `
 <div
   class="tx__content"
 >
   <transactionicon-stub
-    transactiongroup="staking"
     transactiontype="Restaked"
   />
    
@@ -21,11 +20,11 @@ exports[`BeginRedelegateMessageDetails renders a redelegate transaction message 
     </span>
      
     <router-link-stub
-      to="/staking/validators/cosmos1"
+      to="/staking/validators/cosmosvaloper123"
     >
       <!---->
       
-      cosmos…mos1 
+      cosmosvaloper…r123 
     </router-link-stub>
     <i
       class="material-icons notranslate arrow"
@@ -34,7 +33,7 @@ exports[`BeginRedelegateMessageDetails renders a redelegate transaction message 
     </i>
      
     <router-link-stub
-      to="staking/validators/cosmos2"
+      to="staking/validators/cosmosvaloper456"
     >
       <!---->
       
@@ -50,7 +49,8 @@ exports[`BeginRedelegateMessageDetails renders a redelegate transaction message 
       class="amount"
     >
       
-      10,000 ATOM
+      10 
+      ATOM
     
     </p>
   </div>
