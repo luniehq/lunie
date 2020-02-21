@@ -3,16 +3,10 @@
     <TransactionIcon :transaction-type="type" />
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
-      <span>With&nbsp;</span>
-      <router-link :to="`/staking/validators/${transaction.details.to[0]}`">
-        <img
-          v-if="validator && validator.picture"
-          :src="validator.picture"
-          class="validator-image"
-          :alt="`validator logo for ` + validator.name"
-        />
-        {{ transaction.details.to[0] | resolveValidatorName(validators) }}
-      </router-link>
+      <span>On&nbsp;</span>
+      <router-link :to="`/proposals/${transaction.details.proposalId}`"
+        >Proposal &#35;{{ transaction.details.proposalId }}</router-link
+      >
     </div>
     <div class="tx__content__right">
       <p class="amount">
@@ -25,14 +19,12 @@
 
 <script>
 import { prettyLong } from "scripts/num.js"
-import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
-  name: `delegate-message-details`,
+  name: `deposit-tx-details`,
   filters: {
-    prettyLong,
-    resolveValidatorName
+    prettyLong
   },
   components: {
     TransactionIcon
@@ -49,13 +41,8 @@ export default {
   },
   data: () => {
     return {
-      type: `Staked`,
-      caption: `Staked`
-    }
-  },
-  computed: {
-    validator() {
-      return this.validators[this.transaction.details.to[0]] || false
+      type: `Deposit`,
+      caption: `Deposit`
     }
   }
 }

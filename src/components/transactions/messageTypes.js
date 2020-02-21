@@ -6,7 +6,7 @@ const messageType = {
   SUBMIT_PROPOSAL: "SubmitProposalTx",
   DEPOSIT: "DepositTx",
   VOTE: "VoteTx",
-  WITHDRAW_DELEGATION_REWARD: "ClaimRewardsTx"
+  CLAIM_REWARDS: "ClaimRewardsTx"
 }
 
 const transactionGroup = {
@@ -17,7 +17,7 @@ const transactionGroup = {
   [messageType.SUBMIT_PROPOSAL]: "governance",
   [messageType.DEPOSIT]: "governance",
   [messageType.VOTE]: "governance",
-  [messageType.WITHDRAW_DELEGATION_REWARD]: "staking"
+  [messageType.CLAIM_REWARDS]: "staking"
 }
 
 const getTransactionGroup = group => transactionGroup[group]

@@ -77,21 +77,21 @@ export default {
     messageTypeComponent: function() {
       switch (this.transaction.type) {
         case messageType.SEND:
-          return `send-message-details`
+          return `send-tx-details`
         case messageType.STAKE:
-          return `delegate-message-details`
+          return `stake-tx-details`
         case messageType.UNSTAKE:
-          return `undelegate-message-details`
+          return `unstake-tx-details`
         case messageType.RESTAKE:
-          return `begin-redelegate-message-details`
+          return `restake-tx-details`
         case messageType.SUBMIT_PROPOSAL:
-          return `submit-proposal-message-details`
+          return `submit-proposal-tx-details`
         case messageType.DEPOSIT:
-          return `deposit-message-details`
+          return `deposit-tx-details`
         case messageType.VOTE:
-          return `vote-message-details`
-        case messageType.WITHDRAW_DELEGATION_REWARD:
-          return `withdraw-delegation-reward-message-details`
+          return `vote-tx-details`
+        case messageType.CLAIM_REWARDS:
+          return `claim-rewards-tx-details`
         /* istanbul ignore next */
         default:
           return ``

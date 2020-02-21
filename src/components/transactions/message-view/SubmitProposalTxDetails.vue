@@ -19,7 +19,7 @@ import { prettyLong } from "scripts/num.js"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
-  name: `submit-proposal-message-details`,
+  name: `submit-proposal-tx-details`,
   filters: {
     prettyLong
   },

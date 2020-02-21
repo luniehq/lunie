@@ -31,7 +31,7 @@ import Bech32 from "common/Bech32"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
-  name: `send-message-details`,
+  name: `send-tx-details`,
   filters: {
     prettyLong
   },

@@ -18,7 +18,7 @@
 import TransactionIcon from "../TransactionIcon"
 
 export default {
-  name: `vote-message-details`,
+  name: `vote-tx-details`,
   components: {
     TransactionIcon
   },

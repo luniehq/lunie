@@ -35,7 +35,7 @@
         </p>
       </div>
     </template>
-    <div
+    <template
       v-if="getValidators && getValidators.length > 1"
       class="validators-images-row"
     >
@@ -78,21 +78,25 @@
           <span v-if="!show" class="multi-claim-reward-show">Show</span>
         </div>
       </div>
-    </div>
+      <div class="tx__content__right">
+        <p class="amount">
+          {{ transaction.details.amount.amount | prettyLong }}&nbsp;
+          {{ transaction.details.amount.denom }}
+        </p>
+      </div>
+    </template>
   </div>
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import { prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 import Avatar from "common/Avatar"
 
 export default {
-  name: `withdraw-delegation-reward-message-details`,
+  name: `claim-rewards-tx-details`,
   filters: {
-    atoms,
-    viewDenom,
     prettyLong,
     resolveValidatorName
   },

@@ -35,16 +35,13 @@
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import { prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
-import { getCoin } from "scripts/transaction-utils"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
-  name: `begin-redelegate-message-details`,
+  name: `restake-tx-details`,
   filters: {
-    atoms,
-    viewDenom,
     prettyLong,
     resolveValidatorName
   },
@@ -68,9 +65,6 @@ export default {
     }
   },
   computed: {
-    coin() {
-      return getCoin(this.transaction)
-    },
     sourceValidator() {
       return this.validators[this.transaction.details.from[0]] || false
     },
