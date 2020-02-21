@@ -54,3 +54,13 @@ export function toMicroDenom(denom) {
   }
   return lookup[denom] ? lookup[denom] : denom.toLowerCase()
 }
+
+export function gasPricesDictionary(denom) {
+  const lookup = {
+    ATOM: "6.5e-9",
+    MUON: "6.5e-9",
+    LUNA: "6.5e-9",
+    NGM: "4e-7"
+  }
+  return lookup[denom] || `6.5e-9`
+}
