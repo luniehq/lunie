@@ -213,4 +213,18 @@ describe(`TmSessionSignIn`, () => {
       testnet: true
     })
   })
+
+  it(`checks that the address is valid address of the network and selects testnet if testnet is set to true`, () => {
+    const self = {
+      addressPrefixes,
+      testnet: true,
+      signInAddress: addresses[0]
+    }
+    const signInNetwork = TmSessionSignIn.computed.networkOfAddress.call(self)
+    expect(signInNetwork).toEqual({
+      address_prefix: "cosmos",
+      id: "cosmos-hub-testnet",
+      testnet: true
+    })
+  })
 })
