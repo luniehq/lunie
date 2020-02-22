@@ -19,20 +19,24 @@
                 {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
               </h2>
             </div>
-            <TmFormGroup
-              v-if="balances && balances.length > 1"
-              class="currency-selector"
-              field-id="currency"
-              field-label="Currency"
-            >
-              <TmField
-                v-model="selectedFiatCurrency"
-                :title="`Select your fiat currency`"
-                :options="fiatCurrencies"
-                :placeholder="selectedFiatCurrency"
-                type="select"
+            <div class="currency-selector">
+              <img
+                class="currency-flag"
+                :src="
+                  '/img/icons/currencies/' +
+                    selectedFiatCurrency.toLowerCase() +
+                    '.png'
+                "
+                alt="USA flag"
               />
-            </TmFormGroup>
+              <select v-model="selectedFiatCurrency">
+                <option>EUR</option>
+                <option>USD</option>
+                <option>GBP</option>
+                <option>JPY</option>
+                <option>CHF</option>
+              </select>
+            </div>
             <button
               v-if="
                 connection.network === 'cosmos-hub-mainnet' ||
@@ -183,7 +187,6 @@ import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
-import TmFormGroup from "common/TmFormGroup"
 import TmField from "src/components/common/TmField"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
@@ -196,7 +199,6 @@ export default {
     SendModal,
     ModalWithdrawRewards,
     ModalTutorial,
-    TmFormGroup,
     TmField
   },
   filters: {
@@ -518,6 +520,28 @@ export default {
 }
 </script>
 <style scoped>
+select {
+  background: var(--input-bg);
+  color: var(--txt, #333);
+  border: none;
+}
+
+select option {
+  background: var(--app-bg);
+  color: var(--txt);
+  font-family: var(--sans);
+}
+
+.currency-flag {
+  width: 15px;
+  margin-right: 3px;
+}
+
+.currency-selector {
+  display: flex;
+  align-items: center;
+}
+
 .balance-header {
   display: flex;
   flex-direction: column;
@@ -545,12 +569,6 @@ export default {
 .available-atoms,
 .rewards {
   padding-right: 2.5rem;
-}
-
-.currency-selector.tm-form-group {
-  position: absolute;
-  right: 1.25rem;
-  top: -0.7rem;
 }
 
 p.rewards {
@@ -660,11 +678,6 @@ p.rewards {
   .total-atoms {
     padding: 1rem 0;
     text-align: center;
-  }
-
-  .currency-selector.tm-form-group {
-    width: 40px;
-    right: 2.5rem;
   }
 
   .single-denom-rewards {
