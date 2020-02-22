@@ -50,3 +50,35 @@ describe(`TransactionItem`, () => {
     })
   }
 })
+
+// // Will break other tests
+// jest.mock(`src/../config.js`, () => ({
+//   isExtension: true
+// }))
+
+// describe(`TransactionItem with isExtension as true`, () => {
+//   let wrapper
+//   let txs = [
+//     {
+//       type: `MsgSend`
+//     }
+//   ]
+//   const event = {
+//     target: {
+//       className: `tx__content__left`
+//     }
+//   }
+//   it(`doesn't flip show value if extension is set to true`, () => {
+//     wrapper = shallowMount(TransactionItem, {
+//       propsData: {
+//         transaction: txs[0],
+//         validators: {},
+//         show: false
+//       }
+//     })
+//     wrapper.vm.toggleDetail(event)
+//     // TODO: Cannot test this because of jest.mock of the config module breaking all other tests here
+//     // expect(wrapper.vm.show).toBe(false)
+//     expect(wrapper.vm.show).toBe(true)
+//   })
+// })
