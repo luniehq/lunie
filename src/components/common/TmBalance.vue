@@ -270,27 +270,6 @@ export default {
         balance => !balance.denom.includes(this.stakingDenom)
       )
     },
-    fiatCurrencies() {
-      return [
-        { key: `EUR`, value: `EUR` },
-        { key: `USD`, value: `USD` },
-        { key: `GBP`, value: `GBP` },
-        { key: `CHF`, value: `CHF` },
-        { key: `JPY`, value: `JPY` }
-      ]
-    },
-    fiatSymbolDictionary() {
-      const lookup = {
-        EUR: `€`,
-        USD: `$`,
-        GBP: `£`,
-        CHF: `Fr`,
-        JPY: `¥`
-      }
-      return lookup[this.selectedFiatCurrency]
-        ? lookup[this.selectedFiatCurrency]
-        : `?`
-    },
     getAllDenoms() {
       if (this.balances.length > 0) {
         const balances = this.balances
