@@ -57,7 +57,10 @@
               :class="{ 'single-denom-rewards': !isMultiDenomNetwork }"
             >
               <div class="row">
-                <div v-if="overview.totalStake > 0" class="available-atoms">
+                <div
+                  v-if="overview.totalStake > 0"
+                  class="available-atoms value-div"
+                >
                   <h3>Available {{ stakingDenom }}</h3>
                   <h2>
                     {{
@@ -76,6 +79,19 @@
                           | noBlanks
                       }}
                     </h2>
+                  </div>
+                  <div class="total-fiat-value">
+                    <span class="user-box">{{
+                      bigFigureOrShortDecimals(
+                        balances
+                          .find(({ denom }) => denom === stakingDenom)
+                          .fiatValue.substring(
+                            0,
+                            balances.find(({ denom }) => denom === stakingDenom)
+                              .fiatValue.length - 1
+                          )
+                      ).concat(` ` + selectedFiatCurrency)
+                    }}</span>
                   </div>
                 </div>
 
@@ -100,29 +116,9 @@
 
               <div v-if="isMultiDenomNetwork" class="row values-container">
                 <div
-                  v-if="balances && balances.length > 1"
-                  class="row small-container"
-                >
-                  <div class="col">
-                    <h3>Total Tokens</h3>
-                    <h2>
-                      <TmField
-                        id="balance"
-                        :title="`All your token balances`"
-                        :options="
-                          convertedBalances.length > 1
-                            ? convertedBalances
-                            : concatBalances
-                        "
-                        :placeholder="selectedTokenFiatValue"
-                        type="select"
-                      />
-                    </h2>
-                  </div>
-                </div>
-                <div
                   v-for="balance in filteredMultiDenomBalances"
                   :key="balance.denom"
+                  class="value-div"
                 >
                   <div class="available-atoms">
                     <h3>
@@ -141,6 +137,16 @@
                           | bigFigureOrShortDecimals
                       }}
                     </h2>
+                  </div>
+                  <div class="total-fiat-value">
+                    <span class="user-box">{{
+                      bigFigureOrShortDecimals(
+                        balance.fiatValue.substring(
+                          0,
+                          balance.fiatValue.length - 1
+                        )
+                      ).concat(` ` + selectedFiatCurrency)
+                    }}</span>
                   </div>
                 </div>
               </div>
@@ -187,7 +193,6 @@ import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
-import TmField from "src/components/common/TmField"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
@@ -198,8 +203,7 @@ export default {
     TmBtn,
     SendModal,
     ModalWithdrawRewards,
-    ModalTutorial,
-    TmField
+    ModalTutorial
   },
   filters: {
     bigFigureOrShortDecimals,
@@ -339,6 +343,7 @@ export default {
     }
   },
   methods: {
+    bigFigureOrShortDecimals,
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
@@ -540,6 +545,33 @@ select option {
 .currency-selector {
   display: flex;
   align-items: center;
+}
+
+.total-fiat-value {
+  min-width: 30px;
+  margin-top: 0.25rem;
+}
+
+.user-box {
+  font-size: 12px;
+  margin-right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--bc);
+  color: var(--link);
+  border-radius: 1.25rem;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.user-box:hover {
+  color: var(--link-hover);
+}
+
+.value-div {
+  border: 1px solid var(--primary-alpha);
+  padding: 5px;
+  margin-right: 10px;
+  border-radius: 5px;
 }
 
 .balance-header {
