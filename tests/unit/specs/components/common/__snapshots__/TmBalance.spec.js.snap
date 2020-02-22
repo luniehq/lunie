@@ -28,6 +28,38 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
             </h2>
           </div>
            
+          <div
+            class="currency-selector"
+          >
+            <img
+              alt="USA flag"
+              class="currency-flag"
+              src="/img/icons/currencies/eur.png"
+            />
+             
+            <select>
+              <option>
+                EUR
+              </option>
+               
+              <option>
+                USD
+              </option>
+               
+              <option>
+                GBP
+              </option>
+               
+              <option>
+                JPY
+              </option>
+               
+              <option>
+                CHF
+              </option>
+            </select>
+          </div>
+           
           <button
             class="tutorial-button"
           >
@@ -41,7 +73,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
           class="scroll"
         >
           <div
-            class="row lower-header scroll-item single-denom-rewards"
+            class="row lower-header scroll-item"
           >
             <div
               class="row"
@@ -51,7 +83,49 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
               <!---->
             </div>
              
-            <!---->
+            <div
+              class="row values-container"
+            >
+              <div
+                class="value-div"
+              >
+                <div
+                  class="available-atoms"
+                >
+                  <h3>
+                    
+                    TOKEN1
+                  
+                  </h3>
+                   
+                  <h2>
+                    
+                    2
+                  
+                  </h2>
+                </div>
+                 
+                <div
+                  class="rewards multi-denom"
+                >
+                  <h2>
+                    
+                    +4.5
+                  
+                  </h2>
+                </div>
+                 
+                <div
+                  class="total-fiat-value"
+                >
+                  <span
+                    class="user-box"
+                  >
+                    1.5 EUR
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -75,7 +149,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     </div>
      
     <sendmodal-stub
-      denoms="ATOM"
+      denoms="ATOM,TOKEN1"
     />
      
     <modalwithdrawrewards-stub />
@@ -113,6 +187,38 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             </h2>
           </div>
            
+          <div
+            class="currency-selector"
+          >
+            <img
+              alt="USA flag"
+              class="currency-flag"
+              src="/img/icons/currencies/eur.png"
+            />
+             
+            <select>
+              <option>
+                EUR
+              </option>
+               
+              <option>
+                USD
+              </option>
+               
+              <option>
+                GBP
+              </option>
+               
+              <option>
+                JPY
+              </option>
+               
+              <option>
+                CHF
+              </option>
+            </select>
+          </div>
+           
           <button
             class="tutorial-button"
           >
@@ -126,13 +232,13 @@ exports[`TmBalance show the balance header when signed in 1`] = `
           class="scroll"
         >
           <div
-            class="row lower-header scroll-item single-denom-rewards"
+            class="row lower-header scroll-item"
           >
             <div
               class="row"
             >
               <div
-                class="available-atoms"
+                class="available-atoms value-div"
               >
                 <h3>
                   Available ATOM
@@ -147,26 +253,70 @@ exports[`TmBalance show the balance header when signed in 1`] = `
                 <div
                   class="rewards multi-denom"
                 >
-                  <!---->
+                  <h2>
+                    
+                    +1,000.45
+                  
+                  </h2>
+                </div>
+                 
+                <div
+                  class="total-fiat-value"
+                >
+                  <span
+                    class="user-box"
+                  >
+                    33 EUR
+                  </span>
                 </div>
               </div>
                
-              <div
-                class="rewards"
-              >
-                <h3>
-                  Total Rewards
-                </h3>
-                 
-                <h2>
-                  
-                  +1,000.45
-                
-                </h2>
-              </div>
+              <!---->
             </div>
              
-            <!---->
+            <div
+              class="row values-container"
+            >
+              <div
+                class="value-div"
+              >
+                <div
+                  class="available-atoms"
+                >
+                  <h3>
+                    
+                    TOKEN1
+                  
+                  </h3>
+                   
+                  <h2>
+                    
+                    2
+                  
+                  </h2>
+                </div>
+                 
+                <div
+                  class="rewards multi-denom"
+                >
+                  <h2>
+                    
+                    +4.5
+                  
+                  </h2>
+                </div>
+                 
+                <div
+                  class="total-fiat-value"
+                >
+                  <span
+                    class="user-box"
+                  >
+                    1.5 EUR
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -189,7 +339,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     </div>
      
     <sendmodal-stub
-      denoms="ATOM"
+      denoms="ATOM,TOKEN1"
     />
      
     <modalwithdrawrewards-stub />
