@@ -45,7 +45,10 @@
           class="multi-claim-reward-row"
           :class="{ validatorsToggle: showValidators }"
         >
-          <div v-for="validator in getValidators" :key="validator.name">
+          <div
+            v-for="(validator, index) in getValidators"
+            :key="validator.name.concat(`-${index}`)"
+          >
             <router-link
               :to="`/staking/validators/${validator.operatorAddress}`"
               class="validator-link"
