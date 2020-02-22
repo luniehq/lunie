@@ -215,7 +215,6 @@ export default {
       stakingDenom: "",
       sentToGA: false,
       balances: [],
-      selectedTokenFiatValue: `Tokens Total Fiat Value`,
       selectedFiatCurrency: `EUR`, // EUR is our default fiat currency,
       showTutorial: false,
       rewards: [],
@@ -270,36 +269,6 @@ export default {
       return this.balances.filter(
         balance => !balance.denom.includes(this.stakingDenom)
       )
-    },
-    concatBalances() {
-      let balancesArray = []
-      if (this.balances.length > 1) {
-        balancesArray = this.balances
-          .filter(balance => !balance.denom.includes(this.stakingDenom))
-          .map(({ denom, amount }) => ({
-            value: ``,
-            key: denom.concat(
-              ` `,
-              bigFigureOrShortDecimals(parseFloat(amount)),
-              ` `,
-              this.fiatSymbolDictionary
-            )
-          }))
-      }
-      return balancesArray
-    },
-    convertedBalances() {
-      return this.balances
-        .filter(balance => !balance.denom.includes(this.stakingDenom))
-        .map(({ denom, fiatValue }) => ({
-          value: ``,
-          key: denom.concat(
-            ` `,
-            bigFigureOrShortDecimals(parseFloat(fiatValue)),
-            ` `,
-            this.fiatSymbolDictionary
-          )
-        }))
     },
     fiatCurrencies() {
       return [
