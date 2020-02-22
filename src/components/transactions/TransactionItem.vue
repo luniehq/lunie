@@ -25,6 +25,7 @@
 <script>
 import { messageType } from "./messageTypes.js"
 import TransactionMetadata from "./TransactionMetadata"
+import config from "src/../config"
 import Bech32 from "common/Bech32"
 
 import {
@@ -73,7 +74,8 @@ export default {
     }
   },
   data: () => ({
-    show: false
+    show: false,
+    isExtension: config.isExtension
   }),
   computed: {
     messageTypeComponent: function() {
@@ -107,7 +109,9 @@ export default {
   },
   methods: {
     toggleDetail(event) {
-      if (event.target.className !== `address`) {
+      if (this.isExtension) {
+        return
+      } else if (event.target.className !== `address`) {
         this.show = !this.show
       }
     }
