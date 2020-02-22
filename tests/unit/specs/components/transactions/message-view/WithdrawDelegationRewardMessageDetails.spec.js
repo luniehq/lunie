@@ -49,7 +49,7 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
       propsData: {
         transaction: tx,
         validators: validators,
-        show: false
+        showValidators: false
       },
       stubs: [`router-link`]
     })
@@ -61,7 +61,7 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
       propsData: {
         transaction: tx,
         validators: validators,
-        show: false
+        showValidators: false
       },
       stubs: [`router-link`]
     })
@@ -93,7 +93,7 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
       propsData: {
         transaction: multiTx,
         validators: validators,
-        show: false
+        showValidators: false
       },
       stubs: [`router-link`]
     })
@@ -119,7 +119,7 @@ describe(`WithdrawalDelegationRewardMessageDetails`, () => {
       propsData: {
         transaction: tx,
         validators: validators,
-        show: false
+        showValidators: false
       },
       stubs: [`router-link`]
     })

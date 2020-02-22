@@ -41,7 +41,10 @@
     >
       <div class="tx__content__left multi-claim-reward-row">
         <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
-        <div class="multi-claim-reward-row" :class="{ validatorsToggle: show }">
+        <div
+          class="multi-claim-reward-row"
+          :class="{ validatorsToggle: showValidators }"
+        >
           <div v-for="validator in getValidators" :key="validator.name">
             <router-link
               :to="`/staking/validators/${validator.operatorAddress}`"
@@ -56,7 +59,7 @@
                   alt="generic validator logo - generated avatar from address"
                   :address="validator.operatorAddress"
                 />
-                <span v-if="show" class="validator-span">{{
+                <span v-if="showValidators" class="validator-span">{{
                   validator.operatorAddress | resolveValidatorName(validators)
                 }}</span>
               </div>
@@ -69,13 +72,15 @@
                   class="validator-image"
                   :alt="`validator logo for ` + validator.name"
                 />
-                <span v-if="show" class="validator-span">{{
+                <span v-if="showValidators" class="validator-span">{{
                   validator.operatorAddress | resolveValidatorName(validators)
                 }}</span>
               </div>
             </router-link>
           </div>
-          <span v-if="!show" class="multi-claim-reward-show">Show</span>
+          <span v-if="!showValidators" class="multi-claim-reward-show"
+            >Show</span
+          >
         </div>
       </div>
     </div>
@@ -109,7 +114,7 @@ export default {
       type: Object,
       required: true
     },
-    show: {
+    showValidators: {
       type: Boolean,
       required: true
     }

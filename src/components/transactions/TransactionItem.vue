@@ -6,7 +6,7 @@
         :transaction="transaction"
         :validators="validators"
         :session-address="address"
-        :show="show"
+        :show-validators="showValidators"
       />
       <div class="toggle" :class="{ up: show }">
         <i class="material-icons notranslate toggle-icon">
@@ -75,6 +75,7 @@ export default {
   },
   data: () => ({
     show: false,
+    showValidators: false,
     isExtension: config.isExtension
   }),
   computed: {
@@ -110,9 +111,11 @@ export default {
   methods: {
     toggleDetail(event) {
       if (this.isExtension) {
+        this.showValidators = !this.showValidators
         return
       } else if (event.target.className !== `address`) {
         this.show = !this.show
+        this.showValidators = !this.showValidators
       }
     }
   }
