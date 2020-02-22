@@ -19,6 +19,20 @@
                 {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
               </h2>
             </div>
+            <TmFormGroup
+              v-if="balances && balances.length > 1"
+              class="currency-selector"
+              field-id="currency"
+              field-label="Currency"
+            >
+              <TmField
+                v-model="selectedFiatCurrency"
+                :title="`Select your fiat currency`"
+                :options="fiatCurrencies"
+                :placeholder="selectedFiatCurrency"
+                type="select"
+              />
+            </TmFormGroup>
             <button
               v-if="
                 connection.network === 'cosmos-hub-mainnet' ||
@@ -81,6 +95,27 @@
               </div>
 
               <div v-if="isMultiDenomNetwork" class="row values-container">
+                <div
+                  v-if="balances && balances.length > 1"
+                  class="row small-container"
+                >
+                  <div class="col">
+                    <h3>Total Tokens</h3>
+                    <h2>
+                      <TmField
+                        id="balance"
+                        :title="`All your token balances`"
+                        :options="
+                          convertedBalances.length > 1
+                            ? convertedBalances
+                            : concatBalances
+                        "
+                        :placeholder="selectedTokenFiatValue"
+                        type="select"
+                      />
+                    </h2>
+                  </div>
+                </div>
                 <div
                   v-for="balance in filteredMultiDenomBalances"
                   :key="balance.denom"
@@ -147,9 +182,11 @@ import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
+import ModalTutorial from "common/ModalTutorial"
+import TmFormGroup from "common/TmFormGroup"
+import TmField from "src/components/common/TmField"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
-import ModalTutorial from "common/ModalTutorial"
 import { sendEvent } from "scripts/google-analytics"
 
 export default {
@@ -158,7 +195,9 @@ export default {
     TmBtn,
     SendModal,
     ModalWithdrawRewards,
-    ModalTutorial
+    ModalTutorial,
+    TmFormGroup,
+    TmField
   },
   filters: {
     bigFigureOrShortDecimals,
@@ -171,7 +210,7 @@ export default {
       sentToGA: false,
       balances: [],
       selectedTokenFiatValue: `Tokens Total Fiat Value`,
-      selectedFiatCurrency: `EUR`, // EUR is our default fiat currency
+      selectedFiatCurrency: `EUR`, // EUR is our default fiat currency,
       showTutorial: false,
       rewards: [],
       cosmosTokensTutorial: {
@@ -233,7 +272,12 @@ export default {
           .filter(balance => !balance.denom.includes(this.stakingDenom))
           .map(({ denom, amount }) => ({
             value: ``,
-            key: denom.concat(` ` + amount)
+            key: denom.concat(
+              ` `,
+              bigFigureOrShortDecimals(parseFloat(amount)),
+              ` `,
+              this.fiatSymbolDictionary
+            )
           }))
       }
       return balancesArray
@@ -243,7 +287,12 @@ export default {
         .filter(balance => !balance.denom.includes(this.stakingDenom))
         .map(({ denom, fiatValue }) => ({
           value: ``,
-          key: denom.concat(` ` + fiatValue)
+          key: denom.concat(
+            ` `,
+            bigFigureOrShortDecimals(parseFloat(fiatValue)),
+            ` `,
+            this.fiatSymbolDictionary
+          )
         }))
     },
     fiatCurrencies() {
@@ -254,6 +303,18 @@ export default {
         { key: `CHF`, value: `CHF` },
         { key: `JPY`, value: `JPY` }
       ]
+    },
+    fiatSymbolDictionary() {
+      const lookup = {
+        EUR: `€`,
+        USD: `$`,
+        GBP: `£`,
+        CHF: `Fr`,
+        JPY: `¥`
+      }
+      return lookup[this.selectedFiatCurrency]
+        ? lookup[this.selectedFiatCurrency]
+        : `?`
     },
     getAllDenoms() {
       if (this.balances.length > 0) {
@@ -486,6 +547,12 @@ export default {
   padding-right: 2.5rem;
 }
 
+.currency-selector.tm-form-group {
+  position: absolute;
+  right: 1.25rem;
+  top: -0.7rem;
+}
+
 p.rewards {
   color: var(--success);
   font-size: var(--s);
@@ -593,6 +660,11 @@ p.rewards {
   .total-atoms {
     padding: 1rem 0;
     text-align: center;
+  }
+
+  .currency-selector.tm-form-group {
+    width: 40px;
+    right: 2.5rem;
   }
 
   .single-denom-rewards {
