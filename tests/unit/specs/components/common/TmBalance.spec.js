@@ -55,19 +55,7 @@ describe(`TmBalance`, () => {
             denom: `TOKEN1`
           }
         ]
-      },
-      balances: [
-        {
-          amount: 1,
-          denom: "ATOM",
-          fiatValue: `33€`
-        },
-        {
-          amount: 2,
-          denom: "TOKEN1",
-          fiatValue: `1.5€`
-        }
-      ]
+      }
     })
   })
 
@@ -135,11 +123,13 @@ describe(`TmBalance`, () => {
       balances: [
         {
           amount: 1,
-          denom: `TOKEN1`
+          denom: "ATOM",
+          fiatValue: `33€`
         },
         {
           amount: 2,
-          denom: `utoken2`
+          denom: "TOKEN1",
+          fiatValue: `1.5€`
         }
       ]
     })

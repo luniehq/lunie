@@ -81,7 +81,7 @@
                     </h2>
                   </div>
                   <div class="total-fiat-value">
-                    <span class="user-box">{{
+                    <span v-if="isMultiDenomNetwork" class="user-box">{{
                       bigFigureOrShortDecimals(
                         balances
                           .find(({ denom }) => denom === stakingDenom)
