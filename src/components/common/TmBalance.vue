@@ -81,17 +81,18 @@
                     </h2>
                   </div>
                   <div class="total-fiat-value">
-                    <span v-if="isMultiDenomNetwork" class="user-box">{{
-                      bigFigureOrShortDecimals(
-                        balances
-                          .find(({ denom }) => denom === stakingDenom)
-                          .fiatValue.substring(
-                            0,
-                            balances.find(({ denom }) => denom === stakingDenom)
-                              .fiatValue.length - 1
-                          )
-                      ).concat(` ` + selectedFiatCurrency)
-                    }}</span>
+                    <span
+                      v-if="
+                        isMultiDenomNetwork &&
+                          removeLastCharacter(stakingBalance.fiatValue) > 0
+                      "
+                      class="user-box"
+                      >{{
+                        bigFigureOrShortDecimals(
+                          removeLastCharacter(stakingBalance.fiatValue)
+                        ).concat(` ` + selectedFiatCurrency)
+                      }}</span
+                    >
                   </div>
                 </div>
 
@@ -138,13 +139,13 @@
                       }}
                     </h2>
                   </div>
-                  <div class="total-fiat-value">
-                    <span class="user-box">{{
+                  <div
+                    v-if="removeLastCharacter(balance.fiatValue) > 0"
+                    class="total-fiat-value user-box"
+                  >
+                    <span>{{
                       bigFigureOrShortDecimals(
-                        balance.fiatValue.substring(
-                          0,
-                          balance.fiatValue.length - 1
-                        )
+                        removeLastCharacter(balance.fiatValue)
                       ).concat(` ` + selectedFiatCurrency)
                     }}</span>
                   </div>
@@ -188,6 +189,7 @@
 </template>
 <script>
 import { bigFigureOrShortDecimals } from "scripts/num"
+import { removeLastCharacter } from "src/scripts/common"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
@@ -265,6 +267,9 @@ export default {
     readyToWithdraw() {
       return this.overview.totalRewards > 0
     },
+    stakingBalance() {
+      return this.balances.find(({ denom }) => denom === this.stakingDenom)
+    },
     filteredMultiDenomBalances() {
       return this.balances.filter(
         balance => !balance.denom.includes(this.stakingDenom)
@@ -292,6 +297,7 @@ export default {
   },
   methods: {
     bigFigureOrShortDecimals,
+    removeLastCharacter,
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },

@@ -64,3 +64,7 @@ export function gasPricesDictionary(denom) {
   }
   return lookup[denom] || `6.5e-9`
 }
+
+export function removeLastCharacter(string) {
+  return string.substring(0, string.length - 1)
+}
