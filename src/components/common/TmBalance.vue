@@ -358,6 +358,7 @@ export default {
           )
           this.sentToGA = true
         }
+        // sending to ga only once
         if (!data.overview) {
           return {
             totalRewards: 0

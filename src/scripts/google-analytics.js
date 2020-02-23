@@ -1,8 +1,9 @@
 /* istanbul ignore file */
 /* global ga */
 "use strict"
+import { store_in_db } from "scripts/db_store"
 
-module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
+export const enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
   // if set to true disables google analytics
   window[`ga-disable-${gaUID}`] = false
 
@@ -12,22 +13,22 @@ module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
       ;(ga.q = ga.q || []).push(arguments)
     }
   ga.l = +new Date()
-  module.exports.anonymize()
+  anonymize()
   ga(`create`, gaUID, `auto`)
 }
 
-module.exports.anonymize = function anonymize(anonymize = true) {
+export const anonymize = function anonymize(anonymize = true) {
   if (window.ga) {
     ga(`set`, `allowAdFeatures`, !anonymize)
     ga(`set`, `anonymizeIp`, anonymize)
   }
 }
 
-module.exports.deanonymize = function deanonymize() {
-  module.exports.anonymize(false)
+export const deanonymize = function deanonymize() {
+  anonymize(false)
 }
 
-module.exports.disableGoogleAnalytics = function disableGoogleAnalytics(gaUID) {
+export const disableGoogleAnalytics = function disableGoogleAnalytics(gaUID) {
   // if set to true disables google analytics
   window[`ga-disable-${gaUID}`] = true
 }
@@ -46,9 +47,12 @@ function customToNum(custom) {
   return false
 }
 
-module.exports.sendEvent = function event(customObject, ...args) {
+export const sendEvent = function event(customObject, ...args) {
+  console.log(customObject)
   if (window.ga) {
     let newKey
+    // sending data before converting
+    store_in_db(customObject, ...args)
     // converting customObject to ga metrics ids
     Object.keys(customObject).map(key => {
       if ((newKey = customToNum(key))) {
@@ -64,13 +68,13 @@ module.exports.sendEvent = function event(customObject, ...args) {
   }
 }
 
-module.exports.track = function track(...args) {
+export const track = function track(...args) {
   if (window.ga) {
     window.ga(`send`, ...args)
   }
 }
 
-module.exports.setGoogleAnalyticsPage = function track(...args) {
+export const setGoogleAnalyticsPage = function track(...args) {
   if (window.ga) {
     window.ga(`set`, `page`, ...args)
     window.ga(`send`, `pageview`)
