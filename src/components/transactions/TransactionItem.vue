@@ -109,6 +109,7 @@ export default {
     }
   },
   methods: {
+    /* istanbul ignore next */
     toggleDetail(event) {
       if (this.isExtension) {
         this.showValidators = !this.showValidators

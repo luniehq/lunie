@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionItem Let's do this TransactionItem with isExtension as false renders a MsgBeginRedelegate transaction item 1`] = `
+exports[`TransactionItem renders a MsgBeginRedelegate transaction item 1`] = `
 <div
   class="tx-container"
 >
@@ -26,7 +26,7 @@ exports[`TransactionItem Let's do this TransactionItem with isExtension as false
 </div>
 `;
 
-exports[`TransactionItem Let's do this TransactionItem with isExtension as false renders a MsgDelegate transaction item 1`] = `
+exports[`TransactionItem renders a MsgDelegate transaction item 1`] = `
 <div
   class="tx-container"
 >
@@ -52,7 +52,7 @@ exports[`TransactionItem Let's do this TransactionItem with isExtension as false
 </div>
 `;
 
-exports[`TransactionItem Let's do this TransactionItem with isExtension as false renders a MsgDeposit transaction item 1`] = `
+exports[`TransactionItem renders a MsgDeposit transaction item 1`] = `
 <div
   class="tx-container"
 >
@@ -78,7 +78,7 @@ exports[`TransactionItem Let's do this TransactionItem with isExtension as false
 </div>
 `;
 
-exports[`TransactionItem Let's do this TransactionItem with isExtension as false renders a MsgMultiSend transaction item 1`] = `
+exports[`TransactionItem renders a MsgMultiSend transaction item 1`] = `
 <div
   class="tx-container"
 >
@@ -104,7 +104,7 @@ exports[`TransactionItem Let's do this TransactionItem with isExtension as false
 </div>
 `;
 
-exports[`TransactionItem Let's do this TransactionItem with isExtension as false renders a MsgSend transaction item 1`] = `
+exports[`TransactionItem renders a MsgSend transaction item 1`] = `
 <div
   class="tx-container"
 >
@@ -130,7 +130,7 @@ exports[`TransactionItem Let's do this TransactionItem with isExtension as false
 </div>
 `;
 
-exports[`TransactionItem Let's do this TransactionItem with isExtension as false renders a MsgSubmitProposal transaction item 1`] = `
+exports[`TransactionItem renders a MsgSubmitProposal transaction item 1`] = `
 <div
   class="tx-container"
 >
@@ -156,7 +156,7 @@ exports[`TransactionItem Let's do this TransactionItem with isExtension as false
 </div>
 `;
 
-exports[`TransactionItem Let's do this TransactionItem with isExtension as false renders a MsgUndelegate transaction item 1`] = `
+exports[`TransactionItem renders a MsgUndelegate transaction item 1`] = `
 <div
   class="tx-container"
 >
@@ -182,7 +182,7 @@ exports[`TransactionItem Let's do this TransactionItem with isExtension as false
 </div>
 `;
 
-exports[`TransactionItem Let's do this TransactionItem with isExtension as false renders a MsgVote transaction item 1`] = `
+exports[`TransactionItem renders a MsgVote transaction item 1`] = `
 <div
   class="tx-container"
 >
@@ -208,7 +208,7 @@ exports[`TransactionItem Let's do this TransactionItem with isExtension as false
 </div>
 `;
 
-exports[`TransactionItem Let's do this TransactionItem with isExtension as false renders a MsgWithdrawDelegationReward transaction item 1`] = `
+exports[`TransactionItem renders a MsgWithdrawDelegationReward transaction item 1`] = `
 <div
   class="tx-container"
 >
