@@ -21,14 +21,14 @@
             </div>
             <div v-if="isMultiDenomNetwork" class="currency-selector">
               <img
-                v-if="selectedFiatCurrency"
+                v-if="preferredCurrency"
                 class="currency-flag"
                 :src="
                   '/img/icons/currencies/' +
-                    selectedFiatCurrency.toLowerCase() +
+                    preferredCurrency.toLowerCase() +
                     '.png'
                 "
-                :alt="`${selectedFiatCurrency}` + ' currency'"
+                :alt="`${preferredCurrency}` + ' currency'"
               />
               <img
                 v-else
@@ -36,14 +36,24 @@
                 src="/img/icons/currencies/EUR.png"
                 alt="EUR currency"
               />
-              <select v-model="selectedFiatCurrency">
+              <select
+                v-model="selectedFiatCurrency"
+                @change="setPreferredCurrency()"
+              >
                 <option
-                  v-if="selectedFiatCurrency === ''"
+                  v-if="!preferredCurrency || preferredCurrency === ''"
                   value=""
                   disabled
-                  selected
+                  :selected="!preferredCurrency || preferredCurrency === ''"
                   hidden
                   >Select your fiat currency</option
+                >
+                <option
+                  v-if="preferredCurrency"
+                  value=""
+                  :selected="preferredCurrency"
+                  hidden
+                  >{{ preferredCurrency }}</option
                 >
                 <option value="EUR">EUR</option>
                 <option value="USD">USD</option>
@@ -100,14 +110,13 @@
                       v-if="
                         isMultiDenomNetwork &&
                           removeLastCharacter(stakingBalance.fiatValue) > 0 &&
-                          selectedFiatCurrency &&
                           preferredCurrency
                       "
                       class="fiat-value-box"
                       >{{
                         bigFigureOrShortDecimals(
                           removeLastCharacter(stakingBalance.fiatValue)
-                        ).concat(` ` + selectedFiatCurrency)
+                        ).concat(` ` + preferredCurrency)
                       }}</span
                     >
                   </div>
@@ -159,7 +168,6 @@
                   <div
                     v-if="
                       removeLastCharacter(balance.fiatValue) > 0 &&
-                        selectedFiatCurrency &&
                         preferredCurrency
                     "
                     class="total-fiat-value fiat-value-box"
@@ -167,7 +175,7 @@
                     <span>{{
                       bigFigureOrShortDecimals(
                         removeLastCharacter(balance.fiatValue)
-                      ).concat(` ` + selectedFiatCurrency)
+                      ).concat(` ` + preferredCurrency)
                     }}</span>
                   </div>
                 </div>
@@ -241,7 +249,7 @@ export default {
       balances: [],
       showTutorial: false,
       rewards: [],
-      selectedFiatCurrency: ``,
+      selectedFiatCurrency: "",
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -317,18 +325,16 @@ export default {
       }
     },
     preferredCurrency() {
-      return localStorage.preferredCurrency
+      return localStorage.getItem(`preferredCurrency`)
     }
   },
-  watch: {
-    selectedFiatCurrency: {
-      handler() {
-        localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
-        this.$apollo.queries.balances.refetch()
-        console.log(localStorage)
-      }
-    }
-  },
+  // watch: {
+  //   selectedFiatCurrency: {
+  //     handler() {
+  //       console.log('HIIIII')
+  //     }
+  //   }
+  // },
   methods: {
     bigFigureOrShortDecimals,
     removeLastCharacter,
@@ -354,6 +360,12 @@ export default {
           })
         return rewardsAccumulator
       }
+    },
+    setPreferredCurrency() {
+      localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
+      console.log(localStorage.preferredCurrency)
+      // this is not working. Currency flag doesn't update
+      // this.$forceUpdate()
     },
     clearStorage() {
       localStorage.clear()
