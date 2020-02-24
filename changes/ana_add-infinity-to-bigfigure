@@ -1,0 +1,1 @@
+[Changed] [#3582](https://github.com/cosmos/lunie/pull/3582) Adds a return infinity symbol case in the bigFigure filter when number is over 99 T @Bitcoinera
