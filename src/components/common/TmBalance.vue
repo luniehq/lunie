@@ -21,20 +21,26 @@
             </div>
             <div v-if="isMultiDenomNetwork" class="currency-selector">
               <img
+                v-if="selectedFiatCurrency"
                 class="currency-flag"
                 :src="
-                  selectedFiatCurrency
-                    ? '/img/icons/currencies/' +
-                      selectedFiatCurrency.toLowerCase() +
-                      '.png'
-                    : '/img/icons/currencies/EUR.png'
+                  '/img/icons/currencies/' +
+                    selectedFiatCurrency.toLowerCase() +
+                    '.png'
                 "
                 :alt="`${selectedFiatCurrency}` + ' currency'"
               />
+              <img
+                v-else
+                class="currency-flag"
+                src="/img/icons/currencies/EUR.png"
+                alt="EUR currency"
+              />
               <select
                 v-model="selectedFiatCurrency"
-                :change="setAsPreferredFiatCurrency()"
+                @change="setAsPreferredFiatCurrency()"
               >
+                <option>Select your fiat currency</option>
                 <option>EUR</option>
                 <option>USD</option>
                 <option>GBP</option>
@@ -89,7 +95,9 @@
                     <span
                       v-if="
                         isMultiDenomNetwork &&
-                          removeLastCharacter(stakingBalance.fiatValue) > 0
+                          removeLastCharacter(stakingBalance.fiatValue) > 0 &&
+                          selectedFiatCurrency &&
+                          preferredCurrency
                       "
                       class="fiat-value-box"
                       >{{
@@ -120,10 +128,7 @@
                 </div>
               </div>
 
-              <div
-                v-if="isMultiDenomNetwork && preferredCurrency"
-                class="row values-container"
-              >
+              <div v-if="isMultiDenomNetwork" class="row values-container">
                 <div
                   v-for="balance in filteredMultiDenomBalances"
                   :key="balance.denom"
@@ -148,7 +153,11 @@
                     </h2>
                   </div>
                   <div
-                    v-if="removeLastCharacter(balance.fiatValue) > 0"
+                    v-if="
+                      removeLastCharacter(balance.fiatValue) > 0 &&
+                        selectedFiatCurrency &&
+                        preferredCurrency
+                    "
                     class="total-fiat-value fiat-value-box"
                   >
                     <span>{{
