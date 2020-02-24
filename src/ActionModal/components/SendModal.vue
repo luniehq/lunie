@@ -101,9 +101,23 @@
         class="tm-form-msg--desc max-message"
       />
     </TmFormGroup>
-    <a v-if="editMemo === false" id="edit-memo-btn" @click="showMemo()">
-      Need to edit the memo field?
-    </a>
+    <div v-if="editMemo === false">
+      <div class="warning">
+        <span
+          ><span class="warning-header"
+            ><i class="warning-symbol material-icons notranslate">warning</i
+            >WARNING:&nbsp;</span
+          >if you are sending to an exchange you will probably need to edit the
+          memo field. Otherwise <u>you won't receive your funds</u></span
+        >
+      </div>
+      <div class="memo-div warning">
+        <i class="material-icons notranslate">arrow_forward</i>
+        <a id="edit-memo-btn" @click="showMemo()">
+          Need to edit the memo field?
+        </a>
+      </div>
+    </div>
     <TmFormGroup
       v-else
       id="memo"
@@ -383,10 +397,33 @@ export default {
 }
 </script>
 <style scoped>
+.memo-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
 #edit-memo-btn {
-  margin-top: 2.4rem;
-  font-size: 12px;
+  font-size: 15px;
+  font-weight: bold;
   cursor: pointer;
+  margin-left: 0.5rem;
+}
+.warning {
+  font-size: var(--m);
+  font-weight: 500;
+  color: var(--danger);
+  font-style: italic;
+}
+.warning-header {
+  font-weight: bold;
+  font-style: normal;
+}
+.warning-symbol {
+  position: relative;
+  top: 3px;
+  margin-right: 3px;
 }
 .tm-field-addon {
   border-right: 0;
