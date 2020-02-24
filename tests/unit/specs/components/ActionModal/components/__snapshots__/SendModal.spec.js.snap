@@ -76,9 +76,8 @@ exports[`SendModal should display send modal form 1`] = `
           </i>
           WARNING: 
         </span>
-        if you are sending to an
-        exchange you will probably need to edit the memo field. Otherwise
-        
+        if you are sending to an exchange you will probably need to edit the
+        memo field. Otherwise 
         <u>
           you won't receive your funds
         </u>
@@ -189,9 +188,8 @@ exports[`SendModal validation should show address required error 1`] = `
           </i>
           WARNING: 
         </span>
-        if you are sending to an
-        exchange you will probably need to edit the memo field. Otherwise
-        
+        if you are sending to an exchange you will probably need to edit the
+        memo field. Otherwise 
         <u>
           you won't receive your funds
         </u>
@@ -302,9 +300,8 @@ exports[`SendModal validation should show bech32 error when address length is to
           </i>
           WARNING: 
         </span>
-        if you are sending to an
-        exchange you will probably need to edit the memo field. Otherwise
-        
+        if you are sending to an exchange you will probably need to edit the
+        memo field. Otherwise 
         <u>
           you won't receive your funds
         </u>
@@ -415,9 +412,8 @@ exports[`SendModal validation should show bech32 error when address length is to
           </i>
           WARNING: 
         </span>
-        if you are sending to an
-        exchange you will probably need to edit the memo field. Otherwise
-        
+        if you are sending to an exchange you will probably need to edit the
+        memo field. Otherwise 
         <u>
           you won't receive your funds
         </u>
@@ -531,9 +527,8 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
           </i>
           WARNING: 
         </span>
-        if you are sending to an
-        exchange you will probably need to edit the memo field. Otherwise
-        
+        if you are sending to an exchange you will probably need to edit the
+        memo field. Otherwise 
         <u>
           you won't receive your funds
         </u>
