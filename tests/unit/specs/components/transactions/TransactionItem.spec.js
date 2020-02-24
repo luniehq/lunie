@@ -75,9 +75,7 @@ describe(`TransactionItem`, () => {
         }
       })
       wrapper.vm.toggleDetail(event)
-      // TODO: Cannot test this because of jest.mock of the config module breaking all other tests here
-      // expect(wrapper.vm.show).toBe(false)
-      expect(wrapper.vm.show).toBe(true)
+      expect(wrapper.vm.show).toBe(false)
     })
   })
 })
