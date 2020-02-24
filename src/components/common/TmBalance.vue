@@ -36,10 +36,7 @@
                 src="/img/icons/currencies/EUR.png"
                 alt="EUR currency"
               />
-              <select
-                v-model="selectedFiatCurrency"
-                @change="setAsPreferredFiatCurrency()"
-              >
+              <select v-model="selectedFiatCurrency">
                 <option>Select your fiat currency</option>
                 <option>EUR</option>
                 <option>USD</option>
@@ -237,6 +234,7 @@ export default {
       balances: [],
       showTutorial: false,
       rewards: [],
+      selectedFiatCurrency: ``,
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -314,6 +312,18 @@ export default {
     preferredCurrency() {
       return localStorage.preferredCurrency
     }
+    // selectedFiatCurrency() {
+    //   return this.preferredCurrency ? this.preferredCurrency : ''
+    // }
+  },
+  watch: {
+    selectedFiatCurrency: {
+      handler() {
+        localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
+        this.$apollo.queries.balances.refetch()
+        console.log(localStorage)
+      }
+    }
   },
   methods: {
     bigFigureOrShortDecimals,
@@ -340,10 +350,6 @@ export default {
           })
         return rewardsAccumulator
       }
-    },
-    setAsPreferredFiatCurrency() {
-      localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
-      console.log(localStorage)
     },
     clearStorage() {
       localStorage.clear()
@@ -446,7 +452,7 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          fiatCurrency: this.selectedFiatCurrency
+          fiatCurrency: this.selectedFiatCurrency || "EUR"
         }
       },
       /* istanbul ignore next */
