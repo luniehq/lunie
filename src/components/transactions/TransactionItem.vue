@@ -110,11 +110,11 @@ export default {
   },
   methods: {
     /* istanbul ignore next */
-    toggleDetail(event) {
+    toggleDetail() {
       if (this.isExtension) {
         this.showValidators = !this.showValidators
         return
-      } else if (event.target.className !== `address`) {
+      } else {
         this.show = !this.show
         this.showValidators = !this.showValidators
       }
