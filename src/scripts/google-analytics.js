@@ -48,7 +48,6 @@ function customToNum(custom) {
 }
 
 export const sendEvent = function event(customObject, ...args) {
-  console.log(customObject)
   if (window.ga) {
     let newKey
     // sending data before converting
