@@ -19,17 +19,22 @@
                 {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
               </h2>
             </div>
-            <div class="currency-selector">
+            <div v-if="isMultiDenomNetwork" class="currency-selector">
               <img
                 class="currency-flag"
                 :src="
-                  '/img/icons/currencies/' +
-                    selectedFiatCurrency.toLowerCase() +
-                    '.png'
+                  selectedFiatCurrency
+                    ? '/img/icons/currencies/' +
+                      selectedFiatCurrency.toLowerCase() +
+                      '.png'
+                    : '/img/icons/currencies/EUR.png'
                 "
                 :alt="`${selectedFiatCurrency}` + ' currency'"
               />
-              <select v-model="selectedFiatCurrency">
+              <select
+                v-model="selectedFiatCurrency"
+                :change="setAsPreferredFiatCurrency()"
+              >
                 <option>EUR</option>
                 <option>USD</option>
                 <option>GBP</option>
@@ -115,7 +120,10 @@
                 </div>
               </div>
 
-              <div v-if="isMultiDenomNetwork" class="row values-container">
+              <div
+                v-if="isMultiDenomNetwork && preferredCurrency"
+                class="row values-container"
+              >
                 <div
                   v-for="balance in filteredMultiDenomBalances"
                   :key="balance.denom"
@@ -169,6 +177,7 @@
           value="Claim Rewards"
           @click.native="readyToWithdraw && onWithdrawal()"
         />
+        <button @click="clearStorage()">Clear Storage</button>
       </div>
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
@@ -217,7 +226,6 @@ export default {
       stakingDenom: "",
       sentToGA: false,
       balances: [],
-      selectedFiatCurrency: `EUR`, // EUR is our default fiat currency,
       showTutorial: false,
       rewards: [],
       cosmosTokensTutorial: {
@@ -293,6 +301,9 @@ export default {
       } else {
         return false
       }
+    },
+    preferredCurrency() {
+      return localStorage.preferredCurrency
     }
   },
   methods: {
@@ -320,6 +331,13 @@ export default {
           })
         return rewardsAccumulator
       }
+    },
+    setAsPreferredFiatCurrency() {
+      localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
+      console.log(localStorage)
+    },
+    clearStorage() {
+      localStorage.clear()
     }
   },
   apollo: {
