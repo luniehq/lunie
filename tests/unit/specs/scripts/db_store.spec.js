@@ -41,7 +41,7 @@ describe(`Statistics modules`, () => {
         })
       }
       store_in_db(customObject, `Category`, `Action`, `Label`, `Value`)
-      expect(fetch).toHaveBeenCalledWith(`api/stat/store`, options)
+      expect(fetch).toHaveBeenCalledWith(`api/stats/store`, options)
     })
   })
 })
