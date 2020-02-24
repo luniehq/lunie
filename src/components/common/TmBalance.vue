@@ -27,7 +27,7 @@
                     selectedFiatCurrency.toLowerCase() +
                     '.png'
                 "
-                alt="USA flag"
+                :alt="`${selectedFiatCurrency}` + ' currency'"
               />
               <select v-model="selectedFiatCurrency">
                 <option>EUR</option>
@@ -59,7 +59,7 @@
               <div class="row">
                 <div
                   v-if="overview.totalStake > 0"
-                  class="available-atoms value-div"
+                  class="available-atoms currency-div"
                 >
                   <h3>Available {{ stakingDenom }}</h3>
                   <h2>
@@ -86,7 +86,7 @@
                         isMultiDenomNetwork &&
                           removeLastCharacter(stakingBalance.fiatValue) > 0
                       "
-                      class="user-box"
+                      class="fiat-value-box"
                       >{{
                         bigFigureOrShortDecimals(
                           removeLastCharacter(stakingBalance.fiatValue)
@@ -119,7 +119,7 @@
                 <div
                   v-for="balance in filteredMultiDenomBalances"
                   :key="balance.denom"
-                  class="value-div"
+                  class="currency-div"
                 >
                   <div class="available-atoms">
                     <h3>
@@ -141,7 +141,7 @@
                   </div>
                   <div
                     v-if="removeLastCharacter(balance.fiatValue) > 0"
-                    class="total-fiat-value user-box"
+                    class="total-fiat-value fiat-value-box"
                   >
                     <span>{{
                       bigFigureOrShortDecimals(
@@ -492,8 +492,8 @@ select option {
 }
 
 .currency-flag {
-  width: 15px;
-  margin-right: 3px;
+  width: 1rem;
+  margin-right: 0.25rem;
 }
 
 .currency-selector {
@@ -502,11 +502,11 @@ select option {
 }
 
 .total-fiat-value {
-  min-width: 30px;
+  min-width: 2rem;
   margin-top: 0.25rem;
 }
 
-.user-box {
+.fiat-value-box {
   font-size: 12px;
   margin-right: 0.5rem;
   padding: 0.25rem 0.5rem;
@@ -517,15 +517,15 @@ select option {
   cursor: pointer;
 }
 
-.user-box:hover {
+.fiat-value-box:hover {
   color: var(--link-hover);
 }
 
-.value-div {
+.currency-div {
   border: 1px solid var(--primary-alpha);
-  padding: 5px;
-  margin-right: 10px;
-  border-radius: 5px;
+  padding: 0.25rem;
+  margin-right: 0.5rem;
+  border-radius: 0.25rem;
 }
 
 .balance-header {

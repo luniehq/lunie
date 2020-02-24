@@ -32,7 +32,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
             class="currency-selector"
           >
             <img
-              alt="USA flag"
+              alt="EUR currency"
               class="currency-flag"
               src="/img/icons/currencies/eur.png"
             />
@@ -149,7 +149,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             class="currency-selector"
           >
             <img
-              alt="USA flag"
+              alt="EUR currency"
               class="currency-flag"
               src="/img/icons/currencies/eur.png"
             />
@@ -196,7 +196,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
               class="row"
             >
               <div
-                class="available-atoms value-div"
+                class="available-atoms currency-div"
               >
                 <h3>
                   Available ATOM
