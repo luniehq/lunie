@@ -37,12 +37,19 @@
                 alt="EUR currency"
               />
               <select v-model="selectedFiatCurrency">
-                <option>Select your fiat currency</option>
-                <option>EUR</option>
-                <option>USD</option>
-                <option>GBP</option>
-                <option>JPY</option>
-                <option>CHF</option>
+                <option
+                  v-if="selectedFiatCurrency === ''"
+                  value=""
+                  disabled
+                  selected
+                  hidden
+                  >Select your fiat currency</option
+                >
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+                <option value="GBP">GBP</option>
+                <option value="JPY">JPY</option>
+                <option value="CHF">CHF</option>
               </select>
             </div>
             <button
@@ -312,9 +319,6 @@ export default {
     preferredCurrency() {
       return localStorage.preferredCurrency
     }
-    // selectedFiatCurrency() {
-    //   return this.preferredCurrency ? this.preferredCurrency : ''
-    // }
   },
   watch: {
     selectedFiatCurrency: {
