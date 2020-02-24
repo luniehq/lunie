@@ -21,7 +21,7 @@ export const store_in_db = (customObject, ...args) => {
       }
     })
   }
-  return fetch(`${graphqlHost}/stat/store`, options).then(result =>
+  return fetch(`${graphqlHost}/stats/store`, options).then(result =>
     result.json()
   )
 }
