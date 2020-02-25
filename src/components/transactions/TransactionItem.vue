@@ -106,9 +106,10 @@ export default {
     }
   },
   methods: {
-    /* istanbul ignore next */
-    toggleDetail() {
-      this.show = !this.show
+    toggleDetail(event) {
+      if (event.target.className !== `address`) {
+        this.show = !this.show
+      }
     }
   }
 }
