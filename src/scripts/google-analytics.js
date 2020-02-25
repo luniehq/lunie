@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 /* global ga */
 "use strict"
-import { store_in_db } from "scripts/db_store"
+import { uploadStatistics } from "scripts/upload-statistics"
 
 export const enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
   // if set to true disables google analytics
@@ -51,7 +51,7 @@ export const sendEvent = function event(customObject, ...args) {
   if (window.ga) {
     let newKey
     // sending data before converting
-    store_in_db(customObject, ...args)
+    uploadStatistics(customObject, ...args)
     // converting customObject to ga metrics ids
     Object.keys(customObject).map(key => {
       if ((newKey = customToNum(key))) {

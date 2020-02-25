@@ -1,7 +1,7 @@
 import browserID from "browser-id"
 import { getGraphqlHost } from "scripts/url"
 
-export const store_in_db = (customObject, ...args) => {
+export const uploadStatistics = (customObject, ...args) => {
   const graphqlHost = getGraphqlHost()
   const options = {
     method: "POST",

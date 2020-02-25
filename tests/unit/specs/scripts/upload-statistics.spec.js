@@ -6,7 +6,7 @@ jest.mock(`browser-id`, () => ({
   default: jest.fn(() => "browserid-uuid"),
   __esModule: true
 }))
-import { store_in_db } from "scripts/db_store.js"
+import { uploadStatistics } from "scripts/upload-statistics.js"
 
 const mockFetch = jest.fn(() =>
   Promise.resolve({
@@ -40,7 +40,7 @@ describe(`Statistics modules`, () => {
           }
         })
       }
-      store_in_db(customObject, `Category`, `Action`, `Label`, `Value`)
+      uploadStatistics(customObject, `Category`, `Action`, `Label`, `Value`)
       expect(fetch).toHaveBeenCalledWith(`api/stats/store`, options)
     })
   })
