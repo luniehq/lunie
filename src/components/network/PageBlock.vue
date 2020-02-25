@@ -172,11 +172,13 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network
         }
       },
+      /* istanbul ignore next */
       update: function(result) {
         return result.validators
       }
@@ -197,15 +199,18 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
           height: Number(this.height)
         }
       },
+      /* istanbul ignore next */
       update: function(result) {
         return result.blockV2
       },
+      /* istanbul ignore next */
       result({ error }) {
         // TODO move logic of 404 into API
         this.error = error
