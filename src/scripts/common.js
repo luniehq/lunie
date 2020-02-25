@@ -64,10 +64,3 @@ export function gasPricesDictionary(denom) {
   }
   return lookup[denom] || `6.5e-9`
 }
-
-export function removeSymbolFromFiatValue(string) {
-  // hack until #360 is not merged
-  return !isNaN(string.charAt(string.length - 1))
-    ? string.substring(0, string.length - 1)
-    : string.substring(0, string.length - 2)
-}

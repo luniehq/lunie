@@ -109,14 +109,13 @@
                     <span
                       v-if="
                         isMultiDenomNetwork &&
-                          removeSymbolFromFiatValue(stakingBalance.fiatValue) >
-                            0 &&
+                          stakingBalance.fiatValue.amount > 0 &&
                           preferredCurrency()
                       "
                       class="fiat-value-box"
                       >{{
                         bigFigureOrShortDecimals(
-                          removeSymbolFromFiatValue(stakingBalance.fiatValue)
+                          stakingBalance.fiatValue.amount
                         ).concat(` ` + preferredCurrency())
                       }}</span
                     >
@@ -167,16 +166,13 @@
                     </h2>
                   </div>
                   <div
-                    v-if="
-                      removeSymbolFromFiatValue(balance.fiatValue) > 0 &&
-                        preferredCurrency()
-                    "
+                    v-if="balance.fiatValue.amount > 0 && preferredCurrency()"
                     class="total-fiat-value fiat-value-box"
                   >
                     <span>{{
-                      bigFigureOrShortDecimals(
-                        removeSymbolFromFiatValue(balance.fiatValue)
-                      ).concat(` ` + preferredCurrency())
+                      bigFigureOrShortDecimals(balance.fiatValue.amount).concat(
+                        ` ` + preferredCurrency()
+                      )
                     }}</span>
                   </div>
                 </div>
@@ -219,7 +215,6 @@
 </template>
 <script>
 import { bigFigureOrShortDecimals } from "scripts/num"
-import { removeSymbolFromFiatValue } from "src/scripts/common"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
@@ -327,7 +322,6 @@ export default {
   },
   methods: {
     bigFigureOrShortDecimals,
-    removeSymbolFromFiatValue,
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
@@ -446,7 +440,9 @@ export default {
           ) {
             denom
             amount
-            fiatValue
+            fiatValue {
+              amount
+            }
           }
         }
       `,
