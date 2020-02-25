@@ -8,7 +8,7 @@
         :session-address="address"
         :show="show"
       />
-      <div class="toggle" :class="{ up: show }">
+      <div v-if="!isExtension" class="toggle" :class="{ up: show }">
         <i class="material-icons notranslate toggle-icon">keyboard_arrow_down</i>
       </div>
     </div>
