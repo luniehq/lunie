@@ -375,9 +375,13 @@ describe(`ActionModal`, () => {
     })
 
     it(`should set the step to transaction details`, () => {
+      wrapper.vm.actionManager = {
+        cancel: jest.fn()
+      }
       wrapper.vm.step = `sign`
       wrapper.vm.close()
       expect(wrapper.vm.step).toBe(`details`)
+      expect(wrapper.vm.actionManager.cancel).toHaveBeenCalled()
     })
 
     it(`should close on escape key press`, () => {

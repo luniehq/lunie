@@ -580,6 +580,10 @@ export default {
     },
     close() {
       if (config.isMobileApp) noScroll.off()
+      if (this.step == "sign") {
+        // remove the request from any sign method to avoid orphaned transactions in the sign methods
+        this.actionManager.cancel(this.context, this.selectedSignMethod)
+      }
       this.$store.commit(`setCurrrentModalOpen`, false)
       this.submissionError = null
       this.password = null

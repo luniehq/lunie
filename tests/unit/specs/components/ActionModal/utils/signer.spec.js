@@ -1,7 +1,7 @@
 import config from "src/../config"
 
 describe("pick signer", () => {
-  let getSigner
+  let getSigner, cancelSign
   beforeEach(() => {
     jest.resetModules()
     jest.doMock("@lunie/cosmos-keys", () => ({
@@ -33,15 +33,25 @@ describe("pick signer", () => {
       signWithExtension: jest.fn(() => ({
         signature: Buffer.alloc(0),
         publicKey: Buffer.alloc(0)
-      }))
+      })),
+      cancelSignWithExtension: jest.fn(() => true)
     }))
 
     const signer = require("src/ActionModal/utils/signer.js")
     getSigner = signer.getSigner
+    cancelSign = signer.cancelSign
   })
 
   it("should should exist", () => {
     expect(getSigner).toBeDefined()
+  })
+  it("should call cancelSignWithExtension for an extension", async () => {
+    const { cancelSignWithExtension } = require(`scripts/extension-utils`)
+    await cancelSign(`extension`, {
+      address: "",
+      password: "1234567890"
+    })
+    expect(cancelSignWithExtension).toHaveBeenCalled()
   })
   it("should pick a local signer", async () => {
     const signer = await getSigner(config, "local", {
