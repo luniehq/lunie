@@ -98,7 +98,8 @@ describe(`PageTransactions`, () => {
         loading: false
       },
       transactions: {
-        loading: false
+        loading: false,
+        variables: jest.fn()
       }
     }
   }
@@ -170,6 +171,7 @@ describe(`PageTransactions`, () => {
     $store.state.session.address = undefined
   })
 
+  // it doesn't work, actually
   it(`should load more transactions (infinite scrolling)`, async () => {
     wrapper = shallowMount(PageTransactions, {
       localVue,
@@ -183,6 +185,24 @@ describe(`PageTransactions`, () => {
     })
     wrapper.setData({ showing: 2 })
     wrapper.vm.loadMore()
+  })
+
+  it(`should load more transactions on loadMore action`, async () => {
+    wrapper = shallowMount(PageTransactions, {
+      localVue,
+      mocks: {
+        $store,
+        $apollo
+      },
+      directives: {
+        infiniteScroll: () => {}
+      }
+    })
+    // setting showing to big number
+    wrapper.setData({ showing: 100, lastLoadedRecordsCount: 1 })
+    wrapper.vm.loadMore()
+    // pageNumber should be updated
+    expect(wrapper.vm.pageNumber).toBeGreaterThan(0)
   })
 
   it(`validator address map to be correct`, async () => {

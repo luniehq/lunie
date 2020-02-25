@@ -53,7 +53,7 @@ export default {
   },
   data: () => ({
     showing: 15,
-    block: 0,
+    pageNumber: 0,
     validators: [],
     transactions: [],
     loadedTransactions: [],
@@ -84,7 +84,7 @@ export default {
         this.lastLoadedRecordsCount
       ) {
         // loads new portion
-        this.block++
+        this.pageNumber++
       }
     },
     handleIntercom() {
@@ -118,7 +118,7 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          block: this.block
+          pageNumber: this.pageNumber
         }
       },
       update(result) {
