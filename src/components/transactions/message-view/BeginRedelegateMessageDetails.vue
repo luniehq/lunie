@@ -1,6 +1,7 @@
 <template>
   <div class="tx__content">
     <TransactionIcon
+      v-if="!extension"
       :transaction-group="transaction.group"
       :transaction-type="type"
     />
@@ -68,6 +69,10 @@ export default {
     },
     validators: {
       type: Object,
+      required: true
+    },
+    extension: {
+      type: Boolean,
       required: true
     }
   },

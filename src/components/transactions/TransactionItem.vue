@@ -7,9 +7,12 @@
         :validators="validators"
         :session-address="address"
         :show="show"
+        :extension="isExtension"
       />
       <div v-if="!isExtension" class="toggle" :class="{ up: show }">
-        <i class="material-icons notranslate toggle-icon">keyboard_arrow_down</i>
+        <i class="material-icons notranslate toggle-icon"
+          >keyboard_arrow_down</i
+        >
       </div>
     </div>
     <transition v-if="!isExtension" name="slide-out">
@@ -21,10 +24,10 @@
 </template>
 
 <script>
-import { messageType } from './messageTypes.js'
-import TransactionMetadata from './TransactionMetadata'
-import config from 'src/../config'
-import Bech32 from 'common/Bech32'
+import { messageType } from "./messageTypes.js"
+import TransactionMetadata from "./TransactionMetadata"
+import config from "src/../config"
+import Bech32 from "common/Bech32"
 
 import {
   SendMessageDetails,
@@ -36,7 +39,7 @@ import {
   VoteMessageDetails,
   BeginRedelegateMessageDetails,
   WithdrawDelegationRewardMessageDetails
-} from './message-view'
+} from "./message-view"
 
 export default {
   name: `tx-item`,
@@ -78,7 +81,7 @@ export default {
   computed: {
     messageTypeComponent: function() {
       // TODO this only works for Cosmos networks. This whole logic will change with: https://github.com/luniehq/lunie-api/issues/259
-      const typeOfTransaction = this.transaction.type.split('/')[1] // removed prefix to be compatible across networks (gaia and emoney have different prefixes)
+      const typeOfTransaction = this.transaction.type.split("/")[1] // removed prefix to be compatible across networks (gaia and emoney have different prefixes)
       // TODO Could improve this using dynamic loading.
       switch (typeOfTransaction) {
         case messageType.SEND:

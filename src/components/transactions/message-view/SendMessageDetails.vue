@@ -1,6 +1,7 @@
 <template>
   <div class="tx__content">
     <TransactionIcon
+      v-if="!extension"
       :transaction-group="transaction.group"
       :transaction-type="type"
     />
@@ -59,6 +60,10 @@ export default {
       type: String,
       required: false,
       default: null
+    },
+    extension: {
+      type: Boolean,
+      required: true
     }
   },
   computed: {
