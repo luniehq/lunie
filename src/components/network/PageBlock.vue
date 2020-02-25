@@ -58,6 +58,79 @@ import gql from "graphql-tag"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import TmDataMsg from "common/TmDataMsg"
+
+const transactionV2Fields = `
+  type
+  hash
+  height
+  timestamp
+  memo
+  success
+  fees {
+    denom
+    amount
+  }
+  details {
+    ... on SendTx {
+      from
+      to
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on StakeTx {
+      to
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on RestakeTx {
+      to
+      from
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on UnstakeTx {
+      from
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on ClaimRewardsTx {
+      from
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on SubmitProposalTx {
+      proposalType
+      proposalTitle
+      proposalDescription
+      initialDeposit {
+        denom
+        amount
+      }
+    }
+    ... on VoteTx {
+      proposalId
+      voteOption
+    }
+    ... on DepositTx {
+      proposalId
+      amount {
+        denom
+        amount
+      }
+    }
+  }
+`
+
 export default {
   name: `page-block`,
   components: {
@@ -110,30 +183,15 @@ export default {
     },
     block: {
       query: gql`
-        query block($networkId: String!, $height: Int!) {
-          block(networkId: $networkId, height: $height) {
+        query blockV2($networkId: String!, $height: Int!) {
+          blockV2(networkId: $networkId, height: $height) {
             networkId
             height
             hash
             chainId
             time
             transactions {
-              type
-              hash
-              height
-              group
-              timestamp
-              gasUsed
-              gasWanted
-              success
-              log
-              memo
-              fee {
-                amount
-                denom
-              }
-              signature
-              value
+              ${transactionV2Fields}
             }
             proposer_address
           }
@@ -146,21 +204,7 @@ export default {
         }
       },
       update: function(result) {
-        if (!result.block) {
-          return {
-            transactions: []
-          }
-        }
-
-        const block = {
-          ...result.block,
-          transactions: result.block.transactions.map(transaction => ({
-            ...transaction,
-            timestamp: new Date(transaction.timestamp),
-            value: JSON.parse(transaction.value)
-          }))
-        }
-        return block
+        return result.blockV2
       },
       result({ error }) {
         // TODO move logic of 404 into API
