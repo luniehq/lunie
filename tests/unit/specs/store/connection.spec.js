@@ -48,12 +48,13 @@ describe(`Module: Connection`, () => {
 
   it(`assigns the user a network if a network was found`, async () => {
     const commit = jest.fn()
+    const dispatch = jest.fn()
     localStorage.setItem(
       JSON.stringify({
         network: `awesomenet`
       })
     )
-    await actions.checkForPersistedNetwork({ commit })
+    await actions.checkForPersistedNetwork({ dispatch, commit })
     expect(commit).toHaveBeenCalledWith(`setNetworkId`, `awesomenet`)
     localStorage.clear()
   })
