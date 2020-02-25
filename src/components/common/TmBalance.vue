@@ -109,13 +109,14 @@
                     <span
                       v-if="
                         isMultiDenomNetwork &&
-                          removeLastCharacter(stakingBalance.fiatValue) > 0 &&
+                          removeSymbolFromFiatValue(stakingBalance.fiatValue) >
+                            0 &&
                           preferredCurrency()
                       "
                       class="fiat-value-box"
                       >{{
                         bigFigureOrShortDecimals(
-                          removeLastCharacter(stakingBalance.fiatValue)
+                          removeSymbolFromFiatValue(stakingBalance.fiatValue)
                         ).concat(` ` + preferredCurrency())
                       }}</span
                     >
@@ -167,14 +168,14 @@
                   </div>
                   <div
                     v-if="
-                      removeLastCharacter(balance.fiatValue) > 0 &&
+                      removeSymbolFromFiatValue(balance.fiatValue) > 0 &&
                         preferredCurrency()
                     "
                     class="total-fiat-value fiat-value-box"
                   >
                     <span>{{
                       bigFigureOrShortDecimals(
-                        removeLastCharacter(balance.fiatValue)
+                        removeSymbolFromFiatValue(balance.fiatValue)
                       ).concat(` ` + preferredCurrency())
                     }}</span>
                   </div>
@@ -218,7 +219,7 @@
 </template>
 <script>
 import { bigFigureOrShortDecimals } from "scripts/num"
-import { removeLastCharacter } from "src/scripts/common"
+import { removeSymbolFromFiatValue } from "src/scripts/common"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
@@ -326,7 +327,7 @@ export default {
   },
   methods: {
     bigFigureOrShortDecimals,
-    removeLastCharacter,
+    removeSymbolFromFiatValue,
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
