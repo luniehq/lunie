@@ -21,14 +21,14 @@
             </div>
             <div v-if="isMultiDenomNetwork" class="currency-selector">
               <img
-                v-if="preferredCurrency"
+                v-if="preferredCurrency()"
                 class="currency-flag"
                 :src="
                   '/img/icons/currencies/' +
-                    preferredCurrency.toLowerCase() +
+                    preferredCurrency().toLowerCase() +
                     '.png'
                 "
-                :alt="`${preferredCurrency}` + ' currency'"
+                :alt="`${preferredCurrency()}` + ' currency'"
               />
               <img
                 v-else
@@ -41,19 +41,19 @@
                 @change="setPreferredCurrency()"
               >
                 <option
-                  v-if="!preferredCurrency || preferredCurrency === ''"
+                  v-if="!preferredCurrency() || preferredCurrency() === ''"
                   value=""
                   disabled
-                  :selected="!preferredCurrency || preferredCurrency === ''"
+                  :selected="!preferredCurrency() || preferredCurrency() === ''"
                   hidden
                   >Select your fiat currency</option
                 >
                 <option
-                  v-if="preferredCurrency"
+                  v-if="preferredCurrency()"
                   value=""
-                  :selected="preferredCurrency"
+                  :selected="preferredCurrency()"
                   hidden
-                  >{{ preferredCurrency }}</option
+                  >{{ preferredCurrency() }}</option
                 >
                 <option value="EUR">EUR</option>
                 <option value="USD">USD</option>
@@ -110,13 +110,13 @@
                       v-if="
                         isMultiDenomNetwork &&
                           removeLastCharacter(stakingBalance.fiatValue) > 0 &&
-                          preferredCurrency
+                          preferredCurrency()
                       "
                       class="fiat-value-box"
                       >{{
                         bigFigureOrShortDecimals(
                           removeLastCharacter(stakingBalance.fiatValue)
-                        ).concat(` ` + preferredCurrency)
+                        ).concat(` ` + preferredCurrency())
                       }}</span
                     >
                   </div>
@@ -168,14 +168,14 @@
                   <div
                     v-if="
                       removeLastCharacter(balance.fiatValue) > 0 &&
-                        preferredCurrency
+                        preferredCurrency()
                     "
                     class="total-fiat-value fiat-value-box"
                   >
                     <span>{{
                       bigFigureOrShortDecimals(
                         removeLastCharacter(balance.fiatValue)
-                      ).concat(` ` + preferredCurrency)
+                      ).concat(` ` + preferredCurrency())
                     }}</span>
                   </div>
                 </div>
@@ -323,9 +323,6 @@ export default {
       } else {
         return false
       }
-    },
-    preferredCurrency() {
-      return localStorage.getItem(`preferredCurrency`)
     }
   },
   // watch: {
@@ -361,11 +358,14 @@ export default {
         return rewardsAccumulator
       }
     },
+    preferredCurrency() {
+      return localStorage.getItem(`preferredCurrency`)
+    },
     setPreferredCurrency() {
       localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
       console.log(localStorage.preferredCurrency)
       // this is not working. Currency flag doesn't update
-      // this.$forceUpdate()
+      this.$forceUpdate()
     },
     clearStorage() {
       localStorage.clear()
