@@ -6,6 +6,7 @@ import ClaimRewardsTxDetails from "./ClaimRewardsTxDetails"
 import SubmitProposalTxDetails from "./SubmitProposalTxDetails"
 import DepositTxDetails from "./DepositTxDetails"
 import VoteTxDetails from "./VoteTxDetails"
+import UnknownTxDetails from "./UnknownTxDetails"
 
 export {
   SendTxDetails,
@@ -15,5 +16,6 @@ export {
   ClaimRewardsTxDetails,
   SubmitProposalTxDetails,
   DepositTxDetails,
-  VoteTxDetails
+  VoteTxDetails,
+  UnknownTxDetails
 }

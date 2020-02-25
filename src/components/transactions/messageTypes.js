@@ -6,7 +6,8 @@ const messageType = {
   SUBMIT_PROPOSAL: "SubmitProposalTx",
   DEPOSIT: "DepositTx",
   VOTE: "VoteTx",
-  CLAIM_REWARDS: "ClaimRewardsTx"
+  CLAIM_REWARDS: "ClaimRewardsTx",
+  UNKNOWN: "UnknownTx"
 }
 
 const transactionGroup = {

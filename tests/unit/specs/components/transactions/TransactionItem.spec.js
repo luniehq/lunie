@@ -37,7 +37,9 @@ describe(`TransactionItem`, () => {
         amount: {
           denom: "ATOM",
           amount: "10"
-        }
+        },
+        blockExplorerLink:
+          "https://awesome.blockexplorer.io/transactions/A0DEB29E97A4DF38289D55D63C5724588985E1D35B26518CB66EAF96CFEF2E04"
       }
     })
     height += offset

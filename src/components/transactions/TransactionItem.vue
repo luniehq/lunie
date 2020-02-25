@@ -35,7 +35,8 @@ import {
   ClaimRewardsTxDetails,
   SubmitProposalTxDetails,
   DepositTxDetails,
-  VoteTxDetails
+  VoteTxDetails,
+  UnknownTxDetails
 } from "./message-view"
 
 export default {
@@ -50,7 +51,8 @@ export default {
     ClaimRewardsTxDetails,
     SubmitProposalTxDetails,
     DepositTxDetails,
-    VoteTxDetails
+    VoteTxDetails,
+    UnknownTxDetails
   },
   props: {
     transaction: {
@@ -92,6 +94,8 @@ export default {
           return `vote-tx-details`
         case messageType.CLAIM_REWARDS:
           return `claim-rewards-tx-details`
+        case messageType.UNKNOWN:
+          return `unknown-tx-details`
         /* istanbul ignore next */
         default:
           return ``
