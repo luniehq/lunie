@@ -198,7 +198,6 @@
           value="Claim Rewards"
           @click.native="readyToWithdraw && onWithdrawal()"
         />
-        <button @click="clearStorage()">Clear Storage</button>
       </div>
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
@@ -325,13 +324,6 @@ export default {
       }
     }
   },
-  // watch: {
-  //   selectedFiatCurrency: {
-  //     handler() {
-  //       console.log('HIIIII')
-  //     }
-  //   }
-  // },
   methods: {
     bigFigureOrShortDecimals,
     removeLastCharacter,
@@ -363,12 +355,6 @@ export default {
     },
     setPreferredCurrency() {
       localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
-      console.log(localStorage.preferredCurrency)
-      // this is not working. Currency flag doesn't update
-      this.$forceUpdate()
-    },
-    clearStorage() {
-      localStorage.clear()
     }
   },
   apollo: {
