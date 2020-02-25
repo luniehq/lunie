@@ -2769,14 +2769,6 @@ brorand@^1.0.1:
   resolved "https://registry.yarnpkg.com/brorand/-/brorand-1.1.0.tgz#12c25efe40a45e3c323eb8675a0a0ce57b22371f"
   integrity sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
 
-browser-id@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/browser-id/-/browser-id-1.1.0.tgz#39383d7ac26fc9f8ea870eea1d62316fccf95577"
-  integrity sha512-MuvthhJ8pDjIYpJzHwYOrlFtTPhEOF3wk9AVvy19pLQwmS/OdGWptuhzjkgLnDJS3WgV2m7bLDvlCwufg1jWBA==
-  dependencies:
-    uuid "^3.3.3"
-    versioned-storage "^1.1.0"
-
 browser-process-hrtime@^0.1.2:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/browser-process-hrtime/-/browser-process-hrtime-0.1.3.tgz#616f00faef1df7ec1b5bf9cfe2bdc3170f26c7b4"
@@ -5419,6 +5411,11 @@ find-up@^4.0.0, find-up@^4.1.0:
   dependencies:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
+
+fingerprintjs2@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/fingerprintjs2/-/fingerprintjs2-2.1.0.tgz#21dc3fee27d3b199056ef8eb873debccd8e06323"
+  integrity sha512-H1k/ESTD2rJ3liupyqWBPjZC+LKfCGixQzz/NDN4dkgbmG1bVFyMOh7luKSkVDoyfhgvRm62pviNMPI+eJTZcQ==
 
 flat-cache@^1.2.1:
   version "1.3.4"
@@ -12457,7 +12454,7 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@^3.0.0, uuid@^3.0.1, uuid@^3.3.2, uuid@^3.3.3:
+uuid@^3.0.0, uuid@^3.0.1, uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
@@ -12493,11 +12490,6 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
-
-versioned-storage@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/versioned-storage/-/versioned-storage-1.1.0.tgz#20fee248bffcdd64bc3412401a1a9c297dbaf4e6"
-  integrity sha512-oS+unMiWJjaVAFCkNJvmHiu6LDb8KrzT8YmfrQpAmn8/yKnW4Roq3lcVMxQofT9Oidqg8oWChbGYl4FGQJyPPg==
 
 vfile-location@^2.0.0:
   version "2.0.6"
