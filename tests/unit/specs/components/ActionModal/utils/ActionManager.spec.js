@@ -1,4 +1,5 @@
 import ActionManager from "src/ActionModal/utils/ActionManager.js"
+import { cancelSign } from "src/ActionModal/utils/signer"
 import { sendTx, withdrawTx } from "./actions"
 
 jest.mock("src/../config.js", () => ({
@@ -50,7 +51,8 @@ jest.mock(`cosmos-apiV2`, () => ({
 }))
 
 jest.mock(`src/ActionModal/utils/signer.js`, () => ({
-  getSigner: jest.fn(() => "signer")
+  getSigner: jest.fn(() => "signer"),
+  cancelSign: jest.fn()
 }))
 
 const mockFetch = jest.fn(() =>
@@ -240,6 +242,20 @@ describe("ActionManager", () => {
         },
         "signer"
       )
+    })
+
+    it("should cancel request", async () => {
+      await actionManager.cancel(
+        {
+          userAddress: `testaddress`,
+          networkId: `testnetwork`
+        },
+        `extension`
+      )
+      expect(cancelSign).toHaveBeenCalledWith(`extension`, {
+        address: `testaddress`,
+        network: `testnetwork`
+      })
     })
 
     it("should estimate via Tx API", async () => {
