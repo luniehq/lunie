@@ -271,23 +271,25 @@ async function fundingTempAccount(browser, networkData) {
       networkData.fundingAmount
     )
     // check if the hash is changed
-    await browser.url(browser.launch_url + "/transactions", async () => {
-      // check if tx shows
-      await waitForText(
-        browser,
-        ".tx:nth-of-type(1) .tx__content .tx__content__left",
-        "Sent"
-      )
-      await waitForText(
-        browser,
-        ".tx:nth-of-type(1) .tx__content .tx__content__right",
-        `${networkData.fundingAmount} ${browser.globals.denom}`
-      )
-      let hash = (await getLastActivityItemHash(browser)).value
-      if (hash == browser.globals.lastHash) {
-        throw new Error(`Hash didn't changed!`)
-      }
-    })
+    await browser.url(browser.launch_url + "/transactions")
+    // check if tx shows
+    // await browser.waitForElementVisible(
+    //   ".tx:nth-of-type(1) .tx__content .tx__content__left"
+    // )
+    await waitForText(
+      browser,
+      ".tx:nth-of-type(1) .tx__content .tx__content__left",
+      "Sent"
+    )
+    await waitForText(
+      browser,
+      ".tx:nth-of-type(1) .tx__content .tx__content__right",
+      `${networkData.fundingAmount} ${browser.globals.denom}`
+    )
+    let hash = (await getLastActivityItemHash(browser)).value
+    if (hash == browser.globals.lastHash) {
+      throw new Error(`Hash didn't changed!`)
+    }
   })
 }
 
