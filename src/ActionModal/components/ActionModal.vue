@@ -288,7 +288,6 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
-import { gasPricesDictionary } from "src/scripts/common"
 import { viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track, sendEvent } from "scripts/google-analytics"
@@ -499,8 +498,11 @@ export default {
     selectedBalance() {
       const defaultBalance = {
         amount: 0,
-        // awful network-specific logic. But how to do it otherwise?
-        gasPrice: gasPricesDictionary(this.getDenom)
+        gasPrice:
+          this.balances.length > 1
+            ? this.balances.find(({ denom }) => denom === this.getDenom)
+                .gasPrice
+            : 0
       }
       if (this.balances.length === 0 || !this.network) {
         return defaultBalance
