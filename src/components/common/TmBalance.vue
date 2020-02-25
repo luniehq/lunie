@@ -21,14 +21,14 @@
             </div>
             <div v-if="isMultiDenomNetwork" class="currency-selector">
               <img
-                v-if="preferredCurrency"
+                v-if="preferredCurrency()"
                 class="currency-flag"
                 :src="
                   '/img/icons/currencies/' +
-                    preferredCurrency.toLowerCase() +
+                    preferredCurrency().toLowerCase() +
                     '.png'
                 "
-                :alt="`${preferredCurrency}` + ' currency'"
+                :alt="`${preferredCurrency()}` + ' currency'"
               />
               <img
                 v-else
@@ -41,19 +41,19 @@
                 @change="setPreferredCurrency()"
               >
                 <option
-                  v-if="!preferredCurrency || preferredCurrency === ''"
+                  v-if="!preferredCurrency() || preferredCurrency() === ''"
                   value=""
                   disabled
-                  :selected="!preferredCurrency || preferredCurrency === ''"
+                  :selected="!preferredCurrency() || preferredCurrency() === ''"
                   hidden
                   >Select your fiat currency</option
                 >
                 <option
-                  v-if="preferredCurrency"
+                  v-if="preferredCurrency()"
                   value=""
-                  :selected="preferredCurrency"
+                  :selected="preferredCurrency()"
                   hidden
-                  >{{ preferredCurrency }}</option
+                  >{{ preferredCurrency() }}</option
                 >
                 <option value="EUR">EUR</option>
                 <option value="USD">USD</option>
@@ -110,13 +110,13 @@
                       v-if="
                         isMultiDenomNetwork &&
                           stakingBalance.fiatValue.amount > 0 &&
-                          preferredCurrency
+                          preferredCurrency()
                       "
                       class="fiat-value-box"
                       >{{
                         bigFigureOrShortDecimals(
                           stakingBalance.fiatValue.amount
-                        ).concat(` ` + preferredCurrency)
+                        ).concat(` ` + preferredCurrency())
                       }}</span
                     >
                   </div>
@@ -166,12 +166,12 @@
                     </h2>
                   </div>
                   <div
-                    v-if="balance.fiatValue.amount > 0 && preferredCurrency"
+                    v-if="balance.fiatValue.amount > 0 && preferredCurrency()"
                     class="total-fiat-value fiat-value-box"
                   >
                     <span>{{
                       bigFigureOrShortDecimals(balance.fiatValue.amount).concat(
-                        ` ` + preferredCurrency
+                        ` ` + preferredCurrency()
                       )
                     }}</span>
                   </div>
@@ -195,7 +195,6 @@
           value="Claim Rewards"
           @click.native="readyToWithdraw && onWithdrawal()"
         />
-        <button @click="clearStorage()">Clear Storage</button>
       </div>
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
@@ -319,18 +318,8 @@ export default {
       } else {
         return false
       }
-    },
-    preferredCurrency() {
-      return localStorage.getItem(`preferredCurrency`)
     }
   },
-  // watch: {
-  //   selectedFiatCurrency: {
-  //     handler() {
-  //       console.log('HIIIII')
-  //     }
-  //   }
-  // },
   methods: {
     bigFigureOrShortDecimals,
     onWithdrawal() {
@@ -356,14 +345,11 @@ export default {
         return rewardsAccumulator
       }
     },
+    preferredCurrency() {
+      return localStorage.getItem(`preferredCurrency`)
+    },
     setPreferredCurrency() {
       localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
-      console.log(localStorage.preferredCurrency)
-      // this is not working. Currency flag doesn't update
-      // this.$forceUpdate()
-    },
-    clearStorage() {
-      localStorage.clear()
     }
   },
   apollo: {

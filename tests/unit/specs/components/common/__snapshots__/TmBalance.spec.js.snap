@@ -28,37 +28,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
             </h2>
           </div>
            
-          <div
-            class="currency-selector"
-          >
-            <img
-              alt="EUR currency"
-              class="currency-flag"
-              src="/img/icons/currencies/eur.png"
-            />
-             
-            <select>
-              <option>
-                EUR
-              </option>
-               
-              <option>
-                USD
-              </option>
-               
-              <option>
-                GBP
-              </option>
-               
-              <option>
-                JPY
-              </option>
-               
-              <option>
-                CHF
-              </option>
-            </select>
-          </div>
+          <!---->
            
           <button
             class="tutorial-button"
@@ -145,37 +115,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             </h2>
           </div>
            
-          <div
-            class="currency-selector"
-          >
-            <img
-              alt="EUR currency"
-              class="currency-flag"
-              src="/img/icons/currencies/eur.png"
-            />
-             
-            <select>
-              <option>
-                EUR
-              </option>
-               
-              <option>
-                USD
-              </option>
-               
-              <option>
-                GBP
-              </option>
-               
-              <option>
-                JPY
-              </option>
-               
-              <option>
-                CHF
-              </option>
-            </select>
-          </div>
+          <!---->
            
           <button
             class="tutorial-button"
