@@ -10,7 +10,6 @@ import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
 
-
 function setOptions(urlParams, store) {
   if (urlParams.experimental) {
     store.commit(`setExperimentalMode`)
