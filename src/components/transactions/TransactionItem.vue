@@ -6,15 +6,13 @@
         :transaction="transaction"
         :validators="validators"
         :session-address="address"
-        :show-validators="showValidators"
+        :show="show"
       />
       <div class="toggle" :class="{ up: show }">
-        <i class="material-icons notranslate toggle-icon">
-          keyboard_arrow_down
-        </i>
+        <i class="material-icons notranslate toggle-icon">keyboard_arrow_down</i>
       </div>
     </div>
-    <transition name="slide-out">
+    <transition v-if="!isExtension" name="slide-out">
       <div v-if="show" class="tx-details">
         <TransactionMetadata v-if="showMetaData" :transaction="transaction" />
       </div>
@@ -23,10 +21,10 @@
 </template>
 
 <script>
-import { messageType } from "./messageTypes.js"
-import TransactionMetadata from "./TransactionMetadata"
-import config from "src/../config"
-import Bech32 from "common/Bech32"
+import { messageType } from './messageTypes.js'
+import TransactionMetadata from './TransactionMetadata'
+import config from 'src/../config'
+import Bech32 from 'common/Bech32'
 
 import {
   SendMessageDetails,
@@ -38,7 +36,7 @@ import {
   VoteMessageDetails,
   BeginRedelegateMessageDetails,
   WithdrawDelegationRewardMessageDetails
-} from "./message-view"
+} from './message-view'
 
 export default {
   name: `tx-item`,
@@ -75,13 +73,12 @@ export default {
   },
   data: () => ({
     show: false,
-    showValidators: false,
     isExtension: config.isExtension
   }),
   computed: {
     messageTypeComponent: function() {
       // TODO this only works for Cosmos networks. This whole logic will change with: https://github.com/luniehq/lunie-api/issues/259
-      const typeOfTransaction = this.transaction.type.split("/")[1] // removed prefix to be compatible across networks (gaia and emoney have different prefixes)
+      const typeOfTransaction = this.transaction.type.split('/')[1] // removed prefix to be compatible across networks (gaia and emoney have different prefixes)
       // TODO Could improve this using dynamic loading.
       switch (typeOfTransaction) {
         case messageType.SEND:
@@ -111,13 +108,7 @@ export default {
   methods: {
     /* istanbul ignore next */
     toggleDetail() {
-      if (this.isExtension) {
-        this.showValidators = !this.showValidators
-        return
-      } else {
-        this.show = !this.show
-        this.showValidators = !this.showValidators
-      }
+      this.show = !this.show
     }
   }
 }
