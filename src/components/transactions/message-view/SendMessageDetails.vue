@@ -63,7 +63,7 @@ export default {
     },
     extension: {
       type: Boolean,
-      required: true
+      default: false
     }
   },
   computed: {
