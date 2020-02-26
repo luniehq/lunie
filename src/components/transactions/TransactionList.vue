@@ -1,7 +1,7 @@
 <template>
   <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
     <template v-for="group in groupedTransactions">
-      <div :key="group[0].title" >
+      <div :key="group[0].title">
         <h3>{{ group[0].title }}</h3>
         <TransactionItem
           v-for="tx in group"

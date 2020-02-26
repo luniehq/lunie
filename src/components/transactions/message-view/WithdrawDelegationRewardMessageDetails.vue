@@ -1,6 +1,9 @@
 <template>
   <div class="tx__content">
-    <TransactionIcon :transaction-group="transaction.group" :transaction-type="type" />
+    <TransactionIcon
+      :transaction-group="transaction.group"
+      :transaction-type="type"
+    />
     <div v-if="getValidators && getValidators.length === 1">
       <div class="tx__content__left">
         <h3>{{ caption }}</h3>
@@ -25,14 +28,17 @@
               :alt="`validator logo for ` + getValidators[0].name"
             />
             {{
-            transaction.value.validator_address
-            | resolveValidatorName(validators)
+              transaction.value.validator_address
+                | resolveValidatorName(validators)
             }}
           </router-link>
         </div>
       </div>
     </div>
-    <div v-if="getValidators && getValidators.length > 1" class="validators-images-row">
+    <div
+      v-if="getValidators && getValidators.length > 1"
+      class="validators-images-row"
+    >
       <div class="tx__content__left multi-claim-reward-row">
         <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
         <div class="multi-claim-reward-row" :class="{ validatorsToggle: show }">
@@ -55,11 +61,14 @@
                 />
                 <span v-if="show" class="validator-span">
                   {{
-                  validator.operatorAddress | resolveValidatorName(validators)
+                    validator.operatorAddress | resolveValidatorName(validators)
                   }}
                 </span>
               </div>
-              <div v-if="validator && validator.picture" class="row-validator-image">
+              <div
+                v-if="validator && validator.picture"
+                class="row-validator-image"
+              >
                 <img
                   :src="validator.picture"
                   class="validator-image"
@@ -67,7 +76,7 @@
                 />
                 <span v-if="show" class="validator-span">
                   {{
-                  validator.operatorAddress | resolveValidatorName(validators)
+                    validator.operatorAddress | resolveValidatorName(validators)
                   }}
                 </span>
               </div>
@@ -81,10 +90,10 @@
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from 'scripts/num.js'
-import { resolveValidatorName } from 'src/filters'
-import TransactionIcon from '../TransactionIcon'
-import Avatar from 'common/Avatar'
+import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import { resolveValidatorName } from "src/filters"
+import TransactionIcon from "../TransactionIcon"
+import Avatar from "common/Avatar"
 
 export default {
   name: `withdraw-delegation-reward-message-details`,
