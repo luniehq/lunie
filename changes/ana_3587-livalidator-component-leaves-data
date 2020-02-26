@@ -1,1 +1,0 @@
-[Fixed] [#3606](https://github.com/cosmos/lunie/pull/3606) Fixes having the rewards from the previous session hanging on TableValidators once the user disconnects @Bitcoinera

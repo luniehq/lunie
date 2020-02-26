@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.166] - 2020-02-26
+
+### Changed
+
+- add fingerprint header to fetch @iambeone
+
+### Fixed
+
+- [#3606](https://github.com/cosmos/lunie/pull/3606) Fixes having the rewards from the previous session hanging on TableValidators once the user disconnects @Bitcoinera
+- Fix publish not triggering as the expected commit message was outdated @faboweb
+- Remove service worker as it produced issues with caching @faboweb
+
 ## [1.0.165] - 2020-02-26
 
 ### Added
