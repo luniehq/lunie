@@ -6,6 +6,7 @@ exports[`ModalPropose should display proposal modal form 1`] = `
   id="modal-propose"
   notifymessage="[object Object]"
   rewards=""
+  selecteddenom=""
   submissionerrorprefix="Submitting proposal failed"
   title="Create Proposal"
   transactiondata="[object Object]"

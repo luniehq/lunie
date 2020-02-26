@@ -41,14 +41,18 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
           class="scroll"
         >
           <div
-            class="row small-container scroll-item"
+            class="row lower-header scroll-item single-denom-rewards"
           >
-            <!---->
+            <div
+              class="row"
+            >
+              <!---->
+               
+              <!---->
+            </div>
              
             <!---->
           </div>
-           
-          <!---->
         </div>
       </div>
     </div>
@@ -122,34 +126,48 @@ exports[`TmBalance show the balance header when signed in 1`] = `
           class="scroll"
         >
           <div
-            class="row small-container scroll-item"
+            class="row lower-header scroll-item single-denom-rewards"
           >
             <div
-              class="available-atoms"
+              class="row"
             >
-              <h3>
-                Available ATOM
-              </h3>
+              <div
+                class="available-atoms"
+              >
+                <h3>
+                  Available ATOM
+                </h3>
+                 
+                <h2>
+                  
+                  1,230
+                
+                </h2>
+                 
+                <div
+                  class="rewards multi-denom"
+                >
+                  <!---->
+                </div>
+              </div>
                
-              <h2>
-                1,230
-              </h2>
+              <div
+                class="rewards"
+              >
+                <h3>
+                  Total Rewards
+                </h3>
+                 
+                <h2>
+                  
+                  +1,000.45
+                
+                </h2>
+              </div>
             </div>
              
-            <div
-              class="rewards"
-            >
-              <h3>
-                Total Rewards
-              </h3>
-               
-              <h2>
-                +1,000.45
-              </h2>
-            </div>
+            <!---->
           </div>
-           
-          <!---->
         </div>
       </div>
     </div>

@@ -58,7 +58,7 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
         class="close-menu"
       >
         <i
-          class="material-icons mobile-menu-action"
+          class="material-icons notranslate mobile-menu-action"
         >
           close
         </i>

@@ -22,7 +22,7 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
       to="/"
     >
       <i
-        class="material-icons"
+        class="material-icons notranslate"
       >
         close
       </i>
@@ -117,7 +117,7 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
       to="/"
     >
       <i
-        class="material-icons"
+        class="material-icons notranslate"
       >
         close
       </i>

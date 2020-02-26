@@ -69,8 +69,12 @@ async function waitForText(
 ) {
   await waitFor(
     async () => {
-      const { value: caption } = await browser.getText(selector)
-      expect(caption).to.include(expectedCaption)
+      await browser.waitForElementVisible(selector, 10000)
+      const result = await browser.getText(selector)
+      console.log(result) // let's check what the property for error is
+      if (!result.errors) {
+        expect(result.value).to.include(expectedCaption)
+      }
     },
     iterations,
     timeout

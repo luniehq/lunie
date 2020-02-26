@@ -7,6 +7,7 @@
     title="Send"
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
+    :selected-denom="selectedToken"
     :notify-message="notifyMessage"
     feature-flag="send"
     @close="clear"
@@ -38,36 +39,12 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="getDenoms.length > 1"
-      :error="$v.selectedToken.$error"
-      class="action-modal-form-group"
-      field-id="selected-token"
-      field-label="Token"
-    >
-      <TmField
-        id="token"
-        v-model="selectedToken"
-        :title="`Select the token you wish to operate with`"
-        :options="getDenoms"
-        placeholder="Select the token"
-        type="select"
-      />
-      <TmFormMsg
-        v-if="$v.selectedToken.$error && !$v.selectedToken.required"
-        name="Token"
-        type="required"
-      />
-    </TmFormGroup>
-    <TmFormGroup
       id="form-group-amount"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       field-label="Amount"
     >
-      <span v-if="selectedToken" class="input-suffix max-button">{{
-        selectedToken
-      }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -77,6 +54,15 @@
           placeholder="0"
           type="number"
           @keyup.enter.native="enterPressed"
+        />
+        <TmField
+          id="token"
+          v-model="selectedToken"
+          :title="`Select the token you wish to operate with`"
+          :options="getDenoms"
+          class="tm-field-token-selector"
+          placeholder="Select the token"
+          type="select"
         />
         <TmBtn
           type="button"
@@ -185,7 +171,7 @@ export default {
     max_memo_characters: 256,
     editMemo: false,
     isFirstLoad: true,
-    selectedToken: ``,
+    selectedToken: undefined,
     balances: [],
     denom: ``
   }),
@@ -193,13 +179,11 @@ export default {
     ...mapGetters([`network`]),
     ...mapGetters({ userAddress: `address` }),
     selectedBalance() {
-      const selectedBalance = this.balances.filter(
-        balance => balance.denom === this.selectedToken || this.denoms[0]
+      return (
+        this.balances.find(({ denom }) => denom === this.selectedToken) || {
+          amount: 0
+        }
       )
-      if (selectedBalance.length > 0) {
-        return selectedBalance[0]
-      }
-      return { amount: 0 }
     },
     transactionData() {
       if (isNaN(this.amount) || !this.address || !this.selectedToken) {
@@ -242,6 +226,9 @@ export default {
       }
     },
     balances: function(balances) {
+      // if there is already a token selected don't reset it
+      if (this.selectedToken) return
+
       // in case the account has no balances we will display the staking denom received from the denom query
       if (balances.length === 0) {
         this.selectedToken = this.denom
@@ -401,8 +388,26 @@ export default {
   font-size: 12px;
   cursor: pointer;
 }
-
+.tm-field-addon {
+  border-right: 0;
+}
+.tm-field-addon:focus {
+  border-color: var(--input-bc);
+}
 #form-group-amount {
   margin-bottom: 30px;
+}
+.tm-field-token-selector {
+  width: 80px;
+}
+.tm-field-token-selector >>> .tm-field-select {
+  border-left: 0;
+  border-radius: 0 !important;
+}
+.tm-field-token-selector >>> .tm-field-select:focus {
+  border-color: var(--input-bc);
+}
+.tm-field-token-selector >>> .tm-field-select-addon {
+  border: 0;
 }
 </style>

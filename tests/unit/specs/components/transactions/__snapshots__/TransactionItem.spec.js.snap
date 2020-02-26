@@ -13,7 +13,7 @@ exports[`TransactionItem renders a MsgBeginRedelegate transaction item 1`] = `
       class="toggle"
     >
       <i
-        class="material-icons toggle-icon"
+        class="material-icons notranslate toggle-icon"
       >
         keyboard_arrow_down
       </i>
@@ -37,7 +37,7 @@ exports[`TransactionItem renders a MsgDelegate transaction item 1`] = `
       class="toggle"
     >
       <i
-        class="material-icons toggle-icon"
+        class="material-icons notranslate toggle-icon"
       >
         keyboard_arrow_down
       </i>
@@ -61,7 +61,7 @@ exports[`TransactionItem renders a MsgDeposit transaction item 1`] = `
       class="toggle"
     >
       <i
-        class="material-icons toggle-icon"
+        class="material-icons notranslate toggle-icon"
       >
         keyboard_arrow_down
       </i>
@@ -85,7 +85,7 @@ exports[`TransactionItem renders a MsgMultiSend transaction item 1`] = `
       class="toggle"
     >
       <i
-        class="material-icons toggle-icon"
+        class="material-icons notranslate toggle-icon"
       >
         keyboard_arrow_down
       </i>
@@ -109,7 +109,7 @@ exports[`TransactionItem renders a MsgSend transaction item 1`] = `
       class="toggle"
     >
       <i
-        class="material-icons toggle-icon"
+        class="material-icons notranslate toggle-icon"
       >
         keyboard_arrow_down
       </i>
@@ -133,7 +133,7 @@ exports[`TransactionItem renders a MsgSubmitProposal transaction item 1`] = `
       class="toggle"
     >
       <i
-        class="material-icons toggle-icon"
+        class="material-icons notranslate toggle-icon"
       >
         keyboard_arrow_down
       </i>
@@ -157,7 +157,7 @@ exports[`TransactionItem renders a MsgUndelegate transaction item 1`] = `
       class="toggle"
     >
       <i
-        class="material-icons toggle-icon"
+        class="material-icons notranslate toggle-icon"
       >
         keyboard_arrow_down
       </i>
@@ -181,7 +181,7 @@ exports[`TransactionItem renders a MsgVote transaction item 1`] = `
       class="toggle"
     >
       <i
-        class="material-icons toggle-icon"
+        class="material-icons notranslate toggle-icon"
       >
         keyboard_arrow_down
       </i>
@@ -205,7 +205,7 @@ exports[`TransactionItem renders a MsgWithdrawDelegationReward transaction item 
       class="toggle"
     >
       <i
-        class="material-icons toggle-icon"
+        class="material-icons notranslate toggle-icon"
       >
         keyboard_arrow_down
       </i>

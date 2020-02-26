@@ -89,8 +89,7 @@ describe(`Module: Connection`, () => {
     await actions.setNetwork(
       { commit, dispatch },
       {
-        id: "awesomenet",
-        rpc_url: "https://localhost:1337"
+        id: "awesomenet"
       }
     )
     expect(commit).toHaveBeenCalledWith("setNetworkId", "awesomenet")
