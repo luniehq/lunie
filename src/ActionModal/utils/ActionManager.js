@@ -77,7 +77,6 @@ export default class ActionManager {
       ...txFetchOptions(fingerprint),
       body: JSON.stringify({ payload })
     }
-
     const command = payload.simulate ? "estimate" : "broadcast"
 
     const graphqlHost = getGraphqlHost()
