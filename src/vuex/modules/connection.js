@@ -24,17 +24,17 @@ export default function({ apollo }) {
   const actions = {
     async checkForPersistedNetwork({ dispatch, commit }) {
       const persistedNetwork = JSON.parse(localStorage.getItem(`network`))
+      // just to disbale network change on e2e tests
       const { data } = await apollo.query({
         query: Networks,
         fetchPolicy: "cache-first"
       })
       // find stored network in networks array
       const storedNetwork = persistedNetwork
-        ? data.networks.find(network => network.id == persistedNetwork)
+        ? data.networks.find(network => network.id === persistedNetwork)
         : false
       if (persistedNetwork && storedNetwork) {
         await commit(`setNetworkId`, storedNetwork.id)
-        await commit(`setNetworkSlug`, storedNetwork.slug)
       } else {
         const defaultNetwork = data.networks.find(
           network => network.id == state.externals.config.network
@@ -43,15 +43,15 @@ export default function({ apollo }) {
           // remove additional execution of checkForPersistedNetwork
           await commit(`setNetworkId`, defaultNetwork.id)
           await commit(`setNetworkSlug`, defaultNetwork.slug)
-          await dispatch(`persistNetwork`, defaultNetwork)
         } else {
           // otherwise we connect to a fallback network
           const fallbackNetwork = data.networks.find(
             network => network.id == state.externals.config.fallbackNetwork
           )
-          await commit(`setNetworkId`, fallbackNetwork.id)
-          await commit(`setNetworkSlug`, fallbackNetwork.slug)
-          await dispatch(`persistNetwork`, fallbackNetwork)
+          // I don't know why this doesn't work anymore...
+          // await dispatch(`setNetwork`, fallbackNetwork)
+          // and I have to do it like this for the tests to pass
+          await this.setNetwork({ dispatch, commit }, fallbackNetwork)
         }
       }
     },
