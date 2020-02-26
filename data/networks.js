@@ -5,8 +5,7 @@ module.exports = [
     chain_id: 'gaia-13007',
     rpc_url: 'wss://gaia-13007.lunie.io:26657/websocket',
     api_url:
-      'https://gaia-13007--lcd.datahub.figment.network/apikey/' +
-      process.env.FIGMENT_GAIA_13007_API_KEY,
+      'https://gaia-13007--lcd.datahub.figment.network/apikey/7996efcecdc5ef91da3715eb60cd2201',
     bech32_prefix: 'cosmos',
     address_prefix: 'cosmos',
     address_creator: 'cosmos',
@@ -41,8 +40,7 @@ module.exports = [
     chain_id: 'cosmoshub-3',
     rpc_url: 'wss://cosmos-hub-3.lunie.io/websocket',
     api_url:
-      'https://cosmoshub-3--lcd.datahub.figment.network/apikey/' +
-      process.env.FIGMENT_COSMOS_HUB_API_KEY,
+      'https://cosmoshub-3--lcd.datahub.figment.network/apikey/124a234fb3c6bccf430bfd298bd160ae',
     bech32_prefix: 'cosmos',
     address_prefix: 'cosmos',
     address_creator: 'cosmos',
