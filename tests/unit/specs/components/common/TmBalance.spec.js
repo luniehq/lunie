@@ -152,6 +152,14 @@ describe(`TmBalance`, () => {
     expect(wrapper.vm.showTutorial).toBe(false)
   })
 
+  it(`should set the preferred fiat currency in localstorage`, () => {
+    const self = {
+      selectedFiatCurrency: `USD`
+    }
+    TmBalance.methods.setPreferredCurrency.call(self)
+    expect(localStorage.getItem(`preferredCurrency`, `USD`))
+  })
+
   it(`should calculate the total rewards amount for each denom when rewards contain multiple denoms`, () => {
     const totalDenomRewards = wrapper.vm.calculateTotalRewardsDenom(`TOKEN1`)
     expect(totalDenomRewards).toBe(4.5)
