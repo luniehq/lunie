@@ -498,20 +498,14 @@ export default {
     selectedBalance() {
       const defaultBalance = {
         amount: 0,
-        gasPrice:
-          this.balances.length > 1
-            ? this.balances.find(({ denom }) => denom === this.getDenom)
-                .gasPrice
-            : 0
+        gasPrice: 4e-7 // the defaultBalance gas price should be the highest we know of to be sure that no transaction gets out of gas
       }
       if (this.balances.length === 0 || !this.network) {
         return defaultBalance
       }
       // default to the staking denom for fees
-      const denom = this.selectedDenom || this.network.stakingDenom
-      let balance = this.balances.find(
-        ({ denom: balanceDenom }) => balanceDenom === denom
-      )
+      const stakingDenom = this.selectedDenom || this.network.stakingDenom
+      let balance = this.balances.find(({ denom }) => denom === stakingDenom)
       if (!balance) {
         balance = defaultBalance
       }
