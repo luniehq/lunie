@@ -60,6 +60,9 @@ module.exports.sendEvent = function event(customObject, ...args) {
       }
       delete customObject[key]
     })
+    if (args[3]) {
+      args[3] = Math.trunc(args[3])
+    }
     window.ga(`send`, `event`, ...args, customObject)
   }
 }
