@@ -72,7 +72,7 @@ export default class ActionManager {
   }
 
   async transactionAPIRequest(payload) {
-    const fingerprint = await getFingerprint
+    const fingerprint = await getFingerprint()
     const options = {
       ...txFetchOptions(fingerprint),
       body: JSON.stringify({ payload })
