@@ -44,17 +44,17 @@ const createApolloClient = () => {
       touchSupport: true
     }
   }
-  let murmur = (async () => {
+  const fingerprint = (async () => {
     const components = await Fingerprint2.getPromise(fp_options)
     const values = components.map(component => component.value)
-    murmur = Fingerprint2.x64hash128(values.join(``), 31)
-    return murmur
+    const fingerprint = Fingerprint2.x64hash128(values.join(``), 31)
+    return fingerprint
   })()
   const middleware = new ApolloLink((operation, forward) => {
     // add the authorization to the headers
     operation.setContext({
       headers: {
-        fingerprint: murmur
+        fingerprint
       }
     })
     return forward(operation)
