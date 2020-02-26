@@ -17,13 +17,13 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
     fetchPolicy: "cache-first"
   })
   let path = to.path
-  if (path == "/") {
+  if (path === "/") {
     path = "/portfolio"
   }
   // current network slug
   let network
   if (
-    store.state.connection.networkSlug != to.params.networkId &&
+    store.state.connection.networkSlug !== to.params.networkId &&
     to.params.networkId
   ) {
     // setting new network
