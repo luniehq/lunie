@@ -16,6 +16,7 @@ export default {
   // Ledger
   CosmosAppTestModeAllowed: false,
   mobileApp: Boolean(process.env.MOBILE_APP),
+  isExtension: Boolean(process.env.EXTENSION),
 
   graphqlHost: graphql,
 

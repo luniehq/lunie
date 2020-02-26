@@ -15,9 +15,7 @@ exports[`TransactionItem renders a MsgBeginRedelegate transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -41,9 +39,7 @@ exports[`TransactionItem renders a MsgDelegate transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -67,9 +63,7 @@ exports[`TransactionItem renders a MsgDeposit transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -93,9 +87,7 @@ exports[`TransactionItem renders a MsgMultiSend transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -119,9 +111,7 @@ exports[`TransactionItem renders a MsgSend transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -145,9 +135,7 @@ exports[`TransactionItem renders a MsgSubmitProposal transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -171,9 +159,7 @@ exports[`TransactionItem renders a MsgUndelegate transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -197,9 +183,7 @@ exports[`TransactionItem renders a MsgVote transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -223,9 +207,7 @@ exports[`TransactionItem renders a MsgWithdrawDelegationReward transaction item 
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
