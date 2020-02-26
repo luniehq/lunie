@@ -202,7 +202,10 @@
               {{ notifyMessage.body }}
               <br />
               <br />Block
-              <router-link :to="`/blocks/${includedHeight}`"
+              <router-link
+                :to="
+                  `/${$router.history.current.params.networkId}/blocks/${includedHeight}`
+                "
                 >#{{ prettyIncludedHeight }}</router-link
               >
             </div>
