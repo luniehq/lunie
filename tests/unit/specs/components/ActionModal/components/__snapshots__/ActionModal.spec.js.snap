@@ -11,7 +11,7 @@ exports[`ActionModal back button renders and functions 1`] = `
     id="prevBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_back
     </i>
@@ -22,7 +22,7 @@ exports[`ActionModal back button renders and functions 1`] = `
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -101,7 +101,7 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     id="prevBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_back
     </i>
@@ -112,7 +112,7 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -199,7 +199,7 @@ exports[`ActionModal should show the action modal on success 1`] = `
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -271,7 +271,7 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -314,7 +314,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     id="prevBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_back
     </i>
@@ -325,7 +325,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -395,7 +395,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     id="prevBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_back
     </i>
@@ -406,7 +406,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -478,7 +478,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -548,7 +548,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     id="prevBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_back
     </i>
@@ -559,7 +559,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -630,7 +630,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     id="prevBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_back
     </i>
@@ -641,7 +641,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -728,7 +728,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -815,7 +815,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     id="prevBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_back
     </i>
@@ -826,7 +826,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -897,7 +897,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     id="prevBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_back
     </i>
@@ -908,7 +908,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -984,7 +984,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -1060,7 +1060,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     id="prevBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_back
     </i>
@@ -1071,7 +1071,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -1142,7 +1142,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     id="prevBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_back
     </i>
@@ -1153,7 +1153,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -1234,7 +1234,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -1316,7 +1316,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -1388,7 +1388,7 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>
@@ -1451,7 +1451,7 @@ exports[`ActionModal shows loading when there is still data to be loaded 1`] = `
     id="closeBtn"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       close
     </i>

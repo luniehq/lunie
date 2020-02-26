@@ -2,12 +2,12 @@
 
 exports[`UndelegationModal should display undelegation modal form 1`] = `
 <actionmodal-stub
-  amount="0"
   class="undelegation-modal"
   featureflag="undelegate"
   id="undelegation-modal"
   notifymessage="[object Object]"
   rewards=""
+  selecteddenom=""
   submissionerrorprefix="Unstaking failed"
   targetvalidator="[object Object]"
   title="Unstake"

@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.164] - 2020-02-18
+
+### Added
+
+- [#3563](https://github.com/cosmos/lunie/issues/3563) Prevent Google Translate to translate material icons @mariopino
+- [#3540](https://github.com/cosmos/lunie/pull/3540) Format big percentages as needed for e-money @mariopino
+
+### Changed
+
+- [#3542](https://github.com/cosmos/lunie/pull/3542) Now it is possible to create an account in Lunie when connected to a testnet @Bitcoinera
+
+### Fixed
+
+- analytics data sent fix @iambeone
+
+### Code Improvements
+
+- [#3551](https://github.com/cosmos/lunie/pull/3551) Improves the testnet checkbox styles @Bitcoinera
+
+### Repository
+
+- remove alert action @iambeone
+
 ## [1.0.163] - 2020-02-09
 
 ### Added

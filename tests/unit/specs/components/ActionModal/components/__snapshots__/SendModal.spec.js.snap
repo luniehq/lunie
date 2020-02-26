@@ -6,6 +6,7 @@ exports[`SendModal should display send modal form 1`] = `
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
+  selecteddenom="STAKE"
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
@@ -26,26 +27,28 @@ exports[`SendModal should display send modal form 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <!---->
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
     id="form-group-amount"
   >
-    <span
-      class="input-suffix max-button"
-    >
-      STAKE
-    </span>
-     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
         id="amount"
         placeholder="0"
         type="number"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
       />
        
       <tmbtn-stub
@@ -75,6 +78,7 @@ exports[`SendModal validation should show address required error 1`] = `
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
+  selecteddenom="STAKE"
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
@@ -100,20 +104,12 @@ exports[`SendModal validation should show address required error 1`] = `
     />
   </tmformgroup-stub>
    
-  <!---->
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
     id="form-group-amount"
   >
-    <span
-      class="input-suffix max-button"
-    >
-      STAKE
-    </span>
-     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
@@ -121,6 +117,16 @@ exports[`SendModal validation should show address required error 1`] = `
         placeholder="0"
         type="number"
         value="2"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
       />
        
       <tmbtn-stub
@@ -150,6 +156,7 @@ exports[`SendModal validation should show bech32 error when address length is to
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
+  selecteddenom="STAKE"
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
@@ -175,20 +182,12 @@ exports[`SendModal validation should show bech32 error when address length is to
     />
   </tmformgroup-stub>
    
-  <!---->
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
     id="form-group-amount"
   >
-    <span
-      class="input-suffix max-button"
-    >
-      STAKE
-    </span>
-     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
@@ -196,6 +195,16 @@ exports[`SendModal validation should show bech32 error when address length is to
         placeholder="0"
         type="number"
         value="2"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
       />
        
       <tmbtn-stub
@@ -225,6 +234,7 @@ exports[`SendModal validation should show bech32 error when address length is to
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
+  selecteddenom="STAKE"
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
@@ -250,20 +260,12 @@ exports[`SendModal validation should show bech32 error when address length is to
     />
   </tmformgroup-stub>
    
-  <!---->
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
     id="form-group-amount"
   >
-    <span
-      class="input-suffix max-button"
-    >
-      STAKE
-    </span>
-     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
@@ -271,6 +273,16 @@ exports[`SendModal validation should show bech32 error when address length is to
         placeholder="0"
         type="number"
         value="2"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
       />
        
       <tmbtn-stub
@@ -299,6 +311,7 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
+  selecteddenom="STAKE"
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
@@ -324,8 +337,6 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     />
   </tmformgroup-stub>
    
-  <!---->
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     error="true"
@@ -333,18 +344,22 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     fieldlabel="Amount"
     id="form-group-amount"
   >
-    <span
-      class="input-suffix max-button"
-    >
-      STAKE
-    </span>
-     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
         id="amount"
         placeholder="0"
         type="number"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
       />
        
       <tmbtn-stub

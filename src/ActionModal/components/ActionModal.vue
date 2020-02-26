@@ -7,14 +7,14 @@
         class="action-modal-icon action-modal-prev"
         @click="previousStep"
       >
-        <i class="material-icons">arrow_back</i>
+        <i class="material-icons notranslate">arrow_back</i>
       </div>
       <div
         id="closeBtn"
         class="action-modal-icon action-modal-close"
         @click="close"
       >
-        <i class="material-icons">close</i>
+        <i class="material-icons notranslate">close</i>
       </div>
       <div class="action-modal-header">
         <span class="action-modal-title">{{
@@ -64,9 +64,7 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{
-              network.stakingDenom | viewDenom
-            }}</span>
+            <span class="input-suffix">{{ getDenom }}</span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -96,14 +94,14 @@
           <TableInvoice
             :amount="Number(amount)"
             :estimated-fee="estimatedFee"
-            :bond-denom="network.stakingDenom"
+            :bond-denom="getDenom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
             name="Total"
             type="between"
             min="0"
-            :max="overview.liquidStake"
+            :max="selectedBalance.amount"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
@@ -290,6 +288,7 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
+import { gasPricesDictionary } from "src/scripts/common"
 import { viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track, sendEvent } from "scripts/google-analytics"
@@ -390,6 +389,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    selectedDenom: {
+      type: String,
+      default: ``
     }
   },
   data: () => ({
@@ -398,7 +401,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: (config.default_gas_price / 4).toFixed(9), // as we bump the gas amount by 4 in the API
+    gasPrice: 0,
     submissionError: null,
     show: false,
     loaded: false,
@@ -414,7 +417,8 @@ export default {
     network: {},
     overview: {},
     isMobileApp: config.mobileApp,
-    useTxService: config.enableTxAPI
+    useTxService: config.enableTxAPI,
+    balances: []
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -488,6 +492,30 @@ export default {
         isExtensionAccount: this.isExtensionAccount,
         account: this.overview.accountInformation
       }
+    },
+    getDenom() {
+      return this.selectedDenom || this.network.stakingDenom
+    },
+    selectedBalance() {
+      const defaultBalance = {
+        amount: 0,
+        // awful network-specific logic. But how to do it otherwise?
+        gasPrice: gasPricesDictionary(this.getDenom)
+      }
+      if (this.balances.length === 0 || !this.network) {
+        return defaultBalance
+      }
+      // default to the staking denom for fees
+      const denom = this.selectedDenom || this.network.stakingDenom
+      let balance = this.balances.find(
+        ({ denom: balanceDenom }) => balanceDenom === denom
+      )
+      if (!balance) {
+        balance = defaultBalance
+      }
+      // some API responses don't have gasPrices set
+      if (!balance.gasPrice) balance.gasPrice = defaultBalance.gasPrice
+      return balance
     }
   },
   watch: {
@@ -508,6 +536,11 @@ export default {
     },
     "$apollo.loading": function(loading) {
       this.loaded = this.loaded || !loading
+    },
+    selectedBalance: {
+      handler(selectedBalance) {
+        this.gasPrice = selectedBalance.gasPrice
+      }
     }
   },
   created() {
@@ -542,12 +575,15 @@ export default {
       }
       this.$store.commit(`setCurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
-      this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
       if (config.isMobileApp) noScroll.on()
     },
     close() {
       if (config.isMobileApp) noScroll.off()
+      if (this.step == "sign") {
+        // remove the request from any sign method to avoid orphaned transactions in the sign methods
+        this.actionManager.cancel(this.context, this.selectedSignMethod)
+      }
       this.$store.commit(`setCurrrentModalOpen`, false)
       this.submissionError = null
       this.password = null
@@ -645,11 +681,13 @@ export default {
       }
 
       // limit fees to the maximum the user has
-      if (this.invoiceTotal > this.overview.liquidStake) {
+      if (this.invoiceTotal > this.selectedBalance.amount) {
         this.gasPrice =
-          (Number(this.overview.liquidStake) - Number(this.amount)) /
+          (Number(this.selectedBalance.amount) - Number(this.amount)) /
           this.gasEstimate
       }
+      // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
+      this.gasPrice = this.gasPrice >= 0 ? this.gasPrice : 0
     },
     async submit() {
       this.submissionError = null
@@ -664,12 +702,11 @@ export default {
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
       const { type, memo, ...properties } = this.transactionData
-
       const feeProperties = {
         gasEstimate: this.gasEstimate,
         gasPrice: {
           amount: this.gasPrice,
-          denom: this.network.stakingDenom
+          denom: this.getDenom
         },
         submitType: this.selectedSignMethod,
         password: this.password
@@ -751,14 +788,36 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        between: between(0, this.overview.liquidStake)
+        between: between(0, this.selectedBalance.amount)
       },
       invoiceTotal: {
-        between: between(0, this.overview.liquidStake)
+        between: between(0, this.selectedBalance.amount)
       }
     }
   },
   apollo: {
+    balances: {
+      query: gql`
+        query balances($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            denom
+            amount
+            gasPrice
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.networkId,
+          address: this.session.address
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
+      }
+    },
     overview: {
       query: gql`
         query OverviewActionModal($networkId: String!, $address: String!) {
@@ -936,7 +995,7 @@ export default {
 .action-modal-footer .tm-form-group .tm-form-group__field {
   display: flex;
   align-items: center;
-  justify-items: space-between;
+  justify-content: flex-end;
 }
 
 .action-modal-footer .tm-form-group .tm-form-group__field .tertiary {

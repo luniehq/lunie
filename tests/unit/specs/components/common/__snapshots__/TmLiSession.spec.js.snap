@@ -9,7 +9,7 @@ exports[`TmLiSession has the expected html structure 1`] = `
     class="tm-li-session-icon"
   >
     <i
-      class="material-icons circle"
+      class="material-icons notranslate circle"
     >
       mood
     </i>
@@ -31,7 +31,7 @@ exports[`TmLiSession has the expected html structure 1`] = `
     class="tm-li-session-icon"
   >
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       arrow_forward
     </i>

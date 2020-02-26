@@ -19,45 +19,91 @@
                 {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
               </h2>
             </div>
-            <button class="tutorial-button" @click="openTutorial()">
-              <i v-if="false" class="material-icons">help_outline</i>
+            <button
+              v-if="
+                connection.network === 'cosmos-hub-mainnet' ||
+                  connection.network === 'cosmos-hub-testnet'
+              "
+              class="tutorial-button"
+              @click="openTutorial()"
+            >
+              <i v-if="false" class="material-icons notranslate">
+                help_outline
+              </i>
               <span v-else>Need some tokens?</span>
             </button>
           </div>
           <div class="scroll">
-            <div class="row small-container scroll-item">
-              <div v-if="overview.totalStake > 0" class="available-atoms">
-                <h3>Available {{ stakingDenom }}</h3>
-                <h2>
-                  {{
-                    overview.liquidStake | bigFigureOrShortDecimals | noBlanks
-                  }}
-                </h2>
+            <div
+              class="row lower-header scroll-item"
+              :class="{ 'single-denom-rewards': !isMultiDenomNetwork }"
+            >
+              <div class="row">
+                <div v-if="overview.totalStake > 0" class="available-atoms">
+                  <h3>Available {{ stakingDenom }}</h3>
+                  <h2>
+                    {{
+                      overview.liquidStake | bigFigureOrShortDecimals | noBlanks
+                    }}
+                  </h2>
+                  <div class="rewards multi-denom">
+                    <h2
+                      v-if="
+                        isMultiDenomNetwork && overview.totalRewards > 0.001
+                      "
+                    >
+                      +{{
+                        overview.totalRewards
+                          | bigFigureOrShortDecimals
+                          | noBlanks
+                      }}
+                    </h2>
+                  </div>
+                </div>
+
+                <div
+                  v-if="
+                    !isMultiDenomNetwork &&
+                      overview.totalRewards &&
+                      overview.totalRewards > 0.001
+                  "
+                  class="rewards"
+                >
+                  <h3>Total Rewards</h3>
+                  <h2>
+                    +{{
+                      overview.totalRewards
+                        | bigFigureOrShortDecimals
+                        | noBlanks
+                    }}
+                  </h2>
+                </div>
               </div>
 
-              <div v-if="overview.totalRewards" class="rewards">
-                <h3>Total Rewards</h3>
-                <h2>
-                  +{{
-                    overview.totalRewards | bigFigureOrShortDecimals | noBlanks
-                  }}
-                </h2>
-              </div>
-            </div>
-            <div
-              v-if="formattedBalances.length > 0"
-              id="scroll-item"
-              class="row small-container tokens-div scroll-item"
-            >
-              <div
-                v-for="balance in formattedBalances"
-                :key="balance.denom"
-                class="col"
-              >
-                <p class="token-denom">{{ balance.denom }}</p>
-                <p class="token-balance">
-                  {{ balance.amount | bigFigureOrShortDecimals }}
-                </p>
+              <div v-if="isMultiDenomNetwork" class="row values-container">
+                <div
+                  v-for="balance in filteredMultiDenomBalances"
+                  :key="balance.denom"
+                >
+                  <div class="available-atoms">
+                    <h3>
+                      {{ balance.denom }}
+                    </h3>
+                    <h2>
+                      {{ balance.amount | bigFigureOrShortDecimals }}
+                    </h2>
+                  </div>
+                  <div class="rewards multi-denom">
+                    <h2
+                      v-if="calculateTotalRewardsDenom(balance.denom) > 0.001"
+                    >
+                      +{{
+                        calculateTotalRewardsDenom(balance.denom)
+                          | bigFigureOrShortDecimals
+                      }}
+                    </h2>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -127,6 +173,7 @@ export default {
       selectedTokenFiatValue: `Tokens Total Fiat Value`,
       selectedFiatCurrency: `EUR`, // EUR is our default fiat currency
       showTutorial: false,
+      rewards: [],
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -174,19 +221,10 @@ export default {
     readyToWithdraw() {
       return this.overview.totalRewards > 0
     },
-    formattedBalances() {
-      return this.balances
-        .filter(balance => !balance.denom.includes(this.stakingDenom))
-        .map(
-          balance =>
-            (balance = {
-              denom: balance.denom
-                .charAt(0)
-                .toLowerCase()
-                .concat(balance.denom.slice(-3)),
-              amount: parseFloat(balance.amount).toFixed(2)
-            })
-        )
+    filteredMultiDenomBalances() {
+      return this.balances.filter(
+        balance => !balance.denom.includes(this.stakingDenom)
+      )
     },
     concatBalances() {
       let balancesArray = []
@@ -224,6 +262,17 @@ export default {
       } else {
         return [this.stakingDenom]
       }
+    },
+    isMultiDenomNetwork() {
+      if (this.balances && this.balances.length > 0) {
+        return this.balances.find(
+          balance => balance.denom !== this.stakingDenom
+        )
+          ? true
+          : false
+      } else {
+        return false
+      }
     }
   },
   methods: {
@@ -238,6 +287,17 @@ export default {
     },
     hideTutorial() {
       this.showTutorial = false
+    },
+    calculateTotalRewardsDenom(denom) {
+      if (this.overview.rewards && this.overview.rewards.length > 0) {
+        let rewardsAccumulator = 0
+        this.overview.rewards
+          .filter(reward => reward.denom === denom)
+          .forEach(reward => {
+            rewardsAccumulator += parseFloat(reward.amount)
+          })
+        return rewardsAccumulator
+      }
     }
   },
   apollo: {
@@ -248,6 +308,10 @@ export default {
             totalRewards
             liquidStake
             totalStake
+            rewards {
+              amount
+              denom
+            }
           }
         }
       `,
@@ -301,7 +365,8 @@ export default {
         }
         return {
           ...data.overview,
-          totalRewards: Number(data.overview.totalRewards)
+          totalRewards: Number(data.overview.totalRewards),
+          rewards: data.overview.rewards
         }
       },
       /* istanbul ignore next */
@@ -384,6 +449,7 @@ export default {
         result() {
           /* istanbul ignore next */
           this.$apollo.queries.overview.refetch()
+          this.$apollo.queries.balances.refetch()
         }
       }
     }
@@ -399,7 +465,6 @@ export default {
 
 .values-container {
   position: relative;
-  padding: 1rem 2rem;
 }
 
 .values-container h2 {
@@ -421,34 +486,18 @@ export default {
   padding-right: 2.5rem;
 }
 
-.tokens-div {
-  position: absolute;
-  right: 1.25rem;
-  top: 3.5rem;
-}
-
-.tokens-div > .col {
-  margin-right: 1rem;
-}
-
-.token-denom {
-  font-size: 12px;
-  float: left;
-}
-
-.token-balance {
-  font-weight: bold;
-}
-
-.currency-selector.tm-form-group {
-  position: absolute;
-  right: 1.25rem;
-  top: -0.7rem;
+p.rewards {
+  color: var(--success);
+  font-size: var(--s);
 }
 
 .rewards h2 {
   color: var(--success);
   font-size: var(--m);
+}
+
+.rewards.multi-denom h2 {
+  font-size: 12px;
 }
 
 .available-atoms h2 {
@@ -457,8 +506,16 @@ export default {
 }
 
 .upper-header {
+  padding: 0 2rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.lower-header {
+  padding: 2rem;
+  align-items: normal;
+  flex-direction: row;
   justify-content: space-between;
 }
 
@@ -469,6 +526,7 @@ export default {
   width: 100%;
   border-bottom: 1px solid var(--bc-dim);
   border-top: 1px solid var(--bc-dim);
+  margin-top: 1rem;
   margin-bottom: 2rem;
 }
 
@@ -481,8 +539,8 @@ export default {
   flex-direction: row;
 }
 
-.small-container {
-  padding-top: 1rem;
+.row div {
+  white-space: nowrap;
 }
 
 .open-tutorial {
@@ -526,20 +584,10 @@ export default {
     flex-direction: column-reverse;
   }
 
-  .values-container {
-    flex-direction: column;
-    width: 100%;
-  }
-
   .values-container .total-atoms__value {
     font-size: 28px;
     font-weight: 500;
     line-height: 32px;
-  }
-
-  .available-atoms,
-  .rewards {
-    padding: 0;
   }
 
   .total-atoms {
@@ -547,13 +595,43 @@ export default {
     text-align: center;
   }
 
+  .single-denom-rewards {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .single-denom-rewards .rewards {
+    padding-right: 0;
+  }
+
+  .single-denom-rewards .available-atoms {
+    padding-right: 4rem;
+  }
+
   .tutorial-button {
     margin: 0 auto 1rem auto;
   }
 
+  .button-container {
+    width: 100%;
+    padding: 1rem;
+    border-top: 1px solid var(--bc);
+    margin-top: 0rem;
+  }
+
+  .button-container button {
+    width: 50%;
+  }
+
+  .tutorial-container {
+    padding-right: 1rem;
+  }
+}
+
+@media screen and (max-width: 1023px) {
   .scroll {
     display: flex;
-    width: 90vw;
+    width: 100vw;
     overflow-x: auto;
     /* Make it smooth scrolling on iOS devices */
     -webkit-overflow-scrolling: touch;
@@ -561,50 +639,6 @@ export default {
 
   .scroll-item {
     width: 100%;
-  }
-
-  /* This doesn't work */
-  /* .scroll > .scroll-item {
-    flex: 0 0 auto;
-  } */
-
-  .scroll > .row > div {
-    margin-right: 3rem;
-  }
-
-  .tokens-div {
-    position: inherit;
-    margin: 0;
-    top: 0;
-  }
-
-  .token-denom {
-    float: none;
-  }
-
-  .currency-selector.tm-form-group {
-    width: 40px;
-    right: 2.5rem;
-  }
-
-  .button-container {
-    width: 100%;
-    padding: 1rem;
-    border-top: 1px solid var(--bc);
-  }
-
-  .button-container button {
-    width: 50%;
-  }
-
-  .small-container {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 1rem 0;
-    text-align: center;
-  }
-  .tutorial-container {
-    padding-right: 1rem;
   }
 }
 </style>

@@ -24,7 +24,7 @@
               >
                 {{ hidFeatureLink }}
                 <i
-                  class="material-icons copied"
+                  class="material-icons notranslate copied"
                   :class="{ active: copySuccess }"
                 >
                   check
@@ -46,7 +46,10 @@
               class="copy-feature-link"
             >
               {{ linuxLedgerConnectionLink }}
-              <i class="material-icons copied" :class="{ active: copySuccess }">
+              <i
+                class="material-icons notranslate copied"
+                :class="{ active: copySuccess }"
+              >
                 check
               </i>
             </div>
