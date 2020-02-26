@@ -16,7 +16,7 @@ const txFetchOptions = fingerprint => ({
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    fingerprint: fingerprint
+    fingerprint
   }
 })
 
@@ -72,8 +72,9 @@ export default class ActionManager {
   }
 
   async transactionAPIRequest(payload) {
+    const fingerprint = await getFingerprint
     const options = {
-      ...txFetchOptions(await getFingerprint),
+      ...txFetchOptions(fingerprint),
       body: JSON.stringify({ payload })
     }
 
