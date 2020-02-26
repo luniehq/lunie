@@ -232,6 +232,7 @@ export default (apollo, store) => {
       component: () => import(`./components/common/NetworkSetter`),
       beforeEnter: (to, from, next) =>
         setNetwork({ to, from, next }, apollo, store),
+      redirect: `/:networkId/portfolio`,
       children: [
         {
           path: `proposals`,

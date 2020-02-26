@@ -20,11 +20,33 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
   if (path == "/") {
     path = "/portfolio"
   }
+
+  // if the url is of the form /cosmos-hub/portfolio the path we want to add later is /portfolio and not the whole thing
+  if (to.params.networkId) {
+    const subPathRegexp = /\/.+(\/.+)/ //extracts the subpath
+    const match = subPathRegexp.exec(to.path)
+    if (match && match.length >= 2) {
+      // the path is is of form /cosmos-hub/portfolio
+      path = match[1]
+    } else {
+      // the path is is of form /cosmos-hub so we forward to portfolio
+      path = "/portfolio"
+    }
+  }
+
   // current network slug
   let network
   if (
-    store.state.connection.networkSlug != to.params.networkId &&
-    to.params.networkId
+    to.params.networkId &&
+    store.state.connection.networkSlug === to.params.networkId
+  ) {
+    next() // all as expected
+    return
+  }
+  // desired network is different then current
+  if (
+    to.params.networkId &&
+    store.state.connection.networkSlug !== to.params.networkId
   ) {
     // setting new network
     network = networks.find(network => network.slug === to.params.networkId)
@@ -33,7 +55,9 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
     }
     store.dispatch(`setNetwork`, network)
     next(`/${network.slug}${path}`)
-  } else if (!to.params.networkId) {
+  }
+  // no network is set so we set the default
+  if (!to.params.networkId) {
     // swithing to current network
     if (store.state.connection.networkSlug) {
       network = networks.find(
@@ -48,7 +72,5 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
       network = networks.find(network => network.default === true)
       next(`/${network.slug}${path}`)
     }
-  } else {
-    next()
   }
 }
