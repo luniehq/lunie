@@ -110,6 +110,13 @@ export default {
     },
     "sort.order": function() {
       this.showing = 15
+    },
+    address: {
+      handler() {
+        if (!this.address) {
+          this.rewards = []
+        }
+      }
     }
   },
   mounted() {
