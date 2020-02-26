@@ -1,1 +1,0 @@
-[Fixed] Fix e2e tests failing because it can't find an element for querying for it's text @faboweb
