@@ -35,9 +35,9 @@
       @click.native="signIn()"
     />
     <div class="app-menu-main">
-      <routerLinkNetwork
-        router-class="app-menu-item hide-xs"
-        to="/portfolio"
+      <router-link
+        class="app-menu-item hide-xs"
+        :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
         exact="exact"
         title="Portfolio"
         @click.native="handleClick()"
@@ -46,10 +46,10 @@
           Portfolio
         </h2>
         <i class="material-icons notranslate">chevron_right</i>
-      </routerLinkNetwork>
-      <routerLinkNetwork
-        router-class="app-menu-item hide-xs"
-        to="/validators"
+      </router-link>
+      <router-link
+        class="app-menu-item hide-xs"
+        :to="{ name: 'Validators', params: { networkId: networkSlug } }"
         title="Validators"
         @click.native="handleClick()"
       >
@@ -57,11 +57,11 @@
           Validators
         </h2>
         <i class="material-icons notranslate">chevron_right</i>
-      </routerLinkNetwork>
+      </router-link>
 
-      <routerLinkNetwork
-        router-class="app-menu-item hide-xs"
-        to="/proposals"
+      <router-link
+        class="app-menu-item hide-xs"
+        :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
         title="Proposals"
         @click.native="handleClick()"
       >
@@ -69,11 +69,11 @@
           Proposals
         </h2>
         <i class="material-icons notranslate">chevron_right</i>
-      </routerLinkNetwork>
+      </router-link>
 
-      <routerLinkNetwork
-        router-class="app-menu-item hide-xs"
-        to="/transactions"
+      <router-link
+        class="app-menu-item hide-xs"
+        :to="{ name: 'transactions', params: { networkId: networkSlug } }"
         exact="exact"
         title="Transactions"
         @click.native="handleClick()"
@@ -82,7 +82,7 @@
           Activity
         </h2>
         <i class="material-icons notranslate">chevron_right</i>
-      </routerLinkNetwork>
+      </router-link>
 
       <router-link
         class="app-menu-item hide-xs"
@@ -165,7 +165,6 @@
 import Bech32 from "common/Bech32"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
-import routerLinkNetwork from "common/RouterLinkNetwork"
 import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
@@ -176,7 +175,6 @@ export default {
     Bech32,
     ConnectedNetwork,
     TmBtn,
-    routerLinkNetwork,
     TmFormMsg
   },
   filters: {
@@ -189,8 +187,11 @@ export default {
     showAddressOnLedgerFn: showAddressOnLedger
   }),
   computed: {
-    ...mapState([`session`]),
-    ...mapGetters([`address`, `network`])
+    ...mapState([`session`, "connection"]),
+    ...mapGetters([`address`, `network`]),
+    networkSlug() {
+      return this.connection.networkSlug
+    }
   },
   methods: {
     handleClick() {

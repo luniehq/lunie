@@ -6,7 +6,7 @@ export default function({ apollo }) {
     stopConnecting: false,
     connected: true, // TODO do connection test
     network: config.network, // network id to reference network capabilities stored in Hasura
-    networkSlug: "",
+    networkSlug: "cosmos-hub",
     externals: {
       config
     }
