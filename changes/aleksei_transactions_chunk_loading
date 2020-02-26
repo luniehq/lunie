@@ -1,0 +1,1 @@
+[Changed] Initial activity page load loads only first chunk of all transactions and then after scroll end reached loads more @iambeone
