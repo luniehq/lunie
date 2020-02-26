@@ -7,6 +7,10 @@ jest.mock("src/../config.js", () => ({
   graphqlHost: "http://localhost:4000"
 }))
 
+jest.mock("scripts/fingerprint", () => ({
+  getFingerprint: jest.fn(() => "iamafingerprint")
+}))
+
 let mockSimulate = jest.fn(() => 12345)
 const MsgSendFn = jest.fn(() => ({ included: () => async () => true }))
 const mockGet = jest.fn()
@@ -432,7 +436,7 @@ describe("ActionManager", () => {
       ).rejects.toThrow()
     })
 
-    it("should send estimate request", () => {
+    it("should send estimate request", async () => {
       const payload = {
         simulate: true,
         messageType: "MsgSend",
@@ -443,18 +447,21 @@ describe("ActionManager", () => {
       const args2 = {
         body:
           '{"payload":{"simulate":true,"messageType":"MsgSend","networkId":"cosmos-hub-testnet","signedMessage":"signedMessage"}}',
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          fingerprint: "iamafingerprint"
+        },
         method: "POST"
       }
 
-      actionManager.transactionAPIRequest(payload)
+      await actionManager.transactionAPIRequest(payload)
       expect(mockFetch).toHaveBeenLastCalledWith(
         "http://localhost:4000/transaction/estimate",
         args2
       )
     })
 
-    it("should send broadcast request", () => {
+    it("should send broadcast request", async () => {
       const payload = {
         simulate: false,
         messageType: "MsgSend",
@@ -465,11 +472,14 @@ describe("ActionManager", () => {
       const args2 = {
         body:
           '{"payload":{"simulate":false,"messageType":"MsgSend","networkId":"cosmos-hub-testnet","signedMessage":"signedMessage"}}',
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          fingerprint: "iamafingerprint"
+        },
         method: "POST"
       }
 
-      actionManager.transactionAPIRequest(payload)
+      await actionManager.transactionAPIRequest(payload)
       expect(mockFetch).toHaveBeenLastCalledWith(
         "http://localhost:4000/transaction/broadcast",
         args2
