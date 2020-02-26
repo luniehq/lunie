@@ -27,21 +27,23 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
     to.params.networkId
   ) {
     // setting new network
-    network = networks.find(network => network.slug === to.params.networkId)
-    if (!network) {
-      network = networks.find(network => network.default === true)
-    }
+    network = networkChecker(
+      networks.find(network => network.slug === to.params.networkId),
+      networks
+    )
+
     store.dispatch(`setNetwork`, network)
     next(`/${network.slug}${path}`)
   } else if (!to.params.networkId) {
     // swithing to current network
     if (store.state.connection.networkSlug) {
-      network = networks.find(
-        network => network.slug === store.state.connection.networkSlug
+      network = networkChecker(
+        networks.find(
+          network => network.slug === store.state.connection.networkSlug
+        ),
+        networks
       )
-      if (!network) {
-        network = networks.find(network => network.default === true)
-      }
+
       store.dispatch(`setNetwork`, network)
       next(`/${network.slug}${path}`)
     } else {
@@ -51,4 +53,8 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
   } else {
     next()
   }
+}
+
+function networkChecker(network, networks) {
+  return network ? network : networks.find(network => network.default === true)
 }
