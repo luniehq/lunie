@@ -12,11 +12,11 @@ import {
   transformMessage
 } from "./MessageConstructor.js"
 
-const txFetchOptions = async () => ({
+const txFetchOptions = fingerprint => ({
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    "fingerprint" : (await getFingerprint())
+    fingerprint: fingerprint
   }
 })
 
@@ -73,7 +73,7 @@ export default class ActionManager {
 
   async transactionAPIRequest(payload) {
     const options = {
-      ...(await txFetchOptions()),
+      ...txFetchOptions(await getFingerprint),
       body: JSON.stringify({ payload })
     }
 
