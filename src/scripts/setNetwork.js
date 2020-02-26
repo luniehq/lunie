@@ -17,7 +17,7 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
     fetchPolicy: "cache-first"
   })
   let path = to.path
-  if (path == "/") {
+  if (path === "/") {
     path = "/portfolio"
   }
 
@@ -49,10 +49,11 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
     store.state.connection.networkSlug !== to.params.networkId
   ) {
     // setting new network
-    network = networks.find(network => network.slug === to.params.networkId)
-    if (!network) {
-      network = networks.find(network => network.default === true)
-    }
+    network = networkChecker(
+      networks.find(network => network.slug === to.params.networkId),
+      networks
+    )
+
     store.dispatch(`setNetwork`, network)
     next(`/${network.slug}${path}`)
   }
@@ -60,12 +61,13 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
   if (!to.params.networkId) {
     // swithing to current network
     if (store.state.connection.networkSlug) {
-      network = networks.find(
-        network => network.slug === store.state.connection.networkSlug
+      network = networkChecker(
+        networks.find(
+          network => network.slug === store.state.connection.networkSlug
+        ),
+        networks
       )
-      if (!network) {
-        network = networks.find(network => network.default === true)
-      }
+
       store.dispatch(`setNetwork`, network)
       next(`/${network.slug}${path}`)
     } else {
@@ -73,4 +75,8 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
       next(`/${network.slug}${path}`)
     }
   }
+}
+
+function networkChecker(network, networks) {
+  return network ? network : networks.find(network => network.default === true)
 }

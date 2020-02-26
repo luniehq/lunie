@@ -55,7 +55,10 @@ describe(`Module: Connection`, () => {
       })
     )
     await actions.checkForPersistedNetwork({ dispatch, commit })
-    expect(commit).toHaveBeenCalledWith(`setNetworkId`, `awesomenet`)
+    expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: `awesomenet`,
+      slug: `awesome`
+    })
     localStorage.clear()
   })
 
@@ -64,7 +67,10 @@ describe(`Module: Connection`, () => {
     const dispatch = jest.fn()
     const commit = jest.fn()
     await actions.checkForPersistedNetwork({ dispatch, commit })
-    expect(commit).toHaveBeenCalledWith(`setNetworkId`, "keine-ahnungnet")
+    expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: `keine-ahnungnet`,
+      slug: `ahnungnet`
+    })
     expect(commit).toHaveBeenCalledWith(`setNetworkSlug`, "ahnungnet")
     localStorage.clear()
   })
@@ -82,7 +88,10 @@ describe(`Module: Connection`, () => {
       }
     }
     await actions.checkForPersistedNetwork({ dispatch, commit })
-    expect(commit).toHaveBeenCalledWith(`setNetworkId`, "localnet")
+    expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
+      id: `localnet`,
+      slug: `local`
+    })
     expect(commit).toHaveBeenCalledWith(`setNetworkSlug`, "local")
   })
 
