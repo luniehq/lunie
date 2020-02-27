@@ -2,7 +2,7 @@
   <img
     class="validator-image"
     alt="generic validator logo - generated avatar from address"
-    src="images/cosmos-hub-mainnet.png"
+    src="validator-icon.svg"
   />
 </template>
 

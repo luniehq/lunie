@@ -86,6 +86,26 @@ const getValidatorsData = actions({}).getValidatorsData
 
 import { flattenTransactionMsgs } from 'scripts/transaction-utils'
 
+const getWithdrawValidators = messages => {
+  const withdrawMessages = messages.filter(({ type }) => {
+    const messageSuffix = type.split('/')[1]
+    return messageSuffix === 'MsgWithdrawDelegationReward'
+  })
+
+  // strange syntax where we actually return the whole message instead of just the validator
+  return withdrawMessages
+}
+
+const getLunieTransaction = tx => {
+  const lunieTransactions = flattenTransactionMsgs([], tx)
+  const pickFirst = lunieTransactions[0] // obviously error prone as we ignore the rest
+  pickFirst.withdrawValidators = JSON.stringify(
+    getWithdrawValidators(lunieTransactions)
+  )
+
+  return pickFirst
+}
+
 export default {
   name: `session-approve`,
   components: {
@@ -111,7 +131,7 @@ export default {
       return this.signRequest ? this.signRequest.network : null
     },
     transaction() {
-      return flattenTransactionMsgs([], this.tx)[0]
+      return getLunieTransaction(this.tx)
     },
     fees() {
       return this.tx ? atoms(parseFee(this.tx.tx)) : null
@@ -123,10 +143,10 @@ export default {
       return this.tx ? parseValueObj(this.tx.tx) : null
     },
     amount() {
-      return this.amountCoin ? atoms(Number(this.amountCoin.amount)) : null
+      return this.amountCoin ? atoms(Number(this.amountCoin.amount)) : 0
     },
     bondDenom() {
-      return this.amountCoin ? this.amountCoin.denom : null
+      return this.amountCoin ? this.amountCoin.denom : ''
     },
     validatorsAddressMap() {
       const names = {}
