@@ -213,6 +213,22 @@ export default {
             networkId: this.network,
             address: this.address
           }
+        },
+        update(result) {
+          let transactions = []
+          if (Array.isArray(result.transactions)) {
+            transactions = result.transactions.map(tx => ({
+              ...tx,
+              timestamp: new Date(tx.timestamp),
+              value: JSON.parse(tx.value)
+            }))
+          }
+          this.lastLoadedRecordsCount = transactions.length
+          this.loadedTransactions = [
+            ...this.loadedTransactions,
+            ...transactions
+          ]
+          return this.loadedTransactions
         }
       }
     },

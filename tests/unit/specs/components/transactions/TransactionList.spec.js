@@ -6,20 +6,14 @@ describe(`TransactionList`, () => {
   let wrapper
 
   let txs = []
-  let height = 1086769
-  let offset = 86400 / 7 // One day / 7s block time
-
-  // Return a fixed timestamp when moment().format() is called
-  jest.mock("moment", () => () => ({
-    format: () => "27/11/2019 0:00:00"
-  }))
+  let height = 1000000
 
   for (var type in messageType) {
     txs.push({
       type: messageType[type],
       hash: "A0DEB29E97A4DF38289D55D63C5724588985E1D35B26518CB66EAF96CFEF2E04",
       height,
-      timestamp: "2020-02-10T10:15:51Z",
+      timestamp: new Date().toISOString(),
       memo: "(Sent via Lunie)",
       success: true,
       fees: [],
@@ -41,7 +35,6 @@ describe(`TransactionList`, () => {
         }
       }
     })
-    height += offset
   }
 
   beforeEach(() => {

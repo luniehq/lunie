@@ -22,8 +22,6 @@ exports[`TransactionMetadata renders correct transaction metadata 1`] = `
   
   </p>
    
-  <!---->
-   
   <p>
     <i
       class="material-icons notranslate"
