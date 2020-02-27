@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.167] - 2020-02-27
+
+### Changed
+
+- [#3610](https://github.com/cosmos/lunie/pull/3610) Adds a small check in WithdrawRewardsMessageDetails necessary for extension @Bitcoinera
+- [#3592](https://github.com/cosmos/lunie/pull/3592) Deletes gas prices dictionary in ActionModal @Bitcoinera
+
 ## [1.0.166] - 2020-02-26
 
 ### Changed
