@@ -5,7 +5,7 @@
       <div class="tx__content__left">
         <h3>{{ caption }}</h3>
         <div class="multi-claim-reward-row">
-          <span>Rewards from</span>&nbsp;&nbsp;
+          <span>Rewards from</span>
           <router-link
             :to="`/staking/validators/${transaction.details.from[0]}`"
             class="validator-link"
@@ -171,5 +171,8 @@ export default {
 }
 .tx a {
   margin-left: 0.1rem;
+}
+.multi-claim-reward-row span {
+  padding-right: 0.2rem;
 }
 </style>
