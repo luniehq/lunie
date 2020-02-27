@@ -182,7 +182,7 @@ export default {
           pageNumber: this.pageNumber
         }
       },
-      update: result => {
+      update(result) {
         if (Array.isArray(result.transactionsV2)) {
           this.lastLoadedRecordsCount = result.transactionsV2.length
           this.loadedTransactions = [
