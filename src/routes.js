@@ -12,8 +12,7 @@ export default (apollo, store) => {
     {
       path: `/`,
       beforeEnter: (to, from, next) =>
-        setNetwork({ to, from, next }, apollo, store),
-      component: () => import(`./components/common/NetworkSetter`)
+        setNetwork({ to, from, next }, apollo, store)
     },
     {
       path: `/networks`,
@@ -229,7 +228,6 @@ export default (apollo, store) => {
     },
     {
       path: `/:networkId`,
-      component: () => import(`./components/common/NetworkSetter`),
       beforeEnter: (to, from, next) =>
         setNetwork({ to, from, next }, apollo, store),
       redirect: `/:networkId/portfolio`,
