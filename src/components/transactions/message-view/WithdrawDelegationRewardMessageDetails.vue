@@ -129,7 +129,7 @@ export default {
   },
   computed: {
     getValidators() {
-      if (this.transaction.withdrawValidators) {
+      if (this.transaction.withdrawValidators && this.validators) {
         let validators = []
         JSON.parse(this.transaction.withdrawValidators).forEach(msg => {
           validators.push(this.validators[msg.value.validator_address] || {})
