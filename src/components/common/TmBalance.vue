@@ -241,9 +241,10 @@ export default {
     convertedBalances() {
       return this.balances
         .filter(balance => !balance.denom.includes(this.stakingDenom))
-        .map(({ denom, fiatValue }) => ({
+        .map(({ denom }) => ({
           value: ``,
-          key: denom.concat(` ` + fiatValue)
+          // key: denom.concat(` ` + fiatValue)
+          key: denom
         }))
     },
     fiatCurrencies() {
@@ -388,7 +389,6 @@ export default {
           ) {
             denom
             amount
-            fiatValue
           }
         }
       `,
