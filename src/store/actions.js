@@ -36,7 +36,6 @@ export default ({ apollo }) => {
   }
 
   const setNetwork = ({ commit }, network) => {
-    console.log('setNetworkId', network.id)
     commit('setNetworkId', network.id)
   }
 
@@ -108,37 +107,61 @@ export default ({ apollo }) => {
       txMessage.type.indexOf('/MsgUndelegate') !== -1
     ) {
       const validatorAddress = txMessage.value.validator_address
-      const validatorToMoniker = await fetchValidatorData(
+      const { name: validatorToMoniker, picture } = await fetchValidatorData(
         validatorAddress,
         network
       )
       return [
         {
           operator_address: validatorAddress,
-          name: validatorToMoniker
+          name: validatorToMoniker,
+          picture
         }
       ]
     }
     if (txMessage.type.indexOf('/MsgBeginRedelegate') !== -1) {
       const validator_src_address = txMessage.value.validator_src_address
-      const validator_src_moniker = await fetchValidatorData(
-        validator_src_address
-      )
+      const {
+        name: validator_src_moniker,
+        picture: validator_src_picture
+      } = await fetchValidatorData(validator_src_address, network)
       const validator_dst_address = txMessage.value.validator_dst_address
-      const validator_dst_moniker = await fetchValidatorData(
-        validator_dst_address
-      )
+      const {
+        name: validator_dst_moniker,
+        picture: validator_dst_picture
+      } = await fetchValidatorData(validator_dst_address, network)
 
       return [
         {
           operator_address: validator_src_address,
-          name: validator_src_moniker
+          name: validator_src_moniker,
+          picture: validator_src_picture
         },
         {
           operator_address: validator_dst_address,
-          name: validator_dst_moniker
+          name: validator_dst_moniker,
+          picture: validator_dst_picture
         }
       ]
+    }
+    if (txMessage.type.indexOf('/MsgWithdrawDelegationReward') !== -1) {
+      let validators = []
+      await Promise.all(
+        validatorAddress.value.msg.map(async ({ value }) => {
+          const validator_src_address = value.validator_address
+          const {
+            name: validator_src_moniker,
+            picture
+          } = await fetchValidatorData(validator_src_address, network)
+          validators.push({
+            operator_address: validator_src_address,
+            operatorAddress: validator_src_address, // looks carzy, needed to be fix in lunie\src\components\transactions\message-view\WithdrawDelegationRewardMessageDetails.vue
+            name: validator_src_moniker,
+            picture
+          })
+        })
+      )
+      return validators
     }
     return []
   }
@@ -149,11 +172,14 @@ export default ({ apollo }) => {
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
-      body: `{"query": "query{validator(operatorAddress: \\"${validatorAddress}\\", networkId: \\"${network}\\"){ name }}"}`
+      body: `{"query": "query{validator(operatorAddress: \\"${validatorAddress}\\", networkId: \\"${network}\\"){ name picture }}"}`
     })
       .then(async function(response) {
         const validatorObject = await response.json()
-        return validatorObject.data.validator.name
+        return {
+          name: validatorObject.data.validator.name,
+          picture: validatorObject.data.validator.picture
+        }
       })
       .catch(function(error) {
         console.log('Error: ', error)

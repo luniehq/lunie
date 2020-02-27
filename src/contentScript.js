@@ -76,5 +76,6 @@ function main() {
   listenToExtensionMessages()
   listenToWebsiteMessages()
 }
-
-main()
+window.onload = () => {
+  main()
+}

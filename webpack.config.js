@@ -91,7 +91,8 @@ const config = {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
         GOOGLE_ANALYTICS_UID: JSON.stringify(process.env.GOOGLE_ANALYTICS_UID),
-        LUNIE_API: JSON.stringify(process.env.LUNIE_API)
+        LUNIE_API: JSON.stringify(process.env.LUNIE_API),
+        EXTENSION: JSON.stringify(process.env.EXTENSION)
       }
     }),
     new VueLoaderPlugin(),
@@ -104,6 +105,10 @@ const config = {
         from: 'popup/popup.html',
         to: 'popup/popup.html',
         transform: transformHtml
+      },
+      {
+        from: 'popup/validator-icon.svg',
+        to: 'popup/validator-icon.svg'
       },
       {
         from: 'manifest.json',
