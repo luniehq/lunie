@@ -195,6 +195,7 @@ export default {
             id
             address_prefix
             testnet
+            slug
           }
         }
       `,
