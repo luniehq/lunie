@@ -29,10 +29,7 @@
         </div>
       </div>
       <div class="tx__content__right">
-        <p class="amount">
-          {{ transaction.details.amount.amount | prettyLong }}&nbsp;
-          {{ transaction.details.amount.denom }}
-        </p>
+        <p class="amount"></p>
       </div>
     </template>
     <template
@@ -79,10 +76,7 @@
         </div>
       </div>
       <div class="tx__content__right">
-        <p class="amount">
-          {{ transaction.details.amount.amount | prettyLong }}&nbsp;
-          {{ transaction.details.amount.denom }}
-        </p>
+        <p class="amount"></p>
       </div>
     </template>
   </div>
