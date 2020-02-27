@@ -504,8 +504,8 @@ export default {
         return defaultBalance
       }
       // default to the staking denom for fees
-      const stakingDenom = this.selectedDenom || this.network.stakingDenom
-      let balance = this.balances.find(({ denom }) => denom === stakingDenom)
+      const feeDenom = this.selectedDenom || this.network.stakingDenom
+      let balance = this.balances.find(({ denom }) => denom === feeDenom)
       if (!balance) {
         balance = defaultBalance
       }
