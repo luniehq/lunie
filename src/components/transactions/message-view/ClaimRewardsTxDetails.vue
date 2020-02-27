@@ -42,7 +42,10 @@
       <div class="tx__content__left multi-claim-reward-row">
         <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
         <div class="multi-claim-reward-row" :class="{ validatorsToggle: show }">
-          <div v-for="validator in getValidators" :key="validator.name">
+          <div
+            v-for="(validator, index) in getValidators"
+            :key="validator.name.concat(`-${index}`)"
+          >
             <router-link
               :to="`/staking/validators/${validator.operatorAddress}`"
               class="validator-link"
@@ -56,9 +59,11 @@
                   alt="generic validator logo - generated avatar from address"
                   :address="validator.operatorAddress"
                 />
-                <span v-if="show" class="validator-span">{{
-                  validator.operatorAddress | resolveValidatorName(validators)
-                }}</span>
+                <span v-if="show" class="validator-span">
+                  {{
+                    validator.operatorAddress | resolveValidatorName(validators)
+                  }}
+                </span>
               </div>
               <div
                 v-if="validator && validator.picture"
@@ -69,9 +74,11 @@
                   class="validator-image"
                   :alt="`validator logo for ` + validator.name"
                 />
-                <span v-if="show" class="validator-span">{{
-                  validator.operatorAddress | resolveValidatorName(validators)
-                }}</span>
+                <span v-if="show" class="validator-span">
+                  {{
+                    validator.operatorAddress | resolveValidatorName(validators)
+                  }}
+                </span>
               </div>
             </router-link>
           </div>

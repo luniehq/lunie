@@ -8,13 +8,13 @@
         :session-address="address"
         :show="show"
       />
-      <div class="toggle" :class="{ up: show }">
-        <i class="material-icons notranslate toggle-icon">
-          keyboard_arrow_down
-        </i>
+      <div v-if="!isExtension" class="toggle" :class="{ up: show }">
+        <i class="material-icons notranslate toggle-icon"
+          >keyboard_arrow_down</i
+        >
       </div>
     </div>
-    <transition name="slide-out">
+    <transition v-if="!isExtension" name="slide-out">
       <div v-if="show" class="tx-details">
         <TransactionMetadata v-if="showMetaData" :transaction="transaction" />
       </div>
@@ -25,6 +25,7 @@
 <script>
 import { messageType } from "./messageTypes.js"
 import TransactionMetadata from "./TransactionMetadata"
+import config from "src/../config"
 import Bech32 from "common/Bech32"
 
 import {
@@ -71,7 +72,8 @@ export default {
     }
   },
   data: () => ({
-    show: false
+    show: false,
+    isExtension: config.isExtension
   }),
   computed: {
     messageTypeComponent: function() {

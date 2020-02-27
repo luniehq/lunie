@@ -133,10 +133,12 @@ export function atoms(number = 0) {
 }
 
 export function uatoms(number = 0) {
-  return BigNumber(number)
-    .times(1e6)
-    .toFixed(0)
-    .toString()
+  return (
+    BigNumber(number)
+      .times(1e6)
+      // .toFixed(0) // Temporary here. Waiting for Aleksei/fee in extension #3567 to be merged
+      .toString()
+  )
 }
 
 // convert micro denoms like uatom to display denoms like ATOM

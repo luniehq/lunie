@@ -7,6 +7,59 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.167] - 2020-02-27
+
+### Changed
+
+- [#3610](https://github.com/cosmos/lunie/pull/3610) Adds a small check in WithdrawRewardsMessageDetails necessary for extension @Bitcoinera
+- [#3592](https://github.com/cosmos/lunie/pull/3592) Deletes gas prices dictionary in ActionModal @Bitcoinera
+
+## [1.0.166] - 2020-02-26
+
+### Changed
+
+- add fingerprint header to fetch @iambeone
+
+### Fixed
+
+- [#3606](https://github.com/cosmos/lunie/pull/3606) Fixes having the rewards from the previous session hanging on TableValidators once the user disconnects @Bitcoinera
+- Fix publish not triggering as the expected commit message was outdated @faboweb
+- Remove service worker as it produced issues with caching @faboweb
+
+## [1.0.165] - 2020-02-26
+
+### Added
+
+- adding fingerpring header @iambeone
+- [#3513](https://github.com/cosmos/lunie/issues/3513) sending cancel message to extension on cancel @iambeone
+- [#3565](https://github.com/cosmos/lunie/pull/3565) Now it is possible to pay gas fees in any token (multidenom networks) @Bitcoinera
+- [#3559](https://github.com/cosmos/lunie/pull/3559) Now rewards for multidenom networks are displayed in TmBalance and staking denom is especified in validators' components @Bitcoinera
+
+### Changed
+
+- [#3578](https://github.com/cosmos/lunie/pull/3578) Add new multi denom send denom selection @iambeone
+- Initial activity page load loads only first chunk of all transactions and then after scroll end reached loads more @iambeone
+- [#3553](https://github.com/cosmos/lunie/pull/3553) Adds check in SessionSignIn to verify the signin address belongs to an existing mainnet. Otherwise displays an error message @Bitcoinera
+- [#3583](https://github.com/cosmos/lunie/pull/3583) Adds the isExtension flag for extension @Bitcoinera
+- [#3583](https://github.com/cosmos/lunie/pull/3583) Hides the transaction meta data fold out in the extension @Bitcoinera @faboweb
+
+### Fixed
+
+- [#3580](https://github.com/cosmos/lunie/pull/3580) Fixes the displayed amount in the Claim Rewards modal for multidenom networks @Bitcoinera
+- Fix success screen showing different denom in multi denom setup @faboweb
+- Fix e2e tests failing because it can't find an element for querying for it's text @faboweb
+- [#3455](https://github.com/cosmos/lunie/issues/3455) Improve action modal layout in mobile and extension @mariopino
+- [#3568](https://github.com/cosmos/lunie/issues/3568) Show tutorial buttons only in cosmos main & testnet @mariopino
+
+### Code Improvements
+
+- [#3581](https://github.com/cosmos/lunie/pull/3581) Drops the temporary hack for claim rewards gas prices in e-Money @Bitcoinera
+- remove rpc url from gql @faboweb
+
+### Repository
+
+- updated ios pods @jbibla
+
 ## [1.0.164] - 2020-02-18
 
 ### Added

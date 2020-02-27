@@ -22,7 +22,7 @@ function setOptions(urlParams, store) {
   }
 }
 
-export default function init(urlParams, env = process.env) {
+export default async function init(urlParams, env = process.env) {
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
     enableGoogleAnalytics(config.google_analytics_uid)
@@ -30,7 +30,7 @@ export default function init(urlParams, env = process.env) {
 
   console.log(`Expecting backend at: ${config.graphqlHost}`)
 
-  const apolloProvider = createApolloProvider()
+  const apolloProvider = await createApolloProvider()
   const apolloClient = apolloProvider.clients.defaultClient
 
   const store = Store({ apollo: apolloClient })
