@@ -183,7 +183,7 @@ export default (apollo, store) => {
     },
     {
       path: `/extension/:address/:network`,
-      name: `extension`,
+      name: `extension-signin`,
       components: {
         session: () => import(`./components/common/TmSessionExtension`)
       },
