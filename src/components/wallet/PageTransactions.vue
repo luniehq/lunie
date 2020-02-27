@@ -1,8 +1,8 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="$apollo.queries.transactions.loading"
-    :loaded="!$apollo.queries.transactions.loading"
+    :loading="$apollo.queries.transactions.loading && dataEmpty"
+    :loaded="!$apollo.queries.transactions.loading && !dataEmpty"
     :error="$apollo.queries.transactions.error"
     :data-empty="transactions.length === 0"
     data-title="Transactions"
@@ -11,11 +11,12 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+      <div>
         <TransactionList
-          :transactions="transactions"
+          :transactions="showingTransactions"
           :address="address"
           :validators="validatorsAddressMap"
+          @loadMore="loadMore"
         />
       </div>
       <br />
@@ -124,8 +125,11 @@ export default {
   },
   data: () => ({
     showing: 15,
+    pageNumber: 0,
     validators: [],
-    transactions: []
+    transactions: [],
+    loadedTransactions: [],
+    lastLoadedRecordsCount: 0
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -138,11 +142,22 @@ export default {
     },
     dataEmpty() {
       return this.transactions.length === 0
+    },
+    showingTransactions() {
+      return this.transactions.slice(0, this.showing)
     }
   },
   methods: {
     loadMore() {
-      this.showing += 10
+      this.showing += 50
+      // preload next transactions before scroll end and check if last loading loads new records
+      if (
+        this.showing > this.transactions.length - 100 &&
+        this.lastLoadedRecordsCount
+      ) {
+        // loads new portion
+        this.pageNumber++
+      }
     },
     handleIntercom() {
       this.$store.dispatch(`displayMessenger`)
@@ -163,7 +178,8 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.address
+          address: this.address,
+          pageNumber: this.pageNumber
         }
       },
       update: result => {
@@ -193,6 +209,22 @@ export default {
             networkId: this.network,
             address: this.address
           }
+        },
+        update(result) {
+          let transactions = []
+          if (Array.isArray(result.transactions)) {
+            transactions = result.transactions.map(tx => ({
+              ...tx,
+              timestamp: new Date(tx.timestamp),
+              value: JSON.parse(tx.value)
+            }))
+          }
+          this.lastLoadedRecordsCount = transactions.length
+          this.loadedTransactions = [
+            ...this.loadedTransactions,
+            ...transactions
+          ]
+          return this.loadedTransactions
         }
       }
     },

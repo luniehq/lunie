@@ -1,9 +1,10 @@
 import config from "src/../config"
-import { getSigner } from "./signer"
+import { getSigner, cancelSign } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
 import { getGraphqlHost } from "scripts/url"
+import { getFingerprint } from "scripts/fingerprint"
 import {
   getMessage,
   getMultiMessage,
@@ -11,12 +12,13 @@ import {
   transformMessage
 } from "./MessageConstructor.js"
 
-const txFetchOptions = {
+const txFetchOptions = fingerprint => ({
   method: "POST",
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    fingerprint
   }
-}
+})
 
 export default class ActionManager {
   constructor() {
@@ -70,11 +72,11 @@ export default class ActionManager {
   }
 
   async transactionAPIRequest(payload) {
+    const fingerprint = await getFingerprint()
     const options = {
-      ...txFetchOptions,
+      ...txFetchOptions(fingerprint),
       body: JSON.stringify({ payload })
     }
-
     const command = payload.simulate ? "estimate" : "broadcast"
 
     const graphqlHost = getGraphqlHost()
@@ -83,6 +85,13 @@ export default class ActionManager {
       `${graphqlHost}/transaction/${command}`,
       options
     ).then(result => result.json())
+  }
+
+  async cancel(context, submitType) {
+    return await cancelSign(submitType, {
+      address: context.userAddress,
+      network: context.networkId
+    })
   }
 
   async simulateTxAPI(context, type, txProps, memo) {
@@ -251,6 +260,7 @@ function getTop5RewardsValidators(bondDenom, rewards) {
   // Compares the amount in a [address1, {denom: amount}] array
   const byBalance = (a, b) => b.amount - a.amount
   const validatorList = rewards
+    .filter(({ denom }) => denom == bondDenom)
     .sort(byBalance)
     .slice(0, 5) // Just the top 5
     .map(({ validator }) => validator.operatorAddress)

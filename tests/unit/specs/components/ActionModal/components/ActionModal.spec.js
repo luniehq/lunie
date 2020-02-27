@@ -47,6 +47,19 @@ describe(`ActionModal`, () => {
     totalStake: 1430000000
   }
 
+  const balances = [
+    {
+      denom: "STAKE",
+      amount: 1,
+      gasPrice: 0.001
+    },
+    {
+      denom: "token2",
+      amount: 2,
+      gasPrice: 0.002
+    }
+  ]
+
   const network = {
     id: "cosmos-hub-testnet",
     stakingDenom: "STAKE",
@@ -91,6 +104,9 @@ describe(`ActionModal`, () => {
     queries: {
       overview: {
         refetch: jest.fn()
+      },
+      balances: {
+        refetch: jest.fn()
       }
     }
   }
@@ -110,6 +126,7 @@ describe(`ActionModal`, () => {
           currrentModalOpen: false
         },
         overview,
+        balances,
         delegations
       },
       getters: {
@@ -146,7 +163,7 @@ describe(`ActionModal`, () => {
         sequence: 0
       }
     }
-    wrapper.setData({ network, overview, context, loaded: true })
+    wrapper.setData({ network, overview, balances, context, loaded: true })
     wrapper.vm.open()
   })
 
@@ -358,9 +375,13 @@ describe(`ActionModal`, () => {
     })
 
     it(`should set the step to transaction details`, () => {
+      wrapper.vm.actionManager = {
+        cancel: jest.fn()
+      }
       wrapper.vm.step = `sign`
       wrapper.vm.close()
       expect(wrapper.vm.step).toBe(`details`)
+      expect(wrapper.vm.actionManager.cancel).toHaveBeenCalled()
     })
 
     it(`should close on escape key press`, () => {
@@ -397,7 +418,19 @@ describe(`ActionModal`, () => {
       it(`when gas price is set on dev mode session`, () => {
         wrapper.vm.step = `fees`
         wrapper.vm.session.experimentalMode = true
-        wrapper.setData({ gasPrice: 2.5e-8 })
+        wrapper.setData({
+          gasPrice: 2.5e-8,
+          gasEstimate: 2,
+          balances: [
+            {
+              denom: "STAKE",
+              amount: 1211
+            }
+          ]
+        })
+        wrapper.setProps({
+          selectedDenom: "STAKE"
+        })
         expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(true)
       })
     })
@@ -428,8 +461,19 @@ describe(`ActionModal`, () => {
 
   describe(`validates total price does not exceed available atoms`, () => {
     beforeEach(() => {
-      wrapper.setData({ gasPrice: 10 })
-      wrapper.setData({ gasEstimate: 2 })
+      wrapper.setData({
+        gasPrice: 10,
+        gasEstimate: 2,
+        balances: [
+          {
+            denom: "STAKE",
+            amount: 1211
+          }
+        ]
+      })
+      wrapper.setProps({
+        selectedDenom: "STAKE"
+      })
     })
 
     describe(`success`, () => {
@@ -441,7 +485,7 @@ describe(`ActionModal`, () => {
 
     describe(`fails`, () => {
       it(`when the total invoice amount is more than the balance`, () => {
-        wrapper.setProps({ amount: 1211 })
+        wrapper.setProps({ amount: 1211.01 })
         expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(false)
       })
     })
@@ -615,7 +659,8 @@ describe(`ActionModal`, () => {
         step: `sign`,
         gasEstimate: 12345,
         submissionError: null,
-        useTxService: true
+        useTxService: true,
+        balances
       }
 
       wrapper.setProps({ transactionProperties })

@@ -2,7 +2,7 @@ import Vue from "vue"
 import { ApolloClient } from "apollo-boost"
 import { BatchHttpLink } from "apollo-link-batch-http"
 import { RetryLink } from "apollo-link-retry"
-import { ApolloLink, Observable as LinkObservable } from "apollo-link"
+import { ApolloLink, concat, Observable as LinkObservable } from "apollo-link"
 import { createPersistedQueryLink } from "apollo-link-persisted-queries"
 import { WebSocketLink } from "apollo-link-ws"
 import {
@@ -16,6 +16,7 @@ import { getGraphqlHost } from "scripts/url"
 import * as Sentry from "@sentry/browser"
 import config from "src/../config"
 import introspectionQueryResultData from "src/../fragmentTypes.json"
+import { getFingerprint } from "scripts/fingerprint"
 
 Vue.use(VueApollo)
 
@@ -41,7 +42,17 @@ const makeWebSocketLink = () => {
   return new WebSocketLink({ uri })
 }
 
-const createApolloClient = () => {
+const createApolloClient = async () => {
+  const fingerprint = await getFingerprint()
+  const middleware = new ApolloLink((operation, forward) => {
+    // add the authorization to the headers
+    operation.setContext({
+      headers: {
+        fingerprint
+      }
+    })
+    return forward(operation)
+  })
   const link = ApolloLink.from([
     // suspending errors, preventing to fire them
     new ApolloLink((operation, forward) => {
@@ -98,16 +109,16 @@ const createApolloClient = () => {
   const cache = new InMemoryCache({ fragmentMatcher })
 
   return new ApolloClient({
-    link,
+    link: concat(middleware, link),
     cache,
     connectToDevTools: true,
     shouldBatch: true
   })
 }
 
-export const createApolloProvider = () => {
+export const createApolloProvider = async () => {
   return new VueApollo({
-    defaultClient: createApolloClient(),
+    defaultClient: await createApolloClient(),
     defaultOptions: {
       // apollo options applied to all queries in components
       $query: {

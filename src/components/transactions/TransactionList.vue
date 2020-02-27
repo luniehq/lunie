@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
     <template v-for="group in groupedTransactions">
       <div :key="group[0].title">
         <h3>{{ group[0].title }}</h3>
@@ -91,6 +91,11 @@ export default {
           tx
         }
       })
+    }
+  },
+  methods: {
+    loadMore() {
+      this.$emit("loadMore")
     }
   }
 }

@@ -19,9 +19,7 @@ exports[`TransactionItem renders a ClaimRewardsTx transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -49,9 +47,7 @@ exports[`TransactionItem renders a DepositTx transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -79,9 +75,7 @@ exports[`TransactionItem renders a RestakeTx transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -109,9 +103,7 @@ exports[`TransactionItem renders a SendTx transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -139,9 +131,7 @@ exports[`TransactionItem renders a StakeTx transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -169,9 +159,7 @@ exports[`TransactionItem renders a SubmitProposalTx transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -199,9 +187,7 @@ exports[`TransactionItem renders a UnknownTx transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -229,9 +215,7 @@ exports[`TransactionItem renders a UnstakeTx transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -259,9 +243,7 @@ exports[`TransactionItem renders a VoteTx transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>

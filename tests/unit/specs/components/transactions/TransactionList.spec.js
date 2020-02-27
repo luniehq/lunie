@@ -43,8 +43,17 @@ describe(`TransactionList`, () => {
         transactions: txs,
         validators: {},
         address: "cosmos1"
+      },
+      directives: {
+        infiniteScroll: () => jest.fn()
       }
     })
+  })
+
+  it(`calls loadMore script on scroll`, () => {
+    const self = { $emit: jest.fn() }
+    TransactionList.methods.loadMore.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(`loadMore`)
   })
 
   it(`renders a list of TransactionItems`, () => {

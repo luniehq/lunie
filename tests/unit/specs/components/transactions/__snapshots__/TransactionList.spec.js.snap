@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TransactionList renders a list of TransactionItems 1`] = `
-<div>
+<div
+  infinite-scroll-distance="80"
+>
   <div>
     <h3>
       February 27th, 2020
