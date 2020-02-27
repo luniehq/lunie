@@ -21,8 +21,7 @@ exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] =
       <span>
         Rewards from
       </span>
-        
-        
+       
       <router-link-stub
         class="validator-link"
         to="/staking/validators/cosmosvaloper123"
