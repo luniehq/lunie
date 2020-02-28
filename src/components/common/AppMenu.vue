@@ -37,7 +37,7 @@
     <div class="app-menu-main">
       <router-link
         class="app-menu-item hide-xs"
-        to="/portfolio"
+        :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
         exact="exact"
         title="Portfolio"
         @click.native="handleClick()"
@@ -49,7 +49,7 @@
       </router-link>
       <router-link
         class="app-menu-item hide-xs"
-        to="/validators"
+        :to="{ name: 'Validators', params: { networkId: networkSlug } }"
         title="Validators"
         @click.native="handleClick()"
       >
@@ -61,7 +61,7 @@
 
       <router-link
         class="app-menu-item hide-xs"
-        to="/proposals"
+        :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
         title="Proposals"
         @click.native="handleClick()"
       >
@@ -73,7 +73,7 @@
 
       <router-link
         class="app-menu-item hide-xs"
-        to="/transactions"
+        :to="{ name: 'transactions', params: { networkId: networkSlug } }"
         exact="exact"
         title="Transactions"
         @click.native="handleClick()"
@@ -187,8 +187,11 @@ export default {
     showAddressOnLedgerFn: showAddressOnLedger
   }),
   computed: {
-    ...mapState([`session`]),
-    ...mapGetters([`address`, `network`])
+    ...mapState([`session`, "connection"]),
+    ...mapGetters([`address`, `network`]),
+    networkSlug() {
+      return this.connection.networkSlug
+    }
   },
   methods: {
     handleClick() {

@@ -152,7 +152,14 @@ describe(`ActionModal`, () => {
       mocks: {
         $store,
         $router: {
-          push: jest.fn()
+          push: jest.fn(),
+          history: {
+            current: {
+              params: {
+                networkId: "lunie-net"
+              }
+            }
+          }
         },
         $apollo
       },

@@ -65,6 +65,6 @@ describe(`SessionExtension`, () => {
       networkId: "cosmos-hub-mainnet",
       sessionType: `extension`
     })
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/portfolio`)
   })
 })

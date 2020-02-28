@@ -2,7 +2,7 @@
   <menu>
     <router-link
       class="mobile-menu-item"
-      to="/portfolio"
+      :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
       exact="exact"
       title="Portfolio"
     >
@@ -11,13 +11,21 @@
         Portfolio
       </h2>
     </router-link>
-    <router-link class="mobile-menu-item" to="/validators" title="Validators">
+    <router-link
+      class="mobile-menu-item"
+      :to="{ name: 'Validators', params: { networkId: networkSlug } }"
+      title="Validators"
+    >
       <i class="material-icons notranslate">sort</i>
       <h2 class="app-menu-title">
         Validators
       </h2>
     </router-link>
-    <router-link class="mobile-menu-item" to="/proposals" title="Proposals">
+    <router-link
+      class="mobile-menu-item"
+      :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
+      title="Proposals"
+    >
       <i class="material-icons notranslate">add_circle_outline</i>
       <h2 class="app-menu-title">
         Proposals
@@ -25,7 +33,7 @@
     </router-link>
     <router-link
       class="mobile-menu-item"
-      to="/transactions"
+      :to="{ name: 'transactions', params: { networkId: networkSlug } }"
       exact="exact"
       title="Transactions"
     >
@@ -49,8 +57,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 export default {
-  name: `mobile-menu`
+  name: `mobile-menu`,
+  computed: {
+    ...mapState(["connection"]),
+    networkSlug() {
+      return this.connection.networkSlug
+    }
+  }
 }
 </script>
 
