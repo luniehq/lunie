@@ -3,7 +3,7 @@ console.log('EXT Content Script Loaded')
 
 const LUNIE_EXT_TYPE = 'FROM_LUNIE_EXTENSION'
 const LUNIE_WEBSITE_TYPE = 'FROM_LUNIE_IO'
-
+let initExtensionMessageReceived = false
 // we wrap messages in a format to identify who messaged who
 const wrapMessageForLunie = (type, payload) => {
   return {
@@ -37,6 +37,7 @@ const filterMessages = callback => event => {
   if (event.source !== window) return
 
   if (event.data.type && event.data.type === LUNIE_WEBSITE_TYPE) {
+    initExtensionMessageReceived = true
     callback(event.data)
   }
 }
@@ -76,6 +77,13 @@ function main() {
   listenToExtensionMessages()
   listenToWebsiteMessages()
 }
+const checkIfRequestReceived = () => {
+  // retrying in no messages received
+  if (!initExtensionMessageReceived) {
+    main()
+    setTimeout(checkIfRequestReceived, 100)
+  }
+}
 window.onload = () => {
-  main()
+  checkIfRequestReceived()
 }
