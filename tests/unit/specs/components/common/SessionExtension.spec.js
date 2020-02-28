@@ -57,14 +57,4 @@ describe(`SessionExtension`, () => {
   it("should load addresses on mount", () => {
     expect($store.dispatch).toHaveBeenCalledWith("getAddressesFromExtension")
   })
-
-  it("should trigger sign in call and route the user to the homepage", () => {
-    wrapper.vm.signIn(accounts[0])
-    expect($store.dispatch).toHaveBeenCalledWith("signIn", {
-      address: "cosmos1234",
-      networkId: "cosmos-hub-mainnet",
-      sessionType: `extension`
-    })
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/portfolio`)
-  })
 })

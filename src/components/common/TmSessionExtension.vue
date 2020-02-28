@@ -62,15 +62,6 @@ export default {
       return this.extension.accounts
     }
   },
-  async created() {
-    if (this.$route.params.address && this.$route.params.network) {
-      await this.signIn({
-        address: this.$route.params.address,
-        network: this.$route.params.network
-      })
-      this.$router.push("/portfolio")
-    }
-  },
   mounted() {
     this.getAddressesFromExtension()
   },
