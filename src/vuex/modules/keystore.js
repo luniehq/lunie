@@ -46,7 +46,7 @@ export default ({ apollo }) => {
       // TODO extract the key storage from the key creation
       const { storeWallet } = await import("@lunie/cosmos-keys")
 
-      const addressCreator = await getAddressCreator(network)
+      const addressCreator = await getAddressCreator(network, apollo)
       let wallet
       if (addressCreator === "cosmos") {
         wallet = await getWallet(seedPhrase, network, apollo)
@@ -64,7 +64,7 @@ export default ({ apollo }) => {
         const newPair = keyring.addFromUri(seedPhrase)
 
         wallet = {
-          address: newPair.address,
+          cosmosAddress: newPair.address,
           seedPhrase
         }
       }
