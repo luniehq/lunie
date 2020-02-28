@@ -102,17 +102,19 @@
     </TmFormGroup>
     <div class="exchange-warning-div exchange-warning">
       <label for="send-to-exchange"
-        >Are you sending to an exchange?&nbsp;<input
+        ><input
           id="send-to-exchange"
           v-model="sendToExchange"
           type="checkbox"
-      /></label>
+        />Are you sending to an exchange?&nbsp;</label
+      >
     </div>
     <div v-if="sendToExchange">
       <div class="exchange-warning-message">
         <p>
           If you are sending to an exchange you might need to edit the memo
-          field. Otherwise you could <u>not receive your funds</u>
+          field. Check if this is the case, since otherwise you could
+          <u>not receive your funds</u>
         </p>
       </div>
     </div>
@@ -399,9 +401,6 @@ export default {
 }
 </script>
 <style scoped>
-input[type="checkbox"] {
-  margin: 0.5rem 0.3rem 0.5rem 0.3rem;
-}
 #edit-memo-btn {
   display: block;
   font-size: 15px;

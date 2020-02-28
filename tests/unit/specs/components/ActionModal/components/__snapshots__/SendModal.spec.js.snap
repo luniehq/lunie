@@ -66,11 +66,11 @@ exports[`SendModal should display send modal form 1`] = `
     <label
       for="send-to-exchange"
     >
-      Are you sending to an exchange? 
       <input
         id="send-to-exchange"
         type="checkbox"
       />
+      Are you sending to an exchange? 
     </label>
   </div>
    
@@ -159,11 +159,11 @@ exports[`SendModal validation should show address required error 1`] = `
     <label
       for="send-to-exchange"
     >
-      Are you sending to an exchange? 
       <input
         id="send-to-exchange"
         type="checkbox"
       />
+      Are you sending to an exchange? 
     </label>
   </div>
    
@@ -252,11 +252,11 @@ exports[`SendModal validation should show bech32 error when address length is to
     <label
       for="send-to-exchange"
     >
-      Are you sending to an exchange? 
       <input
         id="send-to-exchange"
         type="checkbox"
       />
+      Are you sending to an exchange? 
     </label>
   </div>
    
@@ -345,11 +345,11 @@ exports[`SendModal validation should show bech32 error when address length is to
     <label
       for="send-to-exchange"
     >
-      Are you sending to an exchange? 
       <input
         id="send-to-exchange"
         type="checkbox"
       />
+      Are you sending to an exchange? 
     </label>
   </div>
    
@@ -441,11 +441,11 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     <label
       for="send-to-exchange"
     >
-      Are you sending to an exchange? 
       <input
         id="send-to-exchange"
         type="checkbox"
       />
+      Are you sending to an exchange? 
     </label>
   </div>
    
