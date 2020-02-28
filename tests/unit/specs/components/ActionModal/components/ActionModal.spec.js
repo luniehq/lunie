@@ -152,7 +152,14 @@ describe(`ActionModal`, () => {
       mocks: {
         $store,
         $router: {
-          push: jest.fn()
+          push: jest.fn(),
+          history: {
+            current: {
+              params: {
+                networkId: "lunie-net"
+              }
+            }
+          }
         },
         $apollo
       },
@@ -375,9 +382,13 @@ describe(`ActionModal`, () => {
     })
 
     it(`should set the step to transaction details`, () => {
+      wrapper.vm.actionManager = {
+        cancel: jest.fn()
+      }
       wrapper.vm.step = `sign`
       wrapper.vm.close()
       expect(wrapper.vm.step).toBe(`details`)
+      expect(wrapper.vm.actionManager.cancel).toHaveBeenCalled()
     })
 
     it(`should close on escape key press`, () => {
@@ -481,7 +492,7 @@ describe(`ActionModal`, () => {
 
     describe(`fails`, () => {
       it(`when the total invoice amount is more than the balance`, () => {
-        wrapper.setProps({ amount: 1211 })
+        wrapper.setProps({ amount: 1211.01 })
         expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(false)
       })
     })

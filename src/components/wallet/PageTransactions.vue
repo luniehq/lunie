@@ -1,8 +1,8 @@
 <template>
   <TmPage
     :managed="true"
-    :loading="$apollo.queries.transactions.loading"
-    :loaded="!$apollo.queries.transactions.loading"
+    :loading="$apollo.queries.transactions.loading && dataEmpty"
+    :loaded="!$apollo.queries.transactions.loading && !dataEmpty"
     :error="$apollo.queries.transactions.error"
     :data-empty="transactions.length === 0"
     data-title="Transactions"
@@ -11,11 +11,12 @@
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
-      <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
+      <div>
         <TransactionList
-          :transactions="transactions"
+          :transactions="showingTransactions"
           :address="address"
           :validators="validatorsAddressMap"
+          @loadMore="loadMore"
         />
       </div>
       <br />
@@ -42,6 +43,78 @@ import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import gql from "graphql-tag"
 
+const txFields = `
+  type
+  hash
+  height
+  timestamp
+  memo
+  success
+  fees {
+    denom
+    amount
+  }
+  details {
+    ... on SendTx {
+      from
+      to
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on StakeTx {
+      to
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on RestakeTx {
+      to
+      from
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on UnstakeTx {
+      from
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on ClaimRewardsTx {
+      from
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on SubmitProposalTx {
+      proposalType
+      proposalTitle
+      proposalDescription
+      initialDeposit {
+        denom
+        amount
+      }
+    }
+    ... on VoteTx {
+      proposalId
+      voteOption
+    }
+    ... on DepositTx {
+      proposalId
+      amount {
+        denom
+        amount
+      }
+    }
+  }
+`
+
 export default {
   name: `page-transactions`,
   components: {
@@ -52,8 +125,11 @@ export default {
   },
   data: () => ({
     showing: 15,
+    pageNumber: 0,
     validators: [],
-    transactions: []
+    transactions: [],
+    loadedTransactions: [],
+    lastLoadedRecordsCount: 0
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -66,11 +142,22 @@ export default {
     },
     dataEmpty() {
       return this.transactions.length === 0
+    },
+    showingTransactions() {
+      return this.transactions.slice(0, this.showing)
     }
   },
   methods: {
     loadMore() {
-      this.showing += 10
+      this.showing += 50
+      // preload next transactions before scroll end and check if last loading loads new records
+      if (
+        this.showing > this.transactions.length - 100 &&
+        this.lastLoadedRecordsCount
+      ) {
+        // loads new portion
+        this.pageNumber++
+      }
     },
     handleIntercom() {
       this.$store.dispatch(`displayMessenger`)
@@ -79,20 +166,9 @@ export default {
   apollo: {
     transactions: {
       query: gql`
-        query transactions($networkId: String!, $address: String!) {
-          transactions(networkId: $networkId, address: $address) {
-            hash
-            type
-            group
-            height
-            timestamp
-            gasUsed
-            fee {
-              amount
-              denom
-            }
-            value
-            withdrawValidators
+        query transactionsV2($networkId: String!, $address: String!, $pageNumber: Int) {
+          transactionsV2(networkId: $networkId, address: $address, pageNumber: $pageNumber) {
+            ${txFields}
           }
         }
       `,
@@ -102,34 +178,25 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.address
+          address: this.address,
+          pageNumber: this.pageNumber
         }
       },
-      update: result => {
-        if (Array.isArray(result.transactions)) {
-          return result.transactions.map(tx => ({
-            ...tx,
-            timestamp: new Date(tx.timestamp),
-            value: JSON.parse(tx.value)
-          }))
+      update(result) {
+        if (Array.isArray(result.transactionsV2)) {
+          this.lastLoadedRecordsCount = result.transactionsV2.length
+          this.loadedTransactions = [
+            ...this.loadedTransactions,
+            ...result.transactionsV2
+          ]
         }
-        return []
+        return this.loadedTransactions
       },
       subscribeToMore: {
         document: gql`
           subscription($networkId: String!, $address: String!) {
-            userTransactionAdded(networkId: $networkId, address: $address) {
-              hash
-              type
-              group
-              height
-              timestamp
-              gasUsed
-              fee {
-                amount
-                denom
-              }
-              value
+            userTransactionAddedV2(networkId: $networkId, address: $address) {
+              ${txFields}
             }
           }
         `,
@@ -146,6 +213,22 @@ export default {
             networkId: this.network,
             address: this.address
           }
+        },
+        update(result) {
+          let transactions = []
+          if (Array.isArray(result.transactions)) {
+            transactions = result.transactions.map(tx => ({
+              ...tx,
+              timestamp: new Date(tx.timestamp),
+              value: JSON.parse(tx.value)
+            }))
+          }
+          this.lastLoadedRecordsCount = transactions.length
+          this.loadedTransactions = [
+            ...this.loadedTransactions,
+            ...transactions
+          ]
+          return this.loadedTransactions
         }
       }
     },

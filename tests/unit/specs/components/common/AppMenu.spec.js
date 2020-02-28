@@ -13,6 +13,9 @@ describe(`AppMenu`, () => {
       state: {
         session: {
           signedIn: true
+        },
+        connection: {
+          networkSlug: "lunie-net"
         }
       },
       getters: {

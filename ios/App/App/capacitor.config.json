@@ -4,15 +4,10 @@
   "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "dist",
-  "server": {
-    "url": "http://localhost:9080/"
-  },
   "plugins": {
-    "Keyboard": {
-      "resize": "none",
-      "style": "dark"
-    },
     "IntercomPlugin": {
+      "android-apiKey": "android_sdk-xxxx",
+      "android-appId": "yyyy",
       "ios-apiKey": "ios_sdk-xxxx",
       "ios-appId": "yyyy"
     }

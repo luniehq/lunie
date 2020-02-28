@@ -25,6 +25,7 @@ async function awaitBalance(browser, balance) {
 }
 async function waitFor(check, iterations = 10, timeout = 1000) {
   while (--iterations) {
+    console.log(iterations)
     try {
       await check()
       return
@@ -69,8 +70,12 @@ async function waitForText(
 ) {
   await waitFor(
     async () => {
-      const { value: caption } = await browser.getText(selector)
-      expect(caption).to.include(expectedCaption)
+      await browser.waitForElementVisible(selector, 10000)
+      const result = await browser.getText(selector)
+      console.log(result) // let's check what the property for error is
+      if (!result.errors) {
+        expect(result.value).to.include(expectedCaption)
+      }
     },
     iterations,
     timeout
@@ -142,7 +147,7 @@ async function actionModalCheckout(
       sheet.cssRules.length
     )
   })
-
+  await browser.expect.element(btnSelector).to.be.visible.before(10000)
   await browser.click(btnSelector)
   browser.expect.element(".action-modal").to.be.visible.before(10000)
 
@@ -190,7 +195,7 @@ async function actionModalCheckout(
       browser.click("#closeBtn")
     })
   // go to portfolio to remember balances
-  browser.url(browser.launch_url + "/portfolio")
+  browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
 
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
@@ -227,19 +232,22 @@ async function actionModalCheckout(
 
 async function getAccountBallance(browser) {
   // save denom
-  return await browser.url(browser.launch_url + "/portfolio", async () => {
-    // waiting till balance loaded
-    await browser.waitForElementVisible(".total-atoms h3", 5000, false)
-    await browser.getText(".total-atoms h3", result => {
-      browser.globals.denom = result.value.replace("Total ", "")
-    })
-    await browser.getText(".available-atoms h2", result => {
-      browser.globals.availableAtoms = result.value.replace(",", "")
-    })
-    await browser.getText(".total-atoms__value", result => {
-      browser.globals.totalAtoms = result.value.replace(",", "")
-    })
-  })
+  return await browser.url(
+    browser.launch_url + browser.globals.slug + "/portfolio",
+    async () => {
+      // waiting till balance loaded
+      await browser.waitForElementVisible(".total-atoms h2", 5000, false)
+      await browser.getText(".total-atoms h3", result => {
+        browser.globals.denom = result.value.replace("Total ", "")
+      })
+      await browser.getText(".available-atoms h2", result => {
+        browser.globals.availableAtoms = result.value.replace(",", "")
+      })
+      await browser.getText(".total-atoms__value", result => {
+        browser.globals.totalAtoms = result.value.replace(",", "")
+      })
+    }
+  )
 }
 
 async function nextBlock(browser) {

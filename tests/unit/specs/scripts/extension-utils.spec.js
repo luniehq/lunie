@@ -2,7 +2,8 @@ import {
   listenToExtensionMessages,
   processLunieExtensionMessages,
   getAccountsFromExtension,
-  signWithExtension
+  signWithExtension,
+  cancelSignWithExtension
 } from "scripts/extension-utils.js"
 
 describe(`Extension Utils`, () => {
@@ -124,6 +125,26 @@ describe(`Extension Utils`, () => {
 
       afterAll(() => {
         global.addEventListener.mockReset()
+      })
+
+      it("should cancel requests", () => {
+        cancelSignWithExtension("abc", "cosmos1234")
+        expect(global.postMessage.mock.calls).toEqual([
+          [
+            {
+              payload: {
+                payload: {
+                  senderAddress: "abc",
+                  network: "cosmos1234"
+                },
+                type: "LUNIE_SIGN_REQUEST_CANCEL"
+              },
+              skipResponse: true,
+              type: "FROM_LUNIE_IO"
+            },
+            "*"
+          ]
+        ])
       })
 
       it("should request a signature", () => {

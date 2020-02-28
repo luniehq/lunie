@@ -20,7 +20,7 @@ const validators = [
 ]
 
 describe(`TableValidators`, () => {
-  let wrapper, $apollo
+  let wrapper, $apollo, $store
 
   $apollo = {
     queries: {
@@ -33,13 +33,21 @@ describe(`TableValidators`, () => {
   }
 
   beforeEach(() => {
+    $store = {
+      getters: {
+        address: "cosmo1"
+      },
+      state: {}
+    }
+
     wrapper = shallowMount(TableValidators, {
       propsData: { validators },
       directives: {
         infiniteScroll: () => {}
       },
       mocks: {
-        $apollo
+        $apollo,
+        $store
       }
     })
   })

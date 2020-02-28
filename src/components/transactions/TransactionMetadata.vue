@@ -13,18 +13,19 @@
         date
       }}
     </p>
-    <p v-if="transaction.undelegationEndTime">
-      Liquid date:
-      {{ getUndelegationEndTime() }}
-    </p>
     <p v-if="transaction.memo">
       <i class="material-icons notranslate">message</i> Memo:&nbsp;
       {{ transaction.memo }}
     </p>
     <p>
-      Fee:
-      <b>{{ transaction.fee.amount }}</b>
-      <span> {{ transaction.fee.denom }}</span>
+      Fees:&nbsp;
+      <span v-if="transaction.fees.length > 0">
+        <b>{{ transaction.fees[0].amount }}</b>
+        <span> {{ transaction.fees[0].denom }}</span>
+      </span>
+      <span v-else>
+        0
+      </span>
     </p>
     <p>
       Hash: <span class="hash">{{ transaction.hash }}</span>
@@ -63,9 +64,6 @@ export default {
     }
   },
   methods: {
-    getUndelegationEndTime() {
-      return moment(new Date(this.transaction.undelegationEndTime))
-    },
     checkFeatureAvailable() {
       const feature = `feature_explorer`
       return this.network[feature] === true
@@ -81,14 +79,14 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.networkId
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.network
       }
     }

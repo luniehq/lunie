@@ -1,13 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionItem renders a MsgBeginRedelegate transaction item 1`] = `
+exports[`TransactionItem renders a ClaimRewardsTx transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <!---->
+    <claim-rewards-tx-details-stub
+      session-address="cosmos1"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
      
     <div
       class="toggle"
@@ -15,9 +19,7 @@ exports[`TransactionItem renders a MsgBeginRedelegate transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -26,14 +28,18 @@ exports[`TransactionItem renders a MsgBeginRedelegate transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a MsgDelegate transaction item 1`] = `
+exports[`TransactionItem renders a DepositTx transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <!---->
+    <deposit-tx-details-stub
+      session-address="cosmos1"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
      
     <div
       class="toggle"
@@ -41,9 +47,7 @@ exports[`TransactionItem renders a MsgDelegate transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -52,14 +56,18 @@ exports[`TransactionItem renders a MsgDelegate transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a MsgDeposit transaction item 1`] = `
+exports[`TransactionItem renders a RestakeTx transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <!---->
+    <restake-tx-details-stub
+      session-address="cosmos1"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
      
     <div
       class="toggle"
@@ -67,9 +75,7 @@ exports[`TransactionItem renders a MsgDeposit transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -78,14 +84,18 @@ exports[`TransactionItem renders a MsgDeposit transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a MsgMultiSend transaction item 1`] = `
+exports[`TransactionItem renders a SendTx transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <!---->
+    <send-tx-details-stub
+      sessionaddress="cosmos1"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
      
     <div
       class="toggle"
@@ -93,9 +103,7 @@ exports[`TransactionItem renders a MsgMultiSend transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -104,14 +112,18 @@ exports[`TransactionItem renders a MsgMultiSend transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a MsgSend transaction item 1`] = `
+exports[`TransactionItem renders a StakeTx transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <!---->
+    <stake-tx-details-stub
+      session-address="cosmos1"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
      
     <div
       class="toggle"
@@ -119,9 +131,7 @@ exports[`TransactionItem renders a MsgSend transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -130,14 +140,18 @@ exports[`TransactionItem renders a MsgSend transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a MsgSubmitProposal transaction item 1`] = `
+exports[`TransactionItem renders a SubmitProposalTx transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <!---->
+    <submit-proposal-tx-details-stub
+      session-address="cosmos1"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
      
     <div
       class="toggle"
@@ -145,9 +159,7 @@ exports[`TransactionItem renders a MsgSubmitProposal transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -156,14 +168,18 @@ exports[`TransactionItem renders a MsgSubmitProposal transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a MsgUndelegate transaction item 1`] = `
+exports[`TransactionItem renders a UnknownTx transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <!---->
+    <unknown-tx-details-stub
+      session-address="cosmos1"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
      
     <div
       class="toggle"
@@ -171,9 +187,7 @@ exports[`TransactionItem renders a MsgUndelegate transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -182,14 +196,18 @@ exports[`TransactionItem renders a MsgUndelegate transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a MsgVote transaction item 1`] = `
+exports[`TransactionItem renders a UnstakeTx transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <!---->
+    <unstake-tx-details-stub
+      session-address="cosmos1"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
      
     <div
       class="toggle"
@@ -197,9 +215,7 @@ exports[`TransactionItem renders a MsgVote transaction item 1`] = `
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
@@ -208,14 +224,18 @@ exports[`TransactionItem renders a MsgVote transaction item 1`] = `
 </div>
 `;
 
-exports[`TransactionItem renders a MsgWithdrawDelegationReward transaction item 1`] = `
+exports[`TransactionItem renders a VoteTx transaction item 1`] = `
 <div
   class="tx-container"
 >
   <div
     class="tx"
   >
-    <!---->
+    <vote-tx-details-stub
+      session-address="cosmos1"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
      
     <div
       class="toggle"
@@ -223,9 +243,7 @@ exports[`TransactionItem renders a MsgWithdrawDelegationReward transaction item 
       <i
         class="material-icons notranslate toggle-icon"
       >
-        
         keyboard_arrow_down
-      
       </i>
     </div>
   </div>
