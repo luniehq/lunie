@@ -55,7 +55,7 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
     )
 
     store.dispatch(`setNetwork`, network)
-    next(`/${network.slug}${path}`)
+    // next(`/${network.slug}${path}`)
   }
   // no network is set so we set the default
   if (!to.params.networkId) {
