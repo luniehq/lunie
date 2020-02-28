@@ -322,7 +322,7 @@ export default {
     }
   },
   mounted() {
-    this.preferredCurrency = localStorage.getItem(`preferredCurrency`)
+    this.setPreferredCurrency()
   },
   methods: {
     bigFigureOrShortDecimals,
@@ -351,7 +351,7 @@ export default {
     },
     setPreferredCurrency() {
       localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
-      this.preferredCurrency = localStorage.getItem(`preferredCurrency`)
+      this.preferredCurrency = this.selectedFiatCurrency
     }
   },
   apollo: {
