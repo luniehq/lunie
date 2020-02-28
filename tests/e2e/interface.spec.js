@@ -1,7 +1,7 @@
 module.exports = {
   "Validators search": async function(browser) {
     // move to according page
-    await browser.url(browser.launch_url + "/validators")
+    await browser.url(browser.launch_url + browser.globals.slug + "/validators")
 
     // wait until validators list load
     let validatorNames

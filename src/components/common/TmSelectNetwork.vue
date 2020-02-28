@@ -89,6 +89,7 @@ export default {
             title
             testnet
             icon
+            slug
           }
         }
       `,

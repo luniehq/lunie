@@ -12,9 +12,9 @@ describe(`Module: Connection`, () => {
       return {
         data: {
           networks: [
-            { id: `awesomenet` },
-            { id: `keine-ahnungnet` },
-            { id: `localnet` }
+            { id: `awesomenet`, slug: `awesome` },
+            { id: `keine-ahnungnet`, slug: `ahnungnet` },
+            { id: `localnet`, slug: `local` }
           ]
         }
       }
@@ -48,29 +48,37 @@ describe(`Module: Connection`, () => {
 
   it(`assigns the user a network if a network was found`, async () => {
     const commit = jest.fn()
+    const dispatch = jest.fn()
     localStorage.setItem(
       JSON.stringify({
         network: `awesomenet`
       })
     )
-    await actions.checkForPersistedNetwork({ commit })
-    expect(commit).toHaveBeenCalledWith(`setNetworkId`, `awesomenet`)
+    await actions.checkForPersistedNetwork({ dispatch, commit })
+    expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: `awesomenet`,
+      slug: `awesome`
+    })
     localStorage.clear()
   })
 
   it(`assigns the user the default network if there is no persisted network 
   and the default network is among the available networks`, async () => {
     const dispatch = jest.fn()
-    await actions.checkForPersistedNetwork({ dispatch })
+    const commit = jest.fn()
+    await actions.checkForPersistedNetwork({ dispatch, commit })
     expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {
-      id: "keine-ahnungnet"
+      id: `keine-ahnungnet`,
+      slug: `ahnungnet`
     })
+    expect(commit).toHaveBeenCalledWith(`setNetworkSlug`, "ahnungnet")
     localStorage.clear()
   })
 
   it(`assigns the user the fallback network if there is no persisted network 
   and the default network is not among the available networks`, async () => {
     const dispatch = jest.fn()
+    const commit = jest.fn()
     state.network = "strangenet"
     state.externals = {
       config: {
@@ -79,8 +87,12 @@ describe(`Module: Connection`, () => {
         fallbackNetwork: `localnet`
       }
     }
-    await actions.checkForPersistedNetwork({ dispatch })
-    expect(dispatch).toHaveBeenCalledWith(`setNetwork`, { id: "localnet" })
+    await actions.checkForPersistedNetwork({ dispatch, commit })
+    expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
+      id: `localnet`,
+      slug: `local`
+    })
+    expect(commit).toHaveBeenCalledWith(`setNetworkSlug`, "local")
   })
 
   it("should switch networks", async () => {
