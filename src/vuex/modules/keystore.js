@@ -45,7 +45,29 @@ export default ({ apollo }) => {
     ) {
       // TODO extract the key storage from the key creation
       const { storeWallet } = await import("@lunie/cosmos-keys")
-      const wallet = await getWallet(seedPhrase, network, apollo)
+
+      const addressCreator = await getAddressCreator(network)
+      let wallet
+      if (addressCreator === "cosmos") {
+        wallet = await getWallet(seedPhrase, network, apollo)
+      }
+      if (addressCreator === "polkadot") {
+        const [{ Keyring }] = await Promise.all([
+          import("@polkadot/keyring"),
+          import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
+            // Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
+            await cryptoWaitReady()
+          })
+        ])
+
+        const keyring = new Keyring({ type: "ed25519" })
+        const newPair = keyring.addFromUri(seedPhrase)
+
+        wallet = {
+          address: newPair.address,
+          seedPhrase
+        }
+      }
 
       storeWallet(wallet, name, password, network)
 
@@ -105,4 +127,22 @@ async function getWallet(seedPhrase, networkId, apollo) {
       return addressCreator(seedPhrase)
     }
   }
+}
+
+async function getAddressCreator(networkId, apollo) {
+  const {
+    data: { network }
+  } = await apollo.query({
+    query: gql`
+      query Network {
+        network(id: "${networkId}") {
+          id
+          address_creator
+        }
+      }
+    `,
+    fetchPolicy: "cache-first"
+  })
+
+  return network.address_creator
 }
