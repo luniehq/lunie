@@ -399,6 +399,9 @@ export default {
 }
 </script>
 <style scoped>
+input[type="checkbox"] {
+  margin: 0.5rem 0.3rem 0.5rem 0.3rem;
+}
 #edit-memo-btn {
   display: block;
   font-size: 15px;
