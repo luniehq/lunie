@@ -199,7 +199,11 @@ describe(`PageTransactions`, () => {
       }
     })
     // setting showing to big number
-    wrapper.setData({ showing: 100, lastLoadedRecordsCount: 1 })
+    wrapper.setData({
+      showing: 100,
+      lastLoadedRecordsCount: 1,
+      dataLoaded: true
+    })
     wrapper.vm.loadMore()
     // pageNumber should be updated
     expect(wrapper.vm.pageNumber).toBeGreaterThan(0)
