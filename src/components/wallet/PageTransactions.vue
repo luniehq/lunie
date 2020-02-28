@@ -129,7 +129,8 @@ export default {
     validators: [],
     transactions: [],
     loadedTransactions: [],
-    lastLoadedRecordsCount: 0
+    lastLoadedRecordsCount: 0,
+    dataLoaded: false
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -155,8 +156,12 @@ export default {
         this.showing > this.transactions.length - 100 &&
         this.lastLoadedRecordsCount
       ) {
-        // loads new portion
-        this.pageNumber++
+        // to prevent multiple requests
+        if (this.dataLoaded === true) {
+          // loads new portion
+          this.pageNumber++
+          this.dataLoaded = false
+        }
       }
     },
     handleIntercom() {
@@ -183,6 +188,7 @@ export default {
         }
       },
       update(result) {
+        this.dataLoaded = true
         if (Array.isArray(result.transactionsV2)) {
           this.lastLoadedRecordsCount = result.transactionsV2.length
           this.loadedTransactions = [
@@ -191,45 +197,6 @@ export default {
           ]
         }
         return this.loadedTransactions
-      },
-      subscribeToMore: {
-        document: gql`
-          subscription($networkId: String!, $address: String!) {
-            userTransactionAddedV2(networkId: $networkId, address: $address) {
-              ${txFields}
-            }
-          }
-        `,
-        updateQuery: (previousResult, { subscriptionData }) => {
-          return {
-            transactions: [
-              subscriptionData.data.userTransactionAdded,
-              ...previousResult.transactions
-            ]
-          }
-        },
-        variables() {
-          return {
-            networkId: this.network,
-            address: this.address
-          }
-        },
-        update(result) {
-          let transactions = []
-          if (Array.isArray(result.transactions)) {
-            transactions = result.transactions.map(tx => ({
-              ...tx,
-              timestamp: new Date(tx.timestamp),
-              value: JSON.parse(tx.value)
-            }))
-          }
-          this.lastLoadedRecordsCount = transactions.length
-          this.loadedTransactions = [
-            ...this.loadedTransactions,
-            ...transactions
-          ]
-          return this.loadedTransactions
-        }
       }
     },
     validators: {
