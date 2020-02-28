@@ -39,7 +39,6 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      id="form-group-amount"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
@@ -101,23 +100,25 @@
         class="tm-form-msg--desc max-message"
       />
     </TmFormGroup>
-    <div v-if="editMemo === false">
-      <div class="warning">
-        <span
-          ><span class="warning-header"
-            ><i class="warning-symbol material-icons notranslate">warning</i
-            >WARNING:&nbsp;</span
-          >if you are sending to an exchange you will probably need to edit the
-          memo field. Otherwise <u>you won't receive your funds</u></span
-        >
-      </div>
-      <div class="memo-div warning">
-        <i class="material-icons notranslate">arrow_forward</i>
-        <a id="edit-memo-btn" @click="showMemo()">
-          Need to edit the memo field?
-        </a>
+    <div class="exchange-warning-div exchange-warning">
+      <label for="send-to-exchange"
+        >Are you sending to an exchange?&nbsp;<input
+          id="send-to-exchange"
+          v-model="sendToExchange"
+          type="checkbox"
+      /></label>
+    </div>
+    <div v-if="sendToExchange">
+      <div class="exchange-warning-message">
+        <p>
+          If you are sending to an exchange you might need to edit the memo
+          field. Otherwise <u>you won't receive your funds</u>
+        </p>
       </div>
     </div>
+    <a v-if="editMemo === false" id="edit-memo-btn" @click="showMemo()">
+      Need to edit the memo field?
+    </a>
     <TmFormGroup
       v-else
       id="memo"
@@ -184,6 +185,7 @@ export default {
     memo: defaultMemo,
     max_memo_characters: 256,
     editMemo: false,
+    sendToExchange: false,
     isFirstLoad: true,
     selectedToken: undefined,
     balances: [],
@@ -397,42 +399,36 @@ export default {
 }
 </script>
 <style scoped>
-.memo-div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 1rem;
-  margin-left: 1rem;
-}
 #edit-memo-btn {
+  display: block;
   font-size: 15px;
-  font-weight: bold;
   cursor: pointer;
-  margin-left: 0.5rem;
+  margin-top: 1rem;
 }
-.warning {
-  font-size: var(--m);
-  font-weight: 500;
-  color: var(--danger);
+.exchange-warning-div {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.exchange-warning {
+  color: var(--link);
+  font-size: 15px;
   font-style: italic;
+  cursor: pointer;
 }
-.warning-header {
-  font-weight: bold;
-  font-style: normal;
+.exchange-warning:hover {
+  color: var(--link-hover);
 }
-.warning-symbol {
-  position: relative;
-  top: 3px;
-  margin-right: 3px;
+.exchange-warning-message {
+  background-color: var(--bc);
+  font-size: 15px;
+  color: var(--tx-distribution);
+  padding: 5px;
 }
 .tm-field-addon {
   border-right: 0;
 }
 .tm-field-addon:focus {
   border-color: var(--input-bc);
-}
-#form-group-amount {
-  margin-bottom: 30px;
 }
 .tm-field-token-selector {
   width: 80px;

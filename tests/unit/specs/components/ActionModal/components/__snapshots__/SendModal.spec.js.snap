@@ -31,7 +31,6 @@ exports[`SendModal should display send modal form 1`] = `
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
-    id="form-group-amount"
   >
     <tmfieldgroup-stub>
       <tmfield-stub
@@ -61,47 +60,29 @@ exports[`SendModal should display send modal form 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <div>
-    <div
-      class="warning"
+  <div
+    class="exchange-warning-div exchange-warning"
+  >
+    <label
+      for="send-to-exchange"
     >
-      <span>
-        <span
-          class="warning-header"
-        >
-          <i
-            class="warning-symbol material-icons notranslate"
-          >
-            warning
-          </i>
-          WARNING: 
-        </span>
-        if you are sending to an exchange you will probably need to edit the
-        memo field. Otherwise 
-        <u>
-          you won't receive your funds
-        </u>
-      </span>
-    </div>
-     
-    <div
-      class="memo-div warning"
-    >
-      <i
-        class="material-icons notranslate"
-      >
-        arrow_forward
-      </i>
-       
-      <a
-        id="edit-memo-btn"
-      >
-        
-        Need to edit the memo field?
-      
-      </a>
-    </div>
+      Are you sending to an exchange? 
+      <input
+        id="send-to-exchange"
+        type="checkbox"
+      />
+    </label>
   </div>
+   
+  <!---->
+   
+  <a
+    id="edit-memo-btn"
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
@@ -142,7 +123,6 @@ exports[`SendModal validation should show address required error 1`] = `
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
-    id="form-group-amount"
   >
     <tmfieldgroup-stub>
       <tmfield-stub
@@ -173,47 +153,29 @@ exports[`SendModal validation should show address required error 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <div>
-    <div
-      class="warning"
+  <div
+    class="exchange-warning-div exchange-warning"
+  >
+    <label
+      for="send-to-exchange"
     >
-      <span>
-        <span
-          class="warning-header"
-        >
-          <i
-            class="warning-symbol material-icons notranslate"
-          >
-            warning
-          </i>
-          WARNING: 
-        </span>
-        if you are sending to an exchange you will probably need to edit the
-        memo field. Otherwise 
-        <u>
-          you won't receive your funds
-        </u>
-      </span>
-    </div>
-     
-    <div
-      class="memo-div warning"
-    >
-      <i
-        class="material-icons notranslate"
-      >
-        arrow_forward
-      </i>
-       
-      <a
-        id="edit-memo-btn"
-      >
-        
-        Need to edit the memo field?
-      
-      </a>
-    </div>
+      Are you sending to an exchange? 
+      <input
+        id="send-to-exchange"
+        type="checkbox"
+      />
+    </label>
   </div>
+   
+  <!---->
+   
+  <a
+    id="edit-memo-btn"
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
@@ -254,7 +216,6 @@ exports[`SendModal validation should show bech32 error when address length is to
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
-    id="form-group-amount"
   >
     <tmfieldgroup-stub>
       <tmfield-stub
@@ -285,47 +246,29 @@ exports[`SendModal validation should show bech32 error when address length is to
     <!---->
   </tmformgroup-stub>
    
-  <div>
-    <div
-      class="warning"
+  <div
+    class="exchange-warning-div exchange-warning"
+  >
+    <label
+      for="send-to-exchange"
     >
-      <span>
-        <span
-          class="warning-header"
-        >
-          <i
-            class="warning-symbol material-icons notranslate"
-          >
-            warning
-          </i>
-          WARNING: 
-        </span>
-        if you are sending to an exchange you will probably need to edit the
-        memo field. Otherwise 
-        <u>
-          you won't receive your funds
-        </u>
-      </span>
-    </div>
-     
-    <div
-      class="memo-div warning"
-    >
-      <i
-        class="material-icons notranslate"
-      >
-        arrow_forward
-      </i>
-       
-      <a
-        id="edit-memo-btn"
-      >
-        
-        Need to edit the memo field?
-      
-      </a>
-    </div>
+      Are you sending to an exchange? 
+      <input
+        id="send-to-exchange"
+        type="checkbox"
+      />
+    </label>
   </div>
+   
+  <!---->
+   
+  <a
+    id="edit-memo-btn"
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
@@ -366,7 +309,6 @@ exports[`SendModal validation should show bech32 error when address length is to
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
-    id="form-group-amount"
   >
     <tmfieldgroup-stub>
       <tmfield-stub
@@ -397,47 +339,29 @@ exports[`SendModal validation should show bech32 error when address length is to
     <!---->
   </tmformgroup-stub>
    
-  <div>
-    <div
-      class="warning"
+  <div
+    class="exchange-warning-div exchange-warning"
+  >
+    <label
+      for="send-to-exchange"
     >
-      <span>
-        <span
-          class="warning-header"
-        >
-          <i
-            class="warning-symbol material-icons notranslate"
-          >
-            warning
-          </i>
-          WARNING: 
-        </span>
-        if you are sending to an exchange you will probably need to edit the
-        memo field. Otherwise 
-        <u>
-          you won't receive your funds
-        </u>
-      </span>
-    </div>
-     
-    <div
-      class="memo-div warning"
-    >
-      <i
-        class="material-icons notranslate"
-      >
-        arrow_forward
-      </i>
-       
-      <a
-        id="edit-memo-btn"
-      >
-        
-        Need to edit the memo field?
-      
-      </a>
-    </div>
+      Are you sending to an exchange? 
+      <input
+        id="send-to-exchange"
+        type="checkbox"
+      />
+    </label>
   </div>
+   
+  <!---->
+   
+  <a
+    id="edit-memo-btn"
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
 
@@ -478,7 +402,6 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     error="true"
     fieldid="amount"
     fieldlabel="Amount"
-    id="form-group-amount"
   >
     <tmfieldgroup-stub>
       <tmfield-stub
@@ -512,46 +435,28 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     />
   </tmformgroup-stub>
    
-  <div>
-    <div
-      class="warning"
+  <div
+    class="exchange-warning-div exchange-warning"
+  >
+    <label
+      for="send-to-exchange"
     >
-      <span>
-        <span
-          class="warning-header"
-        >
-          <i
-            class="warning-symbol material-icons notranslate"
-          >
-            warning
-          </i>
-          WARNING: 
-        </span>
-        if you are sending to an exchange you will probably need to edit the
-        memo field. Otherwise 
-        <u>
-          you won't receive your funds
-        </u>
-      </span>
-    </div>
-     
-    <div
-      class="memo-div warning"
-    >
-      <i
-        class="material-icons notranslate"
-      >
-        arrow_forward
-      </i>
-       
-      <a
-        id="edit-memo-btn"
-      >
-        
-        Need to edit the memo field?
-      
-      </a>
-    </div>
+      Are you sending to an exchange? 
+      <input
+        id="send-to-exchange"
+        type="checkbox"
+      />
+    </label>
   </div>
+   
+  <!---->
+   
+  <a
+    id="edit-memo-btn"
+  >
+    
+    Need to edit the memo field?
+  
+  </a>
 </actionmodal-stub>
 `;
