@@ -43,6 +43,78 @@ import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import gql from "graphql-tag"
 
+const txFields = `
+  type
+  hash
+  height
+  timestamp
+  memo
+  success
+  fees {
+    denom
+    amount
+  }
+  details {
+    ... on SendTx {
+      from
+      to
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on StakeTx {
+      to
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on RestakeTx {
+      to
+      from
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on UnstakeTx {
+      from
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on ClaimRewardsTx {
+      from
+      amount {
+        denom
+        amount
+      }
+    }
+    ... on SubmitProposalTx {
+      proposalType
+      proposalTitle
+      proposalDescription
+      initialDeposit {
+        denom
+        amount
+      }
+    }
+    ... on VoteTx {
+      proposalId
+      voteOption
+    }
+    ... on DepositTx {
+      proposalId
+      amount {
+        denom
+        amount
+      }
+    }
+  }
+`
+
 export default {
   name: `page-transactions`,
   components: {
@@ -94,28 +166,9 @@ export default {
   apollo: {
     transactions: {
       query: gql`
-        query transactions(
-          $networkId: String!
-          $address: String!
-          $pageNumber: Int
-        ) {
-          transactions(
-            networkId: $networkId
-            address: $address
-            pageNumber: $pageNumber
-          ) {
-            hash
-            type
-            group
-            height
-            timestamp
-            gasUsed
-            fee {
-              amount
-              denom
-            }
-            value
-            withdrawValidators
+        query transactionsV2($networkId: String!, $address: String!, $pageNumber: Int) {
+          transactionsV2(networkId: $networkId, address: $address, pageNumber: $pageNumber) {
+            ${txFields}
           }
         }
       `,
@@ -130,17 +183,53 @@ export default {
         }
       },
       update(result) {
-        let transactions = []
-        if (Array.isArray(result.transactions)) {
-          transactions = result.transactions.map(tx => ({
-            ...tx,
-            timestamp: new Date(tx.timestamp),
-            value: JSON.parse(tx.value)
-          }))
+        if (Array.isArray(result.transactionsV2)) {
+          this.lastLoadedRecordsCount = result.transactionsV2.length
+          this.loadedTransactions = [
+            ...this.loadedTransactions,
+            ...result.transactionsV2
+          ]
         }
-        this.lastLoadedRecordsCount = transactions.length
-        this.loadedTransactions = [...this.loadedTransactions, ...transactions]
         return this.loadedTransactions
+      },
+      subscribeToMore: {
+        document: gql`
+          subscription($networkId: String!, $address: String!) {
+            userTransactionAddedV2(networkId: $networkId, address: $address) {
+              ${txFields}
+            }
+          }
+        `,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          return {
+            transactions: [
+              subscriptionData.data.userTransactionAdded,
+              ...previousResult.transactions
+            ]
+          }
+        },
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.address
+          }
+        },
+        update(result) {
+          let transactions = []
+          if (Array.isArray(result.transactions)) {
+            transactions = result.transactions.map(tx => ({
+              ...tx,
+              timestamp: new Date(tx.timestamp),
+              value: JSON.parse(tx.value)
+            }))
+          }
+          this.lastLoadedRecordsCount = transactions.length
+          this.loadedTransactions = [
+            ...this.loadedTransactions,
+            ...transactions
+          ]
+          return this.loadedTransactions
+        }
       }
     },
     validators: {

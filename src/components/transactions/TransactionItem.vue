@@ -29,15 +29,15 @@ import config from "src/../config"
 import Bech32 from "common/Bech32"
 
 import {
-  SendMessageDetails,
-  MultiSendMessageDetails,
-  DelegateMessageDetails,
-  DepositMessageDetails,
-  SubmitProposalMessageDetails,
-  UndelegateMessageDetails,
-  VoteMessageDetails,
-  BeginRedelegateMessageDetails,
-  WithdrawDelegationRewardMessageDetails
+  SendTxDetails,
+  StakeTxDetails,
+  RestakeTxDetails,
+  UnstakeTxDetails,
+  ClaimRewardsTxDetails,
+  SubmitProposalTxDetails,
+  DepositTxDetails,
+  VoteTxDetails,
+  UnknownTxDetails
 } from "./message-view"
 
 export default {
@@ -45,15 +45,15 @@ export default {
   components: {
     TransactionMetadata,
     Bech32,
-    SendMessageDetails,
-    MultiSendMessageDetails,
-    DelegateMessageDetails,
-    DepositMessageDetails,
-    SubmitProposalMessageDetails,
-    UndelegateMessageDetails,
-    VoteMessageDetails,
-    BeginRedelegateMessageDetails,
-    WithdrawDelegationRewardMessageDetails
+    SendTxDetails,
+    StakeTxDetails,
+    RestakeTxDetails,
+    UnstakeTxDetails,
+    ClaimRewardsTxDetails,
+    SubmitProposalTxDetails,
+    DepositTxDetails,
+    VoteTxDetails,
+    UnknownTxDetails
   },
   props: {
     transaction: {
@@ -79,28 +79,25 @@ export default {
   }),
   computed: {
     messageTypeComponent: function() {
-      // TODO this only works for Cosmos networks. This whole logic will change with: https://github.com/luniehq/lunie-api/issues/259
-      const typeOfTransaction = this.transaction.type.split("/")[1] // removed prefix to be compatible across networks (gaia and emoney have different prefixes)
-      // TODO Could improve this using dynamic loading.
-      switch (typeOfTransaction) {
+      switch (this.transaction.type) {
         case messageType.SEND:
-          return `send-message-details`
-        case messageType.MULTISEND:
-          return `multi-send-message-details`
-        case messageType.DELEGATE:
-          return `delegate-message-details`
-        case messageType.UNDELEGATE:
-          return `undelegate-message-details`
-        case messageType.BEGIN_REDELEGATE:
-          return `begin-redelegate-message-details`
+          return `send-tx-details`
+        case messageType.STAKE:
+          return `stake-tx-details`
+        case messageType.UNSTAKE:
+          return `unstake-tx-details`
+        case messageType.RESTAKE:
+          return `restake-tx-details`
         case messageType.SUBMIT_PROPOSAL:
-          return `submit-proposal-message-details`
+          return `submit-proposal-tx-details`
         case messageType.DEPOSIT:
-          return `deposit-message-details`
+          return `deposit-tx-details`
         case messageType.VOTE:
-          return `vote-message-details`
-        case messageType.WITHDRAW_DELEGATION_REWARD:
-          return `withdraw-delegation-reward-message-details`
+          return `vote-tx-details`
+        case messageType.CLAIM_REWARDS:
+          return `claim-rewards-tx-details`
+        case messageType.UNKNOWN:
+          return `unknown-tx-details`
         /* istanbul ignore next */
         default:
           return ``

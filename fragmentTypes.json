@@ -1,0 +1,1 @@
+{"__schema":{"types":[{"kind":"UNION","name":"TransactionDetails","possibleTypes":[{"name":"SendTx"},{"name":"StakeTx"},{"name":"UnstakeTx"},{"name":"RestakeTx"},{"name":"ClaimRewardsTx"},{"name":"SubmitProposalTx"},{"name":"VoteTx"},{"name":"DepositTx"},{"name":"UnknownTx"}]}]}}

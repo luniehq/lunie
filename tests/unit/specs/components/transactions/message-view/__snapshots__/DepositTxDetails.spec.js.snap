@@ -1,32 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UndelegateMessageDetails renders a undelegate transaction message 1`] = `
+exports[`DepositTxDetails renders a deposit transaction message 1`] = `
 <div
   class="tx__content"
 >
   <transactionicon-stub
-    transactiongroup="staking"
-    transactiontype="Unstaked"
+    transactiontype="Deposit"
   />
    
   <div
     class="tx__content__left"
   >
     <h3>
-      Unstaked
+      Deposit
     </h3>
      
     <span>
-      from 
+      On 
     </span>
      
     <router-link-stub
-      to="/staking/validators/cosmosvaloper1sjllsnramtg3ewxqwwrwjxfgc4n4ef9u2lcnj0"
+      to="/proposals/1"
     >
-      <!---->
-      
-      cosmosvaloper…cnj0
-    
+      Proposal #1
     </router-link-stub>
   </div>
    
@@ -37,7 +33,8 @@ exports[`UndelegateMessageDetails renders a undelegate transaction message 1`] =
       class="amount"
     >
       
-      0.1 ATOM
+      10 
+      ATOM
     
     </p>
   </div>

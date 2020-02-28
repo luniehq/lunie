@@ -1,15 +1,10 @@
 <template>
   <div class="tx__content">
-    <TransactionIcon
-      :transaction-group="transaction.group"
-      :transaction-type="type"
-    />
+    <TransactionIcon :transaction-type="type" />
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
       <span>From&nbsp;</span>
-      <router-link
-        :to="`/staking/validators/${transaction.value.validator_src_address}`"
-      >
+      <router-link :to="`/staking/validators/${transaction.details.from[0]}`">
         <img
           v-if="sourceValidator && sourceValidator.picture"
           :src="sourceValidator.picture"
@@ -17,44 +12,36 @@
           :alt="`validator logo for ` + sourceValidator.name"
         />
         {{
-          transaction.value.validator_src_address
-            | resolveValidatorName(validators)
+          transaction.details.from[0] | resolveValidatorName(validators)
         }} </router-link
       ><i class="material-icons notranslate arrow">arrow_right_alt</i>
-      <router-link
-        :to="`staking/validators/${transaction.value.validator_dst_address}`"
-      >
+      <router-link :to="`staking/validators/${transaction.details.to[0]}`">
         <img
           v-if="destinationValidator && destinationValidator.picture"
           :src="destinationValidator.picture"
           class="validator-image"
           :alt="`validator logo for ` + destinationValidator.name"
         />
-        {{
-          transaction.value.validator_dst_address
-            | resolveValidatorName(validators)
-        }}
+        {{ transaction.details.to[0] | resolveValidatorName(validators) }}
       </router-link>
     </div>
     <div class="tx__content__right">
       <p class="amount">
-        {{ coin.amount | atoms | prettyLong }} {{ coin.denom | viewDenom }}
+        {{ transaction.details.amount.amount | prettyLong }}&nbsp;
+        {{ transaction.details.amount.denom }}
       </p>
     </div>
   </div>
 </template>
 
 <script>
-import { atoms, viewDenom, prettyLong } from "scripts/num.js"
+import { prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
-import { getCoin } from "scripts/transaction-utils"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
-  name: `begin-redelegate-message-details`,
+  name: `restake-tx-details`,
   filters: {
-    atoms,
-    viewDenom,
     prettyLong,
     resolveValidatorName
   },
@@ -78,18 +65,11 @@ export default {
     }
   },
   computed: {
-    coin() {
-      return getCoin(this.transaction)
-    },
     sourceValidator() {
-      return (
-        this.validators[this.transaction.value.validator_src_address] || false
-      )
+      return this.validators[this.transaction.details.from[0]] || false
     },
     destinationValidator() {
-      return (
-        this.validators[this.transaction.value.validator_dst_address] || false
-      )
+      return this.validators[this.transaction.details.to[0]] || false
     }
   }
 }

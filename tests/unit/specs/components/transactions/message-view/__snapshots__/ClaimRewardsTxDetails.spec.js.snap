@@ -1,0 +1,154 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiontype="Claimed"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Claimed
+    </h3>
+     
+    <div
+      class="multi-claim-reward-row"
+    >
+      <span>
+        Rewards from
+      </span>
+       
+      <router-link-stub
+        class="validator-link"
+        to="/staking/validators/cosmosvaloper123"
+      >
+        <avatar-stub
+          address="cosmosvaloper123"
+          alt="generic validator logo - generated avatar from address"
+          class="validator-image"
+        />
+         
+        <!---->
+        
+          SuperValidator
+        
+      </router-link-stub>
+    </div>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    />
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiontype="Claimed"
+  />
+   
+  <!---->
+   
+  <div
+    class="tx__content__left multi-claim-reward-row"
+  >
+    <h3
+      class="multi-claim-reward-h3"
+    >
+      Claimed
+    </h3>
+     
+    <div
+      class="multi-claim-reward-row"
+    >
+      <div>
+        <router-link-stub
+          class="validator-link"
+          to="/staking/validators/cosmosvaloper123"
+        >
+          <div
+            class="row-validator-image"
+          >
+            <avatar-stub
+              address="cosmosvaloper123"
+              alt="generic validator logo - generated avatar from address"
+              class="validator-image"
+            />
+             
+            <!---->
+          </div>
+           
+          <!---->
+        </router-link-stub>
+      </div>
+      <div>
+        <router-link-stub
+          class="validator-link"
+          to="/staking/validators/cosmosvaloper456"
+        >
+          <div
+            class="row-validator-image"
+          >
+            <avatar-stub
+              address="cosmosvaloper456"
+              alt="generic validator logo - generated avatar from address"
+              class="validator-image"
+            />
+             
+            <!---->
+          </div>
+           
+          <!---->
+        </router-link-stub>
+      </div>
+      <div>
+        <router-link-stub
+          class="validator-link"
+          to="/staking/validators/cosmosvaloper789"
+        >
+          <div
+            class="row-validator-image"
+          >
+            <avatar-stub
+              address="cosmosvaloper789"
+              alt="generic validator logo - generated avatar from address"
+              class="validator-image"
+            />
+             
+            <!---->
+          </div>
+           
+          <!---->
+        </router-link-stub>
+      </div>
+       
+      <span
+        class="multi-claim-reward-show"
+      >
+        Show
+      </span>
+    </div>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    />
+  </div>
+</div>
+`;

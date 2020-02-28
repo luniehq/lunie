@@ -1,11 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`VoteMessageDetails renders a vote transaction message 1`] = `
+exports[`VoteTxDetails renders a vote transaction message 1`] = `
 <div
   class="tx__content"
 >
   <transactionicon-stub
-    transactiongroup="governance"
     transactiontype="Voted"
   />
    
@@ -20,15 +19,16 @@ exports[`VoteMessageDetails renders a vote transaction message 1`] = `
       <i
         class="italic"
       >
-        Abstain
+        Yes
       </i>
-       on 
+      
+       on 
     </span>
      
     <router-link-stub
-      to="/governance/5"
+      to="/proposals/17"
     >
-      Proposal #5
+      Proposal #17
     </router-link-stub>
   </div>
 </div>
