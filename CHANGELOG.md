@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.15] - 2020-02-28
+
+### Changed
+
+- add a retry if no messages recieved from fe @iambeone
+
+### Code Improvements
+
+- Remove e2e tests for now @faboweb
+
+### Repository
+
+- Added build variables to circle ci script @faboweb
+
 ## [1.0.14] - 2020-02-27
 
 ### Added
