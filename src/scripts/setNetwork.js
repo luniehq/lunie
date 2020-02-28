@@ -1,5 +1,6 @@
 "use strict"
 import gql from "graphql-tag"
+import * as Sentry from "@sentry/browser"
 
 export const setNetwork = async ({ to, next }, apollo, store) => {
   try {
@@ -78,6 +79,7 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
     }
   } catch (error) {
     console.error("Failed to set network from URL", error)
+    Sentry.captureException(error)
   }
 }
 
