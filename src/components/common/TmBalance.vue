@@ -21,14 +21,14 @@
             </div>
             <div v-if="isMultiDenomNetwork" class="currency-selector">
               <img
-                v-if="preferredCurrency()"
+                v-if="preferredCurrency"
                 class="currency-flag"
                 :src="
                   '/img/icons/currencies/' +
-                    preferredCurrency().toLowerCase() +
+                    preferredCurrency.toLowerCase() +
                     '.png'
                 "
-                :alt="`${preferredCurrency()}` + ' currency'"
+                :alt="`${preferredCurrency}` + ' currency'"
               />
               <img
                 v-else
@@ -41,19 +41,19 @@
                 @change="setPreferredCurrency()"
               >
                 <option
-                  v-if="!preferredCurrency() || preferredCurrency() === ''"
+                  v-if="!preferredCurrency || preferredCurrency === ''"
                   value=""
                   disabled
-                  :selected="!preferredCurrency() || preferredCurrency() === ''"
+                  :selected="!preferredCurrency || preferredCurrency === ''"
                   hidden
                   >Select your fiat currency</option
                 >
                 <option
-                  v-if="preferredCurrency()"
+                  v-if="preferredCurrency"
                   value=""
-                  :selected="preferredCurrency()"
+                  :selected="preferredCurrency"
                   hidden
-                  >{{ preferredCurrency() }}</option
+                  >{{ preferredCurrency }}</option
                 >
                 <option value="EUR">EUR</option>
                 <option value="USD">USD</option>
@@ -110,13 +110,13 @@
                       v-if="
                         isMultiDenomNetwork &&
                           stakingBalance.fiatValue.amount > 0 &&
-                          preferredCurrency()
+                          preferredCurrency
                       "
                       class="fiat-value-box"
                       >{{
                         bigFigureOrShortDecimals(
                           stakingBalance.fiatValue.amount
-                        ).concat(` ` + preferredCurrency())
+                        ).concat(` ` + preferredCurrency)
                       }}</span
                     >
                   </div>
@@ -166,12 +166,12 @@
                     </h2>
                   </div>
                   <div
-                    v-if="balance.fiatValue.amount > 0 && preferredCurrency()"
+                    v-if="balance.fiatValue.amount > 0 && preferredCurrency"
                     class="total-fiat-value fiat-value-box"
                   >
                     <span>{{
                       bigFigureOrShortDecimals(balance.fiatValue.amount).concat(
-                        ` ` + preferredCurrency()
+                        ` ` + preferredCurrency
                       )
                     }}</span>
                   </div>
@@ -245,6 +245,7 @@ export default {
       showTutorial: false,
       rewards: [],
       selectedFiatCurrency: "",
+      preferredCurrency: "",
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -320,6 +321,9 @@ export default {
       }
     }
   },
+  mounted() {
+    this.preferredCurrency = localStorage.getItem(`preferredCurrency`)
+  },
   methods: {
     bigFigureOrShortDecimals,
     onWithdrawal() {
@@ -345,11 +349,9 @@ export default {
         return rewardsAccumulator
       }
     },
-    preferredCurrency() {
-      return localStorage.getItem(`preferredCurrency`)
-    },
     setPreferredCurrency() {
       localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
+      this.preferredCurrency = localStorage.getItem(`preferredCurrency`)
     }
   },
   apollo: {
