@@ -1,10 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TransactionList renders a list of TransactionItems 1`] = `
-<div>
+<div
+  infinite-scroll-distance="80"
+>
   <div>
     <h3>
-      January 19th
+      February 28th, 2020
     </h3>
      
     <transactionitem-stub

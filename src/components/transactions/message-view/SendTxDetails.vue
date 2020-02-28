@@ -1,0 +1,69 @@
+<template>
+  <div class="tx__content">
+    <TransactionIcon :transaction-type="type" />
+    <div class="tx__content__left">
+      <h3>{{ type }}</h3>
+      <template v-if="toYourself">
+        <span>To yourself —&nbsp;</span>
+        <Bech32 :address="sessionAddress" />
+      </template>
+      <template v-else-if="sentFromSessionAddress">
+        <span>To&nbsp;</span>
+        <Bech32 :address="transaction.details.to[0]" />
+      </template>
+      <template v-else>
+        <span>From&nbsp;</span>
+        <Bech32 :address="transaction.details.from[0]" />
+      </template>
+    </div>
+    <div class="tx__content__right">
+      <p class="amount">
+        {{ transaction.details.amount.amount | prettyLong }}&nbsp;
+        {{ transaction.details.amount.denom }}
+      </p>
+    </div>
+  </div>
+</template>
+
+<script>
+import { prettyLong } from "scripts/num.js"
+import Bech32 from "common/Bech32"
+import TransactionIcon from "../TransactionIcon"
+
+export default {
+  name: `send-tx-details`,
+  filters: {
+    prettyLong
+  },
+  components: {
+    Bech32,
+    TransactionIcon
+  },
+  props: {
+    transaction: {
+      type: Object,
+      required: true
+    },
+    sessionAddress: {
+      type: String,
+      required: false,
+      default: null
+    }
+  },
+  computed: {
+    toYourself() {
+      return this.transaction.details.from[0] === this.transaction.details.to[0]
+    },
+    sentFromSessionAddress() {
+      return this.transaction.details.from[0] === this.sessionAddress
+    },
+    type() {
+      if (this.transaction.details.to[0] === this.sessionAddress) {
+        return "Received"
+      } else {
+        return "Sent"
+      }
+    }
+  }
+}
+</script>

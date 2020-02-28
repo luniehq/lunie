@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StakeTxDetails renders a stake transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiontype="Staked"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Staked
+    </h3>
+     
+    <span>
+      With 
+    </span>
+     
+    <router-link-stub
+      to="/staking/validators/cosmosvaloper123"
+    >
+      <!---->
+      
+      cosmosvaloper…r123
+    
+    </router-link-stub>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      10 
+      ATOM
+    
+    </p>
+  </div>
+</div>
+`;

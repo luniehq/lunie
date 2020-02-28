@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnstakeTxDetails renders a unstake transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiontype="Unstaked"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Unstaked
+    </h3>
+     
+    <span>
+      from 
+    </span>
+     
+    <router-link-stub
+      to="/staking/validators/cosmosvaloper123"
+    >
+      <!---->
+      
+      cosmosvaloper…r123
+    
+    </router-link-stub>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      10 
+      ATOM
+    
+    </p>
+  </div>
+</div>
+`;

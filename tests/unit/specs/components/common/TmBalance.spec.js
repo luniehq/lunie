@@ -147,7 +147,7 @@ describe(`TmBalance`, () => {
     ])
   })
 
-  it(`should return balances concatanating denoms and fiat values`, () => {
+  xit(`should return balances concatanating denoms and fiat values`, () => {
     wrapper.setData({
       balances: [
         {

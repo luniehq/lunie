@@ -5,6 +5,7 @@ export const nodeUrl = state =>
 
 export const address = state => state.session.address
 export const network = state => state.connection.network
+export const networkSlug = state => state.connection.networkSlug
 
 export const isExtensionAccount = state =>
   state.extension.accounts.some(account => {
