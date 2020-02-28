@@ -6,7 +6,7 @@ import {
   setGoogleAnalyticsPage
 } from "scripts/google-analytics"
 import config from "src/../config"
-import router, { routeGuard } from "./router"
+import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
 
@@ -35,6 +35,7 @@ export default async function init(urlParams, env = process.env) {
 
   const store = Store({ apollo: apolloClient })
 
+  const router = Router(apolloClient, store)
   setGoogleAnalyticsPage(router.currentRoute.path)
   router.beforeEach(routeGuard(store, apolloClient))
   router.afterEach(to => {

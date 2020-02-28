@@ -38,7 +38,7 @@
           v-tooltip.top="'Block Height'"
           :to="{
             name: `block`,
-            params: { height: block.height }
+            params: { height: block.height, networkId: networkSlug }
           }"
           @click.native="handleClick()"
         >
@@ -89,8 +89,11 @@ export default {
     block: {}
   }),
   computed: {
-    ...mapState([`intercom`]),
+    ...mapState([`intercom`, `connection`]),
     ...mapGetters([`network`]),
+    networkSlug() {
+      return this.connection.networkSlug
+    },
     networkTooltip() {
       return `You're connected to ${this.block.chainId}.`
     }

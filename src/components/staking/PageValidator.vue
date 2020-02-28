@@ -10,7 +10,14 @@
   >
     <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="button-container">
-        <button class="back-button" @click="$router.push(`/validators`)">
+        <button
+          class="back-button"
+          @click="
+            $router.push(
+              `/${$router.history.current.params.networkId}/validators`
+            )
+          "
+        >
           <i class="material-icons notranslate arrow">arrow_back</i>
           Back to Validators
         </button>

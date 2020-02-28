@@ -240,7 +240,7 @@ exports[`ActionModal should show the action modal on success 1`] = `
         Block
             
         <router-link-stub
-          to="/blocks/undefined"
+          to="/lunie-net/blocks/undefined"
         >
           #0
         </router-link-stub>

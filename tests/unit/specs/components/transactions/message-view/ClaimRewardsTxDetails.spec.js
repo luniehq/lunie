@@ -82,5 +82,4 @@ describe(`ClaimRewardsTxDetails`, () => {
     })
     expect(wrapper.element).toMatchSnapshot()
   })
-
 })
