@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.168] - 2020-02-28
+
+### Added
+
+- [#3573](https://github.com/cosmos/lunie/issues/3573) Integrate new transaction abstraction @mariopino
+
+### Changed
+
+- add pageNumber variable to tx request @iambeone
+
+### Deprecated
+
+- Remove fiat code as not used and conflicting with API upgrade @faboweb
+
 ## [1.0.167] - 2020-02-27
 
 ### Changed
