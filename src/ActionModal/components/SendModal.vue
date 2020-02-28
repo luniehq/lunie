@@ -112,7 +112,7 @@
       <div class="exchange-warning-message">
         <p>
           If you are sending to an exchange you might need to edit the memo
-          field. Otherwise <u>you won't receive your funds</u>
+          field. Otherwise you could <u>not receive your funds</u>
         </p>
       </div>
     </div>
