@@ -209,6 +209,28 @@ describe(`PageTransactions`, () => {
     expect(wrapper.vm.pageNumber).toBeGreaterThan(0)
   })
 
+  it(`should not load more if currently loading`, async () => {
+    wrapper = shallowMount(PageTransactions, {
+      localVue,
+      mocks: {
+        $store,
+        $apollo
+      },
+      directives: {
+        infiniteScroll: () => {}
+      }
+    })
+    // setting showing to big number
+    wrapper.setData({
+      showing: 100,
+      lastLoadedRecordsCount: 1,
+      dataLoaded: false
+    })
+    wrapper.vm.loadMore()
+    // pageNumber should not have updated
+    expect(wrapper.vm.pageNumber).toBe(0)
+  })
+
   it(`validator address map to be correct`, async () => {
     wrapper = shallowMount(PageTransactions, {
       localVue,
