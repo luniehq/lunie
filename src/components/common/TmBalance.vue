@@ -9,142 +9,103 @@
         alt="geometric placeholder shapes"
       />
     </div>
-    <div v-else>
-      <div class="values-container">
-        <div>
-          <div class="upper-header">
-            <div class="total-atoms">
-              <h3>Total {{ stakingDenom }}</h3>
-              <h2 class="total-atoms__value">
-                {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
-              </h2>
-            </div>
-            <button
-              v-if="
-                connection.network === 'cosmos-hub-mainnet' ||
-                  connection.network === 'cosmos-hub-testnet'
-              "
-              class="tutorial-button"
-              @click="openTutorial()"
+    <div v-else class="overview">
+      <div class="overview-row titles">
+        <h3 class="title cell">Your Portfolio</h3>
+        <h2 class="title cell">Total</h2>
+        <h2 class="title cell">Available</h2>
+      </div>
+      <div class="overview-row">
+        <h3 class="cell"><img src="" alt="" />{{ stakingDenom }}</h3>
+        <h2 class="cell">
+          {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
+          <span>110,455 USD</span>
+          <span class="rewards"
+            >+{{
+              overview.totalRewards | bigFigureOrShortDecimals | noBlanks
+            }}</span
+          >
+        </h2>
+        <h2 class="cell available">
+          {{ overview.liquidStake | bigFigureOrShortDecimals | noBlanks }}
+        </h2>
+      </div>
+      <template v-if="isMultiDenomNetwork">
+        <div
+          v-for="balance in filteredMultiDenomBalances"
+          :key="balance.denom"
+          class="overview-row"
+        >
+          <h3 class="cell"><img src="" alt="" />{{ balance.denom }}</h3>
+          <h2 class="cell">
+            {{ balance.amount | bigFigureOrShortDecimals }}
+            <span class="rewards">
+              +{{
+                calculateTotalRewardsDenom(balance.denom)
+                  | bigFigureOrShortDecimals
+              }}</span
             >
-              <i v-if="false" class="material-icons notranslate">
-                help_outline
-              </i>
-              <span v-else>Need some tokens?</span>
-            </button>
-          </div>
-          <div class="scroll">
-            <div
-              class="row lower-header scroll-item"
-              :class="{ 'single-denom-rewards': !isMultiDenomNetwork }"
-            >
-              <div class="row">
-                <div v-if="overview.totalStake > 0" class="available-atoms">
-                  <h3>Available {{ stakingDenom }}</h3>
-                  <h2>
-                    {{
-                      overview.liquidStake | bigFigureOrShortDecimals | noBlanks
-                    }}
-                  </h2>
-                  <div class="rewards multi-denom">
-                    <h2
-                      v-if="
-                        isMultiDenomNetwork && overview.totalRewards > 0.001
-                      "
-                    >
-                      +{{
-                        overview.totalRewards
-                          | bigFigureOrShortDecimals
-                          | noBlanks
-                      }}
-                    </h2>
-                  </div>
-                </div>
-
-                <div
-                  v-if="
-                    !isMultiDenomNetwork &&
-                      overview.totalRewards &&
-                      overview.totalRewards > 0.001
-                  "
-                  class="rewards"
-                >
-                  <h3>Total Rewards</h3>
-                  <h2>
-                    +{{
-                      overview.totalRewards
-                        | bigFigureOrShortDecimals
-                        | noBlanks
-                    }}
-                  </h2>
-                </div>
-              </div>
-
-              <div v-if="isMultiDenomNetwork" class="row values-container">
-                <div
-                  v-for="balance in filteredMultiDenomBalances"
-                  :key="balance.denom"
-                >
-                  <div class="available-atoms">
-                    <h3>
-                      {{ balance.denom }}
-                    </h3>
-                    <h2>
-                      {{ balance.amount | bigFigureOrShortDecimals }}
-                    </h2>
-                  </div>
-                  <div class="rewards multi-denom">
-                    <h2
-                      v-if="calculateTotalRewardsDenom(balance.denom) > 0.001"
-                    >
-                      +{{
-                        calculateTotalRewardsDenom(balance.denom)
-                          | bigFigureOrShortDecimals
-                      }}
-                    </h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          </h2>
+          <h2 class="cell"></h2>
         </div>
-      </div>
-      <div class="button-container">
-        <TmBtn
-          class="send-button"
-          value="Send"
-          type="secondary"
-          @click.native="onSend()"
-        />
-        <TmBtn
-          id="withdraw-btn"
-          :disabled="!readyToWithdraw"
-          class="withdraw-rewards"
-          value="Claim Rewards"
-          @click.native="readyToWithdraw && onWithdrawal()"
-        />
-      </div>
+      </template>
+      <!-- <button
+            v-if="
+              connection.network === 'cosmos-hub-mainnet' ||
+                connection.network === 'cosmos-hub-testnet'
+            "
+            class="tutorial-button"
+            @click="openTutorial()"
+          >
+            <i v-if="false" class="material-icons notranslate">
+              help_outline
+            </i>
+            <span v-else>Need some tokens?</span>
+          </button> -->
 
-      <SendModal ref="SendModal" :denoms="getAllDenoms" />
-      <ModalWithdrawRewards ref="ModalWithdrawRewards" />
-      <ModalTutorial
-        v-if="
-          showTutorial &&
-            (connection.network === 'cosmos-hub-mainnet' ||
-              connection.network === 'cosmos-hub-testnet')
-        "
-        :steps="cosmosTokensTutorial.steps"
-        :fullguide="cosmosTokensTutorial.fullguide"
-        :background="cosmosTokensTutorial.background"
-        :close="hideTutorial"
-      />
+      <!-- <div
+          class="row lower-header scroll-item"
+          :class="{ 'single-denom-rewards': !isMultiDenomNetwork }"
+        >
+          <div class="row"></div>
+
+        </div> -->
     </div>
+    <!-- <div class="button-container">
+      <TmBtn
+        class="send-button"
+        value="Send"
+        type="secondary"
+        @click.native="onSend()"
+      />
+      <TmBtn
+        id="withdraw-btn"
+        :disabled="!readyToWithdraw"
+        class="withdraw-rewards"
+        value="Claim Rewards"
+        @click.native="readyToWithdraw && onWithdrawal()"
+      />
+    </div> -->
+
+    <SendModal ref="SendModal" :denoms="getAllDenoms" />
+    <ModalWithdrawRewards ref="ModalWithdrawRewards" />
+    <ModalTutorial
+      v-if="
+        showTutorial &&
+          (connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet')
+      "
+      :steps="cosmosTokensTutorial.steps"
+      :fullguide="cosmosTokensTutorial.fullguide"
+      :background="cosmosTokensTutorial.background"
+      :close="hideTutorial"
+    />
   </div>
 </template>
 <script>
 import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
-import TmBtn from "common/TmBtn"
+// import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import { mapGetters, mapState } from "vuex"
@@ -155,7 +116,7 @@ import { sendEvent } from "scripts/google-analytics"
 export default {
   name: `tm-balance`,
   components: {
-    TmBtn,
+    // TmBtn,
     SendModal,
     ModalWithdrawRewards,
     ModalTutorial
@@ -458,187 +419,75 @@ export default {
 </script>
 <style scoped>
 .balance-header {
-  display: flex;
-  flex-direction: column;
   width: 100%;
 }
 
-.values-container {
-  position: relative;
+.overview {
+  padding: 1rem 0 2rem;
 }
 
-.values-container h2 {
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 24px;
-  color: var(--bright);
-}
-
-.values-container h3 {
-  font-size: var(--sm);
-  font-weight: 400;
-  white-space: nowrap;
-}
-
-.total-atoms,
-.available-atoms,
-.rewards {
-  padding-right: 2.5rem;
-}
-
-p.rewards {
-  color: var(--success);
-  font-size: var(--s);
-}
-
-.rewards h2 {
-  color: var(--success);
-  font-size: var(--m);
-}
-
-.rewards.multi-denom h2 {
-  font-size: 12px;
-}
-
-.available-atoms h2 {
-  font-size: var(--m);
-  line-height: 20px;
-}
-
-.upper-header {
-  padding: 0 2rem;
+.overview-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.lower-header {
-  padding: 2rem;
-  align-items: normal;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.button-container {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 2rem;
-  width: 100%;
+  flex-wrap: wrap;
+  max-width: 100%;
   border-bottom: 1px solid var(--bc-dim);
-  border-top: 1px solid var(--bc-dim);
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  padding: 1rem;
 }
 
-.button-container button:first-child {
-  margin-right: 0.5rem;
+.overview-row.titles {
+  padding: 0 1rem;
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
+.overview-row h3 {
+  width: 20%;
 }
 
-.row div {
-  white-space: nowrap;
+.overview-row h2 {
+  width: 40%;
 }
 
-.open-tutorial {
-  justify-self: end;
+.overview-row img {
+  display: inline-block;
+  margin-right: 1rem;
+  background: black;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
 }
 
-.tutorial-button {
-  padding: 0.5rem 1rem;
-  width: auto;
-  font-size: 14px;
-  background: transparent;
-  color: #7a88b8;
-  border: 2px solid rgb(122, 136, 184, 0.1);
-  border-radius: 0.5rem;
-  cursor: pointer;
+.overview-row:first-child,
+.overview-row:last-child {
+  border-bottom: none;
+}
+
+.cell {
   display: flex;
   align-items: center;
-  font-family: var(--sans);
-  margin-left: auto;
+  box-sizing: border-box;
+  flex-grow: 1;
+  width: 100%;
+  overflow: hidden;
+  color: white;
 }
 
-.tutorial-button i {
-  font-size: 1rem;
+.cell span {
+  padding-left: 1rem;
+  color: var(--dim);
 }
 
-.tutorial-button span {
-  font-size: 14px;
+.cell .rewards {
+  font-size: 12px;
+  padding: 0 1rem;
+  color: var(--success);
 }
 
-.tutorial-button:hover {
-  background-color: rgba(255, 255, 255, 0.02);
+.title {
+  font-size: 12px;
+  color: var(--dim);
 }
 
-@media screen and (max-width: 667px) {
-  .balance-header {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .upper-header {
-    flex-direction: column-reverse;
-  }
-
-  .values-container .total-atoms__value {
-    font-size: 28px;
-    font-weight: 500;
-    line-height: 32px;
-  }
-
-  .total-atoms {
-    padding: 1rem 0;
-    text-align: center;
-  }
-
-  .single-denom-rewards {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .single-denom-rewards .rewards {
-    padding-right: 0;
-  }
-
-  .single-denom-rewards .available-atoms {
-    padding-right: 4rem;
-  }
-
-  .tutorial-button {
-    margin: 0 auto 1rem auto;
-  }
-
-  .button-container {
-    width: 100%;
-    padding: 1rem;
-    border-top: 1px solid var(--bc);
-    margin-top: 0rem;
-  }
-
-  .button-container button {
-    width: 50%;
-  }
-
-  .tutorial-container {
-    padding-right: 1rem;
-  }
-}
-
-@media screen and (max-width: 1023px) {
-  .scroll {
-    display: flex;
-    width: 100vw;
-    overflow-x: auto;
-    /* Make it smooth scrolling on iOS devices */
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .scroll-item {
-    width: 100%;
-  }
+.available {
+  color: gold;
 }
 </style>
