@@ -19,7 +19,7 @@ exports[`SendTxDetails renders a received transaction message 1`] = `
       From 
     </span>
      
-    <bech32-stub
+    <address-stub
       address="cosmosvaloper123"
     />
   </div>
@@ -58,7 +58,7 @@ exports[`SendTxDetails renders a sent transaction message 1`] = `
       To 
     </span>
      
-    <bech32-stub
+    <address-stub
       address="cosmosvaloper456"
     />
   </div>

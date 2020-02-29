@@ -1,12 +1,12 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import VueClipboard from "vue-clipboard2"
 import Bech32 from "src/components/common/Bech32"
-import { formatBech32 } from "src/filters"
+import { formatAddress } from "src/filters"
 
 const localVue = createLocalVue()
 localVue.directive(`clipboard`, VueClipboard)
 localVue.directive(`tooltip`, () => {})
-localVue.filter(`formatBech32`, formatBech32)
+localVue.filter(`formatAddress`, formatAddress)
 
 describe(`Bech32`, () => {
   let wrapper
