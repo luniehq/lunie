@@ -174,6 +174,7 @@ export default (apollo, store) => {
     {
       path: `/extension/:address/:network`,
       name: `extension-signin`,
+      /* istanbul ignore next */
       beforeEnter: (to, from, next) =>
         extensionSignIn({ to, from, next }, apollo, store)
     },
