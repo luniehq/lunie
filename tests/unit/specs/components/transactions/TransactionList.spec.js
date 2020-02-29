@@ -13,7 +13,7 @@ describe(`TransactionList`, () => {
       type: messageType[type],
       hash: "A0DEB29E97A4DF38289D55D63C5724588985E1D35B26518CB66EAF96CFEF2E04",
       height,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date(Date.now()).toISOString(),
       memo: "(Sent via Lunie)",
       success: true,
       fees: [],
