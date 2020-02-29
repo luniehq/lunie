@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.170] - 2020-02-29
+
+### Fixed
+
+- Revert analytics header PR to fix extension compatibility @faboweb
+
 ## [1.0.169] - 2020-02-28
 
 ### Added
