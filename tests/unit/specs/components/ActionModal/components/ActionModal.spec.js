@@ -541,8 +541,7 @@ describe(`ActionModal`, () => {
       const data = {
         step: `details`,
         gasEstimate: null,
-        submissionError: null,
-        useTxService: true
+        submissionError: null
       }
       wrapper.vm.createContext = jest.fn()
       wrapper.setProps({ transactionProperties })
@@ -593,9 +592,8 @@ describe(`ActionModal`, () => {
         gasEstimate: null,
         submissionError: null,
         actionManager: {
-          simulate: mockSimulateFail
-        },
-        useTxService: false
+          simulateTxApi: mockSimulateFail
+        }
       }
 
       const transactionProperties = {
@@ -665,7 +663,6 @@ describe(`ActionModal`, () => {
         step: `sign`,
         gasEstimate: 12345,
         submissionError: null,
-        useTxService: true,
         balances
       }
 
@@ -687,9 +684,8 @@ describe(`ActionModal`, () => {
         gasEstimate: null,
         submissionError: null,
         actionManager: {
-          send: mockSubmitFail
-        },
-        useTxService: false
+          sendTxAPI: mockSubmitFail
+        }
       }
 
       const transactionProperties = {
@@ -723,10 +719,8 @@ describe(`ActionModal`, () => {
         $apollo,
         actionManager: {
           setContext: () => {},
-          simulate: () => 12345,
-          send: ActionManagerSend,
           simulateTxAPI: jest.fn(),
-          sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
+          sendTxAPI: ActionManagerSend
         },
         transactionData: {},
         network: {
