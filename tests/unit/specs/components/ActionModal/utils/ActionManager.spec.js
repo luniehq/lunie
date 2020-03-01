@@ -1,6 +1,6 @@
 import ActionManager from "src/ActionModal/utils/ActionManager.js"
 import { cancelSign } from "src/ActionModal/utils/signer"
-import { sendTx, withdrawTx } from "./actions"
+import { sendTx } from "./actions"
 
 jest.mock("src/../config.js", () => ({
   default_gas_price: 2.5e-8,
