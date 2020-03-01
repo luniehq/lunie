@@ -41,19 +41,18 @@ Vue.directive(`focus`, focusElement)
 Vue.directive(`focus-last`, focusParentLast)
 
 const urlParams = getURLParams(window)
-init(urlParams).then(({ store, router, apolloProvider }) => {
-  const { SplashScreen, StatusBar } = Plugins
+const { store, router, apolloProvider } = init(urlParams)
+const { SplashScreen, StatusBar } = Plugins
 
-  new Vue({
-    router,
-    ...App,
-    store,
-    apolloProvider,
-    mounted() {
-      if (config.mobileApp) {
-        SplashScreen.hide()
-        StatusBar.show()
-      }
+new Vue({
+  router,
+  ...App,
+  store,
+  apolloProvider,
+  mounted() {
+    if (config.mobileApp) {
+      SplashScreen.hide()
+      StatusBar.show()
     }
-  }).$mount("#app")
-})
+  }
+}).$mount("#app")

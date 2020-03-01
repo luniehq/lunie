@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Bech32 should show a long address 1`] = `
+exports[`Address Component should show a long address 1`] = `
 <div
   class="bech32-address"
 >
@@ -8,7 +8,7 @@ exports[`Bech32 should show a long address 1`] = `
     class="address"
   >
     
-    cosmosftw123456789
+    cosm…6789
   
   </div>
    
@@ -24,7 +24,7 @@ exports[`Bech32 should show a long address 1`] = `
 </div>
 `;
 
-exports[`Bech32 should show a short address 1`] = `
+exports[`Address Component should show a short address 1`] = `
 <div
   class="bech32-address"
 >
@@ -32,7 +32,7 @@ exports[`Bech32 should show a short address 1`] = `
     class="address"
   >
     
-    cosmosftw…6789
+    cosm…6789
   
   </div>
    

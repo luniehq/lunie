@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import VueClipboard from "vue-clipboard2"
-import Bech32 from "src/components/common/Bech32"
+import Address from "src/components/common/Address"
 import { formatAddress } from "src/filters"
 
 const localVue = createLocalVue()
@@ -8,11 +8,11 @@ localVue.directive(`clipboard`, VueClipboard)
 localVue.directive(`tooltip`, () => {})
 localVue.filter(`formatAddress`, formatAddress)
 
-describe(`Bech32`, () => {
+describe(`Address Component`, () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallowMount(Bech32, {
+    wrapper = shallowMount(Address, {
       localVue,
       propsData: { address: `cosmosftw123456789` },
       data: () => ({
@@ -35,19 +35,11 @@ describe(`Bech32`, () => {
     expect(wrapper.find(".address").text()).toBe(`Address Not Found`)
   })
 
-  it(`should return a validation error message`, () => {
-    wrapper.setProps({ address: `cosmosaddress2asdfasdfasdf` })
-    expect(wrapper.find(".address").text()).toBe(`Not A Valid Bech32 Address`)
-  })
-
   it(`should return a short address with everything before the 1`, () => {
-    wrapper.setProps({ address: `cosmosaddress1asdfasdfasdf` })
-    expect(wrapper.find(".address").text()).toBe(`cosmosaddress…asdf`)
-  })
-
-  it(`should return a long address when long-form set`, () => {
-    wrapper.setProps({ address: `cosmosaddress1asdfasdfasdf`, longForm: true })
-    expect(wrapper.find(".address").text()).toBe(`cosmosaddress1asdfasdfasdf`)
+    wrapper.setProps({
+      address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
+    })
+    expect(wrapper.find(".address").text()).toBe(`cosmosvaloper…9yf2`)
   })
 
   describe(`onCopy`, () => {
