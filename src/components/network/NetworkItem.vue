@@ -15,20 +15,22 @@
       </p>
     </div>
     <div v-if="networkitem.powered" class="powered-div">
-      <span class="powered-by">Powered by&nbsp;</span>
+      <span class="powered-by">Powered by</span>
       <Avatar
-        v-if="!validator.picture || validator.picture === 'null'"
+        v-if="
+          !networkitem.powered.picture || networkitem.powered.picture === 'null'
+        "
         class="powered-by-image"
         alt="generic geometric symbol - generated avatar from address"
-        :address="validator.operatorAddress"
+        :address="networkitem.powered.providerAddress"
       />
       <img
-        v-else-if="validator.picture"
-        :src="validator.picture"
-        :alt="`validator logo for ` + validator.name"
+        v-else-if="networkitem.powered.picture"
+        :src="networkitem.powered.picture"
+        :alt="`validator logo for ` + networkitem.powered.name"
         class="powered-by-image"
       />
-      <span class="powered-by-name">&nbsp;Figment</span>
+      <span class="powered-by-name">{{ networkitem.powered.name }}</span>
     </div>
     <div class="network-status">
       <img
@@ -50,7 +52,6 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { ValidatorProfile } from "src/gql"
 import Avatar from "common/Avatar"
 
 export default {
@@ -70,25 +71,6 @@ export default {
   },
   computed: {
     ...mapGetters([`connected`, `network`])
-  },
-  apollo: {
-    validator: {
-      query: ValidatorProfile,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          operatorAddress: this.networkitem.powered
-        }
-      },
-      /* istanbul ignore next */
-      update(result) {
-        if (!result.validator) return {}
-
-        this.loaded = true
-        return result.validator
-      }
-    }
   }
 }
 </script>

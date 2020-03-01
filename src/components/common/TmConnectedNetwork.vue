@@ -68,29 +68,32 @@
         Connecting…
       </div>
     </div>
-    <hr v-if="currentNetwork.powered && validator" class="powered-hr" />
-    <div v-if="currentNetwork.powered && validator" class="powered-div">
+    <hr v-if="currentNetwork.powered" class="powered-hr" />
+    <div v-if="currentNetwork.powered" class="powered-div">
       <span class="powered-by">Powered by&nbsp;</span>
       <Avatar
-        v-if="!validator.picture || validator.picture === 'null'"
+        v-if="
+          !currentNetwork.powered.picture ||
+            currentNetwork.powered.picture === 'null'
+        "
         class="powered-by-image"
         alt="generic geometric symbol - generated avatar from address"
-        :address="validator.operatorAddress"
+        :address="currentNetwork.powered.providerAddress"
       />
       <img
-        v-else-if="validator.picture"
-        :src="validator.picture"
-        :alt="`validator logo for ` + validator.name"
+        v-else-if="currentNetwork.powered.picture"
+        :src="currentNetwork.powered.picture"
+        :alt="`validator logo for ` + currentNetwork.powered.name"
         class="powered-by-image"
       />
-      <span>&nbsp;Figment</span>
+      <span>{{ currentNetwork.powered.name }}</span>
     </div>
   </div>
 </template>
 <script>
 import { mapState, mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
-import { Networks, NetworksResult, ValidatorProfile } from "src/gql"
+import { Networks, NetworksResult } from "src/gql"
 import Avatar from "common/Avatar"
 import TmBtn from "common/TmBtn"
 import gql from "graphql-tag"
@@ -157,27 +160,6 @@ export default {
       query: Networks,
       fetchPolicy: "cache-first",
       update: NetworksResult
-    },
-    validator: {
-      query: ValidatorProfile,
-      /* istanbul ignore next */
-      skip() {
-        return !this.currentNetwork
-      },
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          operatorAddress: this.currentNetwork.powered
-        }
-      },
-      /* istanbul ignore next */
-      update(result) {
-        if (!result.validator) return {}
-
-        this.loaded = true
-        return result.validator
-      }
     },
     $subscribe: {
       blockAdded: {
