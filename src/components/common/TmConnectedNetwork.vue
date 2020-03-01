@@ -68,11 +68,30 @@
         Connecting…
       </div>
     </div>
+    <hr v-if="currentNetwork.powered && validator" class="powered-hr" />
+    <div v-if="currentNetwork.powered && validator" class="powered-div">
+      <span class="powered-by">Powered by&nbsp;</span>
+      <Avatar
+        v-if="!validator.picture || validator.picture === 'null'"
+        class="powered-by-image"
+        alt="generic geometric symbol - generated avatar from address"
+        :address="validator.operatorAddress"
+      />
+      <img
+        v-else-if="validator.picture"
+        :src="validator.picture"
+        :alt="`validator logo for ` + validator.name"
+        class="powered-by-image"
+      />
+      <span>&nbsp;Figment</span>
+    </div>
   </div>
 </template>
 <script>
 import { mapState, mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
+import { Networks, NetworksResult, ValidatorProfile } from "src/gql"
+import Avatar from "common/Avatar"
 import TmBtn from "common/TmBtn"
 import gql from "graphql-tag"
 import config from "src/../config"
@@ -80,7 +99,8 @@ import config from "src/../config"
 export default {
   name: `tm-connected-network`,
   components: {
-    TmBtn
+    TmBtn,
+    Avatar
   },
   filters: {
     prettyInt
@@ -96,6 +116,13 @@ export default {
     },
     networkTooltip() {
       return `You're connected to ${this.block.chainId}.`
+    },
+    currentNetwork() {
+      if (this.networks.length > 0) {
+        return this.networks.filter(({ id }) => id === this.network)[0]
+      } else {
+        return {}
+      }
     }
   },
   methods: {
@@ -124,6 +151,32 @@ export default {
         return {
           networkId: this.network
         }
+      }
+    },
+    networks: {
+      query: Networks,
+      fetchPolicy: "cache-first",
+      update: NetworksResult
+    },
+    validator: {
+      query: ValidatorProfile,
+      /* istanbul ignore next */
+      skip() {
+        return !this.currentNetwork
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          operatorAddress: this.currentNetwork.powered
+        }
+      },
+      /* istanbul ignore next */
+      update(result) {
+        if (!result.validator) return {}
+
+        this.loaded = true
+        return result.validator
       }
     },
     $subscribe: {
@@ -230,6 +283,33 @@ export default {
   height: 6px;
   border-radius: 50%;
   background: var(--success);
+}
+
+.powered-hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid var(--faded-blue);
+  width: 90%;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.powered-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.powered-by {
+  color: var(--dim);
+}
+
+.powered-by-image {
+  width: 1rem;
+  border-radius: 100%;
+  margin: 0 0.5rem 0 0.5rem;
 }
 
 @media screen and (max-width: 1023px) {
