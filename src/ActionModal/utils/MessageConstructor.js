@@ -1,4 +1,4 @@
-/* returns an object (transaction) signed and ready to be broadcasted */
+/* returns a function which receives a signer and a transaction plus some meta data and return an object (transaction) signed and ready to be broadcasted */
 export const signedTransactionCreator = async networkId => {
   switch (networkId) {
     case `local-cosmos-hub-testnet`:
