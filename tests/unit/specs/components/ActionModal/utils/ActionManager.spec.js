@@ -63,173 +63,32 @@ const mockFetch = jest.fn(() =>
 
 let actionManager
 describe("ActionManager", () => {
+  // values passed in from the ActionModal component
+  const defaultContext = {
+    chainId: "cosmos",
+    networkId: "cosmos-hub-testnet",
+    connected: true,
+    userAddress: "cosmos12345",
+    rewards: [
+      { amount: 100, validator: { operatorAddress: `cosmos1` } },
+      { amount: 1, validator: { operatorAddress: `cosmos2` } },
+      { amount: 5, validator: { operatorAddress: `cosmos3` } },
+      { amount: 3, validator: { operatorAddress: `cosmos4` } },
+      { amount: 0, validator: { operatorAddress: `cosmos5` } },
+      { amount: 99, validator: { operatorAddress: `cosmos6` } },
+      { amount: 9, validator: { operatorAddress: `cosmos7` } },
+      { amount: 96, validator: { operatorAddress: `cosmos8` } },
+      { amount: 98, validator: { operatorAddress: `cosmos9` } },
+      { amount: 97, validator: { operatorAddress: `cosmos10` } }
+    ]
+  }
   beforeEach(async () => {
     global.fetch = mockFetch
 
     actionManager = new ActionManager()
-    await actionManager.setContext({
-      url: "blah",
-      chainId: "cosmos",
-      networkId: "cosmos-hub-testnet",
-      connected: true,
-      userAddress: "cosmos12345",
-      totalRewards: 1234,
-      rewards: [
-        { amount: 100, validator: { operatorAddress: `cosmos1` } },
-        { amount: 1, validator: { operatorAddress: `cosmos2` } },
-        { amount: 5, validator: { operatorAddress: `cosmos3` } },
-        { amount: 3, validator: { operatorAddress: `cosmos4` } },
-        { amount: 0, validator: { operatorAddress: `cosmos5` } },
-        { amount: 99, validator: { operatorAddress: `cosmos6` } },
-        { amount: 9, validator: { operatorAddress: `cosmos7` } },
-        { amount: 96, validator: { operatorAddress: `cosmos8` } },
-        { amount: 98, validator: { operatorAddress: `cosmos9` } },
-        { amount: 97, validator: { operatorAddress: `cosmos10` } }
-      ]
-    })
-  })
-
-  it("should be created", () => {
-    expect(actionManager instanceof ActionManager).toBe(true)
-  })
-
-  it("should set context", async () => {
-    const context = {
-      url: "blah",
-      chainId: "cosmos",
-      networkId: "cosmos-hub-testnet",
-      connected: true
-    }
-    expect(await actionManager.setContext(context))
-    expect(actionManager.cosmos)
-    expect(actionManager.context).toEqual({
-      url: "blah",
-      chainId: "cosmos",
-      networkId: "cosmos-hub-testnet",
-      connected: true
-    })
-  })
-
-  it("should throw if setting empty context", async () => {
-    try {
-      await actionManager.setContext()
-    } catch (e) {
-      expect(e).toEqual(Error("Context cannot be empty"))
-    }
-  })
-
-  it("should throw if not connected", async () => {
-    try {
-      actionManager = new ActionManager()
-      await actionManager.setContext({
-        url: "blah",
-        chainId: "cosmos",
-        networkId: "cosmos-hub-testnet",
-        connected: false
-      })
-      actionManager.readyCheck()
-    } catch (e) {
-      expect(e).toEqual(
-        Error(
-          "Currently not connected to a secure node. Please try again when Lunie has secured a connection."
-        )
-      )
-    }
-  })
-
-  it("should throw if no context", () => {
-    try {
-      actionManager = new ActionManager()
-      actionManager.readyCheck()
-    } catch (e) {
-      expect(e).toEqual(Error("This modal has no context."))
-    }
-  })
-
-  it("should throw if message type is empty", () => {
-    try {
-      actionManager = new ActionManager()
-      actionManager.messageTypeCheck()
-    } catch (e) {
-      expect(e).toEqual(Error("No message type present."))
-    }
-  })
-
-  it("should throw if message type is incorrect", () => {
-    try {
-      actionManager = new ActionManager()
-      actionManager.messageTypeCheck("invalid")
-    } catch (e) {
-      expect(e).toEqual(Error(`Invalid message type: invalid.`))
-    }
   })
 
   describe("simulating and sending", () => {
-    beforeEach(async () => {
-      const context = {
-        url: "blah",
-        chainId: "cosmos",
-        networkId: "cosmos-hub-testnet",
-        connected: true,
-        userAddress: "cosmos12345",
-        totalRewards: 1234,
-        bondDenom: "uatom",
-        rewards: [
-          {
-            amount: 100,
-            validator: { operatorAddress: `cosmos1` },
-            denom: "uatom"
-          },
-          {
-            amount: 1,
-            validator: { operatorAddress: `cosmos2` },
-            denom: "uatom"
-          },
-          {
-            amount: 5,
-            validator: { operatorAddress: `cosmos3` },
-            denom: "uatom"
-          },
-          {
-            amount: 3,
-            validator: { operatorAddress: `cosmos4` },
-            denom: "uatom"
-          },
-          {
-            amount: 0,
-            validator: { operatorAddress: `cosmos5` },
-            denom: "uatom"
-          },
-          {
-            amount: 99,
-            validator: { operatorAddress: `cosmos6` },
-            denom: "uatom"
-          },
-          {
-            amount: 9,
-            validator: { operatorAddress: `cosmos7` },
-            denom: "uatom"
-          },
-          {
-            amount: 96,
-            validator: { operatorAddress: `cosmos8` },
-            denom: "uatom"
-          },
-          {
-            amount: 98,
-            validator: { operatorAddress: `cosmos9` },
-            denom: "uatom"
-          },
-          {
-            amount: 97,
-            validator: { operatorAddress: `cosmos10` },
-            denom: "uatom"
-          }
-        ]
-      }
-      await actionManager.setContext(context)
-    })
-
     it("should cancel request", async () => {
       await actionManager.cancel(
         {
@@ -250,7 +109,7 @@ describe("ActionManager", () => {
         .mockResolvedValue({ success: true, gasEstimate: 12345 })
 
       await actionManager.simulateTxAPI(
-        actionManager.context,
+        defaultContext,
         "MsgSend",
         sendTx.txProps
       )
@@ -278,7 +137,7 @@ describe("ActionManager", () => {
 
       await expect(
         actionManager.simulateTxAPI(
-          actionManager.context,
+          defaultContext,
           "MsgSend",
           sendTx.txProps,
           "memo"
@@ -288,7 +147,7 @@ describe("ActionManager", () => {
 
     it("should send via Tx API", async () => {
       const context = {
-        ...actionManager.context,
+        ...defaultContext,
         account: {
           accountNumber: 1,
           sequence: 1
@@ -322,7 +181,7 @@ describe("ActionManager", () => {
 
     it("should send via Tx API (withdraw)", async () => {
       const context = {
-        ...actionManager.context,
+        ...defaultContext,
         account: {
           accountNumber: 1,
           sequence: 1
@@ -356,7 +215,7 @@ describe("ActionManager", () => {
 
     it("should send via Tx API FAILS", async () => {
       const context = {
-        ...actionManager.context,
+        ...defaultContext,
         account: {
           accountNumber: 1,
           sequence: 1

@@ -14,17 +14,6 @@ const txFetchOptions = {
 }
 
 export default class ActionManager {
-  messageTypeCheck(msgType) {
-    if (!msgType) {
-      throw Error("No message type present.")
-    }
-
-    const isKnownType = Object.values(transaction).includes(msgType)
-    if (!isKnownType) {
-      throw Error(`Invalid message type: ${msgType}.`)
-    }
-  }
-
   async transactionAPIRequest(payload) {
     const options = {
       ...txFetchOptions,
