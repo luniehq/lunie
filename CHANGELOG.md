@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.170] - 2020-02-29
+
+### Fixed
+
+- Revert analytics header PR to fix extension compatibility @faboweb
+
+## [1.0.169] - 2020-02-28
+
+### Added
+
+- [#3213](https://github.com/cosmos/lunie/issues/3213) add network name in url for some pages @iambeone
+- [#3584](https://github.com/cosmos/lunie/pull/3584) Adds  currency selector back to TmBalance and applies Charlies design @Bitcoinera
+
+### Changed
+
+- prevent multiple requests of transaction pages @iambeone
+
+### Fixed
+
+- [#3616](https://github.com/cosmos/lunie/pull/3616) Fix routing issues when exploring an account @faboweb
+- Remove reloading logic as buggy @faboweb
+
+### Repository
+
+- Use both possible release commit messages @faboweb
+
 ## [1.0.168] - 2020-02-28
 
 ### Added

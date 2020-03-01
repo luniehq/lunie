@@ -15,8 +15,8 @@ import VueApollo from "vue-apollo"
 import { getGraphqlHost } from "scripts/url"
 import * as Sentry from "@sentry/browser"
 import config from "src/../config"
+import * as Fingerprint2 from "fingerprintjs2"
 import introspectionQueryResultData from "src/../fragmentTypes.json"
-import { getFingerprint } from "scripts/fingerprint"
 
 Vue.use(VueApollo)
 
@@ -42,8 +42,18 @@ const makeWebSocketLink = () => {
   return new WebSocketLink({ uri })
 }
 
-const createApolloClient = async () => {
-  const fingerprint = await getFingerprint()
+const createApolloClient = () => {
+  var fp_options = {
+    excludes: {
+      touchSupport: true
+    }
+  }
+  const fingerprint = (async () => {
+    const components = await Fingerprint2.getPromise(fp_options)
+    const values = components.map(component => component.value)
+    const fingerprint = Fingerprint2.x64hash128(values.join(``), 31)
+    return fingerprint
+  })()
   const middleware = new ApolloLink((operation, forward) => {
     // add the authorization to the headers
     operation.setContext({
@@ -116,9 +126,9 @@ const createApolloClient = async () => {
   })
 }
 
-export const createApolloProvider = async () => {
+export const createApolloProvider = () => {
   return new VueApollo({
-    defaultClient: await createApolloClient(),
+    defaultClient: createApolloClient(),
     defaultOptions: {
       // apollo options applied to all queries in components
       $query: {
