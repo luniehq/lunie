@@ -662,7 +662,6 @@ export default {
     },
     async simulate() {
       const { type, memo, ...properties } = this.transactionData
-      await this.actionManager.setMessage(type, properties)
       try {
         if (!this.useTxService) {
           this.gasEstimate = await this.actionManager.simulate(memo)

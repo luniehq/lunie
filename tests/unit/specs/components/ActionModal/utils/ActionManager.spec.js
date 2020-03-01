@@ -164,15 +164,6 @@ describe("ActionManager", () => {
     }
   })
 
-  it("should throw if setting message with empty context ", async () => {
-    try {
-      actionManager = new ActionManager()
-      await actionManager.setMessage("MsgSend", sendTx.txProps)
-    } catch (e) {
-      expect(e).toEqual(Error("This modal has no context."))
-    }
-  })
-
   describe("simulating and sending", () => {
     beforeEach(async () => {
       const context = {
@@ -237,51 +228,6 @@ describe("ActionManager", () => {
         ]
       }
       await actionManager.setContext(context)
-      await actionManager.setMessage("MsgSend", sendTx.txProps)
-    })
-
-    it("should create message", async () => {
-      await actionManager.setMessage("MsgSend", sendTx.txProps)
-      expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", sendTx.txProps)
-    })
-
-    it("should return gas estimate", async () => {
-      mockSimulate = jest.fn(() => 123)
-      const data = await actionManager.simulate("memo")
-      expect(data).toEqual(12345)
-    })
-
-    it("should not send if no message", async () => {
-      actionManager = new ActionManager()
-      const context = {
-        url: "blah",
-        chainId: "cosmos",
-        networkId: "cosmos-hub-testnet",
-        connected: true
-      }
-      await actionManager.setContext(context)
-      await expect(
-        actionManager.send("MsgSend", "memo", sendTx.txProps, sendTx.txMetaData)
-      ).rejects.toThrowError(`No message to send`)
-    })
-
-    it("should send", async () => {
-      const result = await actionManager.send("memo", sendTx.txMetaData)
-      expect(result)
-
-      expect(mockMsgSend).toHaveBeenCalledWith("cosmos12345", {
-        amounts: [{ amount: "20000", denom: "uatom" }],
-        toAddress: "cosmos123"
-      })
-
-      expect(MsgSendFn).toHaveBeenCalledWith(
-        {
-          gas: "12335",
-          gasPrices: [{ amount: "2000000000", denom: "uatom" }],
-          memo: "memo"
-        },
-        "signer"
-      )
     })
 
     it("should cancel request", async () => {
@@ -473,25 +419,6 @@ describe("ActionManager", () => {
       expect(mockFetch).toHaveBeenLastCalledWith(
         "http://localhost:4000/transaction/broadcast",
         args2
-      )
-    })
-
-    it("should create multimessage", async () => {
-      await actionManager.setMessage(
-        "MsgWithdrawDelegationReward",
-        withdrawTx.txProps
-      )
-      mockMsgWithdraw.mockClear()
-      await actionManager.send("memo", withdrawTx.txMetaData)
-      expect(mockMsgWithdraw).toBeCalledTimes(5)
-
-      expect(MsgSendFn).toHaveBeenCalledWith(
-        {
-          gas: "12335",
-          gasPrices: [{ amount: "2000000000", denom: "uatom" }],
-          memo: "memo"
-        },
-        "signer"
       )
     })
   })

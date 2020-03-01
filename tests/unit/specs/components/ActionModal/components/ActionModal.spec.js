@@ -23,7 +23,6 @@ jest.mock("src/../config.js", () => ({
 jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
-      setMessage: jest.fn(),
       setContext: mockSetContext,
       simulate: mockSimulate,
       send: mockSend,

@@ -21,7 +21,6 @@ const txFetchOptions = {
 export default class ActionManager {
   constructor() {
     this.context = null
-    this.message = null
   }
 
   setContext(context = null) {
@@ -41,10 +40,6 @@ export default class ActionManager {
         `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
       )
     }
-
-    if (!this.message) {
-      throw Error(`No message to send.`)
-    }
   }
 
   messageTypeCheck(msgType) {
@@ -56,17 +51,6 @@ export default class ActionManager {
     if (!isKnownType) {
       throw Error(`Invalid message type: ${msgType}.`)
     }
-  }
-
-  async setMessage(type, transactionProperties) {
-    if (!this.context) {
-      throw Error("This modal has no context.")
-    }
-    this.txProps = transactionProperties
-
-    this.messageTypeCheck(type)
-    this.messageType = type
-    this.message = await getMessage(type, transactionProperties, this.context)
   }
 
   async transactionAPIRequest(payload) {
@@ -107,44 +91,6 @@ export default class ActionManager {
     } else {
       throw Error("Simulation unsuccessful")
     }
-  }
-
-  async simulate(memo) {
-    this.readyCheck()
-    const gasEstimate = await this.message.simulate({
-      memo: memo
-    })
-    return gasEstimate
-  }
-
-  async send(memo, txMetaData) {
-    this.readyCheck()
-    let { gasEstimate, gasPrice, submitType, password } = txMetaData
-    const signer = await getSigner(config, submitType, {
-      address: this.context.userAddress,
-      password
-    })
-
-    if (this.messageType === transaction.WITHDRAW) {
-      this.message = await this.createWithdrawTransaction()
-    }
-
-    // temporary fix as the SDK doesn't return proper estimates for votes
-    // TODO move into transacton service
-    /* istanbul ignore next */
-    if (this.messageType === transaction.VOTE) {
-      gasEstimate = 30000
-    }
-
-    const messageMetadata = {
-      gas: String(gasEstimate),
-      gasPrices: convertCurrencyData([gasPrice]),
-      memo
-    }
-
-    const { included, hash } = await this.message.send(messageMetadata, signer)
-
-    return { included, hash }
   }
 
   async sendTxAPI(context, type, memo, transactionProperties, txMetaData) {
