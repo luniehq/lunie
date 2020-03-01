@@ -486,6 +486,7 @@ export default {
         url: this.network.api_url,
         networkId: this.network.id,
         chainId: this.network.chain_id,
+        networkType: this.network.network_type,
         connected: this.connected,
         userAddress: this.session.address,
         rewards: this.rewards,
@@ -869,6 +870,7 @@ export default {
             action_deposit
             action_vote
             action_proposal
+            network_type
           }
         }
       `,

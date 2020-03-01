@@ -154,7 +154,8 @@ export default class ActionManager {
     const signer = await getSigner(config, submitType, {
       address: context.userAddress,
       password,
-      network: context.networkId
+      network: context.networkId,
+      networkType: context.networkType
     })
 
     const messageMetadata = {
