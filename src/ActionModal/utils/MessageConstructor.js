@@ -37,6 +37,7 @@ const getMessageConstructor = async context => {
   throw Error("Network is not supported for signing transactions.")
 }
 
+/* this delivers a function which receiving a signer and message data outputs a signed message ready to be broadcast */
 export const signedTransactionCreator = async context => {
   switch (context.networkType) {
     case `cosmos`: {
