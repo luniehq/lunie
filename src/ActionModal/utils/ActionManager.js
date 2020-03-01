@@ -4,12 +4,7 @@ import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
 import { getGraphqlHost } from "scripts/url"
-import {
-  getMessage,
-  getMultiMessage,
-  getTransactionSigner,
-  transformMessage
-} from "./MessageConstructor.js"
+import { getTransactionSigner, getMessage } from "./MessageConstructor.js"
 
 const txFetchOptions = {
   method: "POST",
@@ -115,7 +110,7 @@ export default class ActionManager {
       )
       await Promise.all(
         validators.map(async validator => {
-          const txMessage = await transformMessage(
+          const txMessage = await getMessage(
             context.networkId,
             type,
             context.userAddress,
@@ -127,7 +122,7 @@ export default class ActionManager {
         })
       )
     } else {
-      const txMessage = await transformMessage(
+      const txMessage = await getMessage(
         context.networkId,
         type,
         context.userAddress,
@@ -159,32 +154,6 @@ export default class ActionManager {
     } else {
       throw Error("Broadcast was not successful: " + result.error)
     }
-  }
-
-  async createWithdrawTransaction() {
-    const addresses = getTop5RewardsValidators(
-      this.context.bondDenom,
-      this.context.rewards
-    )
-    return await this.createMultiMessage(transaction.WITHDRAW, {
-      validatorAddresses: addresses
-    })
-  }
-
-  // Withdrawing is a multi message for all validators you have bonds with
-  async createMultiMessage(messageType, { validatorAddresses }) {
-    const messages = await Promise.all(
-      validatorAddresses.map(validatorAddress =>
-        getMessage(
-          messageType,
-          {
-            validatorAddress
-          },
-          this.context
-        )
-      )
-    )
-    return await getMultiMessage(this.context, messages)
   }
 }
 
