@@ -1,4 +1,5 @@
 import { setNetwork } from "./scripts/setNetwork"
+import gql from "graphql-tag"
 /**
  * In this module we took care of the definition of our routes, with parameters, children and component related to them
  * @module routes
@@ -171,18 +172,16 @@ export default (apollo, store) => {
       }
     },
     {
-      path: `/extension`,
-      name: `extension`,
-      components: {
-        session: () => import(`./components/common/TmSessionExtension`)
-      },
-      meta: {
-        feature: "Session"
+      path: `/extension/:address/:network`,
+      name: `extension-signin`,
+      beforeEnter: function(to, from, next) {
+        /* istanbul ignore next */
+        return extensionSignIn({ to, from, next }, apollo, store)
       }
     },
     {
-      path: `/extension/:address/:network`,
-      name: `extension-signin`,
+      path: `/extension`,
+      name: `extension`,
       components: {
         session: () => import(`./components/common/TmSessionExtension`)
       },
@@ -315,4 +314,28 @@ export default (apollo, store) => {
       ]
     }
   ]
+}
+
+// handle direct sign in from the extension via deeplink
+export async function extensionSignIn({ to, next }, apollo, store) {
+  const {
+    data: { network }
+  } = await apollo.query({
+    query: gql`
+      query Network {
+        network(id: "${to.params.network}") {
+          id
+          slug
+        }
+      }
+    `,
+    fetchPolicy: "cache-first"
+  })
+
+  await store.dispatch(`signIn`, {
+    sessionType: `extension`,
+    address: to.params.address,
+    networkId: to.params.network
+  })
+  next(`/${network.slug}/portfolio`)
 }
