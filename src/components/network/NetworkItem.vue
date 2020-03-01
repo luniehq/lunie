@@ -43,6 +43,7 @@
       >
         <i class="material-icons notranslate">check</i>
       </div>
+      <div v-else style="display: block; width: 24px;"></div>
     </div>
   </div>
 </template>
@@ -151,10 +152,8 @@ export default {
 .powered-div {
   display: flex;
   align-items: center;
-  width: 350px;
+  width: 100%;
   font-size: 14px;
-  position: absolute;
-  left: 20rem;
 }
 
 .powered-by {
@@ -167,30 +166,17 @@ export default {
   margin: 0 0.5rem 0 0.5rem;
 }
 
-@media screen and (max-width: 600px) {
-  .powered-div {
-    left: 15rem;
-  }
-}
-
 @media screen and (max-width: 495px) {
   .powered-div {
     font-size: 2vw;
-    left: 13rem;
   }
 }
 
-@media screen and (max-width: 396px) {
+@media screen and (max-width: 385px) {
   .powered-div {
-    left: 12rem;
+    margin-left: 1rem;
   }
   .powered-by {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 332px) {
-  .powered-by-name {
     display: none;
   }
 }
