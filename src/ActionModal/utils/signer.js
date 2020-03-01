@@ -21,6 +21,8 @@ export async function getSigner(
     switch (networkType) {
       case "cosmos":
         return await getCosmosLocalSigner(wallet)
+      case "cosmos":
+        return await getPolkadotLocalSigner(wallet)
     }
   } else if (signingType === `ledger`) {
     switch (networkType) {
@@ -53,6 +55,24 @@ async function getCosmosLocalSigner(wallet) {
     }
   }
 }
+
+async function getPolkadotLocalSigner(wallet) {
+  const [{ Keyring }] = await Promise.all([
+    import("@polkadot/keyring"),
+    import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
+      // Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
+      await cryptoWaitReady()
+    })
+  ])
+
+  const keyring = new Keyring({ type: "ed25519" })
+  const keyPair = keyring.addFromUri(wallet.seed)
+
+  return polkadotTransactionObject => {
+    return polkadotTransactionObject.sign(keyPair)
+  }
+}
+
 async function getCosmosLedgerSigner(config) {
   // TODO show which properties of config are actually needed
   // importing default here to be compatible with Jest
