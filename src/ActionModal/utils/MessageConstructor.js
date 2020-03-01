@@ -1,4 +1,5 @@
-export const getTransactionSigner = async context => {
+/* returns an object (transaction) signed and ready to be broadcasted */
+export const signedTransactionCreator = async context => {
   switch (context.networkId) {
     case `local-cosmos-hub-testnet`:
     case `terra-mainnet`:
@@ -20,7 +21,8 @@ export const getTransactionSigner = async context => {
 }
 
 /* istanbul ignore next */
-async function getMessageFormatter(network, messageType) {
+/* returns the a message creator for a specific network and transaction type */
+async function getNetworkSpecificMessageCreator(network, messageType) {
   let networkMessages
   try {
     networkMessages = await import(`./networkMessages/${network}.js`)
@@ -38,7 +40,11 @@ async function getMessageFormatter(network, messageType) {
   return messageFormatter
 }
 
+/* returns a message object to be signed by a network specific signing algorithm */
 export async function getMessage(network, messageType, senderAddress, message) {
-  const messageFormatter = await getMessageFormatter(network, messageType)
+  const messageFormatter = await getNetworkSpecificMessageCreator(
+    network,
+    messageType
+  )
   return messageFormatter(senderAddress, message)
 }
