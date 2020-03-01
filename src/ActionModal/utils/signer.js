@@ -15,9 +15,12 @@ export async function getSigner(
   { address, password, network, networkType }
 ) {
   if (signingType === `local`) {
+    const { getStoredWallet } = await import("@lunie/cosmos-keys")
+    const wallet = getStoredWallet(address, password)
+
     switch (networkType) {
       case "cosmos":
-        return await getCosmosLocalSigner(address, password)
+        return await getCosmosLocalSigner(wallet)
     }
   } else if (signingType === `ledger`) {
     switch (networkType) {
@@ -35,12 +38,9 @@ export async function getSigner(
   )
 }
 
-async function getCosmosLocalSigner(address, password) {
-  const { signWithPrivateKey, getStoredWallet } = await import(
-    "@lunie/cosmos-keys"
-  )
+async function getCosmosLocalSigner(wallet) {
+  const { signWithPrivateKey } = await import("@lunie/cosmos-keys")
 
-  const wallet = getStoredWallet(address, password)
   return signMessage => {
     const signature = signWithPrivateKey(
       signMessage,
