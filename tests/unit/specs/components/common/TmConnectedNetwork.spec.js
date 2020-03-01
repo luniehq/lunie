@@ -11,16 +11,35 @@ jest.mock(`src/../config.js`, () => ({
 describe(`TmConnectedNetwork`, () => {
   let wrapper, $store, $apollo, dispatch
 
+  const networks = [
+    {
+      id: `awesomenet`,
+      testnet: true,
+      default: false,
+      powered: null
+    },
+    {
+      id: `keine-ahnungnet`,
+      testnet: true,
+      default: false,
+      powered: `cosmosvaloper1`
+    }
+  ]
+
   beforeEach(() => {
     dispatch = jest.fn()
     $store = {
       commit: jest.fn(),
       state: {
+        networks,
         connection: {
-          network: "networkId"
+          network: "keine-ahnungnet"
         }
       },
-      dispatch
+      dispatch,
+      getters: {
+        network: `localnet`
+      }
     }
 
     $apollo = {
@@ -56,7 +75,8 @@ describe(`TmConnectedNetwork`, () => {
       state: {
         connection: {
           connected: false
-        }
+        },
+        networks
       }
     }
 
