@@ -1,7 +1,7 @@
 import {
   getMessage,
   getMultiMessage,
-  getTransactionSigner
+  signedTransactionCreator
 } from "src/ActionModal/utils/MessageConstructor.js"
 
 const mockMessageObject = jest.fn(() => ({
@@ -89,28 +89,19 @@ describe("MessageConstructor", () => {
   })
 
   it("should return transaction signer", async () => {
-    result = await getTransactionSigner(
-      { networkId: "cosmos-hub-mainnet" },
-      messages
-    )
+    result = await signedTransactionCreator({ networkType: "cosmos" }, messages)
     expect(result()).toBe("signedMessage")
 
-    result = await getTransactionSigner(
-      { networkId: "local-cosmos-hub-testnet" },
-      messages
-    )
+    result = await signedTransactionCreator({ networkType: "cosmos" }, messages)
     expect(result()).toBe("signedMessage")
 
-    result = await getTransactionSigner(
-      { networkId: "cosmos-hub-testnet" },
-      messages
-    )
+    result = await signedTransactionCreator({ networkType: "cosmos" }, messages)
     expect(result()).toBe("signedMessage")
   })
 
   it("should throw when getting a transaction signer for incorrect network", async () => {
     await expect(
-      getTransactionSigner({ networkId: "does-not-exist" })
+      signedTransactionCreator({ networkType: "does-not-exist" })
     ).rejects.toThrow()
   })
 })

@@ -37,21 +37,10 @@ const getMessageConstructor = async context => {
   throw Error("Network is not supported for signing transactions.")
 }
 
-export const getTransactionSigner = async context => {
-  switch (context.networkId) {
-    case `local-cosmos-hub-testnet`:
-    case `terra-mainnet`:
-    case `terra-testnet`:
-    case `emoney-mainnet`:
-    case `emoney-testnet`:
-    case `cosmos-hub-mainnet`:
-    case `cosmos-hub-testnet`: {
+export const signedTransactionCreator = async context => {
+  switch (context.networkType) {
+    case `cosmos`: {
       const { createSignedTransaction } = await import("cosmos-apiV2")
-      return createSignedTransaction
-    }
-    case "regen-mainnet":
-    case "regen-testnet": {
-      const { createSignedTransaction } = await import("cosmos-apiV0")
       return createSignedTransaction
     }
   }

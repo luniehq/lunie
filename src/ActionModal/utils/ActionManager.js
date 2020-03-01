@@ -8,7 +8,7 @@ import { getFingerprint } from "scripts/fingerprint"
 import {
   getMessage,
   getMultiMessage,
-  getTransactionSigner,
+  signedTransactionCreator,
   transformMessage
 } from "./MessageConstructor.js"
 
@@ -193,7 +193,7 @@ export default class ActionManager {
       txMessages.push(txMessage)
     }
 
-    const createSignedTransaction = await getTransactionSigner(context)
+    const createSignedTransaction = await signedTransactionCreator(context)
     const signedMessage = await createSignedTransaction(
       messageMetadata,
       txMessages,
