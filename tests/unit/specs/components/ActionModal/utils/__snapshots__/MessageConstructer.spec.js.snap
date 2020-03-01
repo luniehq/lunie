@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MessageConstructor should return message 1`] = `
+exports[`MessageConstructor should return message object for network 1`] = `
 Object {
   "type": "cosmos-sdk/MsgSend",
   "value": Object {
