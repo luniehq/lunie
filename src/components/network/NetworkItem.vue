@@ -14,6 +14,22 @@
         {{ networkitem.chain_id }}
       </p>
     </div>
+    <div v-if="networkitem.powered" class="powered-div">
+      <span class="powered-by">Powered by&nbsp;</span>
+      <Avatar
+        v-if="!validator.picture || validator.picture === 'null'"
+        class="powered-by-image"
+        alt="generic geometric symbol - generated avatar from address"
+        :address="validator.operatorAddress"
+      />
+      <img
+        v-else-if="validator.picture"
+        :src="validator.picture"
+        :alt="`validator logo for ` + validator.name"
+        class="powered-by-image"
+      />
+      <span class="powered-by-name">&nbsp;Figment</span>
+    </div>
     <div class="network-status">
       <img
         v-if="!connected && network === networkitem.id"
@@ -33,9 +49,14 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { ValidatorProfile } from "src/gql"
+import Avatar from "common/Avatar"
 
 export default {
   name: `network-item`,
+  components: {
+    Avatar
+  },
   props: {
     networkitem: {
       type: Object,
@@ -48,6 +69,25 @@ export default {
   },
   computed: {
     ...mapGetters([`connected`, `network`])
+  },
+  apollo: {
+    validator: {
+      query: ValidatorProfile,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          operatorAddress: this.networkitem.powered
+        }
+      },
+      /* istanbul ignore next */
+      update(result) {
+        if (!result.validator) return {}
+
+        this.loaded = true
+        return result.validator
+      }
+    }
   }
 }
 </script>
@@ -106,5 +146,52 @@ export default {
 
 .network-selected {
   color: var(--success);
+}
+
+.powered-div {
+  display: flex;
+  align-items: center;
+  width: 350px;
+  font-size: 14px;
+  position: absolute;
+  left: 20rem;
+}
+
+.powered-by {
+  color: var(--dim);
+}
+
+.powered-by-image {
+  width: 1rem;
+  border-radius: 100%;
+  margin: 0 0.5rem 0 0.5rem;
+}
+
+@media screen and (max-width: 600px) {
+  .powered-div {
+    left: 15rem;
+  }
+}
+
+@media screen and (max-width: 495px) {
+  .powered-div {
+    font-size: 2vw;
+    left: 13rem;
+  }
+}
+
+@media screen and (max-width: 396px) {
+  .powered-div {
+    left: 12rem;
+  }
+  .powered-by {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 332px) {
+  .powered-by-name {
+    display: none;
+  }
 }
 </style>

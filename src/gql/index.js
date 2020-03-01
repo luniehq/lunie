@@ -84,6 +84,7 @@ export const Networks = gql`
       title
       icon
       slug
+      powered
     }
   }
 `
