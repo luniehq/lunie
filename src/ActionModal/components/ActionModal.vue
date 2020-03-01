@@ -419,7 +419,6 @@ export default {
     network: {},
     overview: {},
     isMobileApp: config.mobileApp,
-    useTxService: config.enableTxAPI,
     balances: []
   }),
   computed: {
@@ -663,16 +662,12 @@ export default {
     async simulate() {
       const { type, memo, ...properties } = this.transactionData
       try {
-        if (!this.useTxService) {
-          this.gasEstimate = await this.actionManager.simulate(memo)
-        } else {
-          this.gasEstimate = await this.actionManager.simulateTxAPI(
-            this.context,
-            type,
-            properties,
-            memo
-          )
-        }
+        this.gasEstimate = await this.actionManager.simulateTxAPI(
+          this.context,
+          type,
+          properties,
+          memo
+        )
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
@@ -711,19 +706,14 @@ export default {
       }
 
       try {
-        let hashResult
-        if (!this.useTxService) {
-          hashResult = await this.actionManager.send(memo, feeProperties)
-        } else {
-          await this.$apollo.queries.overview.refetch()
-          hashResult = await this.actionManager.sendTxAPI(
-            this.context,
-            type,
-            memo,
-            properties,
-            feeProperties
-          )
-        }
+        await this.$apollo.queries.overview.refetch()
+        const hashResult = await this.actionManager.sendTxAPI(
+          this.context,
+          type,
+          memo,
+          properties,
+          feeProperties
+        )
 
         const { hash } = hashResult
         this.txHash = hash
