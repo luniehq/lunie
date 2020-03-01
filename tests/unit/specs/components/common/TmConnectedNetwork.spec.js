@@ -123,4 +123,13 @@ describe(`TmConnectedNetwork`, () => {
     wrapper.vm.handleIntercom()
     expect(dispatch).toHaveBeenCalledWith(`displayMessenger`)
   })
+
+  it(`currentNetwork returns the current network`, () => {
+    const self = {
+      network: `keine-ahnungnet`,
+      networks
+    }
+    const currentNetwork = TmConnectedNetwork.computed.currentNetwork.call(self)
+    expect(currentNetwork.id).toEqual(`keine-ahnungnet`)
+  })
 })
