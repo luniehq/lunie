@@ -14,29 +14,6 @@ const txFetchOptions = {
 }
 
 export default class ActionManager {
-  constructor() {
-    this.context = null
-  }
-
-  setContext(context = null) {
-    if (!context) {
-      throw Error("Context cannot be empty")
-    }
-    this.context = context
-  }
-
-  readyCheck() {
-    if (!this.context) {
-      throw Error("This modal has no context.")
-    }
-
-    if (!this.context.connected) {
-      throw Error(
-        `Currently not connected to a secure node. Please try again when Lunie has secured a connection.`
-      )
-    }
-  }
-
   messageTypeCheck(msgType) {
     if (!msgType) {
       throw Error("No message type present.")
@@ -64,19 +41,19 @@ export default class ActionManager {
     ).then(result => result.json())
   }
 
-  async cancel(context, submitType) {
+  async cancel({ userAddress, networkId }, submitType) {
     return await cancelSign(submitType, {
-      address: context.userAddress,
-      network: context.networkId
+      address: userAddress,
+      network: networkId
     })
   }
 
-  async simulateTxAPI(context, type, txProps, memo) {
+  async simulateTxAPI({ networkId, userAddress }, type, txProps, memo) {
     const txPayload = {
       simulate: true,
-      networkId: context.networkId,
+      networkId,
       messageType: type,
-      address: context.userAddress,
+      address: userAddress,
       txProperties: txProps,
       memo
     }
@@ -88,12 +65,18 @@ export default class ActionManager {
     }
   }
 
-  async sendTxAPI(context, type, memo, transactionProperties, txMetaData) {
+  async sendTxAPI(
+    { userAddress, networkId, bondDenom, rewards, chainId, account },
+    type,
+    memo,
+    transactionProperties,
+    txMetaData
+  ) {
     const { gasEstimate, gasPrice, submitType, password } = txMetaData
     const signer = await getSigner(config, submitType, {
-      address: context.userAddress,
+      address: userAddress,
       password,
-      network: context.networkId
+      network: networkId
     })
 
     const messageMetadata = {
@@ -104,48 +87,40 @@ export default class ActionManager {
 
     let txMessages = []
     if (type === transaction.WITHDRAW) {
-      const validators = getTop5RewardsValidators(
-        context.bondDenom,
-        context.rewards
-      )
+      const validators = getTop5RewardsValidators(bondDenom, rewards)
       await Promise.all(
         validators.map(async validator => {
-          const txMessage = await getMessage(
-            context.networkId,
-            type,
-            context.userAddress,
-            {
-              validatorAddress: validator
-            }
-          )
+          const txMessage = await getMessage(networkId, type, userAddress, {
+            validatorAddress: validator
+          })
           txMessages.push(txMessage)
         })
       )
     } else {
       const txMessage = await getMessage(
-        context.networkId,
+        networkId,
         type,
-        context.userAddress,
+        userAddress,
         transactionProperties
       )
       txMessages.push(txMessage)
     }
 
-    const createSignedTransaction = await signedTransactionCreator(context)
+    const createSignedTransaction = await signedTransactionCreator(networkId)
     const signedMessage = await createSignedTransaction(
       messageMetadata,
       txMessages,
       signer,
-      context.chainId,
-      context.account.accountNumber,
-      context.account.sequence
+      chainId,
+      account.accountNumber,
+      account.sequence
     )
 
     const txPayload = {
       simulate: false,
       messageType: type,
-      networkId: context.networkId,
-      senderAddress: context.userAddress,
+      networkId,
+      senderAddress: userAddress,
       signedMessage
     }
     const result = await this.transactionAPIRequest(txPayload)

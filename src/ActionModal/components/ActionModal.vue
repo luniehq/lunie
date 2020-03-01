@@ -479,21 +479,6 @@ export default {
     prettyIncludedHeight() {
       return prettyInt(this.includedHeight)
     },
-    // TODO lets slice this monstrocity
-    context() {
-      return {
-        url: this.network.api_url,
-        networkId: this.network.id,
-        chainId: this.network.chain_id,
-        connected: this.connected,
-        userAddress: this.session.address,
-        rewards: this.rewards,
-        totalRewards: this.overview.totalRewards,
-        bondDenom: this.network.stakingDenom,
-        isExtensionAccount: this.isExtensionAccount,
-        account: this.overview.accountInformation
-      }
-    },
     getDenom() {
       return this.selectedDenom || this.network.stakingDenom
     },
@@ -524,12 +509,6 @@ export default {
         if (signMethods.length === 1) {
           this.selectedSignMethod = signMethods[0].value
         }
-      }
-    },
-    context: {
-      immediate: true,
-      handler(context) {
-        this.actionManager.setContext(context)
       }
     },
     "$apollo.loading": function(loading) {
@@ -580,7 +559,10 @@ export default {
       if (config.isMobileApp) noScroll.off()
       if (this.step == "sign") {
         // remove the request from any sign method to avoid orphaned transactions in the sign methods
-        this.actionManager.cancel(this.context, this.selectedSignMethod)
+        this.actionManager.cancel(
+          { userAddress: this.session.address, networkId: this.network.id },
+          this.selectedSignMethod
+        )
       }
       this.$store.commit(`setCurrrentModalOpen`, false)
       this.submissionError = null
@@ -663,7 +645,7 @@ export default {
       const { type, memo, ...properties } = this.transactionData
       try {
         this.gasEstimate = await this.actionManager.simulateTxAPI(
-          this.context,
+          { userAddress: this.session.address, networkId: this.network.id },
           type,
           properties,
           memo
@@ -708,7 +690,14 @@ export default {
       try {
         await this.$apollo.queries.overview.refetch()
         const hashResult = await this.actionManager.sendTxAPI(
-          this.context,
+          {
+            networkId: this.network.id,
+            chainId: this.network.chain_id,
+            userAddress: this.session.address,
+            rewards: this.rewards,
+            bondDenom: this.network.stakingDenom,
+            account: this.overview.accountInformation
+          },
           type,
           memo,
           properties,

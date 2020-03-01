@@ -1,6 +1,6 @@
 /* returns an object (transaction) signed and ready to be broadcasted */
-export const signedTransactionCreator = async context => {
-  switch (context.networkId) {
+export const signedTransactionCreator = async networkId => {
+  switch (networkId) {
     case `local-cosmos-hub-testnet`:
     case `terra-mainnet`:
     case `terra-testnet`:
