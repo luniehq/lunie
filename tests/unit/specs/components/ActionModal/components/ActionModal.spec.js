@@ -24,8 +24,6 @@ jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
       setContext: mockSetContext,
-      simulate: mockSimulate,
-      send: mockSend,
       simulateTxAPI: mockSimulate,
       sendTxAPI: mockSend
     }
@@ -183,10 +181,8 @@ describe(`ActionModal`, () => {
       $apollo,
       actionManager: {
         setContext: () => {},
-        simulate: () => 12345,
-        send: ActionManagerSend,
         simulateTxAPI: jest.fn(),
-        sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
+        sendTxAPI: ActionManagerSend
       },
       transactionData: {
         type: "TYPE",
@@ -590,10 +586,7 @@ describe(`ActionModal`, () => {
       const data = {
         step: `details`,
         gasEstimate: null,
-        submissionError: null,
-        actionManager: {
-          simulateTxApi: mockSimulateFail
-        }
+        submissionError: null
       }
 
       const transactionProperties = {
@@ -610,6 +603,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
+      wrapper.vm.actionManager.simulateTxAPI = mockSimulateFail
       await wrapper.vm.simulate()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.gasEstimate).toBe(null)
