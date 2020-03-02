@@ -26,11 +26,6 @@ export default {
     address: {
       type: String,
       required: true
-    },
-    longForm: {
-      type: Boolean,
-      required: false,
-      default: false
     }
   },
   data: () => ({
