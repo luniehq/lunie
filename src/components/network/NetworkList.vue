@@ -5,7 +5,7 @@
       :key="network.chain_id"
       class="select-network-item"
       :class="{ selected: currentNetwork === network.id }"
-      @click="selectNetworkHandler(network)"
+      @click="network.chain_id ? selectNetworkHandler(network) : false"
     >
       <NetworkItem :networkitem="network" />
     </li>
