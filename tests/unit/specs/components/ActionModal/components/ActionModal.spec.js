@@ -691,7 +691,7 @@ describe(`ActionModal`, () => {
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
       wrapper.vm.actionManager.sendTxAPI = mockSubmitFail
-      wrapper.vm.submit()
+      await wrapper.vm.submit()
       await wrapper.vm.$nextTick()
 
       expect(wrapper.html()).toContain("Transaction failed: invalid request.")
