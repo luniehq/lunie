@@ -10,6 +10,7 @@ module.exports = [
     address_prefix: 'cosmos',
     address_creator: 'cosmos',
     ledger_app: 'cosmos',
+    network_type: 'cosmos',
     source_class_name: 'source/cosmosV2-source',
     block_listener_class_name: 'block-listeners/cosmos-node-subscription',
     testnet: true,
@@ -32,7 +33,11 @@ module.exports = [
     stakingDenom: 'MUON',
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/cosmos-hub-mainnet.png',
-    slug: 'cosmos-hub-testnet'
+    slug: 'cosmos-hub-testnet',
+    powered: {
+      name: 'Figment',
+      picture: 'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
+    }
   },
   {
     id: 'cosmos-hub-mainnet',
@@ -44,6 +49,7 @@ module.exports = [
     bech32_prefix: 'cosmos',
     address_prefix: 'cosmos',
     address_creator: 'cosmos',
+    network_type: 'cosmos',
     ledger_app: 'cosmos',
     source_class_name: 'source/cosmosV2-source',
     block_listener_class_name: 'block-listeners/cosmos-node-subscription',
@@ -67,7 +73,12 @@ module.exports = [
     stakingDenom: 'ATOM',
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/cosmos-hub-mainnet.png',
-    slug: 'cosmos-hub'
+    slug: 'cosmos-hub',
+    powered: {
+      name: 'Figment',
+      providerAddress: 'cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d',
+      picture: 'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
+    }
   },
   {
     id: 'terra-mainnet',
@@ -79,6 +90,7 @@ module.exports = [
     address_prefix: 'terra',
     address_creator: 'cosmos',
     ledger_app: 'cosmos',
+    network_type: 'cosmos',
     source_class_name: 'source/terraV3-source',
     block_listener_class_name: 'block-listeners/cosmos-node-subscription',
     testnet: false,
@@ -113,6 +125,7 @@ module.exports = [
     address_prefix: 'terra',
     address_creator: 'cosmos',
     ledger_app: 'cosmos',
+    network_type: 'cosmos',
     source_class_name: 'source/terraV3-source',
     block_listener_class_name: 'block-listeners/cosmos-node-subscription',
     testnet: true,
@@ -147,6 +160,7 @@ module.exports = [
     address_prefix: 'emoney',
     address_creator: 'cosmos',
     ledger_app: 'cosmos',
+    network_type: 'cosmos',
     source_class_name: 'source/emoneyV0-source',
     block_listener_class_name: 'block-listeners/cosmos-node-subscription',
     testnet: true,
@@ -181,6 +195,7 @@ module.exports = [
     address_prefix: '0x',
     address_creator: 'ethereum',
     ledger_app: 'ethereum',
+    network_type: 'ethereum',
     source_class_name: 'source/livepeerV0-source',
     block_listener_class_name: 'block-listeners/livepeer-node-polling',
     testnet: false,

@@ -10,6 +10,7 @@ const schema = Joi.object({
   bech32_prefix: Joi.string(),
   address_prefix: Joi.string(),
   address_creator: Joi.string(),
+  network_type: Joi.string(),
   ledger_app: Joi.string(),
   source_class_name: Joi.string(),
   block_listener_class_name: Joi.string(),
@@ -34,7 +35,14 @@ const schema = Joi.object({
   enabled: Joi.boolean(),
   experimental: Joi.boolean().optional(),
   icon: Joi.string().optional(),
-  slug: Joi.string().optional()
+  slug: Joi.string().optional(),
+  powered: Joi.object()
+    .keys({
+      name: Joi.string().optional(),
+      providerAddress: Joi.string().optional(),
+      picture: Joi.string().optional()
+    })
+    .optional()
 })
 
 describe('Network configs', function() {
