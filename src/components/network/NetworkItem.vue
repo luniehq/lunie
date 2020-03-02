@@ -30,7 +30,16 @@
         :alt="`validator logo for ` + networkitem.powered.name"
         class="powered-by-image"
       />
-      <span class="powered-by-name">{{ networkitem.powered.name }}</span>
+      <span
+        class="powered-by-name"
+        @click="
+          $router.push({
+            name: 'validator',
+            params: { validator: networkitem.powered.providerAddress }
+          })
+        "
+        >{{ networkitem.powered.name }}</span
+      >
     </div>
     <div class="network-status">
       <img
@@ -146,6 +155,14 @@ export default {
   width: 1rem;
   border-radius: 100%;
   margin: 0 0.5rem 0 0.5rem;
+}
+
+.powered-by-name {
+  cursor: pointer;
+}
+
+.powered-by-name:hover {
+  color: var(--link-hover);
 }
 
 @media screen and (max-width: 495px) {
