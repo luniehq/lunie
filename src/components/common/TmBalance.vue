@@ -1,25 +1,47 @@
 <template>
   <div class="balance-header">
+    <select v-model="selectedFiatCurrency" @change="setPreferredCurrency()">
+      <option
+        v-if="!preferredCurrency || preferredCurrency === ''"
+        value=""
+        disabled
+        :selected="!preferredCurrency || preferredCurrency === ''"
+        hidden
+        >Select your fiat currency</option
+      >
+      <option
+        v-if="preferredCurrency"
+        value=""
+        :selected="preferredCurrency"
+        hidden
+        >{{ preferredCurrency }}</option
+      >
+      <option value="EUR">EUR</option>
+      <option value="USD">USD</option>
+      <option value="GBP">GBP</option>
+      <option value="JPY">JPY</option>
+      <option value="CHF">CHF</option>
+    </select>
     <div
       v-if="$apollo.queries.overview.loading && !overview.totalStake"
       class="loading-image-container"
-    >
-      <img
-        src="/img/balance-header-loading.svg"
-        alt="geometric placeholder shapes"
-      />
-    </div>
+    ></div>
+
     <div v-else class="overview">
       <div class="overview-row titles">
-        <h3 class="title cell">Your Portfolio</h3>
+        <h3 class="title cell">Asset</h3>
         <h2 class="title cell">Total</h2>
-        <h2 class="title cell">Available</h2>
+        <h2 class="title cell">Balance</h2>
       </div>
       <div class="overview-row">
         <h3 class="cell"><img src="" alt="" />{{ stakingDenom }}</h3>
         <h2 class="cell">
           {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
-          <span>110,455 USD</span>
+          <span v-if="preferredCurrency">{{
+            preferredCurrency +
+              ` $` +
+              bigFigureOrShortDecimals(stakingBalance.fiatValue.amount)
+          }}</span>
           <span class="rewards"
             >+{{
               overview.totalRewards | bigFigureOrShortDecimals | noBlanks
@@ -36,9 +58,24 @@
           :key="balance.denom"
           class="overview-row"
         >
-          <h3 class="cell"><img src="" alt="" />{{ balance.denom }}</h3>
+          <h3 class="cell">
+            <img
+              class="currency-flag"
+              :src="
+                '/img/icons/currencies/' +
+                  balance.denom.substring(1).toLowerCase() +
+                  '.png'
+              "
+              :alt="`${preferredCurrency}` + ' currency'"
+            />{{ balance.denom }}
+          </h3>
           <h2 class="cell">
             {{ balance.amount | bigFigureOrShortDecimals }}
+            <span>{{
+              bigFigureOrShortDecimals(balance.fiatValue.amount).concat(
+                ` ` + preferredCurrency
+              )
+            }}</span>
             <span class="rewards">
               +{{
                 calculateTotalRewardsDenom(balance.denom)
@@ -502,6 +539,7 @@ select option {
   width: 100%;
   overflow: hidden;
   color: white;
+  font-size: 18px;
 }
 
 .cell span {

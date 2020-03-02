@@ -13,7 +13,6 @@ let mockSend = jest.fn(() => ({
   included: () => Promise.resolve({ height: 42 }),
   hash: "HASH1234HASH"
 }))
-let mockSetContext = jest.fn()
 
 jest.mock("src/../config.js", () => ({
   default_gas_price: 2.5e-8,
@@ -23,10 +22,6 @@ jest.mock("src/../config.js", () => ({
 jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
-      setMessage: jest.fn(),
-      setContext: mockSetContext,
-      simulate: mockSimulate,
-      send: mockSend,
       simulateTxAPI: mockSimulate,
       sendTxAPI: mockSend
     }
@@ -165,12 +160,7 @@ describe(`ActionModal`, () => {
       },
       stubs: ["router-link"]
     })
-    const context = {
-      account: {
-        sequence: 0
-      }
-    }
-    wrapper.setData({ network, overview, balances, context, loaded: true })
+    wrapper.setData({ network, overview, balances, loaded: true })
     wrapper.vm.open()
   })
 
@@ -183,11 +173,8 @@ describe(`ActionModal`, () => {
       $store,
       $apollo,
       actionManager: {
-        setContext: () => {},
-        simulate: () => 12345,
-        send: ActionManagerSend,
         simulateTxAPI: jest.fn(),
-        sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
+        sendTxAPI: ActionManagerSend
       },
       transactionData: {
         type: "TYPE",
@@ -197,12 +184,20 @@ describe(`ActionModal`, () => {
       network: {
         stakingDenom: "ATOM"
       },
+      session: {
+        address: "cosmos1234"
+      },
+      overview: {
+        accountInformation: {
+          sequence: 42,
+          accountNumber: 12
+        }
+      },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
       sendEvent: jest.fn(),
       connectLedger: () => {},
-      onSendingFailed: jest.fn(),
-      createContext: jest.fn()
+      onSendingFailed: jest.fn()
     }
     await ActionModal.methods.submit.call(self)
     expect(self.onSendingFailed).toHaveBeenCalledWith(
@@ -225,7 +220,6 @@ describe(`ActionModal`, () => {
       $store,
       $apollo,
       actionManager: {
-        setContext: () => {},
         simulate: () => 12345,
         send: ActionManagerSend,
         simulateTxAPI: jest.fn(),
@@ -238,8 +232,7 @@ describe(`ActionModal`, () => {
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
       connectLedger: () => {},
-      onSendingFailed: jest.fn(),
-      createContext: jest.fn()
+      onSendingFailed: jest.fn()
     }
     await ActionModal.methods.submit.call(self)
     expect(self.onSendingFailed).toHaveBeenCalledWith(
@@ -542,10 +535,8 @@ describe(`ActionModal`, () => {
       const data = {
         step: `details`,
         gasEstimate: null,
-        submissionError: null,
-        useTxService: true
+        submissionError: null
       }
-      wrapper.vm.createContext = jest.fn()
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
       await wrapper.vm.simulate()
@@ -592,11 +583,7 @@ describe(`ActionModal`, () => {
       const data = {
         step: `details`,
         gasEstimate: null,
-        submissionError: null,
-        actionManager: {
-          simulate: mockSimulateFail
-        },
-        useTxService: false
+        submissionError: null
       }
 
       const transactionProperties = {
@@ -613,6 +600,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
+      wrapper.vm.actionManager.simulateTxAPI = mockSimulateFail
       await wrapper.vm.simulate()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.gasEstimate).toBe(null)
@@ -666,7 +654,6 @@ describe(`ActionModal`, () => {
         step: `sign`,
         gasEstimate: 12345,
         submissionError: null,
-        useTxService: true,
         balances
       }
 
@@ -686,11 +673,7 @@ describe(`ActionModal`, () => {
       const data = {
         step: `fees`,
         gasEstimate: null,
-        submissionError: null,
-        actionManager: {
-          send: mockSubmitFail
-        },
-        useTxService: false
+        submissionError: null
       }
 
       const transactionProperties = {
@@ -707,7 +690,8 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.submit()
+      wrapper.vm.actionManager.sendTxAPI = mockSubmitFail
+      await wrapper.vm.submit()
       await wrapper.vm.$nextTick()
 
       expect(wrapper.html()).toContain("Transaction failed: invalid request.")
@@ -723,11 +707,8 @@ describe(`ActionModal`, () => {
         $store,
         $apollo,
         actionManager: {
-          setContext: () => {},
-          simulate: () => 12345,
-          send: ActionManagerSend,
           simulateTxAPI: jest.fn(),
-          sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
+          sendTxAPI: ActionManagerSend
         },
         transactionData: {},
         network: {
@@ -736,8 +717,7 @@ describe(`ActionModal`, () => {
         submissionErrorPrefix: `PREFIX`,
         trackEvent: jest.fn(),
         connectLedger: () => {},
-        onSendingFailed: jest.fn(),
-        createContext: jest.fn()
+        onSendingFailed: jest.fn()
       }
       await ActionModal.methods.submit.call(self)
       expect(self.onSendingFailed).toHaveBeenCalledWith(
@@ -765,12 +745,7 @@ describe(`ActionModal`, () => {
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `details`,
-        validateChangeStep: jest.fn(() => {}),
-        context: {
-          account: {
-            sequence: 0
-          }
-        }
+        validateChangeStep: jest.fn(() => {})
       }
     })
 
