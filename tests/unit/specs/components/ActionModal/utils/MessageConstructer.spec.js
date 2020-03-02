@@ -27,7 +27,7 @@ jest.mock(`cosmos-apiV2`, () => ({
 }))
 
 describe("MessageConstructor", () => {
-  let messages, result
+  let result
 
   it("should return message object for network", async () => {
     result = await getMessage("cosmos-hub-mainnet", "MsgSend", "cosmos1234", {
