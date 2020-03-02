@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.171] - 2020-03-02
+
+### Added
+
+- [#3627](https://github.com/cosmos/lunie/pull/3627) Adds a coming soon network list in PageNetworks where depicts Polkadot (Kusama) @Bitcoinera
+
+### Fixed
+
+- Fixed extension sign in deeplinking sometimes not working @faboweb
+- Fixed issue with undelegating counting amount as subtotal @faboweb
+
 ## [1.0.170] - 2020-02-29
 
 ### Fixed
