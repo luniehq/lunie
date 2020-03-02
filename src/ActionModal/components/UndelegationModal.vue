@@ -3,7 +3,7 @@
     id="undelegation-modal"
     ref="actionModal"
     :validate="validateForm"
-    :amount="amount"
+    :amount="0"
     :title="isRedelegation ? 'Restake' : 'Unstake'"
     class="undelegation-modal"
     :submission-error-prefix="
