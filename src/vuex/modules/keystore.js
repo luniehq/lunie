@@ -100,25 +100,11 @@ async function createPolkadotAddress(seedPhrase) {
 }
 
 async function getWallet(seedPhrase, networkId, apollo) {
-  const {
-    data: { network }
-  } = await apollo.query({
-    query: gql`
-      query Network {
-        network(id: "${networkId}") {
-          id
-          address_creator,
-          address_prefix
-        }
-      }
-    `,
-    fetchPolicy: "cache-first"
-  })
-
+  const network = await getNetworkInfo(networkId, apollo)
   if (!network)
     throw new Error("Lunie doesn't support address creation for this network.")
 
-  switch (network.address_creator) {
+  switch (network.network_type) {
     case "cosmos": {
       const addressCreator = await getCosmosAddressCreator(
         network.address_prefix
@@ -128,5 +114,28 @@ async function getWallet(seedPhrase, networkId, apollo) {
     case "polkadot": {
       return await createPolkadotAddress(seedPhrase)
     }
+    default:
+      throw new Error(
+        "Lunie doesn't support address creation for this network."
+      )
   }
+}
+
+async function getNetworkInfo(networkId, apollo) {
+  const {
+    data: { network }
+  } = await apollo.query({
+    query: gql`
+      query Network {
+        network(id: "${networkId}") {
+          id
+          network_type,
+          address_prefix
+        }
+      }
+    `,
+    fetchPolicy: "cache-first"
+  })
+
+  return network
 }
