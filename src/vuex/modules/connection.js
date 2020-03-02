@@ -7,6 +7,7 @@ export default function({ apollo }) {
     connected: true, // TODO do connection test
     network: config.network, // network id to reference network capabilities stored in Hasura
     networkSlug: "cosmos-hub",
+    addressType: undefined,
     externals: {
       config
     }
@@ -18,6 +19,9 @@ export default function({ apollo }) {
     },
     setNetworkSlug(state, networkSlug) {
       state.networkSlug = networkSlug
+    },
+    setAddressType(state, addressType) {
+      state.addressType = addressType
     }
   }
 
@@ -65,6 +69,7 @@ export default function({ apollo }) {
       if (network.slug) {
         commit("setNetworkSlug", network.slug)
       }
+      commit("setAddressType", network.address_creator)
       dispatch(`checkForPersistedSession`) // check for persisted session on that network
       console.info(`Connecting to: ${network.id}`)
     }

@@ -6,6 +6,8 @@
       <NetworkList :networks="mainNetworks" />
       <h3>Test Networks</h3>
       <NetworkList :networks="testNetworks" />
+      <h3>Coming soon...</h3>
+      <NetworkList :networks="[polkadot]" />
     </template>
   </TmPage>
 </template>
@@ -24,7 +26,13 @@ export default {
     TmDataLoading
   },
   data: () => ({
-    networks: []
+    networks: [],
+    polkadot: {
+      id: "polkadot-testnet",
+      title: "Kusama",
+      chain_id: "kusama-cc3",
+      icon: "/img/networks/polkadot-testnet.png"
+    }
   }),
   computed: {
     mainNetworks() {

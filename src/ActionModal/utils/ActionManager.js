@@ -4,25 +4,27 @@ import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
 import { getGraphqlHost } from "scripts/url"
+import { getFingerprint } from "scripts/fingerprint"
 import {
   getSignedTransactionCreator,
   getMessage
 } from "./MessageConstructor.js"
 
-const txFetchOptions = {
+const txFetchOptions = fingerprint => ({
   method: "POST",
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    fingerprint
   }
-}
+})
 
 export default class ActionManager {
   async transactionAPIRequest(payload) {
+    const fingerprint = await getFingerprint()
     const options = {
-      ...txFetchOptions,
+      ...txFetchOptions(fingerprint),
       body: JSON.stringify({ payload })
     }
-
     const command = payload.simulate ? "estimate" : "broadcast"
 
     const graphqlHost = getGraphqlHost()

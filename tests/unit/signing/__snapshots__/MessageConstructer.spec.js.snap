@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MessageConstructor should return message object for network 1`] = `
+Object {
+  "type": "cosmos-sdk/MsgSend",
+  "value": Object {
+    "amount": Array [
+      Object {
+        "amount": "12345",
+        "denom": "STAKE",
+      },
+    ],
+    "from_address": "cosmos1234",
+    "to_address": "cosmos1456",
+  },
+}
+`;

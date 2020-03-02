@@ -24,7 +24,7 @@ exports[`StakeTxDetails renders a stake transaction message 1`] = `
     >
       <!---->
       
-      cosmosvaloper…r123
+      cosm…r123
     
     </router-link-stub>
   </div>

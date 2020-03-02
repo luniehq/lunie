@@ -1,9 +1,7 @@
 <template>
   <SessionFrame>
     <TmFormStruct :submit="onSubmit">
-      <h2 class="session-title bottom-indent">
-        Explore with any address
-      </h2>
+      <h2 class="session-title bottom-indent">Explore with any address</h2>
 
       <div v-if="session.addresses.length > 0" class="session-list">
         <div
@@ -14,13 +12,13 @@
         >
           <div class="tm-li-session">
             <div class="tm-li-session-icon">
-              <i class="material-icons notranslate circle">
-                {{ getAddressIcon(account.type) }}
-              </i>
+              <i class="material-icons notranslate circle">{{
+                getAddressIcon(account.type)
+              }}</i>
             </div>
             <div class="tm-li-session-text">
               <div class="tm-li-session-title">
-                <span>{{ account.address | formatBech32(false, 12) }}</span>
+                <span>{{ account.address | formatAddress(12) }}</span>
                 <p class="tm-li-session-subtitle">
                   {{ getAddressTypeDescription(account.type) }}
                 </p>
@@ -38,7 +36,7 @@
           <TmField
             v-model="address"
             type="text"
-            placeholder=""
+            placeholder
             vue-focus="vue-focus"
           />
           <TmFormMsg
@@ -74,8 +72,8 @@
         <div class="field-checkbox-input">
           <label class="field-checkbox-label" for="select-testnet">
             <input id="select-testnet" v-model="testnet" type="checkbox" />
-            This is a testnet address</label
-          >
+            This is a testnet address
+          </label>
         </div>
       </TmFormGroup>
       <div class="session-footer">
@@ -95,7 +93,7 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
-import { formatBech32 } from "src/filters"
+import { formatAddress } from "src/filters"
 import { isAddress } from "web3-utils"
 import gql from "graphql-tag"
 const isEthereumAddress = isAddress
@@ -111,7 +109,7 @@ export default {
     TmFormStruct
   },
   filters: {
-    formatBech32
+    formatAddress
   },
   data: () => ({
     address: ``,

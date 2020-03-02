@@ -9,9 +9,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
     <h2
       class="session-title bottom-indent"
     >
-      
       Explore with any address
-    
     </h2>
      
     <div
@@ -29,9 +27,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             <i
               class="material-icons notranslate circle"
             >
-              
               vpn_key
-            
             </i>
           </div>
            
@@ -78,9 +74,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             <i
               class="material-icons notranslate circle"
             >
-              
               laptop
-            
             </i>
           </div>
            
@@ -127,9 +121,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
             <i
               class="material-icons notranslate circle"
             >
-              
               phone_iphone
-            
             </i>
           </div>
            
@@ -140,7 +132,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
               class="tm-li-session-title"
             >
               <span>
-                cosmos…a7m64khj8xyz
+                cosmos1vxkye…a7m64khj8xyz
               </span>
                
               <p
@@ -201,6 +193,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
           />
           
           This is a testnet address
+        
         </label>
       </div>
     </tmformgroup-stub>
