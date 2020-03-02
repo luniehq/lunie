@@ -1,5 +1,5 @@
 /* returns a function which receives a signer and a transaction plus some meta data and return an object (transaction) signed and ready to be broadcasted */
-export const getgetSignedTransactionCreator = async networkId => {
+export const getSignedTransactionCreator = async networkId => {
   switch (networkId) {
     case `local-cosmos-hub-testnet`:
     case `terra-mainnet`:
