@@ -135,7 +135,7 @@ async function prepare(browser) {
     )
     return true
   }, [])
-  await browser.refresh()
+  await browser.url(browser.launch_url + "?insecure=true")
 
   // check if we are already singed in
   await openMenu(browser)
