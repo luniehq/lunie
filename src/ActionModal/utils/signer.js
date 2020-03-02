@@ -74,7 +74,7 @@ async function getCosmosLedgerSigner(config) {
       throw err
     }
 
-    // cleanup. if we leave this open, the next connection will brake for HID
+    // cleanup. if we leave this open, the next connection will break for HID
     ledger.cosmosApp.transport.close()
 
     return {
