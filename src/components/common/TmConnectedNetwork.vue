@@ -86,7 +86,7 @@
         :alt="`validator logo for ` + currentNetwork.powered.name"
         class="powered-by-image"
       />
-      <span>{{ currentNetwork.powered.name }}</span>
+      <span class="powered-by-name">{{ currentNetwork.powered.name }}</span>
     </div>
   </div>
 </template>
@@ -292,6 +292,10 @@ export default {
   width: 1rem;
   border-radius: 100%;
   margin: 0 0.5rem 0 0.5rem;
+}
+
+.powered-by-name {
+  font-style: bold;
 }
 
 @media screen and (max-width: 1023px) {
