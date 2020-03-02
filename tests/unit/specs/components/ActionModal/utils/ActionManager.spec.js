@@ -182,6 +182,7 @@ describe("ActionManager", () => {
       const context = {
         url: "blah",
         chainId: "cosmos",
+        networkType: "cosmos",
         networkId: "cosmos-hub-testnet",
         connected: true,
         userAddress: "cosmos12345",
