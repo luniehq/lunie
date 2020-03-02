@@ -1,8 +1,19 @@
 /* returns a function which receives a signer and a transaction plus some meta data and return an object (transaction) signed and ready to be broadcasted */
-export const getSignedTransactionCreator = async networkType => {
-  switch (networkType) {
-    case `cosmos`: {
+export const getSignedTransactionCreator = async networkId => {
+  switch (networkId) {
+    case `local-cosmos-hub-testnet`:
+    case `terra-mainnet`:
+    case `terra-testnet`:
+    case `emoney-mainnet`:
+    case `emoney-testnet`:
+    case `cosmos-hub-mainnet`:
+    case `cosmos-hub-testnet`: {
       const { createSignedTransaction } = await import("cosmos-apiV2")
+      return createSignedTransaction
+    }
+    case "regen-mainnet":
+    case "regen-testnet": {
+      const { createSignedTransaction } = await import("cosmos-apiV0")
       return createSignedTransaction
     }
   }

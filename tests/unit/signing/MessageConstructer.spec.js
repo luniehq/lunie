@@ -46,19 +46,20 @@ describe("MessageConstructor", () => {
   })
 
   it("should return transaction signer", async () => {
-    result = await getSignedTransactionCreator("cosmos", messages)
+    result = await getSignedTransactionCreator("cosmos-hub-mainnet", messages)
     expect(result()).toBe("signedMessage")
 
-    result = await getSignedTransactionCreator("cosmos", messages)
+    result = await getSignedTransactionCreator(
+      "local-cosmos-hub-testnet",
+      messages
+    )
     expect(result()).toBe("signedMessage")
 
-    result = await getSignedTransactionCreator("cosmos", messages)
+    result = await getSignedTransactionCreator("cosmos-hub-testnet", messages)
     expect(result()).toBe("signedMessage")
   })
 
   it("should throw when getting a transaction signer for incorrect network", async () => {
-    await expect(
-      getSignedTransactionCreator("does-not-exist")
-    ).rejects.toThrow()
+    await expect(getSignedTransactionCreator("does-not-exist")).rejects.toThrow()
   })
 })
