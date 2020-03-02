@@ -111,7 +111,7 @@ module.exports = {
             browser.setValue("#amount", value)
           },
           // expected subtotal
-          value
+          "0"
         )
         await getAccountBallance(browser)
 
