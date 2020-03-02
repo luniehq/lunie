@@ -25,11 +25,6 @@ describe(`Address Component`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should show a long address`, () => {
-    wrapper.setProps({ longForm: true })
-    expect(wrapper.element).toMatchSnapshot()
-  })
-
   it(`should return 'address not found'`, () => {
     wrapper.setProps({ address: null })
     expect(wrapper.find(".address").text()).toBe(`Address Not Found`)
