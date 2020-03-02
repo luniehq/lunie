@@ -29,25 +29,26 @@
 
     <div v-else class="overview">
       <div class="overview-row titles">
-        <h3 class="title cell">Asset</h3>
-        <h2 class="title cell">Total</h2>
+        <h3 class="title cell">Total</h3>
         <h2 class="title cell">Balance</h2>
       </div>
       <div class="overview-row">
-        <h3 class="cell"><img src="" alt="" />{{ stakingDenom }}</h3>
-        <h2 class="cell">
-          {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
-          <span v-if="preferredCurrency">{{
-            preferredCurrency +
-              ` $` +
-              bigFigureOrShortDecimals(stakingBalance.fiatValue.amount)
-          }}</span>
-          <span class="rewards"
-            >+{{
-              overview.totalRewards | bigFigureOrShortDecimals | noBlanks
-            }}</span
-          >
-        </h2>
+        <h3 class="cell">
+          <img src="" alt="" />{{ stakingDenom }}
+          <h2 class="cell">
+            {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
+            <span v-if="preferredCurrency">{{
+              preferredCurrency +
+                stakingBalance.fiatValue.symbol +
+                bigFigureOrShortDecimals(stakingBalance.fiatValue.amount)
+            }}</span>
+            <span class="rewards"
+              >+{{
+                overview.totalRewards | bigFigureOrShortDecimals | noBlanks
+              }}</span
+            >
+          </h2>
+        </h3>
         <h2 class="cell available">
           {{ overview.liquidStake | bigFigureOrShortDecimals | noBlanks }}
         </h2>
@@ -68,21 +69,21 @@
               "
               :alt="`${preferredCurrency}` + ' currency'"
             />{{ balance.denom }}
+            <h2 class="cell">
+              {{ balance.amount | bigFigureOrShortDecimals }}
+              <span>{{
+                balance.fiatValue.denom +
+                  balance.fiatValue.symbol +
+                  bigFigureOrShortDecimals(balance.fiatValue.amount)
+              }}</span>
+              <span class="rewards">
+                +{{
+                  calculateTotalRewardsDenom(balance.denom)
+                    | bigFigureOrShortDecimals
+                }}</span
+              >
+            </h2>
           </h3>
-          <h2 class="cell">
-            {{ balance.amount | bigFigureOrShortDecimals }}
-            <span>{{
-              bigFigureOrShortDecimals(balance.fiatValue.amount).concat(
-                ` ` + preferredCurrency
-              )
-            }}</span>
-            <span class="rewards">
-              +{{
-                calculateTotalRewardsDenom(balance.denom)
-                  | bigFigureOrShortDecimals
-              }}</span
-            >
-          </h2>
           <h2 class="cell"></h2>
         </div>
       </template>
@@ -170,8 +171,8 @@ export default {
       balances: [],
       showTutorial: false,
       rewards: [],
-      selectedFiatCurrency: "",
-      preferredCurrency: "",
+      selectedFiatCurrency: "USD",
+      preferredCurrency: "USD",
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -370,6 +371,8 @@ export default {
             amount
             fiatValue {
               amount
+              denom
+              symbol
             }
           }
         }
@@ -544,7 +547,7 @@ select option {
 
 .cell span {
   padding-left: 1rem;
-  color: var(--dim);
+  color: var(--grey);
 }
 
 .cell .rewards {
