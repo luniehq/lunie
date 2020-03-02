@@ -25,8 +25,8 @@ const mockMsgWithdraw = jest.fn(() => ({
   send: () => ({ included: () => async () => true })
 }))
 
-const mockSignedTransactionCreator = jest.fn(() => {
-  console.log("mockSignedTransactionCreator executed")
+const mockGetSignedTransactionCreator = jest.fn(() => {
+  console.log("mockGetSignedTransactionCreator executed")
   return jest.fn().mockResolvedValue(() => console.log("Hello"))
 })
 
@@ -36,7 +36,7 @@ const mockMessageConstructor = jest.fn().mockImplementation(() => {
     MsgSend: mockMsgSend,
     MsgWithdrawDelegationReward: mockMsgWithdraw,
     MultiMessage: mockMultiMessage,
-    signedTransactionCreator: mockSignedTransactionCreator
+    getSignedTransactionCreator: mockGetSignedTransactionCreator
   }
 })
 jest.mock(`cosmos-apiV0`, () => ({
