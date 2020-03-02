@@ -6,7 +6,7 @@
       <NetworkList :networks="mainNetworks" />
       <h3>Test Networks</h3>
       <NetworkList :networks="testNetworks" />
-      <h3>Coming Soon...</h3>
+      <h3>Coming Soon</h3>
       <NetworkList :networks="comingSoon" />
     </template>
   </TmPage>
