@@ -439,9 +439,12 @@ export default {
     estimatedFee() {
       return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
     },
+    subTotal() {
+      return this.featureFlag === "undelegate" ? 0 : this.amount
+    },
     invoiceTotal() {
       return (
-        Number(this.amount) + Number(this.gasPrice) * Number(this.gasEstimate)
+        Number(this.subTotal) + Number(this.gasPrice) * Number(this.gasEstimate)
       )
     },
     isValidChildForm() {
@@ -682,7 +685,7 @@ export default {
       // limit fees to the maximum the user has
       if (this.invoiceTotal > this.selectedBalance.amount) {
         this.gasPrice =
-          (Number(this.selectedBalance.amount) - Number(this.amount)) /
+          (Number(this.selectedBalance.amount) - Number(this.subTotal)) /
           this.gasEstimate
       }
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
