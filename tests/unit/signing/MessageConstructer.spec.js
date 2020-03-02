@@ -60,8 +60,6 @@ describe("MessageConstructor", () => {
   })
 
   it("should throw when getting a transaction signer for incorrect network", async () => {
-    await expect(
-      getSignedTransactionCreator("does-not-exist")
-    ).rejects.toThrow()
+    await expect(getSignedTransactionCreator("does-not-exist")).rejects.toThrow()
   })
 })
