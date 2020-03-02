@@ -32,7 +32,11 @@ module.exports = [
     stakingDenom: 'MUON',
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/cosmos-hub-mainnet.png',
-    slug: 'cosmos-hub-testnet'
+    slug: 'cosmos-hub-testnet',
+    powered: {
+      name: 'Figment',
+      picture: 'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
+    }
   },
   {
     id: 'cosmos-hub-mainnet',
@@ -67,7 +71,12 @@ module.exports = [
     stakingDenom: 'ATOM',
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/cosmos-hub-mainnet.png',
-    slug: 'cosmos-hub'
+    slug: 'cosmos-hub',
+    powered: {
+      name: 'Figment',
+      providerAddress: 'cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d',
+      picture: 'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
+    }
   },
   {
     id: 'terra-mainnet',
