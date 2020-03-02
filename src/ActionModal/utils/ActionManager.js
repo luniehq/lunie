@@ -4,7 +4,10 @@ import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
 import { getGraphqlHost } from "scripts/url"
-import { signedTransactionCreator, getMessage } from "./MessageConstructor.js"
+import {
+  getSignedTransactionCreator,
+  getMessage
+} from "./MessageConstructor.js"
 
 const txFetchOptions = {
   method: "POST",
@@ -95,7 +98,7 @@ export default class ActionManager {
       txMessages.push(txMessage)
     }
 
-    const createSignedTransaction = await signedTransactionCreator(networkId)
+    const createSignedTransaction = await getSignedTransactionCreator(networkId)
     const signedMessage = await createSignedTransaction(
       messageMetadata,
       txMessages,

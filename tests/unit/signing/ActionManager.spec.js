@@ -1,5 +1,5 @@
-import ActionManager from "src/ActionModal/utils/ActionManager.js"
-import { cancelSign } from "src/ActionModal/utils/signer"
+import ActionManager from "src/signing/ActionManager.js"
+import { cancelSign } from "src/signing/signer"
 import { sendTx } from "./actions"
 
 jest.mock("src/../config.js", () => ({
@@ -25,7 +25,7 @@ const mockMsgWithdraw = jest.fn(() => ({
   send: () => ({ included: () => async () => true })
 }))
 
-const mockgetSignedTransactionCreator = jest.fn(() => {
+const mockGetSignedTransactionCreator = jest.fn(() => {
   console.log("mockgetSignedTransactionCreator executed")
   return jest.fn().mockResolvedValue(() => console.log("Hello"))
 })
@@ -36,7 +36,7 @@ const mockMessageConstructor = jest.fn().mockImplementation(() => {
     MsgSend: mockMsgSend,
     MsgWithdrawDelegationReward: mockMsgWithdraw,
     MultiMessage: mockMultiMessage,
-    getSignedTransactionCreator: mockgetSignedTransactionCreator
+    getSignedTransactionCreator: mockGetSignedTransactionCreator
   }
 })
 jest.mock(`cosmos-apiV0`, () => ({
