@@ -295,7 +295,7 @@ export default {
 }
 
 .powered-by-name {
-  font-style: bold;
+  font-weight: 500;
 }
 
 @media screen and (max-width: 1023px) {
