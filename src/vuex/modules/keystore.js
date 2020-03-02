@@ -46,28 +46,8 @@ export default ({ apollo }) => {
       // TODO extract the key storage from the key creation
       const { storeWallet } = await import("@lunie/cosmos-keys")
 
-      const addressCreator = await getAddressCreator(network, apollo)
-      let wallet
-      if (addressCreator === "cosmos") {
-        wallet = await getWallet(seedPhrase, network, apollo)
-      }
-      if (addressCreator === "polkadot") {
-        const [{ Keyring }] = await Promise.all([
-          import("@polkadot/keyring"),
-          import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
-            // Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
-            await cryptoWaitReady()
-          })
-        ])
-
-        const keyring = new Keyring({ type: "ed25519" })
-        const newPair = keyring.addFromUri(seedPhrase)
-
-        wallet = {
-          cosmosAddress: newPair.address,
-          seedPhrase
-        }
-      }
+      // create a new key pair
+      const wallet = await getWallet(seedPhrase, network, apollo)
 
       storeWallet(wallet, name, password, network)
 
@@ -100,6 +80,25 @@ function getCosmosAddressCreator(bech32Prefix) {
   }
 }
 
+// creates a polkadot address
+async function createPolkadotAddress(seedPhrase) {
+  const [{ Keyring }] = await Promise.all([
+    import("@polkadot/keyring"),
+    import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
+      // Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
+      await cryptoWaitReady()
+    })
+  ])
+
+  const keyring = new Keyring({ type: "ed25519" })
+  const newPair = keyring.addFromUri(seedPhrase)
+
+  return {
+    cosmosAddress: newPair.address,
+    seedPhrase
+  }
+}
+
 async function getWallet(seedPhrase, networkId, apollo) {
   const {
     data: { network }
@@ -124,12 +123,15 @@ async function getWallet(seedPhrase, networkId, apollo) {
       const addressCreator = await getCosmosAddressCreator(
         network.address_prefix
       )
-      return addressCreator(seedPhrase)
+      return await addressCreator(seedPhrase)
+    }
+    case "polkadot": {
+      return await createPolkadotAddress(seedPhrase)
     }
   }
 }
 
-async function getAddressCreator(networkId, apollo) {
+async function getNetworkType(networkId, apollo) {
   const {
     data: { network }
   } = await apollo.query({
@@ -137,12 +139,12 @@ async function getAddressCreator(networkId, apollo) {
       query Network {
         network(id: "${networkId}") {
           id
-          address_creator
+          network_type
         }
       }
     `,
     fetchPolicy: "cache-first"
   })
 
-  return network.address_creator
+  return network ? network.network_type : undefined
 }

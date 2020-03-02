@@ -174,13 +174,14 @@ describe(`Module: Keystore`, () => {
     apollo.query.mockImplementationOnce(() => ({
       data: {}
     }))
+    const dispatch = jest.fn()
 
     const seedPhrase = `abc`
     const password = `123`
     const name = `def`
     await expect(
       actions.createKey(
-        { state },
+        { state, dispatch },
         {
           seedPhrase,
           password,
