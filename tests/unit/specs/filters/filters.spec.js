@@ -1,6 +1,6 @@
 import {
   percentOrPending,
-  formatBech32,
+  formatAddress,
   resolveValidatorName
 } from "src/filters"
 
@@ -22,32 +22,26 @@ describe(`PercentOrPending Filter`, () => {
   })
 })
 
-describe(`formatBech32 Filter`, () => {
+describe(`formatAddress Filter`, () => {
   it(`should return 'Address Not Found' when address is empty`, () => {
-    expect(formatBech32(``)).toBe(`Address Not Found`)
+    expect(formatAddress(``)).toBe(`Address Not Found`)
   })
 
   it(`should return an abbreviated version of an Ethereum address, with "0x" and then the first four characters, followed by "..." and finally the last four characters`, () => {
-    expect(formatBech32(`0x00b1606fc5b771f3079b4fd3ea49e66a2d5fd665`)).toBe(
+    expect(formatAddress(`0x00b1606fc5b771f3079b4fd3ea49e66a2d5fd665`)).toBe(
       `0x00b1…d665`
     )
   })
 
-  it(`should return 'Not A Valid Bech32 Address' when no 1 is present`, () => {
-    expect(formatBech32(`cosmosaddress2asdfasdfasdf`)).toBe(
-      `Not A Valid Bech32 Address`
+  it(`should return an abbreviated version of a Polkadot address, with "0x" and then the first four characters, followed by "..." and finally the last four characters`, () => {
+    expect(formatAddress(`00b1606fc5b771f3079b4fd3ea49e66a2d5fd665`)).toBe(
+      `00b1…d665`
     )
   })
 
   it(`should format a truncted address by default`, () => {
-    expect(formatBech32(`cosmosaddress1asdfasdfasdf`)).toBe(
-      `cosmosaddress…asdf`
-    )
-  })
-
-  it(`should format a longform address address by default`, () => {
-    expect(formatBech32(`cosmosaddress1asdfasdfasdf`, true)).toBe(
-      `cosmosaddress1asdfasdfasdf`
+    expect(formatAddress(`cosmos1rwmfrdr8dz2va39pdahphzee4d373j6jz6up8j`)).toBe(
+      `cosmos…up8j`
     )
   })
 })
@@ -70,8 +64,11 @@ describe(`resolveValidatorName Filter`, () => {
   })
 
   it(`should return short address when name not found`, () => {
-    expect(resolveValidatorName(`cosmosvaloper1abc`, validators)).toBe(
-      `cosmosvaloper…1abc`
-    )
+    expect(
+      resolveValidatorName(
+        `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
+        validators
+      )
+    ).toBe(`cosmosvaloper…9yf2`)
   })
 })

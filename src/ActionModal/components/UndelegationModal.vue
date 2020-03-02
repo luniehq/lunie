@@ -123,7 +123,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
-import { formatBech32, validatorEntry } from "src/filters"
+import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
 
 export default {
@@ -219,9 +219,8 @@ export default {
           return {
             address: delegation.validator.operatorAddress,
             maximum: Number(delegation.amount),
-            key: `${delegation.validator.name} - ${formatBech32(
+            key: `${delegation.validator.name} - ${formatAddress(
               delegation.validator.operatorAddress,
-              false,
               20
             )}`,
             value: index + 1
@@ -236,7 +235,7 @@ export default {
         {
           address: this.address,
           maximum: Number(this.balance.amount),
-          key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
+          key: `My Wallet - ${formatAddress(this.address, 20)}`,
           value: 0
         }
       ]

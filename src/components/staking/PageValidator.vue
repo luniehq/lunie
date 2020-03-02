@@ -121,7 +121,7 @@
         <li class="column">
           <h4>Validator Address</h4>
           <span>
-            <Bech32 :address="validator.operatorAddress" />
+            <Address :address="validator.operatorAddress" />
           </span>
         </li>
       </ul>
@@ -216,7 +216,7 @@ import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import Avatar from "common/Avatar"
-import Bech32 from "common/Bech32"
+import Address from "common/Address"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
 import { ValidatorProfile, UserTransactionAdded } from "src/gql"
@@ -236,7 +236,7 @@ function getStatusText(statusDetailed) {
 export default {
   name: `page-validator`,
   components: {
-    Bech32,
+    Address,
     DelegationModal,
     UndelegationModal,
     Avatar,
