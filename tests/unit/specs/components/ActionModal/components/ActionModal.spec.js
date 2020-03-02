@@ -673,10 +673,7 @@ describe(`ActionModal`, () => {
       const data = {
         step: `fees`,
         gasEstimate: null,
-        submissionError: null,
-        actionManager: {
-          sendTxAPI: mockSubmitFail
-        }
+        submissionError: null
       }
 
       const transactionProperties = {
@@ -693,6 +690,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
+      wrapper.vm.actionManager.sendTxAPI = mockSubmitFail
       wrapper.vm.submit()
       await wrapper.vm.$nextTick()
 
