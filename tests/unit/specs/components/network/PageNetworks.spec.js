@@ -62,6 +62,6 @@ describe(`PageNetworks`, () => {
   })
 
   it(`has 2 network lists`, () => {
-    expect(wrapper.findAll("networklist-stub").length).toBe(2)
+    expect(wrapper.findAll("networklist-stub").length).toBe(3)
   })
 })

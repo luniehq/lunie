@@ -3,7 +3,7 @@
     <li v-for="account in accounts" :key="account.name" class="account">
       <div class="account-info">
         <h3>{{ account.name }}</h3>
-        <Bech32 :address="account.address" />
+        <Address :address="account.address" />
       </div>
       <TmBtn
         v-if="buttonAction"
@@ -17,12 +17,12 @@
 </template>
 
 <script>
-import Bech32 from "common/Bech32"
+import Address from "common/Address"
 import TmBtn from "common/TmBtn"
 export default {
   name: `account-list`,
   components: {
-    Bech32,
+    Address,
     TmBtn
   },
   props: {

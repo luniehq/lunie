@@ -29,11 +29,11 @@
           <p class="proposer">
             <template v-if="proposal.validator">
               Proposed by {{ proposal.validator.name }}:
-              <Bech32 :address="proposal.proposer" />
+              <Address :address="proposal.proposer" />
             </template>
             <template v-else-if="proposal.proposer !== `unknown`">
               Proposed by
-              <Bech32 :address="proposal.proposer" />
+              <Address :address="proposal.proposer" />
             </template>
             <template v-else>
               Unknown proposer
@@ -194,7 +194,7 @@ import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
-import Bech32 from "common/Bech32"
+import Address from "common/Address"
 import gql from "graphql-tag"
 
 export default {
@@ -208,7 +208,7 @@ export default {
     TmDataLoading,
     TmPage,
     TextBlock,
-    Bech32
+    Address
   },
   filters: {
     prettyInt,

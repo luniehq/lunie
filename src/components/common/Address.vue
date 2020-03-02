@@ -6,7 +6,7 @@
       v-clipboard:success="() => onCopy()"
       class="address"
     >
-      {{ address | formatBech32(longForm) }}
+      {{ address | formatAddress }}
     </div>
     <div :class="{ active: copySuccess }" class="copied">
       <i class="material-icons notranslate">check</i>
@@ -15,22 +15,17 @@
 </template>
 
 <script>
-import { formatBech32 } from "src/filters"
+import { formatAddress } from "src/filters"
 
 export default {
-  name: `bech32-address`,
+  name: `lunie-address`,
   filters: {
-    formatBech32
+    formatAddress
   },
   props: {
     address: {
       type: String,
       required: true
-    },
-    longForm: {
-      type: Boolean,
-      required: false,
-      default: false
     }
   },
   data: () => ({

@@ -23,5 +23,13 @@ exports[`PageNetworks shows a page with a selection of networks 1`] = `
   <networklist-stub
     networks="[object Object]"
   />
+   
+  <h3>
+    Coming soon...
+  </h3>
+   
+  <networklist-stub
+    networks="[object Object]"
+  />
 </tmpage-stub>
 `;

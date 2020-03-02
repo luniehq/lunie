@@ -24,7 +24,7 @@ exports[`RestakeTxDetails renders a restake transaction message 1`] = `
     >
       <!---->
       
-      cosmosvaloper…r123 
+      cosm…r123 
     </router-link-stub>
     <i
       class="material-icons notranslate arrow"
@@ -37,7 +37,7 @@ exports[`RestakeTxDetails renders a restake transaction message 1`] = `
     >
       <!---->
       
-      Not A Valid Bech32 Address
+      cosm…r456
     
     </router-link-stub>
   </div>

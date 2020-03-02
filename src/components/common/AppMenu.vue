@@ -4,7 +4,7 @@
       <div class="user-box-address">
         <div>
           <h3>Your Address</h3>
-          <Bech32 :address="address || ''" />
+          <Address :address="address || ''" />
         </div>
         <a v-if="session.signedIn" id="sign-out" @click="signOut()">
           <i v-tooltip.top="'Sign Out'" class="material-icons notranslate">
@@ -162,7 +162,7 @@
 </template>
 
 <script>
-import Bech32 from "common/Bech32"
+import Address from "common/Address"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
 import TmFormMsg from "common/TmFormMsg"
@@ -172,7 +172,7 @@ import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `app-menu`,
   components: {
-    Bech32,
+    Address,
     ConnectedNetwork,
     TmBtn,
     TmFormMsg
