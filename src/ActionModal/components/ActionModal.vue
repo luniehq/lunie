@@ -92,7 +92,7 @@
             />
           </TmFormGroup>
           <TableInvoice
-            :amount="Number(amount)"
+            :amount="Number(subTotal)"
             :estimated-fee="estimatedFee"
             :bond-denom="getDenom"
           />
