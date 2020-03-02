@@ -130,21 +130,3 @@ async function getWallet(seedPhrase, networkId, apollo) {
     }
   }
 }
-
-async function getNetworkType(networkId, apollo) {
-  const {
-    data: { network }
-  } = await apollo.query({
-    query: gql`
-      query Network {
-        network(id: "${networkId}") {
-          id
-          network_type
-        }
-      }
-    `,
-    fetchPolicy: "cache-first"
-  })
-
-  return network ? network.network_type : undefined
-}
