@@ -10,6 +10,7 @@ module.exports = [
     bech32_prefix: 'cosmos',
     address_prefix: 'cosmos',
     address_creator: 'cosmos',
+    network_type: 'cosmos',
     ledger_app: 'cosmos',
     source_class_name: 'source/cosmosV2-source',
     block_listener_class_name: 'block-listeners/cosmos-node-subscription',

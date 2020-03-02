@@ -10,6 +10,7 @@ const schema = Joi.object({
   bech32_prefix: Joi.string(),
   address_prefix: Joi.string(),
   address_creator: Joi.string(),
+  network_type: Joi.string(),
   ledger_app: Joi.string(),
   source_class_name: Joi.string(),
   block_listener_class_name: Joi.string(),
