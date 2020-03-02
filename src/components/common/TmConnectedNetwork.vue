@@ -271,7 +271,7 @@ export default {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid var(--faded-blue);
+  border-top: 1px solid var(--dark-grey-blue);
   width: 90%;
   margin-top: 1.25rem;
   margin-bottom: 0.75rem;
