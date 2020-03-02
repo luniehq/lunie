@@ -27,7 +27,7 @@ jest.mock(`cosmos-apiV2`, () => ({
 }))
 
 describe("MessageConstructor", () => {
-  let context, messages, result
+  let messages, result
 
   it("should return message object for network", async () => {
     result = await getMessage("cosmos-hub-mainnet", "MsgSend", "cosmos1234", {
@@ -39,20 +39,16 @@ describe("MessageConstructor", () => {
   })
 
   it("should throw error with incorrect network", async () => {
-    context = {
-      networkId: "does-not-exist"
-    }
-    await expect(getMessage("MsgSend", messages, context)).rejects.toThrow()
+    await expect(
+      getMessage("non-existant", "MsgSend", "cosmos1234", {
+        toAddress: "cosmos1456",
+        amounts: [{ denom: "STAKE", amount: 12345 }]
+      })
+    ).rejects.toThrow()
   })
 
   it("should return transaction signer", async () => {
-    result = await getSignedTransactionCreator("cosmos", messages)
-    expect(result()).toBe("signedMessage")
-
-    result = await getSignedTransactionCreator("cosmos", messages)
-    expect(result()).toBe("signedMessage")
-
-    result = await getSignedTransactionCreator("cosmos", messages)
+    result = await getSignedTransactionCreator("cosmos")
     expect(result()).toBe("signedMessage")
   })
 
