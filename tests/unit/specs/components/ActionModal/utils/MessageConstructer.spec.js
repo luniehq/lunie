@@ -1,6 +1,6 @@
 import {
   getMessage,
-  getSignedTransactionCreator
+  signedTransactionCreator
 } from "src/ActionModal/utils/MessageConstructor.js"
 
 const mockMessageObject = jest.fn(() => ({
@@ -46,20 +46,20 @@ describe("MessageConstructor", () => {
   })
 
   it("should return transaction signer", async () => {
-    result = await getSignedTransactionCreator("cosmos-hub-mainnet", messages)
+    result = await signedTransactionCreator("cosmos-hub-mainnet", messages)
     expect(result()).toBe("signedMessage")
 
-    result = await getSignedTransactionCreator(
+    result = await signedTransactionCreator(
       "local-cosmos-hub-testnet",
       messages
     )
     expect(result()).toBe("signedMessage")
 
-    result = await getSignedTransactionCreator("cosmos-hub-testnet", messages)
+    result = await signedTransactionCreator("cosmos-hub-testnet", messages)
     expect(result()).toBe("signedMessage")
   })
 
   it("should throw when getting a transaction signer for incorrect network", async () => {
-    await expect(getSignedTransactionCreator("does-not-exist")).rejects.toThrow()
+    await expect(signedTransactionCreator("does-not-exist")).rejects.toThrow()
   })
 })
