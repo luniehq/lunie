@@ -30,7 +30,7 @@ describe(`Module: Keystore`, () => {
       query: jest.fn(() => ({
         data: {
           network: {
-            address_creator: "cosmos",
+            network_type: "cosmos",
             address_prefix: "cosmos"
           }
         }
