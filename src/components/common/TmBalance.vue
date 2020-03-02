@@ -108,9 +108,9 @@ import { noBlanks } from "src/filters"
 // import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
+import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
-import ModalTutorial from "common/ModalTutorial"
 import { sendEvent } from "scripts/google-analytics"
 
 export default {
@@ -131,10 +131,10 @@ export default {
       stakingDenom: "",
       sentToGA: false,
       balances: [],
-      selectedTokenFiatValue: `Tokens Total Fiat Value`,
-      selectedFiatCurrency: `EUR`, // EUR is our default fiat currency
       showTutorial: false,
       rewards: [],
+      selectedFiatCurrency: "",
+      preferredCurrency: "",
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -182,39 +182,13 @@ export default {
     readyToWithdraw() {
       return this.overview.totalRewards > 0
     },
+    stakingBalance() {
+      return this.balances.find(({ denom }) => denom === this.stakingDenom)
+    },
     filteredMultiDenomBalances() {
       return this.balances.filter(
         balance => !balance.denom.includes(this.stakingDenom)
       )
-    },
-    concatBalances() {
-      let balancesArray = []
-      if (this.balances.length > 1) {
-        balancesArray = this.balances
-          .filter(balance => !balance.denom.includes(this.stakingDenom))
-          .map(({ denom, amount }) => ({
-            value: ``,
-            key: denom.concat(` ` + amount)
-          }))
-      }
-      return balancesArray
-    },
-    convertedBalances() {
-      return this.balances
-        .filter(balance => !balance.denom.includes(this.stakingDenom))
-        .map(({ denom, fiatValue }) => ({
-          value: ``,
-          key: denom.concat(` ` + fiatValue)
-        }))
-    },
-    fiatCurrencies() {
-      return [
-        { key: `EUR`, value: `EUR` },
-        { key: `USD`, value: `USD` },
-        { key: `GBP`, value: `GBP` },
-        { key: `CHF`, value: `CHF` },
-        { key: `JPY`, value: `JPY` }
-      ]
     },
     getAllDenoms() {
       if (this.balances.length > 0) {
@@ -236,7 +210,11 @@ export default {
       }
     }
   },
+  mounted() {
+    this.setPreferredCurrency()
+  },
   methods: {
+    bigFigureOrShortDecimals,
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
@@ -259,6 +237,10 @@ export default {
           })
         return rewardsAccumulator
       }
+    },
+    setPreferredCurrency() {
+      localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
+      this.preferredCurrency = this.selectedFiatCurrency
     }
   },
   apollo: {
@@ -349,7 +331,9 @@ export default {
           ) {
             denom
             amount
-            fiatValue
+            fiatValue {
+              amount
+            }
           }
         }
       `,
@@ -358,7 +342,7 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          fiatCurrency: this.selectedFiatCurrency
+          fiatCurrency: this.selectedFiatCurrency || "EUR"
         }
       },
       /* istanbul ignore next */
@@ -418,6 +402,55 @@ export default {
 }
 </script>
 <style scoped>
+select {
+  background: var(--input-bg);
+  color: var(--txt, #333);
+  border: none;
+}
+
+select option {
+  background: var(--app-bg);
+  color: var(--txt);
+  font-family: var(--sans);
+}
+
+.currency-flag {
+  width: 1rem;
+  margin-right: 0.25rem;
+}
+
+.currency-selector {
+  display: flex;
+  align-items: center;
+}
+
+.total-fiat-value {
+  min-width: 2rem;
+  margin-top: 0.25rem;
+}
+
+.fiat-value-box {
+  font-size: 12px;
+  margin-right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--bc);
+  color: var(--link);
+  border-radius: 1.25rem;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.fiat-value-box:hover {
+  color: var(--link-hover);
+}
+
+.currency-div {
+  border: 1px solid var(--primary-alpha);
+  padding: 0.25rem;
+  margin-right: 0.5rem;
+  border-radius: 0.25rem;
+}
+
 .balance-header {
   width: 100%;
 }

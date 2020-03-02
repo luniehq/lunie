@@ -92,7 +92,7 @@
             />
           </TmFormGroup>
           <TableInvoice
-            :amount="Number(amount)"
+            :amount="Number(subTotal)"
             :estimated-fee="estimatedFee"
             :bond-denom="getDenom"
           />
@@ -202,7 +202,10 @@
               {{ notifyMessage.body }}
               <br />
               <br />Block
-              <router-link :to="`/blocks/${includedHeight}`"
+              <router-link
+                :to="
+                  `/${$router.history.current.params.networkId}/blocks/${includedHeight}`
+                "
                 >#{{ prettyIncludedHeight }}</router-link
               >
             </div>
@@ -288,7 +291,6 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
-import { gasPricesDictionary } from "src/scripts/common"
 import { viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
 import { track, sendEvent } from "scripts/google-analytics"
@@ -437,9 +439,12 @@ export default {
     estimatedFee() {
       return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
     },
+    subTotal() {
+      return this.featureFlag === "undelegate" ? 0 : this.amount
+    },
     invoiceTotal() {
       return (
-        Number(this.amount) + Number(this.gasPrice) * Number(this.gasEstimate)
+        Number(this.subTotal) + Number(this.gasPrice) * Number(this.gasEstimate)
       )
     },
     isValidChildForm() {
@@ -499,17 +504,14 @@ export default {
     selectedBalance() {
       const defaultBalance = {
         amount: 0,
-        // awful network-specific logic. But how to do it otherwise?
-        gasPrice: gasPricesDictionary(this.getDenom)
+        gasPrice: 4e-7 // the defaultBalance gas price should be the highest we know of to be sure that no transaction gets out of gas
       }
       if (this.balances.length === 0 || !this.network) {
         return defaultBalance
       }
       // default to the staking denom for fees
-      const denom = this.selectedDenom || this.network.stakingDenom
-      let balance = this.balances.find(
-        ({ denom: balanceDenom }) => balanceDenom === denom
-      )
+      const feeDenom = this.selectedDenom || this.network.stakingDenom
+      let balance = this.balances.find(({ denom }) => denom === feeDenom)
       if (!balance) {
         balance = defaultBalance
       }
@@ -683,7 +685,7 @@ export default {
       // limit fees to the maximum the user has
       if (this.invoiceTotal > this.selectedBalance.amount) {
         this.gasPrice =
-          (Number(this.selectedBalance.amount) - Number(this.amount)) /
+          (Number(this.selectedBalance.amount) - Number(this.subTotal)) /
           this.gasEstimate
       }
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:

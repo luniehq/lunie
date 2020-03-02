@@ -152,7 +152,14 @@ describe(`ActionModal`, () => {
       mocks: {
         $store,
         $router: {
-          push: jest.fn()
+          push: jest.fn(),
+          history: {
+            current: {
+              params: {
+                networkId: "lunie-net"
+              }
+            }
+          }
         },
         $apollo
       },
@@ -485,7 +492,7 @@ describe(`ActionModal`, () => {
 
     describe(`fails`, () => {
       it(`when the total invoice amount is more than the balance`, () => {
-        wrapper.setProps({ amount: 1211 })
+        wrapper.setProps({ amount: 1211.01 })
         expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(false)
       })
     })

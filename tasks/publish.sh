@@ -1,5 +1,6 @@
+#!/bin/bash
 COMMIT_MESSAGE=$(git log --format=%B -n 1)
-if [[ $COMMIT_MESSAGE == "release-"* ]]
+if [[ $COMMIT_MESSAGE == "release-"* || $COMMIT_MESSAGE == "[Simsala] automatic release"* ]]
 then
     echo "Publishing"
     git config user.email "bot@lunie.io"

@@ -140,7 +140,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
-import { formatBech32, validatorEntry } from "src/filters"
+import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
 
 export default {
@@ -185,9 +185,8 @@ export default {
         .map(validator => {
           return {
             address: validator.operatorAddress,
-            key: `${validator.name} - ${formatBech32(
+            key: `${validator.name} - ${formatAddress(
               validator.operatorAddress,
-              false,
               20
             )}`,
             value: 0
@@ -200,7 +199,7 @@ export default {
         {
           address: this.address,
           maximum: Number(this.balance.amount),
-          key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
+          key: `My Wallet - ${formatAddress(this.address, 20)}`,
           value: 0
         }
       ]

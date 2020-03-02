@@ -73,7 +73,8 @@ describe(`TmSessionExplore`, () => {
         {
           id: "cosmos-hub-testnet",
           address_prefix: "cosmos",
-          testnet: false
+          testnet: false,
+          slug: "cosmos-hub"
         }
       ]
     })
@@ -89,7 +90,9 @@ describe(`TmSessionExplore`, () => {
     })
     wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(
+      `/cosmos-hub/portfolio`
+    )
   })
 
   it(`should signal signedin state on successful login`, async () => {

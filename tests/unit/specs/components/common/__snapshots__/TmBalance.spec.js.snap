@@ -28,6 +28,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
             </h2>
           </div>
            
+          <!---->
+           
           <button
             class="tutorial-button"
           >
@@ -113,6 +115,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             </h2>
           </div>
            
+          <!---->
+           
           <button
             class="tutorial-button"
           >
@@ -132,7 +136,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
               class="row"
             >
               <div
-                class="available-atoms"
+                class="available-atoms currency-div"
               >
                 <h3>
                   Available ATOM
@@ -146,6 +150,12 @@ exports[`TmBalance show the balance header when signed in 1`] = `
                  
                 <div
                   class="rewards multi-denom"
+                >
+                  <!---->
+                </div>
+                 
+                <div
+                  class="total-fiat-value"
                 >
                   <!---->
                 </div>

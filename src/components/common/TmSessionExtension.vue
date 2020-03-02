@@ -25,7 +25,7 @@
         </p>
         <AccountList
           :accounts="accounts"
-          :button-action="signIn"
+          :button-action="signInAndRedirect"
           :button-text="`Use Account`"
         />
       </div>
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import gql from "graphql-tag"
 import AccountList from "common/AccountList"
 import SessionFrame from "common/SessionFrame"
 import { mapState } from "vuex"
@@ -52,21 +53,13 @@ export default {
   },
   data: () => ({
     connectionError: null,
-    address: null
+    address: null,
+    networks: []
   }),
   computed: {
     ...mapState([`extension`]),
     accounts() {
       return this.extension.accounts
-    }
-  },
-  async created() {
-    if (this.$route.params.address && this.$route.params.network) {
-      await this.signIn({
-        address: this.$route.params.address,
-        network: this.$route.params.network
-      })
-      this.$router.push("/portfolio")
     }
   },
   mounted() {
@@ -82,7 +75,32 @@ export default {
         address: account.address,
         networkId: account.network ? account.network : "cosmos-hub-mainnet" // defaulting to cosmos-hub-mainnet
       })
-      this.$router.push(`/`)
+    },
+    async signInAndRedirect(account) {
+      await this.signIn(account)
+      const network = account.network ? account.network : "cosmos-hub-mainnet"
+      this.$router.push(`/${this.getNetworkSlug(network)}/portfolio`)
+    },
+    getNetworkSlug(network) {
+      if (this.networks) {
+        return this.networks.filter(({ id }) => id === network)[0].slug
+      }
+    }
+  },
+  apollo: {
+    networks: {
+      query: gql`
+        query Networks {
+          networks {
+            id
+            slug
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      update(data) {
+        return data.networks
+      }
     }
   }
 }

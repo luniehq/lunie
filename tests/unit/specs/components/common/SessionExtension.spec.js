@@ -2,7 +2,7 @@ import { shallowMount } from "@vue/test-utils"
 import TmSessionExtension from "common/TmSessionExtension"
 
 describe(`SessionExtension`, () => {
-  let wrapper, $store
+  let wrapper, $store, $router
 
   const accounts = [
     {
@@ -28,20 +28,37 @@ describe(`SessionExtension`, () => {
       dispatch: jest.fn(),
       state
     }
+    $router = {
+      push: jest.fn()
+    }
     wrapper = shallowMount(TmSessionExtension, {
       mocks: {
         $store,
-        $router: {
-          push: jest.fn()
-        },
-        $route: {
-          name: `r1`,
-          params: {
-            address: `cosmos1234`,
-            network: `cosmos-hub-mainnet`
-          }
-        }
+        $router
       }
+    })
+
+    wrapper.setData({
+      networks: [
+        {
+          id: "cosmos-hub-mainnet",
+          slug: "cosmos-hub"
+        }
+      ]
+    })
+  })
+
+  it("should sign in with the selected account", async () => {
+    await wrapper.vm.signInAndRedirect({
+      network: "cosmos-hub-mainnet",
+      address: "cosmos1"
+    })
+
+    expect($router.push).toHaveBeenCalledWith("/cosmos-hub/portfolio")
+    expect($store.dispatch).toHaveBeenCalledWith("signIn", {
+      sessionType: `extension`,
+      address: "cosmos1",
+      networkId: "cosmos-hub-mainnet"
     })
   })
 
@@ -56,15 +73,5 @@ describe(`SessionExtension`, () => {
 
   it("should load addresses on mount", () => {
     expect($store.dispatch).toHaveBeenCalledWith("getAddressesFromExtension")
-  })
-
-  it("should trigger sign in call and route the user to the homepage", () => {
-    wrapper.vm.signIn(accounts[0])
-    expect($store.dispatch).toHaveBeenCalledWith("signIn", {
-      address: "cosmos1234",
-      networkId: "cosmos-hub-mainnet",
-      sessionType: `extension`
-    })
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
   })
 })
