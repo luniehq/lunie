@@ -31,14 +31,21 @@
         class="powered-by-image"
       />
       <span
-        class="powered-by-name"
-        @click="
-          $router.push({
+        ><router-link
+          :event="networkitem.testnet ? '' : 'click'"
+          :class="{
+            active: !networkitem.testnet,
+            inactive: networkitem.testnet
+          }"
+          :to="{
             name: 'validator',
-            params: { validator: networkitem.powered.providerAddress }
-          })
-        "
-        >{{ networkitem.powered.name }}</span
+            params: {
+              networkId: networkitem.slug,
+              validator: networkitem.powered.providerAddress
+            }
+          }"
+          >{{ networkitem.powered.name }}</router-link
+        ></span
       >
     </div>
     <div class="network-status">
@@ -157,12 +164,16 @@ export default {
   margin: 0 0.5rem 0 0.5rem;
 }
 
-.powered-by-name {
-  cursor: pointer;
+.active {
+  color: var(--txt);
 }
 
-.powered-by-name:hover {
+.active:hover {
   color: var(--link-hover);
+}
+
+.inactive {
+  color: var(--txt);
 }
 
 @media screen and (max-width: 495px) {
