@@ -8,6 +8,10 @@ services:
     - /logs:/var/www/server/logs
     networks:
        - general
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://admin:${LOKI_PASSWORD}@monitoring.lunie.io:3100/loki/api/v1/push"
     deploy:
       replicas: 1
     environment:
