@@ -92,7 +92,7 @@
             />
           </TmFormGroup>
           <TableInvoice
-            :amount="Number(amount)"
+            :amount="Number(subTotal)"
             :estimated-fee="estimatedFee"
             :bond-denom="getDenom"
           />
@@ -419,7 +419,6 @@ export default {
     network: {},
     overview: {},
     isMobileApp: config.mobileApp,
-    useTxService: config.enableTxAPI,
     balances: []
   }),
   computed: {
@@ -483,21 +482,6 @@ export default {
     prettyIncludedHeight() {
       return prettyInt(this.includedHeight)
     },
-    // TODO lets slice this monstrocity
-    context() {
-      return {
-        url: this.network.api_url,
-        networkId: this.network.id,
-        chainId: this.network.chain_id,
-        connected: this.connected,
-        userAddress: this.session.address,
-        rewards: this.rewards,
-        totalRewards: this.overview.totalRewards,
-        bondDenom: this.network.stakingDenom,
-        isExtensionAccount: this.isExtensionAccount,
-        account: this.overview.accountInformation
-      }
-    },
     getDenom() {
       return this.selectedDenom || this.network.stakingDenom
     },
@@ -528,12 +512,6 @@ export default {
         if (signMethods.length === 1) {
           this.selectedSignMethod = signMethods[0].value
         }
-      }
-    },
-    context: {
-      immediate: true,
-      handler(context) {
-        this.actionManager.setContext(context)
       }
     },
     "$apollo.loading": function(loading) {
@@ -584,7 +562,10 @@ export default {
       if (config.isMobileApp) noScroll.off()
       if (this.step == "sign") {
         // remove the request from any sign method to avoid orphaned transactions in the sign methods
-        this.actionManager.cancel(this.context, this.selectedSignMethod)
+        this.actionManager.cancel(
+          { userAddress: this.session.address, networkId: this.network.id },
+          this.selectedSignMethod
+        )
       }
       this.$store.commit(`setCurrrentModalOpen`, false)
       this.submissionError = null
@@ -665,18 +646,17 @@ export default {
     },
     async simulate() {
       const { type, memo, ...properties } = this.transactionData
-      await this.actionManager.setMessage(type, properties)
       try {
-        if (!this.useTxService) {
-          this.gasEstimate = await this.actionManager.simulate(memo)
-        } else {
-          this.gasEstimate = await this.actionManager.simulateTxAPI(
-            this.context,
-            type,
-            properties,
-            memo
-          )
-        }
+        this.gasEstimate = await this.actionManager.simulateTxAPI(
+          {
+            userAddress: this.session.address,
+            networkId: this.network.id,
+            networkType: this.network.network_type
+          },
+          type,
+          properties,
+          memo
+        )
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
@@ -715,19 +695,22 @@ export default {
       }
 
       try {
-        let hashResult
-        if (!this.useTxService) {
-          hashResult = await this.actionManager.send(memo, feeProperties)
-        } else {
-          await this.$apollo.queries.overview.refetch()
-          hashResult = await this.actionManager.sendTxAPI(
-            this.context,
-            type,
-            memo,
-            properties,
-            feeProperties
-          )
-        }
+        await this.$apollo.queries.overview.refetch()
+        const hashResult = await this.actionManager.sendTxAPI(
+          {
+            networkId: this.network.id,
+            networkType: this.network.network_type,
+            chainId: this.network.chain_id,
+            userAddress: this.session.address,
+            rewards: this.rewards,
+            bondDenom: this.network.stakingDenom,
+            account: this.overview.accountInformation
+          },
+          type,
+          memo,
+          properties,
+          feeProperties
+        )
 
         const { hash } = hashResult
         this.txHash = hash
@@ -872,6 +855,7 @@ export default {
             action_deposit
             action_vote
             action_proposal
+            network_type
           }
         }
       `,

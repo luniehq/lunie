@@ -1,7 +1,6 @@
 import {
   getMessage,
-  getMultiMessage,
-  getTransactionSigner
+  getSignedTransactionCreator
 } from "src/ActionModal/utils/MessageConstructor.js"
 
 const mockMessageObject = jest.fn(() => ({
@@ -28,89 +27,34 @@ jest.mock(`cosmos-apiV2`, () => ({
 }))
 
 describe("MessageConstructor", () => {
-  let context, messages, result
+  let result
 
-  it("should return message", async () => {
-    result = await getMessage("MsgSend", messages, {
-      networkId: "cosmos-hub-mainnet"
+  it("should return message object for network", async () => {
+    result = await getMessage("cosmos-hub-mainnet", "MsgSend", "cosmos1234", {
+      toAddress: "cosmos1456",
+      amounts: [{ denom: "STAKE", amount: 12345 }]
     })
-    expect(result.simulate).toBeDefined()
-    expect(result.send).toBeDefined()
 
-    result = await getMessage("MsgSend", messages, {
-      networkId: "local-cosmos-hub-testnet"
-    })
-    expect(result.simulate).toBeDefined()
-    expect(result.send).toBeDefined()
-
-    result = await getMessage("MsgSend", messages, {
-      networkId: "cosmos-hub-testnet"
-    })
-    expect(result.simulate).toBeDefined()
-    expect(result.send).toBeDefined()
+    expect(result).toMatchSnapshot()
   })
 
   it("should throw error with incorrect network", async () => {
-    context = {
-      networkId: "does-not-exist"
-    }
-    await expect(getMessage("MsgSend", messages, context)).rejects.toThrow()
-  })
-
-  it("should return multi message", async () => {
-    result = await getMultiMessage(
-      { networkId: "cosmos-hub-mainnet" },
-      messages
-    )
-    expect(result.simulate).toBeDefined()
-    expect(result.send).toBeDefined()
-
-    result = await getMultiMessage(
-      { networkId: "local-cosmos-hub-testnet" },
-      messages
-    )
-    expect(result.simulate).toBeDefined()
-    expect(result.send).toBeDefined()
-
-    result = await getMultiMessage(
-      { networkId: "cosmos-hub-testnet" },
-      messages
-    )
-    expect(result.simulate).toBeDefined()
-    expect(result.send).toBeDefined()
-  })
-
-  it("should return undefined with incorrect network", async () => {
-    const result = await getMultiMessage(
-      { networkId: "does-not-exist" },
-      messages
-    )
-    expect(result).not.toBeDefined()
+    await expect(
+      getMessage("non-existant", "MsgSend", "cosmos1234", {
+        toAddress: "cosmos1456",
+        amounts: [{ denom: "STAKE", amount: 12345 }]
+      })
+    ).rejects.toThrow()
   })
 
   it("should return transaction signer", async () => {
-    result = await getTransactionSigner(
-      { networkId: "cosmos-hub-mainnet" },
-      messages
-    )
-    expect(result()).toBe("signedMessage")
-
-    result = await getTransactionSigner(
-      { networkId: "local-cosmos-hub-testnet" },
-      messages
-    )
-    expect(result()).toBe("signedMessage")
-
-    result = await getTransactionSigner(
-      { networkId: "cosmos-hub-testnet" },
-      messages
-    )
+    result = await getSignedTransactionCreator("cosmos")
     expect(result()).toBe("signedMessage")
   })
 
   it("should throw when getting a transaction signer for incorrect network", async () => {
     await expect(
-      getTransactionSigner({ networkId: "does-not-exist" })
+      getSignedTransactionCreator("does-not-exist")
     ).rejects.toThrow()
   })
 })

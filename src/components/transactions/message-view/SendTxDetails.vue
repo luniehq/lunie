@@ -5,15 +5,15 @@
       <h3>{{ type }}</h3>
       <template v-if="toYourself">
         <span>To yourself —&nbsp;</span>
-        <Bech32 :address="sessionAddress" />
+        <Address :address="sessionAddress" />
       </template>
       <template v-else-if="sentFromSessionAddress">
         <span>To&nbsp;</span>
-        <Bech32 :address="transaction.details.to[0]" />
+        <Address :address="transaction.details.to[0]" />
       </template>
       <template v-else>
         <span>From&nbsp;</span>
-        <Bech32 :address="transaction.details.from[0]" />
+        <Address :address="transaction.details.from[0]" />
       </template>
     </div>
     <div class="tx__content__right">
@@ -27,7 +27,7 @@
 
 <script>
 import { prettyLong } from "scripts/num.js"
-import Bech32 from "common/Bech32"
+import Address from "common/Address"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
@@ -36,7 +36,7 @@ export default {
     prettyLong
   },
   components: {
-    Bech32,
+    Address,
     TransactionIcon
   },
   props: {

@@ -19,7 +19,10 @@
                 {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
               </h2>
             </div>
-            <div v-if="isMultiDenomNetwork" class="currency-selector">
+            <div
+              v-if="isMultiDenomNetwork && stakingBalance.fiatValue"
+              class="currency-selector"
+            >
               <img
                 v-if="preferredCurrency"
                 class="currency-flag"
@@ -109,6 +112,7 @@
                     <span
                       v-if="
                         isMultiDenomNetwork &&
+                          stakingBalance.fiatValue &&
                           stakingBalance.fiatValue.amount > 0 &&
                           preferredCurrency
                       "
@@ -166,7 +170,11 @@
                     </h2>
                   </div>
                   <div
-                    v-if="balance.fiatValue.amount > 0 && preferredCurrency"
+                    v-if="
+                      balance.fiatValue &&
+                        balance.fiatValue.amount > 0 &&
+                        preferredCurrency
+                    "
                     class="total-fiat-value fiat-value-box"
                   >
                     <span>{{

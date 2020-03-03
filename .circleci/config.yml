@@ -218,7 +218,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: sh ./tasks/publish.sh
+          command: bash ./tasks/publish.sh
           
 workflows:
   version: 2
