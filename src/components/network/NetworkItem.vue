@@ -31,21 +31,22 @@
         class="powered-by-image"
       />
       <span
-        ><router-link
-          :event="networkitem.testnet ? '' : 'click'"
-          :class="{
-            active: !networkitem.testnet,
-            inactive: networkitem.testnet
-          }"
-          :to="{
-            name: 'validator',
-            params: {
-              networkId: networkitem.slug,
-              validator: networkitem.powered.providerAddress
-            }
-          }"
-          >{{ networkitem.powered.name }}</router-link
-        ></span
+        :class="{
+          active: networkitem.powered.providerAddress && isCurrentNetwork,
+          inactive: !networkitem.powered.providerAddress || !isCurrentNetwork
+        }"
+        @click="
+          networkitem.powered.providerAddress && isCurrentNetwork
+            ? $router.push({
+                name: 'validator',
+                params: {
+                  networkId: networkitem.slug,
+                  validator: networkitem.powered.providerAddress
+                }
+              })
+            : ''
+        "
+        >{{ networkitem.powered.name }}</span
       >
     </div>
     <div class="network-status">
@@ -86,7 +87,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`connected`, `network`])
+    ...mapGetters([`connected`, `network`]),
+    isCurrentNetwork() {
+      return this.networkitem.id === this.network
+    }
   }
 }
 </script>
@@ -165,6 +169,7 @@ export default {
 }
 
 .active {
+  cursor: pointer;
   color: var(--txt);
 }
 

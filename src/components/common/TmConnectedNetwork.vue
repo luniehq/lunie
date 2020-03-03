@@ -87,12 +87,20 @@
         class="powered-by-image"
       />
       <span
-        class="powered-by-name"
+        :class="{
+          active: currentNetwork.powered.providerAddress,
+          inactive: !currentNetwork.powered.providerAddress
+        }"
         @click="
-          $router.push({
-            name: 'validator',
-            params: { validator: currentNetwork.powered.providerAddress }
-          })
+          currentNetwork.powered.providerAddress
+            ? $router.push({
+                name: 'validator',
+                params: {
+                  networkId: currentNetwork.slug,
+                  validator: currentNetwork.powered.providerAddress
+                }
+              })
+            : ''
         "
         >{{ currentNetwork.powered.name }}</span
       >
@@ -303,13 +311,19 @@ export default {
   margin: 0 0.5rem 0 0.5rem;
 }
 
-.powered-by-name {
+.active {
   font-weight: 500;
   cursor: pointer;
+  color: var(--txt);
 }
 
-.powered-by-name:hover {
+.active:hover {
   color: var(--link-hover);
+}
+
+.inactive {
+  font-weight: 500;
+  color: var(--txt);
 }
 
 @media screen and (max-width: 1023px) {
