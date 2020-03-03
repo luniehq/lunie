@@ -169,7 +169,6 @@ export default {
 }
 
 .active {
-  cursor: pointer;
   color: var(--txt);
 }
 
