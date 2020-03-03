@@ -15,7 +15,13 @@ export default () => {
     },
     actions: {
       displayMessenger({ state }) {
-        if (state.mobileApp) state.intercom.displayMessenger()
+        if (state.mobileApp) {
+          // we have to register users otherwise intercom will not open
+          state.intercom.registerIdentifiedUser({
+            userId: `lunie-app-${Math.floor(Math.random() * 10000 + 1).toString()}`
+          })
+          state.intercom.displayMessenger()
+        }
       }
     }
   }
