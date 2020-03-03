@@ -13,11 +13,13 @@
 </template>
 
 <script>
-import { Networks, NetworksResult } from "src/gql"
+import { mapState } from "vuex"
+import { NetworksResult } from "src/gql"
 import NetworkList from "./NetworkList"
 import TmDataLoading from "common/TmDataLoading"
 
 import TmPage from "common/TmPage"
+import gql from "graphql-tag"
 export default {
   name: `page-network`,
   components: {
@@ -35,6 +37,7 @@ export default {
     }
   }),
   computed: {
+    ...mapState(["session"]),
     mainNetworks() {
       return this.networks.filter(network => !network.testnet)
     },
@@ -44,7 +47,23 @@ export default {
   },
   apollo: {
     networks: {
-      query: Networks,
+      query: gql`
+        query Networks($experimental: Boolean) {
+          networks(experimental: $experimental) {
+            id
+            chain_id
+            testnet
+            title
+            icon
+            slug
+          }
+        }
+      `,
+      variables() {
+        return {
+          experimental: this.session.experimentalMode
+        }
+      },
       fetchPolicy: "cache-first",
       update: NetworksResult
     }
