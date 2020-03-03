@@ -14,7 +14,7 @@ describe(`Address Component`, () => {
   beforeEach(() => {
     wrapper = shallowMount(Address, {
       localVue,
-      propsData: { address: `cosmosftw123456789` },
+      propsData: { address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e` },
       data: () => ({
         copySuccess: false
       })

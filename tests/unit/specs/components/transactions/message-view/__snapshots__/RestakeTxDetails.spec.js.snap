@@ -20,11 +20,11 @@ exports[`RestakeTxDetails renders a restake transaction message 1`] = `
     </span>
      
     <router-link-stub
-      to="/staking/validators/cosmosvaloper123"
+      to="/staking/validators/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
     >
       <!---->
       
-      cosm…r123 
+      cosmosvaloper…9yf2 
     </router-link-stub>
     <i
       class="material-icons notranslate arrow"
@@ -33,11 +33,11 @@ exports[`RestakeTxDetails renders a restake transaction message 1`] = `
     </i>
      
     <router-link-stub
-      to="staking/validators/cosmosvaloper456"
+      to="staking/validators/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
     >
       <!---->
       
-      cosm…r456
+      cosmosvaloper…ekuz
     
     </router-link-stub>
   </div>
