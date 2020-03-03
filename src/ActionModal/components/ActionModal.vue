@@ -648,7 +648,11 @@ export default {
       const { type, memo, ...properties } = this.transactionData
       try {
         this.gasEstimate = await this.actionManager.simulateTxAPI(
-          { userAddress: this.session.address, networkId: this.network.id },
+          {
+            userAddress: this.session.address,
+            networkId: this.network.id,
+            networkType: this.network.network_type
+          },
           type,
           properties,
           memo
@@ -695,6 +699,7 @@ export default {
         const hashResult = await this.actionManager.sendTxAPI(
           {
             networkId: this.network.id,
+            networkType: this.network.network_type,
             chainId: this.network.chain_id,
             userAddress: this.session.address,
             rewards: this.rewards,
@@ -850,6 +855,7 @@ export default {
             action_deposit
             action_vote
             action_proposal
+            network_type
           }
         }
       `,
