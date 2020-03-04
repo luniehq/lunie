@@ -255,7 +255,7 @@ export default {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid #282b39;
+  border-top: 1px solid var(--bc-dim);
   width: 100%;
   margin-top: 1.25rem;
   margin-bottom: 0.75rem;

@@ -15,11 +15,11 @@
     />
     <span
       :class="{
-        active: network.powered.providerAddress,
+        active: network.powered.providerAddress && isCurrentNetwork,
         inactive: !network.powered.providerAddress
       }"
       @click="
-        network.powered.providerAddress
+        network.powered.providerAddress && isCurrentNetwork
           ? $router.push({
               name: 'validator',
               params: {
@@ -45,6 +45,10 @@ export default {
     network: {
       type: Object,
       required: true
+    },
+    isCurrentNetwork: {
+      type: Boolean,
+      default: true
     }
   }
 }
@@ -65,7 +69,7 @@ export default {
 .powered-by-image {
   width: 1rem;
   border-radius: 100%;
-  margin: 0 0.5rem 0 0.5rem;
+  margin: 0 0.5rem;
 }
 
 .active {

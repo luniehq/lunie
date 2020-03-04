@@ -53,8 +53,6 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
   </div>
    
   <!---->
-   
-  <!---->
 </div>
 `;
 
@@ -113,8 +111,6 @@ exports[`TmConnectedNetwork has the expected html structure when connected 1`] =
       </router-link-stub>
     </div>
   </div>
-   
-  <!---->
    
   <!---->
 </div>

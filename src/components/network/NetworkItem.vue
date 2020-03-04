@@ -15,7 +15,10 @@
       </p>
     </div>
     <div v-if="networkitem.powered" class="powered-div">
-      <PoweredBy :network="networkitem" />
+      <PoweredBy
+        :network="networkitem"
+        :is-current-network="isCurrentNetwork"
+      />
     </div>
     <div class="network-status">
       <img
@@ -126,11 +129,8 @@ export default {
   font-size: 14px;
 }
 
-@media screen and (max-width: 385px) {
+@media screen and (max-width: 360px) {
   .powered-div {
-    margin-left: 0.25rem;
-  }
-  .powered-by {
     display: none;
   }
 }
