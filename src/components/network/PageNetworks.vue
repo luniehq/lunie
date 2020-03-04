@@ -60,6 +60,7 @@ export default {
         }
       `,
       variables() {
+        /* istanbul ignore next */
         return {
           experimental: this.session.experimentalMode
         }
