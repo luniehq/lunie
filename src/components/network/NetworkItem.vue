@@ -15,39 +15,7 @@
       </p>
     </div>
     <div v-if="networkitem.powered" class="powered-div">
-      <span class="powered-by">Powered by</span>
-      <Avatar
-        v-if="
-          !networkitem.powered.picture || networkitem.powered.picture === 'null'
-        "
-        class="powered-by-image"
-        alt="generic geometric symbol - generated avatar from address"
-        :address="networkitem.powered.providerAddress"
-      />
-      <img
-        v-else-if="networkitem.powered.picture"
-        :src="networkitem.powered.picture"
-        :alt="`validator logo for ` + networkitem.powered.name"
-        class="powered-by-image"
-      />
-      <span
-        :class="{
-          active: networkitem.powered.providerAddress && isCurrentNetwork,
-          inactive: !networkitem.powered.providerAddress || !isCurrentNetwork
-        }"
-        @click="
-          networkitem.powered.providerAddress && isCurrentNetwork
-            ? $router.push({
-                name: 'validator',
-                params: {
-                  networkId: networkitem.slug,
-                  validator: networkitem.powered.providerAddress
-                }
-              })
-            : ''
-        "
-        >{{ networkitem.powered.name }}</span
-      >
+      <PoweredBy :network="networkitem" />
     </div>
     <div class="network-status">
       <img
@@ -69,12 +37,12 @@
 
 <script>
 import { mapGetters } from "vuex"
-import Avatar from "common/Avatar"
+import PoweredBy from "network/PoweredBy"
 
 export default {
   name: `network-item`,
   components: {
-    Avatar
+    PoweredBy
   },
   props: {
     networkitem: {
@@ -158,40 +126,18 @@ export default {
   font-size: 14px;
 }
 
-.powered-by {
-  color: var(--dim);
-}
-
-.powered-by-image {
-  width: 1rem;
-  border-radius: 100%;
-  margin: 0 0.5rem 0 0.5rem;
-}
-
-.active {
-  color: var(--txt);
-}
-
-.active:hover {
-  color: var(--link-hover);
-}
-
-.inactive {
-  color: var(--txt);
+@media screen and (max-width: 385px) {
+  .powered-div {
+    margin-left: 0.25rem;
+  }
+  .powered-by {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 495px) {
   .powered-div {
     font-size: 2vw;
-  }
-}
-
-@media screen and (max-width: 385px) {
-  .powered-div {
-    margin-left: 1rem;
-  }
-  .powered-by {
-    display: none;
   }
 }
 </style>

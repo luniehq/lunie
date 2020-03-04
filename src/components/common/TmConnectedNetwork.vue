@@ -68,42 +68,9 @@
         Connecting…
       </div>
     </div>
-    <hr v-if="currentNetwork.powered" class="powered-hr" />
-    <div v-if="currentNetwork.powered" class="powered-div">
-      <span class="powered-by">Powered by&nbsp;</span>
-      <Avatar
-        v-if="
-          !currentNetwork.powered.picture ||
-            currentNetwork.powered.picture === 'null'
-        "
-        class="powered-by-image"
-        alt="generic geometric symbol - generated avatar from address"
-        :address="currentNetwork.powered.providerAddress"
-      />
-      <img
-        v-else-if="currentNetwork.powered.picture"
-        :src="currentNetwork.powered.picture"
-        :alt="`validator logo for ` + currentNetwork.powered.name"
-        class="powered-by-image"
-      />
-      <span
-        :class="{
-          active: currentNetwork.powered.providerAddress,
-          inactive: !currentNetwork.powered.providerAddress
-        }"
-        @click="
-          currentNetwork.powered.providerAddress
-            ? $router.push({
-                name: 'validator',
-                params: {
-                  networkId: currentNetwork.slug,
-                  validator: currentNetwork.powered.providerAddress
-                }
-              })
-            : ''
-        "
-        >{{ currentNetwork.powered.name }}</span
-      >
+    <div v-if="currentNetwork.powered">
+      <hr class="powered-hr" />
+      <PoweredBy :network="currentNetwork" />
     </div>
   </div>
 </template>
@@ -111,8 +78,8 @@
 import { mapState, mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
 import { Networks, NetworksResult } from "src/gql"
-import Avatar from "common/Avatar"
 import TmBtn from "common/TmBtn"
+import PoweredBy from "network/PoweredBy"
 import gql from "graphql-tag"
 import config from "src/../config"
 
@@ -120,7 +87,7 @@ export default {
   name: `tm-connected-network`,
   components: {
     TmBtn,
-    Avatar
+    PoweredBy
   },
   filters: {
     prettyInt
@@ -292,38 +259,6 @@ export default {
   width: 100%;
   margin-top: 1.25rem;
   margin-bottom: 0.75rem;
-}
-
-.powered-div {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  font-size: 12px;
-}
-
-.powered-by {
-  color: var(--dim);
-}
-
-.powered-by-image {
-  width: 1rem;
-  border-radius: 100%;
-  margin: 0 0.5rem 0 0.5rem;
-}
-
-.active {
-  font-weight: 500;
-  cursor: pointer;
-  color: var(--txt);
-}
-
-.active:hover {
-  color: var(--link-hover);
-}
-
-.inactive {
-  font-weight: 500;
-  color: var(--txt);
 }
 
 @media screen and (max-width: 1023px) {
