@@ -1,5 +1,5 @@
 import config from "src/../config"
-import { getSigner, cancelSign } from "./signer"
+import { getSigner, cancelSign, signQueue } from "./signer"
 import transaction from "./transactionTypes"
 import { uatoms } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
@@ -33,6 +33,10 @@ export default class ActionManager {
       `${graphqlHost}/transaction/${command}`,
       options
     ).then(result => result.json())
+  }
+
+  async getSignQueue(submitType) {
+    return signQueue(submitType)
   }
 
   async cancel({ userAddress, networkId }, submitType) {
