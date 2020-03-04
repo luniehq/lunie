@@ -25,6 +25,8 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^16.1.8",
+    "@polkadot/api": "^1.4.2",
+    "@polkadot/util": "^2.6.1",
     "@sentry/node": "^5.9.0",
     "apollo-datasource-rest": "^0.6.6",
     "apollo-server": "^2.9.9",

@@ -36,7 +36,8 @@ module.exports = [
     slug: 'cosmos-hub-testnet',
     powered: {
       name: 'Figment',
-      picture: 'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
+      picture:
+        'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
     }
   },
   {
@@ -77,7 +78,8 @@ module.exports = [
     powered: {
       name: 'Figment',
       providerAddress: 'cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d',
-      picture: 'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
+      picture:
+        'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
     }
   },
   {
@@ -186,38 +188,73 @@ module.exports = [
     slug: 'emoney-testnet'
   },
   {
-    id: 'livepeer-mainnet',
-    title: 'Livepeer',
-    chain_id: 'ethereum-1',
-    api_url: 'https://livepeer-mainnet.lunie.io/',
-    rpc_url: 'wss://livepeer-mainnet.lunie.io/websocket',
-    bech32_prefix: '0x',
-    address_prefix: '0x',
-    address_creator: 'ethereum',
-    ledger_app: 'ethereum',
-    network_type: 'ethereum',
-    source_class_name: 'source/livepeerV0-source',
-    block_listener_class_name: 'block-listeners/livepeer-node-polling',
-    testnet: false,
-    feature_session: false,
+    id: 'polkadot-testnet',
+    title: 'Kusama',
+    chain_id: 'kusama-cc3',
+    api_url: 'https://host-01.polkascan.io/kusama/api/v1/',
+    rpc_url: 'wss://kusama-rpc.polkadot.io/',
+    bech32_prefix: ' ',
+    address_prefix: ' ',
+    ledger_app: 'polkadot',
+    address_creator: 'polkadot',
+    network_type: 'polkadot',
+    source_class_name: 'source/polkadotV0-source',
+    block_listener_class_name: 'block-listeners/polkadot-node-subscription',
+    testnet: true,
+    feature_session: true,
     feature_explore: true,
-    feature_portfolio: false,
+    feature_portfolio: true,
     feature_validators: true,
     feature_proposals: false,
     feature_activity: false,
     feature_explorer: false,
-    action_send: false,
+    action_send: true,
     action_claim_rewards: false,
-    action_delegate: false,
-    action_redelegate: false,
-    action_undelegate: false,
+    action_delegate: true,
+    action_redelegate: true,
+    action_undelegate: true,
     action_deposit: false,
     action_vote: false,
     action_proposal: false,
     default: false,
-    stakingDenom: 'LPT',
-    enabled: false,
-    icon: 'https://app.lunie.io/img/networks/livepeer-mainnet.png',
-    slug: 'livepeer'
+    stakingDenom: 'KSM',
+    enabled: true,
+    icon: 'https://app.lunie.io/img/networks/polkadot-testnet.png',
+    slug: 'kusama'
   }
+  // {
+  //   id: 'livepeer-mainnet',
+  //   title: 'Livepeer',
+  //   chain_id: 'ethereum-1',
+  //   api_url: 'https://livepeer-mainnet.lunie.io/',
+  //   rpc_url: 'wss://livepeer-mainnet.lunie.io/websocket',
+  //   bech32_prefix: '0x',
+  //   address_prefix: '0x',
+  //   address_creator: 'ethereum',
+  //   ledger_app: 'ethereum',
+  //   network_type: 'ethereum',
+  //   source_class_name: 'source/livepeerV0-source',
+  //   block_listener_class_name: 'block-listeners/livepeer-node-polling',
+  //   testnet: false,
+  //   feature_session: false,
+  //   feature_explore: true,
+  //   feature_portfolio: false,
+  //   feature_validators: true,
+  //   feature_proposals: false,
+  //   feature_activity: false,
+  //   feature_explorer: false,
+  //   action_send: false,
+  //   action_claim_rewards: false,
+  //   action_delegate: false,
+  //   action_redelegate: false,
+  //   action_undelegate: false,
+  //   action_deposit: false,
+  //   action_vote: false,
+  //   action_proposal: false,
+  //   default: false,
+  //   stakingDenom: 'LPT',
+  //   enabled: false,
+  //   icon: 'https://app.lunie.io/img/networks/livepeer-mainnet.png',
+  //   slug: 'livepeer'
+  // }
 ]
