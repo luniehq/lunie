@@ -5,6 +5,7 @@ describe(`Module: Intercom`, () => {
   let module, state, actions, node
 
   const intercom = {
+    registerUnidentifiedUser: jest.fn(),
     displayMessenger: jest.fn()
   }
 
