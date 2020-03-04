@@ -36,7 +36,8 @@ module.exports = [
     slug: 'cosmos-hub-testnet',
     powered: {
       name: 'Figment',
-      picture: 'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
+      picture:
+        'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
     }
   },
   {
@@ -77,7 +78,8 @@ module.exports = [
     powered: {
       name: 'Figment',
       providerAddress: 'cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d',
-      picture: 'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
+      picture:
+        'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
     }
   },
   {
@@ -195,6 +197,7 @@ module.exports = [
     address_prefix: ' ',
     ledger_app: 'polkadot',
     address_creator: 'polkadot',
+    network_type: 'polkadot',
     source_class_name: 'source/polkadotV0-source',
     block_listener_class_name: 'block-listeners/polkadot-node-subscription',
     testnet: true,
