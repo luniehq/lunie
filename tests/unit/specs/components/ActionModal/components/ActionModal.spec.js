@@ -160,6 +160,9 @@ describe(`ActionModal`, () => {
       },
       stubs: ["router-link"]
     })
+    wrapper.vm.actionManager.getSignQueue = jest.fn(
+      () => new Promise(resolve => resolve(0))
+    )
     wrapper.setData({ network, overview, balances, loaded: true })
     wrapper.vm.open()
   })
@@ -249,6 +252,8 @@ describe(`ActionModal`, () => {
     wrapper.vm.open()
 
     expect(wrapper.isEmpty()).not.toBe(true)
+    expect(wrapper.vm.queueNotEmpty).toBe(false)
+    expect(wrapper.vm.show).toBe(true)
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
   })
 
@@ -271,6 +276,7 @@ describe(`ActionModal`, () => {
   it(`should confirm modal closing`, () => {
     global.confirm = () => true
     const closeModal = jest.fn()
+    wrapper.vm.actionManager.cancel = jest.fn()
     wrapper.vm.session.currrentModalOpen = {
       close: closeModal
     }
