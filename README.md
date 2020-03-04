@@ -132,10 +132,10 @@ Dependencies:
 To open Lunie in Xcode: 
 1. Build Lunie
 ```bash
-$ npm run build
+$ yarn build:mobile
 ```
 
-2. This step may take up to 20 minutes to complete if you've never used Cocoapods before.
+2. After a new build, you need to run the following command. This step may take up to 20 minutes to complete if you've never used Cocoapods before.
 ```bash
 $ npx cap sync ios
 ```
@@ -146,14 +146,6 @@ $ npx cap open ios
 ```
 
 Once Xcode is open, just click the Play button to run Lunie on your preferred Simulator or Device.
-
-## Release
-
-Lunie has a automated release process. Every night the CI creates a new release PR. To release manually, run
-
-```bash
-npm run release
-```
 
 ## Testing
 
