@@ -68,19 +68,28 @@
         Connecting…
       </div>
     </div>
+    <PoweredBy
+      :network="currentNetwork"
+      powered-by-line
+      is-menu
+      @close-menu="handleClick"
+    />
   </div>
 </template>
 <script>
 import { mapState, mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
+import { Networks, NetworksResult } from "src/gql"
 import TmBtn from "common/TmBtn"
+import PoweredBy from "network/PoweredBy"
 import gql from "graphql-tag"
 import config from "src/../config"
 
 export default {
   name: `tm-connected-network`,
   components: {
-    TmBtn
+    TmBtn,
+    PoweredBy
   },
   filters: {
     prettyInt
@@ -96,6 +105,13 @@ export default {
     },
     networkTooltip() {
       return `You're connected to ${this.block.chainId}.`
+    },
+    currentNetwork() {
+      if (this.networks && this.networks.length > 0) {
+        return this.networks.filter(({ id }) => id === this.network)[0]
+      } else {
+        return {}
+      }
     }
   },
   methods: {
@@ -125,6 +141,11 @@ export default {
           networkId: this.network
         }
       }
+    },
+    networks: {
+      query: Networks,
+      fetchPolicy: "cache-first",
+      update: NetworksResult
     },
     $subscribe: {
       blockAdded: {
