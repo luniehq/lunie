@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.16] - 2020-03-05
+
+### Added
+
+- sign queue length request added @iambeone
+
+### Repository
+
+- updated circleci publish step @iambeone
+
 ## [1.0.15] - 2020-02-28
 
 ### Changed
