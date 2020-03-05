@@ -68,10 +68,7 @@
         Connecting…
       </div>
     </div>
-    <div v-if="currentNetwork.powered">
-      <hr class="powered-hr" />
-      <PoweredBy :network="currentNetwork" />
-    </div>
+    <PoweredBy :network="currentNetwork" powered-by-line />
   </div>
 </template>
 <script>
