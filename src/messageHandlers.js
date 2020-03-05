@@ -17,8 +17,15 @@ export function signMessageHandler(
 ) {
   switch (message.type) {
     case 'LUNIE_SIGN_REQUEST_CANCEL': {
-      signRequestQueue.unqueueSignRequestForTab({
-        tabID: sender.tab.id
+      signRequestQueue.unqueueSignRequestForTab(sender.tab.id)
+      break
+    }
+    case 'LUNIE_GET_SIGN_QUEUE': {
+      sendAsyncResponseToLunie(sender.tab.id, {
+        type: 'LUNIE_GET_SIGN_QUEUE_RESPONSE',
+        payload: {
+          amount: signRequestQueue.getQueueLength()
+        }
       })
       break
     }
