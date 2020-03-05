@@ -68,7 +68,12 @@
         Connecting…
       </div>
     </div>
-    <PoweredBy :network="currentNetwork" powered-by-line />
+    <PoweredBy
+      :network="currentNetwork"
+      powered-by-line
+      is-menu
+      @close-menu="handleClick"
+    />
   </div>
 </template>
 <script>

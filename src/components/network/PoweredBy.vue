@@ -34,7 +34,9 @@
                 networkId: network.slug,
                 validator: network.powered.providerAddress
               }
-            })
+            }) && isMenu
+            ? handleClick()
+            : ''
           : ''
       "
       >{{ network.powered.name }}</span
@@ -65,6 +67,16 @@ export default {
     hideOnMobile: {
       type: Boolean,
       default: false
+    },
+    isMenu: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    handleClick() {
+      this.$emit(`close-menu`)
+      window.scrollTo(0, 0)
     }
   }
 }
