@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.172] - 2020-03-05
+
+### Added
+
+- [#3626](https://github.com/cosmos/lunie/pull/3626) Adds the "Powered by" span to both NetworkItem and TmConnectedNetwork promoting our node provider @Bitcoinera
+- Added address creation for Polkadot @faboweb
+- Query for experimental networks @faboweb
+- Added back the fingerprint header @faboweb
+
+### Changed
+
+- [#3640](https://github.com/cosmos/lunie/pull/3640) Checks if the staking denom has a fiat value and in only in that case displays the currency selector. Good for Terra. @Bitcoinera
+- [#3639](https://github.com/cosmos/lunie/pull/3639) Adds more networks to Coming Soon. Style and logic improvements: now these networks are disabled @Bitcoinera
+
+### Fixed
+
+- [#3638](https://github.com/cosmos/lunie/pull/3638) Checks if fiatValue is null in TmBalance before checking other conditions @Bitcoinera
+- Show subtotal correctly instead of using amount @faboweb
+- Fixed extension sign in deeplinking sometimes not working @faboweb
+- Added other Terra tokens to microdenom lookup @faboweb
+- [#3489](https://github.com/cosmos/lunie/issues/3489) now we register users for the intercom messenger before the messenger is opened to ensure the messenger doesn't fail @jbibla
+
+### Code Improvements
+
+- add back subscribeToMore function to transaction page @iambeone
+- Refactored address component to support Polkadot @faboweb
+- Use proper bech32 addresses in tests @faboweb
+- Remove old tx submit logic code @faboweb
+- Select signing methods per network type @faboweb
+
+### Repository
+
+- Fix publish.sh not working due to bad syntax @iambeone
+
 ## [1.0.171] - 2020-03-02
 
 ### Added
