@@ -10,12 +10,12 @@ exports[`DelegationModal Submission Data for Redelegating should set the subtota
       </span></div>
   </tmformgroup-stub>
   <tmformgroup-stub fieldid="to" fieldlabel="To" class="action-modal-form-group">
-    <tmfield-stub type="text" value="undefined - cosmosvaladdr1kjisjs…aladdr1kjisjsd862323" id="to" readonly=""></tmfield-stub>
+    <tmfield-stub type="text" value="undefined - cosmosvaladdr…3p4mqpjyrm5ctgurrg7n" id="to" readonly=""></tmfield-stub>
     <!---->
     <tmformmsg-stub type="custom" name="" msg="You are about to restake to an inactive validator (temporally banned from the network)" class="tm-form-msg--desc"></tmformmsg-stub>
   </tmformgroup-stub>
   <tmformgroup-stub fieldid="from" fieldlabel="From" class="action-modal-form-group">
-    <tmfield-stub type="select" value="2" options="[object Object],[object Object],[object Object]" id="from" title="cosmosvaladdr1sdsdsd123123"></tmfield-stub>
+    <tmfield-stub type="select" value="2" options="[object Object],[object Object],[object Object]" id="from" title="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"></tmfield-stub>
   </tmformgroup-stub>
   <tmformgroup-stub fieldid="amount" fieldlabel="Amount" class="action-modal-form-group"><span class="input-suffix max-button">STAKE</span>
     <tmfieldgroup-stub>
@@ -69,7 +69,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
       id="to"
       readonly=""
       type="text"
-      value="undefined - cosmosvaladdr1232453…osvaladdr12324536463"
+      value="undefined - cosmosvaladdr…3p4mqpjyrm5ctqzh8yqw"
     />
      
     <!---->

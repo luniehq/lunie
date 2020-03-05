@@ -110,7 +110,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
         </div>
       </div>
       <div
-        title="cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8xyz"
+        title="cosmos1epsszxwps8ayeusfh8ru995atagc05sslwesuy"
       >
         <div
           class="tm-li-session"
@@ -132,7 +132,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
               class="tm-li-session-title"
             >
               <span>
-                cosmos1vxkye…a7m64khj8xyz
+                cosmos…gc05sslwesuy
               </span>
                
               <p
