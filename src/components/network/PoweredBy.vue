@@ -1,6 +1,13 @@
 <template>
-  <div v-if="network.powered" class="powered-div">
-    <span class="powered-by">Powered by</span>
+  <div
+    v-if="network.powered"
+    class="powered-by-container"
+    :class="{
+      'powered-by-line': poweredByLine,
+      'hide-on-mobile': hideOnMobile
+    }"
+  >
+    <span class="powered-by-text">Powered by</span>
     <Avatar
       v-if="!network.powered.picture || network.powered.picture === 'null'"
       class="powered-by-image"
@@ -14,6 +21,7 @@
       class="powered-by-image"
     />
     <span
+      class="validator-name"
       :class="{
         active: network.powered.providerAddress && isCurrentNetwork,
         inactive: !network.powered.providerAddress
@@ -49,21 +57,35 @@ export default {
     isCurrentNetwork: {
       type: Boolean,
       default: true
+    },
+    poweredByLine: {
+      type: Boolean,
+      default: false
+    },
+    hideOnMobile: {
+      type: Boolean,
+      default: false
     }
   }
 }
 </script>
 
 <style scoped>
-.powered-div {
+.powered-by-container {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  font-size: 12px;
+  width: 100%;
 }
 
-.powered-by {
+.powered-by-line {
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--bc-dim);
+}
+
+.powered-by-text {
   color: var(--dim);
+  font-size: 12px;
 }
 
 .powered-by-image {
@@ -72,18 +94,20 @@ export default {
   margin: 0 0.5rem;
 }
 
-.active {
+.validator-name {
   font-weight: 500;
+  font-size: 12px;
   cursor: pointer;
   color: var(--txt);
 }
 
-.active:hover {
+.validator-name:hover {
   color: var(--link-hover);
 }
 
-.inactive {
-  font-weight: 500;
-  color: var(--txt);
+@media screen and (max-width: 640px) {
+  .powered-by-container.hide-on-mobile {
+    display: none;
+  }
 }
 </style>

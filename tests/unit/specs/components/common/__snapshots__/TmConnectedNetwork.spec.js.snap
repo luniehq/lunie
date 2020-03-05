@@ -52,7 +52,11 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
     </div>
   </div>
    
-  <!---->
+  <poweredby-stub
+    iscurrentnetwork="true"
+    network="[object Object]"
+    poweredbyline="true"
+  />
 </div>
 `;
 
@@ -112,6 +116,10 @@ exports[`TmConnectedNetwork has the expected html structure when connected 1`] =
     </div>
   </div>
    
-  <!---->
+  <poweredby-stub
+    iscurrentnetwork="true"
+    network="[object Object]"
+    poweredbyline="true"
+  />
 </div>
 `;

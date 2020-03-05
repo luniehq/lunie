@@ -120,23 +120,4 @@ export default {
 .network-selected {
   color: var(--success);
 }
-
-.powered-div {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  font-size: 14px;
-}
-
-@media screen and (max-width: 360px) {
-  .powered-div {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 495px) {
-  .powered-div {
-    font-size: 2vw;
-  }
-}
 </style>
