@@ -91,7 +91,7 @@ export default {
     testnet: false
   }),
   computed: {
-    ...mapState([`keystore`]),
+    ...mapState([`keystore`, `session`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({
@@ -190,8 +190,8 @@ export default {
   apollo: {
     addressPrefixes: {
       query: gql`
-        query Network {
-          networks {
+        query Network($experimental: Boolean) {
+          networks(experimental: $experimental) {
             id
             address_prefix
             testnet
@@ -199,6 +199,11 @@ export default {
           }
         }
       `,
+      variables() {
+        return {
+          experimental: this.session.experimentalMode
+        }
+      },
       /* istanbul ignore next */
       update(data) {
         if (data.networks) return data.networks
