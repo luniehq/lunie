@@ -14,12 +14,11 @@
         {{ networkitem.chain_id }}
       </p>
     </div>
-    <div v-if="networkitem.powered" class="powered-div">
-      <PoweredBy
-        :network="networkitem"
-        :is-current-network="isCurrentNetwork"
-      />
-    </div>
+    <PoweredBy
+      :network="networkitem"
+      :is-current-network="isCurrentNetwork"
+      hide-on-mobile
+    />
     <div class="network-status">
       <img
         v-if="!connected && network === networkitem.id"
