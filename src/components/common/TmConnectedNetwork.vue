@@ -248,16 +248,6 @@ export default {
   background: var(--success);
 }
 
-.powered-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid var(--bc-dim);
-  width: 100%;
-  margin-top: 1.25rem;
-  margin-bottom: 0.75rem;
-}
-
 @media screen and (max-width: 1023px) {
   .sidebar-bottom {
     max-width: 100%;
