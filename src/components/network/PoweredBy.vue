@@ -101,8 +101,12 @@ export default {
   color: var(--txt);
 }
 
-.validator-name:hover {
+.active:hover {
   color: var(--link-hover);
+}
+
+.inactive {
+  cursor: default;
 }
 
 @media screen and (max-width: 640px) {
