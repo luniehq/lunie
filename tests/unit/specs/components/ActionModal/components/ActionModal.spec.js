@@ -138,6 +138,7 @@ describe(`ActionModal`, () => {
         title: `Send`,
         validate: jest.fn(),
         featureFlag: `send`,
+        queueNotEmpty: false,
         transactionData: {
           type: "MsgSend",
           denom: "uatom",
@@ -247,12 +248,10 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.submissionError).toBe(null)
   })
 
-  it(`opens`, () => {
+  it(`opens`, async () => {
     wrapper.vm.trackEvent = jest.fn()
-    wrapper.vm.open()
-
+    await wrapper.vm.open()
     expect(wrapper.isEmpty()).not.toBe(true)
-    expect(wrapper.vm.queueNotEmpty).toBe(false)
     expect(wrapper.vm.show).toBe(true)
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
   })
