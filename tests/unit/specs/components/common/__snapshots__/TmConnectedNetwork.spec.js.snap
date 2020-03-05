@@ -54,6 +54,7 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
    
   <poweredby-stub
     iscurrentnetwork="true"
+    ismenu="true"
     network="[object Object]"
     poweredbyline="true"
   />
@@ -118,6 +119,7 @@ exports[`TmConnectedNetwork has the expected html structure when connected 1`] =
    
   <poweredby-stub
     iscurrentnetwork="true"
+    ismenu="true"
     network="[object Object]"
     poweredbyline="true"
   />
