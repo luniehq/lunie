@@ -121,7 +121,7 @@ module.exports = [
     id: 'terra-testnet',
     title: 'Terra Testnet',
     chain_id: 'soju-0013',
-    api_url: 'https://terra-testnet.lunie.io',
+    api_url: 'https://soju-fcd.terra.dev',
     rpc_url: 'wss://terra-testnet.lunie.io/websocket',
     bech32_prefix: 'terra',
     address_prefix: 'terra',
@@ -186,7 +186,7 @@ module.exports = [
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/emoney-testnet.png',
     slug: 'emoney-testnet'
-  },
+  }
   // {
   //   id: 'polkadot-testnet',
   //   title: 'Kusama',
