@@ -17,7 +17,7 @@ export default () => {
       displayMessenger({ state }) {
         if (state.mobileApp) {
           // we have to register users otherwise intercom will not open
-          state.intercom.registerUnidentifiedUser();
+          state.intercom.registerUnidentifiedUser()
           state.intercom.displayMessenger()
         }
       }
