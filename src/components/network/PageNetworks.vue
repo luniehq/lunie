@@ -77,6 +77,11 @@ export default {
             title
             icon
             slug
+            powered {
+              name
+              providerAddress
+              picture
+            }
           }
         }
       `,
