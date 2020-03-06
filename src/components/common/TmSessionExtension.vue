@@ -44,7 +44,7 @@
 import gql from "graphql-tag"
 import AccountList from "common/AccountList"
 import SessionFrame from "common/SessionFrame"
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 export default {
   name: `session-extension`,
   components: {
@@ -58,6 +58,7 @@ export default {
   }),
   computed: {
     ...mapState([`extension`]),
+    ...mapGetters([`networkSlug`]),
     accounts() {
       return this.extension.accounts
     }
@@ -78,13 +79,12 @@ export default {
     },
     async signInAndRedirect(account) {
       await this.signIn(account)
-      const network = account.network ? account.network : "cosmos-hub-mainnet"
-      this.$router.push(`/${this.getNetworkSlug(network)}/portfolio`)
-    },
-    getNetworkSlug(network) {
-      if (this.networks) {
-        return this.networks.filter(({ id }) => id === network)[0].slug
-      }
+      this.$router.push({
+        name: "portfolio",
+        params: {
+          networkId: this.networkSlug
+        }
+      })
     }
   },
   apollo: {

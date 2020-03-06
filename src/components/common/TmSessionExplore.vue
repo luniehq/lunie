@@ -169,7 +169,12 @@ export default {
       })
 
       localStorage.setItem(`prevAddress`, this.address)
-      this.$router.push(`/${this.networkOfAddress.slug}/portfolio`)
+      this.$router.push({
+        name: "portfolio",
+        params: {
+          networkId: this.networkOfAddress.slug
+        }
+      })
     },
     bech32Validate(param) {
       try {
