@@ -90,9 +90,10 @@ describe(`TmSessionExplore`, () => {
     })
     wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(
-      `/cosmos-hub/portfolio`
-    )
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
+      name: "portfolio",
+      params: { networkId: "cosmos-hub" }
+    })
   })
 
   it(`should signal signedin state on successful login`, async () => {

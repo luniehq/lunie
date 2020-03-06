@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -92,6 +92,7 @@ export default {
   }),
   computed: {
     ...mapState([`keystore`, `session`]),
+    ...mapGetters([`networkSlug`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({
@@ -140,7 +141,12 @@ export default {
           sessionType: "local"
         })
         localStorage.setItem(`prevAccountKey`, this.signInAddress)
-        this.$router.push(`/`)
+        this.$router.push({
+          name: "portfolio",
+          params: {
+            networkId: this.networkSlug
+          }
+        })
       } else {
         this.error = `The provided username or password is wrong.`
       }
