@@ -424,7 +424,12 @@ export default {
   computed: {
     ...mapState([`extension`, `session`]),
     ...mapGetters([`connected`, `isExtensionAccount`]),
-    ...mapGetters({ networkId: `network` }),
+    // hack to avoid computed property in data error
+    ...mapGetters({ networkID: `network` }),
+    // hack for tests
+    networkId() {
+      return this.network.id
+    },
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
       return this.network[action] === true
@@ -437,7 +442,7 @@ export default {
     },
     estimatedFee() {
       // hack
-      return this.networkId.includes(`terra`)
+      return this.networkId.startsWith(`terra`)
         ? Number(this.gasPrice) * Number(this.gasEstimate) * Number(this.amount) // already in atoms
         : Number(this.gasPrice) * Number(this.gasEstimate)
     },
@@ -446,7 +451,7 @@ export default {
     },
     invoiceTotal() {
       // hack
-      return this.networkId.includes(`terra`)
+      return this.networkId.startsWith(`terra`)
         ? Number(this.subTotal) +
             Number(this.gasPrice) *
               Number(this.gasEstimate) *
@@ -696,7 +701,7 @@ export default {
         gasEstimate: this.gasEstimate,
         gasPrice: {
           // hack
-          amount: this.networkId.includes(`terra`)
+          amount: this.networkId.startsWith(`terra`)
             ? this.gasPrice * this.amount
             : this.gasPrice,
           denom: this.getDenom
