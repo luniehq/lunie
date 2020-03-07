@@ -51,9 +51,10 @@ export function toMicroDenom(denom) {
     LUNA: "uluna",
     TREE: "seed",
     NGM: "ungm",
-    KRW: "ukrw",
+    KRT: "ukrw",
     MNT: "umnt",
-    SDR: "usdr"
+    UST: "uusd",
+    SDT: "usdr"
   }
   return lookup[denom] ? lookup[denom] : denom.toLowerCase()
 }
