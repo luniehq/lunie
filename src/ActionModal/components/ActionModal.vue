@@ -436,15 +436,23 @@ export default {
       )
     },
     estimatedFee() {
-      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
+      // hack
+      return this.networkId.includes(`terra`)
+        ? Number(this.gasPrice) * Number(this.gasEstimate) * Number(this.amount) // already in atoms
+        : Number(this.gasPrice) * Number(this.gasEstimate)
     },
     subTotal() {
       return this.featureFlag === "undelegate" ? 0 : this.amount
     },
     invoiceTotal() {
-      return (
-        Number(this.subTotal) + Number(this.gasPrice) * Number(this.gasEstimate)
-      )
+      // hack
+      return this.networkId.includes(`terra`)
+        ? Number(this.subTotal) +
+            Number(this.gasPrice) *
+              Number(this.gasEstimate) *
+              Number(this.amount)
+        : Number(this.subTotal) +
+            Number(this.gasPrice) * Number(this.gasEstimate)
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -687,7 +695,10 @@ export default {
       const feeProperties = {
         gasEstimate: this.gasEstimate,
         gasPrice: {
-          amount: this.gasPrice,
+          // hack
+          amount: this.networkId.includes(`terra`)
+            ? this.gasPrice * this.amount
+            : this.gasPrice,
           denom: this.getDenom
         },
         submitType: this.selectedSignMethod,
