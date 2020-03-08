@@ -122,4 +122,21 @@ describe(`PageBlock`, () => {
 
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  it(`filters out transactions of type "Unknown"`, () => {
+    const self = {
+      block: {
+        ...block,
+        transactions: [
+          { type: "UnknownTx" },
+          { type: "UnknownTx" },
+          { type: "SendTx" }
+        ]
+      }
+    }
+    const filteredTransactions = PageBlock.computed.filteredTransactions.call(
+      self
+    )
+    expect(filteredTransactions.length).toBe(1)
+  })
 })
