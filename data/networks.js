@@ -221,7 +221,7 @@ module.exports = [
   //   enabled: true,
   //   icon: 'https://app.lunie.io/img/networks/polkadot-testnet.png',
   //   slug: 'kusama'
-  // },
+  // }
   // {
   //   id: 'livepeer-mainnet',
   //   title: 'Livepeer',
