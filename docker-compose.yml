@@ -14,6 +14,11 @@ services:
         loki-url: "http://admin:${LOKI_PASSWORD}@monitoring.lunie.io:3100/loki/api/v1/push"
     deploy:
       replicas: 1
+      resources:
+        limits:
+          memory: 2.5G
+      restart_policy:
+        condition: on-failure
     environment:
       - HASURA_URL=$HASURA_URL
       - HASURA_ADMIN_KEY=$HASURA_ADMIN_KEY
