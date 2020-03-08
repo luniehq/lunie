@@ -1,1 +1,0 @@
-[Fixed] [#3638](https://github.com/cosmos/lunie/pull/3638) Checks if fiatValue is null in TmBalance before checking other conditions @Bitcoinera

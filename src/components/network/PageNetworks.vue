@@ -6,18 +6,20 @@
       <NetworkList :networks="mainNetworks" />
       <h3>Test Networks</h3>
       <NetworkList :networks="testNetworks" />
-      <h3>Coming soon...</h3>
-      <NetworkList :networks="[polkadot]" />
+      <h3>Coming Soon</h3>
+      <NetworkList :networks="comingSoon" />
     </template>
   </TmPage>
 </template>
 
 <script>
-import { Networks, NetworksResult } from "src/gql"
+import { mapState } from "vuex"
+import { NetworksResult } from "src/gql"
 import NetworkList from "./NetworkList"
 import TmDataLoading from "common/TmDataLoading"
 
 import TmPage from "common/TmPage"
+import gql from "graphql-tag"
 export default {
   name: `page-network`,
   components: {
@@ -27,14 +29,36 @@ export default {
   },
   data: () => ({
     networks: [],
-    polkadot: {
-      id: "polkadot-testnet",
-      title: "Kusama",
-      chain_id: "kusama-cc3",
-      icon: "/img/networks/polkadot-testnet.png"
-    }
+    comingSoon: [
+      {
+        id: "polkadot-mainnet",
+        title: "Polkadot",
+        icon: "/img/networks/polkadot-mainnet.png"
+      },
+      {
+        id: "polkadot-testnet",
+        title: "Kusama",
+        icon: "/img/networks/polkadot-testnet.png"
+      },
+      {
+        id: "tezos-mainnet",
+        title: "Tezos",
+        icon: "/img/networks/tezos-mainnet.png"
+      },
+      {
+        id: "dawnchain-testnet",
+        title: "Dawn",
+        icon: "/img/networks/dawnchain-testnet.png"
+      },
+      {
+        id: "akash-testnet",
+        title: "Akash",
+        icon: "/img/networks/akash-testnet.png"
+      }
+    ]
   }),
   computed: {
+    ...mapState(["session"]),
     mainNetworks() {
       return this.networks.filter(network => !network.testnet)
     },
@@ -44,7 +68,29 @@ export default {
   },
   apollo: {
     networks: {
-      query: Networks,
+      query: gql`
+        query Networks($experimental: Boolean) {
+          networks(experimental: $experimental) {
+            id
+            chain_id
+            testnet
+            title
+            icon
+            slug
+            powered {
+              name
+              providerAddress
+              picture
+            }
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          experimental: this.session.experimentalMode
+        }
+      },
       fetchPolicy: "cache-first",
       update: NetworksResult
     }

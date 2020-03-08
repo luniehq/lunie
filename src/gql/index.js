@@ -84,6 +84,11 @@ export const Networks = gql`
       title
       icon
       slug
+      powered {
+        name
+        providerAddress
+        picture
+      }
     }
   }
 `

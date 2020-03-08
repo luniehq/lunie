@@ -1,1 +1,0 @@
-[Changed] [#3640](https://github.com/cosmos/lunie/pull/3640) Checks if the staking denom has a fiat value and in only in that case displays the currency selector. Good for Terra. @Bitcoinera

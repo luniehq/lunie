@@ -60,7 +60,15 @@ export default class ActionManager {
   }
 
   async sendTxAPI(
-    { userAddress, networkId, bondDenom, rewards, chainId, account },
+    {
+      userAddress,
+      networkId,
+      networkType,
+      bondDenom,
+      rewards,
+      chainId,
+      account
+    },
     type,
     memo,
     transactionProperties,
@@ -70,7 +78,8 @@ export default class ActionManager {
     const signer = await getSigner(config, submitType, {
       address: userAddress,
       password,
-      network: networkId
+      network: networkId,
+      networkType
     })
 
     const messageMetadata = {
@@ -100,7 +109,9 @@ export default class ActionManager {
       txMessages.push(txMessage)
     }
 
-    const createSignedTransaction = await getSignedTransactionCreator(networkId)
+    const createSignedTransaction = await getSignedTransactionCreator(
+      networkType
+    )
     const signedMessage = await createSignedTransaction(
       messageMetadata,
       txMessages,

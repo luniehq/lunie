@@ -12,7 +12,8 @@ describe(`TmSessionSignUpSeed`, () => {
   beforeEach(() => {
     $store = {
       getters: {
-        network: "lunie-net"
+        network: "lunie-net",
+        networkSlug: "lunie"
       },
       state: {
         session: { insecureMode: true },
@@ -72,7 +73,10 @@ describe(`TmSessionSignUpSeed`, () => {
       seedPhrase:
         "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
     })
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
+      name: "portfolio",
+      params: { networkId: "lunie" }
+    })
   })
 
   it(`should dispatch resetSignUpData when the component is destroyed`, async () => {

@@ -34,6 +34,13 @@ describe(`Module: Connection`, () => {
       mutations.setNetworkId(state, "awesomenet")
       expect(state.network).toBe("awesomenet")
     })
+
+    it(`sets the type of an address`, () => {
+      state = {}
+      let addressType = `polkadot`
+      mutations.setAddressType(state, addressType)
+      expect(state.addressType).toEqual(`polkadot`)
+    })
   })
 
   it("should persist the network", async () => {
