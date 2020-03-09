@@ -306,7 +306,7 @@ export default {
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return this.overview.rewards
-        ? this.overview.rewards.find(reward => reward.amount > 0.001)
+        ? this.overview.rewards.find(reward => reward.amount > 0) // from the UX perspective this should be greater than 0.001, since we only display rewards from that value on
         : null
     },
     stakingBalance() {
