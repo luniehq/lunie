@@ -305,9 +305,16 @@ export default {
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
-      return this.overview.rewards
-        ? this.overview.rewards.find(reward => reward.amount > 0) // from the UX perspective this should be greater than 0.001, since we only display rewards from that value on
-        : null
+      if (this.overview.rewards && this.overview.rewards.length > 0) {
+        const allTotalRewards = this.overview.rewards.map(reward =>
+          this.calculateTotalRewardsDenom(reward.denom)
+        )
+        return allTotalRewards.length > 0
+          ? allTotalRewards.find(reward => parseFloat(reward) > 0.001)
+          : null
+      } else {
+        return null
+      }
     },
     stakingBalance() {
       return this.balances.find(({ denom }) => denom === this.stakingDenom)
