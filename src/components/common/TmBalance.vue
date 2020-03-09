@@ -24,7 +24,7 @@
                 isMultiDenomNetwork &&
                   stakingBalance &&
                   stakingBalance.fiatValue
-              "              
+              "
               class="currency-selector"
             >
               <img
@@ -314,7 +314,7 @@ export default {
           : null
       } else {
         return null
-      }    
+      }
     },
     stakingBalance() {
       return this.balances.find(({ denom }) => denom === this.stakingDenom)

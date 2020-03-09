@@ -22,7 +22,7 @@
     >
       <span v-if="claimedReward" class="input-suffix">{{
         claimedReward.denom
-      }}</span>      
+      }}</span>
       <TmField
         id="amount"
         v-model="totalRewards"
