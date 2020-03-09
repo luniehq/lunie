@@ -442,7 +442,8 @@ export default {
     },
     estimatedFee() {
       // hack
-      return this.networkId.startsWith(`terra`)
+      return this.networkId.startsWith(`terra`) &&
+        this.selectedBalance.denom !== this.network.stakingDenom
         ? Number(this.gasPrice) * Number(this.gasEstimate) * Number(this.amount) // already in atoms
         : Number(this.gasPrice) * Number(this.gasEstimate)
     },
@@ -450,14 +451,7 @@ export default {
       return this.featureFlag === "undelegate" ? 0 : this.amount
     },
     invoiceTotal() {
-      // hack
-      return this.networkId.startsWith(`terra`)
-        ? Number(this.subTotal) +
-            Number(this.gasPrice) *
-              Number(this.gasEstimate) *
-              Number(this.amount)
-        : Number(this.subTotal) +
-            Number(this.gasPrice) * Number(this.gasEstimate)
+      return Number(this.subTotal) + this.estimatedFee
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -701,9 +695,11 @@ export default {
         gasEstimate: this.gasEstimate,
         gasPrice: {
           // hack
-          amount: this.networkId.startsWith(`terra`)
-            ? this.gasPrice * this.amount
-            : this.gasPrice,
+          amount:
+            this.networkId.startsWith(`terra`) &&
+            this.selectedBalance.denom !== this.network.stakingDenom
+              ? this.gasPrice * this.amount
+              : this.gasPrice,
           denom: this.getDenom
         },
         submitType: this.selectedSignMethod,
