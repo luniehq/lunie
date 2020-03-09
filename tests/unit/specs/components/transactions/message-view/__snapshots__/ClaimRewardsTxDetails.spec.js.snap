@@ -45,7 +45,12 @@ exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] =
   >
     <p
       class="amount"
-    />
+    >
+      
+        10 
+        ATOM
+      
+    </p>
   </div>
    
   <!---->
@@ -148,7 +153,12 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
   >
     <p
       class="amount"
-    />
+    >
+      
+        3 
+        ATOM
+      
+    </p>
   </div>
 </div>
 `;
