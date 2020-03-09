@@ -102,7 +102,8 @@ describe(`TmBalance`, () => {
   it(`disables claim rewards button when no rewards`, () => {
     wrapper.setData({
       overview: {
-        totalRewards: 0
+        totalRewards: 0,
+        rewards: []
       }
     })
     const $refs = { ModalWithdrawRewards: { open: jest.fn() } }

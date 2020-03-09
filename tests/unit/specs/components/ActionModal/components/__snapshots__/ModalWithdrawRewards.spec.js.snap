@@ -29,18 +29,13 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <span
-      class="input-suffix"
-    >
-      
-    </span>
+    <!---->
      
     <tmfield-stub
       class="tm-field-addon"
       disabled="disabled"
       id="amount"
       type="number"
-      value="0.000000"
     />
   </tmformgroup-stub>
 </actionmodal-stub>

@@ -20,7 +20,11 @@
               </h2>
             </div>
             <div
-              v-if="isMultiDenomNetwork && stakingBalance.fiatValue"
+              v-if="
+                isMultiDenomNetwork &&
+                  stakingBalance &&
+                  stakingBalance.fiatValue
+              "              
               class="currency-selector"
             >
               <img
@@ -112,6 +116,7 @@
                     <span
                       v-if="
                         isMultiDenomNetwork &&
+                          stakingBalance &&
                           stakingBalance.fiatValue &&
                           stakingBalance.fiatValue.amount > 0 &&
                           preferredCurrency
@@ -171,7 +176,8 @@
                   </div>
                   <div
                     v-if="
-                      balance.fiatValue &&
+                      balance &&
+                        balance.fiatValue &&
                         balance.fiatValue.amount > 0 &&
                         preferredCurrency
                     "
@@ -299,7 +305,16 @@ export default {
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
-      return this.overview.totalRewards > 0
+      if (this.overview.rewards && this.overview.rewards.length > 0) {
+        const allTotalRewards = this.overview.rewards.map(reward =>
+          this.calculateTotalRewardsDenom(reward.denom)
+        )
+        return allTotalRewards.length > 0
+          ? allTotalRewards.find(reward => parseFloat(reward) > 0.001)
+          : null
+      } else {
+        return null
+      }    
     },
     stakingBalance() {
       return this.balances.find(({ denom }) => denom === this.stakingDenom)
