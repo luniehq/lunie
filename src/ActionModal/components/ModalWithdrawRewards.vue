@@ -20,7 +20,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom }}</span>
+      <span class="input-suffix">{{ claimedReward.denom }}</span>
       <TmField
         id="amount"
         v-model="totalRewards"
@@ -63,10 +63,11 @@ export default {
       }
     },
     totalRewards() {
-      return this.rewards
+      const stakingRewards = this.rewards
         .filter(({ denom }) => denom === this.denom)
         .reduce((sum, { amount }) => sum + Number(amount), 0)
         .toFixed(6)
+      return stakingRewards > 0 ? stakingRewards : this.claimedReward.amount
     },
     notifyMessage() {
       return {
@@ -76,6 +77,17 @@ export default {
     },
     validatorsWithRewards() {
       return this.rewards.length > 0
+    },
+    claimedReward() {
+      if (this.denom && this.rewards && this.rewards.length > 0) {
+        return (
+          this.rewards.filter(
+            reward => reward.denom === this.denom && reward.amount > 0
+          )[0] || this.rewards.filter(reward => reward.amount > 0)[0]
+        )
+      } else {
+        return ""
+      }
     }
   },
   methods: {
