@@ -13,6 +13,7 @@
     "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
     "lint": "eslint index.js config.js lib tests",
     "lint-fix": "yarn lint --fix",
+    "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git merge origin/master && git push -u origin develop && git push origin develop:release",
     "start": "node index.js ",
     "test": "jest"
   },
