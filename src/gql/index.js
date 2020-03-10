@@ -93,6 +93,40 @@ export const Networks = gql`
   }
 `
 
+// load all the data immediatly to avoid async loading later
+export const NetworksAll = gql`
+  query Networks {
+    networks {
+      id
+      chain_id
+      testnet
+      title
+      icon
+      slug
+      powered {
+        name
+        providerAddress
+        picture
+      }
+      feature_session
+      feature_portfolio
+      feature_validators
+      feature_proposals
+      feature_activity
+      feature_explorer
+      action_send
+      action_claim_rewards
+      action_delegate
+      action_redelegate
+      action_undelegate
+      action_deposit
+      action_vote
+      action_proposal
+      stakingDenom
+    }
+  }
+`
+
 // capability is 'feature_portfolio' / 'action_send'
 export const NetworkCapability = networkId => gql`
 query Networks {
