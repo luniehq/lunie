@@ -83,10 +83,12 @@ export default {
     claimedReward() {
       if (this.denom && this.rewards && this.rewards.length > 0) {
         // we return the staking denom reward if it has any. Otherwise, we return the first reward from the other tokens
+        const rewardGreaterThanZero = array =>
+          array.filter(reward => reward.amount > 0)[0]
         return (
-          this.rewards.filter(
-            reward => reward.denom === this.denom && reward.amount > 0
-          )[0] || this.rewards.filter(reward => reward.amount > 0)[0]
+          rewardGreaterThanZero(
+            this.rewards.filter(reward => reward.denom === this.denom)
+          ) || rewardGreaterThanZero(this.rewards)
         )
       } else {
         return ""
