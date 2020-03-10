@@ -21,7 +21,7 @@ export async function getSigner(
     switch (networkType) {
       case "cosmos":
         return await getCosmosLocalSigner(wallet)
-      case "cosmos":
+      case "polkadot":
         return await getPolkadotLocalSigner(wallet)
     }
   } else if (signingType === `ledger`) {
