@@ -84,12 +84,13 @@ export default {
       // as default if there is any available balance. Otherwise, we return the first balance over 0
       // TODO: change to be preferrably the same token that is shown as claimed, although not so important
       if (this.balances && this.balances.length > 0) {
-        const stakingDenomBalance = this.balances.filter(
+        const nonZeroBalances = this.balances.filter(({ amount }) => amount > 0)
+        const stakingDenomBalance = nonZeroBalances.find(
           ({ denom }) => denom === this.denom
-        )[0]
-        return stakingDenomBalance && stakingDenomBalance.amount > 0
-          ? this.denom
-          : this.balances.filter(({ amount }) => amount > 0)[0].denom
+        )
+        return stakingDenomBalance
+          ? stakingDenomBalance.denom
+          : nonZeroBalances[0].denom
       } else {
         return this.denom
       }
