@@ -1,9 +1,9 @@
 <template>
   <div class="tx__content">
     <TransactionIcon :transaction-type="type" />
+    <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
     <template v-if="getValidators && getValidators.length === 1">
       <div class="tx__content__left">
-        <h3>{{ caption }}</h3>
         <div class="multi-claim-reward-row">
           <span>Rewards from</span>
           <router-link
@@ -40,12 +40,7 @@
       class="validators-images-row"
     >
       <div class="tx__content__left multi-claim-reward-row">
-        <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
-        <div
-          v-if="getValidators.length > 0"
-          class="multi-claim-reward-row"
-          :class="{ validatorsToggle: show }"
-        >
+        <div class="multi-claim-reward-row" :class="{ validatorsToggle: show }">
           <div
             v-for="(validator, index) in getValidators"
             :key="validator.name.concat(`-${index}`)"
@@ -137,9 +132,13 @@ export default {
   },
   computed: {
     getValidators() {
-      return this.transaction.details.from.map(validatorAddress => {
-        return this.validators[validatorAddress] || {}
-      })
+      if (this.validators && Object.keys(this.validators).length > 0) {
+        return this.transaction.details.from.map(validatorAddress => {
+          return this.validators[validatorAddress] || {}
+        })
+      } else {
+        return []
+      }
     }
   }
 }
