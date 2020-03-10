@@ -20,7 +20,11 @@
               </h2>
             </div>
             <div
-              v-if="isMultiDenomNetwork && stakingBalance.fiatValue"
+              v-if="
+                isMultiDenomNetwork &&
+                  stakingBalance &&
+                  stakingBalance.fiatValue
+              "
               class="currency-selector"
             >
               <img
@@ -112,6 +116,7 @@
                     <span
                       v-if="
                         isMultiDenomNetwork &&
+                          stakingBalance &&
                           stakingBalance.fiatValue &&
                           stakingBalance.fiatValue.amount > 0 &&
                           preferredCurrency
@@ -171,7 +176,8 @@
                   </div>
                   <div
                     v-if="
-                      balance.fiatValue &&
+                      balance &&
+                        balance.fiatValue &&
                         balance.fiatValue.amount > 0 &&
                         preferredCurrency
                     "
