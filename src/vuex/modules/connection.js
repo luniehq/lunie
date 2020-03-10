@@ -62,7 +62,7 @@ export default function({ apollo }) {
     async persistNetwork(store, network) {
       localStorage.setItem(`network`, JSON.stringify(network.id))
     },
-    async preloadNetworkCapabilities(store) {
+    async preloadNetworkCapabilities() {
       apollo.query({
         query: NetworksAll,
         fetchPolicy: "cache-first"
