@@ -705,6 +705,8 @@ export default {
       const feeProperties = {
         gasEstimate: this.gasEstimate,
         gasPrice: {
+          // the cosmos-api lib uses gasEstimate * gasPrice to calculate the fees
+          // here we just reverse this calculation to get the same fees as displayed
           amount: this.estimatedFee / this.gasEstimate,
           denom: this.getDenom
         },
