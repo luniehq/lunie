@@ -41,7 +41,11 @@
     >
       <div class="tx__content__left multi-claim-reward-row">
         <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
-        <div class="multi-claim-reward-row" :class="{ validatorsToggle: show }">
+        <div
+          v-if="getValidators.length > 0"
+          class="multi-claim-reward-row"
+          :class="{ validatorsToggle: show }"
+        >
           <div
             v-for="(validator, index) in getValidators"
             :key="validator.name.concat(`-${index}`)"
