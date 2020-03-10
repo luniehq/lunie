@@ -1,5 +1,5 @@
 import config from "src/../config"
-import { Networks } from "../../gql"
+import { Networks, NetworkCapability } from "../../gql"
 
 export default function({ apollo }) {
   const state = {
@@ -62,9 +62,16 @@ export default function({ apollo }) {
     async persistNetwork(store, network) {
       localStorage.setItem(`network`, JSON.stringify(network.id))
     },
+    async preloadNetworkCapabilities(store, networkId) {
+      apollo.query({
+        query: NetworkCapability(networkId),
+        fetchPolicy: "cache-first"
+      })
+    },
     async setNetwork({ commit, dispatch }, network) {
       dispatch(`signOut`)
       dispatch(`persistNetwork`, network)
+      dispatch(`preloadNetworkCapabilities`, network.id)
       commit("setNetworkId", network.id)
       if (network.slug) {
         commit("setNetworkSlug", network.slug)
