@@ -90,7 +90,7 @@ export default {
         )
         return stakingDenomBalance
           ? stakingDenomBalance.denom
-          : nonZeroBalances[0].denom
+          : nonZeroBalances.length > 0 ? nonZeroBalances[0].denom : this.denom
       } else {
         return this.denom
       }
