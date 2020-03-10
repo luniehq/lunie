@@ -123,6 +123,8 @@ export const NetworksAll = gql`
       action_vote
       action_proposal
       stakingDenom
+      network_type
+      address_creator
     }
   }
 `
