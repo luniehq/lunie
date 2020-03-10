@@ -17,9 +17,9 @@
         <i class="material-icons notranslate">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">{{
-          requiresSignIn ? `Sign in required` : title
-        }}</span>
+        <span class="action-modal-title">
+          {{ requiresSignIn ? `Sign in required` : title }}
+        </span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -299,6 +299,8 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
+import transactionTypes from "../utils/transactionTypes"
+// import transactionTypes from '../utils/transactionTypes'
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -442,10 +444,19 @@ export default {
     },
     estimatedFee() {
       // hack
-      return this.networkId.startsWith(`terra`) &&
-        this.selectedBalance.denom !== this.network.stakingDenom
-        ? Number(this.gasPrice) * Number(this.gasEstimate) * Number(this.amount) // already in atoms
-        : Number(this.gasPrice) * Number(this.gasEstimate)
+      // terra uses a tax on all send txs
+      if (
+        this.networkId.startsWith(`terra`) &&
+        this.transactionData.type === transactionTypes.SEND
+      ) {
+        // hardcoding terra tax here until we have it in the API
+        const terraTax = 0.008
+        return (
+          Number(this.gasEstimate) * Number(this.gasPrice) +
+          Number(this.amount) * terraTax
+        )
+      }
+      return Number(this.gasPrice) * Number(this.gasEstimate)
     },
     subTotal() {
       return this.featureFlag === "undelegate" ? 0 : this.amount
@@ -694,12 +705,7 @@ export default {
       const feeProperties = {
         gasEstimate: this.gasEstimate,
         gasPrice: {
-          // hack
-          amount:
-            this.networkId.startsWith(`terra`) &&
-            this.selectedBalance.denom !== this.network.stakingDenom
-              ? this.gasPrice * this.amount
-              : this.gasPrice,
+          amount: this.estimatedFee / this.gasEstimate,
           denom: this.getDenom
         },
         submitType: this.selectedSignMethod,
