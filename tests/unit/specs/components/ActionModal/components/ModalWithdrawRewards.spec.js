@@ -56,6 +56,40 @@ describe(`ModalWithdrawRewards`, () => {
     expect(wrapper.find(`.withdraw-limit`).exists()).toBe(true)
   })
 
+  it(`should return the staking denom if staking denom has any available balance`, () => {
+    const self = {
+      balances: [
+        {
+          denom: "STAKE",
+          amount: 1
+        }
+      ]
+    }
+    const feeDenom = ModalWithdrawRewards.computed.feeDenom.call(self)
+    expect(feeDenom).toEqual(`STAKE`)
+  })
+
+  it(`should return the first balance denom in the balances array with available balance if staking denom has no available balance`, () => {
+    const self = {
+      balances: [
+        {
+          denom: "STAKE",
+          amount: 0
+        },
+        {
+          denom: "TOKEN",
+          amount: 0
+        },
+        {
+          denom: "TOKEN2",
+          amount: 1
+        }
+      ]
+    }
+    const feeDenom = ModalWithdrawRewards.computed.feeDenom.call(self)
+    expect(feeDenom).toEqual(`TOKEN2`)
+  })
+
   describe("Submission Data for Delegating", () => {
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
