@@ -124,7 +124,7 @@ input.tm-field {
   }
 }
 
-@media screen and (min-width: 1023px) {
+@media screen and (min-width: 1024px) {
   #app {
     flex-flow: row nowrap;
   }
