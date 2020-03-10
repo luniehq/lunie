@@ -103,6 +103,7 @@ export const NetworksAll = gql`
       title
       icon
       slug
+      default
       powered {
         name
         providerAddress
@@ -125,6 +126,8 @@ export const NetworksAll = gql`
       stakingDenom
       network_type
       address_creator
+      address_prefix
+      testnet
     }
   }
 `
