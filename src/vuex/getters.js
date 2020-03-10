@@ -7,6 +7,7 @@ export const address = state => state.session.address
 export const network = state => state.connection.network
 export const networkSlug = state => state.connection.networkSlug
 export const addressType = state => state.connection.addressType
+export const networks = state => state.connection.networks
 
 export const isExtensionAccount = state =>
   state.extension.accounts.some(account => {

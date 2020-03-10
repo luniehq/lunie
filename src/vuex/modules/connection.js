@@ -7,6 +7,7 @@ export default function({ apollo }) {
     connected: true, // TODO do connection test
     network: config.network, // network id to reference network capabilities stored in Hasura
     networkSlug: "cosmos-hub",
+    networks: [],
     addressType: undefined,
     externals: {
       config
@@ -22,6 +23,9 @@ export default function({ apollo }) {
     },
     setAddressType(state, addressType) {
       state.addressType = addressType
+    },
+    setNetworks(state, networks) {
+      state.networs = networks
     }
   }
 
@@ -62,11 +66,12 @@ export default function({ apollo }) {
     async persistNetwork(store, network) {
       localStorage.setItem(`network`, JSON.stringify(network.id))
     },
-    async preloadNetworkCapabilities() {
-      apollo.query({
+    async preloadNetworkCapabilities({ commit }) {
+      const { networks } = await apollo.query({
         query: NetworksAll,
         fetchPolicy: "cache-first"
       })
+      commit("setNetworks", networks)
     },
     async setNetwork({ commit, dispatch }, network) {
       dispatch(`signOut`)
