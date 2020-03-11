@@ -7,5 +7,5 @@ staging-api.lunie.io {
 }
 :9100 {
     basicauth / admin lunie1234
-    proxy / node_exporter:9100
+    proxy / lunieapi_node-exporter:9100
 }
