@@ -192,7 +192,8 @@ module.exports = [
     title: 'Kusama',
     chain_id: 'kusama-cc3',
     api_url: 'https://host-01.polkascan.io/kusama/api/v1/',
-    rpc_url: 'wss://kusama-rpc.polkastats.io/apikey/HunRG7eUwMTjaBAkz1A6GU1MqBJapaYsYfmU5EVzpAebMr8/',
+    rpc_url:
+      'wss://kusama-rpc.polkastats.io/apikey/HunRG7eUwMTjaBAkz1A6GU1MqBJapaYsYfmU5EVzpAebMr8/',
     bech32_prefix: ' ',
     address_prefix: ' ',
     ledger_app: 'polkadot',
