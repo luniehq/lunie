@@ -21,7 +21,9 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom }}</span>
+      <span v-if="claimedReward" class="input-suffix">{{
+        claimedReward.denom
+      }}</span>
       <TmField
         id="amount"
         v-model="totalRewards"
@@ -65,10 +67,11 @@ export default {
       }
     },
     totalRewards() {
-      return this.rewards
+      const stakingRewards = this.rewards
         .filter(({ denom }) => denom === this.denom)
         .reduce((sum, { amount }) => sum + Number(amount), 0)
         .toFixed(6)
+      return stakingRewards > 0 ? stakingRewards : this.claimedReward.amount
     },
     notifyMessage() {
       return {
@@ -78,6 +81,20 @@ export default {
     },
     validatorsWithRewards() {
       return this.rewards.length > 0
+    },
+    claimedReward() {
+      if (this.denom && this.rewards && this.rewards.length > 0) {
+        // we return the staking denom reward if it has any. Otherwise, we return the first reward from the other tokens
+        const rewardsGreaterThanZero = this.rewards.filter(
+          reward => reward.amount > 0
+        )
+        return (
+          rewardsGreaterThanZero.find(reward => reward.denom === this.denom) ||
+          rewardsGreaterThanZero[0]
+        )
+      } else {
+        return ""
+      }
     },
     feeDenom() {
       // since it is cheaper to pay fees with the staking denom (at least in Tendermint), we return this denom

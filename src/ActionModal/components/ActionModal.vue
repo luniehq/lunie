@@ -757,7 +757,9 @@ export default {
         "Action",
         "Modal",
         this.featureFlag,
-        this.featureFlag == "claim_rewards"
+        this.featureFlag === "claim_rewards" &&
+          this.rewards &&
+          this.rewards.length > 0
           ? this.rewards[0].amount
           : this.amount
       )

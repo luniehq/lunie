@@ -70,7 +70,6 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
        
       <tmbtn-stub
         class="withdraw-rewards"
-        disabled="true"
         id="withdraw-btn"
         value="Claim Rewards"
       />
