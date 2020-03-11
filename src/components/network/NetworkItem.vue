@@ -91,7 +91,8 @@ export default {
 
 .network-icon img {
   max-height: 100%;
-  max-width: 52px;
+  height: 3.5rem;
+  width: 3.5rem;
   display: block;
 }
 
