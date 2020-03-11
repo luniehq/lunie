@@ -25,7 +25,7 @@ export default function({ apollo }) {
       state.addressType = addressType
     },
     setNetworks(state, networks) {
-      state.networs = networks
+      state.networks = networks
     }
   }
 
@@ -67,11 +67,11 @@ export default function({ apollo }) {
       localStorage.setItem(`network`, JSON.stringify(network.id))
     },
     async preloadNetworkCapabilities({ commit }) {
-      const { networks } = await apollo.query({
+      const { data } = await apollo.query({
         query: NetworksAll,
         fetchPolicy: "cache-first"
       })
-      commit("setNetworks", networks)
+      commit("setNetworks", data.networks)
     },
     async setNetwork({ commit, dispatch }, network) {
       dispatch(`signOut`)

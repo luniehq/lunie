@@ -113,7 +113,6 @@ export default {
   data: () => ({
     address: ``,
     error: ``,
-    addressPrefixes: [],
     testnet: false
   }),
   computed: {
@@ -144,7 +143,7 @@ export default {
       return selectedNetwork
     },
     addressPrefixes() {
-      return this.networks.map(({ address_prefix }) => address_prefix)
+      return this.networks //.map(({ address_prefix }) => address_prefix)
     }
   },
   mounted() {
