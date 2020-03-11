@@ -1,1 +1,0 @@
-[Changed] [#3657](https://github.com/cosmos/lunie/pull/3657) For Terra networks it changes the fee for an action according to the amount of tokens being handled. Fix in ActionModal @Bitcoinera
