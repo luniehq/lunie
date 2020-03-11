@@ -235,6 +235,7 @@ import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
+import uniqBy from "lodash.uniqby"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
 
@@ -306,8 +307,12 @@ export default {
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       if (this.overview.rewards && this.overview.rewards.length > 0) {
-        const allTotalRewards = this.overview.rewards.map(reward =>
-          this.calculateTotalRewardsDenom(reward.denom)
+        const uniqRewardsDenoms = uniqBy(
+          this.overview.rewards,
+          reward => reward.denom
+        ).map(reward => reward.denom)
+        const allTotalRewards = uniqRewardsDenoms.map(denom =>
+          this.calculateTotalRewardsDenom(denom)
         )
         return allTotalRewards.length > 0
           ? allTotalRewards.find(reward => parseFloat(reward) > 0.001)
