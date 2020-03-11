@@ -4,6 +4,7 @@
     ref="actionModal"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    :selected-denom="feeDenom"
     title="Claim Rewards"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
@@ -55,7 +56,8 @@ export default {
     fullDecimals
   },
   data: () => ({
-    rewards: []
+    rewards: [],
+    balances: []
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -93,6 +95,22 @@ export default {
       } else {
         return ""
       }
+    },
+    feeDenom() {
+      // since it is cheaper to pay fees with the staking denom (at least in Tendermint), we return this denom
+      // as default if there is any available balance. Otherwise, we return the first balance over 0
+      // TODO: change to be preferrably the same token that is shown as claimed, although not so important
+      if (this.balances && this.balances.length > 0) {
+        const nonZeroBalances = this.balances.filter(({ amount }) => amount > 0)
+        const stakingDenomBalance = nonZeroBalances.find(
+          ({ denom }) => denom === this.denom
+        )
+        return stakingDenomBalance
+          ? stakingDenomBalance.denom
+          : nonZeroBalances.length > 0 ? nonZeroBalances[0].denom : this.denom
+      } else {
+        return this.denom
+      }
     }
   },
   methods: {
@@ -123,6 +141,28 @@ export default {
       /* istanbul ignore next */
       update(data) {
         return data.rewards
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
+      }
+    },
+    balances: {
+      query: gql`
+        query balances($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            denom
+            amount
+            gasPrice
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address
+        }
       },
       /* istanbul ignore next */
       skip() {

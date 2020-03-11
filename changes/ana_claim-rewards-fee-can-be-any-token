@@ -1,0 +1,1 @@
+[Changed] [#3664](https://github.com/cosmos/lunie/pull/3664) Now to pay fees in Claim Rewards, if there is no staking denom balance available, fees will be paid in the first token with positive balance @Bitcoinera

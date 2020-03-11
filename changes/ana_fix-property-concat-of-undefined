@@ -1,0 +1,1 @@
+[Fixed] [#3669](https://github.com/cosmos/lunie/pull/3669) Fix concat property of undefined in ClaimRewardsTxDetails as it now wait for getValidators array to be filled @Bitcoinera

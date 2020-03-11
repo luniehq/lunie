@@ -17,9 +17,9 @@
         <i class="material-icons notranslate">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">{{
-          requiresSignIn ? `Sign in required` : title
-        }}</span>
+        <span class="action-modal-title">
+          {{ requiresSignIn ? `Sign in required` : title }}
+        </span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -299,6 +299,8 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
+import transactionTypes from "../utils/transactionTypes"
+// import transactionTypes from '../utils/transactionTypes'
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -424,7 +426,12 @@ export default {
   computed: {
     ...mapState([`extension`, `session`]),
     ...mapGetters([`connected`, `isExtensionAccount`]),
-    ...mapGetters({ networkId: `network` }),
+    // hack to avoid computed property in data error
+    ...mapGetters({ networkID: `network` }),
+    // hack for tests
+    networkId() {
+      return this.network.id
+    },
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
       return this.network[action] === true
@@ -436,15 +443,26 @@ export default {
       )
     },
     estimatedFee() {
-      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
+      // hack
+      // terra uses a tax on all send txs
+      if (
+        this.networkId.startsWith(`terra`) &&
+        this.transactionData.type === transactionTypes.SEND
+      ) {
+        // hardcoding terra tax here until we have it in the API
+        const terraTax = 0.008
+        return (
+          Number(this.gasEstimate) * Number(this.gasPrice) +
+          Number(this.amount) * terraTax
+        )
+      }
+      return Number(this.gasPrice) * Number(this.gasEstimate)
     },
     subTotal() {
       return this.featureFlag === "undelegate" ? 0 : this.amount
     },
     invoiceTotal() {
-      return (
-        Number(this.subTotal) + Number(this.gasPrice) * Number(this.gasEstimate)
-      )
+      return Number(this.subTotal) + this.estimatedFee
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -687,7 +705,9 @@ export default {
       const feeProperties = {
         gasEstimate: this.gasEstimate,
         gasPrice: {
-          amount: this.gasPrice,
+          // the cosmos-api lib uses gasEstimate * gasPrice to calculate the fees
+          // here we just reverse this calculation to get the same fees as displayed
+          amount: this.estimatedFee / this.gasEstimate,
           denom: this.getDenom
         },
         submitType: this.selectedSignMethod,
@@ -796,7 +816,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.networkId,
+          networkId: this.networkID,
           address: this.session.address
         }
       },
@@ -821,7 +841,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.networkId,
+          networkId: this.networkID,
           address: this.session.address
         }
       },
@@ -864,7 +884,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.networkId
+          networkId: this.networkID
         }
       },
       /* istanbul ignore next */
@@ -877,7 +897,7 @@ export default {
         /* istanbul ignore next */
         variables() {
           return {
-            networkId: this.networkId,
+            networkId: this.networkID,
             address: this.session.address
           }
         },
