@@ -1,7 +1,17 @@
 <template>
   <li class="balance-row">
     <div class="total">
-      <img class="icon" src="" alt="" />
+      <img
+        v-if="cryptoDenom.substring(1).length > 2"
+        class="currency-flag icon"
+        :src="
+          '/img/icons/currencies/' +
+            cryptoDenom.substring(1).toLowerCase() +
+            '.png'
+        "
+        :alt="`${cryptoDenom.substring(1)}` + ' country flag'"
+      />
+      <img v-else class="icon" src="/img/icons/currencies/lunie.png" alt="" />
       <div class="total-values">
         <div class="crypto">
           <span class="crypto-amount">
@@ -123,7 +133,6 @@ export default {
 .icon {
   width: 1.5rem;
   height: 1.5rem;
-  background: var(--app-fg);
   display: block;
   border-radius: 50%;
 }

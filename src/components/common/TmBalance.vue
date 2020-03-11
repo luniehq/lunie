@@ -43,7 +43,6 @@
             :fiat-denom="balance.fiatValue.denom"
             :fiat-symbol="balance.fiatValue.symbol"
             :fiat-amount="balance.fiatValue.amount"
-            :rewards-amount="calculateTotalRewardsDenom(balance.denom)"
           />
         </ul>
       </span>
@@ -192,9 +191,10 @@ export default {
       }
     },
     filteredMultiDenomBalances() {
-      return this.balances.filter(
+      const balances = this.balances.filter(
         balance => !balance.denom.includes(this.stakingDenom)
       )
+      return balances
     },
     getAllDenoms() {
       if (this.balances.length > 0) {
@@ -234,8 +234,16 @@ export default {
   apollo: {
     overview: {
       query: gql`
-        query overview($networkId: String!, $address: String!) {
-          overview(networkId: $networkId, address: $address) {
+        query overview(
+          $networkId: String!
+          $address: String!
+          $fiatCurrency: String
+        ) {
+          overview(
+            networkId: $networkId
+            address: $address
+            fiatCurrency: $fiatCurrency
+          ) {
             totalRewards
             liquidStake
             totalStake
@@ -260,7 +268,8 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.address
+          address: this.address,
+          fiatCurrency: this.selectedCurrency
         }
       },
       /* istanbul ignore next */

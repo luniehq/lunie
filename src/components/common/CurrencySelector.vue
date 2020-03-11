@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      selectedCurrency: `EUR`,
+      selectedCurrency: `USD`,
       supportedCurrencies: [`EUR`, `USD`, `GBP`, `CHF`, `JPY`]
     }
   },
