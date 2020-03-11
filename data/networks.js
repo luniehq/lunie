@@ -183,7 +183,7 @@ module.exports = [
     action_proposal: false,
     default: false,
     stakingDenom: 'NGM',
-    enabled: true,
+    enabled: false,
     icon: 'https://app.lunie.io/img/networks/emoney-testnet.png',
     slug: 'emoney-testnet'
   }
