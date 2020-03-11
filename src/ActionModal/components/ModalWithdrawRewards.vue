@@ -71,7 +71,11 @@ export default {
         .filter(({ denom }) => denom === this.denom)
         .reduce((sum, { amount }) => sum + Number(amount), 0)
         .toFixed(6)
-      return stakingRewards > 0 ? stakingRewards : this.claimedReward.amount
+      return stakingRewards > 0
+        ? stakingRewards
+        : this.claimedReward
+        ? this.claimedReward.amount
+        : null
     },
     notifyMessage() {
       return {
@@ -107,7 +111,9 @@ export default {
         )
         return stakingDenomBalance
           ? stakingDenomBalance.denom
-          : nonZeroBalances.length > 0 ? nonZeroBalances[0].denom : this.denom
+          : nonZeroBalances.length > 0
+          ? nonZeroBalances[0].denom
+          : this.denom
       } else {
         return this.denom
       }
