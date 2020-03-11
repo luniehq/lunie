@@ -10,17 +10,6 @@
     "
   >
     <td>{{ index + 1 }}</td>
-    <td class="hide-xs">
-      <div class="status-container">
-        <span
-          :class="validator.status | toLower"
-          class="validator-status"
-          :title="validator.statusDetailed"
-        >
-          {{ validator.status }}
-        </span>
-      </div>
-    </td>
     <td class="data-table__row__info">
       <Avatar
         v-if="!validator || !validator.picture || validator.picture === 'null'"
@@ -56,6 +45,17 @@
             >
           </h5>
         </div>
+      </div>
+    </td>
+    <td class="hide-xs">
+      <div class="status-container">
+        <span
+          :class="validator.status | toLower"
+          class="validator-status"
+          :title="validator.statusDetailed"
+        >
+          {{ validator.status }}
+        </span>
       </div>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">

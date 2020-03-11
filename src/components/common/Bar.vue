@@ -32,9 +32,8 @@ export default {
 
 <style scoped>
 .bar {
-  width: 100%;
   padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
+  margin: 0.75rem 0.5rem 0;
   border-radius: 0.5rem;
   font-family: var(--sans);
   background-color: transparent;

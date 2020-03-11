@@ -82,14 +82,14 @@ export default {
     properties() {
       return [
         {
-          title: `Status`,
-          value: `status`,
-          tooltip: `Validation status of the validator`
-        },
-        {
           title: `Name`,
           value: `smallName`,
           tooltip: `The validator's name`
+        },
+        {
+          title: `Status`,
+          value: `status`,
+          tooltip: `Validation status of the validator`
         },
         {
           title: `Rewards`,
@@ -243,12 +243,12 @@ export default {
 }
 
 .data-table >>> th:nth-child(2) {
-  width: 10%;
+  width: 45%;
   color: var(--dim);
   font-size: var(--sm);
 }
 
 .data-table >>> th:nth-child(3) {
-  width: 50%;
+  width: 15%;
 }
 </style>

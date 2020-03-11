@@ -1,27 +1,6 @@
 <template>
   <div class="balance-header">
-    <select v-model="selectedFiatCurrency" @change="setPreferredCurrency()">
-      <option
-        v-if="!preferredCurrency || preferredCurrency === ''"
-        value=""
-        disabled
-        :selected="!preferredCurrency || preferredCurrency === ''"
-        hidden
-        >Select your fiat currency</option
-      >
-      <option
-        v-if="preferredCurrency"
-        value=""
-        :selected="preferredCurrency"
-        hidden
-        >{{ preferredCurrency }}</option
-      >
-      <option value="EUR">EUR</option>
-      <option value="USD">USD</option>
-      <option value="GBP">GBP</option>
-      <option value="JPY">JPY</option>
-      <option value="CHF">CHF</option>
-    </select>
+    <CurrencySelector :visible="stakingDenom === `NGM`" />
     <div
       v-if="$apollo.queries.overview.loading && !overview.totalStake"
       class="loading-image-container"
@@ -29,85 +8,59 @@
 
     <div v-else class="overview">
       <div class="overview-row titles">
-        <h3 class="title cell">Total</h3>
-        <h2 class="title cell">Balance</h2>
+        <h3 class="title cell total">Total</h3>
+        <h2 class="title cell">Rewards</h2>
+        <h2 class="title cell">Available</h2>
+        <h2 class="title cell"></h2>
       </div>
-      <div class="overview-row">
-        <h3 class="cell">
-          <img src="" alt="" />{{ stakingDenom }}
-          <h2 class="cell">
-            {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
-            <span v-if="preferredCurrency">{{
-              preferredCurrency +
-                stakingBalance.fiatValue.symbol +
-                bigFigureOrShortDecimals(stakingBalance.fiatValue.amount)
-            }}</span>
-            <span class="rewards"
-              >+{{
-                overview.totalRewards | bigFigureOrShortDecimals | noBlanks
-              }}</span
-            >
-          </h2>
-        </h3>
-        <h2 class="cell available">
-          {{ overview.liquidStake | bigFigureOrShortDecimals | noBlanks }}
-        </h2>
-      </div>
-      <template v-if="isMultiDenomNetwork">
-        <div
-          v-for="balance in filteredMultiDenomBalances"
-          :key="balance.denom"
-          class="overview-row"
-        >
-          <h3 class="cell">
-            <img
-              class="currency-flag"
-              :src="
-                '/img/icons/currencies/' +
-                  balance.denom.substring(1).toLowerCase() +
-                  '.png'
-              "
-              :alt="`${preferredCurrency}` + ' currency'"
-            />{{ balance.denom }}
-            <h2 class="cell">
-              {{ balance.amount | bigFigureOrShortDecimals }}
-              <span>{{
-                balance.fiatValue.denom +
-                  balance.fiatValue.symbol +
-                  bigFigureOrShortDecimals(balance.fiatValue.amount)
-              }}</span>
-              <span class="rewards">
-                +{{
-                  calculateTotalRewardsDenom(balance.denom)
-                    | bigFigureOrShortDecimals
-                }}</span
-              >
-            </h2>
-          </h3>
-          <h2 class="cell"></h2>
-        </div>
-      </template>
+
+      <ul v-if="overview && !overview.totalStakeFiatValue">
+        <BalanceRow
+          :crypto-amount="overview.totalStake"
+          :crypto-denom="stakingDenom"
+          :rewards-amount="overview.totalRewards"
+          :available-amount="overview.liquidStake"
+        />
+      </ul>
+
+      <ul v-if="overview.totalStakeFiatValue">
+        <BalanceRow
+          :crypto-amount="overview.totalStake"
+          :crypto-denom="stakingDenom"
+          :fiat-denom="overview.totalStakeFiatValue.denom"
+          :fiat-symbol="overview.totalStakeFiatValue.symbol"
+          :fiat-amount="overview.totalStakeFiatValue.amount"
+          :rewards-amount="overview.totalRewards"
+          :available-amount="overview.liquidStake"
+        />
+      </ul>
+
+      <span v-if="filteredMultiDenomBalances">
+        <ul v-for="balance in filteredMultiDenomBalances" :key="balance.denom">
+          <BalanceRow
+            :crypto-amount="balance.amount"
+            :crypto-denom="balance.denom"
+            :fiat-denom="balance.fiatValue.denom"
+            :fiat-symbol="balance.fiatValue.symbol"
+            :fiat-amount="balance.fiatValue.amount"
+            :rewards-amount="calculateTotalRewardsDenom(balance.denom)"
+          />
+        </ul>
+      </span>
+
       <!-- <button
-            v-if="
-              connection.network === 'cosmos-hub-mainnet' ||
-                connection.network === 'cosmos-hub-testnet'
-            "
-            class="tutorial-button"
-            @click="openTutorial()"
-          >
-            <i v-if="false" class="material-icons notranslate">
-              help_outline
-            </i>
-            <span v-else>Need some tokens?</span>
-          </button> -->
-
-      <!-- <div
-          class="row lower-header scroll-item"
-          :class="{ 'single-denom-rewards': !isMultiDenomNetwork }"
-        >
-          <div class="row"></div>
-
-        </div> -->
+        v-if="
+          connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet'
+        "
+        class="tutorial-button"
+        @click="openTutorial()"
+      >
+        <i v-if="false" class="material-icons notranslate">
+          help_outline
+        </i>
+        <span v-else>Need some tokens?</span>
+      </button> -->
     </div>
     <!-- <div class="button-container">
       <TmBtn
@@ -144,6 +97,8 @@
 import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
 // import TmBtn from "common/TmBtn"
+import BalanceRow from "common/BalanceRow"
+import CurrencySelector from "common/CurrencySelector"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
@@ -154,6 +109,8 @@ import { sendEvent } from "scripts/google-analytics"
 export default {
   name: `tm-balance`,
   components: {
+    BalanceRow,
+    CurrencySelector,
     // TmBtn,
     SendModal,
     ModalWithdrawRewards,
@@ -171,8 +128,7 @@ export default {
       balances: [],
       showTutorial: false,
       rewards: [],
-      selectedFiatCurrency: "USD",
-      preferredCurrency: "USD",
+      selectedCurrency: `USD`,
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -220,8 +176,20 @@ export default {
     readyToWithdraw() {
       return this.overview.totalRewards > 0
     },
-    stakingBalance() {
-      return this.balances.find(({ denom }) => denom === this.stakingDenom)
+    stakingValue() {
+      const stakingBalance = this.balances.find(
+        ({ denom }) => denom === this.stakingDenom
+      )
+      if (stakingBalance && stakingBalance.fiatValue) {
+        return (
+          this.selectedCurrency +
+          " " +
+          stakingBalance.fiatValue.symbol +
+          bigFigureOrShortDecimals(stakingBalance.fiatValue.amount)
+        )
+      } else {
+        return ""
+      }
     },
     filteredMultiDenomBalances() {
       return this.balances.filter(
@@ -235,21 +203,7 @@ export default {
       } else {
         return [this.stakingDenom]
       }
-    },
-    isMultiDenomNetwork() {
-      if (this.balances && this.balances.length > 0) {
-        return this.balances.find(
-          balance => balance.denom !== this.stakingDenom
-        )
-          ? true
-          : false
-      } else {
-        return false
-      }
     }
-  },
-  mounted() {
-    this.setPreferredCurrency()
   },
   methods: {
     bigFigureOrShortDecimals,
@@ -275,10 +229,6 @@ export default {
           })
         return rewardsAccumulator
       }
-    },
-    setPreferredCurrency() {
-      localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
-      this.preferredCurrency = this.selectedFiatCurrency
     }
   },
   apollo: {
@@ -289,9 +239,19 @@ export default {
             totalRewards
             liquidStake
             totalStake
+            totalStakeFiatValue {
+              amount
+              denom
+              symbol
+            }
             rewards {
               amount
               denom
+              fiatValue {
+                amount
+                denom
+                symbol
+              }
             }
           }
         }
@@ -382,7 +342,7 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          fiatCurrency: this.selectedFiatCurrency || "EUR"
+          fiatCurrency: this.selectedCurrency
         }
       },
       /* istanbul ignore next */
@@ -442,61 +402,13 @@ export default {
 }
 </script>
 <style scoped>
-select {
-  background: var(--input-bg);
-  color: var(--txt, #333);
-  border: none;
-}
-
-select option {
-  background: var(--app-bg);
-  color: var(--txt);
-  font-family: var(--sans);
-}
-
-.currency-flag {
-  width: 1rem;
-  margin-right: 0.25rem;
-}
-
-.currency-selector {
-  display: flex;
-  align-items: center;
-}
-
-.total-fiat-value {
-  min-width: 2rem;
-  margin-top: 0.25rem;
-}
-
-.fiat-value-box {
-  font-size: 12px;
-  margin-right: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  background-color: var(--bc);
-  color: var(--link);
-  border-radius: 1.25rem;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.fiat-value-box:hover {
-  color: var(--link-hover);
-}
-
-.currency-div {
-  border: 1px solid var(--primary-alpha);
-  padding: 0.25rem;
-  margin-right: 0.5rem;
-  border-radius: 0.25rem;
-}
-
 .balance-header {
   width: 100%;
+  background: var(--app-bg);
 }
 
 .overview {
-  padding: 1rem 0 2rem;
+  padding: 2rem 0;
 }
 
 .overview-row {
@@ -506,6 +418,7 @@ select option {
   max-width: 100%;
   border-bottom: 1px solid var(--bc-dim);
   padding: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .overview-row.titles {
@@ -513,17 +426,17 @@ select option {
 }
 
 .overview-row h3 {
-  width: 20%;
+  width: 30%;
 }
 
 .overview-row h2 {
-  width: 40%;
+  width: 23.3%;
 }
 
 .overview-row img {
   display: inline-block;
   margin-right: 1rem;
-  background: black;
+  background: var(--dim);
   width: 1rem;
   height: 1rem;
   border-radius: 50%;
@@ -542,26 +455,16 @@ select option {
   width: 100%;
   overflow: hidden;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 400;
 }
 
-.cell span {
-  padding-left: 1rem;
-  color: var(--grey);
-}
-
-.cell .rewards {
-  font-size: 12px;
-  padding: 0 1rem;
-  color: var(--success);
+.cell.total {
+  padding-left: 4rem;
 }
 
 .title {
   font-size: 12px;
   color: var(--dim);
-}
-
-.available {
-  color: gold;
 }
 </style>

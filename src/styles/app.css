@@ -14,12 +14,6 @@
   box-sizing: border-box;
 }
 
-html,
-body,
-#app {
-  background: var(--app-bg);
-}
-
 a {
   color: var(--link);
   text-decoration: none;
@@ -102,7 +96,8 @@ input.tm-field {
 
 #bar-container {
   display: block;
-  padding: 0.75rem;
+  padding: 0 1rem;
+  background: var(--app-bg);
 }
 
 .hide {

@@ -117,7 +117,6 @@ export default {
 .tm-page {
   position: relative;
   width: 100%;
-  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -223,7 +222,7 @@ h4 {
 
 @media screen and (min-width: 1024px) {
   .tm-page {
-    margin: 1rem auto;
+    padding: 1rem auto;
   }
 }
 
