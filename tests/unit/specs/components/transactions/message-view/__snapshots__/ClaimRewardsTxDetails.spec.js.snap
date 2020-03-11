@@ -8,13 +8,15 @@ exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] =
     transactiontype="Claimed"
   />
    
+  <h3
+    class="multi-claim-reward-h3"
+  >
+    Claimed
+  </h3>
+   
   <div
     class="tx__content__left"
   >
-    <h3>
-      Claimed
-    </h3>
-     
     <div
       class="multi-claim-reward-row"
     >
@@ -45,7 +47,12 @@ exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] =
   >
     <p
       class="amount"
-    />
+    >
+      
+        10 
+        ATOM
+      
+    </p>
   </div>
    
   <!---->
@@ -60,17 +67,17 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
     transactiontype="Claimed"
   />
    
+  <h3
+    class="multi-claim-reward-h3"
+  >
+    Claimed
+  </h3>
+   
   <!---->
    
   <div
     class="tx__content__left multi-claim-reward-row"
   >
-    <h3
-      class="multi-claim-reward-h3"
-    >
-      Claimed
-    </h3>
-     
     <div
       class="multi-claim-reward-row"
     >
@@ -148,7 +155,12 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
   >
     <p
       class="amount"
-    />
+    >
+      
+        3 
+        ATOM
+      
+    </p>
   </div>
 </div>
 `;

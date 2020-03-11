@@ -197,6 +197,31 @@ export default {
           ]
         }
         return this.loadedTransactions
+      },
+      subscribeToMore: {
+        document: gql`
+          subscription($networkId: String!, $address: String!) {
+            userTransactionAddedV2(networkId: $networkId, address: $address) {
+              ${txFields}
+            }
+          }
+        `,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          if (previousResult && subscriptionData.data.userTransactionAdded) {
+            return {
+              transactions: [
+                subscriptionData.data.userTransactionAdded,
+                ...previousResult
+              ]
+            }
+          }
+        },
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.address
+          }
+        }
       }
     },
     validators: {

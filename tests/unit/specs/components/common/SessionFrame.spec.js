@@ -4,11 +4,17 @@ import SessionFrame from "common/SessionFrame"
 describe(`SessionFrame`, () => {
   let wrapper
 
+  const getters = {
+    networkSlug: "cosmos-hub"
+  }
+
   beforeEach(() => {
     wrapper = shallowMount(SessionFrame, {
       mocks: {
+        $store: { getters },
         $router: {
-          go: jest.fn()
+          go: jest.fn(),
+          push: jest.fn()
         }
       },
       stubs: [`router-link`]
@@ -22,5 +28,15 @@ describe(`SessionFrame`, () => {
   it(`should go back to Welcome when back arrow is clicked`, () => {
     wrapper.vm.goBack()
     expect(wrapper.vm.$router.go).toHaveBeenCalledWith(`-1`)
+  })
+
+  it(`should go back to portfolio of the current network`, () => {
+    wrapper.vm.goToPortfolio()
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
+      name: "portfolio",
+      params: {
+        networkId: `cosmos-hub`
+      }
+    })
   })
 })

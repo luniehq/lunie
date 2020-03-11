@@ -18,7 +18,7 @@ describe(`UnstakeTxDetails`, () => {
       }
     ],
     details: {
-      from: ["cosmosvaloper123"],
+      from: ["cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"],
       amount: {
         denom: "ATOM",
         amount: "10"

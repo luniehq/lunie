@@ -15,7 +15,11 @@ export default () => {
     },
     actions: {
       displayMessenger({ state }) {
-        if (state.mobileApp) state.intercom.displayMessenger()
+        if (state.mobileApp) {
+          // we have to register users otherwise intercom will not open
+          state.intercom.registerUnidentifiedUser()
+          state.intercom.displayMessenger()
+        }
       }
     }
   }

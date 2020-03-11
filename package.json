@@ -1,10 +1,11 @@
 {
   "name": "lunie",
-  "version": "1.0.168",
+  "version": "1.0.172",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
     "build": "node tasks/create-version-file.js && vue-cli-service build --skip-plugins pwa",
+    "buildsentry": "node tasks/create-version-file.js && vue-cli-service build --skip-plugins pwa && ./tasks/sentry.sh",
     "build:mobile": "cross-env MOBILE_APP=true npm run build",
     "changelog": "simsala log --pending-path ./changes",
     "lint": "vue-cli-service lint",
@@ -30,6 +31,8 @@
     "@dicebear/avatars-jdenticon-sprites": "1.1.4",
     "@lunie/cosmos-keys": "0.2.0",
     "@lunie/cosmos-ledger": "0.1.7",
+    "@polkadot/keyring": "2.5.1",
+    "@polkadot/util-crypto": "2.5.1",
     "@sentry/browser": "5.7.1",
     "@sentry/integrations": "5.7.1",
     "apollo-boost": "^0.4.3",

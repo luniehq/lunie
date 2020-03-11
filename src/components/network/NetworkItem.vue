@@ -14,6 +14,11 @@
         {{ networkitem.chain_id }}
       </p>
     </div>
+    <PoweredBy
+      :network="networkitem"
+      :is-current-network="isCurrentNetwork"
+      hide-on-mobile
+    />
     <div class="network-status">
       <img
         v-if="!connected && network === networkitem.id"
@@ -27,15 +32,20 @@
       >
         <i class="material-icons notranslate">check</i>
       </div>
+      <div v-else style="display: block; width: 24px;"></div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
+import PoweredBy from "network/PoweredBy"
 
 export default {
   name: `network-item`,
+  components: {
+    PoweredBy
+  },
   props: {
     networkitem: {
       type: Object,
@@ -47,7 +57,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`connected`, `network`])
+    ...mapGetters([`connected`, `network`]),
+    isCurrentNetwork() {
+      return this.networkitem.id === this.network
+    }
   }
 }
 </script>

@@ -1,0 +1,1 @@
+[Changed] [#3661](https://github.com/cosmos/lunie/pull/3661) Now amounts are displayed in the TransactionItem component for all ClaimRewards transactions @Bitcoinera

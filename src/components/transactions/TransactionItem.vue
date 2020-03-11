@@ -26,7 +26,6 @@
 import { messageType } from "./messageTypes.js"
 import TransactionMetadata from "./TransactionMetadata"
 import config from "src/../config"
-import Bech32 from "common/Bech32"
 
 import {
   SendTxDetails,
@@ -44,7 +43,6 @@ export default {
   name: `tx-item`,
   components: {
     TransactionMetadata,
-    Bech32,
     SendTxDetails,
     StakeTxDetails,
     RestakeTxDetails,

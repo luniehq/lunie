@@ -24,6 +24,9 @@ describe(`SessionExtension`, () => {
     }
 
     $store = {
+      getters: {
+        networkSlug: "cosmos-hub"
+      },
       commit: jest.fn(),
       dispatch: jest.fn(),
       state
@@ -54,7 +57,10 @@ describe(`SessionExtension`, () => {
       address: "cosmos1"
     })
 
-    expect($router.push).toHaveBeenCalledWith("/cosmos-hub/portfolio")
+    expect($router.push).toHaveBeenCalledWith({
+      name: "portfolio",
+      params: { networkId: "cosmos-hub" }
+    })
     expect($store.dispatch).toHaveBeenCalledWith("signIn", {
       sessionType: `extension`,
       address: "cosmos1",

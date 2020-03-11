@@ -13,7 +13,7 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
       </div>
       <p class="proposer">
         Proposed by Big Daddy Validator:
-        <bech32-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></bech32-stub>
+        <address-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></address-stub>
       </p>
     </div>
     <div class="button-container">
@@ -94,7 +94,7 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
       </div>
       <p class="proposer">
         Proposed by Big Daddy Validator:
-        <bech32-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></bech32-stub>
+        <address-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></address-stub>
       </p>
     </div>
     <div class="button-container">
@@ -213,7 +213,7 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
         
             Proposed by Big Daddy Validator:
             
-        <bech32-stub
+        <address-stub
           address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
         />
       </p>
