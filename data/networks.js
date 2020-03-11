@@ -219,7 +219,7 @@ module.exports = [
     action_proposal: false,
     default: false,
     stakingDenom: 'KSM',
-    enabled: true,
+    enabled: false,
     icon: 'https://app.lunie.io/img/networks/polkadot-testnet.png',
     slug: 'kusama'
   }
