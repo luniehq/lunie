@@ -1,1 +1,0 @@
-[Fixed] [#3665](https://github.com/cosmos/lunie/pull/3665) Handles checks in TmBalance when balances are not yet loaded @Bitcoinera
