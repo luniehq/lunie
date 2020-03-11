@@ -314,9 +314,7 @@ export default {
         const allTotalRewards = uniqRewardsDenoms.map(denom =>
           this.calculateTotalRewardsDenom(denom)
         )
-        return allTotalRewards.length > 0
-          ? allTotalRewards.find(reward => parseFloat(reward) > 0.001)
-          : null
+        return allTotalRewards.find(reward => parseFloat(reward) > 0.001)
       } else {
         return null
       }
