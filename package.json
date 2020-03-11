@@ -13,6 +13,7 @@
     "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
     "lint": "eslint index.js config.js lib tests",
     "lint-fix": "yarn lint --fix",
+    "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git merge origin/master && git push -u origin develop && git push origin develop:release",
     "start": "node index.js ",
     "test": "jest"
   },
@@ -25,7 +26,7 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^16.1.8",
-    "@polkadot/api": "^1.4.2",
+    "@polkadot/api": "^1.5.1",
     "@polkadot/util": "^2.6.1",
     "@sentry/node": "^5.9.0",
     "apollo-datasource-rest": "^0.6.6",
