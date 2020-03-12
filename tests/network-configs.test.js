@@ -1,6 +1,12 @@
 const Joi = require('@hapi/joi')
 const { allNetworks } = require('../lib/networks')
 
+const coinLookup = Joi.object().keys({
+  chainDenom: Joi.string(),
+  viewDenom: Joi.string(),
+  chainToViewConversionFactor: Joi.number()
+})
+
 const schema = Joi.object({
   id: Joi.string().lowercase(),
   title: Joi.string(),
@@ -32,6 +38,9 @@ const schema = Joi.object({
   action_proposal: Joi.boolean(),
   default: Joi.boolean(),
   stakingDenom: Joi.string().uppercase(),
+  coinLookup: Joi.array()
+    .items(coinLookup)
+    .optional(),
   enabled: Joi.boolean(),
   experimental: Joi.boolean().optional(),
   icon: Joi.string().optional(),

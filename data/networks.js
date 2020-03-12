@@ -219,6 +219,14 @@ module.exports = [
     action_proposal: false,
     default: false,
     stakingDenom: 'KSM',
+    // https://wiki.polkadot.network/docs/en/learn-DOT
+    coinLookup: [
+      {
+        chainDenom: 'Planck',
+        viewDenom: 'KSM',
+        chainToViewConversionFactor: 1e-12
+      }
+    ],
     enabled: false,
     icon: 'https://app.lunie.io/img/networks/polkadot-testnet.png',
     slug: 'kusama'
