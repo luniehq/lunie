@@ -36,7 +36,7 @@ export default {
     sortedNetworks: []
   }),
   computed: {
-    ...mapState([`connection`]),
+    ...mapState([`connection`, `session`]),
     ...mapGetters({ networkId: `network` }),
     whichFlow() {
       if (this.$route.params.recover) {
@@ -82,8 +82,8 @@ export default {
   apollo: {
     networks: {
       query: gql`
-        query Networks {
-          networks {
+        query Network($experimental: Boolean) {
+          networks(experimental: $experimental) {
             id
             chain_id
             title
@@ -98,6 +98,11 @@ export default {
         // updating sortedNetworks
         this.updateSelectedNetwork(data.networks)
         return data.networks
+      },
+      variables() {
+        return {
+          experimental: this.session.experimentalMode
+        }
       }
     }
   }

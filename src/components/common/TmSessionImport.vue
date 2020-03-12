@@ -23,7 +23,7 @@
             type="required"
           />
           <TmFormMsg
-            v-else-if="$v.seed.$error && !$v.seed.words24"
+            v-else-if="$v.seed.$error && !$v.seed.validSeed"
             name="Seed"
             type="words24"
           />
@@ -49,6 +49,11 @@ import Steps from "../../ActionModal/components/Steps"
 
 const words24 = param => {
   return param && param.split(` `).length === 24
+}
+
+const polkadotRawSeed = param => {
+  const polkadotRawSeedRegExp = /0x[a-z0-9]{64}/
+  return polkadotRawSeedRegExp.test(param)
 }
 
 export default {
@@ -81,7 +86,10 @@ export default {
     }
   },
   validations: () => ({
-    seed: { required, words24 }
+    seed: {
+      required,
+      validSeed: param => words24(param) || polkadotRawSeed(param)
+    }
   })
 }
 </script>
