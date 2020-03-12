@@ -211,7 +211,7 @@ export default {
         return {
           transactions: [
             subscriptionData.data.userTransactionAdded,
-            ...previousResult.transactions
+            ...previousResult
           ]
         }
       },

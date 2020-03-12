@@ -187,6 +187,65 @@ describe(`PageTransactions`, () => {
     wrapper.vm.loadMore()
   })
 
+  it("transaction added on subscription trigger", () => {
+    const self = {
+      transactions: []
+    }
+    let result = PageTransactions.apollo.subscribeToMore.updateQuery.call(
+      self,
+      [],
+      {
+        subscriptionData: {
+          data: {
+            userTransactionAdded: {
+              type: "cosmos-sdk/MsgUndelegate",
+              value: {
+                delegator_address: "cosmos2",
+                validator_address: "cosmos4de",
+                amount: { denom: "uatom", amount: "10000" }
+              },
+              key:
+                'cosmos-sdk/MsgUndelegate_2019-07-31T09:22:23.054Z_{"delegator_address":"cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e","validator_address":"cosmos1a","amount":{"denom":"uatom","amount":"50000"}}',
+              height: 1248479,
+              timestamp: "2019-07-31T09:22:23.054Z",
+              memo: "",
+              fee: { amount: "4141", denom: "ATOM" },
+              group: "staking"
+            }
+          }
+        }
+      }
+    )
+
+    expect(result.transactions.length).toBeGreaterThan(0)
+  })
+
+  it("transactions updated on subscription trigger", () => {
+    const self = {
+      loadedTransactions: []
+    }
+    let result = PageTransactions.apollo.subscribeToMore.update.call(self, {
+      transactions: [{
+          type: "cosmos-sdk/MsgUndelegate",
+          value: JSON.stringify({
+            delegator_address: "cosmos2",
+            validator_address: "cosmos4de",
+            amount: { denom: "uatom", amount: "10000" }
+          }),
+          key:
+            'cosmos-sdk/MsgUndelegate_2019-07-31T09:22:23.054Z_{"delegator_address":"cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e","validator_address":"cosmos1a","amount":{"denom":"uatom","amount":"50000"}}',
+          height: 1248479,
+          timestamp: "2019-07-31T09:22:23.054Z",
+          memo: "",
+          fee: { amount: "4141", denom: "ATOM" },
+          group: "staking"
+        }
+      ]
+    })
+
+    expect(result.length).toBeGreaterThan(0)
+  })
+
   it(`should load more transactions on loadMore action`, async () => {
     wrapper = shallowMount(PageTransactions, {
       localVue,
