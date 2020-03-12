@@ -13,82 +13,93 @@
       <div class="values-container">
         <div>
           <div class="upper-header">
-            <div class="total-atoms">
+            <!-- <div class="total-atoms">
               <h3>Total {{ stakingDenom }}</h3>
               <h2 class="total-atoms__value">
                 {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
               </h2>
-            </div>
-            <div
-              v-if="
-                isMultiDenomNetwork &&
-                  stakingBalance &&
-                  stakingBalance.fiatValue
-              "
-              class="currency-selector"
-            >
-              <img
-                v-if="preferredCurrency"
-                class="currency-flag"
-                :src="
-                  '/img/icons/currencies/' +
-                    preferredCurrency.toLowerCase() +
-                    '.png'
+            </div> -->
+            <div class="button-container">
+              <div>
+                <TmBtn
+                  class="send-button"
+                  value="Send"
+                  type="secondary"
+                  @click.native="onSend()"
+                />
+                <TmBtn
+                  id="withdraw-btn"
+                  :disabled="!readyToWithdraw"
+                  class="withdraw-rewards"
+                  value="Claim Rewards"
+                  @click.native="readyToWithdraw && onWithdrawal()"
+                />
+              </div>
+              <div
+                v-if="
+                  isMultiDenomNetwork &&
+                    stakingBalance &&
+                    stakingBalance.fiatValue
                 "
-                :alt="`${preferredCurrency}` + ' currency'"
-              />
-              <img
-                v-else
-                class="currency-flag"
-                src="/img/icons/currencies/EUR.png"
-                alt="EUR currency"
-              />
-              <select
-                v-model="selectedFiatCurrency"
-                @change="setPreferredCurrency()"
+                class="currency-selector"
               >
-                <option
-                  v-if="!preferredCurrency || preferredCurrency === ''"
-                  value=""
-                  disabled
-                  :selected="!preferredCurrency || preferredCurrency === ''"
-                  hidden
-                  >Select your fiat currency</option
-                >
-                <option
+                <img
                   v-if="preferredCurrency"
-                  value=""
-                  :selected="preferredCurrency"
-                  hidden
-                  >{{ preferredCurrency }}</option
+                  class="currency-flag"
+                  :src="
+                    '/img/icons/currencies/' +
+                      preferredCurrency.toLowerCase() +
+                      '.png'
+                  "
+                  :alt="`${preferredCurrency}` + ' currency'"
+                />
+                <select
+                  v-model="selectedFiatCurrency"
+                  @change="setPreferredCurrency()"
                 >
-                <option value="EUR">EUR</option>
-                <option value="USD">USD</option>
-                <option value="GBP">GBP</option>
-                <option value="JPY">JPY</option>
-                <option value="CHF">CHF</option>
-              </select>
+                  <option
+                    v-if="!preferredCurrency || preferredCurrency === ''"
+                    value=""
+                    disabled
+                    :selected="!preferredCurrency || preferredCurrency === ''"
+                    hidden
+                    >Select your fiat currency</option
+                  >
+                  <option
+                    v-if="preferredCurrency"
+                    value=""
+                    :selected="preferredCurrency"
+                    hidden
+                    >{{ preferredCurrency }}</option
+                  >
+                  <option value="EUR">EUR</option>
+                  <option value="USD">USD</option>
+                  <option value="GBP">GBP</option>
+                  <option value="JPY">JPY</option>
+                  <option value="CHF">CHF</option>
+                </select>
+              </div>
+              <button
+                v-if="
+                  connection.network === 'cosmos-hub-mainnet' ||
+                    connection.network === 'cosmos-hub-testnet'
+                "
+                class="tutorial-button"
+                @click="openTutorial()"
+              >
+                <i v-if="false" class="material-icons notranslate">
+                  help_outline
+                </i>
+                <span v-else>Need some tokens?</span>
+              </button>
             </div>
-            <button
-              v-if="
-                connection.network === 'cosmos-hub-mainnet' ||
-                  connection.network === 'cosmos-hub-testnet'
-              "
-              class="tutorial-button"
-              @click="openTutorial()"
-            >
-              <i v-if="false" class="material-icons notranslate">
-                help_outline
-              </i>
-              <span v-else>Need some tokens?</span>
-            </button>
           </div>
           <div class="scroll">
             <div
               class="row lower-header scroll-item"
               :class="{ 'single-denom-rewards': !isMultiDenomNetwork }"
             >
-              <div class="row">
+              <!-- <div class="row">
                 <div
                   v-if="overview.totalStake > 0"
                   class="available-atoms currency-div"
@@ -151,31 +162,29 @@
                     }}
                   </h2>
                 </div>
-              </div>
+              </div> -->
 
               <div v-if="isMultiDenomNetwork" class="row values-container">
                 <div
-                  v-for="balance in filteredMultiDenomBalances"
+                  v-for="balance in balances"
                   :key="balance.denom"
                   class="currency-div"
                 >
                   <div class="available-atoms">
                     <h3>
                       {{ balance.denom }}
-                    </h3>
-                    <h2>
                       {{ balance.amount | bigFigureOrShortDecimals }}
-                    </h2>
-                  </div>
-                  <div class="rewards multi-denom">
-                    <h2
-                      v-if="calculateTotalRewardsDenom(balance.denom) > 0.001"
-                    >
-                      +{{
-                        calculateTotalRewardsDenom(balance.denom)
-                          | bigFigureOrShortDecimals
-                      }}
-                    </h2>
+                    </h3>
+                    <div class="rewards multi-denom">
+                      <h2
+                        v-if="calculateTotalRewardsDenom(balance.denom) > 0.001"
+                      >
+                        +{{
+                          calculateTotalRewardsDenom(balance.denom)
+                            | bigFigureOrShortDecimals
+                        }}
+                      </h2>
+                    </div>
                   </div>
                   <div
                     v-if="
@@ -198,21 +207,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="button-container">
-        <TmBtn
-          class="send-button"
-          value="Send"
-          type="secondary"
-          @click.native="onSend()"
-        />
-        <TmBtn
-          id="withdraw-btn"
-          :disabled="!readyToWithdraw"
-          class="withdraw-rewards"
-          value="Claim Rewards"
-          @click.native="readyToWithdraw && onWithdrawal()"
-        />
       </div>
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
@@ -572,13 +566,16 @@ select option {
 }
 
 .fiat-value-box {
-  font-size: 12px;
-  color: var(--dim);
-  border-radius: 1.25rem;
+  color: var(--txt);
 }
 
 .currency-div {
-  margin-right: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--bc-dim);
 }
 
 .balance-header {
@@ -588,70 +585,55 @@ select option {
 }
 
 .values-container {
-  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .values-container h2 {
-  font-size: 24px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 24px;
   color: var(--bright);
 }
 
 .values-container h3 {
-  font-size: var(--sm);
   font-weight: 400;
   white-space: nowrap;
 }
 
-.total-atoms,
-.available-atoms,
 .rewards {
-  padding-right: 2.5rem;
+  padding-left: 1rem;
+}
+
+.available-atoms {
+  display: flex;
+}
+
+.available-atoms h3 {
+  color: var(--bright);
 }
 
 p.rewards {
   color: var(--success);
-  font-size: var(--s);
 }
 
 .rewards h2 {
   color: var(--success);
-  font-size: var(--m);
-}
-
-.rewards.multi-denom h2 {
-  font-size: 12px;
-}
-
-.available-atoms h2 {
-  font-size: var(--m);
-  line-height: 20px;
-}
-
-.upper-header {
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .lower-header {
   padding: 2rem;
   align-items: normal;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
 .button-container {
   display: flex;
   align-items: center;
-  padding: 0.5rem 2rem;
+  justify-content: space-between;
+  padding: 0 2rem;
   width: 100%;
-  border-bottom: 1px solid var(--bc-dim);
-  border-top: 1px solid var(--bc-dim);
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  /* border-bottom: 1px solid var(--bc-dim); */
+  /* border-top: 1px solid var(--bc-dim); */
 }
 
 .button-container button:first-child {
@@ -660,7 +642,7 @@ p.rewards {
 
 .row {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .row div {
@@ -710,7 +692,7 @@ p.rewards {
 
   .values-container .total-atoms__value {
     font-size: 28px;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 32px;
   }
 
