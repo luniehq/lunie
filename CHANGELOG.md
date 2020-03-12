@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.174] - 2020-03-12
+
+### Added
+
+- Add message creation on terra mainnet @faboweb
+
+### Changed
+
+- default to USD for fiat selection, changed styles of fiat display @jbibla
+- disabled network list item interactivity @jbibla
+
+### Fixed
+
+- fix creating new account record on sign-in with extension @iambeone
+- [#3680](https://github.com/cosmos/lunie/pull/3680) Fixes amount of undefined in totalRewards in ModalWithdrawRewards @Bitcoinera
+
+### Repository
+
+- ignore build warnings @iambeone
+
 ## [1.0.173] - 2020-03-11
 
 ### Changed
