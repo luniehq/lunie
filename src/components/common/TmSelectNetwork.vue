@@ -20,7 +20,6 @@
 
 <script>
 import { mapState } from "vuex"
-import gql from "graphql-tag"
 import NetworkItem from "../network/NetworkItem"
 import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
