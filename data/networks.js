@@ -227,7 +227,7 @@ module.exports = [
         chainToViewConversionFactor: 1e-12
       }
     ],
-    enabled: true,
+    enabled: false,
     icon: 'https://app.lunie.io/img/networks/polkadot-testnet.png',
     slug: 'kusama'
   }
