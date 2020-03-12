@@ -580,7 +580,6 @@ export default {
       const queue = await this.actionManager.getSignQueue(
         this.selectedSignMethod
       )
-      console.log(queue)
       if (queue) {
         this.queueEmpty = false
       }
