@@ -558,6 +558,17 @@ select option {
 .currency-selector {
   display: flex;
   align-items: center;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
+  padding: 8px 16px;
+  width: auto;
+  color: var(--bright);
+  border-radius: 0.5rem;
+  border: 2px solid var(--primary);
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  white-space: nowrap;
 }
 
 .total-fiat-value {
@@ -643,6 +654,10 @@ p.rewards {
 .row {
   display: flex;
   flex-direction: column;
+}
+
+.row.values-container {
+  flex-direction: column-reverse;
 }
 
 .row div {
