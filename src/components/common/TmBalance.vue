@@ -166,15 +166,37 @@
 
               <div v-if="isMultiDenomNetwork" class="row values-container">
                 <div
-                  v-for="balance in balances"
+                  v-for="(balance, index) in balances"
                   :key="balance.denom"
                   class="currency-div"
                 >
                   <div class="available-atoms">
-                    <h3>
-                      {{ balance.denom }}
-                      {{ balance.amount | bigFigureOrShortDecimals }}
-                    </h3>
+                    <div>
+                      <h3>
+                        {{ balance.denom }}
+                        <span
+                          v-if="overview.rewards[index].denom === stakingDenom"
+                          >{{
+                            overview.totalStake
+                              | bigFigureOrShortDecimals
+                              | noBlanks
+                          }}
+                        </span>
+                        <span
+                          v-if="overview.rewards[index].denom !== stakingDenom"
+                          >{{ balance.amount | bigFigureOrShortDecimals }}</span
+                        >
+                      </h3>
+                      <div
+                        class="available-container"
+                        v-if="overview.rewards[index].denom === stakingDenom"
+                      >
+                        Available
+                        <span class="available">{{
+                          balance.amount | bigFigureOrShortDecimals
+                        }}</span>
+                      </div>
+                    </div>
                     <div class="rewards multi-denom">
                       <h2
                         v-if="calculateTotalRewardsDenom(balance.denom) > 0.001"
@@ -615,8 +637,18 @@ select option {
   padding-left: 1rem;
 }
 
+.available-container {
+  font-size: 12px;
+  padding: 0.25rem 0.5rem 0;
+}
+
 .available-atoms {
   display: flex;
+}
+
+.available {
+  color: gold;
+  padding-left: 1rem;
 }
 
 .available-atoms h3 {
