@@ -1,5 +1,5 @@
 <template>
-  <div class="network-item" :class="{ active: network === networkitem.id }">
+  <div class="network-item" :class="{ disabled: disabled }">
     <div class="network-icon">
       <img
         :src="`${networkitem.icon}`"
@@ -27,12 +27,11 @@
         alt="a small spinning circle to display loading"
       />
       <div
-        v-else-if="connected && network === networkitem.id"
+        v-else-if="!disabled && connected && network === networkitem.id"
         class="network-selected"
       >
         <i class="material-icons notranslate">check</i>
       </div>
-      <div v-else style="display: block; width: 24px;"></div>
     </div>
   </div>
 </template>
@@ -51,7 +50,7 @@ export default {
       type: Object,
       required: true
     },
-    enabled: {
+    disabled: {
       type: Boolean,
       default: false
     }
@@ -83,6 +82,11 @@ export default {
   cursor: pointer;
   background: var(--hover-bg);
   color: var(--bright);
+}
+
+.network-item.disabled:hover {
+  cursor: default;
+  background: var(--app-fg);
 }
 
 .network-item b {
