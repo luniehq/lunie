@@ -397,6 +397,10 @@ export default {
     selectedDenom: {
       type: String,
       default: ``
+    },
+    isMaxAmount: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
@@ -451,10 +455,10 @@ export default {
       ) {
         // hardcoding terra tax here until we have it in the API
         const terraTax = 0.008
-        return (
-          Number(this.gasEstimate) * Number(this.gasPrice) +
-          Number(this.amount) * terraTax
-        )
+        const terraExtraFees = this.isMaxAmount
+          ? 0
+          : Number(this.amount) * terraTax
+        return Number(this.gasEstimate) * Number(this.gasPrice) + terraExtraFees
       }
       return Number(this.gasPrice) * Number(this.gasEstimate)
     },

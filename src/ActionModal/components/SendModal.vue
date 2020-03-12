@@ -9,6 +9,7 @@
     :transaction-data="transactionData"
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"
+    :is-max-amount="isMaxAmount()"
     feature-flag="send"
     @close="clear"
     @txIncluded="onSuccess"
