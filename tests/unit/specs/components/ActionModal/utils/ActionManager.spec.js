@@ -72,6 +72,7 @@ describe("ActionManager", () => {
   const defaultContext = {
     chainId: "cosmos",
     networkId: "cosmos-hub-testnet",
+    networkType: "cosmos",
     connected: true,
     userAddress: "cosmos12345",
     rewards: [

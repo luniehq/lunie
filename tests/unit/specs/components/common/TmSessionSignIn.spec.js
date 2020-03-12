@@ -33,6 +33,9 @@ describe(`TmSessionSignIn`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
+      getters: {
+        networkSlug: "cosmos-hub"
+      },
       state: {
         keys: [
           {
@@ -102,7 +105,10 @@ describe(`TmSessionSignIn`, () => {
     })
     wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
+      name: "portfolio",
+      params: { networkId: "cosmos-hub" }
+    })
   })
 
   it(`should signal signedin state on successful login`, async () => {

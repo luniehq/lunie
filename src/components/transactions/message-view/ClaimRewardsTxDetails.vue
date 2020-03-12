@@ -1,9 +1,9 @@
 <template>
   <div class="tx__content">
     <TransactionIcon :transaction-type="type" />
+    <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
     <template v-if="getValidators && getValidators.length === 1">
       <div class="tx__content__left">
-        <h3>{{ caption }}</h3>
         <div class="multi-claim-reward-row">
           <span>Rewards from</span>
           <router-link
@@ -29,7 +29,10 @@
         </div>
       </div>
       <div class="tx__content__right">
-        <p class="amount"></p>
+        <p class="amount">
+          {{ transaction.details.amount.amount | prettyLong }}&nbsp;
+          {{ transaction.details.amount.denom }}
+        </p>
       </div>
     </template>
     <template
@@ -37,7 +40,6 @@
       class="validators-images-row"
     >
       <div class="tx__content__left multi-claim-reward-row">
-        <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
         <div class="multi-claim-reward-row" :class="{ validatorsToggle: show }">
           <div
             v-for="(validator, index) in getValidators"
@@ -83,7 +85,10 @@
         </div>
       </div>
       <div class="tx__content__right">
-        <p class="amount"></p>
+        <p class="amount">
+          {{ transaction.details.amount.amount | prettyLong }}&nbsp;
+          {{ transaction.details.amount.denom }}
+        </p>
       </div>
     </template>
   </div>
@@ -127,9 +132,13 @@ export default {
   },
   computed: {
     getValidators() {
-      return this.transaction.details.from.map(validatorAddress => {
-        return this.validators[validatorAddress] || {}
-      })
+      if (this.validators && Object.keys(this.validators).length > 0) {
+        return this.transaction.details.from.map(validatorAddress => {
+          return this.validators[validatorAddress] || {}
+        })
+      } else {
+        return []
+      }
     }
   }
 }

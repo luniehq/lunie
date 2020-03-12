@@ -18,8 +18,8 @@ describe(`RestakeTxDetails`, () => {
       }
     ],
     details: {
-      from: ["cosmosvaloper123"],
-      to: ["cosmosvaloper456"],
+      from: ["cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"],
+      to: ["cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"],
       amount: {
         denom: "ATOM",
         amount: "10"

@@ -7,6 +7,67 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.173] - 2020-03-11
+
+### Changed
+
+- [#3649](https://github.com/cosmos/lunie/pull/3649) Now the memo field is always displayed on SendModal @Bitcoinera
+- [#3664](https://github.com/cosmos/lunie/pull/3664) Now to pay fees in Claim Rewards, if there is no staking denom balance available, fees will be paid in the first token with positive balance @Bitcoinera
+- [#3663](https://github.com/cosmos/lunie/pull/3663) Now it is possible to claim rewards from any token despite not having any staking denom reward @Bitcoinera
+- [#3661](https://github.com/cosmos/lunie/pull/3661) Now amounts are displayed in the TransactionItem component for all ClaimRewards transactions @Bitcoinera
+- [#3658](https://github.com/cosmos/lunie/pull/3658) Filters all "Unknown" transactions in PageBlock @Bitcoinera
+- [#3657](https://github.com/cosmos/lunie/pull/3657) For Terra networks it changes the fee for an action according to the amount of tokens being handled. Fix in ActionModal @Bitcoinera
+
+### Fixed
+
+- [#3650](https://github.com/cosmos/lunie/pull/3650) Fixes the Back to Lunie button @Bitcoinera
+- [#3665](https://github.com/cosmos/lunie/pull/3665) Handles checks in TmBalance when balances are not yet loaded @Bitcoinera
+- [#3653](https://github.com/cosmos/lunie/pull/3653) Fixes the PoweredBy component inside the NetworkItem @Bitcoinera
+- [#3669](https://github.com/cosmos/lunie/pull/3669) Fix concat property of undefined in ClaimRewardsTxDetails as it now wait for getValidators array to be filled @Bitcoinera
+- [#3659](https://github.com/cosmos/lunie/pull/3659) Fix signin routing with Ledger @Bitcoinera
+- [#3656](https://github.com/cosmos/lunie/pull/3656) Fixes Terra microdenoms in the toMicroDenom function @Bitcoinera
+- [#3651](https://github.com/cosmos/lunie/pull/3651) Fixes all the signins and signup routing @Bitcoinera
+- [##3666](https://github.com/cosmos/lunie/issues/#3666) fixed css bug width set to 1023px @jrmoreau
+
+### Repository
+
+- sending sourcemaps to sentry @iambeone
+- netlify config for production build @iambeone
+
+## [1.0.172] - 2020-03-05
+
+### Added
+
+- [#3626](https://github.com/cosmos/lunie/pull/3626) Adds the "Powered by" span to both NetworkItem and TmConnectedNetwork promoting our node provider @Bitcoinera
+- Added address creation for Polkadot @faboweb
+- Query for experimental networks @faboweb
+- Added back the fingerprint header @faboweb
+
+### Changed
+
+- [#3640](https://github.com/cosmos/lunie/pull/3640) Checks if the staking denom has a fiat value and in only in that case displays the currency selector. Good for Terra. @Bitcoinera
+- [#3639](https://github.com/cosmos/lunie/pull/3639) Adds more networks to Coming Soon. Style and logic improvements: now these networks are disabled @Bitcoinera
+
+### Fixed
+
+- [#3638](https://github.com/cosmos/lunie/pull/3638) Checks if fiatValue is null in TmBalance before checking other conditions @Bitcoinera
+- Show subtotal correctly instead of using amount @faboweb
+- Fixed extension sign in deeplinking sometimes not working @faboweb
+- Added other Terra tokens to microdenom lookup @faboweb
+- [#3489](https://github.com/cosmos/lunie/issues/3489) now we register users for the intercom messenger before the messenger is opened to ensure the messenger doesn't fail @jbibla
+
+### Code Improvements
+
+- add back subscribeToMore function to transaction page @iambeone
+- Refactored address component to support Polkadot @faboweb
+- Use proper bech32 addresses in tests @faboweb
+- Remove old tx submit logic code @faboweb
+- Select signing methods per network type @faboweb
+
+### Repository
+
+- Fix publish.sh not working due to bad syntax @iambeone
+
 ## [1.0.171] - 2020-03-02
 
 ### Added

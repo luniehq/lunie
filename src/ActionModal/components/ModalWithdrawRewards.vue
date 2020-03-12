@@ -4,6 +4,7 @@
     ref="actionModal"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    :selected-denom="feeDenom"
     title="Claim Rewards"
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
@@ -20,7 +21,9 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom }}</span>
+      <span v-if="claimedReward" class="input-suffix">{{
+        claimedReward.denom
+      }}</span>
       <TmField
         id="amount"
         v-model="totalRewards"
@@ -53,7 +56,8 @@ export default {
     fullDecimals
   },
   data: () => ({
-    rewards: []
+    rewards: [],
+    balances: []
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -63,10 +67,15 @@ export default {
       }
     },
     totalRewards() {
-      return this.rewards
+      const stakingRewards = this.rewards
         .filter(({ denom }) => denom === this.denom)
         .reduce((sum, { amount }) => sum + Number(amount), 0)
         .toFixed(6)
+      return stakingRewards > 0
+        ? stakingRewards
+        : this.claimedReward
+        ? this.claimedReward.amount
+        : null
     },
     notifyMessage() {
       return {
@@ -76,6 +85,38 @@ export default {
     },
     validatorsWithRewards() {
       return this.rewards.length > 0
+    },
+    claimedReward() {
+      if (this.denom && this.rewards && this.rewards.length > 0) {
+        // we return the staking denom reward if it has any. Otherwise, we return the first reward from the other tokens
+        const rewardsGreaterThanZero = this.rewards.filter(
+          reward => reward.amount > 0
+        )
+        return (
+          rewardsGreaterThanZero.find(reward => reward.denom === this.denom) ||
+          rewardsGreaterThanZero[0]
+        )
+      } else {
+        return ""
+      }
+    },
+    feeDenom() {
+      // since it is cheaper to pay fees with the staking denom (at least in Tendermint), we return this denom
+      // as default if there is any available balance. Otherwise, we return the first balance over 0
+      // TODO: change to be preferrably the same token that is shown as claimed, although not so important
+      if (this.balances && this.balances.length > 0) {
+        const nonZeroBalances = this.balances.filter(({ amount }) => amount > 0)
+        const stakingDenomBalance = nonZeroBalances.find(
+          ({ denom }) => denom === this.denom
+        )
+        return stakingDenomBalance
+          ? stakingDenomBalance.denom
+          : nonZeroBalances.length > 0
+          ? nonZeroBalances[0].denom
+          : this.denom
+      } else {
+        return this.denom
+      }
     }
   },
   methods: {
@@ -106,6 +147,28 @@ export default {
       /* istanbul ignore next */
       update(data) {
         return data.rewards
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
+      }
+    },
+    balances: {
+      query: gql`
+        query balances($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            denom
+            amount
+            gasPrice
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address
+        }
       },
       /* istanbul ignore next */
       skip() {

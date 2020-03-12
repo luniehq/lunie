@@ -1,5 +1,5 @@
 <template>
-  <div class="network-item" :class="{ active: network === networkitem.id }">
+  <div class="network-item" :class="{ disabled: disabled }">
     <div class="network-icon">
       <img
         :src="`${networkitem.icon}`"
@@ -14,6 +14,11 @@
         {{ networkitem.chain_id }}
       </p>
     </div>
+    <PoweredBy
+      :network="networkitem"
+      :is-current-network="isCurrentNetwork"
+      hide-on-mobile
+    />
     <div class="network-status">
       <img
         v-if="!connected && network === networkitem.id"
@@ -22,7 +27,7 @@
         alt="a small spinning circle to display loading"
       />
       <div
-        v-else-if="connected && network === networkitem.id"
+        v-else-if="!disabled && connected && network === networkitem.id"
         class="network-selected"
       >
         <i class="material-icons notranslate">check</i>
@@ -33,21 +38,28 @@
 
 <script>
 import { mapGetters } from "vuex"
+import PoweredBy from "network/PoweredBy"
 
 export default {
   name: `network-item`,
+  components: {
+    PoweredBy
+  },
   props: {
     networkitem: {
       type: Object,
       required: true
     },
-    enabled: {
+    disabled: {
       type: Boolean,
       default: false
     }
   },
   computed: {
-    ...mapGetters([`connected`, `network`])
+    ...mapGetters([`connected`, `network`]),
+    isCurrentNetwork() {
+      return this.networkitem.id === this.network
+    }
   }
 }
 </script>
@@ -72,13 +84,19 @@ export default {
   color: var(--bright);
 }
 
+.network-item.disabled:hover {
+  cursor: default;
+  background: var(--app-fg);
+}
+
 .network-item b {
   font-weight: 500;
 }
 
 .network-icon img {
   max-height: 100%;
-  max-width: 52px;
+  height: 3.5rem;
+  width: 3.5rem;
   display: block;
 }
 

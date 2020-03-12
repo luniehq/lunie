@@ -127,7 +127,6 @@ describe(`ActionModal`, () => {
       getters: {
         connected: true,
         network,
-        networkId: "testnet",
         isExtensionAccount: false
       }
     }
@@ -186,8 +185,10 @@ describe(`ActionModal`, () => {
         validatorAddress: "cosmos12345"
       },
       network: {
+        id: "cosmos-hub-testnet",
         stakingDenom: "ATOM"
       },
+      networkId: "cosmos-hub-testnet",
       session: {
         address: "cosmos1234"
       },

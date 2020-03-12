@@ -78,7 +78,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `signup`]),
-    ...mapGetters({ networkId: `network` }),
+    ...mapGetters([`network`, `networkSlug`]),
     fieldSeed: {
       get() {
         return this.$store.state.signup.signUpSeed
@@ -113,9 +113,14 @@ export default {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
-          network: this.networkId
+          network: this.network
         })
-        this.$router.push(`/`)
+        this.$router.push({
+          name: "portfolio",
+          params: {
+            networkId: this.networkSlug
+          }
+        })
       } catch (error) {
         this.error = true
         this.errorMessage = error.message

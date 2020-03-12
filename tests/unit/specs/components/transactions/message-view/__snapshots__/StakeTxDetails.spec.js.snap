@@ -20,11 +20,11 @@ exports[`StakeTxDetails renders a stake transaction message 1`] = `
     </span>
      
     <router-link-stub
-      to="/staking/validators/cosmosvaloper123"
+      to="/staking/validators/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
     >
       <!---->
       
-      cosm…r123
+      cosmosvaloper…ekuz
     
     </router-link-stub>
   </div>

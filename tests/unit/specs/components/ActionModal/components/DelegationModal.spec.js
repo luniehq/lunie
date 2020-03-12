@@ -6,20 +6,20 @@ import Vuelidate from "vuelidate"
 
 const validators = [
   {
-    operatorAddress: "cosmosvaladdr12324536463",
+    operatorAddress: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
     status: "ACTIVE"
   },
   {
-    operatorAddress: "cosmosvaladdr1sdsdsd123123",
+    operatorAddress: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
     status: "ACTIVE"
   },
   {
-    operatorAddress: "cosmosvaladdr1kjisjsd862323",
+    operatorAddress: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n",
     status: "INACTIVE",
     statusDetailed: "temporally banned from the network"
   },
   {
-    operatorAddress: "cosmosvaladdr1sd0f8mnbjb2",
+    operatorAddress: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7m",
     status: "INACTIVE",
     statusDetailed: "banned from the network"
   }
@@ -155,7 +155,7 @@ describe(`DelegationModal`, () => {
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "MsgDelegate",
-        validatorAddress: `cosmosvaladdr1sdsdsd123123`,
+        validatorAddress: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
         amount: "10000000",
         denom: "stake"
       })
@@ -205,8 +205,10 @@ describe(`DelegationModal`, () => {
     it("should return correct transaction data for redelegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "MsgRedelegate",
-        validatorDestinationAddress: "cosmosvaladdr1kjisjsd862323",
-        validatorSourceAddress: "cosmosvaladdr1sdsdsd123123",
+        validatorDestinationAddress:
+          "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n",
+        validatorSourceAddress:
+          "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
         amount: "10000000",
         denom: "stake"
       })

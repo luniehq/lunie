@@ -61,13 +61,20 @@ exports[`SendModal should display send modal form 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <a
-    id="edit-memo-btn"
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
   >
-    
-    Need to edit the memo field?
-  
-  </a>
+    <tmfield-stub
+      id="memo"
+      type="text"
+      value="(Sent via Lunie)"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
 </actionmodal-stub>
 `;
 
@@ -139,13 +146,20 @@ exports[`SendModal validation should show address required error 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <a
-    id="edit-memo-btn"
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
   >
-    
-    Need to edit the memo field?
-  
-  </a>
+    <tmfield-stub
+      id="memo"
+      type="text"
+      value="(Sent via Lunie)"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
 </actionmodal-stub>
 `;
 
@@ -217,13 +231,20 @@ exports[`SendModal validation should show bech32 error when address length is to
     <!---->
   </tmformgroup-stub>
    
-  <a
-    id="edit-memo-btn"
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
   >
-    
-    Need to edit the memo field?
-  
-  </a>
+    <tmfield-stub
+      id="memo"
+      type="text"
+      value="(Sent via Lunie)"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
 </actionmodal-stub>
 `;
 
@@ -295,13 +316,20 @@ exports[`SendModal validation should show bech32 error when address length is to
     <!---->
   </tmformgroup-stub>
    
-  <a
-    id="edit-memo-btn"
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
   >
-    
-    Need to edit the memo field?
-  
-  </a>
+    <tmfield-stub
+      id="memo"
+      type="text"
+      value="(Sent via Lunie)"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
 </actionmodal-stub>
 `;
 
@@ -376,12 +404,19 @@ exports[`SendModal validation should show bech32 error when alphanumeric is wron
     />
   </tmformgroup-stub>
    
-  <a
-    id="edit-memo-btn"
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
   >
-    
-    Need to edit the memo field?
-  
-  </a>
+    <tmfield-stub
+      id="memo"
+      type="text"
+      value="(Sent via Lunie)"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
 </actionmodal-stub>
 `;

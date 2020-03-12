@@ -66,7 +66,8 @@ describe("pick signer", () => {
   it("should pick a local signer", async () => {
     const signer = await getSigner(config, "local", {
       address: "",
-      password: "1234567890"
+      password: "1234567890",
+      networkType: "cosmos"
     })
     expect(signer("message")).toEqual({
       signature: expect.any(Buffer),
@@ -77,7 +78,8 @@ describe("pick signer", () => {
   it("should pick a ledger signer", async () => {
     const signer = await getSigner(config, "ledger", {
       address: "",
-      password: "1234567890"
+      password: "1234567890",
+      networkType: "cosmos"
     })
     expect(await signer("message")).toEqual({
       signature: expect.any(Buffer),
@@ -109,14 +111,16 @@ describe("pick signer", () => {
 
     const signer = await getSigner(config, "ledger", {
       address: "",
-      password: "1234567890"
+      password: "1234567890",
+      networkType: "cosmos"
     })
     await expect(signer("message")).rejects.toThrow("XXX")
   })
 
   it("should pick the extension signer", async () => {
     const signer = await getSigner(config, "extension", {
-      address: ""
+      address: "",
+      networkType: "cosmos"
     })
     const { signWithExtension } = require(`scripts/extension-utils`)
     expect(await signer("message")).toEqual({
