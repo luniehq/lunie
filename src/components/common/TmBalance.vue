@@ -13,12 +13,6 @@
       <div class="values-container">
         <div>
           <div class="upper-header">
-            <!-- <div class="total-atoms">
-              <h3>Total {{ stakingDenom }}</h3>
-              <h2 class="total-atoms__value">
-                {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
-              </h2>
-            </div> -->
             <div class="button-container">
               <div>
                 <TmBtn
@@ -99,7 +93,15 @@
               class="row lower-header scroll-item"
               :class="{ 'single-denom-rewards': !isMultiDenomNetwork }"
             >
-              <!-- <div class="row">
+              <div class="row">
+                <div class="total-atoms">
+                  <h3>Total {{ stakingDenom }}</h3>
+                  <h2 class="total-atoms__value">
+                    {{
+                      overview.totalStake | bigFigureOrShortDecimals | noBlanks
+                    }}
+                  </h2>
+                </div>
                 <div
                   v-if="overview.totalStake > 0"
                   class="available-atoms currency-div"
@@ -162,7 +164,7 @@
                     }}
                   </h2>
                 </div>
-              </div> -->
+              </div>
 
               <div v-if="isMultiDenomNetwork" class="row values-container">
                 <div
@@ -171,6 +173,21 @@
                   class="currency-div"
                 >
                   <div class="available-atoms">
+                    <img
+                      v-if="stakingDenom === balance.denom"
+                      class="currency-flag"
+                      src="/img/icons/currencies/lunie.png"
+                    />
+                    <img
+                      v-if="stakingDenom !== balance.denom"
+                      class="currency-flag"
+                      :src="
+                        '/img/icons/currencies/' +
+                          balance.denom.substring(1).toLowerCase() +
+                          '.png'
+                      "
+                      :alt="`${balance.denom}` + ' currency'"
+                    />
                     <div>
                       <h3>
                         {{ balance.denom }}
@@ -188,8 +205,8 @@
                         >
                       </h3>
                       <div
-                        class="available-container"
                         v-if="overview.rewards[index].denom === stakingDenom"
+                        class="available-container"
                       >
                         Available
                         <span class="available">{{
@@ -574,7 +591,8 @@ select option {
 
 .currency-flag {
   width: 1rem;
-  margin-right: 0.25rem;
+  height: 1rem;
+  margin-right: 1rem;
 }
 
 .currency-selector {
@@ -635,6 +653,7 @@ select option {
 
 .rewards {
   padding-left: 1rem;
+  align-self: normal;
 }
 
 .available-container {
@@ -644,6 +663,7 @@ select option {
 
 .available-atoms {
   display: flex;
+  align-items: center;
 }
 
 .available {
