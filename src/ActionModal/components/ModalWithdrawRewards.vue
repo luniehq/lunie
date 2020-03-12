@@ -20,7 +20,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ denom }}</span>
+      <span class="input-suffix">{{ stakingDenom }}</span>
       <TmField
         id="amount"
         v-model="totalRewards"
@@ -56,7 +56,7 @@ export default {
     rewards: []
   }),
   computed: {
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `network`, `stakingDenom`]),
     transactionData() {
       return {
         type: transaction.WITHDRAW
@@ -64,7 +64,7 @@ export default {
     },
     totalRewards() {
       return this.rewards
-        .filter(({ denom }) => denom === this.denom)
+        .filter(({ denom }) => denom === this.stakingDenom)
         .reduce((sum, { amount }) => sum + Number(amount), 0)
         .toFixed(6)
     },
@@ -110,28 +110,6 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
-      }
-    },
-    denom: {
-      query: gql`
-        query Networks($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      fetchPolicy: "cache-first",
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        if (data.network) return data.network.stakingDenom
-        return ""
       }
     }
   }

@@ -13,13 +13,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
-import { NetworksResult } from "src/gql"
+import { mapState, mapGetters } from "vuex"
 import NetworkList from "./NetworkList"
 import TmDataLoading from "common/TmDataLoading"
 
 import TmPage from "common/TmPage"
-import gql from "graphql-tag"
 export default {
   name: `page-network`,
   components: {
@@ -28,7 +26,6 @@ export default {
     TmDataLoading
   },
   data: () => ({
-    networks: [],
     comingSoon: [
       {
         id: "polkadot-mainnet",
@@ -59,35 +56,17 @@ export default {
   }),
   computed: {
     ...mapState(["session"]),
+    ...mapGetters({ allNetworks: `networks` }),
     mainNetworks() {
       return this.networks.filter(network => !network.testnet)
     },
+    networks() {
+      return this.allNetworks.filter(
+        ({ enabled }) => this.session.experimentalMode || enabled
+      )
+    },
     testNetworks() {
       return this.networks.filter(network => network.testnet)
-    }
-  },
-  apollo: {
-    networks: {
-      query: gql`
-        query Networks($experimental: Boolean) {
-          networks(experimental: $experimental) {
-            id
-            chain_id
-            testnet
-            title
-            icon
-            slug
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          experimental: this.session.experimentalMode
-        }
-      },
-      fetchPolicy: "cache-first",
-      update: NetworksResult
     }
   }
 }

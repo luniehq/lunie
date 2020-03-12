@@ -32,12 +32,12 @@ export default {
     NetworkItem
   },
   data: () => ({
-    networks: [],
     sortedNetworks: []
   }),
   computed: {
     ...mapState([`connection`]),
     ...mapGetters({ networkId: `network` }),
+    ...mapGetters([`networks`]),
     whichFlow() {
       if (this.$route.params.recover) {
         return `/recover`
@@ -77,28 +77,6 @@ export default {
         this.sortedNetworks = []
       }
       return this.sortedNetworks // just for tests
-    }
-  },
-  apollo: {
-    networks: {
-      query: gql`
-        query Networks {
-          networks {
-            id
-            chain_id
-            title
-            testnet
-            icon
-            slug
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      update(data) {
-        // updating sortedNetworks
-        this.updateSelectedNetwork(data.networks)
-        return data.networks
-      }
     }
   }
 }

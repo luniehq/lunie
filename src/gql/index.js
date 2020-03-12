@@ -128,6 +128,7 @@ export const NetworksAll = gql`
       address_creator
       address_prefix
       testnet
+      enabled
     }
   }
 `

@@ -72,7 +72,6 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
-import gql from "graphql-tag"
 export default {
   name: `session-sign-in`,
   components: {
@@ -91,13 +90,18 @@ export default {
     testnet: false
   }),
   computed: {
-    ...mapState([`keystore`, `session`]),
+    ...mapState([`keystore`, `session`, `networks`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({
         value: address,
         key: name
       }))
+    },
+    addressPrefixes() {
+      return this.networks.find(
+        ({ enabled }) => this.session.experimentalMode || enabled
+      )
     },
     networkOfAddress() {
       const selectedNetworksArray = this.addressPrefixes.filter(
@@ -185,31 +189,6 @@ export default {
     return {
       signInAddress: { required },
       signInPassword: { required, minLength: minLength(10) }
-    }
-  },
-  apollo: {
-    addressPrefixes: {
-      query: gql`
-        query Network($experimental: Boolean) {
-          networks(experimental: $experimental) {
-            id
-            address_prefix
-            testnet
-            slug
-          }
-        }
-      `,
-      variables() {
-        return {
-          experimental: this.session.experimentalMode
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        if (data.networks) return data.networks
-        return ""
-      },
-      fetchPolicy: "cache-first"
     }
   }
 }
