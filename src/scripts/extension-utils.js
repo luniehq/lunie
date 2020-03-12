@@ -53,9 +53,11 @@ const sendMessageToContentScript = (payload, skipResponse = false) => {
 // react to certain response type
 function waitForResponse(type) {
   return new Promise(resolve => {
+    let timeout = setTimeout(() => resolve({}), 500) // hacky fix to prevent freezing
     const handler = filterExtensionMessage(data => {
       const message = unWrapMessageFromContentScript(data)
       if (message.type === type) {
+        clearTimeout(timeout)
         resolve(message.payload)
       }
 
