@@ -225,7 +225,8 @@ describe(`PageTransactions`, () => {
       loadedTransactions: []
     }
     let result = PageTransactions.apollo.subscribeToMore.update.call(self, {
-      transactions: [{
+      transactions: [
+        {
           type: "cosmos-sdk/MsgUndelegate",
           value: JSON.stringify({
             delegator_address: "cosmos2",
