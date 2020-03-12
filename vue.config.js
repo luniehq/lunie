@@ -83,6 +83,9 @@ module.exports = {
     stylelint: {}
   },
 
+  css: {
+    extract: { ignoreOrder: true }
+  },
   pwa: {
     // configure the workbox plugin
     workboxPluginMode: "InjectManifest",
