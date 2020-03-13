@@ -61,8 +61,9 @@ export default {
       return this.networks.filter(network => !network.testnet)
     },
     networks() {
+      const experimentalMode = this.session.experimentalMode // "this" is not being correctly passed
       return this.allNetworks.filter(
-        ({ enabled }) => this.session.experimentalMode || enabled
+        ({ enabled }) => experimentalMode || enabled
       )
     },
     testNetworks() {
