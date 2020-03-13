@@ -13,6 +13,7 @@ let mockSend = jest.fn(() => ({
   included: () => Promise.resolve({ height: 42 }),
   hash: "HASH1234HASH"
 }))
+let mockGetSignQueue = jest.fn(() => Promise.resolve({ queue: 1 }))
 
 jest.mock("src/../config.js", () => ({
   default_gas_price: 2.5e-8,
@@ -23,7 +24,8 @@ jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
       simulateTxAPI: mockSimulate,
-      sendTxAPI: mockSend
+      sendTxAPI: mockSend,
+      getSignQueue: mockGetSignQueue
     }
   })
 })
@@ -137,6 +139,7 @@ describe(`ActionModal`, () => {
         title: `Send`,
         validate: jest.fn(),
         featureFlag: `send`,
+        queueNotEmpty: false,
         transactionData: {
           type: "MsgSend",
           denom: "uatom",
@@ -159,6 +162,9 @@ describe(`ActionModal`, () => {
       },
       stubs: ["router-link"]
     })
+    wrapper.vm.actionManager.getSignQueue = jest.fn(
+      () => new Promise(resolve => resolve(0))
+    )
     wrapper.setData({ network, overview, balances, loaded: true })
     wrapper.vm.open()
   })
@@ -245,11 +251,12 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.submissionError).toBe(null)
   })
 
-  it(`opens`, () => {
+  it(`opens`, async () => {
     wrapper.vm.trackEvent = jest.fn()
-    wrapper.vm.open()
-
+    await wrapper.vm.open()
     expect(wrapper.isEmpty()).not.toBe(true)
+    expect(wrapper.queueEmpty).not.toBe(true)
+    expect(wrapper.vm.show).toBe(true)
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
   })
 
@@ -272,6 +279,7 @@ describe(`ActionModal`, () => {
   it(`should confirm modal closing`, () => {
     global.confirm = () => true
     const closeModal = jest.fn()
+    wrapper.vm.actionManager.cancel = jest.fn()
     wrapper.vm.session.currrentModalOpen = {
       close: closeModal
     }
