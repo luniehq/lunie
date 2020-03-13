@@ -69,11 +69,6 @@ export default {
         .filter(({ denom }) => denom === this.stakingDenom)
         .reduce((sum, { amount }) => sum + Number(amount), 0)
         .toFixed(6)
-      return stakingRewards > 0
-        ? stakingRewards
-        : this.claimedReward
-        ? this.claimedReward.amount
-        : null
     },
     notifyMessage() {
       return {
