@@ -829,7 +829,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.networkID,
+          networkId: this.networkId,
           address: this.session.address
         }
       },
@@ -854,7 +854,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.networkID,
+          networkId: this.networkId,
           address: this.session.address
         }
       },
@@ -880,7 +880,7 @@ export default {
         /* istanbul ignore next */
         variables() {
           return {
-            networkId: this.networkID,
+            networkId: this.networkId,
             address: this.session.address
           }
         },
