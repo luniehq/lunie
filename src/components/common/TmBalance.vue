@@ -10,140 +10,154 @@
       />
     </div>
     <div v-else>
-      <div class="values-container">
+      <div class="button-container">
         <div>
-          <div class="upper-header">
-            <div class="button-container">
-              <div>
-                <TmBtn
-                  class="send-button"
-                  value="Send"
-                  type="secondary"
-                  @click.native="onSend()"
-                />
-                <TmBtn
-                  id="withdraw-btn"
-                  :disabled="!readyToWithdraw"
-                  class="withdraw-rewards"
-                  value="Claim Rewards"
-                  @click.native="readyToWithdraw && onWithdrawal()"
-                />
-              </div>
-              <div
-                v-if="
-                  isMultiDenomNetwork &&
-                    stakingBalance &&
-                    stakingBalance.fiatValue
-                "
-                class="currency-selector"
-              >
-                <img
-                  v-if="preferredCurrency"
-                  class="currency-flag"
-                  :src="
-                    '/img/icons/currencies/' +
-                      preferredCurrency.toLowerCase() +
-                      '.png'
-                  "
-                  :alt="`${preferredCurrency}` + ' currency'"
-                />
-                <select
-                  v-model="selectedFiatCurrency"
-                  @change="setPreferredCurrency()"
-                >
-                  <option
-                    v-if="!preferredCurrency || preferredCurrency === ''"
-                    value=""
-                    disabled
-                    :selected="!preferredCurrency || preferredCurrency === ''"
-                    hidden
-                    >Select your fiat currency</option
-                  >
-                  <option
-                    v-if="preferredCurrency"
-                    value=""
-                    :selected="preferredCurrency"
-                    hidden
-                    >{{ preferredCurrency }}</option
-                  >
-                  <option value="EUR">EUR</option>
-                  <option value="USD">USD</option>
-                  <option value="GBP">GBP</option>
-                  <option value="JPY">JPY</option>
-                  <option value="CHF">CHF</option>
-                </select>
-              </div>
-              <button
-                v-if="
-                  connection.network === 'cosmos-hub-mainnet' ||
-                    connection.network === 'cosmos-hub-testnet'
-                "
-                class="tutorial-button"
-                @click="openTutorial()"
-              >
-                <i v-if="false" class="material-icons notranslate">
-                  help_outline
-                </i>
-                <span v-else>Need some tokens?</span>
-              </button>
-            </div>
-          </div>
-
-          <div
-            v-if="!isMultiDenomNetwork"
-            class="row values-container lower-header"
+          <TmBtn
+            class="send-button"
+            value="Send"
+            type="secondary"
+            @click.native="onSend()"
+          />
+          <TmBtn
+            id="withdraw-btn"
+            :disabled="!readyToWithdraw"
+            class="withdraw-rewards"
+            value="Claim Rewards"
+            @click.native="readyToWithdraw && onWithdrawal()"
+          />
+        </div>
+        <div v-if="currencySupport" class="currency-selector">
+          <img
+            v-if="preferredCurrency"
+            class="currency-flag"
+            :src="
+              '/img/icons/currencies/' +
+                preferredCurrency.toLowerCase() +
+                '.png'
+            "
+            :alt="`${preferredCurrency}` + ' currency'"
+          />
+          <select
+            v-model="selectedFiatCurrency"
+            @change="setPreferredCurrency()"
           >
-            <div class="currency-div">
-              <div class="available-atoms">
-                <div>
-                  <h3>
-                    {{ stakingDenom }}
-                    <span
-                      >{{
-                        overview.totalStake
-                          | bigFigureOrShortDecimals
-                          | noBlanks
-                      }}
-                    </span>
-                  </h3>
-                  <div class="available-container">
-                    Available
-                    <span class="available">{{
-                      overview.liquidStake | bigFigureOrShortDecimals
-                    }}</span>
-                  </div>
-                </div>
-                <div class="rewards multi-denom">
+            <option
+              v-if="!preferredCurrency || preferredCurrency === ''"
+              value=""
+              disabled
+              :selected="!preferredCurrency || preferredCurrency === ''"
+              hidden
+              >Select your fiat currency</option
+            >
+            <option
+              v-if="preferredCurrency"
+              value=""
+              :selected="preferredCurrency"
+              hidden
+              >{{ preferredCurrency }}</option
+            >
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+            <option value="GBP">GBP</option>
+            <option value="JPY">JPY</option>
+            <option value="CHF">CHF</option>
+          </select>
+        </div>
+        <button
+          v-if="
+            connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet'
+          "
+          class="tutorial-button"
+          @click="openTutorial()"
+        >
+          <i v-if="false" class="material-icons notranslate">
+            help_outline
+          </i>
+          <span v-else>Need some tokens?</span>
+        </button>
+      </div>
+
+      <div class="row values-container lower-header">
+        <h2 class="title">Token</h2>
+        <div class="currency-div">
+          <div class="available-atoms">
+            <div>
+              <div class="icon-and-denom">
+                <h3>
+                  <img
+                    class="currency-flag"
+                    src="/img/icons/currencies/lunie.png"
+                  />
+                  {{ stakingDenom }}
+                  <span
+                    >{{
+                      overview.totalStake | bigFigureOrShortDecimals | noBlanks
+                    }}
+                  </span>
+                </h3>
+                <div class="rewards">
                   <h2>+{{ overview.totalRewards }}</h2>
                 </div>
               </div>
+              <div class="available-container">
+                Available
+                <span class="available">{{
+                  overview.liquidStake | bigFigureOrShortDecimals
+                }}</span>
+              </div>
+            </div>
+            <div
+              v-if="
+                overview.totalStakeFiatValue &&
+                  overview.totalStakeFiatValue.amount > 0
+              "
+              class="fiat-value-box"
+            >
+              <span>{{
+                preferredCurrency +
+                  ` ` +
+                  overview.totalStakeFiatValue.symbol +
+                  bigFigureOrShortDecimals(overview.totalStakeFiatValue.amount)
+              }}</span>
             </div>
           </div>
-
-          <div v-else class="row values-container lower-header">
-            <div
-              v-for="(balance, index) in balances"
-              :key="balance.denom"
-              class="currency-div"
-            >
-              <div class="available-atoms">
-                <!-- <img
-                  v-if="stakingDenom === balance.denom"
-                  class="currency-flag"
-                  src="/img/icons/currencies/lunie.png"
-                />
-                <img
-                  v-if="stakingDenom !== balance.denom"
-                  class="currency-flag"
-                  :src="
-                    '/img/icons/currencies/' +
-                      balance.denom.substring(1).toLowerCase() +
-                      '.png'
-                  "
-                  :alt="`${balance.denom}` + ' currency'"
-                /> -->
-                <div>
+        </div>
+        <div v-if="balances">
+          <div
+            v-for="(balance, index) in filteredMultiDenomBalances"
+            :key="balance.denom"
+            class="currency-div"
+          >
+            <div class="available-atoms">
+              <div>
+                <div class="icon-and-denom">
                   <h3>
+                    <img
+                      v-if="stakingDenom === balance.denom"
+                      class="currency-flag"
+                      src="/img/icons/currencies/lunie.png"
+                    />
+                    <img
+                      v-else-if="balance.denom.length > 3"
+                      class="currency-flag"
+                      :src="
+                        '/img/icons/currencies/' +
+                          balance.denom.substring(1).toLowerCase() +
+                          '.png'
+                      "
+                      :alt="`${balance.denom}` + ' currency'"
+                    />
+                    <img
+                      v-else
+                      class="currency-flag"
+                      :src="
+                        '/img/icons/currencies/' +
+                          balance.denom.toLowerCase() +
+                          '.png'
+                      "
+                      :alt="`${balance.denom}` + ' currency'"
+                    />
                     {{ balance.denom }}
                     <span v-if="overview.rewards[index].denom === stakingDenom"
                       >{{
@@ -157,33 +171,21 @@
                       >{{ balance.amount | bigFigureOrShortDecimals }}</span
                     >
                   </h3>
-                  <div
-                    v-if="overview.rewards[index].denom === stakingDenom"
-                    class="available-container"
-                  >
-                    Available
-                    <span class="available">{{
-                      balance.amount | bigFigureOrShortDecimals
-                    }}</span>
+                  <div class="rewards">
+                    <h2
+                      v-if="calculateTotalRewardsDenom(balance.denom) > 0.001"
+                    >
+                      +{{
+                        calculateTotalRewardsDenom(balance.denom)
+                          | bigFigureOrShortDecimals
+                      }}
+                    </h2>
                   </div>
-                </div>
-                <div class="rewards multi-denom">
-                  <h2 v-if="calculateTotalRewardsDenom(balance.denom) > 0.001">
-                    +{{
-                      calculateTotalRewardsDenom(balance.denom)
-                        | bigFigureOrShortDecimals
-                    }}
-                  </h2>
                 </div>
               </div>
               <div
-                v-if="
-                  balance &&
-                    balance.fiatValue &&
-                    balance.fiatValue.amount > 0 &&
-                    preferredCurrency
-                "
-                class="total-fiat-value fiat-value-box"
+                v-if="balance.fiatValue && balance.fiatValue.amount > 0"
+                class="fiat-value-box"
               >
                 <span>{{
                   preferredCurrency +
@@ -331,6 +333,13 @@ export default {
       } else {
         return false
       }
+    },
+    currencySupport() {
+      return (
+        this.isMultiDenomNetwork &&
+        this.stakingBalance &&
+        this.stakingBalance.fiatValue
+      )
     }
   },
   mounted() {
@@ -369,11 +378,24 @@ export default {
   apollo: {
     overview: {
       query: gql`
-        query overview($networkId: String!, $address: String!) {
-          overview(networkId: $networkId, address: $address) {
+        query overview(
+          $networkId: String!
+          $address: String!
+          $fiatCurrency: String!
+        ) {
+          overview(
+            networkId: $networkId
+            address: $address
+            fiatCurrency: $fiatCurrency
+          ) {
             totalRewards
             liquidStake
             totalStake
+            totalStakeFiatValue {
+              amount
+              denom
+              symbol
+            }
             rewards {
               amount
               denom
@@ -385,7 +407,8 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.address
+          address: this.address,
+          fiatCurrency: this.preferredCurrency
         }
       },
       /* istanbul ignore next */
@@ -538,12 +561,6 @@ select option {
   font-family: var(--sans);
 }
 
-.currency-flag {
-  width: 1rem;
-  height: 1rem;
-  margin-right: 1rem;
-}
-
 .currency-selector {
   display: flex;
   align-items: center;
@@ -560,26 +577,28 @@ select option {
   white-space: nowrap;
 }
 
-.total-fiat-value {
-  min-width: 2rem;
-  margin-top: 0.5rem;
+.currency-selector img {
+  width: 1rem;
+  height: 1rem;
+}
+
+.currency-flag {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 1.5rem;
 }
 
 .fiat-value-box {
-  color: var(--txt);
+  color: var(--dim);
+  font-size: 12px;
+  padding-left: 0.5rem;
 }
 
 .currency-div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   justify-content: space-between;
   padding: 0.75rem 0;
+  border-top: 1px solid var(--bc-dim);
   border-bottom: 1px solid var(--bc-dim);
-}
-
-.currency-div:last-child {
-  border-bottom: none;
 }
 
 .balance-header {
@@ -588,20 +607,9 @@ select option {
   width: 100%;
 }
 
-.values-container {
+.row.values-container {
   display: flex;
   flex-direction: column;
-}
-
-.values-container h2 {
-  font-weight: 400;
-  line-height: 24px;
-  color: var(--bright);
-}
-
-.values-container h3 {
-  font-weight: 400;
-  white-space: nowrap;
 }
 
 .rewards {
@@ -611,21 +619,38 @@ select option {
 
 .available-container {
   font-size: 12px;
-  padding: 0.25rem 0.5rem 0;
+  padding: 0.25rem 0 0 3rem;
 }
 
 .available-atoms {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+.available-atoms > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.icon-and-denom {
+  display: flex;
+  flex-direction: row;
 }
 
 .available {
   color: gold;
-  padding-left: 1rem;
+  padding-left: 0.5rem;
 }
 
 .available-atoms h3 {
   color: var(--bright);
+  display: flex;
+  align-items: center;
+}
+
+h3 span {
+  padding-left: 0.25rem;
 }
 
 p.rewards {
@@ -640,31 +665,31 @@ p.rewards {
   padding: 2rem;
   align-items: normal;
   flex-direction: column;
+  background: #272b48;
+}
+
+.lower-header .title {
+  color: var(--dim);
+  font-size: var(--sm);
+  padding-bottom: 0.5rem;
 }
 
 .button-container {
   display: flex;
   align-items: center;
+  flex-direction: row;
   justify-content: space-between;
   padding: 0 2rem;
   width: 100%;
 }
 
+.button-container div {
+  display: flex;
+  flex-direction: row;
+}
+
 .button-container button:first-child {
   margin-right: 0.5rem;
-}
-
-.row {
-  display: flex;
-  flex-direction: column;
-}
-
-.row.values-container {
-  flex-direction: column-reverse;
-}
-
-.row div {
-  white-space: nowrap;
 }
 
 .open-tutorial {
@@ -699,70 +724,58 @@ p.rewards {
 }
 
 @media screen and (max-width: 667px) {
-  .balance-header {
-    display: flex;
+  .tutorial-button {
+    display: none;
+  }
+
+  .values-container {
+    padding: 1rem;
+  }
+
+  .icon-and-denom {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .available-atoms {
     flex-direction: column;
   }
 
-  .upper-header {
-    flex-direction: column-reverse;
+  .fiat-value-box {
+    padding-left: 2.5rem;
   }
 
-  .values-container .total-atoms__value {
-    font-size: 28px;
-    font-weight: 400;
-    line-height: 32px;
+  .available-atoms > div {
+    width: 100%;
   }
 
-  .total-atoms {
-    padding: 1rem 0;
-    text-align: center;
-  }
-
-  .single-denom-rewards {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .single-denom-rewards .rewards {
-    padding-right: 0;
-  }
-
-  .single-denom-rewards .available-atoms {
-    padding-right: 4rem;
-  }
-
-  .tutorial-button {
-    margin: 0 auto 1rem auto;
+  .available-container {
+    padding: 0.25rem 0 0 2.5rem;
   }
 
   .button-container {
-    width: 100%;
-    padding: 1rem;
-    border-top: 1px solid var(--bc);
-    margin-top: 0rem;
+    padding: 0 1rem 1rem;
   }
 
-  .button-container button {
-    width: 50%;
+  .button-container div {
+    margin-right: 0.5rem;
   }
 
   .tutorial-container {
     padding-right: 1rem;
   }
-}
 
-@media screen and (max-width: 1023px) {
-  .scroll {
-    display: flex;
-    width: 100vw;
-    overflow-x: auto;
-    /* Make it smooth scrolling on iOS devices */
-    -webkit-overflow-scrolling: touch;
+  .currency-selector {
+    width: 33%;
+    margin-right: 0;
   }
 
-  .scroll-item {
-    width: 100%;
+  .currency-selector .currency-flag {
+    margin-right: 0.5rem;
+  }
+
+  .currency-flag {
+    margin-right: 1rem;
   }
 }
 </style>
