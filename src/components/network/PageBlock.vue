@@ -38,7 +38,7 @@
           </TmDataMsg>
 
           <TransactionList
-            :transactions="block.transactions"
+            :transactions="filteredTransactions"
             :address="address"
             :validators="validatorsAddressMap"
           />
@@ -160,6 +160,15 @@ export default {
         names[item.operatorAddress] = item
       })
       return names
+    },
+    filteredTransactions() {
+      if (this.block && this.block.transactions) {
+        return this.block.transactions.filter(
+          transaction => transaction.type !== `UnknownTx`
+        )
+      } else {
+        return {}
+      }
     }
   },
   apollo: {

@@ -216,12 +216,49 @@ export default {
             }
           }
         },
+        /* istanbul ignore next */
         variables() {
           return {
             networkId: this.network,
             address: this.address
           }
         }
+      }
+    },
+    subscribeToMore: {
+      query: gql`
+        subscription($networkId: String!, $address: String!) {
+          userTransactionAddedV2(networkId: $networkId, address: $address) {
+            ${txFields}
+          }
+        }
+      `,
+      updateQuery: (previousResult, { subscriptionData }) => {
+        return {
+          transactions: [
+            subscriptionData.data.userTransactionAdded,
+            ...previousResult
+          ]
+        }
+      },
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address
+        }
+      },
+      update(result) {
+        let transactions = []
+        if (Array.isArray(result.transactions)) {
+          transactions = result.transactions.map(tx => ({
+            ...tx,
+            timestamp: new Date(tx.timestamp),
+            value: JSON.parse(tx.value)
+          }))
+        }
+        this.lastLoadedRecordsCount = transactions.length
+        this.loadedTransactions = [...this.loadedTransactions, ...transactions]
+        return this.loadedTransactions
       }
     },
     validators: {

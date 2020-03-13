@@ -463,6 +463,7 @@ describe(`Module: Session`, () => {
         `session_fabo-net`,
         JSON.stringify({
           address: `xxx`,
+          networkId: `fabo-net`,
           sessionType: `local`
         })
       )
@@ -474,6 +475,7 @@ describe(`Module: Session`, () => {
       })
       expect(dispatch).toHaveBeenCalledWith(`signIn`, {
         address: `xxx`,
+        networkId: `fabo-net`,
         sessionType: `local`
       })
 

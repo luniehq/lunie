@@ -4,10 +4,12 @@
     <template v-else-if="!$apollo.loading">
       <h3>Main Networks</h3>
       <NetworkList :networks="mainNetworks" />
+
       <h3>Test Networks</h3>
       <NetworkList :networks="testNetworks" />
+
       <h3>Coming Soon</h3>
-      <NetworkList :networks="comingSoon" />
+      <NetworkList :networks="comingSoon" :disabled="true" />
     </template>
   </TmPage>
 </template>
@@ -19,7 +21,7 @@ import TmDataLoading from "common/TmDataLoading"
 
 import TmPage from "common/TmPage"
 export default {
-  name: `page-network`,
+  name: `page-networks`,
   components: {
     TmPage,
     NetworkList,

@@ -20,7 +20,11 @@
               </h2>
             </div>
             <div
-              v-if="isMultiDenomNetwork && stakingBalance.fiatValue"
+              v-if="
+                isMultiDenomNetwork &&
+                  stakingBalance &&
+                  stakingBalance.fiatValue
+              "
               class="currency-selector"
             >
               <img
@@ -112,15 +116,19 @@
                     <span
                       v-if="
                         isMultiDenomNetwork &&
+                          stakingBalance &&
                           stakingBalance.fiatValue &&
                           stakingBalance.fiatValue.amount > 0 &&
                           preferredCurrency
                       "
                       class="fiat-value-box"
                       >{{
-                        bigFigureOrShortDecimals(
-                          stakingBalance.fiatValue.amount
-                        ).concat(` ` + preferredCurrency)
+                        preferredCurrency +
+                          " " +
+                          stakingBalance.fiatValue.symbol +
+                          bigFigureOrShortDecimals(
+                            stakingBalance.fiatValue.amount
+                          )
                       }}</span
                     >
                   </div>
@@ -171,16 +179,18 @@
                   </div>
                   <div
                     v-if="
-                      balance.fiatValue &&
+                      balance &&
+                        balance.fiatValue &&
                         balance.fiatValue.amount > 0 &&
                         preferredCurrency
                     "
                     class="total-fiat-value fiat-value-box"
                   >
                     <span>{{
-                      bigFigureOrShortDecimals(balance.fiatValue.amount).concat(
-                        ` ` + preferredCurrency
-                      )
+                      preferredCurrency +
+                        ` ` +
+                        balance.fiatValue.symbol +
+                        bigFigureOrShortDecimals(balance.fiatValue.amount)
                     }}</span>
                   </div>
                 </div>
@@ -229,6 +239,7 @@ import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
+import uniqBy from "lodash.uniqby"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
 
@@ -251,7 +262,7 @@ export default {
       balances: [],
       showTutorial: false,
       rewards: [],
-      selectedFiatCurrency: "",
+      selectedFiatCurrency: "USD",
       preferredCurrency: "",
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
@@ -298,7 +309,18 @@ export default {
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
-      return this.overview.totalRewards > 0
+      if (this.overview.rewards && this.overview.rewards.length > 0) {
+        const uniqRewardsDenoms = uniqBy(
+          this.overview.rewards,
+          reward => reward.denom
+        ).map(reward => reward.denom)
+        const allTotalRewards = uniqRewardsDenoms.map(denom =>
+          this.calculateTotalRewardsDenom(denom)
+        )
+        return allTotalRewards.find(reward => parseFloat(reward) > 0.001)
+      } else {
+        return null
+      }
     },
     stakingBalance() {
       return this.balances.find(({ denom }) => denom === this.stakingDenom)
@@ -451,6 +473,7 @@ export default {
             amount
             fiatValue {
               amount
+              symbol
             }
           }
         }
@@ -523,29 +546,17 @@ select option {
 
 .total-fiat-value {
   min-width: 2rem;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
 }
 
 .fiat-value-box {
   font-size: 12px;
-  margin-right: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  background-color: var(--bc);
-  color: var(--link);
+  color: var(--dim);
   border-radius: 1.25rem;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.fiat-value-box:hover {
-  color: var(--link-hover);
 }
 
 .currency-div {
-  border: 1px solid var(--primary-alpha);
-  padding: 0.25rem;
   margin-right: 0.5rem;
-  border-radius: 0.25rem;
 }
 
 .balance-header {

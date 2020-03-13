@@ -1,5 +1,5 @@
 import ActionManager from "src/ActionModal/utils/ActionManager.js"
-import { cancelSign } from "src/ActionModal/utils/signer"
+import { cancelSign, signQueue } from "src/ActionModal/utils/signer"
 import { sendTx } from "./actions"
 
 jest.mock("src/../config.js", () => ({
@@ -56,7 +56,8 @@ jest.mock(`cosmos-apiV2`, () => ({
 
 jest.mock(`src/ActionModal/utils/signer.js`, () => ({
   getSigner: jest.fn(() => "signer"),
-  cancelSign: jest.fn()
+  cancelSign: jest.fn(),
+  signQueue: jest.fn()
 }))
 
 const mockFetch = jest.fn(() =>
@@ -106,6 +107,10 @@ describe("ActionManager", () => {
         address: `testaddress`,
         network: `testnetwork`
       })
+    })
+    it("should retrun sign queue", async () => {
+      await actionManager.getSignQueue(`extension`)
+      expect(signQueue).toHaveBeenCalledWith(`extension`)
     })
 
     it("should estimate via Tx API", async () => {

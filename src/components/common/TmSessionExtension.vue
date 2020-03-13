@@ -77,13 +77,12 @@ export default {
     },
     async signInAndRedirect(account) {
       await this.signIn(account)
-      const network = account.network ? account.network : "cosmos-hub-mainnet"
-      this.$router.push(`/${this.getNetworkSlug(network)}/portfolio`)
-    },
-    getNetworkSlug(network) {
-      if (this.networks) {
-        return this.networks.filter(({ id }) => id === network)[0].slug
-      }
+      this.$router.push({
+        name: "portfolio",
+        params: {
+          networkId: this.networkSlug
+        }
+      })
     }
   }
 }
