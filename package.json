@@ -5,7 +5,7 @@
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
     "build": "node tasks/create-version-file.js && vue-cli-service build --skip-plugins pwa",
-    "buildsentry": "node tasks/create-version-file.js && ls -l tasks/sentry.sh && vue-cli-service build --skip-plugins pwa && tasks/sentry.sh",
+    "buildsentry": "node tasks/create-version-file.js && chmod 755 tasks/sentry.sh && vue-cli-service build --skip-plugins pwa && ./tasks/sentry.sh",
     "build:mobile": "cross-env MOBILE_APP=true npm run build",
     "changelog": "simsala log --pending-path ./changes",
     "lint": "vue-cli-service lint",
