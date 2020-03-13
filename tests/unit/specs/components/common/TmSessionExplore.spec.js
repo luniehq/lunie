@@ -7,7 +7,7 @@ describe(`TmSessionExplore`, () => {
   localVue.use(Vuelidate)
 
   let wrapper, $store
-  const addressPrefixes = [
+  const networks = [
     {
       id: "cosmos-hub-testnet",
       address_prefix: "cosmos",
@@ -69,7 +69,7 @@ describe(`TmSessionExplore`, () => {
     })
 
     wrapper.setData({
-      addressPrefixes: [
+      networks: [
         {
           id: "cosmos-hub-testnet",
           address_prefix: "cosmos",
@@ -178,7 +178,7 @@ describe(`TmSessionExplore`, () => {
 
   it(`checks that the address is valid address of the network and selects testnet if testnet is set to true`, () => {
     const self = {
-      addressPrefixes,
+      networks,
       testnet: true,
       address: addresses[0].address
     }
