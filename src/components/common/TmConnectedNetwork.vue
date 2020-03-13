@@ -69,7 +69,6 @@
       </div>
     </div>
     <PoweredBy
-      v-if="currentNetwork"
       :network="currentNetwork"
       powered-by-line
       is-menu
@@ -99,7 +98,7 @@ export default {
     block: {}
   }),
   computed: {
-    ...mapState([`intercom`, `connection`]),
+    ...mapState([`intercom`, `connection`, `session`]),
     ...mapGetters([`network`]),
     networkSlug() {
       return this.connection.networkSlug
@@ -145,6 +144,11 @@ export default {
     },
     networks: {
       query: Networks,
+      variables() {
+        return {
+          experimental: this.session.experimentalMode
+        }
+      },
       fetchPolicy: "cache-first",
       update: NetworksResult
     },

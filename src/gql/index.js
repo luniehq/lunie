@@ -76,8 +76,8 @@ export const DelegationsForDelegator = schema => gql`
 `
 
 export const Networks = gql`
-  query Networks {
-    networks {
+  query Networks($experimental: Boolean) {
+    networks(experimental: $experimental) {
       id
       chain_id
       testnet
