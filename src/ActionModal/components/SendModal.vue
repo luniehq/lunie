@@ -9,7 +9,6 @@
     :transaction-data="transactionData"
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"
-    :is-max-amount="isMaxAmount()"
     feature-flag="send"
     @close="clear"
     @txIncluded="onSuccess"
@@ -257,7 +256,13 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.selectedBalance.amount
+      if (this.network.startsWith(`terra`)) {
+        const terraTax = 0.008
+        this.amount =
+          this.selectedBalance.amount - this.selectedBalance.amount * terraTax
+      } else {
+        this.amount = this.selectedBalance.amount
+      }
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
