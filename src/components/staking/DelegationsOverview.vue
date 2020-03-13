@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table-container">
     <div
       v-if="$apollo.queries.delegations.loading && !delegations.length"
       class="loading-image-container"
@@ -92,6 +92,10 @@ export default {
 }
 </script>
 <style scoped>
+.table-container {
+  padding: 2rem;
+}
+
 .tab-header {
   color: var(--dim);
   font-size: 14px;

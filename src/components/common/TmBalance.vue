@@ -11,6 +11,7 @@
     </div>
     <div v-else>
       <div class="button-container">
+        <h1>Portfolio</h1>
         <div>
           <TmBtn
             class="send-button"
@@ -547,7 +548,14 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
+h1 {
+  font-size: 24px;
+  color: white;
+  font-weight: 300;
+  padding: 0 0 0 1rem;
+}
+
 select {
   background: var(--input-bg);
   color: var(--txt, #333);
