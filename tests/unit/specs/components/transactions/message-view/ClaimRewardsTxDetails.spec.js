@@ -82,4 +82,14 @@ describe(`ClaimRewardsTxDetails`, () => {
     })
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  it(`returns an empty array if validators haven't been loaded yet`, () => {
+    const self = {
+      validators: {}
+    }
+    const getValidatorsResponse = ClaimRewardsTxDetails.computed.getValidators.call(
+      self
+    )
+    expect(getValidatorsResponse).toEqual([])
+  })
 })

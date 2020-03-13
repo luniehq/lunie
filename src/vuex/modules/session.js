@@ -85,7 +85,7 @@ export default () => {
       const session = localStorage.getItem(sessionKey(network))
       if (session) {
         const { address, sessionType } = JSON.parse(session)
-        await dispatch(`signIn`, { address, sessionType })
+        await dispatch(`signIn`, { address, sessionType, networkId: network })
       } else {
         commit(`setSignIn`, false)
       }

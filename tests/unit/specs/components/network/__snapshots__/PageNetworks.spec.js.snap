@@ -29,6 +29,7 @@ exports[`PageNetworks shows a page with a selection of networks 1`] = `
   </h3>
    
   <networklist-stub
+    disabled="true"
     networks="[object Object],[object Object],[object Object],[object Object],[object Object]"
   />
 </tmpage-stub>

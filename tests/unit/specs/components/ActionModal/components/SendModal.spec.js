@@ -75,13 +75,6 @@ describe(`SendModal`, () => {
     expect(self.amount).toBe(undefined)
   })
 
-  it(`shows the memo input if desired`, async () => {
-    wrapper.find("#edit-memo-btn").trigger("click")
-    await wrapper.vm.$nextTick()
-
-    expect(wrapper.find("#memo").isVisible()).toBe(true)
-  })
-
   describe(`validation`, () => {
     it(`should show address required error`, async () => {
       wrapper.setProps({

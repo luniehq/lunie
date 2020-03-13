@@ -2,6 +2,7 @@ import {
   listenToExtensionMessages,
   processLunieExtensionMessages,
   getAccountsFromExtension,
+  getSignQueue,
   signWithExtension,
   cancelSignWithExtension
 } from "scripts/extension-utils.js"
@@ -110,6 +111,24 @@ describe(`Extension Utils`, () => {
           {
             payload: { type: "GET_WALLETS" },
             skipResponse: false,
+            type: "FROM_LUNIE_IO"
+          },
+          "*"
+        ]
+      ])
+    })
+
+    it(`should return total amount of transactions in the sign queue in extension`, async () => {
+      global.postMessage.mockClear()
+      getSignQueue()
+      expect(global.postMessage.mock.calls).toEqual([
+        [
+          {
+            payload: {
+              payload: {},
+              type: "LUNIE_GET_SIGN_QUEUE"
+            },
+            skipResponse: true,
             type: "FROM_LUNIE_IO"
           },
           "*"

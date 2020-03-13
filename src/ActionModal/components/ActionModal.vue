@@ -17,9 +17,9 @@
         <i class="material-icons notranslate">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">{{
-          requiresSignIn ? `Sign in required` : title
-        }}</span>
+        <span class="action-modal-title">
+          {{ requiresSignIn ? `Sign in required` : title }}
+        </span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -299,6 +299,8 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
+import transactionTypes from "../utils/transactionTypes"
+// import transactionTypes from '../utils/transactionTypes'
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -418,7 +420,8 @@ export default {
     featureAvailable: true,
     overview: {},
     isMobileApp: config.mobileApp,
-    balances: []
+    balances: [],
+    queueEmpty: true
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -438,15 +441,26 @@ export default {
       )
     },
     estimatedFee() {
-      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
+      // hack
+      // terra uses a tax on all send txs
+      if (
+        this.networkId.startsWith(`terra`) &&
+        this.transactionData.type === transactionTypes.SEND
+      ) {
+        // hardcoding terra tax here until we have it in the API
+        const terraTax = 0.008
+        return (
+          Number(this.gasEstimate) * Number(this.gasPrice) +
+          Number(this.amount) * terraTax
+        )
+      }
+      return Number(this.gasPrice) * Number(this.gasEstimate)
     },
     subTotal() {
       return this.featureFlag === "undelegate" ? 0 : this.amount
     },
     invoiceTotal() {
-      return (
-        Number(this.subTotal) + Number(this.gasPrice) * Number(this.gasEstimate)
-      )
+      return Number(this.subTotal) + this.estimatedFee
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -539,20 +553,35 @@ export default {
   methods: {
     confirmModalOpen() {
       let confirmResult = false
-      if (this.session.currrentModalOpen) {
+      if (this.session.currrentModalOpen || !this.queueEmpty) {
         confirmResult = window.confirm(
           "You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?"
         )
         if (confirmResult) {
-          this.session.currrentModalOpen.close()
+          if (this.queueEmpty) {
+            this.session.currrentModalOpen.close()
+          }
           this.$store.commit(`setCurrrentModalOpen`, false)
+          // clearing request query
+          this.actionManager.cancel(
+            { userAddress: this.session.address, networkId: this.network.id },
+            this.selectedSignMethod
+          )
+          this.queueEmpty = true
         }
       }
     },
-    open() {
-      this.confirmModalOpen()
+    async open() {
       this.$apollo.skipAll = false
-      if (this.session.currrentModalOpen) {
+      // checking if there is something in a queue
+      const queue = await this.actionManager.getSignQueue(
+        this.selectedSignMethod
+      )
+      if (queue) {
+        this.queueEmpty = false
+      }
+      this.confirmModalOpen()
+      if (this.session.currrentModalOpen || !this.queueEmpty) {
         return
       }
       this.$store.commit(`setCurrrentModalOpen`, this)
@@ -689,7 +718,9 @@ export default {
       const feeProperties = {
         gasEstimate: this.gasEstimate,
         gasPrice: {
-          amount: this.gasPrice,
+          // the cosmos-api lib uses gasEstimate * gasPrice to calculate the fees
+          // here we just reverse this calculation to get the same fees as displayed
+          amount: this.estimatedFee / this.gasEstimate,
           denom: this.getDenom
         },
         submitType: this.selectedSignMethod,
@@ -739,7 +770,9 @@ export default {
         "Action",
         "Modal",
         this.featureFlag,
-        this.featureFlag == "claim_rewards"
+        this.featureFlag === "claim_rewards" &&
+          this.rewards &&
+          this.rewards.length > 0
           ? this.rewards[0].amount
           : this.amount
       )
@@ -796,7 +829,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.networkId,
+          networkId: this.networkID,
           address: this.session.address
         }
       },
@@ -821,7 +854,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.networkId,
+          networkId: this.networkID,
           address: this.session.address
         }
       },
@@ -847,7 +880,7 @@ export default {
         /* istanbul ignore next */
         variables() {
           return {
-            networkId: this.networkId,
+            networkId: this.networkID,
             address: this.session.address
           }
         },

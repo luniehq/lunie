@@ -1,1 +1,0 @@
-[Fixed] [#3489](https://github.com/cosmos/lunie/issues/3489) now we register users for the intercom messenger before the messenger is opened to ensure the messenger doesn't fail @jbibla

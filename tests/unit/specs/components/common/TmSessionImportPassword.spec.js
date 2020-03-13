@@ -14,7 +14,8 @@ describe(`TmSessionImportPassword`, () => {
 
   beforeEach(() => {
     getters = {
-      network: "lunie-net"
+      network: "lunie-net",
+      networkSlug: "lunie"
     }
     $store = {
       state: {
@@ -97,7 +98,10 @@ describe(`TmSessionImportPassword`, () => {
     wrapper.vm.$store.state.recover.password = `1234567890`
     wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
+      name: "portfolio",
+      params: { networkId: "lunie" }
+    })
   })
 
   it(`should show error on createKey dispatch error`, async () => {

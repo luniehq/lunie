@@ -17,9 +17,9 @@
           class="session-close-button"
           value="Back to Lunie"
           color="secondary"
-          @click.native="$router.push(`/`)"
+          @click.native="goToPortfolio()"
         />
-        <a class="user-box" @click="$router.push(`/`)">
+        <a class="user-box" @click="goToPortfolio()">
           <i class="material-icons notranslate">close</i>
         </a>
       </div>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 
 export default {
@@ -41,9 +42,20 @@ export default {
       default: false
     }
   },
+  computed: {
+    ...mapGetters([`networkSlug`])
+  },
   methods: {
     goBack() {
       this.$router.go(`-1`)
+    },
+    goToPortfolio() {
+      this.$router.push({
+        name: "portfolio",
+        params: {
+          networkId: this.networkSlug
+        }
+      })
     }
   }
 }

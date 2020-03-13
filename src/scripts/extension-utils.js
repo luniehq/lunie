@@ -51,11 +51,13 @@ const sendMessageToContentScript = (payload, skipResponse = false) => {
 }
 
 // react to certain response type
-function waitForResponse(type) {
+function waitForResponse(type, antifreeze = false) {
   return new Promise(resolve => {
+    let timeout = antifreeze && setTimeout(() => resolve({}), 500) // hacky fix to prevent freezing
     const handler = filterExtensionMessage(data => {
       const message = unWrapMessageFromContentScript(data)
       if (message.type === type) {
+        antifreeze && clearTimeout(timeout)
         resolve(message.payload)
       }
 
@@ -66,12 +68,12 @@ function waitForResponse(type) {
   })
 }
 
-const sendAsyncMessageToContentScript = async payload => {
+const sendAsyncMessageToContentScript = async (payload, antifreeze = false) => {
   // I think we can deal with async console errors problems by returning true
   sendMessageToContentScript(payload, true)
 
   // await async response
-  const response = await waitForResponse(`${payload.type}_RESPONSE`)
+  const response = await waitForResponse(`${payload.type}_RESPONSE`, antifreeze)
   if (response.rejected) {
     throw new Error("User rejected action in extension.")
   }
@@ -83,6 +85,18 @@ const sendAsyncMessageToContentScript = async payload => {
 
 export const getAccountsFromExtension = () => {
   sendMessageToContentScript({ type: "GET_WALLETS" })
+}
+
+export const getSignQueue = async () => {
+  const { amount } = await sendAsyncMessageToContentScript(
+    {
+      type: "LUNIE_GET_SIGN_QUEUE",
+      payload: {}
+    },
+    true
+  )
+
+  return amount
 }
 
 export const signWithExtension = async (

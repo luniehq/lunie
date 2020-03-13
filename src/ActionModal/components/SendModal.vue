@@ -101,11 +101,7 @@
         class="tm-form-msg--desc max-message"
       />
     </TmFormGroup>
-    <a v-if="editMemo === false" id="edit-memo-btn" @click="showMemo()">
-      Need to edit the memo field?
-    </a>
     <TmFormGroup
-      v-else
       id="memo"
       :error="$v.memo.$error && $v.memo.$invalid"
       class="action-modal-group"
@@ -169,7 +165,6 @@ export default {
     amount: config.development ? 0.000001 : null, // dev life, hard life > make simple
     memo: defaultMemo,
     max_memo_characters: 256,
-    editMemo: false,
     isFirstLoad: true,
     selectedToken: undefined,
     balances: []
@@ -256,7 +251,6 @@ export default {
 
       this.address = undefined
       this.amount = undefined
-      this.editMemo = false
       this.memo = defaultMemo
       this.sending = false
     },
@@ -290,10 +284,6 @@ export default {
     },
     refocusOnAmount() {
       this.$refs.amount.$el.focus()
-    },
-    showMemo() {
-      this.memo = ``
-      this.editMemo = true
     }
   },
   validations() {
@@ -360,11 +350,6 @@ export default {
 }
 </script>
 <style scoped>
-#edit-memo-btn {
-  margin-top: 2.4rem;
-  font-size: 12px;
-  cursor: pointer;
-}
 .tm-field-addon {
   border-right: 0;
 }

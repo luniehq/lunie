@@ -34,7 +34,7 @@ export default {
     sortedNetworks: []
   }),
   computed: {
-    ...mapState([`connection`]),
+    ...mapState([`connection`, `session`]),
     ...mapGetters({ networkId: `network` }),
     ...mapGetters([`networks`]),
     whichFlow() {

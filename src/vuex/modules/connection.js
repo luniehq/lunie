@@ -69,6 +69,7 @@ export default function({ apollo }) {
     async preloadNetworkCapabilities({ commit }) {
       const { data } = await apollo.query({
         query: NetworksAll,
+        variables: { experimental: config.development },
         fetchPolicy: "cache-first"
       })
       commit("setNetworks", data.networks)
