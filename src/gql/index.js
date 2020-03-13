@@ -95,8 +95,8 @@ export const Networks = gql`
 
 // load all the data immediatly to avoid async loading later
 export const NetworksAll = gql`
-  query Networks {
-    networks {
+  query Networks($experimental: Boolean) {
+    networks(experimental: $experimental) {
       id
       chain_id
       testnet
