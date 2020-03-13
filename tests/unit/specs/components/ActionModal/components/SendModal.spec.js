@@ -256,6 +256,20 @@ describe(`SendModal`, () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.isMaxAmount()).toBe(false)
     })
+    it(`if we are connected to a Terra network, we will substract Terra extra fees from max amount`, async () => {
+      wrapper.setData({
+        $store: {
+          getters: {
+            network: "terra-mainnet"
+          }
+        },
+        selectedBalance: {
+          amount: 1
+        }
+      })
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(0.992)
+    })
   })
 
   describe(`Set token and balance`, () => {
