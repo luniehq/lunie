@@ -6,73 +6,94 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
 >
   <div>
     <div
-      class="values-container"
+      class="button-container"
     >
       <div>
-        <div
-          class="upper-header"
-        >
-          <div
-            class="total-atoms"
-          >
-            <h3>
-              Total ATOM
-            </h3>
-             
-            <h2
-              class="total-atoms__value"
-            >
-              
-              0
-            
-            </h2>
-          </div>
-           
-          <!---->
-           
-          <button
-            class="tutorial-button"
-          >
-            <span>
-              Need some tokens?
-            </span>
-          </button>
-        </div>
+        <tmbtn-stub
+          class="send-button"
+          type="secondary"
+          value="Send"
+        />
          
-        <div
-          class="scroll"
-        >
-          <div
-            class="row lower-header scroll-item single-denom-rewards"
-          >
-            <div
-              class="row"
-            >
-              <!---->
-               
-              <!---->
-            </div>
-             
-            <!---->
-          </div>
-        </div>
+        <tmbtn-stub
+          class="withdraw-rewards"
+          id="withdraw-btn"
+          value="Claim Rewards"
+        />
       </div>
+       
+      <!---->
+       
+      <button
+        class="tutorial-button"
+      >
+        <span>
+          Need some tokens?
+        </span>
+      </button>
     </div>
      
     <div
-      class="button-container"
+      class="row values-container lower-header"
     >
-      <tmbtn-stub
-        class="send-button"
-        type="secondary"
-        value="Send"
-      />
+      <h2
+        class="title"
+      >
+        Token
+      </h2>
        
-      <tmbtn-stub
-        class="withdraw-rewards"
-        id="withdraw-btn"
-        value="Claim Rewards"
-      />
+      <div
+        class="currency-div"
+      >
+        <div
+          class="available-atoms"
+        >
+          <div>
+            <div
+              class="icon-and-denom"
+            >
+              <h3>
+                <img
+                  class="currency-flag"
+                  src="/img/icons/currencies/lunie.png"
+                />
+                
+                ATOM
+                
+                <span>
+                  0
+                
+                </span>
+              </h3>
+               
+              <div
+                class="rewards"
+              >
+                <h2>
+                  +0
+                </h2>
+              </div>
+            </div>
+             
+            <div
+              class="available-container"
+            >
+              
+              Available
+              
+              <span
+                class="available"
+              >
+                0
+              </span>
+            </div>
+          </div>
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div />
     </div>
      
     <sendmodal-stub
@@ -92,109 +113,94 @@ exports[`TmBalance show the balance header when signed in 1`] = `
 >
   <div>
     <div
-      class="values-container"
+      class="button-container"
     >
       <div>
-        <div
-          class="upper-header"
-        >
-          <div
-            class="total-atoms"
-          >
-            <h3>
-              Total ATOM
-            </h3>
-             
-            <h2
-              class="total-atoms__value"
-            >
-              
-              3,210
-            
-            </h2>
-          </div>
-           
-          <!---->
-           
-          <button
-            class="tutorial-button"
-          >
-            <span>
-              Need some tokens?
-            </span>
-          </button>
-        </div>
+        <tmbtn-stub
+          class="send-button"
+          type="secondary"
+          value="Send"
+        />
          
+        <tmbtn-stub
+          class="withdraw-rewards"
+          id="withdraw-btn"
+          value="Claim Rewards"
+        />
+      </div>
+       
+      <!---->
+       
+      <button
+        class="tutorial-button"
+      >
+        <span>
+          Need some tokens?
+        </span>
+      </button>
+    </div>
+     
+    <div
+      class="row values-container lower-header"
+    >
+      <h2
+        class="title"
+      >
+        Token
+      </h2>
+       
+      <div
+        class="currency-div"
+      >
         <div
-          class="scroll"
+          class="available-atoms"
         >
-          <div
-            class="row lower-header scroll-item single-denom-rewards"
-          >
+          <div>
             <div
-              class="row"
+              class="icon-and-denom"
             >
-              <div
-                class="available-atoms currency-div"
-              >
-                <h3>
-                  Available ATOM
-                </h3>
-                 
-                <h2>
-                  
-                  1,230
+              <h3>
+                <img
+                  class="currency-flag"
+                  src="/img/icons/currencies/lunie.png"
+                />
                 
-                </h2>
-                 
-                <div
-                  class="rewards multi-denom"
-                >
-                  <!---->
-                </div>
-                 
-                <div
-                  class="total-fiat-value"
-                >
-                  <!---->
-                </div>
-              </div>
+                ATOM
+                
+                <span>
+                  3,210
+                
+                </span>
+              </h3>
                
               <div
                 class="rewards"
               >
-                <h3>
-                  Total Rewards
-                </h3>
-                 
                 <h2>
-                  
-                  +1,000.45
-                
+                  +1000.45
                 </h2>
               </div>
             </div>
              
-            <!---->
+            <div
+              class="available-container"
+            >
+              
+              Available
+              
+              <span
+                class="available"
+              >
+                1,230
+              </span>
+            </div>
           </div>
+           
+          <!---->
         </div>
       </div>
-    </div>
-     
-    <div
-      class="button-container"
-    >
-      <tmbtn-stub
-        class="send-button"
-        type="secondary"
-        value="Send"
-      />
        
-      <tmbtn-stub
-        class="withdraw-rewards"
-        id="withdraw-btn"
-        value="Claim Rewards"
-      />
+      <div />
     </div>
      
     <sendmodal-stub
