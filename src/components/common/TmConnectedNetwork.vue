@@ -69,6 +69,7 @@
       </div>
     </div>
     <PoweredBy
+      v-if="currentNetwork"
       :network="currentNetwork"
       powered-by-line
       is-menu
