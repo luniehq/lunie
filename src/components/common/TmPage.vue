@@ -12,7 +12,10 @@
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
     </TmPageHeader>
-    <main class="tm-page-main" :class="{ 'dark-background': darkBackground }">
+    <main
+      class="tm-page-main"
+      :class="{ 'dark-background': darkBackground && session.signedIn }"
+    >
       <CardSignInRequired v-if="signInRequired && !session.signedIn" />
       <template v-else-if="managed">
         <TmDataConnecting v-if="!connected" />
