@@ -79,7 +79,6 @@
       </div>
 
       <div class="row values-container lower-header">
-        <h2 class="title">Token</h2>
         <div class="currency-div">
           <div class="available-atoms">
             <div>
@@ -585,20 +584,27 @@ select option {
 .currency-flag {
   width: 1.5rem;
   height: 1.5rem;
-  margin-right: 1.5rem;
+  margin-right: 1rem;
 }
 
 .fiat-value-box {
-  color: var(--dim);
+  color: var(--txt);
   font-size: 12px;
   padding-left: 0.5rem;
 }
 
 .currency-div {
   justify-content: space-between;
-  padding: 0.75rem 0;
-  border-top: 1px solid var(--bc-dim);
+  padding: 1rem;
   border-bottom: 1px solid var(--bc-dim);
+}
+
+.currency-div:last-child {
+  border-bottom: none;
+}
+
+.currency-div:hover {
+  background: var(--hover-bg);
 }
 
 .balance-header {
@@ -614,7 +620,8 @@ select option {
 
 .rewards {
   padding-left: 1rem;
-  align-self: normal;
+  align-self: center;
+  font-size: var(--sm);
 }
 
 .available-container {
@@ -766,7 +773,6 @@ p.rewards {
   }
 
   .currency-selector {
-    width: 33%;
     margin-right: 0;
   }
 
