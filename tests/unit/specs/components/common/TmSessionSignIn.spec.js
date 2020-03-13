@@ -7,6 +7,7 @@ describe(`TmSessionSignIn`, () => {
   localVue.use(Vuelidate)
 
   let wrapper, $store
+
   const addressPrefixes = [
     {
       id: "cosmos-hub-testnet",
@@ -24,6 +25,24 @@ describe(`TmSessionSignIn`, () => {
       testnet: true
     }
   ]
+
+  const networks = [
+    {
+      id: "gaia-testnet",
+      chain_id: "gaia-123",
+      logo_url: "cosmos-logo.png",
+      testnet: true,
+      title: "Cosmos Hub Test"
+    },
+    {
+      id: "cosmoshub",
+      chain_id: "cosmoshub",
+      logo_url: "cosmos-logo.png",
+      testnet: false,
+      title: "Cosmos Hub"
+    }
+  ]
+
   const addresses = [
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
     `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`
@@ -33,9 +52,6 @@ describe(`TmSessionSignIn`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
-      getters: {
-        networkSlug: "cosmos-hub"
-      },
       state: {
         keys: [
           {
@@ -77,7 +93,8 @@ describe(`TmSessionSignIn`, () => {
               name: `my_account`
             }
           ]
-        }
+        },
+        networks
       }
     }
 
@@ -90,8 +107,6 @@ describe(`TmSessionSignIn`, () => {
         $store
       }
     })
-
-    wrapper.setData({ addressPrefixes })
   })
 
   it(`has the expected html structure`, () => {
@@ -101,7 +116,8 @@ describe(`TmSessionSignIn`, () => {
   it(`should close the modal on successful login`, async () => {
     wrapper.setData({
       signInPassword: `1234567890`,
-      signInAddress: `cosmosdefault`
+      signInAddress: `cosmosdefault`,
+      addressPrefixes: () => addressPrefixes
     })
     wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
@@ -222,7 +238,6 @@ describe(`TmSessionSignIn`, () => {
 
   it(`checks that the address is valid address of the network and selects testnet if testnet is set to true`, () => {
     const self = {
-      addressPrefixes,
       testnet: true,
       signInAddress: addresses[0]
     }
@@ -239,7 +254,6 @@ describe(`TmSessionSignIn`, () => {
       signInAddress: `terradefault`,
       signInPassword: `1234567890`,
       testnet: false,
-      addressPrefixes,
       error: ``
     })
     await wrapper.vm.onSubmit()

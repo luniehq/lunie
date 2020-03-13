@@ -7,11 +7,32 @@ describe(`SessionExtension`, () => {
   const accounts = [
     {
       address: "cosmos1234",
-      name: "TEST_WALLET"
+      name: "TEST_WALLET",
+      network: "cosmos-hub-mainnet"
     },
     {
       address: "cosmos15678",
-      name: "TEST_WALLET_2"
+      name: "TEST_WALLET_2",
+      network: "gaia-testnet"
+    }
+  ]
+
+  const networks = [
+    {
+      id: "gaia-testnet",
+      chain_id: "gaia-123",
+      logo_url: "cosmos-logo.png",
+      testnet: true,
+      title: "Cosmos Hub Test",
+      slug: "gaia"
+    },
+    {
+      id: "cosmos-hub-mainnet",
+      chain_id: "cosmoshub",
+      logo_url: "cosmos-logo.png",
+      testnet: false,
+      title: "Cosmos Hub",
+      slug: "cosmos-hub"
     }
   ]
 
@@ -25,7 +46,8 @@ describe(`SessionExtension`, () => {
 
     $store = {
       getters: {
-        networkSlug: "cosmos-hub"
+        networkSlug: "cosmos-hub",
+        networks: () => networks
       },
       commit: jest.fn(),
       dispatch: jest.fn(),
@@ -39,15 +61,6 @@ describe(`SessionExtension`, () => {
         $store,
         $router
       }
-    })
-
-    wrapper.setData({
-      networks: [
-        {
-          id: "cosmos-hub-mainnet",
-          slug: "cosmos-hub"
-        }
-      ]
     })
   })
 
@@ -64,7 +77,7 @@ describe(`SessionExtension`, () => {
     expect($store.dispatch).toHaveBeenCalledWith("signIn", {
       sessionType: `extension`,
       address: "cosmos1",
-      networkId: "cosmos-hub-mainnet"
+      networkId: "cosmos-hub"
     })
   })
 

@@ -86,7 +86,6 @@ export default {
     signInAddress: ``,
     signInPassword: ``,
     error: ``,
-    addressPrefixes: [],
     testnet: false
   }),
   computed: {

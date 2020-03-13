@@ -41,7 +41,11 @@ describe(`PageNetworks`, () => {
           state: {
             connection: {
               network: `gaia-testnet`
-            }
+            },
+            session: {
+              experiMentalMode: false
+            },
+            networks
           }
         },
         $route: {
@@ -54,7 +58,6 @@ describe(`PageNetworks`, () => {
       },
       stubs: [`router-link`]
     })
-    wrapper.setData({ networks })
   })
 
   it(`shows a page with a selection of networks`, () => {

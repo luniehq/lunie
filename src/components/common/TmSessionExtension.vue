@@ -80,7 +80,9 @@ export default {
       this.$router.push({
         name: "portfolio",
         params: {
-          networkId: this.networkSlug
+          networkId:
+            this.networks.find(({ id }) => id === account.network).slug ||
+            "cosmos-hub" // defaulting to cosmos-hub-mainnet
         }
       })
     }
