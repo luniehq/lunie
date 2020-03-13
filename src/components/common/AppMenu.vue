@@ -213,7 +213,7 @@ export default {
       }
       this.ledgerAddressError = undefined
       try {
-        await this.showAddressOnLedgerFn(this.network, this.$apollo)
+        await this.showAddressOnLedgerFn(this.network, this.$store)
       } catch (error) {
         this.ledgerAddressError = error.message
         this.messageTimeout = setTimeout(

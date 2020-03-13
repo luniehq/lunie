@@ -45,6 +45,9 @@ export default {
       }
     }
   },
+  created: function() {
+    this.updateSelectedNetwork(this.networks)
+  },
   methods: {
     async selectNetworkHandler(network) {
       if (this.networkId !== network.id) {

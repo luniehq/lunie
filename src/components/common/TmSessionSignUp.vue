@@ -94,9 +94,6 @@ export default {
     InsecureModeWarning,
     Steps
   },
-  data: () => ({
-    networks: []
-  }),
   computed: {
     ...mapState([`session`, `signup`]),
     ...mapGetters([`network`, `networks`]),
