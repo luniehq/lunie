@@ -11,7 +11,8 @@ describe(`SendModal`, () => {
 
   const getters = {
     connected: true,
-    session: { signedIn: true, address: "cosmos1234" }
+    session: { signedIn: true, address: "cosmos1234" },
+    network: "cosmos-hub-mainnet"
   }
 
   const state = {}
