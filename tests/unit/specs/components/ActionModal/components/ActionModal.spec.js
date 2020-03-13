@@ -13,6 +13,7 @@ let mockSend = jest.fn(() => ({
   included: () => Promise.resolve({ height: 42 }),
   hash: "HASH1234HASH"
 }))
+let mockGetSignQueue = jest.fn(() => Promise.resolve({ queue: 1 }))
 
 jest.mock("src/../config.js", () => ({
   default_gas_price: 2.5e-8,
@@ -23,7 +24,8 @@ jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
       simulateTxAPI: mockSimulate,
-      sendTxAPI: mockSend
+      sendTxAPI: mockSend,
+      getSignQueue: mockGetSignQueue
     }
   })
 })
@@ -253,6 +255,7 @@ describe(`ActionModal`, () => {
     wrapper.vm.trackEvent = jest.fn()
     await wrapper.vm.open()
     expect(wrapper.isEmpty()).not.toBe(true)
+    expect(wrapper.queueEmpty).not.toBe(true)
     expect(wrapper.vm.show).toBe(true)
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
   })

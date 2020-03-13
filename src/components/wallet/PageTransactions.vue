@@ -216,6 +216,7 @@ export default {
             }
           }
         },
+        /* istanbul ignore next */
         variables() {
           return {
             networkId: this.network,
