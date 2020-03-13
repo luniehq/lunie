@@ -88,160 +88,109 @@
               </button>
             </div>
           </div>
-          <div class="scroll">
-            <div
-              class="row lower-header scroll-item"
-              :class="{ 'single-denom-rewards': !isMultiDenomNetwork }"
-            >
-              <div class="row">
-                <div class="total-atoms">
-                  <h3>Total {{ stakingDenom }}</h3>
-                  <h2 class="total-atoms__value">
-                    {{
-                      overview.totalStake | bigFigureOrShortDecimals | noBlanks
-                    }}
-                  </h2>
-                </div>
-                <div
-                  v-if="overview.totalStake > 0"
-                  class="available-atoms currency-div"
-                >
-                  <h3>Available {{ stakingDenom }}</h3>
-                  <h2>
-                    {{
-                      overview.liquidStake | bigFigureOrShortDecimals | noBlanks
-                    }}
-                  </h2>
-                  <div class="rewards multi-denom">
-                    <h2
-                      v-if="
-                        isMultiDenomNetwork && overview.totalRewards > 0.001
-                      "
-                    >
-                      +{{
-                        overview.totalRewards
+
+          <div
+            v-if="!isMultiDenomNetwork"
+            class="row values-container lower-header"
+          >
+            <div class="currency-div">
+              <div class="available-atoms">
+                <div>
+                  <h3>
+                    {{ stakingDenom }}
+                    <span
+                      >{{
+                        overview.totalStake
                           | bigFigureOrShortDecimals
                           | noBlanks
                       }}
-                    </h2>
-                  </div>
-                  <div class="total-fiat-value">
-                    <span
-                      v-if="
-                        isMultiDenomNetwork &&
-                          stakingBalance &&
-                          stakingBalance.fiatValue &&
-                          stakingBalance.fiatValue.amount > 0 &&
-                          preferredCurrency
-                      "
-                      class="fiat-value-box"
-                      >{{
-                        preferredCurrency +
-                          " " +
-                          stakingBalance.fiatValue.symbol +
-                          bigFigureOrShortDecimals(
-                            stakingBalance.fiatValue.amount
-                          )
-                      }}</span
-                    >
+                    </span>
+                  </h3>
+                  <div class="available-container">
+                    Available
+                    <span class="available">{{
+                      overview.liquidStake | bigFigureOrShortDecimals
+                    }}</span>
                   </div>
                 </div>
+                <div class="rewards multi-denom">
+                  <h2>+{{ overview.totalRewards }}</h2>
+                </div>
+              </div>
+            </div>
+          </div>
 
-                <div
-                  v-if="
-                    !isMultiDenomNetwork &&
-                      overview.totalRewards &&
-                      overview.totalRewards > 0.001
+          <div v-else class="row values-container lower-header">
+            <div
+              v-for="(balance, index) in balances"
+              :key="balance.denom"
+              class="currency-div"
+            >
+              <div class="available-atoms">
+                <!-- <img
+                  v-if="stakingDenom === balance.denom"
+                  class="currency-flag"
+                  src="/img/icons/currencies/lunie.png"
+                />
+                <img
+                  v-if="stakingDenom !== balance.denom"
+                  class="currency-flag"
+                  :src="
+                    '/img/icons/currencies/' +
+                      balance.denom.substring(1).toLowerCase() +
+                      '.png'
                   "
-                  class="rewards"
-                >
-                  <h3>Total Rewards</h3>
-                  <h2>
+                  :alt="`${balance.denom}` + ' currency'"
+                /> -->
+                <div>
+                  <h3>
+                    {{ balance.denom }}
+                    <span v-if="overview.rewards[index].denom === stakingDenom"
+                      >{{
+                        overview.totalStake
+                          | bigFigureOrShortDecimals
+                          | noBlanks
+                      }}
+                    </span>
+                    <span
+                      v-if="overview.rewards[index].denom !== stakingDenom"
+                      >{{ balance.amount | bigFigureOrShortDecimals }}</span
+                    >
+                  </h3>
+                  <div
+                    v-if="overview.rewards[index].denom === stakingDenom"
+                    class="available-container"
+                  >
+                    Available
+                    <span class="available">{{
+                      balance.amount | bigFigureOrShortDecimals
+                    }}</span>
+                  </div>
+                </div>
+                <div class="rewards multi-denom">
+                  <h2 v-if="calculateTotalRewardsDenom(balance.denom) > 0.001">
                     +{{
-                      overview.totalRewards
+                      calculateTotalRewardsDenom(balance.denom)
                         | bigFigureOrShortDecimals
-                        | noBlanks
                     }}
                   </h2>
                 </div>
               </div>
-
-              <div v-if="isMultiDenomNetwork" class="row values-container">
-                <div
-                  v-for="(balance, index) in balances"
-                  :key="balance.denom"
-                  class="currency-div"
-                >
-                  <div class="available-atoms">
-                    <img
-                      v-if="stakingDenom === balance.denom"
-                      class="currency-flag"
-                      src="/img/icons/currencies/lunie.png"
-                    />
-                    <img
-                      v-if="stakingDenom !== balance.denom"
-                      class="currency-flag"
-                      :src="
-                        '/img/icons/currencies/' +
-                          balance.denom.substring(1).toLowerCase() +
-                          '.png'
-                      "
-                      :alt="`${balance.denom}` + ' currency'"
-                    />
-                    <div>
-                      <h3>
-                        {{ balance.denom }}
-                        <span
-                          v-if="overview.rewards[index].denom === stakingDenom"
-                          >{{
-                            overview.totalStake
-                              | bigFigureOrShortDecimals
-                              | noBlanks
-                          }}
-                        </span>
-                        <span
-                          v-if="overview.rewards[index].denom !== stakingDenom"
-                          >{{ balance.amount | bigFigureOrShortDecimals }}</span
-                        >
-                      </h3>
-                      <div
-                        v-if="overview.rewards[index].denom === stakingDenom"
-                        class="available-container"
-                      >
-                        Available
-                        <span class="available">{{
-                          balance.amount | bigFigureOrShortDecimals
-                        }}</span>
-                      </div>
-                    </div>
-                    <div class="rewards multi-denom">
-                      <h2
-                        v-if="calculateTotalRewardsDenom(balance.denom) > 0.001"
-                      >
-                        +{{
-                          calculateTotalRewardsDenom(balance.denom)
-                            | bigFigureOrShortDecimals
-                        }}
-                      </h2>
-                    </div>
-                  </div>
-                  <div
-                    v-if="
-                      balance &&
-                        balance.fiatValue &&
-                        balance.fiatValue.amount > 0 &&
-                        preferredCurrency
-                    "
-                    class="total-fiat-value fiat-value-box"
-                  >
-                    <span>{{
-                      preferredCurrency +
-                        ` ` +
-                        balance.fiatValue.symbol +
-                        bigFigureOrShortDecimals(balance.fiatValue.amount)
-                    }}</span>
-                  </div>
-                </div>
+              <div
+                v-if="
+                  balance &&
+                    balance.fiatValue &&
+                    balance.fiatValue.amount > 0 &&
+                    preferredCurrency
+                "
+                class="total-fiat-value fiat-value-box"
+              >
+                <span>{{
+                  preferredCurrency +
+                    ` ` +
+                    balance.fiatValue.symbol +
+                    bigFigureOrShortDecimals(balance.fiatValue.amount)
+                }}</span>
               </div>
             </div>
           </div>
@@ -629,6 +578,10 @@ select option {
   border-bottom: 1px solid var(--bc-dim);
 }
 
+.currency-div:last-child {
+  border-bottom: none;
+}
+
 .balance-header {
   display: flex;
   flex-direction: column;
@@ -695,8 +648,6 @@ p.rewards {
   justify-content: space-between;
   padding: 0 2rem;
   width: 100%;
-  /* border-bottom: 1px solid var(--bc-dim); */
-  /* border-top: 1px solid var(--bc-dim); */
 }
 
 .button-container button:first-child {
