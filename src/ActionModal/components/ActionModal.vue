@@ -421,7 +421,8 @@ export default {
     network: {},
     overview: {},
     isMobileApp: config.mobileApp,
-    balances: []
+    balances: [],
+    queueEmpty: true
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -555,20 +556,35 @@ export default {
   methods: {
     confirmModalOpen() {
       let confirmResult = false
-      if (this.session.currrentModalOpen) {
+      if (this.session.currrentModalOpen || !this.queueEmpty) {
         confirmResult = window.confirm(
           "You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?"
         )
         if (confirmResult) {
-          this.session.currrentModalOpen.close()
+          if (this.queueEmpty) {
+            this.session.currrentModalOpen.close()
+          }
           this.$store.commit(`setCurrrentModalOpen`, false)
+          // clearing request query
+          this.actionManager.cancel(
+            { userAddress: this.session.address, networkId: this.network.id },
+            this.selectedSignMethod
+          )
+          this.queueEmpty = true
         }
       }
     },
-    open() {
-      this.confirmModalOpen()
+    async open() {
       this.$apollo.skipAll = false
-      if (this.session.currrentModalOpen) {
+      // checking if there is something in a queue
+      const queue = await this.actionManager.getSignQueue(
+        this.selectedSignMethod
+      )
+      if (queue) {
+        this.queueEmpty = false
+      }
+      this.confirmModalOpen()
+      if (this.session.currrentModalOpen || !this.queueEmpty) {
         return
       }
       this.$store.commit(`setCurrrentModalOpen`, this)
