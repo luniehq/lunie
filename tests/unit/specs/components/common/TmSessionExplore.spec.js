@@ -7,7 +7,7 @@ describe(`TmSessionExplore`, () => {
   localVue.use(Vuelidate)
 
   let wrapper, $store
-  const addressPrefixes = [
+  const networks = [
     {
       id: "cosmos-hub-testnet",
       address_prefix: "cosmos",
@@ -16,7 +16,8 @@ describe(`TmSessionExplore`, () => {
     {
       id: "cosmos-hub-mainnet",
       address_prefix: "cosmos",
-      testnet: false
+      testnet: false,
+      slug: "cosmos-hub"
     },
     {
       id: "terra-testnet",
@@ -48,7 +49,8 @@ describe(`TmSessionExplore`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
       getters: {
-        network: "cosmos-hub-testnet"
+        network: "cosmos-hub-testnet",
+        networks
       },
       state: {
         session: {
@@ -66,17 +68,6 @@ describe(`TmSessionExplore`, () => {
         },
         $store
       }
-    })
-
-    wrapper.setData({
-      addressPrefixes: [
-        {
-          id: "cosmos-hub-testnet",
-          address_prefix: "cosmos",
-          testnet: false,
-          slug: "cosmos-hub"
-        }
-      ]
     })
   })
 
@@ -178,7 +169,7 @@ describe(`TmSessionExplore`, () => {
 
   it(`checks that the address is valid address of the network and selects testnet if testnet is set to true`, () => {
     const self = {
-      addressPrefixes,
+      networks,
       testnet: true,
       address: addresses[0].address
     }
