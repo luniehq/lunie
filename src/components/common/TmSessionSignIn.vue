@@ -97,14 +97,9 @@ export default {
         key: name
       }))
     },
-    addressPrefixes() {
-      return this.networks.find(
-        ({ enabled }) => this.session.experimentalMode || enabled
-      )
-    },
     networkOfAddress() {
-      const selectedNetworksArray = this.addressPrefixes.filter(
-        ({ address_prefix }) => this.signInAddress.startsWith(address_prefix)
+      const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
+        this.signInAddress.startsWith(address_prefix)
       )
 
       const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
@@ -146,7 +141,7 @@ export default {
         this.$router.push({
           name: "portfolio",
           params: {
-            networkId: this.networkSlug
+            networkId: this.networkOfAddress.slug
           }
         })
       } else {
@@ -172,8 +167,8 @@ export default {
       }
     },
     async selectNetworkByAddress(address) {
-      let selectedNetworksArray = this.addressPrefixes.filter(
-        ({ address_prefix }) => address.startsWith(address_prefix)
+      let selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
+        address.startsWith(address_prefix)
       )
       let selectedNetwork = ``
 
