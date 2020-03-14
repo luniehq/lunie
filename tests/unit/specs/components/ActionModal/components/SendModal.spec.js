@@ -268,7 +268,7 @@ describe(`SendModal`, () => {
         }
       })
       wrapper.vm.setMaxAmount()
-      expect(wrapper.vm.amount).toBe(0.992)
+      expect(wrapper.vm.amount).toBe(`0.992063`)
     })
   })
 
