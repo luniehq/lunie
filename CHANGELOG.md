@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.175] - 2020-03-14
+
+### Added
+
+- checking extension queue length before new transaction @iambeone
+- Allow to use Polkadot raw seed as seed phrase in recovery @faboweb
+
+### Security
+
+- Updated dep because of security issue @faboweb
+
+### Repository
+
+- fixed arch value replaced with arch result @iambeone
+
 ## [1.0.174] - 2020-03-12
 
 ### Added
