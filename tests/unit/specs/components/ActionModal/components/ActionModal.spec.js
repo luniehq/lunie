@@ -163,6 +163,12 @@ describe(`ActionModal`, () => {
     wrapper.vm.open()
   })
 
+  it(`should return a number with maximum the specified decimals`, () => {
+    // const self = {}
+    const maxDecimalsNumber = ActionModal.methods.maxDecimals(9.89639499, 4)
+    expect(maxDecimalsNumber).toBe(9.8964)
+  })
+
   it(`should set the submissionError if the submission is rejected`, async () => {
     const ActionManagerSend = jest
       .fn()

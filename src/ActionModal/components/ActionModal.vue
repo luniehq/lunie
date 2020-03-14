@@ -340,10 +340,6 @@ const sessionType = {
 // hardcoding terra tax here until we have it in the API
 const terraTax = 0.008
 
-const maxDecimals = (value, decimals) => {
-  return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
-}
-
 export default {
   name: `action-modal`,
   components: {
@@ -457,7 +453,7 @@ export default {
         this.networkId.startsWith(`terra`) &&
         this.transactionData.type === transactionTypes.SEND
       ) {
-        return maxDecimals(
+        return this.maxDecimals(
           Number(this.gasEstimate) * Number(this.gasPrice) +
             Number(this.amount) * terraTax,
           6
@@ -793,6 +789,9 @@ export default {
       this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
+    },
+    maxDecimals(value, decimals) {
+      return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
     }
   },
   validations() {
