@@ -1,7 +1,7 @@
 import { shallowMount } from "@vue/test-utils"
 import TmSessionExtension from "common/TmSessionExtension"
 
-describe(`SessionExtension`, () => {
+describe(`TmSessionExtension`, () => {
   let wrapper, $store, $router
 
   const accounts = [
