@@ -27,9 +27,6 @@ describe(`PageNetworks`, () => {
     $store = {
       dispatch: jest.fn(),
       state: {
-        connection: {
-          network: `gaia-testnet`
-        },
         session: {
           experiMentalMode: false
         }
