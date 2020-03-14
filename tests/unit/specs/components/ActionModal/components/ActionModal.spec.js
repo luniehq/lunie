@@ -128,8 +128,14 @@ describe(`ActionModal`, () => {
       },
       getters: {
         connected: true,
-        network,
-        isExtensionAccount: false
+        network: "cosmos-hub-testnet",
+        isExtensionAccount: false,
+        networks: [
+          {
+            id: "cosmos-hub-testnet",
+            action_send: true
+          }
+        ]
       }
     }
 
