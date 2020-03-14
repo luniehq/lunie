@@ -5,7 +5,6 @@
         undelegations &&
         undelegations.length > 0
     "
-    class="undelegation-overview"
   >
     <h3 class="tab-header">
       Pending Undelegations
@@ -90,8 +89,5 @@ export default {
   margin-top: 2rem;
   margin-bottom: 1rem;
   margin-left: 2rem;
-}
-.undelegation-overview {
-  background: rgba(16, 18, 31, 0.4);
 }
 </style>
