@@ -1,7 +1,6 @@
 <template>
   <TmPage data-title="Network" class="page" hide-header>
-    <TmDataLoading v-if="$apollo.loading" />
-    <template v-else-if="!$apollo.loading">
+    <template>
       <h3>Main Networks</h3>
       <NetworkList :networks="mainNetworks" />
 
@@ -17,15 +16,13 @@
 <script>
 import { mapState, mapGetters } from "vuex"
 import NetworkList from "./NetworkList"
-import TmDataLoading from "common/TmDataLoading"
 
 import TmPage from "common/TmPage"
 export default {
   name: `page-networks`,
   components: {
     TmPage,
-    NetworkList,
-    TmDataLoading
+    NetworkList
   },
   data: () => ({
     comingSoon: [
