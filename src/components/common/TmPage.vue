@@ -12,10 +12,7 @@
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
     </TmPageHeader>
-    <main
-      class="tm-page-main"
-      :class="{ 'dark-background': darkBackground && session.signedIn }"
-    >
+    <main class="tm-page-main">
       <CardSignInRequired v-if="signInRequired && !session.signedIn" />
       <template v-else-if="managed">
         <TmDataConnecting v-if="!connected" />
@@ -99,10 +96,6 @@ export default {
     signInRequired: {
       type: Boolean,
       default: false
-    },
-    darkBackground: {
-      type: Boolean,
-      default: false
     }
   },
   computed: {
@@ -134,10 +127,6 @@ export default {
 .tm-page-main {
   position: relative;
   height: 100vh;
-}
-
-.tm-page-main.dark-background {
-  background: rgba(16, 18, 31, 0.4);
 }
 
 .tm-page-title {
