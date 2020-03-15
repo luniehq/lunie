@@ -86,7 +86,7 @@ describe(`TmBalance`, () => {
       }
     }
     wrapper.vm.$refs = $refs
-    wrapper.find(".send-button").trigger("click")
+    wrapper.find(".circle-send-button").trigger("click")
     expect($refs.SendModal.open).toHaveBeenCalled()
   })
 

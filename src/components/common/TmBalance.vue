@@ -132,7 +132,7 @@
 
         <div class="table-cell actions">
           <div class="icon-button-container">
-            <button class="icon-button" @click="onSend()">
+            <button class="icon-button circle-send-button" @click="onSend()">
               <i class="material-icons">send</i></button
             ><span>Send</span>
           </div>
