@@ -117,7 +117,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
           class="icon-button-container"
         >
           <button
-            class="icon-button"
+            class="icon-button circle-send-button"
           >
             <i
               class="material-icons"
@@ -261,7 +261,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
           class="icon-button-container"
         >
           <button
-            class="icon-button"
+            class="icon-button circle-send-button"
           >
             <i
               class="material-icons"
