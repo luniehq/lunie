@@ -45,8 +45,10 @@ export default {
       }
     }
   },
-  created: function() {
-    this.updateSelectedNetwork(this.networks)
+  watch: {
+    networks: networks => {
+      this.updateSelectedNetwork(networks)
+    }
   },
   methods: {
     async selectNetworkHandler(network) {

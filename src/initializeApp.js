@@ -45,7 +45,7 @@ export default async function init(urlParams, env = process.env) {
 
   setOptions(urlParams, store)
 
-  await store.dispatch(`preloadNetworkCapabilities`) // wait, until networks' data is loaded
+  store.dispatch(`preloadNetworkCapabilities`)
   store.dispatch(`loadLocalPreferences`)
   store.dispatch(`checkForPersistedNetwork`).then(() => {
     store.dispatch(`checkForPersistedSession`)
