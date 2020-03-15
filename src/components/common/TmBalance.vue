@@ -14,6 +14,13 @@
         <h1>Your Portfolio</h1>
         <div class="buttons">
           <TmBtn
+            class="send-button"
+            value="Send"
+            type="secondary"
+            @click.native="onSend()"
+          />
+
+          <TmBtn
             id="withdraw-btn"
             :disabled="!readyToWithdraw"
             class="withdraw-rewards"
@@ -68,8 +75,8 @@
       <div class="table four-columns">
         <div class="table-cell big title">Tokens</div>
         <div class="table-cell title">Rewards</div>
-        <div class="table-cell title">Available</div>
-        <div class="table-cell title"></div>
+        <div class="table-cell title available">Available</div>
+        <div class="table-cell title actions"></div>
 
         <div class="table-cell big">
           <img
@@ -90,39 +97,40 @@
             "
             :alt="`${stakingDenom}` + ' currency'"
           />
-
-          <span class="total">
-            {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
-            {{ stakingDenom }}
-          </span>
-          <template
-            v-if="
-              overview.totalStakeFiatValue &&
-                overview.totalStakeFiatValue.amount > 0
-            "
-          >
-            <span class="fiat">
-              {{ overview.totalStakeFiatValue.symbol
-              }}{{
-                bigFigureOrShortDecimals(overview.totalStakeFiatValue.amount)
-              }}
-              {{ preferredCurrency }}
+          <div class="total-and-fiat">
+            <span class="total">
+              {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
+              {{ stakingDenom }}
             </span>
-          </template>
+            <template
+              v-if="
+                overview.totalStakeFiatValue &&
+                  overview.totalStakeFiatValue.amount > 0
+              "
+            >
+              <span class="fiat">
+                {{ overview.totalStakeFiatValue.symbol
+                }}{{
+                  bigFigureOrShortDecimals(overview.totalStakeFiatValue.amount)
+                }}
+                {{ preferredCurrency }}
+              </span>
+            </template>
+          </div>
         </div>
 
         <div class="table-cell rewards">
           <h2>+{{ overview.totalRewards }} {{ stakingDenom }}</h2>
         </div>
 
-        <div class="table-cell">
-          <span class="available">
+        <div class="table-cell available">
+          <span class="available-amount">
             {{ overview.liquidStake | bigFigureOrShortDecimals }}
             {{ stakingDenom }}
           </span>
         </div>
 
-        <div class="table-cell">
+        <div class="table-cell actions">
           <div class="icon-button-container">
             <button class="icon-button" @click="onSend()">
               <i class="material-icons">send</i></button
@@ -150,15 +158,17 @@
               "
               :alt="`${balance.denom}` + ' currency'"
             />
-            <span class="total">
-              {{ balance.amount | bigFigureOrShortDecimals }}
-              {{ balance.denom }}
-            </span>
-            <span class="fiat">
-              {{ balance.fiatValue.symbol
-              }}{{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
-              {{ balance.fiatValue.denom }}</span
-            >
+            <div class="total-and-fiat">
+              <span class="total">
+                {{ balance.amount | bigFigureOrShortDecimals }}
+                {{ balance.denom }}
+              </span>
+              <span class="fiat">
+                {{ balance.fiatValue.symbol
+                }}{{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
+                {{ balance.fiatValue.denom }}</span
+              >
+            </div>
           </div>
 
           <div :key="balance.denom + 1" class="table-cell rewards">
@@ -171,9 +181,9 @@
             </h2>
           </div>
 
-          <div :key="balance.denom + 2" class="table-cell"></div>
+          <div :key="balance.denom + 2" class="table-cell available"></div>
 
-          <div :key="balance.denom + 3" class="table-cell">
+          <div :key="balance.denom + 3" class="table-cell actions">
             <div class="icon-button-container">
               <button class="icon-button" @click="onSend()">
                 <i class="material-icons">send</i></button
@@ -561,7 +571,10 @@ select option {
   float: right;
   display: inline-flex;
   align-items: center;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--primary);
+  border-radius: 0.5rem;
   font-family: var(--sans);
   font-size: 14px;
   font-weight: 400;
@@ -577,6 +590,8 @@ select option {
 .currency-flag {
   width: 3rem;
   height: 3rem;
+  max-width: 100%;
+  object-fit: cover;
   margin-right: 1rem;
 }
 
@@ -688,7 +703,7 @@ select option {
   color: var(--bright);
 }
 
-.available {
+.available-amount {
   color: #ffdc82;
   opacity: 95%;
 }
@@ -732,9 +747,67 @@ select option {
   color: var(--bright);
 }
 
+.total-and-fiat {
+  display: flex;
+  flex-direction: row;
+}
+
 @media screen and (max-width: 667px) {
+  h1 {
+    padding-bottom: 2rem;
+  }
+
   .tutorial-button {
     display: none;
+  }
+
+  .header-container {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+
+  .available {
+    display: none;
+  }
+
+  .table {
+    padding: 1rem;
+  }
+
+  .table-cell.big {
+    width: 60%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .table-cell {
+    width: 40%;
+  }
+
+  .rewards {
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-width: 1254px) {
+  .send-button {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1254px) {
+  .actions {
+    display: none;
+  }
+
+  .total-and-fiat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fiat {
+    padding: 0;
+    font-size: 12px;
   }
 }
 </style>
