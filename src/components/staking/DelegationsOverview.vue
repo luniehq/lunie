@@ -1,5 +1,6 @@
 <template>
   <div class="table-container">
+    <h1>Your Validators</h1>
     <div
       v-if="$apollo.queries.delegations.loading && !delegations.length"
       class="loading-image-container"
@@ -92,6 +93,13 @@ export default {
 }
 </script>
 <style scoped>
+h1 {
+  font-size: 24px;
+  color: white;
+  font-weight: 300;
+  padding: 2rem 0;
+}
+
 .table-container {
   padding: 2rem;
   background: rgba(16, 18, 31, 0.4);
