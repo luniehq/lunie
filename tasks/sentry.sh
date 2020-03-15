@@ -1,6 +1,6 @@
 # install sentry cli
 echo "Installing and configuring sentry cli"
-curl -L -o sentry-cli https://github.com/getsentry/sentry-cli/releases/download/1.40.0/sentry-cli-Linux-x86_64
+curl -L -o sentry-cli https://github.com/getsentry/sentry-cli/releases/download/1.40.0/sentry-cli-Linux-`arch`
 chmod u+x sentry-cli
 ./sentry-cli --version
 export SENTRY_AUTH_TOKEN=${SENTRY_TOKEN}

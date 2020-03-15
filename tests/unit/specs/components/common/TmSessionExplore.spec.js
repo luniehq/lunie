@@ -16,7 +16,8 @@ describe(`TmSessionExplore`, () => {
     {
       id: "cosmos-hub-mainnet",
       address_prefix: "cosmos",
-      testnet: false
+      testnet: false,
+      slug: "cosmos-hub"
     },
     {
       id: "terra-testnet",
@@ -53,7 +54,8 @@ describe(`TmSessionExplore`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
       getters: {
-        network: "cosmos-hub-testnet"
+        network: "cosmos-hub-testnet",
+        networks
       },
       state: {
         session: {
@@ -71,17 +73,6 @@ describe(`TmSessionExplore`, () => {
         },
         $store
       }
-    })
-
-    wrapper.setData({
-      networks: [
-        {
-          id: "cosmos-hub-testnet",
-          address_prefix: "cosmos",
-          testnet: false,
-          slug: "cosmos-hub"
-        }
-      ]
     })
   })
 
