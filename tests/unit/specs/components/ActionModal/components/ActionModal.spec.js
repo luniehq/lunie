@@ -164,9 +164,23 @@ describe(`ActionModal`, () => {
   })
 
   it(`should return a number with maximum the specified decimals`, () => {
-    // const self = {}
     const maxDecimalsNumber = ActionModal.methods.maxDecimals(9.89639499, 4)
     expect(maxDecimalsNumber).toBe(9.8964)
+  })
+
+  it(`should return the max amount in balance minus the extra fees you need to pay in Terra for sending`, () => {
+    const self = {
+      networkId: "terra-mainnet",
+      transactionData: {
+        type: `MsgSend`
+      },
+      gasEstimate: 550000,
+      gasPrice: "1e-9",
+      amount: 1,
+      maxDecimals: ActionModal.methods.maxDecimals
+    }
+    const maxAmount = ActionModal.computed.estimatedFee.call(self)
+    expect(maxAmount).toBe(0.00855)
   })
 
   it(`should set the submissionError if the submission is rejected`, async () => {
