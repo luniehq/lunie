@@ -136,7 +136,8 @@
   },
   "resolutions": {
     "stylelint-webpack-plugin": "1.1.2",
-    "acorn": "6.4.1"
+    "acorn": "6.4.1",
+    "minimist": "1.2.2"
   },
   "engines": {
     "node": ">=10.13.0"
