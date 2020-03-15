@@ -1,11 +1,17 @@
 import {
   signWithExtension,
-  cancelSignWithExtension
+  cancelSignWithExtension,
+  getSignQueue
 } from "src/scripts/extension-utils"
 
 export async function cancelSign(submitType = "", { address, network }) {
   if (submitType === `extension`) {
     cancelSignWithExtension(address, network)
+  }
+}
+export async function signQueue(submitType = "") {
+  if (submitType === `extension`) {
+    return getSignQueue()
   }
 }
 

@@ -20,7 +20,6 @@
 
 <script>
 import { mapState } from "vuex"
-import gql from "graphql-tag"
 import NetworkItem from "../network/NetworkItem"
 import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
@@ -32,18 +31,23 @@ export default {
     NetworkItem
   },
   data: () => ({
-    networks: [],
     sortedNetworks: []
   }),
   computed: {
-    ...mapState([`connection`]),
+    ...mapState([`connection`, `session`]),
     ...mapGetters({ networkId: `network` }),
+    ...mapGetters([`networks`]),
     whichFlow() {
       if (this.$route.params.recover) {
         return `/recover`
       } else {
         return `/create`
       }
+    }
+  },
+  watch: {
+    networks: networks => {
+      this.updateSelectedNetwork(networks)
     }
   },
   methods: {
@@ -77,28 +81,6 @@ export default {
         this.sortedNetworks = []
       }
       return this.sortedNetworks // just for tests
-    }
-  },
-  apollo: {
-    networks: {
-      query: gql`
-        query Networks {
-          networks {
-            id
-            chain_id
-            title
-            testnet
-            icon
-            slug
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      update(data) {
-        // updating sortedNetworks
-        this.updateSelectedNetwork(data.networks)
-        return data.networks
-      }
     }
   }
 }

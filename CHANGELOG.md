@@ -7,6 +7,68 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.175] - 2020-03-14
+
+### Added
+
+- checking extension queue length before new transaction @iambeone
+- Allow to use Polkadot raw seed as seed phrase in recovery @faboweb
+
+### Security
+
+- Updated dep because of security issue @faboweb
+
+### Repository
+
+- fixed arch value replaced with arch result @iambeone
+
+## [1.0.174] - 2020-03-12
+
+### Added
+
+- Add message creation on terra mainnet @faboweb
+
+### Changed
+
+- default to USD for fiat selection, changed styles of fiat display @jbibla
+- disabled network list item interactivity @jbibla
+
+### Fixed
+
+- fix creating new account record on sign-in with extension @iambeone
+- [#3680](https://github.com/cosmos/lunie/pull/3680) Fixes amount of undefined in totalRewards in ModalWithdrawRewards @Bitcoinera
+
+### Repository
+
+- ignore build warnings @iambeone
+
+## [1.0.173] - 2020-03-11
+
+### Changed
+
+- [#3649](https://github.com/cosmos/lunie/pull/3649) Now the memo field is always displayed on SendModal @Bitcoinera
+- [#3664](https://github.com/cosmos/lunie/pull/3664) Now to pay fees in Claim Rewards, if there is no staking denom balance available, fees will be paid in the first token with positive balance @Bitcoinera
+- [#3663](https://github.com/cosmos/lunie/pull/3663) Now it is possible to claim rewards from any token despite not having any staking denom reward @Bitcoinera
+- [#3661](https://github.com/cosmos/lunie/pull/3661) Now amounts are displayed in the TransactionItem component for all ClaimRewards transactions @Bitcoinera
+- [#3658](https://github.com/cosmos/lunie/pull/3658) Filters all "Unknown" transactions in PageBlock @Bitcoinera
+- [#3657](https://github.com/cosmos/lunie/pull/3657) For Terra networks it changes the fee for an action according to the amount of tokens being handled. Fix in ActionModal @Bitcoinera
+
+### Fixed
+
+- [#3650](https://github.com/cosmos/lunie/pull/3650) Fixes the Back to Lunie button @Bitcoinera
+- [#3665](https://github.com/cosmos/lunie/pull/3665) Handles checks in TmBalance when balances are not yet loaded @Bitcoinera
+- [#3653](https://github.com/cosmos/lunie/pull/3653) Fixes the PoweredBy component inside the NetworkItem @Bitcoinera
+- [#3669](https://github.com/cosmos/lunie/pull/3669) Fix concat property of undefined in ClaimRewardsTxDetails as it now wait for getValidators array to be filled @Bitcoinera
+- [#3659](https://github.com/cosmos/lunie/pull/3659) Fix signin routing with Ledger @Bitcoinera
+- [#3656](https://github.com/cosmos/lunie/pull/3656) Fixes Terra microdenoms in the toMicroDenom function @Bitcoinera
+- [#3651](https://github.com/cosmos/lunie/pull/3651) Fixes all the signins and signup routing @Bitcoinera
+- [##3666](https://github.com/cosmos/lunie/issues/#3666) fixed css bug width set to 1023px @jrmoreau
+
+### Repository
+
+- sending sourcemaps to sentry @iambeone
+- netlify config for production build @iambeone
+
 ## [1.0.172] - 2020-03-05
 
 ### Added

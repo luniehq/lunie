@@ -17,9 +17,9 @@
         <i class="material-icons notranslate">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">
-          {{ requiresSignIn ? `Sign in required` : title }}
-        </span>
+        <span class="action-modal-title">{{
+          requiresSignIn ? `Sign in required` : title
+        }}</span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -300,6 +300,7 @@ import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 import transactionTypes from "../utils/transactionTypes"
+import BigNumber from "bignumber.js"
 // import transactionTypes from '../utils/transactionTypes'
 
 const defaultStep = `details`
@@ -335,6 +336,9 @@ const sessionType = {
   LEDGER: SIGN_METHODS.LEDGER,
   EXTENSION: SIGN_METHODS.EXTENSION
 }
+
+// hardcoding terra tax here until we have it in the API
+const terraTax = 0.008
 
 export default {
   name: `action-modal`,
@@ -418,23 +422,21 @@ export default {
     successStep,
     SIGN_METHODS,
     featureAvailable: true,
-    network: {},
     overview: {},
     isMobileApp: config.mobileApp,
-    balances: []
+    balances: [],
+    queueEmpty: true
   }),
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapGetters([`connected`, `isExtensionAccount`]),
-    // hack to avoid computed property in data error
-    ...mapGetters({ networkID: `network` }),
-    // hack for tests
-    networkId() {
-      return this.network.id
-    },
+    ...mapGetters([`connected`, `isExtensionAccount`, `networks`]),
+    ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
       return this.network[action] === true
+    },
+    network() {
+      return this.networks.find(({ id }) => id == this.networkId)
     },
     requiresSignIn() {
       return (
@@ -449,12 +451,11 @@ export default {
         this.networkId.startsWith(`terra`) &&
         this.transactionData.type === transactionTypes.SEND
       ) {
-        // hardcoding terra tax here until we have it in the API
-        const terraTax = 0.008
-        return (
+        return this.maxDecimals(
           Number(this.gasEstimate) * Number(this.gasPrice) +
-          Number(this.amount) * terraTax
-        )
+            Number(this.amount) * terraTax,
+          6
+        ) // TODO get precision from API
       }
       return Number(this.gasPrice) * Number(this.gasEstimate)
     },
@@ -555,20 +556,35 @@ export default {
   methods: {
     confirmModalOpen() {
       let confirmResult = false
-      if (this.session.currrentModalOpen) {
+      if (this.session.currrentModalOpen || !this.queueEmpty) {
         confirmResult = window.confirm(
           "You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?"
         )
         if (confirmResult) {
-          this.session.currrentModalOpen.close()
+          if (this.queueEmpty) {
+            this.session.currrentModalOpen.close()
+          }
           this.$store.commit(`setCurrrentModalOpen`, false)
+          // clearing request query
+          this.actionManager.cancel(
+            { userAddress: this.session.address, networkId: this.network.id },
+            this.selectedSignMethod
+          )
+          this.queueEmpty = true
         }
       }
     },
-    open() {
-      this.confirmModalOpen()
+    async open() {
       this.$apollo.skipAll = false
-      if (this.session.currrentModalOpen) {
+      // checking if there is something in a queue
+      const queue = await this.actionManager.getSignQueue(
+        this.selectedSignMethod
+      )
+      if (queue) {
+        this.queueEmpty = false
+      }
+      this.confirmModalOpen()
+      if (this.session.currrentModalOpen || !this.queueEmpty) {
         return
       }
       this.$store.commit(`setCurrrentModalOpen`, this)
@@ -682,9 +698,17 @@ export default {
 
       // limit fees to the maximum the user has
       if (this.invoiceTotal > this.selectedBalance.amount) {
+        let payable = Number(this.subTotal)
+        // in terra we also have to pay the tax
+        // TODO refactor using a `fixedFee` property
+        if (
+          this.networkId.startsWith(`terra`) &&
+          this.transactionData.type === transactionTypes.SEND
+        ) {
+          payable += Number(this.amount) * terraTax
+        }
         this.gasPrice =
-          (Number(this.selectedBalance.amount) - Number(this.subTotal)) /
-          this.gasEstimate
+          (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
       }
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
       this.gasPrice = this.gasPrice >= 0 ? this.gasPrice : 0
@@ -778,6 +802,9 @@ export default {
       this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
+    },
+    maxDecimals(value, decimals) {
+      return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
     }
   },
   validations() {
@@ -816,7 +843,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.networkID,
+          networkId: this.networkId,
           address: this.session.address
         }
       },
@@ -841,7 +868,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.networkID,
+          networkId: this.networkId,
           address: this.session.address
         }
       },
@@ -862,42 +889,12 @@ export default {
         return !this.session.address
       }
     },
-    network: {
-      query: gql`
-        query NetworkActionModal($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-            chain_id
-            action_send
-            action_claim_rewards
-            action_delegate
-            action_redelegate
-            action_undelegate
-            action_deposit
-            action_vote
-            action_proposal
-            network_type
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.networkID
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        return data.network
-      }
-    },
     $subscribe: {
       userTransactionAdded: {
         /* istanbul ignore next */
         variables() {
           return {
-            networkId: this.networkID,
+            networkId: this.networkId,
             address: this.session.address
           }
         },

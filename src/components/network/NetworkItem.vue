@@ -1,5 +1,5 @@
 <template>
-  <div class="network-item" :class="{ active: network === networkitem.id }">
+  <div class="network-item" :class="{ disabled: disabled }">
     <div class="network-icon">
       <img
         :src="`${networkitem.icon}`"
@@ -27,19 +27,18 @@
         alt="a small spinning circle to display loading"
       />
       <div
-        v-else-if="connected && network === networkitem.id"
+        v-else-if="!disabled && connected && network === networkitem.id"
         class="network-selected"
       >
         <i class="material-icons notranslate">check</i>
       </div>
-      <div v-else style="display: block; width: 24px;"></div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import PoweredBy from "network/PoweredBy"
+import PoweredBy from "./PoweredBy"
 
 export default {
   name: `network-item`,
@@ -51,7 +50,7 @@ export default {
       type: Object,
       required: true
     },
-    enabled: {
+    disabled: {
       type: Boolean,
       default: false
     }
@@ -85,13 +84,19 @@ export default {
   color: var(--bright);
 }
 
+.network-item.disabled:hover {
+  cursor: default;
+  background: var(--app-fg);
+}
+
 .network-item b {
   font-weight: 500;
 }
 
 .network-icon img {
   max-height: 100%;
-  max-width: 52px;
+  height: 3.5rem;
+  width: 3.5rem;
   display: block;
 }
 

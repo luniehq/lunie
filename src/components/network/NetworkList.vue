@@ -7,7 +7,7 @@
       :class="{ selected: currentNetwork === network.id }"
       @click="network.chain_id ? selectNetworkHandler(network) : false"
     >
-      <NetworkItem :networkitem="network" />
+      <NetworkItem :networkitem="network" :disabled="disabled" />
     </li>
   </ul>
 </template>
@@ -17,7 +17,7 @@ import { mapGetters } from "vuex"
 import NetworkItem from "./NetworkItem"
 
 export default {
-  name: `page-network`,
+  name: `network-list`,
   components: {
     NetworkItem
   },
@@ -25,6 +25,10 @@ export default {
     networks: {
       type: Array,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: false
     }
   },
   computed: {

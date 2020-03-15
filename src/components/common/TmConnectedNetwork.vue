@@ -79,7 +79,6 @@
 <script>
 import { mapState, mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
-import { Networks, NetworksResult } from "src/gql"
 import TmBtn from "common/TmBtn"
 import PoweredBy from "network/PoweredBy"
 import gql from "graphql-tag"
@@ -99,7 +98,7 @@ export default {
   }),
   computed: {
     ...mapState([`intercom`, `connection`]),
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `networks`]),
     networkSlug() {
       return this.connection.networkSlug
     },
@@ -141,11 +140,6 @@ export default {
           networkId: this.network
         }
       }
-    },
-    networks: {
-      query: Networks,
-      fetchPolicy: "cache-first",
-      update: NetworksResult
     },
     $subscribe: {
       blockAdded: {
