@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
 import NetworkList from "./NetworkList"
 
 import TmPage from "common/TmPage"
