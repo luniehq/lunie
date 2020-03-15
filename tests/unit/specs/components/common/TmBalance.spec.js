@@ -61,8 +61,6 @@ describe(`TmBalance`, () => {
 
   it(`show the balance header when signed in`, () => {
     expect(wrapper.element).toMatchSnapshot()
-    expect(wrapper.text()).toMatch(/ATOM.*3,210/s)
-    expect(wrapper.text()).toMatch(/Available.*1,230/s)
   })
 
   it(`do not show available atoms when the user has none in the first place`, () => {
