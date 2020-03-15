@@ -500,7 +500,7 @@
     memoizee "^0.4.14"
     rxjs "^6.5.4"
 
-"@polkadot/api@1.6.2", "@polkadot/api@^1.5.1":
+"@polkadot/api@1.6.2", "@polkadot/api@^1.6.2":
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/@polkadot/api/-/api-1.6.2.tgz#d9ec9a292b163c6f33c2b54974ec6733287a6595"
   integrity sha512-ZTOOBzfyt1ZWmsvNhMXjcu+4ASSbd3obgma88VkOF7JcF77DoLdFfESqzOoj3xViOOH+yqqZ1bMNoDr1QmZfYg==
