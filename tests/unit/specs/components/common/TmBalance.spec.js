@@ -1,6 +1,4 @@
-import {
-  shallowMount
-} from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import TmBalance from "common/TmBalance"
 
 describe(`TmBalance`, () => {
@@ -43,7 +41,8 @@ describe(`TmBalance`, () => {
         totalStake: 3210,
         liquidStake: 1230,
         totalRewards: 1000.45,
-        rewards: [{
+        rewards: [
+          {
             amount: 1,
             denom: `TOKEN1`
           },
@@ -130,7 +129,8 @@ describe(`TmBalance`, () => {
 
   it(`should return true if rewards contain multiple denoms`, () => {
     wrapper.setData({
-      balances: [{
+      balances: [
+        {
           amount: 1,
           denom: "ATOM",
           fiatValue: `33€`
