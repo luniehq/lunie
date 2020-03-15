@@ -17,9 +17,9 @@
         <i class="material-icons notranslate">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">
-          {{ requiresSignIn ? `Sign in required` : title }}
-        </span>
+        <span class="action-modal-title">{{
+          requiresSignIn ? `Sign in required` : title
+        }}</span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -300,6 +300,7 @@ import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 import transactionTypes from "../utils/transactionTypes"
+import BigNumber from "bignumber.js"
 // import transactionTypes from '../utils/transactionTypes'
 
 const defaultStep = `details`
@@ -335,6 +336,9 @@ const sessionType = {
   LEDGER: SIGN_METHODS.LEDGER,
   EXTENSION: SIGN_METHODS.EXTENSION
 }
+
+// hardcoding terra tax here until we have it in the API
+const terraTax = 0.008
 
 export default {
   name: `action-modal`,
@@ -450,12 +454,11 @@ export default {
         this.networkId.startsWith(`terra`) &&
         this.transactionData.type === transactionTypes.SEND
       ) {
-        // hardcoding terra tax here until we have it in the API
-        const terraTax = 0.008
-        return (
+        return this.maxDecimals(
           Number(this.gasEstimate) * Number(this.gasPrice) +
-          Number(this.amount) * terraTax
-        )
+            Number(this.amount) * terraTax,
+          6
+        ) // TODO get precision from API
       }
       return Number(this.gasPrice) * Number(this.gasEstimate)
     },
@@ -698,9 +701,17 @@ export default {
 
       // limit fees to the maximum the user has
       if (this.invoiceTotal > this.selectedBalance.amount) {
+        let payable = Number(this.subTotal)
+        // in terra we also have to pay the tax
+        // TODO refactor using a `fixedFee` property
+        if (
+          this.networkId.startsWith(`terra`) &&
+          this.transactionData.type === transactionTypes.SEND
+        ) {
+          payable += Number(this.amount) * terraTax
+        }
         this.gasPrice =
-          (Number(this.selectedBalance.amount) - Number(this.subTotal)) /
-          this.gasEstimate
+          (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
       }
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
       this.gasPrice = this.gasPrice >= 0 ? this.gasPrice : 0
@@ -794,6 +805,9 @@ export default {
       this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
+    },
+    maxDecimals(value, decimals) {
+      return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
     }
   },
   validations() {

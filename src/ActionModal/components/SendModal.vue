@@ -128,6 +128,7 @@
 <script>
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
+import BigNumber from "bignumber.js"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
 import { uatoms, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
@@ -143,6 +144,10 @@ import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
 
 const defaultMemo = "(Sent via Lunie)"
+
+const maxDecimals = (value, decimals) => {
+  return BigNumber(value).toFixed(decimals)
+}
 
 export default {
   name: `send-modal`,
@@ -256,7 +261,15 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.selectedBalance.amount
+      if (this.network.startsWith(`terra`)) {
+        const terraTax = 0.008
+        this.amount = maxDecimals(
+          this.selectedBalance.amount / (1 + terraTax),
+          6 // TODO get precision fro API
+        )
+      } else {
+        this.amount = this.selectedBalance.amount
+      }
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
