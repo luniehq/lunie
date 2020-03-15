@@ -8,12 +8,12 @@ describe(`ModalWithdrawRewards`, () => {
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
-      dispatch: jest.fn()
-    }
-    propsData = {
-      validatorAddress: "cosmos1234567",
-      rewards: 0,
-      denom: "STAKE"
+      dispatch: jest.fn(),
+      getters: {
+        stakingDenom: "STAKE",
+        network: "cosmos-hub-mainnet",
+        address: "cosmos1234"
+      }
     }
 
     wrapper = shallowMount(ModalWithdrawRewards, {
@@ -21,6 +21,18 @@ describe(`ModalWithdrawRewards`, () => {
         $store
       },
       propsData
+    })
+    wrapper.setData({
+      rewards: [
+        {
+          denom: `STAKE`,
+          amount: 1
+        },
+        {
+          denom: `NOTSTAKE`,
+          amount: 2
+        }
+      ]
     })
   })
 
@@ -46,7 +58,7 @@ describe(`ModalWithdrawRewards`, () => {
           amount: 2
         }
       ],
-      denom: "STAKE"
+      stakingDenom: "STAKE"
     }
     const totalRewards = ModalWithdrawRewards.computed.totalRewards.call(self)
     expect(totalRewards).toEqual(`1.000000`)

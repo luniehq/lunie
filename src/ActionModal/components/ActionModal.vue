@@ -422,7 +422,6 @@ export default {
     successStep,
     SIGN_METHODS,
     featureAvailable: true,
-    network: {},
     overview: {},
     isMobileApp: config.mobileApp,
     balances: [],
@@ -430,16 +429,14 @@ export default {
   }),
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapGetters([`connected`, `isExtensionAccount`]),
-    // hack to avoid computed property in data error
-    ...mapGetters({ networkID: `network` }),
-    // hack for tests
-    networkId() {
-      return this.network.id
-    },
+    ...mapGetters([`connected`, `isExtensionAccount`, `networks`]),
+    ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
       return this.network[action] === true
+    },
+    network() {
+      return this.networks.find(({ id }) => id == this.networkId)
     },
     requiresSignIn() {
       return (
@@ -846,7 +843,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.networkID,
+          networkId: this.networkId,
           address: this.session.address
         }
       },
@@ -871,7 +868,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.networkID,
+          networkId: this.networkId,
           address: this.session.address
         }
       },
@@ -892,42 +889,12 @@ export default {
         return !this.session.address
       }
     },
-    network: {
-      query: gql`
-        query NetworkActionModal($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-            chain_id
-            action_send
-            action_claim_rewards
-            action_delegate
-            action_redelegate
-            action_undelegate
-            action_deposit
-            action_vote
-            action_proposal
-            network_type
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.networkID
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        return data.network
-      }
-    },
     $subscribe: {
       userTransactionAdded: {
         /* istanbul ignore next */
         variables() {
           return {
-            networkId: this.networkID,
+            networkId: this.networkId,
             address: this.session.address
           }
         },

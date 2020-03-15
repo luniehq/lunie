@@ -258,7 +258,6 @@ export default {
   data() {
     return {
       overview: {},
-      stakingDenom: "",
       sentToGA: false,
       balances: [],
       showTutorial: false,
@@ -306,7 +305,7 @@ export default {
   },
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `network`, `stakingDenom`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
@@ -490,27 +489,6 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
-      }
-    },
-    stakingDenom: {
-      query: gql`
-        query Network($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        if (!data.network) return ""
-        return data.network.stakingDenom
       }
     },
     $subscribe: {

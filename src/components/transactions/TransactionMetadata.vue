@@ -35,7 +35,6 @@
 
 <script>
 import { mapGetters } from "vuex"
-import gql from "graphql-tag"
 import moment from "moment"
 import { atoms, viewDenom } from "scripts/num.js"
 import { prettyInt } from "scripts/num"
@@ -53,11 +52,12 @@ export default {
       required: true
     }
   },
-  data: () => ({
-    network: {}
-  }),
   computed: {
     ...mapGetters({ networkId: `network` }),
+    ...mapGetters([`networks`]),
+    network() {
+      return this.networks.find(({ id }) => id == this.networkId)
+    },
     date() {
       const momentTime = moment(this.transaction.timestamp)
       return momentTime.format(`HH:mm:ss`)
@@ -67,28 +67,6 @@ export default {
     checkFeatureAvailable() {
       const feature = `feature_explorer`
       return this.network[feature] === true
-    }
-  },
-  apollo: {
-    network: {
-      query: gql`
-        query NetworkActionModal($networkId: String!) {
-          network(id: $networkId) {
-            id
-            feature_explorer
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.networkId
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        return data.network
-      }
     }
   }
 }

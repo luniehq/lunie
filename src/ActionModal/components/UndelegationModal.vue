@@ -62,7 +62,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix max-button">{{ denom }}</span>
+      <span class="input-suffix max-button">{{ stakingDenom }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -81,11 +81,11 @@
         />
       </TmFieldGroup>
       <span v-if="maximum > 0" class="form-message">
-        Currently staked: {{ maximum }} {{ denom }}s
+        Currently staked: {{ maximum }} {{ stakingDenom }}s
       </span>
       <TmFormMsg
         v-if="maximum === 0"
-        :msg="`don't have any ${denom}s delegated to this validator`"
+        :msg="`don't have any ${stakingDenom}s delegated to this validator`"
         name="You"
         type="custom"
       />
@@ -149,7 +149,6 @@ export default {
     amount: null,
     delegations: [],
     validators: [],
-    denom: "",
     toSelectedIndex: `0`,
     balance: {
       amount: 0,
@@ -158,7 +157,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`network`, `address`]),
+    ...mapGetters([`network`, `address`, `stakingDenom`]),
     maximum() {
       const delegation = this.delegations.find(
         ({ validator }) =>
@@ -172,7 +171,7 @@ export default {
           isNaN(this.amount) ||
           !this.sourceValidator.operatorAddress ||
           !this.toSelectedIndex ||
-          !this.denom
+          !this.stakingDenom
         ) {
           return {}
         }
@@ -181,13 +180,13 @@ export default {
           validatorSourceAddress: this.sourceValidator.operatorAddress,
           validatorDestinationAddress: this.toSelectedIndex,
           amount: uatoms(this.amount),
-          denom: toMicroDenom(this.denom)
+          denom: toMicroDenom(this.stakingDenom)
         }
       } else {
         if (
           isNaN(this.amount) ||
           !this.sourceValidator.operatorAddress ||
-          !this.denom
+          !this.stakingDenom
         ) {
           return {}
         }
@@ -195,7 +194,7 @@ export default {
           type: transaction.UNDELEGATE,
           validatorAddress: this.sourceValidator.operatorAddress,
           amount: uatoms(this.amount),
-          denom: toMicroDenom(this.denom)
+          denom: toMicroDenom(this.stakingDenom)
         }
       }
     },
@@ -203,12 +202,12 @@ export default {
       if (this.isRedelegation) {
         return {
           title: `Successfully restaked!`,
-          body: `You have successfully restaked ${this.amount} ${this.denom}s.`
+          body: `You have successfully restaked ${this.amount} ${this.stakingDenom}s.`
         }
       } else {
         return {
           title: `Successfully unstaked!`,
-          body: `You have successfully unstaked ${this.amount} ${this.denom}s.`
+          body: `You have successfully unstaked ${this.amount} ${this.stakingDenom}s.`
         }
       }
     },
@@ -354,33 +353,12 @@ export default {
         return {
           networkId: this.network,
           address: this.userAddress,
-          denom: this.denom
+          denom: this.stakingDenom
         }
       },
       /* istanbul ignore next */
       update(data) {
         return data.balance || { amount: 0 }
-      }
-    },
-    denom: {
-      query: gql`
-        query NetworksUndelegationModal($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      fetchPolicy: "cache-first",
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        return data.network ? data.network.stakingDenom : ""
       }
     },
     validators: {

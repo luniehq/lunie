@@ -39,7 +39,8 @@ describe(`DelegationModal`, () => {
 
   const getters = {
     network: "testnet",
-    address: "cosmos1234"
+    address: "cosmos1234",
+    stakingDenom: "STAKE"
   }
 
   beforeEach(() => {
@@ -74,7 +75,6 @@ describe(`DelegationModal`, () => {
           amount: 200
         }
       ],
-      denom: "STAKE",
       balance: {
         amount: 1000,
         denom: "STAKE"

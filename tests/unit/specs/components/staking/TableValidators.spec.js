@@ -35,7 +35,8 @@ describe(`TableValidators`, () => {
   beforeEach(() => {
     $store = {
       getters: {
-        address: "cosmo1"
+        address: "cosmo1",
+        stakingDenom: "ATOM"
       },
       state: {}
     }
