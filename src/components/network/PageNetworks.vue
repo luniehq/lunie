@@ -54,17 +54,12 @@ export default {
     ]
   }),
   computed: {
-    ...mapState(["session"]),
     ...mapGetters([`networks`]),
     mainNetworks() {
-      return this.filteredNetworks.filter(network => !network.testnet)
-    },
-    filteredNetworks() {
-      const experimentalMode = this.session.experimentalMode // "this" is not being correctly passed
-      return this.networks.filter(({ enabled }) => experimentalMode || enabled)
+      return this.networks.filter(network => !network.testnet)
     },
     testNetworks() {
-      return this.filteredNetworks.filter(network => network.testnet)
+      return this.networks.filter(network => network.testnet)
     }
   }
 }

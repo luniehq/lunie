@@ -13,7 +13,7 @@ exports[`PageNetworks shows a page with a selection of networks 1`] = `
   </h3>
    
   <networklist-stub
-    networks=""
+    networks="[object Object]"
   />
    
   <h3>
@@ -21,7 +21,7 @@ exports[`PageNetworks shows a page with a selection of networks 1`] = `
   </h3>
    
   <networklist-stub
-    networks=""
+    networks="[object Object]"
   />
    
   <h3>

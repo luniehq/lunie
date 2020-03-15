@@ -26,11 +26,6 @@ describe(`PageNetworks`, () => {
   beforeEach(() => {
     $store = {
       dispatch: jest.fn(),
-      state: {
-        session: {
-          experiMentalMode: false
-        }
-      },
       getters: {
         networks
       }
