@@ -97,7 +97,7 @@ import { formatAddress } from "src/filters"
 import { isAddress } from "web3-utils"
 const isEthereumAddress = isAddress
 const isPolkadotAddress = address => {
-  const polkadotRegexp = /[0-9a-zA-Z]{48}/
+  const polkadotRegexp = /[0-9a-zA-Z]{47}/
   return polkadotRegexp.test(address)
 }
 
@@ -205,7 +205,8 @@ export default {
         param.substring(0, 6) === "terra1" ||
         param.substring(0, 5) === "xrn:1" ||
         param.substring(0, 7) === "emoney1" ||
-        param.substring(0, 2) === "0x"
+        param.substring(0, 2) === "0x" ||
+        this.isPolkadotAddress(param)
       ) {
         return true
       } else {
@@ -238,7 +239,11 @@ export default {
       return isPolkadotAddress(address)
     },
     addressValidate(address) {
-      return this.bech32Validate(address) || this.isEthereumAddress(address)
+      return (
+        this.bech32Validate(address) ||
+        this.isEthereumAddress(address) ||
+        this.isPolkadotAddress(address)
+      )
     }
   },
   validations() {
