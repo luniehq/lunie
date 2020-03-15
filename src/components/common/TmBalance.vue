@@ -665,6 +665,7 @@ select option {
   border-bottom: 1px solid var(--bc-dim);
   font-family: "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   position: relative;
+  white-space: nowrap;
 }
 
 .table-cell.big {

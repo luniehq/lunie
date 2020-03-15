@@ -97,11 +97,13 @@ h1 {
   font-size: 24px;
   color: white;
   font-weight: 300;
-  padding: 2rem 0;
+  padding: 1rem 0 2rem;
 }
 
 .table-container {
   padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .tab-header {
