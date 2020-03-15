@@ -7,7 +7,7 @@ const {
   waitForText,
   getLastActivityItemHash,
   checkBrowserLogs,
-  getAccountBallance,
+  getAccountBalance,
   fundMasterAccount
 } = require("./helpers.js")
 
@@ -50,7 +50,7 @@ module.exports = {
    *
    * @param results
    */
-  reporter: function(results) {
+  reporter: function (results) {
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
       (typeof results.errors === `undefined` || results.errors === 0)
@@ -64,7 +64,7 @@ module.exports = {
 
 async function next(browser) {
   browser.execute(
-    function(selector, scrollX, scrollY) {
+    function (selector, scrollX, scrollY) {
       var elem = document.querySelector(selector)
       elem.scrollLeft = scrollX
       elem.scrollTop = scrollY
@@ -87,7 +87,7 @@ async function createNewAccount(browser, networkData) {
         true,
         () => {
           browser.execute(
-            function(network) {
+            function (network) {
               document
                 .querySelector(`.select-network-item[data-network=${network}]`)
                 .click()
@@ -113,7 +113,7 @@ async function createNewAccount(browser, networkData) {
       browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
       browser.click("#sign-up-warning")
       await next(browser)
-      browser.waitForElementVisible(".balance-header") // wait until signup is completed
+      browser.waitForElementVisible(".balance-header", 10000, true) // wait until signup is completed
       return true
     }
   )
@@ -166,7 +166,7 @@ async function initialiseDefaults(browser) {
     .url(browser.launch_url + browser.globals.slug + "/portfolio")
     .then(() => {
       browser.execute(
-        function(apiURI, network) {
+        function (apiURI, network) {
           // setting the api to localStorage
           window.localStorage.setItem("persistentapi", apiURI)
           // clear data from older tests
@@ -186,7 +186,7 @@ async function defineNeededValidators(browser, networkData) {
     browser.launch_url + browser.globals.slug + "/validators",
     async () => {
       const validators = await browser.execute(
-        function() {
+        function () {
           return new Promise(resolve => {
             let attempts = 5
             const f = () => {
@@ -221,7 +221,7 @@ async function storeAccountData(browser, networkData) {
   await browser.pause(500) // needed for localStorage variable setting
   return await browser.url(browser.launch_url, async () => {
     const tempAcc = await browser.execute(
-      function(networkData) {
+      function (networkData) {
         // saving account info from localStorage
         let session = window.localStorage.getItem(
           `session_${networkData.network}`
@@ -314,7 +314,7 @@ async function createAccountAndFundIt(browser, done, networkData) {
   // changing network
   await browser.url(browser.launch_url)
   await browser.execute(
-    function(networkData) {
+    function (networkData) {
       window.localStorage.setItem(`network`, `"${networkData.network}"`)
       return true
     },
@@ -366,7 +366,7 @@ async function switchToAccount(
       }
       await browser.url(browser.launch_url)
       await browser.execute(
-        function({ address, network, wallet, name }) {
+        function ({ address, network, wallet, name }) {
           // setting network
           window.localStorage.setItem(`network`, `"${network}"`)
           // skip sign in
@@ -391,7 +391,7 @@ async function switchToAccount(
         [{ address, network, wallet, name }]
       )
       browser.refresh()
-      await getAccountBallance(browser)
+      await getAccountBalance(browser)
       // wait until on portfolio page to make sure future tests have the same state
       browser.expect.element(".balance-header").to.be.visible.before(10000)
       // switching to homepage
