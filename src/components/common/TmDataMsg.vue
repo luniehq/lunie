@@ -54,7 +54,6 @@ export default {
 <style>
 .tm-data-msg {
   padding: 2rem;
-  margin: 2rem;
   display: flex;
   align-items: center;
   border-radius: 0.25rem;
@@ -105,6 +104,7 @@ export default {
 @media screen and (max-width: 767px) {
   .tm-data-msg {
     padding: 2rem 1rem;
+    margin: 1rem;
   }
 }
 

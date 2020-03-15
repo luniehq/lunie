@@ -1,6 +1,5 @@
 <template>
   <div class="table-container">
-    <h1>Your Validators</h1>
     <div
       v-if="$apollo.queries.delegations.loading && !delegations.length"
       class="loading-image-container"
@@ -11,13 +10,16 @@
         alt="geometric placeholder shapes"
       />
     </div>
+
     <div v-else-if="delegations.length > 0">
+      <h1>Your Validators</h1>
       <TableValidators
         :validators="delegations.map(({ validator }) => validator)"
         :delegations="delegations"
         show-on-mobile="expectedReturns"
       />
     </div>
+
     <TmDataMsg
       v-else-if="delegations.length === 0 && !$apollo.loading"
       icon="sentiment_dissatisfied"
@@ -101,33 +103,20 @@ h1 {
 }
 
 .table-container {
-  padding: 2rem;
   max-width: 1100px;
   margin: 0 auto;
 }
 
-.tab-header {
-  color: var(--dim);
-  font-size: 14px;
-  font-weight: 500;
-  margin: 1.5rem 0.5rem 0.5rem;
-}
-
-@media screen and (min-width: 1023) {
-  .tab-header {
-    margin: 3rem 0.5rem 0.5rem;
+@media screen and (max-width: 667px) {
+  h1 {
+    padding: 2rem;
+    text-align: center;
   }
 }
 
-.info-button {
-  color: var(--link);
-}
-
-.unbonding-transactions .tm-li-tx::before {
-  position: absolute;
-  width: 2rem;
-  text-align: right;
-  color: var(--dim);
-  left: 0;
+@media screen and (min-width: 667px) {
+  .table-container {
+    padding: 2rem;
+  }
 }
 </style>

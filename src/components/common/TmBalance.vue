@@ -73,7 +73,7 @@
       </div>
 
       <div class="table four-columns">
-        <div class="table-cell big title">Tokens</div>
+        <div class="table-cell big title">Token</div>
         <div class="table-cell title">Rewards</div>
         <div class="table-cell title available">Available</div>
         <div class="table-cell title actions"></div>
@@ -163,7 +163,7 @@
                 {{ balance.amount | bigFigureOrShortDecimals }}
                 {{ balance.denom }}
               </span>
-              <span class="fiat">
+              <span v-if="balance.fiatValue" class="fiat">
                 {{ balance.fiatValue.symbol
                 }}{{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
                 {{ balance.fiatValue.denom }}</span
@@ -547,6 +547,7 @@ export default {
 .balance-header {
   max-width: 1100px;
   margin: 0 auto;
+  width: 100%;
 }
 
 h1 {
@@ -637,6 +638,7 @@ select option {
 
 .tutorial-button {
   padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
   width: auto;
   font-size: 14px;
   background: transparent;
@@ -647,7 +649,6 @@ select option {
   display: flex;
   align-items: center;
   font-family: var(--sans);
-  margin-left: auto;
 }
 
 .tutorial-button i {
