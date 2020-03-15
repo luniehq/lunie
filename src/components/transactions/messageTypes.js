@@ -9,5 +9,20 @@ const messageType = {
   CLAIM_REWARDS: "ClaimRewardsTx",
   UNKNOWN: "UnknownTx"
 }
+const transactionGroup = {
+  [messageType.SEND]: "banking",
+  [messageType.MULTISEND]: "banking",
+  [messageType.CREATE_VALIDATOR]: "staking",
+  [messageType.EDIT_VALIDATOR]: "staking",
+  [messageType.DELEGATE]: "staking",
+  [messageType.UNDELEGATE]: "staking",
+  [messageType.BEGIN_REDELEGATE]: "staking",
+  [messageType.UNJAIL]: "staking",
+  [messageType.SUBMIT_PROPOSAL]: "governance",
+  [messageType.DEPOSIT]: "governance",
+  [messageType.VOTE]: "governance",
+  [messageType.SET_WITHDRAW_ADDRESS]: "distribution",
+  [messageType.WITHDRAW_DELEGATION_REWARD]: "distribution"
+}
 
-export { messageType }
+export { messageType, transactionGroup }
