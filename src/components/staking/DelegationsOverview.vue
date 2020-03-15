@@ -102,7 +102,6 @@ h1 {
 
 .table-container {
   padding: 2rem;
-  background: rgba(16, 18, 31, 0.4);
 }
 
 .tab-header {
