@@ -66,10 +66,15 @@ export default function({ apollo }) {
     async persistNetwork(store, network) {
       localStorage.setItem(`network`, JSON.stringify(network.id))
     },
-    async preloadNetworkCapabilities({ commit }) {
+    async preloadNetworkCapabilities({
+      commit,
+      rootState: {
+        session: { experimentalMode }
+      }
+    }) {
       const { data } = await apollo.query({
         query: NetworksAll,
-        variables: { experimental: config.development },
+        variables: { experimental: experimentalMode },
         fetchPolicy: "cache-first"
       })
       commit("setNetworks", data.networks)
