@@ -96,6 +96,10 @@ import bech32 from "bech32"
 import { formatAddress } from "src/filters"
 import { isAddress } from "web3-utils"
 const isEthereumAddress = isAddress
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48})$/
+  return polkadotRegexp.test(address)
+}
 
 export default {
   name: `session-explore`,
@@ -132,6 +136,11 @@ export default {
         .slice(-3)
     },
     networkOfAddress() {
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(this.address) && this.testnet) {
+        return this.networks.find(({ id }) => id === "polkadot-testnet")
+      }
+
       const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
         this.address.startsWith(address_prefix)
       )
@@ -196,7 +205,8 @@ export default {
         param.substring(0, 6) === "terra1" ||
         param.substring(0, 5) === "xrn:1" ||
         param.substring(0, 7) === "emoney1" ||
-        param.substring(0, 2) === "0x"
+        param.substring(0, 2) === "0x" ||
+        this.isPolkadotAddress(param)
       ) {
         return true
       } else {
@@ -225,8 +235,15 @@ export default {
     isEthereumAddress(address) {
       return isEthereumAddress(address)
     },
+    isPolkadotAddress(address) {
+      return isPolkadotAddress(address)
+    },
     addressValidate(address) {
-      return this.bech32Validate(address) || this.isEthereumAddress(address)
+      return (
+        this.bech32Validate(address) ||
+        this.isEthereumAddress(address) ||
+        this.isPolkadotAddress(address)
+      )
     }
   },
   validations() {
