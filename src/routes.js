@@ -320,7 +320,6 @@ export async function extensionSignIn({ to, next }, apollo, store) {
   let network = store.getters.networks.find(
     ({ id }) => id === to.params.network
   )
-  console.log('extensionSignIn')
 
   await store.dispatch(`signIn`, {
     sessionType: `extension`,
