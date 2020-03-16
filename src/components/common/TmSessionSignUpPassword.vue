@@ -4,10 +4,7 @@
       <h2 class="session-title">
         Choose a password
       </h2>
-      <div v-if="!session.insecureMode && !session.mobile" class="session-main">
-        <InsecureModeWarning />
-      </div>
-      <div v-else>
+      <div>
         <Steps
           v-if="!session.mobile"
           :steps="[`Create`, `Password`, `Backup`]"
@@ -74,7 +71,6 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import SessionFrame from "common/SessionFrame"
-import InsecureModeWarning from "common/InsecureModeWarning"
 import Steps from "../../ActionModal/components/Steps"
 
 export default {
@@ -86,7 +82,6 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
-    InsecureModeWarning,
     Steps
   },
   computed: {
