@@ -47,9 +47,7 @@ export default async function init(urlParams, env = process.env) {
 
   await store.dispatch(`preloadNetworkCapabilities`)
   store.dispatch(`loadLocalPreferences`)
-  store.dispatch(`checkForPersistedNetwork`).then(() => {
-    store.dispatch(`checkForPersistedSession`)
-  })
+  await store.dispatch(`checkForPersistedNetwork`) // wait until signin
   store.dispatch(`checkForPersistedAddresses`)
 
   listenToExtensionMessages(store)

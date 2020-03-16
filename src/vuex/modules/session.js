@@ -130,6 +130,7 @@ export default () => {
       },
       { address, sessionType = `ledger`, networkId }
     ) {
+      console.log('signIn with ' + address)
       if (networkId && network !== networkId) {
         await commit(`setNetworkId`, networkId)
         await dispatch(`persistNetwork`, { id: networkId })
