@@ -9,6 +9,7 @@ import {
   InMemoryCache,
   IntrospectionFragmentMatcher
 } from "apollo-cache-inmemory"
+import { persistCache } from "apollo-cache-persist"
 import { split } from "apollo-link"
 import { getMainDefinition } from "apollo-utilities"
 import VueApollo from "vue-apollo"
@@ -106,7 +107,14 @@ const createApolloClient = async () => {
   const fragmentMatcher = new IntrospectionFragmentMatcher({
     introspectionQueryResultData
   })
+
   const cache = new InMemoryCache({ fragmentMatcher })
+
+  // await before instantiating ApolloClient, else queries might run before the cache is persisted
+  await persistCache({
+    cache,
+    storage: window.localStorage
+  })
 
   return new ApolloClient({
     link: concat(middleware, link),
