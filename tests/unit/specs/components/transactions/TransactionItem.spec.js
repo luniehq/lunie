@@ -52,6 +52,13 @@ describe(`TransactionItem`, () => {
           transaction: txs[i],
           validators: {},
           address: "cosmos1"
+        },
+        mocks: {
+          $store: {
+            getters: {
+              isExtension: false
+            }
+          }
         }
       })
       expect(wrapper.element).toMatchSnapshot()
