@@ -172,10 +172,9 @@
           </div>
 
           <div :key="balance.denom + 1" class="table-cell rewards">
-            <h2 v-if="calculateTotalRewardsDenom(balance.denom) > 0.001">
+            <h2 v-if="totalRewardsPerDenom[balance.denom] > 0.001">
               +{{
-                calculateTotalRewardsDenom(balance.denom)
-                  | bigFigureOrShortDecimals
+                totalRewardsPerDenom[balance.denom] | bigFigureOrShortDecimals
               }}
               {{ balance.denom }}
             </h2>
@@ -217,7 +216,6 @@ import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
-import uniqBy from "lodash.uniqby"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
 
@@ -235,7 +233,9 @@ export default {
   },
   data() {
     return {
-      overview: {},
+      overview: {
+        rewards: []
+      },
       stakingDenom: "",
       sentToGA: false,
       balances: [],
@@ -288,18 +288,9 @@ export default {
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
-      if (this.overview.rewards && this.overview.rewards.length > 0) {
-        const uniqRewardsDenoms = uniqBy(
-          this.overview.rewards,
-          reward => reward.denom
-        ).map(reward => reward.denom)
-        const allTotalRewards = uniqRewardsDenoms.map(denom =>
-          this.calculateTotalRewardsDenom(denom)
-        )
-        return allTotalRewards.find(reward => parseFloat(reward) > 0.001)
-      } else {
-        return null
-      }
+      return Object.values(this.totalRewardsPerDenom).find(
+        value => value > 0.001
+      )
     },
     stakingBalance() {
       return this.balances.find(({ denom }) => denom === this.stakingDenom)
@@ -334,6 +325,14 @@ export default {
         this.stakingBalance &&
         this.stakingBalance.fiatValue
       )
+    },
+    totalRewardsPerDenom() {
+      return this.overview.rewards.reduce((all, reward) => {
+        return {
+          ...all,
+          [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0)
+        }
+      }, {})
     }
   },
   mounted() {
@@ -352,17 +351,6 @@ export default {
     },
     hideTutorial() {
       this.showTutorial = false
-    },
-    calculateTotalRewardsDenom(denom) {
-      if (this.overview.rewards && this.overview.rewards.length > 0) {
-        let rewardsAccumulator = 0
-        this.overview.rewards
-          .filter(reward => reward.denom === denom)
-          .forEach(reward => {
-            rewardsAccumulator += parseFloat(reward.amount)
-          })
-        return rewardsAccumulator
-      }
     },
     setPreferredCurrency() {
       localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)

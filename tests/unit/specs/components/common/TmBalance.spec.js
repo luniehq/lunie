@@ -168,7 +168,7 @@ describe(`TmBalance`, () => {
   })
 
   it(`should calculate the total rewards amount for each denom when rewards contain multiple denoms`, () => {
-    const totalDenomRewards = wrapper.vm.calculateTotalRewardsDenom(`TOKEN1`)
+    const totalDenomRewards = wrapper.vm.totalRewardsPerDenom[`TOKEN1`]
     expect(totalDenomRewards).toBe(4.5)
   })
 })
