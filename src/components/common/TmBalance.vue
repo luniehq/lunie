@@ -706,17 +706,14 @@ select option {
 
 .available-amount {
   color: #ffdc82;
-  opacity: 95%;
 }
 
 .rewards {
   color: var(--success);
-  opacity: 95%;
 }
 
 .fiat {
   color: #b0bade;
-  opacity: 95%;
   padding-left: 1rem;
 }
 
