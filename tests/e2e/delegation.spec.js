@@ -7,7 +7,7 @@ const {
 
 function setSelect(browser, selector, option) {
   browser.execute(
-    function (selector, option) {
+    function(selector, option) {
       const select = document.querySelector(selector)
       select.value = option
 
@@ -22,7 +22,7 @@ function setSelect(browser, selector, option) {
 }
 
 module.exports = {
-  "Delegate Action": async function (browser) {
+  "Delegate Action": async function(browser) {
     await browser.url(
       browser.launch_url + browser.globals.slug + "/transactions",
       async () => {
@@ -79,7 +79,7 @@ module.exports = {
       }
     )
   },
-  "Redelegate Action": async function (browser) {
+  "Redelegate Action": async function(browser) {
     await browser.url(
       browser.launch_url + browser.globals.slug + "/transactions",
       async () => {
@@ -139,7 +139,7 @@ module.exports = {
       }
     )
   },
-  "Undelegate Action": async function (browser) {
+  "Undelegate Action": async function(browser) {
     await browser.url(
       browser.launch_url + browser.globals.slug + "/transactions",
       async () => {

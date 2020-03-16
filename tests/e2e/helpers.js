@@ -83,7 +83,7 @@ async function waitForText(
 }
 
 async function getLastActivityItemHash(browser) {
-  return await browser.execute(function () {
+  return await browser.execute(function() {
     return new Promise(resolve => {
       let attempts = 5
       let step = 1
@@ -120,8 +120,8 @@ async function getLastActivityItemHash(browser) {
 
 // fetching errors from console
 async function checkBrowserLogs(browser) {
-  browser.getLog("browser", function (logEntriesArray) {
-    logEntriesArray.forEach(function (log) {
+  browser.getLog("browser", function(logEntriesArray) {
+    logEntriesArray.forEach(function(log) {
       if (log.level == "ERROR") {
         throw new Error(log.message)
       }
@@ -140,7 +140,7 @@ async function actionModalCheckout(
 ) {
   // deacivate intercom
   // can't be inserted before each as it would be removed on a refresh
-  await browser.execute(function () {
+  await browser.execute(function() {
     var sheet = window.document.styleSheets[0]
     sheet.insertRule(
       "#intercom-container { display: none !important; }",
@@ -219,7 +219,7 @@ async function actionModalCheckout(
       expect(
         Math.abs(
           approximatedAvailableBalanceAfter -
-          (await getAvailableTokens(browser))
+            (await getAvailableTokens(browser))
         )
       ).to.be.lessThan(browser.globals.expectedDiff) // acounting for rewards being withdrawn on an undelegation
     },
