@@ -72,6 +72,10 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48})$/
+  return polkadotRegexp.test(address)
+}
 export default {
   name: `session-sign-in`,
   components: {
@@ -99,6 +103,11 @@ export default {
       }))
     },
     networkOfAddress() {
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(this.signInAddress) && this.testnet) {
+        return this.networks.find(({ id }) => id === "polkadot-testnet")
+      }
+
       const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
         this.signInAddress.startsWith(address_prefix)
       )
