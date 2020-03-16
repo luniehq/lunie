@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -89,7 +89,8 @@ export default {
     testnet: false
   }),
   computed: {
-    ...mapState([`keystore`, `session`, `networks`]),
+    ...mapState([`keystore`, `session`]),
+    ...mapGetters([`networks`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({

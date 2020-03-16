@@ -79,7 +79,9 @@ describe(`TmSessionSignIn`, () => {
               name: `my_account`
             }
           ]
-        },
+        }
+      },
+      getters: {
         networks
       }
     }
