@@ -47,7 +47,8 @@
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.addressValidate"
             name="Your Address"
-            type="bech32"
+            type="custom"
+            msg="isn't recognised by Lunie. Did you type correctly?"
           />
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.isNotAValidatorAddress"
