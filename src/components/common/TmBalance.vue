@@ -326,12 +326,14 @@ export default {
       )
     },
     totalRewardsPerDenom() {
-      return this.overview.rewards.reduce((all, reward) => {
-        return {
-          ...all,
-          [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0)
-        }
-      }, {})
+      if (this.overview.rewards && this.overview.rewards.length > 0) {
+        return this.overview.rewards.reduce((all, reward) => {
+          return {
+            ...all,
+            [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0)
+          }
+        }, {})
+      } else return {}
     }
   },
   mounted() {
