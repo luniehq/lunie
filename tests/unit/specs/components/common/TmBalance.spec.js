@@ -8,7 +8,8 @@ describe(`TmBalance`, () => {
     $store = {
       getters: {
         address: "cosmos1address",
-        network: "test-network"
+        network: "test-network",
+        stakingDenom: "ATOM"
       },
       state: {
         connection: {
@@ -36,7 +37,6 @@ describe(`TmBalance`, () => {
       }
     })
     wrapper.setData({
-      stakingDenom: "ATOM",
       overview: {
         totalStake: 3210,
         liquidStake: 1230,

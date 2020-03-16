@@ -13,6 +13,7 @@ let mockSend = jest.fn(() => ({
   included: () => Promise.resolve({ height: 42 }),
   hash: "HASH1234HASH"
 }))
+let mockGetSignQueue = jest.fn(() => Promise.resolve({ queue: 1 }))
 
 jest.mock("src/../config.js", () => ({
   default_gas_price: 2.5e-8,
@@ -23,7 +24,8 @@ jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
       simulateTxAPI: mockSimulate,
-      sendTxAPI: mockSend
+      sendTxAPI: mockSend,
+      getSignQueue: mockGetSignQueue
     }
   })
 })
@@ -126,8 +128,14 @@ describe(`ActionModal`, () => {
       },
       getters: {
         connected: true,
-        network,
-        isExtensionAccount: false
+        network: "cosmos-hub-testnet",
+        isExtensionAccount: false,
+        networks: [
+          {
+            id: "cosmos-hub-testnet",
+            action_send: true
+          }
+        ]
       }
     }
 
@@ -137,6 +145,7 @@ describe(`ActionModal`, () => {
         title: `Send`,
         validate: jest.fn(),
         featureFlag: `send`,
+        queueNotEmpty: false,
         transactionData: {
           type: "MsgSend",
           denom: "uatom",
@@ -159,8 +168,31 @@ describe(`ActionModal`, () => {
       },
       stubs: ["router-link"]
     })
+    wrapper.vm.actionManager.getSignQueue = jest.fn(
+      () => new Promise(resolve => resolve(0))
+    )
     wrapper.setData({ network, overview, balances, loaded: true })
     wrapper.vm.open()
+  })
+
+  it(`should return a number with maximum the specified decimals`, () => {
+    const maxDecimalsNumber = ActionModal.methods.maxDecimals(9.89639499, 4)
+    expect(maxDecimalsNumber).toBe(9.8964)
+  })
+
+  it(`should return the max amount in balance minus the extra fees you need to pay in Terra for sending`, () => {
+    const self = {
+      networkId: "terra-mainnet",
+      transactionData: {
+        type: `MsgSend`
+      },
+      gasEstimate: 550000,
+      gasPrice: "1e-9",
+      amount: 1,
+      maxDecimals: ActionModal.methods.maxDecimals
+    }
+    const maxAmount = ActionModal.computed.estimatedFee.call(self)
+    expect(maxAmount).toBe(0.00855)
   })
 
   it(`should set the submissionError if the submission is rejected`, async () => {
@@ -245,11 +277,12 @@ describe(`ActionModal`, () => {
     expect(wrapper.vm.submissionError).toBe(null)
   })
 
-  it(`opens`, () => {
+  it(`opens`, async () => {
     wrapper.vm.trackEvent = jest.fn()
-    wrapper.vm.open()
-
+    await wrapper.vm.open()
     expect(wrapper.isEmpty()).not.toBe(true)
+    expect(wrapper.queueEmpty).not.toBe(true)
+    expect(wrapper.vm.show).toBe(true)
     expect(wrapper.vm.trackEvent).toHaveBeenCalled()
   })
 
@@ -272,6 +305,7 @@ describe(`ActionModal`, () => {
   it(`should confirm modal closing`, () => {
     global.confirm = () => true
     const closeModal = jest.fn()
+    wrapper.vm.actionManager.cancel = jest.fn()
     wrapper.vm.session.currrentModalOpen = {
       close: closeModal
     }

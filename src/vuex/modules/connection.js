@@ -1,5 +1,5 @@
 import config from "src/../config"
-import { Networks } from "../../gql"
+import { Networks, NetworksAll } from "../../gql"
 
 export default function({ apollo }) {
   const state = {
@@ -7,6 +7,7 @@ export default function({ apollo }) {
     connected: true, // TODO do connection test
     network: config.network, // network id to reference network capabilities stored in Hasura
     networkSlug: "cosmos-hub",
+    networks: [],
     addressType: undefined,
     externals: {
       config
@@ -22,6 +23,9 @@ export default function({ apollo }) {
     },
     setAddressType(state, addressType) {
       state.addressType = addressType
+    },
+    setNetworks(state, networks) {
+      state.networks = networks
     }
   }
 
@@ -61,6 +65,19 @@ export default function({ apollo }) {
     },
     async persistNetwork(store, network) {
       localStorage.setItem(`network`, JSON.stringify(network.id))
+    },
+    async preloadNetworkCapabilities({
+      commit,
+      rootState: {
+        session: { experimentalMode }
+      }
+    }) {
+      const { data } = await apollo.query({
+        query: NetworksAll,
+        variables: { experimental: experimentalMode },
+        fetchPolicy: "cache-first"
+      })
+      commit("setNetworks", data.networks)
     },
     async setNetwork({ commit, dispatch }, network) {
       dispatch(`signOut`)

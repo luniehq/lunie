@@ -38,7 +38,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import PoweredBy from "network/PoweredBy"
+import PoweredBy from "./PoweredBy"
 
 export default {
   name: `network-item`,
