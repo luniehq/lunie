@@ -355,12 +355,14 @@ export default {
     },
     calculateTotalRewardsDenom(denom) {
       if (this.overview.rewards && this.overview.rewards.length > 0) {
-        let rewardsAccumulator = 0
-        this.overview.rewards
-          .filter(reward => reward.denom === denom)
-          .forEach(reward => {
-            rewardsAccumulator += parseFloat(reward.amount)
-          })
+        const rewardsAccumulator = this.overview.rewards.reduce(
+          (sum, reward) => {
+            return reward.denom === denom
+              ? (sum += parseFloat(reward.amount))
+              : sum
+          },
+          0
+        )
         return rewardsAccumulator
       }
     },
