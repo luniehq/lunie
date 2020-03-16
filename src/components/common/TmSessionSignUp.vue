@@ -106,10 +106,14 @@ export default {
       }
     },
     isTestnet() {
+      return false
+      /*
+      left for future use
       const selectedNetwork = this.networks.find(
         ({ id }) => id === this.network
       )
       return selectedNetwork ? selectedNetwork.testnet : false
+      */
     }
   },
   methods: {
