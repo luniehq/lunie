@@ -1,5 +1,5 @@
 import config from "src/../config"
-import { Networks, NetworksAll } from "../../gql"
+import { NetworksAll } from "../../gql"
 
 export default function({ apollo }) {
   const state = {
@@ -32,19 +32,14 @@ export default function({ apollo }) {
   const actions = {
     async checkForPersistedNetwork({ dispatch, commit }) {
       const persistedNetwork = JSON.parse(localStorage.getItem(`network`))
-      // just to disbale network change on e2e tests
-      const { data } = await apollo.query({
-        query: Networks,
-        fetchPolicy: "cache-first"
-      })
       // find stored network in networks array
       const storedNetwork = persistedNetwork
-        ? data.networks.find(network => network.id === persistedNetwork)
+        ? state.networks.find(network => network.id === persistedNetwork)
         : false
       if (persistedNetwork && storedNetwork) {
         await dispatch(`setNetwork`, storedNetwork)
       } else {
-        const defaultNetwork = data.networks.find(
+        const defaultNetwork = state.networks.find(
           network => network.id === state.externals.config.network
         )
         if (defaultNetwork) {
@@ -53,7 +48,7 @@ export default function({ apollo }) {
           await commit(`setNetworkSlug`, defaultNetwork.slug)
         } else {
           // otherwise we connect to a fallback network
-          const fallbackNetwork = data.networks.find(
+          const fallbackNetwork = state.networks.find(
             network => network.id == state.externals.config.fallbackNetwork
           )
           // I don't know why this doesn't work anymore...
