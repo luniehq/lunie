@@ -97,7 +97,7 @@ import { formatAddress } from "src/filters"
 import { isAddress } from "web3-utils"
 const isEthereumAddress = isAddress
 const isPolkadotAddress = address => {
-  const polkadotRegexp = /[0-9a-zA-Z]{47}/
+  const polkadotRegexp = /^([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48})$/
   return polkadotRegexp.test(address)
 }
 
