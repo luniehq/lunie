@@ -525,7 +525,8 @@ export default {
 }
 </script>
 <style>
-.balance-header {
+.balance-header,
+.loading-image-container {
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
@@ -570,11 +571,12 @@ select option {
 }
 
 .currency-flag {
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   max-width: 100%;
   object-fit: cover;
   margin-right: 1rem;
+  border-radius: 50%;
 }
 
 .currency-div {
@@ -654,7 +656,7 @@ select option {
 .table-cell {
   flex-grow: 1;
   width: 100%;
-  padding: 0.75rem 0.75rem 0.75rem 0;
+  padding: 0.5rem 0.5rem 0.5rem 0;
   overflow: hidden;
   display: flex;
   align-items: center;

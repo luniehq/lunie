@@ -98,6 +98,7 @@ export default {
   height: 3.5rem;
   width: 3.5rem;
   display: block;
+  border-radius: 50%;
 }
 
 .network-content {
