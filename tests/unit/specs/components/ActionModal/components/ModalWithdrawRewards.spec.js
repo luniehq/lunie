@@ -4,7 +4,7 @@ import { shallowMount } from "@vue/test-utils"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 
 describe(`ModalWithdrawRewards`, () => {
-  let wrapper, $store, propsData
+  let wrapper, $store
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
@@ -19,8 +19,7 @@ describe(`ModalWithdrawRewards`, () => {
     wrapper = shallowMount(ModalWithdrawRewards, {
       mocks: {
         $store
-      },
-      propsData
+      }
     })
     wrapper.setData({
       rewards: [

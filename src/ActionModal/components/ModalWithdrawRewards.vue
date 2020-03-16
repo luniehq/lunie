@@ -65,10 +65,14 @@ export default {
       }
     },
     totalRewards() {
-      return this.rewards
-        .filter(({ denom }) => denom === this.stakingDenom)
-        .reduce((sum, { amount }) => sum + Number(amount), 0)
-        .toFixed(6)
+      if (this.rewards && this.rewards.length > 0) {
+        return this.rewards
+          .filter(({ denom }) => denom === this.stakingDenom)
+          .reduce((sum, { amount }) => sum + Number(amount), 0)
+          .toFixed(6)
+      } else {
+        return null
+      }
     },
     notifyMessage() {
       return {
@@ -77,7 +81,11 @@ export default {
       }
     },
     validatorsWithRewards() {
-      return this.rewards.length > 0
+      if (this.rewards) {
+        return this.rewards.length > 0
+      } else {
+        return false
+      }
     },
     claimedReward() {
       if (this.denom && this.rewards && this.rewards.length > 0) {
