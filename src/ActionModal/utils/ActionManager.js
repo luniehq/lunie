@@ -121,8 +121,8 @@ export default class ActionManager {
       txMessages,
       signer,
       chainId,
-      account.accountNumber,
-      account.sequence
+      account ? account.accountNumber : null,
+      account ? account.sequence : null
     )
 
     const txPayload = {

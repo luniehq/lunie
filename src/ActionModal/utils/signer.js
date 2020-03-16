@@ -72,7 +72,7 @@ async function getPolkadotLocalSigner(wallet) {
   ])
 
   const keyring = new Keyring({ type: "ed25519" })
-  const keyPair = keyring.addFromUri(wallet.seed)
+  const keyPair = keyring.addFromUri(wallet.seedPhrase)
 
   return polkadotTransactionObject => {
     return polkadotTransactionObject.sign(keyPair)

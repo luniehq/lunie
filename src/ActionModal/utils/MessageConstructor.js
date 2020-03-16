@@ -5,6 +5,16 @@ export const getSignedTransactionCreator = async networkType => {
       const { createSignedTransaction } = await import("cosmos-apiV2")
       return createSignedTransaction
     }
+    case `polkadot`: {
+      return (messageMetadata, txMessages, signer) => {
+        return Promise.all(
+          txMessages.map(async message => {
+            const signedMessage = await signer(message)
+            return signedMessage
+          })
+        )
+      }
+    }
   }
   throw Error("Network is not supported for signing transactions.")
 }

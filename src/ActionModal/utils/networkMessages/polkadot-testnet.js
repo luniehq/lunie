@@ -1,4 +1,19 @@
-import { ApiPromise } from "@polkadot/api"
+import { ApiPromise, WsProvider } from "@polkadot/api"
+
+// will only be inited once per session
+let api
+async function getAPI() {
+  if (api) {
+    return api
+  }
+  api = new ApiPromise({
+    provider: new WsProvider(
+      "wss://kusama-rpc.polkastats.io/apikey/HunRG7eUwMTjaBAkz1A6GU1MqBJapaYsYfmU5EVzpAebMr8/"
+    )
+  })
+  await api.isReady
+  return api
+}
 
 // Bank
 /* istanbul ignore next */
@@ -9,10 +24,7 @@ export async function MsgSend(
     amounts // [{ denom, amount}]
   }
 ) {
-  // initialise via static create
-  const api = await ApiPromise.create()
-
-  // TODO untested idea
+  const api = await getAPI()
   return api.tx.balances.transfer(toAddress, amounts[0].amount)
 }
 
