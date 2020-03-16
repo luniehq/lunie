@@ -4,10 +4,7 @@
       <h2 class="session-title">
         Backup code
       </h2>
-      <div v-if="!session.insecureMode && !session.mobile" class="session-main">
-        <InsecureModeWarning />
-      </div>
-      <div v-else>
+      <div>
         <div class="session-main bottom-indent reorder">
           <Steps
             v-if="!session.mobile"
@@ -56,7 +53,6 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmFormMsg from "common/TmFormMsg"
 import SessionFrame from "common/SessionFrame"
-import InsecureModeWarning from "common/InsecureModeWarning"
 import Steps from "../../ActionModal/components/Steps"
 import TmSeed from "common/TmSeed"
 
@@ -68,7 +64,6 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
-    InsecureModeWarning,
     Steps,
     TmSeed
   },

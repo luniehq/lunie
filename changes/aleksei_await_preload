@@ -1,0 +1,1 @@
+[Fixed] await preloadNetworkCapabilities as we need networks loaded right after this function call @iambeone

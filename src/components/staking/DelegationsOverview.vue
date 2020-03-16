@@ -29,8 +29,7 @@
       </div>
       <div slot="subtitle">
         Head over to the
-        <router-link to="/validators"> validator list</router-link>&nbsp;to get
-        staking!
+        <a @click="goToValidators()"> validator list</a>&nbsp;to get staking!
       </div>
     </TmDataMsg>
   </div>
@@ -52,7 +51,18 @@ export default {
     delegations: []
   }),
   computed: {
-    ...mapGetters(["address", `network`])
+    ...mapGetters(["address", `network`, `networks`])
+  },
+  methods: {
+    goToValidators() {
+      this.$router.push({
+        name: "Validators",
+        params: {
+          networkId: this.networks.find(network => network.id === this.network)
+            .slug
+        }
+      })
+    }
   },
   apollo: {
     delegations: {
