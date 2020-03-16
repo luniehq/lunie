@@ -21,7 +21,7 @@
     >
       <TmField
         id="send-address"
-        v-model.number="$v.address.$model"
+        v-model="address"
         v-focus
         type="text"
         placeholder="Address"
@@ -151,7 +151,7 @@ const maxDecimals = (value, decimals) => {
 }
 
 const isPolkadotAddress = address => {
-  const polkadotRegexp = /[0-9a-zA-Z]{47}/ || /[0-9a-zA-Z]{48}/
+  const polkadotRegexp = /^([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48})$/
   return polkadotRegexp.test(address)
 }
 
