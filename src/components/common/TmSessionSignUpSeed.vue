@@ -78,7 +78,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `signup`]),
-    ...mapGetters([`network`, `networkSlug`]),
+    ...mapGetters([`network`, `networkSlug`, `isExtension`]),
     fieldSeed: {
       get() {
         return this.$store.state.signup.signUpSeed
@@ -115,12 +115,16 @@ export default {
           name: this.signup.signUpName,
           network: this.network
         })
-        this.$router.push({
-          name: "portfolio",
-          params: {
-            networkId: this.networkSlug
-          }
-        })
+        if (this.isExtension) {
+          this.$router.push(`/`)
+        } else {
+          this.$router.push({
+            name: "portfolio",
+            params: {
+              networkId: this.networkSlug
+            }
+          })
+        }
       } catch (error) {
         this.error = true
         this.errorMessage = error.message
