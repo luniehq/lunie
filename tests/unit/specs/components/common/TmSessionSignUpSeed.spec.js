@@ -13,7 +13,8 @@ describe(`TmSessionSignUpSeed`, () => {
     $store = {
       getters: {
         network: "lunie-net",
-        networkSlug: "lunie"
+        networkSlug: "lunie",
+        isExtension: false
       },
       state: {
         session: { insecureMode: true },
