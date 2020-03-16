@@ -2,9 +2,25 @@ import { shallowMount } from "@vue/test-utils"
 import TransactionMetadata from "src/components/transactions/TransactionMetadata"
 
 describe(`TransactionMetadata`, () => {
-  let wrapper
+  let wrapper, $store
 
   beforeEach(() => {
+    $store = {
+      getters: {
+        networks: [
+          {
+            id: `cosmos-hub-mainnet`
+          },
+          {
+            id: `keine-ahnungnet`
+          },
+          {
+            id: `la-red-feliz`
+          }
+        ],
+        network: `la-red-feliz`
+      }
+    }
     wrapper = shallowMount(TransactionMetadata, {
       propsData: {
         transaction: {
@@ -25,6 +41,9 @@ describe(`TransactionMetadata`, () => {
             }
           }
         }
+      },
+      mocks: {
+        $store
       },
       stubs: [`router-link`]
     })

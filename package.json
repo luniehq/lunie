@@ -1,16 +1,16 @@
 {
   "name": "lunie",
-  "version": "1.0.173",
+  "version": "1.0.175",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
     "build": "node tasks/create-version-file.js && vue-cli-service build --skip-plugins pwa",
-    "buildsentry": "node tasks/create-version-file.js && vue-cli-service build --skip-plugins pwa && ./tasks/sentry.sh",
+    "buildsentry": "node tasks/create-version-file.js && vue-cli-service build --skip-plugins pwa && chmod 755 tasks/sentry.sh && ./tasks/sentry.sh",
     "build:mobile": "cross-env MOBILE_APP=true npm run build",
     "changelog": "simsala log --pending-path ./changes",
     "lint": "vue-cli-service lint",
     "lint:style": "vue-cli-service lint:style",
-    "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git merge origin/master && git push -u origin develop && git push origin develop:release",
+    "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git checkout origin/release -B release && git pull && git merge origin/develop && git push",
     "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
     "serve:dist": "live-server --port=9080 --no-browser ./dist",
     "serve:mobile": "cross-env MOBILE_APP=true npm run serve",
@@ -134,7 +134,9 @@
     }
   },
   "resolutions": {
-    "stylelint-webpack-plugin": "1.1.2"
+    "stylelint-webpack-plugin": "1.1.2",
+    "acorn": "6.4.1",
+    "minimist": "1.2.2"
   },
   "engines": {
     "node": ">=10.13.0"

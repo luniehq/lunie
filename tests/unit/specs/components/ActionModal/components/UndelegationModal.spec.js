@@ -24,7 +24,8 @@ describe(`UndelegationModal`, () => {
       dispatch: jest.fn(),
       getters: {
         network: "testnet",
-        address: "cosmos12345"
+        address: "cosmos12345",
+        stakingDenom: "STAKE"
       }
     }
     wrapper = shallowMount(UndelegationModal, {
@@ -48,7 +49,6 @@ describe(`UndelegationModal`, () => {
           amount: 5000
         }
       ],
-      denom: "STAKE",
       validators: [validator, validator2]
     })
   })

@@ -61,11 +61,10 @@ export default {
       property: `expectedReturns`,
       order: `desc`
     },
-    showing: 15,
-    stakingDenom: ""
+    showing: 15
   }),
   computed: {
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `network`, `stakingDenom`]),
     sortedEnrichedValidators() {
       return orderBy(
         this.validators.map(validator => ({
@@ -170,27 +169,6 @@ export default {
       /* istanbul ignore next */
       update: result => {
         return result.rewards || []
-      }
-    },
-    stakingDenom: {
-      query: gql`
-        query Network($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        if (!data.network) return ""
-        return data.network.stakingDenom
       }
     },
     $subscribe: {

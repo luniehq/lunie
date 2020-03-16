@@ -6,7 +6,25 @@ describe("Routes", () => {
     const apollo = {
       query: jest.fn(() => ({ data: { network: { slug: "cosmos-hub" } } }))
     }
-    const store = { dispatch: jest.fn() }
+    const store = {
+      dispatch: jest.fn(),
+      getters: {
+        networks: [
+          {
+            id: `cosmos-hub-mainnet`,
+            slug: `cosmos-hub`
+          },
+          {
+            id: `keine-ahnungnet`,
+            slug: `keineahnung`
+          },
+          {
+            id: `la-red-feliz`,
+            slug: `redfeliz`
+          }
+        ]
+      }
+    }
     await extensionSignIn(
       {
         to: {

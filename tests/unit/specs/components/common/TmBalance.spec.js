@@ -8,7 +8,8 @@ describe(`TmBalance`, () => {
     $store = {
       getters: {
         address: "cosmos1address",
-        network: "test-network"
+        network: "test-network",
+        stakingDenom: "ATOM"
       },
       state: {
         connection: {
@@ -36,7 +37,6 @@ describe(`TmBalance`, () => {
       }
     })
     wrapper.setData({
-      stakingDenom: "ATOM",
       overview: {
         totalStake: 3210,
         liquidStake: 1230,
@@ -168,7 +168,7 @@ describe(`TmBalance`, () => {
   })
 
   it(`should calculate the total rewards amount for each denom when rewards contain multiple denoms`, () => {
-    const totalDenomRewards = wrapper.vm.calculateTotalRewardsDenom(`TOKEN1`)
+    const totalDenomRewards = wrapper.vm.totalRewardsPerDenom[`TOKEN1`]
     expect(totalDenomRewards).toBe(4.5)
   })
 })
