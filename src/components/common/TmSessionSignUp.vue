@@ -59,7 +59,6 @@
 </template>
 
 <script>
-import gql from "graphql-tag"
 import { mapState, mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
@@ -95,12 +94,9 @@ export default {
     InsecureModeWarning,
     Steps
   },
-  data: () => ({
-    networks: []
-  }),
   computed: {
     ...mapState([`session`, `signup`]),
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `networks`]),
     fieldName: {
       get() {
         return this.$store.state.signup.signUpName
@@ -121,22 +117,6 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       this.$router.push(`/create/password`)
-    }
-  },
-  apollo: {
-    networks: {
-      query: gql`
-        query Networks {
-          networks {
-            id
-            testnet
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      update(data) {
-        return data.networks || []
-      }
     }
   },
   validations: () => ({

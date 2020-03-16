@@ -314,7 +314,7 @@ export default {
   }),
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `stakingDenom`]),
     ...mapGetters({ userAddress: `address` })
   },
   mounted() {
@@ -456,27 +456,6 @@ export default {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed)
         }
-      }
-    },
-    stakingDenom: {
-      query: gql`
-        query Network($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        if (!data.network) return ""
-        return data.network.stakingDenom
       }
     },
     $subscribe: {

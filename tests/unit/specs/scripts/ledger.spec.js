@@ -23,23 +23,37 @@ jest.mock(
 )
 
 describe(`Ledger Connector`, () => {
-  let apollo
+  let $store
+
+  const networks = [
+    {
+      id: `cosmos-hub-mainnet`,
+      address_prefix: "cosmos",
+      ledger_app: "cosmos"
+    },
+    {
+      id: `keine-ahnungnet`,
+      address_prefix: "keineahnung",
+      ledger_app: "wunderland"
+    },
+    {
+      id: `la-red-feliz`,
+      address_prefix: "redfeliz",
+      ledger_app: "wunderland"
+    }
+  ]
+
   beforeEach(() => {
-    apollo = {
-      query: jest.fn(() => ({
-        data: {
-          network: {
-            ledger_app: "cosmos",
-            address_prefix: "cosmos"
-          }
-        }
-      }))
+    $store = {
+      getters: {
+        networks
+      }
     }
   })
 
   describe(`getAddressFromLedger`, () => {
     it(`successfully gets address from Ledger Nano`, async () => {
-      const address = await getAddressFromLedger("cosmos-hub-mainnet", apollo)
+      const address = await getAddressFromLedger("cosmos-hub-mainnet", $store)
       expect(address).toBe("cosmos1")
     })
 
@@ -64,14 +78,14 @@ describe(`Ledger Connector`, () => {
       )
       const { getAddressFromLedger } = require("scripts/ledger.js")
       await expect(
-        getAddressFromLedger("cosmos-hub-mainnet", apollo)
+        getAddressFromLedger("cosmos-hub-mainnet", $store)
       ).rejects.toThrow("XXX")
     })
   })
   describe(`showAddressOnLedger`, () => {
     // shallow test as it doesn't test if this is doing anything.
     it(`shows address on Ledger Nano`, async () => {
-      await showAddressOnLedger("cosmos-hub-mainnet", apollo)
+      await showAddressOnLedger("cosmos-hub-mainnet", $store)
     })
 
     it(`handles errors`, async () => {
@@ -94,7 +108,7 @@ describe(`Ledger Connector`, () => {
       )
       const { showAddressOnLedger } = require("scripts/ledger.js")
       await expect(
-        showAddressOnLedger("cosmos-hub-mainnet", apollo)
+        showAddressOnLedger("cosmos-hub-mainnet", $store)
       ).rejects.toThrow("XXX")
     })
   })

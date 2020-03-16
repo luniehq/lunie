@@ -71,7 +71,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix max-button">{{ denom }}</span>
+      <span class="input-suffix max-button">{{ stakingDenom }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -92,11 +92,11 @@
       <span class="form-message">
         Available to stake:
         {{ maxAmount }}
-        {{ denom }}s
+        {{ stakingDenom }}s
       </span>
       <TmFormMsg
         v-if="balance.amount === '0'"
-        :msg="`doesn't have any ${denom}s`"
+        :msg="`doesn't have any ${stakingDenom}s`"
         name="Wallet"
         type="custom"
       />
@@ -170,12 +170,11 @@ export default {
       denom: ``
     },
     validators: [],
-    delegations: [],
-    denom: ``
+    delegations: []
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`network`, `address`]),
+    ...mapGetters([`network`, `address`, `stakingDenom`]),
     toOptions() {
       return this.validators
         .filter(
@@ -237,14 +236,14 @@ export default {
           validatorSourceAddress: this.from,
           validatorDestinationAddress: this.targetValidator.operatorAddress,
           amount: uatoms(this.amount),
-          denom: toMicroDenom(this.denom)
+          denom: toMicroDenom(this.stakingDenom)
         }
       } else {
         return {
           type: transaction.DELEGATE,
           validatorAddress: this.targetValidator.operatorAddress,
           amount: uatoms(this.amount),
-          denom: toMicroDenom(this.denom)
+          denom: toMicroDenom(this.stakingDenom)
         }
       }
     },
@@ -252,12 +251,12 @@ export default {
       if (this.isRedelegation) {
         return {
           title: `Successfully restaked!`,
-          body: `You have successfully restaked your ${this.denom}s`
+          body: `You have successfully restaked your ${this.stakingDenom}s`
         }
       } else {
         return {
           title: `Successfully staked!`,
-          body: `You have successfully staked your ${this.denom}s`
+          body: `You have successfully staked your ${this.stakingDenom}s`
         }
       }
     },
@@ -375,39 +374,18 @@ export default {
       `,
       skip() {
         /* istanbul ignore next */
-        return !this.address || !this.denom
+        return !this.address || !this.stakingDenom
       },
       variables() {
         /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address,
-          denom: this.denom
+          denom: this.stakingDenom
         }
       },
       update(data) {
         return data.balance || { amount: 0 }
-      }
-    },
-    denom: {
-      query: gql`
-        query NetworksDelegationModal($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      fetchPolicy: "cache-first",
-      variables() {
-        /* istanbul ignore next */
-        return {
-          networkId: this.network
-        }
-      },
-      update(data) {
-        /* istanbul ignore next */
-        return data.network ? data.network.stakingDenom : ""
       }
     }
   },
