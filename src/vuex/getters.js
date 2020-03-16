@@ -1,3 +1,4 @@
+import config from "../../config"
 // connection
 export const connected = state => state.connection.connected
 export const nodeUrl = state =>
@@ -7,7 +8,7 @@ export const address = state => state.session.address
 export const network = state => state.connection.network
 export const networkSlug = state => state.connection.networkSlug
 export const addressType = state => state.connection.addressType
-export const isExtension = () => false
+export const isExtension = () => config.isExtension
 export const networks = state => state.connection.networks
 export const stakingDenom = state => {
   let filteredNetwork = state.connection.networks.find(
