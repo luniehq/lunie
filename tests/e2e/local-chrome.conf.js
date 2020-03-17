@@ -12,7 +12,7 @@ const nightwatch_config = {
     port: 9515,
     default_path_prefix: "",
     server_path: chromedriver.path,
-    cli_args: ["--verbose"]
+    cli_args: ["--verbose", "--no-sandbox"]
   },
   desiredCapabilities: {
     browserName: "chrome",
