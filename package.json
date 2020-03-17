@@ -26,7 +26,7 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^16.1.8",
-    "@polkadot/api": "^1.5.1",
+    "@polkadot/api": "^v1.7.1",
     "@polkadot/util": "^2.6.1",
     "@sentry/node": "^5.9.0",
     "apollo-datasource-rest": "^0.6.6",
@@ -55,5 +55,8 @@
     "node-fetch": "^2.6.0",
     "nodemon": "^1.19.4",
     "prettier": "^1.19.1"
+  },
+  "resolutions": {
+    "minimist": "1.2.2"
   }
 }
