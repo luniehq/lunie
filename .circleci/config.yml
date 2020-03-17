@@ -294,10 +294,6 @@ workflows:
           requires:
             - prep
 
-      - testE2eChrome:
-          requires:
-            - prep
-
       # - testExtension:
       #     requires:
       #       - e2eBuild
