@@ -45,8 +45,13 @@ export default {
       }
     }
   },
-  mounted() {
-    this.updateSelectedNetwork(this.networks)
+  watch: {
+    networks: {
+      immediate: true,
+      handler(networks) {
+        this.updateSelectedNetwork(networks)
+      }
+    }
   },
   methods: {
     async selectNetworkHandler(network) {
