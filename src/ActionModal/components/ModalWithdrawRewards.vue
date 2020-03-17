@@ -21,9 +21,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span v-if="claimedReward" class="input-suffix">{{
-        claimedReward.denom
-      }}</span>
+      <span class="input-suffix">{{ stakingDenom }}</span>
       <TmField
         id="amount"
         v-model="totalRewards"
@@ -60,22 +58,21 @@ export default {
     balances: []
   }),
   computed: {
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `network`, `stakingDenom`]),
     transactionData() {
       return {
         type: transaction.WITHDRAW
       }
     },
     totalRewards() {
-      const stakingRewards = this.rewards
-        .filter(({ denom }) => denom === this.denom)
-        .reduce((sum, { amount }) => sum + Number(amount), 0)
-        .toFixed(6)
-      return stakingRewards > 0
-        ? stakingRewards
-        : this.claimedReward
-        ? this.claimedReward.amount
-        : null
+      if (this.rewards && this.rewards.length > 0) {
+        return this.rewards
+          .filter(({ denom }) => denom === this.stakingDenom)
+          .reduce((sum, { amount }) => sum + Number(amount), 0)
+          .toFixed(6)
+      } else {
+        return null
+      }
     },
     notifyMessage() {
       return {
@@ -84,7 +81,11 @@ export default {
       }
     },
     validatorsWithRewards() {
-      return this.rewards.length > 0
+      if (this.rewards) {
+        return this.rewards.length > 0
+      } else {
+        return false
+      }
     },
     claimedReward() {
       if (this.denom && this.rewards && this.rewards.length > 0) {
@@ -151,50 +152,6 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
-      }
-    },
-    balances: {
-      query: gql`
-        query balances($networkId: String!, $address: String!) {
-          balances(networkId: $networkId, address: $address) {
-            denom
-            amount
-            gasPrice
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.address
-        }
-      },
-      /* istanbul ignore next */
-      skip() {
-        return !this.address
-      }
-    },
-    denom: {
-      query: gql`
-        query Networks($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      fetchPolicy: "cache-first",
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        if (data.network) return data.network.stakingDenom
-        return ""
       }
     }
   }

@@ -41,7 +41,6 @@
 </template>
 
 <script>
-import gql from "graphql-tag"
 import AccountList from "common/AccountList"
 import SessionFrame from "common/SessionFrame"
 import { mapState, mapGetters } from "vuex"
@@ -53,12 +52,11 @@ export default {
   },
   data: () => ({
     connectionError: null,
-    address: null,
-    networks: []
+    address: null
   }),
   computed: {
     ...mapState([`extension`]),
-    ...mapGetters([`networkSlug`]),
+    ...mapGetters([`networks`]),
     accounts() {
       return this.extension.accounts
     }
@@ -82,25 +80,11 @@ export default {
       this.$router.push({
         name: "portfolio",
         params: {
-          networkId: this.networkSlug
+          networkId:
+            this.networks.find(({ id }) => id === account.network).slug ||
+            "cosmos-hub" // defaulting to cosmos-hub-mainnet
         }
       })
-    }
-  },
-  apollo: {
-    networks: {
-      query: gql`
-        query Networks {
-          networks {
-            id
-            slug
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      update(data) {
-        return data.networks
-      }
     }
   }
 }

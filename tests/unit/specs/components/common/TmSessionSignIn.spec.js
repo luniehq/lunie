@@ -7,23 +7,28 @@ describe(`TmSessionSignIn`, () => {
   localVue.use(Vuelidate)
 
   let wrapper, $store
-  const addressPrefixes = [
+
+  const networks = [
     {
-      id: "cosmos-hub-testnet",
+      id: "gaia-testnet",
       address_prefix: "cosmos",
-      testnet: true
+      testnet: true,
+      slug: "cosmos-testnet"
     },
     {
-      id: "cosmos-hub-mainnet",
+      id: "cosmoshub",
       address_prefix: "cosmos",
-      testnet: false
+      testnet: false,
+      slug: "cosmos"
     },
     {
       id: "terra-testnet",
       address_prefix: "terra",
-      testnet: true
+      testnet: true,
+      slug: "terra-testnet"
     }
   ]
+
   const addresses = [
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
     `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`
@@ -33,9 +38,6 @@ describe(`TmSessionSignIn`, () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
-      getters: {
-        networkSlug: "cosmos-hub"
-      },
       state: {
         keys: [
           {
@@ -78,6 +80,9 @@ describe(`TmSessionSignIn`, () => {
             }
           ]
         }
+      },
+      getters: {
+        networks
       }
     }
 
@@ -90,8 +95,6 @@ describe(`TmSessionSignIn`, () => {
         $store
       }
     })
-
-    wrapper.setData({ addressPrefixes })
   })
 
   it(`has the expected html structure`, () => {
@@ -107,7 +110,7 @@ describe(`TmSessionSignIn`, () => {
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
       name: "portfolio",
-      params: { networkId: "cosmos-hub" }
+      params: { networkId: "cosmos" }
     })
   })
 
@@ -204,7 +207,8 @@ describe(`TmSessionSignIn`, () => {
     expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
       id: "terra-testnet",
       address_prefix: "terra",
-      testnet: true
+      testnet: true,
+      slug: "terra-testnet"
     })
   })
 
@@ -214,7 +218,8 @@ describe(`TmSessionSignIn`, () => {
     })
     await wrapper.vm.selectNetworkByAddress(`cosmosdefault`)
     expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
-      id: "cosmos-hub-testnet",
+      id: "gaia-testnet",
+      slug: "cosmos-testnet",
       address_prefix: "cosmos",
       testnet: true
     })
@@ -222,14 +227,15 @@ describe(`TmSessionSignIn`, () => {
 
   it(`checks that the address is valid address of the network and selects testnet if testnet is set to true`, () => {
     const self = {
-      addressPrefixes,
       testnet: true,
-      signInAddress: addresses[0]
+      signInAddress: addresses[0],
+      networks
     }
     const signInNetwork = TmSessionSignIn.computed.networkOfAddress.call(self)
     expect(signInNetwork).toEqual({
       address_prefix: "cosmos",
-      id: "cosmos-hub-testnet",
+      id: "gaia-testnet",
+      slug: "cosmos-testnet",
       testnet: true
     })
   })
@@ -239,7 +245,6 @@ describe(`TmSessionSignIn`, () => {
       signInAddress: `terradefault`,
       signInPassword: `1234567890`,
       testnet: false,
-      addressPrefixes,
       error: ``
     })
     await wrapper.vm.onSubmit()

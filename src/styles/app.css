@@ -27,6 +27,7 @@ a {
 
 a:hover {
   color: var(--link-hover);
+  cursor: pointer;
 }
 
 #app {

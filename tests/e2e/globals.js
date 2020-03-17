@@ -7,7 +7,7 @@ const {
   waitForText,
   getLastActivityItemHash,
   checkBrowserLogs,
-  getAccountBallance,
+  getAccountBalance,
   fundMasterAccount
 } = require("./helpers.js")
 
@@ -16,7 +16,7 @@ let initializedAccount = false
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
   // or an error is thrown
-  asyncHookTimeout: 120000,
+  asyncHookTimeout: 200000,
 
   async beforeEach(browser, done) {
     // standardize window format
@@ -113,7 +113,7 @@ async function createNewAccount(browser, networkData) {
       browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
       browser.click("#sign-up-warning")
       await next(browser)
-      browser.waitForElementVisible(".balance-header") // wait until signup is completed
+      browser.waitForElementVisible(".balance-header", 10000, true) // wait until signup is completed
       return true
     }
   )
@@ -273,7 +273,7 @@ async function fundingTempAccount(browser, networkData) {
       //browser.click(".modal-tutorial .close")
       await actionModalCheckout(
         browser,
-        ".send-button",
+        ".circle-send-button",
         // actions to do on details page
         () => {
           browser.setValue("#send-address", browser.globals.address)
@@ -391,7 +391,7 @@ async function switchToAccount(
         [{ address, network, wallet, name }]
       )
       browser.refresh()
-      await getAccountBallance(browser)
+      await getAccountBalance(browser)
       // wait until on portfolio page to make sure future tests have the same state
       browser.expect.element(".balance-header").to.be.visible.before(10000)
       // switching to homepage

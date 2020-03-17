@@ -7,7 +7,7 @@ describe(`TmSessionExplore`, () => {
   localVue.use(Vuelidate)
 
   let wrapper, $store
-  const addressPrefixes = [
+  const networks = [
     {
       id: "cosmos-hub-testnet",
       address_prefix: "cosmos",
@@ -16,11 +16,17 @@ describe(`TmSessionExplore`, () => {
     {
       id: "cosmos-hub-mainnet",
       address_prefix: "cosmos",
-      testnet: false
+      testnet: false,
+      slug: "cosmos-hub"
     },
     {
       id: "terra-testnet",
       address_prefix: "terra",
+      testnet: true
+    },
+    {
+      id: "polkadot-testnet",
+      address_prefix: "",
       testnet: true
     }
   ]
@@ -48,7 +54,8 @@ describe(`TmSessionExplore`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
       getters: {
-        network: "cosmos-hub-testnet"
+        network: "cosmos-hub-testnet",
+        networks
       },
       state: {
         session: {
@@ -66,17 +73,6 @@ describe(`TmSessionExplore`, () => {
         },
         $store
       }
-    })
-
-    wrapper.setData({
-      addressPrefixes: [
-        {
-          id: "cosmos-hub-testnet",
-          address_prefix: "cosmos",
-          testnet: false,
-          slug: "cosmos-hub"
-        }
-      ]
     })
   })
 
@@ -176,9 +172,29 @@ describe(`TmSessionExplore`, () => {
     expect(check).toBe(true)
   })
 
+  it(`identifies a Polkadot address`, () => {
+    const polkadotAddress = `5DwjF3fmXzkJhJdyP6hMPU4nNhxeDpDtCz4RdaX3V3ALJhpH`
+    const check = TmSessionExplore.methods.isPolkadotAddress(polkadotAddress)
+    expect(check).toBe(true)
+  })
+
   it(`checks that the address is valid address of the network and selects testnet if testnet is set to true`, () => {
     const self = {
-      addressPrefixes,
+      networks,
+      testnet: true,
+      address: "5DwjF3fmXzkJhJdyP6hMPU4nNhxeDpDtCz4RdaX3V3ALJhpH"
+    }
+    const signInNetwork = TmSessionExplore.computed.networkOfAddress.call(self)
+    expect(signInNetwork).toEqual({
+      address_prefix: "",
+      id: "polkadot-testnet",
+      testnet: true
+    })
+  })
+
+  it(`identifies if the address is from Polkadot`, () => {
+    const self = {
+      networks,
       testnet: true,
       address: addresses[0].address
     }

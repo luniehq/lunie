@@ -95,8 +95,11 @@ import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 import { formatAddress } from "src/filters"
 import { isAddress } from "web3-utils"
-import gql from "graphql-tag"
 const isEthereumAddress = isAddress
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48})$/
+  return polkadotRegexp.test(address)
+}
 
 export default {
   name: `session-explore`,
@@ -114,14 +117,13 @@ export default {
   data: () => ({
     address: ``,
     error: ``,
-    addressPrefixes: [],
     testnet: false
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `networks`]),
     filteredAddresses() {
-      const selectedNetwork = this.addressPrefixes.find(
+      const selectedNetwork = this.networks.find(
         ({ id }) => id === this.network
       )
       // handling query not loaded yet or failed
@@ -134,8 +136,13 @@ export default {
         .slice(-3)
     },
     networkOfAddress() {
-      const selectedNetworksArray = this.addressPrefixes.filter(
-        ({ address_prefix }) => this.address.startsWith(address_prefix)
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(this.address) && this.testnet) {
+        return this.networks.find(({ id }) => id === "polkadot-testnet")
+      }
+
+      const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
+        this.address.startsWith(address_prefix)
       )
 
       const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
@@ -198,7 +205,8 @@ export default {
         param.substring(0, 6) === "terra1" ||
         param.substring(0, 5) === "xrn:1" ||
         param.substring(0, 7) === "emoney1" ||
-        param.substring(0, 2) === "0x"
+        param.substring(0, 2) === "0x" ||
+        this.isPolkadotAddress(param)
       ) {
         return true
       } else {
@@ -227,8 +235,15 @@ export default {
     isEthereumAddress(address) {
       return isEthereumAddress(address)
     },
+    isPolkadotAddress(address) {
+      return isPolkadotAddress(address)
+    },
     addressValidate(address) {
-      return this.bech32Validate(address) || this.isEthereumAddress(address)
+      return (
+        this.bech32Validate(address) ||
+        this.isEthereumAddress(address) ||
+        this.isPolkadotAddress(address)
+      )
     }
   },
   validations() {
@@ -239,25 +254,6 @@ export default {
         isNotAValidatorAddress: this.isNotAValidatorAddress,
         isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
       }
-    }
-  },
-  apollo: {
-    addressPrefixes: {
-      query: gql`
-        query Network {
-          networks {
-            id
-            address_prefix
-            testnet
-            slug
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      update(data) {
-        return data.networks || []
-      },
-      fetchPolicy: "cache-first"
     }
   }
 }
