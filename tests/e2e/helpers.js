@@ -3,16 +3,16 @@ const { expect } = require("chai")
 
 async function getBalance(browser) {
   return new Promise(resolve => {
-    browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
-    browser.getText(".total-atoms__value", ({ value }) => {
+    browser.expect.element(`.total`).to.be.visible.before(10000)
+    browser.getText(".total", ({ value }) => {
       resolve(numeral(value).value())
     })
   })
 }
 async function getAvailableTokens(browser) {
   return new Promise(resolve => {
-    browser.expect.element(`.available-atoms`).to.be.visible.before(10000)
-    browser.getText(".available-atoms", ({ value }) => {
+    browser.expect.element(`.available-amount`).to.be.visible.before(10000)
+    browser.getText(".available-amount", ({ value }) => {
       resolve(numeral(value).value())
     })
   })
@@ -25,7 +25,6 @@ async function awaitBalance(browser, balance) {
 }
 async function waitFor(check, iterations = 10, timeout = 1000) {
   while (--iterations) {
-    console.log(iterations)
     try {
       await check()
       return
@@ -72,7 +71,6 @@ async function waitForText(
     async () => {
       await browser.waitForElementVisible(selector, 10000)
       const result = await browser.getText(selector)
-      console.log(result) // let's check what the property for error is
       if (!result.errors) {
         expect(result.value).to.include(expectedCaption)
       }
@@ -164,9 +162,10 @@ async function actionModalCheckout(
     // doesn't show sub total
     browser.expect.elements(".table-invoice li").count.to.equal(2)
   } else {
-    browser.expect
-      .element(".table-invoice li:first-child span:last-child")
-      .text.to.contain(expectedSubtotal)
+    browser.assert.containsText(
+      ".table-invoice li:first-child span:last-child",
+      expectedSubtotal
+    )
   }
 
   // remember fees
@@ -238,10 +237,16 @@ async function getAccountBalance(browser) {
       // waiting till balance loaded
       await browser.waitForElementVisible(".total", 5000, false)
       await browser.getText(".total", result => {
-        browser.globals.denom = result.value.replace("Total ", "")
+        let total = result.value.split(" ")
+        browser.globals.denom = total[1]
+        browser.globals.totalAtoms = total[0]
       })
+      /*await browser.getText(".total-atoms h2", result => {
+        browser.globals.totalAtoms = result.value.replace(",", "")
+      })*/
       await browser.getText(".available-amount", result => {
-        browser.globals.availableAtoms = result.value.replace(",", "")
+        let availableAtoms = result.value.split(" ")
+        browser.globals.availableAtoms = availableAtoms[0]
       })
     }
   )
