@@ -9,8 +9,8 @@ export const getSignedTransactionCreator = async networkType => {
       return (messageMetadata, txMessages, signer) => {
         return Promise.all(
           txMessages.map(async message => {
-            const signedMessage = await signer(message)
-            return signedMessage
+            const signedTransaction = await signer(message)
+            return signedTransaction.toJSON()
           })
         )
       }
