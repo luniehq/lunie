@@ -6,13 +6,12 @@ export const getSignedTransactionCreator = async networkType => {
       return createSignedTransaction
     }
     case `polkadot`: {
-      return (messageMetadata, txMessages, signer) => {
-        return Promise.all(
-          txMessages.map(async message => {
-            const signedTransaction = await signer(message)
-            return signedTransaction.toJSON()
-          })
-        )
+      return async (messageMetadata, txMessages, signer) => {
+        const signedTransaction = await signer(txMessages[0]) //just handle one for now
+        return {
+          payload: signedTransaction.toJSON(), // to broadcast (HEX)
+          tx: signedTransaction.raw.toJSON() // JSON of the tx to do analytics in the API
+        }
       }
     }
   }
