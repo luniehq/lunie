@@ -28,7 +28,7 @@ const nightwatch_config = {
         "disable-web-security",
         "ignore-certificate-errors",
         "no-sandbox",
-        "headless",
+        //"headless",
         "window-size=1920,1080"
       ],
       prefs: {
