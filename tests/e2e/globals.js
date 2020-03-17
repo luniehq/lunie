@@ -273,7 +273,7 @@ async function fundingTempAccount(browser, networkData) {
       //browser.click(".modal-tutorial .close")
       await actionModalCheckout(
         browser,
-        ".send-button",
+        ".circle-send-button",
         // actions to do on details page
         () => {
           browser.setValue("#send-address", browser.globals.address)
