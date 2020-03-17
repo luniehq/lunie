@@ -191,6 +191,13 @@ export default {
       } else {
         selectedNetwork = selectedNetworksArray[0]
       }
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(this.signInAddress) && this.testnet) {
+        selectedNetwork = this.networks.find(
+          ({ id }) => id === "polkadot-testnet"
+        )
+      }
+
       this.$store.dispatch(`setNetwork`, selectedNetwork)
     }
   },
