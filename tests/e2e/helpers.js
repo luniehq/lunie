@@ -25,7 +25,6 @@ async function awaitBalance(browser, balance) {
 }
 async function waitFor(check, iterations = 10, timeout = 1000) {
   while (--iterations) {
-    console.log(iterations)
     try {
       await check()
       return
@@ -72,7 +71,6 @@ async function waitForText(
     async () => {
       await browser.waitForElementVisible(selector, 10000)
       const result = await browser.getText(selector)
-      console.log(result) // let's check what the property for error is
       if (!result.errors) {
         expect(result.value).to.include(expectedCaption)
       }
@@ -164,9 +162,10 @@ async function actionModalCheckout(
     // doesn't show sub total
     browser.expect.elements(".table-invoice li").count.to.equal(2)
   } else {
-    browser.expect
-      .element(".table-invoice li:first-child span:last-child")
-      .text.to.contain(expectedSubtotal)
+    browser.assert.containsText(
+      ".table-invoice li:first-child span:last-child",
+      expectedSubtotal
+    )
   }
 
   // remember fees
@@ -239,6 +238,9 @@ async function getAccountBalance(browser) {
       await browser.waitForElementVisible(".total-atoms", 5000, false)
       await browser.getText(".total-atoms h3", result => {
         browser.globals.denom = result.value.replace("Total ", "")
+      })
+      await browser.getText(".total-atoms h2", result => {
+        browser.globals.totalAtoms = result.value.replace(",", "")
       })
       await browser.getText(".available-atoms h2", result => {
         browser.globals.availableAtoms = result.value.replace(",", "")
