@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -72,6 +72,10 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48})$/
+  return polkadotRegexp.test(address)
+}
 export default {
   name: `session-sign-in`,
   components: {
@@ -89,7 +93,8 @@ export default {
     testnet: false
   }),
   computed: {
-    ...mapState([`keystore`, `session`, `networks`]),
+    ...mapState([`keystore`, `session`]),
+    ...mapGetters([`networks`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({
@@ -98,6 +103,11 @@ export default {
       }))
     },
     networkOfAddress() {
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(this.signInAddress) && this.testnet) {
+        return this.networks.find(({ id }) => id === "polkadot-testnet")
+      }
+
       const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
         this.signInAddress.startsWith(address_prefix)
       )
@@ -181,6 +191,13 @@ export default {
       } else {
         selectedNetwork = selectedNetworksArray[0]
       }
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(this.signInAddress) && this.testnet) {
+        selectedNetwork = this.networks.find(
+          ({ id }) => id === "polkadot-testnet"
+        )
+      }
+
       this.$store.dispatch(`setNetwork`, selectedNetwork)
     }
   },

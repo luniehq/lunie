@@ -1,0 +1,1 @@
+[Fixed] [#3711](https://github.com/cosmos/lunie/pull/3711) Allows signing in with an existing Lunie Polkadot account by adding a couple of hack in TmSessionSignIn @Bitcoinera

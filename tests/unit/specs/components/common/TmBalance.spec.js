@@ -61,12 +61,6 @@ describe(`TmBalance`, () => {
 
   it(`show the balance header when signed in`, () => {
     expect(wrapper.element).toMatchSnapshot()
-    expect(wrapper.text()).toMatch(/Total ATOM.*3,210/s)
-    expect(wrapper.text()).toMatch(/Available ATOM.*1,230/s)
-    expect(wrapper.text()).toMatch(/Total Rewards.*1,000.45/s)
-    expect(wrapper.text()).toContain("Total ATOM")
-    expect(wrapper.text()).toContain("Total ATOM")
-    expect(wrapper.text()).toContain("Total ATOM")
   })
 
   it(`do not show available atoms when the user has none in the first place`, () => {
@@ -80,20 +74,28 @@ describe(`TmBalance`, () => {
       }
     })
     expect(wrapper.element).toMatchSnapshot()
-    expect(wrapper.text()).toContain("Total ATOM")
+    expect(wrapper.text()).toContain("Token")
     expect(wrapper.text()).not.toContain("Available ATOM")
     expect(wrapper.text()).not.toContain("Total Rewards")
   })
 
   it(`opens send modal`, () => {
-    const $refs = { SendModal: { open: jest.fn() } }
+    const $refs = {
+      SendModal: {
+        open: jest.fn()
+      }
+    }
     wrapper.vm.$refs = $refs
-    wrapper.find(".send-button").trigger("click")
+    wrapper.find(".circle-send-button").trigger("click")
     expect($refs.SendModal.open).toHaveBeenCalled()
   })
 
   it(`opens claim rewards modal`, () => {
-    const $refs = { ModalWithdrawRewards: { open: jest.fn() } }
+    const $refs = {
+      ModalWithdrawRewards: {
+        open: jest.fn()
+      }
+    }
     wrapper.vm.$refs = $refs
     wrapper.find("#withdraw-btn").trigger("click")
     expect($refs.ModalWithdrawRewards.open).toHaveBeenCalled()
@@ -106,7 +108,11 @@ describe(`TmBalance`, () => {
         rewards: []
       }
     })
-    const $refs = { ModalWithdrawRewards: { open: jest.fn() } }
+    const $refs = {
+      ModalWithdrawRewards: {
+        open: jest.fn()
+      }
+    }
     wrapper.vm.$refs = $refs
     wrapper.find("#withdraw-btn").trigger("click")
     expect($refs.ModalWithdrawRewards.open).not.toHaveBeenCalled()
@@ -162,7 +168,7 @@ describe(`TmBalance`, () => {
   })
 
   it(`should calculate the total rewards amount for each denom when rewards contain multiple denoms`, () => {
-    const totalDenomRewards = wrapper.vm.calculateTotalRewardsDenom(`TOKEN1`)
+    const totalDenomRewards = wrapper.vm.totalRewardsPerDenom[`TOKEN1`]
     expect(totalDenomRewards).toBe(4.5)
   })
 })

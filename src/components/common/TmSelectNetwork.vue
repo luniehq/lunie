@@ -46,8 +46,11 @@ export default {
     }
   },
   watch: {
-    networks: networks => {
-      this.updateSelectedNetwork(networks)
+    networks: {
+      immediate: true,
+      handler(networks) {
+        this.updateSelectedNetwork(networks)
+      }
     }
   },
   methods: {

@@ -15,7 +15,8 @@ describe(`TmSessionImportPassword`, () => {
   beforeEach(() => {
     getters = {
       network: "lunie-net",
-      networkSlug: "lunie"
+      networkSlug: "lunie",
+      isExtension: false
     }
     $store = {
       state: {
