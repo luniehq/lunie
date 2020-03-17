@@ -235,15 +235,18 @@ async function getAccountBalance(browser) {
     browser.launch_url + browser.globals.slug + "/portfolio",
     async () => {
       // waiting till balance loaded
-      await browser.waitForElementVisible(".total-atoms", 5000, false)
-      await browser.getText(".total-atoms h3", result => {
-        browser.globals.denom = result.value.replace("Total ", "")
+      await browser.waitForElementVisible(".total", 5000, false)
+      await browser.getText(".total", result => {
+        let total = result.value.split(" ")
+        browser.globals.denom = total[1]
+        browser.globals.totalAtoms = total[0]
       })
-      await browser.getText(".total-atoms h2", result => {
+      /*await browser.getText(".total-atoms h2", result => {
         browser.globals.totalAtoms = result.value.replace(",", "")
-      })
-      await browser.getText(".available-atoms h2", result => {
-        browser.globals.availableAtoms = result.value.replace(",", "")
+      })*/
+      await browser.getText(".available-amount", result => {
+        let availableAtoms = result.value.split(" ")
+        browser.globals.availableAtoms = availableAtoms[0]
       })
     }
   )
