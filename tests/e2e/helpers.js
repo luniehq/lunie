@@ -3,16 +3,16 @@ const { expect } = require("chai")
 
 async function getBalance(browser) {
   return new Promise(resolve => {
-    browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
-    browser.getText(".total-atoms__value", ({ value }) => {
+    browser.expect.element(`.total`).to.be.visible.before(10000)
+    browser.getText(".total", ({ value }) => {
       resolve(numeral(value).value())
     })
   })
 }
 async function getAvailableTokens(browser) {
   return new Promise(resolve => {
-    browser.expect.element(`.available-atoms`).to.be.visible.before(10000)
-    browser.getText(".available-atoms", ({ value }) => {
+    browser.expect.element(`.available-amount`).to.be.visible.before(10000)
+    browser.getText(".available-amount", ({ value }) => {
       resolve(numeral(value).value())
     })
   })
