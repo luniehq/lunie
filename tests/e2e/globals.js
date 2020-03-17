@@ -16,7 +16,7 @@ let initializedAccount = false
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
   // or an error is thrown
-  asyncHookTimeout: 120000,
+  asyncHookTimeout: 200000,
 
   async beforeEach(browser, done) {
     // standardize window format

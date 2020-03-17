@@ -236,11 +236,11 @@ async function getAccountBalance(browser) {
     browser.launch_url + browser.globals.slug + "/portfolio",
     async () => {
       // waiting till balance loaded
-      await browser.waitForElementVisible(".total", 5000, false)
-      await browser.getText(".total", result => {
+      await browser.waitForElementVisible(".total-atoms", 5000, false)
+      await browser.getText(".total-atoms h3", result => {
         browser.globals.denom = result.value.replace("Total ", "")
       })
-      await browser.getText(".available-amount", result => {
+      await browser.getText(".available-atoms h2", result => {
         browser.globals.availableAtoms = result.value.replace(",", "")
       })
     }
