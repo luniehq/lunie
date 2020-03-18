@@ -140,7 +140,7 @@ export default {
       this.status = `detect`
       this.address = null
       try {
-        this.address = await getAddressFromLedger(this.networkId, this.$apollo)
+        this.address = await getAddressFromLedger(this.networkId, this.$store)
         this.$router.push({
           name: "portfolio",
           params: {

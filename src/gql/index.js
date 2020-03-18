@@ -127,6 +127,7 @@ export const NetworksAll = gql`
       network_type
       address_creator
       address_prefix
+      ledger_app
       testnet
       enabled
     }
