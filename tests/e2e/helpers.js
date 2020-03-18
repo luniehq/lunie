@@ -3,16 +3,16 @@ const { expect } = require("chai")
 
 async function getBalance(browser) {
   return new Promise(resolve => {
-    browser.expect.element(`.total-atoms__value`).to.be.visible.before(10000)
-    browser.getText(".total-atoms__value", ({ value }) => {
+    browser.expect.element(`.total`).to.be.visible.before(10000)
+    browser.getText(".total", ({ value }) => {
       resolve(numeral(value).value())
     })
   })
 }
 async function getAvailableTokens(browser) {
   return new Promise(resolve => {
-    browser.expect.element(`.available-atoms`).to.be.visible.before(10000)
-    browser.getText(".available-atoms", ({ value }) => {
+    browser.expect.element(`.available-amount`).to.be.visible.before(10000)
+    browser.getText(".available-amount", ({ value }) => {
       resolve(numeral(value).value())
     })
   })
@@ -25,7 +25,6 @@ async function awaitBalance(browser, balance) {
 }
 async function waitFor(check, iterations = 10, timeout = 1000) {
   while (--iterations) {
-    console.log(iterations)
     try {
       await check()
       return
@@ -72,7 +71,6 @@ async function waitForText(
     async () => {
       await browser.waitForElementVisible(selector, 10000)
       const result = await browser.getText(selector)
-      console.log(result) // let's check what the property for error is
       if (!result.errors) {
         expect(result.value).to.include(expectedCaption)
       }
@@ -164,9 +162,10 @@ async function actionModalCheckout(
     // doesn't show sub total
     browser.expect.elements(".table-invoice li").count.to.equal(2)
   } else {
-    browser.expect
-      .element(".table-invoice li:first-child span:last-child")
-      .text.to.contain(expectedSubtotal)
+    browser.assert.containsText(
+      ".table-invoice li:first-child span:last-child",
+      expectedSubtotal
+    )
   }
 
   // remember fees
@@ -230,21 +229,24 @@ async function actionModalCheckout(
   //browser.expect.element(".success-step").to.be.present.before(20 * 1000)
 }
 
-async function getAccountBallance(browser) {
+async function getAccountBalance(browser) {
   // save denom
   return await browser.url(
     browser.launch_url + browser.globals.slug + "/portfolio",
     async () => {
       // waiting till balance loaded
-      await browser.waitForElementVisible(".total-atoms h2", 5000, false)
-      await browser.getText(".total-atoms h3", result => {
-        browser.globals.denom = result.value.replace("Total ", "")
+      await browser.waitForElementVisible(".total", 5000, false)
+      await browser.getText(".total", result => {
+        let total = result.value.split(" ")
+        browser.globals.denom = total[1]
+        browser.globals.totalAtoms = total[0]
       })
-      await browser.getText(".available-atoms h2", result => {
-        browser.globals.availableAtoms = result.value.replace(",", "")
-      })
-      await browser.getText(".total-atoms__value", result => {
+      /*await browser.getText(".total-atoms h2", result => {
         browser.globals.totalAtoms = result.value.replace(",", "")
+      })*/
+      await browser.getText(".available-amount", result => {
+        let availableAtoms = result.value.split(" ")
+        browser.globals.availableAtoms = availableAtoms[0]
       })
     }
   )
@@ -276,7 +278,7 @@ module.exports = {
   actionModalCheckout,
   getLastActivityItemHash,
   nextBlock,
-  getAccountBallance,
+  getAccountBalance,
   checkBrowserLogs,
   fundMasterAccount
 }

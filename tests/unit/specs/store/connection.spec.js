@@ -7,15 +7,18 @@ jest.mock(`src/../config.js`, () => ({
 
 describe(`Module: Connection`, () => {
   let module, state, actions, mutations
+
+  const networks = [
+    { id: `awesomenet`, slug: `awesome` },
+    { id: `keine-ahnungnet`, slug: `ahnungnet` },
+    { id: `localnet`, slug: `local` }
+  ]
+
   let mockApollo = {
     async query() {
       return {
         data: {
-          networks: [
-            { id: `awesomenet`, slug: `awesome` },
-            { id: `keine-ahnungnet`, slug: `ahnungnet` },
-            { id: `localnet`, slug: `local` }
-          ]
+          networks
         }
       }
     }
@@ -24,6 +27,7 @@ describe(`Module: Connection`, () => {
   beforeEach(() => {
     module = connectionModule({ apollo: mockApollo })
     state = module.state
+    state.networks = networks
     actions = module.actions
     mutations = module.mutations
   })

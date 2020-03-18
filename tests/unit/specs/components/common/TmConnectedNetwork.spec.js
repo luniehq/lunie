@@ -38,7 +38,8 @@ describe(`TmConnectedNetwork`, () => {
       },
       dispatch,
       getters: {
-        network: `localnet`
+        network: `awesomenet`,
+        networks
       }
     }
 
@@ -71,22 +72,14 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`has a connecting state`, async () => {
-    $store = {
-      state: {
-        connection: {
-          connected: false
-        },
-        networks
+    wrapper.setData({
+      $store: {
+        state: {
+          connection: {
+            connected: false
+          }
+        }
       }
-    }
-
-    wrapper = shallowMount(TmConnectedNetwork, {
-      localVue,
-      mocks: {
-        $store,
-        $apollo
-      },
-      stubs: [`router-link`]
     })
     expect(wrapper.element).toMatchSnapshot()
   })

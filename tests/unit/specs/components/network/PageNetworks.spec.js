@@ -4,7 +4,7 @@ import PageNetworks from "network/PageNetworks"
 const localVue = createLocalVue()
 
 describe(`PageNetworks`, () => {
-  let wrapper
+  let wrapper, $store
 
   const networks = [
     {
@@ -23,38 +23,19 @@ describe(`PageNetworks`, () => {
     }
   ]
 
-  const $apollo = {
-    queries: {
-      parameters: {
-        loading: false,
-        error: undefined
+  beforeEach(() => {
+    $store = {
+      dispatch: jest.fn(),
+      getters: {
+        networks
       }
     }
-  }
-
-  beforeEach(() => {
     wrapper = shallowMount(PageNetworks, {
       localVue,
       mocks: {
-        $store: {
-          dispatch: jest.fn(),
-          state: {
-            connection: {
-              network: `gaia-testnet`
-            }
-          }
-        },
-        $route: {
-          params: { height: `100` }
-        },
-        $router: {
-          push: jest.fn()
-        },
-        $apollo
-      },
-      stubs: [`router-link`]
+        $store
+      }
     })
-    wrapper.setData({ networks })
   })
 
   it(`shows a page with a selection of networks`, () => {

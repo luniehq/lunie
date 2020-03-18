@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="table-container">
     <div
       v-if="$apollo.queries.delegations.loading && !delegations.length"
       class="loading-image-container"
@@ -10,13 +10,16 @@
         alt="geometric placeholder shapes"
       />
     </div>
+
     <div v-else-if="delegations.length > 0">
+      <h1>Your Validators</h1>
       <TableValidators
         :validators="delegations.map(({ validator }) => validator)"
         :delegations="delegations"
         show-on-mobile="expectedReturns"
       />
     </div>
+
     <TmDataMsg
       v-else-if="delegations.length === 0 && !$apollo.loading"
       icon="sentiment_dissatisfied"
@@ -26,8 +29,7 @@
       </div>
       <div slot="subtitle">
         Head over to the
-        <router-link to="/validators"> validator list</router-link>&nbsp;to get
-        staking!
+        <a @click="goToValidators()"> validator list</a>&nbsp;to get staking!
       </div>
     </TmDataMsg>
   </div>
@@ -49,7 +51,18 @@ export default {
     delegations: []
   }),
   computed: {
-    ...mapGetters(["address", `network`])
+    ...mapGetters(["address", `network`, `networks`])
+  },
+  methods: {
+    goToValidators() {
+      this.$router.push({
+        name: "Validators",
+        params: {
+          networkId: this.networks.find(network => network.id === this.network)
+            .slug
+        }
+      })
+    }
   },
   apollo: {
     delegations: {
@@ -92,28 +105,28 @@ export default {
 }
 </script>
 <style scoped>
-.tab-header {
-  color: var(--dim);
-  font-size: 14px;
-  font-weight: 500;
-  margin: 1.5rem 0.5rem 0.5rem;
+h1 {
+  font-size: 24px;
+  color: white;
+  font-weight: 300;
+  padding: 1rem 0 2rem;
 }
 
-@media screen and (min-width: 1023) {
-  .tab-header {
-    margin: 3rem 0.5rem 0.5rem;
+.table-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 667px) {
+  h1 {
+    padding: 2rem;
+    text-align: center;
   }
 }
 
-.info-button {
-  color: var(--link);
-}
-
-.unbonding-transactions .tm-li-tx::before {
-  position: absolute;
-  width: 2rem;
-  text-align: right;
-  color: var(--dim);
-  left: 0;
+@media screen and (min-width: 667px) {
+  .table-container {
+    padding: 2rem;
+  }
 }
 </style>

@@ -23,9 +23,9 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import { messageType } from "./messageTypes.js"
 import TransactionMetadata from "./TransactionMetadata"
-import config from "src/../config"
 
 import {
   SendTxDetails,
@@ -72,10 +72,10 @@ export default {
     }
   },
   data: () => ({
-    show: false,
-    isExtension: config.isExtension
+    show: false
   }),
   computed: {
+    ...mapGetters([`isExtension`]),
     messageTypeComponent: function() {
       switch (this.transaction.type) {
         case messageType.SEND:
