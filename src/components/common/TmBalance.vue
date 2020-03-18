@@ -598,7 +598,7 @@ select option {
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 2rem;
+  padding: 0 2rem 1rem;
   width: 100%;
 }
 
