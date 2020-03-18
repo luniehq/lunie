@@ -189,7 +189,10 @@ describe(`ActionModal`, () => {
       gasEstimate: 550000,
       gasPrice: "1e-9",
       amount: 1,
-      maxDecimals: ActionModal.methods.maxDecimals
+      maxDecimals: ActionModal.methods.maxDecimals,
+      network: {
+        stakingDenom: "LUNA"
+      }
     }
     const maxAmount = ActionModal.computed.estimatedFee.call(self)
     expect(maxAmount).toBe(0.00855)
