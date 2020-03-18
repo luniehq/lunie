@@ -451,11 +451,16 @@ export default {
         this.networkId.startsWith(`terra`) &&
         this.transactionData.type === transactionTypes.SEND
       ) {
-        return this.maxDecimals(
-          Number(this.gasEstimate) * Number(this.gasPrice) +
-            Number(this.amount) * terraTax,
-          6
-        ) // TODO get precision from API
+        return this.getDenom === this.network.stakingDenom
+          ? this.maxDecimals(
+              Number(this.gasEstimate) * Number(this.gasPrice) * 1.5,
+              6
+            )
+          : this.maxDecimals(
+              Number(this.gasEstimate) * Number(this.gasPrice) +
+                Number(this.amount) * terraTax,
+              6
+            ) // TODO get precision from API
       }
       return Number(this.gasPrice) * Number(this.gasEstimate)
     },

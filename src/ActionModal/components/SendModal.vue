@@ -260,7 +260,10 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      if (this.network.startsWith(`terra`)) {
+      if (
+        this.network.startsWith(`terra`) &&
+        this.token() !== this.stakingDenom
+      ) {
         const terraTax = 0.008
         this.amount = maxDecimals(
           this.selectedBalance.amount / (1 + terraTax),
