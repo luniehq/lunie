@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.177] - 2020-03-18
+
+### Fixed
+
+- [#3725](https://github.com/cosmos/lunie/pull/3725) Fixes Ledger signin @Bitcoinera
+
 ## [1.0.176] - 2020-03-17
 
 ### Added
