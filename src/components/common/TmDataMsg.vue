@@ -58,6 +58,7 @@ export default {
   align-items: center;
   border-radius: 0.25rem;
   border: 1px solid var(--bc);
+  margin: 1rem;
 }
 
 .tm-data-msg__icon {

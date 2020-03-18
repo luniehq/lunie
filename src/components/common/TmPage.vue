@@ -133,7 +133,7 @@ export default {
 
 .tm-page-main {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .tm-page-main.dark-background {
@@ -234,7 +234,7 @@ h4 {
 
 @media screen and (min-width: 1024px) {
   .tm-page {
-    margin: 1rem auto;
+    margin: 1rem auto 0;
   }
 }
 
