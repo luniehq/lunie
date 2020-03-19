@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/luniehq/lunie/branch/develop/graph/badge.svg)](https://codecov.io/gh/luniehq/lunie)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
-👋 Welcome to Lunie. We're making staking accessible for everyone. This is the repo for the Lunie web and mobile apps.
+👋 Welcome to Lunie. We're making staking easy and accessible for everyone. This is the repo for the Lunie web and mobile apps.
 
 ## Development Dependencies
 
@@ -19,6 +19,53 @@ Lunie requires Node.js `>=10.13.0`. If you have a different version of Node.js i
 ```bash
 nvm install 10.*
 ```
+
+---
+
+## Lunie Development
+
+### Start
+
+You can simply start the frontend:
+
+```bash
+npm run serve
+```
+
+The front end will run on its own, however if you want to feed it data to interact with, please read on below.
+
+### Run local testnet
+
+ATTENTION: Lunie requires a backend running to operate. We do not offer a publicly accessible backend, however you can follow the instructions below to run a local testnet backend.
+
+[comment]: <> (removed docker section as it's not needed to complete installion and running Lunie)
+
+#### Lunie Backend
+
+```
+git clone https://github.com/luniehq/lunie-backend.git
+cd lunie-backend
+npm run start
+```
+
+#### Use the local testnet
+
+Lunie is automatically connecting to the backend at `http://localhost:4000`. If not set the according environment variable `VUE_APP_GRAPHQL_URL`.
+
+The testnet will contain an account with plenty of funds inside that you can use to see balances and make transactions. You need to import that account into Lunie:
+
+- Sign In
+- Use an existing account
+- Recover with backup code
+
+Now enter the backup code and create the account. Backup code: 
+
+`release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`
+
+You should now have a bunch of funds to stake to play with.
+
+
+[comment]: <> (moved Ledger section further down the page to keep the instructions of installing dependencies in the same general area)
 
 ### Ledger Cosmos App
 
@@ -41,46 +88,6 @@ cd lunie
 npm install
 ```
 
----
-
-## Lunie Development
-
-### Start
-
-You can simply start the frontend:
-
-```bash
-npm run serve
-```
-
-ATTENTION: Lunie requires a backend. This is currently not yet public.
-
-### Run local testnet
-
-#### Docker
-
-To run a local testnet for Lunie you will need [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) installed. You can find instructions to install Docker [here](https://www.docker.com/get-docker). You can find instructions to install Docker-Compose [here](https://docs.docker.com/compose/install/).
-
-#### Backend
-
-```
-git clone https://github.com/luniehq/lunie-backend.git
-cd lunie-backend
-npm run start
-```
-
-#### Use the local testnet
-
-Lunie is automatically connecting to the backend at `http://localhost:4000`. If not set the according environment variable `VUE_APP_GRAPHQL_URL`.
-
-The testnet will contain a rich account that you can use to see balances and make transactions. You need to import that account into Lunie:
-- Sign In
-- Use an existing account
-- Recover with backup code
-
-Now enter the backup code and create the account. Backup code: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`
-
-You should now have a bunch of stake to play with.
 
 ### Code Conventions / Coding Style
 
