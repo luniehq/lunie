@@ -55,44 +55,15 @@ exports[`PageValidators shows a message if still loading 1`] = `
   subtitle=""
   title=""
 >
-  <template>
-    <div
-      class="filterOptions"
-    >
-      <tmfield-stub
-        class="searchField"
-        placeholder="Search"
-        type="text"
-        value=""
-      />
-       
-      <div
-        class="toggles"
-      >
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="All"
-        />
-         
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="active"
-          value="Active"
-        />
-      </div>
-    </div>
-     
-    <tablevalidators-stub
-      delegations=""
-      showonmobile="expectedReturns"
-      validators=""
+  <div
+    class="loading-image-container"
+  >
+    <img
+      alt="geometric placeholder shapes"
+      class="loading-image"
+      src="/img/validator-list-loading.svg"
     />
-     
-    <!---->
-     
-    <!---->
-  </template>
+  </div>
 </tmpage-stub>
 `;
 
