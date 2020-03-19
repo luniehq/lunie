@@ -43,7 +43,7 @@ import { fromNow } from "src/filters"
 import Avatar from "common/Avatar"
 
 export default {
-  name: `li-validator`,
+  name: `li-undelegation`,
   components: {
     Avatar
   },
@@ -72,10 +72,6 @@ export default {
   margin-bottom: 0.25rem;
   border-bottom: 1px solid var(--bc-dim);
   border-radius: 0.25rem;
-}
-
-.li-validator:last-child {
-  border-bottom: none;
 }
 
 .validator-info {
