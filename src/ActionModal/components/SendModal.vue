@@ -246,7 +246,8 @@ export default {
     this.$apollo.queries.balances.refetch()
   },
   methods: {
-    open() {
+    open(denom = undefined) {
+      this.selectedToken = denom || this.selectedToken
       this.$refs.actionModal.open()
     },
     onSuccess(event) {

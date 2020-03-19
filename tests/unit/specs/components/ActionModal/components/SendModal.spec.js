@@ -57,7 +57,7 @@ describe(`SendModal`, () => {
       submit: cb => cb(),
       open: jest.fn()
     }
-    wrapper.vm.open("stake")
+    wrapper.vm.open("STAKE")
   })
 
   it(`should display send modal form`, async () => {

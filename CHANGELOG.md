@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.177] - 2020-03-18
+
+### Fixed
+
+- [#3725](https://github.com/cosmos/lunie/pull/3725) Fixes Ledger signin @Bitcoinera
+
+## [1.0.176] - 2020-03-17
+
+### Added
+
+- added isExtension getter to identify extension use and use other pathes @iambeone
+- [#3689](https://github.com/cosmos/lunie/issues/3689) Allow explore with polkadot address @faboweb
+
+### Changed
+
+- [#3714](https://github.com/cosmos/lunie/pull/3714) Adds the currency icon for the KSM token @Bitcoinera
+- [#3718](https://github.com/cosmos/lunie/pull/3718) Adds the icon for MUON @Bitcoinera
+- [#3641](https://github.com/cosmos/lunie/issues/3641) super duper multi denom support @jbibla
+
+### Fixed
+
+- account creation steps should be disabled by default  @iambeone
+- await preloadNetworkCapabilities as we need networks loaded right after this function call @iambeone
+- removed networks loading from checkForPersistedNetwork @iambeone
+- [#3709](https://github.com/cosmos/lunie/pull/3709) Fixes networks being undefined in TmSessionSignIn due to incorrect use of networks getter @Bitcoinera
+- [#3711](https://github.com/cosmos/lunie/pull/3711) Allows signing in with an existing Lunie Polkadot account by adding a couple of hack in TmSessionSignIn @Bitcoinera
+- [#3688](https://github.com/cosmos/lunie/pull/3688) Fixes getting extra fees on Send in Terra when sending Max Amount @Bitcoinera
+- [#3707](https://github.com/cosmos/lunie/pull/3707) Fixes the validators list link on Portfolio when delegations is empty @Bitcoinera
+- Make select network responsive to network updates @faboweb
+
+### Security
+
+- Updated minimist because of security issue @faboweb
+
+### Deprecated
+
+- transaction-utils moved to extension @iambeone
+
+### Repository
+
+- e2e fixes @iambeone
+- Adjusted release script to new release flow @faboweb
+
 ## [1.0.175] - 2020-03-14
 
 ### Added
