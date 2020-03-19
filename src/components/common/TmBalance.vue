@@ -132,7 +132,10 @@
 
         <div class="table-cell actions">
           <div class="icon-button-container">
-            <button class="icon-button circle-send-button" @click="onSend()">
+            <button
+              class="icon-button circle-send-button"
+              @click="onSend(stakingDenom)"
+            >
               <i class="material-icons">send</i></button
             ><span>Send</span>
           </div>
@@ -184,7 +187,7 @@
 
           <div :key="balance.denom + 3" class="table-cell actions">
             <div class="icon-button-container">
-              <button class="icon-button" @click="onSend()">
+              <button class="icon-button" @click="onSend(balance.denom)">
                 <i class="material-icons">send</i></button
               ><span>Send</span>
             </div>
@@ -344,8 +347,8 @@ export default {
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
-    onSend() {
-      this.$refs.SendModal.open()
+    onSend(denom = undefined) {
+      this.$refs.SendModal.open(denom)
     },
     openTutorial() {
       this.showTutorial = true
