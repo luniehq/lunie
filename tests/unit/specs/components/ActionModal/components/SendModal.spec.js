@@ -99,12 +99,12 @@ describe(`SendModal`, () => {
         denom: `STAKE`
       })
       wrapper.setData({
-        address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234`,
+        address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767`,
         amount: 2
       })
-      wrapper.vm.validateForm()
+      const valid = wrapper.vm.validateForm()
+      expect(valid).toBe(false)
       await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$v.$error).toBe(true)
       expect(wrapper.element).toMatchSnapshot()
     })
   })

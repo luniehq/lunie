@@ -151,7 +151,7 @@ const maxDecimals = (value, decimals) => {
 }
 
 const isPolkadotAddress = address => {
-  const polkadotRegexp = /^([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48})$/
+  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
 
