@@ -63,13 +63,7 @@ async function getCosmosLocalSigner(wallet) {
 }
 
 async function getPolkadotLocalSigner(wallet) {
-  const [{ Keyring }] = await Promise.all([
-    import("@polkadot/keyring"),
-    import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
-      // Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
-      await cryptoWaitReady()
-    })
-  ])
+  const { Keyring } = await import("@polkadot/api")
 
   const keyring = new Keyring({ type: "ed25519" })
   const keyPair = keyring.addFromUri(wallet.seedPhrase)
