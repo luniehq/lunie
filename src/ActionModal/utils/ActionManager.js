@@ -78,12 +78,19 @@ export default class ActionManager {
     transactionProperties,
     txMetaData
   ) {
-    const { gasEstimate, gasPrice, submitType, password } = txMetaData
+    const {
+      gasEstimate,
+      gasPrice,
+      submitType,
+      password,
+      displayedProperties
+    } = txMetaData
     const signer = await getSigner(config, submitType, {
       address: userAddress,
       password,
       network: networkId,
-      networkType
+      networkType,
+      displayedProperties
     })
 
     const messageMetadata = {
@@ -103,12 +110,6 @@ export default class ActionManager {
           txMessages.push(txMessage)
         })
       )
-      // HACK until this is refactored in a proper way
-      const claimAmountMessage = {
-        type: "/".concat(type),
-        value: { amount: transactionProperties.amounts }
-      }
-      txMessages.push(claimAmountMessage)
     } else {
       const txMessage = await getMessage(
         networkId,
