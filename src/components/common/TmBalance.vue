@@ -19,7 +19,6 @@
             type="secondary"
             @click.native="onSend()"
           />
-
           <TmBtn
             id="withdraw-btn"
             :disabled="!readyToWithdraw"
@@ -120,7 +119,10 @@
         </div>
 
         <div class="table-cell rewards">
-          <h2>+{{ overview.totalRewards }} {{ stakingDenom }}</h2>
+          <h2>
+            +{{ overview.totalRewards | bigFigureOrShortDecimals }}
+            {{ stakingDenom }}
+          </h2>
         </div>
 
         <div class="table-cell available">
