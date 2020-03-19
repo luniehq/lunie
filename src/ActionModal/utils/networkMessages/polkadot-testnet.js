@@ -1,5 +1,4 @@
 import { getSignMessage } from "./polkadot-transactions"
-import { Keyring } from "@polkadot/api"
 
 // Bank
 /* istanbul ignore next */

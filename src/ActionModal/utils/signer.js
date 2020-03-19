@@ -68,10 +68,7 @@ async function getPolkadotLocalSigner(wallet) {
   return signMessage => {
     const signedMessage = getSignedMessage(signMessage, wallet.seedPhrase)
 
-    return {
-      signedMessage,
-      publicKey: wallet.publicKey
-    }
+    return signedMessage
   }
 }
 
