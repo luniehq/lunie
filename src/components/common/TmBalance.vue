@@ -529,12 +529,15 @@ export default {
   }
 }
 </script>
-<style>
-.balance-header,
-.loading-image-container {
+<style scoped>
+.balance-header {
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
+}
+
+.loading-image-container {
+  padding: 0 2rem 2rem;
 }
 
 h1 {
@@ -614,10 +617,6 @@ select option {
 .buttons {
   display: flex;
   align-items: center;
-}
-
-.withdraw-rewards {
-  background: var(--success);
 }
 
 .open-tutorial {

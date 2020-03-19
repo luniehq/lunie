@@ -111,8 +111,26 @@ input.tm-field {
 }
 
 .loading-image-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
   overflow: hidden;
-  padding-top: 2rem;
+}
+
+.loading-image-container {
+  animation: fade 1.5s infinite;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0.4;
+  }
 }
 
 @media screen and (max-width: 1023px) {
