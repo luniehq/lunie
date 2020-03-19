@@ -11,7 +11,10 @@ describe(`SendModal`, () => {
 
   const getters = {
     connected: true,
-    session: { signedIn: true, address: "cosmos1234" },
+    session: {
+      signedIn: true,
+      address: "cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx"
+    },
     network: "cosmos-hub-mainnet"
   }
 
@@ -67,7 +70,7 @@ describe(`SendModal`, () => {
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },
-      address: `cosmos1address`,
+      address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`,
       amount: 10
     }
     SendModal.methods.clear.call(self)
@@ -90,39 +93,18 @@ describe(`SendModal`, () => {
       expect(wrapper.vm.$v.$error).toBe(true)
       expect(wrapper.element).toMatchSnapshot()
     })
-    it(`should show bech32 error when address length is too short`, async () => {
-      wrapper.setProps({
-        denom: `STAKE`
-      })
-      wrapper.setData({
-        address: `asdf`,
-        amount: 2
-      })
-      wrapper.vm.validateForm()
-      await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$v.$error).toBe(true)
-      expect(wrapper.element).toMatchSnapshot()
-    })
 
-    it(`should show bech32 error when address length is too long`, async () => {
+    it(`should show bech32 error when address is not bech32`, async () => {
       wrapper.setProps({
         denom: `STAKE`
       })
       wrapper.setData({
-        address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
+        address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234`,
         amount: 2
       })
       wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$v.$error).toBe(true)
-      expect(wrapper.element).toMatchSnapshot()
-    })
-    it(`should show bech32 error when alphanumeric is wrong`, async () => {
-      wrapper.setData({
-        address: ``
-      })
-      expect(wrapper.vm.validateForm()).toBe(false)
-      await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
     })
   })
