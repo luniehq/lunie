@@ -88,6 +88,7 @@ async function createPolkadotAddress(seedPhrase) {
 
   return {
     cosmosAddress: newPair.address,
+    publicKey: newPair.publicKey,
     seedPhrase
   }
 }

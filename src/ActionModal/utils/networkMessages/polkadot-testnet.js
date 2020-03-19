@@ -1,16 +1,5 @@
-import { ApiPromise, WsProvider } from "@polkadot/api"
-
-// will only be inited once per session
-let api
-async function getAPI() {
-  if (!api) {
-    api = new ApiPromise({
-      provider: new WsProvider("wss://kusama-rpc.polkadot.io/")
-    })
-  }
-  await api.isReady
-  return api
-}
+import { getSignMessage } from "./polkadot-transactions"
+import { Keyring } from "@polkadot/api"
 
 // Bank
 /* istanbul ignore next */
@@ -21,8 +10,10 @@ export async function MsgSend(
     amounts // [{ denom, amount}]
   }
 ) {
-  const api = await getAPI()
-  return api.tx.balances.transfer(toAddress, amounts[0].amount)
+  return await getSignMessage(senderAddress, "balances", "transfer", [
+    toAddress,
+    amounts[0].amount
+  ])
 }
 
 // // Staking

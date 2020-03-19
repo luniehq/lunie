@@ -63,13 +63,15 @@ async function getCosmosLocalSigner(wallet) {
 }
 
 async function getPolkadotLocalSigner(wallet) {
-  const { Keyring } = await import("@polkadot/api")
+  const { getSignedMessage } = await import("./polkadot-signing")
 
-  const keyring = new Keyring({ type: "ed25519" })
-  const keyPair = keyring.addFromUri(wallet.seedPhrase)
+  return signMessage => {
+    const signedMessage = getSignedMessage(signMessage, wallet.seedPhrase)
 
-  return polkadotTransactionObject => {
-    return polkadotTransactionObject.sign(keyPair)
+    return {
+      signedMessage,
+      publicKey: wallet.publicKey
+    }
   }
 }
 
