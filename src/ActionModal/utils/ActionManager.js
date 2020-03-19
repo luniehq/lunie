@@ -103,6 +103,12 @@ export default class ActionManager {
           txMessages.push(txMessage)
         })
       )
+      // HACK until this is refactored in a proper way
+      const claimAmountMessage = {
+        type: "/".concat(type),
+        value: { amount: transactionProperties.amounts }
+      }
+      txMessages.push(claimAmountMessage)
     } else {
       const txMessage = await getMessage(
         networkId,
