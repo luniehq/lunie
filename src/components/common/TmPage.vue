@@ -133,7 +133,7 @@ export default {
 
 .tm-page-main {
   position: relative;
-  min-height: 100vh;
+  /*min-height: 100vh;*/
 }
 
 .tm-page-main.dark-background {
