@@ -36,7 +36,7 @@ The front end will run on its own, however if you want to feed it data to intera
 
 ### Run local testnet
 
-ATTENTION: Lunie requires a backend running to operate. We do not offer a publicly accessible backend, however you can follow the instructions below to run a local testnet backend.
+Lunie requires a GraphQL API to work as expected. At the moment, we do not offer a publicly accessible backend. Email us at hello [at] lunie.io if you'd like access.
 
 [comment]: <> (removed docker section as it's not needed to complete installion and running Lunie)
 
