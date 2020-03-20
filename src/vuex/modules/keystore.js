@@ -89,7 +89,10 @@ async function createPolkadotAddress(seedPhrase, addressPrefix) {
     })
   ])
 
-  const keyring = new Keyring({ ss58Format: addressPrefix, type: "ed25519" })
+  const keyring = new Keyring({
+    ss58Format: Number(addressPrefix),
+    type: "ed25519"
+  })
   const newPair = keyring.addFromUri(seedPhrase)
 
   return {
