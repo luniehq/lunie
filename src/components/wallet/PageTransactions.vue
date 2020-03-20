@@ -42,6 +42,7 @@ import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import gql from "graphql-tag"
+import { uniqWith } from "lodash"
 
 const txFields = `
   type
@@ -195,8 +196,13 @@ export default {
             ...this.loadedTransactions,
             ...result.transactionsV2
           ]
+          // avoid duplicate transactions
+          const filteredLoadedTransactions = uniqWith(
+            this.loadedTransactions,
+            (a, b) => a.hash === b.hash
+          )
           // sorting transactions
-          this.loadedTransactions = this.loadedTransactions.sort(
+          this.loadedTransactions = filteredLoadedTransactions.sort(
             (a, b) => b.height - a.height
           )
         }
@@ -212,6 +218,10 @@ export default {
         `,
         updateQuery: (previousResult, { subscriptionData }) => {
           if (previousResult && subscriptionData.data.userTransactionAddedV2) {
+            console.log(
+              "subscriptionData",
+              subscriptionData.data.userTransactionAddedV2
+            )
             return {
               transactionsV2: [subscriptionData.data.userTransactionAddedV2]
             }
