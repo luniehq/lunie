@@ -1,6 +1,16 @@
 <template>
   <TmPage :managed="true" hide-header>
-    <template slot="managed-body">
+    <div
+      v-if="$apollo.queries.validators.loading && !validators.length"
+      class="loading-image-container"
+    >
+      <img
+        class="loading-image"
+        src="/img/validator-list-loading.svg"
+        alt="geometric placeholder shapes"
+      />
+    </div>
+    <template v-else slot="managed-body">
       <div class="filterOptions">
         <TmField
           v-model="searchTerm"
@@ -137,7 +147,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.loading-image-container {
+  padding: 2rem;
+}
 .filterOptions {
   display: flex;
   flex-flow: row wrap;

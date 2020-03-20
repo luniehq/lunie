@@ -19,7 +19,6 @@
             type="secondary"
             @click.native="onSend()"
           />
-
           <TmBtn
             id="withdraw-btn"
             :disabled="!readyToWithdraw"
@@ -120,7 +119,10 @@
         </div>
 
         <div class="table-cell rewards">
-          <h2>+{{ overview.totalRewards }} {{ stakingDenom }}</h2>
+          <h2>
+            +{{ overview.totalRewards | bigFigureOrShortDecimals }}
+            {{ stakingDenom }}
+          </h2>
         </div>
 
         <div class="table-cell available">
@@ -527,12 +529,15 @@ export default {
   }
 }
 </script>
-<style>
-.balance-header,
-.loading-image-container {
+<style scoped>
+.balance-header {
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
+}
+
+.loading-image-container {
+  padding: 0 2rem 2rem;
 }
 
 h1 {
@@ -612,10 +617,6 @@ select option {
 .buttons {
   display: flex;
   align-items: center;
-}
-
-.withdraw-rewards {
-  background: var(--success);
 }
 
 .open-tutorial {

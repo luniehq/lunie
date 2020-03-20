@@ -122,6 +122,10 @@ h1 {
     padding: 2rem;
     text-align: center;
   }
+
+  .loading-image-container {
+    padding: 2rem;
+  }
 }
 
 @media screen and (min-width: 667px) {

@@ -5,10 +5,11 @@
         undelegations &&
         undelegations.length > 0
     "
+    class="undelegations"
   >
-    <h3 class="tab-header">
-      Pending Undelegations
-    </h3>
+    <h1>
+      Pending
+    </h1>
     <TableUndelegations :undelegations="undelegations" />
   </div>
 </template>
@@ -84,10 +85,29 @@ export default {
   }
 }
 </script>
-<style>
-.tab-header {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  margin-left: 2rem;
+<style scope>
+h1 {
+  font-size: 24px;
+  color: white;
+  font-weight: 300;
+  padding: 1rem 0 2rem;
+}
+
+.undelegations {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 667px) {
+  h1 {
+    padding: 2rem;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 667px) {
+  .undelegations {
+    padding: 2rem;
+  }
 }
 </style>
