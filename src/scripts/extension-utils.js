@@ -102,14 +102,16 @@ export const getSignQueue = async () => {
 export const signWithExtension = async (
   signMessage,
   senderAddress,
-  network
+  network,
+  displayedProperties
 ) => {
   const { signature, publicKey } = await sendAsyncMessageToContentScript({
     type: "LUNIE_SIGN_REQUEST",
     payload: {
       signMessage,
       senderAddress,
-      network
+      network,
+      displayedProperties
     }
   })
 
