@@ -42,6 +42,7 @@ import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import gql from "graphql-tag"
+import uniqWith from "lodash.uniqwith"
 
 const txFields = `
   type
@@ -195,6 +196,15 @@ export default {
             ...this.loadedTransactions,
             ...result.transactionsV2
           ]
+          // avoid duplicate transactions
+          const filteredLoadedTransactions = uniqWith(
+            this.loadedTransactions,
+            (a, b) => JSON.stringify(a) === JSON.stringify(b)
+          )
+          // sorting transactions
+          this.loadedTransactions = filteredLoadedTransactions.sort(
+            (a, b) => b.height - a.height
+          )
         }
         return this.loadedTransactions
       },
@@ -207,12 +217,9 @@ export default {
           }
         `,
         updateQuery: (previousResult, { subscriptionData }) => {
-          if (previousResult && subscriptionData.data.userTransactionAdded) {
+          if (previousResult && subscriptionData.data.userTransactionAddedV2) {
             return {
-              transactions: [
-                subscriptionData.data.userTransactionAdded,
-                ...previousResult
-              ]
+              transactionsV2: [subscriptionData.data.userTransactionAddedV2]
             }
           }
         },
@@ -223,42 +230,6 @@ export default {
             address: this.address
           }
         }
-      }
-    },
-    subscribeToMore: {
-      query: gql`
-        subscription($networkId: String!, $address: String!) {
-          userTransactionAddedV2(networkId: $networkId, address: $address) {
-            ${txFields}
-          }
-        }
-      `,
-      updateQuery: (previousResult, { subscriptionData }) => {
-        return {
-          transactions: [
-            subscriptionData.data.userTransactionAdded,
-            ...previousResult
-          ]
-        }
-      },
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.address
-        }
-      },
-      update(result) {
-        let transactions = []
-        if (Array.isArray(result.transactions)) {
-          transactions = result.transactions.map(tx => ({
-            ...tx,
-            timestamp: new Date(tx.timestamp),
-            value: JSON.parse(tx.value)
-          }))
-        }
-        this.lastLoadedRecordsCount = transactions.length
-        this.loadedTransactions = [...this.loadedTransactions, ...transactions]
-        return this.loadedTransactions
       }
     },
     validators: {
