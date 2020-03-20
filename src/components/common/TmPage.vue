@@ -125,6 +125,9 @@ export default {
   position: relative;
   width: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .tm-page.small {
@@ -133,7 +136,9 @@ export default {
 
 .tm-page-main {
   position: relative;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .tm-page-main.dark-background {
@@ -234,7 +239,7 @@ h4 {
 
 @media screen and (min-width: 1024px) {
   .tm-page {
-    margin: 1rem auto;
+    margin: 1rem auto 0;
   }
 }
 

@@ -138,9 +138,7 @@ export default {
   border-bottom: 1px solid var(--bc-dim);
   border-radius: 0.25rem;
 }
-.li-validator:last-child {
-  border-bottom: none;
-}
+
 .validator-info {
   display: flex;
   flex-direction: column;

@@ -4,16 +4,19 @@ const networks = [
   {
     id: "cosmos-hub-testnet",
     network_type: "cosmos",
+    address_prefix: "cosmos",
     testnet: true
   },
   {
     id: "cosmos-hub-mainnet",
     network_type: "cosmos",
+    address_prefix: "cosmos",
     testnet: false
   },
   {
-    id: "terra-testnet",
-    network_type: "terra",
+    id: "polkadot-testnet",
+    network_type: "polkadot",
+    address_prefix: "2",
     testnet: true
   }
 ]
@@ -119,7 +122,7 @@ describe(`Module: Keystore`, () => {
     expect(seed).toBe(`xxx`)
   })
 
-  it(`should create an address from a seed phrase`, async () => {
+  it(`should create a Cosmos address from a seed phrase`, async () => {
     const address = await actions.getAddressFromSeed(
       {
         getters: {
@@ -132,6 +135,21 @@ describe(`Module: Keystore`, () => {
       }
     )
     expect(address).toBe(`cosmos1234`)
+  })
+
+  it(`should create a Polkadot address from a seed phrase`, async () => {
+    const address = await actions.getAddressFromSeed(
+      {
+        getters: {
+          networks
+        }
+      },
+      {
+        seedPhrase: `enable story warrior detail cradle inherit over cattle unhappy concert reveal clay keep tourist tenant brief simple drum plug inform glue business ski dream`,
+        network: `polkadot-testnet`
+      }
+    )
+    expect(address).toBe(`HKFeFq1CTzCfTNhNtQDqe3nCR6WzimGdUdLzr7v7ukw6fnx`)
   })
 
   it(`should create a key from a seed phrase`, async () => {

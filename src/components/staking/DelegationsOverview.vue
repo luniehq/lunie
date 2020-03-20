@@ -95,7 +95,7 @@ export default {
         query: UserTransactionAdded,
         result({ data }) {
           /* istanbul ignore next */
-          if (data.userTransactionAdded.success) {
+          if (data.userTransactionAddedV2.success) {
             this.$apollo.queries.delegations.refetch()
           }
         }
@@ -121,6 +121,10 @@ h1 {
   h1 {
     padding: 2rem;
     text-align: center;
+  }
+
+  .loading-image-container {
+    padding: 2rem;
   }
 }
 
