@@ -187,36 +187,6 @@ describe(`PageTransactions`, () => {
     wrapper.vm.loadMore()
   })
 
-  it("transaction added on subscription trigger", () => {
-    const self = {
-      transactions: []
-    }
-    let result = PageTransactions.apollo.subscribeToMore.updateQuery.call(
-      self,
-      [],
-      {
-        subscriptionData: {
-          data: {
-            userTransactionAddedV2: {
-              type: "cosmos-sdk/MsgUndelegate",
-              value: {
-                delegator_address: "cosmos2",
-                validator_address: "cosmos4de",
-                amount: { denom: "uatom", amount: "10000" }
-              },
-              height: 1248479,
-              timestamp: "2019-07-31T09:22:23.054Z",
-              memo: "",
-              fee: { amount: "4141", denom: "ATOM" }
-            }
-          }
-        }
-      }
-    )
-
-    expect(result.transactions.length).toBeGreaterThan(0)
-  })
-
   it("transactions updated on subscription trigger", () => {
     const self = {
       loadedTransactions: []
@@ -236,8 +206,8 @@ describe(`PageTransactions`, () => {
       fee: { amount: "4141", denom: "ATOM" },
       group: "staking"
     }
-    let result = PageTransactions.apollo.subscribeToMore.update.call(self, {
-      transactions: [newTransaction]
+    let result = PageTransactions.apollo.transactions.update.call(self, {
+      transactionsV2: [newTransaction]
     })
     // adjusting result
     newTransaction.value = JSON.parse(newTransaction.value)

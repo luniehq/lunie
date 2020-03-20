@@ -20,7 +20,7 @@
     "test:coverage-branch": "npm run test:unit -- --coverage && git diff origin/develop | diff-test-coverage -c ./coverage/lcov.info -t lcov --",
     "test:e2e": "node tests/e2e/local-run.js",
     "test:e2e:build": "cross-env VUE_APP_E2E=true vue-cli-service build --mode production",
-    "test:e2e:browserstack": "nightwatch -c tests/e2e/browserstack.conf.js",
+    "test:e2e:browserstack": "nightwatch -c tests/e2e/browserstack.conf.js --suiteRetries 3",
     "test:e2e:local": "nightwatch --config ./tests/e2e/local-chrome.conf.js",
     "test:e2e:serve": "kill-port 9080 && cross-env VUE_APP_E2E=true NETWORK=local-cosmos-hub-testnet vue-cli-service serve --mode production --port 9080",
     "test:unit": "vue-cli-service test:unit"
@@ -66,6 +66,7 @@
     "lodash.orderby": "^4.6.0",
     "lodash.trim": "^4.5.1",
     "lodash.uniqby": "^4.7.0",
+    "lodash.uniqwith": "4.5.0",
     "material-design-icons-iconfont": "5.0.1",
     "moment": "^2.24.0",
     "no-scroll": "^2.1.1",
