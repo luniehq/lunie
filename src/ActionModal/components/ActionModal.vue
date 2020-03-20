@@ -739,8 +739,7 @@ export default {
       }
       const txMetadata = {
         ...feeProperties,
-        displayedProperties:
-          this.title === "Claim Rewards" ? properties.amounts : null
+        displayedProperties: properties.amounts
       }
 
       try {
