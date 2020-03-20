@@ -80,7 +80,7 @@ function getCosmosAddressCreator(bech32Prefix) {
 }
 
 // creates a polkadot address
-async function createPolkadotAddress(seedPhrase) {
+async function createPolkadotAddress(seedPhrase, addressPrefix) {
   const [{ Keyring }] = await Promise.all([
     import("@polkadot/keyring"),
     import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
@@ -89,7 +89,10 @@ async function createPolkadotAddress(seedPhrase) {
     })
   ])
 
-  const keyring = new Keyring({ type: "ed25519" })
+  const keyring = new Keyring({
+    ss58Format: Number(addressPrefix),
+    type: "ed25519"
+  })
   const newPair = keyring.addFromUri(seedPhrase)
 
   return {
@@ -111,7 +114,7 @@ async function getWallet(seedPhrase, networkId, store) {
       return await addressCreator(seedPhrase)
     }
     case "polkadot": {
-      return await createPolkadotAddress(seedPhrase)
+      return await createPolkadotAddress(seedPhrase, network.address_prefix)
     }
     default:
       throw new Error(
