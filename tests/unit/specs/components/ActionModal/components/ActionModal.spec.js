@@ -180,14 +180,14 @@ describe(`ActionModal`, () => {
     expect(maxDecimalsNumber).toBe(9.8964)
   })
 
-  it(`should return the max amount in balance minus the extra fees you need to pay in Terra for sending`, () => {
+  it(`should return the special fees you need to pay in Terra for sending`, () => {
     const self = {
       networkId: "terra-mainnet",
       transactionData: {
         type: `MsgSend`
       },
       gasEstimate: 550000,
-      gasPrice: "1e-9",
+      gasPrice: "1.5e-8",
       amount: 1,
       maxDecimals: ActionModal.methods.maxDecimals,
       network: {
@@ -195,7 +195,7 @@ describe(`ActionModal`, () => {
       }
     }
     const maxAmount = ActionModal.computed.estimatedFee.call(self)
-    expect(maxAmount).toBe(0.00855)
+    expect(maxAmount).toBe(1.012375)
   })
 
   it(`should set the submissionError if the submission is rejected`, async () => {
