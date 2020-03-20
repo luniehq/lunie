@@ -11,7 +11,8 @@ describe(`SendModal`, () => {
 
   const getters = {
     connected: true,
-    session: { signedIn: true, address: "cosmos1234" }
+    session: { signedIn: true, address: "cosmos1234" },
+    network: "cosmos-hub-mainnet"
   }
 
   const state = {}
@@ -56,7 +57,7 @@ describe(`SendModal`, () => {
       submit: cb => cb(),
       open: jest.fn()
     }
-    wrapper.vm.open("stake")
+    wrapper.vm.open("STAKE")
   })
 
   it(`should display send modal form`, async () => {
@@ -254,6 +255,20 @@ describe(`SendModal`, () => {
       wrapper.vm.setMaxAmount()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.isMaxAmount()).toBe(false)
+    })
+    it(`if we are connected to a Terra network, we will substract Terra extra fees from max amount`, async () => {
+      wrapper.setData({
+        $store: {
+          getters: {
+            network: "terra-mainnet"
+          }
+        },
+        selectedBalance: {
+          amount: 1
+        }
+      })
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(`0.992063`)
     })
   })
 

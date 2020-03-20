@@ -10,209 +10,189 @@
       />
     </div>
     <div v-else>
-      <div class="values-container">
-        <div>
-          <div class="upper-header">
-            <div class="total-atoms">
-              <h3>Total {{ stakingDenom }}</h3>
-              <h2 class="total-atoms__value">
-                {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
-              </h2>
-            </div>
-            <div
-              v-if="
-                isMultiDenomNetwork &&
-                  stakingBalance &&
-                  stakingBalance.fiatValue
+      <div class="header-container">
+        <h1>Your Portfolio</h1>
+        <div class="buttons">
+          <TmBtn
+            class="send-button"
+            value="Send"
+            type="secondary"
+            @click.native="onSend()"
+          />
+
+          <TmBtn
+            id="withdraw-btn"
+            :disabled="!readyToWithdraw"
+            class="withdraw-rewards"
+            value="Claim Rewards"
+            @click.native="readyToWithdraw && onWithdrawal()"
+          />
+          <button
+            v-if="
+              connection.network === 'cosmos-hub-mainnet' ||
+                connection.network === 'cosmos-hub-testnet'
+            "
+            class="tutorial-button"
+            @click="openTutorial()"
+          >
+            <i v-if="false" class="material-icons notranslate">
+              help_outline
+            </i>
+            <span v-else>Need some tokens?</span>
+          </button>
+          <div v-if="currencySupport" class="currency-selector">
+            <img
+              v-if="preferredCurrency"
+              class="currency-flag"
+              :src="
+                '/img/icons/currencies/' +
+                  preferredCurrency.toLowerCase() +
+                  '.png'
               "
-              class="currency-selector"
+              :alt="`${preferredCurrency}` + ' currency'"
+            />
+            <select
+              v-model="selectedFiatCurrency"
+              @change="setPreferredCurrency()"
             >
-              <img
+              <option
                 v-if="preferredCurrency"
-                class="currency-flag"
-                :src="
-                  '/img/icons/currencies/' +
-                    preferredCurrency.toLowerCase() +
-                    '.png'
-                "
-                :alt="`${preferredCurrency}` + ' currency'"
-              />
-              <img
-                v-else
-                class="currency-flag"
-                src="/img/icons/currencies/EUR.png"
-                alt="EUR currency"
-              />
-              <select
-                v-model="selectedFiatCurrency"
-                @change="setPreferredCurrency()"
+                value=""
+                :selected="preferredCurrency"
+                hidden
+                >{{ preferredCurrency }}</option
               >
-                <option
-                  v-if="!preferredCurrency || preferredCurrency === ''"
-                  value=""
-                  disabled
-                  :selected="!preferredCurrency || preferredCurrency === ''"
-                  hidden
-                  >Select your fiat currency</option
-                >
-                <option
-                  v-if="preferredCurrency"
-                  value=""
-                  :selected="preferredCurrency"
-                  hidden
-                  >{{ preferredCurrency }}</option
-                >
-                <option value="EUR">EUR</option>
-                <option value="USD">USD</option>
-                <option value="GBP">GBP</option>
-                <option value="JPY">JPY</option>
-                <option value="CHF">CHF</option>
-              </select>
-            </div>
-            <button
-              v-if="
-                connection.network === 'cosmos-hub-mainnet' ||
-                  connection.network === 'cosmos-hub-testnet'
-              "
-              class="tutorial-button"
-              @click="openTutorial()"
-            >
-              <i v-if="false" class="material-icons notranslate">
-                help_outline
-              </i>
-              <span v-else>Need some tokens?</span>
-            </button>
-          </div>
-          <div class="scroll">
-            <div
-              class="row lower-header scroll-item"
-              :class="{ 'single-denom-rewards': !isMultiDenomNetwork }"
-            >
-              <div class="row">
-                <div
-                  v-if="overview.totalStake > 0"
-                  class="available-atoms currency-div"
-                >
-                  <h3>Available {{ stakingDenom }}</h3>
-                  <h2>
-                    {{
-                      overview.liquidStake | bigFigureOrShortDecimals | noBlanks
-                    }}
-                  </h2>
-                  <div class="rewards multi-denom">
-                    <h2
-                      v-if="
-                        isMultiDenomNetwork && overview.totalRewards > 0.001
-                      "
-                    >
-                      +{{
-                        overview.totalRewards
-                          | bigFigureOrShortDecimals
-                          | noBlanks
-                      }}
-                    </h2>
-                  </div>
-                  <div class="total-fiat-value">
-                    <span
-                      v-if="
-                        isMultiDenomNetwork &&
-                          stakingBalance &&
-                          stakingBalance.fiatValue &&
-                          stakingBalance.fiatValue.amount > 0 &&
-                          preferredCurrency
-                      "
-                      class="fiat-value-box"
-                      >{{
-                        preferredCurrency +
-                          " " +
-                          stakingBalance.fiatValue.symbol +
-                          bigFigureOrShortDecimals(
-                            stakingBalance.fiatValue.amount
-                          )
-                      }}</span
-                    >
-                  </div>
-                </div>
-
-                <div
-                  v-if="
-                    !isMultiDenomNetwork &&
-                      overview.totalRewards &&
-                      overview.totalRewards > 0.001
-                  "
-                  class="rewards"
-                >
-                  <h3>Total Rewards</h3>
-                  <h2>
-                    +{{
-                      overview.totalRewards
-                        | bigFigureOrShortDecimals
-                        | noBlanks
-                    }}
-                  </h2>
-                </div>
-              </div>
-
-              <div v-if="isMultiDenomNetwork" class="row values-container">
-                <div
-                  v-for="balance in filteredMultiDenomBalances"
-                  :key="balance.denom"
-                  class="currency-div"
-                >
-                  <div class="available-atoms">
-                    <h3>
-                      {{ balance.denom }}
-                    </h3>
-                    <h2>
-                      {{ balance.amount | bigFigureOrShortDecimals }}
-                    </h2>
-                  </div>
-                  <div class="rewards multi-denom">
-                    <h2
-                      v-if="calculateTotalRewardsDenom(balance.denom) > 0.001"
-                    >
-                      +{{
-                        calculateTotalRewardsDenom(balance.denom)
-                          | bigFigureOrShortDecimals
-                      }}
-                    </h2>
-                  </div>
-                  <div
-                    v-if="
-                      balance &&
-                        balance.fiatValue &&
-                        balance.fiatValue.amount > 0 &&
-                        preferredCurrency
-                    "
-                    class="total-fiat-value fiat-value-box"
-                  >
-                    <span>{{
-                      preferredCurrency +
-                        ` ` +
-                        balance.fiatValue.symbol +
-                        bigFigureOrShortDecimals(balance.fiatValue.amount)
-                    }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+              <option value="JPY">JPY</option>
+              <option value="CHF">CHF</option>
+            </select>
           </div>
         </div>
       </div>
-      <div class="button-container">
-        <TmBtn
-          class="send-button"
-          value="Send"
-          type="secondary"
-          @click.native="onSend()"
-        />
-        <TmBtn
-          id="withdraw-btn"
-          :disabled="!readyToWithdraw"
-          class="withdraw-rewards"
-          value="Claim Rewards"
-          @click.native="readyToWithdraw && onWithdrawal()"
-        />
+
+      <div class="table four-columns">
+        <div class="table-cell big title">Token</div>
+        <div class="table-cell title">Rewards</div>
+        <div class="table-cell title available">Available</div>
+        <div class="table-cell title actions"></div>
+
+        <div class="table-cell big">
+          <img
+            v-if="stakingDenom.length > 3"
+            class="currency-flag"
+            :src="
+              '/img/icons/currencies/' +
+                stakingDenom.substring(1).toLowerCase() +
+                '.png'
+            "
+            :alt="`${stakingDenom}` + ' currency'"
+          />
+          <img
+            v-else
+            class="currency-flag"
+            :src="
+              '/img/icons/currencies/' + stakingDenom.toLowerCase() + '.png'
+            "
+            :alt="`${stakingDenom}` + ' currency'"
+          />
+          <div class="total-and-fiat">
+            <span class="total">
+              {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
+              {{ stakingDenom }}
+            </span>
+            <template
+              v-if="
+                overview.totalStakeFiatValue &&
+                  overview.totalStakeFiatValue.amount > 0
+              "
+            >
+              <span class="fiat">
+                {{ overview.totalStakeFiatValue.symbol
+                }}{{
+                  bigFigureOrShortDecimals(overview.totalStakeFiatValue.amount)
+                }}
+                {{ preferredCurrency }}
+              </span>
+            </template>
+          </div>
+        </div>
+
+        <div class="table-cell rewards">
+          <h2>+{{ overview.totalRewards }} {{ stakingDenom }}</h2>
+        </div>
+
+        <div class="table-cell available">
+          <span class="available-amount">
+            {{ overview.liquidStake | bigFigureOrShortDecimals }}
+            {{ stakingDenom }}
+          </span>
+        </div>
+
+        <div class="table-cell actions">
+          <div class="icon-button-container">
+            <button
+              class="icon-button circle-send-button"
+              @click="onSend(stakingDenom)"
+            >
+              <i class="material-icons">send</i></button
+            ><span>Send</span>
+          </div>
+        </div>
+
+        <template v-for="balance in filteredMultiDenomBalances">
+          <div :key="balance.denom" class="table-cell big">
+            <img
+              v-if="balance.denom.length > 3"
+              class="currency-flag"
+              :src="
+                '/img/icons/currencies/' +
+                  balance.denom.substring(1).toLowerCase() +
+                  '.png'
+              "
+              :alt="`${balance.denom}` + ' currency'"
+            />
+            <img
+              v-else
+              class="currency-flag"
+              :src="
+                '/img/icons/currencies/' + balance.denom.toLowerCase() + '.png'
+              "
+              :alt="`${balance.denom}` + ' currency'"
+            />
+            <div class="total-and-fiat">
+              <span class="total">
+                {{ balance.amount | bigFigureOrShortDecimals }}
+                {{ balance.denom }}
+              </span>
+              <span v-if="balance.fiatValue" class="fiat">
+                {{ balance.fiatValue.symbol
+                }}{{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
+                {{ balance.fiatValue.denom }}</span
+              >
+            </div>
+          </div>
+
+          <div :key="balance.denom + 1" class="table-cell rewards">
+            <h2 v-if="totalRewardsPerDenom[balance.denom] > 0.001">
+              +{{
+                totalRewardsPerDenom[balance.denom] | bigFigureOrShortDecimals
+              }}
+              {{ balance.denom }}
+            </h2>
+          </div>
+
+          <div :key="balance.denom + 2" class="table-cell available"></div>
+
+          <div :key="balance.denom + 3" class="table-cell actions">
+            <div class="icon-button-container">
+              <button class="icon-button" @click="onSend(balance.denom)">
+                <i class="material-icons">send</i></button
+              ><span>Send</span>
+            </div>
+          </div>
+        </template>
       </div>
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
@@ -239,7 +219,6 @@ import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
-import uniqBy from "lodash.uniqby"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
 
@@ -257,8 +236,9 @@ export default {
   },
   data() {
     return {
-      overview: {},
-      stakingDenom: "",
+      overview: {
+        rewards: []
+      },
       sentToGA: false,
       balances: [],
       showTutorial: false,
@@ -306,22 +286,13 @@ export default {
   },
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `network`, `stakingDenom`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
-      if (this.overview.rewards && this.overview.rewards.length > 0) {
-        const uniqRewardsDenoms = uniqBy(
-          this.overview.rewards,
-          reward => reward.denom
-        ).map(reward => reward.denom)
-        const allTotalRewards = uniqRewardsDenoms.map(denom =>
-          this.calculateTotalRewardsDenom(denom)
-        )
-        return allTotalRewards.find(reward => parseFloat(reward) > 0.001)
-      } else {
-        return null
-      }
+      return Object.values(this.totalRewardsPerDenom).find(
+        value => value > 0.001
+      )
     },
     stakingBalance() {
       return this.balances.find(({ denom }) => denom === this.stakingDenom)
@@ -349,6 +320,23 @@ export default {
       } else {
         return false
       }
+    },
+    currencySupport() {
+      return (
+        this.isMultiDenomNetwork &&
+        this.stakingBalance &&
+        this.stakingBalance.fiatValue
+      )
+    },
+    totalRewardsPerDenom() {
+      if (this.overview.rewards && this.overview.rewards.length > 0) {
+        return this.overview.rewards.reduce((all, reward) => {
+          return {
+            ...all,
+            [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0)
+          }
+        }, {})
+      } else return {}
     }
   },
   mounted() {
@@ -359,8 +347,8 @@ export default {
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
-    onSend() {
-      this.$refs.SendModal.open()
+    onSend(denom = undefined) {
+      this.$refs.SendModal.open(denom)
     },
     openTutorial() {
       this.showTutorial = true
@@ -370,12 +358,14 @@ export default {
     },
     calculateTotalRewardsDenom(denom) {
       if (this.overview.rewards && this.overview.rewards.length > 0) {
-        let rewardsAccumulator = 0
-        this.overview.rewards
-          .filter(reward => reward.denom === denom)
-          .forEach(reward => {
-            rewardsAccumulator += parseFloat(reward.amount)
-          })
+        const rewardsAccumulator = this.overview.rewards.reduce(
+          (sum, reward) => {
+            return reward.denom === denom
+              ? (sum += parseFloat(reward.amount))
+              : sum
+          },
+          0
+        )
         return rewardsAccumulator
       }
     },
@@ -387,11 +377,24 @@ export default {
   apollo: {
     overview: {
       query: gql`
-        query overview($networkId: String!, $address: String!) {
-          overview(networkId: $networkId, address: $address) {
+        query overview(
+          $networkId: String!
+          $address: String!
+          $fiatCurrency: String!
+        ) {
+          overview(
+            networkId: $networkId
+            address: $address
+            fiatCurrency: $fiatCurrency
+          ) {
             totalRewards
             liquidStake
             totalStake
+            totalStakeFiatValue {
+              amount
+              denom
+              symbol
+            }
             rewards {
               amount
               denom
@@ -403,7 +406,8 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.address
+          address: this.address,
+          fiatCurrency: this.preferredCurrency
         }
       },
       /* istanbul ignore next */
@@ -475,6 +479,7 @@ export default {
             fiatValue {
               amount
               symbol
+              denom
             }
           }
         }
@@ -490,27 +495,6 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
-      }
-    },
-    stakingDenom: {
-      query: gql`
-        query Network($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        if (!data.network) return ""
-        return data.network.stakingDenom
       }
     },
     $subscribe: {
@@ -543,7 +527,20 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
+.balance-header,
+.loading-image-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+h1 {
+  font-size: 24px;
+  color: white;
+  font-weight: 300;
+}
+
 select {
   background: var(--input-bg);
   color: var(--txt, #333);
@@ -556,115 +553,69 @@ select option {
   font-family: var(--sans);
 }
 
-.currency-flag {
-  width: 1rem;
-  margin-right: 0.25rem;
-}
-
 .currency-selector {
-  display: flex;
+  float: right;
+  display: inline-flex;
   align-items: center;
-}
-
-.total-fiat-value {
-  min-width: 2rem;
-  margin-top: 0.5rem;
-}
-
-.fiat-value-box {
-  font-size: 12px;
-  color: var(--dim);
-  border-radius: 1.25rem;
-}
-
-.currency-div {
-  margin-right: 0.5rem;
-}
-
-.balance-header {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.values-container {
-  position: relative;
-}
-
-.values-container h2 {
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 24px;
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--primary);
+  border-radius: 0.5rem;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
   color: var(--bright);
 }
 
-.values-container h3 {
-  font-size: var(--sm);
-  font-weight: 400;
-  white-space: nowrap;
-}
-
-.total-atoms,
-.available-atoms,
-.rewards {
-  padding-right: 2.5rem;
-}
-
-p.rewards {
-  color: var(--success);
-  font-size: var(--s);
-}
-
-.rewards h2 {
-  color: var(--success);
-  font-size: var(--m);
-}
-
-.rewards.multi-denom h2 {
-  font-size: 12px;
-}
-
-.available-atoms h2 {
-  font-size: var(--m);
-  line-height: 20px;
-}
-
-.upper-header {
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.lower-header {
-  padding: 2rem;
-  align-items: normal;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.button-container {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 2rem;
-  width: 100%;
-  border-bottom: 1px solid var(--bc-dim);
-  border-top: 1px solid var(--bc-dim);
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-}
-
-.button-container button:first-child {
+.currency-selector img {
+  width: 1rem;
+  height: 1rem;
   margin-right: 0.5rem;
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
+.currency-flag {
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 100%;
+  object-fit: cover;
+  margin-right: 1rem;
+  border-radius: 50%;
 }
 
-.row div {
-  white-space: nowrap;
+.currency-div {
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--bc-dim);
+}
+
+.currency-div:last-child {
+  border-bottom: none;
+}
+
+.currency-div:hover {
+  background: var(--hover-bg);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 2rem 1rem;
+  width: 100%;
+}
+
+.header-container button:first-child {
+  margin-right: 0.5rem;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+}
+
+.withdraw-rewards {
+  background: var(--success);
 }
 
 .open-tutorial {
@@ -673,6 +624,7 @@ p.rewards {
 
 .tutorial-button {
   padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
   width: auto;
   font-size: 14px;
   background: transparent;
@@ -683,7 +635,6 @@ p.rewards {
   display: flex;
   align-items: center;
   font-family: var(--sans);
-  margin-left: auto;
 }
 
 .tutorial-button i {
@@ -698,71 +649,152 @@ p.rewards {
   background-color: rgba(255, 255, 255, 0.02);
 }
 
+.table {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem 2rem 3rem;
+  margin: 0 auto;
+}
+
+.table-cell {
+  flex-grow: 1;
+  width: 100%;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  width: 20%;
+  border-bottom: 1px solid var(--bc-dim);
+  font-family: "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  position: relative;
+  white-space: nowrap;
+}
+
+.table-cell.big {
+  width: 40%;
+  padding-left: 1rem;
+}
+
+.table-cell.big.title {
+  padding-left: 0;
+}
+
+.title {
+  color: var(--dim);
+  font-size: var(--sm);
+  padding-bottom: 1rem;
+  padding-left: 0;
+}
+
+.total {
+  color: var(--bright);
+}
+
+.available-amount {
+  color: #ffdc82;
+}
+
+.rewards {
+  color: var(--success);
+}
+
+.fiat {
+  color: #b0bade;
+  padding-left: 1rem;
+}
+
+.icon-button-container span {
+  display: block;
+  font-size: 12px;
+  text-align: center;
+  color: var(--dim);
+  padding-top: 2px;
+}
+
+.icon-button {
+  border-radius: 50%;
+  background: #7a88b8;
+  border: none;
+  outline: none;
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.25s ease;
+}
+
+.icon-button:hover {
+  background: #354682;
+  cursor: pointer;
+}
+
+.icon-button i {
+  font-size: 14px;
+  color: var(--bright);
+}
+
+.total-and-fiat {
+  display: flex;
+  flex-direction: row;
+}
+
 @media screen and (max-width: 667px) {
-  .balance-header {
+  h1 {
+    padding-bottom: 2rem;
+  }
+
+  .tutorial-button {
+    display: none;
+  }
+
+  .header-container {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+
+  .available {
+    display: none;
+  }
+
+  .table {
+    padding: 1rem;
+  }
+
+  .table-cell.big {
+    width: 60%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .table-cell {
+    width: 40%;
+  }
+
+  .rewards {
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-width: 1254px) {
+  .send-button {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1254px) {
+  .actions {
+    display: none;
+  }
+
+  .total-and-fiat {
     display: flex;
     flex-direction: column;
   }
 
-  .upper-header {
-    flex-direction: column-reverse;
-  }
-
-  .values-container .total-atoms__value {
-    font-size: 28px;
-    font-weight: 500;
-    line-height: 32px;
-  }
-
-  .total-atoms {
-    padding: 1rem 0;
-    text-align: center;
-  }
-
-  .single-denom-rewards {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .single-denom-rewards .rewards {
-    padding-right: 0;
-  }
-
-  .single-denom-rewards .available-atoms {
-    padding-right: 4rem;
-  }
-
-  .tutorial-button {
-    margin: 0 auto 1rem auto;
-  }
-
-  .button-container {
-    width: 100%;
-    padding: 1rem;
-    border-top: 1px solid var(--bc);
-    margin-top: 0rem;
-  }
-
-  .button-container button {
-    width: 50%;
-  }
-
-  .tutorial-container {
-    padding-right: 1rem;
-  }
-}
-
-@media screen and (max-width: 1023px) {
-  .scroll {
-    display: flex;
-    width: 100vw;
-    overflow-x: auto;
-    /* Make it smooth scrolling on iOS devices */
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .scroll-item {
-    width: 100%;
+  .fiat {
+    padding: 0;
+    font-size: 12px;
   }
 }
 </style>

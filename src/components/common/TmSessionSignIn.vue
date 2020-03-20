@@ -72,7 +72,10 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
-import gql from "graphql-tag"
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48})$/
+  return polkadotRegexp.test(address)
+}
 export default {
   name: `session-sign-in`,
   components: {
@@ -87,12 +90,11 @@ export default {
     signInAddress: ``,
     signInPassword: ``,
     error: ``,
-    addressPrefixes: [],
     testnet: false
   }),
   computed: {
     ...mapState([`keystore`, `session`]),
-    ...mapGetters([`networkSlug`]),
+    ...mapGetters([`networks`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({
@@ -101,8 +103,13 @@ export default {
       }))
     },
     networkOfAddress() {
-      const selectedNetworksArray = this.addressPrefixes.filter(
-        ({ address_prefix }) => this.signInAddress.startsWith(address_prefix)
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(this.signInAddress) && this.testnet) {
+        return this.networks.find(({ id }) => id === "polkadot-testnet")
+      }
+
+      const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
+        this.signInAddress.startsWith(address_prefix)
       )
 
       const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
@@ -144,7 +151,7 @@ export default {
         this.$router.push({
           name: "portfolio",
           params: {
-            networkId: this.networkSlug
+            networkId: this.networkOfAddress.slug
           }
         })
       } else {
@@ -170,8 +177,8 @@ export default {
       }
     },
     async selectNetworkByAddress(address) {
-      let selectedNetworksArray = this.addressPrefixes.filter(
-        ({ address_prefix }) => address.startsWith(address_prefix)
+      let selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
+        address.startsWith(address_prefix)
       )
       let selectedNetwork = ``
 
@@ -184,6 +191,13 @@ export default {
       } else {
         selectedNetwork = selectedNetworksArray[0]
       }
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(this.signInAddress) && this.testnet) {
+        selectedNetwork = this.networks.find(
+          ({ id }) => id === "polkadot-testnet"
+        )
+      }
+
       this.$store.dispatch(`setNetwork`, selectedNetwork)
     }
   },
@@ -191,31 +205,6 @@ export default {
     return {
       signInAddress: { required },
       signInPassword: { required, minLength: minLength(10) }
-    }
-  },
-  apollo: {
-    addressPrefixes: {
-      query: gql`
-        query Network($experimental: Boolean) {
-          networks(experimental: $experimental) {
-            id
-            address_prefix
-            testnet
-            slug
-          }
-        }
-      `,
-      variables() {
-        return {
-          experimental: this.session.experimentalMode
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        if (data.networks) return data.networks
-        return ""
-      },
-      fetchPolicy: "cache-first"
     }
   }
 }

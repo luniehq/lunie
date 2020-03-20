@@ -1,23 +1,14 @@
 "use strict"
-import gql from "graphql-tag"
 import * as Sentry from "@sentry/browser"
 
 export const setNetwork = async ({ to, next }, apollo, store) => {
+  // networks are loaded async so we may need to wait for them
+  while (store.getters.networks.length === 0) {
+    await new Promise(resolve => setTimeout(resolve, 100))
+  }
+
   try {
-    const {
-      data: { networks }
-    } = await apollo.query({
-      query: gql`
-        query Networks {
-          networks {
-            slug
-            id
-            default
-          }
-        }
-      `,
-      fetchPolicy: "cache-first"
-    })
+    let networks = store.getters.networks
     let path = to.path
     if (path === "/") {
       path = "/portfolio"

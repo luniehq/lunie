@@ -1,5 +1,5 @@
 import config from "src/../config"
-import { Networks } from "../../gql"
+import { NetworksAll } from "../../gql"
 
 export default function({ apollo }) {
   const state = {
@@ -7,6 +7,7 @@ export default function({ apollo }) {
     connected: true, // TODO do connection test
     network: config.network, // network id to reference network capabilities stored in Hasura
     networkSlug: "cosmos-hub",
+    networks: [],
     addressType: undefined,
     externals: {
       config
@@ -22,25 +23,23 @@ export default function({ apollo }) {
     },
     setAddressType(state, addressType) {
       state.addressType = addressType
+    },
+    setNetworks(state, networks) {
+      state.networks = networks
     }
   }
 
   const actions = {
     async checkForPersistedNetwork({ dispatch, commit }) {
       const persistedNetwork = JSON.parse(localStorage.getItem(`network`))
-      // just to disbale network change on e2e tests
-      const { data } = await apollo.query({
-        query: Networks,
-        fetchPolicy: "cache-first"
-      })
       // find stored network in networks array
       const storedNetwork = persistedNetwork
-        ? data.networks.find(network => network.id === persistedNetwork)
+        ? state.networks.find(network => network.id === persistedNetwork)
         : false
       if (persistedNetwork && storedNetwork) {
         await dispatch(`setNetwork`, storedNetwork)
       } else {
-        const defaultNetwork = data.networks.find(
+        const defaultNetwork = state.networks.find(
           network => network.id === state.externals.config.network
         )
         if (defaultNetwork) {
@@ -49,7 +48,7 @@ export default function({ apollo }) {
           await commit(`setNetworkSlug`, defaultNetwork.slug)
         } else {
           // otherwise we connect to a fallback network
-          const fallbackNetwork = data.networks.find(
+          const fallbackNetwork = state.networks.find(
             network => network.id == state.externals.config.fallbackNetwork
           )
           // I don't know why this doesn't work anymore...
@@ -61,6 +60,19 @@ export default function({ apollo }) {
     },
     async persistNetwork(store, network) {
       localStorage.setItem(`network`, JSON.stringify(network.id))
+    },
+    async preloadNetworkCapabilities({
+      commit,
+      rootState: {
+        session: { experimentalMode }
+      }
+    }) {
+      const { data } = await apollo.query({
+        query: NetworksAll,
+        variables: { experimental: experimentalMode },
+        fetchPolicy: "cache-first"
+      })
+      commit("setNetworks", data.networks)
     },
     async setNetwork({ commit, dispatch }, network) {
       dispatch(`signOut`)

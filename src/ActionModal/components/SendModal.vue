@@ -128,6 +128,7 @@
 <script>
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
+import BigNumber from "bignumber.js"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
 import { uatoms, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
@@ -143,6 +144,10 @@ import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
 
 const defaultMemo = "(Sent via Lunie)"
+
+const maxDecimals = (value, decimals) => {
+  return BigNumber(value).toFixed(decimals)
+}
 
 export default {
   name: `send-modal`,
@@ -167,11 +172,10 @@ export default {
     max_memo_characters: 256,
     isFirstLoad: true,
     selectedToken: undefined,
-    balances: [],
-    denom: ``
+    balances: []
   }),
   computed: {
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `stakingDenom`]),
     ...mapGetters({ userAddress: `address` }),
     selectedBalance() {
       return (
@@ -226,7 +230,7 @@ export default {
 
       // in case the account has no balances we will display the staking denom received from the denom query
       if (balances.length === 0) {
-        this.selectedToken = this.denom
+        this.selectedToken = this.stakingDenom
       } else {
         this.selectedToken = balances[0].denom
       }
@@ -236,7 +240,8 @@ export default {
     this.$apollo.queries.balances.refetch()
   },
   methods: {
-    open() {
+    open(denom = undefined) {
+      this.selectedToken = denom || this.selectedToken
       this.$refs.actionModal.open()
     },
     onSuccess(event) {
@@ -256,7 +261,15 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.selectedBalance.amount
+      if (this.network.startsWith(`terra`)) {
+        const terraTax = 0.008
+        this.amount = maxDecimals(
+          this.selectedBalance.amount / (1 + terraTax),
+          6 // TODO get precision fro API
+        )
+      } else {
+        this.amount = this.selectedBalance.amount
+      }
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
@@ -325,28 +338,6 @@ export default {
           networkId: this.network,
           address: this.userAddress
         }
-      }
-    },
-    denom: {
-      query: gql`
-        query NetworksDelegationModal($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      fetchPolicy: "cache-first",
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        if (data.network) return data.network.stakingDenom
-        return ""
       }
     },
     $subscribe: {

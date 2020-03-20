@@ -1,5 +1,5 @@
 <template>
-  <TmPage :sign-in-required="true" :managed="true">
+  <TmPage :sign-in-required="true" :managed="true" :dark-background="true">
     <template slot="managed-body">
       <DelegationsOverview />
       <Undelegations />

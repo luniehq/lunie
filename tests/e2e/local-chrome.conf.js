@@ -12,7 +12,7 @@ const nightwatch_config = {
     port: 9515,
     default_path_prefix: "",
     server_path: chromedriver.path,
-    cli_args: ["--verbose"]
+    cli_args: ["--verbose", "--no-sandbox"]
   },
   desiredCapabilities: {
     browserName: "chrome",
@@ -24,7 +24,13 @@ const nightwatch_config = {
       browser: "INFO"
     },
     chromeOptions: {
-      args: ["disable-web-security", "ignore-certificate-errors"],
+      args: [
+        "disable-web-security",
+        "ignore-certificate-errors",
+        "no-sandbox",
+        "headless",
+        "window-size=1920,1080"
+      ],
       prefs: {
         "intl.accept_languages": "en-US,en"
       }

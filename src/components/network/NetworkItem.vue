@@ -38,7 +38,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import PoweredBy from "network/PoweredBy"
+import PoweredBy from "./PoweredBy"
 
 export default {
   name: `network-item`,
@@ -98,6 +98,7 @@ export default {
   height: 3.5rem;
   width: 3.5rem;
   display: block;
+  border-radius: 50%;
 }
 
 .network-content {

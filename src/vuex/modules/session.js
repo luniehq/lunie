@@ -133,6 +133,7 @@ export default () => {
       if (networkId && network !== networkId) {
         await commit(`setNetworkId`, networkId)
         await dispatch(`persistNetwork`, { id: networkId })
+        network = networkId
       }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
