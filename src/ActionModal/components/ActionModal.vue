@@ -739,7 +739,9 @@ export default {
       }
       const txMetaData = {
         ...feeProperties,
-        displayedProperties: properties.amounts
+        displayedProperties: {
+          claimableRewards: properties.amounts
+        }
       }
 
       try {
