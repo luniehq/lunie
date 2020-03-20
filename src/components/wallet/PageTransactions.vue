@@ -207,10 +207,10 @@ export default {
           }
         `,
         updateQuery: (previousResult, { subscriptionData }) => {
-          if (previousResult && subscriptionData.data.userTransactionAdded) {
+          if (previousResult && subscriptionData.data.userTransactionAddedV2) {
             return {
               transactions: [
-                subscriptionData.data.userTransactionAdded,
+                subscriptionData.data.userTransactionAddedV2,
                 ...previousResult
               ]
             }
@@ -236,7 +236,7 @@ export default {
       updateQuery: (previousResult, { subscriptionData }) => {
         return {
           transactions: [
-            subscriptionData.data.userTransactionAdded,
+            subscriptionData.data.userTransactionAddedV2,
             ...previousResult
           ]
         }
