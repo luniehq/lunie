@@ -1,1 +1,0 @@
-[Changed] [#3736](https://github.com/cosmos/lunie/pull/3736) Now ModalWithdrawRewards returns the claimed rewards amount in transactionData and sends it to the extension @Bitcoinera
