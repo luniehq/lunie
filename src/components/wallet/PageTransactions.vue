@@ -199,7 +199,7 @@ export default {
           // avoid duplicate transactions
           const filteredLoadedTransactions = uniqWith(
             this.loadedTransactions,
-            (a, b) => a.hash === b.hash
+            (a, b) => JSON.stringify(a) === JSON.stringify(b)
           )
           // sorting transactions
           this.loadedTransactions = filteredLoadedTransactions.sort(
