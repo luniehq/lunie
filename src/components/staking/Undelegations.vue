@@ -8,7 +8,7 @@
     class="undelegations"
   >
     <h1>
-      Unstaked Validators
+      Pending
     </h1>
     <TableUndelegations :undelegations="undelegations" />
   </div>
