@@ -4,16 +4,19 @@ const networks = [
   {
     id: "cosmos-hub-testnet",
     network_type: "cosmos",
+    address_prefix: "cosmos",
     testnet: true
   },
   {
     id: "cosmos-hub-mainnet",
     network_type: "cosmos",
+    address_prefix: "cosmos",
     testnet: false
   },
   {
     id: "polkadot-testnet",
     network_type: "polkadot",
+    address_prefix: "2",
     testnet: true
   }
 ]
@@ -146,7 +149,7 @@ describe(`Module: Keystore`, () => {
         network: `polkadot-testnet`
       }
     )
-    expect(address).toBe(`15jw8GkCRtEkMLZmZpeB5qWvuSovtMWEFbX5mUqKCCZxY1DG`)
+    expect(address).toBe(`HKFeFq1CTzCfTNhNtQDqe3nCR6WzimGdUdLzr7v7ukw6fnx`)
   })
 
   it(`should create a key from a seed phrase`, async () => {
