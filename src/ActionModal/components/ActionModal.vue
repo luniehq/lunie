@@ -737,7 +737,7 @@ export default {
         submitType: this.selectedSignMethod,
         password: this.password
       }
-      const txMetadata = {
+      const txMetaData = {
         ...feeProperties,
         displayedProperties:
           this.title === "Claim Rewards" ? properties.amounts : null
@@ -758,7 +758,7 @@ export default {
           type,
           memo,
           properties,
-          txMetadata
+          txMetaData
         )
 
         const { hash } = hashResult
