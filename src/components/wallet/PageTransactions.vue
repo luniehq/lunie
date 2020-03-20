@@ -42,7 +42,7 @@ import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import gql from "graphql-tag"
-import { uniqWith } from "lodash"
+import uniqWith from "lodash.uniqwith"
 
 const txFields = `
   type
