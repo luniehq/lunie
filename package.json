@@ -66,6 +66,7 @@
     "lodash.orderby": "^4.6.0",
     "lodash.trim": "^4.5.1",
     "lodash.uniqby": "^4.7.0",
+    "lodash.uniqwith": "4.5.0",
     "material-design-icons-iconfont": "5.0.1",
     "moment": "^2.24.0",
     "no-scroll": "^2.1.1",
