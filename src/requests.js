@@ -4,11 +4,18 @@ export default class SignRequestQueue {
     this.unqueueSignRequest('') // to reset the icon in the beginning
   }
 
-  queueSignRequest({ signMessage, senderAddress, tabID, network }) {
+  queueSignRequest({
+    signMessage,
+    senderAddress,
+    network,
+    displayedProperties,
+    tabID
+  }) {
     this.queue.push({
       signMessage,
       senderAddress,
       network,
+      displayedProperties,
       id: Date.now(),
       tabID
     })

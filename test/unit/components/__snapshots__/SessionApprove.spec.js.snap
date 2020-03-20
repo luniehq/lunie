@@ -31,7 +31,7 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
      
     <tableinvoice-stub
       amount="12"
-      bonddenom="stake"
+      bonddenom="STAKE"
       class="approval-table"
       estimatedfee="0.00004"
     />
