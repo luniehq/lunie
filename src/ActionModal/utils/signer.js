@@ -27,6 +27,8 @@ export async function getSigner(
     switch (networkType) {
       case "cosmos":
         return await getCosmosLocalSigner(wallet)
+      case "polkadot":
+        return await getPolkadotLocalSigner(wallet)
     }
   } else if (signingType === `ledger`) {
     switch (networkType) {
@@ -59,6 +61,17 @@ async function getCosmosLocalSigner(wallet) {
     }
   }
 }
+
+async function getPolkadotLocalSigner(wallet) {
+  const { getSignedMessage } = await import("./polkadot-signing")
+
+  return signMessage => {
+    const signedMessage = getSignedMessage(signMessage, wallet.seedPhrase)
+
+    return signedMessage
+  }
+}
+
 async function getCosmosLedgerSigner(config) {
   // TODO show which properties of config are actually needed
   // importing default here to be compatible with Jest

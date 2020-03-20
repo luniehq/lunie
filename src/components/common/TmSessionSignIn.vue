@@ -73,7 +73,7 @@ import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
 const isPolkadotAddress = address => {
-  const polkadotRegexp = /^([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48})$/
+  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
 export default {

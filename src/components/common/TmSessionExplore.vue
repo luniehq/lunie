@@ -47,7 +47,8 @@
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.addressValidate"
             name="Your Address"
-            type="bech32"
+            type="custom"
+            msg="isn't recognised by Lunie. Did you type correctly?"
           />
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.isNotAValidatorAddress"
@@ -97,7 +98,7 @@ import { formatAddress } from "src/filters"
 import { isAddress } from "web3-utils"
 const isEthereumAddress = isAddress
 const isPolkadotAddress = address => {
-  const polkadotRegexp = /^([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48})$/
+  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
 

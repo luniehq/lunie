@@ -82,7 +82,7 @@ function getCosmosAddressCreator(bech32Prefix) {
 // creates a polkadot address
 async function createPolkadotAddress(seedPhrase, addressPrefix) {
   const [{ Keyring }] = await Promise.all([
-    import("@polkadot/keyring"),
+    import("@polkadot/api"),
     import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
       // Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
       await cryptoWaitReady()
@@ -97,6 +97,7 @@ async function createPolkadotAddress(seedPhrase, addressPrefix) {
 
   return {
     cosmosAddress: newPair.address,
+    publicKey: newPair.publicKey,
     seedPhrase
   }
 }
