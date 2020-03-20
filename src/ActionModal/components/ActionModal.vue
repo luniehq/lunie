@@ -737,6 +737,12 @@ export default {
         submitType: this.selectedSignMethod,
         password: this.password
       }
+      const txMetaData = {
+        ...feeProperties,
+        displayedProperties: {
+          claimableRewards: properties.amounts
+        }
+      }
 
       try {
         await this.$apollo.queries.overview.refetch()
@@ -753,7 +759,7 @@ export default {
           type,
           memo,
           properties,
-          feeProperties
+          txMetaData
         )
 
         const { hash } = hashResult
