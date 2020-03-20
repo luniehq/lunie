@@ -19,7 +19,7 @@ const apolloProvider = createApolloProvider()
 const apolloClient = apolloProvider.clients.defaultClient
 const store = Store({ apollo: apolloClient })
 store.dispatch('loadAccounts')
-
+store.dispatch(`preloadNetworkCapabilities`)
 const router = Router(store)
 
 Vue.use(Tooltip, { delay: 1 })

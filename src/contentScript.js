@@ -35,9 +35,7 @@ const responseHandler = type => response => {
 // We only accept messages from ourselves
 const filterMessages = callback => event => {
   if (event.source !== window) return
-
   if (event.data.type && event.data.type === LUNIE_WEBSITE_TYPE) {
-    initExtensionMessageReceived = true
     callback(event.data)
   }
 }
@@ -52,7 +50,6 @@ function executeRequestToExtension({ payload, skipResponse = false }) {
     skipResponse ? undefined : responseHandler(payload.type)
   )
 }
-
 // Listen to messages from the extension
 export function listenToExtensionMessages() {
   chrome.runtime.onMessage.addListener((message, _sender, _sendResponse) => {
@@ -71,17 +68,30 @@ export function listenToWebsiteMessages() {
     false
   )
 }
-
+// initial listener
+let listener = event => {
+  // waiting for website response
+  if (event.data.type == LUNIE_WEBSITE_TYPE) {
+    initExtensionMessageReceived = true
+    // removing listener
+    window.removeEventListener('message', listener, false)
+  }
+}
 function main() {
   enableExtension()
-  listenToExtensionMessages()
-  listenToWebsiteMessages()
+  // removing listener
+  window.removeEventListener('message', listener, false)
+  window.addEventListener('message', listener, false)
 }
 const checkIfRequestReceived = () => {
   // retrying in no messages received
   if (!initExtensionMessageReceived) {
     main()
     setTimeout(checkIfRequestReceived, 100)
+  } else {
+    // initialize default listeners
+    listenToExtensionMessages()
+    listenToWebsiteMessages()
   }
 }
 window.onload = () => {

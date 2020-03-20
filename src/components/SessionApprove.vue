@@ -4,7 +4,7 @@
     <br />
     <div class="from">
       From
-      <Bech32 :address="senderAddress" />
+      <Address :address="senderAddress" />
     </div>
     <TmFormGroup v-if="signRequest">
       <TransactionItem
@@ -76,7 +76,7 @@ import TmField from 'common/TmField'
 import TmFormMsg from 'common/TmFormMsg'
 import TransactionItem from 'transactions/TransactionItem'
 import TableInvoice from 'src/ActionModal/components/TableInvoice'
-import Bech32 from 'common/Bech32'
+import Address from 'common/Address'
 import { required } from 'vuelidate/lib/validators'
 import { parseTx, parseFee, parseValueObj } from '../scripts/parsers.js'
 import { atoms } from 'scripts/num.js'
@@ -84,7 +84,7 @@ import actions from '../store/actions.js'
 
 const getValidatorsData = actions({}).getValidatorsData
 
-import { flattenTransactionMsgs } from 'scripts/transaction-utils'
+import { flattenTransactionMsgs } from '../scripts/transaction-utils'
 
 const getWithdrawValidators = messages => {
   const withdrawMessages = messages.filter(({ type }) => {
@@ -113,7 +113,7 @@ export default {
     TmFormGroup,
     TransactionItem,
     TableInvoice,
-    Bech32,
+    Address,
     TmField,
     TmFormMsg
   },

@@ -29,6 +29,7 @@ const config = {
       assets: resolve('lunie/src/assets'),
       'common/Avatar': resolve('./src/components/BlankAvatar'),
       common: resolve('lunie/src/components/common'),
+      network: resolve('lunie/src/components/network'),
       transactions: resolve('lunie/src/components/transactions'),
       modules: resolve('lunie/src/vuex/modules'),
       config: resolve('config.js'),

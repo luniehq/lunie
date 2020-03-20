@@ -1,6 +1,7 @@
 import config from '../../config.js'
 import { getNewWalletFromSeed } from '@lunie/cosmos-keys'
 import gql from 'graphql-tag'
+import { NetworksAll } from '../popup/gql'
 
 export default ({ apollo }) => {
   const createSeed = () => {
@@ -33,6 +34,15 @@ export default ({ apollo }) => {
       )
 
     return network
+  }
+
+  const preloadNetworkCapabilities = async ({ commit }) => {
+    const { data } = await apollo.query({
+      query: NetworksAll,
+      variables: { experimental: config.development },
+      fetchPolicy: 'cache-first'
+    })
+    commit('setNetworks', data.networks)
   }
 
   const setNetwork = ({ commit }, network) => {
@@ -277,6 +287,7 @@ export default ({ apollo }) => {
     resetSignUpData,
     resetRecoverData,
     getAddressFromSeed,
-    setNetwork
+    setNetwork,
+    preloadNetworkCapabilities
   }
 }

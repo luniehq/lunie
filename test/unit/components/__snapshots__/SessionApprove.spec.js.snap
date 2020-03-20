@@ -17,7 +17,7 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
     
     From
     
-    <bech32-stub
+    <address-stub
       address="cosmos1234"
     />
   </div>
