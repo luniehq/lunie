@@ -218,10 +218,6 @@ export default {
         `,
         updateQuery: (previousResult, { subscriptionData }) => {
           if (previousResult && subscriptionData.data.userTransactionAddedV2) {
-            console.log(
-              "subscriptionData",
-              subscriptionData.data.userTransactionAddedV2
-            )
             return {
               transactionsV2: [subscriptionData.data.userTransactionAddedV2]
             }
