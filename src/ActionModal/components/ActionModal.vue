@@ -337,8 +337,7 @@ const sessionType = {
   EXTENSION: SIGN_METHODS.EXTENSION
 }
 
-// hardcoding terra tax here until we have it in the API
-const terraTax = 0.008
+const TERRA_GAS_ADJUSTMENT = 1.5
 
 export default {
   name: `action-modal`,
@@ -453,12 +452,16 @@ export default {
       ) {
         return this.getDenom === this.network.stakingDenom
           ? this.maxDecimals(
-              Number(this.gasEstimate) * Number(this.gasPrice) * 1.5,
+              Number(this.gasEstimate) *
+                Number(this.gasPrice) *
+                TERRA_GAS_ADJUSTMENT,
               6
             )
           : this.maxDecimals(
-              Number(this.gasEstimate) * Number(this.gasPrice) +
-                Number(this.amount) * terraTax,
+              Number(this.gasEstimate) *
+                TERRA_GAS_ADJUSTMENT *
+                Number(this.gasPrice) +
+                Number(this.amount),
               6
             ) // TODO get precision from API
       }
@@ -710,7 +713,7 @@ export default {
           this.networkId.startsWith(`terra`) &&
           this.transactionData.type === transactionTypes.SEND
         ) {
-          payable += Number(this.amount) * terraTax
+          payable += Number(this.amount)
         }
         this.gasPrice =
           (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
