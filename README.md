@@ -36,9 +36,7 @@ The front end will run on its own, however if you want to feed it data to intera
 
 ### Run local testnet
 
-ATTENTION: Lunie requires a backend running to operate. We do not offer a publicly accessible backend, however you can follow the instructions below to run a local testnet backend.
-
-[comment]: <> (removed docker section as it's not needed to complete installion and running Lunie)
+Lunie requires a GraphQL API to work as expected. At the moment, we do not offer a publicly accessible backend. Email us at hello [at] lunie.io if you'd like access.
 
 #### Lunie Backend
 
@@ -63,9 +61,6 @@ Now enter the backup code and create the account. Backup code:
 `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`
 
 You should now have a bunch of funds to stake to play with.
-
-
-[comment]: <> (moved Ledger section further down the page to keep the instructions of installing dependencies in the same general area)
 
 ### Ledger Cosmos App
 
