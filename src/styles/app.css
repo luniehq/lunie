@@ -44,6 +44,7 @@ a:hover {
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
+  min-height: 100vh;
 }
 
 .tm-field {
@@ -118,6 +119,7 @@ input.tm-field {
 @media screen and (max-width: 1023px) {
   #app-content {
     padding-top: 66px;
+    flex-flow: column;
   }
 
   ::-webkit-scrollbar {
