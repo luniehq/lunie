@@ -257,7 +257,7 @@ export default {
 }
 
 .show-on-ledger {
-  display: block;
+  display: inline-block;
   padding-top: 1rem;
 }
 

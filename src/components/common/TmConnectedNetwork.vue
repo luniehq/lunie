@@ -253,7 +253,7 @@ export default {
   }
 }
 
-@media screen and (max-height: 600px) {
+@media screen and (max-height: 640px) {
   .sidebar-bottom {
     position: static;
   }
