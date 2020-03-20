@@ -209,26 +209,42 @@ export default {
         return this.loadedTransactions
       },
       subscribeToMore: {
-        document: gql`
-          subscription($networkId: String!, $address: String!) {
-            userTransactionAddedV2(networkId: $networkId, address: $address) {
-              ${txFields}
-            }
+        query: gql`
+        subscription($networkId: String!, $address: String!) {
+          userTransactionAddedV2(networkId: $networkId, address: $address) {
+            ${txFields}
           }
-        `,
+        }
+      `,
         updateQuery: (previousResult, { subscriptionData }) => {
-          if (previousResult && subscriptionData.data.userTransactionAddedV2) {
-            return {
-              transactionsV2: [subscriptionData.data.userTransactionAddedV2]
-            }
+          return {
+            transactions: [
+              subscriptionData.data.userTransactionAddedV2,
+              ...previousResult
+            ]
           }
         },
-        /* istanbul ignore next */
         variables() {
           return {
             networkId: this.network,
             address: this.address
           }
+        },
+        update(result) {
+          let transactions = []
+          if (Array.isArray(result.transactions)) {
+            transactions = result.transactions.map(tx => ({
+              ...tx,
+              timestamp: new Date(tx.timestamp),
+              value: JSON.parse(tx.value)
+            }))
+          }
+          this.lastLoadedRecordsCount = transactions.length
+          this.loadedTransactions = [
+            ...this.loadedTransactions,
+            ...transactions
+          ]
+          return this.loadedTransactions
         }
       }
     },

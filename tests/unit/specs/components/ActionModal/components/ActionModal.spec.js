@@ -972,7 +972,7 @@ describe(`ActionModal`, () => {
     }
     ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
       data: {
-        userTransactionAdded: {
+        userTransactionAddedV2: {
           hash,
           success: true
         }
@@ -991,7 +991,7 @@ describe(`ActionModal`, () => {
     }
     ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
       data: {
-        userTransactionAdded: {
+        userTransactionAddedV2: {
           hash,
           success: false,
           log: "error"

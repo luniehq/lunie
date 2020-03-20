@@ -231,7 +231,7 @@ query metaData {
 
 export const UserTransactionAdded = gql`
   subscription($networkId: String!, $address: String!) {
-    userTransactionAdded(networkId: $networkId, address: $address) {
+    userTransactionAddedV2(networkId: $networkId, address: $address) {
       hash
       height
       success
