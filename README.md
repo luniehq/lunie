@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/luniehq/lunie/branch/develop/graph/badge.svg)](https://codecov.io/gh/luniehq/lunie)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
-👋 Welcome to Lunie. We're making staking accessible for everyone. This is the repo for the Lunie web and mobile apps.
+👋 Welcome to Lunie. We're making staking easy and accessible for everyone. This is the repo for the Lunie web and mobile apps.
 
 ## Development Dependencies
 
@@ -20,6 +20,40 @@ Lunie requires Node.js `>=10.13.0`. If you have a different version of Node.js i
 nvm install 10.*
 ```
 
+---
+
+## Lunie Development
+
+### Check out Lunie
+
+With Node installed, you're ready to check out the source code. Afterwards install the dependencies for this repository:
+
+```bash
+git clone https://github.com/luniehq/lunie.git
+cd lunie
+yarn
+```
+
+### Start
+
+You can simply start the frontend:
+
+```bash
+yarn serve
+```
+
+The front end will run on its own, however if you want to feed it data to interact with, please read on below.
+
+#### Lunie Backend
+
+Lunie requires a GraphQL API to work as expected. You can use our API for local development:
+
+```bash
+VUE_APP_GRAPHQL_URL=https://staging-api.lunie.io yarn serve
+```
+
+If you would like to use the API in production email us at hello [at] lunie.io.
+
 ### Ledger Cosmos App
 
 > **IMPORTANT:** Only use Ledger devices that you **bought factory new** or **trust fully**.
@@ -31,56 +65,6 @@ Lunie supports sending transactions through the `Cosmos` app for [Ledger Nano](h
 3. Go to the Ledger Live App Store, and download the `Cøsmos` application (this can take a while). **Note:** You may have to enable `Dev Mode` in the Ledger Live Settings to be able to download the `Cøsmos` application
 4. Navigate to the `Cøsmos` app on your Ledger device
 
-### Check out Lunie
-
-With Node installed, you're ready to check out the source code. Afterwards install the dependencies for this repository:
-
-```bash
-git clone https://github.com/luniehq/lunie.git
-cd lunie
-npm install
-```
-
----
-
-## Lunie Development
-
-### Start
-
-You can simply start the frontend:
-
-```bash
-npm run serve
-```
-
-ATTENTION: Lunie requires a backend. This is currently not yet public.
-
-### Run local testnet
-
-#### Docker
-
-To run a local testnet for Lunie you will need [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) installed. You can find instructions to install Docker [here](https://www.docker.com/get-docker). You can find instructions to install Docker-Compose [here](https://docs.docker.com/compose/install/).
-
-#### Backend
-
-```
-git clone https://github.com/luniehq/lunie-backend.git
-cd lunie-backend
-npm run start
-```
-
-#### Use the local testnet
-
-Lunie is automatically connecting to the backend at `http://localhost:4000`. If not set the according environment variable `VUE_APP_GRAPHQL_URL`.
-
-The testnet will contain a rich account that you can use to see balances and make transactions. You need to import that account into Lunie:
-- Sign In
-- Use an existing account
-- Recover with backup code
-
-Now enter the backup code and create the account. Backup code: `release endorse scale across absurd trouble climb unaware actor elite fantasy chair license word rare length business kiss smoke tackle report february bid ginger`
-
-You should now have a bunch of stake to play with.
 
 ### Code Conventions / Coding Style
 
@@ -88,12 +72,12 @@ All code needs to conform to our linting rules. This will be tested in our conti
 
 To test if your code conforms to the rules run:
 ```
-npm run lint
+yarn lint
 ```
 
 To fix linting errors automatically (as long as this is possible) run:
 ```
-npm run lint -- --fix
+yarn lint --fix
 ```
 
 ### Deploy
@@ -101,7 +85,7 @@ npm run lint -- --fix
 Create the bundle to deploy Lunie you can run:
 
 ```bash
-npm run build
+yarn build
 ```
 
 ### Mobile
@@ -117,7 +101,7 @@ You will probably also want a virtual Android device which you can create from i
 To run the Android version of Lunie in development:
 
 ```bash
-$ npm run build:mobile
+$ yarn build:mobile
 $ npx cap sync android
 $ npx cap open android
 ```
@@ -152,7 +136,7 @@ Once Xcode is open, just click the Play button to run Lunie on your preferred Si
 If you would like to run all the tests you can run:~ 
 
 ```bash
-npm run test
+yarn test
 ```
 
 ### Unit tests
@@ -160,13 +144,13 @@ npm run test
 Lunie uses [Jest](https://facebook.github.io/jest) to run unit tests. You can run _all_ the unit tests with the following command:
 
 ```bash
-npm run test:unit
+yarn test:unit
 ```
 
 For a single test file (e.g. `PageValidator.spec.js`) run the unit tests like this:
 
 ```bash
-npm run test:unit PageValidator
+yarn test:unit PageValidator
 ```
 
 ### Code coverage
@@ -174,34 +158,28 @@ npm run test:unit PageValidator
 To check test coverage locally run following after having run unit tests. It will spin up a webserver and provide you with a link to the coverage report web page.
 
 ```bash
-npm run test:coverage
+yarn test:coverage
 ```
 
 ### End to end tests
 
-Then run the tests:
+Start Lunie locally, then run the tests:
 
 ```bash
-npm run test:e2e
+yarn test:e2e:local --fe=http://localhost:9080 --api=https://staging-api.lunie.io
 ```
 
 To run only some tests, provide the name of the e2e test file you want to run (i.e. for `send.spec.js`):
 
 ```bash
-npm run test:e2e send
+yarn test:e2e:local --fe=http://localhost:9080 --api=https://staging-api.lunie.io --filter=*send*
 ```
 
 To run the e2e tests on multiple browsers use [Browserstack](https://www.browserstack.com/). You must set the environment variables `BROWSERSTACK_USERNAME` and `BROWSERSTACK_ACCESS_KEY` aquired from Browserstack first.
 
-Then start the backend up locally followed by running the frontend in production mode and finally start the tests:
-
 ```bash
-// start the backend
-npm run test:e2e:serve
-npm run test:e2e:browserstack
+yarn test:e2e:browserstack --fe=https://app.lunie.io --api=https://staging-api.lunie.io --filter=*send*
 ```
-
-Finally stop the testnet when you are done.
 
 ## Flags
 
