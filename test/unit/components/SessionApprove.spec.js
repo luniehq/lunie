@@ -62,7 +62,11 @@ describe(`SessionApprove`, () => {
       wrapper.find('#approve-btn').trigger('click')
       expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
         'approveSignRequest',
-        { password: '1234', senderAddress: 'cosmos1234', signMessage }
+        {
+          password: '1234',
+          senderAddress: 'cosmos1234',
+          signMessage
+        }
       )
       await wrapper.vm.$nextTick()
       await wrapper.vm.$nextTick()

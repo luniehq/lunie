@@ -1,109 +1,60 @@
-import { parseTx, parseFee, parseValueObj } from '../../../src/scripts/parsers'
+import { parseTx } from '../../../src/scripts/parsers'
 
 const signedMessage = {
-  type: 'auth/StdTx',
-  value: {
-    msg: [
+  msgs: [
+    {
+      type: 'cosmos-sdk/MsgSend',
+      value: {
+        amount: [
+          {
+            amount: '10000000',
+            denom: 'stake'
+          }
+        ],
+        from_address: 'cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e',
+        to_address: 'cosmos1324vt5j3wzx0xsc32mjhkrvy5gn5ef2hrwcg29'
+      }
+    }
+  ],
+  fee: {
+    amount: [
       {
-        type: 'cosmos-sdk/MsgSend',
-        value: {
-          amount: [
-            {
-              amount: '10000000',
-              denom: 'stake'
-            }
-          ],
-          from_address: 'cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e',
-          to_address: 'cosmos1324vt5j3wzx0xsc32mjhkrvy5gn5ef2hrwcg29'
-        }
+        amount: '40',
+        denom: 'stake'
       }
     ],
-    fee: {
-      amount: [
-        {
-          amount: '40',
-          denom: 'stake'
-        }
-      ],
-      gas: '39953'
-    },
-    memo: '(Sent via Lunie)'
-  }
-}
-
-const signedActionMessage = {
-  type: 'auth/StdTx',
-  value: {
-    msg: [
-      {
-        type: 'cosmos-sdk/MsgDelegate',
-        value: {
-          amount: [
-            {
-              amount: '10000000',
-              denom: 'stake'
-            }
-          ],
-          from_address: 'cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e',
-          to_address: 'cosmos1324vt5j3wzx0xsc32mjhkrvy5gn5ef2hrwcg29'
-        }
-      }
-    ],
-    fee: {
-      amount: [
-        {
-          amount: '40',
-          denom: 'stake'
-        }
-      ],
-      gas: '39953'
-    },
-    memo: '(Sent via Lunie)'
-  }
+    gas: '39953'
+  },
+  memo: '(Sent via Lunie)'
 }
 
 describe(`parsers helper`, () => {
   it(`should parse a signedmessaged ParseTx`, () => {
-    const shortMessage = {
-      tx: {
-        type: 'auth/StdTx',
-        value: {
-          msg: 'some message',
-          fee: 0.01,
-          memo: 'Sent from Lunie'
-        }
-      }
+    const parsedTx = {
+      type: 'SendTx',
+      hash: undefined,
+      height: undefined,
+      details: {
+        type: 'SendTx',
+        from: ['cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e'],
+        to: ['cosmos1324vt5j3wzx0xsc32mjhkrvy5gn5ef2hrwcg29'],
+        amount: { denom: 'STAKE', amount: 10 }
+      },
+      timestamp: undefined,
+      memo: '(Sent via Lunie)',
+      fees: [{ denom: 'STAKE', amount: 0.00004 }],
+      success: false
     }
-    expect(
-      parseTx(`{"msgs":"some message","fee":0.01,"memo":"Sent from Lunie"}`)
-    ).toMatchObject(shortMessage)
+    expect(parseTx(JSON.stringify(signedMessage))).toEqual(parsedTx)
   })
 
   it(`should parse a signedmessaged parseFee`, () => {
-    expect(parseFee(signedMessage)).toBe(40)
+    expect(parseTx(JSON.stringify(signedMessage)).fees[0].amount).toBe(0.00004)
   })
 
   it(`should parse a signedmessaged parseFee if there are no fees`, () => {
-    const noFeesSignedMessage = JSON.parse(JSON.stringify(signedMessage))
-    noFeesSignedMessage.value.fee.amount = []
-    expect(parseFee(noFeesSignedMessage)).toBe(0)
-  })
-
-  it(`should parse a signedmessaged parseValueObj`, () => {
-    const parsedValueObj = {
-      amount: '10000000',
-      denom: 'stake'
-    }
-    expect(parseValueObj(signedMessage)).toMatchObject(parsedValueObj)
-  })
-
-  it(`should parse a signedActionMessage parseValueObj`, () => {
-    const parsedValueObj = [
-      {
-        amount: '10000000',
-        denom: 'stake'
-      }
-    ]
-    expect(parseValueObj(signedActionMessage)).toMatchObject(parsedValueObj)
+    const noFeesSignedMessage = signedMessage
+    noFeesSignedMessage.fee.amount = { amount: 0, denom: 'stake' }
+    expect(parseTx(JSON.stringify(noFeesSignedMessage)).fees[0].amount).toBe(0)
   })
 })

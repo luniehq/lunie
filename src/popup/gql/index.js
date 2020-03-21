@@ -19,3 +19,43 @@ export const Networks = gql`
     }
   }
 `
+
+// load all the data immediatly to avoid async loading later
+export const NetworksAll = gql`
+  query Networks($experimental: Boolean) {
+    networks(experimental: $experimental) {
+      id
+      chain_id
+      testnet
+      title
+      icon
+      slug
+      default
+      powered {
+        name
+        providerAddress
+        picture
+      }
+      feature_session
+      feature_portfolio
+      feature_validators
+      feature_proposals
+      feature_activity
+      feature_explorer
+      action_send
+      action_claim_rewards
+      action_delegate
+      action_redelegate
+      action_undelegate
+      action_deposit
+      action_vote
+      action_proposal
+      stakingDenom
+      network_type
+      address_creator
+      address_prefix
+      testnet
+      enabled
+    }
+  }
+`

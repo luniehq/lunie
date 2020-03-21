@@ -17,7 +17,8 @@ const {
   getSignRequest,
   approveSignRequest,
   rejectSignRequest,
-  getValidatorsData
+  getValidatorsData,
+  parseSignMessageTx
 } = actions({
   apollo: mockApollo
 })
@@ -200,30 +201,40 @@ describe('actions', () => {
     window.fetch = jest.fn(() => mockFetchPromise)
 
     const v1 = {
-      value: {
-        msg: [
-          {
-            type: 'cosmos-sdk/MsgDelegate',
-            value: {
-              validator_address: 'address1'
-            }
+      msgs: [
+        {
+          type: 'cosmos-sdk/MsgDelegate',
+          value: {
+            validator_address: 'address1'
           }
-        ]
+        }
+      ],
+      fee: {
+        amount: {
+          amount: 1,
+          denom: 'stake'
+        }
       }
     }
 
-    await expect(getValidatorsData(v1)).resolves.toEqual([
-      { name: 'name1', operator_address: 'address1' }
+    await expect(
+      getValidatorsData(parseSignMessageTx(JSON.stringify(v1)))
+    ).resolves.toEqual([
+      {
+        name: 'name1',
+        operatorAddress: 'address1',
+        picture: undefined
+      }
     ])
   })
 
   it('Get Validators Name when Redelegating', async () => {
     const mockFetchPromise = Promise.resolve({
-      json: () => Promise.resolve({ data: { validator: { name: 'src' } } })
+      json: () => Promise.resolve({ data: { validator: { name: 'dst' } } })
     })
 
     const mockFetchPromise2 = Promise.resolve({
-      json: () => Promise.resolve({ data: { validator: { name: 'dst' } } })
+      json: () => Promise.resolve({ data: { validator: { name: 'src' } } })
     })
 
     window.fetch = jest
@@ -232,22 +243,36 @@ describe('actions', () => {
       .mockImplementationOnce(() => mockFetchPromise2)
 
     const validatorAddress = {
-      value: {
-        msg: [
-          {
-            type: 'cosmos-sdk/MsgBeginRedelegate',
-            value: {
-              validator_src_address: 'srcaddress1',
-              validator_dst_address: 'dstaddress1'
-            }
+      msgs: [
+        {
+          type: 'cosmos-sdk/MsgBeginRedelegate',
+          value: {
+            validator_src_address: 'srcaddress1',
+            validator_dst_address: 'dstaddress1'
           }
-        ]
+        }
+      ],
+      fee: {
+        amount: {
+          amount: 1,
+          denom: 'stake'
+        }
       }
     }
 
-    await expect(getValidatorsData(validatorAddress)).resolves.toEqual([
-      { operator_address: 'srcaddress1', name: 'src' },
-      { operator_address: 'dstaddress1', name: 'dst' }
+    await expect(
+      getValidatorsData(parseSignMessageTx(JSON.stringify(validatorAddress)))
+    ).resolves.toEqual([
+      {
+        operatorAddress: 'dstaddress1',
+        name: 'dst',
+        picture: undefined
+      },
+      {
+        operatorAddress: 'srcaddress1',
+        name: 'src',
+        picture: undefined
+      }
     ])
   })
 
