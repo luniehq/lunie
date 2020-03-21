@@ -16,45 +16,28 @@
           </div>
         </div>
       </div>
-      <template v-if="getValidators && getValidators.length === 1">
-        <div>
-          <span>Rewards from</span>
-          <router-link
-            :to="`/staking/validators/${transaction.details.from[0]}`"
-            class="validator-link"
-          >
-            <Avatar
-              v-if="
-                !getValidators[0].picture || getValidators[0].picture === 'null'
-              "
-              class="validator-image"
-              alt="generic validator logo - generated avatar from address"
-              :address="getValidators[0].operatorAddress"
-            />
-            <img
-              v-if="getValidators[0].picture"
-              :src="getValidators[0].picture"
-              class="validator-image"
-              :alt="`validator logo for ` + getValidators[0].name"
-            />
-            {{ transaction.details.from[0] | resolveValidatorName(validators) }}
-          </router-link>
-        </div>
-      </template>
-      <template
-        v-if="getValidators && getValidators.length > 1"
-        class="validators-images-row"
-      >
-        <div class="multi-claim-reward-row">
+      <template v-if="getValidators" class="validators-images-row">
+        <span v-if="!show">Rewards from</span>
+        <div
+          :class="{
+            multiClaimRewardRow: getValidators.length > 1 || show,
+            singleValidatorRewardRow: getValidators.length === 1 && !show
+          }"
+        >
           <div
-            class="multi-claim-validator-list"
-            :class="{ validatorsToggle: show }"
+            :class="{
+              multiClaimValidatorList: getValidators.length > 1,
+              validatorsToggle: getValidators.length > 1 && show,
+              singleValidatorRewardRow: getValidators.length === 1
+            }"
           >
-            <span v-if="show">Rewards from</span>
             <div
               v-for="(validator, index) in getValidators"
               :key="validator.name.concat(`-${index}`)"
-              class="claim-validator"
+              :class="{
+                claimValidator: getValidators.length > 1,
+                singleValidatorRewardRow: getValidators.length === 1
+              }"
             >
               <router-link
                 :to="
@@ -71,7 +54,10 @@
                     alt="generic validator logo - generated avatar from address"
                     :address="validator.operatorAddress"
                   />
-                  <span v-if="show" class="validator-span">
+                  <span
+                    v-if="show || getValidators.length === 1"
+                    class="validator-span"
+                  >
                     {{
                       validator.operatorAddress
                         | resolveValidatorName(validators)
@@ -87,7 +73,10 @@
                     class="validator-image"
                     :alt="`validator logo for ` + validator.name"
                   />
-                  <span v-if="show" class="validator-span">
+                  <span
+                    v-if="show || getValidators.length === 1"
+                    class="validator-span"
+                  >
                     {{
                       validator.operatorAddress
                         | resolveValidatorName(validators)
@@ -175,16 +164,19 @@ export default {
   display: flex;
   flex-direction: row;
 }
-.multi-claim-reward-row {
+.singleValidatorRewardRow {
+  display: inline;
+}
+.multiClaimRewardRow {
   display: flex;
   justify-content: space-around;
 }
-.multi-claim-validator-list {
+.multiClaimValidatorList {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.multi-claim-validator-list.validatorsToggle {
+.multiClaimValidatorList.validatorsToggle {
   flex-direction: column;
 }
 .multi-claim-reward-h3 {
@@ -193,7 +185,7 @@ export default {
 .multi-claim-reward-coin {
   margin: 1rem 0;
 }
-.claim-validator {
+.claimValidator {
   margin: 0 2rem;
 }
 .row-validator-image {
@@ -219,14 +211,14 @@ export default {
 .tx a {
   margin-left: 0.1rem;
 }
-.multi-claim-validator-list span {
+.multiClaimValidatorList span {
   padding-right: 0.2rem;
 }
 @media screen and (max-width: 767px) {
-  .multi-claim-validator-list {
+  .multiClaimValidatorList {
     justify-content: space-evenly;
   }
-  .claim-validator {
+  .claimValidator {
     margin: 0;
   }
 }
