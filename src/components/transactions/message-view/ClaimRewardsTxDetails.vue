@@ -5,13 +5,13 @@
       <div class="tx__claim__header" :class="{ txClaimHeaderOpen: show }">
         <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
         <div class="tx__content__right">
-          <div v-if="transaction.details.amounts.length === 1">
+          <div v-if="!show && transaction.details.amounts.length === 1">
             <p>
               {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
               {{ transaction.details.amounts[0].denom }}
             </p>
           </div>
-          <div v-else-if="!show && transaction.details.amounts.length > 1">
+          <div v-if="!show && transaction.details.amounts.length > 1">
             <p>Show multiple rewards</p>
           </div>
         </div>
@@ -92,6 +92,12 @@
                 {{ coin.amount | prettyLong }}&nbsp; {{ coin.denom }}
               </p>
             </div>
+          </div>
+          <div v-if="show && transaction.details.amounts.length === 1">
+            <p class="multi-claim-reward-coin">
+              {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
+              {{ transaction.details.amounts[0].denom }}
+            </p>
           </div>
         </div>
       </template>

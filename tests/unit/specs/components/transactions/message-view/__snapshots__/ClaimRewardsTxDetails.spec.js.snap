@@ -90,6 +90,8 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
           
           </p>
         </div>
+         
+        <!---->
       </div>
     </div>
      
@@ -170,6 +172,8 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
           </router-link-stub>
         </div>
       </div>
+       
+      <!---->
        
       <!---->
     </div>
