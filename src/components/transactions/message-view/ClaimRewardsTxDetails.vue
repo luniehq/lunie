@@ -1,9 +1,17 @@
 <template>
   <div class="tx__content">
     <TransactionIcon :transaction-type="type" />
-    <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
-    <template v-if="getValidators && getValidators.length === 1">
-      <div class="tx__content__left">
+    <div class="tx__content__left">
+      <div class="tx__claim__header">
+        <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
+        <div class="tx__content__right">
+          <p class="amount">
+            {{ transaction.details.amount.amount | prettyLong }}&nbsp;
+            {{ transaction.details.amount.denom }}
+          </p>
+        </div>
+      </div>
+      <template v-if="getValidators && getValidators.length === 1">
         <div class="multi-claim-reward-row">
           <span>Rewards from</span>
           <router-link
@@ -27,26 +35,21 @@
             {{ transaction.details.from[0] | resolveValidatorName(validators) }}
           </router-link>
         </div>
-      </div>
-      <div class="tx__content__right">
-        <p class="amount">
-          {{ transaction.details.amount.amount | prettyLong }}&nbsp;
-          {{ transaction.details.amount.denom }}
-        </p>
-      </div>
-    </template>
-    <template
-      v-if="getValidators && getValidators.length > 1"
-      class="validators-images-row"
-    >
-      <div class="tx__content__left multi-claim-reward-row">
+      </template>
+      <template
+        v-if="getValidators && getValidators.length > 1"
+        class="validators-images-row"
+      >
         <div class="multi-claim-reward-row" :class="{ validatorsToggle: show }">
           <div
             v-for="(validator, index) in getValidators"
             :key="validator.name.concat(`-${index}`)"
+            class="claim__validator"
           >
             <router-link
-              :to="`/staking/validators/${validator.operatorAddress}`"
+              :to="
+                show ? `/staking/validators/${validator.operatorAddress}` : ''
+              "
               class="validator-link"
             >
               <div
@@ -81,16 +84,9 @@
               </div>
             </router-link>
           </div>
-          <span v-if="!show" class="multi-claim-reward-show">Show</span>
         </div>
-      </div>
-      <div class="tx__content__right">
-        <p class="amount">
-          {{ transaction.details.amount.amount | prettyLong }}&nbsp;
-          {{ transaction.details.amount.denom }}
-        </p>
-      </div>
-    </template>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -144,6 +140,13 @@ export default {
 }
 </script>
 <style scoped>
+.tx__content__left {
+  width: 100%;
+}
+.tx__claim__header {
+  display: flex;
+  align-items: center;
+}
 .validators-images-row {
   display: flex;
   flex-direction: row;
@@ -151,9 +154,13 @@ export default {
 .multi-claim-reward-row {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .multi-claim-reward-h3 {
   margin-right: 20px;
+}
+.claim__validator {
+  margin: 0 2rem;
 }
 .row-validator-image {
   padding: 5px;
@@ -177,11 +184,20 @@ export default {
 }
 .multi-claim-reward-row.validatorsToggle {
   display: block;
+  margin-left: 10vh;
 }
 .tx a {
   margin-left: 0.1rem;
 }
 .multi-claim-reward-row span {
   padding-right: 0.2rem;
+}
+@media screen and (max-width: 767px) {
+  .multi-claim-reward-row {
+    justify-content: space-evenly;
+  }
+  .claim__validator {
+    margin: 0;
+  }
 }
 </style>
