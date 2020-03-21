@@ -170,6 +170,7 @@ export default {
 .multiClaimRewardRow {
   display: flex;
   justify-content: space-around;
+  align-items: center;
 }
 .multiClaimValidatorList {
   display: flex;
@@ -178,12 +179,13 @@ export default {
 }
 .multiClaimValidatorList.validatorsToggle {
   flex-direction: column;
+  display: block;
 }
 .multi-claim-reward-h3 {
   margin-right: 20px;
 }
 .multi-claim-reward-coin {
-  margin: 1rem 0;
+  margin: 0.5rem 0;
 }
 .claimValidator {
   margin: 0 2rem;
