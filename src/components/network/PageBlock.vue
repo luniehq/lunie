@@ -103,7 +103,7 @@ const transactionV2Fields = `
     }
     ... on ClaimRewardsTx {
       from
-      amount {
+      amounts {
         denom
         amount
       }

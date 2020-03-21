@@ -88,7 +88,7 @@ const txFields = `
     }
     ... on ClaimRewardsTx {
       from
-      amount {
+      amounts {
         denom
         amount
       }
