@@ -41,10 +41,11 @@
         class="validators-images-row"
       >
         <div class="multi-claim-reward-row" :class="{ validatorsToggle: show }">
+          <span v-if="show">Rewards from</span>
           <div
             v-for="(validator, index) in getValidators"
             :key="validator.name.concat(`-${index}`)"
-            class="claim__validator"
+            class="claim-validator"
           >
             <router-link
               :to="
@@ -156,10 +157,13 @@ export default {
   align-items: center;
   justify-content: center;
 }
+.multi-claim-reward-row.validatorsToggle {
+  flex-direction: column;
+}
 .multi-claim-reward-h3 {
   margin-right: 20px;
 }
-.claim__validator {
+.claim-validator {
   margin: 0 2rem;
 }
 .row-validator-image {
@@ -182,10 +186,6 @@ export default {
 .multi-claim-reward-show:hover {
   color: var(--link-hover);
 }
-.multi-claim-reward-row.validatorsToggle {
-  display: block;
-  margin-left: 10vh;
-}
 .tx a {
   margin-left: 0.1rem;
 }
@@ -196,7 +196,7 @@ export default {
   .multi-claim-reward-row {
     justify-content: space-evenly;
   }
-  .claim__validator {
+  .claim-validator {
     margin: 0;
   }
 }
