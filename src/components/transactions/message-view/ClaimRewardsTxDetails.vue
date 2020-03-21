@@ -2,7 +2,7 @@
   <div class="tx__content">
     <TransactionIcon :transaction-type="type" />
     <div class="tx__content__left">
-      <div class="tx__claim__header">
+      <div class="tx__claim__header" :class="{ txClaimHeaderOpen: show }">
         <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
         <div class="tx__content__right">
           <div v-if="transaction.details.amounts.length === 1">
@@ -155,6 +155,10 @@ export default {
 .tx__claim__header {
   display: flex;
   align-items: center;
+}
+.txClaimHeaderOpen {
+  display: inline;
+  float: left;
 }
 .validators-images-row {
   display: flex;
