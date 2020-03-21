@@ -67,100 +67,112 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
     transactiontype="Claimed"
   />
    
-  <h3
-    class="multi-claim-reward-h3"
-  >
-    Claimed
-  </h3>
-   
-  <!---->
-   
   <div
-    class="tx__content__left multi-claim-reward-row"
+    class="tx__content__left"
   >
     <div
-      class="multi-claim-reward-row"
+      class="tx__claim__header"
     >
-      <div>
-        <router-link-stub
-          class="validator-link"
-          to="/staking/validators/cosmosvaloper123"
-        >
-          <div
-            class="row-validator-image"
-          >
-            <avatar-stub
-              address="cosmosvaloper123"
-              alt="generic validator logo - generated avatar from address"
-              class="validator-image"
-            />
-             
-            <!---->
-          </div>
-           
-          <!---->
-        </router-link-stub>
+      <h3
+        class="multi-claim-reward-h3"
+      >
+        Claimed
+      </h3>
+       
+      <div
+        class="tx__content__right"
+      >
+        <div>
+          <p>
+            
+            3 
+            ATOM
+          
+          </p>
+        </div>
       </div>
-      <div>
-        <router-link-stub
-          class="validator-link"
-          to="/staking/validators/cosmosvaloper456"
+    </div>
+     
+    <span>
+      Rewards from
+    </span>
+     
+    <div
+      class="multiClaimRewardRow"
+    >
+      <div
+        class="multiClaimValidatorList"
+      >
+        <div
+          class="claimValidator"
         >
-          <div
-            class="row-validator-image"
+          <router-link-stub
+            class="validator-link"
+            to=""
           >
-            <avatar-stub
-              address="cosmosvaloper456"
-              alt="generic validator logo - generated avatar from address"
-              class="validator-image"
-            />
+            <div
+              class="row-validator-image"
+            >
+              <avatar-stub
+                address="cosmosvaloper123"
+                alt="generic validator logo - generated avatar from address"
+                class="validator-image"
+              />
+               
+              <!---->
+            </div>
              
             <!---->
-          </div>
-           
-          <!---->
-        </router-link-stub>
-      </div>
-      <div>
-        <router-link-stub
-          class="validator-link"
-          to="/staking/validators/cosmosvaloper789"
+          </router-link-stub>
+        </div>
+        <div
+          class="claimValidator"
         >
-          <div
-            class="row-validator-image"
+          <router-link-stub
+            class="validator-link"
+            to=""
           >
-            <avatar-stub
-              address="cosmosvaloper789"
-              alt="generic validator logo - generated avatar from address"
-              class="validator-image"
-            />
+            <div
+              class="row-validator-image"
+            >
+              <avatar-stub
+                address="cosmosvaloper456"
+                alt="generic validator logo - generated avatar from address"
+                class="validator-image"
+              />
+               
+              <!---->
+            </div>
              
             <!---->
-          </div>
-           
-          <!---->
-        </router-link-stub>
+          </router-link-stub>
+        </div>
+        <div
+          class="claimValidator"
+        >
+          <router-link-stub
+            class="validator-link"
+            to=""
+          >
+            <div
+              class="row-validator-image"
+            >
+              <avatar-stub
+                address="cosmosvaloper789"
+                alt="generic validator logo - generated avatar from address"
+                class="validator-image"
+              />
+               
+              <!---->
+            </div>
+             
+            <!---->
+          </router-link-stub>
+        </div>
       </div>
        
-      <span
-        class="multi-claim-reward-show"
-      >
-        Show
-      </span>
+      <!---->
     </div>
-  </div>
-   
-  <div
-    class="tx__content__right"
-  >
-    <p
-      class="amount"
-    >
-      
-        3 
-        ATOM
-      
-    </p>
   </div>
 </div>
 `;
