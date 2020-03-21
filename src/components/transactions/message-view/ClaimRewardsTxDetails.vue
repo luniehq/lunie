@@ -87,11 +87,7 @@
             </div>
           </div>
           <div v-if="show && transaction.details.amounts.length > 1">
-            <div
-              v-for="coin in transaction.details.amounts"
-              :key="coin.denom"
-              class="amount"
-            >
+            <div v-for="coin in transaction.details.amounts" :key="coin.denom">
               <p class="multi-claim-reward-coin">
                 {{ coin.amount | prettyLong }}&nbsp; {{ coin.denom }}
               </p>
