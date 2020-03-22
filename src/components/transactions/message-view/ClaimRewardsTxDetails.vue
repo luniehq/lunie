@@ -5,27 +5,30 @@
       <div
         class="tx__content__left"
         :class="{
-          responsiveControllerMobileTrue: getValidators.length > 1 && !show
+          responsiveControllerMobileTrue:
+            getValidators.length > 1 && !multiClaimShow
         }"
       >
-        <h3 :class="{ multiClaimRewardH3: show }">{{ caption }}</h3>
+        <h3 :class="{ multiClaimRewardH3: multiClaimShow }">{{ caption }}</h3>
         <div v-if="getValidators" class="validators-images-row">
           <span
-            v-if="!show && getValidators.length === 1"
+            v-if="!multiClaimShow && getValidators.length === 1"
             class="rewards-from-span"
             >Rewards from</span
           >
           <div
             :class="{
               multiClaimRewardRow: getValidators.length > 1,
-              multiClaimRewardRowOpen: show,
-              reponsiveControllerDesktop: getValidators.length > 1 && !show
+              multiClaimRewardRowOpen: multiClaimShow,
+              reponsiveControllerDesktop:
+                getValidators.length > 1 && !multiClaimShow
             }"
           >
             <div
               :class="{
-                multiClaimValidatorList: getValidators.length > 1 && !show,
-                validatorsToggle: show
+                multiClaimValidatorList:
+                  getValidators.length > 1 && !multiClaimShow,
+                validatorsToggle: multiClaimShow
               }"
             >
               <div
@@ -33,12 +36,13 @@
                 :key="validator.name.concat(`-${index}`)"
                 class="claimValidator"
                 :class="{
-                  singleValidatorRewardRow: getValidators.length === 1 && !show
+                  singleValidatorRewardRow:
+                    getValidators.length === 1 && !multiClaimShow
                 }"
               >
                 <router-link
                   :to="
-                    show
+                    multiClaimShow
                       ? `/staking/validators/${validator.operatorAddress}`
                       : ''
                   "
@@ -54,7 +58,7 @@
                       :address="validator.operatorAddress"
                     />
                     <span
-                      v-if="show || getValidators.length === 1"
+                      v-if="multiClaimShow || getValidators.length === 1"
                       class="validator-span"
                     >
                       {{
@@ -73,7 +77,7 @@
                       :alt="`validator logo for ` + validator.name"
                     />
                     <span
-                      v-if="show || getValidators.length === 1"
+                      v-if="multiClaimShow || getValidators.length === 1"
                       class="validator-span"
                     >
                       {{
@@ -85,7 +89,9 @@
                 </router-link>
               </div>
             </div>
-            <div v-if="show && transaction.details.amounts.length > 1">
+            <div
+              v-if="multiClaimShow && transaction.details.amounts.length > 1"
+            >
               <div
                 v-for="coin in transaction.details.amounts"
                 :key="coin.denom"
@@ -96,7 +102,7 @@
               </div>
             </div>
             <div
-              v-if="show && transaction.details.amounts.length === 1"
+              v-if="multiClaimShow && transaction.details.amounts.length === 1"
               class="single-reward-coin"
             >
               <p class="multi-claim-reward-coin">
@@ -107,20 +113,22 @@
           </div>
         </div>
         <div class="tx-content-right">
-          <div v-if="!show && transaction.details.amounts.length === 1">
+          <div
+            v-if="!multiClaimShow && transaction.details.amounts.length === 1"
+          >
             <p>
               {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
               {{ transaction.details.amounts[0].denom }}
             </p>
           </div>
-          <div v-if="!show && transaction.details.amounts.length > 1">
+          <div v-if="!multiClaimShow && transaction.details.amounts.length > 1">
             <p>Show multiple rewards</p>
           </div>
         </div>
       </div>
     </div>
     <div
-      v-if="!show && getValidators.length > 1"
+      v-if="!multiClaimShow && getValidators.length > 1"
       class="multiClaimRewardRow reponsiveControllerMobile"
     >
       <div class="responsiveMultiClaimValidatorList">
@@ -130,7 +138,11 @@
           class="reponsiveClaimValidator"
         >
           <router-link
-            :to="show ? `/staking/validators/${validator.operatorAddress}` : ''"
+            :to="
+              multiClaimShow
+                ? `/staking/validators/${validator.operatorAddress}`
+                : ''
+            "
             class="validator-link"
           >
             <div
@@ -143,7 +155,7 @@
                 :address="validator.operatorAddress"
               />
               <span
-                v-if="show || getValidators.length === 1"
+                v-if="multiClaimShow || getValidators.length === 1"
                 class="validator-span"
               >
                 {{
@@ -161,7 +173,7 @@
                 :alt="`validator logo for ` + validator.name"
               />
               <span
-                v-if="show || getValidators.length === 1"
+                v-if="multiClaimShow || getValidators.length === 1"
                 class="validator-span"
               >
                 {{
@@ -221,6 +233,13 @@ export default {
       } else {
         return []
       }
+    },
+    multiClaimShow() {
+      // here we prevent any changes for the particular case of one validator and one single denom
+      return this.getValidators.length === 1 &&
+        this.transaction.details.amounts.length === 1
+        ? false
+        : this.show
     }
   }
 }
@@ -298,11 +317,11 @@ export default {
   float: left;
   margin-left: 5px;
 }
-.multi-claim-reward-show {
+.multi-claim-reward-multiClaimShow {
   margin-left: 40px;
   color: var(--link);
 }
-.multi-claim-reward-show:hover {
+.multi-claim-reward-multiClaimShow:hover {
   color: var(--link-hover);
 }
 .tx a {
