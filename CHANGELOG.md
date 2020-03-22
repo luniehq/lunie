@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.17] - 2020-03-22
+
+### Changed
+
+- preload network capabilities @iambeone
+
+### Fixed
+
+- fixing redirect path after account creation in extension @iambeone
+- Parse transactions in new transaction format @faboweb
+
 ## [1.0.16] - 2020-03-05
 
 ### Added
