@@ -2,7 +2,7 @@
   <div class="tx__content">
     <TransactionIcon :transaction-type="type" />
     <div class="tx__content__left">
-      <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
+      <h3 :class="{ multiClaimRewardH3: show }">{{ caption }}</h3>
       <div v-if="getValidators" class="validators-images-row">
         <span v-if="!show && getValidators.length === 1">Rewards from</span>
         <div
@@ -153,6 +153,9 @@ export default {
 }
 </script>
 <style scoped>
+.tx__icon {
+  align-self: flex-start;
+}
 .tx__content__left {
   display: flex;
   justify-content: space-between;
@@ -160,6 +163,9 @@ export default {
 }
 .tx-content-right {
   padding-right: 1rem;
+}
+.multiClaimRewardH3 {
+  margin-top: 0.25rem;
 }
 .validators-images-row {
   display: flex;
@@ -184,9 +190,6 @@ export default {
 .multiClaimValidatorList.validatorsToggle {
   flex-direction: column;
   display: block;
-}
-.multi-claim-reward-h3 {
-  margin-right: 20px;
 }
 .multi-claim-reward-coin {
   margin: 0.5rem 0;
