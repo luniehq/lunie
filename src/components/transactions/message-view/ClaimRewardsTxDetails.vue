@@ -2,22 +2,9 @@
   <div class="tx__content">
     <TransactionIcon :transaction-type="type" />
     <div class="tx__content__left">
-      <div class="tx__claim__header">
-        <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
-        <div class="tx__content__right">
-          <div v-if="!show && transaction.details.amounts.length === 1">
-            <p>
-              {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
-              {{ transaction.details.amounts[0].denom }}
-            </p>
-          </div>
-          <div v-if="!show && transaction.details.amounts.length > 1">
-            <p>Show multiple rewards</p>
-          </div>
-        </div>
-      </div>
-      <template v-if="getValidators" class="validators-images-row">
-        <span v-if="!show">Rewards from</span>
+      <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
+      <div v-if="getValidators" class="validators-images-row">
+        <span v-if="!show && getValidators.length === 1">Rewards from</span>
         <div
           :class="{
             multiClaimRewardRow: getValidators.length > 1 || show,
@@ -100,7 +87,16 @@
             </p>
           </div>
         </div>
-      </template>
+      </div>
+      <div v-if="!show && transaction.details.amounts.length === 1">
+        <p>
+          {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
+          {{ transaction.details.amounts[0].denom }}
+        </p>
+      </div>
+      <div v-if="!show && transaction.details.amounts.length > 1">
+        <p>Show multiple rewards</p>
+      </div>
     </div>
   </div>
 </template>
@@ -156,15 +152,15 @@ export default {
 </script>
 <style scoped>
 .tx__content__left {
-  width: 100%;
-}
-.tx__claim__header {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 .validators-images-row {
   display: flex;
-  flex-direction: row;
+  flex: 3;
+  align-items: center;
+  justify-content: center;
 }
 .singleValidatorRewardRow {
   display: inline;
@@ -173,6 +169,7 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  width: 100%;
 }
 .multiClaimValidatorList {
   display: flex;

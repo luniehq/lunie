@@ -14,10 +14,12 @@ describe(`ClaimRewardsTxDetails`, () => {
     fees: [],
     details: {
       from: ["cosmosvaloper123"],
-      amount: {
-        denom: "ATOM",
-        amount: "10"
-      }
+      amounts: [
+        {
+          denom: "ATOM",
+          amount: "10"
+        }
+      ]
     }
   }
 
@@ -73,7 +75,7 @@ describe(`ClaimRewardsTxDetails`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it.only(`renders a multi claim rewards transaction message`, () => {
+  it(`renders a multi claim rewards transaction message`, () => {
     wrapper = shallowMount(ClaimRewardsTxDetails, {
       propsData: {
         transaction: multiTx,
