@@ -114,17 +114,14 @@
       </div>
     </div>
     <div
-      v-if="!show"
-      class="multiClaimRewardRow"
-      :class="{
-        reponsiveControllerMobile: getValidators.length > 1
-      }"
+      v-if="!show && getValidators.length > 1"
+      class="multiClaimRewardRow reponsiveControllerMobile"
     >
-      <div class="multiClaimValidatorList">
+      <div class="responsiveMultiClaimValidatorList">
         <div
           v-for="(validator, index) in getValidators"
           :key="validator.name.concat(`-${index}`)"
-          class="claimValidator"
+          class="reponsiveClaimValidator"
         >
           <router-link
             :to="show ? `/staking/validators/${validator.operatorAddress}` : ''"
@@ -300,6 +297,14 @@ export default {
 .reponsiveControllerMobile {
   display: none;
 }
+.responsiveMultiClaimValidatorList {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.reponsiveClaimValidator {
+  margin: 0 2rem;
+}
 @media screen and (max-width: 822px) {
   .multiClaimValidatorList {
     justify-content: space-evenly;
@@ -313,8 +318,6 @@ export default {
   .tx-content-right {
     padding-right: 0;
   }
-}
-@media screen and (max-width: 667px) {
   .reponsiveControllerDesktop {
     display: none;
   }
@@ -323,7 +326,15 @@ export default {
     padding-bottom: 1rem;
   }
   .responsiveControllerMobileTrue {
-    padding-bottom: 0;
+    padding-bottom: 0.5rem;
+  }
+}
+@media screen and (max-width: 576px) {
+  .responsiveMultiClaimValidatorList {
+    justify-content: space-evenly;
+  }
+  .reponsiveClaimValidator {
+    margin: 0;
   }
 }
 </style>

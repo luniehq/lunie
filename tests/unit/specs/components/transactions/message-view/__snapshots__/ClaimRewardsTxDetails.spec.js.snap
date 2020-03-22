@@ -53,8 +53,8 @@ exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] =
                     class="validator-span"
                   >
                     
-                  SuperValidator
-                
+                    SuperValidator
+                  
                   </span>
                 </div>
                  
@@ -75,9 +75,9 @@ exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] =
         <div>
           <p>
             
-          10 
-          ATOM
-        
+            10 
+            ATOM
+          
           </p>
         </div>
          
@@ -86,42 +86,7 @@ exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] =
     </div>
   </div>
    
-  <div
-    class="multiClaimRewardRow"
-  >
-    <div
-      class="multiClaimValidatorList"
-    >
-      <div
-        class="claimValidator"
-      >
-        <router-link-stub
-          class="validator-link"
-          to=""
-        >
-          <div
-            class="row-validator-image"
-          >
-            <avatar-stub
-              address="cosmosvaloper123"
-              alt="generic validator logo - generated avatar from address"
-              class="validator-image"
-            />
-             
-            <span
-              class="validator-span"
-            >
-              
-              SuperValidator
-            
-            </span>
-          </div>
-           
-          <!---->
-        </router-link-stub>
-      </div>
-    </div>
-  </div>
+  <!---->
 </div>
 `;
 
@@ -236,9 +201,9 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
         <div>
           <p>
             
-          3 
-          ATOM
-        
+            3 
+            ATOM
+          
           </p>
         </div>
          
@@ -251,10 +216,10 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
     class="multiClaimRewardRow reponsiveControllerMobile"
   >
     <div
-      class="multiClaimValidatorList"
+      class="responsiveMultiClaimValidatorList"
     >
       <div
-        class="claimValidator"
+        class="reponsiveClaimValidator"
       >
         <router-link-stub
           class="validator-link"
@@ -276,7 +241,7 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
         </router-link-stub>
       </div>
       <div
-        class="claimValidator"
+        class="reponsiveClaimValidator"
       >
         <router-link-stub
           class="validator-link"
@@ -298,7 +263,7 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
         </router-link-stub>
       </div>
       <div
-        class="claimValidator"
+        class="reponsiveClaimValidator"
       >
         <router-link-stub
           class="validator-link"
