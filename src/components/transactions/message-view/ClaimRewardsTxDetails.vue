@@ -2,7 +2,7 @@
   <div class="tx__content">
     <TransactionIcon :transaction-type="type" />
     <div class="tx__content__left">
-      <div class="tx__claim__header" :class="{ txClaimHeaderOpen: show }">
+      <div class="tx__claim__header">
         <h3 class="multi-claim-reward-h3">{{ caption }}</h3>
         <div class="tx__content__right">
           <div v-if="!show && transaction.details.amounts.length === 1">
@@ -26,7 +26,7 @@
         >
           <div
             :class="{
-              multiClaimValidatorList: getValidators.length > 1,
+              multiClaimValidatorList: getValidators.length > 1 && !show,
               validatorsToggle: getValidators.length > 1 && show,
               singleValidatorRewardRow: getValidators.length === 1
             }"
@@ -162,10 +162,6 @@ export default {
   display: flex;
   align-items: center;
 }
-.txClaimHeaderOpen {
-  display: inline;
-  float: left;
-}
 .validators-images-row {
   display: flex;
   flex-direction: row;
@@ -225,6 +221,7 @@ export default {
 @media screen and (max-width: 767px) {
   .multiClaimValidatorList {
     justify-content: space-evenly;
+    width: 100%;
   }
   .claimValidator {
     margin: 0;
