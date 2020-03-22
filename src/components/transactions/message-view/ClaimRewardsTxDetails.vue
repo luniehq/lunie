@@ -302,7 +302,7 @@ export default {
   align-self: flex-start;
 }
 .claimValidator {
-  margin: 0 2rem;
+  margin: 0 1rem;
 }
 .row-validator-image {
   padding: 5px;
@@ -341,7 +341,7 @@ export default {
 .reponsiveClaimValidator {
   margin: 0 2rem;
 }
-@media screen and (max-width: 1035px) {
+@media screen and (max-width: 822px) {
   .multiClaimValidatorList {
     justify-content: space-evenly;
     width: 100%;
