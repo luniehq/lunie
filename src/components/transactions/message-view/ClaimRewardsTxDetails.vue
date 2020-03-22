@@ -1,102 +1,172 @@
 <template>
-  <div class="tx__content">
-    <TransactionIcon :transaction-type="type" />
-    <div class="tx__content__left">
-      <h3 :class="{ multiClaimRewardH3: show }">{{ caption }}</h3>
-      <div v-if="getValidators" class="validators-images-row">
-        <span v-if="!show && getValidators.length === 1">Rewards from</span>
-        <div
-          :class="{
-            multiClaimRewardRow: getValidators.length > 1 || show,
-            singleValidatorRewardRow: getValidators.length === 1 && !show
-          }"
-        >
+  <div class="claim-rewards-wrapper">
+    <div class="tx__content">
+      <TransactionIcon :transaction-type="type" />
+      <div
+        class="tx__content__left"
+        :class="{
+          responsiveControllerMobileTrue: getValidators.length > 1 && !show
+        }"
+      >
+        <h3 :class="{ multiClaimRewardH3: show }">{{ caption }}</h3>
+        <div v-if="getValidators" class="validators-images-row">
+          <span v-if="!show && getValidators.length === 1">Rewards from</span>
           <div
             :class="{
-              multiClaimValidatorList: getValidators.length > 1 && !show,
-              validatorsToggle: getValidators.length > 1 && show,
-              singleValidatorRewardRow: getValidators.length === 1
+              multiClaimRewardRow: getValidators.length > 1 || show,
+              singleValidatorRewardRow: getValidators.length === 1 && !show,
+              reponsiveControllerDesktop: getValidators.length > 1 && !show
             }"
           >
             <div
-              v-for="(validator, index) in getValidators"
-              :key="validator.name.concat(`-${index}`)"
               :class="{
-                claimValidator: getValidators.length > 1,
+                multiClaimValidatorList: getValidators.length > 1 && !show,
+                validatorsToggle: getValidators.length > 1 && show,
                 singleValidatorRewardRow: getValidators.length === 1
               }"
             >
-              <router-link
-                :to="
-                  show ? `/staking/validators/${validator.operatorAddress}` : ''
-                "
-                class="validator-link"
+              <div
+                v-for="(validator, index) in getValidators"
+                :key="validator.name.concat(`-${index}`)"
+                :class="{
+                  claimValidator: getValidators.length > 1,
+                  singleValidatorRewardRow: getValidators.length === 1
+                }"
               >
-                <div
-                  v-if="!validator.picture || validator.picture === 'null'"
-                  class="row-validator-image"
+                <router-link
+                  :to="
+                    show
+                      ? `/staking/validators/${validator.operatorAddress}`
+                      : ''
+                  "
+                  class="validator-link"
                 >
-                  <Avatar
-                    class="validator-image"
-                    alt="generic validator logo - generated avatar from address"
-                    :address="validator.operatorAddress"
-                  />
-                  <span
-                    v-if="show || getValidators.length === 1"
-                    class="validator-span"
+                  <div
+                    v-if="!validator.picture || validator.picture === 'null'"
+                    class="row-validator-image"
                   >
-                    {{
-                      validator.operatorAddress
-                        | resolveValidatorName(validators)
-                    }}
-                  </span>
-                </div>
-                <div
-                  v-if="validator && validator.picture"
-                  class="row-validator-image"
-                >
-                  <img
-                    :src="validator.picture"
-                    class="validator-image"
-                    :alt="`validator logo for ` + validator.name"
-                  />
-                  <span
-                    v-if="show || getValidators.length === 1"
-                    class="validator-span"
+                    <Avatar
+                      class="validator-image"
+                      alt="generic validator logo - generated avatar from address"
+                      :address="validator.operatorAddress"
+                    />
+                    <span
+                      v-if="show || getValidators.length === 1"
+                      class="validator-span"
+                    >
+                      {{
+                        validator.operatorAddress
+                          | resolveValidatorName(validators)
+                      }}
+                    </span>
+                  </div>
+                  <div
+                    v-if="validator && validator.picture"
+                    class="row-validator-image"
                   >
-                    {{
-                      validator.operatorAddress
-                        | resolveValidatorName(validators)
-                    }}
-                  </span>
-                </div>
-              </router-link>
+                    <img
+                      :src="validator.picture"
+                      class="validator-image"
+                      :alt="`validator logo for ` + validator.name"
+                    />
+                    <span
+                      v-if="show || getValidators.length === 1"
+                      class="validator-span"
+                    >
+                      {{
+                        validator.operatorAddress
+                          | resolveValidatorName(validators)
+                      }}
+                    </span>
+                  </div>
+                </router-link>
+              </div>
             </div>
-          </div>
-          <div v-if="show && transaction.details.amounts.length > 1">
-            <div v-for="coin in transaction.details.amounts" :key="coin.denom">
+            <div v-if="show && transaction.details.amounts.length > 1">
+              <div
+                v-for="coin in transaction.details.amounts"
+                :key="coin.denom"
+              >
+                <p class="multi-claim-reward-coin">
+                  {{ coin.amount | prettyLong }}&nbsp; {{ coin.denom }}
+                </p>
+              </div>
+            </div>
+            <div v-if="show && transaction.details.amounts.length === 1">
               <p class="multi-claim-reward-coin">
-                {{ coin.amount | prettyLong }}&nbsp; {{ coin.denom }}
+                {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
+                {{ transaction.details.amounts[0].denom }}
               </p>
             </div>
           </div>
-          <div v-if="show && transaction.details.amounts.length === 1">
-            <p class="multi-claim-reward-coin">
+        </div>
+        <div class="tx-content-right">
+          <div v-if="!show && transaction.details.amounts.length === 1">
+            <p>
               {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
               {{ transaction.details.amounts[0].denom }}
             </p>
           </div>
+          <div v-if="!show && transaction.details.amounts.length > 1">
+            <p>Show multiple rewards</p>
+          </div>
         </div>
       </div>
-      <div class="tx-content-right">
-        <div v-if="!show && transaction.details.amounts.length === 1">
-          <p>
-            {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
-            {{ transaction.details.amounts[0].denom }}
-          </p>
-        </div>
-        <div v-if="!show && transaction.details.amounts.length > 1">
-          <p>Show multiple rewards</p>
+    </div>
+    <div
+      v-if="!show"
+      class="multiClaimRewardRow"
+      :class="{
+        reponsiveControllerMobile: getValidators.length > 1
+      }"
+    >
+      <div class="multiClaimValidatorList">
+        <div
+          v-for="(validator, index) in getValidators"
+          :key="validator.name.concat(`-${index}`)"
+          class="claimValidator"
+        >
+          <router-link
+            :to="show ? `/staking/validators/${validator.operatorAddress}` : ''"
+            class="validator-link"
+          >
+            <div
+              v-if="!validator.picture || validator.picture === 'null'"
+              class="row-validator-image"
+            >
+              <Avatar
+                class="validator-image"
+                alt="generic validator logo - generated avatar from address"
+                :address="validator.operatorAddress"
+              />
+              <span
+                v-if="show || getValidators.length === 1"
+                class="validator-span"
+              >
+                {{
+                  validator.operatorAddress | resolveValidatorName(validators)
+                }}
+              </span>
+            </div>
+            <div
+              v-if="validator && validator.picture"
+              class="row-validator-image"
+            >
+              <img
+                :src="validator.picture"
+                class="validator-image"
+                :alt="`validator logo for ` + validator.name"
+              />
+              <span
+                v-if="show || getValidators.length === 1"
+                class="validator-span"
+              >
+                {{
+                  validator.operatorAddress | resolveValidatorName(validators)
+                }}
+              </span>
+            </div>
+          </router-link>
         </div>
       </div>
     </div>
@@ -153,6 +223,10 @@ export default {
 }
 </script>
 <style scoped>
+.claim-rewards-wrapper {
+  display: block;
+  width: 100%;
+}
 .tx__icon {
   align-self: flex-start;
 }
@@ -223,6 +297,9 @@ export default {
 .multiClaimValidatorList span {
   padding-right: 0.2rem;
 }
+.reponsiveControllerMobile {
+  display: none;
+}
 @media screen and (max-width: 822px) {
   .multiClaimValidatorList {
     justify-content: space-evenly;
@@ -235,6 +312,18 @@ export default {
 @media screen and (max-width: 767px) {
   .tx-content-right {
     padding-right: 0;
+  }
+}
+@media screen and (max-width: 667px) {
+  .reponsiveControllerDesktop {
+    display: none;
+  }
+  .reponsiveControllerMobile {
+    display: flex;
+    padding-bottom: 1rem;
+  }
+  .responsiveControllerMobileTrue {
+    padding-bottom: 0;
   }
 }
 </style>
