@@ -274,6 +274,7 @@ export default {
 .validatorsToggle {
   flex-direction: column;
   display: block;
+  margin-left: 1rem;
 }
 .multi-claim-reward-coin {
   margin: 0.5rem 0;
