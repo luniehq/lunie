@@ -23,7 +23,9 @@ exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] =
       <div
         class="validators-images-row"
       >
-        <span>
+        <span
+          class="rewards-from-span"
+        >
           Rewards from
         </span>
          

@@ -10,7 +10,11 @@
       >
         <h3 :class="{ multiClaimRewardH3: show }">{{ caption }}</h3>
         <div v-if="getValidators" class="validators-images-row">
-          <span v-if="!show && getValidators.length === 1">Rewards from</span>
+          <span
+            v-if="!show && getValidators.length === 1"
+            class="rewards-from-span"
+            >Rewards from</span
+          >
           <div
             :class="{
               multiClaimRewardRow: getValidators.length > 1 || show,
@@ -230,6 +234,7 @@ export default {
 .tx__content__left {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
 }
 .tx-content-right {
@@ -335,6 +340,9 @@ export default {
   }
   .reponsiveClaimValidator {
     margin: 0;
+  }
+  .rewards-from-span {
+    display: none;
   }
 }
 </style>
