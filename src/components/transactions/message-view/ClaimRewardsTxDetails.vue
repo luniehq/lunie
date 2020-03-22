@@ -88,14 +88,16 @@
           </div>
         </div>
       </div>
-      <div v-if="!show && transaction.details.amounts.length === 1">
-        <p>
-          {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
-          {{ transaction.details.amounts[0].denom }}
-        </p>
-      </div>
-      <div v-if="!show && transaction.details.amounts.length > 1">
-        <p>Show multiple rewards</p>
+      <div class="tx-content-right">
+        <div v-if="!show && transaction.details.amounts.length === 1">
+          <p>
+            {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
+            {{ transaction.details.amounts[0].denom }}
+          </p>
+        </div>
+        <div v-if="!show && transaction.details.amounts.length > 1">
+          <p>Show multiple rewards</p>
+        </div>
       </div>
     </div>
   </div>
@@ -156,6 +158,9 @@ export default {
   justify-content: space-between;
   width: 100%;
 }
+.tx-content-right {
+  padding-right: 1rem;
+}
 .validators-images-row {
   display: flex;
   flex: 3;
@@ -215,13 +220,18 @@ export default {
 .multiClaimValidatorList span {
   padding-right: 0.2rem;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 822px) {
   .multiClaimValidatorList {
     justify-content: space-evenly;
     width: 100%;
   }
   .claimValidator {
     margin: 0;
+  }
+}
+@media screen and (max-width: 767px) {
+  .tx-content-right {
+    padding-right: 0;
   }
 }
 </style>
