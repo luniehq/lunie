@@ -322,7 +322,7 @@ export default {
 .reponsiveClaimValidator {
   margin: 0 2rem;
 }
-@media screen and (max-width: 822px) {
+@media screen and (max-width: 1035px) {
   .multiClaimValidatorList {
     justify-content: space-evenly;
     width: 100%;
