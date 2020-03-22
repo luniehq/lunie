@@ -30,13 +30,13 @@ exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] =
         </span>
          
         <div
-          class="singleValidatorRewardRow"
+          class=""
         >
           <div
-            class="singleValidatorRewardRow"
+            class=""
           >
             <div
-              class="singleValidatorRewardRow"
+              class="claimValidator singleValidatorRewardRow"
             >
               <router-link-stub
                 class="validator-link"

@@ -17,24 +17,23 @@
           >
           <div
             :class="{
-              multiClaimRewardRow: getValidators.length > 1 || show,
-              singleValidatorRewardRow: getValidators.length === 1 && !show,
+              multiClaimRewardRow: getValidators.length > 1,
+              multiClaimRewardRowOpen: show,
               reponsiveControllerDesktop: getValidators.length > 1 && !show
             }"
           >
             <div
               :class="{
                 multiClaimValidatorList: getValidators.length > 1 && !show,
-                validatorsToggle: getValidators.length > 1 && show,
-                singleValidatorRewardRow: getValidators.length === 1
+                validatorsToggle: show
               }"
             >
               <div
                 v-for="(validator, index) in getValidators"
                 :key="validator.name.concat(`-${index}`)"
+                class="claimValidator"
                 :class="{
-                  claimValidator: getValidators.length > 1,
-                  singleValidatorRewardRow: getValidators.length === 1
+                  singleValidatorRewardRow: getValidators.length === 1 && !show
                 }"
               >
                 <router-link
@@ -96,7 +95,10 @@
                 </p>
               </div>
             </div>
-            <div v-if="show && transaction.details.amounts.length === 1">
+            <div
+              v-if="show && transaction.details.amounts.length === 1"
+              class="single-reward-coin"
+            >
               <p class="multi-claim-reward-coin">
                 {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
                 {{ transaction.details.amounts[0].denom }}
@@ -242,6 +244,7 @@ export default {
 }
 .multiClaimRewardH3 {
   margin-top: 0.25rem;
+  align-self: flex-start;
 }
 .validators-images-row {
   display: flex;
@@ -250,7 +253,7 @@ export default {
   justify-content: center;
 }
 .singleValidatorRewardRow {
-  display: inline;
+  margin: 0 !important;
 }
 .multiClaimRewardRow {
   display: flex;
@@ -258,17 +261,25 @@ export default {
   align-items: center;
   width: 100%;
 }
+.multiClaimRewardRowOpen {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 .multiClaimValidatorList {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.multiClaimValidatorList.validatorsToggle {
+.validatorsToggle {
   flex-direction: column;
   display: block;
 }
 .multi-claim-reward-coin {
   margin: 0.5rem 0;
+}
+.single-reward-coin {
+  align-self: flex-start;
 }
 .claimValidator {
   margin: 0 2rem;
