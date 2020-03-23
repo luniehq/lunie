@@ -173,7 +173,6 @@ export default {
               this.lastLoadedRecordsCount =
                 fetchMoreResult.transactionsV2.length
               return {
-                __typename: previousResult.transactionsV2.__typename,
                 transactionsV2: [
                   ...previousResult.transactionsV2,
                   ...fetchMoreResult.transactionsV2
