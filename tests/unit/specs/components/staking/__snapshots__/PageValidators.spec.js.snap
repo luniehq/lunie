@@ -42,8 +42,6 @@ exports[`PageValidators shows a list of validators 1`] = `
     />
      
     <!---->
-     
-    <!---->
   </template>
 </tmpage-stub>
 `;
@@ -109,8 +107,6 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
     />
      
     <!---->
-     
-    <!---->
   </template>
 </tmpage-stub>
 `;
@@ -155,8 +151,6 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
       showonmobile="expectedReturns"
       validators=""
     />
-     
-    <!---->
      
     <!---->
   </template>
