@@ -99,7 +99,11 @@ describe(`PageTransactions`, () => {
       },
       transactions: {
         loading: false,
-        variables: jest.fn()
+        variables: jest.fn(),
+        fetchMore: jest.fn(() => ({
+          variables: jest.fn(),
+          updateQuery: jest.fn()
+        }))
       }
     }
   }
@@ -108,7 +112,8 @@ describe(`PageTransactions`, () => {
     $store = {
       state,
       getters: {
-        address: "cosmos1"
+        address: "cosmos1",
+        network: "cosmos-hub-mainnet"
       }
     }
 
@@ -216,16 +221,6 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should load more transactions on loadMore action`, async () => {
-    wrapper = shallowMount(PageTransactions, {
-      localVue,
-      mocks: {
-        $store,
-        $apollo
-      },
-      directives: {
-        infiniteScroll: () => {}
-      }
-    })
     // setting showing to big number
     wrapper.setData({
       showing: 100,
@@ -243,7 +238,9 @@ describe(`PageTransactions`, () => {
     }
     let result = PageTransactions.apollo.transactions.subscribeToMore.updateQuery.call(
       self,
-      [],
+      {
+        transactionsV2: []
+      },
       {
         subscriptionData: {
           data: {
@@ -264,7 +261,7 @@ describe(`PageTransactions`, () => {
       }
     )
 
-    expect(result.transactions.length).toBeGreaterThan(0)
+    expect(result.transactionsV2.length).toBeGreaterThan(0)
   })
 
   it(`should not load more if currently loading`, async () => {
