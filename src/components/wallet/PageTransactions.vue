@@ -42,7 +42,6 @@ import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
 import TransactionList from "transactions/TransactionList"
 import gql from "graphql-tag"
-import uniqWith from "lodash.uniqwith"
 
 const txFields = `
   type
@@ -162,6 +161,26 @@ export default {
           // loads new portion
           this.pageNumber++
           this.dataLoaded = false
+          this.$apollo.queries.transactions.fetchMore({
+            // New variables
+            variables: {
+              networkId: this.network,
+              address: this.address,
+              pageNumber: this.pageNumber
+            },
+            // Transform the previous result with new data
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              this.lastLoadedRecordsCount =
+                fetchMoreResult.transactionsV2.length
+              return {
+                __typename: previousResult.transactionsV2.__typename,
+                transactionsV2: [
+                  ...previousResult.transactionsV2,
+                  ...fetchMoreResult.transactionsV2
+                ]
+              }
+            }
+          })
         }
       }
     },
@@ -185,28 +204,13 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          pageNumber: this.pageNumber
+          pageNumber: 0
         }
       },
       update(result) {
         this.dataLoaded = true
-        if (Array.isArray(result.transactionsV2)) {
-          this.lastLoadedRecordsCount = result.transactionsV2.length
-          this.loadedTransactions = [
-            ...this.loadedTransactions,
-            ...result.transactionsV2
-          ]
-          // avoid duplicate transactions
-          const filteredLoadedTransactions = uniqWith(
-            this.loadedTransactions,
-            (a, b) => JSON.stringify(a) === JSON.stringify(b)
-          )
-          // sorting transactions
-          this.loadedTransactions = filteredLoadedTransactions.sort(
-            (a, b) => b.height - a.height
-          )
-        }
-        return this.loadedTransactions
+        this.lastLoadedRecordsCount = result.transactionsV2.length
+        return result.transactionsV2
       },
       subscribeToMore: {
         document: gql`
@@ -219,7 +223,10 @@ export default {
         updateQuery: (previousResult, { subscriptionData }) => {
           if (previousResult && subscriptionData.data.userTransactionAddedV2) {
             return {
-              transactionsV2: [subscriptionData.data.userTransactionAddedV2]
+              transactionsV2: [
+                subscriptionData.data.userTransactionAddedV2,
+                ...previousResult.transactionsV2
+              ]
             }
           }
         },
