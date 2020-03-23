@@ -209,7 +209,7 @@ export default {
         return this.loadedTransactions
       },
       subscribeToMore: {
-        query: gql`
+        document: gql`
         subscription($networkId: String!, $address: String!) {
           userTransactionAddedV2(networkId: $networkId, address: $address) {
             ${txFields}
