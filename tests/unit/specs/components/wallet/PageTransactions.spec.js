@@ -112,7 +112,8 @@ describe(`PageTransactions`, () => {
     $store = {
       state,
       getters: {
-        address: "cosmos1"
+        address: "cosmos1",
+        network: "cosmos-hub-mainnet"
       }
     }
 
@@ -220,18 +221,6 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should load more transactions on loadMore action`, async () => {
-    $store.getters.address = "address"
-    $store.getters.network = "cosmos-hub"
-    wrapper = shallowMount(PageTransactions, {
-      localVue,
-      mocks: {
-        $store,
-        $apollo
-      },
-      directives: {
-        infiniteScroll: () => {}
-      }
-    })
     // setting showing to big number
     wrapper.setData({
       showing: 100,
