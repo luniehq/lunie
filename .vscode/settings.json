@@ -13,5 +13,7 @@
   "css.lint.important": "warning",
   "css.lint.universalSelector": "warning",
   "css.lint.unknownVendorSpecificProperties": "warning",
-  "css.lint.zeroUnits": "warning"
+  "css.lint.zeroUnits": "warning",
+  "liveServer.settings.root": "/dist",
+  "liveServer.settings.wait": 100000
 }

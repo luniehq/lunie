@@ -99,7 +99,11 @@ describe(`PageTransactions`, () => {
       },
       transactions: {
         loading: false,
-        variables: jest.fn()
+        variables: jest.fn(),
+        fetchMore: jest.fn(() => ({
+          variables: jest.fn(),
+          updateQuery: jest.fn()
+        }))
       }
     }
   }
@@ -216,6 +220,8 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should load more transactions on loadMore action`, async () => {
+    $store.getters.address = "address"
+    $store.getters.network = "cosmos-hub"
     wrapper = shallowMount(PageTransactions, {
       localVue,
       mocks: {
@@ -243,7 +249,9 @@ describe(`PageTransactions`, () => {
     }
     let result = PageTransactions.apollo.transactions.subscribeToMore.updateQuery.call(
       self,
-      [],
+      {
+        transactionsV2: []
+      },
       {
         subscriptionData: {
           data: {
@@ -264,7 +272,7 @@ describe(`PageTransactions`, () => {
       }
     )
 
-    expect(result.transactions.length).toBeGreaterThan(0)
+    expect(result.transactionsV2.length).toBeGreaterThan(0)
   })
 
   it(`should not load more if currently loading`, async () => {
