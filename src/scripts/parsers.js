@@ -278,30 +278,12 @@ function unstakeDetailsReducer(message, reducers) {
   }
 }
 
-function claimRewardsDetailsReducer(
-  message,
-  displayedProperties
-  // reducers,
-  // transaction,
-  // stakingDenom
-) {
+function claimRewardsDetailsReducer(message, displayedProperties) {
   return {
     from: message.validators,
-    amount: {
-      amount: parseFloat(displayedProperties.claimableRewards[0].amount),
-      denom: displayedProperties.claimableRewards[0].denom
-    }
+    amounts: displayedProperties.claimableRewards
   }
 }
-
-// function claimRewardsAmountReducer(transaction, reducers, stakingDenom) {
-//   return reducers.rewardCoinReducer(
-//     transaction.events
-//       .find(event => event.type === `transfer`)
-//       .attributes.find(attribute => attribute.key === `amount`).value,
-//     stakingDenom
-//   )
-// }
 
 function submitProposalDetailsReducer(message, reducers) {
   return {
