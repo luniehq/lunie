@@ -24,7 +24,8 @@ describe(`UndelegationModal`, () => {
       dispatch: jest.fn(),
       getters: {
         network: "testnet",
-        address: "cosmos12345"
+        address: "cosmos12345",
+        stakingDenom: "STAKE"
       }
     }
     wrapper = shallowMount(UndelegationModal, {
@@ -48,7 +49,6 @@ describe(`UndelegationModal`, () => {
           amount: 5000
         }
       ],
-      denom: "STAKE",
       validators: [validator, validator2]
     })
   })
@@ -130,6 +130,13 @@ describe(`UndelegationModal`, () => {
       })
     })
 
+    it("should return empty transaction data if amount is NaN", () => {
+      wrapper.setData({
+        amount: `NaN`
+      })
+      expect(wrapper.vm.transactionData).toEqual({})
+    })
+
     it("should return correct notification message", () => {
       expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successfully unstaked!`,
@@ -155,6 +162,13 @@ describe(`UndelegationModal`, () => {
         amount: "10000000",
         denom: "stake"
       })
+    })
+
+    it("should return empty transaction data if amount is NaN", () => {
+      wrapper.setData({
+        amount: `NaN`
+      })
+      expect(wrapper.vm.transactionData).toEqual({})
     })
 
     it("should return correct notification message", () => {

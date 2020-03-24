@@ -7,35 +7,60 @@ describe(`TmSessionExplore`, () => {
   localVue.use(Vuelidate)
 
   let wrapper, $store
+  const networks = [
+    {
+      id: "cosmos-hub-testnet",
+      address_prefix: "cosmos",
+      testnet: true
+    },
+    {
+      id: "cosmos-hub-mainnet",
+      address_prefix: "cosmos",
+      testnet: false,
+      slug: "cosmos-hub"
+    },
+    {
+      id: "terra-testnet",
+      address_prefix: "terra",
+      testnet: true
+    },
+    {
+      id: "polkadot-testnet",
+      address_prefix: "",
+      testnet: true
+    }
+  ]
+  const addresses = [
+    {
+      address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
+      type: `explore`
+    },
+    {
+      address: `cosmos1unc788q8md2jymsns24eyhua58palg5kc7cstv`,
+      type: `ledger`
+    },
+    {
+      address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8klc`,
+      type: `extension`
+    },
+    {
+      address: `cosmos1epsszxwps8ayeusfh8ru995atagc05sslwesuy`,
+      type: `local`
+    }
+  ]
 
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(() => true),
       getters: {
-        network: "cosmos-hub-testnet"
+        network: "cosmos-hub-testnet",
+        networks
       },
       state: {
         session: {
           address: ``,
-          addresses: [
-            {
-              address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
-              type: `explore`
-            },
-            {
-              address: `cosmos1unc788q8md2jymsns24eyhua58palg5kc7cstv`,
-              type: `ledger`
-            },
-            {
-              address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8klc`,
-              type: `extension`
-            },
-            {
-              address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8xyz`,
-              type: `local`
-            }
-          ]
+          addresses
         }
       }
     }
@@ -49,15 +74,6 @@ describe(`TmSessionExplore`, () => {
         $store
       }
     })
-
-    wrapper.setData({
-      addressPrefixes: [
-        {
-          id: "cosmos-hub-testnet",
-          address_prefix: "cosmos"
-        }
-      ]
-    })
   })
 
   it(`shows a form to sign in with an address`, () => {
@@ -70,7 +86,10 @@ describe(`TmSessionExplore`, () => {
     })
     wrapper.vm.$emit = jest.fn()
     await wrapper.vm.onSubmit()
-    expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/`)
+    expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
+      name: "portfolio",
+      params: { networkId: "cosmos-hub" }
+    })
   })
 
   it(`should signal signedin state on successful login`, async () => {
@@ -151,5 +170,39 @@ describe(`TmSessionExplore`, () => {
     const ethereumAddress = `0x28f4961F8b06F7361A1efD5E700DE717b1db5292`
     const check = TmSessionExplore.methods.isEthereumAddress(ethereumAddress)
     expect(check).toBe(true)
+  })
+
+  it(`identifies a Polkadot address`, () => {
+    const polkadotAddress = `5DwjF3fmXzkJhJdyP6hMPU4nNhxeDpDtCz4RdaX3V3ALJhpH`
+    const check = TmSessionExplore.methods.isPolkadotAddress(polkadotAddress)
+    expect(check).toBe(true)
+  })
+
+  it(`checks that the address is valid address of the network and selects testnet if testnet is set to true`, () => {
+    const self = {
+      networks,
+      testnet: true,
+      address: "5DwjF3fmXzkJhJdyP6hMPU4nNhxeDpDtCz4RdaX3V3ALJhpH"
+    }
+    const signInNetwork = TmSessionExplore.computed.networkOfAddress.call(self)
+    expect(signInNetwork).toEqual({
+      address_prefix: "",
+      id: "polkadot-testnet",
+      testnet: true
+    })
+  })
+
+  it(`identifies if the address is from Polkadot`, () => {
+    const self = {
+      networks,
+      testnet: true,
+      address: addresses[0].address
+    }
+    const signInNetwork = TmSessionExplore.computed.networkOfAddress.call(self)
+    expect(signInNetwork).toEqual({
+      address_prefix: "cosmos",
+      id: "cosmos-hub-testnet",
+      testnet: true
+    })
   })
 })

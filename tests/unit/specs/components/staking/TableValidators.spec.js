@@ -20,7 +20,7 @@ const validators = [
 ]
 
 describe(`TableValidators`, () => {
-  let wrapper, $apollo
+  let wrapper, $apollo, $store
 
   $apollo = {
     queries: {
@@ -33,23 +33,28 @@ describe(`TableValidators`, () => {
   }
 
   beforeEach(() => {
+    $store = {
+      getters: {
+        address: "cosmo1",
+        stakingDenom: "ATOM"
+      },
+      state: {}
+    }
+
     wrapper = shallowMount(TableValidators, {
       propsData: { validators },
       directives: {
         infiniteScroll: () => {}
       },
       mocks: {
-        $apollo
+        $apollo,
+        $store
       }
     })
   })
 
   it(`shows a validator table`, async () => {
     expect(wrapper.element).toMatchSnapshot()
-  })
-
-  it(`should add smallName property to validators`, () => {
-    expect(wrapper.vm.showingValidators[0].smallName).toBe(`cosmos1a`)
   })
 
   it(`should sort the delegates by selected property`, () => {

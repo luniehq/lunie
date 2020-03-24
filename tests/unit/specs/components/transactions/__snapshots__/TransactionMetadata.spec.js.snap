@@ -9,38 +9,38 @@ exports[`TransactionMetadata renders correct transaction metadata 1`] = `
     Block
     
     <span>
-      #1,234,567
+      #123
     </span>
     
      
     <i
-      class="material-icons"
+      class="material-icons notranslate"
     >
       access_time
     </i>
-     00:00:00
+     10:15:51
+  
+  </p>
+   
+  <p>
+    <i
+      class="material-icons notranslate"
+    >
+      message
+    </i>
+     Memo: 
+    (Sent via Lunie)
   
   </p>
    
   <p>
     
-    Liquid date:
-    Sat Nov 16 2019 14:08:20 GMT+0000
-  
-  </p>
-   
-  <!---->
-   
-  <p>
+    Fees: 
     
-    Fee:
-    
-    <b>
-      0.001234
-    </b>
-     
     <span>
-       ATOM
+      
+      0
+    
     </span>
   </p>
    
@@ -50,7 +50,7 @@ exports[`TransactionMetadata renders correct transaction metadata 1`] = `
     <span
       class="hash"
     >
-      ABCD1234
+      A0DEB29E97A4DF38289D55D63C5724588985E1D35B26518CB66EAF96CFEF2E04
     </span>
   </p>
 </div>

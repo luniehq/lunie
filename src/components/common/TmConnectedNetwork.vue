@@ -38,7 +38,7 @@
           v-tooltip.top="'Block Height'"
           :to="{
             name: `block`,
-            params: { height: block.height }
+            params: { height: block.height, networkId: networkSlug }
           }"
           @click.native="handleClick()"
         >
@@ -68,19 +68,27 @@
         Connecting…
       </div>
     </div>
+    <PoweredBy
+      :network="currentNetwork"
+      powered-by-line
+      is-menu
+      @close-menu="handleClick"
+    />
   </div>
 </template>
 <script>
 import { mapState, mapGetters } from "vuex"
 import { prettyInt } from "scripts/num"
 import TmBtn from "common/TmBtn"
+import PoweredBy from "network/PoweredBy"
 import gql from "graphql-tag"
 import config from "src/../config"
 
 export default {
   name: `tm-connected-network`,
   components: {
-    TmBtn
+    TmBtn,
+    PoweredBy
   },
   filters: {
     prettyInt
@@ -89,10 +97,20 @@ export default {
     block: {}
   }),
   computed: {
-    ...mapState([`intercom`]),
-    ...mapGetters([`network`]),
+    ...mapState([`intercom`, `connection`]),
+    ...mapGetters([`network`, `networks`]),
+    networkSlug() {
+      return this.connection.networkSlug
+    },
     networkTooltip() {
       return `You're connected to ${this.block.chainId}.`
+    },
+    currentNetwork() {
+      if (this.networks && this.networks.length > 0) {
+        return this.networks.filter(({ id }) => id === this.network)[0]
+      } else {
+        return {}
+      }
     }
   },
   methods: {
@@ -235,7 +253,7 @@ export default {
   }
 }
 
-@media screen and (max-height: 600px) {
+@media screen and (max-height: 640px) {
   .sidebar-bottom {
     position: static;
   }

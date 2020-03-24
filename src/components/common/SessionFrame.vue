@@ -7,7 +7,7 @@
       <div class="session-outer-container">
         <div class="session">
           <a v-if="!hideBack" @click="goBack">
-            <i class="material-icons circle back">arrow_back</i>
+            <i class="material-icons notranslate circle back">arrow_back</i>
           </a>
           <slot></slot>
         </div>
@@ -17,10 +17,10 @@
           class="session-close-button"
           value="Back to Lunie"
           color="secondary"
-          @click.native="$router.push(`/`)"
+          @click.native="goToPortfolio()"
         />
-        <a class="user-box" @click="$router.push(`/`)">
-          <i class="material-icons">close</i>
+        <a class="user-box" @click="goToPortfolio()">
+          <i class="material-icons notranslate">close</i>
         </a>
       </div>
     </div>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import TmBtn from "common/TmBtn"
 
 export default {
@@ -41,9 +42,20 @@ export default {
       default: false
     }
   },
+  computed: {
+    ...mapGetters([`networkSlug`])
+  },
   methods: {
     goBack() {
       this.$router.go(`-1`)
+    },
+    goToPortfolio() {
+      this.$router.push({
+        name: "portfolio",
+        params: {
+          networkId: this.networkSlug
+        }
+      })
     }
   }
 }

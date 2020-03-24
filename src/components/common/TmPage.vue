@@ -12,7 +12,10 @@
       </slot>
       <slot slot="header-buttons" name="header-buttons" />
     </TmPageHeader>
-    <main class="tm-page-main">
+    <main
+      class="tm-page-main"
+      :class="{ 'dark-background': darkBackground && session.signedIn }"
+    >
       <CardSignInRequired v-if="signInRequired && !session.signedIn" />
       <template v-else-if="managed">
         <TmDataConnecting v-if="!connected" />
@@ -96,6 +99,10 @@ export default {
     signInRequired: {
       type: Boolean,
       default: false
+    },
+    darkBackground: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -117,8 +124,10 @@ export default {
 .tm-page {
   position: relative;
   width: 100%;
-  max-width: 1000px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .tm-page.small {
@@ -127,6 +136,13 @@ export default {
 
 .tm-page-main {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tm-page-main.dark-background {
+  background: rgba(16, 18, 31, 0.4);
 }
 
 .tm-page-title {
@@ -223,7 +239,7 @@ h4 {
 
 @media screen and (min-width: 1024px) {
   .tm-page {
-    margin: 1rem auto;
+    margin: 1rem auto 0;
   }
 }
 

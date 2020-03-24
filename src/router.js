@@ -1,10 +1,10 @@
-import Router from "vue-router"
+import router from "vue-router"
 import routes from "./routes"
 import { NetworkCapability, NetworkCapabilityResult } from "./gql"
 import Vue from "vue"
 
 /* istanbul ignore next */
-Vue.use(Router)
+Vue.use(router)
 
 export const routeGuard = (store, apollo) => async (to, from, next) => {
   // Set any open modal to false
@@ -43,13 +43,14 @@ export const routeGuard = (store, apollo) => async (to, from, next) => {
 }
 
 /* istanbul ignore next */
-const router = new Router({
-  mode: process.env.VUE_APP_E2E ? undefined : "history",
-  scrollBehavior: () => ({ y: 0 }),
-  routes
-})
+const Router = (apollo, store) =>
+  new router({
+    mode: process.env.VUE_APP_E2E ? undefined : "history",
+    scrollBehavior: () => ({ y: 0 }),
+    routes: routes(apollo, store)
+  })
 
-export default router
+export default Router
 
 // check if feature is allowed and redirect if not
 async function featureAvailable(apollo, networkId, to) {

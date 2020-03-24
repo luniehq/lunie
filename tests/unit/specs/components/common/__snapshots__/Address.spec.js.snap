@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Address Component should show a short address 1`] = `
+<div
+  class="bech32-address"
+>
+  <div
+    class="address"
+  >
+    
+    cosmos…4v9e
+  
+  </div>
+   
+  <div
+    class="copied"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      check
+    </i>
+  </div>
+</div>
+`;

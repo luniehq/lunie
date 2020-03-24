@@ -1,5 +1,4 @@
 import config from "src/../config"
-import gql from "graphql-tag"
 
 function parseLedgerErrors(error) {
   // TODO move this error rewrite into the ledger lib
@@ -24,12 +23,14 @@ export const getAddressFromLedger = async (networkId, apollo) => {
   } finally {
     // cleanup. if we leave this open, the next connection will brake for HID
     // TODO move this into the leder lib
-    ledger.cosmosApp.transport.close()
+    if (ledger && ledger.cosmosApp) {
+      ledger.cosmosApp.transport.close()
+    }
   }
 }
 
-export async function showAddressOnLedger(networkId, apollo) {
-  const ledger = await getLedgerConnector(networkId, apollo)
+export async function showAddressOnLedger(networkId, store) {
+  const ledger = await getLedgerConnector(networkId, store)
 
   try {
     await ledger.confirmLedgerAddress()
@@ -38,26 +39,14 @@ export async function showAddressOnLedger(networkId, apollo) {
   } finally {
     // cleanup. if we leave this open, the next connection will brake for HID
     // TODO move this into the leder lib
-    ledger.cosmosApp.transport.close()
+    if (ledger && ledger.cosmosApp) {
+      ledger.cosmosApp.transport.close()
+    }
   }
 }
 
-async function getLedgerConnector(networkId, apollo) {
-  const {
-    data: { network }
-  } = await apollo.query({
-    query: gql`
-      query Network {
-        network(id: "${networkId}") {
-          id
-          ledger_app,
-          address_prefix
-        }
-      }
-    `,
-    fetchPolicy: "cache-first"
-  })
-
+async function getLedgerConnector(networkId, store) {
+  let network = store.getters.networks.find(({ id }) => id === networkId)
   if (!network)
     throw new Error(
       "Couldn't get network information. Please try again later or contact the Lunie team."

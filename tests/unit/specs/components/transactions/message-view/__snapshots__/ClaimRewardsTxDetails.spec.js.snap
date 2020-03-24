@@ -1,0 +1,292 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] = `
+<div
+  class="claim-rewards-wrapper"
+>
+  <div
+    class="tx__content"
+  >
+    <transactionicon-stub
+      transactiontype="Claimed"
+    />
+     
+    <div
+      class="tx__content__left"
+    >
+      <h3
+        class=""
+      >
+        Claimed
+      </h3>
+       
+      <div
+        class="validators-images-row"
+      >
+        <span
+          class="rewards-from-span"
+        >
+          Rewards from
+        </span>
+         
+        <div
+          class=""
+        >
+          <div
+            class=""
+          >
+            <div
+              class="claimValidator singleValidatorRewardRow"
+            >
+              <router-link-stub
+                class="validator-link"
+                to=""
+              >
+                <div
+                  class="row-validator-image"
+                >
+                  <avatar-stub
+                    address="cosmosvaloper123"
+                    alt="generic validator logo - generated avatar from address"
+                    class="validator-image"
+                  />
+                   
+                  <span
+                    class="validator-span"
+                  >
+                    
+                    SuperValidator
+                  
+                  </span>
+                </div>
+                 
+                <!---->
+              </router-link-stub>
+            </div>
+          </div>
+           
+          <!---->
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="tx-content-right"
+      >
+        <div>
+          <p>
+            
+            10 
+            ATOM
+          
+          </p>
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
+
+exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message 1`] = `
+<div
+  class="claim-rewards-wrapper"
+>
+  <div
+    class="tx__content"
+  >
+    <transactionicon-stub
+      transactiontype="Claimed"
+    />
+     
+    <div
+      class="tx__content__left responsiveControllerMobileTrue"
+    >
+      <h3
+        class=""
+      >
+        Claimed
+      </h3>
+       
+      <div
+        class="validators-images-row"
+      >
+        <!---->
+         
+        <div
+          class="multiClaimRewardRow reponsiveControllerDesktop"
+        >
+          <div
+            class="multiClaimValidatorList"
+          >
+            <div
+              class="claimValidator"
+            >
+              <router-link-stub
+                class="validator-link"
+                to=""
+              >
+                <div
+                  class="row-validator-image"
+                >
+                  <avatar-stub
+                    address="cosmosvaloper123"
+                    alt="generic validator logo - generated avatar from address"
+                    class="validator-image"
+                  />
+                   
+                  <!---->
+                </div>
+                 
+                <!---->
+              </router-link-stub>
+            </div>
+            <div
+              class="claimValidator"
+            >
+              <router-link-stub
+                class="validator-link"
+                to=""
+              >
+                <div
+                  class="row-validator-image"
+                >
+                  <avatar-stub
+                    address="cosmosvaloper456"
+                    alt="generic validator logo - generated avatar from address"
+                    class="validator-image"
+                  />
+                   
+                  <!---->
+                </div>
+                 
+                <!---->
+              </router-link-stub>
+            </div>
+            <div
+              class="claimValidator"
+            >
+              <router-link-stub
+                class="validator-link"
+                to=""
+              >
+                <div
+                  class="row-validator-image"
+                >
+                  <avatar-stub
+                    address="cosmosvaloper789"
+                    alt="generic validator logo - generated avatar from address"
+                    class="validator-image"
+                  />
+                   
+                  <!---->
+                </div>
+                 
+                <!---->
+              </router-link-stub>
+            </div>
+          </div>
+           
+          <!---->
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="tx-content-right"
+      >
+        <div>
+          <p>
+            
+            3 
+            ATOM
+          
+          </p>
+        </div>
+         
+        <!---->
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="multiClaimRewardRow reponsiveControllerMobile"
+  >
+    <div
+      class="responsiveMultiClaimValidatorList"
+    >
+      <div
+        class="reponsiveClaimValidator"
+      >
+        <router-link-stub
+          class="validator-link"
+          to=""
+        >
+          <div
+            class="row-validator-image"
+          >
+            <avatar-stub
+              address="cosmosvaloper123"
+              alt="generic validator logo - generated avatar from address"
+              class="validator-image"
+            />
+             
+            <!---->
+          </div>
+           
+          <!---->
+        </router-link-stub>
+      </div>
+      <div
+        class="reponsiveClaimValidator"
+      >
+        <router-link-stub
+          class="validator-link"
+          to=""
+        >
+          <div
+            class="row-validator-image"
+          >
+            <avatar-stub
+              address="cosmosvaloper456"
+              alt="generic validator logo - generated avatar from address"
+              class="validator-image"
+            />
+             
+            <!---->
+          </div>
+           
+          <!---->
+        </router-link-stub>
+      </div>
+      <div
+        class="reponsiveClaimValidator"
+      >
+        <router-link-stub
+          class="validator-link"
+          to=""
+        >
+          <div
+            class="row-validator-image"
+          >
+            <avatar-stub
+              address="cosmosvaloper789"
+              alt="generic validator logo - generated avatar from address"
+              class="validator-image"
+            />
+             
+            <!---->
+          </div>
+           
+          <!---->
+        </router-link-stub>
+      </div>
+    </div>
+  </div>
+</div>
+`;

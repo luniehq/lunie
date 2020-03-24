@@ -98,7 +98,12 @@ describe(`PageTransactions`, () => {
         loading: false
       },
       transactions: {
-        loading: false
+        loading: false,
+        variables: jest.fn(),
+        fetchMore: jest.fn(() => ({
+          variables: jest.fn(),
+          updateQuery: jest.fn()
+        }))
       }
     }
   }
@@ -107,7 +112,8 @@ describe(`PageTransactions`, () => {
     $store = {
       state,
       getters: {
-        address: "cosmos1"
+        address: "cosmos1",
+        network: "cosmos-hub-mainnet"
       }
     }
 
@@ -170,6 +176,7 @@ describe(`PageTransactions`, () => {
     $store.state.session.address = undefined
   })
 
+  // it doesn't work, actually
   it(`should load more transactions (infinite scrolling)`, async () => {
     wrapper = shallowMount(PageTransactions, {
       localVue,
@@ -183,6 +190,100 @@ describe(`PageTransactions`, () => {
     })
     wrapper.setData({ showing: 2 })
     wrapper.vm.loadMore()
+  })
+
+  it("transactions updated on subscription trigger", () => {
+    const self = {
+      loadedTransactions: []
+    }
+    let newTransaction = {
+      type: "cosmos-sdk/MsgUndelegate",
+      value: JSON.stringify({
+        delegator_address: "cosmos2",
+        validator_address: "cosmos4de",
+        amount: { denom: "uatom", amount: "10000" }
+      }),
+      key:
+        'cosmos-sdk/MsgUndelegate_2019-07-31T09:22:23.054Z_{"delegator_address":"cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e","validator_address":"cosmos1a","amount":{"denom":"uatom","amount":"50000"}}',
+      height: 1248479,
+      timestamp: "2019-07-31T09:22:23.054Z",
+      memo: "",
+      fee: { amount: "4141", denom: "ATOM" },
+      group: "staking"
+    }
+    let result = PageTransactions.apollo.transactions.update.call(self, {
+      transactionsV2: [newTransaction]
+    })
+    // adjusting result
+    newTransaction.value = JSON.parse(newTransaction.value)
+    newTransaction.timestamp = new Date(newTransaction.timestamp)
+    expect(result).toEqual([newTransaction])
+  })
+
+  it(`should load more transactions on loadMore action`, async () => {
+    // setting showing to big number
+    wrapper.setData({
+      showing: 100,
+      lastLoadedRecordsCount: 1,
+      dataLoaded: true
+    })
+    wrapper.vm.loadMore()
+    // pageNumber should be updated
+    expect(wrapper.vm.pageNumber).toBeGreaterThan(0)
+  })
+
+  it("transaction added on subscription trigger", () => {
+    const self = {
+      transactions: []
+    }
+    let result = PageTransactions.apollo.transactions.subscribeToMore.updateQuery.call(
+      self,
+      {
+        transactionsV2: []
+      },
+      {
+        subscriptionData: {
+          data: {
+            userTransactionAddedV2: {
+              type: "cosmos-sdk/MsgUndelegate",
+              value: {
+                delegator_address: "cosmos2",
+                validator_address: "cosmos4de",
+                amount: { denom: "uatom", amount: "10000" }
+              },
+              height: 1248479,
+              timestamp: "2019-07-31T09:22:23.054Z",
+              memo: "",
+              fee: { amount: "4141", denom: "ATOM" }
+            }
+          }
+        }
+      }
+    )
+
+    expect(result.transactionsV2.length).toBeGreaterThan(0)
+  })
+
+  it(`should not load more if currently loading`, async () => {
+    wrapper = shallowMount(PageTransactions, {
+      localVue,
+      mocks: {
+        $store,
+        $apollo
+      },
+      directives: {
+        infiniteScroll: () => {}
+      }
+    })
+    // setting showing to big number
+    wrapper.setData({
+      showing: 100,
+      lastLoadedRecordsCount: 1,
+      dataLoaded: false
+    })
+    wrapper.vm.loadMore()
+    // pageNumber should not have updated
+    expect(wrapper.vm.pageNumber).toBe(0)
   })
 
   it(`validator address map to be correct`, async () => {
@@ -202,5 +303,15 @@ describe(`PageTransactions`, () => {
       "cosmos1b",
       "cosmos1c"
     ])
+  })
+
+  it(`should trigger intercom opening`, () => {
+    const self = {
+      $store: {
+        dispatch: jest.fn()
+      }
+    }
+    PageTransactions.methods.handleIntercom.call(self)
+    expect(self.$store.dispatch).toHaveBeenCalledWith("displayMessenger")
   })
 })

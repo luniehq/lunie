@@ -1,7 +1,7 @@
 <template>
   <div class="tm-data-msg">
     <div class="tm-data-msg__icon" :class="{ success: success }">
-      <i :class="spinnerClass" class="material-icons">{{ icon }}</i>
+      <i :class="spinnerClass" class="material-icons notranslate">{{ icon }}</i>
     </div>
     <div class="tm-data-msg__text">
       <h2 class="tm-data-msg__title">
@@ -54,11 +54,11 @@ export default {
 <style>
 .tm-data-msg {
   padding: 2rem;
-  margin: 2rem;
   display: flex;
   align-items: center;
   border-radius: 0.25rem;
   border: 1px solid var(--bc);
+  margin: 1rem;
 }
 
 .tm-data-msg__icon {
@@ -105,6 +105,7 @@ export default {
 @media screen and (max-width: 767px) {
   .tm-data-msg {
     padding: 2rem 1rem;
+    margin: 1rem;
   }
 }
 

@@ -1,4 +1,5 @@
 import PageValidator from "staking/PageValidator"
+import { toMicroDenom } from "scripts/common"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 
 const validator = {
@@ -101,6 +102,54 @@ describe(`PageValidator`, () => {
     wrapper.setProps({ validator: { uptimePercentage: `` } })
     expect(wrapper.element).toMatchSnapshot()
   })
+  it(`should show Staking tokens tutorial`, () => {
+    wrapper.setData({
+      showTutorial: false
+    })
+    wrapper.vm.openTutorial()
+    expect(wrapper.vm.showTutorial).toBe(true)
+  })
+  it(`should hide Staking tokens tutorial`, () => {
+    wrapper.setData({
+      showTutorial: true
+    })
+    wrapper.vm.hideTutorial()
+    expect(wrapper.vm.showTutorial).toBe(false)
+  })
+  it(`should trigger intercom opening`, () => {
+    const self = {
+      $store: {
+        dispatch: jest.fn()
+      }
+    }
+    PageValidator.methods.handleIntercom.call(self)
+    expect(self.$store.dispatch).toHaveBeenCalledWith("displayMessenger")
+  })
+  it(`should filter the staking denom reward`, () => {
+    const rewards = [
+      {
+        amount: 1,
+        denom: `TOKEN1`
+      },
+      {
+        amount: 2,
+        denom: `TOKEN2`
+      },
+      {
+        amount: 3,
+        denom: `TOKEN3`
+      }
+    ]
+    const self = {
+      stakingDenom: `TOKEN1`,
+      rewards: rewards,
+      toMicroDenom
+    }
+    const stakingDenomReward = PageValidator.methods.filterStakingDenomReward.call(
+      self
+    )
+    expect(stakingDenomReward).toEqual(1)
+  })
 })
 
 describe(`isBlankField method`, () => {
@@ -111,7 +160,6 @@ describe(`isBlankField method`, () => {
       validator.maxCommission,
       percent
     )
-
     expect(afterFilter).toBe(`--`)
   })
 })

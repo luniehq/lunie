@@ -10,7 +10,12 @@
           />
           Lunie
         </a>
-        <router-link v-else to="/portfolio" exact="exact" title="Portfolio">
+        <router-link
+          v-else
+          :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
+          exact="exact"
+          title="Portfolio"
+        >
           <img
             class="header-item-logo"
             src="~assets/images/lunie-logo-white.svg"
@@ -19,10 +24,12 @@
         </router-link>
         <template v-if="!desktop">
           <div v-if="open" class="close-menu" @click="close()">
-            <i class="material-icons mobile-menu-action">close</i>
+            <i class="material-icons notranslate mobile-menu-action">close</i>
           </div>
           <div v-if="!open" class="open-menu" @click="show()">
-            <i class="material-icons mobile-menu-action">more_vert</i>
+            <i class="material-icons notranslate mobile-menu-action">
+              more_vert
+            </i>
           </div>
         </template>
       </div>
@@ -45,7 +52,10 @@ export default {
     isMobileApp: config.mobileApp
   }),
   computed: {
-    ...mapState([`session`])
+    ...mapState([`session`, "connection"]),
+    networkSlug() {
+      return this.connection.networkSlug
+    }
   },
   mounted() {
     this.watchWindowSize()

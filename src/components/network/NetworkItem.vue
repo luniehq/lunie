@@ -1,56 +1,65 @@
 <template>
-  <div
-    class="network-item"
-    :class="{ active: connection.network === network.id }"
-  >
+  <div class="network-item" :class="{ disabled: disabled }">
     <div class="network-icon">
       <img
-        :src="`img/networks/${network.id}.png`"
-        :alt="`logo for network ${network.title}`"
+        :src="`${networkitem.icon}`"
+        :alt="`logo for network ${networkitem.title}`"
       />
     </div>
     <div class="network-content">
       <h4 class="network-title">
-        {{ network.title }}
+        {{ networkitem.title }}
       </h4>
       <p class="network-caption">
-        {{ network.chain_id }}
+        {{ networkitem.chain_id }}
       </p>
     </div>
+    <PoweredBy
+      :network="networkitem"
+      :is-current-network="isCurrentNetwork"
+      hide-on-mobile
+    />
     <div class="network-status">
       <img
-        v-if="!connection.connected && connection.network === network.id"
+        v-if="!connected && network === networkitem.id"
         class="tm-connected-network-loader"
         src="~assets/images/loader.svg"
         alt="a small spinning circle to display loading"
       />
       <div
-        v-else-if="connection.connected && connection.network === network.id"
+        v-else-if="!disabled && connected && network === networkitem.id"
         class="network-selected"
       >
-        <i class="material-icons">check</i>
+        <i class="material-icons notranslate">check</i>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
+import PoweredBy from "./PoweredBy"
 
 export default {
   name: `network-item`,
+  components: {
+    PoweredBy
+  },
   props: {
-    network: {
+    networkitem: {
       type: Object,
       required: true
     },
-    enabled: {
+    disabled: {
       type: Boolean,
       default: false
     }
   },
   computed: {
-    ...mapState([`connection`])
+    ...mapGetters([`connected`, `network`]),
+    isCurrentNetwork() {
+      return this.networkitem.id === this.network
+    }
   }
 }
 </script>
@@ -75,14 +84,21 @@ export default {
   color: var(--bright);
 }
 
+.network-item.disabled:hover {
+  cursor: default;
+  background: var(--app-fg);
+}
+
 .network-item b {
   font-weight: 500;
 }
 
 .network-icon img {
   max-height: 100%;
-  max-width: 52px;
+  height: 3.5rem;
+  width: 3.5rem;
   display: block;
+  border-radius: 50%;
 }
 
 .network-content {

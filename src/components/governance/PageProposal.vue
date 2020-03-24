@@ -15,7 +15,7 @@
               :style="{ visibility: getPrevProposalId ? 'visible' : 'hidden' }"
               class="read-more-link"
             >
-              <i class="material-icons">chevron_left</i>
+              <i class="material-icons notranslate">chevron_left</i>
             </router-link>
             <h2 class="proposal-title">{{ proposal.title }}</h2>
             <router-link
@@ -23,17 +23,17 @@
               :style="{ visibility: getNextProposalId ? 'visible' : 'hidden' }"
               class="read-more-link"
             >
-              <i class="material-icons">chevron_right</i>
+              <i class="material-icons notranslate">chevron_right</i>
             </router-link>
           </div>
           <p class="proposer">
             <template v-if="proposal.validator">
               Proposed by {{ proposal.validator.name }}:
-              <Bech32 :address="proposal.proposer" />
+              <Address :address="proposal.proposer" />
             </template>
             <template v-else-if="proposal.proposer !== `unknown`">
               Proposed by
-              <Bech32 :address="proposal.proposer" />
+              <Address :address="proposal.proposer" />
             </template>
             <template v-else>
               Unknown proposer
@@ -194,7 +194,7 @@ import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
-import Bech32 from "common/Bech32"
+import Address from "common/Address"
 import gql from "graphql-tag"
 
 export default {
@@ -208,7 +208,7 @@ export default {
     TmDataLoading,
     TmPage,
     TextBlock,
-    Bech32
+    Address
   },
   filters: {
     prettyInt,
@@ -305,6 +305,9 @@ export default {
         }
       },
       update(data) {
+        if (!data.proposals) {
+          return []
+        }
         /* istanbul ignore next */
         if (
           data.proposals.find(
@@ -326,7 +329,7 @@ export default {
         /* istanbul ignore next */
         this.loaded = true
         /* istanbul ignore next */
-        return data.proposal
+        return data.proposal || {}
       },
       variables() {
         /* istanbul ignore next */
@@ -378,8 +381,8 @@ export default {
         return !this.address || !this.found
       },
       update(data) {
-        /* istanbul ignore next */
-        return data.vote.option
+        if (data.vote) return data.vote.option
+        return undefined
       },
       result(data) {
         /* istanbul ignore next */

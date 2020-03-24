@@ -2,7 +2,9 @@ import {
   listenToExtensionMessages,
   processLunieExtensionMessages,
   getAccountsFromExtension,
-  signWithExtension
+  getSignQueue,
+  signWithExtension,
+  cancelSignWithExtension
 } from "scripts/extension-utils.js"
 
 describe(`Extension Utils`, () => {
@@ -116,6 +118,24 @@ describe(`Extension Utils`, () => {
       ])
     })
 
+    it(`should return total amount of transactions in the sign queue in extension`, async () => {
+      global.postMessage.mockClear()
+      getSignQueue()
+      expect(global.postMessage.mock.calls).toEqual([
+        [
+          {
+            payload: {
+              payload: {},
+              type: "LUNIE_GET_SIGN_QUEUE"
+            },
+            skipResponse: true,
+            type: "FROM_LUNIE_IO"
+          },
+          "*"
+        ]
+      ])
+    })
+
     describe("sign", () => {
       beforeEach(() => {
         jest.spyOn(global, "addEventListener")
@@ -124,6 +144,26 @@ describe(`Extension Utils`, () => {
 
       afterAll(() => {
         global.addEventListener.mockReset()
+      })
+
+      it("should cancel requests", () => {
+        cancelSignWithExtension("abc", "cosmos1234")
+        expect(global.postMessage.mock.calls).toEqual([
+          [
+            {
+              payload: {
+                payload: {
+                  senderAddress: "abc",
+                  network: "cosmos1234"
+                },
+                type: "LUNIE_SIGN_REQUEST_CANCEL"
+              },
+              skipResponse: true,
+              type: "FROM_LUNIE_IO"
+            },
+            "*"
+          ]
+        ])
       })
 
       it("should request a signature", () => {

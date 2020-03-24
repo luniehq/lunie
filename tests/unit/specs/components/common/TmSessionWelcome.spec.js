@@ -5,16 +5,16 @@ describe(`TmSessionWelcome`, () => {
   let $store, wrapper
 
   beforeEach(() => {
-    const getters = {
+    const state = {
       session: {
         insecureMode: true,
         browserWithLedgerSupport: null
       }
     }
     $store = {
-      getters,
       commit: jest.fn(),
-      dispatch: jest.fn()
+      dispatch: jest.fn(),
+      state
     }
     wrapper = shallowMount(TmSessionWelcome, {
       mocks: {
@@ -23,7 +23,6 @@ describe(`TmSessionWelcome`, () => {
           return false
         }
       },
-
       stubs: [`router-link`]
     })
   })

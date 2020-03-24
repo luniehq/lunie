@@ -122,8 +122,12 @@ describe(`Module: Session`, () => {
             connection: { network: "fabo-net" }
           }
         },
-        { address, sessionType }
+        { address, sessionType, networkId: "not-fabo-net" }
       )
+      expect(commit).toHaveBeenCalledWith(`setNetworkId`, `not-fabo-net`)
+      expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
+        id: `not-fabo-net`
+      })
       expect(commit).toHaveBeenCalledWith(
         `setUserAddress`,
         `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
@@ -463,6 +467,7 @@ describe(`Module: Session`, () => {
         `session_fabo-net`,
         JSON.stringify({
           address: `xxx`,
+          networkId: `fabo-net`,
           sessionType: `local`
         })
       )
@@ -474,6 +479,7 @@ describe(`Module: Session`, () => {
       })
       expect(dispatch).toHaveBeenCalledWith(`signIn`, {
         address: `xxx`,
+        networkId: `fabo-net`,
         sessionType: `local`
       })
 

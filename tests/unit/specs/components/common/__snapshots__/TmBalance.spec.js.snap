@@ -6,60 +6,134 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
 >
   <div>
     <div
-      class="values-container"
+      class="header-container"
     >
-      <div
-        class="upper-header"
-      >
-        <div
-          class="total-atoms"
-        >
-          <h3>
-            Total ATOM
-          </h3>
-           
-          <h2
-            class="total-atoms__value"
-          >
-            
-            0
-          
-          </h2>
-        </div>
-         
-        <!---->
-      </div>
+      <h1>
+        Your Portfolio
+      </h1>
        
       <div
-        class="scroll"
+        class="buttons"
       >
-        <div
-          class="row small-container scroll-item"
+        <tmbtn-stub
+          class="send-button"
+          type="secondary"
+          value="Send"
+        />
+         
+        <tmbtn-stub
+          class="withdraw-rewards"
+          id="withdraw-btn"
+          value="Claim Rewards"
+        />
+         
+        <button
+          class="tutorial-button"
         >
-          <!---->
-           
-          <!---->
-        </div>
+          <span>
+            Need some tokens?
+          </span>
+        </button>
          
         <!---->
       </div>
     </div>
      
     <div
-      class="button-container"
+      class="table four-columns"
     >
-      <tmbtn-stub
-        class="send-button"
-        type="secondary"
-        value="Send"
+      <div
+        class="table-cell big title"
+      >
+        Token
+      </div>
+       
+      <div
+        class="table-cell title"
+      >
+        Rewards
+      </div>
+       
+      <div
+        class="table-cell title available"
+      >
+        Available
+      </div>
+       
+      <div
+        class="table-cell title actions"
       />
        
-      <tmbtn-stub
-        class="withdraw-rewards"
-        disabled="true"
-        id="withdraw-btn"
-        value="Claim Rewards"
-      />
+      <div
+        class="table-cell big"
+      >
+        <img
+          alt="ATOM currency"
+          class="currency-flag"
+          src="/img/icons/currencies/tom.png"
+        />
+         
+        <div
+          class="total-and-fiat"
+        >
+          <span
+            class="total"
+          >
+            
+            0
+            ATOM
+          
+          </span>
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="table-cell rewards"
+      >
+        <h2>
+          
+          +0
+          ATOM
+        
+        </h2>
+      </div>
+       
+      <div
+        class="table-cell available"
+      >
+        <span
+          class="available-amount"
+        >
+          
+          0
+          ATOM
+        
+        </span>
+      </div>
+       
+      <div
+        class="table-cell actions"
+      >
+        <div
+          class="icon-button-container"
+        >
+          <button
+            class="icon-button circle-send-button"
+          >
+            <i
+              class="material-icons"
+            >
+              send
+            </i>
+          </button>
+          <span>
+            Send
+          </span>
+        </div>
+      </div>
+       
     </div>
      
     <sendmodal-stub
@@ -67,6 +141,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     />
      
     <modalwithdrawrewards-stub />
+     
+    <!---->
   </div>
 </div>
 `;
@@ -77,79 +153,134 @@ exports[`TmBalance show the balance header when signed in 1`] = `
 >
   <div>
     <div
-      class="values-container"
+      class="header-container"
     >
-      <div
-        class="upper-header"
-      >
-        <div
-          class="total-atoms"
-        >
-          <h3>
-            Total ATOM
-          </h3>
-           
-          <h2
-            class="total-atoms__value"
-          >
-            
-            3,210
-          
-          </h2>
-        </div>
-         
-        <!---->
-      </div>
+      <h1>
+        Your Portfolio
+      </h1>
        
       <div
-        class="scroll"
+        class="buttons"
       >
-        <div
-          class="row small-container scroll-item"
+        <tmbtn-stub
+          class="send-button"
+          type="secondary"
+          value="Send"
+        />
+         
+        <tmbtn-stub
+          class="withdraw-rewards"
+          id="withdraw-btn"
+          value="Claim Rewards"
+        />
+         
+        <button
+          class="tutorial-button"
         >
-          <div
-            class="available-atoms"
-          >
-            <h3>
-              Available ATOM
-            </h3>
-             
-            <h2>
-              1,230
-            </h2>
-          </div>
-           
-          <div
-            class="rewards"
-          >
-            <h3>
-              Total Rewards
-            </h3>
-             
-            <h2>
-              +1,000.45
-            </h2>
-          </div>
-        </div>
+          <span>
+            Need some tokens?
+          </span>
+        </button>
          
         <!---->
       </div>
     </div>
      
     <div
-      class="button-container"
+      class="table four-columns"
     >
-      <tmbtn-stub
-        class="send-button"
-        type="secondary"
-        value="Send"
+      <div
+        class="table-cell big title"
+      >
+        Token
+      </div>
+       
+      <div
+        class="table-cell title"
+      >
+        Rewards
+      </div>
+       
+      <div
+        class="table-cell title available"
+      >
+        Available
+      </div>
+       
+      <div
+        class="table-cell title actions"
       />
        
-      <tmbtn-stub
-        class="withdraw-rewards"
-        id="withdraw-btn"
-        value="Claim Rewards"
-      />
+      <div
+        class="table-cell big"
+      >
+        <img
+          alt="ATOM currency"
+          class="currency-flag"
+          src="/img/icons/currencies/tom.png"
+        />
+         
+        <div
+          class="total-and-fiat"
+        >
+          <span
+            class="total"
+          >
+            
+            3,210
+            ATOM
+          
+          </span>
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="table-cell rewards"
+      >
+        <h2>
+          
+          +1,000.45
+          ATOM
+        
+        </h2>
+      </div>
+       
+      <div
+        class="table-cell available"
+      >
+        <span
+          class="available-amount"
+        >
+          
+          1,230
+          ATOM
+        
+        </span>
+      </div>
+       
+      <div
+        class="table-cell actions"
+      >
+        <div
+          class="icon-button-container"
+        >
+          <button
+            class="icon-button circle-send-button"
+          >
+            <i
+              class="material-icons"
+            >
+              send
+            </i>
+          </button>
+          <span>
+            Send
+          </span>
+        </div>
+      </div>
+       
     </div>
      
     <sendmodal-stub
@@ -157,6 +288,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     />
      
     <modalwithdrawrewards-stub />
+     
+    <!---->
   </div>
 </div>
 `;

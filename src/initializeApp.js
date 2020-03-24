@@ -6,7 +6,7 @@ import {
   setGoogleAnalyticsPage
 } from "scripts/google-analytics"
 import config from "src/../config"
-import router, { routeGuard } from "./router"
+import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
 
@@ -22,7 +22,7 @@ function setOptions(urlParams, store) {
   }
 }
 
-export default function init(urlParams, env = process.env) {
+export default async function init(urlParams, env = process.env) {
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
     enableGoogleAnalytics(config.google_analytics_uid)
@@ -30,11 +30,12 @@ export default function init(urlParams, env = process.env) {
 
   console.log(`Expecting backend at: ${config.graphqlHost}`)
 
-  const apolloProvider = createApolloProvider()
+  const apolloProvider = await createApolloProvider()
   const apolloClient = apolloProvider.clients.defaultClient
 
   const store = Store({ apollo: apolloClient })
 
+  const router = Router(apolloClient, store)
   setGoogleAnalyticsPage(router.currentRoute.path)
   router.beforeEach(routeGuard(store, apolloClient))
   router.afterEach(to => {
@@ -44,10 +45,9 @@ export default function init(urlParams, env = process.env) {
 
   setOptions(urlParams, store)
 
+  await store.dispatch(`preloadNetworkCapabilities`)
   store.dispatch(`loadLocalPreferences`)
-  store.dispatch(`checkForPersistedNetwork`).then(() => {
-    store.dispatch(`checkForPersistedSession`)
-  })
+  await store.dispatch(`checkForPersistedNetwork`) // wait until signin
   store.dispatch(`checkForPersistedAddresses`)
 
   listenToExtensionMessages(store)

@@ -7,6 +7,27 @@ localVue.directive(`tooltip`, () => {})
 describe(`PageBlock`, () => {
   let wrapper
 
+  const validators = [
+    {
+      operatorAddress: "cosmosvaladdr12324536463",
+      status: "ACTIVE"
+    },
+    {
+      operatorAddress: "cosmosvaladdr1sdsdsd123123",
+      status: "ACTIVE"
+    },
+    {
+      operatorAddress: "cosmosvaladdr1kjisjsd862323",
+      status: "INACTIVE",
+      statusDetailed: "temporally banned from the network"
+    },
+    {
+      operatorAddress: "cosmosvaladdr1sd0f8mnbjb2",
+      status: "INACTIVE",
+      statusDetailed: "banned from the network"
+    }
+  ]
+
   const getters = {
     connected: true,
     address: `cosmos1`
@@ -18,6 +39,9 @@ describe(`PageBlock`, () => {
 
   const $apollo = {
     queries: {
+      validators: {
+        loading: false
+      },
       block: {
         loading: false
       }
@@ -79,7 +103,8 @@ describe(`PageBlock`, () => {
     })
 
     wrapper.setData({
-      block
+      block,
+      validators
     })
   })
 
@@ -96,5 +121,22 @@ describe(`PageBlock`, () => {
     })
 
     expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`filters out transactions of type "Unknown"`, () => {
+    const self = {
+      block: {
+        ...block,
+        transactions: [
+          { type: "UnknownTx" },
+          { type: "UnknownTx" },
+          { type: "SendTx" }
+        ]
+      }
+    }
+    const filteredTransactions = PageBlock.computed.filteredTransactions.call(
+      self
+    )
+    expect(filteredTransactions.length).toBe(1)
   })
 })

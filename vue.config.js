@@ -7,7 +7,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-module.exports = {
+const config = {
   publicPath: `/`,
   chainWebpack: config => {
     config.plugins.delete(`prefetch`)
@@ -83,3 +83,12 @@ module.exports = {
     stylelint: {}
   }
 }
+
+// css config breaks hot reloading
+if (process.env.NODE_ENV === `production`) {
+  config.css = {
+    extract: { ignoreOrder: true }
+  }
+}
+
+module.exports = config

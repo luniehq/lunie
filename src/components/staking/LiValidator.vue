@@ -40,28 +40,45 @@
         </h3>
         <div v-if="delegation.amount > 0">
           <h4>
-            {{ delegation.amount | shortDecimals }}
+            {{ delegation.amount | bigFigureOrShortDecimals }}
           </h4>
-          <h5 v-if="rewards.amount > 0.001">
-            +{{ rewards.amount | shortDecimals }}
+          <h5
+            v-if="
+              rewards.find(
+                reward => reward.denom === stakingDenom && reward.amount > 0.001
+              )
+            "
+          >
+            <span
+              >+{{
+                filterStakingDenomReward() | bigFigureOrShortDecimals
+              }}</span
+            >
           </h5>
         </div>
       </div>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
-        validator.expectedReturns ? percent(validator.expectedReturns) : `--`
+        validator.expectedReturns
+          ? bigFigureOrPercent(validator.expectedReturns)
+          : `--`
       }}
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'voting-power' }">
-      {{ validator.votingPower | percent }}
+      {{ validator.votingPower | bigFigureOrPercent }}
     </td>
   </tr>
 </template>
 
 <script>
-import { percent, shortDecimals, atoms } from "scripts/num"
+import {
+  bigFigureOrPercent,
+  bigFigureOrShortDecimals,
+  atoms
+} from "scripts/num"
 import Avatar from "common/Avatar"
+
 export default {
   name: `li-validator`,
   components: {
@@ -69,35 +86,48 @@ export default {
   },
   filters: {
     atoms,
-    shortDecimals,
-    percent,
-    toLower: text => text.toLowerCase()
+    toLower: text => text.toLowerCase(),
+    bigFigureOrShortDecimals,
+    bigFigureOrPercent
   },
   props: {
     validator: {
       type: Object,
       required: true
     },
+    /* istanbul ignore next */
     delegation: {
       type: Object,
       default: () => ({})
     },
+    /* istanbul ignore next */
     rewards: {
-      type: Object,
+      type: Array,
       default: () => ({})
     },
     index: {
       type: Number,
       required: true
     },
+    /* istanbul ignore next */
     showOnMobile: {
       type: String,
-      /* istanbul ignore next */
       default: () => "returns"
+    },
+    stakingDenom: {
+      type: String,
+      default: ""
     }
   },
   methods: {
-    percent
+    bigFigureOrPercent,
+    bigFigureOrShortDecimals,
+    filterStakingDenomReward() {
+      const stakingDenomRewards = this.rewards.filter(
+        reward => reward.denom === this.stakingDenom
+      )
+      return stakingDenomRewards[0].amount
+    }
   }
 }
 </script>
@@ -108,9 +138,7 @@ export default {
   border-bottom: 1px solid var(--bc-dim);
   border-radius: 0.25rem;
 }
-.li-validator:last-child {
-  border-bottom: none;
-}
+
 .validator-info {
   display: flex;
   flex-direction: column;

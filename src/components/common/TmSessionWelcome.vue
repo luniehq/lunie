@@ -9,7 +9,7 @@
         />
       </router-link>
       <router-link to="/" class="session-close-mobile user-box">
-        <i class="material-icons">close</i>
+        <i class="material-icons notranslate">close</i>
       </router-link>
 
       <h2 class="session-title welcome">
@@ -23,6 +23,14 @@
 
       <div class="session-list">
         <LiSession
+          v-if="session.insecureMode || isMobileApp"
+          id="create-new-address"
+          icon="person_add"
+          title="Create a new address"
+          route="selectnetwork"
+        />
+        <LiSession
+          v-else
           id="create-new-address"
           icon="person_add"
           title="Create a new address"
@@ -51,11 +59,19 @@
 <script>
 import SessionFrame from "common/SessionFrame.vue"
 import LiSession from "common/TmLiSession"
+import { mapState } from "vuex"
+import config from "src/../config"
 export default {
   name: `session-welcome`,
   components: {
     SessionFrame,
     LiSession
+  },
+  data: () => ({
+    isMobileApp: config.mobileApp
+  }),
+  computed: {
+    ...mapState([`session`])
   }
 }
 </script>

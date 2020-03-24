@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnknownTxDetails renders a unstake transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiontype="Submitted"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Unknown
+    </h3>
+  </div>
+</div>
+`;

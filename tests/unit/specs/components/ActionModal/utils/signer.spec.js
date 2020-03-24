@@ -1,7 +1,7 @@
 import config from "src/../config"
 
 describe("pick signer", () => {
-  let getSigner
+  let getSigner, cancelSign, signQueue
   beforeEach(() => {
     jest.resetModules()
     jest.doMock("@lunie/cosmos-keys", () => ({
@@ -33,20 +33,41 @@ describe("pick signer", () => {
       signWithExtension: jest.fn(() => ({
         signature: Buffer.alloc(0),
         publicKey: Buffer.alloc(0)
-      }))
+      })),
+      cancelSignWithExtension: jest.fn(() => true),
+      getSignQueue: jest.fn(() => true)
     }))
 
     const signer = require("src/ActionModal/utils/signer.js")
     getSigner = signer.getSigner
+    cancelSign = signer.cancelSign
+    signQueue = signer.signQueue
   })
 
   it("should should exist", () => {
     expect(getSigner).toBeDefined()
   })
+  it("should call cancelSignWithExtension for an extension", async () => {
+    const { cancelSignWithExtension } = require(`scripts/extension-utils`)
+    await cancelSign(`extension`, {
+      address: "",
+      password: "1234567890"
+    })
+    expect(cancelSignWithExtension).toHaveBeenCalled()
+  })
+  it("should call getSignQueue for an extension", async () => {
+    const { getSignQueue } = require(`scripts/extension-utils`)
+    await signQueue(`extension`, {
+      address: "",
+      password: "1234567890"
+    })
+    expect(getSignQueue).toHaveBeenCalled()
+  })
   it("should pick a local signer", async () => {
     const signer = await getSigner(config, "local", {
       address: "",
-      password: "1234567890"
+      password: "1234567890",
+      networkType: "cosmos"
     })
     expect(signer("message")).toEqual({
       signature: expect.any(Buffer),
@@ -57,7 +78,8 @@ describe("pick signer", () => {
   it("should pick a ledger signer", async () => {
     const signer = await getSigner(config, "ledger", {
       address: "",
-      password: "1234567890"
+      password: "1234567890",
+      networkType: "cosmos"
     })
     expect(await signer("message")).toEqual({
       signature: expect.any(Buffer),
@@ -89,14 +111,16 @@ describe("pick signer", () => {
 
     const signer = await getSigner(config, "ledger", {
       address: "",
-      password: "1234567890"
+      password: "1234567890",
+      networkType: "cosmos"
     })
     await expect(signer("message")).rejects.toThrow("XXX")
   })
 
   it("should pick the extension signer", async () => {
     const signer = await getSigner(config, "extension", {
-      address: ""
+      address: "",
+      networkType: "cosmos"
     })
     const { signWithExtension } = require(`scripts/extension-utils`)
     expect(await signer("message")).toEqual({

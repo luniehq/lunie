@@ -11,14 +11,14 @@ export default {
   fallbackNetwork,
   google_analytics_uid: process.env.GOOGLE_ANALYTICS_UID || "",
   sentryDSN,
-  default_gas_price: dev ? 1e-9 : 2.5e-8, // Recommended from Cosmos Docs
+  default_gas_price: dev ? 1e-9 : 0.65e-8, // Recommended from Cosmos Docs devided by 4 as we increased the gas amount heavily
 
   // Ledger
   CosmosAppTestModeAllowed: false,
   mobileApp: Boolean(process.env.MOBILE_APP),
+  isExtension: Boolean(process.env.EXTENSION),
 
   graphqlHost: graphql,
 
-  e2e: process.env.VUE_APP_E2E || false,
-  enableTxAPI: process.env.VUE_APP_ENABLE_TX_API === "true" || false
+  e2e: process.env.VUE_APP_E2E || false
 }

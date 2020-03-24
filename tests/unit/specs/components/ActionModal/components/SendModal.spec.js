@@ -11,7 +11,11 @@ describe(`SendModal`, () => {
 
   const getters = {
     connected: true,
-    session: { signedIn: true, address: "cosmos1234" }
+    session: {
+      signedIn: true,
+      address: "cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx"
+    },
+    network: "cosmos-hub-mainnet"
   }
 
   const state = {}
@@ -56,7 +60,7 @@ describe(`SendModal`, () => {
       submit: cb => cb(),
       open: jest.fn()
     }
-    wrapper.vm.open("stake")
+    wrapper.vm.open("STAKE")
   })
 
   it(`should display send modal form`, async () => {
@@ -66,20 +70,13 @@ describe(`SendModal`, () => {
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },
-      address: `cosmos1address`,
+      address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`,
       amount: 10
     }
     SendModal.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
     expect(self.address).toBe(undefined)
     expect(self.amount).toBe(undefined)
-  })
-
-  it(`shows the memo input if desired`, async () => {
-    wrapper.find("#edit-memo-btn").trigger("click")
-    await wrapper.vm.$nextTick()
-
-    expect(wrapper.find("#memo").isVisible()).toBe(true)
   })
 
   describe(`validation`, () => {
@@ -96,38 +93,17 @@ describe(`SendModal`, () => {
       expect(wrapper.vm.$v.$error).toBe(true)
       expect(wrapper.element).toMatchSnapshot()
     })
-    it(`should show bech32 error when address length is too short`, async () => {
-      wrapper.setProps({
-        denom: `STAKE`
-      })
-      wrapper.setData({
-        address: `asdf`,
-        amount: 2
-      })
-      wrapper.vm.validateForm()
-      await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$v.$error).toBe(true)
-      expect(wrapper.element).toMatchSnapshot()
-    })
 
-    it(`should show bech32 error when address length is too long`, async () => {
+    it(`should show bech32 error when address is not bech32`, async () => {
       wrapper.setProps({
         denom: `STAKE`
       })
       wrapper.setData({
-        address: `asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf`,
+        address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767`,
         amount: 2
       })
-      wrapper.vm.validateForm()
-      await wrapper.vm.$nextTick()
-      expect(wrapper.vm.$v.$error).toBe(true)
-      expect(wrapper.element).toMatchSnapshot()
-    })
-    it(`should show bech32 error when alphanumeric is wrong`, async () => {
-      wrapper.setData({
-        address: ``
-      })
-      expect(wrapper.vm.validateForm()).toBe(false)
+      const valid = wrapper.vm.validateForm()
+      expect(valid).toBe(false)
       await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
     })
@@ -172,6 +148,28 @@ describe(`SendModal`, () => {
       amounts: [{ amount: "2000000", denom: "stake" }],
       memo: "(Sent via Lunie)"
     })
+  })
+
+  it("should return empty transaction data if amount is NaN", () => {
+    wrapper.setProps({
+      denom: `STAKE`
+    })
+    wrapper.setData({
+      address: `cosmos12345`,
+      amount: `NaN`
+    })
+    expect(wrapper.vm.transactionData).toEqual({})
+  })
+
+  it(`sends an event on success`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    SendModal.methods.onSuccess.call(self)
+    expect(self.$emit).toHaveBeenCalledWith(
+      "success",
+      expect.objectContaining({})
+    )
   })
 
   it("should return notification message", () => {
@@ -240,6 +238,20 @@ describe(`SendModal`, () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.isMaxAmount()).toBe(false)
     })
+    it(`if we are connected to a Terra network, we will substract Terra extra fees from max amount`, async () => {
+      wrapper.setData({
+        $store: {
+          getters: {
+            network: "terra-mainnet"
+          }
+        },
+        selectedBalance: {
+          amount: 1
+        }
+      })
+      wrapper.vm.setMaxAmount()
+      expect(wrapper.vm.amount).toBe(`0.992063`)
+    })
   })
 
   describe(`Set token and balance`, () => {
@@ -261,16 +273,22 @@ describe(`SendModal`, () => {
       expect(wrapper.vm.selectedBalance.amount).toBe(1)
     })
 
-    it(`it automatically picks the balance from the balances array when
-    balances are only one denom`, async () => {
+    it(`it automatically sets the token to the first token in the balances`, async () => {
       wrapper.setData({
+        selectedToken: ``,
         balances: [
           {
             amount: 1,
-            denom: "TOKEN1"
+            denom: "STAKE"
           }
         ]
       })
+      SendModal.watch.balances.call(wrapper.vm, [
+        {
+          amount: 1,
+          denom: "STAKE"
+        }
+      ])
       expect(wrapper.vm.selectedBalance.amount).toBe(1)
     })
     // This one creates a lot of ugly errors

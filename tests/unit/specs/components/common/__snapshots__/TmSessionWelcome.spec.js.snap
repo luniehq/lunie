@@ -22,7 +22,7 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
       to="/"
     >
       <i
-        class="material-icons"
+        class="material-icons notranslate"
       >
         close
       </i>
@@ -51,13 +51,15 @@ exports[`TmSessionWelcome has the expected html structure 1`] = `
       <lisession-stub
         icon="person_add"
         id="create-new-address"
-        route="create"
+        img=""
+        route="selectnetwork"
         title="Create a new address"
       />
        
       <lisession-stub
         icon="person"
         id="use-an-existing-address"
+        img=""
         route="existing"
         title="Use an existing address"
       />
@@ -115,7 +117,7 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
       to="/"
     >
       <i
-        class="material-icons"
+        class="material-icons notranslate"
       >
         close
       </i>
@@ -144,13 +146,15 @@ exports[`TmSessionWelcome has the expected html structure when on mobile 1`] = `
       <lisession-stub
         icon="person_add"
         id="create-new-address"
-        route="create"
+        img=""
+        route="selectnetwork"
         title="Create a new address"
       />
        
       <lisession-stub
         icon="person"
         id="use-an-existing-address"
+        img=""
         route="existing"
         title="Use an existing address"
       />

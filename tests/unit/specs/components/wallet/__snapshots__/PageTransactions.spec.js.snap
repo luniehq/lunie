@@ -5,7 +5,6 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
   data-title="Transactions"
   dataempty="true"
   hideheader="true"
-  loaded="true"
   managed="true"
   signinrequired="true"
   subtitle=""
@@ -14,9 +13,7 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
   <dataemptytx-stub />
    
   <template>
-    <div
-      infinite-scroll-distance="80"
-    >
+    <div>
       <transactionlist-stub
         address="cosmos1"
         transactions=""
@@ -25,6 +22,31 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
     </div>
      
     <br />
+     
+    <tmdatamsg-stub
+      icon="calendar_today"
+    >
+      <div>
+        
+        Looking for older transactions?
+      
+      </div>
+       
+      <div>
+        
+        Unfortunately, we can't display transactions from previous chains
+        right now.
+        
+        <a
+          class="intercom-button"
+        >
+          Let us know
+        </a>
+        
+        if you'd like access these transactions.
+      
+      </div>
+    </tmdatamsg-stub>
   </template>
 </tmpage-stub>
 `;
@@ -44,9 +66,7 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
   <dataemptytx-stub />
    
   <template>
-    <div
-      infinite-scroll-distance="80"
-    >
+    <div>
       <transactionlist-stub
         address="cosmos1"
         transactions="[object Object],[object Object],[object Object],[object Object]"
@@ -55,6 +75,31 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
     </div>
      
     <br />
+     
+    <tmdatamsg-stub
+      icon="calendar_today"
+    >
+      <div>
+        
+        Looking for older transactions?
+      
+      </div>
+       
+      <div>
+        
+        Unfortunately, we can't display transactions from previous chains
+        right now.
+        
+        <a
+          class="intercom-button"
+        >
+          Let us know
+        </a>
+        
+        if you'd like access these transactions.
+      
+      </div>
+    </tmdatamsg-stub>
   </template>
 </tmpage-stub>
 `;

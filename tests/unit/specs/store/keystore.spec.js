@@ -1,5 +1,26 @@
 import keystoreModule from "src/vuex/modules/keystore.js"
 
+const networks = [
+  {
+    id: "cosmos-hub-testnet",
+    network_type: "cosmos",
+    address_prefix: "cosmos",
+    testnet: true
+  },
+  {
+    id: "cosmos-hub-mainnet",
+    network_type: "cosmos",
+    address_prefix: "cosmos",
+    testnet: false
+  },
+  {
+    id: "polkadot-testnet",
+    network_type: "polkadot",
+    address_prefix: "2",
+    testnet: true
+  }
+]
+
 const mockKeysLib = {
   testPassword: () => true,
   getSeed: () => `xxx`,
@@ -30,7 +51,7 @@ describe(`Module: Keystore`, () => {
       query: jest.fn(() => ({
         data: {
           network: {
-            address_creator: "cosmos",
+            network_type: "cosmos",
             address_prefix: "cosmos"
           }
         }
@@ -101,9 +122,13 @@ describe(`Module: Keystore`, () => {
     expect(seed).toBe(`xxx`)
   })
 
-  it(`should create an address from a seed phrase`, async () => {
+  it(`should create a Cosmos address from a seed phrase`, async () => {
     const address = await actions.getAddressFromSeed(
-      {},
+      {
+        getters: {
+          networks
+        }
+      },
       {
         seedPhrase: `xxx`,
         network: `cosmos-hub-mainnet`
@@ -112,13 +137,34 @@ describe(`Module: Keystore`, () => {
     expect(address).toBe(`cosmos1234`)
   })
 
+  it(`should create a Polkadot address from a seed phrase`, async () => {
+    const address = await actions.getAddressFromSeed(
+      {
+        getters: {
+          networks
+        }
+      },
+      {
+        seedPhrase: `enable story warrior detail cradle inherit over cattle unhappy concert reveal clay keep tourist tenant brief simple drum plug inform glue business ski dream`,
+        network: `polkadot-testnet`
+      }
+    )
+    expect(address).toBe(`HKFeFq1CTzCfTNhNtQDqe3nCR6WzimGdUdLzr7v7ukw6fnx`)
+  })
+
   it(`should create a key from a seed phrase`, async () => {
     const seedPhrase = `abc`
     const password = `123`
     const name = `def`
     const dispatch = jest.fn()
     await actions.createKey(
-      { dispatch, state },
+      {
+        dispatch,
+        state,
+        getters: {
+          networks
+        }
+      },
       {
         seedPhrase,
         password,
@@ -139,7 +185,13 @@ describe(`Module: Keystore`, () => {
     const name = `def`
     const dispatch = jest.fn()
     await actions.createKey(
-      { dispatch, state },
+      {
+        dispatch,
+        state,
+        getters: {
+          networks
+        }
+      },
       {
         seedPhrase,
         password,
@@ -156,7 +208,13 @@ describe(`Module: Keystore`, () => {
     const name = `def`
     const dispatch = jest.fn()
     const address = await actions.createKey(
-      { dispatch, state },
+      {
+        dispatch,
+        state,
+        getters: {
+          networks
+        }
+      },
       {
         seedPhrase,
         password,
@@ -172,20 +230,22 @@ describe(`Module: Keystore`, () => {
 
   it("should handle networks not being supported for account creation (as a fallback)", async () => {
     apollo.query.mockImplementationOnce(() => ({
-      data: {
-        network: {
-          address_creator: "eos",
-          address_prefix: "eos"
-        }
-      }
+      data: {}
     }))
+    const dispatch = jest.fn()
 
     const seedPhrase = `abc`
     const password = `123`
     const name = `def`
     await expect(
       actions.createKey(
-        { state },
+        {
+          state,
+          dispatch,
+          getters: {
+            networks
+          }
+        },
         {
           seedPhrase,
           password,

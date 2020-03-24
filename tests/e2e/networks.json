@@ -1,0 +1,45 @@
+[
+    {
+        "address": "cosmos1rwmfrdr8dz2va39pdahphzee4d373j6jz6up8j",
+        "network": "cosmos-hub-testnet",
+        "slug": "cosmos-hub-testnet",
+        "wallet": "5ed79d74ca9b5935a8cfe266ca6a484330ad4372c33f0729bd5c95eeac512354LGx4cYERQN7vnVHnj8jAX4IHTBP7i8BUDiWPwj3cPASUKgA8IoSu+ZDJtXSaDuCsMgOuPt2+sVbQGxsJkPfmwhCYEC4Nv8zdGKwnPqugQwKehHNL4HgTG5hJMfgn79TyBjYbrGGG5jntQ5iqIrDAMS0xUEZ3/N5BiTs1HSSUOtAU0mJpOfE3YYKk2Dc/futTpheUTmwGVuQCOkQZ6LIoityPhr2fsBdbOsb7sDlAxe2V9EFkDxrgbvuMi2lWCHTqiYxebGB2zexAzc44k4izK7CXRW9DgFZ4zu1ysZjs1GPdhWs6f50OyjKDDv0vGhBP",
+        "stakeAmount": 0.1,
+        "restakeAmount": 0.01,
+        "fundingAmount": 0.4,
+        "expectedDiff": 0.1
+    },
+    {
+        "address": "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
+        "network": "local-cosmos-hub-testnet",
+        "slug": "local-cosmos-hub-testnet",
+        "wallet": "ae1d20a49e1085cca29a71e270c6f64f8f86794cb67c6922caea6bcba0ed9e60g+nSTgP8/wHpWaomDkhW/7g2Xldvno3VRFggvdpWIDrRV+n4BJtpk3UpLKo0K3SDL5dRzxz3NmGFnSA8znggFmtesdqu6jWJYzSNqaQhM/gCPTVabF7t1UHaybze1NRlYcm/wl5oOyXRpki6ugOHxNhF7+4wlzhYxMilAB7ekDB4+VVHoPMUinU4dsUdtC4XwDUA0rbX1TTmrh+i1eBp6UTQ+nHGiZXL1TkhhR1mE0fR3bLRunz5XagYtjoST33pecQWzqeaZZQ/mgm9QXu/i+ymfbnPQkh8ivx+J6/d2RfZuAV4NnwFZDUr7CzPX4TU",
+        "name": "rich_account",
+        "stakeAmount": 10.86,
+        "restakeAmount": 5.43,
+        "fundingAmount": 20,
+        "expectedDiff": 2
+    },
+    {
+        "address": "terra1mma85hevm6kavfuu9mgmektxvmxnwssqspxrhc",
+        "network": "terra-testnet",
+        "slug": "terra-testnet",
+        "wallet": "c55132bb51927ac0532395eb3b624b6f49d0db1c4aefbfa1462decc0d1d3ffd5z/WmJd9ID9JfTHRIwWHDfRqoNk5kjEG2EMCpsMLw0jqOpYcYPISxG+Nx1pMOHOtsvZlNalhNn6Vj5vBhuYyh7CdHYkkhU6yce47JeJSqIiVnbvAf5vp5cEvhktV/T++M5f3KMmPY2rSB3X1xiTuvgbPztt2Zdj0zbLOPfBP4PYiddvKofI9Absh6/3dP3xKk0Igf4G97NaLlpWujnAeUGSe8Na88bwI2gRe08TySFCR64RJxlcwPiYs+T9GvWcPzXXGpbNvnOpBuyfyk/UE3NqR9WsPwg089837Qo68Wp3Rt1bh2dc4GA1CJdknbHIH2",
+        "name": "terra_demo",
+        "stakeAmount": 10.86,
+        "restakeAmount": 5.43,
+        "fundingAmount": 20,
+        "expectedDiff": 2
+    },
+    {
+        "address": "emoney1xddm692yl9d2cq5dgyjllhrc0ftv6nmcd45quu",
+        "network": "emoney-testnet",
+        "slug": "emoney-testnet",
+        "wallet": "46716086c542e14cc057beb43eff6145c69a949f8f9e5e796b248b2b9607f77fVReH5nPfC9SmkgWWsUmgwVkmfJItBfw8w5XLdnah/BoIQpkJrwyqIvxDK1HJDwLBq2d5XsJhlLBlJzsMEm74uaUzyepkJSlFRacAxQHRycmQCAkZTbyGNcnBboa0T1VKSwY9mf7YT+IYNIiwAz6zsgDhEdgL+5MRzErBXuMcgsXWqm4fksbhPTxl0XWl92m7ZB3rx08VKXRl8c2mjDH5yNOc70nSf76fgxQhOLwDeEuC65wSu3xhHGMi3+k0I24lS9/9SSaPwCTy4HfL6HhH25CHWorGsKpUbQ0mDuAMtYkxkQF/tb1eb8Xy5sTlvE58",
+        "name": "emoney_demo",
+        "stakeAmount": 10.86,
+        "restakeAmount": 5.43,
+        "fundingAmount": 20,
+        "expectedDiff": 2
+    }
+]

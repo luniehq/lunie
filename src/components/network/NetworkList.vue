@@ -4,20 +4,20 @@
       v-for="network in networks"
       :key="network.chain_id"
       class="select-network-item"
-      :class="{ selected: connection.network === network.id }"
-      @click="selectNetworkHandler(network)"
+      :class="{ selected: currentNetwork === network.id }"
+      @click="network.chain_id ? selectNetworkHandler(network) : false"
     >
-      <NetworkItem :network="network" />
+      <NetworkItem :networkitem="network" :disabled="disabled" />
     </li>
   </ul>
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import NetworkItem from "./NetworkItem"
 
 export default {
-  name: `page-network`,
+  name: `network-list`,
   components: {
     NetworkItem
   },
@@ -25,15 +25,21 @@ export default {
     networks: {
       type: Array,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: false
     }
   },
   computed: {
-    ...mapState([`session`]),
-    ...mapState([`connection`])
+    ...mapGetters([`network`]),
+    currentNetwork() {
+      return this.network
+    }
   },
   methods: {
     async selectNetworkHandler(network) {
-      if (this.connection.network !== network.id) {
+      if (this.network !== network.id) {
         this.$store.dispatch(`setNetwork`, network)
       }
     }

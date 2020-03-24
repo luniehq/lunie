@@ -11,16 +11,36 @@ jest.mock(`src/../config.js`, () => ({
 describe(`TmConnectedNetwork`, () => {
   let wrapper, $store, $apollo, dispatch
 
+  const networks = [
+    {
+      id: `awesomenet`,
+      testnet: true,
+      default: false,
+      powered: null
+    },
+    {
+      id: `keine-ahnungnet`,
+      testnet: true,
+      default: false,
+      powered: `cosmosvaloper1`
+    }
+  ]
+
   beforeEach(() => {
     dispatch = jest.fn()
     $store = {
       commit: jest.fn(),
       state: {
+        networks,
         connection: {
-          network: "networkId"
+          network: "keine-ahnungnet"
         }
       },
-      dispatch
+      dispatch,
+      getters: {
+        network: `awesomenet`,
+        networks
+      }
     }
 
     $apollo = {
@@ -52,21 +72,14 @@ describe(`TmConnectedNetwork`, () => {
   })
 
   it(`has a connecting state`, async () => {
-    $store = {
-      state: {
-        connection: {
-          connected: false
+    wrapper.setData({
+      $store: {
+        state: {
+          connection: {
+            connected: false
+          }
         }
       }
-    }
-
-    wrapper = shallowMount(TmConnectedNetwork, {
-      localVue,
-      mocks: {
-        $store,
-        $apollo
-      },
-      stubs: [`router-link`]
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -102,5 +115,14 @@ describe(`TmConnectedNetwork`, () => {
   it(`handleIntercom should dispatch displayMessenger action`, () => {
     wrapper.vm.handleIntercom()
     expect(dispatch).toHaveBeenCalledWith(`displayMessenger`)
+  })
+
+  it(`currentNetwork returns the current network`, () => {
+    const self = {
+      network: `keine-ahnungnet`,
+      networks
+    }
+    const currentNetwork = TmConnectedNetwork.computed.currentNetwork.call(self)
+    expect(currentNetwork.id).toEqual(`keine-ahnungnet`)
   })
 })

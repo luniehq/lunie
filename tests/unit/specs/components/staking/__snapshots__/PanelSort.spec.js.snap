@@ -18,7 +18,7 @@ exports[`PanelSort has the expected html structure 1`] = `
       ID
       
       <i
-        class="material-icons"
+        class="material-icons notranslate"
       >
         arrow_drop_up
       </i>
@@ -34,7 +34,7 @@ exports[`PanelSort has the expected html structure 1`] = `
       AMOUNT
       
       <i
-        class="material-icons"
+        class="material-icons notranslate"
       >
         arrow_drop_up
       </i>

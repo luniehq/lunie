@@ -7,6 +7,7 @@
     title="Send"
     submission-error-prefix="Sending tokens failed"
     :transaction-data="transactionData"
+    :selected-denom="selectedToken"
     :notify-message="notifyMessage"
     feature-flag="send"
     @close="clear"
@@ -20,7 +21,7 @@
     >
       <TmField
         id="send-address"
-        v-model.number="$v.address.$model"
+        v-model="address"
         v-focus
         type="text"
         placeholder="Address"
@@ -32,30 +33,10 @@
         type="required"
       />
       <TmFormMsg
-        v-else-if="$v.address.$error && !$v.address.bech32Validate"
+        v-else-if="$v.address.$error && !$v.address.validAddress"
         name="Address"
-        type="bech32"
-      />
-    </TmFormGroup>
-    <TmFormGroup
-      v-if="getDenoms.length > 1"
-      :error="$v.selectedToken.$error"
-      class="action-modal-form-group"
-      field-id="selected-token"
-      field-label="Token"
-    >
-      <TmField
-        id="token"
-        v-model="selectedToken"
-        :title="`Select the token you wish to operate with`"
-        :options="getDenoms"
-        placeholder="Select the token"
-        type="select"
-      />
-      <TmFormMsg
-        v-if="$v.selectedToken.$error && !$v.selectedToken.required"
-        name="Token"
-        type="required"
+        type="custom"
+        msg="doesn't have a format known by Lunie"
       />
     </TmFormGroup>
     <TmFormGroup
@@ -65,9 +46,6 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span v-if="selectedToken" class="input-suffix max-button">{{
-        selectedToken
-      }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -77,6 +55,15 @@
           placeholder="0"
           type="number"
           @keyup.enter.native="enterPressed"
+        />
+        <TmField
+          id="token"
+          v-model="selectedToken"
+          :title="`Select the token you wish to operate with`"
+          :options="getDenoms"
+          class="tm-field-token-selector"
+          placeholder="Select the token"
+          type="select"
         />
         <TmBtn
           type="button"
@@ -115,11 +102,7 @@
         class="tm-form-msg--desc max-message"
       />
     </TmFormGroup>
-    <a v-if="editMemo === false" id="edit-memo-btn" @click="showMemo()">
-      Need to edit the memo field?
-    </a>
     <TmFormGroup
-      v-else
       id="memo"
       :error="$v.memo.$error && $v.memo.$invalid"
       class="action-modal-group"
@@ -146,6 +129,7 @@
 <script>
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
+import BigNumber from "bignumber.js"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
 import { uatoms, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
@@ -161,6 +145,15 @@ import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
 
 const defaultMemo = "(Sent via Lunie)"
+
+const maxDecimals = (value, decimals) => {
+  return BigNumber(value).toFixed(decimals)
+}
+
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
+  return polkadotRegexp.test(address)
+}
 
 export default {
   name: `send-modal`,
@@ -183,24 +176,24 @@ export default {
     amount: config.development ? 0.000001 : null, // dev life, hard life > make simple
     memo: defaultMemo,
     max_memo_characters: 256,
-    editMemo: false,
     isFirstLoad: true,
-    selectedToken: ``,
+    selectedToken: undefined,
     balances: []
   }),
   computed: {
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `stakingDenom`]),
     ...mapGetters({ userAddress: `address` }),
     selectedBalance() {
-      const selectedBalance = this.balances.filter(
-        balance => balance.denom === this.selectedToken || this.denoms[0]
+      return (
+        this.balances.find(({ denom }) => denom === this.selectedToken) || {
+          amount: 0
+        }
       )
-      if (selectedBalance.length > 0) {
-        return selectedBalance[0]
-      }
-      return { amount: 0 }
     },
     transactionData() {
+      if (isNaN(this.amount) || !this.address || !this.selectedToken) {
+        return {}
+      }
       return {
         type: transaction.SEND,
         toAddress: this.address,
@@ -238,15 +231,23 @@ export default {
       }
     },
     balances: function(balances) {
-      if (balances.length === 0) return
-      this.selectedToken = balances[0].denom
+      // if there is already a token selected don't reset it
+      if (this.selectedToken) return
+
+      // in case the account has no balances we will display the staking denom received from the denom query
+      if (balances.length === 0) {
+        this.selectedToken = this.stakingDenom
+      } else {
+        this.selectedToken = balances[0].denom
+      }
     }
   },
   mounted() {
     this.$apollo.queries.balances.refetch()
   },
   methods: {
-    open() {
+    open(denom = undefined) {
+      this.selectedToken = denom || this.selectedToken
       this.$refs.actionModal.open()
     },
     onSuccess(event) {
@@ -262,12 +263,19 @@ export default {
 
       this.address = undefined
       this.amount = undefined
-      this.editMemo = false
       this.memo = defaultMemo
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.selectedBalance.amount
+      if (this.network.startsWith(`terra`)) {
+        const terraTax = 0.008
+        this.amount = maxDecimals(
+          this.selectedBalance.amount / (1 + terraTax),
+          6 // TODO get precision fro API
+        )
+      } else {
+        this.amount = this.selectedBalance.amount
+      }
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
@@ -296,17 +304,14 @@ export default {
     },
     refocusOnAmount() {
       this.$refs.amount.$el.focus()
-    },
-    showMemo() {
-      this.memo = ``
-      this.editMemo = true
     }
   },
   validations() {
     return {
       address: {
         required,
-        bech32Validate: this.bech32Validate
+        validAddress: address =>
+          this.bech32Validate(address) || isPolkadotAddress(address)
       },
       amount: {
         required: x => !!x && x !== `0`,
@@ -330,9 +335,11 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
         return !this.userAddress
       },
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
@@ -342,20 +349,20 @@ export default {
     },
     $subscribe: {
       userTransactionAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network,
             address: this.userAddress
           }
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.userAddress
         },
         query: UserTransactionAdded,
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           this.$apollo.queries.balances.refetch()
         }
       }
@@ -364,13 +371,26 @@ export default {
 }
 </script>
 <style scoped>
-#edit-memo-btn {
-  margin-top: 2.4rem;
-  font-size: 12px;
-  cursor: pointer;
+.tm-field-addon {
+  border-right: 0;
 }
-
+.tm-field-addon:focus {
+  border-color: var(--input-bc);
+}
 #form-group-amount {
   margin-bottom: 30px;
+}
+.tm-field-token-selector {
+  width: 80px;
+}
+.tm-field-token-selector >>> .tm-field-select {
+  border-left: 0;
+  border-radius: 0 !important;
+}
+.tm-field-token-selector >>> .tm-field-select:focus {
+  border-color: var(--input-bc);
+}
+.tm-field-token-selector >>> .tm-field-select-addon {
+  border: 0;
 }
 </style>

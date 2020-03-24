@@ -3,7 +3,7 @@
     id="delegation-modal"
     ref="actionModal"
     :validate="validateForm"
-    :amount="amount"
+    :amount="isRedelegation ? 0 : amount"
     :title="isRedelegation ? 'Restake' : 'Stake'"
     class="delegation-modal"
     submission-error-prefix="Staking failed"
@@ -71,7 +71,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix max-button">{{ denom }}</span>
+      <span class="input-suffix max-button">{{ stakingDenom }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -92,11 +92,11 @@
       <span class="form-message">
         Available to stake:
         {{ maxAmount }}
-        {{ denom }}s
+        {{ stakingDenom }}s
       </span>
       <TmFormMsg
         v-if="balance.amount === '0'"
-        :msg="`doesn't have any ${denom}s`"
+        :msg="`doesn't have any ${stakingDenom}s`"
         name="Wallet"
         type="custom"
       />
@@ -140,7 +140,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
-import { formatBech32, validatorEntry } from "src/filters"
+import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
 
 export default {
@@ -170,12 +170,11 @@ export default {
       denom: ``
     },
     validators: [],
-    delegations: [],
-    denom: ``
+    delegations: []
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`network`, `address`]),
+    ...mapGetters([`network`, `address`, `stakingDenom`]),
     toOptions() {
       return this.validators
         .filter(
@@ -185,9 +184,8 @@ export default {
         .map(validator => {
           return {
             address: validator.operatorAddress,
-            key: `${validator.name} - ${formatBech32(
+            key: `${validator.name} - ${formatAddress(
               validator.operatorAddress,
-              false,
               20
             )}`,
             value: 0
@@ -200,7 +198,7 @@ export default {
         {
           address: this.address,
           maximum: Number(this.balance.amount),
-          key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
+          key: `My Wallet - ${formatAddress(this.address, 20)}`,
           value: 0
         }
       ]
@@ -230,7 +228,7 @@ export default {
       return this.fromOptions[this.fromSelectedIndex].address
     },
     transactionData() {
-      if (!this.targetValidator.operatorAddress) return {}
+      if (!this.targetValidator.operatorAddress || isNaN(this.amount)) return {}
 
       if (this.isRedelegation) {
         return {
@@ -238,14 +236,14 @@ export default {
           validatorSourceAddress: this.from,
           validatorDestinationAddress: this.targetValidator.operatorAddress,
           amount: uatoms(this.amount),
-          denom: toMicroDenom(this.denom)
+          denom: toMicroDenom(this.stakingDenom)
         }
       } else {
         return {
           type: transaction.DELEGATE,
           validatorAddress: this.targetValidator.operatorAddress,
           amount: uatoms(this.amount),
-          denom: toMicroDenom(this.denom)
+          denom: toMicroDenom(this.stakingDenom)
         }
       }
     },
@@ -253,12 +251,12 @@ export default {
       if (this.isRedelegation) {
         return {
           title: `Successfully restaked!`,
-          body: `You have successfully restaked your ${this.denom}s`
+          body: `You have successfully restaked your ${this.stakingDenom}s`
         }
       } else {
         return {
           title: `Successfully staked!`,
-          body: `You have successfully staked your ${this.denom}s`
+          body: `You have successfully staked your ${this.stakingDenom}s`
         }
       }
     },
@@ -376,36 +374,18 @@ export default {
       `,
       skip() {
         /* istanbul ignore next */
-        return !this.address || !this.denom
+        return !this.address || !this.stakingDenom
       },
       variables() {
         /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address,
-          denom: this.denom
-        }
-      }
-    },
-    denom: {
-      query: gql`
-        query NetworksDelegationModal($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      fetchPolicy: "cache-first",
-      variables() {
-        /* istanbul ignore next */
-        return {
-          networkId: this.network
+          denom: this.stakingDenom
         }
       },
       update(data) {
-        /* istanbul ignore next */
-        return data.network.stakingDenom
+        return data.balance || { amount: 0 }
       }
     }
   },

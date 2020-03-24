@@ -21,6 +21,7 @@
           :delegation="getDelegation(validator)"
           :rewards="getRewards(validator)"
           :show-on-mobile="showOnMobile"
+          :staking-denom="stakingDenom"
         />
       </tbody>
     </table>
@@ -63,7 +64,7 @@ export default {
     showing: 15
   }),
   computed: {
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `network`, `stakingDenom`]),
     sortedEnrichedValidators() {
       return orderBy(
         this.validators.map(validator => ({
@@ -108,6 +109,13 @@ export default {
     },
     "sort.order": function() {
       this.showing = 15
+    },
+    address: {
+      handler() {
+        if (!this.address) {
+          this.rewards = []
+        }
+      }
     }
   },
   mounted() {
@@ -123,9 +131,15 @@ export default {
       )
     },
     getRewards({ operatorAddress }) {
-      return this.rewards.find(
-        ({ validator }) => validator.operatorAddress === operatorAddress
-      )
+      if (this.rewards) {
+        return (
+          this.rewards
+            /* istanbul ignore next */
+            .filter(
+              ({ validator }) => validator.operatorAddress === operatorAddress
+            )
+        )
+      }
     }
   },
   apollo: {
@@ -137,29 +151,35 @@ export default {
               operatorAddress
             }
             amount
+            denom
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
         return !this.address
       },
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
           delegatorAddress: this.address
         }
       },
+      /* istanbul ignore next */
       update: result => {
         return result.rewards || []
       }
     },
     $subscribe: {
       blockAdded: {
+        /* istanbul ignore next */
         variables() {
           return {
             networkId: this.network
           }
         },
+        /* istanbul ignore next */
         query() {
           return gql`
             subscription($networkId: String!) {
@@ -170,8 +190,8 @@ export default {
             }
           `
         },
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           this.$apollo.queries.rewards.refetch()
         }
       }

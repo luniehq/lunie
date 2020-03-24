@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
     <template v-for="group in groupedTransactions">
       <div :key="group[0].title">
         <h3>{{ group[0].title }}</h3>
         <TransactionItem
-          v-for="tx in group"
-          :key="tx.hash"
-          :transaction="tx.tx"
+          v-for="(item, index) in group"
+          :key="`${item.tx.hash}-${index}`"
+          :transaction="item.tx"
           :validators="validators"
           :address="address"
         />
@@ -91,6 +91,11 @@ export default {
           tx
         }
       })
+    }
+  },
+  methods: {
+    loadMore() {
+      this.$emit("loadMore")
     }
   }
 }

@@ -1,85 +1,23 @@
-export const getMessage = async (
-  messageType,
-  transactionProperties,
-  context
-) => {
-  const messageConstructor = await getMessageConstructor(context)
-  const message = messageConstructor(
-    messageType,
-    context.userAddress,
-    transactionProperties
-  )
-  return message
-}
-
-const getMessageConstructor = async context => {
-  switch (context.networkId) {
-    case `local-cosmos-hub-testnet`:
-    case `terra-mainnet`:
-    case `terra-testnet`:
-    case `emoney-mainnet`:
-    case `emoney-testnet`:
-    case `cosmos-hub-mainnet`:
-    case `cosmos-hub-testnet`: {
-      const { default: Cosmos } = await import("cosmos-apiV2")
-      const cosmos = new Cosmos(context.url || "", context.chainId || "")
-      return (messageType, userAddress, transactionProperties) =>
-        cosmos[messageType](userAddress, transactionProperties)
-    }
-    case "regen-mainnet":
-    case "regen-testnet": {
-      const { default: Cosmos } = await import("cosmos-apiV0")
-      const cosmos = new Cosmos(context.url || "", context.chainId || "")
-      return (messageType, userAddress, transactionProperties) =>
-        cosmos[messageType](userAddress, transactionProperties)
-    }
-  }
-  throw Error("Network is not supported for signing transactions.")
-}
-
-export const getTransactionSigner = async context => {
-  switch (context.networkId) {
-    case `local-cosmos-hub-testnet`:
-    case `terra-mainnet`:
-    case `terra-testnet`:
-    case `emoney-mainnet`:
-    case `emoney-testnet`:
-    case `cosmos-hub-mainnet`:
-    case `cosmos-hub-testnet`: {
+/* returns a function which receives a signer and a transaction plus some meta data and return an object (transaction) signed and ready to be broadcasted */
+export const getSignedTransactionCreator = async networkType => {
+  switch (networkType) {
+    case `cosmos`: {
       const { createSignedTransaction } = await import("cosmos-apiV2")
       return createSignedTransaction
     }
-    case "regen-mainnet":
-    case "regen-testnet": {
-      const { createSignedTransaction } = await import("cosmos-apiV0")
-      return createSignedTransaction
+    case `polkadot`: {
+      return async (messageMetadata, txMessages, signer) => {
+        const signedMessage = await signer(txMessages[0]) //just handle one for now
+        return signedMessage
+      }
     }
   }
   throw Error("Network is not supported for signing transactions.")
 }
 
-export const getMultiMessage = async (context, messages) => {
-  switch (context.networkId) {
-    case `local-cosmos-hub-testnet`:
-    case `terra-mainnet`:
-    case `terra-testnet`:
-    case `cosmos-hub-mainnet`:
-    case `cosmos-hub-testnet`: {
-      const { default: Cosmos } = await import("cosmos-apiV2")
-      const cosmos = new Cosmos(context.url || "", context.chainId || "")
-      return cosmos.MultiMessage(context.userAddress, messages)
-    }
-    case "regen-mainnet":
-    case "regen-testnet": {
-      const { default: Cosmos } = await import("cosmos-apiV0")
-      const cosmos = new Cosmos(context.url || "", context.chainId || "")
-      return cosmos.MultiMessage(context.userAddress, messages)
-    }
-  }
-}
-
 /* istanbul ignore next */
-async function getMessageFormatter(network, messageType) {
+/* returns the a message creator for a specific network and transaction type */
+async function getNetworkSpecificMessageCreator(network, messageType) {
   let networkMessages
   try {
     networkMessages = await import(`./networkMessages/${network}.js`)
@@ -97,12 +35,11 @@ async function getMessageFormatter(network, messageType) {
   return messageFormatter
 }
 
-export async function transformMessage(
-  network,
-  messageType,
-  senderAddress,
-  message
-) {
-  const messageFormatter = await getMessageFormatter(network, messageType)
-  return messageFormatter(senderAddress, message)
+/* returns a message object to be signed by a network specific signing algorithm */
+export async function getMessage(network, messageType, senderAddress, message) {
+  const messageFormatter = await getNetworkSpecificMessageCreator(
+    network,
+    messageType
+  )
+  return await messageFormatter(senderAddress, message)
 }

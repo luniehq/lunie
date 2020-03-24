@@ -4,7 +4,7 @@
       <h2 class="session-title">
         Sign in with account
       </h2>
-      <div class="session-main">
+      <div class="session-main bottom-indent">
         <TmFormGroup field-id="sign-in-name" field-label="Select Account">
           <TmField
             id="sign-in-name"
@@ -43,6 +43,18 @@
           />
           <TmFormMsg v-if="error" type="custom" :msg="error" />
         </TmFormGroup>
+        <TmFormGroup
+          class="field-checkbox"
+          field-id="sign-up-warning"
+          field-label
+        >
+          <div class="field-checkbox-testnet">
+            <label class="field-checkbox-label" for="select-testnet">
+              <input id="select-testnet" v-model="testnet" type="checkbox" />
+              This is a testnet address</label
+            >
+          </div>
+        </TmFormGroup>
       </div>
       <div class="session-footer">
         <TmBtn value="Sign In" />
@@ -52,7 +64,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -60,6 +72,10 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
+  return polkadotRegexp.test(address)
+}
 export default {
   name: `session-sign-in`,
   components: {
@@ -73,17 +89,38 @@ export default {
   data: () => ({
     signInAddress: ``,
     signInPassword: ``,
-    error: ``
+    error: ``,
+    testnet: false
   }),
   computed: {
-    ...mapState([`keystore`]),
+    ...mapState([`keystore`, `session`]),
+    ...mapGetters([`networks`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({
         value: address,
         key: name
       }))
+    },
+    networkOfAddress() {
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(this.signInAddress) && this.testnet) {
+        return this.networks.find(({ id }) => id === "polkadot-testnet")
+      }
+
+      const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
+        this.signInAddress.startsWith(address_prefix)
+      )
+
+      const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
+        this.testnet ? testnet === true : testnet === false
+      )
+
+      return selectedNetwork
     }
+  },
+  created() {
+    this.$store.dispatch("loadAccounts")
   },
   mounted() {
     this.setDefaultAccount(this.accounts)
@@ -92,18 +129,31 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
+
+      if (!this.networkOfAddress) {
+        this.error = `No ${
+          this.testnet ? "testnet" : "mainnet"
+        } for this address found`
+        return
+      }
       const sessionCorrect = await this.$store.dispatch(`testLogin`, {
         password: this.signInPassword,
         address: this.signInAddress
       })
       if (sessionCorrect) {
+        this.selectNetworkByAddress(this.signInAddress)
         this.$store.dispatch(`signIn`, {
           password: this.signInPassword,
           address: this.signInAddress,
           sessionType: "local"
         })
         localStorage.setItem(`prevAccountKey`, this.signInAddress)
-        this.$router.push(`/`)
+        this.$router.push({
+          name: "portfolio",
+          params: {
+            networkId: this.networkOfAddress.slug
+          }
+        })
       } else {
         this.error = `The provided username or password is wrong.`
       }
@@ -125,11 +175,37 @@ export default {
       } else {
         this.$el.querySelector(`#sign-in-name`).focus()
       }
+    },
+    async selectNetworkByAddress(address) {
+      let selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
+        address.startsWith(address_prefix)
+      )
+      let selectedNetwork = ``
+
+      // handling when there are both mainnet and testnet networks
+      if (selectedNetworksArray.length > 1) {
+        /* istanbul ignore next */
+        selectedNetwork = selectedNetworksArray.filter(({ testnet }) =>
+          this.testnet ? testnet === true : testnet === false
+        )[0]
+      } else {
+        selectedNetwork = selectedNetworksArray[0]
+      }
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(this.signInAddress) && this.testnet) {
+        selectedNetwork = this.networks.find(
+          ({ id }) => id === "polkadot-testnet"
+        )
+      }
+
+      this.$store.dispatch(`setNetwork`, selectedNetwork)
     }
   },
-  validations: () => ({
-    signInAddress: { required },
-    signInPassword: { required, minLength: minLength(10) }
-  })
+  validations() {
+    return {
+      signInAddress: { required },
+      signInPassword: { required, minLength: minLength(10) }
+    }
+  }
 }
 </script>

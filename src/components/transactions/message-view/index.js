@@ -1,21 +1,21 @@
-import SendMessageDetails from "./SendMessageDetails"
-import MultiSendMessageDetails from "./MultiSendMessageDetails"
-import DelegateMessageDetails from "./DelegateMessageDetails"
-import DepositMessageDetails from "./DepositMessageDetails"
-import SubmitProposalMessageDetails from "./SubmitProposalMessageDetails"
-import UndelegateMessageDetails from "./UndelegateMessageDetails"
-import VoteMessageDetails from "./VoteMessageDetails"
-import BeginRedelegateMessageDetails from "./BeginRedelegateMessageDetails"
-import WithdrawDelegationRewardMessageDetails from "./WithdrawDelegationRewardMessageDetails"
+import SendTxDetails from "./SendTxDetails"
+import StakeTxDetails from "./StakeTxDetails"
+import RestakeTxDetails from "./RestakeTxDetails"
+import UnstakeTxDetails from "./UnstakeTxDetails"
+import ClaimRewardsTxDetails from "./ClaimRewardsTxDetails"
+import SubmitProposalTxDetails from "./SubmitProposalTxDetails"
+import DepositTxDetails from "./DepositTxDetails"
+import VoteTxDetails from "./VoteTxDetails"
+import UnknownTxDetails from "./UnknownTxDetails"
 
 export {
-  SendMessageDetails,
-  MultiSendMessageDetails,
-  DelegateMessageDetails,
-  DepositMessageDetails,
-  SubmitProposalMessageDetails,
-  UndelegateMessageDetails,
-  VoteMessageDetails,
-  BeginRedelegateMessageDetails,
-  WithdrawDelegationRewardMessageDetails
+  SendTxDetails,
+  StakeTxDetails,
+  RestakeTxDetails,
+  UnstakeTxDetails,
+  ClaimRewardsTxDetails,
+  SubmitProposalTxDetails,
+  DepositTxDetails,
+  VoteTxDetails,
+  UnknownTxDetails
 }

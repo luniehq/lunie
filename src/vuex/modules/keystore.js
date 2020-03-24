@@ -1,7 +1,6 @@
 import { track } from "scripts/google-analytics"
-import gql from "graphql-tag"
 
-export default ({ apollo }) => {
+export default () => {
   const state = {
     accounts: [],
     // import into state to be able to test easier
@@ -36,18 +35,20 @@ export default ({ apollo }) => {
       return getSeed()
     },
     async getAddressFromSeed(store, { seedPhrase, network }) {
-      const wallet = await getWallet(seedPhrase, network, apollo)
+      const wallet = await getWallet(seedPhrase, network, store)
       return wallet.cosmosAddress
     },
     async createKey(
-      { dispatch, state },
+      { dispatch, state, getters },
       { seedPhrase, password, name, network }
     ) {
       // TODO extract the key storage from the key creation
       const { storeWallet } = await import("@lunie/cosmos-keys")
-      const wallet = await getWallet(seedPhrase, network, apollo)
 
-      storeWallet(wallet, name, password)
+      // create a new key pair
+      const wallet = await getWallet(seedPhrase, network, { getters })
+
+      storeWallet(wallet, name, password, network)
 
       state.externals.track(`event`, `session`, `create-keypair`)
 
@@ -78,37 +79,51 @@ function getCosmosAddressCreator(bech32Prefix) {
   }
 }
 
-async function getWallet(seedPhrase, networkId, apollo) {
-  const {
-    data: { network }
-  } = await apollo.query({
-    query: gql`
-      query Network {
-        network(id: "${networkId}") {
-          id
-          address_creator,
-          address_prefix
-        }
-      }
-    `,
-    fetchPolicy: "cache-first"
+// creates a polkadot address
+async function createPolkadotAddress(seedPhrase, addressPrefix) {
+  const [{ Keyring }] = await Promise.all([
+    import("@polkadot/api"),
+    import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
+      // Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
+      await cryptoWaitReady()
+    })
+  ])
+
+  const keyring = new Keyring({
+    ss58Format: Number(addressPrefix),
+    type: "ed25519"
   })
+  const newPair = keyring.addFromUri(seedPhrase)
 
+  return {
+    cosmosAddress: newPair.address,
+    publicKey: newPair.publicKey,
+    seedPhrase
+  }
+}
+
+async function getWallet(seedPhrase, networkId, store) {
+  const network = await getNetworkInfo(networkId, store)
   if (!network)
-    throw new Error(
-      "Couldn't get network information. Please try again later or contact the Lunie team."
-    )
+    throw new Error("Lunie doesn't support address creation for this network.")
 
-  switch (network.address_creator) {
+  switch (network.network_type) {
     case "cosmos": {
       const addressCreator = await getCosmosAddressCreator(
         network.address_prefix
       )
-      return addressCreator(seedPhrase)
+      return await addressCreator(seedPhrase)
+    }
+    case "polkadot": {
+      return await createPolkadotAddress(seedPhrase, network.address_prefix)
     }
     default:
       throw new Error(
         "Lunie doesn't support address creation for this network."
       )
   }
+}
+
+async function getNetworkInfo(networkId, store) {
+  return store.getters.networks.find(({ id }) => id === networkId)
 }

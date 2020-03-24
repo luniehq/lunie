@@ -5,6 +5,7 @@ describe(`Module: Intercom`, () => {
   let module, state, actions, node
 
   const intercom = {
+    registerUnidentifiedUser: jest.fn(),
     displayMessenger: jest.fn()
   }
 
@@ -14,7 +15,7 @@ describe(`Module: Intercom`, () => {
     node = {}
     module = recoverModule({ node })
     actions = module.actions
-    state = { intercom }
+    state = { intercom, mobileApp: true }
   })
 
   describe(`actions`, () => {

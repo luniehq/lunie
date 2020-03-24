@@ -6,56 +6,31 @@ describe(`TransactionIcon`, () => {
 
   const transactions = [
     {
-      type: `Sent`,
-      group: `banking`
+      type: `Sent`
     },
     {
-      type: `Received`,
-      group: `banking`
+      type: `Received`
     },
     {
-      type: `Staked`,
-      group: `staking`
+      type: `Staked`
     },
     {
-      type: `Restaked`,
-      group: `staking`
+      type: `Restaked`
     },
     {
-      type: `Unstaked`,
-      group: `staking`
+      type: `Unstaked`
     },
     {
-      type: `Claimed`,
-      group: `distribution`
+      type: `Claimed`
     },
     {
-      type: `Update`,
-      group: `distribution`
+      type: `Voted`
     },
     {
-      type: `Voted`,
-      group: `governance`
+      type: `Deposit`
     },
     {
-      type: `Deposit`,
-      group: `governance`
-    },
-    {
-      type: `Submitted`,
-      group: `governance`
-    },
-    {
-      type: `Create`,
-      group: `staking`
-    },
-    {
-      type: `Edit`,
-      group: `staking`
-    },
-    {
-      type: `Unjail`,
-      group: `staking`
+      type: `Submitted`
     }
   ]
 
@@ -63,14 +38,10 @@ describe(`TransactionIcon`, () => {
     it(`renders a ${transactions[i].type} transaction icon`, () => {
       wrapper = shallowMount(TransactionIcon, {
         propsData: {
-          transactionGroup: transactions[i].group,
           transactionType: transactions[i].type
         }
       })
       expect(wrapper.element).toMatchSnapshot()
-      expect(wrapper.find(".tx__icon img").classes()).toContain(
-        transactions[i].group
-      )
       expect(wrapper.find(".tx__icon img").attributes("src")).toEqual(
         `/img/icons/activity/${transactions[i].type}.svg`
       )

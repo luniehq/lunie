@@ -10,161 +10,299 @@
       />
     </div>
     <div v-else>
-      <div class="values-container">
-        <div class="upper-header">
-          <div class="total-atoms">
-            <h3>Total {{ stakingDenom }}</h3>
-            <h2 class="total-atoms__value">
-              {{ overview.totalStake | shortDecimals | noBlanks }}
-            </h2>
-          </div>
-          <TmFormGroup
-            v-if="balances && balances.length > 1"
-            style="display: none;"
-            class="currency-selector"
-            field-id="currency"
-            field-label="Currency"
+      <div class="header-container">
+        <h1>Your Portfolio</h1>
+        <div class="buttons">
+          <TmBtn
+            class="send-button"
+            value="Send"
+            type="secondary"
+            @click.native="onSend()"
+          />
+          <TmBtn
+            id="withdraw-btn"
+            :disabled="!readyToWithdraw"
+            class="withdraw-rewards"
+            value="Claim Rewards"
+            @click.native="readyToWithdraw && onWithdrawal()"
+          />
+          <button
+            v-if="
+              connection.network === 'cosmos-hub-mainnet' ||
+                connection.network === 'cosmos-hub-testnet'
+            "
+            class="tutorial-button"
+            @click="openTutorial()"
           >
-            <TmField
-              v-model="selectedFiatCurrency"
-              :title="`Select your fiat currency`"
-              :options="fiatCurrencies"
-              :placeholder="selectedFiatCurrency"
-              type="select"
+            <i v-if="false" class="material-icons notranslate">
+              help_outline
+            </i>
+            <span v-else>Need some tokens?</span>
+          </button>
+          <div v-if="currencySupport" class="currency-selector">
+            <img
+              v-if="preferredCurrency"
+              class="currency-flag"
+              :src="
+                '/img/icons/currencies/' +
+                  preferredCurrency.toLowerCase() +
+                  '.png'
+              "
+              :alt="`${preferredCurrency}` + ' currency'"
             />
-          </TmFormGroup>
-        </div>
-        <div class="scroll">
-          <div class="row small-container scroll-item">
-            <div v-if="overview.totalStake > 0" class="available-atoms">
-              <h3>Available {{ stakingDenom }}</h3>
-              <h2>{{ overview.liquidStake | shortDecimals | noBlanks }}</h2>
-            </div>
-
-            <div v-if="overview.totalRewards" class="rewards">
-              <h3>Total Rewards</h3>
-              <h2>+{{ overview.totalRewards | shortDecimals | noBlanks }}</h2>
-            </div>
-          </div>
-          <div
-            v-if="formattedBalances.length > 0"
-            id="scroll-item"
-            class="row small-container tokens-div scroll-item"
-          >
-            <div
-              v-for="balance in formattedBalances"
-              :key="balance.denom"
-              class="col"
+            <select
+              v-model="selectedFiatCurrency"
+              @change="setPreferredCurrency()"
             >
-              <p class="token-denom">{{ balance.denom }}</p>
-              <p class="token-balance">{{ balance.amount }}</p>
-            </div>
+              <option
+                v-if="preferredCurrency"
+                value=""
+                :selected="preferredCurrency"
+                hidden
+                >{{ preferredCurrency }}</option
+              >
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+              <option value="JPY">JPY</option>
+              <option value="CHF">CHF</option>
+            </select>
           </div>
         </div>
       </div>
-      <div class="button-container">
-        <TmBtn
-          class="send-button"
-          value="Send"
-          type="secondary"
-          @click.native="onSend()"
-        />
-        <TmBtn
-          id="withdraw-btn"
-          :disabled="!readyToWithdraw"
-          class="withdraw-rewards"
-          value="Claim Rewards"
-          @click.native="readyToWithdraw && onWithdrawal()"
-        />
+
+      <div class="table four-columns">
+        <div class="table-cell big title">Token</div>
+        <div class="table-cell title">Rewards</div>
+        <div class="table-cell title available">Available</div>
+        <div class="table-cell title actions"></div>
+
+        <div class="table-cell big">
+          <img
+            v-if="stakingDenom.length > 3"
+            class="currency-flag"
+            :src="
+              '/img/icons/currencies/' +
+                stakingDenom.substring(1).toLowerCase() +
+                '.png'
+            "
+            :alt="`${stakingDenom}` + ' currency'"
+          />
+          <img
+            v-else
+            class="currency-flag"
+            :src="
+              '/img/icons/currencies/' + stakingDenom.toLowerCase() + '.png'
+            "
+            :alt="`${stakingDenom}` + ' currency'"
+          />
+          <div class="total-and-fiat">
+            <span class="total">
+              {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
+              {{ stakingDenom }}
+            </span>
+            <template
+              v-if="
+                overview.totalStakeFiatValue &&
+                  overview.totalStakeFiatValue.amount > 0
+              "
+            >
+              <span class="fiat">
+                {{ overview.totalStakeFiatValue.symbol
+                }}{{
+                  bigFigureOrShortDecimals(overview.totalStakeFiatValue.amount)
+                }}
+                {{ preferredCurrency }}
+              </span>
+            </template>
+          </div>
+        </div>
+
+        <div class="table-cell rewards">
+          <h2>
+            +{{ overview.totalRewards | bigFigureOrShortDecimals }}
+            {{ stakingDenom }}
+          </h2>
+        </div>
+
+        <div class="table-cell available">
+          <span class="available-amount">
+            {{ overview.liquidStake | bigFigureOrShortDecimals }}
+            {{ stakingDenom }}
+          </span>
+        </div>
+
+        <div class="table-cell actions">
+          <div class="icon-button-container">
+            <button
+              class="icon-button circle-send-button"
+              @click="onSend(stakingDenom)"
+            >
+              <i class="material-icons">send</i></button
+            ><span>Send</span>
+          </div>
+        </div>
+
+        <template v-for="balance in filteredMultiDenomBalances">
+          <div :key="balance.denom" class="table-cell big">
+            <img
+              v-if="balance.denom.length > 3"
+              class="currency-flag"
+              :src="
+                '/img/icons/currencies/' +
+                  balance.denom.substring(1).toLowerCase() +
+                  '.png'
+              "
+              :alt="`${balance.denom}` + ' currency'"
+            />
+            <img
+              v-else
+              class="currency-flag"
+              :src="
+                '/img/icons/currencies/' + balance.denom.toLowerCase() + '.png'
+              "
+              :alt="`${balance.denom}` + ' currency'"
+            />
+            <div class="total-and-fiat">
+              <span class="total">
+                {{ balance.amount | bigFigureOrShortDecimals }}
+                {{ balance.denom }}
+              </span>
+              <span v-if="balance.fiatValue" class="fiat">
+                {{ balance.fiatValue.symbol
+                }}{{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
+                {{ balance.fiatValue.denom }}</span
+              >
+            </div>
+          </div>
+
+          <div :key="balance.denom + 1" class="table-cell rewards">
+            <h2 v-if="totalRewardsPerDenom[balance.denom] > 0.001">
+              +{{
+                totalRewardsPerDenom[balance.denom] | bigFigureOrShortDecimals
+              }}
+              {{ balance.denom }}
+            </h2>
+          </div>
+
+          <div :key="balance.denom + 2" class="table-cell available"></div>
+
+          <div :key="balance.denom + 3" class="table-cell actions">
+            <div class="icon-button-container">
+              <button class="icon-button" @click="onSend(balance.denom)">
+                <i class="material-icons">send</i></button
+              ><span>Send</span>
+            </div>
+          </div>
+        </template>
       </div>
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
+      <ModalTutorial
+        v-if="
+          showTutorial &&
+            (connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet')
+        "
+        :steps="cosmosTokensTutorial.steps"
+        :fullguide="cosmosTokensTutorial.fullguide"
+        :background="cosmosTokensTutorial.background"
+        :close="hideTutorial"
+      />
     </div>
   </div>
 </template>
 <script>
-import { shortDecimals } from "scripts/num"
+import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
-import TmFormGroup from "common/TmFormGroup"
-import TmField from "src/components/common/TmField"
-import { mapGetters } from "vuex"
+import ModalTutorial from "common/ModalTutorial"
+import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
+import { sendEvent } from "scripts/google-analytics"
 
 export default {
   name: `tm-balance`,
   components: {
-    TmFormGroup,
-    TmField,
     TmBtn,
     SendModal,
-    ModalWithdrawRewards
+    ModalWithdrawRewards,
+    ModalTutorial
   },
   filters: {
-    shortDecimals,
+    bigFigureOrShortDecimals,
     noBlanks
   },
   data() {
     return {
-      overview: {},
-      stakingDenom: "",
+      overview: {
+        rewards: []
+      },
+      sentToGA: false,
       balances: [],
-      selectedTokenFiatValue: `Tokens Total Fiat Value`,
-      selectedFiatCurrency: `EUR` // EUR is our default fiat currency
+      showTutorial: false,
+      rewards: [],
+      selectedFiatCurrency: "USD",
+      preferredCurrency: "",
+      cosmosTokensTutorial: {
+        fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
+        background: `red`,
+        steps: [
+          {
+            title: "How to get tokens",
+            // Each content array item will be enclosed in a span (newline)
+            content: [
+              "The easiest way to get tokens is to find a reputable exchange, like Coinbase or Binance, to purchase your tokens from."
+            ]
+          },
+          {
+            title: "Create your address",
+            content: [
+              "You can create an address with Lunie using our browser extension, our mobile wallets or a Ledger Nano hardware wallet."
+            ]
+          },
+          {
+            title: "Back it up!",
+            content: [
+              "When you create an address, ensure your backup code is correct and in a secure place. We don't recommend using an address if you haven't backed it up appropriately."
+            ]
+          },
+          {
+            title: "Send to your address",
+            content: [
+              "The short version of your address will look something like this: cosmos...7yqp. Make sure to use the full version of your address to successfully receive tokens."
+            ]
+          },
+          {
+            title: "Have more questions?",
+            content: [
+              "Check out our full guide to getting tokens so you can start staking!"
+            ]
+          }
+        ]
+      }
     }
   },
   computed: {
-    ...mapGetters([`address`, `network`]),
+    ...mapState([`connection`]),
+    ...mapGetters([`address`, `network`, `stakingDenom`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
-      return this.overview.totalRewards > 0
+      return Object.values(this.totalRewardsPerDenom).find(
+        value => value > 0.001
+      )
     },
-    formattedBalances() {
-      return this.balances
-        .filter(balance => !balance.denom.includes(this.stakingDenom))
-        .map(
-          balance =>
-            (balance = {
-              denom: balance.denom
-                .charAt(0)
-                .toLowerCase()
-                .concat(balance.denom.slice(-3)),
-              amount: parseFloat(balance.amount).toFixed(2)
-            })
-        )
+    stakingBalance() {
+      return this.balances.find(({ denom }) => denom === this.stakingDenom)
     },
-    concatBalances() {
-      let balancesArray = []
-      if (this.balances.length > 1) {
-        balancesArray = this.balances
-          .filter(balance => !balance.denom.includes(this.stakingDenom))
-          .map(({ denom, amount }) => ({
-            value: ``,
-            key: denom.concat(` ` + amount)
-          }))
-      }
-      return balancesArray
-    },
-    convertedBalances() {
-      return this.balances
-        .filter(balance => !balance.denom.includes(this.stakingDenom))
-        .map(({ denom, fiatValue }) => ({
-          value: ``,
-          key: denom.concat(` ` + fiatValue)
-        }))
-    },
-    fiatCurrencies() {
-      return [
-        { key: `EUR`, value: `EUR` },
-        { key: `USD`, value: `USD` },
-        { key: `GBP`, value: `GBP` },
-        { key: `CHF`, value: `CHF` },
-        { key: `JPY`, value: `JPY` }
-      ]
+    filteredMultiDenomBalances() {
+      return this.balances.filter(
+        balance => !balance.denom.includes(this.stakingDenom)
+      )
     },
     getAllDenoms() {
       if (this.balances.length > 0) {
@@ -173,24 +311,96 @@ export default {
       } else {
         return [this.stakingDenom]
       }
+    },
+    isMultiDenomNetwork() {
+      if (this.balances && this.balances.length > 0) {
+        return this.balances.find(
+          balance => balance.denom !== this.stakingDenom
+        )
+          ? true
+          : false
+      } else {
+        return false
+      }
+    },
+    currencySupport() {
+      return (
+        this.isMultiDenomNetwork &&
+        this.stakingBalance &&
+        this.stakingBalance.fiatValue
+      )
+    },
+    totalRewardsPerDenom() {
+      if (this.overview.rewards && this.overview.rewards.length > 0) {
+        return this.overview.rewards.reduce((all, reward) => {
+          return {
+            ...all,
+            [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0)
+          }
+        }, {})
+      } else return {}
     }
   },
+  mounted() {
+    this.setPreferredCurrency()
+  },
   methods: {
+    bigFigureOrShortDecimals,
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
-    onSend() {
-      this.$refs.SendModal.open()
+    onSend(denom = undefined) {
+      this.$refs.SendModal.open(denom)
+    },
+    openTutorial() {
+      this.showTutorial = true
+    },
+    hideTutorial() {
+      this.showTutorial = false
+    },
+    calculateTotalRewardsDenom(denom) {
+      if (this.overview.rewards && this.overview.rewards.length > 0) {
+        const rewardsAccumulator = this.overview.rewards.reduce(
+          (sum, reward) => {
+            return reward.denom === denom
+              ? (sum += parseFloat(reward.amount))
+              : sum
+          },
+          0
+        )
+        return rewardsAccumulator
+      }
+    },
+    setPreferredCurrency() {
+      localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
+      this.preferredCurrency = this.selectedFiatCurrency
     }
   },
   apollo: {
     overview: {
       query: gql`
-        query overview($networkId: String!, $address: String!) {
-          overview(networkId: $networkId, address: $address) {
+        query overview(
+          $networkId: String!
+          $address: String!
+          $fiatCurrency: String!
+        ) {
+          overview(
+            networkId: $networkId
+            address: $address
+            fiatCurrency: $fiatCurrency
+          ) {
             totalRewards
             liquidStake
             totalStake
+            totalStakeFiatValue {
+              amount
+              denom
+              symbol
+            }
+            rewards {
+              amount
+              denom
+            }
           }
         }
       `,
@@ -198,14 +408,55 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.address
+          address: this.address,
+          fiatCurrency: this.preferredCurrency
         }
       },
       /* istanbul ignore next */
       update(data) {
+        if (!this.sentToGA) {
+          // sending to ga only once
+          sendEvent(
+            {
+              network: this.network,
+              address: this.address
+            },
+            "Portfolio",
+            "Balance",
+            "liquidStake",
+            data.overview.liquidStake
+          )
+          sendEvent(
+            {
+              network: this.network,
+              address: this.address
+            },
+            "Portfolio",
+            "Balance",
+            "totalStake",
+            data.overview.totalStake
+          )
+          sendEvent(
+            {
+              network: this.network,
+              address: this.address
+            },
+            "Portfolio",
+            "Balance",
+            "totalRewards",
+            data.overview.totalRewards
+          )
+          this.sentToGA = true
+        }
+        if (!data.overview) {
+          return {
+            totalRewards: 0
+          }
+        }
         return {
           ...data.overview,
-          totalRewards: Number(data.overview.totalRewards)
+          totalRewards: Number(data.overview.totalRewards),
+          rewards: data.overview.rewards
         }
       },
       /* istanbul ignore next */
@@ -227,7 +478,11 @@ export default {
           ) {
             denom
             amount
-            fiatValue
+            fiatValue {
+              amount
+              symbol
+              denom
+            }
           }
         }
       `,
@@ -236,36 +491,12 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          fiatCurrency: this.selectedFiatCurrency
+          fiatCurrency: this.selectedFiatCurrency || "EUR"
         }
       },
       /* istanbul ignore next */
       skip() {
         return !this.address
-      },
-      /* istanbul ignore next */
-      update(data) {
-        return data.balances || []
-      }
-    },
-    stakingDenom: {
-      query: gql`
-        query Network($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        return data.network.stakingDenom
       }
     },
     $subscribe: {
@@ -291,6 +522,7 @@ export default {
         result() {
           /* istanbul ignore next */
           this.$apollo.queries.overview.refetch()
+          this.$apollo.queries.balances.refetch()
         }
       }
     }
@@ -299,170 +531,271 @@ export default {
 </script>
 <style scoped>
 .balance-header {
-  display: flex;
-  flex-direction: column;
+  max-width: 1100px;
+  margin: 0 auto;
   width: 100%;
 }
 
-.values-container {
-  display: flex;
-  position: relative;
-  width: 100%;
-  padding: 1rem 2rem;
-  flex-direction: column;
+.loading-image-container {
+  padding: 0 2rem 2rem;
 }
 
-.values-container h2 {
+h1 {
   font-size: 24px;
-  font-weight: 500;
-  line-height: 24px;
+  color: white;
+  font-weight: 300;
+}
+
+select {
+  background: var(--input-bg);
+  color: var(--txt, #333);
+  border: none;
+}
+
+select option {
+  background: var(--app-bg);
+  color: var(--txt);
+  font-family: var(--sans);
+}
+
+.currency-selector {
+  float: right;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--primary);
+  border-radius: 0.5rem;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
   color: var(--bright);
 }
 
-.values-container h3 {
-  font-size: var(--sm);
-  font-weight: 400;
-  white-space: nowrap;
-}
-
-.total-atoms,
-.available-atoms,
-.rewards {
-  padding-right: 2.5rem;
-}
-
-.tokens-div {
-  position: absolute;
-  right: 1.25rem;
-  top: 3.5rem;
-}
-
-.tokens-div > .col {
-  margin-right: 1rem;
-}
-
-.token-denom {
-  font-size: 12px;
-  float: left;
-}
-
-.token-balance {
-  font-weight: bold;
-}
-
-.currency-selector.tm-form-group {
-  position: absolute;
-  right: 1.25rem;
-  top: -0.7rem;
-}
-
-.rewards h2 {
-  color: var(--success);
-  font-size: var(--m);
-}
-
-.available-atoms h2 {
-  font-size: var(--m);
-  line-height: 20px;
-}
-
-.button-container {
-  display: flex;
-  align-items: center;
-  padding: 0.5rem 2rem;
-  width: 100%;
-  border-bottom: 1px solid var(--bc-dim);
-  border-top: 1px solid var(--bc-dim);
-  margin-bottom: 2rem;
-}
-
-.button-container button:first-child {
+.currency-selector img {
+  width: 1rem;
+  height: 1rem;
   margin-right: 0.5rem;
 }
 
-.row {
+.currency-flag {
+  width: 2.5rem;
+  height: 2.5rem;
+  max-width: 100%;
+  object-fit: cover;
+  margin-right: 1rem;
+  border-radius: 50%;
+}
+
+.currency-div {
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid var(--bc-dim);
+}
+
+.currency-div:last-child {
+  border-bottom: none;
+}
+
+.currency-div:hover {
+  background: var(--hover-bg);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 2rem 1rem;
+  width: 100%;
+}
+
+.header-container button:first-child {
+  margin-right: 0.5rem;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+}
+
+.open-tutorial {
+  justify-self: end;
+}
+
+.tutorial-button {
+  padding: 0.5rem 1rem;
+  margin-left: 0.5rem;
+  width: auto;
+  font-size: 14px;
+  background: transparent;
+  color: #7a88b8;
+  border: 2px solid rgb(122, 136, 184, 0.1);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: var(--sans);
+}
+
+.tutorial-button i {
+  font-size: 1rem;
+}
+
+.tutorial-button span {
+  font-size: 14px;
+}
+
+.tutorial-button:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.table {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem 2rem 3rem;
+  margin: 0 auto;
+}
+
+.table-cell {
+  flex-grow: 1;
+  width: 100%;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  width: 20%;
+  border-bottom: 1px solid var(--bc-dim);
+  font-family: "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  position: relative;
+  white-space: nowrap;
+}
+
+.table-cell.big {
+  width: 40%;
+  padding-left: 1rem;
+}
+
+.table-cell.big.title {
+  padding-left: 0;
+}
+
+.title {
+  color: var(--dim);
+  font-size: var(--sm);
+  padding-bottom: 1rem;
+  padding-left: 0;
+}
+
+.total {
+  color: var(--bright);
+}
+
+.available-amount {
+  color: #ffdc82;
+}
+
+.rewards {
+  color: var(--success);
+}
+
+.fiat {
+  color: #b0bade;
+  padding-left: 1rem;
+}
+
+.icon-button-container span {
+  display: block;
+  font-size: 12px;
+  text-align: center;
+  color: var(--dim);
+  padding-top: 2px;
+}
+
+.icon-button {
+  border-radius: 50%;
+  background: #7a88b8;
+  border: none;
+  outline: none;
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.25s ease;
+}
+
+.icon-button:hover {
+  background: #354682;
+  cursor: pointer;
+}
+
+.icon-button i {
+  font-size: 14px;
+  color: var(--bright);
+}
+
+.total-and-fiat {
   display: flex;
   flex-direction: row;
 }
 
-.small-container {
-  padding-top: 1rem;
+@media screen and (max-width: 667px) {
+  h1 {
+    padding-bottom: 2rem;
+  }
+
+  .tutorial-button {
+    display: none;
+  }
+
+  .header-container {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+
+  .available {
+    display: none;
+  }
+
+  .table {
+    padding: 1rem;
+  }
+
+  .table-cell.big {
+    width: 60%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .table-cell {
+    width: 40%;
+  }
+
+  .rewards {
+    font-size: 12px;
+  }
 }
 
-@media screen and (max-width: 667px) {
-  .balance-header {
+@media screen and (min-width: 1254px) {
+  .send-button {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1254px) {
+  .actions {
+    display: none;
+  }
+
+  .total-and-fiat {
     display: flex;
     flex-direction: column;
   }
 
-  .values-container {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .values-container .total-atoms__value {
-    font-size: 28px;
-    font-weight: 500;
-    line-height: 32px;
-  }
-
-  .available-atoms,
-  .rewards {
+  .fiat {
     padding: 0;
-  }
-
-  .total-atoms {
-    padding: 1rem 0;
-    text-align: center;
-  }
-
-  .scroll {
-    display: flex;
-    width: 90vw;
-    overflow-x: auto;
-    /* Make it smooth scrolling on iOS devices */
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* This doesn't work */
-  /* .scroll > .scroll-item {
-    flex: 0 0 auto;
-  } */
-
-  .scroll > .row > div {
-    margin-right: 3rem;
-  }
-
-  .tokens-div {
-    position: inherit;
-    margin: 0;
-    top: 0;
-  }
-
-  .token-denom {
-    float: none;
-  }
-
-  .currency-selector.tm-form-group {
-    width: 40px;
-    right: 2.5rem;
-  }
-
-  .button-container {
-    width: 100%;
-    padding: 1rem;
-    border-top: 1px solid var(--bc);
-  }
-
-  .button-container button {
-    width: 50%;
-  }
-
-  .small-container {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 1rem 0;
-    text-align: center;
+    font-size: 12px;
   }
 }
 </style>

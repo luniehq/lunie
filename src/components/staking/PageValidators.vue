@@ -1,6 +1,16 @@
 <template>
   <TmPage :managed="true" hide-header>
-    <template slot="managed-body">
+    <div
+      v-if="$apollo.queries.validators.loading && !validators.length && !loaded"
+      class="loading-image-container"
+    >
+      <img
+        class="loading-image"
+        src="/img/validator-list-loading.svg"
+        alt="geometric placeholder shapes"
+      />
+    </div>
+    <template v-else slot="managed-body">
       <div class="filterOptions">
         <TmField
           v-model="searchTerm"
@@ -33,14 +43,12 @@
       >
         No results for these search terms
       </div>
-      <TmDataLoading v-if="$apollo.loading && !searchTerm" />
     </template>
   </TmPage>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import TmDataLoading from "common/TmDataLoading"
 import TableValidators from "staking/TableValidators"
 import TmPage from "common/TmPage"
 import TmField from "common/TmField"
@@ -51,7 +59,6 @@ export default {
   name: `tab-validators`,
   components: {
     TableValidators,
-    TmDataLoading,
     TmPage,
     TmField,
     TmBtn
@@ -59,7 +66,8 @@ export default {
   data: () => ({
     searchTerm: "",
     activeOnly: true,
-    validators: []
+    validators: [],
+    loaded: false
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -102,6 +110,7 @@ export default {
         }
       },
       update: function(result) {
+        this.loaded = true
         return Array.isArray(result.validators) ? result.validators : []
       }
     },
@@ -137,7 +146,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.loading-image-container {
+  padding: 2rem;
+}
+
 .filterOptions {
   display: flex;
   flex-flow: row wrap;

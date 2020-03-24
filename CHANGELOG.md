@@ -7,6 +7,480 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.179] - 2020-03-23
+
+### Fixed
+
+- subscribeToMore should contain document instead of query @iambeone
+- [#3747](https://github.com/cosmos/lunie/issues/3747) added loaded property to search bar on validator page to stop reloading and unfocussed input @jbibla
+
+### Repository
+
+- removed the docker section and changed some grammar of readme for readability  @jrmoreau
+
+## [1.0.178] - 2020-03-20
+
+### Added
+
+- Added apollo cache persistence to improve initial load times @faboweb
+
+### Changed
+
+- change action denom depending on selected send button @iambeone
+- [#3736](https://github.com/cosmos/lunie/pull/3736) Now ModalWithdrawRewards returns the claimed rewards amount in transactionData and sends it to the extension @Bitcoinera
+- [#3728](https://github.com/cosmos/lunie/pull/3728) Updates the polkadot/api package to latest @Bitcoinera
+- Use TransactionsV2 in subscriptions @faboweb
+- modified loading graphics and improved loading styles @jbibla
+- updated Luna icon for Terra @jbibla
+
+### Fixed
+
+- page height for big screens fixed @iambeone
+- [#3737](https://github.com/cosmos/lunie/issues/3737) sign-in with extension fixed @iambeone
+- [#3700](https://github.com/cosmos/lunie/issues/3700) fixing subscribeToMore usage @iambeone
+- Show correct addresses for Polkadot @faboweb
+- Remove service worker completely @faboweb
+- [#3654](https://github.com/cosmos/lunie/issues/3654) scrollbar height needs to be adjusted to avoid cutting off network link @jbibla
+
+### Code Improvements
+
+- Select signing methods per network type @faboweb
+
+### Repository
+
+- add retries to e2e tests @iambeone
+
+## [1.0.177] - 2020-03-18
+
+### Fixed
+
+- [#3725](https://github.com/cosmos/lunie/pull/3725) Fixes Ledger signin @Bitcoinera
+
+## [1.0.176] - 2020-03-17
+
+### Added
+
+- added isExtension getter to identify extension use and use other pathes @iambeone
+- [#3689](https://github.com/cosmos/lunie/issues/3689) Allow explore with polkadot address @faboweb
+
+### Changed
+
+- [#3714](https://github.com/cosmos/lunie/pull/3714) Adds the currency icon for the KSM token @Bitcoinera
+- [#3718](https://github.com/cosmos/lunie/pull/3718) Adds the icon for MUON @Bitcoinera
+- [#3641](https://github.com/cosmos/lunie/issues/3641) super duper multi denom support @jbibla
+
+### Fixed
+
+- account creation steps should be disabled by default  @iambeone
+- await preloadNetworkCapabilities as we need networks loaded right after this function call @iambeone
+- removed networks loading from checkForPersistedNetwork @iambeone
+- [#3709](https://github.com/cosmos/lunie/pull/3709) Fixes networks being undefined in TmSessionSignIn due to incorrect use of networks getter @Bitcoinera
+- [#3711](https://github.com/cosmos/lunie/pull/3711) Allows signing in with an existing Lunie Polkadot account by adding a couple of hack in TmSessionSignIn @Bitcoinera
+- [#3688](https://github.com/cosmos/lunie/pull/3688) Fixes getting extra fees on Send in Terra when sending Max Amount @Bitcoinera
+- [#3707](https://github.com/cosmos/lunie/pull/3707) Fixes the validators list link on Portfolio when delegations is empty @Bitcoinera
+- Make select network responsive to network updates @faboweb
+
+### Security
+
+- Updated minimist because of security issue @faboweb
+
+### Deprecated
+
+- transaction-utils moved to extension @iambeone
+
+### Repository
+
+- e2e fixes @iambeone
+- Adjusted release script to new release flow @faboweb
+
+## [1.0.175] - 2020-03-14
+
+### Added
+
+- checking extension queue length before new transaction @iambeone
+- Allow to use Polkadot raw seed as seed phrase in recovery @faboweb
+
+### Security
+
+- Updated dep because of security issue @faboweb
+
+### Repository
+
+- fixed arch value replaced with arch result @iambeone
+
+## [1.0.174] - 2020-03-12
+
+### Added
+
+- Add message creation on terra mainnet @faboweb
+
+### Changed
+
+- default to USD for fiat selection, changed styles of fiat display @jbibla
+- disabled network list item interactivity @jbibla
+
+### Fixed
+
+- fix creating new account record on sign-in with extension @iambeone
+- [#3680](https://github.com/cosmos/lunie/pull/3680) Fixes amount of undefined in totalRewards in ModalWithdrawRewards @Bitcoinera
+
+### Repository
+
+- ignore build warnings @iambeone
+
+## [1.0.173] - 2020-03-11
+
+### Changed
+
+- [#3649](https://github.com/cosmos/lunie/pull/3649) Now the memo field is always displayed on SendModal @Bitcoinera
+- [#3664](https://github.com/cosmos/lunie/pull/3664) Now to pay fees in Claim Rewards, if there is no staking denom balance available, fees will be paid in the first token with positive balance @Bitcoinera
+- [#3663](https://github.com/cosmos/lunie/pull/3663) Now it is possible to claim rewards from any token despite not having any staking denom reward @Bitcoinera
+- [#3661](https://github.com/cosmos/lunie/pull/3661) Now amounts are displayed in the TransactionItem component for all ClaimRewards transactions @Bitcoinera
+- [#3658](https://github.com/cosmos/lunie/pull/3658) Filters all "Unknown" transactions in PageBlock @Bitcoinera
+- [#3657](https://github.com/cosmos/lunie/pull/3657) For Terra networks it changes the fee for an action according to the amount of tokens being handled. Fix in ActionModal @Bitcoinera
+
+### Fixed
+
+- [#3650](https://github.com/cosmos/lunie/pull/3650) Fixes the Back to Lunie button @Bitcoinera
+- [#3665](https://github.com/cosmos/lunie/pull/3665) Handles checks in TmBalance when balances are not yet loaded @Bitcoinera
+- [#3653](https://github.com/cosmos/lunie/pull/3653) Fixes the PoweredBy component inside the NetworkItem @Bitcoinera
+- [#3669](https://github.com/cosmos/lunie/pull/3669) Fix concat property of undefined in ClaimRewardsTxDetails as it now wait for getValidators array to be filled @Bitcoinera
+- [#3659](https://github.com/cosmos/lunie/pull/3659) Fix signin routing with Ledger @Bitcoinera
+- [#3656](https://github.com/cosmos/lunie/pull/3656) Fixes Terra microdenoms in the toMicroDenom function @Bitcoinera
+- [#3651](https://github.com/cosmos/lunie/pull/3651) Fixes all the signins and signup routing @Bitcoinera
+- [##3666](https://github.com/cosmos/lunie/issues/#3666) fixed css bug width set to 1023px @jrmoreau
+
+### Repository
+
+- sending sourcemaps to sentry @iambeone
+- netlify config for production build @iambeone
+
+## [1.0.172] - 2020-03-05
+
+### Added
+
+- [#3626](https://github.com/cosmos/lunie/pull/3626) Adds the "Powered by" span to both NetworkItem and TmConnectedNetwork promoting our node provider @Bitcoinera
+- Added address creation for Polkadot @faboweb
+- Query for experimental networks @faboweb
+- Added back the fingerprint header @faboweb
+
+### Changed
+
+- [#3640](https://github.com/cosmos/lunie/pull/3640) Checks if the staking denom has a fiat value and in only in that case displays the currency selector. Good for Terra. @Bitcoinera
+- [#3639](https://github.com/cosmos/lunie/pull/3639) Adds more networks to Coming Soon. Style and logic improvements: now these networks are disabled @Bitcoinera
+
+### Fixed
+
+- [#3638](https://github.com/cosmos/lunie/pull/3638) Checks if fiatValue is null in TmBalance before checking other conditions @Bitcoinera
+- Show subtotal correctly instead of using amount @faboweb
+- Fixed extension sign in deeplinking sometimes not working @faboweb
+- Added other Terra tokens to microdenom lookup @faboweb
+- [#3489](https://github.com/cosmos/lunie/issues/3489) now we register users for the intercom messenger before the messenger is opened to ensure the messenger doesn't fail @jbibla
+
+### Code Improvements
+
+- add back subscribeToMore function to transaction page @iambeone
+- Refactored address component to support Polkadot @faboweb
+- Use proper bech32 addresses in tests @faboweb
+- Remove old tx submit logic code @faboweb
+- Select signing methods per network type @faboweb
+
+### Repository
+
+- Fix publish.sh not working due to bad syntax @iambeone
+
+## [1.0.171] - 2020-03-02
+
+### Added
+
+- [#3627](https://github.com/cosmos/lunie/pull/3627) Adds a coming soon network list in PageNetworks where depicts Polkadot (Kusama) @Bitcoinera
+
+### Fixed
+
+- Fixed extension sign in deeplinking sometimes not working @faboweb
+- Fixed issue with undelegating counting amount as subtotal @faboweb
+
+## [1.0.170] - 2020-02-29
+
+### Fixed
+
+- Revert analytics header PR to fix extension compatibility @faboweb
+
+## [1.0.169] - 2020-02-28
+
+### Added
+
+- [#3213](https://github.com/cosmos/lunie/issues/3213) add network name in url for some pages @iambeone
+- [#3584](https://github.com/cosmos/lunie/pull/3584) Adds  currency selector back to TmBalance and applies Charlies design @Bitcoinera
+
+### Changed
+
+- prevent multiple requests of transaction pages @iambeone
+
+### Fixed
+
+- [#3616](https://github.com/cosmos/lunie/pull/3616) Fix routing issues when exploring an account @faboweb
+- Remove reloading logic as buggy @faboweb
+
+### Repository
+
+- Use both possible release commit messages @faboweb
+
+## [1.0.168] - 2020-02-28
+
+### Added
+
+- [#3573](https://github.com/cosmos/lunie/issues/3573) Integrate new transaction abstraction @mariopino
+
+### Changed
+
+- add pageNumber variable to tx request @iambeone
+
+### Deprecated
+
+- Remove fiat code as not used and conflicting with API upgrade @faboweb
+
+## [1.0.167] - 2020-02-27
+
+### Changed
+
+- [#3610](https://github.com/cosmos/lunie/pull/3610) Adds a small check in WithdrawRewardsMessageDetails necessary for extension @Bitcoinera
+- [#3592](https://github.com/cosmos/lunie/pull/3592) Deletes gas prices dictionary in ActionModal @Bitcoinera
+
+## [1.0.166] - 2020-02-26
+
+### Changed
+
+- add fingerprint header to fetch @iambeone
+
+### Fixed
+
+- [#3606](https://github.com/cosmos/lunie/pull/3606) Fixes having the rewards from the previous session hanging on TableValidators once the user disconnects @Bitcoinera
+- Fix publish not triggering as the expected commit message was outdated @faboweb
+- Remove service worker as it produced issues with caching @faboweb
+
+## [1.0.165] - 2020-02-26
+
+### Added
+
+- adding fingerpring header @iambeone
+- [#3513](https://github.com/cosmos/lunie/issues/3513) sending cancel message to extension on cancel @iambeone
+- [#3565](https://github.com/cosmos/lunie/pull/3565) Now it is possible to pay gas fees in any token (multidenom networks) @Bitcoinera
+- [#3559](https://github.com/cosmos/lunie/pull/3559) Now rewards for multidenom networks are displayed in TmBalance and staking denom is especified in validators' components @Bitcoinera
+
+### Changed
+
+- [#3578](https://github.com/cosmos/lunie/pull/3578) Add new multi denom send denom selection @iambeone
+- Initial activity page load loads only first chunk of all transactions and then after scroll end reached loads more @iambeone
+- [#3553](https://github.com/cosmos/lunie/pull/3553) Adds check in SessionSignIn to verify the signin address belongs to an existing mainnet. Otherwise displays an error message @Bitcoinera
+- [#3583](https://github.com/cosmos/lunie/pull/3583) Adds the isExtension flag for extension @Bitcoinera
+- [#3583](https://github.com/cosmos/lunie/pull/3583) Hides the transaction meta data fold out in the extension @Bitcoinera @faboweb
+
+### Fixed
+
+- [#3580](https://github.com/cosmos/lunie/pull/3580) Fixes the displayed amount in the Claim Rewards modal for multidenom networks @Bitcoinera
+- Fix success screen showing different denom in multi denom setup @faboweb
+- Fix e2e tests failing because it can't find an element for querying for it's text @faboweb
+- [#3455](https://github.com/cosmos/lunie/issues/3455) Improve action modal layout in mobile and extension @mariopino
+- [#3568](https://github.com/cosmos/lunie/issues/3568) Show tutorial buttons only in cosmos main & testnet @mariopino
+
+### Code Improvements
+
+- [#3581](https://github.com/cosmos/lunie/pull/3581) Drops the temporary hack for claim rewards gas prices in e-Money @Bitcoinera
+- remove rpc url from gql @faboweb
+
+### Repository
+
+- updated ios pods @jbibla
+
+## [1.0.164] - 2020-02-18
+
+### Added
+
+- [#3563](https://github.com/cosmos/lunie/issues/3563) Prevent Google Translate to translate material icons @mariopino
+- [#3540](https://github.com/cosmos/lunie/pull/3540) Format big percentages as needed for e-money @mariopino
+
+### Changed
+
+- [#3542](https://github.com/cosmos/lunie/pull/3542) Now it is possible to create an account in Lunie when connected to a testnet @Bitcoinera
+
+### Fixed
+
+- analytics data sent fix @iambeone
+
+### Code Improvements
+
+- [#3551](https://github.com/cosmos/lunie/pull/3551) Improves the testnet checkbox styles @Bitcoinera
+
+### Repository
+
+- remove alert action @iambeone
+
+## [1.0.163] - 2020-02-09
+
+### Added
+
+- apollo error handling @iambeone
+- [#3537](https://github.com/cosmos/lunie/issues/3537) add custom metrics for GA @iambeone
+- [#3383](https://github.com/cosmos/lunie/issues/3383) Added message about past chain transactions not being present @faboweb
+- [#3532](https://github.com/cosmos/lunie/issues/3532) Added note about emailing us when validator image is missing @faboweb
+
+### Changed
+
+- pass local error to console @iambeone
+
+### Fixed
+
+- network list fetching fixed @iambeone
+- [#3244](https://github.com/cosmos/lunie/issues/3244) Fixes claiming transactions considering only the first claiming tx @Bitcoinera
+- [#3530](https://github.com/cosmos/lunie/issues/3530) Fix Safari bug where variable is not available in context @faboweb
+- Fix script to fund e2e master account @faboweb
+- [#3476](https://github.com/cosmos/lunie/issues/3476) Prevent bad amounts to be send to backend @mariopino
+
+### Repository
+
+- pr alert fixed @iambeone
+- [#3547](https://github.com/cosmos/lunie/pull/3547) Adds a script to serve the app without using kill-port. Especially good for Windows. @Bitcoinera
+- Fix release process as tags are not merged to develop @faboweb
+
+## [1.0.162] - 2020-02-03
+
+### Added
+
+- Network change on login with extension @iambeone
+- sign-in with the url parameters @iambeone
+
+### Changed
+
+- passing network id to extension in sign flow @iambeone
+- Change transactionGroup getting method @iambeone
+- Add no accounts alert on use extension step @iambeone
+- change create new account flow, remove select network step in default mode @iambeone
+- rewrite networkSort to fix network order change after selection @iambeone
+- [#3488](https://github.com/cosmos/lunie/pull/3488) Adds the isANetworkAddress validatin to the sign in with account @Bitcoinera
+- [#3488](https://github.com/cosmos/lunie/pull/3488) Adds the link to networks as part of the validation error message for isANetworkAddress @Bitcoinera
+- [#3505](https://github.com/cosmos/lunie/pull/3505) Logs Ledger connection errors to Sentry @Bitcoinera
+
+### Fixed
+
+- [#3488](https://github.com/cosmos/lunie/pull/3488) Fixes accounts not loading on refresh in TmSessionSignIn @Bitcoinera
+- Handle ledger app not being defined @faboweb
+- Fix tests not running @faboweb
+- Force refresh of the app if the local files are outdated @faboweb
+- Trying to fix transport undefined bug by updating ledger library @faboweb
+- correctly throw unknown ledger errors for webusb @faboweb
+
+### Code Improvements
+
+- [#3521](https://github.com/cosmos/lunie/pull/3521) Removes the hack used in NetworkItem to avoid displaying the loader in extension in SelectNetwork @Bitcoinera
+- [#3510](https://github.com/cosmos/lunie/pull/3510) Refactored NetworkItem to use network getter to be compatible with extension @bitcoinera
+- [#3526](https://github.com/cosmos/lunie/pull/3526) Updates the micro denom for e-Money to ungm @Bitcoinera
+
+### Repository
+
+- [#3517](https://github.com/cosmos/lunie/issues/3517) Wait for deploy preview to be available before starting e2e tests @faboweb
+
+## [1.0.161] - 2020-01-28
+
+### Added
+
+- add terra network to tests @iambeone
+- [#3439](https://github.com/cosmos/lunie/pull/3439) Allow for network selection on account creation and import @bitcoinera
+- [#3432](https://github.com/cosmos/lunie/issues/3432) Finish tutorials @mariopino
+- [#3483](https://github.com/cosmos/lunie/issues/3483) Dont register Intercom user at init in mobile apps  @mariopino
+
+### Fixed
+
+- bugfix on creating and restoring account in different networks @iambeone
+- Bugs around networks sign-in in extension @iambeone
+- bugfix in tests @iambeone
+- [#3484](https://github.com/cosmos/lunie/pull/3484) Fixes missing denom when there are no balances in SendModal @Bitcoinera
+- Fix restaking using wrong subtotal for calculations @faboweb
+- [#3447](https://github.com/cosmos/lunie/issues/3447) Handle some failing GraphQL queries @faboweb
+- Handle network not being set in network selector (like in the extension) @faboweb
+
+### Repository
+
+- [#3468](https://github.com/cosmos/lunie/issues/3468) Do not track issues in Sentry for deploy previews @faboweb
+- Check for changelog updates on release-candidates @faboweb
+- Added script to add version to build files @faboweb
+- Deploy previews in development mode @faboweb
+- Fix publish was always triggered on develop @faboweb
+
+## [1.0.160] - 2020-01-25
+
+### Added
+
+- [#3415](https://github.com/cosmos/lunie/issues/3415) added a parameter to persist API change @iambeone
+- [#3362](https://github.com/cosmos/lunie/pull/3362) Adds "Back to Validators" button in PageValidator @Bitcoinera
+- Show multiple wallet balances in UI @faboweb
+- [#3370](https://github.com/cosmos/lunie/pull/3370) Now it is possible to select different tokens to send in the SendModal for networks with multiple tokens @Bitcoinera
+- [#3365](https://github.com/cosmos/lunie/pull/3365) TmBalance now displays multiple tokens balances and has a currency selector to display total value in the selected fiat currency @Bitcoinera
+- Added EMoney account handling @faboweb
+- Allow address creation in all cosmos networks @faboweb
+- [#3392](https://github.com/cosmos/lunie/issues/3392) Use Ledger across networks @faboweb
+- Allow signing for Terra @faboweb
+- [#3364](https://github.com/cosmos/lunie/pull/3364) Track failing transactions clientside in Sentry @faboweb
+- Retry graphql fetches on failed attempts @faboweb
+- [#3375](https://github.com/cosmos/lunie/pull/3375) Allow user to show address on Ledger Nano @faboweb
+- [#3423](https://github.com/cosmos/lunie/issues/3423) Implement mobile Intercom using vuex store @mariopino
+- [#3425](https://github.com/cosmos/lunie/issues/3425) Refactor script to add Intercom API keys at the top-level capacitor config file. @mariopino
+- [#3440](https://github.com/cosmos/lunie/issues/3440) Upgrade capacitor-intercom module to v0.2.3  @mariopino
+- [#3450](https://github.com/cosmos/lunie/issues/3450) Update activity icons @mariopino
+
+### Changed
+
+- [#3415](https://github.com/cosmos/lunie/issues/3415) graphql url parameter changed to 'api' @iambeone
+- [#3398](https://github.com/cosmos/lunie/pull/3398) Replaces a phantom div in the "Back to Validators" button for padding, as it should have been from the beginning @Bitcoinera
+- [#3443](https://github.com/cosmos/lunie/pull/3443) Enables more networks in MessageConstructor and ledger.js @Bitcoinera
+- [#3438](https://github.com/cosmos/lunie/pull/3438) Now the session explore component filters for addresses belonging to the current network we are connected to  @Bitcoinera
+- [#3366](https://github.com/cosmos/lunie/pull/3366) Fix link in ActionModal for lunie browser extension  @Bitcoinera
+- [#3282](https://github.com/cosmos/lunie/issues/3282) Now the block links in the activity section are active or not depending on the feature_explorer feature flag of the network @Bitcoinera
+- [#3371](https://github.com/cosmos/lunie/pull/3371) Strengthen the validation for cosmos addresses signin @Bitcoinera
+- [#3349](https://github.com/cosmos/lunie/pull/3349) Now it is possible to also sign in with an Ethereum address @Bitcoinera
+- [#3349](https://github.com/cosmos/lunie/pull/3349) Now the Undelegations component filters for only pending undelegations @Bitcoinera
+- [#3454](https://github.com/cosmos/lunie/pull/3454) Deletes everything regarding the validator transactions message details @Bitcoinera
+- display ledger and extension instructions when these signing options are selected @jbibla
+
+### Fixed
+
+- [#3460](https://github.com/cosmos/lunie/pull/3460) Fix blocks query, delete amount field @Bitcoinera
+- [#3384](https://github.com/cosmos/lunie/pull/3384) Now fees in action modals for all enabled networks work. Micro denoms are properly set @Bitcoinera
+- [#3405](https://github.com/cosmos/lunie/issues/3405) Fixes sign out so the user is not signed back in upon refreshing the page @Bitcoinera
+- [#3306](https://github.com/cosmos/lunie/issues/3306) Fixes the waiting for extension button in the ActionModal. Now the captions don't overflow @Bitcoinera
+- [#3359](https://github.com/cosmos/lunie/pull/3359) Fixes address undefined for the "To address" in multisends @Bitcoinera
+- [#3390](https://github.com/cosmos/lunie/pull/3390) Fix ActionModal data being out of date if a live update of data happened @faboweb
+- Fix balances not in overview query anymore @faboweb
+- [#3364](https://github.com/cosmos/lunie/pull/3364) Improve handling of sequence querying in ActionModal @faboweb
+- Fixed denom not selected if only one balance @faboweb
+- [#3412](https://github.com/cosmos/lunie/issues/3412) Show transactions on EMoney and Terra @faboweb
+- Force index.html to not be cached @faboweb
+- Fix modals closing and reopening (issue with waiting for content to be loaded) @faboweb
+- [#3330](https://github.com/cosmos/lunie/issues/3330) send button is now disabled if extension is not installed @jbibla
+- there was a styling issue with the "show on ledger" button and it was being displayed for all signed in sessions, not just ledger sessions @jbibla
+- [#3096](https://github.com/cosmos/lunie/issues/3096) Fix redelegation to and from fields @mariopino
+- [#3280](https://github.com/cosmos/lunie/issues/3280) Replace toggles in all and active buttons in validators page. @mariopino
+- [#3326](https://github.com/cosmos/lunie/issues/3326) Enable Intercom in mobile apps @mariopino
+- [#3333](https://github.com/cosmos/lunie/issues/3333) Fix gas price input deselects itself after typing @mariopino
+- [#3339](https://github.com/cosmos/lunie/issues/3339) Fix session modal validation triggers on closing @mariopino
+- [#3376](https://github.com/cosmos/lunie/issues/3376) Round total rewards to 6 decimal places @mariopino
+
+### Security
+
+- Add X-Frame header @faboweb
+
+### Code Improvements
+
+- [#3402](https://github.com/cosmos/lunie/issues/3402) Get network information like address creation method and address prefixes from the API @faboweb
+
+### Repository
+
+- Add script to add intercom keys to capacitor @faboweb
+- [#3071](https://github.com/cosmos/lunie/issues/3071) Release on a new version from develop instead of merging master back to develop @faboweb
+- Cleaned packages @faboweb
+- Lint before push @faboweb
+- Set Lunie version for Sentry @faboweb
+
 ## [1.0.159] - 2020-01-18
 
 ### Added

@@ -1,7 +1,7 @@
 <template>
   <router-link :to="route" class="tm-li-session">
     <div class="tm-li-session-icon">
-      <i class="material-icons circle">{{ icon }}</i>
+      <i class="material-icons notranslate circle">{{ icon }}</i>
     </div>
     <div class="tm-li-session-text">
       <div class="tm-li-session-title">
@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="tm-li-session-icon">
-      <i class="material-icons">arrow_forward</i>
+      <i class="material-icons notranslate">arrow_forward</i>
     </div>
   </router-link>
 </template>
@@ -20,7 +20,11 @@ export default {
   props: {
     icon: {
       type: String,
-      required: true
+      default: ``
+    },
+    img: {
+      type: String,
+      default: ``
     },
     title: {
       type: String,
@@ -59,6 +63,12 @@ export default {
   font-size: 1.25rem;
 }
 
+.tm-li-session-icon img {
+  max-height: 100%;
+  max-width: 52px;
+  display: block;
+}
+
 .tm-li-session-title {
   color: var(--bright);
   font-size: var(--h4);
@@ -75,6 +85,7 @@ export default {
 
 .material-icons.circle {
   border: 2px solid var(--dim);
+  color: var(--dim);
   border-radius: 50%;
   padding: 0.5rem;
 }

@@ -1,9 +1,7 @@
 <template>
   <SessionFrame>
     <TmFormStruct :submit="onSubmit">
-      <h2 class="session-title">
-        Explore with any address
-      </h2>
+      <h2 class="session-title bottom-indent">Explore with any address</h2>
 
       <div v-if="session.addresses.length > 0" class="session-list">
         <div
@@ -14,20 +12,20 @@
         >
           <div class="tm-li-session">
             <div class="tm-li-session-icon">
-              <i class="material-icons circle">
-                {{ getAddressIcon(account.type) }}
-              </i>
+              <i class="material-icons notranslate circle">{{
+                getAddressIcon(account.type)
+              }}</i>
             </div>
             <div class="tm-li-session-text">
               <div class="tm-li-session-title">
-                <span>{{ account.address | formatBech32(false, 12) }}</span>
+                <span>{{ account.address | formatAddress(12) }}</span>
                 <p class="tm-li-session-subtitle">
                   {{ getAddressTypeDescription(account.type) }}
                 </p>
               </div>
             </div>
             <div class="tm-li-session-icon">
-              <i class="material-icons">arrow_forward</i>
+              <i class="material-icons notranslate">arrow_forward</i>
             </div>
           </div>
         </div>
@@ -38,7 +36,7 @@
           <TmField
             v-model="address"
             type="text"
-            placeholder=""
+            placeholder
             vue-focus="vue-focus"
           />
           <TmFormMsg
@@ -49,7 +47,8 @@
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.addressValidate"
             name="Your Address"
-            type="bech32"
+            type="custom"
+            msg="isn't recognised by Lunie. Did you type correctly?"
           />
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.isNotAValidatorAddress"
@@ -63,13 +62,21 @@
             name="You can only sign in with a regular address"
             type="custom"
           />
-          <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.isANetworkAddress"
-            name="This address doesn't belong to the network you are currently connected to"
-            type="custom"
-          />
+          <TmFormMsg v-else-if="error" :name="error" type="custom" />
         </TmFormGroup>
       </div>
+      <TmFormGroup
+        class="field-checkbox"
+        field-id="sign-up-warning"
+        field-label
+      >
+        <div class="field-checkbox-input">
+          <label class="field-checkbox-label" for="select-testnet">
+            <input id="select-testnet" v-model="testnet" type="checkbox" />
+            This is a testnet address
+          </label>
+        </div>
+      </TmFormGroup>
       <div class="session-footer">
         <TmBtn value="Explore" />
       </div>
@@ -87,10 +94,13 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
-import { formatBech32 } from "src/filters"
+import { formatAddress } from "src/filters"
 import { isAddress } from "web3-utils"
-import gql from "graphql-tag"
 const isEthereumAddress = isAddress
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
+  return polkadotRegexp.test(address)
+}
 
 export default {
   name: `session-explore`,
@@ -103,18 +113,18 @@ export default {
     TmFormStruct
   },
   filters: {
-    formatBech32
+    formatAddress
   },
   data: () => ({
     address: ``,
     error: ``,
-    addressPrefixes: []
+    testnet: false
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `networks`]),
     filteredAddresses() {
-      const selectedNetwork = this.addressPrefixes.find(
+      const selectedNetwork = this.networks.find(
         ({ id }) => id === this.network
       )
       // handling query not loaded yet or failed
@@ -125,6 +135,22 @@ export default {
           address.address.startsWith(selectedNetwork.address_prefix)
         )
         .slice(-3)
+    },
+    networkOfAddress() {
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(this.address) && this.testnet) {
+        return this.networks.find(({ id }) => id === "polkadot-testnet")
+      }
+
+      const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
+        this.address.startsWith(address_prefix)
+      )
+
+      const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
+        this.testnet ? testnet === true : testnet === false
+      )
+
+      return selectedNetwork
     }
   },
   mounted() {
@@ -132,15 +158,31 @@ export default {
   },
   methods: {
     async onSubmit() {
+      this.error = null
       this.$v.$touch()
       if (this.$v.$error) return
 
+      if (!this.networkOfAddress) {
+        this.error = `No ${
+          this.testnet ? "testnet" : "mainnet"
+        } for this address found`
+        return
+      }
+
+      // needs to be done first because if not we are logging into the current network
+      await this.selectNetworkByAddress()
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
         address: this.address
       })
+
       localStorage.setItem(`prevAddress`, this.address)
-      this.$router.push(`/`)
+      this.$router.push({
+        name: "portfolio",
+        params: {
+          networkId: this.networkOfAddress.slug
+        }
+      })
     },
     bech32Validate(param) {
       try {
@@ -151,6 +193,7 @@ export default {
       }
     },
     isNotAValidatorAddress(param) {
+      // TODO this only works for cosmos
       if (param.substring(0, 13) !== "cosmosvaloper") {
         return true
       } else {
@@ -163,25 +206,16 @@ export default {
         param.substring(0, 6) === "terra1" ||
         param.substring(0, 5) === "xrn:1" ||
         param.substring(0, 7) === "emoney1" ||
-        param.substring(0, 2) === "0x"
+        param.substring(0, 2) === "0x" ||
+        this.isPolkadotAddress(param)
       ) {
         return true
       } else {
         return false
       }
     },
-    isANetworkAddress(param) {
-      const selectedNetwork = this.addressPrefixes.find(
-        ({ id }) => id === this.network
-      )
-      // handling query not loaded yet or failed
-      if (!selectedNetwork) return false
-
-      if (param.startsWith(selectedNetwork.address_prefix)) {
-        return true
-      } else {
-        return false
-      }
+    async selectNetworkByAddress() {
+      this.$store.dispatch(`setNetwork`, this.networkOfAddress)
     },
     getAddressIcon(addressType) {
       if (addressType === "explore") return `language`
@@ -195,15 +229,22 @@ export default {
       if (addressType === "extension") return `Lunie Browser Extension`
       if (addressType === "local") return `Mobile App`
     },
-    exploreWith(address) {
+    async exploreWith(address) {
       this.address = address
-      this.onSubmit()
+      await this.onSubmit()
     },
     isEthereumAddress(address) {
       return isEthereumAddress(address)
     },
+    isPolkadotAddress(address) {
+      return isPolkadotAddress(address)
+    },
     addressValidate(address) {
-      return this.bech32Validate(address) || this.isEthereumAddress(address)
+      return (
+        this.bech32Validate(address) ||
+        this.isEthereumAddress(address) ||
+        this.isPolkadotAddress(address)
+      )
     }
   },
   validations() {
@@ -212,26 +253,8 @@ export default {
         required,
         addressValidate: this.addressValidate,
         isNotAValidatorAddress: this.isNotAValidatorAddress,
-        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix,
-        isANetworkAddress: this.isANetworkAddress
+        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
       }
-    }
-  },
-  apollo: {
-    addressPrefixes: {
-      query: gql`
-        query Network {
-          networks {
-            id
-            address_prefix
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      update(data) {
-        return data.networks
-      },
-      fetchPolicy: "cache-first"
     }
   }
 }
@@ -286,7 +309,12 @@ export default {
 
 .material-icons.circle {
   border: 2px solid var(--dim);
+  color: var(--dim);
   border-radius: 50%;
   padding: 0.5rem;
+}
+
+.button {
+  min-width: 90px;
 }
 </style>

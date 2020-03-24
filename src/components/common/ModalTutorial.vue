@@ -2,16 +2,20 @@
   <div v-focus-last class="modal-tutorial" tabindex="0" @keyup.esc="close()">
     <main class="modal-tutorial-main">
       <div class="modal-tutorial-header">
-        <a href="#" @click="prevLink">
-          <i class="material-icons chevron_left"></i>
-        </a>
-        <a href="#" @click="nextLink">
-          <i class="material-icons chevron_right"></i>
-        </a>
-        <a href="#" @click="close">
-          <i class="material-icons close"></i>
-        </a>
-        <div class="top-bg"></div>
+        <div class="modal-tutorial-button-container">
+          <div>
+            <a href="#" @click.prevent="prevLink">
+              <i class="material-icons notranslate chevron_left"></i>
+            </a>
+            <a href="#" @click.prevent="nextLink">
+              <i class="material-icons notranslate chevron_right"></i>
+            </a>
+          </div>
+          <a href="#" @click.prevent="close">
+            <i class="material-icons notranslate close"></i>
+          </a>
+        </div>
+        <div class="top-bg" :class="background"></div>
       </div>
       <div class="content">
         <div class="steps">
@@ -27,7 +31,7 @@
         </div>
         <template v-for="(step, index) in steps">
           <template v-if="currentStep === index + 1">
-            <h1 :key="`title-${index}`">{{ step.title }}</h1>
+            <h2 :key="`title-${index}`">{{ step.title }}</h2>
             <p :key="`content-${index}`">
               <span
                 v-for="(item, contentIndex) in step.content"
@@ -42,12 +46,11 @@
               class="button primary"
               @click="nextLink"
             >
-              {{
-                currentStep === steps.length
-                  ? `Read the full guide`
-                  : `Next step`
-              }}
-              <i class="material-icons arrow_forward"></i>
+              {{ finalStep ? `Read the full guide` : `Next step` }}
+              <i
+                class="material-icons notranslate arrow_forward"
+                :class="finalStep ? `final-step` : ``"
+              ></i>
             </button>
           </template>
         </template>
@@ -71,11 +74,21 @@ export default {
     steps: {
       type: Array,
       required: true
+    },
+    // Possible values: red, green, yellow, blue and lightblue
+    background: {
+      type: String,
+      required: true
     }
   },
   data: function() {
     return {
       currentStep: 1
+    }
+  },
+  computed: {
+    finalStep() {
+      return this.currentStep === this.steps.length
     }
   },
   methods: {
@@ -98,26 +111,34 @@ export default {
 <style scoped>
 .modal-tutorial {
   position: fixed;
-  bottom: 0;
+  bottom: 1rem;
   right: 1rem;
   z-index: var(--z-modal);
-  width: 24rem;
-  height: 38rem;
+  max-width: 295px;
   display: flex;
   outline: none;
+  font-family: var(--sans);
 }
 
 .modal-tutorial-main {
   display: flex;
   flex-flow: column;
-  padding: 0 0 1.5rem 0;
+  padding: 0;
 }
 
-.modal-tutorial h1 {
-  font-size: 1.6rem;
-  color: #000f50;
-  margin-bottom: 2rem;
-  font-weight: 400;
+.modal-tutorial p {
+  line-height: 24px;
+  font-size: 12px;
+  color: var(--dark-grey-blue);
+  opacity: 0.7;
+  margin-bottom: 18px;
+}
+
+.modal-tutorial h2 {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--dark-grey-blue);
+  margin-bottom: 18px;
 }
 
 .modal-tutorial b {
@@ -127,79 +148,100 @@ export default {
 
 .modal-tutorial .button {
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 20px;
+}
+
+.modal-tutorial-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-tutorial-header a:first-child {
+  margin-right: 0.5rem;
 }
 
 .modal-tutorial-header i {
-  color: #7a88b8;
-  background: #e4e7f1;
+  background: rgba(122, 136, 184, 0.2);
   width: 2rem;
   height: 2rem;
-  font-size: var(--m);
   display: inline-block;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
   padding: 0.5rem;
-  margin-right: 1rem;
   border-radius: 50%;
+  color: var(--faded-blue);
+  font-size: var(--m);
 }
 
-.modal-tutorial-header i.close {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 0;
+.modal-tutorial-header a:hover i {
+  background: rgba(122, 136, 184, 0.3);
 }
 
 .modal-tutorial .top-bg {
-  margin-top: 1rem;
-  background-image: url("/img/tutorials/bg1.png");
+  margin-top: 0.6rem;
+  background-image: url("/img/tutorials/bg-red.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   width: 100%;
-  height: 186px;
+  height: 146px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
 }
 
+.modal-tutorial .top-bg.yellow {
+  background-image: url("/img/tutorials/bg-yellow.png");
+}
+
+.modal-tutorial .top-bg.green {
+  background-image: url("/img/tutorials/bg-green.png");
+}
+
+.modal-tutorial .top-bg.blue {
+  background-image: url("/img/tutorials/bg-blue.png");
+}
+
+.modal-tutorial .top-bg.lightblue {
+  background-image: url("/img/tutorials/bg-lightblue.png");
+}
+
+.modal-tutorial .top-bg.red {
+  background-image: url("/img/tutorials/bg-red.png");
+}
+
 .modal-tutorial .content {
-  padding: 2rem;
+  padding: 20px;
   background-color: white;
-  color: #445381;
+  color: var(--faded-blue);
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
 }
 
 .button {
-  font-family: var(--sans);
-  font-size: 1.1rem;
+  font-size: 13px;
   font-weight: 500;
-  padding: 1.2rem;
-  min-width: 100px;
-  color: #445381;
+  padding: 16px;
+  background-color: rgba(122, 136, 184, 0.1);
+  color: var(--faded-blue);
   margin: 0;
-  border-radius: 0.4rem;
+  border-radius: 4px;
   cursor: pointer;
-  background: #f1f3f7;
-  border: 2px solid #f1f3f7;
+  border: 0;
   transition: all 0.5s ease;
   white-space: nowrap;
   outline: none;
   text-align: left;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .button:hover {
-  background: #445381;
-  color: #f1f3f7;
-  border-color: #445381;
+  background-color: rgba(122, 136, 184, 0.25);
 }
 
 .button i.arrow_forward {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  margin: 0;
+  font-size: 1rem;
 }
 
 .modal-tutorial .steps-container {
@@ -209,26 +251,36 @@ export default {
 }
 
 .modal-tutorial .steps .step {
-  height: 0.5rem;
-  width: 0.5rem;
+  height: 6px;
+  width: 6px;
   border-radius: 50%;
-  margin-left: 2rem;
+  margin-left: 1rem;
   background-color: #f1f3f7;
   display: inline-block;
 }
 
 .modal-tutorial .steps .step.completed {
-  background-color: #458dff;
+  background-color: var(--sky-blue);
 }
 
 .steps {
   position: relative;
-  color: #458dff;
+  color: var(--sky-blue);
   font-weight: 500;
-  margin-bottom: 1.5rem;
+  margin-bottom: 18px;
+  font-size: 10px;
+}
+
+.content p {
+  min-height: 96px;
 }
 
 .content-item {
   display: block;
+  font-size: 12px;
+}
+
+.final-step {
+  transform: rotate(-45deg);
 }
 </style>

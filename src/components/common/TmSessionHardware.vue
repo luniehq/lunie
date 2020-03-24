@@ -24,7 +24,7 @@
               >
                 {{ hidFeatureLink }}
                 <i
-                  class="material-icons copied"
+                  class="material-icons notranslate copied"
                   :class="{ active: copySuccess }"
                 >
                   check
@@ -46,7 +46,10 @@
               class="copy-feature-link"
             >
               {{ linuxLedgerConnectionLink }}
-              <i class="material-icons copied" :class="{ active: copySuccess }">
+              <i
+                class="material-icons notranslate copied"
+                :class="{ active: copySuccess }"
+              >
                 check
               </i>
             </div>
@@ -89,6 +92,7 @@ import { mapState, mapGetters } from "vuex"
 import HardwareState from "common/TmHardwareState"
 import SessionFrame from "common/SessionFrame"
 import { getAddressFromLedger } from "scripts/ledger"
+import * as Sentry from "@sentry/browser"
 
 export default {
   name: `session-hardware`,
@@ -108,6 +112,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
+    ...mapGetters([`networkSlug`]),
     ...mapGetters({ networkId: `network` }),
     submitCaption() {
       return {
@@ -135,11 +140,17 @@ export default {
       this.status = `detect`
       this.address = null
       try {
-        this.address = await getAddressFromLedger(this.networkId, this.$apollo)
-        this.$router.push(`/`)
-      } catch ({ message }) {
+        this.address = await getAddressFromLedger(this.networkId, this.$store)
+        this.$router.push({
+          name: "portfolio",
+          params: {
+            networkId: this.networkSlug
+          }
+        })
+      } catch (error) {
         this.status = `connect`
-        this.connectionError = message
+        this.connectionError = error.message
+        Sentry.captureException(error)
         return
       }
 

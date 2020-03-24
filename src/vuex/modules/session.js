@@ -85,7 +85,7 @@ export default () => {
       const session = localStorage.getItem(sessionKey(network))
       if (session) {
         const { address, sessionType } = JSON.parse(session)
-        await dispatch(`signIn`, { address, sessionType })
+        await dispatch(`signIn`, { address, sessionType, networkId: network })
       } else {
         commit(`setSignIn`, false)
       }
@@ -128,8 +128,13 @@ export default () => {
           connection: { network }
         }
       },
-      { address, sessionType = `ledger` }
+      { address, sessionType = `ledger`, networkId }
     ) {
+      if (networkId && network !== networkId) {
+        await commit(`setNetworkId`, networkId)
+        await dispatch(`persistNetwork`, { id: networkId })
+        network = networkId
+      }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)

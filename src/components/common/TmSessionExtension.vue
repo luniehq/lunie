@@ -18,16 +18,23 @@
         </p>
       </div>
 
-      <div v-else class="session-main">
+      <div v-else-if="accounts.length" class="session-main">
         <p class="extension-message">
           Below is a list of accounts we've received from the Lunie browser
           extension.
         </p>
         <AccountList
           :accounts="accounts"
-          :button-action="signIn"
+          :button-action="signInAndRedirect"
           :button-text="`Use Account`"
         />
+      </div>
+
+      <div v-else class="session-main">
+        <p class="extension-message">
+          Looks like you don't have any accounts yet. How about opening the
+          extension and creating an account right now?
+        </p>
       </div>
     </div>
   </SessionFrame>
@@ -36,7 +43,7 @@
 <script>
 import AccountList from "common/AccountList"
 import SessionFrame from "common/SessionFrame"
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 export default {
   name: `session-extension`,
   components: {
@@ -49,6 +56,7 @@ export default {
   }),
   computed: {
     ...mapState([`extension`]),
+    ...mapGetters([`networks`]),
     accounts() {
       return this.extension.accounts
     }
@@ -60,12 +68,23 @@ export default {
     getAddressesFromExtension() {
       this.$store.dispatch("getAddressesFromExtension")
     },
-    async signIn(address) {
+    async signIn(account) {
       this.$store.dispatch(`signIn`, {
         sessionType: `extension`,
-        address: address
+        address: account.address,
+        networkId: account.network ? account.network : "cosmos-hub-mainnet" // defaulting to cosmos-hub-mainnet
       })
-      this.$router.push(`/`)
+    },
+    async signInAndRedirect(account) {
+      await this.signIn(account)
+      this.$router.push({
+        name: "portfolio",
+        params: {
+          networkId:
+            this.networks.find(({ id }) => id === account.network).slug ||
+            "cosmos-hub" // defaulting to cosmos-hub-mainnet
+        }
+      })
     }
   }
 }

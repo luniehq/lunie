@@ -5,19 +5,21 @@ let intercom = null
 /* istanbul ignore next */
 if (config.mobileApp) {
   intercom = new Intercom()
-  intercom.registerIdentifiedUser({
-    userId: `lunie-app-${Math.floor(Math.random() * 10000 + 1).toString()}`
-  })
 }
 
 export default () => {
   return {
     state: {
-      intercom
+      intercom,
+      mobileApp: config.mobileApp
     },
     actions: {
       displayMessenger({ state }) {
-        state.intercom.displayMessenger()
+        if (state.mobileApp) {
+          // we have to register users otherwise intercom will not open
+          state.intercom.registerUnidentifiedUser()
+          state.intercom.displayMessenger()
+        }
       }
     }
   }

@@ -2,34 +2,42 @@
   <menu>
     <router-link
       class="mobile-menu-item"
-      to="/portfolio"
+      :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
       exact="exact"
       title="Portfolio"
     >
-      <i class="material-icons">star</i>
+      <i class="material-icons notranslate">star</i>
       <h2 class="app-menu-title">
         Portfolio
       </h2>
     </router-link>
-    <router-link class="mobile-menu-item" to="/validators" title="Validators">
-      <i class="material-icons">sort</i>
+    <router-link
+      class="mobile-menu-item"
+      :to="{ name: 'Validators', params: { networkId: networkSlug } }"
+      title="Validators"
+    >
+      <i class="material-icons notranslate">sort</i>
       <h2 class="app-menu-title">
         Validators
       </h2>
     </router-link>
-    <router-link class="mobile-menu-item" to="/proposals" title="Proposals">
-      <i class="material-icons">add_circle_outline</i>
+    <router-link
+      class="mobile-menu-item"
+      :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
+      title="Proposals"
+    >
+      <i class="material-icons notranslate">add_circle_outline</i>
       <h2 class="app-menu-title">
         Proposals
       </h2>
     </router-link>
     <router-link
       class="mobile-menu-item"
-      to="/transactions"
+      :to="{ name: 'transactions', params: { networkId: networkSlug } }"
       exact="exact"
       title="Transactions"
     >
-      <i class="material-icons">show_chart</i>
+      <i class="material-icons notranslate">show_chart</i>
       <h2 class="app-menu-title">
         Activity
       </h2>
@@ -40,7 +48,7 @@
       exact="exact"
       title="Networks"
     >
-      <i class="material-icons">public</i>
+      <i class="material-icons notranslate">public</i>
       <h2 class="app-menu-title">
         Networks
       </h2>
@@ -49,8 +57,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 export default {
-  name: `mobile-menu`
+  name: `mobile-menu`,
+  computed: {
+    ...mapState(["connection"]),
+    networkSlug() {
+      return this.connection.networkSlug
+    }
+  }
 }
 </script>
 

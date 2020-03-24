@@ -3,7 +3,7 @@
     id="undelegation-modal"
     ref="actionModal"
     :validate="validateForm"
-    :amount="0"
+    :amount="amount"
     :title="isRedelegation ? 'Restake' : 'Unstake'"
     class="undelegation-modal"
     :submission-error-prefix="
@@ -62,7 +62,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix max-button">{{ denom }}</span>
+      <span class="input-suffix max-button">{{ stakingDenom }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -81,11 +81,11 @@
         />
       </TmFieldGroup>
       <span v-if="maximum > 0" class="form-message">
-        Currently staked: {{ maximum }} {{ denom }}s
+        Currently staked: {{ maximum }} {{ stakingDenom }}s
       </span>
       <TmFormMsg
         v-if="maximum === 0"
-        :msg="`don't have any ${denom}s delegated to this validator`"
+        :msg="`don't have any ${stakingDenom}s delegated to this validator`"
         name="You"
         type="custom"
       />
@@ -123,7 +123,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
-import { formatBech32, validatorEntry } from "src/filters"
+import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
 
 export default {
@@ -149,7 +149,6 @@ export default {
     amount: null,
     delegations: [],
     validators: [],
-    denom: "",
     toSelectedIndex: `0`,
     balance: {
       amount: 0,
@@ -158,7 +157,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`network`, `address`]),
+    ...mapGetters([`network`, `address`, `stakingDenom`]),
     maximum() {
       const delegation = this.delegations.find(
         ({ validator }) =>
@@ -167,22 +166,35 @@ export default {
       return delegation ? Number(delegation.amount) : 0
     },
     transactionData() {
-      if (!this.sourceValidator.operatorAddress) return {}
-
       if (this.isRedelegation) {
+        if (
+          isNaN(this.amount) ||
+          !this.sourceValidator.operatorAddress ||
+          !this.toSelectedIndex ||
+          !this.stakingDenom
+        ) {
+          return {}
+        }
         return {
           type: transaction.REDELEGATE,
           validatorSourceAddress: this.sourceValidator.operatorAddress,
           validatorDestinationAddress: this.toSelectedIndex,
           amount: uatoms(this.amount),
-          denom: toMicroDenom(this.denom)
+          denom: toMicroDenom(this.stakingDenom)
         }
       } else {
+        if (
+          isNaN(this.amount) ||
+          !this.sourceValidator.operatorAddress ||
+          !this.stakingDenom
+        ) {
+          return {}
+        }
         return {
           type: transaction.UNDELEGATE,
           validatorAddress: this.sourceValidator.operatorAddress,
           amount: uatoms(this.amount),
-          denom: toMicroDenom(this.denom)
+          denom: toMicroDenom(this.stakingDenom)
         }
       }
     },
@@ -190,12 +202,12 @@ export default {
       if (this.isRedelegation) {
         return {
           title: `Successfully restaked!`,
-          body: `You have successfully restaked ${this.amount} ${this.denom}s.`
+          body: `You have successfully restaked ${this.amount} ${this.stakingDenom}s.`
         }
       } else {
         return {
           title: `Successfully unstaked!`,
-          body: `You have successfully unstaked ${this.amount} ${this.denom}s.`
+          body: `You have successfully unstaked ${this.amount} ${this.stakingDenom}s.`
         }
       }
     },
@@ -206,9 +218,8 @@ export default {
           return {
             address: delegation.validator.operatorAddress,
             maximum: Number(delegation.amount),
-            key: `${delegation.validator.name} - ${formatBech32(
+            key: `${delegation.validator.name} - ${formatAddress(
               delegation.validator.operatorAddress,
-              false,
               20
             )}`,
             value: index + 1
@@ -223,7 +234,7 @@ export default {
         {
           address: this.address,
           maximum: Number(this.balance.amount),
-          key: `My Wallet - ${formatBech32(this.address, false, 20)}`,
+          key: `My Wallet - ${formatAddress(this.address, 20)}`,
           value: 0
         }
       ]
@@ -308,41 +319,46 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.delegations
       }
     },
-    denom: {
+    balance: {
       query: gql`
-        query NetworksUndelegationModal($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
+        query Balance($networkId: String!, $address: String!, $denom: String!) {
+          balance(networkId: $networkId, address: $address, denom: $denom) {
+            amount
+            denom
           }
         }
       `,
-      fetchPolicy: "cache-first",
+      /* istanbul ignore next */
+      skip() {
+        return !this.userAddress
+      },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
-          networkId: this.network
+          networkId: this.network,
+          address: this.userAddress,
+          denom: this.stakingDenom
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
-        return data.network.stakingDenom
+        return data.balance || { amount: 0 }
       }
     },
     validators: {
@@ -356,34 +372,34 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
-        return data.validators
+        return data.validators || []
       }
     },
 
     $subscribe: {
       userTransactionAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network,
             address: this.userAddress
           }
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.userAddress
         },
         query: UserTransactionAdded,
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           this.$apollo.queries.delegations.refetch()
         }
       }

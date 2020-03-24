@@ -17,9 +17,13 @@ const language = window.navigator.userLanguage || window.navigator.language
 function setDecimalLength(value, length) {
   if (value === undefined || value === null || Number.isNaN(value)) return null
 
+  // rounding up the last decimal
+  const roundedValue =
+    Math.round(value * Math.pow(10, length)) / Math.pow(10, length)
+
   return new Intl.NumberFormat(language, {
     minimumFractionDigits: length > 3 ? length : 0
-  }).format(truncate(value, length))
+  }).format(truncate(roundedValue, length))
 }
 export function shortDecimals(value) {
   return setDecimalLength(value, 3)
@@ -80,6 +84,48 @@ export function percent(number = 0) {
   )
 }
 
+export function bigFigure(number = 0) {
+  let formatted = Math.round(number * 100) / 100
+
+  let suffix = ""
+  if (Math.abs(Number(formatted)) >= 1e12) {
+    formatted = Number(formatted) / 1e12
+    suffix = "T"
+  } else if (Math.abs(Number(formatted)) >= 1e9) {
+    formatted = Number(formatted) / 1e9
+    suffix = "B"
+  } else if (Math.abs(Number(formatted)) >= 1e6) {
+    formatted = Number(formatted) / 1e6
+    suffix = "M"
+  }
+  return (
+    new Intl.NumberFormat(language, {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 1
+    }).format(formatted) + ` ${suffix}`
+  )
+}
+
+export function bigFigureOrShortDecimals(number) {
+  // here we check how many positive digits the number has to see how we should format it
+  if (Math.abs(Number(number)) < 1e6) {
+    return shortDecimals(number)
+  } else {
+    return bigFigure(number)
+  }
+}
+
+export function bigFigureOrPercent(number) {
+  // once again, the same logic
+  if (Math.abs(Number(number)) < 1e4) {
+    return percent(number)
+  } else {
+    return bigFigure(number * 100)
+      .toString()
+      .concat(` %`)
+  }
+}
+
 export function atoms(number = 0) {
   return BigNumber(number)
     .div(1e6)
@@ -87,9 +133,12 @@ export function atoms(number = 0) {
 }
 
 export function uatoms(number = 0) {
-  return BigNumber(number)
-    .times(1e6)
-    .toString()
+  return (
+    BigNumber(number)
+      .times(1e6)
+      // .toFixed(0) // Temporary here. Waiting for Aleksei/fee in extension #3567 to be merged
+      .toString()
+  )
 }
 
 // convert micro denoms like uatom to display denoms like ATOM
@@ -169,5 +218,8 @@ export default {
   percent,
   percentInt,
   prettyDecimals,
-  roundObjectPercentages
+  roundObjectPercentages,
+  bigFigure,
+  bigFigureOrShortDecimals,
+  bigFigureOrPercent
 }

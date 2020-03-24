@@ -6,6 +6,7 @@ exports[`SendModal should display send modal form 1`] = `
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
+  selecteddenom="STAKE"
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
@@ -26,26 +27,28 @@ exports[`SendModal should display send modal form 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <!---->
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
     id="form-group-amount"
   >
-    <span
-      class="input-suffix max-button"
-    >
-      STAKE
-    </span>
-     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
         id="amount"
         placeholder="0"
         type="number"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
       />
        
       <tmbtn-stub
@@ -58,13 +61,20 @@ exports[`SendModal should display send modal form 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <a
-    id="edit-memo-btn"
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
   >
-    
-    Need to edit the memo field?
-  
-  </a>
+    <tmfield-stub
+      id="memo"
+      type="text"
+      value="(Sent via Lunie)"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
 </actionmodal-stub>
 `;
 
@@ -75,6 +85,7 @@ exports[`SendModal validation should show address required error 1`] = `
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
+  selecteddenom="STAKE"
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
@@ -100,20 +111,12 @@ exports[`SendModal validation should show address required error 1`] = `
     />
   </tmformgroup-stub>
    
-  <!---->
-   
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
     fieldlabel="Amount"
     id="form-group-amount"
   >
-    <span
-      class="input-suffix max-button"
-    >
-      STAKE
-    </span>
-     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
@@ -121,6 +124,16 @@ exports[`SendModal validation should show address required error 1`] = `
         placeholder="0"
         type="number"
         value="2"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
       />
        
       <tmbtn-stub
@@ -133,23 +146,31 @@ exports[`SendModal validation should show address required error 1`] = `
     <!---->
   </tmformgroup-stub>
    
-  <a
-    id="edit-memo-btn"
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
   >
-    
-    Need to edit the memo field?
-  
-  </a>
+    <tmfield-stub
+      id="memo"
+      type="text"
+      value="(Sent via Lunie)"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
 </actionmodal-stub>
 `;
 
-exports[`SendModal validation should show bech32 error when address length is too long 1`] = `
+exports[`SendModal validation should show bech32 error when address is not bech32 1`] = `
 <actionmodal-stub
   amount="2"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
   rewards=""
+  selecteddenom="STAKE"
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
@@ -165,17 +186,15 @@ exports[`SendModal validation should show bech32 error when address length is to
       id="send-address"
       placeholder="Address"
       type="text"
-      value="asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf"
+      value="cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767"
     />
      
     <tmformmsg-stub
-      msg=""
+      msg="doesn't have a format known by Lunie"
       name="Address"
-      type="bech32"
+      type="custom"
     />
   </tmformgroup-stub>
-   
-  <!---->
    
   <tmformgroup-stub
     class="action-modal-form-group"
@@ -183,12 +202,6 @@ exports[`SendModal validation should show bech32 error when address length is to
     fieldlabel="Amount"
     id="form-group-amount"
   >
-    <span
-      class="input-suffix max-button"
-    >
-      STAKE
-    </span>
-     
     <tmfieldgroup-stub>
       <tmfield-stub
         class="tm-field-addon"
@@ -196,6 +209,16 @@ exports[`SendModal validation should show bech32 error when address length is to
         placeholder="0"
         type="number"
         value="2"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
       />
        
       <tmbtn-stub
@@ -208,165 +231,19 @@ exports[`SendModal validation should show bech32 error when address length is to
     <!---->
   </tmformgroup-stub>
    
-  <a
-    id="edit-memo-btn"
-  >
-    
-    Need to edit the memo field?
-  
-  </a>
-</actionmodal-stub>
-`;
-
-exports[`SendModal validation should show bech32 error when address length is too short 1`] = `
-<actionmodal-stub
-  amount="2"
-  featureflag="send"
-  id="send-modal"
-  notifymessage="[object Object]"
-  rewards=""
-  submissionerrorprefix="Sending tokens failed"
-  title="Send"
-  transactiondata="[object Object]"
-  validate="function () { [native code] }"
->
   <tmformgroup-stub
-    class="action-modal-form-group"
-    error="true"
-    fieldid="send-address"
-    fieldlabel="Send To"
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
   >
     <tmfield-stub
-      id="send-address"
-      placeholder="Address"
+      id="memo"
       type="text"
-      value="asdf"
+      value="(Sent via Lunie)"
     />
-     
-    <tmformmsg-stub
-      msg=""
-      name="Address"
-      type="bech32"
-    />
-  </tmformgroup-stub>
-   
-  <!---->
-   
-  <tmformgroup-stub
-    class="action-modal-form-group"
-    fieldid="amount"
-    fieldlabel="Amount"
-    id="form-group-amount"
-  >
-    <span
-      class="input-suffix max-button"
-    >
-      STAKE
-    </span>
-     
-    <tmfieldgroup-stub>
-      <tmfield-stub
-        class="tm-field-addon"
-        id="amount"
-        placeholder="0"
-        type="number"
-        value="2"
-      />
-       
-      <tmbtn-stub
-        class="secondary addon-max"
-        type="button"
-        value="Set Max"
-      />
-    </tmfieldgroup-stub>
      
     <!---->
   </tmformgroup-stub>
-   
-  <a
-    id="edit-memo-btn"
-  >
-    
-    Need to edit the memo field?
-  
-  </a>
-</actionmodal-stub>
-`;
-
-exports[`SendModal validation should show bech32 error when alphanumeric is wrong 1`] = `
-<actionmodal-stub
-  featureflag="send"
-  id="send-modal"
-  notifymessage="[object Object]"
-  rewards=""
-  submissionerrorprefix="Sending tokens failed"
-  title="Send"
-  transactiondata="[object Object]"
-  validate="function () { [native code] }"
->
-  <tmformgroup-stub
-    class="action-modal-form-group"
-    error="true"
-    fieldid="send-address"
-    fieldlabel="Send To"
-  >
-    <tmfield-stub
-      id="send-address"
-      placeholder="Address"
-      type="text"
-      value=""
-    />
-     
-    <tmformmsg-stub
-      msg=""
-      name="Address"
-      type="required"
-    />
-  </tmformgroup-stub>
-   
-  <!---->
-   
-  <tmformgroup-stub
-    class="action-modal-form-group"
-    error="true"
-    fieldid="amount"
-    fieldlabel="Amount"
-    id="form-group-amount"
-  >
-    <span
-      class="input-suffix max-button"
-    >
-      STAKE
-    </span>
-     
-    <tmfieldgroup-stub>
-      <tmfield-stub
-        class="tm-field-addon"
-        id="amount"
-        placeholder="0"
-        type="number"
-      />
-       
-      <tmbtn-stub
-        class="secondary addon-max"
-        type="button"
-        value="Set Max"
-      />
-    </tmfieldgroup-stub>
-     
-    <tmformmsg-stub
-      msg=""
-      name="Amount"
-      type="required"
-    />
-  </tmformgroup-stub>
-   
-  <a
-    id="edit-memo-btn"
-  >
-    
-    Need to edit the memo field?
-  
-  </a>
 </actionmodal-stub>
 `;

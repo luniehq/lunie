@@ -7,14 +7,14 @@
         class="action-modal-icon action-modal-prev"
         @click="previousStep"
       >
-        <i class="material-icons">arrow_back</i>
+        <i class="material-icons notranslate">arrow_back</i>
       </div>
       <div
         id="closeBtn"
         class="action-modal-icon action-modal-close"
         @click="close"
       >
-        <i class="material-icons">close</i>
+        <i class="material-icons notranslate">close</i>
       </div>
       <div class="action-modal-header">
         <span class="action-modal-title">{{
@@ -64,9 +64,7 @@
             field-id="gasPrice"
             field-label="Gas Price"
           >
-            <span class="input-suffix">{{
-              network.stakingDenom | viewDenom
-            }}</span>
+            <span class="input-suffix">{{ getDenom }}</span>
             <TmField
               id="gas-price"
               v-model="gasPrice"
@@ -94,16 +92,16 @@
             />
           </TmFormGroup>
           <TableInvoice
-            :amount="Number(amount)"
+            :amount="Number(subTotal)"
             :estimated-fee="estimatedFee"
-            :bond-denom="network.stakingDenom"
+            :bond-denom="getDenom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
             name="Total"
             type="between"
             min="0"
-            :max="overview.liquidStake"
+            :max="selectedBalance.amount"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
@@ -204,7 +202,10 @@
               {{ notifyMessage.body }}
               <br />
               <br />Block
-              <router-link :to="`/blocks/${includedHeight}`"
+              <router-link
+                :to="
+                  `/${$router.history.current.params.networkId}/blocks/${includedHeight}`
+                "
                 >#{{ prettyIncludedHeight }}</router-link
               >
             </div>
@@ -292,12 +293,15 @@ import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
 import { viewDenom, prettyInt } from "src/scripts/num"
 import { between, requiredIf } from "vuelidate/lib/validators"
-import { track } from "scripts/google-analytics"
+import { track, sendEvent } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
+import transactionTypes from "../utils/transactionTypes"
+import BigNumber from "bignumber.js"
+// import transactionTypes from '../utils/transactionTypes'
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -332,6 +336,9 @@ const sessionType = {
   LEDGER: SIGN_METHODS.LEDGER,
   EXTENSION: SIGN_METHODS.EXTENSION
 }
+
+// hardcoding terra tax here until we have it in the API
+const terraTax = 0.008
 
 export default {
   name: `action-modal`,
@@ -390,6 +397,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    selectedDenom: {
+      type: String,
+      default: ``
     }
   },
   data: () => ({
@@ -398,7 +409,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    gasPrice: (config.default_gas_price / 4).toFixed(9), // as we bump the gas amount by 4 in the API
+    gasPrice: 0,
     submissionError: null,
     show: false,
     loaded: false,
@@ -411,18 +422,21 @@ export default {
     successStep,
     SIGN_METHODS,
     featureAvailable: true,
-    network: {},
     overview: {},
     isMobileApp: config.mobileApp,
-    useTxService: config.enableTxAPI
+    balances: [],
+    queueEmpty: true
   }),
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapGetters([`connected`, `isExtensionAccount`]),
+    ...mapGetters([`connected`, `isExtensionAccount`, `networks`]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
       return this.network[action] === true
+    },
+    network() {
+      return this.networks.find(({ id }) => id == this.networkId)
     },
     requiresSignIn() {
       return (
@@ -431,12 +445,25 @@ export default {
       )
     },
     estimatedFee() {
-      return Number(this.gasPrice) * Number(this.gasEstimate) // already in atoms
+      // hack
+      // terra uses a tax on all send txs
+      if (
+        this.networkId.startsWith(`terra`) &&
+        this.transactionData.type === transactionTypes.SEND
+      ) {
+        return this.maxDecimals(
+          Number(this.gasEstimate) * Number(this.gasPrice) +
+            Number(this.amount) * terraTax,
+          6
+        ) // TODO get precision from API
+      }
+      return Number(this.gasPrice) * Number(this.gasEstimate)
+    },
+    subTotal() {
+      return this.featureFlag === "undelegate" ? 0 : this.amount
     },
     invoiceTotal() {
-      return (
-        Number(this.amount) + Number(this.gasPrice) * Number(this.gasEstimate)
-      )
+      return Number(this.subTotal) + this.estimatedFee
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -474,20 +501,26 @@ export default {
     prettyIncludedHeight() {
       return prettyInt(this.includedHeight)
     },
-    // TODO lets slice this monstrocity
-    context() {
-      return {
-        url: this.network.api_url,
-        networkId: this.network.id,
-        chainId: this.network.chain_id,
-        connected: this.connected,
-        userAddress: this.session.address,
-        rewards: this.rewards,
-        totalRewards: this.overview.totalRewards,
-        bondDenom: this.network.stakingDenom,
-        isExtensionAccount: this.isExtensionAccount,
-        account: this.overview.accountInformation
+    getDenom() {
+      return this.selectedDenom || this.network.stakingDenom
+    },
+    selectedBalance() {
+      const defaultBalance = {
+        amount: 0,
+        gasPrice: 4e-7 // the defaultBalance gas price should be the highest we know of to be sure that no transaction gets out of gas
       }
+      if (this.balances.length === 0 || !this.network) {
+        return defaultBalance
+      }
+      // default to the staking denom for fees
+      const feeDenom = this.selectedDenom || this.network.stakingDenom
+      let balance = this.balances.find(({ denom }) => denom === feeDenom)
+      if (!balance) {
+        balance = defaultBalance
+      }
+      // some API responses don't have gasPrices set
+      if (!balance.gasPrice) balance.gasPrice = defaultBalance.gasPrice
+      return balance
     }
   },
   watch: {
@@ -500,14 +533,13 @@ export default {
         }
       }
     },
-    context: {
-      immediate: true,
-      handler(context) {
-        this.actionManager.setContext(context)
-      }
-    },
     "$apollo.loading": function(loading) {
       this.loaded = this.loaded || !loading
+    },
+    selectedBalance: {
+      handler(selectedBalance) {
+        this.gasPrice = selectedBalance.gasPrice
+      }
     }
   },
   created() {
@@ -524,31 +556,51 @@ export default {
   methods: {
     confirmModalOpen() {
       let confirmResult = false
-      if (this.session.currrentModalOpen) {
+      if (this.session.currrentModalOpen || !this.queueEmpty) {
         confirmResult = window.confirm(
           "You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?"
         )
         if (confirmResult) {
-          this.session.currrentModalOpen.close()
+          if (this.queueEmpty) {
+            this.session.currrentModalOpen.close()
+          }
           this.$store.commit(`setCurrrentModalOpen`, false)
+          // clearing request query
+          this.actionManager.cancel(
+            { userAddress: this.session.address, networkId: this.network.id },
+            this.selectedSignMethod
+          )
+          this.queueEmpty = true
         }
       }
     },
-    open() {
-      this.confirmModalOpen()
+    async open() {
       this.$apollo.skipAll = false
-      if (this.session.currrentModalOpen) {
+      // checking if there is something in a queue
+      const queue = await this.actionManager.getSignQueue(
+        this.selectedSignMethod
+      )
+      if (queue) {
+        this.queueEmpty = false
+      }
+      this.confirmModalOpen()
+      if (this.session.currrentModalOpen || !this.queueEmpty) {
         return
       }
-
       this.$store.commit(`setCurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
-      this.gasPrice = config.default_gas_price.toFixed(9)
       this.show = true
       if (config.isMobileApp) noScroll.on()
     },
     close() {
       if (config.isMobileApp) noScroll.off()
+      if (this.step == "sign") {
+        // remove the request from any sign method to avoid orphaned transactions in the sign methods
+        this.actionManager.cancel(
+          { userAddress: this.session.address, networkId: this.network.id },
+          this.selectedSignMethod
+        )
+      }
       this.$store.commit(`setCurrrentModalOpen`, false)
       this.submissionError = null
       this.password = null
@@ -567,6 +619,9 @@ export default {
     },
     trackEvent(...args) {
       track(...args)
+    },
+    sendEvent(customObject, ...args) {
+      sendEvent(customObject, ...args)
     },
     goToSession() {
       this.close()
@@ -625,59 +680,87 @@ export default {
     },
     async simulate() {
       const { type, memo, ...properties } = this.transactionData
-      await this.actionManager.setMessage(type, properties)
       try {
-        if (!this.useTxService) {
-          this.gasEstimate = await this.actionManager.simulate(memo)
-        } else {
-          this.gasEstimate = await this.actionManager.simulateTxAPI(
-            this.context,
-            type,
-            properties,
-            memo
-          )
-        }
+        this.gasEstimate = await this.actionManager.simulateTxAPI(
+          {
+            userAddress: this.session.address,
+            networkId: this.network.id,
+            networkType: this.network.network_type
+          },
+          type,
+          properties,
+          memo
+        )
         this.step = feeStep
       } catch ({ message }) {
         this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
       }
 
       // limit fees to the maximum the user has
-      if (this.invoiceTotal > this.overview.liquidStake) {
+      if (this.invoiceTotal > this.selectedBalance.amount) {
+        let payable = Number(this.subTotal)
+        // in terra we also have to pay the tax
+        // TODO refactor using a `fixedFee` property
+        if (
+          this.networkId.startsWith(`terra`) &&
+          this.transactionData.type === transactionTypes.SEND
+        ) {
+          payable += Number(this.amount) * terraTax
+        }
         this.gasPrice =
-          (this.overview.liquidStake - Number(this.amount)) / this.gasEstimate
+          (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
       }
+      // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
+      this.gasPrice = this.gasPrice >= 0 ? this.gasPrice : 0
     },
     async submit() {
       this.submissionError = null
+      if (
+        Object.entries(this.transactionData).length === 0 &&
+        this.transactionData.constructor === Object
+      ) {
+        this.onSendingFailed(new Error(`Error in transaction data`))
+        return
+      }
+
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
       const { type, memo, ...properties } = this.transactionData
-
       const feeProperties = {
         gasEstimate: this.gasEstimate,
         gasPrice: {
-          amount: this.gasPrice,
-          denom: this.network.stakingDenom
+          // the cosmos-api lib uses gasEstimate * gasPrice to calculate the fees
+          // here we just reverse this calculation to get the same fees as displayed
+          amount: this.estimatedFee / this.gasEstimate,
+          denom: this.getDenom
         },
         submitType: this.selectedSignMethod,
         password: this.password
       }
+      const txMetaData = {
+        ...feeProperties,
+        displayedProperties: {
+          claimableRewards: properties.amounts
+        }
+      }
 
       try {
-        let hashResult
-        if (!this.useTxService) {
-          hashResult = await this.actionManager.send(memo, feeProperties)
-        } else {
-          await this.$apollo.queries.overview.refetch()
-          hashResult = await this.actionManager.sendTxAPI(
-            this.context,
-            type,
-            memo,
-            properties,
-            feeProperties
-          )
-        }
+        await this.$apollo.queries.overview.refetch()
+        const hashResult = await this.actionManager.sendTxAPI(
+          {
+            networkId: this.network.id,
+            networkType: this.network.network_type,
+            chainId: this.network.chain_id,
+            userAddress: this.session.address,
+            rewards: this.rewards,
+            bondDenom: this.network.stakingDenom,
+            account: this.overview.accountInformation
+          },
+          type,
+          memo,
+          properties,
+          txMetaData
+        )
 
         const { hash } = hashResult
         this.txHash = hash
@@ -695,9 +778,25 @@ export default {
         this.selectedSignMethod
       )
       this.$emit(`txIncluded`)
+      // sending to ga
+      this.sendEvent(
+        {
+          network: this.network.id,
+          address: this.session.address
+        },
+        "Action",
+        "Modal",
+        this.featureFlag,
+        this.featureFlag === "claim_rewards" &&
+          this.rewards &&
+          this.rewards.length > 0
+          ? this.rewards[0].amount
+          : this.amount
+      )
       this.$apollo.queries.overview.refetch()
     },
     onSendingFailed(error) {
+      /* istanbul ignore next */
       Sentry.withScope(scope => {
         scope.setExtra("signMethod", this.selectedSignMethod)
         scope.setExtra("transactionData", this.transactionData)
@@ -709,6 +808,9 @@ export default {
       this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
       this.$apollo.queries.overview.refetch()
+    },
+    maxDecimals(value, decimals) {
+      return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
     }
   },
   validations() {
@@ -726,14 +828,36 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        between: between(0, this.overview.liquidStake)
+        between: between(0, this.selectedBalance.amount)
       },
       invoiceTotal: {
-        between: between(0, this.overview.liquidStake)
+        between: between(0, this.selectedBalance.amount)
       }
     }
   },
   apollo: {
+    balances: {
+      query: gql`
+        query balances($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            denom
+            amount
+            gasPrice
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.networkId,
+          address: this.session.address
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
+      }
+    },
     overview: {
       query: gql`
         query OverviewActionModal($networkId: String!, $address: String!) {
@@ -747,82 +871,52 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.networkId,
           address: this.session.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
+        if (!data.overview) {
+          return {
+            totalRewards: 0
+          }
+        }
         return {
           ...data.overview,
           totalRewards: Number(data.overview.totalRewards)
         }
       },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.session.address
-      }
-    },
-    network: {
-      query: gql`
-        query NetworkActionModal($networkId: String!) {
-          network(id: $networkId) {
-            id
-            stakingDenom
-            chain_id
-            action_send
-            action_claim_rewards
-            action_delegate
-            action_redelegate
-            action_undelegate
-            action_deposit
-            action_vote
-            action_proposal
-          }
-        }
-      `,
-      variables() {
-        /* istanbul ignore next */
-        return {
-          networkId: this.networkId
-        }
-      },
-      update(data) {
-        /* istanbul ignore next */
-
-        return data.network
       }
     },
     $subscribe: {
       userTransactionAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.networkId,
             address: this.session.address
           }
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.txHash
         },
         query: UserTransactionAdded,
+        /* istanbul ignore next */
         result({ data }) {
-          /* istanbul ignore next */
-          const { hash, height, success, log } = data.userTransactionAdded
-          /* istanbul ignore next */
+          const { hash, height, success, log } = data.userTransactionAddedV2
           if (hash === this.txHash) {
-            /* istanbul ignore next */
             this.includedHeight = height
-            /* istanbul ignore next */
             if (success) {
-              /* istanbul ignore next */
               this.onTxIncluded()
             } else {
-              /* istanbul ignore next */
               this.onSendingFailed(new Error(log))
             }
           }
@@ -912,7 +1006,7 @@ export default {
 .action-modal-footer .tm-form-group .tm-form-group__field {
   display: flex;
   align-items: center;
-  justify-items: space-between;
+  justify-content: flex-end;
 }
 
 .action-modal-footer .tm-form-group .tm-form-group__field .tertiary {

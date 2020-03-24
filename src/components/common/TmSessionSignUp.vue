@@ -4,11 +4,14 @@
       <h2 class="session-title">
         Create a new address
       </h2>
-      <div v-if="!session.insecureMode && !session.mobile" class="session-main">
+      <div
+        v-if="!session.insecureMode && !session.mobile && !isTestnet"
+        class="session-main"
+      >
         <InsecureModeWarning />
       </div>
       <div v-else>
-        <div class="session-main">
+        <div class="session-main bottom-indent">
           <Steps
             v-if="!session.mobile"
             :steps="[`Create`, `Password`, `Backup`]"
@@ -23,6 +26,7 @@
             <TmField
               id="sign-up-name"
               v-model.trim="fieldName"
+              v-focus
               type="text"
               placeholder="Must be at least 3 characters"
               vue-focus="vue-focus"
@@ -55,7 +59,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import { required, minLength } from "vuelidate/lib/validators"
 import TmBtn from "common/TmBtn"
 import TmFormGroup from "common/TmFormGroup"
@@ -92,6 +96,7 @@ export default {
   },
   computed: {
     ...mapState([`session`, `signup`]),
+    ...mapGetters([`network`, `networks`]),
     fieldName: {
       get() {
         return this.$store.state.signup.signUpName
@@ -99,6 +104,12 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, { field: `signUpName`, value })
       }
+    },
+    isTestnet() {
+      const selectedNetwork = this.networks.find(
+        ({ id }) => id === this.network
+      )
+      return selectedNetwork ? selectedNetwork.testnet : false
     }
   },
   methods: {
