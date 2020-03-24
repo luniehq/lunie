@@ -33,10 +33,10 @@
       </p>
     </div>
     <div
-      class="meta-right"
       v-if="
         transaction.details.amounts && transaction.details.amounts.length > 1
       "
+      class="meta-right"
     >
       <div v-for="amount in transaction.details.amounts" :key="amount.denom">
         {{ amount.amount }} {{ amount.denom }}
