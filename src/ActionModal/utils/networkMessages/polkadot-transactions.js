@@ -5,7 +5,7 @@ import { WsProvider, ApiPromise } from "@polkadot/api"
 
 // will only be inited once per session
 let api
-async function getAPI() {
+export async function getAPI() {
   if (!api) {
     api = new ApiPromise({
       provider: new WsProvider("wss://kusama-rpc.polkadot.io/")

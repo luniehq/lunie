@@ -1,4 +1,4 @@
-import { getSignMessage } from "./polkadot-transactions"
+import { getSignMessage, getAPI } from "./polkadot-transactions"
 
 // Bank
 /* istanbul ignore next */
@@ -15,36 +15,42 @@ export async function MsgSend(
   ])
 }
 
-// // Staking
-// export function MsgDelegate(
-//   senderAddress,
-//   { validatorAddress, amount, denom }
-// ) {
-//   /* istanbul ignore next */
-//   return {
-//     type: `cosmos-sdk/MsgDelegate`,
-//     value: {
-//       delegator_address: senderAddress,
-//       validator_address: validatorAddress,
-//       amount: Coin({ amount, denom })
-//     }
-//   }
-// }
+// Staking
+export async function MsgDelegate(senderAddress, { validatorAddress }) {
+  // stake with all existing plus the selected
+  const api = await getAPI()
+  const { targets: delegatedValidators } = await api.staking.nominators(
+    senderAddress
+  )
+  const validatorAddresses = delegatedValidators.concat(validatorAddress)
+  return await getSignMessage("staking", "nominate", [validatorAddresses])
+}
 
-// export function MsgUndelegate(
-//   senderAddress,
-//   { validatorAddress, amount, denom }
-// ) {
-//   /* istanbul ignore next */
-//   return {
-//     type: `cosmos-sdk/MsgUndelegate`,
-//     value: {
-//       validator_address: validatorAddress,
-//       delegator_address: senderAddress,
-//       amount: Coin({ amount, denom })
-//     }
-//   }
-// }
+export async function BondStake(senderAddress, { amount }) {
+  /* istanbul ignore next */
+  return await getSignMessage("staking", "bond", [
+    senderAddress,
+    amount,
+    senderAddress
+  ])
+}
+
+export async function MsgUndelegate(senderAddress, { validatorAddress }) {
+  const api = await getAPI()
+  // stake with all existing minus the selected
+  const { targets: delegatedValidators } = await api.staking.nominators(
+    senderAddress
+  )
+  const validatorAddresses = delegatedValidators.filter(
+    delegatedValidator => delegatedValidator !== validatorAddress
+  )
+  return await getSignMessage("staking", "nominate", [validatorAddresses])
+}
+
+export async function UnbondStake(senderAddress, { amount }) {
+  /* istanbul ignore next */
+  return await getSignMessage("staking", "unbond", [amount])
+}
 
 // export function MsgRedelegate(
 //   senderAddress,
