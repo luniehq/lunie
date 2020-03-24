@@ -189,6 +189,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import { prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
@@ -225,6 +226,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([`isExtension`]),
     getValidators() {
       if (this.validators && Object.keys(this.validators).length > 0) {
         return this.transaction.details.from.map(validatorAddress => {
@@ -236,8 +238,9 @@ export default {
     },
     multiClaimShow() {
       // here we prevent any changes for the particular case of one validator and one single denom
-      return this.getValidators.length === 1 &&
-        this.transaction.details.amounts.length === 1
+      return (this.getValidators.length === 1 &&
+        this.transaction.details.amounts.length === 1) ||
+        this.isExtension
         ? false
         : this.show
     }
