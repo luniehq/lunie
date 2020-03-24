@@ -1,4 +1,5 @@
 import { getSignMessage, getAPI } from "./polkadot-transactions"
+import uniqBy from "lodash.uniqby"
 
 // Bank
 /* istanbul ignore next */
@@ -9,30 +10,54 @@ export async function MsgSend(
     amounts // [{ denom, amount}]
   }
 ) {
-  return await getSignMessage(senderAddress, "balances", "transfer", [
-    toAddress,
-    amounts[0].amount
-  ])
+  const api = await getAPI()
+  return await getSignMessage(
+    senderAddress,
+    api.tx.balances.transfer(toAddress, amounts[0].amount * 1000000) // FIXME! Need to clarify why this conversion factor
+  )
 }
 
 // Staking
-export async function MsgDelegate(senderAddress, { validatorAddress }) {
-  // stake with all existing plus the selected
-  const api = await getAPI()
-  const { targets: delegatedValidators } = await api.staking.nominators(
-    senderAddress
-  )
-  const validatorAddresses = delegatedValidators.concat(validatorAddress)
-  return await getSignMessage("staking", "nominate", [validatorAddresses])
+export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
+  try {
+    // stake with all existing plus the selected
+    const api = await getAPI()
+    const response = await api.query.staking.nominators(senderAddress)
+    const { targets: delegatedValidators } = response.toJSON()
+    const transactions = []
+    if (amount > 0) {
+      transactions.push(
+        await api.tx.staking.bondExtra(
+          amount * 1000000 // FIXME! Need to clarify why this conversion factor
+        )
+      )
+    }
+    if (
+      !delegatedValidators.find(
+        delegatedValidators => delegatedValidators === validatorAddress
+      )
+    ) {
+      const validatorAddresses = uniqBy(
+        delegatedValidators.concat(validatorAddress),
+        x => x
+      )
+      transactions.push(await api.tx.staking.nominate(validatorAddresses))
+    }
+    if (transactions.length === 0) {
+      throw new Error(
+        "You have to either bond stake or nominate a new validator"
+      )
+    }
+    return await getSignMessage(senderAddress, transactions)
+  } catch (error) {
+    debugger
+    throw error
+  }
 }
 
 export async function BondStake(senderAddress, { amount }) {
   /* istanbul ignore next */
-  return await getSignMessage("staking", "bond", [
-    senderAddress,
-    amount,
-    senderAddress
-  ])
+  return await getSignMessage(senderAddress, "staking", "bondExtra", [amount])
 }
 
 export async function MsgUndelegate(senderAddress, { validatorAddress }) {
@@ -44,7 +69,9 @@ export async function MsgUndelegate(senderAddress, { validatorAddress }) {
   const validatorAddresses = delegatedValidators.filter(
     delegatedValidator => delegatedValidator !== validatorAddress
   )
-  return await getSignMessage("staking", "nominate", [validatorAddresses])
+  return await getSignMessage(senderAddress, "staking", "nominate", [
+    validatorAddresses
+  ])
 }
 
 export async function UnbondStake(senderAddress, { amount }) {
