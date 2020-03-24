@@ -28,7 +28,7 @@
     "@dicebear/avatars-jdenticon-sprites": "1.1.4",
     "@lunie/cosmos-keys": "0.2.0",
     "@lunie/cosmos-ledger": "0.1.7",
-    "@polkadot/api": "^v1.8.0-beta.1",
+    "@polkadot/api": "1.8.1",
     "@polkadot/util-crypto": "2.5.1",
     "@sentry/browser": "5.7.1",
     "@sentry/integrations": "5.7.1",
