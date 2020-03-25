@@ -206,7 +206,7 @@
                 :to="
                   `/${$router.history.current.params.networkId}/blocks/${includedHeight}`
                 "
-                >#{{ prettyIncludedHeight }}</router-link
+                >#{{ includedHeight | prettyInt }}</router-link
               >
             </div>
           </TmDataMsg>
@@ -355,7 +355,8 @@ export default {
     FeatureNotAvailable
   },
   filters: {
-    viewDenom
+    viewDenom,
+    prettyInt
   },
   props: {
     title: {
@@ -498,9 +499,6 @@ export default {
         default:
           return "Sending..."
       }
-    },
-    prettyIncludedHeight() {
-      return prettyInt(this.includedHeight)
     },
     getDenom() {
       return this.selectedDenom || this.network.stakingDenom
