@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.181] - 2020-03-25
+
+### Fixed
+
+- fixing blockHeight update after several staking @iambeone
+- Prevent stale networks cache @faboweb
+
+### Repository
+
+- clearing sentry variables to prevent sentry usage during e2e-tests @iambeone
+
 ## [1.0.180] - 2020-03-25
 
 ### Added
