@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.182] - 2020-03-25
+
+### Changed
+
+- [#3773](https://github.com/cosmos/lunie/pull/3773) Fixed the gas estimates for emoney @bitcoinera
+- Prevent sending of NGM on emoney mainnet @faboweb
+
 ## [1.0.181] - 2020-03-25
 
 ### Fixed
