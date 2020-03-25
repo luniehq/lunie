@@ -40,8 +40,9 @@ export async function getSignMessage(senderAddress, transaction) {
   if (Array.isArray(transaction)) {
     if (transaction.length > 1) {
       transaction = await multiMessage(transaction)
+    } else {
+      transaction = transaction[0]
     }
-    transaction = transaction[0]
   }
 
   const api = await getAPI()

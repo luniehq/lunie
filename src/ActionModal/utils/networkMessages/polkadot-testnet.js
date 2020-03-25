@@ -19,40 +19,33 @@ export async function MsgSend(
 
 // Staking
 export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
-  try {
-    // stake with all existing plus the selected
-    const api = await getAPI()
-    const response = await api.query.staking.nominators(senderAddress)
-    const { targets: delegatedValidators } = response.toJSON()
-    const transactions = []
-    if (amount > 0) {
-      transactions.push(
-        await api.tx.staking.bondExtra(
-          amount * 1000000 // FIXME! Need to clarify why this conversion factor
-        )
+  // stake with all existing plus the selected
+  const api = await getAPI()
+  const response = await api.query.staking.nominators(senderAddress)
+  const { targets: delegatedValidators } = response.toJSON()
+  const transactions = []
+  if (amount > 0) {
+    transactions.push(
+      await api.tx.staking.bondExtra(
+        amount * 1000000 // FIXME! Need to clarify why this conversion factor
       )
-    }
-    if (
-      !delegatedValidators.find(
-        delegatedValidators => delegatedValidators === validatorAddress
-      )
-    ) {
-      const validatorAddresses = uniqBy(
-        delegatedValidators.concat(validatorAddress),
-        x => x
-      )
-      transactions.push(await api.tx.staking.nominate(validatorAddresses))
-    }
-    if (transactions.length === 0) {
-      throw new Error(
-        "You have to either bond stake or nominate a new validator"
-      )
-    }
-    return await getSignMessage(senderAddress, transactions)
-  } catch (error) {
-    debugger
-    throw error
+    )
   }
+  if (
+    !delegatedValidators.find(
+      delegatedValidators => delegatedValidators === validatorAddress
+    )
+  ) {
+    const validatorAddresses = uniqBy(
+      delegatedValidators.concat(validatorAddress),
+      x => x
+    )
+    transactions.push(await api.tx.staking.nominate(validatorAddresses))
+  }
+  if (transactions.length === 0) {
+    throw new Error("You have to either bond stake or nominate a new validator")
+  }
+  return await getSignMessage(senderAddress, transactions)
 }
 
 export async function BondStake(senderAddress, { amount }) {
