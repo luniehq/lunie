@@ -81,7 +81,7 @@ function getCosmosAddressCreator(bech32Prefix) {
 
 // creates a polkadot address
 async function createPolkadotAddress(seedPhrase, addressPrefix) {
-  const [{ Keyring }] = await Promise.all([import("@polkadot/api")])
+  const { Keyring } = await import("@polkadot/api")
 
   const keyring = new Keyring({
     ss58Format: Number(addressPrefix),
