@@ -456,6 +456,8 @@ export default {
       ) {
         // Terra tax is only a displayed value in TableInvoice
         this.setTerraTax(this.amount)
+        // Terra gas estimate // TODO: get this from the API
+        this.updateTerraGasEstimate()
         return this.maxDecimals(
           Number(this.gasEstimate) *
             Number(this.gasPrice) *
@@ -560,6 +562,9 @@ export default {
     }
   },
   methods: {
+    updateTerraGasEstimate() {
+      this.gasEstimate = 200000
+    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen || !this.queueEmpty) {
