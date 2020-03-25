@@ -67,6 +67,23 @@ const getNetworkCapabilities = {
         action_vote: false,
         action_proposal: false
     },
+    "emoney-mainnet": {
+        feature_session: true,
+        feature_explore: true,
+        feature_portfolio: true,
+        feature_validators: true,
+        feature_proposals: false,
+        feature_activity: true,
+        feature_explorer: true,
+        action_send: true,
+        action_claim_rewards: true,
+        action_delegate: true,
+        action_redelegate: true,
+        action_undelegate: true,
+        action_deposit: false,
+        action_vote: false,
+        action_proposal: false
+    },
     "emoney-testnet": {
         feature_session: true,
         feature_explore: true,

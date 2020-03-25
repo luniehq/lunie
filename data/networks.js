@@ -99,6 +99,27 @@ module.exports = [
     slug: 'terra-testnet'
   },
   {
+    id: 'emoney-mainnet',
+    title: 'e-Money',
+    chain_id: 'emoney-1',
+    api_url: 'https://emoney.validator.network/light',
+    rpc_url: 'wss://emoney.validator.network/websocket',
+    bech32_prefix: 'emoney',
+    address_prefix: 'emoney',
+    address_creator: 'cosmos',
+    ledger_app: 'cosmos',
+    network_type: 'cosmos',
+    source_class_name: 'source/emoneyV0-source',
+    block_listener_class_name: 'block-listeners/cosmos-node-subscription',
+    testnet: true,
+    ...getNetworkCapabilities[`emoney-mainnet`],
+    default: false,
+    stakingDenom: 'NGM',
+    enabled: true,
+    icon: 'https://app.lunie.io/img/networks/emoney-mainnet.png',
+    slug: 'emoney'
+  },
+  {
     id: 'emoney-testnet',
     title: 'e-Money Testnet',
     chain_id: 'lilmermaid-5',
