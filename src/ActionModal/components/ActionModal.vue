@@ -465,7 +465,14 @@ export default {
           6
         ) // TODO get precision from API
       }
-      return Number(this.gasPrice) * Number(this.gasEstimate)
+      // still update Terra gas estimate for LUNA
+      if (this.networkId.startsWith(`terra`)) {
+        this.updateTerraGasEstimate()
+      }
+      return this.maxDecimals(
+        Number(this.gasPrice) * Number(this.gasEstimate),
+        6
+      )
     },
     subTotal() {
       return this.featureFlag === "undelegate" ? 0 : this.amount
