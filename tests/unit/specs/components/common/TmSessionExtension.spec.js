@@ -12,7 +12,7 @@ describe(`TmSessionExtension`, () => {
     },
     {
       address: "cosmos15678",
-      network: "gaia-testnet",
+      network: "cosmos-hub-testnet",
       slug: "cosmos-hub-testnet"
     }
   ]
@@ -24,7 +24,7 @@ describe(`TmSessionExtension`, () => {
       logo_url: "cosmos-logo.png",
       testnet: true,
       title: "Cosmos Hub Test",
-      slug: "gaia"
+      slug: "cosmos-hub-testnet"
     },
     {
       id: "cosmos-hub-mainnet",
@@ -92,5 +92,43 @@ describe(`TmSessionExtension`, () => {
 
   it("should load addresses on mount", () => {
     expect($store.dispatch).toHaveBeenCalledWith("getAddressesFromExtension")
+  })
+
+  it("should return the account's project mainnet network if it exists and the testnet checkbox is not checked", () => {
+    const self = {
+      networks,
+      testnet: false
+    }
+    const signInNetwork = TmSessionExtension.methods.getSignInNetwork.call(
+      self,
+      accounts[1]
+    )
+    expect(signInNetwork).toEqual({
+      id: "cosmos-hub-mainnet",
+      chain_id: "cosmoshub",
+      logo_url: "cosmos-logo.png",
+      testnet: false,
+      title: "Cosmos Hub",
+      slug: "cosmos-hub"
+    })
+  })
+
+  it("should return the account's project testnet network if it exists and the testnet checkbox is not checked", () => {
+    const self = {
+      networks,
+      testnet: true
+    }
+    const signInNetwork = TmSessionExtension.methods.getSignInNetwork.call(
+      self,
+      accounts[1]
+    )
+    expect(signInNetwork).toEqual({
+      id: "gaia-testnet",
+      chain_id: "gaia-123",
+      logo_url: "cosmos-logo.png",
+      testnet: true,
+      title: "Cosmos Hub Test",
+      slug: "cosmos-hub-testnet"
+    })
   })
 })
