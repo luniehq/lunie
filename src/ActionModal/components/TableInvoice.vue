@@ -61,7 +61,7 @@ export default {
       return this.amount
     },
     total() {
-      return this.estimatedFee + this.subTotal + this.chainAppliedFees
+      return this.estimatedFee + this.subTotal
     }
   }
 }
