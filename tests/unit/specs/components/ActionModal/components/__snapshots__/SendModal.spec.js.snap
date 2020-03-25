@@ -74,6 +74,8 @@ exports[`SendModal should display send modal form 1`] = `
     />
      
     <!---->
+     
+    <!---->
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
@@ -159,6 +161,8 @@ exports[`SendModal validation should show address required error 1`] = `
     />
      
     <!---->
+     
+    <!---->
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
@@ -242,6 +246,8 @@ exports[`SendModal validation should show bech32 error when address is not bech3
       type="text"
       value="(Sent via Lunie)"
     />
+     
+    <!---->
      
     <!---->
   </tmformgroup-stub>
