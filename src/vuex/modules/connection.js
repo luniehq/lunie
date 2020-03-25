@@ -70,7 +70,7 @@ export default function({ apollo }) {
       const { data } = await apollo.query({
         query: NetworksAll,
         variables: { experimental: experimentalMode },
-        fetchPolicy: "cache-first"
+        fetchPolicy: "cache-and-network"
       })
       commit("setNetworks", data.networks)
     },
