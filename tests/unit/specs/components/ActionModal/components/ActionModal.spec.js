@@ -180,22 +180,24 @@ describe(`ActionModal`, () => {
     expect(maxDecimalsNumber).toBe(9.8964)
   })
 
-  it(`should return the special fees you need to pay in Terra for sending`, () => {
+  it(`should return the special fees you need to pay in Terra for sending alt-tokens`, () => {
     const self = {
       networkId: "terra-mainnet",
       transactionData: {
         type: `MsgSend`
       },
-      gasEstimate: 550000,
-      gasPrice: "1.5e-8",
+      gasEstimate: 200000,
+      gasPrice: "3e-8",
       amount: 1,
       maxDecimals: ActionModal.methods.maxDecimals,
       network: {
-        stakingDenom: "LUNA"
-      }
+        stakingDenom: "KRT"
+      },
+      setTerraTax: jest.fn(),
+      updateTerraGasEstimate: jest.fn()
     }
-    const maxAmount = ActionModal.computed.estimatedFee.call(self)
-    expect(maxAmount).toBe(1.012375)
+    const estimatedFee = ActionModal.computed.estimatedFee.call(self)
+    expect(estimatedFee).toBe(0.006)
   })
 
   it(`should set the submissionError if the submission is rejected`, async () => {
