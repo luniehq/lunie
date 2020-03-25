@@ -447,6 +447,8 @@ export default {
       )
     },
     estimatedFee() {
+      // another hack
+      this.updateEmoneyGasEstimate()
       // hack
       // terra uses a tax on all send txs
       if (
@@ -553,6 +555,11 @@ export default {
     }
   },
   methods: {
+    updateEmoneyGasEstimate() {
+      if (this.network.id.startsWith(`emoney`)) {
+        this.gasEstimate = 200000
+      }
+    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen || !this.queueEmpty) {
