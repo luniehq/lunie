@@ -111,7 +111,7 @@ module.exports = [
     network_type: 'cosmos',
     source_class_name: 'source/emoneyV0-source',
     block_listener_class_name: 'block-listeners/cosmos-node-subscription',
-    testnet: true,
+    testnet: false,
     ...getNetworkCapabilities[`emoney-mainnet`],
     default: false,
     stakingDenom: 'NGM',
