@@ -112,7 +112,6 @@ export default {
     async signInAndRedirect(account) {
       await this.signIn(account)
       const accountNetwork = this.getSignInNetwork(account)
-      console.log(accountNetwork)
       this.$router.push({
         name: "portfolio",
         params: {
