@@ -679,20 +679,24 @@ export default {
     },
     async simulate() {
       const { type, memo, ...properties } = this.transactionData
-      try {
-        this.gasEstimate = await this.actionManager.simulateTxAPI(
-          {
-            userAddress: this.session.address,
-            networkId: this.network.id,
-            networkType: this.network.network_type
-          },
-          type,
-          properties,
-          memo
-        )
-        this.step = feeStep
-      } catch ({ message }) {
-        this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
+      if (this.network.startsWith === `emoney`) {
+        this.gasEstimate = 200000
+      } else {
+        try {
+          this.gasEstimate = await this.actionManager.simulateTxAPI(
+            {
+              userAddress: this.session.address,
+              networkId: this.network.id,
+              networkType: this.network.network_type
+            },
+            type,
+            properties,
+            memo
+          )
+          this.step = feeStep
+        } catch ({ message }) {
+          this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
+        }
       }
 
       // limit fees to the maximum the user has
