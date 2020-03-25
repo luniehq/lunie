@@ -139,6 +139,9 @@ jobs:
             done
 
             PASSWORD=${NETWORK_PASSWORD} CHT_PWD=${ACCOUNT_PASSWORD} yarn test:e2e:browserstack --fe=${FE_URL} --api=https://production-api.lunie.io
+          environment:
+            SENTRY_URL: ""
+            SENTRY_TOKEN: ""
 
   testExtension:
     machine: true
