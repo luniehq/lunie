@@ -22,6 +22,9 @@ exports[`DelegationModal Submission Data for Redelegating should set the subtota
       <tmfield-stub type="number" placeholder="0" id="amount" class="tm-field-addon" value="10"></tmfield-stub>
       <tmbtn-stub value="Set Max" type="button" class="secondary addon-max"></tmbtn-stub>
     </tmfieldgroup-stub> <span class="form-message">
+      In Polkadot staked tokens are independent from picked validators. Want
+      to add more to your staked tokens amount?
+    </span> <span class="form-message">
       Available to stake:
       124
       STAKEs
@@ -116,6 +119,15 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
         value="Set Max"
       />
     </tmfieldgroup-stub>
+     
+    <span
+      class="form-message"
+    >
+      
+      In Polkadot staked tokens are independent from picked validators. Want
+      to add more to your staked tokens amount?
+    
+    </span>
      
     <span
       class="form-message"
