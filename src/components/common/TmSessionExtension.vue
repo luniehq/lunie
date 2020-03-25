@@ -83,14 +83,22 @@ export default {
       // defaulting to cosmos-hub-mainnet
       const accountNetwork = account.network || "cosmos-hub-mainnet"
       if (this.testnet) {
-        return this.networks
-          .filter(({ testnet }) => testnet)
-          .find(({ slug }) => accountNetwork.startsWith(slug))
+        return (
+          this.networks
+            .filter(({ testnet }) => testnet)
+            .find(({ slug }) => accountNetwork.startsWith(slug)) ||
+          // it could happen that there is no mainnet ready yet for that protocol
+          this.networks.find(({ slug }) => accountNetwork.startsWith(slug))
+        )
       } else {
         // if testnet is not true then we will sign in to mainnet
-        return this.networks
-          .filter(({ testnet }) => !testnet)
-          .find(({ slug }) => accountNetwork.startsWith(slug))
+        return (
+          this.networks
+            .filter(({ testnet }) => !testnet)
+            .find(({ slug }) => accountNetwork.startsWith(slug)) ||
+          // this is quite unlikely, as we will always have a testnet of each, but better stay safe
+          this.networks.find(({ slug }) => accountNetwork.startsWith(slug))
+        )
       }
     },
     async signIn(account) {
