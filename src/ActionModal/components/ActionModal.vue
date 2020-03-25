@@ -426,7 +426,7 @@ export default {
     isMobileApp: config.mobileApp,
     balances: [],
     queueEmpty: true,
-    includedHeight: null
+    includedHeight: undefined
   }),
   computed: {
     ...mapState([`extension`, `session`]),
