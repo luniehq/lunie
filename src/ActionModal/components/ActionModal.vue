@@ -337,8 +337,6 @@ const sessionType = {
   EXTENSION: SIGN_METHODS.EXTENSION
 }
 
-const TERRA_GAS_ADJUSTMENT = 1.5
-
 export default {
   name: `action-modal`,
   components: {
@@ -453,13 +451,11 @@ export default {
         return this.getDenom === this.network.stakingDenom
           ? this.maxDecimals(
               Number(this.gasEstimate) *
-                Number(this.gasPrice) *
-                TERRA_GAS_ADJUSTMENT,
+                Number(this.gasPrice),
               6
             )
           : this.maxDecimals(
               Number(this.gasEstimate) *
-                TERRA_GAS_ADJUSTMENT *
                 Number(this.gasPrice) +
                 Number(this.amount),
               6
