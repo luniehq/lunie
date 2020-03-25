@@ -95,6 +95,7 @@
             :amount="Number(subTotal)"
             :estimated-fee="estimatedFee"
             :bond-denom="getDenom"
+            :chain-applied-fees="terraTax"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid"
@@ -337,6 +338,9 @@ const sessionType = {
   EXTENSION: SIGN_METHODS.EXTENSION
 }
 
+const TERRA_TAX_RATE = 0.00675
+const TERRA_TAX_CAP = 1000000
+
 export default {
   name: `action-modal`,
   components: {
@@ -422,7 +426,8 @@ export default {
     overview: {},
     isMobileApp: config.mobileApp,
     balances: [],
-    queueEmpty: true
+    queueEmpty: true,
+    terraTax: 0
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -446,20 +451,17 @@ export default {
       // terra uses a tax on all send txs
       if (
         this.networkId.startsWith(`terra`) &&
-        this.transactionData.type === transactionTypes.SEND
+        this.transactionData.type === transactionTypes.SEND &&
+        this.getDenom !== this.network.stakingDenom
       ) {
-        return this.getDenom === this.network.stakingDenom
-          ? this.maxDecimals(
-              Number(this.gasEstimate) *
-                Number(this.gasPrice),
-              6
-            )
-          : this.maxDecimals(
-              Number(this.gasEstimate) *
-                Number(this.gasPrice) +
-                Number(this.amount),
-              6
-            ) // TODO get precision from API
+        // Terra tax is only a displayed value in TableInvoice
+        this.setTerraTax(this.amount)
+        return this.maxDecimals(
+          Number(this.gasEstimate) *
+            Number(this.gasPrice) *
+            Number(this.amount),
+          6
+        ) // TODO get precision from API
       }
       return Number(this.gasPrice) * Number(this.gasEstimate)
     },
@@ -703,14 +705,6 @@ export default {
       // limit fees to the maximum the user has
       if (this.invoiceTotal > this.selectedBalance.amount) {
         let payable = Number(this.subTotal)
-        // in terra we also have to pay the tax
-        // TODO refactor using a `fixedFee` property
-        if (
-          this.networkId.startsWith(`terra`) &&
-          this.transactionData.type === transactionTypes.SEND
-        ) {
-          payable += Number(this.amount)
-        }
         this.gasPrice =
           (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
       }
@@ -809,6 +803,11 @@ export default {
     },
     maxDecimals(value, decimals) {
       return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
+    },
+    setTerraTax(amount) {
+      this.terraTax = Math.ceil(
+        Math.min(Number(amount) * TERRA_TAX_RATE, TERRA_TAX_CAP)
+      )
     }
   },
   validations() {

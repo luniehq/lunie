@@ -12,6 +12,13 @@
           {{ bondDenom | viewDenom }}
         </span>
       </li>
+      <li v-if="chainAppliedFees > 0">
+        <span>Network Extra Fee</span>
+        <span>
+          {{ chainAppliedFees | fullDecimals }}
+          {{ bondDenom | viewDenom }}
+        </span>
+      </li>
       <li class="total-row">
         <span>Total</span>
         <span> {{ total | fullDecimals }} {{ bondDenom | viewDenom }} </span>
@@ -40,6 +47,10 @@ export default {
     bondDenom: {
       type: String,
       required: true
+    },
+    chainAppliedFees: {
+      type: Number,
+      default: 0
     }
   },
   data: () => ({
@@ -50,7 +61,7 @@ export default {
       return this.amount
     },
     total() {
-      return this.estimatedFee + this.subTotal
+      return this.estimatedFee + this.subTotal + this.chainAppliedFees
     }
   }
 }
