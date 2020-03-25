@@ -10,6 +10,7 @@
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"
     feature-flag="send"
+    :disabled="sendingNgm"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -122,6 +123,11 @@
         type="maxLength"
         :max="max_memo_characters"
       />
+      <TmFormMsg
+        v-if="sendingNgm"
+        type="custom"
+        msg="Sending NGM is currently disabled."
+      />
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -218,6 +224,9 @@ export default {
       return this.denoms
         ? this.denoms.map(denom => (denom = { key: denom, value: denom }))
         : []
+    },
+    sendingNgm() {
+      return this.selectedToken === "NGM" && this.network === "emoney-mainnet"
     }
   },
   watch: {

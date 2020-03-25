@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.181] - 2020-03-25
+
+### Fixed
+
+- fixing blockHeight update after several staking @iambeone
+- changing cache policy @iambeone
+- Prevent stale networks cache @faboweb
+
+### Repository
+
+- clearing sentry variables to prevent sentry usage during e2e-tests @iambeone
+
+## [1.0.180] - 2020-03-25
+
+### Added
+
+- Added emoney mainnet related files @faboweb
+- Added new emoney tokens @faboweb
+
+### Changed
+
+- [#3748](https://github.com/cosmos/lunie/pull/3748) Now ClaimRewardsTxDetails displays all claimed rewards and validators are shown a row below @Bitcoinera
+
+### Fixed
+
+- [#3761](https://github.com/cosmos/lunie/issues/3761) Fix polkadot amount conversion @mariopino
+
+### Repository
+
+- Fix hot reloading for css @faboweb
+
+## [1.0.179] - 2020-03-23
+
+### Fixed
+
+- subscribeToMore should contain document instead of query @iambeone
+- [#3747](https://github.com/cosmos/lunie/issues/3747) added loaded property to search bar on validator page to stop reloading and unfocussed input @jbibla
+
+### Repository
+
+- removed the docker section and changed some grammar of readme for readability  @jrmoreau
+
 ## [1.0.178] - 2020-03-20
 
 ### Added
