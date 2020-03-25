@@ -137,7 +137,7 @@ import gql from "graphql-tag"
 import b32 from "scripts/b32"
 import BigNumber from "bignumber.js"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import { uatoms, SMALLEST } from "src/scripts/num"
+import { toMicroUnit, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
@@ -187,7 +187,7 @@ export default {
     balances: []
   }),
   computed: {
-    ...mapGetters([`network`, `stakingDenom`]),
+    ...mapGetters([`network`, `networks`, `stakingDenom`]),
     ...mapGetters({ userAddress: `address` }),
     selectedBalance() {
       return (
@@ -205,7 +205,11 @@ export default {
         toAddress: this.address,
         amounts: [
           {
-            amount: uatoms(+this.amount),
+            amount: toMicroUnit(
+              +this.amount,
+              this.stakingDenom,
+              this.networks.find(({ id }) => id === this.network)
+            ),
             denom: toMicroDenom(this.selectedToken)
           }
         ],
