@@ -65,9 +65,9 @@
               <option value="EUR">EUR</option>
               <option value="GBP">GBP</option>
               <option value="JPY">JPY</option>
-              <option value="JPY">DKK</option>
-              <option value="JPY">SEK</option>
-              <option value="JPY">NOK</option>
+              <option value="DKK">DKK</option>
+              <option value="SEK">SEK</option>
+              <option value="NOK">NOK</option>
               <option value="CHF">CHF</option>
             </select>
           </div>
