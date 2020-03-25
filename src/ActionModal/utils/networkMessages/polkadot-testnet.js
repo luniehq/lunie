@@ -48,29 +48,29 @@ export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
   return await getSignMessage(senderAddress, transactions)
 }
 
-export async function BondStake(senderAddress, { amount }) {
-  /* istanbul ignore next */
-  return await getSignMessage(senderAddress, "staking", "bondExtra", [amount])
-}
+// export async function BondStake(senderAddress, { amount }) {
+//   /* istanbul ignore next */
+//   return await getSignMessage(senderAddress, "staking", "bondExtra", [amount])
+// }
 
-export async function MsgUndelegate(senderAddress, { validatorAddress }) {
-  const api = await getAPI()
-  // stake with all existing minus the selected
-  const { targets: delegatedValidators } = await api.staking.nominators(
-    senderAddress
-  )
-  const validatorAddresses = delegatedValidators.filter(
-    delegatedValidator => delegatedValidator !== validatorAddress
-  )
-  return await getSignMessage(senderAddress, "staking", "nominate", [
-    validatorAddresses
-  ])
-}
+// export async function MsgUndelegate(senderAddress, { validatorAddress }) {
+//   const api = await getAPI()
+//   // stake with all existing minus the selected
+//   const { targets: delegatedValidators } = await api.staking.nominators(
+//     senderAddress
+//   )
+//   const validatorAddresses = delegatedValidators.filter(
+//     delegatedValidator => delegatedValidator !== validatorAddress
+//   )
+//   return await getSignMessage(senderAddress, "staking", "nominate", [
+//     validatorAddresses
+//   ])
+// }
 
-export async function UnbondStake(senderAddress, { amount }) {
-  /* istanbul ignore next */
-  return await getSignMessage("staking", "unbond", [amount])
-}
+// export async function UnbondStake(senderAddress, { amount }) {
+//   /* istanbul ignore next */
+//   return await getSignMessage("staking", "unbond", [amount])
+// }
 
 // export function MsgRedelegate(
 //   senderAddress,
