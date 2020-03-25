@@ -34,6 +34,28 @@ exports[`TmSessionExtension should show a guide to install the extension if no e
       </p>
     </div>
   </div>
+   
+  <tmformgroup-stub
+    class="field-checkbox"
+    fieldid="sign-up-warning"
+    fieldlabel=""
+  >
+    <div
+      class="field-checkbox-testnet"
+    >
+      <label
+        class="field-checkbox-label"
+        for="select-testnet"
+      >
+        <input
+          id="select-testnet"
+          type="checkbox"
+        />
+        
+        This is a testnet address
+      </label>
+    </div>
+  </tmformgroup-stub>
 </sessionframe-stub>
 `;
 
@@ -69,5 +91,27 @@ exports[`TmSessionExtension should show a list of all accounts in the extension 
       />
     </div>
   </div>
+   
+  <tmformgroup-stub
+    class="field-checkbox"
+    fieldid="sign-up-warning"
+    fieldlabel=""
+  >
+    <div
+      class="field-checkbox-testnet"
+    >
+      <label
+        class="field-checkbox-label"
+        for="select-testnet"
+      >
+        <input
+          id="select-testnet"
+          type="checkbox"
+        />
+        
+        This is a testnet address
+      </label>
+    </div>
+  </tmformgroup-stub>
 </sessionframe-stub>
 `;

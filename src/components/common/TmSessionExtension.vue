@@ -37,22 +37,33 @@
         </p>
       </div>
     </div>
+    <TmFormGroup class="field-checkbox" field-id="sign-up-warning" field-label>
+      <div class="field-checkbox-testnet">
+        <label class="field-checkbox-label" for="select-testnet">
+          <input id="select-testnet" v-model="testnet" type="checkbox" />
+          This is a testnet address</label
+        >
+      </div>
+    </TmFormGroup>
   </SessionFrame>
 </template>
 
 <script>
 import AccountList from "common/AccountList"
 import SessionFrame from "common/SessionFrame"
+import TmFormGroup from "common/TmFormGroup"
 import { mapState, mapGetters } from "vuex"
 export default {
   name: `session-extension`,
   components: {
     AccountList,
-    SessionFrame
+    SessionFrame,
+    TmFormGroup
   },
   data: () => ({
     connectionError: null,
-    address: null
+    address: null,
+    testnet: false
   }),
   computed: {
     ...mapState([`extension`]),
@@ -68,20 +79,37 @@ export default {
     getAddressesFromExtension() {
       this.$store.dispatch("getAddressesFromExtension")
     },
+    getSignInNetwork(account) {
+      // defaulting to cosmos-hub-mainnet
+      const accountNetwork = account.network || "cosmos-hub-mainnet"
+      if (this.testnet) {
+        return this.networks
+          .filter(({ testnet }) => testnet)
+          .find(({ slug }) => accountNetwork.startsWith(slug))
+      } else {
+        // if testnet is not true then we will sign in to mainnet
+        return this.networks
+          .filter(({ testnet }) => !testnet)
+          .find(({ slug }) => accountNetwork.startsWith(slug))
+      }
+    },
     async signIn(account) {
+      const network = this.getSignInNetwork(account)
       this.$store.dispatch(`signIn`, {
         sessionType: `extension`,
         address: account.address,
-        networkId: account.network ? account.network : "cosmos-hub-mainnet" // defaulting to cosmos-hub-mainnet
+        networkId: network.id
       })
     },
     async signInAndRedirect(account) {
       await this.signIn(account)
+      const accountNetwork = this.getSignInNetwork(account)
+      console.log(accountNetwork)
       this.$router.push({
         name: "portfolio",
         params: {
           networkId:
-            this.networks.find(({ id }) => id === account.network).slug ||
+            this.networks.find(({ id }) => id === accountNetwork.id).slug ||
             "cosmos-hub" // defaulting to cosmos-hub-mainnet
         }
       })
