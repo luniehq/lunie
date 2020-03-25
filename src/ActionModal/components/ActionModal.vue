@@ -206,7 +206,7 @@
                 :to="
                   `/${$router.history.current.params.networkId}/blocks/${includedHeight}`
                 "
-                >#{{ prettyIncludedHeight() }}</router-link
+                >#{{ prettyIncludedHeight }}</router-link
               >
             </div>
           </TmDataMsg>
@@ -425,7 +425,8 @@ export default {
     overview: {},
     isMobileApp: config.mobileApp,
     balances: [],
-    queueEmpty: true
+    queueEmpty: true,
+    includedHeight: null
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -498,6 +499,9 @@ export default {
           return "Sending..."
       }
     },
+    prettyIncludedHeight() {
+      return prettyInt(this.includedHeight)
+    },
     getDenom() {
       return this.selectedDenom || this.network.stakingDenom
     },
@@ -551,9 +555,6 @@ export default {
     }
   },
   methods: {
-    prettyIncludedHeight() {
-      return prettyInt(this.includedHeight)
-    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen || !this.queueEmpty) {
