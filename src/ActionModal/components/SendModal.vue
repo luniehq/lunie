@@ -126,7 +126,7 @@
       <TmFormMsg
         v-if="sendingNgm"
         type="custom"
-        msg="Sending NGM is currently disabled. "
+        msg="Sending NGM is currently disabled."
       />
     </TmFormGroup>
   </ActionModal>
