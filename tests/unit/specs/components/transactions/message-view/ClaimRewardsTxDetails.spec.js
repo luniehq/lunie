@@ -82,6 +82,13 @@ describe(`ClaimRewardsTxDetails`, () => {
         validators: validators,
         show: false
       },
+      mocks: {
+        $store: {
+          getters: {
+            isExtension: false
+          }
+        }
+      },
       stubs: [`router-link`]
     })
     expect(wrapper.element).toMatchSnapshot()
