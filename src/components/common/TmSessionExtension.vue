@@ -77,15 +77,27 @@ export default {
     },
     async signInAndRedirect(account) {
       await this.signIn(account)
+      let accountNetwork = this.networks.find(
+        ({ id }) => id === account.network
+      )
+      // if no network, trying to identify by network_prefix
+      if (!accountNetwork) {
+        // select mainnet first
+        accountNetwork = this.networks.find(
+          ({ address_prefix, testnet }) =>
+            account.address.startsWith(address_prefix) && !testnet
+        )
+        if (!accountNetwork) {
+          // check for testnet
+          accountNetwork = this.networks.find(({ address_prefix }) =>
+            account.address.startsWith(address_prefix)
+          )
+        }
+      }
       this.$router.push({
         name: "portfolio",
         params: {
-          networkId: (
-            this.networks.find(({ id }) => id === account.network) || {
-              slug: "cosmos-hub"
-            }
-          ).slug
-          // defaulting to cosmos-hub-mainnet
+          networkId: accountNetwork ? accountNetwork.slug : "cosmos-hub" // defaulting to cosmos-hub-mainnet
         }
       })
     }
