@@ -28,8 +28,6 @@ exports[`TableInvoice should render correctly 1`] = `
       </span>
     </li>
      
-    <!---->
-     
     <li
       class="total-row"
     >

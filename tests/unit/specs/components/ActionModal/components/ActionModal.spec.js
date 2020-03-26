@@ -180,7 +180,7 @@ describe(`ActionModal`, () => {
     expect(maxDecimalsNumber).toBe(9.8964)
   })
 
-  it(`should return the special fees you need to pay in Terra for sending alt-tokens`, () => {
+  it(`should return the tax you need to pay in Terra for sending alt-tokens`, () => {
     const self = {
       networkId: "terra-mainnet",
       transactionData: {
@@ -197,7 +197,7 @@ describe(`ActionModal`, () => {
       updateEmoneyGasEstimate: () => {}
     }
     const estimatedFee = ActionModal.computed.estimatedFee.call(self)
-    expect(estimatedFee).toBe(0.006)
+    expect(estimatedFee).toBe(0.00675)
   })
 
   it(`should set the submissionError if the submission is rejected`, async () => {

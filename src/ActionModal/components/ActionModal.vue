@@ -448,7 +448,7 @@ export default {
     },
     estimatedFee() {
       // another hack
-      if (this.network.id.startsWith(`emoney`)) {
+      if (this.networkId.startsWith(`emoney`)) {
         this.updateEmoneyGasEstimate()
       }
       // hack
