@@ -89,7 +89,7 @@
           @click.native="setMaxAmount()"
         />
       </TmFieldGroup>
-      <span v-if="network" class="form-message">
+      <span v-if="network === 'polkadot-testnet'" class="form-message">
         In Polkadot staked tokens are independent from picked validators. Want
         to add more to your staked tokens amount?
       </span>
