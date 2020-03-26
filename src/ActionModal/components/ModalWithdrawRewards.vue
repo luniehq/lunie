@@ -60,8 +60,15 @@ export default {
   computed: {
     ...mapGetters([`address`, `network`, `stakingDenom`]),
     transactionData() {
+      if (!this.claimedReward) return {}
       return {
-        type: transaction.WITHDRAW
+        type: transaction.WITHDRAW,
+        amounts: [
+          {
+            amount: this.claimedReward.amount,
+            denom: this.claimedReward.denom
+          }
+        ]
       }
     },
     totalRewards() {
@@ -88,14 +95,15 @@ export default {
       }
     },
     claimedReward() {
-      if (this.denom && this.rewards && this.rewards.length > 0) {
+      if (this.rewards && this.rewards.length > 0) {
         // we return the staking denom reward if it has any. Otherwise, we return the first reward from the other tokens
         const rewardsGreaterThanZero = this.rewards.filter(
           reward => reward.amount > 0
         )
         return (
-          rewardsGreaterThanZero.find(reward => reward.denom === this.denom) ||
-          rewardsGreaterThanZero[0]
+          rewardsGreaterThanZero.find(
+            reward => reward.denom === this.stakingDenom
+          ) || rewardsGreaterThanZero[0]
         )
       } else {
         return ""
@@ -108,15 +116,15 @@ export default {
       if (this.balances && this.balances.length > 0) {
         const nonZeroBalances = this.balances.filter(({ amount }) => amount > 0)
         const stakingDenomBalance = nonZeroBalances.find(
-          ({ denom }) => denom === this.denom
+          ({ denom }) => denom === this.stakingDenom
         )
         return stakingDenomBalance
           ? stakingDenomBalance.denom
           : nonZeroBalances.length > 0
           ? nonZeroBalances[0].denom
-          : this.denom
+          : this.stakingDenom
       } else {
-        return this.denom
+        return this.stakingDenom
       }
     }
   },

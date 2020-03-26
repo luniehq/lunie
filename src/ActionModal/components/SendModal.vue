@@ -10,6 +10,7 @@
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"
     feature-flag="send"
+    :disabled="sendingNgm"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -21,7 +22,7 @@
     >
       <TmField
         id="send-address"
-        v-model.number="$v.address.$model"
+        v-model="address"
         v-focus
         type="text"
         placeholder="Address"
@@ -33,9 +34,10 @@
         type="required"
       />
       <TmFormMsg
-        v-else-if="$v.address.$error && !$v.address.bech32Validate"
+        v-else-if="$v.address.$error && !$v.address.validAddress"
         name="Address"
-        type="bech32"
+        type="custom"
+        msg="doesn't have a format known by Lunie"
       />
     </TmFormGroup>
     <TmFormGroup
@@ -121,6 +123,11 @@
         type="maxLength"
         :max="max_memo_characters"
       />
+      <TmFormMsg
+        v-if="sendingNgm"
+        type="custom"
+        msg="Sending NGM is currently disabled."
+      />
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -143,6 +150,11 @@ import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
 
 const defaultMemo = "(Sent via Lunie)"
+
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
+  return polkadotRegexp.test(address)
+}
 
 export default {
   name: `send-modal`,
@@ -207,6 +219,9 @@ export default {
       return this.denoms
         ? this.denoms.map(denom => (denom = { key: denom, value: denom }))
         : []
+    },
+    sendingNgm() {
+      return this.selectedToken === "NGM" && this.network === "emoney-mainnet"
     }
   },
   watch: {
@@ -235,7 +250,8 @@ export default {
     this.$apollo.queries.balances.refetch()
   },
   methods: {
-    open() {
+    open(denom = undefined) {
+      this.selectedToken = denom || this.selectedToken
       this.$refs.actionModal.open()
     },
     onSuccess(event) {
@@ -290,7 +306,8 @@ export default {
     return {
       address: {
         required,
-        bech32Validate: this.bech32Validate
+        validAddress: address =>
+          this.bech32Validate(address) || isPolkadotAddress(address)
       },
       amount: {
         required: x => !!x && x !== `0`,

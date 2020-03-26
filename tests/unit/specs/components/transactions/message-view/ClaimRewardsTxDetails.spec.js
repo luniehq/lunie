@@ -14,10 +14,12 @@ describe(`ClaimRewardsTxDetails`, () => {
     fees: [],
     details: {
       from: ["cosmosvaloper123"],
-      amount: {
-        denom: "ATOM",
-        amount: "10"
-      }
+      amounts: [
+        {
+          denom: "ATOM",
+          amount: "10"
+        }
+      ]
     }
   }
 
@@ -31,10 +33,12 @@ describe(`ClaimRewardsTxDetails`, () => {
     fees: [],
     details: {
       from: ["cosmosvaloper123", "cosmosvaloper456", "cosmosvaloper789"],
-      amount: {
-        denom: "ATOM",
-        amount: "3"
-      }
+      amounts: [
+        {
+          denom: "ATOM",
+          amount: "3"
+        }
+      ]
     }
   }
 
@@ -91,5 +95,44 @@ describe(`ClaimRewardsTxDetails`, () => {
       self
     )
     expect(getValidatorsResponse).toEqual([])
+  })
+
+  it(`returns false if the claim was from one validator and just one denom`, () => {
+    const self = {
+      getValidators: [{ name: "Pepito" }],
+      transaction: {
+        details: {
+          amounts: [
+            {
+              amount: 1
+            }
+          ]
+        }
+      }
+    }
+    const multiClaimShow = ClaimRewardsTxDetails.computed.multiClaimShow.call(
+      self
+    )
+    expect(multiClaimShow).toBe(false)
+  })
+
+  it(`returns the show prop if the claim was not from one validator and just one denom`, () => {
+    const self = {
+      show: true,
+      getValidators: [{ name: "Pepito" }, { name: "Maria Magdalena" }],
+      transaction: {
+        details: {
+          amounts: [
+            {
+              amount: 1
+            }
+          ]
+        }
+      }
+    }
+    const multiClaimShow = ClaimRewardsTxDetails.computed.multiClaimShow.call(
+      self
+    )
+    expect(multiClaimShow).toBe(true)
   })
 })

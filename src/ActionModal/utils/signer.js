@@ -18,7 +18,7 @@ export async function signQueue(submitType = "") {
 export async function getSigner(
   config,
   signingType = "",
-  { address, password, network, networkType }
+  { address, password, network, networkType, displayedProperties }
 ) {
   if (signingType === `local`) {
     const { getStoredWallet } = await import("@lunie/cosmos-keys")
@@ -27,6 +27,8 @@ export async function getSigner(
     switch (networkType) {
       case "cosmos":
         return await getCosmosLocalSigner(wallet)
+      case "polkadot":
+        return await getPolkadotLocalSigner(wallet)
     }
   } else if (signingType === `ledger`) {
     switch (networkType) {
@@ -35,7 +37,12 @@ export async function getSigner(
     }
   } else if (signingType === `extension`) {
     return signMessage => {
-      return signWithExtension(signMessage, address, network)
+      return signWithExtension(
+        signMessage,
+        address,
+        network,
+        displayedProperties
+      )
     }
   }
 
@@ -59,6 +66,17 @@ async function getCosmosLocalSigner(wallet) {
     }
   }
 }
+
+async function getPolkadotLocalSigner(wallet) {
+  const { getSignedMessage } = await import("./polkadot-signing")
+
+  return signMessage => {
+    const signedMessage = getSignedMessage(signMessage, wallet.seedPhrase)
+
+    return signedMessage
+  }
+}
+
 async function getCosmosLedgerSigner(config) {
   // TODO show which properties of config are actually needed
   // importing default here to be compatible with Jest

@@ -78,12 +78,19 @@ export default class ActionManager {
     transactionProperties,
     txMetaData
   ) {
-    const { gasEstimate, gasPrice, submitType, password } = txMetaData
+    const {
+      gasEstimate,
+      gasPrice,
+      submitType,
+      password,
+      displayedProperties
+    } = txMetaData
     const signer = await getSigner(config, submitType, {
       address: userAddress,
       password,
       network: networkId,
-      networkType
+      networkType,
+      displayedProperties
     })
 
     const messageMetadata = {
@@ -121,8 +128,8 @@ export default class ActionManager {
       txMessages,
       signer,
       chainId,
-      account.accountNumber,
-      account.sequence
+      account ? account.accountNumber : null,
+      account ? account.sequence : null
     )
 
     const txPayload = {

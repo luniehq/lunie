@@ -497,7 +497,7 @@ export default {
         query: UserTransactionAdded,
         /* istanbul ignore next */
         result({ data }) {
-          if (data.userTransactionAdded.success) {
+          if (data.userTransactionAddedV2.success) {
             this.$apollo.queries.delegation.refetch()
           }
         }

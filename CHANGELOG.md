@@ -7,6 +7,87 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.182] - 2020-03-25
+
+### Changed
+
+- [#3773](https://github.com/cosmos/lunie/pull/3773) Fixed the gas estimates for emoney @bitcoinera
+- Prevent sending of NGM on emoney mainnet @faboweb
+
+## [1.0.181] - 2020-03-25
+
+### Fixed
+
+- fixing blockHeight update after several staking @iambeone
+- changing cache policy @iambeone
+- Prevent stale networks cache @faboweb
+
+### Repository
+
+- clearing sentry variables to prevent sentry usage during e2e-tests @iambeone
+
+## [1.0.180] - 2020-03-25
+
+### Added
+
+- Added emoney mainnet related files @faboweb
+- Added new emoney tokens @faboweb
+
+### Changed
+
+- [#3748](https://github.com/cosmos/lunie/pull/3748) Now ClaimRewardsTxDetails displays all claimed rewards and validators are shown a row below @Bitcoinera
+
+### Fixed
+
+- [#3761](https://github.com/cosmos/lunie/issues/3761) Fix polkadot amount conversion @mariopino
+
+### Repository
+
+- Fix hot reloading for css @faboweb
+
+## [1.0.179] - 2020-03-23
+
+### Fixed
+
+- subscribeToMore should contain document instead of query @iambeone
+- [#3747](https://github.com/cosmos/lunie/issues/3747) added loaded property to search bar on validator page to stop reloading and unfocussed input @jbibla
+
+### Repository
+
+- removed the docker section and changed some grammar of readme for readability  @jrmoreau
+
+## [1.0.178] - 2020-03-20
+
+### Added
+
+- Added apollo cache persistence to improve initial load times @faboweb
+
+### Changed
+
+- change action denom depending on selected send button @iambeone
+- [#3736](https://github.com/cosmos/lunie/pull/3736) Now ModalWithdrawRewards returns the claimed rewards amount in transactionData and sends it to the extension @Bitcoinera
+- [#3728](https://github.com/cosmos/lunie/pull/3728) Updates the polkadot/api package to latest @Bitcoinera
+- Use TransactionsV2 in subscriptions @faboweb
+- modified loading graphics and improved loading styles @jbibla
+- updated Luna icon for Terra @jbibla
+
+### Fixed
+
+- page height for big screens fixed @iambeone
+- [#3737](https://github.com/cosmos/lunie/issues/3737) sign-in with extension fixed @iambeone
+- [#3700](https://github.com/cosmos/lunie/issues/3700) fixing subscribeToMore usage @iambeone
+- Show correct addresses for Polkadot @faboweb
+- Remove service worker completely @faboweb
+- [#3654](https://github.com/cosmos/lunie/issues/3654) scrollbar height needs to be adjusted to avoid cutting off network link @jbibla
+
+### Code Improvements
+
+- Select signing methods per network type @faboweb
+
+### Repository
+
+- add retries to e2e tests @iambeone
+
 ## [1.0.177] - 2020-03-18
 
 ### Fixed

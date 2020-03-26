@@ -104,7 +104,13 @@ describe(`ModalWithdrawRewards`, () => {
   describe("Submission Data for Delegating", () => {
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
-        type: "MsgWithdrawDelegationReward"
+        type: "MsgWithdrawDelegationReward",
+        amounts: [
+          {
+            amount: 1,
+            denom: "STAKE"
+          }
+        ]
       })
     })
 

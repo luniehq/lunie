@@ -193,8 +193,8 @@ describe(`ActionModal`, () => {
       network: {
         stakingDenom: "KRT"
       },
-      setTerraTax: jest.fn(),
-      updateTerraGasEstimate: jest.fn()
+      updateTerraGasEstimate: jest.fn(),
+      updateEmoneyGasEstimate: () => {}
     }
     const estimatedFee = ActionModal.computed.estimatedFee.call(self)
     expect(estimatedFee).toBe(0.006)
@@ -977,7 +977,7 @@ describe(`ActionModal`, () => {
     }
     ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
       data: {
-        userTransactionAdded: {
+        userTransactionAddedV2: {
           hash,
           success: true
         }
@@ -996,7 +996,7 @@ describe(`ActionModal`, () => {
     }
     ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
       data: {
-        userTransactionAdded: {
+        userTransactionAddedV2: {
           hash,
           success: false,
           log: "error"

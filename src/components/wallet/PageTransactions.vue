@@ -87,7 +87,7 @@ const txFields = `
     }
     ... on ClaimRewardsTx {
       from
-      amount {
+      amounts {
         denom
         amount
       }
@@ -161,6 +161,25 @@ export default {
           // loads new portion
           this.pageNumber++
           this.dataLoaded = false
+          this.$apollo.queries.transactions.fetchMore({
+            // New variables
+            variables: {
+              networkId: this.network,
+              address: this.address,
+              pageNumber: this.pageNumber
+            },
+            // Transform the previous result with new data
+            updateQuery: (previousResult, { fetchMoreResult }) => {
+              this.lastLoadedRecordsCount =
+                fetchMoreResult.transactionsV2.length
+              return {
+                transactionsV2: [
+                  ...previousResult.transactionsV2,
+                  ...fetchMoreResult.transactionsV2
+                ]
+              }
+            }
+          })
         }
       }
     },
@@ -184,19 +203,13 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          pageNumber: this.pageNumber
+          pageNumber: 0
         }
       },
       update(result) {
         this.dataLoaded = true
-        if (Array.isArray(result.transactionsV2)) {
-          this.lastLoadedRecordsCount = result.transactionsV2.length
-          this.loadedTransactions = [
-            ...this.loadedTransactions,
-            ...result.transactionsV2
-          ]
-        }
-        return this.loadedTransactions
+        this.lastLoadedRecordsCount = result.transactionsV2.length
+        return result.transactionsV2
       },
       subscribeToMore: {
         document: gql`
@@ -207,11 +220,11 @@ export default {
           }
         `,
         updateQuery: (previousResult, { subscriptionData }) => {
-          if (previousResult && subscriptionData.data.userTransactionAdded) {
+          if (previousResult && subscriptionData.data.userTransactionAddedV2) {
             return {
-              transactions: [
-                subscriptionData.data.userTransactionAdded,
-                ...previousResult
+              transactionsV2: [
+                subscriptionData.data.userTransactionAddedV2,
+                ...previousResult.transactionsV2
               ]
             }
           }
@@ -223,42 +236,6 @@ export default {
             address: this.address
           }
         }
-      }
-    },
-    subscribeToMore: {
-      query: gql`
-        subscription($networkId: String!, $address: String!) {
-          userTransactionAddedV2(networkId: $networkId, address: $address) {
-            ${txFields}
-          }
-        }
-      `,
-      updateQuery: (previousResult, { subscriptionData }) => {
-        return {
-          transactions: [
-            subscriptionData.data.userTransactionAdded,
-            ...previousResult
-          ]
-        }
-      },
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.address
-        }
-      },
-      update(result) {
-        let transactions = []
-        if (Array.isArray(result.transactions)) {
-          transactions = result.transactions.map(tx => ({
-            ...tx,
-            timestamp: new Date(tx.timestamp),
-            value: JSON.parse(tx.value)
-          }))
-        }
-        this.lastLoadedRecordsCount = transactions.length
-        this.loadedTransactions = [...this.loadedTransactions, ...transactions]
-        return this.loadedTransactions
       }
     },
     validators: {

@@ -206,7 +206,7 @@
                 :to="
                   `/${$router.history.current.params.networkId}/blocks/${includedHeight}`
                 "
-                >#{{ prettyIncludedHeight }}</router-link
+                >#{{ includedHeight | prettyInt }}</router-link
               >
             </div>
           </TmDataMsg>
@@ -355,7 +355,8 @@ export default {
     FeatureNotAvailable
   },
   filters: {
-    viewDenom
+    viewDenom,
+    prettyInt
   },
   props: {
     title: {
@@ -425,7 +426,8 @@ export default {
     overview: {},
     isMobileApp: config.mobileApp,
     balances: [],
-    queueEmpty: true
+    queueEmpty: true,
+    includedHeight: undefined
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -445,6 +447,10 @@ export default {
       )
     },
     estimatedFee() {
+      // another hack
+      if (this.network.id.startsWith(`emoney`)) {
+        this.updateEmoneyGasEstimate()
+      }
       // hack
       // terra uses a tax on all send txs
       if (
@@ -508,9 +514,6 @@ export default {
           return "Sending..."
       }
     },
-    prettyIncludedHeight() {
-      return prettyInt(this.includedHeight)
-    },
     getDenom() {
       return this.selectedDenom || this.network.stakingDenom
     },
@@ -565,6 +568,9 @@ export default {
   },
   methods: {
     updateTerraGasEstimate() {
+      this.gasEstimate = 200000
+    },
+    updateEmoneyGasEstimate() {
       this.gasEstimate = 200000
     },
     confirmModalOpen() {
@@ -755,6 +761,12 @@ export default {
         submitType: this.selectedSignMethod,
         password: this.password
       }
+      const txMetaData = {
+        ...feeProperties,
+        displayedProperties: {
+          claimableRewards: properties.amounts
+        }
+      }
 
       try {
         await this.$apollo.queries.overview.refetch()
@@ -771,7 +783,7 @@ export default {
           type,
           memo,
           properties,
-          feeProperties
+          txMetaData
         )
 
         const { hash } = hashResult
@@ -923,7 +935,7 @@ export default {
         query: UserTransactionAdded,
         /* istanbul ignore next */
         result({ data }) {
-          const { hash, height, success, log } = data.userTransactionAdded
+          const { hash, height, success, log } = data.userTransactionAddedV2
           if (hash === this.txHash) {
             this.includedHeight = height
             if (success) {

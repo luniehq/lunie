@@ -19,7 +19,6 @@
             type="secondary"
             @click.native="onSend()"
           />
-
           <TmBtn
             id="withdraw-btn"
             :disabled="!readyToWithdraw"
@@ -120,7 +119,10 @@
         </div>
 
         <div class="table-cell rewards">
-          <h2>+{{ overview.totalRewards }} {{ stakingDenom }}</h2>
+          <h2>
+            +{{ overview.totalRewards | bigFigureOrShortDecimals }}
+            {{ stakingDenom }}
+          </h2>
         </div>
 
         <div class="table-cell available">
@@ -132,7 +134,10 @@
 
         <div class="table-cell actions">
           <div class="icon-button-container">
-            <button class="icon-button circle-send-button" @click="onSend()">
+            <button
+              class="icon-button circle-send-button"
+              @click="onSend(stakingDenom)"
+            >
               <i class="material-icons">send</i></button
             ><span>Send</span>
           </div>
@@ -184,7 +189,7 @@
 
           <div :key="balance.denom + 3" class="table-cell actions">
             <div class="icon-button-container">
-              <button class="icon-button" @click="onSend()">
+              <button class="icon-button" @click="onSend(balance.denom)">
                 <i class="material-icons">send</i></button
               ><span>Send</span>
             </div>
@@ -344,8 +349,8 @@ export default {
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
-    onSend() {
-      this.$refs.SendModal.open()
+    onSend(denom = undefined) {
+      this.$refs.SendModal.open(denom)
     },
     openTutorial() {
       this.showTutorial = true
@@ -524,12 +529,15 @@ export default {
   }
 }
 </script>
-<style>
-.balance-header,
-.loading-image-container {
+<style scoped>
+.balance-header {
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
+}
+
+.loading-image-container {
+  padding: 0 2rem 2rem;
 }
 
 h1 {
@@ -609,10 +617,6 @@ select option {
 .buttons {
   display: flex;
   align-items: center;
-}
-
-.withdraw-rewards {
-  background: var(--success);
 }
 
 .open-tutorial {
