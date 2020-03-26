@@ -11,7 +11,7 @@
     :notify-message="notifyMessage"
     feature-flag="send"
     :disabled="sendingNgm"
-    :terra-tax="getTerraTax(false)"
+    :chain-applied-fees="getTerraTax(false)"
     @close="clear"
     @txIncluded="onSuccess"
   >

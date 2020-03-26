@@ -399,7 +399,7 @@ export default {
       type: String,
       default: ``
     },
-    terraTax: {
+    chainAppliedFees: {
       type: Number,
       default: 0
     }
@@ -453,10 +453,10 @@ export default {
       }
       // hack
       // terra uses a tax on all send txs
-      if (this.terraTax > 0) {
+      if (this.chainAppliedFees > 0) {
         // Terra gas estimate // TODO: get this from the API
         this.updateTerraGasEstimate()
-        return this.terraTax
+        return this.chainAppliedFees
       }
       // still update Terra gas estimate for LUNA
       if (this.networkId.startsWith(`terra`)) {
@@ -712,8 +712,8 @@ export default {
         let payable = Number(this.subTotal)
         // in terra we also have to pay the tax
         // TODO refactor using a `fixedFee` property
-        if (this.terraTax) {
-          payable += this.terraTax
+        if (this.chainAppliedFees) {
+          payable += this.chainAppliedFees
         }
         this.gasPrice =
           (Number(this.selectedBalance.amount) - payable) / this.gasEstimate

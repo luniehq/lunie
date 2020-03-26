@@ -180,14 +180,15 @@ describe(`ActionModal`, () => {
     expect(maxDecimalsNumber).toBe(9.8964)
   })
 
-  it(`should return the tax you need to pay in Terra for sending alt-tokens`, () => {
+  it.only(`should return the chain applied fees (in this case the Terra tax you need to payfor sending alt-tokens)`, () => {
     const self = {
       gasEstimate: 200000,
       gasPrice: "3e-8",
       networkId: "terra-mainnet",
+      maxDecimals: ActionModal.methods.maxDecimals,
       updateTerraGasEstimate: jest.fn(),
       updateEmoneyGasEstimate: () => {},
-      terraTax: 0.00675
+      chainAppliedFees: 0.00675
     }
     const estimatedFee = ActionModal.computed.estimatedFee.call(self)
     expect(estimatedFee).toBe(0.00675)

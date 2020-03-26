@@ -3,6 +3,7 @@
 exports[`ModalVote should display vote modal form 1`] = `
 <actionmodal-stub
   amount="0"
+  chainappliedfees="0"
   class="modal-vote"
   featureflag="vote"
   id="modal-vote"
@@ -10,7 +11,6 @@ exports[`ModalVote should display vote modal form 1`] = `
   rewards=""
   selecteddenom=""
   submissionerrorprefix="Voting failed"
-  terratax="0"
   title="Vote"
   transactiondata="[object Object]"
   validate="function () { [native code] }"

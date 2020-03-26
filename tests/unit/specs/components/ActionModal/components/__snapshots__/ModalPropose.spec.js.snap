@@ -2,13 +2,13 @@
 
 exports[`ModalPropose should display proposal modal form 1`] = `
 <actionmodal-stub
+  chainappliedfees="0"
   featureflag="proposal"
   id="modal-propose"
   notifymessage="[object Object]"
   rewards=""
   selecteddenom=""
   submissionerrorprefix="Submitting proposal failed"
-  terratax="0"
   title="Create Proposal"
   transactiondata="[object Object]"
   validate="function () { [native code] }"

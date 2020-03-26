@@ -2,6 +2,7 @@
 
 exports[`ModalDeposit should display deposit modal form 1`] = `
 <actionmodal-stub
+  chainappliedfees="0"
   class="modal-deposit"
   featureflag="deposit"
   id="modal-deposit"
@@ -9,7 +10,6 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
   rewards=""
   selecteddenom=""
   submissionerrorprefix="Depositing failed"
-  terratax="0"
   title="Deposit"
   transactiondata="[object Object]"
   validate="function () { [native code] }"
