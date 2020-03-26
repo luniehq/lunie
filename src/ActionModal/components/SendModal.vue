@@ -156,6 +156,9 @@ const isPolkadotAddress = address => {
   return polkadotRegexp.test(address)
 }
 
+const TERRA_TAX_RATE = 0.00675
+const TERRA_TAX_CAP = 1000000
+
 export default {
   name: `send-modal`,
   components: {
@@ -271,7 +274,18 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.selectedBalance.amount
+      if (
+        this.network.startsWith(`terra`) &&
+        this.selectedBalance.denom !== `LUNA`
+      ) {
+        const terraTax = Math.min(
+          Number(this.selectedBalance.amount) * TERRA_TAX_RATE,
+          TERRA_TAX_CAP
+        )
+        this.amount = this.selectedBalance.amount - terraTax
+      } else {
+        this.amount = this.selectedBalance.amount
+      }
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {

@@ -239,6 +239,20 @@ describe(`SendModal`, () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.isMaxAmount()).toBe(false)
     })
+    it(`setMaxAmount should deduct the Terra tax from total balance when sending alt-tokens in Terra`, () => {
+      const self = {
+        network: "terra-mainnet",
+        amount: 0.000001,
+        selectedBalance: {
+          amount: 1,
+          denom: "STAKE"
+        },
+        TERRA_TAX_RATE: 0.00675,
+        TERRA_TAX_CAP: 1000000
+      }
+      SendModal.methods.setMaxAmount.call(self)
+      expect(self.amount).toBe(0.99325)
+    })
   })
 
   describe(`Set token and balance`, () => {
