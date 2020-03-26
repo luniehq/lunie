@@ -11,6 +11,7 @@
     :notify-message="notifyMessage"
     feature-flag="send"
     :disabled="sendingNgm"
+    :terra-tax="getTerraTax"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -148,6 +149,7 @@ import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
+import BigNumber from "bignumber.js"
 
 const defaultMemo = "(Sent via Lunie)"
 
@@ -225,6 +227,22 @@ export default {
     },
     sendingNgm() {
       return this.selectedToken === "NGM" && this.network === "emoney-mainnet"
+    },
+    getTerraTax() {
+      if (
+        this.network.startsWith(`terra`) &&
+        this.selectedBalance.denom !== `LUNA`
+      ) {
+        return this.maxDecimals(
+          Math.min(
+            Number(this.selectedBalance.amount) * TERRA_TAX_RATE,
+            TERRA_TAX_CAP
+          ),
+          6
+        )
+      } else {
+        return 0
+      }
     }
   },
   watch: {
@@ -274,18 +292,7 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      if (
-        this.network.startsWith(`terra`) &&
-        this.selectedBalance.denom !== `LUNA`
-      ) {
-        const terraTax = Math.min(
-          Number(this.selectedBalance.amount) * TERRA_TAX_RATE,
-          TERRA_TAX_CAP
-        )
-        this.amount = this.selectedBalance.amount - terraTax
-      } else {
-        this.amount = this.selectedBalance.amount
-      }
+      this.amount = this.selectedBalance.amount - this.getTerraTax
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
@@ -314,6 +321,9 @@ export default {
     },
     refocusOnAmount() {
       this.$refs.amount.$el.focus()
+    },
+    maxDecimals(value, decimals) {
+      return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
     }
   },
   validations() {

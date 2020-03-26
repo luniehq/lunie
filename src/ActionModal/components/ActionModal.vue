@@ -299,7 +299,6 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
-import transactionTypes from "../utils/transactionTypes"
 import BigNumber from "bignumber.js"
 // import transactionTypes from '../utils/transactionTypes'
 
@@ -336,9 +335,6 @@ const sessionType = {
   LEDGER: SIGN_METHODS.LEDGER,
   EXTENSION: SIGN_METHODS.EXTENSION
 }
-
-const TERRA_TAX_RATE = 0.00675
-const TERRA_TAX_CAP = 1000000
 
 export default {
   name: `action-modal`,
@@ -402,6 +398,10 @@ export default {
     selectedDenom: {
       type: String,
       default: ``
+    },
+    terraTax: {
+      type: Number,
+      default: 0
     }
   },
   data: () => ({
@@ -453,18 +453,10 @@ export default {
       }
       // hack
       // terra uses a tax on all send txs
-      if (
-        this.networkId.startsWith(`terra`) &&
-        this.transactionData.type === transactionTypes.SEND &&
-        this.getDenom !== this.network.stakingDenom
-      ) {
+      if (this.terraTax > 0) {
         // Terra gas estimate // TODO: get this from the API
         this.updateTerraGasEstimate()
-        const terraTax = Math.min(
-          Number(this.amount) * TERRA_TAX_RATE,
-          TERRA_TAX_CAP
-        )
-        return terraTax
+        return this.terraTax
       }
       // still update Terra gas estimate for LUNA
       if (this.networkId.startsWith(`terra`)) {
@@ -720,16 +712,8 @@ export default {
         let payable = Number(this.subTotal)
         // in terra we also have to pay the tax
         // TODO refactor using a `fixedFee` property
-        if (
-          this.networkId.startsWith(`terra`) &&
-          this.transactionData.type === transactionTypes.SEND &&
-          this.getDenom !== this.stakingDenom
-        ) {
-          const terraTax = Math.min(
-            Number(this.amount) * TERRA_TAX_RATE,
-            TERRA_TAX_CAP
-          )
-          payable += terraTax
+        if (this.terraTax) {
+          payable += this.terraTax
         }
         this.gasPrice =
           (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
