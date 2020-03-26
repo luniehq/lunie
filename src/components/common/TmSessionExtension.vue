@@ -76,7 +76,6 @@ export default {
       })
     },
     async signInAndRedirect(account) {
-      await this.signIn(account)
       let accountNetwork = this.networks.find(
         ({ id }) => id === account.network
       )
@@ -94,6 +93,10 @@ export default {
           )
         }
       }
+      if (!account.network && accountNetwork) {
+        account.network = accountNetwork.id
+      }
+      await this.signIn(account)
       this.$router.push({
         name: "portfolio",
         params: {
