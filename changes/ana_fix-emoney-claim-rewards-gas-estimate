@@ -1,0 +1,1 @@
+[Changed] [#3789](https://github.com/cosmos/lunie/pull/3789) Leaves the default gas estimate, 550000, on e-Money when it is a Claim Rewards action @Bitcoinera
