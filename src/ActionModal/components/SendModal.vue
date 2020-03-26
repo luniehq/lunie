@@ -11,7 +11,7 @@
     :notify-message="notifyMessage"
     feature-flag="send"
     :disabled="sendingNgm"
-    :terra-tax="getTerraTax"
+    :terra-tax="getTerraTax(false)"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -56,7 +56,7 @@
           class="tm-field-addon"
           placeholder="0"
           type="number"
-          @keyup.enter.native="enterPressed && getTerraTax"
+          @keyup.enter.native="enterPressed"
         />
         <TmField
           id="token"
@@ -227,19 +227,6 @@ export default {
     },
     sendingNgm() {
       return this.selectedToken === "NGM" && this.network === "emoney-mainnet"
-    },
-    getTerraTax() {
-      if (
-        this.network.startsWith(`terra`) &&
-        this.selectedBalance.denom !== `LUNA`
-      ) {
-        return this.maxDecimals(
-          Math.min(Number(this.amount) * TERRA_TAX_RATE, TERRA_TAX_CAP),
-          6
-        )
-      } else {
-        return 0
-      }
     }
   },
   watch: {
@@ -289,7 +276,10 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.selectedBalance.amount - this.getTerraTax
+      this.amount = this.maxDecimals(
+        this.selectedBalance.amount - this.getTerraTax(true),
+        6
+      )
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
@@ -321,6 +311,23 @@ export default {
     },
     maxDecimals(value, decimals) {
       return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
+    },
+    getTerraTax(setMaxAmount = false) {
+      // hack for setMaxAmount
+      const amountToTax = setMaxAmount
+        ? this.selectedBalance.amount
+        : this.amount
+      if (
+        this.network.startsWith(`terra`) &&
+        this.selectedBalance.denom !== `LUNA`
+      ) {
+        return this.maxDecimals(
+          Math.min(Number(amountToTax) * TERRA_TAX_RATE, TERRA_TAX_CAP),
+          6
+        )
+      } else {
+        return 0
+      }
     }
   },
   validations() {

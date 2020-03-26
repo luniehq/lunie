@@ -10,6 +10,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   selecteddenom=""
   submissionerrorprefix="Unstaking failed"
   targetvalidator="[object Object]"
+  terratax="0"
   title="Unstake"
   transactiondata="[object Object]"
   validate="function () { [native code] }"

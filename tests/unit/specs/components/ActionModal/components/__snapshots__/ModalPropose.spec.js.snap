@@ -8,6 +8,7 @@ exports[`ModalPropose should display proposal modal form 1`] = `
   rewards=""
   selecteddenom=""
   submissionerrorprefix="Submitting proposal failed"
+  terratax="0"
   title="Create Proposal"
   transactiondata="[object Object]"
   validate="function () { [native code] }"

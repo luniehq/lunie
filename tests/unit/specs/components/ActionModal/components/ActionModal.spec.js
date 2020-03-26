@@ -182,19 +182,12 @@ describe(`ActionModal`, () => {
 
   it(`should return the tax you need to pay in Terra for sending alt-tokens`, () => {
     const self = {
-      networkId: "terra-mainnet",
-      transactionData: {
-        type: `MsgSend`
-      },
       gasEstimate: 200000,
       gasPrice: "3e-8",
-      amount: 1,
-      maxDecimals: ActionModal.methods.maxDecimals,
-      network: {
-        stakingDenom: "KRT"
-      },
+      networkId: "terra-mainnet",
       updateTerraGasEstimate: jest.fn(),
-      updateEmoneyGasEstimate: () => {}
+      updateEmoneyGasEstimate: () => {},
+      terraTax: 0.00675
     }
     const estimatedFee = ActionModal.computed.estimatedFee.call(self)
     expect(estimatedFee).toBe(0.00675)

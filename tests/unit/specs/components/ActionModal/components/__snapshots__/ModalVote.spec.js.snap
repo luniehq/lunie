@@ -10,6 +10,7 @@ exports[`ModalVote should display vote modal form 1`] = `
   rewards=""
   selecteddenom=""
   submissionerrorprefix="Voting failed"
+  terratax="0"
   title="Vote"
   transactiondata="[object Object]"
   validate="function () { [native code] }"

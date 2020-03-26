@@ -247,8 +247,8 @@ describe(`SendModal`, () => {
           amount: 1,
           denom: "STAKE"
         },
-        TERRA_TAX_RATE: 0.00675,
-        TERRA_TAX_CAP: 1000000
+        getTerraTax: SendModal.methods.getTerraTax,
+        maxDecimals: SendModal.methods.maxDecimals
       }
       SendModal.methods.setMaxAmount.call(self)
       expect(self.amount).toBe(0.99325)
