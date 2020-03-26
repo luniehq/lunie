@@ -11,6 +11,7 @@
     :notify-message="notifyMessage"
     feature-flag="send"
     :disabled="sendingNgm"
+    :chain-applied-fees="getTerraTax(false)"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -135,7 +136,6 @@
 <script>
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
-import BigNumber from "bignumber.js"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
 import { uatoms, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
@@ -149,17 +149,17 @@ import transaction from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
+import BigNumber from "bignumber.js"
 
 const defaultMemo = "(Sent via Lunie)"
-
-const maxDecimals = (value, decimals) => {
-  return BigNumber(value).toFixed(decimals)
-}
 
 const isPolkadotAddress = address => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
+
+const TERRA_TAX_RATE = 0.00675
+const TERRA_TAX_CAP = 1000000
 
 export default {
   name: `send-modal`,
@@ -276,15 +276,10 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      if (this.network.startsWith(`terra`)) {
-        const terraTax = 0.008
-        this.amount = maxDecimals(
-          this.selectedBalance.amount / (1 + terraTax),
-          6 // TODO get precision fro API
-        )
-      } else {
-        this.amount = this.selectedBalance.amount
-      }
+      this.amount = this.maxDecimals(
+        this.selectedBalance.amount - this.getTerraTax(true),
+        6
+      )
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
@@ -313,6 +308,26 @@ export default {
     },
     refocusOnAmount() {
       this.$refs.amount.$el.focus()
+    },
+    maxDecimals(value, decimals) {
+      return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
+    },
+    getTerraTax(setMaxAmount = false) {
+      // hack for setMaxAmount
+      const amountToTax = setMaxAmount
+        ? this.selectedBalance.amount
+        : this.amount
+      if (
+        this.network.startsWith(`terra`) &&
+        this.selectedBalance.denom !== `LUNA`
+      ) {
+        return this.maxDecimals(
+          Math.min(Number(amountToTax) * TERRA_TAX_RATE, TERRA_TAX_CAP),
+          6
+        )
+      } else {
+        return 0
+      }
     }
   },
   validations() {
