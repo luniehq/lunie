@@ -56,7 +56,7 @@
           class="tm-field-addon"
           placeholder="0"
           type="number"
-          @keyup.enter.native="enterPressed"
+          @keyup.enter.native="enterPressed && getTerraTax"
         />
         <TmField
           id="token"
@@ -234,10 +234,7 @@ export default {
         this.selectedBalance.denom !== `LUNA`
       ) {
         return this.maxDecimals(
-          Math.min(
-            Number(this.selectedBalance.amount) * TERRA_TAX_RATE,
-            TERRA_TAX_CAP
-          ),
+          Math.min(Number(this.amount) * TERRA_TAX_RATE, TERRA_TAX_CAP),
           6
         )
       } else {
