@@ -443,7 +443,7 @@ export default {
       const action = `action_` + this.featureFlag
       return typeof this.network[action] === `string`
         ? networkCapabilityDictionary[this.network[action]]
-        : this.network[action] === true
+        : this.network[action]
     },
     network() {
       return this.networks.find(({ id }) => id == this.networkId)
