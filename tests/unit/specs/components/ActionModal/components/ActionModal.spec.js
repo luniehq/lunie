@@ -180,20 +180,48 @@ describe(`ActionModal`, () => {
     expect(maxDecimalsNumber).toBe(9.8964)
   })
 
-  it(`should return the max amount in balance minus the extra fees you need to pay in Terra for sending`, () => {
+  it(`should return the chain applied fees (in this case the Terra tax you need to payfor sending alt-tokens)`, () => {
     const self = {
+      gasEstimate: 200000,
+      gasPrice: "3e-8",
       networkId: "terra-mainnet",
-      transactionData: {
-        type: `MsgSend`
-      },
-      gasEstimate: 550000,
-      gasPrice: "1e-9",
-      amount: 1,
       maxDecimals: ActionModal.methods.maxDecimals,
-      updateEmoneyGasEstimate: () => {}
+      updateTerraGasEstimate: jest.fn(),
+      updateEmoneyGasEstimate: () => {},
+      chainAppliedFees: 0.00675
     }
-    const maxAmount = ActionModal.computed.estimatedFee.call(self)
-    expect(maxAmount).toBe(0.00855)
+    const estimatedFee = ActionModal.computed.estimatedFee.call(self)
+    expect(estimatedFee).toBe(0.00675)
+  })
+
+  it(`should convert the gasEstimate to 200000`, () => {
+    const self = {
+      gasEstimate: 550000
+    }
+    ActionModal.methods.updateEmoneyGasEstimate.call(self)
+    expect(self.gasEstimate).toBe(200000)
+  })
+
+  it(`should also convert the gasEstimate to 200000`, () => {
+    const self = {
+      gasEstimate: 550000
+    }
+    ActionModal.methods.updateTerraGasEstimate.call(self)
+    expect(self.gasEstimate).toBe(200000)
+  })
+
+  it(`should return the normal estimated fee (gas price * gas estimate) when chainAppliedFees equal 0.
+    It should also update the gas estimate to 200000 when connected to a Terra network`, () => {
+    const self = {
+      gasPrice: "1.5e-8",
+      gasEstimate: 55000,
+      networkId: `terra-mainnet`,
+      maxDecimals: ActionModal.methods.maxDecimals,
+      updateTerraGasEstimate: ActionModal.methods.updateTerraGasEstimate
+    }
+    const estimatedFee = ActionModal.computed.estimatedFee.call(self)
+    expect(self.gasEstimate).toBe(200000)
+    expect(estimatedFee).toBe(0.003)
   })
 
   it(`should not update the gas estimate for emoney when it is a claim rewards transaction`, () => {
