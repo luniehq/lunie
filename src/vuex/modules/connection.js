@@ -58,6 +58,24 @@ export default function({ apollo }) {
         }
       }
     },
+    getNetworkByAccount({ getters }, account) {
+      let accountNetwork = getters.findNetwork(account.network)
+      // if no network, trying to identify by network_prefix
+      if (!accountNetwork) {
+        // select mainnet first
+        accountNetwork = getters.findNetwork(
+          ({ address_prefix, testnet }) =>
+            account.address.startsWith(address_prefix) && !testnet
+        )
+        if (!accountNetwork) {
+          // check for testnet
+          accountNetwork = getters.findNetwork(({ address_prefix }) =>
+            account.address.startsWith(address_prefix)
+          )
+        }
+      }
+      return accountNetwork
+    },
     async persistNetwork(store, network) {
       localStorage.setItem(`network`, JSON.stringify(network.id))
     },

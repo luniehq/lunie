@@ -56,7 +56,7 @@ export default {
   }),
   computed: {
     ...mapState([`extension`]),
-    ...mapGetters([`networks`]),
+    ...mapGetters([`networks`, `findNetwork`]),
     accounts() {
       return this.extension.accounts
     }
@@ -76,23 +76,10 @@ export default {
       })
     },
     async signInAndRedirect(account) {
-      let accountNetwork = this.networks.find(
-        ({ id }) => id === account.network
-      )
-      // if no network, trying to identify by network_prefix
-      if (!accountNetwork) {
-        // select mainnet first
-        accountNetwork = this.networks.find(
-          ({ address_prefix, testnet }) =>
-            account.address.startsWith(address_prefix) && !testnet
-        )
-        if (!accountNetwork) {
-          // check for testnet
-          accountNetwork = this.networks.find(({ address_prefix }) =>
-            account.address.startsWith(address_prefix)
-          )
-        }
-      }
+      let accountNetwork = await this.$store.dispatch("getNetworkByAccount", {
+        network: account.network,
+        address: account.address
+      })
       if (!account.network && accountNetwork) {
         account.network = accountNetwork.id
       }
