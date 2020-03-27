@@ -402,6 +402,10 @@ export default {
     chainAppliedFees: {
       type: Number,
       default: 0
+    },
+    transactionType: {
+      type: String,
+      default: "UnknownTx"
     }
   },
   data: () => ({
@@ -410,6 +414,7 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
+    simulateGasEstimate: null,
     gasPrice: 0,
     submissionError: null,
     show: false,
@@ -447,20 +452,10 @@ export default {
       )
     },
     estimatedFee() {
-      // another hack
-      if (this.networkId.startsWith(`emoney`)) {
-        this.updateEmoneyGasEstimate()
-      }
-      // hack
       // terra uses a tax on all send txs
       if (this.chainAppliedFees > 0) {
         // Terra gas estimate // TODO: get this from the API
-        this.updateTerraGasEstimate()
         return this.chainAppliedFees
-      }
-      // still update Terra gas estimate for LUNA
-      if (this.networkId.startsWith(`terra`)) {
-        this.updateTerraGasEstimate()
       }
       return this.maxDecimals(
         Number(this.gasPrice) * Number(this.gasEstimate),
@@ -559,12 +554,6 @@ export default {
     }
   },
   methods: {
-    updateTerraGasEstimate() {
-      this.gasEstimate = 200000
-    },
-    updateEmoneyGasEstimate() {
-      this.gasEstimate = 200000
-    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen || !this.queueEmpty) {
@@ -692,7 +681,7 @@ export default {
     async simulate() {
       const { type, memo, ...properties } = this.transactionData
       try {
-        this.gasEstimate = await this.actionManager.simulateTxAPI(
+        this.simulateGasEstimate = await this.actionManager.simulateTxAPI(
           {
             userAddress: this.session.address,
             networkId: this.network.id,
@@ -863,7 +852,7 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.address
+        return !this.session.address
       }
     },
     overview: {
@@ -901,6 +890,38 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.session.address
+      }
+    },
+    gasEstimate: {
+      query: gql`
+        query NetworkGasEstimates(
+          $networkId: String!
+          $transactionType: String
+        ) {
+          networkFees(
+            networkId: $networkId
+            transactionType: $transactionType
+          ) {
+            gasEstimate
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.networkId,
+          transactionType: this.transactionType
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        if (data.networkFees) {
+          return data.networkFees.gasEstimate
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.session.address || !this.transactionData
       }
     },
     $subscribe: {
