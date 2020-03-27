@@ -5,7 +5,7 @@ import { formatAddress } from "src/filters"
 
 const localVue = createLocalVue()
 localVue.directive(`clipboard`, VueClipboard)
-localVue.directive(`tooltip`, () => { })
+localVue.directive(`tooltip`, () => {})
 localVue.filter(`formatAddress`, formatAddress)
 
 describe(`Address Component`, () => {
