@@ -1,1 +1,0 @@
-[Changed] [#3731](https://github.com/cosmos/lunie/pull/3731) Now LUNA fees are handled differently, not applying the Terra tax and adding the multiply by 1.5 suggestion @Bitcoinera

@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.183] - 2020-03-27
+
+### Changed
+
+- [#3731](https://github.com/cosmos/lunie/pull/3731) Now LUNA fees are handled differently, not applying the Terra tax and adding the multiply by 1.5 suggestion @Bitcoinera
+- [#3758](https://github.com/cosmos/lunie/pull/3758) Prevents ClaimRewardsTxDetails component from "opening" in the extension @Bitcoinera
+- Allow sending to and from whitelisted accounts in emoney @faboweb
+
+### Fixed
+
+- [#3784](https://github.com/cosmos/lunie/issues/3784) Hide staking rewards if 0 @faboweb
+
 ## [1.0.182] - 2020-03-25
 
 ### Changed
