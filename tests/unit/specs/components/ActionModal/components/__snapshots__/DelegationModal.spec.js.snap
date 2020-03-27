@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DelegationModal Submission Data for Redelegating should set the subtotal to 0 on a restake 1`] = `
-<actionmodal-stub title="Restake" validate="function () { [native code] }" submissionerrorprefix="Staking failed" rewards="" transactiondata="[object Object]" notifymessage="[object Object]" featureflag="delegate" selecteddenom="" chainappliedfees="0" id="delegation-modal" class="delegation-modal" amount="0">
+<actionmodal-stub title="Restake" validate="function () { [native code] }" submissionerrorprefix="Staking failed" rewards="" transactiondata="[object Object]" notifymessage="[object Object]" featureflag="delegate" selecteddenom="" chainappliedfees="0" transactiontype="StakeTx" id="delegation-modal" class="delegation-modal" amount="0">
   <tmformgroup-stub class="action-modal-form-group">
     <div class="form-message notice"><span>
         Voting power and rewards will change instantly upon restaking — but
@@ -43,6 +43,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
   submissionerrorprefix="Staking failed"
   title="Stake"
   transactiondata="[object Object]"
+  transactiontype="StakeTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

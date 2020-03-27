@@ -194,34 +194,16 @@ describe(`ActionModal`, () => {
     expect(estimatedFee).toBe(0.00675)
   })
 
-  it(`should convert the gasEstimate to 200000`, () => {
-    const self = {
-      gasEstimate: 550000
-    }
-    ActionModal.methods.updateEmoneyGasEstimate.call(self)
-    expect(self.gasEstimate).toBe(200000)
-  })
-
-  it(`should also convert the gasEstimate to 200000`, () => {
-    const self = {
-      gasEstimate: 550000
-    }
-    ActionModal.methods.updateTerraGasEstimate.call(self)
-    expect(self.gasEstimate).toBe(200000)
-  })
-
-  it(`should return the normal estimated fee (gas price * gas estimate) when chainAppliedFees equal 0.
-    It should also update the gas estimate to 200000 when connected to a Terra network`, () => {
+  it(`should return the normal estimated fee (gas price * gas estimate) when chainAppliedFees equal 0`, () => {
     const self = {
       gasPrice: "1.5e-8",
-      gasEstimate: 55000,
+      gasEstimate: 300000,
       networkId: `terra-mainnet`,
       maxDecimals: ActionModal.methods.maxDecimals,
       updateTerraGasEstimate: ActionModal.methods.updateTerraGasEstimate
     }
     const estimatedFee = ActionModal.computed.estimatedFee.call(self)
-    expect(self.gasEstimate).toBe(200000)
-    expect(estimatedFee).toBe(0.003)
+    expect(estimatedFee).toBe(0.0045)
   })
 
   it(`should set the submissionError if the submission is rejected`, async () => {
@@ -570,7 +552,7 @@ describe(`ActionModal`, () => {
       }
       const data = {
         step: `details`,
-        gasEstimate: null,
+        simulateGasEstimate: null,
         submissionError: null
       }
 
@@ -578,7 +560,7 @@ describe(`ActionModal`, () => {
       wrapper.setData(data)
       await wrapper.vm.simulate()
       wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.gasEstimate).toBe(123456)
+        expect(wrapper.vm.simulateGasEstimate).toBe(123456)
         expect(wrapper.vm.submissionError).toBe(null)
         expect(wrapper.vm.step).toBe("fees")
       })
@@ -598,14 +580,14 @@ describe(`ActionModal`, () => {
       }
       const data = {
         step: `details`,
-        gasEstimate: null,
+        simulateGasEstimate: null,
         submissionError: null
       }
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
       await wrapper.vm.simulate()
       wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.gasEstimate).toBe(123456)
+        expect(wrapper.vm.simulateGasEstimate).toBe(123456)
         expect(wrapper.vm.submissionError).toBe(null)
         expect(wrapper.vm.step).toBe("fees")
       })
