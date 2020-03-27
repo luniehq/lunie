@@ -3,6 +3,7 @@
 exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
 <actionmodal-stub
   amount="0"
+  chainappliedfees="0"
   class="modal-withdraw-rewards"
   disable="true"
   featureflag="claim_rewards"

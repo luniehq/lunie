@@ -59,6 +59,7 @@ export default {
   }),
   computed: {
     ...mapGetters([`address`, `network`, `stakingDenom`]),
+    ...mapGetters({ userAddress: `address` }),
     transactionData() {
       if (!this.claimedReward) return {}
       return {
@@ -160,6 +161,27 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
+      }
+    },
+    balances: {
+      query: gql`
+        query BalancesSendModal($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            amount
+            denom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      skip() {
+        return !this.userAddress
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.userAddress
+        }
       }
     }
   }
