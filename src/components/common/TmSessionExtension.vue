@@ -76,10 +76,10 @@ export default {
       })
     },
     async signInAndRedirect(account) {
-      let accountNetwork = await this.$store.dispatch("getNetworkByAccount", {
-        network: account.network,
-        address: account.address
-      })
+      let accountNetwork = await this.$store.dispatch(
+        "getNetworkByAccount",
+        account
+      )
       if (!account.network && accountNetwork) {
         account.network = accountNetwork.id
       }
