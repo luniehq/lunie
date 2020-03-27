@@ -6,6 +6,12 @@ import Vue from "vue"
 /* istanbul ignore next */
 Vue.use(router)
 
+const networkCapabilityDictionary = {
+  ENABLED: true,
+  DISABLED: false,
+  MISSING: null
+}
+
 export const routeGuard = (store, apollo) => async (to, from, next) => {
   // Set any open modal to false
   store.state.session.currrentModalOpen = false
@@ -49,5 +55,9 @@ async function featureAvailable(apollo, networkId, to) {
   const { data } = await apollo.query({
     query: NetworkCapability(networkId)
   })
-  return NetworkCapabilityResult(feature)(data)
+  const networkCapabilityResult = NetworkCapabilityResult(feature)(data)
+  // hack to ensure retro compatibility with old API (network capabilities as booleans)
+  return typeof networkCapabilityResult === `string`
+    ? networkCapabilityDictionary[networkCapabilityResult]
+    : networkCapabilityResult
 }

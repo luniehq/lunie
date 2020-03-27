@@ -336,6 +336,12 @@ const sessionType = {
   EXTENSION: SIGN_METHODS.EXTENSION
 }
 
+const networkCapabilityDictionary = {
+  ENABLED: true,
+  DISABLED: false,
+  MISSING: null
+}
+
 export default {
   name: `action-modal`,
   components: {
@@ -435,7 +441,9 @@ export default {
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
-      return this.network[action] === true
+      return typeof this.network[action] === `string`
+        ? networkCapabilityDictionary[this.network[action]]
+        : this.network[action] === true
     },
     network() {
       return this.networks.find(({ id }) => id == this.networkId)
