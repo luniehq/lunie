@@ -7,6 +7,7 @@
     title="Deposit"
     class="modal-deposit"
     submission-error-prefix="Depositing failed"
+    transaction-type="DepositTx"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="deposit"

@@ -6,6 +6,7 @@
     :amount="amount"
     title="Create Proposal"
     submission-error-prefix="Submitting proposal failed"
+    transaction-type="SubmitProposalTx"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="proposal"

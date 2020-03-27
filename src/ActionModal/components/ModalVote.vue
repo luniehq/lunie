@@ -6,6 +6,7 @@
     title="Vote"
     class="modal-vote"
     submission-error-prefix="Voting failed"
+    transaction-type="VoteTx"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="vote"

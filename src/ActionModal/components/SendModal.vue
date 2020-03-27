@@ -6,6 +6,7 @@
     :amount="amount"
     title="Send"
     submission-error-prefix="Sending tokens failed"
+    transaction-type="SendTx"
     :transaction-data="transactionData"
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"

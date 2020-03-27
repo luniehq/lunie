@@ -7,6 +7,7 @@
     :title="isRedelegation ? 'Restake' : 'Stake'"
     class="delegation-modal"
     submission-error-prefix="Staking failed"
+    transaction-type="StakeTx"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="delegate"

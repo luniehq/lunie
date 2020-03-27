@@ -9,6 +9,7 @@
     :submission-error-prefix="
       isRedelegation ? 'Restaking failed' : 'Unstaking failed'
     "
+    :transaction-type="isRedelegation ? 'RestakeTx' : 'UnstakeTx'"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="undelegate"
