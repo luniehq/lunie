@@ -21,7 +21,7 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ stakingDenom }}</span>
+      <span class="input-suffix">{{ feeDenom }}</span>
       <TmField
         id="amount"
         v-model="totalRewards"
@@ -74,10 +74,18 @@ export default {
     },
     totalRewards() {
       if (this.rewards && this.rewards.length > 0) {
-        return this.rewards
+        const stakingDenomRewards = this.rewards
           .filter(({ denom }) => denom === this.stakingDenom)
           .reduce((sum, { amount }) => sum + Number(amount), 0)
           .toFixed(6)
+        // if staking denom rewards are not above zero, we'd display the fees and amount for the first existing
+        // alt-token reward on the rewards array
+        return stakingDenomRewards > 0
+          ? stakingDenomRewards
+          : this.rewards
+              .filter(({ denom }) => denom === this.feeDenom)
+              .reduce((sum, { amount }) => sum + Number(amount), 0)
+              .toFixed(6)
       } else {
         return null
       }
