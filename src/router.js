@@ -20,11 +20,11 @@ export const routeGuard = store => async (to, from, next) => {
     to.meta.feature &&
     !(store.state.connection.network === "testnet") && // TODO remove once we have Hasura integrated in e2e tests
     !(await featureAvailable(store, to)) &&
-    !((await featureAvailable(store, to)) === 'MISSING')
+    !((await featureAvailable(store, to)) === "MISSING")
   ) {
     next(`/feature-not-available/${to.meta.feature}`)
     return
-  } else if ((await featureAvailable(store, to)) === 'MISSING') {
+  } else if ((await featureAvailable(store, to)) === "MISSING") {
     next(`/feature-not-present/${to.meta.feature}`)
     return
   }
