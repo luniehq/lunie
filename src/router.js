@@ -1,12 +1,12 @@
 import router from "vue-router"
 import routes from "./routes"
-import { NetworkCapability, NetworkCapabilityResult } from "./gql"
+import { NetworkCapabilityResult } from "./gql"
 import Vue from "vue"
 
 /* istanbul ignore next */
 Vue.use(router)
 
-export const routeGuard = (store, apollo) => async (to, from, next) => {
+export const routeGuard = store => async (to, from, next) => {
   // Set any open modal to false
   store.state.session.currrentModalOpen = false
 
@@ -19,18 +19,12 @@ export const routeGuard = (store, apollo) => async (to, from, next) => {
   if (
     to.meta.feature &&
     !(store.state.connection.network === "testnet") && // TODO remove once we have Hasura integrated in e2e tests
-    !(await featureAvailable(apollo, store.state.connection.network, to)) &&
-    !(
-      (await featureAvailable(apollo, store.state.connection.network, to)) ===
-      null
-    )
+    !(await featureAvailable(store, to)) &&
+    !((await featureAvailable(store, to)) === 'MISSING')
   ) {
     next(`/feature-not-available/${to.meta.feature}`)
     return
-  } else if (
-    (await featureAvailable(apollo, store.state.connection.network, to)) ===
-    null
-  ) {
+  } else if ((await featureAvailable(store, to)) === 'MISSING') {
     next(`/feature-not-present/${to.meta.feature}`)
     return
   }
@@ -53,14 +47,15 @@ const Router = (apollo, store) =>
 export default Router
 
 // check if feature is allowed and redirect if not
-async function featureAvailable(apollo, networkId, to) {
+async function featureAvailable(store, to) {
   if (to.meta.feature === undefined) {
     return
   } else {
+    const networks = store.state.connection.networks
+    const currentNetworkId = store.state.connection.network
+    // we get the current network object
+    const currentNetwork = networks.find(({ id }) => id === currentNetworkId)
     const feature = `feature_${to.meta.feature.toLowerCase()}`
-    const { data } = await apollo.query({
-      query: NetworkCapability(networkId)
-    })
-    return NetworkCapabilityResult(feature)(data)
+    return NetworkCapabilityResult(feature)(currentNetwork)
   }
 }
