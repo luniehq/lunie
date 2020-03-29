@@ -21,7 +21,7 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
     <span
       class="input-suffix"
     >
-      ATOM
+      STAKE
     </span>
      
     <tmfield-stub

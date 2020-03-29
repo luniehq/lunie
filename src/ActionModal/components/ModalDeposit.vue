@@ -112,7 +112,7 @@ export default {
           {
             amount: toMicroUnit(
               this.amount,
-              this.stakingDenom,
+              this.denom,
               this.networks.find(({ id }) => id === this.network)
             ),
             denom: toMicroDenom(this.denom)

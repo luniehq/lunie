@@ -46,10 +46,10 @@ export default class ActionManager {
     })
   }
 
-  async simulateTxAPI({ networkId, userAddress }, type, txProps, memo) {
+  async simulateTxAPI({ network, userAddress }, type, txProps, memo) {
     const txPayload = {
       simulate: true,
-      networkId,
+      networkId: network.id,
       messageType: type,
       address: userAddress,
       txProperties: txProps,

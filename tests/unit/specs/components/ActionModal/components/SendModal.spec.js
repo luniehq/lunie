@@ -15,7 +15,22 @@ describe(`SendModal`, () => {
       signedIn: true,
       address: "cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx"
     },
-    network: "cosmos-hub-mainnet"
+    network: "cosmos-hub-mainnet",
+    networks: [
+      {
+        id: "cosmos-hub-mainnet",
+        coinLookup: [
+          { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
+        ]
+      },
+      {
+        id: "terra-mainnet",
+        coinLookup: [
+          { viewDenom: "LUNA", chainToViewConversionFactor: 0.000001 }
+        ]
+      }
+    ],
+    stakingDenom: "STAKE"
   }
 
   const state = {}
@@ -239,18 +254,14 @@ describe(`SendModal`, () => {
       expect(wrapper.vm.isMaxAmount()).toBe(false)
     })
     it(`if we are connected to a Terra network, we will substract Terra extra fees from max amount`, async () => {
-      wrapper.setData({
-        $store: {
-          getters: {
-            network: "terra-mainnet"
-          }
-        },
+      const self = {
+        network: "terra-mainnet",
         selectedBalance: {
           amount: 1
         }
-      })
-      wrapper.vm.setMaxAmount()
-      expect(wrapper.vm.amount).toBe(`0.992063`)
+      }
+      SendModal.methods.setMaxAmount.call(self)
+      expect(self.amount).toBe(`0.992063`)
     })
   })
 

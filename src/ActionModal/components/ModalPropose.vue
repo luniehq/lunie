@@ -157,7 +157,7 @@ export default {
     }
   }),
   computed: {
-    ...mapGetters([`network`, `networks`]),
+    ...mapGetters([`network`, `networks`, `stakingDenom`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
       if (
