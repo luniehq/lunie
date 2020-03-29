@@ -337,9 +337,9 @@ const sessionType = {
 }
 
 const networkCapabilityDictionary = {
-  ENABLED: true,
-  DISABLED: false,
-  MISSING: null
+  true: "ENABLED",
+  false: "DISABLED",
+  null: "MISSING"
 }
 
 export default {
@@ -442,7 +442,7 @@ export default {
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
       return typeof this.network[action] === `string`
-        ? networkCapabilityDictionary[this.network[action]]
+        ? networkCapabilityDictionary[this.network[action]] === "ENABLED"
         : this.network[action]
     },
     network() {

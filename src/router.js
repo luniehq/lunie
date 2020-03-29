@@ -7,9 +7,9 @@ import Vue from "vue"
 Vue.use(router)
 
 const networkCapabilityDictionary = {
-  ENABLED: true,
-  DISABLED: false,
-  MISSING: null
+  true: "ENABLED",
+  false: "DISABLED",
+  null: "MISSING"
 }
 
 export const routeGuard = (store, apollo) => async (to, from, next) => {
@@ -58,6 +58,6 @@ async function featureAvailable(apollo, networkId, to) {
   const networkCapabilityResult = NetworkCapabilityResult(feature)(data)
   // hack to ensure retro compatibility with old API (network capabilities as booleans)
   return typeof networkCapabilityResult === `string`
-    ? networkCapabilityDictionary[networkCapabilityResult]
+    ? networkCapabilityDictionary[networkCapabilityResult] === "ENABLED"
     : networkCapabilityResult
 }
