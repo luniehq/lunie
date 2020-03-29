@@ -454,7 +454,6 @@ export default {
     estimatedFee() {
       // terra uses a tax on all send txs
       if (this.chainAppliedFees > 0) {
-        // Terra gas estimate // TODO: get this from the API
         return this.chainAppliedFees
       }
       return this.maxDecimals(
