@@ -299,7 +299,6 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
-import transactionTypes from "../utils/transactionTypes"
 import BigNumber from "bignumber.js"
 // import transactionTypes from '../utils/transactionTypes'
 
@@ -336,9 +335,6 @@ const sessionType = {
   LEDGER: SIGN_METHODS.LEDGER,
   EXTENSION: SIGN_METHODS.EXTENSION
 }
-
-// hardcoding terra tax here until we have it in the API
-const terraTax = 0.008
 
 export default {
   name: `action-modal`,
@@ -402,6 +398,10 @@ export default {
     selectedDenom: {
       type: String,
       default: ``
+    },
+    chainAppliedFees: {
+      type: Number,
+      default: 0
     }
   },
   data: () => ({
@@ -448,20 +448,24 @@ export default {
     },
     estimatedFee() {
       // another hack
-      this.updateEmoneyGasEstimate()
+      if (this.networkId.startsWith(`emoney`)) {
+        this.updateEmoneyGasEstimate()
+      }
       // hack
       // terra uses a tax on all send txs
-      if (
-        this.networkId.startsWith(`terra`) &&
-        this.transactionData.type === transactionTypes.SEND
-      ) {
-        return this.maxDecimals(
-          Number(this.gasEstimate) * Number(this.gasPrice) +
-            Number(this.amount) * terraTax,
-          6
-        ) // TODO get precision from API
+      if (this.chainAppliedFees > 0) {
+        // Terra gas estimate // TODO: get this from the API
+        this.updateTerraGasEstimate()
+        return this.chainAppliedFees
       }
-      return Number(this.gasPrice) * Number(this.gasEstimate)
+      // still update Terra gas estimate for LUNA
+      if (this.networkId.startsWith(`terra`)) {
+        this.updateTerraGasEstimate()
+      }
+      return this.maxDecimals(
+        Number(this.gasPrice) * Number(this.gasEstimate),
+        6
+      )
     },
     subTotal() {
       return this.featureFlag === "undelegate" ? 0 : this.amount
@@ -555,10 +559,11 @@ export default {
     }
   },
   methods: {
+    updateTerraGasEstimate() {
+      this.gasEstimate = 200000
+    },
     updateEmoneyGasEstimate() {
-      if (this.network.id.startsWith(`emoney`)) {
-        this.gasEstimate = 200000
-      }
+      this.gasEstimate = 200000
     },
     confirmModalOpen() {
       let confirmResult = false
@@ -707,11 +712,8 @@ export default {
         let payable = Number(this.subTotal)
         // in terra we also have to pay the tax
         // TODO refactor using a `fixedFee` property
-        if (
-          this.networkId.startsWith(`terra`) &&
-          this.transactionData.type === transactionTypes.SEND
-        ) {
-          payable += Number(this.amount) * terraTax
+        if (this.chainAppliedFees) {
+          payable += this.chainAppliedFees
         }
         this.gasPrice =
           (Number(this.selectedBalance.amount) - payable) / this.gasEstimate

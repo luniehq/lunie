@@ -253,15 +253,20 @@ describe(`SendModal`, () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.isMaxAmount()).toBe(false)
     })
-    it(`if we are connected to a Terra network, we will substract Terra extra fees from max amount`, async () => {
+
+    it(`setMaxAmount should deduct the Terra tax from total balance when sending alt-tokens in Terra`, () => {
       const self = {
         network: "terra-mainnet",
+        amount: 0.000001,
         selectedBalance: {
-          amount: 1
-        }
+          amount: 1,
+          denom: "STAKE"
+        },
+        getTerraTax: SendModal.methods.getTerraTax,
+        maxDecimals: SendModal.methods.maxDecimals
       }
       SendModal.methods.setMaxAmount.call(self)
-      expect(self.amount).toBe(`0.992063`)
+      expect(self.amount).toBe(0.99325)
     })
   })
 
