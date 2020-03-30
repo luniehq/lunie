@@ -25,10 +25,13 @@
           Looking for older transactions?
         </div>
         <div slot="subtitle">
-          Unfortunately, we can't display transactions from previous chains
-          right now.
-          <a class="intercom-button" @click="handleIntercom()">Let us know</a>
-          if you'd like access these transactions.
+          <p>
+            Lunie cannot display transactions from previous chains in your activity page. 
+          </p>
+          <p>if you would like to view information from previous chain upgrades
+          please click <a href="https://intercom.help/lunie/en/articles/3787014-how-to-get-blockchain-data-from-previous-chain-upgrades">here.</a>
+          </p>
+          
         </div>
       </TmDataMsg>
     </template>
