@@ -563,7 +563,7 @@ export default {
   },
   methods: {
     updateTerraGasEstimate() {
-      this.gasEstimate = 200000
+      this.gasEstimate = 300000
     },
     updateEmoneyGasEstimate() {
       this.gasEstimate = 200000
