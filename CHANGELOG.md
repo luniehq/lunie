@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.184] - 2020-03-30
+
+### Changed
+
+- [#3789](https://github.com/cosmos/lunie/pull/3789) Leaves the default gas estimate, 550000, on e-Money when it is a Claim Rewards action @Bitcoinera
+- reduced complexity of rewards claim tx @jbibla
+- added copy icon to address copyable links and widened empty portfolio message @jbibla
+
 ## [1.0.183] - 2020-03-27
 
 ### Changed
