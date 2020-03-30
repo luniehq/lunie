@@ -13,6 +13,7 @@ exports[`ModalVote should display vote modal form 1`] = `
   submissionerrorprefix="Voting failed"
   title="Vote"
   transactiondata="[object Object]"
+  transactiontype="VoteTx"
   validate="function () { [native code] }"
 >
   <div
