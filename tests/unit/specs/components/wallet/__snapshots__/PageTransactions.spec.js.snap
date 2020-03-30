@@ -40,12 +40,12 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
         </p>
          
         <p>
-          if you would like to view information from previous chain upgrades
-        please click 
+          If you would like to view information from previous chain upgrades
+        please visit our 
           <a
             href="https://intercom.help/lunie/en/articles/3787014-how-to-get-blockchain-data-from-previous-chain-upgrades"
           >
-            here.
+            Help Center.
           </a>
         </p>
       </div>
@@ -96,12 +96,12 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
         </p>
          
         <p>
-          if you would like to view information from previous chain upgrades
-        please click 
+          If you would like to view information from previous chain upgrades
+        please visit our 
           <a
             href="https://intercom.help/lunie/en/articles/3787014-how-to-get-blockchain-data-from-previous-chain-upgrades"
           >
-            here.
+            Help Center.
           </a>
         </p>
       </div>
