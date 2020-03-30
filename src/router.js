@@ -1,10 +1,15 @@
 import router from "vue-router"
 import routes from "./routes"
-import { NetworkCapabilityResult } from "./gql"
 import Vue from "vue"
 
 /* istanbul ignore next */
 Vue.use(router)
+
+const networkCapabilityDictionary = {
+  true: "ENABLED",
+  false: "DISABLED",
+  null: "MISSING"
+}
 
 export const routeGuard = store => async (to, from, next) => {
   // Set any open modal to false
@@ -16,17 +21,21 @@ export const routeGuard = store => async (to, from, next) => {
     next(path)
     return
   }
-  if (
-    to.meta.feature &&
-    !(store.state.connection.network === "testnet") && // TODO remove once we have Hasura integrated in e2e tests
-    !(await featureAvailable(store, to)) &&
-    !((await featureAvailable(store, to)) === "MISSING")
-  ) {
-    next(`/feature-not-available/${to.meta.feature}`)
-    return
-  } else if ((await featureAvailable(store, to)) === "MISSING") {
-    next(`/feature-not-present/${to.meta.feature}`)
-    return
+  if (to.meta.feature) {
+    const featureAvalability = await featureAvailable(store, to.meta.feature)
+    switch (featureAvalability) {
+      case "DISABLED": {
+        next(`/feature-not-available/${to.meta.feature}`)
+        return
+      }
+      case "MISSING": {
+        next(`/feature-not-present/${to.meta.feature}`)
+        return
+      }
+      default: {
+        // if the feature is enabled just continue
+      }
+    }
   }
 
   if (from.fullPath !== to.fullPath && !store.state.session.pauseHistory) {
@@ -47,15 +56,14 @@ const Router = (apollo, store) =>
 export default Router
 
 // check if feature is allowed and redirect if not
-async function featureAvailable(store, to) {
-  if (to.meta.feature === undefined) {
-    return
-  } else {
-    const networks = store.state.connection.networks
-    const currentNetworkId = store.state.connection.network
-    // we get the current network object
-    const currentNetwork = networks.find(({ id }) => id === currentNetworkId)
-    const feature = `feature_${to.meta.feature.toLowerCase()}`
-    return NetworkCapabilityResult(feature)(currentNetwork)
-  }
+async function featureAvailable(store, feature) {
+  const networks = store.state.connection.networks
+  const currentNetworkId = store.state.connection.network
+  // we get the current network object
+  const currentNetwork = networks.find(({ id }) => id === currentNetworkId)
+  const featureSelector = `feature_${feature.toLowerCase()}`
+  return typeof currentNetwork[feature] === "string"
+    ? currentNetwork[feature]
+    : // DEPRECATE fallback for old API response
+      networkCapabilityDictionary[currentNetwork[featureSelector]]
 }

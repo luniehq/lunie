@@ -34,18 +34,21 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
       </div>
        
       <div>
+        <p>
+          
+          Lunie cannot display transactions from previous chains in your activity page. 
         
-        Unfortunately, we can't display transactions from previous chains
-        right now.
-        
-        <a
-          class="intercom-button"
-        >
-          Let us know
-        </a>
-        
-        if you'd like access these transactions.
-      
+        </p>
+         
+        <p>
+          If you would like to view information from previous chain upgrades
+        please visit our 
+          <a
+            href="https://intercom.help/lunie/en/articles/3787014-how-to-get-blockchain-data-from-previous-chain-upgrades"
+          >
+            Help Center.
+          </a>
+        </p>
       </div>
     </tmdatamsg-stub>
   </template>
@@ -88,18 +91,21 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
       </div>
        
       <div>
+        <p>
+          
+          Lunie cannot display transactions from previous chains in your activity page. 
         
-        Unfortunately, we can't display transactions from previous chains
-        right now.
-        
-        <a
-          class="intercom-button"
-        >
-          Let us know
-        </a>
-        
-        if you'd like access these transactions.
-      
+        </p>
+         
+        <p>
+          If you would like to view information from previous chain upgrades
+        please visit our 
+          <a
+            href="https://intercom.help/lunie/en/articles/3787014-how-to-get-blockchain-data-from-previous-chain-upgrades"
+          >
+            Help Center.
+          </a>
+        </p>
       </div>
     </tmdatamsg-stub>
   </template>
