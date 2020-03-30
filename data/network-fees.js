@@ -1,7 +1,6 @@
 const { UserInputError } = require('apollo-server')
 
 const transactionTypesSet = new Set(['SendTx', 'StakeTx', 'UnstakeTx', 'RestakeTx', 'ClaimRewardsTx', 'SubmitProposalTx', 'VoteTx', 'DepositTx', 'UnknownTx'])
-const transactionTypes = [...transactionTypesSet]
 
 const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
     if (transactionType && !transactionTypesSet.has(transactionType)) {
@@ -11,11 +10,11 @@ const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
     if (!networkGasEstimates) {
         throw new UserInputError(`Unrecognized network. Currently only Cosmos, Terra and e-Money do have a network fees set`)
     }
-    return transactionType ? networkGasEstimates[`${transactionType}`] : networkGasEstimates.default
+    return transactionType && networkGasEstimates[`${transactionType}`] ? networkGasEstimates[`${transactionType}`] : networkGasEstimates.default
 }
 
 const terraGasEstimates = {
-    default: 200000
+    default: 300000
 }
 
 const cosmosGasEstimates = {
