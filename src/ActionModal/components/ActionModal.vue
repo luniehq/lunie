@@ -336,6 +336,12 @@ const sessionType = {
   EXTENSION: SIGN_METHODS.EXTENSION
 }
 
+const networkCapabilityDictionary = {
+  true: "ENABLED",
+  false: "DISABLED",
+  null: "MISSING"
+}
+
 export default {
   name: `action-modal`,
   components: {
@@ -435,7 +441,11 @@ export default {
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
-      return this.network[action] === true
+      // DEPRECATE to support the upgrade of the old Boolean value to the new ENUM capability model, we support here temporarily the upgrade from the Boolean model to the ENUM model
+      return typeof this.network[action] === `boolean` ||
+        this.network[action] === null
+        ? networkCapabilityDictionary[this.network[action]] === "ENABLED"
+        : this.network[action] === "ENABLED"
     },
     network() {
       return this.networks.find(({ id }) => id == this.networkId)
