@@ -300,7 +300,6 @@ import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 import BigNumber from "bignumber.js"
-import transactionTypes from "../utils/transactionTypes"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -907,6 +906,7 @@ export default {
       `,
       /* istanbul ignore next */
       variables() {
+        console.log("Transactoin tpye is", this.transactionType)
         return {
           networkId: this.networkId,
           transactionType: this.transactionType

@@ -9,7 +9,9 @@
     :submission-error-prefix="
       isRedelegation ? 'Restaking failed' : 'Unstaking failed'
     "
-    :transaction-type="isRedelegation ? 'RestakeTx' : 'UnstakeTx'"
+    :transaction-type="
+      isRedelegation ? transactionTypes.REDELEGATE : transactionTypes.UNDELEGATE
+    "
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="undelegate"
@@ -122,7 +124,7 @@ import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
-import transaction from "../utils/transactionTypes"
+import transactionTypes from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
@@ -154,7 +156,8 @@ export default {
     balance: {
       amount: 0,
       denom: ``
-    }
+    },
+    transactionTypes
   }),
   computed: {
     ...mapState([`session`]),
@@ -177,7 +180,7 @@ export default {
           return {}
         }
         return {
-          type: transaction.REDELEGATE,
+          type: transactionTypes.REDELEGATE,
           validatorSourceAddress: this.sourceValidator.operatorAddress,
           validatorDestinationAddress: this.toSelectedIndex,
           amount: uatoms(this.amount),
@@ -192,7 +195,7 @@ export default {
           return {}
         }
         return {
-          type: transaction.UNDELEGATE,
+          type: transactionTypes.UNDELEGATE,
           validatorAddress: this.sourceValidator.operatorAddress,
           amount: uatoms(this.amount),
           denom: toMicroDenom(this.stakingDenom)
