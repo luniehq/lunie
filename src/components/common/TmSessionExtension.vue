@@ -56,7 +56,7 @@ export default {
   }),
   computed: {
     ...mapState([`extension`]),
-    ...mapGetters([`networks`, `findNetwork`]),
+    ...mapGetters([`networks`]),
     accounts() {
       return this.extension.accounts
     }
@@ -76,18 +76,14 @@ export default {
       })
     },
     async signInAndRedirect(account) {
-      let accountNetwork = await this.$store.dispatch(
-        "getNetworkByAccount",
+      const accountNetwork = await this.$store.dispatch("getNetworkByAccount", {
         account
-      )
-      if (!account.network && accountNetwork) {
-        account.network = accountNetwork.id
-      }
+      })
       await this.signIn(account)
       this.$router.push({
         name: "portfolio",
         params: {
-          networkId: accountNetwork ? accountNetwork.slug : "cosmos-hub" // defaulting to cosmos-hub-mainnet
+          networkId: accountNetwork.slug
         }
       })
     }

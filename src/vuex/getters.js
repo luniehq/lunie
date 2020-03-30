@@ -16,16 +16,6 @@ export const stakingDenom = state => {
   )
   return filteredNetwork ? filteredNetwork.stakingDenom : ``
 }
-export const findNetwork = state => value => {
-  let filterFunction
-  // defaulting non object input to id
-  if (typeof value !== `function`) {
-    filterFunction = ({ id }) => id === value
-  } else {
-    filterFunction = value
-  }
-  return state.connection.networks.find(network => filterFunction(network))
-}
 
 export const isExtensionAccount = state =>
   state.extension.accounts.some(account => {
