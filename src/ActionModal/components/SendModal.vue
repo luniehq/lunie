@@ -6,6 +6,7 @@
     :amount="amount"
     title="Send"
     submission-error-prefix="Sending tokens failed"
+    :transaction-type="messageType.SEND"
     :transaction-data="transactionData"
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"
@@ -145,7 +146,8 @@ import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transaction from "../utils/transactionTypes"
+import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroDenom } from "src/scripts/common"
 import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
@@ -184,7 +186,9 @@ export default {
     max_memo_characters: 256,
     isFirstLoad: true,
     selectedToken: undefined,
-    balances: []
+    balances: [],
+    transactionTypes,
+    messageType
   }),
   computed: {
     ...mapGetters([`network`, `stakingDenom`]),
@@ -201,7 +205,7 @@ export default {
         return {}
       }
       return {
-        type: transaction.SEND,
+        type: transactionTypes.SEND,
         toAddress: this.address,
         amounts: [
           {

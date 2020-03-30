@@ -300,7 +300,6 @@ import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 import BigNumber from "bignumber.js"
-import transactionTypes from "../utils/transactionTypes"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -408,6 +407,10 @@ export default {
     chainAppliedFees: {
       type: Number,
       default: 0
+    },
+    transactionType: {
+      type: String,
+      default: "UnknownTx"
     }
   },
   data: () => ({
@@ -457,23 +460,9 @@ export default {
       )
     },
     estimatedFee() {
-      // another hack. e-Money doesn't neet such a high gas estimate for sending
-      if (
-        this.networkId.startsWith(`emoney`) &&
-        this.transactionData.type !== transactionTypes.WITHDRAW
-      ) {
-        this.updateEmoneyGasEstimate()
-      }
-      // hack
       // terra uses a tax on all send txs
       if (this.chainAppliedFees > 0) {
-        // Terra gas estimate // TODO: get this from the API
-        this.updateTerraGasEstimate()
         return this.chainAppliedFees
-      }
-      // still update Terra gas estimate for LUNA
-      if (this.networkId.startsWith(`terra`)) {
-        this.updateTerraGasEstimate()
       }
       return this.maxDecimals(
         Number(this.gasPrice) * Number(this.gasEstimate),
@@ -572,12 +561,6 @@ export default {
     }
   },
   methods: {
-    updateTerraGasEstimate() {
-      this.gasEstimate = 300000
-    },
-    updateEmoneyGasEstimate() {
-      this.gasEstimate = 200000
-    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen || !this.queueEmpty) {
@@ -676,9 +659,7 @@ export default {
           if (!this.isValidChildForm) {
             return
           }
-          this.sending = true
-          await this.simulate() // simulate to get gas estimation
-          this.sending = false
+          this.step = feeStep
           return
         case feeStep:
           if (!this.isValidInput(`gasPrice`)) {
@@ -702,25 +683,8 @@ export default {
           return
       }
     },
-    async simulate() {
-      const { type, memo, ...properties } = this.transactionData
-      try {
-        this.gasEstimate = await this.actionManager.simulateTxAPI(
-          {
-            userAddress: this.session.address,
-            networkId: this.network.id,
-            networkType: this.network.network_type
-          },
-          type,
-          properties,
-          memo
-        )
-        this.step = feeStep
-      } catch ({ message }) {
-        this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-      }
-
-      // limit fees to the maximum the user has
+    // limit fees to the maximum the user has
+    adjustFeesToMaxPayable() {
       if (this.invoiceTotal > this.selectedBalance.amount) {
         let payable = Number(this.subTotal)
         // in terra we also have to pay the tax
@@ -876,7 +840,7 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.address
+        return !this.session.address
       }
     },
     overview: {
@@ -914,6 +878,38 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.session.address
+      }
+    },
+    gasEstimate: {
+      query: gql`
+        query NetworkGasEstimates(
+          $networkId: String!
+          $transactionType: String
+        ) {
+          networkFees(
+            networkId: $networkId
+            transactionType: $transactionType
+          ) {
+            gasEstimate
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.networkId,
+          transactionType: this.transactionType
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        if (data.networkFees) {
+          return data.networkFees.gasEstimate
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.session.address || !this.transactionData
       }
     },
     $subscribe: {

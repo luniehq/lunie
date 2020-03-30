@@ -8,7 +8,6 @@ localVue.use(Vuelidate)
 localVue.directive("focus-last", focusParentLast)
 localVue.directive("focus", () => {})
 
-let mockSimulate = jest.fn(() => 123456)
 let mockSend = jest.fn(() => ({
   included: () => Promise.resolve({ height: 42 }),
   hash: "HASH1234HASH"
@@ -23,7 +22,6 @@ jest.mock("src/../config.js", () => ({
 jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
   return jest.fn(() => {
     return {
-      simulateTxAPI: mockSimulate,
       sendTxAPI: mockSend,
       getSignQueue: mockGetSignQueue
     }
@@ -194,33 +192,15 @@ describe(`ActionModal`, () => {
     expect(estimatedFee).toBe(0.00675)
   })
 
-  it(`should convert the gasEstimate to 200000`, () => {
-    const self = {
-      gasEstimate: 550000
-    }
-    ActionModal.methods.updateEmoneyGasEstimate.call(self)
-    expect(self.gasEstimate).toBe(200000)
-  })
-
-  it(`should also convert the gasEstimate to 300000`, () => {
-    const self = {
-      gasEstimate: 550000
-    }
-    ActionModal.methods.updateTerraGasEstimate.call(self)
-    expect(self.gasEstimate).toBe(300000)
-  })
-
-  it(`should return the normal estimated fee (gas price * gas estimate) when chainAppliedFees equal 0.
-    It should also update the gas estimate to 300000 when connected to a Terra network`, () => {
+  it(`should return the normal estimated fee (gas price * gas estimate) when chainAppliedFees equal 0`, () => {
     const self = {
       gasPrice: "1.5e-8",
-      gasEstimate: 55000,
+      gasEstimate: 300000,
       networkId: `terra-mainnet`,
       maxDecimals: ActionModal.methods.maxDecimals,
       updateTerraGasEstimate: ActionModal.methods.updateTerraGasEstimate
     }
     const estimatedFee = ActionModal.computed.estimatedFee.call(self)
-    expect(self.gasEstimate).toBe(300000)
     expect(estimatedFee).toBe(0.0045)
   })
 
@@ -248,7 +228,6 @@ describe(`ActionModal`, () => {
       $store,
       $apollo,
       actionManager: {
-        simulateTxAPI: jest.fn(),
         sendTxAPI: ActionManagerSend
       },
       transactionData: {
@@ -297,9 +276,7 @@ describe(`ActionModal`, () => {
       $store,
       $apollo,
       actionManager: {
-        simulate: () => 12345,
         send: ActionManagerSend,
-        simulateTxAPI: jest.fn(),
         sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
       },
       transactionData: {},
@@ -570,124 +547,15 @@ describe(`ActionModal`, () => {
     })
   })
 
-  describe(`simulate`, () => {
-    it(`should simulate transaction to get estimated gas`, async () => {
-      const transactionProperties = {
-        type: "MsgSend",
-        toAddress: "comsos12345",
-        amounts: [
-          {
-            amount: "100000",
-            denom: "uatoms"
-          }
-        ],
-        memo: "A memo"
-      }
-      const data = {
-        step: `details`,
-        gasEstimate: null,
-        submissionError: null
-      }
-
-      wrapper.setProps({ transactionProperties })
-      wrapper.setData(data)
-      await wrapper.vm.simulate()
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.gasEstimate).toBe(123456)
-        expect(wrapper.vm.submissionError).toBe(null)
-        expect(wrapper.vm.step).toBe("fees")
-      })
-    })
-
-    it(`should simulate transaction to get estimated gas using Transaction API`, async () => {
-      const transactionProperties = {
-        type: "MsgSend",
-        toAddress: "comsos12345",
-        amounts: [
-          {
-            amount: "100000",
-            denom: "uatoms"
-          }
-        ],
-        memo: "A memo"
-      }
-      const data = {
-        step: `details`,
-        gasEstimate: null,
-        submissionError: null
-      }
-      wrapper.setProps({ transactionProperties })
-      wrapper.setData(data)
-      await wrapper.vm.simulate()
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.gasEstimate).toBe(123456)
-        expect(wrapper.vm.submissionError).toBe(null)
-        expect(wrapper.vm.step).toBe("fees")
-      })
-    })
-
-    it(`should max fees to the available amount`, async () => {
-      const transactionProperties = {
-        type: "MsgSend",
-        toAddress: "comsos12345",
-        amounts: [
-          {
-            amount: "1230000000",
-            denom: "uatoms"
-          }
-        ],
-        memo: "A memo"
-      }
-      const data = {
-        step: `details`,
-        gasEstimate: null,
-        submissionError: null
-      }
-
-      wrapper.setProps({ transactionProperties, amount: 1230 })
-      wrapper.setData(data)
-      await wrapper.vm.simulate()
-      wrapper.vm.$nextTick(() => {
-        expect(wrapper.vm.submissionError).toBe(null)
-        expect(wrapper.vm.step).toBe("fees")
-        expect(wrapper.vm.gasPrice).toBe(0)
-      })
-    })
-
-    it("should fail if simulation fails", async () => {
-      const mockSimulateFail = jest.fn(() =>
-        Promise.reject(new Error(`invalid request`))
-      )
-
-      const data = {
-        step: `details`,
-        gasEstimate: null,
-        submissionError: null
-      }
-
-      const transactionProperties = {
-        type: "MsgSend",
-        toAddress: "comsos12345",
-        amounts: [
-          {
-            amount: "100000",
-            denom: "uatoms"
-          }
-        ],
-        memo: "A memo"
-      }
-
-      wrapper.setProps({ transactionProperties })
-      wrapper.setData(data)
-      wrapper.vm.actionManager.simulateTxAPI = mockSimulateFail
-      await wrapper.vm.simulate()
-      await wrapper.vm.$nextTick()
-      expect(wrapper.vm.gasEstimate).toBe(null)
-      expect(wrapper.vm.submissionError).toBe(
-        "Transaction failed: invalid request."
-      )
-      expect(wrapper.vm.step).toBe("details")
-    })
+  it(`should max fees to the available amount`, async () => {
+    const self = {
+      invoiceTotal: 1.001,
+      selectedBalance: balances[0],
+      subTotal: 0.999,
+      gasEstimate: 100000
+    }
+    ActionModal.methods.adjustFeesToMaxPayable.call(self)
+    expect(self.gasPrice).toBe(1.0000000000000008e-8) // a bit lower then gasEstimate. feels right
   })
 
   describe(`submit`, () => {
@@ -819,28 +687,12 @@ describe(`ActionModal`, () => {
       self = {
         ...getterValues,
         submit: jest.fn(),
-        simulate: jest.fn(),
         isValidChildForm: true,
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `details`,
         validateChangeStep: jest.fn(() => {})
       }
-    })
-
-    describe(`on tx details step`, () => {
-      it(`when using local keystore`, async () => {
-        await ActionModal.methods.validateChangeStep.call(self)
-        expect(self.simulate).toHaveBeenCalled()
-      })
-
-      it(`when using ledger`, async () => {
-        self.session.sessionType = `ledger`
-        self.selectedSignMethod = `ledger`
-
-        await ActionModal.methods.validateChangeStep.call(self)
-        expect(self.simulate).toHaveBeenCalled()
-      })
     })
 
     describe(`on fees step`, () => {
@@ -929,23 +781,11 @@ describe(`ActionModal`, () => {
         submit: jest.fn(
           () => new Promise(resolve => setTimeout(resolve, 1000))
         ),
-        simulate: jest.fn(),
         isValidChildForm: true,
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `details`
       }
-    })
-
-    it(`when signing with local keystore`, done => {
-      jest.useFakeTimers()
-      self.isValidChildForm = true
-      ActionModal.methods.validateChangeStep.call(self).then(() => {
-        expect(self.sending).toBe(false)
-        done()
-      })
-      expect(self.sending).toBe(true)
-      jest.runAllTimers()
     })
 
     it(`when signing with ledger`, done => {
@@ -956,8 +796,8 @@ describe(`ActionModal`, () => {
         expect(self.sending).toBe(false)
         done()
       })
-      expect(self.sending).toBe(true)
       jest.runAllTimers()
+      expect(self.step).toBe("sign")
     })
   })
 
