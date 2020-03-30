@@ -115,6 +115,7 @@ h1 {
 .table-container {
   max-width: 1100px;
   margin: 0 auto;
+  width: 100%;
 }
 
 @media screen and (max-width: 667px) {

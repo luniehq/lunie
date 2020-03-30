@@ -92,12 +92,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       <div
         class="table-cell rewards"
       >
-        <h2>
-          
-          +0
-          ATOM
-        
-        </h2>
+        <!---->
       </div>
        
       <div

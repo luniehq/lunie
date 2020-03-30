@@ -2,21 +2,26 @@
 
 exports[`Address Component should show a short address 1`] = `
 <div
-  class="bech32-address"
+  class="copyable-address"
 >
   <div
     class="address"
   >
     
     cosmos…4v9e
-  
+    
+    <i
+      class="material-icons notranslate copy"
+    >
+      content_copy
+    </i>
   </div>
    
   <div
-    class="copied"
+    class="icon-container"
   >
     <i
-      class="material-icons notranslate"
+      class="material-icons notranslate success"
     >
       check
     </i>
