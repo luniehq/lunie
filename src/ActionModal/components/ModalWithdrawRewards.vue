@@ -9,7 +9,7 @@
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
     feature-flag="claim_rewards"
-    :transaction-type="transactionTypes.WITHDRAW"
+    :transaction-type="messageType.CLAIM_REWARDS"
     :rewards="rewards"
     :disable="validatorsWithRewards"
   >
@@ -43,6 +43,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import gql from "graphql-tag"
 
 import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 
 export default {
   name: `modal-withdraw-rewards`,
@@ -57,7 +58,8 @@ export default {
   data: () => ({
     rewards: [],
     balances: [],
-    transactionTypes
+    transactionTypes,
+    messageType
   }),
   computed: {
     ...mapGetters([`address`, `network`, `stakingDenom`]),

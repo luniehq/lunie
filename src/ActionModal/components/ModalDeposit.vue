@@ -7,7 +7,7 @@
     title="Deposit"
     class="modal-deposit"
     submission-error-prefix="Depositing failed"
-    :transaction-type="transactionTypes.DEPOSIT"
+    :transaction-type="messageType.DEPOSIT"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="deposit"
@@ -65,6 +65,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroDenom } from "src/scripts/common"
 
 export default {
@@ -98,7 +99,8 @@ export default {
       amount: null,
       denom: ``
     },
-    transactionTypes
+    transactionTypes,
+    messageType
   }),
   computed: {
     ...mapGetters([`network`]),

@@ -7,9 +7,7 @@
     :title="isRedelegation ? 'Restake' : 'Stake'"
     class="delegation-modal"
     submission-error-prefix="Staking failed"
-    :transaction-type="
-      isRedelegation ? transactionTypes.REDELEGATE : transactionTypes.DELEGATE
-    "
+    :transaction-type="isRedelegation ? messageType.RESTAKE : messageType.STAKE"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="delegate"
@@ -142,6 +140,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroDenom } from "src/scripts/common"
 import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
@@ -173,7 +172,9 @@ export default {
       denom: ``
     },
     validators: [],
-    delegations: []
+    delegations: [],
+    transactionTypes,
+    messageType
   }),
   computed: {
     ...mapState([`session`]),

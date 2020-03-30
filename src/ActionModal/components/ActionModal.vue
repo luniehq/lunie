@@ -906,7 +906,6 @@ export default {
       `,
       /* istanbul ignore next */
       variables() {
-        console.log("Transactoin tpye is", this.transactionType)
         return {
           networkId: this.networkId,
           transactionType: this.transactionType

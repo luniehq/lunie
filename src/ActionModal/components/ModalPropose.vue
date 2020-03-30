@@ -6,7 +6,7 @@
     :amount="amount"
     title="Create Proposal"
     submission-error-prefix="Submitting proposal failed"
-    :transaction-type="transactionTypes.SUBMIT_PROPOSAL"
+    :transaction-type="messageType.SUBMIT_PROPOSAL"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="proposal"
@@ -125,6 +125,7 @@ import ActionModal from "./ActionModal"
 import { toMicroDenom } from "src/scripts/common"
 
 import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 
 const isValid = type =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
@@ -156,7 +157,8 @@ export default {
       amount: null,
       denom: ``
     },
-    transactionTypes
+    transactionTypes,
+    messageType
   }),
   computed: {
     ...mapGetters([`network`]),
