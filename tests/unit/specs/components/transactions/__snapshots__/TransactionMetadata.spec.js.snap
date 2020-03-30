@@ -4,54 +4,62 @@ exports[`TransactionMetadata renders correct transaction metadata 1`] = `
 <div
   class="tx__metadata"
 >
-  <p>
-    
-    Block
-    
-    <span>
-      #123
-    </span>
-    
-     
-    <i
-      class="material-icons notranslate"
-    >
-      access_time
-    </i>
-     10:15:51
-  
-  </p>
-   
-  <p>
-    <i
-      class="material-icons notranslate"
-    >
-      message
-    </i>
-     Memo: 
-    (Sent via Lunie)
-  
-  </p>
-   
-  <p>
-    
-    Fees: 
-    
-    <span>
+  <div
+    class="meta-left"
+  >
+    <p>
       
-      0
+      Block
+      
+      <span>
+        #123
+      </span>
+      
+       
+      <i
+        class="material-icons notranslate"
+      >
+        access_time
+      </i>
+       10:15:51
     
-    </span>
-  </p>
-   
-  <p>
+    </p>
+     
+    <p>
+      <i
+        class="material-icons notranslate"
+      >
+        message
+      </i>
+       Memo: 
+      (Sent via Lunie)
     
-    Hash: 
-    <span
-      class="hash"
+    </p>
+     
+    <p>
+      
+      Fees: 
+      
+      <span>
+        
+        0
+      
+      </span>
+    </p>
+     
+    <p
+      class="hash-container"
     >
-      A0DEB29E97A4DF38289D55D63C5724588985E1D35B26518CB66EAF96CFEF2E04
-    </span>
-  </p>
+      
+      Hash: 
+      <span
+        class="hash"
+      >
+        A0DEB29E97A4DF38289D55D63C5724588985E1D35B26518CB66EAF96CFEF2E04
+      </span>
+    </p>
+  </div>
+   
+  <!---->
 </div>
 `;
