@@ -13,7 +13,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   targetvalidator="[object Object]"
   title="Unstake"
   transactiondata="[object Object]"
-  transactiontype="MsgUndelegate"
+  transactiontype="UnknownTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

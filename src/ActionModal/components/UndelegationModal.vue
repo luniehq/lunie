@@ -10,7 +10,7 @@
       isRedelegation ? 'Restaking failed' : 'Unstaking failed'
     "
     :transaction-type="
-      isRedelegation ? transactionTypes.REDELEGATE : transactionTypes.UNDELEGATE
+      isRedelegation ? messageType.REDELEGATE : messageType.UNDELEGATE
     "
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
@@ -128,6 +128,7 @@ import transactionTypes from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
+import { messageType } from "../../components/transactions/messageTypes"
 
 export default {
   name: `undelegation-modal`,
@@ -157,7 +158,7 @@ export default {
       amount: 0,
       denom: ``
     },
-    transactionTypes
+    messageType
   }),
   computed: {
     ...mapState([`session`]),
