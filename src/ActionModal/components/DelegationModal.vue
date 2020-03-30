@@ -7,7 +7,7 @@
     :title="isRedelegation ? 'Restake' : 'Stake'"
     class="delegation-modal"
     submission-error-prefix="Staking failed"
-    transaction-type="StakeTx"
+    :transaction-type="isRedelegation ? messageType.RESTAKE : messageType.STAKE"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="delegate"
@@ -139,7 +139,8 @@ import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transaction from "../utils/transactionTypes"
+import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroDenom } from "src/scripts/common"
 import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
@@ -171,7 +172,9 @@ export default {
       denom: ``
     },
     validators: [],
-    delegations: []
+    delegations: [],
+    transactionTypes,
+    messageType
   }),
   computed: {
     ...mapState([`session`]),
@@ -233,7 +236,7 @@ export default {
 
       if (this.isRedelegation) {
         return {
-          type: transaction.REDELEGATE,
+          type: transactionTypes.REDELEGATE,
           validatorSourceAddress: this.from,
           validatorDestinationAddress: this.targetValidator.operatorAddress,
           amount: uatoms(this.amount),
@@ -241,7 +244,7 @@ export default {
         }
       } else {
         return {
-          type: transaction.DELEGATE,
+          type: transactionTypes.DELEGATE,
           validatorAddress: this.targetValidator.operatorAddress,
           amount: uatoms(this.amount),
           denom: toMicroDenom(this.stakingDenom)

@@ -192,24 +192,7 @@ describe(`ActionModal`, () => {
     expect(estimatedFee).toBe(0.00675)
   })
 
-  it(`should convert the gasEstimate to 200000`, () => {
-    const self = {
-      gasEstimate: 550000
-    }
-    ActionModal.methods.updateEmoneyGasEstimate.call(self)
-    expect(self.gasEstimate).toBe(200000)
-  })
-
-  it(`should also convert the gasEstimate to 300000`, () => {
-    const self = {
-      gasEstimate: 550000
-    }
-    ActionModal.methods.updateTerraGasEstimate.call(self)
-    expect(self.gasEstimate).toBe(300000)
-  })
-
-  it(`should return the normal estimated fee (gas price * gas estimate) when chainAppliedFees equal 0.
-    It should also update the gas estimate to 300000 when connected to a Terra network`, () => {
+  it(`should return the normal estimated fee (gas price * gas estimate) when chainAppliedFees equal 0`, () => {
     const self = {
       gasPrice: "1.5e-8",
       gasEstimate: 300000,
@@ -218,7 +201,6 @@ describe(`ActionModal`, () => {
       updateTerraGasEstimate: ActionModal.methods.updateTerraGasEstimate
     }
     const estimatedFee = ActionModal.computed.estimatedFee.call(self)
-    expect(self.gasEstimate).toBe(300000)
     expect(estimatedFee).toBe(0.0045)
   })
 

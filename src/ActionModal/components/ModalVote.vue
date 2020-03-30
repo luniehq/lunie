@@ -6,7 +6,7 @@
     title="Vote"
     class="modal-vote"
     submission-error-prefix="Voting failed"
-    transaction-type="VoteTx"
+    :transaction-type="messageType.VOTE"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="vote"
@@ -69,7 +69,8 @@ import ActionModal from "./ActionModal"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 
-import transaction from "../utils/transactionTypes"
+import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 
 const isValid = option =>
   option === `Yes` ||
@@ -99,12 +100,14 @@ export default {
     }
   },
   data: () => ({
-    vote: null
+    vote: null,
+    transactionTypes,
+    messageType
   }),
   computed: {
     transactionData() {
       return {
-        type: transaction.VOTE,
+        type: transactionTypes.VOTE,
         proposalId: this.proposalId,
         option: this.vote
       }
