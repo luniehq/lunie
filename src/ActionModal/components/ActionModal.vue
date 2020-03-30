@@ -300,7 +300,7 @@ import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 import BigNumber from "bignumber.js"
-// import transactionTypes from '../utils/transactionTypes'
+import transactionTypes from "../utils/transactionTypes"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -334,6 +334,12 @@ const sessionType = {
   LOCAL: SIGN_METHODS.LOCAL,
   LEDGER: SIGN_METHODS.LEDGER,
   EXTENSION: SIGN_METHODS.EXTENSION
+}
+
+const networkCapabilityDictionary = {
+  true: "ENABLED",
+  false: "DISABLED",
+  null: "MISSING"
 }
 
 export default {
@@ -435,7 +441,11 @@ export default {
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
-      return this.network[action] === true
+      // DEPRECATE to support the upgrade of the old Boolean value to the new ENUM capability model, we support here temporarily the upgrade from the Boolean model to the ENUM model
+      return typeof this.network[action] === `boolean` ||
+        this.network[action] === null
+        ? networkCapabilityDictionary[this.network[action]] === "ENABLED"
+        : this.network[action] === "ENABLED"
     },
     network() {
       return this.networks.find(({ id }) => id == this.networkId)
@@ -447,8 +457,11 @@ export default {
       )
     },
     estimatedFee() {
-      // another hack
-      if (this.networkId.startsWith(`emoney`)) {
+      // another hack. e-Money doesn't neet such a high gas estimate for sending
+      if (
+        this.networkId.startsWith(`emoney`) &&
+        this.transactionData.type !== transactionTypes.WITHDRAW
+      ) {
         this.updateEmoneyGasEstimate()
       }
       // hack
@@ -560,7 +573,7 @@ export default {
   },
   methods: {
     updateTerraGasEstimate() {
-      this.gasEstimate = 200000
+      this.gasEstimate = 300000
     },
     updateEmoneyGasEstimate() {
       this.gasEstimate = 200000

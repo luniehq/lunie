@@ -127,18 +127,23 @@ export default {
   apollo: {
     block: {
       query: gql`
-        query Block($networkId: String!) {
-          block(networkId: $networkId) {
+        query blockV2($networkId: String!) {
+          blockV2(networkId: $networkId) {
             height
             chainId
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
         /* istanbul ignore next */
         return {
           networkId: this.network
         }
+      },
+      /* istanbul ignore next */
+      update: function(result) {
+        return result.blockV2
       }
     },
     $subscribe: {
