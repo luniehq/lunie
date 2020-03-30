@@ -300,7 +300,7 @@ import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 import BigNumber from "bignumber.js"
-// import transactionTypes from '../utils/transactionTypes'
+import transactionTypes from "../utils/transactionTypes"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -447,8 +447,11 @@ export default {
       )
     },
     estimatedFee() {
-      // another hack
-      if (this.networkId.startsWith(`emoney`)) {
+      // another hack. e-Money doesn't neet such a high gas estimate for sending
+      if (
+        this.networkId.startsWith(`emoney`) &&
+        this.transactionData.type !== transactionTypes.WITHDRAW
+      ) {
         this.updateEmoneyGasEstimate()
       }
       // hack
@@ -560,7 +563,7 @@ export default {
   },
   methods: {
     updateTerraGasEstimate() {
-      this.gasEstimate = 200000
+      this.gasEstimate = 300000
     },
     updateEmoneyGasEstimate() {
       this.gasEstimate = 200000
