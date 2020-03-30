@@ -414,7 +414,6 @@ export default {
     password: null,
     sending: false,
     gasEstimate: null,
-    simulateGasEstimate: null,
     gasPrice: 0,
     submissionError: null,
     show: false,
@@ -651,9 +650,7 @@ export default {
           if (!this.isValidChildForm) {
             return
           }
-          this.sending = true
-          await this.simulate() // simulate to get gas estimation
-          this.sending = false
+          this.step = feeStep
           return
         case feeStep:
           if (!this.isValidInput(`gasPrice`)) {
@@ -677,25 +674,8 @@ export default {
           return
       }
     },
-    async simulate() {
-      const { type, memo, ...properties } = this.transactionData
-      try {
-        this.simulateGasEstimate = await this.actionManager.simulateTxAPI(
-          {
-            userAddress: this.session.address,
-            networkId: this.network.id,
-            networkType: this.network.network_type
-          },
-          type,
-          properties,
-          memo
-        )
-        this.step = feeStep
-      } catch ({ message }) {
-        this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-      }
-
-      // limit fees to the maximum the user has
+    // limit fees to the maximum the user has
+    adjustFeesToMaxPayable() {
       if (this.invoiceTotal > this.selectedBalance.amount) {
         let payable = Number(this.subTotal)
         // in terra we also have to pay the tax
