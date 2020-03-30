@@ -27,14 +27,14 @@ describe(`Address Component`, () => {
 
   it(`should return 'address not found'`, () => {
     wrapper.setProps({ address: null })
-    expect(wrapper.find(".address").text()).toBe(`Address Not Found`)
+    expect(wrapper.find(".address").text()).toContain(`Address Not Found`)
   })
 
   it(`should return a short address with everything before the 1`, () => {
     wrapper.setProps({
       address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
     })
-    expect(wrapper.find(".address").text()).toBe(`cosmosvaloper…9yf2`)
+    expect(wrapper.find(".address").text()).toContain(`cosmosvaloper…9yf2`)
   })
 
   describe(`onCopy`, () => {

@@ -206,7 +206,7 @@
                 :to="
                   `/${$router.history.current.params.networkId}/blocks/${includedHeight}`
                 "
-                >#{{ prettyIncludedHeight }}</router-link
+                >#{{ includedHeight | prettyInt }}</router-link
               >
             </div>
           </TmDataMsg>
@@ -299,9 +299,8 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
-import transactionTypes from "../utils/transactionTypes"
 import BigNumber from "bignumber.js"
-// import transactionTypes from '../utils/transactionTypes'
+import transactionTypes from "../utils/transactionTypes"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -337,9 +336,6 @@ const sessionType = {
   EXTENSION: SIGN_METHODS.EXTENSION
 }
 
-// hardcoding terra tax here until we have it in the API
-const terraTax = 0.008
-
 export default {
   name: `action-modal`,
   components: {
@@ -355,7 +351,8 @@ export default {
     FeatureNotAvailable
   },
   filters: {
-    viewDenom
+    viewDenom,
+    prettyInt
   },
   props: {
     title: {
@@ -401,6 +398,10 @@ export default {
     selectedDenom: {
       type: String,
       default: ``
+    },
+    chainAppliedFees: {
+      type: Number,
+      default: 0
     }
   },
   data: () => ({
@@ -425,7 +426,8 @@ export default {
     overview: {},
     isMobileApp: config.mobileApp,
     balances: [],
-    queueEmpty: true
+    queueEmpty: true,
+    includedHeight: undefined
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -445,19 +447,28 @@ export default {
       )
     },
     estimatedFee() {
+      // another hack. e-Money doesn't neet such a high gas estimate for sending
+      if (
+        this.networkId.startsWith(`emoney`) &&
+        this.transactionData.type !== transactionTypes.WITHDRAW
+      ) {
+        this.updateEmoneyGasEstimate()
+      }
       // hack
       // terra uses a tax on all send txs
-      if (
-        this.networkId.startsWith(`terra`) &&
-        this.transactionData.type === transactionTypes.SEND
-      ) {
-        return this.maxDecimals(
-          Number(this.gasEstimate) * Number(this.gasPrice) +
-            Number(this.amount) * terraTax,
-          6
-        ) // TODO get precision from API
+      if (this.chainAppliedFees > 0) {
+        // Terra gas estimate // TODO: get this from the API
+        this.updateTerraGasEstimate()
+        return this.chainAppliedFees
       }
-      return Number(this.gasPrice) * Number(this.gasEstimate)
+      // still update Terra gas estimate for LUNA
+      if (this.networkId.startsWith(`terra`)) {
+        this.updateTerraGasEstimate()
+      }
+      return this.maxDecimals(
+        Number(this.gasPrice) * Number(this.gasEstimate),
+        6
+      )
     },
     subTotal() {
       return this.featureFlag === "undelegate" ? 0 : this.amount
@@ -497,9 +508,6 @@ export default {
         default:
           return "Sending..."
       }
-    },
-    prettyIncludedHeight() {
-      return prettyInt(this.includedHeight)
     },
     getDenom() {
       return this.selectedDenom || this.network.stakingDenom
@@ -554,6 +562,12 @@ export default {
     }
   },
   methods: {
+    updateTerraGasEstimate() {
+      this.gasEstimate = 300000
+    },
+    updateEmoneyGasEstimate() {
+      this.gasEstimate = 200000
+    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen || !this.queueEmpty) {
@@ -701,11 +715,8 @@ export default {
         let payable = Number(this.subTotal)
         // in terra we also have to pay the tax
         // TODO refactor using a `fixedFee` property
-        if (
-          this.networkId.startsWith(`terra`) &&
-          this.transactionData.type === transactionTypes.SEND
-        ) {
-          payable += Number(this.amount) * terraTax
+        if (this.chainAppliedFees) {
+          payable += this.chainAppliedFees
         }
         this.gasPrice =
           (Number(this.selectedBalance.amount) - payable) / this.gasEstimate

@@ -2,6 +2,7 @@
 
 exports[`SendModal should display send modal form 1`] = `
 <actionmodal-stub
+  chainappliedfees="0"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -74,6 +75,8 @@ exports[`SendModal should display send modal form 1`] = `
     />
      
     <!---->
+     
+    <!---->
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
@@ -81,6 +84,7 @@ exports[`SendModal should display send modal form 1`] = `
 exports[`SendModal validation should show address required error 1`] = `
 <actionmodal-stub
   amount="2"
+  chainappliedfees="0"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -159,6 +163,8 @@ exports[`SendModal validation should show address required error 1`] = `
     />
      
     <!---->
+     
+    <!---->
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
@@ -166,6 +172,7 @@ exports[`SendModal validation should show address required error 1`] = `
 exports[`SendModal validation should show bech32 error when address is not bech32 1`] = `
 <actionmodal-stub
   amount="2"
+  chainappliedfees="0"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -242,6 +249,8 @@ exports[`SendModal validation should show bech32 error when address is not bech3
       type="text"
       value="(Sent via Lunie)"
     />
+     
+    <!---->
      
     <!---->
   </tmformgroup-stub>
