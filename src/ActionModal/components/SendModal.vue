@@ -206,7 +206,7 @@ export default {
         amounts: [
           {
             amount: toMicroUnit(
-              +this.amount,
+              this.amount,
               this.selectedToken,
               this.networks.find(({ id }) => id === this.network)
             ),
@@ -219,9 +219,7 @@ export default {
     notifyMessage() {
       return {
         title: `Successful Send`,
-        body: `Successfully sent ${+this.amount} ${this.selectedToken}s to ${
-          this.address
-        }`
+        body: `Successfully sent ${this.amount} ${this.selectedToken}s to ${this.address}`
       }
     },
     getDenoms() {
