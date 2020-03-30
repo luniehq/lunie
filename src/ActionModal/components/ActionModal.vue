@@ -300,7 +300,7 @@ import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 import BigNumber from "bignumber.js"
-// import transactionTypes from '../utils/transactionTypes'
+import transactionTypes from "../utils/transactionTypes"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -451,6 +451,14 @@ export default {
       )
     },
     estimatedFee() {
+      // another hack. e-Money doesn't neet such a high gas estimate for sending
+      if (
+        this.networkId.startsWith(`emoney`) &&
+        this.transactionData.type !== transactionTypes.WITHDRAW
+      ) {
+        this.updateEmoneyGasEstimate()
+      }
+      // hack
       // terra uses a tax on all send txs
       if (this.chainAppliedFees > 0) {
         return this.chainAppliedFees
@@ -552,6 +560,12 @@ export default {
     }
   },
   methods: {
+    updateTerraGasEstimate() {
+      this.gasEstimate = 300000
+    },
+    updateEmoneyGasEstimate() {
+      this.gasEstimate = 200000
+    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen || !this.queueEmpty) {
