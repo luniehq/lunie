@@ -54,7 +54,8 @@ export default {
   },
   data: () => ({
     rewards: [],
-    balances: []
+    balances: [],
+    getTop5RewardsValidators
   }),
   computed: {
     ...mapGetters([`address`, `network`, `stakingDenom`]),
@@ -73,7 +74,11 @@ export default {
     },
     totalRewards() {
       if (this.rewards && this.rewards.length > 0) {
-        return getTop5RewardsValidators(this.stakingDenom, this.rewards)
+        const top5Validators = this.getTop5RewardsValidators(
+          this.stakingDenom,
+          this.rewards
+        )
+        return this.getTop5ValidatorsRewards(top5Validators)
       } else {
         return null
       }
@@ -128,6 +133,27 @@ export default {
   methods: {
     open() {
       this.$refs.actionModal.open()
+    },
+    getTop5ValidatorsRewards(top5validators) {
+      return this.rewards
+        .filter(({ validator }) =>
+          top5validators.includes(validator.operatorAddress)
+        )
+        .reduce((totalRewardsAgreggator, { amount, denom }) => {
+          const rewardDenom = denom
+          const sameDenomReward = totalRewardsAgreggator.find(
+            ({ denom }) => denom === rewardDenom
+          )
+          if (sameDenomReward) {
+            sameDenomReward.amount =
+              Math.round(
+                (Number(sameDenomReward.amount) + Number(amount)) * 1000000
+              ) / 1000000
+          } else {
+            totalRewardsAgreggator.push({ denom, amount })
+          }
+          return totalRewardsAgreggator
+        }, [])
     }
   },
   apollo: {
