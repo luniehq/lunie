@@ -50,18 +50,6 @@
             type="custom"
             msg="isn't recognised by Lunie. Did you type correctly?"
           />
-          <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.isNotAValidatorAddress"
-            name="You can't sign in with a validator address"
-            type="custom"
-          />
-          <TmFormMsg
-            v-else-if="
-              $v.address.$error && !$v.address.isAWhitelistedBech32Prefix
-            "
-            name="You can only sign in with a regular address"
-            type="custom"
-          />
           <TmFormMsg v-else-if="error" :name="error" type="custom" />
         </TmFormGroup>
       </div>
@@ -93,7 +81,6 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
-import bech32 from "bech32"
 import { formatAddress } from "src/filters"
 
 export default {
@@ -168,36 +155,6 @@ export default {
         }
       })
     },
-    bech32Validate(param) {
-      try {
-        bech32.decode(param)
-        return true
-      } catch (error) {
-        return false
-      }
-    },
-    isNotAValidatorAddress(param) {
-      // TODO this only works for cosmos
-      if (param.substring(0, 13) !== "cosmosvaloper") {
-        return true
-      } else {
-        return false
-      }
-    },
-    isAWhitelistedBech32Prefix(param) {
-      if (
-        param.substring(0, 7) === "cosmos1" ||
-        param.substring(0, 6) === "terra1" ||
-        param.substring(0, 5) === "xrn:1" ||
-        param.substring(0, 7) === "emoney1" ||
-        param.substring(0, 2) === "0x" ||
-        this.isPolkadotAddress(param)
-      ) {
-        return true
-      } else {
-        return false
-      }
-    },
     async selectNetworkByAddress(network) {
       this.$store.dispatch(`setNetwork`, network)
     },
@@ -230,9 +187,7 @@ export default {
     return {
       address: {
         required,
-        addressValidate: this.addressValidate,
-        isNotAValidatorAddress: this.isNotAValidatorAddress,
-        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
+        addressValidate: this.addressValidate
       }
     }
   }
