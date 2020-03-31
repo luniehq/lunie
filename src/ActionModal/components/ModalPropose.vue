@@ -115,7 +115,7 @@ import {
   between,
   decimal
 } from "vuelidate/lib/validators"
-import { uatoms, SMALLEST } from "scripts/num"
+import { toMicroUnit, SMALLEST } from "scripts/num"
 import isEmpty from "lodash.isempty"
 import trim from "lodash.trim"
 import TmField from "common/TmField"
@@ -161,7 +161,7 @@ export default {
     messageType
   }),
   computed: {
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `networks`, `stakingDenom`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
       if (
@@ -180,7 +180,11 @@ export default {
         description: this.description,
         initialDeposits: [
           {
-            amount: uatoms(this.amount),
+            amount: toMicroUnit(
+              this.amount,
+              this.stakingDenom,
+              this.networks.find(({ id }) => id === this.network)
+            ),
             denom: toMicroDenom(this.denom)
           }
         ]

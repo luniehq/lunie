@@ -58,7 +58,7 @@
 <script>
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
-import { uatoms, viewDenom, SMALLEST } from "src/scripts/num"
+import { toMicroUnit, viewDenom, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
@@ -103,7 +103,7 @@ export default {
     messageType
   }),
   computed: {
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `networks`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
       if (isNaN(this.amount) || !this.proposalId || !this.denom) {
@@ -114,7 +114,11 @@ export default {
         proposalId: this.proposalId,
         amounts: [
           {
-            amount: uatoms(this.amount),
+            amount: toMicroUnit(
+              this.amount,
+              this.denom,
+              this.networks.find(({ id }) => id === this.network)
+            ),
             denom: toMicroDenom(this.denom)
           }
         ]
