@@ -141,6 +141,15 @@ export function uatoms(number = 0) {
   )
 }
 
+export function toMicroUnit(number, viewDenom, network) {
+  const coinLookup = network.coinLookup.find(
+    coin => coin.viewDenom === viewDenom
+  )
+  return BigNumber(number)
+    .div(coinLookup.chainToViewConversionFactor)
+    .toString()
+}
+
 // convert micro denoms like uatom to display denoms like ATOM
 export function viewDenom(denom) {
   if (denom.charAt(0) === `u`) {

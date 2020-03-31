@@ -11,7 +11,7 @@ export async function MsgSend(
 ) {
   return await getSignMessage(senderAddress, "balances", "transfer", [
     toAddress,
-    amounts[0].amount * 1000000 // FIXME! Need to clarify why this conversion factor
+    amounts[0].amount
   ])
 }
 

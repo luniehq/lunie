@@ -34,7 +34,9 @@ exports[`ActionModal back button renders and functions 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -124,7 +126,9 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -211,7 +215,9 @@ exports[`ActionModal should show the action modal on success 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <!---->
@@ -284,7 +290,9 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <!---->
@@ -338,7 +346,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Sign in required
+      
+        Sign in required
+      
     </span>
      
     <steps-stub
@@ -419,7 +429,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Sign in required
+      
+        Sign in required
+      
     </span>
      
     <steps-stub
@@ -491,7 +503,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Sign in required
+      
+        Sign in required
+      
     </span>
      
     <steps-stub
@@ -572,7 +586,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -654,7 +670,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -741,7 +759,9 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -839,7 +859,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -921,7 +943,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -997,7 +1021,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1084,7 +1110,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1166,7 +1194,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1247,7 +1277,9 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1329,7 +1361,9 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     <span
       class="action-modal-title"
     >
-      Sign in required
+      
+        Sign in required
+      
     </span>
      
     <steps-stub
@@ -1401,7 +1435,9 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
@@ -1464,7 +1500,9 @@ exports[`ActionModal shows loading when there is still data to be loaded 1`] = `
     <span
       class="action-modal-title"
     >
-      Send
+      
+        Send
+      
     </span>
      
     <steps-stub
