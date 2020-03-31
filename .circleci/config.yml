@@ -204,17 +204,6 @@ jobs:
           path: ./screenshots
           when: on_fail
 
-  # Create release.
-  release:
-    executor: node
-    steps:
-      - checkout
-      - run: |
-          yarn add simsala
-          git config user.email "bot@lunie.io"
-          git config user.name "Release Lunie Bot"
-          node node_modules/simsala/src/cli.js release-candidate --semver patch --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
-      
   # Push tagged versions on develop to master
   publish:
     executor: node
@@ -268,25 +257,6 @@ workflows:
       # - testExtension:
       #     requires:
       #       - e2eBuild
-
-  # Every UTC midnight we go on develop and release
-  # release:
-  #   triggers:
-  #     - schedule:
-  #         cron: "0 0 * * *"
-  #         filters:
-  #           branches:
-  #             only:
-  #               - develop
-  #   jobs:
-  #     - release
-
-  releaseManually:
-    jobs:
-      - release:
-          filters:
-            branches:
-              only: release
 
   publish:
     jobs:
