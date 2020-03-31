@@ -1,5 +1,5 @@
 <template>
-  <div class="bech32-address">
+  <div class="copyable-address">
     <div
       v-tooltip.top="`Click to copy`"
       v-clipboard:copy="address"
@@ -7,9 +7,10 @@
       class="address"
     >
       {{ address | formatAddress }}
+      <i class="material-icons notranslate copy">content_copy</i>
     </div>
-    <div :class="{ active: copySuccess }" class="copied">
-      <i class="material-icons notranslate">check</i>
+    <div :class="{ active: copySuccess }" class="icon-container">
+      <i class="material-icons notranslate success">check</i>
     </div>
   </div>
 </template>
@@ -42,42 +43,50 @@ export default {
 }
 </script>
 <style>
-.bech32-address {
-  align-items: flex-start;
+.copyable-address {
   display: inline-flex;
+  align-items: center;
   padding: 0;
   margin: 0;
   font-size: inherit;
-}
-
-.bech32-address .address {
   color: var(--link);
-  cursor: pointer;
-  white-space: nowrap;
 }
 
-.bech32-address .address:hover {
+.copyable-address .address {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.copyable-address .address:hover {
   color: var(--link-hover);
 }
 
-.bech32-address .copied {
-  align-items: flex-end;
+.copyable-address .icon-container {
   display: flex;
-  font-size: 10px;
-  opacity: 0;
-  padding-left: 0.25rem;
-  padding-top: 2px;
-  transition: opacity 500ms ease;
+  align-items: center;
+  justify-content: center;
 }
 
-.bech32-address .copied.active {
+.copyable-address .icon-container .success {
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.copyable-address .icon-container.active .success {
   opacity: 1;
 }
 
-.bech32-address .copied i {
-  color: var(--success);
+.copyable-address i {
   font-size: 12px;
-  padding-bottom: 2px;
-  padding-right: 0;
+  padding-left: 0.25rem;
+}
+
+.copyable-address .icon-container i.success {
+  color: var(--success);
+}
+.copyable-address .icon-container i.success {
+  color: var(--success);
 }
 </style>

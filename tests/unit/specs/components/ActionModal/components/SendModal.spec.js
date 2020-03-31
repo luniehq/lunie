@@ -16,7 +16,21 @@ describe(`SendModal`, () => {
       address: "cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx"
     },
     network: "cosmos-hub-mainnet",
-    stakingDenom: "ATOM"
+    networks: [
+      {
+        id: "cosmos-hub-mainnet",
+        coinLookup: [
+          { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
+        ]
+      },
+      {
+        id: "terra-mainnet",
+        coinLookup: [
+          { viewDenom: "LUNA", chainToViewConversionFactor: 0.000001 }
+        ]
+      }
+    ],
+    stakingDenom: "STAKE"
   }
 
   const state = {}
@@ -239,6 +253,7 @@ describe(`SendModal`, () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.isMaxAmount()).toBe(false)
     })
+
     it(`setMaxAmount should deduct the Terra tax from total balance when sending alt-tokens in Terra`, () => {
       const self = {
         network: "terra-mainnet",

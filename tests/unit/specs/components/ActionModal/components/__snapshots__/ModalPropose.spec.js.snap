@@ -11,6 +11,7 @@ exports[`ModalPropose should display proposal modal form 1`] = `
   submissionerrorprefix="Submitting proposal failed"
   title="Create Proposal"
   transactiondata="[object Object]"
+  transactiontype="SubmitProposalTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

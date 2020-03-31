@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.184] - 2020-03-30
+
+### Changed
+
+- [#3801](https://github.com/cosmos/lunie/pull/3801) Chnages the query block in TmConnectedNetwork to blockV2 @Bitcoinera
+- [#3789](https://github.com/cosmos/lunie/pull/3789) Leaves the default gas estimate, 550000, on e-Money when it is a Claim Rewards action @Bitcoinera
+- reduced complexity of rewards claim tx @jbibla
+- added copy icon to address copyable links and widened empty portfolio message @jbibla
+
+### Fixed
+
+- [#3802](https://github.com/cosmos/lunie/pull/3802) Fixes the unit tests for release candidate 1.0.184 @Bitcoinera
+
+## [1.0.183] - 2020-03-27
+
+### Changed
+
+- [#3731](https://github.com/cosmos/lunie/pull/3731) Now LUNA fees are handled differently, not applying the Terra tax and adding the multiply by 1.5 suggestion @Bitcoinera
+- [#3758](https://github.com/cosmos/lunie/pull/3758) Prevents ClaimRewardsTxDetails component from "opening" in the extension @Bitcoinera
+- Allow sending to and from whitelisted accounts in emoney @faboweb
+
+### Fixed
+
+- [#3784](https://github.com/cosmos/lunie/issues/3784) Hide staking rewards if 0 @faboweb
+
 ## [1.0.182] - 2020-03-25
 
 ### Changed

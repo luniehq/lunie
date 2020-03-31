@@ -6,6 +6,7 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
 >
   <tmdatamsg-stub
     icon="sentiment_dissatisfied"
+    iconcolor="var(--warning)"
   >
     <div>
       

@@ -65,6 +65,7 @@ describe(`TmSessionExtension`, () => {
   })
 
   it("should sign in with the selected account", async () => {
+    $store.dispatch = jest.fn(() => Promise.resolve(networks[1]))
     await wrapper.vm.signInAndRedirect({
       network: "cosmos-hub-mainnet",
       address: "cosmos1"

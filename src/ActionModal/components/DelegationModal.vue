@@ -7,6 +7,7 @@
     :title="isRedelegation ? 'Restake' : 'Stake'"
     class="delegation-modal"
     submission-error-prefix="Staking failed"
+    :transaction-type="isRedelegation ? messageType.RESTAKE : messageType.STAKE"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="delegate"
@@ -131,14 +132,15 @@
 import { mapState, mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
 import gql from "graphql-tag"
-import { uatoms, SMALLEST } from "src/scripts/num"
+import { toMicroUnit, SMALLEST } from "src/scripts/num"
 import TmField from "src/components/common/TmField"
 import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transaction from "../utils/transactionTypes"
+import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroDenom } from "src/scripts/common"
 import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
@@ -170,11 +172,13 @@ export default {
       denom: ``
     },
     validators: [],
-    delegations: []
+    delegations: [],
+    transactionTypes,
+    messageType
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`network`, `address`, `stakingDenom`]),
+    ...mapGetters([`network`, `networks`, `address`, `stakingDenom`]),
     toOptions() {
       return this.validators
         .filter(
@@ -232,17 +236,25 @@ export default {
 
       if (this.isRedelegation) {
         return {
-          type: transaction.REDELEGATE,
+          type: transactionTypes.REDELEGATE,
           validatorSourceAddress: this.from,
           validatorDestinationAddress: this.targetValidator.operatorAddress,
-          amount: uatoms(this.amount),
+          amount: toMicroUnit(
+            this.amount,
+            this.stakingDenom,
+            this.networks.find(({ id }) => id === this.network)
+          ),
           denom: toMicroDenom(this.stakingDenom)
         }
       } else {
         return {
-          type: transaction.DELEGATE,
+          type: transactionTypes.DELEGATE,
           validatorAddress: this.targetValidator.operatorAddress,
-          amount: uatoms(this.amount),
+          amount: toMicroUnit(
+            this.amount,
+            this.stakingDenom,
+            this.networks.find(({ id }) => id === this.network)
+          ),
           denom: toMicroDenom(this.stakingDenom)
         }
       }

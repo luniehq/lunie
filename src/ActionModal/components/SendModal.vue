@@ -6,6 +6,7 @@
     :amount="amount"
     title="Send"
     submission-error-prefix="Sending tokens failed"
+    :transaction-type="messageType.SEND"
     :transaction-data="transactionData"
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"
@@ -137,7 +138,7 @@
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import { uatoms, SMALLEST } from "src/scripts/num"
+import { toMicroUnit, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
@@ -145,7 +146,8 @@ import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transaction from "../utils/transactionTypes"
+import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroDenom } from "src/scripts/common"
 import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
@@ -184,10 +186,12 @@ export default {
     max_memo_characters: 256,
     isFirstLoad: true,
     selectedToken: undefined,
-    balances: []
+    balances: [],
+    transactionTypes,
+    messageType
   }),
   computed: {
-    ...mapGetters([`network`, `stakingDenom`]),
+    ...mapGetters([`network`, `networks`, `stakingDenom`]),
     ...mapGetters({ userAddress: `address` }),
     selectedBalance() {
       return (
@@ -201,11 +205,15 @@ export default {
         return {}
       }
       return {
-        type: transaction.SEND,
+        type: transactionTypes.SEND,
         toAddress: this.address,
         amounts: [
           {
-            amount: uatoms(+this.amount),
+            amount: toMicroUnit(
+              this.amount,
+              this.selectedToken,
+              this.networks.find(({ id }) => id === this.network)
+            ),
             denom: toMicroDenom(this.selectedToken)
           }
         ],
@@ -215,9 +223,7 @@ export default {
     notifyMessage() {
       return {
         title: `Successful Send`,
-        body: `Successfully sent ${+this.amount} ${this.selectedToken}s to ${
-          this.address
-        }`
+        body: `Successfully sent ${this.amount} ${this.selectedToken}s to ${this.address}`
       }
     },
     getDenoms() {

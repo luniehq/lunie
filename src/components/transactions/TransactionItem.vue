@@ -129,10 +129,13 @@ export default {
   display: inline-block;
 }
 
+.tx a:hover .validator-image {
+  transform: scale(1.1);
+}
+
 .tx h3 {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 400;
-  padding-bottom: 2px;
   color: var(--bright);
 }
 
@@ -142,10 +145,6 @@ export default {
 
 .tx-container {
   margin: 0 1rem 0.5rem;
-}
-
-.tx-details {
-  padding: 0 1rem;
 }
 
 .tx-details {
@@ -214,11 +213,16 @@ export default {
 }
 
 .validator-image {
-  border-radius: 0.25rem;
-  height: 1rem;
-  width: 1rem;
+  margin: 0.25rem;
+  border-radius: 100%;
+  height: 1.25rem;
+  width: 1.25rem;
   vertical-align: middle;
-  margin: 0 2px 2px 2px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.validator-image svg {
+  border-radius: 100%;
 }
 
 .tx .bech32-address {
@@ -247,7 +251,16 @@ export default {
   .amount {
     position: absolute;
     right: 1rem;
-    top: 1.2rem;
+    top: 1rem;
+  }
+
+  .tx-details {
+    margin: 0 0.25rem 0.25rem;
+  }
+
+  .validator-image {
+    height: 1rem;
+    width: 1rem;
   }
 }
 </style>

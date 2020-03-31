@@ -3,6 +3,7 @@
 exports[`CardSignInRequired shows a sign in required card 1`] = `
 <tmdatamsg-stub
   icon="account_box"
+  iconcolor="var(--warning)"
 >
   <div>
     

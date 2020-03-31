@@ -9,6 +9,7 @@
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
     feature-flag="claim_rewards"
+    :transaction-type="messageType.CLAIM_REWARDS"
     :rewards="rewards"
     :disable="validatorsWithRewards"
   >
@@ -41,7 +42,8 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import { getTop5RewardsValidators } from "../utils/ActionManager"
 import gql from "graphql-tag"
 
-import transaction from "../utils/transactionTypes"
+import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 
 export default {
   name: `modal-withdraw-rewards`,
@@ -55,7 +57,9 @@ export default {
   data: () => ({
     rewards: [],
     balances: [],
-    getTop5RewardsValidators
+    getTop5RewardsValidators,
+    transactionTypes,
+    messageType
   }),
   computed: {
     ...mapGetters([`address`, `network`, `stakingDenom`]),
@@ -63,7 +67,7 @@ export default {
     transactionData() {
       if (!this.claimedReward) return {}
       return {
-        type: transaction.WITHDRAW,
+        type: transactionTypes.WITHDRAW,
         amounts: [
           {
             amount: this.claimedReward.amount,
