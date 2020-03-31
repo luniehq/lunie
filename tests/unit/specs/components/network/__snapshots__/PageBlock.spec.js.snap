@@ -139,6 +139,7 @@ exports[`PageBlock shows the block page with no txs 1`] = `
          
         <tmdatamsg-stub
           icon="info_outline"
+          iconcolor="var(--warning)"
         >
           <div>
             

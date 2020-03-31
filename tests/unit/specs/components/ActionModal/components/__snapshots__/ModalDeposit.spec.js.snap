@@ -12,6 +12,7 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
   submissionerrorprefix="Depositing failed"
   title="Deposit"
   transactiondata="[object Object]"
+  transactiontype="DepositTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

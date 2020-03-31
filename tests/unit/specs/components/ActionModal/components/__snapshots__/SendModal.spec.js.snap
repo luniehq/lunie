@@ -11,6 +11,7 @@ exports[`SendModal should display send modal form 1`] = `
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
+  transactiontype="SendTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -93,6 +94,7 @@ exports[`SendModal validation should show address required error 1`] = `
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
+  transactiontype="SendTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -181,6 +183,7 @@ exports[`SendModal validation should show bech32 error when address is not bech3
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
+  transactiontype="SendTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

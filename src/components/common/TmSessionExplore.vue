@@ -95,12 +95,6 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 import { formatAddress } from "src/filters"
-import { isAddress } from "web3-utils"
-const isEthereumAddress = isAddress
-const isPolkadotAddress = address => {
-  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
-  return polkadotRegexp.test(address)
-}
 
 export default {
   name: `session-explore`,
@@ -135,22 +129,6 @@ export default {
           address.address.startsWith(selectedNetwork.address_prefix)
         )
         .slice(-3)
-    },
-    networkOfAddress() {
-      // HACK as polkadot addresses don't have a prefix
-      if (isPolkadotAddress(this.address) && this.testnet) {
-        return this.networks.find(({ id }) => id === "polkadot-testnet")
-      }
-
-      const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
-        this.address.startsWith(address_prefix)
-      )
-
-      const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
-        this.testnet ? testnet === true : testnet === false
-      )
-
-      return selectedNetwork
     }
   },
   mounted() {
@@ -162,15 +140,21 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
 
-      if (!this.networkOfAddress) {
-        this.error = `No ${
-          this.testnet ? "testnet" : "mainnet"
-        } for this address found`
+      let networkOfAddress
+      try {
+        networkOfAddress = await this.$store.dispatch("getNetworkByAccount", {
+          account: {
+            address: this.address
+          },
+          testnet: this.testnet
+        })
+      } catch (error) {
+        this.error = error.message
         return
       }
 
       // needs to be done first because if not we are logging into the current network
-      await this.selectNetworkByAddress()
+      await this.selectNetworkByAddress(networkOfAddress)
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
         address: this.address
@@ -180,7 +164,7 @@ export default {
       this.$router.push({
         name: "portfolio",
         params: {
-          networkId: this.networkOfAddress.slug
+          networkId: networkOfAddress.slug
         }
       })
     },
@@ -215,8 +199,8 @@ export default {
         return false
       }
     },
-    async selectNetworkByAddress() {
-      this.$store.dispatch(`setNetwork`, this.networkOfAddress)
+    async selectNetworkByAddress(network) {
+      this.$store.dispatch(`setNetwork`, network)
     },
     getAddressIcon(addressType) {
       if (addressType === "explore") return `language`
@@ -234,18 +218,13 @@ export default {
       this.address = address
       await this.onSubmit()
     },
-    isEthereumAddress(address) {
-      return isEthereumAddress(address)
-    },
-    isPolkadotAddress(address) {
-      return isPolkadotAddress(address)
-    },
-    addressValidate(address) {
-      return (
-        this.bech32Validate(address) ||
-        this.isEthereumAddress(address) ||
-        this.isPolkadotAddress(address)
-      )
+    async addressValidate(address) {
+      return await this.$store.dispatch("getNetworkByAccount", {
+        account: {
+          address
+        },
+        testnet: this.testnet
+      })
     }
   },
   validations() {
