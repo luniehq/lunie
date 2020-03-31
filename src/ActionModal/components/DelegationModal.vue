@@ -69,7 +69,11 @@
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
-      field-label="Amount"
+      :field-label="
+        `Amount ${
+          network === 'polkadot-testnet' && totalStaked > 0 ? ' (Optional)' : ''
+        }`
+      "
     >
       <span class="input-suffix max-button">{{ stakingDenom }}</span>
       <TmFieldGroup>
@@ -89,11 +93,6 @@
           @click.native="setMaxAmount()"
         />
       </TmFieldGroup>
-      <span v-if="network === 'polkadot-testnet'" class="form-message">
-        In Polkadot staked tokens are independent from picked validators. Want
-        to add more to your staked tokens amount?
-      </span>
-
       <span class="form-message">
         Available to stake:
         {{ maxAmount }}
@@ -391,6 +390,34 @@ export default {
       },
       update(data) {
         return data.balance || { amount: 0 }
+      }
+    },
+    totalStaked: {
+      query: gql`
+        query overview($networkId: String!, $address: String!) {
+          overview(networkId: $networkId, address: $address) {
+            liquidStake
+            totalStake
+          }
+        }
+      `,
+      skip() {
+        /* istanbul ignore next */
+        return (
+          (!this.address || !this.network) &&
+          // only needed for polkadot to determine if user needs to set an amount
+          this.network !== "polkadot-testnet"
+        )
+      },
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.network,
+          address: this.address
+        }
+      },
+      update({ overview: { totalStake, liquidStake } }) {
+        return totalStake - liquidStake
       }
     }
   },
