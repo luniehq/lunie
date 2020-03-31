@@ -78,15 +78,10 @@ export default {
     ...mapGetters([`address`, `network`, `stakingDenom`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
-      if (!this.claimedReward) return {}
+      if (this.totalRewards.length === 0) return {}
       return {
         type: transactionTypes.WITHDRAW,
-        amounts: [
-          {
-            amount: this.claimedReward.amount,
-            denom: this.claimedReward.denom
-          }
-        ]
+        amounts: this.totalRewards
       }
     },
     top5Validators() {
@@ -108,21 +103,6 @@ export default {
         return this.rewards.length > 0
       } else {
         return false
-      }
-    },
-    claimedReward() {
-      if (this.rewards && this.rewards.length > 0) {
-        // we return the staking denom reward if it has any. Otherwise, we return the first reward from the other tokens
-        const rewardsGreaterThanZero = this.rewards.filter(
-          reward => reward.amount > 0
-        )
-        return (
-          rewardsGreaterThanZero.find(
-            reward => reward.denom === this.stakingDenom
-          ) || rewardsGreaterThanZero[0]
-        )
-      } else {
-        return ""
       }
     },
     feeDenom() {
@@ -149,7 +129,9 @@ export default {
       })
       const top5ValidatorsRewardsObject = rewardsToDictionary(filteredRewards)
       const rewardsDenomArray = Object.entries(top5ValidatorsRewardsObject)
-      return rewardsDenomArray.map(([denom, amount]) => ({ denom, amount }))
+      return rewardsDenomArray
+        .map(([denom, amount]) => ({ denom, amount }))
+        .sort((a, b) => b.amount - a.amount)
     }
   },
   methods: {

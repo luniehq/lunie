@@ -2,7 +2,6 @@
 
 import { shallowMount } from "@vue/test-utils"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
-import { getTop5RewardsValidators } from "src/ActionModal/utils/ActionManager"
 
 describe(`ModalWithdrawRewards`, () => {
   let wrapper, $store
@@ -38,8 +37,7 @@ describe(`ModalWithdrawRewards`, () => {
             operatorAddress: `cosmosvaloper12`
           }
         }
-      ],
-      getTop5RewardsValidators
+      ]
     })
   })
 
@@ -89,8 +87,8 @@ describe(`ModalWithdrawRewards`, () => {
     }
     const totalRewards = ModalWithdrawRewards.computed.totalRewards.call(self)
     expect(totalRewards).toEqual([
-      { amount: 1.5, denom: "STAKE" },
-      { amount: 4, denom: "NOTSTAKE" }
+      { amount: 4, denom: "NOTSTAKE" },
+      { amount: 1.5, denom: "STAKE" }
     ])
   })
 
@@ -134,11 +132,22 @@ describe(`ModalWithdrawRewards`, () => {
 
   describe("Submission Data for Delegating", () => {
     it("should return correct transaction data for delegating", () => {
-      expect(wrapper.vm.transactionData).toEqual({
+      expect(
+        ModalWithdrawRewards.computed.transactionData.call({
+          totalRewards: [
+            { amount: 4, denom: "NOTSTAKE" },
+            { amount: 1.5, denom: "STAKE" }
+          ]
+        })
+      ).toEqual({
         type: "MsgWithdrawDelegationReward",
         amounts: [
           {
-            amount: 3,
+            amount: 4,
+            denom: "NOTSTAKE"
+          },
+          {
+            amount: 1.5,
             denom: "STAKE"
           }
         ]
