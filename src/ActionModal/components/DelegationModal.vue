@@ -302,7 +302,10 @@ export default {
   validations() {
     return {
       amount: {
-        required: x => !!x && x !== `0`,
+        required: x =>
+          this.network === "polkadot" && this.totalStaked > 0
+            ? false
+            : !!x && x !== `0`,
         decimal,
         between: between(SMALLEST, this.maxAmount)
       }
