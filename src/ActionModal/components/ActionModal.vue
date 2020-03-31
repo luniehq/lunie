@@ -17,9 +17,9 @@
         <i class="material-icons notranslate">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">{{
-          requiresSignIn ? `Sign in required` : title
-        }}</span>
+        <span class="action-modal-title">
+          {{ requiresSignIn ? `Sign in required` : title }}
+        </span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -299,9 +299,7 @@ import config from "src/../config"
 import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
-import transactionTypes from "../utils/transactionTypes"
 import BigNumber from "bignumber.js"
-// import transactionTypes from '../utils/transactionTypes'
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -337,8 +335,11 @@ const sessionType = {
   EXTENSION: SIGN_METHODS.EXTENSION
 }
 
-// hardcoding terra tax here until we have it in the API
-const terraTax = 0.008
+const networkCapabilityDictionary = {
+  true: "ENABLED",
+  false: "DISABLED",
+  null: "MISSING"
+}
 
 export default {
   name: `action-modal`,
@@ -402,6 +403,14 @@ export default {
     selectedDenom: {
       type: String,
       default: ``
+    },
+    chainAppliedFees: {
+      type: Number,
+      default: 0
+    },
+    transactionType: {
+      type: String,
+      default: "UnknownTx"
     }
   },
   data: () => ({
@@ -435,7 +444,11 @@ export default {
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
-      return this.network[action] === true
+      // DEPRECATE to support the upgrade of the old Boolean value to the new ENUM capability model, we support here temporarily the upgrade from the Boolean model to the ENUM model
+      return typeof this.network[action] === `boolean` ||
+        this.network[action] === null
+        ? networkCapabilityDictionary[this.network[action]] === "ENABLED"
+        : this.network[action] === "ENABLED"
     },
     network() {
       return this.networks.find(({ id }) => id == this.networkId)
@@ -447,21 +460,14 @@ export default {
       )
     },
     estimatedFee() {
-      // another hack
-      this.updateEmoneyGasEstimate()
-      // hack
       // terra uses a tax on all send txs
-      if (
-        this.networkId.startsWith(`terra`) &&
-        this.transactionData.type === transactionTypes.SEND
-      ) {
-        return this.maxDecimals(
-          Number(this.gasEstimate) * Number(this.gasPrice) +
-            Number(this.amount) * terraTax,
-          6
-        ) // TODO get precision from API
+      if (this.chainAppliedFees > 0) {
+        return this.chainAppliedFees
       }
-      return Number(this.gasPrice) * Number(this.gasEstimate)
+      return this.maxDecimals(
+        Number(this.gasPrice) * Number(this.gasEstimate),
+        6
+      )
     },
     subTotal() {
       return this.featureFlag === "undelegate" ? 0 : this.amount
@@ -555,11 +561,6 @@ export default {
     }
   },
   methods: {
-    updateEmoneyGasEstimate() {
-      if (this.network.id.startsWith(`emoney`)) {
-        this.gasEstimate = 200000
-      }
-    },
     confirmModalOpen() {
       let confirmResult = false
       if (this.session.currrentModalOpen || !this.queueEmpty) {
@@ -658,9 +659,7 @@ export default {
           if (!this.isValidChildForm) {
             return
           }
-          this.sending = true
-          await this.simulate() // simulate to get gas estimation
-          this.sending = false
+          this.step = feeStep
           return
         case feeStep:
           if (!this.isValidInput(`gasPrice`)) {
@@ -684,34 +683,14 @@ export default {
           return
       }
     },
-    async simulate() {
-      const { type, memo, ...properties } = this.transactionData
-      try {
-        this.gasEstimate = await this.actionManager.simulateTxAPI(
-          {
-            userAddress: this.session.address,
-            networkId: this.network.id,
-            networkType: this.network.network_type
-          },
-          type,
-          properties,
-          memo
-        )
-        this.step = feeStep
-      } catch ({ message }) {
-        this.submissionError = `${this.submissionErrorPrefix}: ${message}.`
-      }
-
-      // limit fees to the maximum the user has
+    // limit fees to the maximum the user has
+    adjustFeesToMaxPayable() {
       if (this.invoiceTotal > this.selectedBalance.amount) {
         let payable = Number(this.subTotal)
         // in terra we also have to pay the tax
         // TODO refactor using a `fixedFee` property
-        if (
-          this.networkId.startsWith(`terra`) &&
-          this.transactionData.type === transactionTypes.SEND
-        ) {
-          payable += Number(this.amount) * terraTax
+        if (this.chainAppliedFees) {
+          payable += this.chainAppliedFees
         }
         this.gasPrice =
           (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
@@ -754,7 +733,7 @@ export default {
         await this.$apollo.queries.overview.refetch()
         const hashResult = await this.actionManager.sendTxAPI(
           {
-            networkId: this.network.id,
+            network: this.network,
             networkType: this.network.network_type,
             chainId: this.network.chain_id,
             userAddress: this.session.address,
@@ -861,7 +840,7 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.address
+        return !this.session.address
       }
     },
     overview: {
@@ -899,6 +878,38 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.session.address
+      }
+    },
+    gasEstimate: {
+      query: gql`
+        query NetworkGasEstimates(
+          $networkId: String!
+          $transactionType: String
+        ) {
+          networkFees(
+            networkId: $networkId
+            transactionType: $transactionType
+          ) {
+            gasEstimate
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.networkId,
+          transactionType: this.transactionType
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        if (data.networkFees) {
+          return data.networkFees.gasEstimate
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.session.address || !this.transactionData
       }
     },
     $subscribe: {

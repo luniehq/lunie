@@ -13,7 +13,7 @@ export async function MsgSend(
   const api = await getAPI()
   return await getSignMessage(
     senderAddress,
-    api.tx.balances.transfer(toAddress, amounts[0].amount * 1000000) // FIXME! Need to clarify why this conversion factor
+    api.tx.balances.transfer(toAddress, amounts[0].amount)
   )
 }
 
@@ -27,7 +27,7 @@ export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
   if (amount > 0) {
     transactions.push(
       await api.tx.staking.bondExtra(
-        amount * 1000000 // FIXME! Need to clarify why this conversion factor
+        amount
       )
     )
   }

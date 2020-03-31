@@ -2,6 +2,7 @@
 
 exports[`ModalDeposit should display deposit modal form 1`] = `
 <actionmodal-stub
+  chainappliedfees="0"
   class="modal-deposit"
   featureflag="deposit"
   id="modal-deposit"
@@ -11,6 +12,7 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
   submissionerrorprefix="Depositing failed"
   title="Deposit"
   transactiondata="[object Object]"
+  transactiontype="DepositTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -21,7 +23,7 @@ exports[`ModalDeposit should display deposit modal form 1`] = `
     <span
       class="input-suffix"
     >
-      ATOM
+      STAKE
     </span>
      
     <tmfield-stub

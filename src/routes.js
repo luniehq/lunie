@@ -225,6 +225,10 @@ export default (apollo, store) => {
       props: true
     },
     {
+      path: `/feature-not-present/:feature`,
+      component: () => import(`./components/common/FeatureNotPresent`)
+    },
+    {
       path: `/:networkId`,
       component: () => import(`./components/common/NetworkSetter`),
       beforeEnter: (to, from, next) =>
