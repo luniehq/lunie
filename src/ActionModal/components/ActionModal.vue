@@ -196,7 +196,7 @@
           v-else-if="step === successStep"
           class="action-modal-form success-step"
         >
-          <TmDataMsg icon="check" :success="true">
+          <TmDataMsg icon="check" icon-color="var(--green)" :success="true">
             <div slot="title">{{ notifyMessage.title }}</div>
             <div slot="subtitle">
               {{ notifyMessage.body }}
