@@ -38,6 +38,7 @@ import { mapGetters } from "vuex"
 import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
+import { getTop5RewardsValidators } from "../utils/ActionManager"
 import gql from "graphql-tag"
 
 import transaction from "../utils/transactionTypes"
@@ -72,22 +73,7 @@ export default {
     },
     totalRewards() {
       if (this.rewards && this.rewards.length > 0) {
-        return this.rewards.reduce(
-          (totalRewardsAgreggator, { amount, denom }) => {
-            let rewardDenom = denom
-            let sameDenomReward = totalRewardsAgreggator.find(
-              ({ denom }) => denom === rewardDenom
-            )
-            sameDenomReward
-              ? (sameDenomReward.amount =
-                  Math.round(
-                    (Number(sameDenomReward.amount) + Number(amount)) * 1000000
-                  ) / 1000000)
-              : totalRewardsAgreggator.push({ denom, amount })
-            return totalRewardsAgreggator
-          },
-          []
-        )
+        return getTop5RewardsValidators(this.stakingDenom, this.rewards)
       } else {
         return null
       }
