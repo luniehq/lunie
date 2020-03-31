@@ -41,7 +41,8 @@ describe(`ModalWithdrawRewards`, () => {
     })
   })
 
-  it(`should show the withdraw rewards modal`, () => {
+  it(`should show the withdraw rewards modal`, async () => {
+    await wrapper.vm.$nextTick()
     expect(wrapper.element).toMatchSnapshot()
   })
 
