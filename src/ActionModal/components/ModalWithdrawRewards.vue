@@ -163,8 +163,10 @@ export default {
           return {
             ...all,
             [reward.denom]:
-              Math.round((reward.amount + (all[reward.denom] || 0)) * 1000000) /
-              1000000
+              Math.round(
+                (Number(reward.amount) + (Number(all[reward.denom]) || 0)) *
+                  1000000
+              ) / 1000000
           }
         }, {})
       const rewardsDenomArray = Object.keys(top5ValidatorsRewardsObject)
