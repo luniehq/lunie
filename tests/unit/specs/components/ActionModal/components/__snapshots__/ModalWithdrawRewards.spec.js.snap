@@ -34,6 +34,18 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
       <span
         class="input-suffix-reward"
       >
+        NOTSTAKE
+      </span>
+       
+      <input
+        class="tm-field-addon"
+        disabled="disabled"
+      />
+    </div>
+    <div>
+      <span
+        class="input-suffix-reward"
+      >
         STAKE
       </span>
        

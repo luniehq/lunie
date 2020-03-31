@@ -91,10 +91,7 @@ export default {
     },
     top5Validators() {
       if (this.rewards && this.rewards.length > 0) {
-        const top5Validators = this.getTop5RewardsValidators(
-          this.stakingDenom,
-          this.rewards
-        )
+        const top5Validators = this.getTop5RewardsValidators(this.rewards)
         return top5Validators
       } else {
         return []

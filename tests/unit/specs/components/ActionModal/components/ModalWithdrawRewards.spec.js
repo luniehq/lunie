@@ -26,7 +26,7 @@ describe(`ModalWithdrawRewards`, () => {
       rewards: [
         {
           denom: `STAKE`,
-          amount: 1,
+          amount: 3,
           validator: {
             operatorAddress: `cosmosvaloper12`
           }
@@ -85,10 +85,7 @@ describe(`ModalWithdrawRewards`, () => {
           }
         }
       ],
-      stakingDenom: "STAKE",
-      getTop5RewardsValidators,
-      getTop5ValidatorsRewards:
-        ModalWithdrawRewards.methods.getTop5ValidatorsRewards
+      top5Validators: ["cosmosvaloper12", "cosmosvaloper13"]
     }
     const totalRewards = ModalWithdrawRewards.computed.totalRewards.call(self)
     expect(totalRewards).toEqual([
@@ -141,7 +138,7 @@ describe(`ModalWithdrawRewards`, () => {
         type: "MsgWithdrawDelegationReward",
         amounts: [
           {
-            amount: 1,
+            amount: 3,
             denom: "STAKE"
           }
         ]
