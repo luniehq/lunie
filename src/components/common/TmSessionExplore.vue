@@ -46,9 +46,8 @@
           />
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.addressValidate"
-            name="Your Address"
             type="custom"
-            msg="isn't recognised by Lunie. Did you type correctly?"
+            :msg="addressError"
           />
           <TmFormMsg v-else-if="error" :name="error" type="custom" />
         </TmFormGroup>
@@ -99,6 +98,7 @@ export default {
   data: () => ({
     address: ``,
     error: ``,
+    addressError: undefined,
     testnet: false
   }),
   computed: {
@@ -175,12 +175,18 @@ export default {
       await this.onSubmit()
     },
     async addressValidate(address) {
-      return await this.$store.dispatch("getNetworkByAccount", {
-        account: {
-          address
-        },
-        testnet: this.testnet
-      })
+      try {
+        await this.$store.dispatch("getNetworkByAccount", {
+          account: {
+            address
+          },
+          testnet: this.testnet
+        })
+        return true
+      } catch (error) {
+        this.addressError = error.message
+        return false
+      }
     }
   },
   validations() {
