@@ -5,8 +5,8 @@ on:
     branches:
       - release
 jobs:
-  test:
-    name: Compile
+  createReleasePR:
+    name: createReleasePR
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js
