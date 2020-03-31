@@ -28,7 +28,7 @@ const nightwatch_config = {
         "disable-web-security",
         "ignore-certificate-errors",
         "no-sandbox",
-        "headless",
+        // "headless", // headless is not possible as it doesn't allow to fix the internationalization
         "window-size=1920,1080"
       ],
       prefs: {
