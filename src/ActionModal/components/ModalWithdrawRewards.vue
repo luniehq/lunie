@@ -31,7 +31,7 @@
         <input
           class="tm-field-addon"
           disabled="disabled"
-          :value="reward.amount"
+          :value="reward.amount | fullDecimals"
         />
       </div>
     </TmFormGroup>
@@ -48,6 +48,15 @@ import gql from "graphql-tag"
 
 import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
+
+function rewardsToDictionary(rewards) {
+  return rewards.reduce((all, reward) => {
+    return {
+      ...all,
+      [reward.denom]: Number(reward.amount) + (all[reward.denom] || 0)
+    }
+  }, {})
+}
 
 export default {
   name: `modal-withdraw-rewards`,
@@ -80,28 +89,19 @@ export default {
         ]
       }
     },
-    validatorsNumber() {
-      if (this.rewards && this.rewards.length > 0) {
-        return this.rewards.reduce((acc, reward) => {
-          if (!acc.includes(reward.validator.operatorAddress)) {
-            acc.push(reward.validator.operatorAddress)
-          }
-          return acc
-        }, []).length
-      } else {
-        return 0
-      }
-    },
-    totalRewards() {
+    top5Validators() {
       if (this.rewards && this.rewards.length > 0) {
         const top5Validators = this.getTop5RewardsValidators(
           this.stakingDenom,
           this.rewards
         )
-        return this.getTop5ValidatorsRewards(top5Validators)
+        return top5Validators
       } else {
-        return null
+        return []
       }
+    },
+    validatorsNumber() {
+      return this.top5Validators.length
     },
     notifyMessage() {
       return {
@@ -148,35 +148,19 @@ export default {
       } else {
         return this.stakingDenom
       }
+    },
+    totalRewards() {
+      const filteredRewards = this.rewards.filter(({ validator }) => {
+        return this.top5Validators.includes(validator.operatorAddress)
+      })
+      const top5ValidatorsRewardsObject = rewardsToDictionary(filteredRewards)
+      const rewardsDenomArray = Object.entries(top5ValidatorsRewardsObject)
+      return rewardsDenomArray.map(([denom, amount]) => ({ denom, amount }))
     }
   },
   methods: {
     open() {
       this.$refs.actionModal.open()
-    },
-    getTop5ValidatorsRewards(top5validators) {
-      const top5ValidatorsRewardsObject = this.rewards
-        .filter(({ validator }) =>
-          top5validators.includes(validator.operatorAddress)
-        )
-        .reduce((all, reward) => {
-          return {
-            ...all,
-            [reward.denom]:
-              Math.round((reward.amount + (all[reward.denom] || 0)) * 1000000) /
-              1000000
-          }
-        }, {})
-      const rewardsDenomArray = Object.keys(top5ValidatorsRewardsObject)
-      return rewardsDenomArray.reduce((rewardsAggregator, rewardDenom) => {
-        if (top5ValidatorsRewardsObject[rewardDenom]) {
-          rewardsAggregator.push({
-            denom: rewardDenom,
-            amount: top5ValidatorsRewardsObject[rewardDenom]
-          })
-        }
-        return rewardsAggregator
-      }, [])
     }
   },
   apollo: {
