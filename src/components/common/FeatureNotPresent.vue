@@ -19,6 +19,7 @@ export default {
   name: `feature-not-present`,
   components: { TmDataMsg },
   data: () => ({
+    networks: [],
     guideLink: `https://intercom.help/lunie/en/articles/3824836-lunie-staking-guide-the-e-money-network`
   }),
   computed: {
