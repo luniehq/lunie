@@ -138,6 +138,13 @@ describe(`Module: Connection`, () => {
           address_prefix: "cosmos",
           network_type: "cosmos",
           testnet: true
+        },
+        {
+          id: "terra-testnet",
+          slug: "terra-testnet",
+          address_prefix: "terra",
+          network_type: "cosmos",
+          testnet: true
         }
       ]
     }
@@ -188,6 +195,15 @@ describe(`Module: Connection`, () => {
       expect(() =>
         actions.getNetworkByAccount({ state }, { account: { address } })
       ).toThrow()
+    })
+
+    it(`filters networks correctly also on prefix`, () => {
+      const address = `terra1mma85hevm6kavfuu9mgmektxvmxnwssqspxrhc`
+      const network = actions.getNetworkByAccount(
+        { state },
+        { account: { address }, testnet: true }
+      )
+      expect(network.id).toBe("terra-testnet")
     })
   })
 })
