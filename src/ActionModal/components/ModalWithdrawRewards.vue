@@ -44,7 +44,6 @@ import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import { getTop5RewardsValidators } from "../utils/ActionManager"
-import uniqWith from "lodash.uniqwith"
 import gql from "graphql-tag"
 
 import transactionTypes from "../utils/transactionTypes"
