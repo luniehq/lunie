@@ -36,6 +36,9 @@ const mockKeysLib = {
   storeWallet: () => {}
 }
 jest.mock("@lunie/cosmos-keys", () => mockKeysLib)
+jest.mock("@polkadot/util-crypto", () => ({
+  cryptoWaitReady: () => {}
+}))
 
 describe(`Module: Keystore`, () => {
   let module, state, actions, mutations, apollo
