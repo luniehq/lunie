@@ -230,7 +230,7 @@ exports[`ActionModal should show the action modal on success 1`] = `
   >
     <tmdatamsg-stub
       icon="check"
-      iconcolor="var(--warning)"
+      iconcolor="var(--green)"
       success="true"
     >
       <div>
