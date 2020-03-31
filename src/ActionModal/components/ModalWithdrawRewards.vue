@@ -83,10 +83,11 @@ export default {
     },
     validatorsNumber() {
       if (this.rewards && this.rewards.length > 0) {
-        return uniqWith(
+        const totalValidatorNumber = uniqWith(
           this.rewards,
           (a, b) => JSON.stringify(a.validator) === JSON.stringify(b.validator)
         ).length
+        return totalValidatorNumber > 5 ? 5 : totalValidatorNumber
       } else {
         return 0
       }
