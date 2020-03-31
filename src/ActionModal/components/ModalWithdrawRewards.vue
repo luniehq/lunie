@@ -20,7 +20,7 @@
     <TmFormGroup
       class="action-modal-form-group"
       field-id="amount"
-      field-label="Amount"
+      :field-label="`Rewards from ${validatorsNumber} validators`"
     >
       <div v-for="reward in totalRewards" :key="JSON.stringify(reward.denom)">
         <span class="input-suffix-reward">{{ reward.denom }}</span>
@@ -74,6 +74,19 @@ export default {
             denom: this.claimedReward.denom
           }
         ]
+      }
+    },
+    validatorsNumber() {
+      if (this.rewards && this.rewards.length > 0) {
+        return this.rewards.reduce((acc, reward) => {
+          if(!acc.includes(reward.validator.operatorAddress)) {
+            acc.push(reward.validator.operatorAddress)
+          }
+          return acc
+        },
+        []).length
+      } else {
+        return 0
       }
     },
     totalRewards() {
