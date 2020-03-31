@@ -5,8 +5,8 @@ const {
   getLastActivityItemHash
 } = require("./helpers.js")
 
-function setSelect(browser, selector, option) {
-  browser.execute(
+async function setSelect(browser, selector, option) {
+  await browser.execute(
     function(selector, option) {
       const select = document.querySelector(selector)
       select.value = option
@@ -88,56 +88,47 @@ module.exports = {
         ).value
       }
     )
-    // move to according page
-    browser.url(
-      browser.launch_url + browser.globals.slug + "/validators",
-      async () => {
-        // move to validator page
-        browser.expect.element(".li-validator").to.be.visible.before(10000)
-        browser.click(
-          `.li-validator[data-name="${browser.globals.validatorTwoName}"]`
-        )
-        const value = browser.globals.restakeAmount
-        await actionModalCheckout(
-          browser,
-          "#delegation-btn",
-          // actions to do on details page
-          () => {
-            setSelect(browser, "#from select", "1")
-            browser.expect
-              .element(".action-modal-title")
-              .text.to.contain(`Restake`)
-              .before(2000)
-            browser.setValue("#amount", value)
-          },
-          // expected subtotal
-          "0"
-        )
-        await getAccountBalance(browser)
-
-        // check if tx shows
-        // check if the hash is changed
-        await browser.url(
-          browser.launch_url + browser.globals.slug + "/transactions",
-          async () => {
-            await waitForText(
-              browser,
-              ".tx:nth-of-type(1) .tx__content .tx__content__left",
-              `Restaked`
-            )
-            await waitForText(
-              browser,
-              ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
-              `${value} ${browser.globals.denom}`
-            )
-            let hash = (await getLastActivityItemHash(browser)).value
-            if (hash == browser.globals.lastHash) {
-              throw new Error(`Hash didn't changed!`)
-            }
-          }
-        )
-      }
+    // move to validator page
+    await browser.url(browser.launch_url + browser.globals.slug + "/validators")
+    browser.expect.element(".li-validator").to.be.visible.before(10000)
+    browser.click(
+      `.li-validator[data-name="${browser.globals.validatorTwoName}"]`
     )
+    const value = browser.globals.restakeAmount
+    await actionModalCheckout(
+      browser,
+      "#delegation-btn",
+      // actions to do on details page
+      async () => {
+        await setSelect(browser, "#from select", "1")
+        await browser.waitForElementVisible(".action-modal-title", 30000)
+        await waitForText(browser, ".action-modal-title", `Restake`)
+        browser.setValue("#amount", value)
+      },
+      // expected subtotal
+      "0"
+    )
+    await getAccountBalance(browser)
+
+    // check if tx shows
+    // check if the hash is changed
+    await browser.url(
+      browser.launch_url + browser.globals.slug + "/transactions"
+    )
+    await waitForText(
+      browser,
+      ".tx:nth-of-type(1) .tx__content .tx__content__left",
+      `Restaked`
+    )
+    await waitForText(
+      browser,
+      ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
+      `${value} ${browser.globals.denom}`
+    )
+    let hash = (await getLastActivityItemHash(browser)).value
+    if (hash == browser.globals.lastHash) {
+      throw new Error(`Hash didn't changed!`)
+    }
   },
   "Undelegate Action": async function(browser) {
     await browser.url(
