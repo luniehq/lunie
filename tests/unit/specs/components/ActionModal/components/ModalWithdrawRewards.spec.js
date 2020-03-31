@@ -25,17 +25,17 @@ describe(`ModalWithdrawRewards`, () => {
     wrapper.setData({
       rewards: [
         {
-          denom: `STAKE`,
-          amount: 3,
-          validator: {
-            operatorAddress: `cosmosvaloper12`
-          }
-        },
-        {
           denom: `NOTSTAKE`,
           amount: 2,
           validator: {
             operatorAddress: `cosmosvaloper13`
+          }
+        },
+        {
+          denom: `STAKE`,
+          amount: 3,
+          validator: {
+            operatorAddress: `cosmosvaloper12`
           }
         }
       ],

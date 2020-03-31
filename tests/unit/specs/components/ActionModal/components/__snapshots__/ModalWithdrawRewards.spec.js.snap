@@ -34,7 +34,7 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
       <span
         class="input-suffix-reward"
       >
-        NOTSTAKE
+        STAKE
       </span>
        
       <input
@@ -46,7 +46,7 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
       <span
         class="input-suffix-reward"
       >
-        STAKE
+        NOTSTAKE
       </span>
        
       <input
