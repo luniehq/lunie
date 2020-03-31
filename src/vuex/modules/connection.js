@@ -90,8 +90,9 @@ export default function({ apollo }) {
                   "Address is not in bech32 format. Did you mistype?"
                 )
               }
+              return true
             }
-            return true
+            return false
           }
         }
       )
