@@ -2,6 +2,7 @@
 
 import { shallowMount } from "@vue/test-utils"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
+import { getTop5RewardsValidators } from "src/ActionModal/utils/ActionManager"
 
 describe(`ModalWithdrawRewards`, () => {
   let wrapper, $store
@@ -25,13 +26,20 @@ describe(`ModalWithdrawRewards`, () => {
       rewards: [
         {
           denom: `STAKE`,
-          amount: 1
+          amount: 1,
+          validator: {
+            operatorAddress: `cosmosvaloper12`
+          }
         },
         {
           denom: `NOTSTAKE`,
-          amount: 2
+          amount: 2,
+          validator: {
+            operatorAddress: `cosmosvaloper13`
+          }
         }
-      ]
+      ],
+      getTop5RewardsValidators
     })
   })
 
@@ -50,22 +58,41 @@ describe(`ModalWithdrawRewards`, () => {
       rewards: [
         {
           denom: `STAKE`,
-          amount: 1
+          amount: 1,
+          validator: {
+            operatorAddress: `cosmosvaloper12`
+          }
+        },
+        {
+          denom: `STAKE`,
+          amount: 0.5,
+          validator: {
+            operatorAddress: `cosmosvaloper13`
+          }
         },
         {
           denom: `NOTSTAKE`,
-          amount: 2
+          amount: 2,
+          validator: {
+            operatorAddress: `cosmosvaloper12`
+          }
         },
         {
           denom: `NOTSTAKE`,
-          amount: 2
+          amount: 2,
+          validator: {
+            operatorAddress: `cosmosvaloper13`
+          }
         }
       ],
-      stakingDenom: "STAKE"
+      stakingDenom: "STAKE",
+      getTop5RewardsValidators,
+      getTop5ValidatorsRewards:
+        ModalWithdrawRewards.methods.getTop5ValidatorsRewards
     }
     const totalRewards = ModalWithdrawRewards.computed.totalRewards.call(self)
     expect(totalRewards).toEqual([
-      { amount: 1, denom: "STAKE" },
+      { amount: 1.5, denom: "STAKE" },
       { amount: 4, denom: "NOTSTAKE" }
     ])
   })
