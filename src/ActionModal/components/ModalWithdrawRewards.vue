@@ -44,6 +44,7 @@ import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import { getTop5RewardsValidators } from "../utils/ActionManager"
+import uniqWith from "lodash.uniqwith"
 import gql from "graphql-tag"
 
 import transactionTypes from "../utils/transactionTypes"
@@ -82,12 +83,10 @@ export default {
     },
     validatorsNumber() {
       if (this.rewards && this.rewards.length > 0) {
-        return this.rewards.reduce((acc, reward) => {
-          if (!acc.includes(reward.validator.operatorAddress)) {
-            acc.push(reward.validator.operatorAddress)
-          }
-          return acc
-        }, []).length
+        return uniqWith(
+          this.rewards,
+          (a, b) => JSON.stringify(a.validator) === JSON.stringify(b.validator)
+        ).length
       } else {
         return 0
       }
