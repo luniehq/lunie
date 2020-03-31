@@ -21,8 +21,8 @@
       class="action-modal-form-group"
       field-id="amount"
       :field-label="
-        `Rewards from ${validatorsNumber} ${
-          validatorsNumber > 1 ? `validators` : `validator`
+        `Rewards from ${top5Validators.length} ${
+          top5Validators.length > 1 ? `validators` : `validator`
         }`
       "
     >
@@ -44,6 +44,7 @@ import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import { getTop5RewardsValidators } from "../utils/ActionManager"
+import uniqWith from "lodash.uniqwith"
 import gql from "graphql-tag"
 
 import transactionTypes from "../utils/transactionTypes"
@@ -99,9 +100,6 @@ export default {
       } else {
         return []
       }
-    },
-    validatorsNumber() {
-      return this.top5Validators.length
     },
     notifyMessage() {
       return {
