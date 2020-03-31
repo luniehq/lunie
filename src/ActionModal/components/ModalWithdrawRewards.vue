@@ -155,25 +155,28 @@ export default {
       this.$refs.actionModal.open()
     },
     getTop5ValidatorsRewards(top5validators) {
-      return this.rewards
+      const top5ValidatorsRewardsObject = this.rewards
         .filter(({ validator }) =>
           top5validators.includes(validator.operatorAddress)
         )
-        .reduce((totalRewardsAgreggator, { amount, denom }) => {
-          const rewardDenom = denom
-          const sameDenomReward = totalRewardsAgreggator.find(
-            ({ denom }) => denom === rewardDenom
-          )
-          if (sameDenomReward) {
-            sameDenomReward.amount =
-              Math.round(
-                (Number(sameDenomReward.amount) + Number(amount)) * 1000000
-              ) / 1000000
-          } else {
-            totalRewardsAgreggator.push({ denom, amount })
+        .reduce((all, reward) => {
+          return {
+            ...all,
+            [reward.denom]:
+              Math.round((reward.amount + (all[reward.denom] || 0)) * 1000000) /
+              1000000
           }
-          return totalRewardsAgreggator
-        }, [])
+        }, {})
+      const rewardsDenomArray = Object.keys(top5ValidatorsRewardsObject)
+      return rewardsDenomArray.reduce((rewardsAggregator, rewardDenom) => {
+        if (top5ValidatorsRewardsObject[rewardDenom]) {
+          rewardsAggregator.push({
+            denom: rewardDenom,
+            amount: top5ValidatorsRewardsObject[rewardDenom]
+          })
+        }
+        return rewardsAggregator
+      }, [])
     }
   },
   apollo: {
