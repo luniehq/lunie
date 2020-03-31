@@ -117,6 +117,23 @@ const getNetworkCapabilities = {
         action_deposit: false,
         action_vote: false,
         action_proposal: false
+    },
+    "akash-testnet": {
+        feature_session: true,
+        feature_explore: true,
+        feature_portfolio: true,
+        feature_validators: true,
+        feature_proposals: false,
+        feature_activity: false,
+        feature_explorer: false,
+        action_send: false,
+        action_claim_rewards: false,
+        action_delegate: false,
+        action_redelegate: false,
+        action_undelegate: false,
+        action_deposit: false,
+        action_vote: false,
+        action_proposal: false
     }
 }
 

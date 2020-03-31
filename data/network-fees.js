@@ -26,13 +26,18 @@ const emoneyGasEstimates = {
     ClaimRewardsTx: 550000
 }
 
+const akashGasEstimates = {
+    default: 200000
+}
+
 const networkGasEstimatesDictionary = {
     "cosmos-hub-mainnet": cosmosGasEstimates,
     "cosmos-hub-testnet": cosmosGasEstimates,
     "terra-mainnet": terraGasEstimates,
     "terra-testnet": terraGasEstimates,
     "emoney-mainnet": emoneyGasEstimates,
-    "emoney-testnet": emoneyGasEstimates
+    "emoney-testnet": emoneyGasEstimates,
+    "akash-testnet": akashGasEstimates
 }
 
 module.exports = {getNetworkTransactionGasEstimates}
