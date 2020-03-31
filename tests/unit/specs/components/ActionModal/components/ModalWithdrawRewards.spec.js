@@ -45,7 +45,7 @@ describe(`ModalWithdrawRewards`, () => {
     expect($refs.actionModal.open).toHaveBeenCalled()
   })
 
-  it(`filters the staking denom rewards to display as totalRewards`, () => {
+  it(`adds up all denom rewards to display as totalRewards`, () => {
     const self = {
       rewards: [
         {
@@ -55,12 +55,19 @@ describe(`ModalWithdrawRewards`, () => {
         {
           denom: `NOTSTAKE`,
           amount: 2
+        },
+        {
+          denom: `NOTSTAKE`,
+          amount: 2
         }
       ],
       stakingDenom: "STAKE"
     }
     const totalRewards = ModalWithdrawRewards.computed.totalRewards.call(self)
-    expect(totalRewards).toEqual(`1.000000`)
+    expect(totalRewards).toEqual([
+      { amount: 1, denom: "STAKE" },
+      { amount: 4, denom: "NOTSTAKE" }
+    ])
   })
 
   it(`should display message when withdrawing from multiple validators`, () => {

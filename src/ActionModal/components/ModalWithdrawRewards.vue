@@ -21,14 +21,14 @@
       field-id="amount"
       field-label="Amount"
     >
-      <span class="input-suffix">{{ feeDenom }}</span>
-      <TmField
-        id="amount"
-        v-model="totalRewards"
-        class="tm-field-addon"
-        type="number"
-        disabled="disabled"
-      />
+      <div v-for="reward in totalRewards" :key="JSON.stringify(reward.denom)">
+        <span class="input-suffix-reward">{{ reward.denom }}</span>
+        <input
+          class="tm-field-addon"
+          disabled="disabled"
+          :value="reward.amount"
+        />
+      </div>
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -37,7 +37,6 @@
 import { mapGetters } from "vuex"
 import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
-import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import gql from "graphql-tag"
 
@@ -47,8 +46,7 @@ export default {
   name: `modal-withdraw-rewards`,
   components: {
     ActionModal,
-    TmFormGroup,
-    TmField
+    TmFormGroup
   },
   filters: {
     fullDecimals
@@ -74,18 +72,22 @@ export default {
     },
     totalRewards() {
       if (this.rewards && this.rewards.length > 0) {
-        const stakingDenomRewards = this.rewards
-          .filter(({ denom }) => denom === this.stakingDenom)
-          .reduce((sum, { amount }) => sum + Number(amount), 0)
-          .toFixed(6)
-        // if staking denom rewards are not above zero, we'd display the fees and amount for the first existing
-        // alt-token reward on the rewards array
-        return stakingDenomRewards > 0
-          ? stakingDenomRewards
-          : this.rewards
-              .filter(({ denom }) => denom === this.feeDenom)
-              .reduce((sum, { amount }) => sum + Number(amount), 0)
-              .toFixed(6)
+        return this.rewards.reduce(
+          (totalRewardsAgreggator, { amount, denom }) => {
+            let rewardDenom = denom
+            let sameDenomReward = totalRewardsAgreggator.find(
+              ({ denom }) => denom === rewardDenom
+            )
+            sameDenomReward
+              ? (sameDenomReward.amount =
+                  Math.round(
+                    (Number(sameDenomReward.amount) + Number(amount)) * 1000000
+                  ) / 1000000)
+              : totalRewardsAgreggator.push({ denom, amount })
+            return totalRewardsAgreggator
+          },
+          []
+        )
       } else {
         return null
       }
@@ -197,6 +199,19 @@ export default {
 </script>
 
 <style scope>
+.input-suffix-reward {
+  background: var(--bc-dim);
+  display: inline-block;
+  position: absolute;
+  padding: 8px;
+  font-size: var(--sm);
+  text-transform: uppercase;
+  right: 30px;
+  letter-spacing: 1px;
+  text-align: right;
+  font-weight: 500;
+  border-radius: 2px;
+}
 .form-message.withdraw-limit {
   white-space: normal;
 }

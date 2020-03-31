@@ -29,19 +29,30 @@ exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
     fieldid="amount"
     fieldlabel="Amount"
   >
-    <span
-      class="input-suffix"
-    >
-      STAKE
-    </span>
-     
-    <tmfield-stub
-      class="tm-field-addon"
-      disabled="disabled"
-      id="amount"
-      type="number"
-      value="1.000000"
-    />
+    <div>
+      <span
+        class="input-suffix-reward"
+      >
+        STAKE
+      </span>
+       
+      <input
+        class="tm-field-addon"
+        disabled="disabled"
+      />
+    </div>
+    <div>
+      <span
+        class="input-suffix-reward"
+      >
+        NOTSTAKE
+      </span>
+       
+      <input
+        class="tm-field-addon"
+        disabled="disabled"
+      />
+    </div>
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
