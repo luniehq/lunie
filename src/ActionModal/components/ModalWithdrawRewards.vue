@@ -20,7 +20,11 @@
     <TmFormGroup
       class="action-modal-form-group"
       field-id="amount"
-      :field-label="`Rewards from ${validatorsNumber} validators`"
+      :field-label="
+        `Rewards from ${validatorsNumber} ${
+          validatorsNumber > 1 ? `validators` : `validator`
+        }`
+      "
     >
       <div v-for="reward in totalRewards" :key="JSON.stringify(reward.denom)">
         <span class="input-suffix-reward">{{ reward.denom }}</span>
@@ -79,12 +83,11 @@ export default {
     validatorsNumber() {
       if (this.rewards && this.rewards.length > 0) {
         return this.rewards.reduce((acc, reward) => {
-          if(!acc.includes(reward.validator.operatorAddress)) {
+          if (!acc.includes(reward.validator.operatorAddress)) {
             acc.push(reward.validator.operatorAddress)
           }
           return acc
-        },
-        []).length
+        }, []).length
       } else {
         return 0
       }
