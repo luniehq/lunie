@@ -7,6 +7,7 @@
     title="Deposit"
     class="modal-deposit"
     submission-error-prefix="Depositing failed"
+    :transaction-type="messageType.DEPOSIT"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="deposit"
@@ -57,13 +58,14 @@
 <script>
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
-import { uatoms, viewDenom, SMALLEST } from "src/scripts/num"
+import { toMicroUnit, viewDenom, SMALLEST } from "src/scripts/num"
 import { between, decimal } from "vuelidate/lib/validators"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transaction from "../utils/transactionTypes"
+import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroDenom } from "src/scripts/common"
 
 export default {
@@ -96,21 +98,27 @@ export default {
     balance: {
       amount: null,
       denom: ``
-    }
+    },
+    transactionTypes,
+    messageType
   }),
   computed: {
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `networks`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
       if (isNaN(this.amount) || !this.proposalId || !this.denom) {
         return {}
       }
       return {
-        type: transaction.DEPOSIT,
+        type: transactionTypes.DEPOSIT,
         proposalId: this.proposalId,
         amounts: [
           {
-            amount: uatoms(this.amount),
+            amount: toMicroUnit(
+              this.amount,
+              this.denom,
+              this.networks.find(({ id }) => id === this.network)
+            ),
             denom: toMicroDenom(this.denom)
           }
         ]

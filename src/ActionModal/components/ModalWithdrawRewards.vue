@@ -9,6 +9,7 @@
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
     feature-flag="claim_rewards"
+    :transaction-type="messageType.CLAIM_REWARDS"
     :rewards="rewards"
     :disable="validatorsWithRewards"
   >
@@ -41,7 +42,8 @@ import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import gql from "graphql-tag"
 
-import transaction from "../utils/transactionTypes"
+import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 
 export default {
   name: `modal-withdraw-rewards`,
@@ -55,14 +57,17 @@ export default {
   },
   data: () => ({
     rewards: [],
-    balances: []
+    balances: [],
+    transactionTypes,
+    messageType
   }),
   computed: {
     ...mapGetters([`address`, `network`, `stakingDenom`]),
+    ...mapGetters({ userAddress: `address` }),
     transactionData() {
       if (!this.claimedReward) return {}
       return {
-        type: transaction.WITHDRAW,
+        type: transactionTypes.WITHDRAW,
         amounts: [
           {
             amount: this.claimedReward.amount,
@@ -160,6 +165,27 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
+      }
+    },
+    balances: {
+      query: gql`
+        query BalancesSendModal($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            amount
+            denom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      skip() {
+        return !this.userAddress
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.userAddress
+        }
       }
     }
   }
