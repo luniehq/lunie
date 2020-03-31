@@ -62,8 +62,8 @@ async function featureAvailable(store, feature) {
   // we get the current network object
   const currentNetwork = networks.find(({ id }) => id === currentNetworkId)
   const featureSelector = `feature_${feature.toLowerCase()}`
-  return typeof currentNetwork[feature] === "string"
-    ? currentNetwork[feature]
+  return typeof currentNetwork[featureSelector] === "string"
+    ? currentNetwork[featureSelector]
     : // DEPRECATE fallback for old API response
       networkCapabilityDictionary[currentNetwork[featureSelector]]
 }
