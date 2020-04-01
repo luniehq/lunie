@@ -1,7 +1,11 @@
 <template>
   <div class="table-container">
     <div
-      v-if="$apollo.queries.undelegations.loading && !undelegations.length"
+      v-if="
+        $apollo.queries.undelegations.loading &&
+          !undelegationsLoaded &&
+          !undelegations.length
+      "
       class="loading-image-container"
     >
       <img
@@ -31,7 +35,8 @@ export default {
     TableUndelegations
   },
   data: () => ({
-    undelegations: []
+    undelegations: [],
+    undelegationsLoaded: false
   }),
   computed: {
     ...mapGetters([`address`, `network`])
@@ -60,8 +65,9 @@ export default {
           delegatorAddress: this.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
+        this.undelegationsLoaded = true
         return data.undelegations
       }
     },
