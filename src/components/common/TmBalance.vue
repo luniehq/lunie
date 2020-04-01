@@ -549,6 +549,7 @@ export default {
           /* istanbul ignore next */
           this.$apollo.queries.overview.refetch()
           this.$apollo.queries.balances.refetch()
+          this.$apollo.queries.rewards.refetch()
         }
       }
     }
