@@ -119,8 +119,8 @@
         </div>
 
         <div class="table-cell rewards">
-          <h2 v-if="overview.totalRewards > 0.001">
-            +{{ overview.totalRewards | bigFigureOrShortDecimals }}
+          <h2 v-if="totalRewards > 0.001">
+            +{{ totalRewards | bigFigureOrShortDecimals }}
             {{ stakingDenom }}
           </h2>
         </div>
@@ -223,6 +223,7 @@ import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
+import BigNumber from "bignumber.js"
 
 export default {
   name: `tm-balance`,
@@ -238,9 +239,7 @@ export default {
   },
   data() {
     return {
-      overview: {
-        rewards: []
-      },
+      overview: {},
       sentToGA: false,
       balances: [],
       showTutorial: false,
@@ -346,14 +345,23 @@ export default {
       )
     },
     totalRewardsPerDenom() {
-      if (this.overview.rewards && this.overview.rewards.length > 0) {
-        return this.overview.rewards.reduce((all, reward) => {
+      if (this.rewards && this.rewards.length > 0) {
+        return this.rewards.reduce((all, reward) => {
           return {
             ...all,
             [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0)
           }
         }, {})
       } else return {}
+    },
+    totalRewards() {
+      if (this.rewards && this.rewards.length > 0) {
+        return this.rewards
+          .filter(({ denom }) => denom === this.stakingDenom)
+          .reduce((sum, { amount }) => BigNumber(sum).plus(amount), 0)
+          .toFixed(6)
+      }
+      return 0
     }
   },
   mounted() {
@@ -374,15 +382,12 @@ export default {
       this.showTutorial = false
     },
     calculateTotalRewardsDenom(denom) {
-      if (this.overview.rewards && this.overview.rewards.length > 0) {
-        const rewardsAccumulator = this.overview.rewards.reduce(
-          (sum, reward) => {
-            return reward.denom === denom
-              ? (sum += parseFloat(reward.amount))
-              : sum
-          },
-          0
-        )
+      if (this.rewards && this.rewards.length > 0) {
+        const rewardsAccumulator = this.rewards.reduce((sum, reward) => {
+          return reward.denom === denom
+            ? (sum += parseFloat(reward.amount))
+            : sum
+        }, 0)
         return rewardsAccumulator
       }
     },
@@ -404,17 +409,12 @@ export default {
             address: $address
             fiatCurrency: $fiatCurrency
           ) {
-            totalRewards
             liquidStake
             totalStake
             totalStakeFiatValue {
               amount
               denom
               symbol
-            }
-            rewards {
-              amount
-              denom
             }
           }
         }
@@ -451,28 +451,9 @@ export default {
             "totalStake",
             data.overview.totalStake
           )
-          sendEvent(
-            {
-              network: this.network,
-              address: this.address
-            },
-            "Portfolio",
-            "Balance",
-            "totalRewards",
-            data.overview.totalRewards
-          )
           this.sentToGA = true
         }
-        if (!data.overview) {
-          return {
-            totalRewards: 0
-          }
-        }
-        return {
-          ...data.overview,
-          totalRewards: Number(data.overview.totalRewards),
-          rewards: data.overview.rewards
-        }
+        return data.overview
       },
       /* istanbul ignore next */
       skip() {
@@ -506,6 +487,36 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
+          fiatCurrency: this.selectedFiatCurrency || "EUR"
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
+      }
+    },
+    rewards: {
+      query: gql`
+        query rewards(
+          $networkId: String!
+          $delegatorAddress: String!
+          $fiatCurrency: String
+        ) {
+          rewards(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            fiatCurrency: $fiatCurrency
+          ) {
+            amount
+            denom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address,
           fiatCurrency: this.selectedFiatCurrency || "EUR"
         }
       },
