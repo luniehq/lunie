@@ -73,8 +73,8 @@
               min="0"
             />
             <TmFormMsg
-              v-if="overview.liquidStake === 0"
-              :msg="`doesn't have any ${network.stakingDenom}s`"
+              v-if="Number(selectedBalance.amount) === 0"
+              :msg="`doesn't have any ${selectedBalance.denom}s`"
               name="Wallet"
               type="custom"
             />
@@ -846,7 +846,6 @@ export default {
       query: gql`
         query OverviewActionModal($networkId: String!, $address: String!) {
           overview(networkId: $networkId, address: $address) {
-            liquidStake
             accountInformation {
               accountNumber
               sequence
@@ -899,7 +898,7 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.session.address || !this.transactionData
+        return !this.session.address || !this.transactionData || this.step === defaultStep.
       }
     },
     $subscribe: {
