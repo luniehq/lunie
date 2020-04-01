@@ -64,7 +64,7 @@ export default class ActionManager {
   }
 
   async sendTxAPI(
-    { userAddress, network, bondDenom, rewards, chainId, account },
+    { userAddress, network, rewards, chainId, account },
     type,
     memo,
     transactionProperties,
@@ -93,7 +93,7 @@ export default class ActionManager {
 
     let txMessages = []
     if (type === transaction.WITHDRAW) {
-      const validators = getTop5RewardsValidators(bondDenom, rewards)
+      const validators = getTop5RewardsValidators(rewards)
       await Promise.all(
         validators.map(async validator => {
           const txMessage = await getMessage(network.id, type, userAddress, {
@@ -148,11 +148,18 @@ function convertCurrencyData(amounts, network) {
 }
 
 // limitation of the Ledger Nano S, so we pick the top 5 rewards and inform the user.
-function getTop5RewardsValidators(bondDenom, rewards) {
+export function getTop5RewardsValidators(rewards) {
+  const mostClaimableToken = rewards.reduce((topRewardToken, reward) => {
+    if (Number(reward.amount) > Number(topRewardToken.amount)) {
+      return reward
+    }
+    return topRewardToken
+  })
   // Compares the amount in a [address1, {denom: amount}] array
-  const byBalance = (a, b) => b.amount - a.amount
+  // sorts by highest reward token and then fills up with other validators
+  const byBalance = (a, b) =>
+    a.denom === mostClaimableToken.denom ? b.amount - a.amount : -1000
   const validatorList = rewards
-    .filter(({ denom }) => denom == bondDenom)
     .sort(byBalance)
     .slice(0, 5) // Just the top 5
     .map(({ validator }) => validator.operatorAddress)

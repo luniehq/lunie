@@ -738,7 +738,6 @@ export default {
             chainId: this.network.chain_id,
             userAddress: this.session.address,
             rewards: this.rewards,
-            bondDenom: this.network.stakingDenom,
             account: this.overview.accountInformation
           },
           type,
