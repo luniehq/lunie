@@ -223,7 +223,6 @@ import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
-import BigNumber from "bignumber.js"
 
 export default {
   name: `tm-balance`,
@@ -358,7 +357,7 @@ export default {
       if (this.rewards && this.rewards.length > 0) {
         return this.rewards
           .filter(({ denom }) => denom === this.stakingDenom)
-          .reduce((sum, { amount }) => BigNumber(sum).plus(amount), 0)
+          .reduce((sum, { amount }) => parseFloat(amount) + sum, 0)
           .toFixed(6)
       }
       return 0
