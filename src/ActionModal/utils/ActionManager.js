@@ -157,7 +157,16 @@ export function getTop5RewardsValidators(rewards) {
         (Number(all[reward.validator.operatorAddress]) || 0)
     }
   }, {})
-  return Object.keys(rewardsPerValidatorObject).reverse()
-  // const rewardsPerValidatorAddresses = Object.entries(rewardsPerValidatorObject)
-  // return rewardsPerValidatorAddresses.map(([a, b]) => {a, b}).sort((a, b) => b - a)
+  const rewardsPerValidatorAddresses = Object.keys(rewardsPerValidatorObject)
+  let rewardsPerValidatorArray = []
+  rewardsPerValidatorAddresses.forEach((validatorAddress, index) => {
+    rewardsPerValidatorArray.push({
+      validator: validatorAddress,
+      totalRewardAmount: Object.values(rewardsPerValidatorObject)[index]
+    })
+  })
+  return rewardsPerValidatorArray
+    .sort((a, b) => b.totalRewardAmount - a.totalRewardAmount)
+    .slice(0, 5)
+    .map(rewardPerValidator => rewardPerValidator.validator)
 }
