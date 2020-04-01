@@ -846,7 +846,6 @@ export default {
       query: gql`
         query OverviewActionModal($networkId: String!, $address: String!) {
           overview(networkId: $networkId, address: $address) {
-            totalRewards
             liquidStake
             accountInformation {
               accountNumber
@@ -864,15 +863,7 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        if (!data.overview) {
-          return {
-            totalRewards: 0
-          }
-        }
-        return {
-          ...data.overview,
-          totalRewards: Number(data.overview.totalRewards)
-        }
+        return data.overview || {}
       },
       /* istanbul ignore next */
       skip() {
