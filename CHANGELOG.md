@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.185] - 2020-04-01
+
+### Added
+
+- [#3475](https://github.com/cosmos/lunie/pull/3475) Adds a feature not present component when the feature just doesn't exist in the network @Bitcoinera
+
+### Changed
+
+- [#3794](https://github.com/cosmos/lunie/pull/3794) Now network capabilities can be handled both as String and as Boolean @Bitcoinera
+- [#3795](https://github.com/cosmos/lunie/pull/3795) Now we query the specifig network gas estimate from the API instead of hardcoding it @Bitcoinera
+- [#3792](https://github.com/cosmos/lunie/pull/3792) Displays on WithdrawRewards modal other tokens rewards when there are no staking denom rewards @Bitcoinera
+- [#3808](https://github.com/cosmos/lunie/pull/3808) Adds coinLookup to the NetworksAll query, necessary in ActionManager for toMicroUnit @Bitcoinera
+- Show all balances the user has rewards with @faboweb
+- [#3676](https://github.com/cosmos/lunie/issues/3676) changed copy in activity footer directing to helpcenter link about viewing past chain data @jrmoreau
+- [#3797](https://github.com/cosmos/lunie/pull/3797) Add Akash bech32 prefix validation and network images @michielmulders
+
+### Fixed
+
+- defaulting to cosmos slug fixed @iambeone
+- [#3805](https://github.com/cosmos/lunie/pull/3805) Fixes routing for both not available and not present components @Bitcoinera
+- Explore mode didn't select the right network @faboweb
+
+### Code Improvements
+
+- Switched pre sign message number conversion to always use API provided conversion rates @faboweb
+
 ## [1.0.184] - 2020-03-30
 
 ### Changed
