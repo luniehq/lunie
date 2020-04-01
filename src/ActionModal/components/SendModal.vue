@@ -92,6 +92,11 @@
         type="numeric"
       />
       <TmFormMsg
+        v-else-if="$v.amount.$error && !$v.amount.max"
+        type="custom"
+        :msg="`You don't have enough ${selectedToken}s to proceed.`"
+      />
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.between"
         :max="$v.amount.$params.between.max"
         :min="$v.amount.$params.between.min"
@@ -247,6 +252,12 @@ export default {
           whitelistedAccount.includes(this.address)
         )
       )
+    },
+    maxAmount() {
+      return this.maxDecimals(
+        this.selectedBalance.amount - this.getTerraTax(true),
+        6
+      )
     }
   },
   watch: {
@@ -296,18 +307,13 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.maxDecimals(
-        this.selectedBalance.amount - this.getTerraTax(true),
-        6
-      )
+      this.amount = this.maxAmount
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
         return false
       } else {
-        return (
-          parseFloat(this.amount) === parseFloat(this.selectedBalance.amount)
-        )
+        return parseFloat(this.amount) === this.maxAmount
       }
     },
     token() {
@@ -360,6 +366,7 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
+        max: x => Number(x) <= this.maxAmount,
         between: between(SMALLEST, this.selectedBalance.amount)
       },
       denoms: { required },
