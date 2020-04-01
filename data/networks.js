@@ -238,7 +238,7 @@ module.exports = [
     enabled: false,
     icon: 'https://app.lunie.io/img/networks/akash-testnet.png',
     slug: 'akash-testnet'
-  },
+  }
   // {
   //   id: 'livepeer-mainnet',
   //   title: 'Livepeer',
