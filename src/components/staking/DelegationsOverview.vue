@@ -1,11 +1,7 @@
 <template>
   <div class="table-container">
     <div
-      v-if="
-        $apollo.queries.delegations.loading &&
-          !delegationsLoaded &&
-          !delegations.length
-      "
+      v-if="$apollo.queries.delegations.loading && !delegationsLoaded"
       class="loading-image-container"
     >
       <img

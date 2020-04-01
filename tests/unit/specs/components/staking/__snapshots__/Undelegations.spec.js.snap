@@ -4,8 +4,6 @@ exports[`Undelegations should show unbonding validators 1`] = `
 <div
   class="table-container"
 >
-  <!---->
-   
   <div
     class="undelegations"
   >

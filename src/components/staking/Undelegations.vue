@@ -1,11 +1,7 @@
 <template>
   <div class="table-container">
     <div
-      v-if="
-        $apollo.queries.undelegations.loading &&
-          !undelegationsLoaded &&
-          !undelegations.length
-      "
+      v-if="$apollo.queries.undelegations.loading && !undelegationsLoaded"
       class="loading-image-container"
     >
       <img
@@ -14,7 +10,7 @@
         alt="geometric placeholder shapes"
       />
     </div>
-    <div v-if="undelegations.length > 0" class="undelegations">
+    <div v-else-if="undelegations.length > 0" class="undelegations">
       <h1>
         Pending
       </h1>
