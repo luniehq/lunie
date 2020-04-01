@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.186] - 2020-04-01
+
+### Fixed
+
+- [#3819](https://github.com/cosmos/lunie/pull/3819) Fixes the getTop5RewardsValidators function logic, to pick unique validators with the highest total rewards balances @Bitcoinera
+- Fixed e2e tests failing for restake as selection wouldn't be waited for @faboweb
+
 ## [1.0.185] - 2020-04-01
 
 ### Added

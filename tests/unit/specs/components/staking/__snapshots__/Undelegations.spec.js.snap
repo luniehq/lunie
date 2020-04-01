@@ -2,16 +2,20 @@
 
 exports[`Undelegations should show unbonding validators 1`] = `
 <div
-  class="undelegations"
+  class="table-container"
 >
-  <h1>
+  <div
+    class="undelegations"
+  >
+    <h1>
+      
+      Pending
     
-    Pending
-  
-  </h1>
-   
-  <tableundelegations-stub
-    undelegations="[object Object],[object Object],[object Object]"
-  />
+    </h1>
+     
+    <tableundelegations-stub
+      undelegations="[object Object],[object Object],[object Object]"
+    />
+  </div>
 </div>
 `;
