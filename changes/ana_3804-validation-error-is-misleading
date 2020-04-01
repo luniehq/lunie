@@ -1,0 +1,1 @@
+[Fixed] [#3804](https://github.com/cosmos/lunie/issues/3804) Fixes triggering correct validation error message ("Wallet doesn't have any balance") for Polkadot @Bitcoinera
