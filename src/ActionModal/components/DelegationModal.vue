@@ -96,7 +96,7 @@
         {{ stakingDenom }}s
       </span>
       <TmFormMsg
-        v-if="balance.amount === '0'"
+        v-if="balance.amount == 0"
         :msg="`doesn't have any ${stakingDenom}s`"
         name="Wallet"
         type="custom"

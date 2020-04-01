@@ -76,7 +76,7 @@
         />
       </TmFieldGroup>
       <TmFormMsg
-        v-if="selectedBalance.amount === 0"
+        v-if="selectedBalance.amount == 0"
         :msg="`doesn't have any ${selectedToken}s`"
         name="Wallet"
         type="custom"

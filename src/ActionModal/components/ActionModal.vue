@@ -73,7 +73,7 @@
               min="0"
             />
             <TmFormMsg
-              v-if="overview.liquidStake === 0"
+              v-if="overview.liquidStake == 0"
               :msg="`doesn't have any ${network.stakingDenom}s`"
               name="Wallet"
               type="custom"

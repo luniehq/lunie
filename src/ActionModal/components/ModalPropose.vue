@@ -79,7 +79,7 @@
         @keyup.enter.native="enterPressed"
       />
       <TmFormMsg
-        v-if="balance.amount === 0"
+        v-if="balance.amount == 0"
         :msg="`doesn't have any ${denom}s`"
         name="Wallet"
         type="custom"
