@@ -19,6 +19,13 @@ module.exports = [
     ...getNetworkCapabilities[`cosmos-hub-testnet`],
     default: false,
     stakingDenom: 'MUON',
+    coinLookup: [
+      {
+        chainDenom: 'umuon',
+        viewDenom: 'MUON',
+        chainToViewConversionFactor: 1e-6
+      }
+    ],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/cosmos-hub-mainnet.png',
     slug: 'cosmos-hub-testnet',
@@ -46,6 +53,13 @@ module.exports = [
     ...getNetworkCapabilities[`cosmos-hub-mainnet`],
     default: true,
     stakingDenom: 'ATOM',
+    coinLookup: [
+      {
+        chainDenom: 'uatom',
+        viewDenom: 'ATOM',
+        chainToViewConversionFactor: 1e-6
+      }
+    ],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/cosmos-hub-mainnet.png',
     slug: 'cosmos-hub',
@@ -73,6 +87,13 @@ module.exports = [
     ...getNetworkCapabilities[`terra-mainnet`],
     default: false,
     stakingDenom: 'LUNA',
+    coinLookup: [
+      {
+        chainDenom: 'uluna',
+        viewDenom: 'LUNA',
+        chainToViewConversionFactor: 1e-6
+      }
+    ],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/terra-mainnet.png',
     slug: 'terra'
@@ -94,6 +115,13 @@ module.exports = [
     ...getNetworkCapabilities[`terra-testnet`],
     default: false,
     stakingDenom: 'LUNA',
+    coinLookup: [
+      {
+        chainDenom: 'uluna',
+        viewDenom: 'LUNA',
+        chainToViewConversionFactor: 1e-6
+      }
+    ],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/terra-testnet.png',
     slug: 'terra-testnet'
@@ -115,6 +143,13 @@ module.exports = [
     ...getNetworkCapabilities[`emoney-mainnet`],
     default: false,
     stakingDenom: 'NGM',
+    coinLookup: [
+      {
+        chainDenom: 'ungm',
+        viewDenom: 'NGM',
+        chainToViewConversionFactor: 1e-6
+      }
+    ],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/emoney-mainnet.png',
     slug: 'emoney'
@@ -136,6 +171,13 @@ module.exports = [
     ...getNetworkCapabilities[`emoney-testnet`],
     default: false,
     stakingDenom: 'NGM',
+    coinLookup: [
+      {
+        chainDenom: 'ungm',
+        viewDenom: 'NGM',
+        chainToViewConversionFactor: 1e-6
+      }
+    ],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/emoney-testnet.png',
     slug: 'emoney-testnet'
@@ -185,11 +227,18 @@ module.exports = [
     testnet: true,
     ...getNetworkCapabilities[`akash-testnet`],
     default: false,
-    stakingDenom: 'STAKE',
+    stakingDenom: 'STAKE', // this is only in my private testnet
+    coinLookup: [
+      {
+        chainDenom: 'uakt',
+        viewDenom: 'AKT',
+        chainToViewConversionFactor: 1e-6
+      }
+    ],
     enabled: false,
     icon: 'https://app.lunie.io/img/networks/akash-testnet.png',
     slug: 'akash-testnet'
-  },
+  }
   // {
   //   id: 'livepeer-mainnet',
   //   title: 'Livepeer',
