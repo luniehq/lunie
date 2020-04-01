@@ -7,6 +7,7 @@ on:
 jobs:
   createReleasePR:
     name: createReleasePR
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js
