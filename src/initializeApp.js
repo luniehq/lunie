@@ -11,11 +11,13 @@ import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
 
 // remove any existing service worker
-navigator.serviceWorker.getRegistrations().then(function(registrations) {
-  for (let registration of registrations) {
-    registration.unregister()
-  }
-})
+if (navigator && navigator.serviceWorker) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for (let registration of registrations) {
+      registration.unregister()
+    }
+  })
+}
 
 function setOptions(urlParams, store) {
   if (urlParams.experimental) {
