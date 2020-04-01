@@ -14,7 +14,8 @@ const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
 }
 
 const terraGasEstimates = {
-    default: 300000
+    default: 300000,
+    ClaimRewardsTx: 550000
 }
 
 const cosmosGasEstimates = {
