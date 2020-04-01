@@ -240,6 +240,7 @@ export default {
     return {
       overview: {},
       sentToGA: false,
+      rewardsSentToGA: false,
       balances: [],
       showTutorial: false,
       rewards: [],
@@ -355,10 +356,15 @@ export default {
     },
     totalRewards() {
       if (this.rewards && this.rewards.length > 0) {
-        return this.rewards
+        const totalRewards = this.rewards
           .filter(({ denom }) => denom === this.stakingDenom)
           .reduce((sum, { amount }) => parseFloat(amount) + sum, 0)
           .toFixed(6)
+        if (!this.rewardsSentToGA) {
+          this.sendRewards(totalRewards)
+        }
+
+        return totalRewards
       }
       return 0
     }
@@ -383,6 +389,20 @@ export default {
     setPreferredCurrency() {
       localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
       this.preferredCurrency = this.selectedFiatCurrency
+    },
+    sendRewards(totalRewards) {
+      // sending to ga only once
+      sendEvent(
+        {
+          network: this.network,
+          address: this.address
+        },
+        "Portfolio",
+        "Balance",
+        "totalRewards",
+        totalRewards
+      )
+      this.rewardsSentToGA = true
     }
   },
   apollo: {
