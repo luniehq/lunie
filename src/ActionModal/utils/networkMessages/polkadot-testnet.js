@@ -22,14 +22,10 @@ export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
   // stake with all existing plus the selected
   const api = await getAPI()
   const response = await api.query.staking.nominators(senderAddress)
-  const { targets: delegatedValidators } = response.toJSON()
+  const { targets: delegatedValidators = [] } = response.toJSON() || {}
   const transactions = []
   if (amount > 0) {
-    transactions.push(
-      await api.tx.staking.bondExtra(
-        amount
-      )
-    )
+    transactions.push(await api.tx.staking.bondExtra(amount))
   }
   if (
     !delegatedValidators.find(
