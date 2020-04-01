@@ -1,1 +1,0 @@
-[Changed] [#3808](https://github.com/cosmos/lunie/pull/3808) Adds coinLookup to the NetworksAll query, necessary in ActionManager for toMicroUnit @Bitcoinera
