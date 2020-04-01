@@ -130,6 +130,11 @@ export const NetworksAll = gql`
       ledger_app
       testnet
       enabled
+      coinLookup {
+        chainDenom
+        viewDenom
+        chainToViewConversionFactor
+      }
     }
   }
 `
