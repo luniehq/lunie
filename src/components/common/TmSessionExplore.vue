@@ -190,6 +190,7 @@ export default {
         param.substring(0, 6) === "terra1" ||
         param.substring(0, 5) === "xrn:1" ||
         param.substring(0, 7) === "emoney1" ||
+        param.substring(0, 6) === "akash1" ||
         param.substring(0, 2) === "0x" ||
         this.isPolkadotAddress(param)
       ) {

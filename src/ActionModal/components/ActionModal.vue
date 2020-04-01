@@ -17,9 +17,9 @@
         <i class="material-icons notranslate">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">{{
-          requiresSignIn ? `Sign in required` : title
-        }}</span>
+        <span class="action-modal-title">
+          {{ requiresSignIn ? `Sign in required` : title }}
+        </span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -196,7 +196,7 @@
           v-else-if="step === successStep"
           class="action-modal-form success-step"
         >
-          <TmDataMsg icon="check" :success="true">
+          <TmDataMsg icon="check" icon-color="var(--green)" :success="true">
             <div slot="title">{{ notifyMessage.title }}</div>
             <div slot="subtitle">
               {{ notifyMessage.body }}
@@ -733,12 +733,11 @@ export default {
         await this.$apollo.queries.overview.refetch()
         const hashResult = await this.actionManager.sendTxAPI(
           {
-            networkId: this.network.id,
+            network: this.network,
             networkType: this.network.network_type,
             chainId: this.network.chain_id,
             userAddress: this.session.address,
             rewards: this.rewards,
-            bondDenom: this.network.stakingDenom,
             account: this.overview.accountInformation
           },
           type,

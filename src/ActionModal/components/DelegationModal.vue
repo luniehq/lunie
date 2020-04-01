@@ -132,7 +132,7 @@
 import { mapState, mapGetters } from "vuex"
 import { between, decimal } from "vuelidate/lib/validators"
 import gql from "graphql-tag"
-import { uatoms, SMALLEST } from "src/scripts/num"
+import { toMicroUnit, SMALLEST } from "src/scripts/num"
 import TmField from "src/components/common/TmField"
 import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
@@ -178,7 +178,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`network`, `address`, `stakingDenom`]),
+    ...mapGetters([`network`, `networks`, `address`, `stakingDenom`]),
     toOptions() {
       return this.validators
         .filter(
@@ -239,14 +239,22 @@ export default {
           type: transactionTypes.REDELEGATE,
           validatorSourceAddress: this.from,
           validatorDestinationAddress: this.targetValidator.operatorAddress,
-          amount: uatoms(this.amount),
+          amount: toMicroUnit(
+            this.amount,
+            this.stakingDenom,
+            this.networks.find(({ id }) => id === this.network)
+          ),
           denom: toMicroDenom(this.stakingDenom)
         }
       } else {
         return {
           type: transactionTypes.DELEGATE,
           validatorAddress: this.targetValidator.operatorAddress,
-          amount: uatoms(this.amount),
+          amount: toMicroUnit(
+            this.amount,
+            this.stakingDenom,
+            this.networks.find(({ id }) => id === this.network)
+          ),
           denom: toMicroDenom(this.stakingDenom)
         }
       }

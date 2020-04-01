@@ -24,8 +24,16 @@ describe(`UndelegationModal`, () => {
       dispatch: jest.fn(),
       getters: {
         network: "testnet",
-        address: "cosmos12345",
-        stakingDenom: "STAKE"
+        networks: [
+          {
+            id: "testnet",
+            coinLookup: [
+              { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
+            ]
+          }
+        ],
+        stakingDenom: "STAKE",
+        address: "cosmos12345"
       }
     }
     wrapper = shallowMount(UndelegationModal, {
