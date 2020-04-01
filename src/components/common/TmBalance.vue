@@ -381,16 +381,6 @@ export default {
     hideTutorial() {
       this.showTutorial = false
     },
-    calculateTotalRewardsDenom(denom) {
-      if (this.rewards && this.rewards.length > 0) {
-        const rewardsAccumulator = this.rewards.reduce((sum, reward) => {
-          return reward.denom === denom
-            ? (sum += parseFloat(reward.amount))
-            : sum
-        }, 0)
-        return rewardsAccumulator
-      }
-    },
     setPreferredCurrency() {
       localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
       this.preferredCurrency = this.selectedFiatCurrency

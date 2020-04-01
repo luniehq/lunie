@@ -57,6 +57,10 @@ describe(`TmBalance`, () => {
         {
           amount: 1.5,
           denom: `TOKEN1`
+        },
+        {
+          amount: 5,
+          denom: `ATOM`
         }
       ]
     })
@@ -165,6 +169,10 @@ describe(`TmBalance`, () => {
     }
     TmBalance.methods.setPreferredCurrency.call(self)
     expect(localStorage.getItem(`preferredCurrency`, `USD`))
+  })
+
+  it(`should calculate the total rewards amount `, () => {
+    expect(wrapper.vm.totalRewards).toBe(`5.000000`)
   })
 
   it(`should calculate the total rewards amount for each denom when rewards contain multiple denoms`, () => {

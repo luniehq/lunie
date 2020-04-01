@@ -92,7 +92,12 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       <div
         class="table-cell rewards"
       >
-        <!---->
+        <h2>
+          
+          +5
+          ATOM
+        
+        </h2>
       </div>
        
       <div
@@ -294,7 +299,12 @@ exports[`TmBalance show the balance header when signed in 1`] = `
       <div
         class="table-cell rewards"
       >
-        <!---->
+        <h2>
+          
+          +5
+          ATOM
+        
+        </h2>
       </div>
        
       <div
