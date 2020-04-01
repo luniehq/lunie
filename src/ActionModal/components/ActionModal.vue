@@ -866,7 +866,7 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.session.address
+        return !this.session.address || this.step !== signStep
       }
     },
     gasEstimate: {
@@ -898,7 +898,11 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.session.address || !this.transactionData || this.step === defaultStep.
+        return (
+          !this.session.address ||
+          !this.transactionData ||
+          this.step !== feeStep
+        )
       }
     },
     $subscribe: {
