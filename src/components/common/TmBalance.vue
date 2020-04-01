@@ -309,7 +309,8 @@ export default {
         rewards
           .filter(
             ([rewardDenom]) =>
-              !filteredBalances.find(({ denom }) => rewardDenom === denom)
+              !filteredBalances.find(({ denom }) => rewardDenom === denom) &&
+              rewardDenom !== this.stakingDenom
           )
           .map(([denom]) => ({
             denom,

@@ -1,0 +1,2 @@
+[Fixed] Fix submitted rewards to extension being too long @faboweb
+[Fixed] Fix staking denom showing double in balances if rewards present @faboweb
