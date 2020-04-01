@@ -1,0 +1,1 @@
+[Fixed] [#3820](https://github.com/cosmos/lunie/pull/3820) Fixes undelegations disappearing one day before the funds getting released (i.e. undelegations too short for one day) @Bitcoinera
