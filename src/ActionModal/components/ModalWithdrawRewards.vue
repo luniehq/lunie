@@ -81,7 +81,10 @@ export default {
       if (this.totalRewards.length === 0) return {}
       return {
         type: transactionTypes.WITHDRAW,
-        amounts: this.totalRewards
+        amounts: this.totalRewards.map(({ amount, denom }) => ({
+          denom,
+          amount: Number(fullDecimals(amount))
+        }))
       }
     },
     top5Validators() {
