@@ -64,24 +64,35 @@ async function waitForText(
   browser,
   selector,
   expectedCaption,
-  iterations,
-  timeout
+  iterations = 20,
+  timeout = 300
 ) {
-  await waitFor(
-    async () => {
-      await browser.waitForElementVisible(selector, 10000)
-      const result = await browser.getText(selector)
-      if (!result.errors) {
-        expect(result.value).to.include(expectedCaption)
-      }
+  return await browser.execute(
+    function(selector, expectedCaption, timeout, iterations) {
+      return new Promise((resolve, reject) => {
+        // async await doesn't work in execute
+        const iteration = () => {
+          if (!iterations--) {
+            reject("Timed out waiting for element and caption")
+            return
+          }
+          const element = document.querySelector(selector)
+          if (!element || element.innerText.indexOf(expectedCaption) === -1) {
+            setTimeout(iteration, timeout)
+            return
+          }
+          resolve()
+        }
+        iteration()
+      })
     },
-    iterations,
-    timeout
+    [selector, expectedCaption, timeout, iterations]
   )
 }
 
 async function getLastActivityItemHash(browser) {
   return await browser.execute(function() {
+    // async await doesn't work in execute
     return new Promise(resolve => {
       let attempts = 5
       let step = 1
