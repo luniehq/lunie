@@ -1,9 +1,21 @@
 <template>
-  <div v-if="undelegations && undelegations.length > 0" class="undelegations">
-    <h1>
-      Pending
-    </h1>
-    <TableUndelegations :undelegations="undelegations" />
+  <div class="table-container">
+    <div
+      v-if="$apollo.queries.undelegations.loading && !undelegations.length"
+      class="loading-image-container"
+    >
+      <img
+        class="loading-image"
+        src="/img/portfolio-loading.svg"
+        alt="geometric placeholder shapes"
+      />
+    </div>
+    <div v-if="undelegations.length > 0" class="undelegations">
+      <h1>
+        Pending
+      </h1>
+      <TableUndelegations :undelegations="undelegations" />
+    </div>
   </div>
 </template>
 
