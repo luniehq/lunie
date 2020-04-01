@@ -310,7 +310,7 @@ export default {
           .filter(
             ([rewardDenom]) =>
               !filteredBalances.find(({ denom }) => rewardDenom === denom) &&
-              !this.stakingDenom
+              rewardDenom !== this.stakingDenom
           )
           .map(([denom]) => ({
             denom,
