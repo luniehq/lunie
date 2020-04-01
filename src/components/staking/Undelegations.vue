@@ -1,12 +1,5 @@
 <template>
-  <div
-    v-if="
-      !$apollo.queries.undelegations.loading &&
-        undelegations &&
-        undelegations.length > 0
-    "
-    class="undelegations"
-  >
+  <div v-if="undelegations && undelegations.length > 0" class="undelegations">
     <h1>
       Pending
     </h1>
