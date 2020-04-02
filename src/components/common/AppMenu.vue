@@ -203,7 +203,7 @@ export default {
       this.$store.dispatch(`signOut`, this.network)
     },
     signIn() {
-      this.$router.push(`/welcome`)
+      this.$router.push(`portfolio`)
       this.$emit(`close`)
     },
     async showAddressOnLedger() {
