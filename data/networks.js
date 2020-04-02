@@ -210,35 +210,35 @@ module.exports = [
     enabled: false,
     icon: 'https://app.lunie.io/img/networks/polkadot-testnet.png',
     slug: 'kusama'
-  },
-  {
-    id: 'akash-testnet',
-    title: 'Akash Testnet',
-    chain_id: 'devnet',
-    api_url: 'http://95.179.133.80:8080',
-    rpc_url: 'wss://95.179.133.80:26657/websocket',
-    bech32_prefix: 'akash',
-    address_prefix: 'akash',
-    address_creator: 'cosmos',
-    ledger_app: 'cosmos',
-    network_type: 'cosmos',
-    source_class_name: 'source/akashV0-source',
-    block_listener_class_name: 'block-listeners/cosmos-node-subscription',
-    testnet: true,
-    ...getNetworkCapabilities[`akash-testnet`],
-    default: false,
-    stakingDenom: 'STAKE', // this is only in my private testnet
-    coinLookup: [
-      {
-        chainDenom: 'uakt',
-        viewDenom: 'AKT',
-        chainToViewConversionFactor: 1e-6
-      }
-    ],
-    enabled: false,
-    icon: 'https://app.lunie.io/img/networks/akash-testnet.png',
-    slug: 'akash-testnet'
   }
+  // {
+  //   id: 'akash-testnet',
+  //   title: 'Akash Testnet',
+  //   chain_id: 'devnet',
+  //   api_url: 'http://95.179.133.80:8080',
+  //   rpc_url: 'wss://95.179.133.80:26657/websocket',
+  //   bech32_prefix: 'akash',
+  //   address_prefix: 'akash',
+  //   address_creator: 'cosmos',
+  //   ledger_app: 'cosmos',
+  //   network_type: 'cosmos',
+  //   source_class_name: 'source/akashV0-source',
+  //   block_listener_class_name: 'block-listeners/cosmos-node-subscription',
+  //   testnet: true,
+  //   ...getNetworkCapabilities[`akash-testnet`],
+  //   default: false,
+  //   stakingDenom: 'STAKE', // this is only in my private testnet
+  //   coinLookup: [
+  //     {
+  //       chainDenom: 'uakt',
+  //       viewDenom: 'AKT',
+  //       chainToViewConversionFactor: 1e-6
+  //     }
+  //   ],
+  //   enabled: false,
+  //   icon: 'https://app.lunie.io/img/networks/akash-testnet.png',
+  //   slug: 'akash-testnet'
+  // }
   // {
   //   id: 'livepeer-mainnet',
   //   title: 'Livepeer',
