@@ -1,3 +1,4 @@
+const { getNetworkCapabilities } = require('./network-capabilities')
 const config = require('../config')
 
 module.exports = [
@@ -15,21 +16,7 @@ module.exports = [
     source_class_name: 'source/cosmosV2-source',
     block_listener_class_name: 'block-listeners/cosmos-node-subscription',
     testnet: true,
-    feature_explore: true,
-    feature_session: true,
-    feature_portfolio: true,
-    feature_validators: true,
-    feature_proposals: true,
-    feature_activity: true,
-    feature_explorer: true,
-    action_send: true,
-    action_claim_rewards: true,
-    action_delegate: true,
-    action_redelegate: true,
-    action_undelegate: true,
-    action_deposit: true,
-    action_vote: true,
-    action_proposal: true,
+    ...getNetworkCapabilities[`local-cosmos-hub-testnet`],
     experimental: true,
     stakingDenom: 'STAKE',
     enabled: true,
