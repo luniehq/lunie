@@ -243,8 +243,7 @@ export default {
 .tm-li-session {
   display: flex;
   padding: 1rem;
-  margin-bottom: 0.25rem;
-  border: 2px solid var(--bc);
+  margin: 0.5rem 0;
   background-color: var(--app-fg);
   border-radius: 0.25rem;
 }

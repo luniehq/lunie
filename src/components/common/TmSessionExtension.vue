@@ -90,10 +90,3 @@ export default {
   }
 }
 </script>
-<style scoped>
-.session-title,
-.extension-message {
-  padding: 0 1rem;
-  margin: 0;
-}
-</style>
