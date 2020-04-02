@@ -346,6 +346,9 @@ export default {
     },
     totalRewardsPerDenom() {
       if (this.rewards && this.rewards.length > 0) {
+        if (!this.rewardsSentToGA) {
+          this.sendRewards(this.totalRewards)
+        }
         return this.rewards.reduce((all, reward) => {
           return {
             ...all,
@@ -360,10 +363,6 @@ export default {
           .filter(({ denom }) => denom === this.stakingDenom)
           .reduce((sum, { amount }) => parseFloat(amount) + sum, 0)
           .toFixed(6)
-        if (!this.rewardsSentToGA) {
-          this.sendRewards(totalRewards)
-        }
-
         return totalRewards
       }
       return 0
