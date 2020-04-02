@@ -2,7 +2,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import AppMenu from "common/AppMenu"
 
 const localVue = createLocalVue()
-localVue.directive(`tooltip`, () => {})
+localVue.directive(`tooltip`, () => { })
 
 describe(`AppMenu`, () => {
   let $store
@@ -32,11 +32,11 @@ describe(`AppMenu`, () => {
     })
   })
 
-  it(`opens the session modal for a sign in`, () => {
+  it(`goes to portfolio page to see sign in options`, () => {
     const $store = { commit: jest.fn(), $emit: jest.fn() }
     const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
     AppMenu.methods.signIn.call(self)
-    expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
+    expect(self.$router.push).toHaveBeenCalledWith(`portfolio`)
   })
 
   it(`call dispatch to sign the user out`, () => {
