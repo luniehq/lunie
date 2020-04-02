@@ -1,0 +1,16 @@
+name: Update version in DB
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  createReleasePR:
+    name: createReleasePR
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+    - name: Update version
+      run: VERSION_INSTANCE=production-frontend HASURA_URL=${{ secrets.HASURA_URL }} HASURA_ADMIN_KEY=${{ secrets.HASURA_ADMIN_KEY }} node tasks/write-version.js
