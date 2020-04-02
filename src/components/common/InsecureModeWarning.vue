@@ -1,6 +1,6 @@
 <template>
   <div>
-    There a number of ways to create an address with Lunie.
+    <p>There are a number of ways to create an address with Lunie.</p>
     <p
       v-if="
         connection.network === 'cosmos-hub-mainnet' ||
@@ -40,7 +40,6 @@
       </li>
     </ul>
 
-    <router-link to="existing">Want to use an existing address?</router-link>
     <ModalTutorial
       v-if="
         showTutorial &&

@@ -212,7 +212,7 @@ export default {
       if (addressType === "explore") return `Explore Mode`
       if (addressType === "ledger") return `Ledger Nano S`
       if (addressType === "extension") return `Lunie Browser Extension`
-      if (addressType === "local") return `Mobile App`
+      if (addressType === "local") return `Local`
     },
     async exploreWith(address) {
       this.address = address
