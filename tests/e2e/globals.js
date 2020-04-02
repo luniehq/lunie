@@ -77,7 +77,7 @@ async function next(browser) {
 
 async function createNewAccount(browser, networkData) {
   return browser.url(
-    browser.launch_url + "/welcome?insecure=true",
+    browser.launch_url + "/portfolio?insecure=true",
     async () => {
       await browser.waitForElementVisible(`body`, 10000, true)
       await browser.click("#create-new-address")

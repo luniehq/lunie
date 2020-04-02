@@ -23,16 +23,6 @@ export default (apollo, store) => {
       }
     },
     {
-      path: `/welcome`,
-      name: `welcome`,
-      components: {
-        session: () => import(`./components/common/TmSessionWelcome`)
-      },
-      meta: {
-        feature: "Session"
-      }
-    },
-    {
       path: `/login`,
       name: `login`,
       components: {
@@ -173,7 +163,7 @@ export default (apollo, store) => {
     {
       path: `/extension/:address/:network`,
       name: `extension-signin`,
-      beforeEnter: function(to, from, next) {
+      beforeEnter: function (to, from, next) {
         /* istanbul ignore next */
         return extensionSignIn({ to, from, next }, apollo, store)
       }
