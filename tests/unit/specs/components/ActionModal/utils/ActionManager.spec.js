@@ -71,8 +71,11 @@ describe("ActionManager", () => {
   // values passed in from the ActionModal component
   const defaultContext = {
     chainId: "cosmos",
-    networkId: "cosmos-hub-testnet",
-    networkType: "cosmos",
+    network: {
+      id: "cosmos-hub-testnet",
+      coinLookup: [{ viewDenom: "uatom" }],
+      network_type: "cosmos"
+    },
     connected: true,
     userAddress: "cosmos12345",
     rewards: [

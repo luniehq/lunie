@@ -129,6 +129,66 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
         </div>
       </div>
        
+      <div
+        class="table-cell big"
+      >
+        <img
+          alt="TOKEN1 currency"
+          class="currency-flag"
+          src="/img/icons/currencies/oken1.png"
+        />
+         
+        <div
+          class="total-and-fiat"
+        >
+          <span
+            class="total"
+          >
+            
+              0
+              TOKEN1
+            
+          </span>
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="table-cell rewards"
+      >
+        <h2>
+          
+            +4.5
+            TOKEN1
+          
+        </h2>
+      </div>
+       
+      <div
+        class="table-cell available"
+      />
+       
+      <div
+        class="table-cell actions"
+      >
+        <div
+          class="icon-button-container"
+        >
+          <button
+            class="icon-button"
+          >
+            <i
+              class="material-icons"
+            >
+              send
+            </i>
+          </button>
+          <span>
+            Send
+          </span>
+        </div>
+      </div>
     </div>
      
     <sendmodal-stub
@@ -276,6 +336,66 @@ exports[`TmBalance show the balance header when signed in 1`] = `
         </div>
       </div>
        
+      <div
+        class="table-cell big"
+      >
+        <img
+          alt="TOKEN1 currency"
+          class="currency-flag"
+          src="/img/icons/currencies/oken1.png"
+        />
+         
+        <div
+          class="total-and-fiat"
+        >
+          <span
+            class="total"
+          >
+            
+              0
+              TOKEN1
+            
+          </span>
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="table-cell rewards"
+      >
+        <h2>
+          
+            +4.5
+            TOKEN1
+          
+        </h2>
+      </div>
+       
+      <div
+        class="table-cell available"
+      />
+       
+      <div
+        class="table-cell actions"
+      >
+        <div
+          class="icon-button-container"
+        >
+          <button
+            class="icon-button"
+          >
+            <i
+              class="material-icons"
+            >
+              send
+            </i>
+          </button>
+          <span>
+            Send
+          </span>
+        </div>
+      </div>
     </div>
      
     <sendmodal-stub

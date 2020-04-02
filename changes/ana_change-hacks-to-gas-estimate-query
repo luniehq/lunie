@@ -1,1 +1,0 @@
-[Changed] [#3795](https://github.com/cosmos/lunie/pull/3795) Now we query the specifig network gas estimate from the API instead of hardcoding it @Bitcoinera
