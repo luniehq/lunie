@@ -2,9 +2,10 @@
 
 exports[`InsecureModeWarning has the expected html structure 1`] = `
 <div>
-  
-  There a number of ways to create an address with Lunie.
-  
+  <p>
+    There are a number of ways to create an address with Lunie.
+  </p>
+   
   <p>
     
     We'd recommend starting with our guide:
@@ -62,12 +63,6 @@ exports[`InsecureModeWarning has the expected html structure 1`] = `
       </a>
     </li>
   </ul>
-   
-  <router-link-stub
-    to="existing"
-  >
-    Want to use an existing address?
-  </router-link-stub>
    
   <!---->
 </div>
