@@ -5,7 +5,7 @@
   z-index: var(--z-modal);
   width: 100vw;
   height: 100%;
-  background: var(--app-nav-light);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,13 +29,14 @@
   border-radius: 2px;
   padding: 2rem;
   position: relative;
-  border: 2px solid var(--bc-dim);
   overflow: auto;
 }
 
 .session-header {
-  padding: 1rem 1rem 0;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
 }
 
 .session-header p {
@@ -52,7 +53,7 @@
 
 .session-title {
   font-size: var(--h1);
-  line-height: 44px;
+  line-height: 42px;
   color: var(--bright);
   font-weight: 500;
   padding: 0.5rem 0 1rem 0;
@@ -87,12 +88,6 @@
   align-items: center;
 }
 
-.session-close {
-  position: absolute;
-  right: 1.25rem;
-  top: 1.25rem;
-}
-
 .session-footer {
   display: flex;
   justify-content: flex-end;
@@ -106,16 +101,6 @@
 .footnote {
   padding: 1rem 1rem 0;
   font-size: var(--sm);
-}
-
-.component-fade-enter-active,
-.component-fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.component-fade-enter,
-.component-fade-leave-to .component-fade-leave-active {
-  opacity: 0;
 }
 
 .session-logo-mobile {
@@ -132,24 +117,6 @@
 
 .accounts-header {
   padding: 0 1rem;
-}
-
-.user-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
-
-.user-box i {
-  padding: 0.25rem;
-  border-radius: 50%;
-  background: var(--bc-dim);
-  color: var(--dim);
-}
-
-.user-box i:hover {
-  background: var(--bc);
 }
 
 .session .material-icons.circle.back {
@@ -171,9 +138,9 @@
     display: none;
   }
 
-  .session-close-mobile {
+  /* .session-close-mobile {
     display: none;
-  }
+  } */
 
   .session-paragraph {
     display: none;
@@ -183,16 +150,12 @@
 @media screen and (max-width: 666px) {
   .session {
     height: 100vh;
-    padding: 3rem 1rem 1rem;
+    padding: 2rem 1rem 1rem;
     max-width: 100%;
   }
 
   .session-frame {
     max-width: 100%;
-  }
-
-  .bottom-indent {
-    margin-bottom: 60px;
   }
 
   .bottom-indent.reorder {
@@ -233,16 +196,6 @@
 
   .session-close-mobile i {
     font-size: 1.25rem;
-  }
-
-  .session-close {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 1023px) {
-  .session-close .session-close-button {
-    display: none;
   }
 }
 
