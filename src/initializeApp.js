@@ -44,9 +44,9 @@ export default async function init(urlParams, env = process.env) {
 
   const store = Store({ apollo: apolloClient })
 
-  const router = Router(apolloClient, store)
+  const router = Router(store)
   setGoogleAnalyticsPage(router.currentRoute.path)
-  router.beforeEach(routeGuard(store, apolloClient))
+  router.beforeEach(routeGuard(store))
   router.afterEach(to => {
     /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
