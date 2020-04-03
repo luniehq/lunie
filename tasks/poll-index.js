@@ -1,5 +1,5 @@
 /*
- * this script polls the Lunie site every 10 seconds and extracts its etag to check if there has been 
+ * this script polls the Lunie site every minute and extracts its etag to check if there has been 
  * any new Lunie versions deployed on Netlify while the user had the app open on the browser
  * 
  * Usage:
@@ -29,5 +29,5 @@ setInterval(() => {
             window.location.reload(true)
         }
     })
-    // The check for new versions is repeated every 10 seconds
-}, 10000)
+    // The check for new versions is repeated every minute
+}, 60000)
