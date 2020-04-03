@@ -1,7 +1,7 @@
 "use strict"
 import * as Sentry from "@sentry/browser"
 
-export const setNetwork = async ({ to, next }, apollo, store) => {
+export const setNetwork = async ({ to, next }, store) => {
   // networks are loaded async so we may need to wait for them
   while (store.getters.networks.length === 0) {
     await new Promise(resolve => setTimeout(resolve, 100))
@@ -51,6 +51,7 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
       await store.dispatch(`setNetwork`, network)
       next(`/${network.slug}${path}`)
     }
+
     // no network is set so we set the default
     if (!to.params.networkId || to.params.networkId === "default") {
       // swithing to current network
