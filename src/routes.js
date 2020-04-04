@@ -173,7 +173,7 @@ export default (apollo, store) => {
     {
       path: `/extension/:address/:network`,
       name: `extension-signin`,
-      beforeEnter: function (to, from, next) {
+      beforeEnter: function(to, from, next) {
         /* istanbul ignore next */
         return extensionSignIn({ to, from, next }, apollo, store)
       }

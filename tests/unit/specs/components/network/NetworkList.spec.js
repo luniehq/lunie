@@ -27,7 +27,7 @@ describe(`NetworkList`, () => {
     $store = {
       dispatch: jest.fn(),
       getters: {
-        network: `cosmoshub`,
+        network: `cosmoshub`
       }
     }
     wrapper = shallowMount(NetworkList, {
@@ -69,10 +69,9 @@ describe(`NetworkList`, () => {
 
   it(`sets the network the user selects`, async () => {
     await wrapper.vm.selectNetworkHandler({ id: `emilys-chain` })
-    expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`,
-      {
-        id: `emilys-chain`
-      })
+    expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: `emilys-chain`
+    })
   })
 
   it(`does not change network when the network is already selected`, async () => {
