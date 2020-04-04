@@ -345,7 +345,7 @@ export default {
       )
     },
     totalRewardsPerDenom() {
-      if (this.rewards && this.rewards.length > 0) {
+      if (this.rewards && this.rewards.length > 0 && this.totalRewards) {
         if (!this.rewardsSentToGA) {
           this.sendRewards(this.totalRewards)
         }
