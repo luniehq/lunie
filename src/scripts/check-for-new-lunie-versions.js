@@ -14,18 +14,13 @@ const checkForNewLunieVersions = () => {
   let loaded = false
 
   setInterval(() => {
-    fetch("https://app.lunie.io", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
-      }
-    }).then(result => {
-      console.log("current etag", result.headers._headers.etag[0])
+    fetch("https://app.lunie.io").then(result => {
+      console.log("Current Etag", result.headers._headers.etag[0])
       if (!loaded) {
         currentEtag = result.headers._headers.etag[0]
         loaded = true
       }
+      console.log("Client Etag", currentEtag)
       if (currentEtag !== result.headers._headers.etag[0]) {
         console.log("Outdated Lunie version detected! Refreshing...")
         // the client has an outdated version. We need to refresh the browser to get the latest changes (and chunks)
