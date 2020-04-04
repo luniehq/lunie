@@ -1,4 +1,5 @@
 const { getNetworkCapabilities } = require('./network-capabilities')
+const { coinLookupDictionary } = require('./network-coinlookups')
 
 module.exports = [
   {
@@ -19,13 +20,7 @@ module.exports = [
     ...getNetworkCapabilities[`cosmos-hub-testnet`],
     default: false,
     stakingDenom: 'MUON',
-    coinLookup: [
-      {
-        chainDenom: 'umuon',
-        viewDenom: 'MUON',
-        chainToViewConversionFactor: 1e-6
-      }
-    ],
+    coinLookup: coinLookupDictionary[`cosmos-hub-testnet`],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/cosmos-hub-mainnet.png',
     slug: 'cosmos-hub-testnet',
@@ -53,13 +48,7 @@ module.exports = [
     ...getNetworkCapabilities[`cosmos-hub-mainnet`],
     default: true,
     stakingDenom: 'ATOM',
-    coinLookup: [
-      {
-        chainDenom: 'uatom',
-        viewDenom: 'ATOM',
-        chainToViewConversionFactor: 1e-6
-      }
-    ],
+    coinLookup: coinLookupDictionary[`cosmos-hub-mainnet`],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/cosmos-hub-mainnet.png',
     slug: 'cosmos-hub',
@@ -87,13 +76,7 @@ module.exports = [
     ...getNetworkCapabilities[`terra-mainnet`],
     default: false,
     stakingDenom: 'LUNA',
-    coinLookup: [
-      {
-        chainDenom: 'uluna',
-        viewDenom: 'LUNA',
-        chainToViewConversionFactor: 1e-6
-      }
-    ],
+    coinLookup: coinLookupDictionary[`terra-mainnet`],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/terra-mainnet.png',
     slug: 'terra'
@@ -115,13 +98,7 @@ module.exports = [
     ...getNetworkCapabilities[`terra-testnet`],
     default: false,
     stakingDenom: 'LUNA',
-    coinLookup: [
-      {
-        chainDenom: 'uluna',
-        viewDenom: 'LUNA',
-        chainToViewConversionFactor: 1e-6
-      }
-    ],
+    coinLookup: coinLookupDictionary[`terra-testnet`],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/terra-testnet.png',
     slug: 'terra-testnet'
@@ -143,13 +120,7 @@ module.exports = [
     ...getNetworkCapabilities[`emoney-mainnet`],
     default: false,
     stakingDenom: 'NGM',
-    coinLookup: [
-      {
-        chainDenom: 'ungm',
-        viewDenom: 'NGM',
-        chainToViewConversionFactor: 1e-6
-      }
-    ],
+    coinLookup: coinLookupDictionary[`emoney-mainnet`],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/emoney-mainnet.png',
     slug: 'emoney'
@@ -171,13 +142,7 @@ module.exports = [
     ...getNetworkCapabilities[`emoney-testnet`],
     default: false,
     stakingDenom: 'NGM',
-    coinLookup: [
-      {
-        chainDenom: 'ungm',
-        viewDenom: 'NGM',
-        chainToViewConversionFactor: 1e-6
-      }
-    ],
+    coinLookup: coinLookupDictionary[`emoney-testnet`],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/emoney-testnet.png',
     slug: 'emoney-testnet'
@@ -200,13 +165,7 @@ module.exports = [
     default: false,
     stakingDenom: 'KSM',
     // https://wiki.polkadot.network/docs/en/learn-DOT
-    coinLookup: [
-      {
-        chainDenom: 'Planck',
-        viewDenom: 'KSM',
-        chainToViewConversionFactor: 1e-12
-      }
-    ],
+    coinLookup: coinLookupDictionary[`polkadot-testnet`],
     enabled: false,
     icon: 'https://app.lunie.io/img/networks/polkadot-testnet.png',
     slug: 'kusama'
