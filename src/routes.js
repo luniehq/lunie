@@ -188,16 +188,6 @@ export default (apollo, store) => {
         feature: "Session"
       }
     },
-    {
-      path: `/existing`,
-      name: `existing`,
-      components: {
-        session: () => import(`./components/common/TmSessionExisting`)
-      },
-      meta: {
-        feature: "Session"
-      }
-    },
     { path: `/404`, component: () => import(`./components/common/Page404`) },
     {
       path: `/privacy`,
