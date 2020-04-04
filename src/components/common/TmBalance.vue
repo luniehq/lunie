@@ -345,27 +345,22 @@ export default {
       )
     },
     totalRewardsPerDenom() {
-      if (this.rewards && this.rewards.length > 0) {
-        if (!this.rewardsSentToGA) {
-          this.sendRewards(this.totalRewards)
+      return this.rewards.reduce((all, reward) => {
+        return {
+          ...all,
+          [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0)
         }
-        return this.rewards.reduce((all, reward) => {
-          return {
-            ...all,
-            [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0)
-          }
-        }, {})
-      } else return {}
+      }, {})
     },
     totalRewards() {
-      if (this.rewards && this.rewards.length > 0) {
-        const totalRewards = this.rewards
-          .filter(({ denom }) => denom === this.stakingDenom)
-          .reduce((sum, { amount }) => parseFloat(amount) + sum, 0)
-          .toFixed(6)
-        return totalRewards
+      return this.totalRewardsPerDenom[this.stakingDenom] || 0
+    }
+  },
+  watch: {
+    totalRewards(totalRewards) {
+      if (this.rewards && !this.rewardsSentToGA) {
+        this.sendRewards(totalRewards)
       }
-      return 0
     }
   },
   mounted() {
