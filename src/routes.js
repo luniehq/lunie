@@ -33,7 +33,7 @@ export default (apollo, store) => {
       }
     },
     {
-      path: `/selectnetwork`,
+      path: `/select-network`,
       name: `select-network`,
       components: {
         session: () => import(`./components/common/TmSelectNetwork`)
@@ -43,8 +43,18 @@ export default (apollo, store) => {
       }
     },
     {
-      path: `/selectnetwork/:recover`,
+      path: `/select-network/recover`,
       name: `select-network-recover`,
+      components: {
+        session: () => import(`./components/common/TmSelectNetwork`)
+      },
+      meta: {
+        feature: "Session"
+      }
+    },
+    {
+      path: `/select-network/create`,
+      name: `select-network-create`,
       components: {
         session: () => import(`./components/common/TmSelectNetwork`)
       },

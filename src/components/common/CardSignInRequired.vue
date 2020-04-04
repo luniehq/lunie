@@ -40,7 +40,7 @@
         route="/explore"
       />
     </div>
-    <router-link to="/create" class="footnote">
+    <router-link to="/select-network/create" class="footnote">
       Want to create a new address?
     </router-link>
   </div>
