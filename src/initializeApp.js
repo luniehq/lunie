@@ -1,6 +1,7 @@
 /* istanbul ignore file: really just integrations */
 
 import { listenToExtensionMessages } from "scripts/extension-utils"
+import { checkForNewLunieVersions } from "scripts/check-for-new-lunie-versions"
 import {
   enableGoogleAnalytics,
   setGoogleAnalyticsPage
@@ -9,6 +10,9 @@ import config from "src/../config"
 import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
+
+// check every minute if new Lunie versions have been deployed
+checkForNewLunieVersions()
 
 // remove any existing service worker
 if (navigator && navigator.serviceWorker) {
