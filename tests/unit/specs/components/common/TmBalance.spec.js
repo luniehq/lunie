@@ -172,7 +172,7 @@ describe(`TmBalance`, () => {
   })
 
   it(`should calculate the total rewards amount `, () => {
-    expect(wrapper.vm.totalRewards).toBe(`5.000000`)
+    expect(wrapper.vm.totalRewards).toBe(5)
   })
 
   it(`should calculate the total rewards amount for each denom when rewards contain multiple denoms`, () => {
