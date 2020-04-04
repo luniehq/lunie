@@ -1,7 +1,7 @@
 import NetworkItem from "network/NetworkItem"
 
 describe(`NetworkItem`, () => {
-  const networkitem = {
+  const networkItem = {
     id: "cosmoshub",
     powered: {
       name: "Provider",
@@ -10,10 +10,10 @@ describe(`NetworkItem`, () => {
     }
   }
 
-  it(`returns true if the network in NetworkItem is the same than the network we are connected to`, () => {
+  it(`returns true if the network in NetworkItem is the same as the network we are connected to`, () => {
     const self = {
       network: `cosmoshub`,
-      networkitem
+      networkItem
     }
     const currentNetworkCheck = NetworkItem.computed.isCurrentNetwork.call(self)
     expect(currentNetworkCheck).toBe(true)

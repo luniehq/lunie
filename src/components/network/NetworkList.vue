@@ -39,12 +39,14 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`network`]),
+    ...mapGetters({ networkId: `network` }),
     whichFlow() {
       if (this.$route.name === "select-network-recover") {
         return `/recover`
-      } else {
+      } else if (this.$route.name === "select-network-create") {
         return `/create`
+      } else {
+        return ``
       }
     }
   },
