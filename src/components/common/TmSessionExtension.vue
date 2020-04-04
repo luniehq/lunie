@@ -110,9 +110,6 @@ export default {
       })
     },
     async signInAndRedirect(account) {
-      const accountNetwork = await this.$store.dispatch("getNetworkByAccount", {
-        account
-      })
       await this.signIn(account)
       const accountNetwork = this.getSignInNetwork(account)
       this.$router.push({
