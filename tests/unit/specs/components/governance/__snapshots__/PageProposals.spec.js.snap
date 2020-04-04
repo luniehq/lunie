@@ -19,6 +19,7 @@ exports[`PageProposals shows a message if still loading 1`] = `
     <div>
       <tmdatamsg-stub
         icon="gavel"
+        iconcolor="var(--warning)"
       >
         <div>
           
@@ -58,6 +59,7 @@ exports[`PageProposals shows a message if there is nothing to display 1`] = `
     <div>
       <tmdatamsg-stub
         icon="gavel"
+        iconcolor="var(--warning)"
       >
         <div>
           

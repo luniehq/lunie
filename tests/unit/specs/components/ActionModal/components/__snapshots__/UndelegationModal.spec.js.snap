@@ -2,6 +2,7 @@
 
 exports[`UndelegationModal should display undelegation modal form 1`] = `
 <actionmodal-stub
+  chainappliedfees="0"
   class="undelegation-modal"
   featureflag="undelegate"
   id="undelegation-modal"
@@ -12,6 +13,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
   targetvalidator="[object Object]"
   title="Unstake"
   transactiondata="[object Object]"
+  transactiontype="UnknownTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

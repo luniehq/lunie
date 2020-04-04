@@ -110,14 +110,15 @@ export default {
       })
     },
     async signInAndRedirect(account) {
+      const accountNetwork = await this.$store.dispatch("getNetworkByAccount", {
+        account
+      })
       await this.signIn(account)
       const accountNetwork = this.getSignInNetwork(account)
       this.$router.push({
         name: "portfolio",
         params: {
-          networkId:
-            this.networks.find(({ id }) => id === accountNetwork.id).slug ||
-            "cosmos-hub" // defaulting to cosmos-hub-mainnet
+          networkId: accountNetwork.slug
         }
       })
     }

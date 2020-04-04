@@ -1,7 +1,7 @@
 import config from "src/../config"
 import { getSigner, cancelSign, signQueue } from "./signer"
 import transaction from "./transactionTypes"
-import { uatoms } from "scripts/num"
+import { toMicroUnit } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
 import { getGraphqlHost } from "scripts/url"
 import { getFingerprint } from "scripts/fingerprint"
@@ -46,10 +46,10 @@ export default class ActionManager {
     })
   }
 
-  async simulateTxAPI({ networkId, userAddress }, type, txProps, memo) {
+  async simulateTxAPI({ network, userAddress }, type, txProps, memo) {
     const txPayload = {
       simulate: true,
-      networkId,
+      networkId: network.id,
       messageType: type,
       address: userAddress,
       txProperties: txProps,
@@ -64,15 +64,7 @@ export default class ActionManager {
   }
 
   async sendTxAPI(
-    {
-      userAddress,
-      networkId,
-      networkType,
-      bondDenom,
-      rewards,
-      chainId,
-      account
-    },
+    { userAddress, network, rewards, chainId, account },
     type,
     memo,
     transactionProperties,
@@ -88,23 +80,23 @@ export default class ActionManager {
     const signer = await getSigner(config, submitType, {
       address: userAddress,
       password,
-      network: networkId,
-      networkType,
+      network: network.id,
+      networkType: network.network_type,
       displayedProperties
     })
 
     const messageMetadata = {
       gas: String(gasEstimate),
-      gasPrices: convertCurrencyData([gasPrice]),
+      gasPrices: convertCurrencyData([gasPrice], network),
       memo
     }
 
     let txMessages = []
     if (type === transaction.WITHDRAW) {
-      const validators = getTop5RewardsValidators(bondDenom, rewards)
+      const validators = getTop5RewardsValidators(rewards)
       await Promise.all(
         validators.map(async validator => {
-          const txMessage = await getMessage(networkId, type, userAddress, {
+          const txMessage = await getMessage(network.id, type, userAddress, {
             validatorAddress: validator
           })
           txMessages.push(txMessage)
@@ -112,7 +104,7 @@ export default class ActionManager {
       )
     } else {
       const txMessage = await getMessage(
-        networkId,
+        network.id,
         type,
         userAddress,
         transactionProperties
@@ -121,7 +113,7 @@ export default class ActionManager {
     }
 
     const createSignedTransaction = await getSignedTransactionCreator(
-      networkType
+      network.network_type
     )
     const signedMessage = await createSignedTransaction(
       messageMetadata,
@@ -135,7 +127,7 @@ export default class ActionManager {
     const txPayload = {
       simulate: false,
       messageType: type,
-      networkId,
+      networkId: network.id,
       senderAddress: userAddress,
       signedMessage
     }
@@ -148,26 +140,33 @@ export default class ActionManager {
   }
 }
 
-function convertCurrencyData(amounts) {
+function convertCurrencyData(amounts, network) {
   return amounts.map(({ amount, denom }) => ({
-    amount: toMicroAtomString(amount),
+    amount: toMicroUnit(amount, denom, network),
     denom: toMicroDenom(denom)
   }))
 }
 
-function toMicroAtomString(amount) {
-  return String(uatoms(amount))
-}
-
 // limitation of the Ledger Nano S, so we pick the top 5 rewards and inform the user.
-function getTop5RewardsValidators(bondDenom, rewards) {
-  // Compares the amount in a [address1, {denom: amount}] array
-  const byBalance = (a, b) => b.amount - a.amount
-  const validatorList = rewards
-    .filter(({ denom }) => denom == bondDenom)
-    .sort(byBalance)
-    .slice(0, 5) // Just the top 5
-    .map(({ validator }) => validator.operatorAddress)
-
-  return validatorList
+export function getTop5RewardsValidators(rewards) {
+  const rewardsPerValidatorObject = rewards.reduce((all, reward) => {
+    return {
+      ...all,
+      [reward.validator.operatorAddress]:
+        Number(reward.amount) +
+        (Number(all[reward.validator.operatorAddress]) || 0)
+    }
+  }, {})
+  const rewardsPerValidatorAddresses = Object.keys(rewardsPerValidatorObject)
+  let rewardsPerValidatorArray = []
+  rewardsPerValidatorAddresses.forEach((validatorAddress, index) => {
+    rewardsPerValidatorArray.push({
+      validator: validatorAddress,
+      totalRewardAmount: Object.values(rewardsPerValidatorObject)[index]
+    })
+  })
+  return rewardsPerValidatorArray
+    .sort((a, b) => b.totalRewardAmount - a.totalRewardAmount)
+    .slice(0, 5)
+    .map(rewardPerValidator => rewardPerValidator.validator)
 }

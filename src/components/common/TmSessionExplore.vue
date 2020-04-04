@@ -46,21 +46,8 @@
           />
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.addressValidate"
-            name="Your Address"
             type="custom"
-            msg="isn't recognised by Lunie. Did you type correctly?"
-          />
-          <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.isNotAValidatorAddress"
-            name="You can't sign in with a validator address"
-            type="custom"
-          />
-          <TmFormMsg
-            v-else-if="
-              $v.address.$error && !$v.address.isAWhitelistedBech32Prefix
-            "
-            name="You can only sign in with a regular address"
-            type="custom"
+            :msg="addressError"
           />
           <TmFormMsg v-else-if="error" :name="error" type="custom" />
         </TmFormGroup>
@@ -93,14 +80,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
-import bech32 from "bech32"
 import { formatAddress } from "src/filters"
-import { isAddress } from "web3-utils"
-const isEthereumAddress = isAddress
-const isPolkadotAddress = address => {
-  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
-  return polkadotRegexp.test(address)
-}
 
 export default {
   name: `session-explore`,
@@ -118,6 +98,7 @@ export default {
   data: () => ({
     address: ``,
     error: ``,
+    addressError: undefined,
     testnet: false
   }),
   computed: {
@@ -135,22 +116,6 @@ export default {
           address.address.startsWith(selectedNetwork.address_prefix)
         )
         .slice(-3)
-    },
-    networkOfAddress() {
-      // HACK as polkadot addresses don't have a prefix
-      if (isPolkadotAddress(this.address) && this.testnet) {
-        return this.networks.find(({ id }) => id === "polkadot-testnet")
-      }
-
-      const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
-        this.address.startsWith(address_prefix)
-      )
-
-      const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
-        this.testnet ? testnet === true : testnet === false
-      )
-
-      return selectedNetwork
     }
   },
   mounted() {
@@ -162,15 +127,21 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
 
-      if (!this.networkOfAddress) {
-        this.error = `No ${
-          this.testnet ? "testnet" : "mainnet"
-        } for this address found`
+      let networkOfAddress
+      try {
+        networkOfAddress = await this.$store.dispatch("getNetworkByAccount", {
+          account: {
+            address: this.address
+          },
+          testnet: this.testnet
+        })
+      } catch (error) {
+        this.error = error.message
         return
       }
 
       // needs to be done first because if not we are logging into the current network
-      await this.selectNetworkByAddress()
+      await this.selectNetworkByAddress(networkOfAddress)
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
         address: this.address
@@ -180,42 +151,12 @@ export default {
       this.$router.push({
         name: "portfolio",
         params: {
-          networkId: this.networkOfAddress.slug
+          networkId: networkOfAddress.slug
         }
       })
     },
-    bech32Validate(param) {
-      try {
-        bech32.decode(param)
-        return true
-      } catch (error) {
-        return false
-      }
-    },
-    isNotAValidatorAddress(param) {
-      // TODO this only works for cosmos
-      if (param.substring(0, 13) !== "cosmosvaloper") {
-        return true
-      } else {
-        return false
-      }
-    },
-    isAWhitelistedBech32Prefix(param) {
-      if (
-        param.substring(0, 7) === "cosmos1" ||
-        param.substring(0, 6) === "terra1" ||
-        param.substring(0, 5) === "xrn:1" ||
-        param.substring(0, 7) === "emoney1" ||
-        param.substring(0, 2) === "0x" ||
-        this.isPolkadotAddress(param)
-      ) {
-        return true
-      } else {
-        return false
-      }
-    },
-    async selectNetworkByAddress() {
-      this.$store.dispatch(`setNetwork`, this.networkOfAddress)
+    async selectNetworkByAddress(network) {
+      this.$store.dispatch(`setNetwork`, network)
     },
     getAddressIcon(addressType) {
       if (addressType === "explore") return `language`
@@ -233,27 +174,26 @@ export default {
       this.address = address
       await this.onSubmit()
     },
-    isEthereumAddress(address) {
-      return isEthereumAddress(address)
-    },
-    isPolkadotAddress(address) {
-      return isPolkadotAddress(address)
-    },
-    addressValidate(address) {
-      return (
-        this.bech32Validate(address) ||
-        this.isEthereumAddress(address) ||
-        this.isPolkadotAddress(address)
-      )
+    async addressValidate(address) {
+      try {
+        await this.$store.dispatch("getNetworkByAccount", {
+          account: {
+            address
+          },
+          testnet: this.testnet
+        })
+        return true
+      } catch (error) {
+        this.addressError = error.message
+        return false
+      }
     }
   },
   validations() {
     return {
       address: {
         required,
-        addressValidate: this.addressValidate,
-        isNotAValidatorAddress: this.isNotAValidatorAddress,
-        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
+        addressValidate: this.addressValidate
       }
     }
   }

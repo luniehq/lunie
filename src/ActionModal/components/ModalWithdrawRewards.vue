@@ -9,6 +9,7 @@
     class="modal-withdraw-rewards"
     submission-error-prefix="Withdrawal failed"
     feature-flag="claim_rewards"
+    :transaction-type="messageType.CLAIM_REWARDS"
     :rewards="rewards"
     :disable="validatorsWithRewards"
   >
@@ -19,16 +20,20 @@
     <TmFormGroup
       class="action-modal-form-group"
       field-id="amount"
-      field-label="Amount"
+      :field-label="
+        `Rewards from ${top5Validators.length} ${
+          top5Validators.length > 1 ? `validators` : `validator`
+        }`
+      "
     >
-      <span class="input-suffix">{{ stakingDenom }}</span>
-      <TmField
-        id="amount"
-        v-model="totalRewards"
-        class="tm-field-addon"
-        type="number"
-        disabled="disabled"
-      />
+      <div v-for="reward in totalRewards" :key="JSON.stringify(reward.denom)">
+        <span class="input-suffix-reward">{{ reward.denom }}</span>
+        <input
+          class="tm-field-addon"
+          disabled="disabled"
+          :value="reward.amount | fullDecimals"
+        />
+      </div>
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -37,48 +42,57 @@
 import { mapGetters } from "vuex"
 import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
-import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
+import { getTop5RewardsValidators } from "../utils/ActionManager"
 import gql from "graphql-tag"
 
-import transaction from "../utils/transactionTypes"
+import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
+
+function rewardsToDictionary(rewards) {
+  return rewards.reduce((all, reward) => {
+    return {
+      ...all,
+      [reward.denom]: Number(reward.amount) + (all[reward.denom] || 0)
+    }
+  }, {})
+}
 
 export default {
   name: `modal-withdraw-rewards`,
   components: {
     ActionModal,
-    TmFormGroup,
-    TmField
+    TmFormGroup
   },
   filters: {
     fullDecimals
   },
   data: () => ({
     rewards: [],
-    balances: []
+    balances: [],
+    getTop5RewardsValidators,
+    transactionTypes,
+    messageType
   }),
   computed: {
     ...mapGetters([`address`, `network`, `stakingDenom`]),
+    ...mapGetters({ userAddress: `address` }),
     transactionData() {
-      if (!this.claimedReward) return {}
+      if (this.totalRewards.length === 0) return {}
       return {
-        type: transaction.WITHDRAW,
-        amounts: [
-          {
-            amount: this.claimedReward.amount,
-            denom: this.claimedReward.denom
-          }
-        ]
+        type: transactionTypes.WITHDRAW,
+        amounts: this.totalRewards.map(({ amount, denom }) => ({
+          denom,
+          amount: Number(fullDecimals(amount))
+        }))
       }
     },
-    totalRewards() {
+    top5Validators() {
       if (this.rewards && this.rewards.length > 0) {
-        return this.rewards
-          .filter(({ denom }) => denom === this.stakingDenom)
-          .reduce((sum, { amount }) => sum + Number(amount), 0)
-          .toFixed(6)
+        const top5Validators = this.getTop5RewardsValidators(this.rewards)
+        return top5Validators
       } else {
-        return null
+        return []
       }
     },
     notifyMessage() {
@@ -92,21 +106,6 @@ export default {
         return this.rewards.length > 0
       } else {
         return false
-      }
-    },
-    claimedReward() {
-      if (this.rewards && this.rewards.length > 0) {
-        // we return the staking denom reward if it has any. Otherwise, we return the first reward from the other tokens
-        const rewardsGreaterThanZero = this.rewards.filter(
-          reward => reward.amount > 0
-        )
-        return (
-          rewardsGreaterThanZero.find(
-            reward => reward.denom === this.stakingDenom
-          ) || rewardsGreaterThanZero[0]
-        )
-      } else {
-        return ""
       }
     },
     feeDenom() {
@@ -126,6 +125,16 @@ export default {
       } else {
         return this.stakingDenom
       }
+    },
+    totalRewards() {
+      const filteredRewards = this.rewards.filter(({ validator }) => {
+        return this.top5Validators.includes(validator.operatorAddress)
+      })
+      const top5ValidatorsRewardsObject = rewardsToDictionary(filteredRewards)
+      const rewardsDenomArray = Object.entries(top5ValidatorsRewardsObject)
+      return rewardsDenomArray
+        .map(([denom, amount]) => ({ denom, amount }))
+        .sort((a, b) => b.amount - a.amount)
     }
   },
   methods: {
@@ -161,13 +170,50 @@ export default {
       skip() {
         return !this.address
       }
+    },
+    balances: {
+      query: gql`
+        query BalancesSendModal($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            amount
+            denom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      skip() {
+        return !this.userAddress
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.userAddress
+        }
+      }
     }
   }
 }
 </script>
 
 <style scope>
+.input-suffix-reward {
+  background: var(--bc-dim);
+  display: inline-block;
+  position: absolute;
+  padding: 8px;
+  font-size: var(--sm);
+  text-transform: uppercase;
+  right: 30px;
+  letter-spacing: 1px;
+  text-align: right;
+  font-weight: 500;
+  border-radius: 2px;
+}
 .form-message.withdraw-limit {
   white-space: normal;
+}
+.tm-field-addon {
+  margin-bottom: 0.25rem;
 }
 </style>

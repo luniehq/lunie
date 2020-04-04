@@ -12,7 +12,7 @@ describe(`ModalDeposit`, () => {
   localVue.use(Vuelidate)
   localVue.directive("focus", () => {})
 
-  const balance = { denom: `ATOM`, amount: `20` }
+  const balance = { denom: `STAKE`, amount: `20` }
 
   beforeEach(async () => {
     $store = {
@@ -20,7 +20,15 @@ describe(`ModalDeposit`, () => {
       dispatch: jest.fn(),
       getters: {
         userAddress: "cosmo1",
-        network: "testnet"
+        network: "testnet",
+        networks: [
+          {
+            id: "testnet",
+            coinLookup: [
+              { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
+            ]
+          }
+        ]
       }
     }
 
@@ -32,7 +40,7 @@ describe(`ModalDeposit`, () => {
       propsData: {
         proposalId: `1`,
         proposalTitle: mockValues.state.proposals[`1`].title,
-        denom: `uatom`
+        denom: `STAKE`
       },
       sync: false
     })
@@ -78,7 +86,7 @@ describe(`ModalDeposit`, () => {
       })
 
       it(`when the amount deposited higher than the user's balance`, async () => {
-        wrapper.setData({ balance: { denom: `ATOM`, amount: `20` } })
+        wrapper.setData({ balance: { denom: `STAKE`, amount: `20` } })
         wrapper.setData({ amount: 250 })
         expect(wrapper.vm.validateForm()).toBe(false)
         await wrapper.vm.$nextTick()
@@ -94,7 +102,7 @@ describe(`ModalDeposit`, () => {
 
     describe(`succeeds`, () => {
       it(`when the user has enough balance to submit a deposit`, async () => {
-        wrapper.setData({ balance: { denom: `ATOM`, amount: `20` } })
+        wrapper.setData({ balance: { denom: `STAKE`, amount: `20` } })
         wrapper.setData({ amount: 10 })
         expect(wrapper.vm.validateForm()).toBe(true)
       })
@@ -111,7 +119,7 @@ describe(`ModalDeposit`, () => {
       amounts: [
         {
           amount: "2000000",
-          denom: "uatom"
+          denom: "stake"
         }
       ]
     })
@@ -130,7 +138,7 @@ describe(`ModalDeposit`, () => {
     })
     expect(wrapper.vm.notifyMessage).toEqual({
       title: `Successful deposit!`,
-      body: `You have successfully deposited your ATOMs on proposal #1`
+      body: `You have successfully deposited your STAKEs on proposal #1`
     })
   })
 })

@@ -119,7 +119,7 @@
         </div>
 
         <div class="table-cell rewards">
-          <h2>
+          <h2 v-if="overview.totalRewards > 0.001">
             +{{ overview.totalRewards | bigFigureOrShortDecimals }}
             {{ stakingDenom }}
           </h2>
@@ -300,9 +300,24 @@ export default {
       return this.balances.find(({ denom }) => denom === this.stakingDenom)
     },
     filteredMultiDenomBalances() {
-      return this.balances.filter(
+      const rewards = Object.entries(this.totalRewardsPerDenom)
+      const filteredBalances = this.balances.filter(
         balance => !balance.denom.includes(this.stakingDenom)
       )
+      // add all balances to the overview that you have rewards on
+      const allBalancesWithRewards = filteredBalances.concat(
+        rewards
+          .filter(
+            ([rewardDenom]) =>
+              !filteredBalances.find(({ denom }) => rewardDenom === denom) &&
+              rewardDenom !== this.stakingDenom
+          )
+          .map(([denom]) => ({
+            denom,
+            amount: 0
+          }))
+      )
+      return allBalancesWithRewards
     },
     getAllDenoms() {
       if (this.balances.length > 0) {

@@ -2,6 +2,7 @@
 
 exports[`SendModal should display send modal form 1`] = `
 <actionmodal-stub
+  chainappliedfees="0"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -10,6 +11,7 @@ exports[`SendModal should display send modal form 1`] = `
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
+  transactiontype="SendTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -83,6 +85,7 @@ exports[`SendModal should display send modal form 1`] = `
 exports[`SendModal validation should show address required error 1`] = `
 <actionmodal-stub
   amount="2"
+  chainappliedfees="0"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -91,6 +94,7 @@ exports[`SendModal validation should show address required error 1`] = `
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
+  transactiontype="SendTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub
@@ -170,6 +174,7 @@ exports[`SendModal validation should show address required error 1`] = `
 exports[`SendModal validation should show bech32 error when address is not bech32 1`] = `
 <actionmodal-stub
   amount="2"
+  chainappliedfees="0"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -178,6 +183,7 @@ exports[`SendModal validation should show bech32 error when address is not bech3
   submissionerrorprefix="Sending tokens failed"
   title="Send"
   transactiondata="[object Object]"
+  transactiontype="SendTx"
   validate="function () { [native code] }"
 >
   <tmformgroup-stub

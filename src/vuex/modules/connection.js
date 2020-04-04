@@ -1,5 +1,11 @@
 import config from "src/../config"
+import bech32 from "bech32"
 import { NetworksAll } from "../../gql"
+
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
+  return polkadotRegexp.test(address)
+}
 
 export default function({ apollo }) {
   const state = {
@@ -57,6 +63,49 @@ export default function({ apollo }) {
           await this.setNetwork({ dispatch, commit }, fallbackNetwork)
         }
       }
+    },
+    getNetworkByAccount(
+      { state },
+      { account: { network, address }, testnet = false }
+    ) {
+      if (network) {
+        return state.networks.find(({ id }) => id === network)
+      }
+      // HACK as polkadot addresses don't have a prefix
+      if (isPolkadotAddress(address) && testnet) {
+        return state.networks.find(({ id }) => id === "polkadot-testnet")
+      }
+
+      const selectedNetworksArray = state.networks.filter(
+        ({ address_prefix, network_type }) => {
+          if (network_type === "cosmos") {
+            if (address.startsWith(address_prefix)) {
+              if (!address.startsWith(address_prefix + "1")) {
+                throw new Error("Only staker addresses are supported in Lunie")
+              }
+              try {
+                bech32.decode(address)
+              } catch {
+                throw new Error(
+                  "Address is not in bech32 format. Did you mistype?"
+                )
+              }
+              return true
+            }
+            return false
+          }
+        }
+      )
+
+      const selectedNetwork = selectedNetworksArray.find(
+        network => network.testnet === testnet
+      )
+
+      if (!selectedNetwork) {
+        throw new Error(`No network found in Lunie for the address ${address}`)
+      }
+
+      return selectedNetwork
     },
     async persistNetwork(store, network) {
       localStorage.setItem(`network`, JSON.stringify(network.id))

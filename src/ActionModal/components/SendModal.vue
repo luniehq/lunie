@@ -6,11 +6,13 @@
     :amount="amount"
     title="Send"
     submission-error-prefix="Sending tokens failed"
+    :transaction-type="messageType.SEND"
     :transaction-data="transactionData"
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"
     feature-flag="send"
     :disabled="sendingNgm"
+    :chain-applied-fees="getTerraTax(false)"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -135,9 +137,8 @@
 <script>
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
-import BigNumber from "bignumber.js"
 import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
-import { uatoms, SMALLEST } from "src/scripts/num"
+import { toMicroUnit, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
@@ -145,21 +146,22 @@ import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transaction from "../utils/transactionTypes"
+import transactionTypes from "../utils/transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroDenom } from "src/scripts/common"
 import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
+import BigNumber from "bignumber.js"
 
 const defaultMemo = "(Sent via Lunie)"
-
-const maxDecimals = (value, decimals) => {
-  return BigNumber(value).toFixed(decimals)
-}
 
 const isPolkadotAddress = address => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
+
+const TERRA_TAX_RATE = 0.00675
+const TERRA_TAX_CAP = 1000000
 
 export default {
   name: `send-modal`,
@@ -184,10 +186,12 @@ export default {
     max_memo_characters: 256,
     isFirstLoad: true,
     selectedToken: undefined,
-    balances: []
+    balances: [],
+    transactionTypes,
+    messageType
   }),
   computed: {
-    ...mapGetters([`network`, `stakingDenom`]),
+    ...mapGetters([`network`, `networks`, `stakingDenom`]),
     ...mapGetters({ userAddress: `address` }),
     selectedBalance() {
       return (
@@ -201,11 +205,15 @@ export default {
         return {}
       }
       return {
-        type: transaction.SEND,
+        type: transactionTypes.SEND,
         toAddress: this.address,
         amounts: [
           {
-            amount: uatoms(+this.amount),
+            amount: toMicroUnit(
+              this.amount,
+              this.selectedToken,
+              this.networks.find(({ id }) => id === this.network)
+            ),
             denom: toMicroDenom(this.selectedToken)
           }
         ],
@@ -215,9 +223,7 @@ export default {
     notifyMessage() {
       return {
         title: `Successful Send`,
-        body: `Successfully sent ${+this.amount} ${this.selectedToken}s to ${
-          this.address
-        }`
+        body: `Successfully sent ${this.amount} ${this.selectedToken}s to ${this.address}`
       }
     },
     getDenoms() {
@@ -226,7 +232,21 @@ export default {
         : []
     },
     sendingNgm() {
-      return this.selectedToken === "NGM" && this.network === "emoney-mainnet"
+      const whitelistedAccount = [
+        "emoney1cs4323dyzu0wxfj4vc62m8q3xsczfavqx9x3zd",
+        "emoney147verqcxwdkgrn663x2qj66zyqc5mu479afw9n",
+        "emoney14r5rva8qk5ee6rvk5sdtmxea40uf74k7uh4yjv",
+        "emoney1s73cel9vxllx700eaeuqr70663w5f0twzcks3l",
+        "emoney1uae5c48qjdc9psfzkwvre0shm9z8wlsfnse2nz"
+      ]
+      return (
+        this.selectedToken === "NGM" &&
+        this.network === "emoney-mainnet" &&
+        !(
+          whitelistedAccount.includes(this.userAddress) ||
+          whitelistedAccount.includes(this.address)
+        )
+      )
     }
   },
   watch: {
@@ -276,15 +296,10 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      if (this.network.startsWith(`terra`)) {
-        const terraTax = 0.008
-        this.amount = maxDecimals(
-          this.selectedBalance.amount / (1 + terraTax),
-          6 // TODO get precision fro API
-        )
-      } else {
-        this.amount = this.selectedBalance.amount
-      }
+      this.amount = this.maxDecimals(
+        this.selectedBalance.amount - this.getTerraTax(true),
+        6
+      )
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
@@ -313,6 +328,26 @@ export default {
     },
     refocusOnAmount() {
       this.$refs.amount.$el.focus()
+    },
+    maxDecimals(value, decimals) {
+      return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
+    },
+    getTerraTax(setMaxAmount = false) {
+      // hack for setMaxAmount
+      const amountToTax = setMaxAmount
+        ? this.selectedBalance.amount
+        : this.amount
+      if (
+        this.network.startsWith(`terra`) &&
+        this.selectedBalance.denom !== `LUNA`
+      ) {
+        return this.maxDecimals(
+          Math.min(Number(amountToTax) * TERRA_TAX_RATE, TERRA_TAX_CAP),
+          6
+        )
+      } else {
+        return 0
+      }
     }
   },
   validations() {

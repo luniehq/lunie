@@ -117,4 +117,93 @@ describe(`Module: Connection`, () => {
     )
     expect(commit).toHaveBeenCalledWith("setNetworkId", "awesomenet")
   })
+
+  describe("getNetworkByAccount", () => {
+    const state = {
+      networks: [
+        {
+          id: "polkadot-testnet",
+          slug: "polkadot-tesnet"
+        },
+        {
+          id: "cosmos-hub-mainnet",
+          slug: "cosmos-hub",
+          address_prefix: "cosmos",
+          network_type: "cosmos",
+          testnet: false
+        },
+        {
+          id: "cosmos-hub-testnet",
+          slug: "cosmos-hub-testnet",
+          address_prefix: "cosmos",
+          network_type: "cosmos",
+          testnet: true
+        },
+        {
+          id: "terra-testnet",
+          slug: "terra-testnet",
+          address_prefix: "terra",
+          network_type: "cosmos",
+          testnet: true
+        }
+      ]
+    }
+
+    it(`identifies a Cosmos address`, () => {
+      const address = `cosmos19fpzpl5s3nctstne4rqqcd6mt0dn9a0svkvkaa`
+      const network = actions.getNetworkByAccount(
+        { state },
+        { account: { address } }
+      )
+      expect(network.id).toBe("cosmos-hub-mainnet")
+    })
+
+    it(`identifies a testnet Cosmos address`, () => {
+      const address = `cosmos19fpzpl5s3nctstne4rqqcd6mt0dn9a0svkvkaa`
+      const network = actions.getNetworkByAccount(
+        { state },
+        { account: { address }, testnet: true }
+      )
+      expect(network.id).toBe("cosmos-hub-testnet")
+    })
+
+    it(`identifies a Polkadot address`, () => {
+      const polkadotAddress = `5DwjF3fmXzkJhJdyP6hMPU4nNhxeDpDtCz4RdaX3V3ALJhpH`
+      const network = actions.getNetworkByAccount(
+        { state },
+        { account: { address: polkadotAddress }, testnet: true }
+      )
+      expect(network).toBeDefined()
+    })
+
+    it(`should show error if address is not in bech32`, () => {
+      const address = `cosmos2xxxxx`
+      expect(() =>
+        actions.getNetworkByAccount({ state }, { account: { address } })
+      ).toThrow()
+    })
+
+    it(`should show error if address is a validator address`, () => {
+      const address = `cosmosvaloper12knqu4ecmg0982plzs9m9f5jareh0cvegcw3wu`
+      expect(() =>
+        actions.getNetworkByAccount({ state }, { account: { address } })
+      ).toThrow()
+    })
+
+    it(`should show error if address is a "cosmospub" address`, () => {
+      const address = `cosmospub1addwnpepqgadvwk7ev0kk2x0tua0hrt056p8tqpv35r0mwydz45ytxp3wfaz5e7nxun`
+      expect(() =>
+        actions.getNetworkByAccount({ state }, { account: { address } })
+      ).toThrow()
+    })
+
+    it(`filters networks correctly also on prefix`, () => {
+      const address = `terra1mma85hevm6kavfuu9mgmektxvmxnwssqspxrhc`
+      const network = actions.getNetworkByAccount(
+        { state },
+        { account: { address }, testnet: true }
+      )
+      expect(network.id).toBe("terra-testnet")
+    })
+  })
 })

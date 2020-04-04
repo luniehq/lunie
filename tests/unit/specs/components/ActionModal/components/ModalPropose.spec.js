@@ -25,7 +25,16 @@ describe(`ModalPropose`, () => {
       dispatch: jest.fn(),
       getters: {
         userAddress: "cosmo1",
-        network: "testnet"
+        network: "testnet",
+        networks: [
+          {
+            id: "testnet",
+            coinLookup: [
+              { viewDenom: "ATOM", chainToViewConversionFactor: 0.000001 }
+            ]
+          }
+        ],
+        stakingDenom: "ATOM"
       },
       state: {}
     }
