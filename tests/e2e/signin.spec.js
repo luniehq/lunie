@@ -1,10 +1,8 @@
 module.exports = {
-  "Sign in with local account": async function(browser) {
+  "Sign in with local account": async function (browser) {
     await prepare(browser)
 
-    await browser.click("#use-an-existing-address")
     await browser.waitForElementVisible("#sign-in-with-account", 10000, true)
-    await browser.pause(500)
     await browser.click("#sign-in-with-account")
     await browser.waitForElementVisible("#sign-in-name", 10000, true)
     await browser.click(
@@ -17,10 +15,9 @@ module.exports = {
     openMenu(browser)
     await browser.waitForElementVisible("#sign-out", 10000, true)
   },
-  "Import local account": async function(browser) {
+  "Import local account": async function (browser) {
     await prepare(browser)
 
-    browser.click("#use-an-existing-address")
     browser.waitForElementVisible("#recover-with-backup", 10000, true)
     browser.pause(500)
     browser.click("#recover-with-backup")
@@ -73,7 +70,7 @@ module.exports = {
 
 async function next(browser) {
   browser.execute(
-    function(selector, scrollX, scrollY) {
+    function (selector, scrollX, scrollY) {
       var elem = document.querySelector(selector)
       elem.scrollLeft = scrollX
       elem.scrollTop = scrollY
@@ -115,7 +112,7 @@ async function prepare(browser) {
   browser.waitForElementVisible(`#app-content`, 10000, true)
 
   // add a standard account to be used for signing in to an existing account
-  await browser.execute(function() {
+  await browser.execute(function () {
     window.localStorage.setItem(
       "cosmos-wallets-index",
       JSON.stringify([
@@ -146,11 +143,10 @@ async function prepare(browser) {
     await signOut(browser)
   }
   await signIn(browser)
-  browser.waitForElementVisible("#session-welcome", 10000, true)
 }
 
 async function isSignedIn(browser) {
-  const { value } = await browser.execute(async function() {
+  const { value } = await browser.execute(async function () {
     let signOutElement
     for (let attempts = 3; attempts > 0; attempts--) {
       signOutElement = document.querySelector(".user-box-address #sign-out")
