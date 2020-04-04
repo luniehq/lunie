@@ -16,7 +16,10 @@ const checkForNewLunieVersions = () => {
   setInterval(() => {
     fetch("https://app.lunie.io", {
       method: "POST",
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      }
     }).then(result => {
       console.log("current etag", result.headers._headers.etag[0])
       if (!loaded) {
