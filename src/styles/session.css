@@ -30,6 +30,7 @@
   padding: 2rem;
   position: relative;
   overflow: auto;
+  max-height: 90vh;
 }
 
 .session-header {
@@ -150,6 +151,7 @@
 @media screen and (max-width: 666px) {
   .session {
     height: 100vh;
+    max-height: 100vh;
     padding: 2rem 1rem 1rem;
     max-width: 100%;
   }
