@@ -14,7 +14,7 @@ const checkForNewLunieVersions = () => {
   let loaded = false
 
   setInterval(() => {
-    fetch("https://app.lunie.io/index.html").then(result => {
+    fetch("https://deploy-preview-3837--lunieio.netlify.com/index.html").then(result => {
       console.log("Current Etag", result.headers._headers.etag[0])
       if (!loaded) {
         currentEtag = result.headers._headers.etag[0]
