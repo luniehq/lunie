@@ -1,7 +1,7 @@
 <template>
   <div class="table-container">
     <div
-      v-if="$apollo.queries.delegations.loading && !delegations.length"
+      v-if="$apollo.queries.delegations.loading && !delegationsLoaded"
       class="loading-image-container"
     >
       <img
@@ -48,7 +48,8 @@ export default {
     TmDataMsg
   },
   data: () => ({
-    delegations: []
+    delegations: [],
+    delegationsLoaded: false
   }),
   computed: {
     ...mapGetters(["address", `network`, `networks`])
@@ -76,8 +77,9 @@ export default {
           delegatorAddress: this.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
+        this.delegationsLoaded = true
         return data.delegations || []
       }
     },

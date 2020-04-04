@@ -149,20 +149,24 @@ function convertCurrencyData(amounts, network) {
 
 // limitation of the Ledger Nano S, so we pick the top 5 rewards and inform the user.
 export function getTop5RewardsValidators(rewards) {
-  const mostClaimableToken = rewards.reduce((topRewardToken, reward) => {
-    if (Number(reward.amount) > Number(topRewardToken.amount)) {
-      return reward
+  const rewardsPerValidatorObject = rewards.reduce((all, reward) => {
+    return {
+      ...all,
+      [reward.validator.operatorAddress]:
+        Number(reward.amount) +
+        (Number(all[reward.validator.operatorAddress]) || 0)
     }
-    return topRewardToken
+  }, {})
+  const rewardsPerValidatorAddresses = Object.keys(rewardsPerValidatorObject)
+  let rewardsPerValidatorArray = []
+  rewardsPerValidatorAddresses.forEach((validatorAddress, index) => {
+    rewardsPerValidatorArray.push({
+      validator: validatorAddress,
+      totalRewardAmount: Object.values(rewardsPerValidatorObject)[index]
+    })
   })
-  // Compares the amount in a [address1, {denom: amount}] array
-  // sorts by highest reward token and then fills up with other validators
-  const byBalance = (a, b) =>
-    a.denom === mostClaimableToken.denom ? b.amount - a.amount : -1000
-  const validatorList = rewards
-    .sort(byBalance)
-    .slice(0, 5) // Just the top 5
-    .map(({ validator }) => validator.operatorAddress)
-
-  return validatorList
+  return rewardsPerValidatorArray
+    .sort((a, b) => b.totalRewardAmount - a.totalRewardAmount)
+    .slice(0, 5)
+    .map(rewardPerValidator => rewardPerValidator.validator)
 }
