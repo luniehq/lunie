@@ -2,5 +2,7 @@
   command = "yarn buildsentry"
 
 [context.deploy-preview]
-  SENTRY_DSN = ""
   command = "yarn build --mode development"
+
+[context.deploy-preview.environment]
+  SENTRY_DSN = ""
