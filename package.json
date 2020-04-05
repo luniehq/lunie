@@ -8,7 +8,7 @@
     "buildsentry": "node tasks/create-version-file.js && vue-cli-service build --skip-plugins pwa && chmod 755 tasks/sentry.sh && ./tasks/sentry.sh",
     "build:mobile": "cross-env MOBILE_APP=true npm run build",
     "changelog": "simsala log --pending-path ./changes",
-    "lint": "lint-staged",
+    "lint": "vue-cli-service lint",
     "lint:style": "vue-cli-service lint:style",
     "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git checkout origin/release -B release && git pull && git merge origin/develop && git push",
     "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
@@ -129,7 +129,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn lint"
+      "pre-push": "lint-staged"
     }
   },
   "resolutions": {
