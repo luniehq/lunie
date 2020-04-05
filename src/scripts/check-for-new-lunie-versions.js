@@ -8,8 +8,8 @@ const checkForNewLunieVersions = () => {
   // let loaded = false
 
   setInterval(() => {
-    fetch(window.location.host).then(result => {
-      console.log('Result', result)
+    fetch('https://deploy-preview-3837--lunieio.netlify.com/cosmos-hub').then(result => {
+      console.log("Result", result)
       // console.log("Current Etag", result.headers._headers.etag[0])
       // if (!loaded) {
       //   currentEtag = result.headers._headers.etag[0]
