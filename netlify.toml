@@ -6,3 +6,6 @@
 
 [context.deploy-preview.environment]
   SENTRY_DSN = ""
+
+[context.deploy-preview.processing]
+  skip_processing = true
