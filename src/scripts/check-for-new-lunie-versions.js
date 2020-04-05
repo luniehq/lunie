@@ -8,7 +8,8 @@ const checkForNewLunieVersions = () => {
   // let loaded = false
 
   setInterval(() => {
-    fetch(window.location.host.concat('/index.html')).then(result => {
+    fetch(window.location.hostname.concat('/index.html')).then(result => {
+      console.log('window.location', window.location)
       console.log("Result", result)
       // console.log("Current Etag", result.headers._headers.etag[0])
       // if (!loaded) {
