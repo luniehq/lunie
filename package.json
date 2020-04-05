@@ -129,7 +129,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn lint --no-fix"
+      "pre-push": "yarn lint"
     }
   },
   "resolutions": {
