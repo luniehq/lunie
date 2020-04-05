@@ -11,9 +11,6 @@ import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
 
-// check every minute if new Lunie versions have been deployed
-checkForNewLunieVersions()
-
 // remove any existing service worker
 if (navigator && navigator.serviceWorker) {
   navigator.serviceWorker.getRegistrations().then(function(registrations) {
@@ -38,6 +35,8 @@ function setOptions(urlParams, store) {
 export default async function init(urlParams, env = process.env) {
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
+    // check every minute if new Lunie versions have been deployed
+    checkForNewLunieVersions()
     enableGoogleAnalytics(config.google_analytics_uid)
   }
 
