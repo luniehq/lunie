@@ -1,13 +1,7 @@
 /*
  * this script polls the Lunie site every minute and extracts its etag to check if there has been
  * any new Lunie versions deployed on Netlify while the user had the app open on the browser
- *
- * Usage:
- *
- * node tasks/poll-index.js
  */
-
-const fetch = require("node-fetch")
 
 const checkForNewLunieVersions = () => {
   let currentEtag = ""
