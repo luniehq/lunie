@@ -8,7 +8,7 @@ const checkForNewLunieVersions = () => {
   let loaded = false
 
   setInterval(() => {
-    fetch("https://app.lunie.io").then(result => {
+    fetch(window.location.hostname).then(result => {
       console.log("Current Etag", result.headers._headers.etag[0])
       if (!loaded) {
         currentEtag = result.headers._headers.etag[0]
