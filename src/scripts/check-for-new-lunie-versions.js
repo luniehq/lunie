@@ -4,8 +4,8 @@
  */
 
 const checkForNewLunieVersions = () => {
-  let currentEtag = ""
-  let loaded = false
+  // let currentEtag = ""
+  // let loaded = false
 
   setInterval(() => {
     fetch(window.location.host).then(result => {
@@ -25,7 +25,7 @@ const checkForNewLunieVersions = () => {
       // }
     })
     // The check for new versions is repeated every minute
-  }, 60000)
+  }, 10000)
 }
 
 module.exports = { checkForNewLunieVersions }
