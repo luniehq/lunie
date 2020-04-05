@@ -8,14 +8,13 @@ const checkForNewLunieVersions = () => {
   // let loaded = false
 
   setInterval(() => {
-    fetch(window.location.origin,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*"
-        }
-      }).then(result => {
+    fetch(window.location.origin, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      }
+    }).then(result => {
       console.log("Result", result)
       // console.log("Current Etag", result.headers._headers.etag[0])
       // if (!loaded) {
