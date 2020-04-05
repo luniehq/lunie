@@ -6,8 +6,8 @@
 
 [context.deploy-preview.environment]
   SENTRY_DSN = ""
-  SENTRY_URL: ""
-  SENTRY_TOKEN: ""
+  SENTRY_URL = ""
+  SENTRY_TOKEN = ""
 
 [context.deploy-preview.processing]
   skip_processing = true
