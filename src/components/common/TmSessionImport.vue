@@ -84,7 +84,11 @@ export default {
         return this.$store.state.recover.seed
       },
       set(value) {
-        this.$store.commit(`updateField`, { field: `seed`, value })
+        // remove spaces from end of string
+        const seed = value.match(/^[a-z\s]+$/gi)
+          ? value.match(/^[a-z\s]+$/gi)[0]
+          : value.match(/0x[a-z0-9]{64}/gi)[0]
+        this.$store.commit(`updateField`, { field: `seed`, value: seed || "" })
       }
     }
   },
