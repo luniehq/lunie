@@ -5,7 +5,14 @@
 
     <div class="session-list">
       <LiSession
-        v-if="!isMobileApp"
+        v-if="session.insecureMode || (isMobileApp && !accountExists)"
+        id="create-new-address"
+        icon="person_add"
+        title="Create a new address"
+        route="/select-network/create"
+      />
+      <LiSession
+        v-if="!isMobileApp && !isExtension"
         id="use-ledger-nano"
         icon="vpn_key"
         title="Ledger Nano"
@@ -27,20 +34,24 @@
         route="/login"
       />
       <LiSession
+        id="explore-with-address"
+        icon="language"
+        title="Explore with any address"
+        route="/explore"
+      />
+      <LiSession
         v-if="isMobileApp || session.insecureMode"
         id="recover-with-backup"
         icon="settings_backup_restore"
         title="Recover with backup code"
         route="/select-network/recover"
       />
-      <LiSession
-        id="explore-with-address"
-        icon="language"
-        title="Explore with any address"
-        route="/explore"
-      />
     </div>
-    <router-link :to="createAccountLink" class="footnote">
+    <router-link
+      v-if="!isMobileApp || accountExists"
+      :to="createAccountLink"
+      class="footnote"
+    >
       Want to create a new address?
     </router-link>
   </div>
@@ -55,7 +66,8 @@ export default {
   name: `card-sign-in-required`,
   components: { LiSession },
   data: () => ({
-    isMobileApp: config.mobileApp
+    isMobileApp: config.mobileApp,
+    isExtension: config.isExtension
   }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),

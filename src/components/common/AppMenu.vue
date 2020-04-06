@@ -203,7 +203,12 @@ export default {
       this.$store.dispatch(`signOut`, this.network)
     },
     signIn() {
-      this.$router.push(`portfolio`)
+      if (this.$route.name !== `portfolio`) {
+        this.$router.push({
+          name: `portfolio`,
+          params: { networkId: this.networkSlug }
+        })
+      }
       this.$emit(`close`)
     },
     async showAddressOnLedger() {
