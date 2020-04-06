@@ -23,9 +23,14 @@
             type="required"
           />
           <TmFormMsg
-            v-else-if="$v.seed.$error && !$v.seed.validSeed"
+            v-else-if="$v.seed.$error && !$v.seed.seedHas24Words"
             name="Seed"
             type="words24"
+          />
+          <TmFormMsg
+            v-else-if="$v.seed.$error && !$v.seed.seedSeparatedByEspaces"
+            name="Seed"
+            type="espaces"
           />
         </TmFormGroup>
       </div>
@@ -49,6 +54,11 @@ import Steps from "../../ActionModal/components/Steps"
 
 const words24 = param => {
   return param && param.split(` `).length === 24
+}
+
+const espaces = param => {
+  const seedWordsSeparatedBySpaces = /^[a-zA-Z\s]+$/
+  return seedWordsSeparatedBySpaces.test(param)
 }
 
 const polkadotRawSeed = param => {
@@ -88,7 +98,8 @@ export default {
   validations: () => ({
     seed: {
       required,
-      validSeed: param => words24(param) || polkadotRawSeed(param)
+      seedHas24Words: param => words24(param) || polkadotRawSeed(param),
+      seedSeparatedByEspaces: param => espaces(param) || polkadotRawSeed(param)
     }
   })
 }

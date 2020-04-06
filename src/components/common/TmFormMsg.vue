@@ -86,6 +86,9 @@ export default {
         case `words24`:
           msg = `phrase must be 24 words`
           break
+        case `espaces`:
+          msg = `phrase words must be separated by espaces`
+          break
         case `url`:
           msg = `must be a valid URL (http:// required)`
           break
