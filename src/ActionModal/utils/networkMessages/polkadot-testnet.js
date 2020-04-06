@@ -28,7 +28,7 @@ export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
   // Check if controller is already set
   const controller = await api.query.staking.bonded(senderAddress)
 
-  if (!controller && amount > 0) {
+  if (controller == `` && amount > 0) {
     const payee = 0
     transactions.push(await api.tx.staking.bond(senderAddress, amount, payee))
   } else {
