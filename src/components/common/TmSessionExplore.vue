@@ -96,6 +96,11 @@ import TmFormMsg from "common/TmFormMsg"
 import bech32 from "bech32"
 import { formatAddress } from "src/filters"
 
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
+  return polkadotRegexp.test(address)
+}
+
 export default {
   name: `session-explore`,
   components: {
@@ -192,7 +197,7 @@ export default {
         param.substring(0, 7) === "emoney1" ||
         param.substring(0, 6) === "akash1" ||
         param.substring(0, 2) === "0x" ||
-        this.isPolkadotAddress(param)
+        isPolkadotAddress(param)
       ) {
         return true
       } else {
