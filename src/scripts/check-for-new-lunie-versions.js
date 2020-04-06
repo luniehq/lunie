@@ -27,7 +27,7 @@ const checkForNewLunieVersions = () => {
       }
     })
     // The check for new versions is repeated every minute
-  }, 10000)
+  }, 60000)
 }
 
 module.exports = { checkForNewLunieVersions }
