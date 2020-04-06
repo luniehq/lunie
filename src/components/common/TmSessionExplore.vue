@@ -46,21 +46,8 @@
           />
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.addressValidate"
-            name="Your Address"
             type="custom"
-            msg="isn't recognised by Lunie. Did you type correctly?"
-          />
-          <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.isNotAValidatorAddress"
-            name="You can't sign in with a validator address"
-            type="custom"
-          />
-          <TmFormMsg
-            v-else-if="
-              $v.address.$error && !$v.address.isAWhitelistedBech32Prefix
-            "
-            name="You can only sign in with a regular address"
-            type="custom"
+            :msg="addressError"
           />
           <TmFormMsg v-else-if="error" :name="error" type="custom" />
         </TmFormGroup>
@@ -93,8 +80,12 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
-import bech32 from "bech32"
 import { formatAddress } from "src/filters"
+
+const isPolkadotAddress = address => {
+  const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
+  return polkadotRegexp.test(address)
+}
 
 export default {
   name: `session-explore`,
@@ -112,6 +103,7 @@ export default {
   data: () => ({
     address: ``,
     error: ``,
+    addressError: undefined,
     testnet: false
   }),
   computed: {
@@ -192,7 +184,7 @@ export default {
         param.substring(0, 7) === "emoney1" ||
         param.substring(0, 6) === "akash1" ||
         param.substring(0, 2) === "0x" ||
-        this.isPolkadotAddress(param)
+        isPolkadotAddress(param)
       ) {
         return true
       } else {
@@ -219,21 +211,25 @@ export default {
       await this.onSubmit()
     },
     async addressValidate(address) {
-      return await this.$store.dispatch("getNetworkByAccount", {
-        account: {
-          address
-        },
-        testnet: this.testnet
-      })
+      try {
+        await this.$store.dispatch("getNetworkByAccount", {
+          account: {
+            address
+          },
+          testnet: this.testnet
+        })
+        return true
+      } catch (error) {
+        this.addressError = error.message
+        return false
+      }
     }
   },
   validations() {
     return {
       address: {
         required,
-        addressValidate: this.addressValidate,
-        isNotAValidatorAddress: this.isNotAValidatorAddress,
-        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
+        addressValidate: this.addressValidate
       }
     }
   }
