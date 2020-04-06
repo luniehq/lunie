@@ -558,6 +558,18 @@ describe(`ActionModal`, () => {
     expect(self.gasPrice).toBe(1.0000000000000008e-8) // a bit lower then gasEstimate. feels right
   })
 
+  it(`should take chain applied fees into account when adjusting fees for max amount`, async () => {
+    const self = {
+      invoiceTotal: 1.001,
+      selectedBalance: balances[1],
+      subTotal: 0.999,
+      gasEstimate: 100000,
+      chainAppliedFees: 0.001
+    }
+    ActionModal.methods.adjustFeesToMaxPayable.call(self)
+    expect(self.gasPrice).toBe(0.00001)
+  })
+
   describe(`submit`, () => {
     it(`should submit transaction`, async () => {
       const transactionProperties = {

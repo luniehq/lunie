@@ -7,12 +7,11 @@ import { setNetwork } from "./scripts/setNetwork"
 /**
  * Routes are all defined here
  */
-export default (apollo, store) => {
+export default store => {
   return [
     {
       path: `/`,
-      beforeEnter: (to, from, next) =>
-        setNetwork({ to, from, next }, apollo, store)
+      beforeEnter: (to, from, next) => setNetwork({ to, from, next }, store)
     },
     {
       path: `/networks`,
@@ -175,7 +174,7 @@ export default (apollo, store) => {
       name: `extension-signin`,
       beforeEnter: function(to, from, next) {
         /* istanbul ignore next */
-        return extensionSignIn({ to, from, next }, apollo, store)
+        return extensionSignIn({ to, from, next }, store)
       }
     },
     {
@@ -221,8 +220,7 @@ export default (apollo, store) => {
     {
       path: `/:networkId`,
       component: () => import(`./components/common/NetworkSetter`),
-      beforeEnter: (to, from, next) =>
-        setNetwork({ to, from, next }, apollo, store),
+      beforeEnter: (to, from, next) => setNetwork({ to, from, next }, store),
       redirect: `/:networkId/portfolio`,
       children: [
         {
@@ -310,7 +308,7 @@ export default (apollo, store) => {
 }
 
 // handle direct sign in from the extension via deeplink
-export async function extensionSignIn({ to, next }, apollo, store) {
+export async function extensionSignIn({ to, next }, store) {
   let network = store.getters.networks.find(
     ({ id }) => id === to.params.network
   )
