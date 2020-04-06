@@ -1,7 +1,7 @@
 "use strict"
 import * as Sentry from "@sentry/browser"
 
-export const setNetwork = async ({ to, next }, apollo, store) => {
+export const setNetwork = async ({ to, next }, store) => {
   // networks are loaded async so we may need to wait for them
   while (store.getters.networks.length === 0) {
     await new Promise(resolve => setTimeout(resolve, 100))
@@ -16,7 +16,7 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
 
     // if the url is of the form /cosmos-hub/portfolio the path we want to add later is /portfolio and not the whole thing
     if (to.params.networkId) {
-      const subPathRegexp = /\/.+(\/.+)/ //extracts the subpath
+      const subPathRegexp = /\/[a-zA-Z-]+(\/.+)/ //extracts the subpath
       const match = subPathRegexp.exec(to.path)
       if (match && match.length >= 2) {
         // the path is is of form /cosmos-hub/portfolio
@@ -48,9 +48,10 @@ export const setNetwork = async ({ to, next }, apollo, store) => {
         networks
       )
 
+      await store.dispatch(`setNetwork`, network)
       next(`/${network.slug}${path}`)
-      store.dispatch(`setNetwork`, network)
     }
+
     // no network is set so we set the default
     if (!to.params.networkId || to.params.networkId === "default") {
       // swithing to current network
