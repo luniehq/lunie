@@ -8,12 +8,7 @@ const checkForNewLunieVersions = () => {
   let loaded = false
 
   setInterval(() => {
-    fetch(window.location.origin, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).then(result => {
+    fetch(window.location.origin).then(result => {
       console.log("Current Etag", result.headers.get("etag"))
       if (!loaded) {
         currentEtag = result.headers.get("etag")
