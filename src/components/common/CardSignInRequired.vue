@@ -40,7 +40,7 @@
         route="/explore"
       />
     </div>
-    <router-link to="/select-network/create" class="footnote">
+    <router-link :to="createAccountLink" class="footnote">
       Want to create a new address?
     </router-link>
   </div>
@@ -61,6 +61,11 @@ export default {
     ...mapState([`session`, `keystore`, `extension`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
+    },
+    createAccountLink() {
+      return this.isMobileApp || this.session.insecureMode
+        ? `/select-network/create`
+        : `/create`
     }
   },
   created() {

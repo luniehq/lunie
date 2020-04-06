@@ -46,7 +46,7 @@ exports[`CardSignInRequired shows a sign in required card 1`] = `
    
   <router-link-stub
     class="footnote"
-    to="/select-network/create"
+    to="/create"
   >
     
     Want to create a new address?
