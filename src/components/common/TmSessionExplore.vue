@@ -160,37 +160,6 @@ export default {
         }
       })
     },
-    bech32Validate(param) {
-      try {
-        bech32.decode(param)
-        return true
-      } catch (error) {
-        return false
-      }
-    },
-    isNotAValidatorAddress(param) {
-      // TODO this only works for cosmos
-      if (param.substring(0, 13) !== "cosmosvaloper") {
-        return true
-      } else {
-        return false
-      }
-    },
-    isAWhitelistedBech32Prefix(param) {
-      if (
-        param.substring(0, 7) === "cosmos1" ||
-        param.substring(0, 6) === "terra1" ||
-        param.substring(0, 5) === "xrn:1" ||
-        param.substring(0, 7) === "emoney1" ||
-        param.substring(0, 6) === "akash1" ||
-        param.substring(0, 2) === "0x" ||
-        isPolkadotAddress(param)
-      ) {
-        return true
-      } else {
-        return false
-      }
-    },
     async selectNetworkByAddress(network) {
       this.$store.dispatch(`setNetwork`, network)
     },
