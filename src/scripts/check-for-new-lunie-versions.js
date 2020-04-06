@@ -4,8 +4,8 @@
  */
 
 const checkForNewLunieVersions = () => {
-  // let currentEtag = ""
-  // let loaded = false
+  let currentEtag = ""
+  let loaded = false
 
   setInterval(() => {
     fetch(window.location.origin, {
@@ -15,23 +15,19 @@ const checkForNewLunieVersions = () => {
         "Access-Control-Allow-Origin": "*"
       }
     }).then(result => {
-      console.log("Result", result)
-      const etag = result.headers.get('etag')
-      console.log('Headers are', result.headers)
-      console.log('Etag is', etag)
-      // console.log("Current Etag", result.headers._headers.etag[0])
-      // if (!loaded) {
-      //   currentEtag = result.headers._headers.etag[0]
-      //   loaded = true
-      // }
-      // console.log("Client Etag", currentEtag)
-      // if (currentEtag !== result.headers._headers.etag[0]) {
-      //   console.log("Outdated Lunie version detected! Refreshing...")
-      //   // the client has an outdated version. We need to refresh the browser to get the latest changes (and chunks)
-      //   // when the reload method receives true as an argument, it will always reload the page from the server
-      //   window.location.reload(true)
-      //   loaded = false
-      // }
+      console.log("Current Etag", result.headers.get("etag"))
+      if (!loaded) {
+        currentEtag = result.headers.get("etag")
+        loaded = true
+      }
+      console.log("Client Etag", currentEtag)
+      if (currentEtag !== result.headers.get("etag")) {
+        console.log("Outdated Lunie version detected! Refreshing...")
+        // the client has an outdated version. We need to refresh the browser to get the latest changes (and chunks)
+        // when the reload method receives true as an argument, it will always reload the page from the server
+        window.location.reload(true)
+        loaded = false
+      }
     })
     // The check for new versions is repeated every minute
   }, 10000)
