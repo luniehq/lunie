@@ -11,8 +11,7 @@ const checkForNewLunieVersions = () => {
     fetch(window.location.origin, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Content-Type": "application/json"
       }
     }).then(result => {
       console.log("Current Etag", result.headers.get("etag"))
