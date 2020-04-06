@@ -21,12 +21,21 @@ export async function MsgSend(
 export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
   // stake with all existing plus the selected
   const api = await getAPI()
+  const transactions = []
+
+  // if we have not bonded to a controller account we do that first
+  const controllerAccount = await api.query.staking.bonded(senderAddress)
+  if (!controllerAccount) {
+    transactions.push(await api.tx.staking.bond(senderAddress, amount))
+  } else {
+    // if already bonded, add more stake if desired
+    if (amount > 0) {
+      transactions.push(await api.tx.staking.bondExtra(amount))
+    }
+  }
+
   const response = await api.query.staking.nominators(senderAddress)
   const { targets: delegatedValidators = [] } = response.toJSON() || {}
-  const transactions = []
-  if (amount > 0) {
-    transactions.push(await api.tx.staking.bondExtra(amount))
-  }
   if (
     !delegatedValidators.find(
       delegatedValidators => delegatedValidators === validatorAddress
