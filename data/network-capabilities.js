@@ -57,7 +57,7 @@ const getNetworkCapabilities = {
         feature_explore: capabilityEnum.ENABLED,
         feature_portfolio: capabilityEnum.ENABLED,
         feature_validators: capabilityEnum.ENABLED,
-        feature_proposals: capabilityEnum.DISABLED,
+        feature_proposals: capabilityEnum.ENABLED,
         feature_activity: capabilityEnum.ENABLED,
         feature_explorer: capabilityEnum.ENABLED,
         action_send: capabilityEnum.ENABLED,
@@ -65,9 +65,9 @@ const getNetworkCapabilities = {
         action_delegate: capabilityEnum.ENABLED,
         action_redelegate: capabilityEnum.ENABLED,
         action_undelegate: capabilityEnum.ENABLED,
-        action_deposit: capabilityEnum.DISABLED,
-        action_vote: capabilityEnum.DISABLED,
-        action_proposal: capabilityEnum.DISABLED
+        action_deposit: capabilityEnum.ENABLED,
+        action_vote: capabilityEnum.ENABLED,
+        action_proposal: capabilityEnum.ENABLED
     },
     "emoney-mainnet": {
         feature_session: capabilityEnum.ENABLED,
