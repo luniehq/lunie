@@ -28,9 +28,9 @@
             type="words24"
           />
           <TmFormMsg
-            v-else-if="$v.seed.$error && !$v.seed.seedSeparatedByEspaces"
+            v-else-if="$v.seed.$error && !$v.seed.seedSeparatedBySpaces"
             name="Seed"
-            type="espaces"
+            type="spaces"
           />
         </TmFormGroup>
       </div>
@@ -56,7 +56,7 @@ const words24 = param => {
   return param && param.split(` `).length === 24
 }
 
-const espaces = param => {
+const spaces = param => {
   const seedWordsSeparatedBySpaces = /^[a-zA-Z\s]+$/
   return seedWordsSeparatedBySpaces.test(param)
 }
@@ -99,7 +99,7 @@ export default {
     seed: {
       required,
       seedHas24Words: param => words24(param) || polkadotRawSeed(param),
-      seedSeparatedByEspaces: param => espaces(param) || polkadotRawSeed(param)
+      seedSeparatedBySpaces: param => spaces(param) || polkadotRawSeed(param)
     }
   })
 }
