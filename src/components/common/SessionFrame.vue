@@ -33,15 +33,15 @@ import { mapGetters } from "vuex"
 export default {
   name: `session-frame`,
   components: {},
-  data: () => ({
-    isExtension: config.isExtension
-  }),
   props: {
     hideBack: {
       type: Boolean,
       default: false
     }
   },
+  data: () => ({
+    isExtension: config.isExtension
+  }),
   computed: {
     ...mapGetters([`networkSlug`])
   },

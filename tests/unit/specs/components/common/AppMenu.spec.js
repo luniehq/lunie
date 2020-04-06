@@ -35,16 +35,20 @@ describe(`AppMenu`, () => {
   it(`goes to portfolio page to see sign in options`, () => {
     const $store = {
       commit: jest.fn(),
-      $emit: jest.fn(),
+      $emit: jest.fn()
     }
     const self = {
       networkSlug: `lunie-net`,
       $store,
-      $router: { push: jest.fn() }, $emit: jest.fn(),
-      $route: { name: `not-portfolio` },
+      $router: { push: jest.fn() },
+      $emit: jest.fn(),
+      $route: { name: `not-portfolio` }
     }
     AppMenu.methods.signIn.call(self)
-    expect(self.$router.push).toHaveBeenCalledWith({ name: `portfolio`, params: { networkId: `lunie-net` } })
+    expect(self.$router.push).toHaveBeenCalledWith({
+      name: `portfolio`,
+      params: { networkId: `lunie-net` }
+    })
   })
 
   it(`call dispatch to sign the user out`, () => {
