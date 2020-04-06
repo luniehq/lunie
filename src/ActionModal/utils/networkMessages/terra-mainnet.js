@@ -30,4 +30,21 @@ export const MsgWithdrawDelegationReward = (...args) => {
   return msg
 }
 
-// No governance for now
+export const MsgSubmitProposal = (...args) => {
+  const msg = CosmosMessages.MsgSubmitProposal(...args)
+  msg.type = "gov/MsgSubmitProposal"
+  msg.value.content.type = "gov/TextProposal"
+  return msg
+}
+
+export const MsgVote = (...args) => {
+  const msg = CosmosMessages.MsgVote(...args)
+  msg.type = "gov/MsgVote"
+  return msg
+}
+
+export const MsgDeposit = (...args) => {
+  const msg = CosmosMessages.MsgDeposit(...args)
+  msg.type = "gov/MsgDeposit"
+  return msg
+}
