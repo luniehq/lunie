@@ -71,7 +71,7 @@ export default {
   padding: 0.25rem 0.5rem;
 }
 
-.bech32-address {
+.copyable-address {
   font-size: 14px;
 }
 </style>

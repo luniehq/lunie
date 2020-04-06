@@ -13,7 +13,7 @@
             <a v-if="!hideBack" @click="goBack">
               <i class="material-icons notranslate circle back">arrow_back</i>
             </a>
-            <div class="session-close">
+            <div v-if="!isExtension" class="session-close">
               <a @click="goToPortfolio()">
                 <i class="material-icons notranslate circle back">close</i>
               </a>
@@ -27,11 +27,15 @@
 </template>
 
 <script>
+import config from "src/../config"
 import { mapGetters } from "vuex"
 
 export default {
   name: `session-frame`,
   components: {},
+  data: () => ({
+    isExtension: config.isExtension
+  }),
   props: {
     hideBack: {
       type: Boolean,

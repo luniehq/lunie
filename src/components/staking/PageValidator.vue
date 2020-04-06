@@ -595,7 +595,7 @@ span {
   line-height: normal;
 }
 
-.bech32-address {
+.copyable-address {
   font-size: 12px;
   line-height: normal;
 }

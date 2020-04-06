@@ -225,7 +225,7 @@ export default {
   border-radius: 100%;
 }
 
-.tx .bech32-address {
+.tx .copyable-address {
   position: relative;
 }
 
