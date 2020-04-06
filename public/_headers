@@ -2,7 +2,6 @@
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
   Content-Security-Policy: frame-ancestors 'self'
-  Access-Control-Allow-Origin: *
 
 /index.html
   cache-control: max-age=0
