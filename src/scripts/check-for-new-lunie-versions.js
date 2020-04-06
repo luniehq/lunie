@@ -16,6 +16,9 @@ const checkForNewLunieVersions = () => {
       }
     }).then(result => {
       console.log("Result", result)
+      const etag = result.headers.get('etag')
+      console.log('Headers are', result.headers)
+      console.log('Etag is', etag)
       // console.log("Current Etag", result.headers._headers.etag[0])
       // if (!loaded) {
       //   currentEtag = result.headers._headers.etag[0]
