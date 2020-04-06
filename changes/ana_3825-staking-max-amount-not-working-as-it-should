@@ -1,0 +1,1 @@
+[Fixed] [#3825](https://github.com/cosmos/lunie/issues/3825) Fixes fees being added on top of max amount for any transaction @Bitcoinera
