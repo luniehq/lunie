@@ -148,7 +148,8 @@ async function initialiseDefaults(browser) {
   browser.globals.feURI = browser.launch_url = feURI
   browser.globals.apiURI = apiURI
   browser.globals.slug = "/" + networkData.slug
-  browser.globals.expectedDiff = networkData.expectedDiff
+  browser.globals.automaticRewardWithdrawVariance =
+    networkData.automaticRewardWithdrawVariance
   // checking the API for a localhost API
   if (apiURI.indexOf("//localhost:") !== -1) {
     await apiUp(browser)

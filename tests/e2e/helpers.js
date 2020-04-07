@@ -216,7 +216,7 @@ async function actionModalCheckout(
         browser.globals.totalAtoms - expectedTotalChange - fees
       expect(
         Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
-      ).to.be.lessThan(browser.globals.expectedDiff) // acounting for rewards being withdrawn on an undelegation
+      ).to.be.lessThan(browser.globals.automaticRewardWithdrawVariance) // acounting for rewards being withdrawn on an undelegation
     },
     10,
     2000
@@ -231,7 +231,7 @@ async function actionModalCheckout(
           approximatedAvailableBalanceAfter -
             (await getAvailableTokens(browser))
         )
-      ).to.be.lessThan(browser.globals.expectedDiff) // acounting for rewards being withdrawn on an undelegation
+      ).to.be.lessThan(browser.globals.automaticRewardWithdrawVariance) // acounting for rewards being withdrawn on an undelegation
     },
     10,
     2000

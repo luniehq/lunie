@@ -7,7 +7,7 @@
         "stakeAmount": 0.0001,
         "restakeAmount": 0.00001,
         "fundingAmount": 0.0004,
-        "expectedDiff": 0.0001
+        "automaticRewardWithdrawVariance": 0.001
     },
     {
         "address": "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
@@ -18,7 +18,7 @@
         "stakeAmount": 10.86,
         "restakeAmount": 5.43,
         "fundingAmount": 20,
-        "expectedDiff": 2
+        "automaticRewardWithdrawVariance": 2
     },
     {
         "address": "terra1mma85hevm6kavfuu9mgmektxvmxnwssqspxrhc",
@@ -29,7 +29,7 @@
         "stakeAmount": 10.86,
         "restakeAmount": 5.43,
         "fundingAmount": 20,
-        "expectedDiff": 2
+        "automaticRewardWithdrawVariance": 2
     },
     {
         "address": "emoney1xddm692yl9d2cq5dgyjllhrc0ftv6nmcd45quu",
@@ -40,6 +40,6 @@
         "stakeAmount": 10.86,
         "restakeAmount": 5.43,
         "fundingAmount": 20,
-        "expectedDiff": 2
+        "automaticRewardWithdrawVariance": 2
     }
 ]
