@@ -208,7 +208,8 @@ async function actionModalCheckout(
   // go to portfolio to remember balances
   browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
 
-  const rewardText = await browser.getText(".table-cell.rewards")
+  const { value: rewardText } = await browser.getText(".table-cell.rewards")
+  console.log(rewardText)
   const rewardsExpr = /\+(.+) \w+/
   const rewards = Number(rewardsExpr.exec(rewardText)[1])
 
