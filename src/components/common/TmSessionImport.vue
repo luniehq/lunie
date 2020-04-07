@@ -28,9 +28,9 @@
             type="words24"
           />
           <TmFormMsg
-            v-else-if="$v.seed.$error && !$v.seed.seedSeparatedBySpaces"
+            v-else-if="$v.seed.$error && !$v.seed.seedIsLowerCaseAndSpaces"
             name="Seed"
-            type="spaces"
+            type="lowercaseAndSpaces"
           />
         </TmFormGroup>
       </div>
@@ -56,9 +56,9 @@ const words24 = param => {
   return param && param.split(` `).length === 24
 }
 
-const spaces = param => {
-  const seedWordsSeparatedBySpaces = /^[a-zA-Z\s]+$/
-  return seedWordsSeparatedBySpaces.test(param)
+const lowerCaseAndSpaces = param => {
+  const seedWordsAreLowerCaseAndSpaces = /^[a-z\s]+$/
+  return seedWordsAreLowerCaseAndSpaces.test(param)
 }
 
 const polkadotRawSeed = param => {
@@ -102,8 +102,9 @@ export default {
   validations: () => ({
     seed: {
       required,
-      seedHas24Words: param => words24(param) || polkadotRawSeed(param),
-      seedSeparatedBySpaces: param => spaces(param) || polkadotRawSeed(param)
+      seedIsLowerCaseAndSpaces: param =>
+        lowerCaseAndSpaces(param) || polkadotRawSeed(param),
+      seedHas24Words: param => words24(param) || polkadotRawSeed(param)
     }
   })
 }
