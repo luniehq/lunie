@@ -4,7 +4,7 @@
     <ul class="network-list">
       <li
         v-for="network in networks"
-        :key="network.chain_id"
+        :key="network.id"
         class="select-network-item"
         :data-network="network.id"
         @click="network.chain_id ? selectNetworkHandler(network) : false"
