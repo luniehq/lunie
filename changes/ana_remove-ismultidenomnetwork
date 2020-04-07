@@ -1,0 +1,1 @@
+[Fixed] [#3848](https://github.com/cosmos/lunie/issues/3848) Fixes currencySelector not appearing for e-Money accounts with just NGM balance. Simply deletes isMultiDenomNetwork checker @Bitcoinera
