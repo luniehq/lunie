@@ -92,7 +92,10 @@ module.exports = {
         browser.setValue("#amount", value)
       },
       // expected subtotal
-      "0"
+      "0",
+      undefined,
+      undefined,
+      true
     )
     await getAccountBalance(browser)
 
@@ -143,7 +146,10 @@ module.exports = {
         browser.setValue("#amount", value)
       },
       // expected subtotal
-      "0"
+      "0",
+      undefined,
+      undefined,
+      true
     )
     await getAccountBalance(browser)
 

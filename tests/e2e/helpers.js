@@ -145,7 +145,8 @@ async function actionModalCheckout(
   detailsActionFn,
   expectedSubtotal,
   expectedTotalChange = 0,
-  expectedAvailableTokensChange = 0
+  expectedAvailableTokensChange = 0,
+  accountForRewards = false
 ) {
   // deacivate intercom
   // can't be inserted before each as it would be removed on a refresh
@@ -207,6 +208,10 @@ async function actionModalCheckout(
   // go to portfolio to remember balances
   browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
 
+  const rewardText = await browser.getText(".table-cell.rewards")
+  const rewardsExpr = /\+(.+) \w+/
+  const rewards = Number(rewardsExpr.exec(rewardText)[1])
+
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
   console.log("Wait for total balance to update")
@@ -214,9 +219,17 @@ async function actionModalCheckout(
     async () => {
       const approximatedBalanceAfter =
         browser.globals.totalAtoms - expectedTotalChange - fees
-      expect(
-        Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
-      ).to.be.lessThan(browser.globals.automaticRewardWithdrawVariance) // acounting for rewards being withdrawn on an undelegation
+      if (accountForRewards) {
+        expect(
+          Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
+        ).to.be.lessThan(
+          rewards + browser.globals.automaticRewardWithdrawVariance
+        ) // acounting for rewards being withdrawn on an undelegation
+      } else {
+        expect(Math.abs(approximatedBalanceAfter)).to.be(
+          await getBalance(browser)
+        )
+      }
     },
     10,
     2000

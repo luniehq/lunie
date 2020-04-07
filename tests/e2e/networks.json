@@ -7,7 +7,7 @@
         "stakeAmount": 0.0001,
         "restakeAmount": 0.00001,
         "fundingAmount": 0.0004,
-        "automaticRewardWithdrawVariance": 0.001
+        "automaticRewardWithdrawVariance": 0.0001
     },
     {
         "address": "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
