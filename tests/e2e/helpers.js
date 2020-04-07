@@ -227,7 +227,7 @@ async function actionModalCheckout(
           rewards + browser.globals.automaticRewardWithdrawVariance
         )
       } else {
-        expect(Number(Math.abs(approximatedBalanceAfter).toFixed(2))).to.equal(
+        expect(Number(Math.abs(approximatedBalanceAfter).toFixed(3))).to.equal(
           await getBalance(browser)
         )
       }
