@@ -326,23 +326,8 @@ export default {
         return [this.stakingDenom]
       }
     },
-    isMultiDenomNetwork() {
-      if (this.balances && this.balances.length > 0) {
-        return this.balances.find(
-          balance => balance.denom !== this.stakingDenom
-        )
-          ? true
-          : false
-      } else {
-        return false
-      }
-    },
     currencySupport() {
-      return (
-        this.isMultiDenomNetwork &&
-        this.stakingBalance &&
-        this.stakingBalance.fiatValue
-      )
+      return this.stakingBalance && this.stakingBalance.fiatValue
     },
     totalRewardsPerDenom() {
       return this.rewards.reduce((all, reward) => {
