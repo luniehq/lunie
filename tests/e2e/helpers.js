@@ -209,7 +209,6 @@ async function actionModalCheckout(
   browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
 
   const { value: rewardText } = await browser.getText(".table-cell.rewards")
-  console.log(rewardText)
   const rewardsExpr = /\+(.+) \w+/
   const rewards = Number(rewardsExpr.exec(rewardText)[1])
 
@@ -227,7 +226,7 @@ async function actionModalCheckout(
           rewards + browser.globals.automaticRewardWithdrawVariance
         ) // acounting for rewards being withdrawn on an undelegation
       } else {
-        expect(Math.abs(approximatedBalanceAfter)).to.be(
+        expect(Math.abs(approximatedBalanceAfter)).to.equal(
           await getBalance(browser)
         )
       }
