@@ -4,10 +4,10 @@
         "network": "cosmos-hub-testnet",
         "slug": "cosmos-hub-testnet",
         "wallet": "5ed79d74ca9b5935a8cfe266ca6a484330ad4372c33f0729bd5c95eeac512354LGx4cYERQN7vnVHnj8jAX4IHTBP7i8BUDiWPwj3cPASUKgA8IoSu+ZDJtXSaDuCsMgOuPt2+sVbQGxsJkPfmwhCYEC4Nv8zdGKwnPqugQwKehHNL4HgTG5hJMfgn79TyBjYbrGGG5jntQ5iqIrDAMS0xUEZ3/N5BiTs1HSSUOtAU0mJpOfE3YYKk2Dc/futTpheUTmwGVuQCOkQZ6LIoityPhr2fsBdbOsb7sDlAxe2V9EFkDxrgbvuMi2lWCHTqiYxebGB2zexAzc44k4izK7CXRW9DgFZ4zu1ysZjs1GPdhWs6f50OyjKDDv0vGhBP",
-        "stakeAmount": 0.1,
-        "restakeAmount": 0.01,
-        "fundingAmount": 0.4,
-        "expectedDiff": 0.1
+        "stakeAmount": 0.0001,
+        "restakeAmount": 0.0001,
+        "fundingAmount": 0.0004,
+        "expectedDiff": 0.0001
     },
     {
         "address": "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
