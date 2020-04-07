@@ -32,7 +32,7 @@ async function main() {
 
   await Promise.all(
     delegators.map(async delegator => {
-      const rewards = await polkadotAPI.getRewards(delegator)
+      const rewards = await polkadotAPI.getRemoteRewards(delegator)
       const storableRewards = rewards
         ? rewards.filter(({ amount }) => amount > 0)
         : []
