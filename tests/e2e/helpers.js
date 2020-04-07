@@ -220,13 +220,14 @@ async function actionModalCheckout(
       const approximatedBalanceAfter =
         browser.globals.totalAtoms - expectedTotalChange - fees
       if (accountForRewards) {
+        // acounting for rewards being withdrawn on an undelegation
         expect(
           Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
         ).to.be.lessThan(
           rewards + browser.globals.automaticRewardWithdrawVariance
-        ) // acounting for rewards being withdrawn on an undelegation
+        )
       } else {
-        expect(Math.abs(approximatedBalanceAfter)).to.equal(
+        expect(Number(Math.abs(approximatedBalanceAfter).toFixed(2))).to.equal(
           await getBalance(browser)
         )
       }
