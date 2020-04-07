@@ -57,8 +57,11 @@ const words24 = param => {
 }
 
 const lowerCaseAndSpaces = param => {
-  const seedWordsAreLowerCaseAndSpaces = /^[a-z\s]+$/
-  return seedWordsAreLowerCaseAndSpaces.test(param)
+  const seedWordsAreLowerCaseAndSpaces = /^([a-z]+\s)*[a-z]+$/g
+  if (param.match(seedWordsAreLowerCaseAndSpaces)) {
+    return param === param.match(seedWordsAreLowerCaseAndSpaces)[0]
+  }
+  return false
 }
 
 const polkadotRawSeed = param => {
@@ -84,11 +87,10 @@ export default {
         return this.$store.state.recover.seed
       },
       set(value) {
-        // remove spaces from end of string
-        const seed = value.match(/^[a-z\s]+$/gi)
-          ? value.match(/^[a-z\s]+$/gi)[0]
-          : value.match(/0x[a-z0-9]{64}/gi)[0]
-        this.$store.commit(`updateField`, { field: `seed`, value: seed || "" })
+        this.$store.commit(`updateField`, {
+          field: `seed`,
+          value: value.trim() // remove spaces from beginning and end of string
+        })
       }
     }
   },
