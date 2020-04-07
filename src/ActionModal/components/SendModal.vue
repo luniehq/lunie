@@ -97,11 +97,9 @@
         :msg="`You don't have enough ${selectedToken}s to proceed.`"
       />
       <TmFormMsg
-        v-else-if="$v.amount.$error && !$v.amount.between"
-        :max="$v.amount.$params.between.max"
-        :min="$v.amount.$params.between.min"
-        name="Amount"
-        type="between"
+        v-else-if="$v.amount.$error && !$v.amount.maxDecimals"
+        type="custom"
+        :msg="`Maximum 6 decimals are allowed.`"
       />
       <TmFormMsg
         v-else-if="isMaxAmount()"
@@ -142,7 +140,7 @@
 <script>
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
-import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
+import { required, decimal, maxLength } from "vuelidate/lib/validators"
 import { toMicroUnit, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
@@ -367,7 +365,11 @@ export default {
         required: x => !!x && x !== `0`,
         decimal,
         max: x => Number(x) <= this.maxAmount,
-        between: between(SMALLEST, this.selectedBalance.amount)
+        maxDecimals: x => {
+          return x.toString().split(".").length > 1
+            ? x.toString().split(".")[1].length <= 6
+            : true
+        }
       },
       denoms: { required },
       selectedToken: { required },
