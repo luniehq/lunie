@@ -23,9 +23,14 @@
             type="required"
           />
           <TmFormMsg
-            v-else-if="$v.seed.$error && !$v.seed.validSeed"
+            v-else-if="$v.seed.$error && !$v.seed.seedHas24Words"
             name="Seed"
             type="words24"
+          />
+          <TmFormMsg
+            v-else-if="$v.seed.$error && !$v.seed.seedIsLowerCaseAndSpaces"
+            name="Seed"
+            type="lowercaseAndSpaces"
           />
         </TmFormGroup>
       </div>
@@ -51,6 +56,14 @@ const words24 = param => {
   return param && param.split(` `).length === 24
 }
 
+const lowerCaseAndSpaces = param => {
+  const seedWordsAreLowerCaseAndSpaces = /^([a-z]+\s)*[a-z]+$/g
+  if (param.match(seedWordsAreLowerCaseAndSpaces)) {
+    return param === param.match(seedWordsAreLowerCaseAndSpaces)[0]
+  }
+  return false
+}
+
 const polkadotRawSeed = param => {
   const polkadotRawSeedRegExp = /0x[a-z0-9]{64}/
   return polkadotRawSeedRegExp.test(param)
@@ -74,7 +87,10 @@ export default {
         return this.$store.state.recover.seed
       },
       set(value) {
-        this.$store.commit(`updateField`, { field: `seed`, value })
+        this.$store.commit(`updateField`, {
+          field: `seed`,
+          value: value.trim() // remove spaces from beginning and end of string
+        })
       }
     }
   },
@@ -88,7 +104,9 @@ export default {
   validations: () => ({
     seed: {
       required,
-      validSeed: param => words24(param) || polkadotRawSeed(param)
+      seedIsLowerCaseAndSpaces: param =>
+        lowerCaseAndSpaces(param) || polkadotRawSeed(param),
+      seedHas24Words: param => words24(param) || polkadotRawSeed(param)
     }
   })
 }
