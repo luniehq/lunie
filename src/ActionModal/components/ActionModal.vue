@@ -639,7 +639,8 @@ export default {
     goToSession() {
       this.close()
 
-      this.$router.push(`/portfolio`)
+      this.$store.dispatch(`signOut`, this.network)
+      if (this.$route.name !== `portfolio`) this.$router.push(`portfolio`)
     },
     isValidInput(property) {
       this.$v[property].$touch()
