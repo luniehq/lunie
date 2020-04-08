@@ -48,6 +48,8 @@ exports[`LiValidator has the expected html structure 1`] = `
        
       <!---->
     </div>
+     
+    <!---->
   </td>
    
   <td
