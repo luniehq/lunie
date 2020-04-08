@@ -151,9 +151,13 @@ export default {
         max: x => Number(x) <= this.balance.amount,
         min: x => Number(x) >= SMALLEST,
         maxDecimals: x => {
-          return x.toString().split(".").length > 1
-            ? x.toString().split(".")[1].length <= 6
-            : true
+          if (x) {
+            return x.toString().split(".").length > 1
+              ? x.toString().split(".")[1].length <= 6
+              : true
+          } else {
+            return false
+          }
         }
       }
     }
