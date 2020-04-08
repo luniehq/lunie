@@ -344,7 +344,12 @@ describe(`ActionModal`, () => {
 
   it(`opens session modal and closes itself`, () => {
     const $store = { commit: jest.fn(), dispatch: jest.fn() }
-    const self = { $store, close: jest.fn(), $router: { push: jest.fn() }, $route: { name: `route` } }
+    const self = {
+      $store,
+      close: jest.fn(),
+      $router: { push: jest.fn() },
+      $route: { name: `route` }
+    }
     ActionModal.methods.goToSession.call(self)
     expect(self.close).toHaveBeenCalled()
     expect(self.$router.push).toHaveBeenCalledWith(`portfolio`)
