@@ -98,13 +98,14 @@
       />
       <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.min"
-        type="custom"
-        :msg="`Minimum you can operate with an amount of ${smallestAmount}.`"
+        :min="smallestAmount"
+        name="Amount"
+        type="min"
       />
       <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.maxDecimals"
-        type="custom"
-        :msg="`Maximum 6 decimals are allowed.`"
+        name="Amount"
+        type="maxDecimals"
       />
       <TmFormMsg
         v-else-if="isMaxAmount()"

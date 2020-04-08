@@ -53,6 +53,12 @@ export default {
         case `between`:
           msg = `must be between ${prettyDecimals(this.min)} and ${this.max}`
           break
+        case `maxDecimals`:
+          msg = `can have maximum 6 decimals`
+          break
+        case `min`:
+          msg = `must be greater than ${prettyDecimals(this.min)}`
+          break
         case `date`:
           msg = `must be a valid date`
           break
