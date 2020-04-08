@@ -66,27 +66,29 @@ async function waitForElementToHaveText(
   iterations = 20,
   timeout = 300
 ) {
-  return await browser.execute(
-    function(selector, timeout, iterations) {
-      return new Promise((resolve, reject) => {
-        // async await doesn't work in execute
-        const iteration = () => {
-          if (!iterations--) {
-            reject("Timed out waiting for element and caption")
-            return
+  return await browser
+    .execute(
+      function(selector, timeout, iterations) {
+        return new Promise((resolve, reject) => {
+          // async await doesn't work in execute
+          const iteration = () => {
+            if (!iterations--) {
+              reject("Timed out waiting for element and caption")
+              return
+            }
+            const element = document.querySelector(selector)
+            if (!element || element.innerText.trim() === "") {
+              setTimeout(iteration, timeout)
+              return
+            }
+            resolve(element.innerText.trim())
           }
-          const element = document.querySelector(selector)
-          if (!element || element.innerText.trim() === "") {
-            setTimeout(iteration, timeout)
-            return
-          }
-          resolve(element.innerText.trim())
-        }
-        iteration()
-      })
-    },
-    [selector, timeout, iterations]
-  ).then(res => res.value)
+          iteration()
+        })
+      },
+      [selector, timeout, iterations]
+    )
+    .then(res => res.value)
 }
 
 async function waitForText(
@@ -237,8 +239,10 @@ async function actionModalCheckout(
   // go to portfolio to remember balances
   browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
 
-  const rewardText = await waitForElementToHaveText(browser, ".table-cell.rewards")
-  const { value: rewardText } = await browser.getText(".table-cell.rewards")
+  const rewardText = await waitForElementToHaveText(
+    browser,
+    ".table-cell.rewards"
+  )
   browser.waitForText()
   const rewardsExpr = /\+(.+) \w+/
   const rewards = Number(rewardsExpr.exec(rewardText)[1])
