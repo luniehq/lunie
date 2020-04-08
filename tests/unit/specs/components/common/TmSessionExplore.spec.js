@@ -126,4 +126,11 @@ describe(`TmSessionExplore`, () => {
       sessionType: `explore`
     })
   })
+
+  it(`should set an error message if the address sin't recognised by Lunie`, async () => {
+    let address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
+    $store.dispatch = () => Promise.reject(new Error("Not recognised address"))
+    await wrapper.vm.addressValidate(address)
+    expect(wrapper.vm.addressError).toBe("Not recognised address")
+  })
 })

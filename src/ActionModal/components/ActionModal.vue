@@ -73,8 +73,8 @@
               min="0"
             />
             <TmFormMsg
-              v-if="overview.liquidStake === 0"
-              :msg="`doesn't have any ${network.stakingDenom}s`"
+              v-if="Number(selectedBalance.amount) === 0"
+              :msg="`doesn't have any ${selectedBalance.denom}s`"
               name="Wallet"
               type="custom"
             />
@@ -482,6 +482,12 @@ export default {
       return this.featureFlag === "undelegate" ? 0 : this.amount
     },
     invoiceTotal() {
+      if (
+        Number(this.subTotal) + this.estimatedFee >
+        this.selectedBalance.amount
+      ) {
+        this.adjustFeesToMaxPayable()
+      }
       return Number(this.subTotal) + this.estimatedFee
     },
     isValidChildForm() {
@@ -694,16 +700,14 @@ export default {
     },
     // limit fees to the maximum the user has
     adjustFeesToMaxPayable() {
-      if (this.invoiceTotal > this.selectedBalance.amount) {
-        let payable = Number(this.subTotal)
-        // in terra we also have to pay the tax
-        // TODO refactor using a `fixedFee` property
-        if (this.chainAppliedFees) {
-          payable += this.chainAppliedFees
-        }
-        this.gasPrice =
-          (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
+      let payable = Number(this.subTotal)
+      // in terra we also have to pay the tax
+      // TODO refactor using a `fixedFee` property
+      if (this.chainAppliedFees) {
+        payable += this.chainAppliedFees
       }
+      this.gasPrice =
+        (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
       this.gasPrice = this.gasPrice >= 0 ? this.gasPrice : 0
     },
@@ -857,8 +861,6 @@ export default {
       query: gql`
         query OverviewActionModal($networkId: String!, $address: String!) {
           overview(networkId: $networkId, address: $address) {
-            totalRewards
-            liquidStake
             accountInformation {
               accountNumber
               sequence
@@ -875,19 +877,11 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        if (!data.overview) {
-          return {
-            totalRewards: 0
-          }
-        }
-        return {
-          ...data.overview,
-          totalRewards: Number(data.overview.totalRewards)
-        }
+        return data.overview || {}
       },
       /* istanbul ignore next */
       skip() {
-        return !this.session.address
+        return !this.session.address || this.step !== signStep
       }
     },
     gasEstimate: {
@@ -919,7 +913,11 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.session.address || !this.transactionData
+        return (
+          !this.session.address ||
+          !this.transactionData ||
+          this.step !== feeStep
+        )
       }
     },
     $subscribe: {

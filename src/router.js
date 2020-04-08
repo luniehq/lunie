@@ -46,11 +46,11 @@ export const routeGuard = store => async (to, from, next) => {
 }
 
 /* istanbul ignore next */
-const Router = (apollo, store) =>
+const Router = store =>
   new router({
     mode: process.env.VUE_APP_E2E ? undefined : "history",
     scrollBehavior: () => ({ y: 0 }),
-    routes: routes(apollo, store)
+    routes: routes(store)
   })
 
 export default Router

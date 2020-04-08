@@ -1,6 +1,7 @@
 /* istanbul ignore file: really just integrations */
 
 import { listenToExtensionMessages } from "scripts/extension-utils"
+import { checkForNewLunieVersions } from "scripts/check-for-new-lunie-versions"
 import {
   enableGoogleAnalytics,
   setGoogleAnalyticsPage
@@ -9,6 +10,15 @@ import config from "src/../config"
 import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
+
+// remove any existing service worker
+if (navigator && navigator.serviceWorker) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for (let registration of registrations) {
+      registration.unregister()
+    }
+  })
+}
 
 function setOptions(urlParams, store) {
   if (urlParams.experimental) {
@@ -25,6 +35,8 @@ function setOptions(urlParams, store) {
 export default async function init(urlParams, env = process.env) {
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
+    // check every minute if new Lunie versions have been deployed
+    checkForNewLunieVersions()
     enableGoogleAnalytics(config.google_analytics_uid)
   }
 
@@ -35,9 +47,9 @@ export default async function init(urlParams, env = process.env) {
 
   const store = Store({ apollo: apolloClient })
 
-  const router = Router(apolloClient, store)
+  const router = Router(store)
   setGoogleAnalyticsPage(router.currentRoute.path)
-  router.beforeEach(routeGuard(store, apolloClient))
+  router.beforeEach(routeGuard(store))
   router.afterEach(to => {
     /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
