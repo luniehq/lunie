@@ -72,7 +72,7 @@
       field-id="amount"
       :field-label="
         `Amount${
-          network === 'polkadot-testnet' && totalStaked > 0 ? ' (Optional)' : ''
+          network.startsWith('polkadot') && totalStaked > 0 ? ' (Optional)' : ''
         }`
       "
     >
@@ -315,7 +315,7 @@ export default {
     return {
       amount: {
         required: x =>
-          this.network === "polkadot" && this.totalStaked > 0
+          this.network.startsWith("polkadot") && this.totalStaked > 0
             ? false
             : !!x && x !== `0`,
         decimal,
@@ -421,7 +421,7 @@ export default {
         return (
           (!this.address || !this.network) &&
           // only needed for polkadot to determine if user needs to set an amount
-         !this.network.startsWith("polkadot")
+          !this.network.startsWith("polkadot")
         )
       },
       variables() {
