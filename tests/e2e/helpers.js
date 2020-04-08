@@ -60,6 +60,35 @@ async function fundMasterAccount(browser, network, address) {
   return true
 }
 
+async function waitForElementToHaveText(
+  browser,
+  selector,
+  iterations = 20,
+  timeout = 300
+) {
+  return await browser.execute(
+    function(selector, timeout, iterations) {
+      return new Promise((resolve, reject) => {
+        // async await doesn't work in execute
+        const iteration = () => {
+          if (!iterations--) {
+            reject("Timed out waiting for element and caption")
+            return
+          }
+          const element = document.querySelector(selector)
+          if (!element || element.innerText.trim() === "") {
+            setTimeout(iteration, timeout)
+            return
+          }
+          resolve(element.innerText.trim())
+        }
+        iteration()
+      })
+    },
+    [selector, timeout, iterations]
+  ).then(res => res.value)
+}
+
 async function waitForText(
   browser,
   selector,
@@ -208,7 +237,9 @@ async function actionModalCheckout(
   // go to portfolio to remember balances
   browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
 
+  const rewardText = await waitForElementToHaveText(browser, ".table-cell.rewards")
   const { value: rewardText } = await browser.getText(".table-cell.rewards")
+  browser.waitForText()
   const rewardsExpr = /\+(.+) \w+/
   const rewards = Number(rewardsExpr.exec(rewardText)[1])
 
@@ -300,6 +331,7 @@ module.exports = {
   awaitBalance,
   waitFor,
   waitForText,
+  waitForElementToHaveText,
   actionModalCheckout,
   getLastActivityItemHash,
   nextBlock,
