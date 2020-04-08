@@ -17,7 +17,7 @@ exports[`DelegationModal Submission Data for Redelegating should set the subtota
   <tmformgroup-stub fieldid="from" fieldlabel="From" class="action-modal-form-group">
     <tmfield-stub type="select" value="2" options="[object Object],[object Object],[object Object]" id="from" title="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"></tmfield-stub>
   </tmformgroup-stub>
-  <tmformgroup-stub fieldid="amount" fieldlabel="Amount " class="action-modal-form-group"><span class="input-suffix max-button">STAKE</span>
+  <tmformgroup-stub fieldid="amount" fieldlabel="Amount" class="action-modal-form-group"><span class="input-suffix max-button">STAKE</span>
     <tmfieldgroup-stub>
       <tmfield-stub type="number" placeholder="0" id="amount" class="tm-field-addon" value="10"></tmfield-stub>
       <tmbtn-stub value="Set Max" type="button" class="secondary addon-max"></tmbtn-stub>
@@ -96,7 +96,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
   <tmformgroup-stub
     class="action-modal-form-group"
     fieldid="amount"
-    fieldlabel="Amount "
+    fieldlabel="Amount"
   >
     <span
       class="input-suffix max-button"

@@ -21,8 +21,6 @@ export async function MsgSend(
 export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
   // stake with all existing plus the selected
   const api = await getAPI()
-  const response = await api.query.staking.nominators(senderAddress)
-  const { targets: delegatedValidators = [] } = response.toJSON() || {}
   const transactions = []
 
   // Check if controller is already set
@@ -34,6 +32,9 @@ export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
   } else {
     transactions.push(await api.tx.staking.bondExtra(amount))
   }
+
+  const response = await api.query.staking.nominators(senderAddress)
+  const { targets: delegatedValidators = [] } = response.toJSON() || {}
   const validatorAddresses = uniqBy(
     delegatedValidators.concat(validatorAddress),
     x => x

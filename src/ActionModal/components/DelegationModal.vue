@@ -71,7 +71,7 @@
       class="action-modal-form-group"
       field-id="amount"
       :field-label="
-        `Amount ${
+        `Amount${
           network === 'polkadot-testnet' && totalStaked > 0 ? ' (Optional)' : ''
         }`
       "
@@ -421,7 +421,7 @@ export default {
         return (
           (!this.address || !this.network) &&
           // only needed for polkadot to determine if user needs to set an amount
-          this.network !== "polkadot-testnet"
+         !this.network.startsWith("polkadot")
         )
       },
       variables() {
