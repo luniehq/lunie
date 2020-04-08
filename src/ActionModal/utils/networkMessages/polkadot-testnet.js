@@ -34,17 +34,11 @@ export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
   } else {
     transactions.push(await api.tx.staking.bondExtra(amount))
   }
-  if (
-    !delegatedValidators.find(
-      delegatedValidators => delegatedValidators === validatorAddress
-    )
-  ) {
-    const validatorAddresses = uniqBy(
-      delegatedValidators.concat(validatorAddress),
-      x => x
-    )
-    transactions.push(await api.tx.staking.nominate(validatorAddresses))
-  }
+  const validatorAddresses = uniqBy(
+    delegatedValidators.concat(validatorAddress),
+    x => x
+  )
+  transactions.push(await api.tx.staking.nominate(validatorAddresses))
   if (transactions.length === 0) {
     throw new Error("You have to either bond stake or nominate a new validator")
   }
