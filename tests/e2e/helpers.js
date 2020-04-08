@@ -239,6 +239,8 @@ async function actionModalCheckout(
   // go to portfolio to remember balances
   browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
 
+  // remember the open rewards
+  // TODO account for multiple rewards?
   const rewardText = await waitForElementToHaveText(
     browser,
     ".table-cell.rewards"
