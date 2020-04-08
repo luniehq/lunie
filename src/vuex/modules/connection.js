@@ -57,10 +57,7 @@ export default function({ apollo }) {
           const fallbackNetwork = state.networks.find(
             network => network.id == state.externals.config.fallbackNetwork
           )
-          // I don't know why this doesn't work anymore...
-          // await dispatch(`setNetwork`, fallbackNetwork)
-          // and I have to do it like this for the tests to pass
-          await this.setNetwork({ dispatch, commit }, fallbackNetwork)
+          await dispatch("setNetwork", fallbackNetwork)
         }
       }
     },
