@@ -316,7 +316,7 @@ export default {
       amount: {
         required: x =>
           this.network.startsWith("polkadot") && this.totalStaked > 0
-            ? false
+            ? true
             : !!x && x !== `0`,
         decimal,
         between: between(SMALLEST, this.maxAmount)
@@ -333,14 +333,14 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.validators
       }
     },
@@ -362,19 +362,19 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.delegations
       }
     },
@@ -391,18 +391,19 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address || !this.stakingDenom
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address,
           denom: this.stakingDenom
         }
       },
+      /* istanbul ignore next */
       update(data) {
         return data.balance || { amount: 0 }
       }
@@ -416,21 +417,22 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return (
           (!this.address || !this.network) &&
           // only needed for polkadot to determine if user needs to set an amount
           !this.network.startsWith("polkadot")
         )
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address
         }
       },
+      /* istanbul ignore next */
       update({ overview: { totalStake, liquidStake } }) {
         return totalStake - liquidStake
       }
@@ -438,22 +440,21 @@ export default {
   },
   $subscribe: {
     userTransactionAdded: {
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address
         }
       },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address
       },
       query: UserTransactionAdded,
+      /* istanbul ignore next */
       result() {
-        /* istanbul ignore next */
         this.$apollo.queries.balance.refetch()
-        /* istanbul ignore next */
         this.$apollo.queries.delegations.refetch()
       }
     }
