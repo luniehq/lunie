@@ -53,16 +53,16 @@ describe(`NetworkList`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`returns an empty string`, () => {
+  it(`should return an empty string if the route is not a select-network modal`, () => {
     expect(wrapper.vm.whichFlow).toBe("")
   })
 
-  it(`returns the create route as a string`, () => {
+  it(`returns the create route as a string if part of the create flow`, () => {
     wrapper.setData({ $route: { name: `select-network-create` } })
     expect(wrapper.vm.whichFlow).toBe("/create")
   })
 
-  it(`returns the recover route as a string`, () => {
+  it(`returns the recover route as a string if part of the recover flow`, () => {
     wrapper.setData({ $route: { name: `select-network-recover` } })
     expect(wrapper.vm.whichFlow).toBe("/recover")
   })
