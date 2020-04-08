@@ -70,7 +70,11 @@
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
-      field-label="Amount"
+      :field-label="
+        `Amount${
+          network.startsWith('polkadot') && totalStaked > 0 ? ' (Optional)' : ''
+        }`
+      "
     >
       <span class="input-suffix max-button">{{ stakingDenom }}</span>
       <TmFieldGroup>
@@ -310,7 +314,10 @@ export default {
   validations() {
     return {
       amount: {
-        required: x => !!x && x !== `0`,
+        required: x =>
+          this.network.startsWith("polkadot") && this.totalStaked > 0
+            ? false
+            : !!x && x !== `0`,
         decimal,
         between: between(SMALLEST, this.maxAmount)
       }
@@ -398,6 +405,34 @@ export default {
       },
       update(data) {
         return data.balance || { amount: 0 }
+      }
+    },
+    totalStaked: {
+      query: gql`
+        query overview($networkId: String!, $address: String!) {
+          overview(networkId: $networkId, address: $address) {
+            liquidStake
+            totalStake
+          }
+        }
+      `,
+      skip() {
+        /* istanbul ignore next */
+        return (
+          (!this.address || !this.network) &&
+          // only needed for polkadot to determine if user needs to set an amount
+          !this.network.startsWith("polkadot")
+        )
+      },
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.network,
+          address: this.address
+        }
+      },
+      update({ overview: { totalStake, liquidStake } }) {
+        return totalStake - liquidStake
       }
     }
   },
