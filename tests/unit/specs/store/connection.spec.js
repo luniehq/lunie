@@ -86,7 +86,7 @@ describe(`Module: Connection`, () => {
     localStorage.clear()
   })
 
-  it.only(`assigns the user the fallback network if there is no persisted network 
+  it(`assigns the user the fallback network if there is no persisted network 
   and the default network is not among the available networks`, async () => {
     const dispatch = jest.fn()
     const commit = jest.fn()
