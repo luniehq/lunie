@@ -44,11 +44,11 @@ export default {
 </script>
 <style>
 .copyable-address {
+  font-size: 12px;
   display: inline-flex;
   align-items: center;
   padding: 0;
   margin: 0;
-  font-size: inherit;
   color: var(--link);
 }
 

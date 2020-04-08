@@ -1,7 +1,6 @@
 <template>
   <div>
     <div id="app">
-      <router-view name="session" />
       <AppHeader />
       <div id="app-content">
         <div id="bar-container">
@@ -9,6 +8,7 @@
           <MaintenanceBar />
           <DisconnectedBar />
         </div>
+        <router-view name="session" />
         <router-view />
       </div>
       <MobileMenu />

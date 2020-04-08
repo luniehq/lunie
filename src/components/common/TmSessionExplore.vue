@@ -168,7 +168,7 @@ export default {
       if (addressType === "explore") return `Explore Mode`
       if (addressType === "ledger") return `Ledger Nano S`
       if (addressType === "extension") return `Lunie Browser Extension`
-      if (addressType === "local") return `Mobile App`
+      if (addressType === "local") return `Local`
     },
     async exploreWith(address) {
       this.address = address
@@ -203,8 +203,7 @@ export default {
 .tm-li-session {
   display: flex;
   padding: 1rem;
-  margin-bottom: 0.25rem;
-  border: 2px solid var(--bc);
+  margin: 0.5rem 0;
   background-color: var(--app-fg);
   border-radius: 0.25rem;
 }

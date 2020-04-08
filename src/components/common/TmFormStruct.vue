@@ -50,7 +50,6 @@ export default {
   position: relative;
   width: var(--width-main);
   display: flex;
-  height: 100%;
 }
 
 .form-main {

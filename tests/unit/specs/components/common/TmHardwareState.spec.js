@@ -1,4 +1,4 @@
-import { mount } from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import TmHardwareState from "common/TmHardwareState"
 
 describe(`TmHardwareState`, () => {
@@ -10,7 +10,7 @@ describe(`TmHardwareState`, () => {
   }
 
   beforeEach(() => {
-    wrapper = mount(TmHardwareState, {
+    wrapper = shallowMount(TmHardwareState, {
       propsData,
       slots: {
         default: `Detecting your Ledger Wallet`
