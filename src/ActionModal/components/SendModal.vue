@@ -97,6 +97,11 @@
         :msg="`You don't have enough ${selectedToken}s to proceed.`"
       />
       <TmFormMsg
+        v-else-if="$v.amount.$error && !$v.amount.min"
+        type="custom"
+        :msg="`Minimum you can operate with an amount of ${smallestAmount}.`"
+      />
+      <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.maxDecimals"
         type="custom"
         :msg="`Maximum 6 decimals are allowed.`"
@@ -191,7 +196,8 @@ export default {
     selectedToken: undefined,
     balances: [],
     transactionTypes,
-    messageType
+    messageType,
+    smallestAmount: SMALLEST
   }),
   computed: {
     ...mapGetters([`network`, `networks`, `stakingDenom`]),
@@ -365,6 +371,7 @@ export default {
         required: x => !!x && x !== `0`,
         decimal,
         max: x => Number(x) <= this.maxAmount,
+        min: x => Number(x) >= SMALLEST,
         maxDecimals: x => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6
