@@ -2,32 +2,32 @@
   <div class="network-item" :class="{ disabled: disabled }">
     <div class="network-icon">
       <img
-        :src="`${networkitem.icon}`"
-        :alt="`logo for network ${networkitem.title}`"
+        :src="`${networkItem.icon}`"
+        :alt="`logo for network ${networkItem.title}`"
       />
     </div>
     <div class="network-content">
       <h4 class="network-title">
-        {{ networkitem.title }}
+        {{ networkItem.title }}
       </h4>
       <p class="network-caption">
-        {{ networkitem.chain_id }}
+        {{ networkItem.chain_id }}
       </p>
     </div>
     <PoweredBy
-      :network="networkitem"
+      :network="networkItem"
       :is-current-network="isCurrentNetwork"
       hide-on-mobile
     />
     <div class="network-status">
       <img
-        v-if="!connected && network === networkitem.id"
+        v-if="!connected && network === networkItem.id"
         class="tm-connected-network-loader"
         src="~assets/images/loader.svg"
         alt="a small spinning circle to display loading"
       />
       <div
-        v-else-if="!disabled && connected && network === networkitem.id"
+        v-else-if="!disabled && connected && isCurrentNetwork"
         class="network-selected"
       >
         <i class="material-icons notranslate">check</i>
@@ -46,7 +46,7 @@ export default {
     PoweredBy
   },
   props: {
-    networkitem: {
+    networkItem: {
       type: Object,
       required: true
     },
@@ -58,7 +58,7 @@ export default {
   computed: {
     ...mapGetters([`connected`, `network`]),
     isCurrentNetwork() {
-      return this.networkitem.id === this.network
+      return this.networkItem.id === this.network
     }
   }
 }

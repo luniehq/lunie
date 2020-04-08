@@ -225,10 +225,6 @@ export default {
   border-radius: 100%;
 }
 
-.tx .bech32-address {
-  position: relative;
-}
-
 .tx .copied {
   position: absolute;
   top: -0.5rem;

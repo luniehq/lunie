@@ -139,7 +139,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
                 class="tm-li-session-subtitle"
               >
                 
-                Mobile App
+                Local
               
               </p>
             </div>

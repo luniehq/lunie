@@ -1,5 +1,9 @@
-import { shallowMount } from "@vue/test-utils"
+import { shallowMount, createLocalVue } from "@vue/test-utils"
 import SessionFrame from "common/SessionFrame"
+import { focusParentLast } from "src/directives"
+
+let localVue = createLocalVue()
+localVue.directive("focus-last", focusParentLast)
 
 describe(`SessionFrame`, () => {
   let wrapper
@@ -10,6 +14,7 @@ describe(`SessionFrame`, () => {
 
   beforeEach(() => {
     wrapper = shallowMount(SessionFrame, {
+      localVue,
       mocks: {
         $store: { getters },
         $router: {

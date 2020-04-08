@@ -28,7 +28,7 @@ exports[`TmLiSession has the expected html structure 1`] = `
   </div>
    
   <div
-    class="tm-li-session-icon"
+    class="tm-li-session-icon arrow"
   >
     <i
       class="material-icons notranslate"
