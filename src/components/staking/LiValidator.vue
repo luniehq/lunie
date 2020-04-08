@@ -207,7 +207,7 @@ export default {
 }
 .incoming-delegations-message {
   position: absolute;
-  right: 10px;
+  right: 4vh;
 }
 @media screen and (max-width: 768px) {
   .li-validator-name {
