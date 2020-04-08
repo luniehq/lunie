@@ -595,11 +595,6 @@ span {
   line-height: normal;
 }
 
-.copyable-address {
-  font-size: 12px;
-  line-height: normal;
-}
-
 .button-container {
   justify-content: space-between;
 }

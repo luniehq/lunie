@@ -70,8 +70,4 @@ export default {
 .account-button {
   padding: 0.25rem 0.5rem;
 }
-
-.copyable-address {
-  font-size: 14px;
-}
 </style>
