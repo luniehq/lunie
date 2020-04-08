@@ -316,7 +316,7 @@ export default {
       amount: {
         required: x =>
           this.network.startsWith("polkadot") && this.totalStaked > 0
-            ? false
+            ? true
             : !!x && x !== `0`,
         decimal,
         between: between(SMALLEST, this.maxAmount)
