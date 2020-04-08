@@ -71,7 +71,7 @@
       class="action-modal-form-group"
       field-id="amount"
       :field-label="
-        `Amount ${
+        `Amount${
           network === 'polkadot-testnet' && totalStaked > 0 ? ' (Optional)' : ''
         }`
       "
