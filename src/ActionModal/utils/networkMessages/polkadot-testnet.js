@@ -24,20 +24,21 @@ export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
   const response = await api.query.staking.nominators(senderAddress)
   const { targets: delegatedValidators = [] } = response.toJSON() || {}
   const transactions = []
-  if (amount > 0) {
+
+  // Check if controller is already set
+  const controller = await api.query.staking.bonded(senderAddress)
+
+  if (controller.toString() === `` && amount > 0) {
+    const payee = 0
+    transactions.push(await api.tx.staking.bond(senderAddress, amount, payee))
+  } else {
     transactions.push(await api.tx.staking.bondExtra(amount))
   }
-  if (
-    !delegatedValidators.find(
-      delegatedValidators => delegatedValidators === validatorAddress
-    )
-  ) {
-    const validatorAddresses = uniqBy(
-      delegatedValidators.concat(validatorAddress),
-      x => x
-    )
-    transactions.push(await api.tx.staking.nominate(validatorAddresses))
-  }
+  const validatorAddresses = uniqBy(
+    delegatedValidators.concat(validatorAddress),
+    x => x
+  )
+  transactions.push(await api.tx.staking.nominate(validatorAddresses))
   if (transactions.length === 0) {
     throw new Error("You have to either bond stake or nominate a new validator")
   }
