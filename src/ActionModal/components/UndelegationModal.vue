@@ -103,11 +103,20 @@
         type="numeric"
       />
       <TmFormMsg
-        v-else-if="$v.amount.$error && !$v.amount.between"
-        :max="$v.amount.$params.between.max"
-        :min="$v.amount.$params.between.min"
+        v-else-if="$v.amount.$error && !$v.amount.max"
+        type="custom"
+        :msg="`You don't have enough ${stakingDenom}s to proceed.`"
+      />
+      <TmFormMsg
+        v-else-if="$v.amount.$error && !$v.amount.min"
+        :min="smallestAmount"
         name="Amount"
-        type="between"
+        type="min"
+      />
+      <TmFormMsg
+        v-else-if="$v.amount.$error && !$v.amount.maxDecimals"
+        name="Amount"
+        type="maxDecimals"
       />
     </TmFormGroup>
   </ActionModal>
@@ -117,7 +126,7 @@
 import { mapState, mapGetters } from "vuex"
 import gql from "graphql-tag"
 import { toMicroUnit, SMALLEST } from "src/scripts/num"
-import { between, decimal } from "vuelidate/lib/validators"
+import { decimal } from "vuelidate/lib/validators"
 import ActionModal from "./ActionModal"
 import TmField from "src/components/common/TmField"
 import TmFieldGroup from "src/components/common/TmFieldGroup"
@@ -158,7 +167,8 @@ export default {
       amount: 0,
       denom: ``
     },
-    messageType
+    messageType,
+    smallestAmount: SMALLEST
   }),
   computed: {
     ...mapState([`session`]),
@@ -284,7 +294,13 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, this.maximum)
+        max: x => Number(x) <= this.maximum,
+        min: x => Number(x) >= SMALLEST,
+        maxDecimals: x => {
+          return x.toString().split(".").length > 1
+            ? x.toString().split(".")[1].length <= 6
+            : true
+        }
       }
     }
   },

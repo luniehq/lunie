@@ -95,11 +95,20 @@
         type="numberic"
       />
       <TmFormMsg
-        v-else-if="$v.amount.$error && !$v.amount.between"
-        :max="$v.amount.$params.between.max"
-        :min="$v.amount.$params.between.min"
-        name="Deposit"
-        type="between"
+        v-else-if="$v.amount.$error && !$v.amount.max"
+        type="custom"
+        :msg="`You don't have enough ${stakingDenom}s to proceed.`"
+      />
+      <TmFormMsg
+        v-else-if="$v.amount.$error && !$v.amount.min"
+        :min="smallestAmount"
+        name="Amount"
+        type="min"
+      />
+      <TmFormMsg
+        v-else-if="$v.amount.$error && !$v.amount.maxDecimals"
+        name="Amount"
+        type="maxDecimals"
       />
     </TmFormGroup>
   </ActionModal>
@@ -112,7 +121,6 @@ import {
   minLength,
   maxLength,
   required,
-  between,
   decimal
 } from "vuelidate/lib/validators"
 import { toMicroUnit, SMALLEST } from "scripts/num"
@@ -158,7 +166,8 @@ export default {
       denom: ``
     },
     transactionTypes,
-    messageType
+    messageType,
+    smallestAmount: SMALLEST
   }),
   computed: {
     ...mapGetters([`network`, `networks`, `stakingDenom`]),
@@ -217,7 +226,17 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, this.balance.amount)
+        max: x => Number(x) <= this.balance.amount,
+        min: x => Number(x) >= SMALLEST,
+        maxDecimals: x => {
+          if (x) {
+            return x.toString().split(".").length > 1
+              ? x.toString().split(".")[1].length <= 6
+              : true
+          } else {
+            return false
+          }
+        }
       }
     }
   },

@@ -92,11 +92,20 @@
         type="numeric"
       />
       <TmFormMsg
-        v-else-if="$v.amount.$error && !$v.amount.between"
-        :max="$v.amount.$params.between.max"
-        :min="$v.amount.$params.between.min"
+        v-else-if="$v.amount.$error && !$v.amount.max"
+        type="custom"
+        :msg="`You don't have enough ${selectedToken}s to proceed.`"
+      />
+      <TmFormMsg
+        v-else-if="$v.amount.$error && !$v.amount.min"
+        :min="smallestAmount"
         name="Amount"
-        type="between"
+        type="min"
+      />
+      <TmFormMsg
+        v-else-if="$v.amount.$error && !$v.amount.maxDecimals"
+        name="Amount"
+        type="maxDecimals"
       />
       <TmFormMsg
         v-else-if="isMaxAmount()"
@@ -137,7 +146,7 @@
 <script>
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
-import { required, between, decimal, maxLength } from "vuelidate/lib/validators"
+import { required, decimal, maxLength } from "vuelidate/lib/validators"
 import { toMicroUnit, SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
@@ -188,7 +197,8 @@ export default {
     selectedToken: undefined,
     balances: [],
     transactionTypes,
-    messageType
+    messageType,
+    smallestAmount: SMALLEST
   }),
   computed: {
     ...mapGetters([`network`, `networks`, `stakingDenom`]),
@@ -247,6 +257,12 @@ export default {
           whitelistedAccount.includes(this.address)
         )
       )
+    },
+    maxAmount() {
+      return this.maxDecimals(
+        this.selectedBalance.amount - this.getTerraTax(true),
+        6
+      )
     }
   },
   watch: {
@@ -296,18 +312,13 @@ export default {
       this.sending = false
     },
     setMaxAmount() {
-      this.amount = this.maxDecimals(
-        this.selectedBalance.amount - this.getTerraTax(true),
-        6
-      )
+      this.amount = this.maxAmount
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
         return false
       } else {
-        return (
-          parseFloat(this.amount) === parseFloat(this.selectedBalance.amount)
-        )
+        return parseFloat(this.amount) === this.maxAmount
       }
     },
     token() {
@@ -360,7 +371,13 @@ export default {
       amount: {
         required: x => !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, this.selectedBalance.amount)
+        max: x => Number(x) <= this.maxAmount,
+        min: x => Number(x) >= SMALLEST,
+        maxDecimals: x => {
+          return x.toString().split(".").length > 1
+            ? x.toString().split(".")[1].length <= 6
+            : true
+        }
       },
       denoms: { required },
       selectedToken: { required },
