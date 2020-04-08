@@ -15,7 +15,7 @@
       >
         <LiValidator
           v-for="(validator, index) in showingValidators"
-          :key="validator.operatorAddress"
+          :key="validator.operatorAddress.concat(`-${index}`)"
           :index="index"
           :validator="validator"
           :delegation="getDelegation(validator)"

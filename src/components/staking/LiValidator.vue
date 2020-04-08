@@ -1,6 +1,7 @@
 <template>
   <tr
     class="li-validator"
+    :class="{ incomingDelegation: delegation.active === 'INACTIVE' }"
     :data-name="validator.name"
     @click="
       $router.push({
@@ -57,6 +58,12 @@
           </h5>
         </div>
       </div>
+      <span
+        v-if="delegation.active === 'INACTIVE'"
+        class="incoming-delegations-message"
+      >
+        Incoming
+      </span>
     </td>
     <td :class="{ 'hide-xs': showOnMobile !== 'expectedReturns' }">
       {{
@@ -193,6 +200,14 @@ export default {
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);
+}
+.incomingDelegation {
+  background-color: var(--bc-dim);
+  filter: grayscale(100%);
+}
+.incoming-delegations-message {
+  position: absolute;
+  right: 10px;
 }
 @media screen and (max-width: 768px) {
   .li-validator-name {

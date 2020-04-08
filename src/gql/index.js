@@ -71,6 +71,7 @@ export const DelegationsForDelegator = schema => gql`
         ${ValidatorFragment}
       }
       amount
+      active
     }
   }
 `
