@@ -2,12 +2,14 @@ import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { mount, createLocalVue } from "@vue/test-utils"
 import TmSessionHardware from "common/TmSessionHardware"
+import { focusParentLast } from "src/directives"
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 localVue.use(Vuelidate)
 localVue.directive(`tooltip`, () => {})
 localVue.directive(`focus`, () => {})
+localVue.directive("focus-last", focusParentLast)
 localVue.directive("clipboard", () => {})
 
 jest.mock("scripts/ledger", () => ({

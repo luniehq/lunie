@@ -73,8 +73,8 @@
               min="0"
             />
             <TmFormMsg
-              v-if="overview.liquidStake === 0"
-              :msg="`doesn't have any ${network.stakingDenom}s`"
+              v-if="Number(selectedBalance.amount) === 0"
+              :msg="`doesn't have any ${selectedBalance.denom}s`"
               name="Wallet"
               type="custom"
             />
@@ -84,11 +84,15 @@
               type="required"
             />
             <TmFormMsg
-              v-else-if="$v.gasPrice.$error && !$v.gasPrice.between"
-              :max="$v.gasPrice.$params.between.max"
+              v-if="$v.gasPrice.$error && !$v.gasPrice.max"
+              type="custom"
+              :msg="`You don't have enough ${selectedDenom}s to proceed.`"
+            />
+            <TmFormMsg
+              v-else-if="$v.gasPrice.$error && !$v.gasPrice.min"
               :min="0"
               name="Gas price"
-              type="between"
+              type="min"
             />
           </TmFormGroup>
           <TableInvoice
@@ -97,11 +101,15 @@
             :bond-denom="getDenom"
           />
           <TmFormMsg
-            v-if="$v.invoiceTotal.$invalid"
+            v-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.max"
+            type="custom"
+            :msg="`You don't have enough ${selectedDenom}s to proceed.`"
+          />
+          <TmFormMsg
+            v-else-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.min"
+            :min="smallestAmount"
             name="Total"
-            type="between"
-            min="0"
-            :max="selectedBalance.amount"
+            type="min"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
@@ -291,8 +299,8 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
-import { viewDenom, prettyInt } from "src/scripts/num"
-import { between, requiredIf } from "vuelidate/lib/validators"
+import { viewDenom, prettyInt, SMALLEST } from "src/scripts/num"
+import { requiredIf } from "vuelidate/lib/validators"
 import { track, sendEvent } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
@@ -436,7 +444,8 @@ export default {
     isMobileApp: config.mobileApp,
     balances: [],
     queueEmpty: true,
-    includedHeight: undefined
+    includedHeight: undefined,
+    smallestAmount: SMALLEST
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -639,7 +648,8 @@ export default {
     goToSession() {
       this.close()
 
-      this.$router.push(`/welcome`)
+      this.$store.dispatch(`signOut`, this.network)
+      if (this.$route.name !== `portfolio`) this.$router.push(`portfolio`)
     },
     isValidInput(property) {
       this.$v[property].$touch()
@@ -816,10 +826,12 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        between: between(0, this.selectedBalance.amount)
+        max: x => Number(x) <= this.selectedBalance.amount,
+        min: x => Number(x) >= 0
       },
       invoiceTotal: {
-        between: between(0, this.selectedBalance.amount)
+        max: x => Number(x) <= this.selectedBalance.amount,
+        min: x => Number(x) >= SMALLEST
       }
     }
   },
@@ -850,8 +862,6 @@ export default {
       query: gql`
         query OverviewActionModal($networkId: String!, $address: String!) {
           overview(networkId: $networkId, address: $address) {
-            totalRewards
-            liquidStake
             accountInformation {
               accountNumber
               sequence
@@ -868,19 +878,11 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        if (!data.overview) {
-          return {
-            totalRewards: 0
-          }
-        }
-        return {
-          ...data.overview,
-          totalRewards: Number(data.overview.totalRewards)
-        }
+        return data.overview || {}
       },
       /* istanbul ignore next */
       skip() {
-        return !this.session.address
+        return !this.session.address || this.step !== signStep
       }
     },
     gasEstimate: {
@@ -912,7 +914,11 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.session.address || !this.transactionData
+        return (
+          !this.session.address ||
+          !this.transactionData ||
+          this.step !== feeStep
+        )
       }
     },
     $subscribe: {

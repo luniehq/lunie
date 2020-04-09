@@ -70,7 +70,11 @@
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
-      field-label="Amount"
+      :field-label="
+        `Amount${
+          network.startsWith('polkadot') && totalStaked > 0 ? ' (Optional)' : ''
+        }`
+      "
     >
       <span class="input-suffix max-button">{{ stakingDenom }}</span>
       <TmFieldGroup>
@@ -112,11 +116,20 @@
         type="required"
       />
       <TmFormMsg
-        v-else-if="$v.amount.$error && !$v.amount.between"
-        :max="$v.amount.$params.between.max"
-        :min="$v.amount.$params.between.min"
+        v-else-if="$v.amount.$error && !$v.amount.max"
+        type="custom"
+        :msg="`You don't have enough ${stakingDenom}s to proceed.`"
+      />
+      <TmFormMsg
+        v-else-if="$v.amount.$error && !$v.amount.min"
+        :min="smallestAmount"
         name="Amount"
-        type="between"
+        type="min"
+      />
+      <TmFormMsg
+        v-else-if="$v.amount.$error && !$v.amount.maxDecimals"
+        name="Amount"
+        type="maxDecimals"
       />
       <TmFormMsg
         v-else-if="isMaxAmount() && !isRedelegation"
@@ -130,7 +143,7 @@
 
 <script>
 import { mapState, mapGetters } from "vuex"
-import { between, decimal } from "vuelidate/lib/validators"
+import { decimal } from "vuelidate/lib/validators"
 import gql from "graphql-tag"
 import { toMicroUnit, SMALLEST } from "src/scripts/num"
 import TmField from "src/components/common/TmField"
@@ -174,7 +187,8 @@ export default {
     validators: [],
     delegations: [],
     transactionTypes,
-    messageType
+    messageType,
+    smallestAmount: SMALLEST
   }),
   computed: {
     ...mapState([`session`]),
@@ -310,9 +324,18 @@ export default {
   validations() {
     return {
       amount: {
-        required: x => !!x && x !== `0`,
+        required: x =>
+          this.network.startsWith("polkadot") && this.totalStaked > 0
+            ? true
+            : !!x && x !== `0`,
         decimal,
-        between: between(SMALLEST, this.maxAmount)
+        max: x => Number(x) <= this.maxAmount,
+        min: x => Number(x) >= SMALLEST,
+        maxDecimals: x => {
+          return x.toString().split(".").length > 1
+            ? x.toString().split(".")[1].length <= 6
+            : true
+        }
       }
     }
   },
@@ -326,14 +349,14 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.validators
       }
     },
@@ -355,19 +378,19 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           delegatorAddress: this.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.delegations
       }
     },
@@ -384,41 +407,70 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address || !this.stakingDenom
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address,
           denom: this.stakingDenom
         }
       },
+      /* istanbul ignore next */
       update(data) {
         return data.balance || { amount: 0 }
       }
-    }
-  },
-  $subscribe: {
-    userTransactionAdded: {
+    },
+    totalStaked: {
+      query: gql`
+        query overview($networkId: String!, $address: String!) {
+          overview(networkId: $networkId, address: $address) {
+            liquidStake
+            totalStake
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      skip() {
+        return (
+          (!this.address || !this.network) &&
+          // only needed for polkadot to determine if user needs to set an amount
+          !this.network.startsWith("polkadot")
+        )
+      },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.network,
           address: this.address
         }
       },
+      /* istanbul ignore next */
+      update({ overview: { totalStake, liquidStake } }) {
+        return totalStake - liquidStake
+      }
+    }
+  },
+  $subscribe: {
+    userTransactionAdded: {
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address
+        }
+      },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address
       },
       query: UserTransactionAdded,
+      /* istanbul ignore next */
       result() {
-        /* istanbul ignore next */
         this.$apollo.queries.balance.refetch()
-        /* istanbul ignore next */
         this.$apollo.queries.delegations.refetch()
       }
     }

@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.188] - 2020-04-06
+
+### Added
+
+- [#3806](https://github.com/cosmos/lunie/issues/3806) Split rewards from overview query @mariopino
+
+### Changed
+
+- [#3842](https://github.com/cosmos/lunie/pull/3842) Adds the governance messages for Terra @Bitcoinera
+
+### Fixed
+
+- [#3825](https://github.com/cosmos/lunie/issues/3825) Fixes fees being added on top of max amount for any transaction @Bitcoinera
+
+### Repository
+
+- Change location of netlify.config to be picked up properly @faboweb
+- Readd the release logic until GitHub actions work @faboweb
+- Switch to release via GitHub actions @faboweb
+
 ## [1.0.187] - 2020-04-01
 
 ### Fixed

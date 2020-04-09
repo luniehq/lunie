@@ -1,14 +1,15 @@
 <template>
   <TmPage data-title="Network" class="page" hide-header>
     <template>
-      <h3>Main Networks</h3>
-      <NetworkList :networks="mainNetworks" />
+      <NetworkList :networks="mainNetworks" section-title="Main Networks" />
 
-      <h3>Test Networks</h3>
-      <NetworkList :networks="testNetworks" />
+      <NetworkList :networks="testNetworks" section-title="Test Networks" />
 
-      <h3>Coming Soon</h3>
-      <NetworkList :networks="comingSoon" :disabled="true" />
+      <NetworkList
+        :networks="comingSoon"
+        :disabled="true"
+        section-title="Coming Soon"
+      />
     </template>
   </TmPage>
 </template>
@@ -69,13 +70,6 @@ export default {
   padding: 2rem;
   margin: 0 auto;
   max-width: 680px;
-}
-
-h3 {
-  margin: 0 0 0.25rem 1rem;
-  color: var(--dim);
-  font-size: var(--sm);
-  font-weight: 500;
 }
 
 @media screen and (max-width: 767px) {

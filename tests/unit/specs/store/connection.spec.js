@@ -90,7 +90,6 @@ describe(`Module: Connection`, () => {
   and the default network is not among the available networks`, async () => {
     const dispatch = jest.fn()
     const commit = jest.fn()
-    state.network = "strangenet"
     state.externals = {
       config: {
         stargate: `https://voyager.lol`,
@@ -98,12 +97,12 @@ describe(`Module: Connection`, () => {
         fallbackNetwork: `localnet`
       }
     }
+    state.networks = [networks[2]]
     await actions.checkForPersistedNetwork({ dispatch, commit })
-    expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
+    expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {
       id: `localnet`,
       slug: `local`
     })
-    expect(commit).toHaveBeenCalledWith(`setNetworkSlug`, "local")
   })
 
   it("should switch networks", async () => {

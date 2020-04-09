@@ -129,24 +129,6 @@ describe(`TmBalance`, () => {
     expect(wrapper.vm.getAllDenoms).toEqual(["ATOM"])
   })
 
-  it(`should return true if rewards contain multiple denoms`, () => {
-    wrapper.setData({
-      balances: [
-        {
-          amount: 1,
-          denom: "ATOM",
-          fiatValue: `33€`
-        },
-        {
-          amount: 2,
-          denom: "TOKEN1",
-          fiatValue: `1.5€`
-        }
-      ]
-    })
-    expect(wrapper.vm.isMultiDenomNetwork).toBe(true)
-  })
-
   it(`should show How To Get Tokens tutorial`, () => {
     wrapper.setData({
       showTutorial: false

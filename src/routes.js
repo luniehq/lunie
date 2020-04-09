@@ -22,16 +22,6 @@ export default store => {
       }
     },
     {
-      path: `/welcome`,
-      name: `welcome`,
-      components: {
-        session: () => import(`./components/common/TmSessionWelcome`)
-      },
-      meta: {
-        feature: "Session"
-      }
-    },
-    {
       path: `/login`,
       name: `login`,
       components: {
@@ -42,7 +32,7 @@ export default store => {
       }
     },
     {
-      path: `/selectnetwork`,
+      path: `/select-network`,
       name: `select-network`,
       components: {
         session: () => import(`./components/common/TmSelectNetwork`)
@@ -52,8 +42,18 @@ export default store => {
       }
     },
     {
-      path: `/selectnetwork/:recover`,
+      path: `/select-network/recover`,
       name: `select-network-recover`,
+      components: {
+        session: () => import(`./components/common/TmSelectNetwork`)
+      },
+      meta: {
+        feature: "Session"
+      }
+    },
+    {
+      path: `/select-network/create`,
+      name: `select-network-create`,
       components: {
         session: () => import(`./components/common/TmSelectNetwork`)
       },
@@ -182,16 +182,6 @@ export default store => {
       name: `extension`,
       components: {
         session: () => import(`./components/common/TmSessionExtension`)
-      },
-      meta: {
-        feature: "Session"
-      }
-    },
-    {
-      path: `/existing`,
-      name: `existing`,
-      components: {
-        session: () => import(`./components/common/TmSessionExisting`)
       },
       meta: {
         feature: "Session"

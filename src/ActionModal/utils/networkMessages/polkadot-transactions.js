@@ -5,7 +5,7 @@ import { WsProvider, ApiPromise } from "@polkadot/api"
 
 // will only be inited once per session
 let api
-async function getAPI() {
+export async function getAPI() {
   if (!api) {
     api = new ApiPromise({
       provider: new WsProvider("wss://kusama-rpc.polkadot.io/")
@@ -28,16 +28,23 @@ async function getAPI() {
 //   return provider.send(method, params)
 // }
 
+export async function multiMessage(transactions) {
+  const api = await getAPI()
+  return api.tx.utility.batch(transactions)
+}
+
 /**
  * Entry point of the script.
  */
-export async function getSignMessage(
-  senderAddress,
-  section,
-  method,
-  transactionArguments
-  //   substrateNodeEndpoint
-) {
+export async function getSignMessage(senderAddress, transaction) {
+  if (Array.isArray(transaction)) {
+    if (transaction.length > 1) {
+      transaction = await multiMessage(transaction)
+    } else {
+      transaction = transaction[0]
+    }
+  }
+
   const api = await getAPI()
   const nonce = (await api.derive.balances.account(senderAddress)).accountNonce
   let options
@@ -54,8 +61,6 @@ export async function getSignMessage(
     nonce
   }
   blockNumber = signedBlock.block.header.number
-
-  const transaction = api.tx[section][method](...transactionArguments)
 
   const payload = api.createType("SignerPayload", {
     version: api.extrinsicVersion,

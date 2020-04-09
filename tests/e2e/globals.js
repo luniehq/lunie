@@ -76,47 +76,28 @@ async function next(browser) {
 }
 
 async function createNewAccount(browser, networkData) {
-  return browser.url(
-    browser.launch_url + "/welcome?insecure=true",
-    async () => {
-      await browser.waitForElementVisible(`body`, 10000, true)
-      await browser.click("#create-new-address")
-      await browser.waitForElementVisible(
-        `.select-network-item[data-network=${networkData.network}]`,
-        10000,
-        true,
-        () => {
-          browser.execute(
-            function(network) {
-              document
-                .querySelector(`.select-network-item[data-network=${network}]`)
-                .click()
-            },
-            [networkData.network]
-          )
-        }
-      )
-      await browser.waitForElementVisible("#sign-up-name", 10000, true)
-      browser.setValue("#sign-up-name", "demo-account")
-      await next(browser)
-      browser.waitForElementVisible("#sign-up-password", 10000, true)
-      await next(browser)
-      browser.setValue("#sign-up-password", "1234567890")
-      browser.setValue("#sign-up-password-confirm", "1234567890")
-      await next(browser)
-      browser.waitForElementVisible(".seed-table", 10000, true)
-      browser.expect
-        .element(".seed-table")
-        .text.to.match(/(\d+\s+\w+\s+){23}\d+\s+\w+/)
-        .before(10000)
-      await next(browser)
-      browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
-      browser.click("#sign-up-warning")
-      await next(browser)
-      browser.waitForElementVisible(".balance-header", 10000, true) // wait until signup is completed
-      return true
-    }
-  )
+  return browser.url(browser.launch_url + "/create", async () => {
+    await browser.waitForElementVisible(`body`, 10000, true)
+    await browser.waitForElementVisible("#sign-up-name", 10000, true)
+    browser.setValue("#sign-up-name", "demo-account")
+    await next(browser)
+    browser.waitForElementVisible("#sign-up-password", 10000, true)
+    await next(browser)
+    browser.setValue("#sign-up-password", networkData.password)
+    browser.setValue("#sign-up-password-confirm", networkData.password)
+    await next(browser)
+    browser.waitForElementVisible(".seed-table", 10000, true)
+    browser.expect
+      .element(".seed-table")
+      .text.to.match(/(\d+\s+\w+\s+){23}\d+\s+\w+/)
+      .before(10000)
+    await next(browser)
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+    browser.click("#sign-up-warning")
+    await next(browser)
+    browser.waitForElementVisible(".balance-header", 10000, true) // wait until signup is completed
+    return true
+  })
 }
 
 async function initialiseDefaults(browser) {
