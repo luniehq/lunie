@@ -16,4 +16,4 @@ jobs:
       - name: Add simsala
         run: npm install simsala
       - name: Check if changlog was updated
-        run: node node_modules/simsala/src/cli.js check -- --pending-path ./changes --root-branch origin/develop
+        run: node node_modules/simsala/src/cli.js check -- --pending-path ./changes
