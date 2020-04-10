@@ -5,13 +5,11 @@ const { ApiPromise, WsProvider } = require('@polkadot/api')
 const _ = require('lodash')
 
 async function initPolkadotRPC(network, store) {
-  console.time('init polkadot')
   const api = new ApiPromise({
     provider: new WsProvider(network.rpc_url)
   })
   store.polkadotRPC = api
   await api.isReady
-  console.timeEnd('init polkadot')
 }
 
 function storeRewards(rewards, chainId) {
