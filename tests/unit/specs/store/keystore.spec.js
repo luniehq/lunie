@@ -141,17 +141,20 @@ describe(`Module: Keystore`, () => {
   })
 
   it(`should create a Polkadot address from a seed phrase`, async () => {
-    const address = await actions.getAddressFromSeed(
-      {
-        getters: {
-          networks
-        }
-      },
-      {
-        seedPhrase: `enable story warrior detail cradle inherit over cattle unhappy concert reveal clay keep tourist tenant brief simple drum plug inform glue business ski dream`,
-        network: `polkadot-testnet`
+    const store = {
+      getters: {
+        networks: [
+          {
+            id: "polkadot-testnet",
+            network_type: "polkadot"
+          }
+        ]
       }
-    )
+    }
+    const address = await actions.getAddressFromSeed(store, {
+      seedPhrase: `enable story warrior detail cradle inherit over cattle unhappy concert reveal clay keep tourist tenant brief simple drum plug inform glue business ski dream`,
+      network: `polkadot-testnet`
+    })
     expect(address).toBe(`HKFeFq1CTzCfTNhNtQDqe3nCR6WzimGdUdLzr7v7ukw6fnx`)
   })
 
@@ -235,27 +238,28 @@ describe(`Module: Keystore`, () => {
     apollo.query.mockImplementationOnce(() => ({
       data: {}
     }))
-    const dispatch = jest.fn()
+    const store = {
+      dispatch: jest.fn(),
+      getters: {
+        networks: [
+          {
+            id: "fabo-net",
+            network_type: "fabocolor"
+          }
+        ]
+      }
+    }
 
     const seedPhrase = `abc`
     const password = `123`
     const name = `def`
     await expect(
-      actions.createKey(
-        {
-          state,
-          dispatch,
-          getters: {
-            networks
-          }
-        },
-        {
-          seedPhrase,
-          password,
-          name,
-          network: "fabo-net"
-        }
-      )
+      actions.createKey(store, {
+        seedPhrase,
+        password,
+        name,
+        network: "fabo-net"
+      })
     ).rejects.toThrowError(
       "Lunie doesn't support address creation for this network."
     )
