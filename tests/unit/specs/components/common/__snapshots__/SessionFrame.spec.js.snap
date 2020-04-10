@@ -5,51 +5,39 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
   class="session-frame"
   mode="out-in"
   name="component-fade"
+  tabindex="0"
 >
-  <router-link-stub
-    to="/"
-  >
-    <img
-      class="session-logo"
-      src="~assets/images/lunie-logo-white.svg"
-    />
-  </router-link-stub>
-   
   <div
     class="session-outer-container"
   >
     <div
       class="session"
     >
-      <a>
-        <i
-          class="material-icons notranslate circle back"
+      <div
+        class="session-header"
+      >
+        <a>
+          <i
+            class="material-icons notranslate circle back"
+          >
+            arrow_back
+          </i>
+        </a>
+         
+        <div
+          class="session-close"
         >
-          arrow_back
-        </i>
-      </a>
+          <a>
+            <i
+              class="material-icons notranslate circle back"
+            >
+              close
+            </i>
+          </a>
+        </div>
+      </div>
        
     </div>
-  </div>
-   
-  <div
-    class="session-close"
-  >
-    <tmbtn-stub
-      class="session-close-button"
-      color="secondary"
-      value="Back to Lunie"
-    />
-     
-    <a
-      class="user-box"
-    >
-      <i
-        class="material-icons notranslate"
-      >
-        close
-      </i>
-    </a>
   </div>
 </div>
 `;

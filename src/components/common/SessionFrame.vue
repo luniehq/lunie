@@ -1,47 +1,47 @@
 <template>
   <transition name="component-fade" mode="out-in">
-    <div class="session-frame">
-      <router-link to="/">
-        <img class="session-logo" src="~assets/images/lunie-logo-white.svg" />
-      </router-link>
+    <div
+      v-focus-last
+      class="session-frame"
+      tabindex="0"
+      @keyup.esc="goToPortfolio()"
+      @click.self="goToPortfolio()"
+    >
       <div class="session-outer-container">
         <div class="session">
-          <a v-if="!hideBack" @click="goBack">
-            <i class="material-icons notranslate circle back">arrow_back</i>
-          </a>
+          <div class="session-header">
+            <a v-if="!hideBack" @click="goBack">
+              <i class="material-icons notranslate circle back">arrow_back</i>
+            </a>
+            <div v-if="!isExtension" class="session-close">
+              <a @click="goToPortfolio()">
+                <i class="material-icons notranslate circle back">close</i>
+              </a>
+            </div>
+          </div>
           <slot></slot>
         </div>
-      </div>
-      <div class="session-close">
-        <TmBtn
-          class="session-close-button"
-          value="Back to Lunie"
-          color="secondary"
-          @click.native="goToPortfolio()"
-        />
-        <a class="user-box" @click="goToPortfolio()">
-          <i class="material-icons notranslate">close</i>
-        </a>
       </div>
     </div>
   </transition>
 </template>
 
 <script>
+import config from "src/../config"
 import { mapGetters } from "vuex"
-import TmBtn from "common/TmBtn"
 
 export default {
   name: `session-frame`,
-  components: {
-    TmBtn
-  },
+  components: {},
   props: {
     hideBack: {
       type: Boolean,
       default: false
     }
   },
+  data: () => ({
+    isExtension: config.isExtension
+  }),
   computed: {
     ...mapGetters([`networkSlug`])
   },
@@ -63,4 +63,14 @@ export default {
 
 <style>
 @import "../../styles/session.css";
+
+.component-fade-enter-active,
+.component-fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.component-fade-enter,
+.component-fade-leave-to .component-fade-leave-active {
+  opacity: 0;
+}
 </style>

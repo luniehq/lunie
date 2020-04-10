@@ -46,21 +46,8 @@
           />
           <TmFormMsg
             v-else-if="$v.address.$error && !$v.address.addressValidate"
-            name="Your Address"
             type="custom"
-            msg="isn't recognised by Lunie. Did you type correctly?"
-          />
-          <TmFormMsg
-            v-else-if="$v.address.$error && !$v.address.isNotAValidatorAddress"
-            name="You can't sign in with a validator address"
-            type="custom"
-          />
-          <TmFormMsg
-            v-else-if="
-              $v.address.$error && !$v.address.isAWhitelistedBech32Prefix
-            "
-            name="You can only sign in with a regular address"
-            type="custom"
+            :msg="addressError"
           />
           <TmFormMsg v-else-if="error" :name="error" type="custom" />
         </TmFormGroup>
@@ -93,7 +80,6 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
-import bech32 from "bech32"
 import { formatAddress } from "src/filters"
 
 export default {
@@ -112,6 +98,7 @@ export default {
   data: () => ({
     address: ``,
     error: ``,
+    addressError: undefined,
     testnet: false
   }),
   computed: {
@@ -168,37 +155,6 @@ export default {
         }
       })
     },
-    bech32Validate(param) {
-      try {
-        bech32.decode(param)
-        return true
-      } catch (error) {
-        return false
-      }
-    },
-    isNotAValidatorAddress(param) {
-      // TODO this only works for cosmos
-      if (param.substring(0, 13) !== "cosmosvaloper") {
-        return true
-      } else {
-        return false
-      }
-    },
-    isAWhitelistedBech32Prefix(param) {
-      if (
-        param.substring(0, 7) === "cosmos1" ||
-        param.substring(0, 6) === "terra1" ||
-        param.substring(0, 5) === "xrn:1" ||
-        param.substring(0, 7) === "emoney1" ||
-        param.substring(0, 6) === "akash1" ||
-        param.substring(0, 2) === "0x" ||
-        this.isPolkadotAddress(param)
-      ) {
-        return true
-      } else {
-        return false
-      }
-    },
     async selectNetworkByAddress(network) {
       this.$store.dispatch(`setNetwork`, network)
     },
@@ -212,28 +168,32 @@ export default {
       if (addressType === "explore") return `Explore Mode`
       if (addressType === "ledger") return `Ledger Nano S`
       if (addressType === "extension") return `Lunie Browser Extension`
-      if (addressType === "local") return `Mobile App`
+      if (addressType === "local") return `Local`
     },
     async exploreWith(address) {
       this.address = address
       await this.onSubmit()
     },
     async addressValidate(address) {
-      return await this.$store.dispatch("getNetworkByAccount", {
-        account: {
-          address
-        },
-        testnet: this.testnet
-      })
+      try {
+        await this.$store.dispatch("getNetworkByAccount", {
+          account: {
+            address
+          },
+          testnet: this.testnet
+        })
+        return true
+      } catch (error) {
+        this.addressError = error.message
+        return false
+      }
     }
   },
   validations() {
     return {
       address: {
         required,
-        addressValidate: this.addressValidate,
-        isNotAValidatorAddress: this.isNotAValidatorAddress,
-        isAWhitelistedBech32Prefix: this.isAWhitelistedBech32Prefix
+        addressValidate: this.addressValidate
       }
     }
   }
@@ -243,8 +203,7 @@ export default {
 .tm-li-session {
   display: flex;
   padding: 1rem;
-  margin-bottom: 0.25rem;
-  border: 2px solid var(--bc);
+  margin: 0.5rem 0;
   background-color: var(--app-fg);
   border-radius: 0.25rem;
 }

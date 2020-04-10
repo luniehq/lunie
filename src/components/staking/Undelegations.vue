@@ -1,16 +1,21 @@
 <template>
-  <div
-    v-if="
-      !$apollo.queries.undelegations.loading &&
-        undelegations &&
-        undelegations.length > 0
-    "
-    class="undelegations"
-  >
-    <h1>
-      Pending
-    </h1>
-    <TableUndelegations :undelegations="undelegations" />
+  <div class="table-container">
+    <div
+      v-if="$apollo.queries.undelegations.loading && !undelegationsLoaded"
+      class="loading-image-container"
+    >
+      <img
+        class="loading-image"
+        src="/img/portfolio-loading.svg"
+        alt="geometric placeholder shapes"
+      />
+    </div>
+    <div v-else-if="undelegations.length > 0" class="undelegations">
+      <h1>
+        Pending
+      </h1>
+      <TableUndelegations :undelegations="undelegations" />
+    </div>
   </div>
 </template>
 
@@ -26,7 +31,8 @@ export default {
     TableUndelegations
   },
   data: () => ({
-    undelegations: []
+    undelegations: [],
+    undelegationsLoaded: false
   }),
   computed: {
     ...mapGetters([`address`, `network`])
@@ -55,8 +61,9 @@ export default {
           delegatorAddress: this.address
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
+        this.undelegationsLoaded = true
         return data.undelegations
       }
     },

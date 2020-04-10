@@ -610,7 +610,12 @@ exports[`ActionModal should show the action modal when user has logged in with e
       estimatedfee="0"
     />
      
-    <!---->
+    <tmformmsg-stub
+      min="0.000001"
+      msg=""
+      name="Total"
+      type="min"
+    />
   </div>
    
   <!---->
@@ -628,6 +633,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
       />
        
       <tmbtn-stub
+        disabled="true"
         type="primary"
         value="Next"
       />
@@ -883,7 +889,12 @@ exports[`ActionModal should show the action modal when user has logged in with l
       estimatedfee="0"
     />
      
-    <!---->
+    <tmformmsg-stub
+      min="0.000001"
+      msg=""
+      name="Total"
+      type="min"
+    />
   </div>
    
   <!---->
@@ -901,6 +912,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       />
        
       <tmbtn-stub
+        disabled="true"
         type="primary"
         value="Next"
       />
@@ -1134,7 +1146,12 @@ exports[`ActionModal should show the action modal when user has logged in with l
       estimatedfee="0"
     />
      
-    <!---->
+    <tmformmsg-stub
+      min="0.000001"
+      msg=""
+      name="Total"
+      type="min"
+    />
   </div>
    
   <!---->
@@ -1152,6 +1169,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       />
        
       <tmbtn-stub
+        disabled="true"
         type="primary"
         value="Next"
       />

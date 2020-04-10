@@ -343,11 +343,11 @@ describe(`ActionModal`, () => {
   })
 
   it(`opens session modal and closes itself`, () => {
-    const $store = { commit: jest.fn() }
-    const self = { $store, close: jest.fn(), $router: { push: jest.fn() } }
+    const $store = { commit: jest.fn(), dispatch: jest.fn() }
+    const self = { $store, close: jest.fn(), $router: { push: jest.fn() }, $route: { name: `route` } }
     ActionModal.methods.goToSession.call(self)
     expect(self.close).toHaveBeenCalled()
-    expect(self.$router.push).toHaveBeenCalledWith(`/welcome`)
+    expect(self.$router.push).toHaveBeenCalledWith(`portfolio`)
   })
 
   it(`shows a password input for local signing`, async () => {
@@ -556,6 +556,18 @@ describe(`ActionModal`, () => {
     }
     ActionModal.methods.adjustFeesToMaxPayable.call(self)
     expect(self.gasPrice).toBe(1.0000000000000008e-8) // a bit lower then gasEstimate. feels right
+  })
+
+  it(`should take chain applied fees into account when adjusting fees for max amount`, async () => {
+    const self = {
+      invoiceTotal: 1.001,
+      selectedBalance: balances[1],
+      subTotal: 0.999,
+      gasEstimate: 100000,
+      chainAppliedFees: 0.001
+    }
+    ActionModal.methods.adjustFeesToMaxPayable.call(self)
+    expect(self.gasPrice).toBe(0.00001)
   })
 
   describe(`submit`, () => {

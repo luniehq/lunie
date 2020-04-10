@@ -1,3 +1,0 @@
-[context.deploy-preview]
-    SENTRY_DSN = ""
-    command = "yarn build --mode development"

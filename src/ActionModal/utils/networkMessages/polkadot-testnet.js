@@ -1,4 +1,5 @@
-import { getSignMessage } from "./polkadot-transactions"
+import { getSignMessage, getAPI } from "./polkadot-transactions"
+import uniqBy from "lodash.uniqby"
 
 // Bank
 /* istanbul ignore next */
@@ -9,132 +10,38 @@ export async function MsgSend(
     amounts // [{ denom, amount}]
   }
 ) {
-  return await getSignMessage(senderAddress, "balances", "transfer", [
-    toAddress,
-    amounts[0].amount
-  ])
+  const api = await getAPI()
+  return await getSignMessage(
+    senderAddress,
+    api.tx.balances.transfer(toAddress, amounts[0].amount)
+  )
 }
 
-// // Staking
-// export function MsgDelegate(
-//   senderAddress,
-//   { validatorAddress, amount, denom }
-// ) {
-//   /* istanbul ignore next */
-//   return {
-//     type: `cosmos-sdk/MsgDelegate`,
-//     value: {
-//       delegator_address: senderAddress,
-//       validator_address: validatorAddress,
-//       amount: Coin({ amount, denom })
-//     }
-//   }
-// }
+// Staking
+export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
+  // stake with all existing plus the selected
+  const api = await getAPI()
+  const transactions = []
 
-// export function MsgUndelegate(
-//   senderAddress,
-//   { validatorAddress, amount, denom }
-// ) {
-//   /* istanbul ignore next */
-//   return {
-//     type: `cosmos-sdk/MsgUndelegate`,
-//     value: {
-//       validator_address: validatorAddress,
-//       delegator_address: senderAddress,
-//       amount: Coin({ amount, denom })
-//     }
-//   }
-// }
+  // Check if controller is already set
+  const controller = await api.query.staking.bonded(senderAddress)
 
-// export function MsgRedelegate(
-//   senderAddress,
-//   { validatorSourceAddress, validatorDestinationAddress, amount, denom }
-// ) {
-//   /* istanbul ignore next */
-//   return {
-//     type: `cosmos-sdk/MsgBeginRedelegate`,
-//     value: {
-//       delegator_address: senderAddress,
-//       validator_src_address: validatorSourceAddress,
-//       validator_dst_address: validatorDestinationAddress,
-//       amount: Coin({ amount, denom })
-//     }
-//   }
-// }
+  if (controller.toString() === `` && amount > 0) {
+    const payee = 0
+    transactions.push(await api.tx.staking.bond(senderAddress, amount, payee))
+  } else {
+    transactions.push(await api.tx.staking.bondExtra(amount))
+  }
 
-// // Governance
-// export function MsgSubmitProposal(
-//   senderAddress,
-//   {
-//     title,
-//     description,
-//     initialDeposits // [{ denom, amount }]
-//   }
-// ) {
-//   /* istanbul ignore next */
-//   return {
-//     type: `cosmos-sdk/MsgSubmitProposal`,
-//     value: {
-//       content: {
-//         type: "cosmos-sdk/TextProposal",
-//         value: {
-//           title,
-//           description
-//         }
-//       },
-//       proposer: senderAddress,
-//       initial_deposit: initialDeposits.map(Coin)
-//     }
-//   }
-// }
-
-// export function MsgVote(senderAddress, { proposalId, option }) {
-//   /* istanbul ignore next */
-//   return {
-//     type: `cosmos-sdk/MsgVote`,
-//     value: {
-//       voter: senderAddress,
-//       proposal_id: proposalId,
-//       option
-//     }
-//   }
-// }
-
-// export function MsgDeposit(
-//   senderAddress,
-//   {
-//     proposalId,
-//     amounts // [{ denom, amount }]
-//   }
-// ) {
-//   /* istanbul ignore next */
-//   return {
-//     type: `cosmos-sdk/MsgDeposit`,
-//     value: {
-//       depositor: senderAddress,
-//       proposal_id: proposalId,
-//       amount: amounts.map(Coin)
-//     }
-//   }
-// }
-
-// export function MsgWithdrawDelegationReward(
-//   senderAddress,
-//   { validatorAddress }
-// ) {
-//   /* istanbul ignore next */
-//   return {
-//     type: `cosmos-sdk/MsgWithdrawDelegationReward`,
-//     value: {
-//       delegator_address: senderAddress,
-//       validator_address: validatorAddress
-//     }
-//   }
-// }
-
-// function Coin({ amount, denom }) {
-//   return {
-//     amount: String(amount),
-//     denom
-//   }
-// }
+  const response = await api.query.staking.nominators(senderAddress)
+  const { targets: delegatedValidators = [] } = response.toJSON() || {}
+  const validatorAddresses = uniqBy(
+    delegatedValidators.concat(validatorAddress),
+    x => x
+  )
+  transactions.push(await api.tx.staking.nominate(validatorAddresses))
+  if (transactions.length === 0) {
+    throw new Error("You have to either bond stake or nominate a new validator")
+  }
+  return await getSignMessage(senderAddress, transactions)
+}

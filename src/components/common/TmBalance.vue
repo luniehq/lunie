@@ -119,8 +119,8 @@
         </div>
 
         <div class="table-cell rewards">
-          <h2 v-if="overview.totalRewards > 0.001">
-            +{{ overview.totalRewards | bigFigureOrShortDecimals }}
+          <h2 v-if="totalRewards > 0.001">
+            +{{ totalRewards | bigFigureOrShortDecimals }}
             {{ stakingDenom }}
           </h2>
         </div>
@@ -238,10 +238,9 @@ export default {
   },
   data() {
     return {
-      overview: {
-        rewards: []
-      },
+      overview: {},
       sentToGA: false,
+      rewardsSentToGA: false,
       balances: [],
       showTutorial: false,
       rewards: [],
@@ -327,33 +326,26 @@ export default {
         return [this.stakingDenom]
       }
     },
-    isMultiDenomNetwork() {
-      if (this.balances && this.balances.length > 0) {
-        return this.balances.find(
-          balance => balance.denom !== this.stakingDenom
-        )
-          ? true
-          : false
-      } else {
-        return false
-      }
-    },
     currencySupport() {
-      return (
-        this.isMultiDenomNetwork &&
-        this.stakingBalance &&
-        this.stakingBalance.fiatValue
-      )
+      return this.stakingBalance && this.stakingBalance.fiatValue
     },
     totalRewardsPerDenom() {
-      if (this.overview.rewards && this.overview.rewards.length > 0) {
-        return this.overview.rewards.reduce((all, reward) => {
-          return {
-            ...all,
-            [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0)
-          }
-        }, {})
-      } else return {}
+      return this.rewards.reduce((all, reward) => {
+        return {
+          ...all,
+          [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0)
+        }
+      }, {})
+    },
+    totalRewards() {
+      return this.totalRewardsPerDenom[this.stakingDenom] || 0
+    }
+  },
+  watch: {
+    totalRewards(totalRewards) {
+      if (this.rewards && !this.rewardsSentToGA) {
+        this.sendRewards(totalRewards)
+      }
     }
   },
   mounted() {
@@ -373,22 +365,23 @@ export default {
     hideTutorial() {
       this.showTutorial = false
     },
-    calculateTotalRewardsDenom(denom) {
-      if (this.overview.rewards && this.overview.rewards.length > 0) {
-        const rewardsAccumulator = this.overview.rewards.reduce(
-          (sum, reward) => {
-            return reward.denom === denom
-              ? (sum += parseFloat(reward.amount))
-              : sum
-          },
-          0
-        )
-        return rewardsAccumulator
-      }
-    },
     setPreferredCurrency() {
       localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
       this.preferredCurrency = this.selectedFiatCurrency
+    },
+    sendRewards(totalRewards) {
+      // sending to ga only once
+      sendEvent(
+        {
+          network: this.network,
+          address: this.address
+        },
+        "Portfolio",
+        "Balance",
+        "totalRewards",
+        totalRewards
+      )
+      this.rewardsSentToGA = true
     }
   },
   apollo: {
@@ -404,17 +397,12 @@ export default {
             address: $address
             fiatCurrency: $fiatCurrency
           ) {
-            totalRewards
             liquidStake
             totalStake
             totalStakeFiatValue {
               amount
               denom
               symbol
-            }
-            rewards {
-              amount
-              denom
             }
           }
         }
@@ -451,28 +439,9 @@ export default {
             "totalStake",
             data.overview.totalStake
           )
-          sendEvent(
-            {
-              network: this.network,
-              address: this.address
-            },
-            "Portfolio",
-            "Balance",
-            "totalRewards",
-            data.overview.totalRewards
-          )
           this.sentToGA = true
         }
-        if (!data.overview) {
-          return {
-            totalRewards: 0
-          }
-        }
-        return {
-          ...data.overview,
-          totalRewards: Number(data.overview.totalRewards),
-          rewards: data.overview.rewards
-        }
+        return data.overview
       },
       /* istanbul ignore next */
       skip() {
@@ -514,6 +483,36 @@ export default {
         return !this.address
       }
     },
+    rewards: {
+      query: gql`
+        query rewards(
+          $networkId: String!
+          $delegatorAddress: String!
+          $fiatCurrency: String
+        ) {
+          rewards(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            fiatCurrency: $fiatCurrency
+          ) {
+            amount
+            denom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address,
+          fiatCurrency: this.selectedFiatCurrency || "EUR"
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
+      }
+    },
     $subscribe: {
       blockAdded: {
         /* istanbul ignore next */
@@ -538,6 +537,7 @@ export default {
           /* istanbul ignore next */
           this.$apollo.queries.overview.refetch()
           this.$apollo.queries.balances.refetch()
+          this.$apollo.queries.rewards.refetch()
         }
       }
     }

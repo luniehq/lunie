@@ -2,9 +2,7 @@ module.exports = {
   "Sign in with local account": async function(browser) {
     await prepare(browser)
 
-    await browser.click("#use-an-existing-address")
     await browser.waitForElementVisible("#sign-in-with-account", 10000, true)
-    await browser.pause(500)
     await browser.click("#sign-in-with-account")
     await browser.waitForElementVisible("#sign-in-name", 10000, true)
     await browser.click(
@@ -20,9 +18,9 @@ module.exports = {
   "Import local account": async function(browser) {
     await prepare(browser)
 
-    browser.click("#use-an-existing-address")
     browser.waitForElementVisible("#recover-with-backup", 10000, true)
-    browser.pause(500)
+    // scroll to bottom
+    browser.execute('window.scrollTo(0,document.body.scrollHeight);');
     browser.click("#recover-with-backup")
 
     await browser.waitForElementVisible(
@@ -146,7 +144,6 @@ async function prepare(browser) {
     await signOut(browser)
   }
   await signIn(browser)
-  browser.waitForElementVisible("#session-welcome", 10000, true)
 }
 
 async function isSignedIn(browser) {

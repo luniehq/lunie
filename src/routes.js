@@ -7,12 +7,11 @@ import { setNetwork } from "./scripts/setNetwork"
 /**
  * Routes are all defined here
  */
-export default (apollo, store) => {
+export default store => {
   return [
     {
       path: `/`,
-      beforeEnter: (to, from, next) =>
-        setNetwork({ to, from, next }, apollo, store)
+      beforeEnter: (to, from, next) => setNetwork({ to, from, next }, store)
     },
     {
       path: `/networks`,
@@ -20,16 +19,6 @@ export default (apollo, store) => {
       component: () => import(`./components/network/PageNetworks`),
       meta: {
         requiresAuth: false
-      }
-    },
-    {
-      path: `/welcome`,
-      name: `welcome`,
-      components: {
-        session: () => import(`./components/common/TmSessionWelcome`)
-      },
-      meta: {
-        feature: "Session"
       }
     },
     {
@@ -43,7 +32,7 @@ export default (apollo, store) => {
       }
     },
     {
-      path: `/selectnetwork`,
+      path: `/select-network`,
       name: `select-network`,
       components: {
         session: () => import(`./components/common/TmSelectNetwork`)
@@ -53,8 +42,18 @@ export default (apollo, store) => {
       }
     },
     {
-      path: `/selectnetwork/:recover`,
+      path: `/select-network/recover`,
       name: `select-network-recover`,
+      components: {
+        session: () => import(`./components/common/TmSelectNetwork`)
+      },
+      meta: {
+        feature: "Session"
+      }
+    },
+    {
+      path: `/select-network/create`,
+      name: `select-network-create`,
       components: {
         session: () => import(`./components/common/TmSelectNetwork`)
       },
@@ -175,7 +174,7 @@ export default (apollo, store) => {
       name: `extension-signin`,
       beforeEnter: function(to, from, next) {
         /* istanbul ignore next */
-        return extensionSignIn({ to, from, next }, apollo, store)
+        return extensionSignIn({ to, from, next }, store)
       }
     },
     {
@@ -183,16 +182,6 @@ export default (apollo, store) => {
       name: `extension`,
       components: {
         session: () => import(`./components/common/TmSessionExtension`)
-      },
-      meta: {
-        feature: "Session"
-      }
-    },
-    {
-      path: `/existing`,
-      name: `existing`,
-      components: {
-        session: () => import(`./components/common/TmSessionExisting`)
       },
       meta: {
         feature: "Session"
@@ -231,8 +220,7 @@ export default (apollo, store) => {
     {
       path: `/:networkId`,
       component: () => import(`./components/common/NetworkSetter`),
-      beforeEnter: (to, from, next) =>
-        setNetwork({ to, from, next }, apollo, store),
+      beforeEnter: (to, from, next) => setNetwork({ to, from, next }, store),
       redirect: `/:networkId/portfolio`,
       children: [
         {
@@ -320,7 +308,7 @@ export default (apollo, store) => {
 }
 
 // handle direct sign in from the extension via deeplink
-export async function extensionSignIn({ to, next }, apollo, store) {
+export async function extensionSignIn({ to, next }, store) {
   let network = store.getters.networks.find(
     ({ id }) => id === to.params.network
   )

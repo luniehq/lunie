@@ -122,6 +122,20 @@ describe(`SendModal`, () => {
       await wrapper.vm.$nextTick()
       expect(wrapper.element).toMatchSnapshot()
     })
+
+    it(`should show an error if trying to send more then the max amount of tokens`, async () => {
+      wrapper.setProps({
+        denom: `STAKE`
+      })
+      wrapper.setData({
+        address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767`,
+        amount: 1000
+      })
+      const valid = wrapper.vm.validateForm()
+      expect(valid).toBe(false)
+      await wrapper.vm.$nextTick()
+      expect(wrapper.element).toMatchSnapshot()
+    })
   })
 
   it(`should submit when enterPressed is called`, async () => {
@@ -265,6 +279,9 @@ describe(`SendModal`, () => {
         getTerraTax: SendModal.methods.getTerraTax,
         maxDecimals: SendModal.methods.maxDecimals
       }
+      const maxAmount = SendModal.computed.maxAmount.call(self)
+      expect(maxAmount).toBe(0.99325)
+      self.maxAmount = maxAmount
       SendModal.methods.setMaxAmount.call(self)
       expect(self.amount).toBe(0.99325)
     })

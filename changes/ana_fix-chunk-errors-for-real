@@ -1,0 +1,1 @@
+[Changed] [#3760](https://github.com/cosmos/lunie/issues/3760) Now there is a running script on production that will check if there has been any new Lunie version deployed while the user had Lunie open on the browser and, in that case, reload the page to update. Fixes the chunk error @Bitcoinera

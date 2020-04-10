@@ -53,6 +53,12 @@ export default {
         case `between`:
           msg = `must be between ${prettyDecimals(this.min)} and ${this.max}`
           break
+        case `maxDecimals`:
+          msg = `can have maximum 6 decimals`
+          break
+        case `min`:
+          msg = `must be greater than ${prettyDecimals(this.min)}`
+          break
         case `date`:
           msg = `must be a valid date`
           break
@@ -85,6 +91,9 @@ export default {
           break
         case `words24`:
           msg = `phrase must be 24 words`
+          break
+        case `lowercaseAndSpaces`:
+          msg = `phrase words must be all lowercase and separated by spaces`
           break
         case `url`:
           msg = `must be a valid URL (http:// required)`

@@ -26,6 +26,10 @@ describe(`TmBalance`, () => {
         overview: {
           loading: false,
           error: false
+        },
+        rewards: {
+          loading: false,
+          error: false
         }
       }
     }
@@ -39,23 +43,26 @@ describe(`TmBalance`, () => {
     wrapper.setData({
       overview: {
         totalStake: 3210,
-        liquidStake: 1230,
-        totalRewards: 1000.45,
-        rewards: [
-          {
-            amount: 1,
-            denom: `TOKEN1`
-          },
-          {
-            amount: 2,
-            denom: `TOKEN1`
-          },
-          {
-            amount: 1.5,
-            denom: `TOKEN1`
-          }
-        ]
-      }
+        liquidStake: 1230
+      },
+      rewards: [
+        {
+          amount: 1,
+          denom: `TOKEN1`
+        },
+        {
+          amount: 2,
+          denom: `TOKEN1`
+        },
+        {
+          amount: 1.5,
+          denom: `TOKEN1`
+        },
+        {
+          amount: 5,
+          denom: `ATOM`
+        }
+      ]
     })
   })
 
@@ -103,10 +110,7 @@ describe(`TmBalance`, () => {
 
   it(`disables claim rewards button when no rewards`, () => {
     wrapper.setData({
-      overview: {
-        totalRewards: 0,
-        rewards: []
-      }
+      rewards: []
     })
     const $refs = {
       ModalWithdrawRewards: {
@@ -123,24 +127,6 @@ describe(`TmBalance`, () => {
       balances: []
     })
     expect(wrapper.vm.getAllDenoms).toEqual(["ATOM"])
-  })
-
-  it(`should return true if rewards contain multiple denoms`, () => {
-    wrapper.setData({
-      balances: [
-        {
-          amount: 1,
-          denom: "ATOM",
-          fiatValue: `33€`
-        },
-        {
-          amount: 2,
-          denom: "TOKEN1",
-          fiatValue: `1.5€`
-        }
-      ]
-    })
-    expect(wrapper.vm.isMultiDenomNetwork).toBe(true)
   })
 
   it(`should show How To Get Tokens tutorial`, () => {
@@ -165,6 +151,10 @@ describe(`TmBalance`, () => {
     }
     TmBalance.methods.setPreferredCurrency.call(self)
     expect(localStorage.getItem(`preferredCurrency`, `USD`))
+  })
+
+  it(`should calculate the total rewards amount `, () => {
+    expect(wrapper.vm.totalRewards).toBe(5)
   })
 
   it(`should calculate the total rewards amount for each denom when rewards contain multiple denoms`, () => {

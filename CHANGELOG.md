@@ -7,6 +7,47 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.188] - 2020-04-06
+
+### Added
+
+- [#3806](https://github.com/cosmos/lunie/issues/3806) Split rewards from overview query @mariopino
+
+### Changed
+
+- [#3842](https://github.com/cosmos/lunie/pull/3842) Adds the governance messages for Terra @Bitcoinera
+
+### Fixed
+
+- [#3825](https://github.com/cosmos/lunie/issues/3825) Fixes fees being added on top of max amount for any transaction @Bitcoinera
+
+### Repository
+
+- Change location of netlify.config to be picked up properly @faboweb
+- Readd the release logic until GitHub actions work @faboweb
+- Switch to release via GitHub actions @faboweb
+
+## [1.0.187] - 2020-04-01
+
+### Fixed
+
+- [#3820](https://github.com/cosmos/lunie/pull/3820) Fixes undelegations disappearing one day before the funds getting released (i.e. undelegations too short for one day) @Bitcoinera
+
+### Deprecated
+
+- [#3760](https://github.com/cosmos/lunie/issues/3760) Add handler to kill outstanding service workers @faboweb
+
+### Code Improvements
+
+- Moved address logic to store (cleanup old code) @faboweb
+
+## [1.0.186] - 2020-04-01
+
+### Fixed
+
+- [#3819](https://github.com/cosmos/lunie/pull/3819) Fixes the getTop5RewardsValidators function logic, to pick unique validators with the highest total rewards balances @Bitcoinera
+- Fixed e2e tests failing for restake as selection wouldn't be waited for @faboweb
+
 ## [1.0.185] - 2020-04-01
 
 ### Added
