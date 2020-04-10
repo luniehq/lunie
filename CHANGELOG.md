@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.189] - 2020-04-09
+
+### Added
+
+- [#3804](https://github.com/cosmos/lunie/issues/3804) Improve error messaging if users send more tokens then they have @faboweb
+- Allow staking and bonding in Polkadot @faboweb
+
+### Changed
+
+- [#3760](https://github.com/cosmos/lunie/issues/3760) Now there is a running script on production that will check if there has been any new Lunie version deployed while the user had Lunie open on the browser and, in that case, reload the page to update. Fixes the chunk error @Bitcoinera
+- significant changes to session screens including an update to card sign in to be more of a welcome screen @jbibla
+
+### Fixed
+
+- [#3843](https://github.com/cosmos/lunie/issues/3843) Improves de validation of seed phrases in account restore and removes extra spaces @Bitcoinera
+- [#3853](https://github.com/cosmos/lunie/pull/3853) Fix the bug I had created myself of this.setNetwork is not a function in connection.js @Bitcoinera
+- [#3848](https://github.com/cosmos/lunie/issues/3848) Fixes currencySelector not appearing for e-Money accounts with just NGM balance. Simply deletes isMultiDenomNetwork checker @Bitcoinera
+- [#3854](https://github.com/cosmos/lunie/pull/3854) Fixes the amount required validation for Polkadot in DelegationModal @Bitcoinera
+
+### Code Improvements
+
+- Remove unused totalRewards from actionmodal query @faboweb
+
+### Repository
+
+- Updated capacitor and configuration for Android @faboweb
+- Linting is now faster as it only lints changed files on PRs @faboweb
+
 ## [1.0.188] - 2020-04-06
 
 ### Added
