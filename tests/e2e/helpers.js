@@ -237,7 +237,7 @@ async function actionModalCheckout(
       browser.click("#closeBtn")
     })
   // go to portfolio to remember balances
-  browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
 
   // remember the open rewards
   // TODO account for multiple rewards?
@@ -245,7 +245,6 @@ async function actionModalCheckout(
     browser,
     ".table-cell.rewards"
   )
-  browser.waitForText()
   const rewardsExpr = /\+(.+) \w+/
   const rewards = Number(rewardsExpr.exec(rewardText)[1])
 
