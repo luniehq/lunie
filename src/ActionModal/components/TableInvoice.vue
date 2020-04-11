@@ -5,6 +5,13 @@
         <span>Subtotal</span>
         <span> {{ subTotal | fullDecimals }} {{ bondDenom | viewDenom }} </span>
       </li>
+      <li v-if="showDonation">
+        <span>Lunie Donation</span>
+        <span>
+          {{ donation | fullDecimals }}
+          {{ bondDenom | viewDenom }}
+        </span>
+      </li>
       <li>
         <span>Network Fee</span>
         <span>
@@ -40,6 +47,14 @@ export default {
     bondDenom: {
       type: String,
       required: true
+    },
+    donation: {
+      type: Number,
+      default: 0
+    },
+    showDonation: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({

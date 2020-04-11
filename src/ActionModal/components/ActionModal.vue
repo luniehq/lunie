@@ -95,9 +95,34 @@
               type="min"
             />
           </TmFormGroup>
+          <TmFormGroup
+            v-if="transactionType === messageType.CLAIM_REWARDS"
+            class="action-modal-group donation-selector"
+          >
+            <label class="tm-form-group__label">Lunie Donation</label>
+            <div class="donation-selector__buttons">
+              <TmBtn
+                value="0%"
+                :type="donationPercentage === 0 ? 'secondary' : 'tertiary'"
+                @click.native="donationPercentage = 0.0"
+              />
+              <TmBtn
+                value="3%"
+                :type="donationPercentage === 0.03 ? 'secondary' : 'tertiary'"
+                @click.native="donationPercentage = 0.03"
+              />
+              <TmBtn
+                value="5%"
+                :type="donationPercentage === 0.05 ? 'secondary' : 'tertiary'"
+                @click.native="donationPercentage = 0.05"
+              />
+            </div>
+          </TmFormGroup>
           <TableInvoice
             :amount="Number(subTotal)"
             :estimated-fee="estimatedFee"
+            :donation="donation"
+            :show-donation="transactionType === messageType.CLAIM_REWARDS"
             :bond-denom="getDenom"
           />
           <TmFormMsg
@@ -308,6 +333,7 @@ import * as Sentry from "@sentry/browser"
 
 import ActionManager from "../utils/ActionManager"
 import BigNumber from "bignumber.js"
+import { messageType } from "../../components/transactions/messageTypes"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -445,7 +471,9 @@ export default {
     balances: [],
     queueEmpty: true,
     includedHeight: undefined,
-    smallestAmount: SMALLEST
+    smallestAmount: SMALLEST,
+    donationPercentage: 0.03,
+    messageType
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -489,6 +517,12 @@ export default {
         this.adjustFeesToMaxPayable()
       }
       return Number(this.subTotal) + this.estimatedFee
+    },
+    donation() {
+      if (this.transactionType === messageType.CLAIM_REWARDS) {
+        return Number(this.subTotal) * this.donationPercentage
+      }
+      return 0
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -569,7 +603,8 @@ export default {
   },
   updated: function() {
     if (
-      (this.title === "Withdraw" || this.step === "fees") &&
+      (this.transactionType === messageType.CLAIM_REWARDS ||
+        this.step === feeStep) &&
       this.$refs.next
     ) {
       this.$refs.next.$el.focus()
@@ -1128,6 +1163,18 @@ export default {
   .action-modal-icon.action-modal-close {
     top: 3rem;
   }
+}
+
+.donation-selector__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+.donation-selector__buttons button {
+  flex: 1;
+  margin-right: 0.5rem !important;
+}
+.donation-selector__buttons button:last-child {
+  margin-right: 0rem !important;
 }
 
 /* iPhone X and Xs Max */
