@@ -9,17 +9,11 @@
       >
         <i class="material-icons notranslate">arrow_back</i>
       </div>
-      <div
-        id="closeBtn"
-        class="action-modal-icon action-modal-close"
-        @click="close"
-      >
+      <div id="closeBtn" class="action-modal-icon action-modal-close" @click="close">
         <i class="material-icons notranslate">close</i>
       </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">
-          {{ requiresSignIn ? `Sign in required` : title }}
-        </span>
+        <span class="action-modal-title">{{ requiresSignIn ? `Sign in required` : title }}</span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -65,13 +59,7 @@
             field-label="Gas Price"
           >
             <span class="input-suffix">{{ getDenom }}</span>
-            <TmField
-              id="gas-price"
-              v-model="gasPrice"
-              step="0.000000001"
-              type="number"
-              min="0"
-            />
+            <TmField id="gas-price" v-model="gasPrice" step="0.000000001" type="number" min="0" />
             <TmFormMsg
               v-if="Number(selectedBalance.amount) === 0"
               :msg="`doesn't have any ${selectedBalance.denom}s`"
@@ -96,7 +84,7 @@
             />
           </TmFormGroup>
           <TmFormGroup
-            v-if="transactionType === messageType.CLAIM_REWARDS"
+            v-if="transactionType === messageType.CLAIM_REWARDS && this.network.id.startsWith('cosmos-hub')"
             class="action-modal-group donation-selector"
           >
             <label class="tm-form-group__label">Lunie Donation</label>
@@ -158,9 +146,9 @@
           >
             <div v-if="session.browserWithLedgerSupport">
               {{
-                sending
-                  ? `Please verify and sign the transaction on your Ledger`
-                  : `Please plug in your Ledger&nbsp;Nano and open
+              sending
+              ? `Please verify and sign the transaction on your Ledger`
+              : `Please plug in your Ledger&nbsp;Nano and open
               the Cosmos app`
               }}
             </div>
@@ -188,8 +176,7 @@
                 href="http://bit.ly/lunie-ext"
                 target="_blank"
                 rel="noopener norefferer"
-                >Chrome Web Store</a
-              >.
+              >Chrome Web Store</a>.
             </div>
           </HardwareState>
           <form
@@ -220,15 +207,10 @@
         <div v-else-if="step === inclusionStep" class="action-modal-form">
           <TmDataMsg icon="hourglass_empty" :spin="true">
             <div slot="title">Sent and confirming</div>
-            <div slot="subtitle">
-              Waiting for confirmation from {{ networkId }}.
-            </div>
+            <div slot="subtitle">Waiting for confirmation from {{ networkId }}.</div>
           </TmDataMsg>
         </div>
-        <div
-          v-else-if="step === successStep"
-          class="action-modal-form success-step"
-        >
+        <div v-else-if="step === successStep" class="action-modal-form success-step">
           <TmDataMsg icon="check" icon-color="var(--green)" :success="true">
             <div slot="title">{{ notifyMessage.title }}</div>
             <div slot="subtitle">
@@ -239,29 +221,21 @@
                 :to="
                   `/${$router.history.current.params.networkId}/blocks/${includedHeight}`
                 "
-                >#{{ includedHeight | prettyInt }}</router-link
-              >
+              >#{{ includedHeight | prettyInt }}</router-link>
             </div>
           </TmDataMsg>
         </div>
         <p
           v-if="submissionError"
           class="tm-form-msg sm tm-form-msg--error submission-error"
-        >
-          {{ submissionError }}
-        </p>
+        >{{ submissionError }}</p>
         <div class="action-modal-footer">
           <slot name="action-modal-footer">
             <TmFormGroup
               v-if="[defaultStep, feeStep, signStep].includes(step)"
               class="action-modal-group"
             >
-              <TmBtn
-                id="closeBtn"
-                value="Cancel"
-                type="tertiary"
-                @click.native="close"
-              />
+              <TmBtn id="closeBtn" value="Cancel" type="tertiary" @click.native="close" />
               <TmBtn
                 v-if="requiresSignIn"
                 v-focus
@@ -311,29 +285,31 @@
 </template>
 
 <script>
-import gql from "graphql-tag"
-import noScroll from "no-scroll"
-import HardwareState from "src/components/common/TmHardwareState"
-import TmBtn from "src/components/common/TmBtn"
-import TmField from "src/components/common/TmField"
-import TmFormGroup from "src/components/common/TmFormGroup"
-import TmFormMsg from "src/components/common/TmFormMsg"
-import TmDataLoading from "src/components/common/TmDataLoading"
-import FeatureNotAvailable from "src/components/common/FeatureNotAvailable"
-import TmDataMsg from "common/TmDataMsg"
-import TableInvoice from "./TableInvoice"
-import Steps from "./Steps"
-import { mapState, mapGetters } from "vuex"
-import { viewDenom, prettyInt, SMALLEST } from "src/scripts/num"
-import { requiredIf } from "vuelidate/lib/validators"
-import { track, sendEvent } from "scripts/google-analytics"
-import { UserTransactionAdded } from "src/gql"
-import config from "src/../config"
-import * as Sentry from "@sentry/browser"
+import gql from 'graphql-tag'
+import noScroll from 'no-scroll'
+import HardwareState from 'src/components/common/TmHardwareState'
+import TmBtn from 'src/components/common/TmBtn'
+import TmField from 'src/components/common/TmField'
+import TmFormGroup from 'src/components/common/TmFormGroup'
+import TmFormMsg from 'src/components/common/TmFormMsg'
+import TmDataLoading from 'src/components/common/TmDataLoading'
+import FeatureNotAvailable from 'src/components/common/FeatureNotAvailable'
+import TmDataMsg from 'common/TmDataMsg'
+import TableInvoice from './TableInvoice'
+import Steps from './Steps'
+import { mapState, mapGetters } from 'vuex'
+import { viewDenom, prettyInt, SMALLEST } from 'src/scripts/num'
+import { requiredIf } from 'vuelidate/lib/validators'
+import { track, sendEvent } from 'scripts/google-analytics'
+import { UserTransactionAdded } from 'src/gql'
+import config from 'src/../config'
+import * as Sentry from '@sentry/browser'
 
-import ActionManager from "../utils/ActionManager"
-import BigNumber from "bignumber.js"
-import { messageType } from "../../components/transactions/messageTypes"
+import ActionManager from '../utils/ActionManager'
+import BigNumber from 'bignumber.js'
+import { messageType } from '../../components/transactions/messageTypes'
+import { toMicroUnit } from 'src/scripts/num'
+import { toMicroDenom } from 'src/scripts/common'
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -363,16 +339,16 @@ const signMethodOptions = {
 }
 
 const sessionType = {
-  EXPLORE: "explore",
+  EXPLORE: 'explore',
   LOCAL: SIGN_METHODS.LOCAL,
   LEDGER: SIGN_METHODS.LEDGER,
   EXTENSION: SIGN_METHODS.EXTENSION
 }
 
 const networkCapabilityDictionary = {
-  true: "ENABLED",
-  false: "DISABLED",
-  null: "MISSING"
+  true: 'ENABLED',
+  false: 'DISABLED',
+  null: 'MISSING'
 }
 
 export default {
@@ -444,7 +420,7 @@ export default {
     },
     transactionType: {
       type: String,
-      default: "UnknownTx"
+      default: 'UnknownTx'
     }
   },
   data: () => ({
@@ -484,8 +460,8 @@ export default {
       // DEPRECATE to support the upgrade of the old Boolean value to the new ENUM capability model, we support here temporarily the upgrade from the Boolean model to the ENUM model
       return typeof this.network[action] === `boolean` ||
         this.network[action] === null
-        ? networkCapabilityDictionary[this.network[action]] === "ENABLED"
-        : this.network[action] === "ENABLED"
+        ? networkCapabilityDictionary[this.network[action]] === 'ENABLED'
+        : this.network[action] === 'ENABLED'
     },
     network() {
       return this.networks.find(({ id }) => id == this.networkId)
@@ -507,7 +483,7 @@ export default {
       )
     },
     subTotal() {
-      return this.featureFlag === "undelegate" ? 0 : this.amount
+      return this.featureFlag === 'undelegate' ? 0 : this.amount
     },
     invoiceTotal() {
       if (
@@ -519,10 +495,29 @@ export default {
       return Number(this.subTotal) + this.estimatedFee
     },
     donation() {
-      if (this.transactionType === messageType.CLAIM_REWARDS) {
-        return Number(this.subTotal) * this.donationPercentage
+      if (
+        !this.network.id.startsWith('cosmos-hub') ||
+        this.transactionType !== messageType.CLAIM_REWARDS
+      ) {
+        return undefined
       }
-      return 0
+      // for now we just pick the staking denom as donation
+      const amount =
+        this.rewards
+          .filter(({ denom }) => denom === this.network.stakingDenom)
+          .reduce((total, { amount }) => total + Number(amount), 0) || 0
+      const donation = Number(amount) * this.donationPercentage
+      return donation
+    },
+    donationOnChain() {
+      return {
+        amount: toMicroUnit(
+          this.donation,
+          this.network.stakingDenom,
+          this.network
+        ),
+        denom: toMicroDenom(this.network.stakingDenom)
+      }
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -549,12 +544,12 @@ export default {
     },
     submitButtonCaption() {
       switch (this.selectedSignMethod) {
-        case "ledger":
+        case 'ledger':
           return `Waiting for Ledger`
-        case "extension":
+        case 'extension':
           return `Waiting for Extension`
         default:
-          return "Sending..."
+          return 'Sending...'
       }
     },
     getDenom() {
@@ -589,7 +584,7 @@ export default {
         }
       }
     },
-    "$apollo.loading": function(loading) {
+    '$apollo.loading': function(loading) {
       this.loaded = this.loaded || !loading
     },
     selectedBalance: {
@@ -615,7 +610,7 @@ export default {
       let confirmResult = false
       if (this.session.currrentModalOpen || !this.queueEmpty) {
         confirmResult = window.confirm(
-          "You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?"
+          'You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?'
         )
         if (confirmResult) {
           if (this.queueEmpty) {
@@ -651,7 +646,7 @@ export default {
     },
     close() {
       if (config.isMobileApp) noScroll.off()
-      if (this.step == "sign") {
+      if (this.step == 'sign') {
         // remove the request from any sign method to avoid orphaned transactions in the sign methods
         this.actionManager.cancel(
           { userAddress: this.session.address, networkId: this.network.id },
@@ -792,7 +787,8 @@ export default {
           type,
           memo,
           properties,
-          txMetaData
+          txMetaData,
+          this.donationOnChain
         )
 
         const { hash } = hashResult
@@ -817,10 +813,10 @@ export default {
           network: this.network.id,
           address: this.session.address
         },
-        "Action",
-        "Modal",
+        'Action',
+        'Modal',
         this.featureFlag,
-        this.featureFlag === "claim_rewards" &&
+        this.featureFlag === 'claim_rewards' &&
           this.rewards &&
           this.rewards.length > 0
           ? this.rewards[0].amount
@@ -831,10 +827,10 @@ export default {
     onSendingFailed(error) {
       /* istanbul ignore next */
       Sentry.withScope(scope => {
-        scope.setExtra("signMethod", this.selectedSignMethod)
-        scope.setExtra("transactionData", this.transactionData)
-        scope.setExtra("gasEstimate", this.gasEstimate)
-        scope.setExtra("gasPrice", this.gasPrice)
+        scope.setExtra('signMethod', this.selectedSignMethod)
+        scope.setExtra('transactionData', this.transactionData)
+        scope.setExtra('gasEstimate', this.gasEstimate)
+        scope.setExtra('gasPrice', this.gasPrice)
         Sentry.captureException(error)
       })
       this.step = signStep

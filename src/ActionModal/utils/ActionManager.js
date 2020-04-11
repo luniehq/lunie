@@ -68,7 +68,8 @@ export default class ActionManager {
     type,
     memo,
     transactionProperties,
-    txMetaData
+    txMetaData,
+    donation
   ) {
     const {
       gasEstimate,
@@ -108,6 +109,22 @@ export default class ActionManager {
         type,
         userAddress,
         transactionProperties
+      )
+      txMessages.push(txMessage)
+    }
+
+    if (donation.amount > 0) {
+      console.log("Adding donation transaction")
+      const txMessage = await getMessage(
+        network.id,
+        transaction.SEND,
+        userAddress,
+        {
+          toAddress:
+            network.donationAddress ||
+            "cosmos19fpzpl5s3nctstne4rqqcd6mt0dn9a0svkvkaa",
+          amounts: [donation]
+        }
       )
       txMessages.push(txMessage)
     }
