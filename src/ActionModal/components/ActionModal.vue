@@ -932,7 +932,7 @@ export default {
         },
         /* istanbul ignore next */
         skip() {
-          return !this.txHash
+          return !this.session.address || !this.txHash
         },
         query: UserTransactionAdded,
         /* istanbul ignore next */
