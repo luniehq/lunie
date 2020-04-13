@@ -1,0 +1,2 @@
+[Fixed] [#3738](https://github.com/cosmos/lunie/issues/3738) Fixes ActionModal getting stuck in loading @Bitcoinera
+[Fixed] [#3863](https://github.com/cosmos/lunie/pull/3863) Fixes $address is null in the ActionModal queries @Bitcoinera
