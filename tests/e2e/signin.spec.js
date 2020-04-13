@@ -20,7 +20,7 @@ module.exports = {
 
     browser.waitForElementVisible("#recover-with-backup", 10000, true)
     // scroll to bottom
-    browser.execute('window.scrollTo(0,document.body.scrollHeight);');
+    browser.execute("window.scrollTo(0,document.body.scrollHeight);")
     browser.click("#recover-with-backup")
 
     await browser.waitForElementVisible(
