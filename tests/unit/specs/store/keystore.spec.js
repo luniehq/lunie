@@ -143,7 +143,8 @@ describe(`Module: Keystore`, () => {
         networks: [
           {
             id: "polkadot-testnet",
-            network_type: "polkadot"
+            network_type: "polkadot",
+            address_prefix: "2"
           }
         ]
       }
