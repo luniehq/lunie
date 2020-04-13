@@ -1,1 +1,0 @@
-[Fixed] [#3853](https://github.com/cosmos/lunie/pull/3853) Fix the bug I had created myself of this.setNetwork is not a function in connection.js @Bitcoinera
