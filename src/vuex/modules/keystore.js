@@ -35,19 +35,16 @@ export default () => {
       return getSeed()
     },
     async getAddressFromSeed(store, { seedPhrase, network }) {
-      const networkObject = await this.getNetworkInfo(network, store)
+      const networkObject = await getNetworkInfo(network, store)
       const wallet = await getWallet(seedPhrase, networkObject)
       return wallet.cosmosAddress
-    },
-    async getNetworkInfo(networkId, store) {
-      return store.getters.networks.find(({ id }) => id === networkId)
     },
     async createKey(store, { seedPhrase, password, name, network }) {
       // TODO extract the key storage from the key creation
       const { storeWallet } = await import("@lunie/cosmos-keys")
 
       // get current network
-      const networkObject = await this.getNetworkInfo(network, store)
+      const networkObject = await getNetworkInfo(network, store)
       // create a new key pair
       const wallet = await getWallet(seedPhrase, networkObject)
 
@@ -65,6 +62,10 @@ export default () => {
 
       return wallet.cosmosAddress
     }
+  }
+
+  async function getNetworkInfo(networkId, store) {
+    return store.getters.networks.find(({ id }) => id === networkId)
   }
 
   return {
