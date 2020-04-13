@@ -45,7 +45,7 @@
       <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
-      <TmDataLoading v-else-if="!loaded" />
+      <TmDataLoading v-else-if="$apollo.loading && !$apollo.skipAll" />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
@@ -555,17 +555,11 @@ export default {
         }
       }
     },
-    "$apollo.loading": function(loading) {
-      this.loaded = this.loaded || !loading
-    },
     selectedBalance: {
       handler(selectedBalance) {
         this.gasPrice = selectedBalance.gasPrice
       }
     }
-  },
-  created() {
-    this.$apollo.skipAll = true
   },
   updated: function() {
     if (
@@ -597,7 +591,11 @@ export default {
       }
     },
     async open() {
-      this.$apollo.skipAll = false
+      if (!this.address) {
+        this.$apollo.skipAll = true
+      } else {
+        this.$apollo.skipAll = false
+      }
       // checking if there is something in a queue
       const queue = await this.actionManager.getSignQueue(
         this.selectedSignMethod
@@ -630,7 +628,6 @@ export default {
       this.show = false
       this.sending = false
       this.includedHeight = undefined
-      this.$apollo.skipAll = true
 
       // reset form
       // in some cases $v is not yet set
