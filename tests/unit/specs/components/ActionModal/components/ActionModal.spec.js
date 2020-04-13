@@ -308,19 +308,10 @@ describe(`ActionModal`, () => {
   })
 
   it("shows loading when there is still data to be loaded", () => {
-    wrapper.setData({ loaded: false })
+    wrapper.setData({ $apollo: { loading: true, skipAll: false } })
 
     expect(wrapper.find("TmDataLoading-stub").exists()).toBe(true)
     expect(wrapper.element).toMatchSnapshot()
-  })
-
-  it("sets the loaded state when apollo is done loading", () => {
-    let self = { loaded: false }
-    ActionModal.watch["$apollo.loading"].call(self, true)
-    expect(self.loaded).toBe(false)
-
-    ActionModal.watch["$apollo.loading"].call(self, false)
-    expect(self.loaded).toBe(true)
   })
 
   it(`should confirm modal closing`, () => {
@@ -344,7 +335,12 @@ describe(`ActionModal`, () => {
 
   it(`opens session modal and closes itself`, () => {
     const $store = { commit: jest.fn(), dispatch: jest.fn() }
-    const self = { $store, close: jest.fn(), $router: { push: jest.fn() }, $route: { name: `route` } }
+    const self = {
+      $store,
+      close: jest.fn(),
+      $router: { push: jest.fn() },
+      $route: { name: `route` }
+    }
     ActionModal.methods.goToSession.call(self)
     expect(self.close).toHaveBeenCalled()
     expect(self.$router.push).toHaveBeenCalledWith(`portfolio`)
