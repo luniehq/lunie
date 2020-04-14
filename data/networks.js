@@ -152,7 +152,7 @@ module.exports = [
     title: 'Kusama',
     chain_id: 'kusama-cc3',
     api_url: 'https://host-01.polkascan.io/kusama/api/v1/',
-    rpc_url: 'wss://kusama-rpc.polkadot.io/',
+    rpc_url: process.env.LOCAL_KUSAMA_API || 'wss://lunie-wss.kusama.fish',
     bech32_prefix: ' ',
     address_prefix: '2', // used in Polkadot as well to generate display addresses (https://wiki.polkadot.network/docs/en/learn-accounts)
     ledger_app: 'polkadot',
