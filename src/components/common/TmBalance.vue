@@ -119,7 +119,7 @@
         </div>
 
         <div class="table-cell rewards">
-          <h2>
+          <h2 v-if="totalRewards > 0.001">
             +{{ totalRewards | bigFigureOrShortDecimals }}
             {{ stakingDenom }}
           </h2>
@@ -291,7 +291,9 @@ export default {
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
-      return true
+      return Object.values(this.totalRewardsPerDenom).find(
+        value => value > 0.001	
+      )
     },
     stakingBalance() {
       return this.balances.find(({ denom }) => denom === this.stakingDenom)
