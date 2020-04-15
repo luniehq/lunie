@@ -19,7 +19,7 @@ exports[`SessionWelcome has the expected html structure 1`] = `
         icon="person_add"
         id="create-new-address"
         img=""
-        route="/selectnetwork"
+        route="/select-network/create"
         title="Create a new address"
       />
        
@@ -27,7 +27,7 @@ exports[`SessionWelcome has the expected html structure 1`] = `
         icon="settings_backup_restore"
         id="recover-with-backup"
         img=""
-        route="/selectnetwork/recover"
+        route="/select-network/recover"
         title="Recover with backup code"
       />
        

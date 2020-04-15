@@ -301,10 +301,9 @@ function voteProposalDetailsReducer(message) {
   }
 }
 
-// TO TEST!
 function depositDetailsReducer(message, reducers) {
   return {
     proposalId: message.proposal_id,
-    amount: reducers.coinReducer(message.amount)
+    amount: reducers.coinReducer(message.amount[0])
   }
 }

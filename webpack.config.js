@@ -22,7 +22,8 @@ const config = {
   },
   output: {
     path: resolve('dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    publicPath: '/'
   },
   resolve: {
     alias: {
@@ -69,7 +70,7 @@ const config = {
         test: /\.(png|jpg|gif|svg|ico)$/,
         loader: 'file-loader',
         query: {
-          name: `/images/[name].[ext]`
+          name: `images/[name].[ext]`
         }
       },
       {
@@ -78,7 +79,7 @@ const config = {
           {
             loader: `file-loader`,
             query: {
-              name: `/fonts/[name].[ext]`
+              name: `fonts/[name].[ext]`
             }
           }
         ]
