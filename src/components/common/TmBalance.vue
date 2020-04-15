@@ -292,7 +292,7 @@ export default {
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return Object.values(this.totalRewardsPerDenom).find(
-        value => value > 0.001	
+        value => value > 0.001
       )
     },
     stakingBalance() {
