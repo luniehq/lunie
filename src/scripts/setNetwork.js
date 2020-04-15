@@ -66,8 +66,8 @@ export const setNetwork = async ({ to, next }, store) => {
         network = networks.find(network => network.default === true)
       }
 
+      await store.dispatch(`setNetwork`, network)
       next(`/${network.slug}${path}`)
-      store.dispatch(`setNetwork`, network)
     }
   } catch (error) {
     console.error("Failed to set network from URL", error)
