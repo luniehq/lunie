@@ -309,6 +309,17 @@ describe(`ActionModal`, () => {
   it("shows loading when there is still data to be loaded", () => {
     wrapper = shallowMount(ActionModal, {
       localVue,
+      propsData: {
+        title: `Send`,
+        validate: jest.fn(),
+        featureFlag: `send`,
+        queueNotEmpty: false,
+        transactionData: {
+          type: "MsgSend",
+          denom: "uatom",
+          validatorAddress: "cosmos12345"
+        }
+      },
       mocks: {
         $store,
         $router: {
@@ -327,8 +338,6 @@ describe(`ActionModal`, () => {
       },
       stubs: ["router-link"]
     })
-
-    expect(wrapper.find("TmDataLoading-stub").exists()).toBe(true)
     expect(wrapper.element).toMatchSnapshot()
   })
 
