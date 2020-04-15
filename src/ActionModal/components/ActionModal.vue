@@ -45,7 +45,7 @@
       <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
-      <TmDataLoading v-else-if="!loaded" />
+      <TmDataLoading v-else-if="$apollo.loading" />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
@@ -597,7 +597,7 @@ export default {
       }
     },
     async open() {
-      this.$apollo.skipAll = false
+      if (!this.address) this.$apollo.skipAll = true
       // checking if there is something in a queue
       const queue = await this.actionManager.getSignQueue(
         this.selectedSignMethod
@@ -649,7 +649,7 @@ export default {
       this.close()
 
       this.$store.dispatch(`signOut`, this.network)
-      if (this.$route.name !== `portfolio`) this.$router.push(`portfolio`)
+      if (this.$route.name !== `portfolio`) this.$router.push(`/`)
     },
     isValidInput(property) {
       this.$v[property].$touch()
