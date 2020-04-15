@@ -18,5 +18,6 @@ module.exports = {
   testnetRPC: process.env.TESTNET_RPC_URL || 'ws://localhost:26657/websocket',
   testnetAPI: process.env.TESTNET_API_URL || 'http://localhost:9071',
   SENTRY_DSN: process.env.SENTRY_DSN || '',
+  firebaseDatabaseUrl: process.env.PUSH_NOTIFICATIONS_DATABASE_URL || '',
   firebaseAdminKeySet: !!process.env.GOOGLE_APPLICATION_CREDENTIALS
 }
