@@ -33,7 +33,7 @@ const delegatorRewards = {
         reward: [
           {
             denom: 'umuon',
-            amount: '0.107080042987452090'
+            amount: '107080042987452090'
           }
         ]
       }
@@ -41,7 +41,7 @@ const delegatorRewards = {
     total: [
       {
         denom: 'umuon',
-        amount: '0.107080042987452090'
+        amount: '107080042987452090'
       }
     ]
   }
