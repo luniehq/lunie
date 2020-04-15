@@ -47,7 +47,8 @@
       </template>
       <TmDataLoading
         v-else-if="
-          $apollo.queries.overview.loading || $apollo.queries.balances.loading
+          $apollo.loading &&
+            (!balancesLoaded || !overviewLoaded || gasEstimateLoaded)
         "
       />
       <template v-else>
@@ -449,7 +450,10 @@ export default {
     balances: [],
     queueEmpty: true,
     includedHeight: undefined,
-    smallestAmount: SMALLEST
+    smallestAmount: SMALLEST,
+    overviewLoaded: false,
+    balancesLoaded: false,
+    gasEstimateLoaded: false
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -853,6 +857,11 @@ export default {
         }
       },
       /* istanbul ignore next */
+      update(data) {
+        this.balancesLoaded = true
+        return data.balances || []
+      },
+      /* istanbul ignore next */
       skip() {
         return !this.session.address
       }
@@ -877,6 +886,7 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        this.overviewLoaded = true
         return data.overview || {}
       },
       /* istanbul ignore next */
@@ -908,6 +918,7 @@ export default {
       /* istanbul ignore next */
       update(data) {
         if (data.networkFees) {
+          this.gasEstimateLoaded = true
           return data.networkFees.gasEstimate
         }
       },
