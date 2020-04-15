@@ -45,7 +45,7 @@
       <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
-      <TmDataLoading v-else-if="$apollo.loading" />
+      <TmDataLoading v-else-if="!loaded" />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
@@ -597,7 +597,7 @@ export default {
       }
     },
     async open() {
-      if (!this.address) this.$apollo.skipAll = true
+      this.$apollo.skipAll = false
       // checking if there is something in a queue
       const queue = await this.actionManager.getSignQueue(
         this.selectedSignMethod
