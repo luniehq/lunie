@@ -24,11 +24,6 @@ export default store => {
       component: require('../../components/SessionSuccess').default
     },
     {
-      path: '/existing',
-      name: 'existing',
-      component: require('common/TmSessionExisting').default
-    },
-    {
       path: `/create`,
       name: `create`,
       component: require('common/TmSessionSignUp').default
@@ -49,14 +44,28 @@ export default store => {
       component: require('common/TmSessionImport').default
     },
     {
-      path: `/selectnetwork`,
-      name: `selectnetwork`,
-      component: require('common/TmSelectNetwork').default
+      path: `/select-network`,
+      name: `select-network`,
+      component: require('common/TmSelectNetwork').default,
+      meta: {
+        feature: 'Session'
+      }
     },
     {
-      path: `/selectnetwork/:recover`,
-      name: `selectnetwork-recover`,
-      component: require('common/TmSelectNetwork').default
+      path: `/select-network/recover`,
+      name: `select-network-recover`,
+      component: require('common/TmSelectNetwork').default,
+      meta: {
+        feature: 'Session'
+      }
+    },
+    {
+      path: `/select-network/create`,
+      name: `select-network-create`,
+      component: require('common/TmSelectNetwork').default,
+      meta: {
+        feature: 'Session'
+      }
     },
     {
       path: `/recover/name`,

@@ -7,7 +7,7 @@ import Vuelidate from 'vuelidate'
 import VueAnalytics from 'vue-analytics'
 import VueClipboard from 'vue-clipboard2'
 import Tooltip from 'vue-directive-tooltip'
-import { focusElement } from 'src/directives'
+import { focusElement, focusParentLast } from 'src/directives'
 import * as Sentry from '@sentry/browser'
 import * as Integrations from '@sentry/integrations'
 import { createApolloProvider } from './gql/apollo.js'
@@ -26,6 +26,7 @@ Vue.use(Tooltip, { delay: 1 })
 Vue.use(Vuelidate)
 Vue.use(VueClipboard)
 Vue.directive(`focus`, focusElement)
+Vue.directive(`focus-last`, focusParentLast)
 
 if (config.sentry_dsn) {
   Sentry.init({

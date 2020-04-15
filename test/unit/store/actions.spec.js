@@ -1,17 +1,24 @@
 import actions from 'store/actions'
 
 let mockApollo = {
-  async query() {
-    return {
-      data: {
-        network: { id: `localnet`, address_prefix: 'lcl' }
+  async query() {}
+}
+
+let store = {
+  dispatch: jest.fn(),
+  getters: {
+    networks: [
+      {
+        id: `localnet`,
+        address_prefix: 'lcl',
+        network_type: 'cosmos'
       }
-    }
+    ]
   }
 }
 const {
-  createSeed,
   createKey,
+  getAddressFromSeed,
   loadAccounts,
   testLogin,
   getSignRequest,
@@ -34,45 +41,29 @@ describe('actions', () => {
     }
   })
 
-  it('Create Seed', async () => {
-    window.chrome.runtime.sendMessage.mockImplementation((args, callback) =>
-      callback('seed words')
+  it('Recover Seed', async () => {
+    const recoverAddressBundle = {
+      seedPhrase:
+        'tail license inside galaxy emerge guess celery tide hobby medal horse swear whale giraffe master shed sheriff fossil whisper fiscal upgrade such erosion entry',
+      network: 'localnet'
+    }
+    const recoveredAddress = await getAddressFromSeed(
+      store,
+      recoverAddressBundle
     )
-    expect(createSeed()).resolves.toBe('seed words')
-    expect(window.chrome.runtime.sendMessage).toHaveBeenCalledWith(
-      { type: 'GET_SEED' },
-      expect.any(Function)
+    expect(recoveredAddress).toEqual(
+      'lcl1p8dz4sfnj7z4f6g2kg8lfhv9hkmftgx8qmzhmx'
     )
   })
 
   it('Create key from existing seed', async () => {
-    const dispatch = jest.fn()
-    window.chrome.runtime.sendMessage.mockImplementation((args, callback) =>
-      callback()
-    )
-    await createKey(
-      { dispatch },
-      {
-        seedPhrase: 'seed words',
-        password: '1234567890',
-        name: 'TEST',
-        network: 'localnet'
-      }
-    )
-    expect(dispatch).toHaveBeenCalledWith('loadAccounts')
-    expect(window.chrome.runtime.sendMessage).toHaveBeenCalledWith(
-      {
-        type: 'IMPORT_WALLET',
-        payload: {
-          password: '1234567890',
-          name: 'TEST',
-          network: 'localnet',
-          mnemonic: 'seed words',
-          prefix: 'lcl'
-        }
-      },
-      expect.any(Function)
-    )
+    await createKey(store, {
+      seedPhrase: 'seed words',
+      password: '1234567890',
+      name: 'TEST',
+      network: 'localnet'
+    })
+    expect(store.dispatch).toHaveBeenCalledWith('loadAccounts')
   })
 
   it('Request wallets from extension', async () => {

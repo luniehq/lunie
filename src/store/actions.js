@@ -1,41 +1,15 @@
 import config from '../../config.js'
-import { getNewWalletFromSeed } from '@lunie/cosmos-keys'
 import gql from 'graphql-tag'
 import { NetworksAll } from '../popup/gql'
 import { lunieMessageTypes } from '../scripts/parsers'
 import { parseTx } from '../scripts/parsers.js'
+import { getWallet } from '../../lunie/src/vuex/modules/wallet'
+import { storeWallet } from '@lunie/cosmos-keys'
 
 export default ({ apollo }) => {
-  const createSeed = () => {
-    return new Promise(resolve => {
-      chrome.runtime.sendMessage({ type: 'GET_SEED' }, function(seed) {
-        resolve(seed)
-      })
-    })
-  }
-
-  const getNetwork = async (networkId, apollo) => {
-    const {
-      data: { network }
-    } = await apollo.query({
-      query: gql`
-        query Network {
-          network(id: "${networkId}") {
-            id
-            address_creator,
-            address_prefix
-          }
-        }
-      `,
-      fetchPolicy: `cache-first`
-    })
-
-    if (!network)
-      throw new Error(
-        `Lunie doesn't support address creation for this network.`
-      )
-
-    return network
+  const createSeed = async () => {
+    const { getSeed } = await import('@lunie/cosmos-keys')
+    return getSeed()
   }
 
   const preloadNetworkCapabilities = async ({ commit }) => {
@@ -51,26 +25,13 @@ export default ({ apollo }) => {
     commit('setNetworkId', network.id)
   }
 
-  const createKey = ({ dispatch }, { seedPhrase, password, name, network }) => {
-    return new Promise(async resolve => {
-      const net = await getNetwork(network, apollo)
-      chrome.runtime.sendMessage(
-        {
-          type: 'IMPORT_WALLET',
-          payload: {
-            password,
-            name,
-            prefix: net.address_prefix,
-            mnemonic: seedPhrase,
-            network
-          }
-        },
-        function() {
-          resolve()
-          dispatch('loadAccounts')
-        }
-      )
-    })
+  const createKey = async (store, { seedPhrase, password, name, network }) => {
+    const networkObject = store.getters.networks.find(
+      ({ id }) => id === network
+    )
+    const wallet = await getWallet(seedPhrase, networkObject)
+    storeWallet(wallet, name, password, network)
+    store.dispatch('loadAccounts')
   }
 
   const loadAccounts = ({ commit }) => {
@@ -234,8 +195,10 @@ export default ({ apollo }) => {
   }
 
   const getAddressFromSeed = async (store, { seedPhrase, network }) => {
-    const net = await getNetwork(network, apollo)
-    const wallet = getNewWalletFromSeed(seedPhrase, net.address_prefix)
+    const networkObject = store.getters.networks.find(
+      ({ id }) => id === network
+    )
+    const wallet = await getWallet(seedPhrase, networkObject)
     return wallet.cosmosAddress
   }
 
