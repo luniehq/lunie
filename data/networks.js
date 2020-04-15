@@ -166,7 +166,7 @@ module.exports = [
     stakingDenom: 'KSM',
     // https://wiki.polkadot.network/docs/en/learn-DOT
     coinLookup: coinLookupDictionary[`polkadot-testnet`],
-    enabled: false,
+    enabled: true,
     icon: 'https://app.lunie.io/img/networks/polkadot-testnet.png',
     slug: 'kusama'
   }
