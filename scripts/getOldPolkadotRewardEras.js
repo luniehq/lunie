@@ -27,6 +27,7 @@ async function main() {
   const validators = await polkadotAPI.getAllValidators()
   store.validators = _.keyBy(validators, 'operatorAddress')
   const delegators = await polkadotAPI.getAllDelegators()
+  console.log(`Querying rewards for ${delegators.length} delegators.`)
 
   await Promise.all(
     delegators.map(async delegator => {
@@ -35,6 +36,9 @@ async function main() {
         ? rewards.filter(({ amount }) => amount > 0)
         : []
       if (storableRewards.length > 0) {
+        console.log(
+          `Storing ${storableRewards.length} rewards for era ${storableRewards[0].height}.`
+        )
         await storeRewards(
           rewards.map(reward => ({
             amount: reward.amount,
