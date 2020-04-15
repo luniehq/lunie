@@ -95,7 +95,6 @@ describe(`ActionModal`, () => {
   ]
 
   $apollo = {
-    skipAll: jest.fn(() => false),
     queries: {
       overview: {
         refetch: jest.fn()
@@ -169,7 +168,7 @@ describe(`ActionModal`, () => {
     wrapper.vm.actionManager.getSignQueue = jest.fn(
       () => new Promise(resolve => resolve(0))
     )
-    wrapper.setData({ network, overview, balances, loaded: true })
+    wrapper.setData({ network, overview, balances })
     wrapper.vm.open()
   })
 
@@ -308,7 +307,26 @@ describe(`ActionModal`, () => {
   })
 
   it("shows loading when there is still data to be loaded", () => {
-    wrapper.setData({ $apollo: { loading: true, skipAll: false } })
+    wrapper = shallowMount(ActionModal, {
+      localVue,
+      mocks: {
+        $store,
+        $router: {
+          push: jest.fn()
+        },
+        $apollo: {
+          queries: {
+            overview: {
+              loading: true
+            },
+            balances: {
+              loading: true
+            }
+          }
+        }
+      },
+      stubs: ["router-link"]
+    })
 
     expect(wrapper.find("TmDataLoading-stub").exists()).toBe(true)
     expect(wrapper.element).toMatchSnapshot()
