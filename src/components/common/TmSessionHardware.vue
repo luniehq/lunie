@@ -141,6 +141,9 @@ export default {
       this.address = null
       try {
         this.address = await getAddressFromLedger(this.networkId, this.$store)
+        console.log(this.address)
+        console.log(this.networkId)
+        console.log(this.networkSlug)
         this.$router.push({
           name: "portfolio",
           params: {

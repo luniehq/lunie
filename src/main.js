@@ -48,7 +48,7 @@ init(urlParams).then(({ store, router, apolloProvider }) => {
     ...App,
     store,
     apolloProvider,
-    mounted() {
+    async mounted() {
       if (config.mobileApp) {
         SplashScreen.hide()
         StatusBar.show()

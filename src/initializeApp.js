@@ -9,6 +9,7 @@ import {
 import config from "src/../config"
 import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
+import pushNotifications from "./vuex/modules/pushNotifications"
 import { createApolloProvider } from "src/gql/apollo.js"
 
 // remove any existing service worker
@@ -54,6 +55,8 @@ export default async function init(urlParams, env = process.env) {
     /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
   })
+
+  pushNotifications.initializeFirebase()
 
   setOptions(urlParams, store)
 
