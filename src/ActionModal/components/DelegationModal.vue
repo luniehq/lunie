@@ -359,6 +359,7 @@ export default {
       update(data) {
         return data.validators
       },
+      /* istanbul ignore next */
       skip() {
         return !this.address
       }
