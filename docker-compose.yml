@@ -16,7 +16,7 @@ services:
       replicas: 1
       resources:
         limits:
-          memory: 2.5G
+          memory: 3.5G
       restart_policy:
         condition: on-failure
     environment:
