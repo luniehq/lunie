@@ -33,7 +33,7 @@ exports[`RestakeTxDetails renders a restake transaction message 1`] = `
     </i>
      
     <router-link-stub
-      to="staking/validators/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
+      to="/staking/validators/cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"
     >
       <!---->
       
