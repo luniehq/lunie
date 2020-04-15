@@ -433,7 +433,7 @@ export default {
     submissionError: null,
     show: false,
     loaded: false,
-    actionManager: new ActionManager(),
+    actionManager: undefined,
     txHash: null,
     defaultStep,
     feeStep,
@@ -590,6 +590,12 @@ export default {
     selectedBalance: {
       handler(selectedBalance) {
         this.gasPrice = selectedBalance.gasPrice
+      }
+    },
+    network: {
+      immediate: true,
+      handler(network) {
+        this.actionManager = new ActionManager(network)
       }
     }
   },

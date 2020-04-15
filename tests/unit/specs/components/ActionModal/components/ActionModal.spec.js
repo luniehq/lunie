@@ -55,14 +55,6 @@ describe(`ActionModal`, () => {
     }
   ]
 
-  const network = {
-    id: "cosmos-hub-testnet",
-    stakingDenom: "STAKE",
-    chain_id: "gaia-13006",
-    api_url: "https://gaia-13006.lunie.io",
-    action_send: true // to enable the feature send, needs to match the title of the ActionModal
-  }
-
   const delegations = [
     {
       delegatorAddress: "cosmos1user",
@@ -106,7 +98,7 @@ describe(`ActionModal`, () => {
     }
   }
 
-  beforeEach(() => {
+  beforeEach(async () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
@@ -131,7 +123,17 @@ describe(`ActionModal`, () => {
         networks: [
           {
             id: "cosmos-hub-testnet",
-            action_send: true
+            action_send: true,
+            stakingDenom: "STAKE",
+            chain_id: "gaia-13006",
+            api_url: "https://gaia-13006.lunie.io",
+            coinLookup: [
+              {
+                viewDenom: "STAKE",
+                chainDenom: "stake",
+                chainToViewConversion: 1
+              }
+            ]
           }
         ]
       }
@@ -166,10 +168,11 @@ describe(`ActionModal`, () => {
       },
       stubs: ["router-link"]
     })
+    wrapper.setData({ overview, balances, loaded: true })
+    await wrapper.vm.$nextTick()
     wrapper.vm.actionManager.getSignQueue = jest.fn(
       () => new Promise(resolve => resolve(0))
     )
-    wrapper.setData({ network, overview, balances, loaded: true })
     wrapper.vm.open()
   })
 
@@ -344,7 +347,12 @@ describe(`ActionModal`, () => {
 
   it(`opens session modal and closes itself`, () => {
     const $store = { commit: jest.fn(), dispatch: jest.fn() }
-    const self = { $store, close: jest.fn(), $router: { push: jest.fn() }, $route: { name: `route` } }
+    const self = {
+      $store,
+      close: jest.fn(),
+      $router: { push: jest.fn() },
+      $route: { name: `route` }
+    }
     ActionModal.methods.goToSession.call(self)
     expect(self.close).toHaveBeenCalled()
     expect(self.$router.push).toHaveBeenCalledWith(`portfolio`)

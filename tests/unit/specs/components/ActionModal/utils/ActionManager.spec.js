@@ -11,45 +11,11 @@ jest.mock("scripts/fingerprint", () => ({
   getFingerprint: jest.fn(() => "iamafingerprint")
 }))
 
-let mockSimulate = jest.fn(() => 12345)
-const MsgSendFn = jest.fn(() => ({ included: () => async () => true }))
-const mockGet = jest.fn()
-const mockMsgSend = jest.fn(() => ({
-  simulate: mockSimulate,
-  send: MsgSendFn
-}))
-
-const mockMultiMessage = jest.fn(() => ({
-  simulate: mockSimulate,
-  send: MsgSendFn
-}))
-
-const mockMsgWithdraw = jest.fn(() => ({
-  simulate: mockSimulate,
-  send: () => ({ included: () => async () => true })
-}))
-
-const mockGetSignedTransactionCreator = jest.fn(() => {
-  console.log("mockGetSignedTransactionCreator executed")
-  return jest.fn().mockResolvedValue(() => console.log("Hello"))
-})
-
-const mockMessageConstructor = jest.fn().mockImplementation(() => {
-  return {
-    get: mockGet,
-    MsgSend: mockMsgSend,
-    MsgWithdrawDelegationReward: mockMsgWithdraw,
-    MultiMessage: mockMultiMessage,
-    getSignedTransactionCreator: mockGetSignedTransactionCreator
-  }
-})
 jest.mock(`cosmos-apiV0`, () => ({
-  default: mockMessageConstructor,
   createSignedTransaction: jest.fn(() => "signedMessage"),
   __esModule: true
 }))
 jest.mock(`cosmos-apiV2`, () => ({
-  default: mockMessageConstructor,
   createSignedTransaction: jest.fn(() => "signedMessage"),
   __esModule: true
 }))
@@ -94,7 +60,8 @@ describe("ActionManager", () => {
   beforeEach(async () => {
     global.fetch = mockFetch
 
-    actionManager = new ActionManager()
+    actionManager = new ActionManager({ network_type: "cosmos" })
+    actionManager.signedTransactionCreated = jest.fn(() => "signedMessage")
   })
 
   describe("simulating and sending", () => {
@@ -176,7 +143,11 @@ describe("ActionManager", () => {
         "MsgSend",
         "memo",
         sendTx.txProps,
-        sendTx.txMetaData
+        sendTx.txMetaData,
+        {
+          amount: 0,
+          denom: "STAKE"
+        }
       )
 
       const expectArgs = {
@@ -210,7 +181,11 @@ describe("ActionManager", () => {
         "MsgWithdrawDelegationReward",
         "memo",
         sendTx.txProps,
-        sendTx.txMetaData
+        sendTx.txMetaData,
+        {
+          amount: 0,
+          denom: "STAKE"
+        }
       )
 
       const expectArgs = {
@@ -224,6 +199,48 @@ describe("ActionManager", () => {
       expect(actionManager.transactionAPIRequest).toHaveBeenCalledWith(
         expectArgs
       )
+    })
+
+    it("should send a donation message if donation is higher then 0", async () => {
+      const context = {
+        ...defaultContext,
+        account: {
+          accountNumber: 1,
+          sequence: 1
+        }
+      }
+
+      actionManager.transactionAPIRequest = jest
+        .fn()
+        .mockResolvedValue({ success: true, hash: "abcdsuperhash" })
+
+      actionManager.signedTransactionCreated.mockClear()
+      await actionManager.sendTxAPI(
+        context,
+        "MsgWithdrawDelegationReward",
+        "memo",
+        sendTx.txProps,
+        sendTx.txMetaData,
+        {
+          amount: 5,
+          denom: "STAKE"
+        }
+      )
+
+      const expectArgs = {
+        simulate: false,
+        messageType: "MsgWithdrawDelegationReward",
+        networkId: "cosmos-hub-testnet",
+        signedMessage: "signedMessage",
+        senderAddress: "cosmos12345"
+      }
+
+      expect(actionManager.transactionAPIRequest).toHaveBeenCalledWith(
+        expectArgs
+      )
+      expect(
+        actionManager.signedTransactionCreated.mock.calls
+      ).toMatchSnapshot()
     })
 
     it("should send via Tx API FAILS", async () => {
@@ -245,7 +262,11 @@ describe("ActionManager", () => {
           "MsgSend",
           "memo",
           sendTx.txProps,
-          sendTx.txMetaData
+          sendTx.txMetaData,
+          {
+            amount: 0,
+            denom: "STAKE"
+          }
         )
       ).rejects.toThrow()
     })

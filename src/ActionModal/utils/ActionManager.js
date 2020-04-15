@@ -19,6 +19,15 @@ const txFetchOptions = fingerprint => ({
 })
 
 export default class ActionManager {
+  constructor(network) {
+    this.network = network
+    getSignedTransactionCreator(network.network_type).then(
+      signedTransactionCreated => {
+        this.signedTransactionCreated = signedTransactionCreated
+      }
+    )
+  }
+
   async transactionAPIRequest(payload) {
     const fingerprint = await getFingerprint()
     const options = {
@@ -129,10 +138,7 @@ export default class ActionManager {
       txMessages.push(txMessage)
     }
 
-    const createSignedTransaction = await getSignedTransactionCreator(
-      network.network_type
-    )
-    const signedMessage = await createSignedTransaction(
+    const signedMessage = await this.signedTransactionCreated(
       messageMetadata,
       txMessages,
       signer,

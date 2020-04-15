@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionManager simulating and sending should send a donation message if donation is higher then 0 1`] = `
+Array [
+  Array [
+    Object {
+      "gas": "12335",
+      "gasPrices": Array [
+        Object {
+          "amount": "NaN",
+          "denom": "uatom",
+        },
+      ],
+      "memo": "memo",
+    },
+    Array [
+      Object {
+        "type": "cosmos-sdk/MsgWithdrawDelegationReward",
+        "value": Object {
+          "delegator_address": "cosmos12345",
+          "validator_address": "cosmos1",
+        },
+      },
+      Object {
+        "type": "cosmos-sdk/MsgWithdrawDelegationReward",
+        "value": Object {
+          "delegator_address": "cosmos12345",
+          "validator_address": "cosmos6",
+        },
+      },
+      Object {
+        "type": "cosmos-sdk/MsgWithdrawDelegationReward",
+        "value": Object {
+          "delegator_address": "cosmos12345",
+          "validator_address": "cosmos9",
+        },
+      },
+      Object {
+        "type": "cosmos-sdk/MsgWithdrawDelegationReward",
+        "value": Object {
+          "delegator_address": "cosmos12345",
+          "validator_address": "cosmos10",
+        },
+      },
+      Object {
+        "type": "cosmos-sdk/MsgWithdrawDelegationReward",
+        "value": Object {
+          "delegator_address": "cosmos12345",
+          "validator_address": "cosmos8",
+        },
+      },
+      Object {
+        "type": "cosmos-sdk/MsgSend",
+        "value": Object {
+          "amount": Array [
+            Object {
+              "amount": "5",
+              "denom": "STAKE",
+            },
+          ],
+          "from_address": "cosmos12345",
+          "to_address": "cosmos19fpzpl5s3nctstne4rqqcd6mt0dn9a0svkvkaa",
+        },
+      },
+    ],
+    "signer",
+    "cosmos",
+    1,
+    1,
+  ],
+]
+`;
