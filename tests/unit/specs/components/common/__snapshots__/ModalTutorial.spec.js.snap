@@ -102,6 +102,19 @@ exports[`TmModal has the expected html structure 1`] = `
               Nulla mollis tempus sem, a sollicitudin est facilisis ac.
             
         </span>
+         
+        <span
+          class="affiliate-link"
+        >
+          
+              Want some?
+              
+          <a
+            href="https://coinbase-consumer.sjv.io/31vxX"
+          >
+            Go to Coinbase
+          </a>
+        </span>
       </p>
        
       <button

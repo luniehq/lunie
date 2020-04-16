@@ -40,6 +40,16 @@
               >
                 {{ item }}
               </span>
+              <span
+                v-if="index === 0"
+                :key="`affiliate-${index}`"
+                class="affiliate-link"
+              >
+                Want some?
+                <a href="https://coinbase-consumer.sjv.io/31vxX"
+                  >Go to Coinbase</a
+                >
+              </span>
             </p>
             <button
               :key="`btn-${index}`"
@@ -278,6 +288,11 @@ export default {
 .content-item {
   display: block;
   font-size: 12px;
+}
+
+.affiliate-link {
+  display: block;
+  margin-top: 12px;
 }
 
 .final-step {
