@@ -1,34 +1,34 @@
- // [START initialize_firebase_in_sw]
- // Give the service worker access to Firebase Messaging.
- // Note that you can only use Firebase Messaging here, other Firebase libraries
- // are not available in the service worker.
- importScripts('https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js');
- importScripts('https://www.gstatic.com/firebasejs/7.12.0/firebase-messaging.js');
+// [START initialize_firebase_in_sw]
+// Give the service worker access to Firebase Messaging.
+// Note that you can only use Firebase Messaging here, other Firebase libraries
+// are not available in the service worker.
+importScripts('https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/7.12.0/firebase-messaging.js');
 
- // Initialize the Firebase app in the service worker by passing in
- // your app's Firebase config object.
- // https://firebase.google.com/docs/web/setup#config-object
- firebase.initializeApp({
-    apiKey: "AIzaSyCrA4mq9v926h3aX9mfkLlzUSRbjFude14",
-    authDomain: "lunie-push-notifications.firebaseapp.com",
-    databaseURL: "https://lunie-push-notifications.firebaseio.com",
-    projectId: "lunie-push-notifications",
-    storageBucket: "lunie-push-notifications.appspot.com",
-    messagingSenderId: "783884833065",
-    appId: "1:783884833065:web:ea02768959989b9218a738",
-    measurementId: "G-S3JEYPBQWB"
+// Initialize the Firebase app in the service worker by passing in
+// your app's Firebase config object.
+// https://firebase.google.com/docs/web/setup#config-object
+firebase.initializeApp({
+  apiKey: "AIzaSyCrA4mq9v926h3aX9mfkLlzUSRbjFude14",
+  authDomain: "lunie-push-notifications.firebaseapp.com",
+  databaseURL: "https://lunie-push-notifications.firebaseio.com",
+  projectId: "lunie-push-notifications",
+  storageBucket: "lunie-push-notifications.appspot.com",
+  messagingSenderId: "783884833065",
+  appId: "1:783884833065:web:ea02768959989b9218a738",
+  measurementId: "G-S3JEYPBQWB"
 });
- // Retrieve an instance of Firebase Messaging so that it can handle background
- // messages.
- const messaging = firebase.messaging();
- // [END initialize_firebase_in_sw]
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = firebase.messaging();
+// [END initialize_firebase_in_sw]
 
 
 // If you would like to customize notifications that are received in the
 // background (Web app is closed or not in browser focus) then you should
 // implement this optional method.
 // [START background_handler]
-messaging.setBackgroundMessageHandler(function(payload) {
+messaging.setBackgroundMessageHandler(function (payload) {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
   // Customize notification here
   const notificationTitle = 'Background Message Title';
