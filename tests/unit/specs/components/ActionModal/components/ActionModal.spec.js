@@ -352,7 +352,7 @@ describe(`ActionModal`, () => {
     }
     ActionModal.methods.goToSession.call(self)
     expect(self.close).toHaveBeenCalled()
-    expect(self.$router.push).toHaveBeenCalledWith(`portfolio`)
+    expect(self.$router.push).toHaveBeenCalledWith({ name: "portfolio" })
   })
 
   it(`shows a password input for local signing`, async () => {

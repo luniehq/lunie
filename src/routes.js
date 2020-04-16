@@ -237,7 +237,7 @@ export default store => {
           redirect: `/proposals`
         },
         {
-          path: `/proposals/:proposalId`,
+          path: `proposals/:proposalId`,
           name: `Proposal`,
           meta: {
             feature: "Proposals"
