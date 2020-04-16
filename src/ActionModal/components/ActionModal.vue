@@ -45,7 +45,12 @@
       <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
-      <TmDataLoading v-else-if="!loaded" />
+      <TmDataLoading
+        v-else-if="
+          $apollo.loading &&
+            (!balancesLoaded || !overviewLoaded || gasEstimateLoaded)
+        "
+      />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
@@ -445,7 +450,10 @@ export default {
     balances: [],
     queueEmpty: true,
     includedHeight: undefined,
-    smallestAmount: SMALLEST
+    smallestAmount: SMALLEST,
+    overviewLoaded: false,
+    balancesLoaded: false,
+    gasEstimateLoaded: false
   }),
   computed: {
     ...mapState([`extension`, `session`]),
@@ -555,17 +563,11 @@ export default {
         }
       }
     },
-    "$apollo.loading": function(loading) {
-      this.loaded = this.loaded || !loading
-    },
     selectedBalance: {
       handler(selectedBalance) {
         this.gasPrice = selectedBalance.gasPrice
       }
     }
-  },
-  created() {
-    this.$apollo.skipAll = true
   },
   updated: function() {
     if (
@@ -597,7 +599,9 @@ export default {
       }
     },
     async open() {
-      this.$apollo.skipAll = false
+      if (!this.address) {
+        this.$apollo.skipAll = true
+      }
       // checking if there is something in a queue
       const queue = await this.actionManager.getSignQueue(
         this.selectedSignMethod
@@ -630,7 +634,6 @@ export default {
       this.show = false
       this.sending = false
       this.includedHeight = undefined
-      this.$apollo.skipAll = true
 
       // reset form
       // in some cases $v is not yet set
@@ -855,6 +858,11 @@ export default {
         }
       },
       /* istanbul ignore next */
+      update(data) {
+        this.balancesLoaded = true
+        return data.balances || []
+      },
+      /* istanbul ignore next */
       skip() {
         return !this.session.address
       }
@@ -879,6 +887,7 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        this.overviewLoaded = true
         return data.overview || {}
       },
       /* istanbul ignore next */
@@ -910,6 +919,7 @@ export default {
       /* istanbul ignore next */
       update(data) {
         if (data.networkFees) {
+          this.gasEstimateLoaded = true
           return data.networkFees.gasEstimate
         }
       },
@@ -933,7 +943,7 @@ export default {
         },
         /* istanbul ignore next */
         skip() {
-          return !this.txHash
+          return !this.session.address || !this.txHash
         },
         query: UserTransactionAdded,
         /* istanbul ignore next */

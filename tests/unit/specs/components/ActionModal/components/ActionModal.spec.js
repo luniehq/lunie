@@ -95,7 +95,6 @@ describe(`ActionModal`, () => {
   ]
 
   $apollo = {
-    skipAll: jest.fn(() => false),
     queries: {
       overview: {
         refetch: jest.fn()
@@ -169,7 +168,7 @@ describe(`ActionModal`, () => {
     wrapper.vm.actionManager.getSignQueue = jest.fn(
       () => new Promise(resolve => resolve(0))
     )
-    wrapper.setData({ network, overview, balances, loaded: true })
+    wrapper.setData({ network, overview, balances })
     wrapper.vm.open()
   })
 
@@ -308,19 +307,38 @@ describe(`ActionModal`, () => {
   })
 
   it("shows loading when there is still data to be loaded", () => {
-    wrapper.setData({ loaded: false })
-
-    expect(wrapper.find("TmDataLoading-stub").exists()).toBe(true)
+    wrapper = shallowMount(ActionModal, {
+      localVue,
+      propsData: {
+        title: `Send`,
+        validate: jest.fn(),
+        featureFlag: `send`,
+        queueNotEmpty: false,
+        transactionData: {
+          type: "MsgSend",
+          denom: "uatom",
+          validatorAddress: "cosmos12345"
+        }
+      },
+      mocks: {
+        $store,
+        $router: {
+          push: jest.fn()
+        },
+        $apollo: {
+          queries: {
+            overview: {
+              loading: true
+            },
+            balances: {
+              loading: true
+            }
+          }
+        }
+      },
+      stubs: ["router-link"]
+    })
     expect(wrapper.element).toMatchSnapshot()
-  })
-
-  it("sets the loaded state when apollo is done loading", () => {
-    let self = { loaded: false }
-    ActionModal.watch["$apollo.loading"].call(self, true)
-    expect(self.loaded).toBe(false)
-
-    ActionModal.watch["$apollo.loading"].call(self, false)
-    expect(self.loaded).toBe(true)
   })
 
   it(`should confirm modal closing`, () => {
