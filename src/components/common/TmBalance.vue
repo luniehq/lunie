@@ -288,7 +288,7 @@ export default {
   },
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`address`, `network`, `stakingDenom`]),
+    ...mapGetters([`address`, `network`, `stakingDenom`, `networks`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
@@ -351,7 +351,8 @@ export default {
   },
   async mounted() {
     this.setPreferredCurrency()
-    await pushNotifications.askPermissionAndRegister(this.address, this.network)
+    const activeNetworks = pushNotifications.getActiveNetworks(this.networks)
+    await pushNotifications.askPermissionAndRegister(activeNetworks)
   },
   methods: {
     bigFigureOrShortDecimals,
