@@ -65,7 +65,7 @@ export const setNetwork = async ({ to, next }, store) => {
       } else {
         network = networks.find(network => network.default === true)
       }
-
+      /* istanbul ignore next */
       await store.dispatch(`setNetwork`, network)
       next(`/${network.slug}${path}`)
     }
