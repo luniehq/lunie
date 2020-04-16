@@ -1,4 +1,3 @@
-import firebaseConfig from "./firebaseConfig.json"
 const dev = process.env.NODE_ENV === `development`
 const graphql = process.env.VUE_APP_GRAPHQL_URL || `http://localhost:4000`
 const sentryDSN = process.env.SENTRY_DSN || ""
@@ -22,6 +21,5 @@ export default {
   graphqlHost: graphql,
 
   e2e: process.env.VUE_APP_E2E || false,
-  firebasePublicVapidKey: process.env.VUE_APP_FIREBASE_PUBLIC_KEY || '',
-  firebaseConfig
+  firebasePublicVapidKey: process.env.VUE_APP_FIREBASE_PUBLIC_KEY || ''
 }

@@ -32,6 +32,3 @@ yarn-error.log*
 *.sw?
 
 public/version.json
-
-# Firebase files
-firebaseConfig.json
