@@ -13,15 +13,13 @@ const initializeFirebase = () => {
 }
 
 const askPermissionAndRegister = async activeNetworks => {
+    // Only store for new registrations
     const permission = await Notification.requestPermission()
+
+    // Granted? Store device
     if (permission === "granted") {
-        console.log("Notification permission granted.")
-
         const token = await messaging.getToken()
-
         await registerDevice(token, activeNetworks)
-    } else {
-        console.log("Unable to get permission to notify.")
     }
 }
 
