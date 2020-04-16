@@ -14,12 +14,16 @@ const initializeFirebase = () => {
 
 const askPermissionAndRegister = async activeNetworks => {
     // Only store for new registrations
-    const permission = await Notification.requestPermission()
+    const isDeviceRegistered = localStorage.getItem("registration-push-notifications") // "true" if stored
 
-    // Granted? Store device
-    if (permission === "granted") {
-        const token = await messaging.getToken()
-        await registerDevice(token, activeNetworks)
+    if (isDeviceRegistered === "true") {
+        const permission = await Notification.requestPermission()
+
+        // Granted? Store device
+        if (permission === "granted") {
+            const token = await messaging.getToken()
+            await registerDevice(token, activeNetworks)
+        }
     }
 }
 
