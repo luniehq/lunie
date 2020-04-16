@@ -96,7 +96,14 @@ export default {
 .app-header {
   z-index: var(--z-appHeader);
   position: relative;
-  width: var(--width-side);
+  width: 17rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
 }
 
 .app-header .header-item.open {
@@ -112,6 +119,7 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   padding-top: 1.4rem;
+  left: 4rem;
 }
 
 @media screen and (max-width: 1023px) {

@@ -342,6 +342,7 @@ export default {
 @media screen and (min-width: 1023px) {
   .app-menu {
     width: var(--width-side);
+    justify-content: space-between;
   }
 }
 </style>
