@@ -2,16 +2,20 @@
   <div class="network-selector">
     <ul>
       <li
+        v-for="network in mainnets"
+        :key="network.chain_id"
         class="network-item"
-        v-for="mainnet in mainnets"
-        :key="mainnet.chain_id"
-        @click="mainnet.chain_id ? selectNetworkHandler(mainnet) : false"
+        :class="{ selected: networkId === network.id }"
+        @click="network.chain_id ? selectNetworkHandler(network) : false"
       >
         <img
-          :src="`${mainnet.icon}`"
-          :alt="`logo for network ${mainnet.title}`"
+          :src="`${network.icon}`"
+          :alt="`logo for network ${network.title}`"
         />
-        <!-- {{ mainnet.title }} -->
+        <div v-if="networkId === network.id" class="network-selected">
+          <i class="material-icons notranslate">check</i>
+        </div>
+        <!-- {{ network.title }} -->
       </li>
     </ul>
   </div>
@@ -24,8 +28,9 @@ export default {
   name: `network-selector`,
   data: () => ({}),
   computed: {
-    ...mapGetters([`networks`, `network`]),
-    mainnets: function() {
+    ...mapGetters([`networks`]),
+    ...mapGetters({ networkId: `network` }),
+    mainnets() {
       return this.networks.filter(network => network.testnet === false)
     }
   },
@@ -62,11 +67,30 @@ export default {
   align-items: center;
   transition: opacity 0.2s ease-in-out;
   opacity: 0.7;
+  position: relative;
 }
 
 .network-item:hover {
   opacity: 1;
   cursor: pointer;
+}
+
+.network-selected {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background: var(--success);
+  border-radius: 50%;
+  height: 1rem;
+  width: 1rem;
+}
+
+.network-selected i {
+  font-size: 12px;
+}
+
+.selected {
+  opacity: 1;
 }
 
 img {
