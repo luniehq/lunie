@@ -45,8 +45,8 @@
                 :key="`affiliate-${index}`"
                 class="affiliate-link"
               >
-                Want some?
-                <a :href="coinbaseLink">Go to Coinbase</a>
+                Need some ATOM to stake with Lunie? Buy some at
+                <a :href="coinbaseLink">Coinbase</a> today!
               </span>
             </p>
             <button
