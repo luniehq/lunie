@@ -1,4 +1,5 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
+import pushNotifications from "./pushNotifications.js"
 import config from "src/../config"
 
 export default () => {
@@ -105,7 +106,7 @@ export default () => {
     async persistAddresses(store, { addresses }) {
       localStorage.setItem(`addresses`, JSON.stringify(addresses))
     },
-    async rememberAddress({ state, commit }, { address, sessionType }) {
+    async rememberAddress({ state, commit }, { address, sessionType, networkId }) {
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
         usedAddress => address === usedAddress.address
@@ -113,8 +114,9 @@ export default () => {
       // Add signin address to addresses array if was not used previously
       if (!sessionExist) {
         state.addresses.push({
-          address: address,
-          type: sessionType
+          address,
+          type: sessionType,
+          networkId
         })
         commit(`setUserAddresses`, state.addresses)
       }
@@ -138,7 +140,7 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
-      await dispatch(`rememberAddress`, { address, sessionType })
+      await dispatch(`rememberAddress`, { address, sessionType, networkId })
 
       dispatch(`persistSession`, {
         address,
@@ -149,6 +151,10 @@ export default () => {
       dispatch(`persistAddresses`, {
         addresses
       })
+
+      // Register device for push registrations
+      const activeNetworks = getActiveNetworks(state.addresses)
+      await pushNotifications.askPermissionAndRegister(activeNetworks)
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
@@ -222,6 +228,29 @@ export default () => {
     mutations,
     actions
   }
+}
+
+/**
+ * Retrieve active networks from localstorage via session keys
+ */
+const getActiveNetworks = addressObjects => {
+  let activeNetworks = []
+  addressObjects.forEach(addressObject => {
+    // Session object: { address: string, sessionType: string (e.g. ledger)}
+    const networkObject = JSON.parse(
+      localStorage.getItem(`session_${addressObject.networkId}`)
+    )
+
+    // Only store network object if it has an associated address
+    if (networkObject) {
+      activeNetworks.push({
+        address: networkObject.address,
+        networkId: addressObject.networkId
+      })
+    }
+  })
+
+  return activeNetworks
 }
 
 function sessionKey(networkId) {

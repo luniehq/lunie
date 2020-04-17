@@ -223,7 +223,6 @@ import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
-import pushNotifications from "../../vuex/modules/pushNotifications"
 
 export default {
   name: `tm-balance`,
@@ -351,8 +350,6 @@ export default {
   },
   async mounted() {
     this.setPreferredCurrency()
-    const activeNetworks = pushNotifications.getActiveNetworks(this.networks)
-    await pushNotifications.askPermissionAndRegister(activeNetworks)
   },
   methods: {
     bigFigureOrShortDecimals,

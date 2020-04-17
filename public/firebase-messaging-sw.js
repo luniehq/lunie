@@ -10,13 +10,9 @@ importScripts('https://www.gstatic.com/firebasejs/7.12.0/firebase-messaging.js')
 // https://firebase.google.com/docs/web/setup#config-object
 firebase.initializeApp({
   apiKey: "AIzaSyCrA4mq9v926h3aX9mfkLlzUSRbjFude14",
-  authDomain: "lunie-push-notifications.firebaseapp.com",
-  databaseURL: "https://lunie-push-notifications.firebaseio.com",
   projectId: "lunie-push-notifications",
-  storageBucket: "lunie-push-notifications.appspot.com",
   messagingSenderId: "783884833065",
-  appId: "1:783884833065:web:ea02768959989b9218a738",
-  measurementId: "G-S3JEYPBQWB"
+  appId: "1:783884833065:web:ea02768959989b9218a738"
 });
 // Retrieve an instance of Firebase Messaging so that it can handle background
 // messages.
