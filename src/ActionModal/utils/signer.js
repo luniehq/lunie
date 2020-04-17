@@ -37,8 +37,8 @@ export async function getSigner(
     }
   } else if (signingType === `extension`) {
     return signWithExtension(
-      address,
       network,
+      address,
       displayedProperties,
       transactionData
     )

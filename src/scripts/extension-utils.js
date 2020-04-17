@@ -84,6 +84,43 @@ const sendAsyncMessageToContentScript = async (payload, antifreeze = false) => {
   return response
 }
 
+const createLunieTransaction = (transactionData, senderAddress) => {
+  let lunieTransactionAmount = null
+  if (transactionData.amounts && transactionData.amounts.length === 1) {
+    lunieTransactionAmount = transactionData.amounts[0]
+  }
+  return {
+    type: transactionData.type,
+    hash: "", // to be created
+    key: "",
+    height: 0, // to be created
+    details: {
+      // HACK: we add here all possible details for every transaction type
+      amount: lunieTransactionAmount,
+      from: senderAddress,
+      to: transactionData.toAddress || [],
+      liquidDate: transactionData.liquidDate || "",
+      amounts:
+        lunieTransactionAmount && transactionData.amounts
+          ? []
+          : transactionData.amounts,
+      proposalType: transactionData.proposalType || "",
+      proposalTitle: transactionData.proposalTitle || "",
+      proposalDescription: transactionData.proposalDescription || "",
+      initialDeposit: transactionData.initialDeposit || "",
+      voteOption: transactionData.voteOption || ""
+    },
+    timestamp: "", // to be created
+    memo: transactionData.memo,
+    fees: {
+      amount: 0, // TODO
+      denom: "" // TODO
+    },
+    success: false, // to be created
+    log: ""
+  }
+}
+
 export const getAccountsFromExtension = () => {
   sendMessageToContentScript({ type: "GET_WALLETS" })
 }
@@ -101,20 +138,24 @@ export const getSignQueue = async () => {
 }
 
 export const signWithExtension = async (
-  senderAddress,
   network,
+  senderAddress,
   displayedProperties,
   transactionData
 ) => {
   // network, senderAddress, [messageType, messageData], transactionData
   // network, senderAddress, transactionData, [TransactionV2]
+  const lunieTransaction = createLunieTransaction(
+    transactionData,
+    senderAddress
+  )
   const { signature, publicKey } = await sendAsyncMessageToContentScript({
     type: "LUNIE_SIGN_REQUEST",
     payload: {
       senderAddress,
       network,
-      displayedProperties,
-      transactionData
+      transactionData,
+      lunieTransaction
     }
   })
 

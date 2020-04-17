@@ -155,7 +155,6 @@ import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroDenom } from "src/scripts/common"
 import config from "src/../config"
@@ -196,7 +195,6 @@ export default {
     isFirstLoad: true,
     selectedToken: undefined,
     balances: [],
-    transactionTypes,
     messageType,
     smallestAmount: SMALLEST
   }),
@@ -215,7 +213,7 @@ export default {
         return {}
       }
       return {
-        type: transactionTypes.SEND,
+        type: messageType.SEND,
         toAddress: this.address,
         amounts: [
           {
