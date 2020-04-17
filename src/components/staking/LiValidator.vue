@@ -72,11 +72,7 @@
 </template>
 
 <script>
-import {
-  bigFigureOrPercent,
-  bigFigureOrShortDecimals,
-  atoms
-} from "scripts/num"
+import { bigFigureOrPercent, bigFigureOrShortDecimals } from "scripts/num"
 import Avatar from "common/Avatar"
 
 export default {
@@ -85,7 +81,6 @@ export default {
     Avatar
   },
   filters: {
-    atoms,
     toLower: text => text.toLowerCase(),
     bigFigureOrShortDecimals,
     bigFigureOrPercent

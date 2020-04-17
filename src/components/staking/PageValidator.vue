@@ -210,7 +210,7 @@
 <script>
 import moment from "moment"
 import { mapGetters, mapState } from "vuex"
-import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
+import { shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
@@ -245,7 +245,6 @@ export default {
     ModalTutorial
   },
   filters: {
-    atoms,
     shortDecimals,
     fullDecimals,
     percent,
@@ -324,7 +323,6 @@ export default {
   methods: {
     shortDecimals,
     fullDecimals,
-    atoms,
     percent,
     fromNow,
     noBlanks,
