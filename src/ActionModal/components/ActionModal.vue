@@ -744,7 +744,8 @@ export default {
         ...feeProperties,
         displayedProperties: {
           claimableRewards: properties.amounts
-        }
+        },
+        transactionData: this.transactionData
       }
 
       try {

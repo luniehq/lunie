@@ -99,6 +99,7 @@ export const NetworksAll = gql`
     networks(experimental: $experimental) {
       id
       chain_id
+      rpc_url
       testnet
       title
       icon

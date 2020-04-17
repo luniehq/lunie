@@ -103,15 +103,18 @@ export const signWithExtension = async (
   signMessage,
   senderAddress,
   network,
-  displayedProperties
+  displayedProperties,
+  transactionData
 ) => {
   const { signature, publicKey } = await sendAsyncMessageToContentScript({
     type: "LUNIE_SIGN_REQUEST",
     payload: {
-      signMessage,
+      signMessage: network.id.startsWith('polka') ? JSON.stringify(signMessage) : signMessage,
+      // signMessage,
       senderAddress,
       network,
-      displayedProperties
+      displayedProperties,
+      transactionData
     }
   })
 
