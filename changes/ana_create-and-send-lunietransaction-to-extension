@@ -1,0 +1,1 @@
+[Changed] [#3874](https://github.com/cosmos/lunie/pull/3874) Create and send lunieTransaction to extension. Stop sending signMessage (we will create it in extension) @Bitcoinera
