@@ -103,6 +103,7 @@ export const signWithExtension = async (
   signMessage,
   senderAddress,
   network,
+  networkType,
   displayedProperties
 ) => {
   const { signature, publicKey } = await sendAsyncMessageToContentScript({
@@ -111,6 +112,7 @@ export const signWithExtension = async (
       signMessage,
       senderAddress,
       network,
+      networkType,
       displayedProperties
     }
   })
