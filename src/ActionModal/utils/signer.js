@@ -54,6 +54,10 @@ export async function getLocalSigner(wallet, networkType) {
     case "polkadot":
       return await getPolkadotLocalSigner(wallet)
   }
+
+  throw new Error(
+    `Lunie doesn't support signing via local for network type ${networkType}`
+  )
 }
 
 async function getCosmosLocalSigner(wallet) {
