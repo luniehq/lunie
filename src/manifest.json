@@ -27,7 +27,8 @@
         "https://lunie.io/*",
         "https://app.lunie.io/*",
         "https://www.lunie.io/*",
-        "https://*.netlify.com/*"
+        "https://*.netlify.com/*",
+        "https://*.netlify.app/*"
       ],
       "js": [
         "contentScript.js"
