@@ -1,6 +1,4 @@
 "use strict"
-import BigNumber from "bignumber.js"
-
 /**
  * Defines all numerical methods
  * @module num
