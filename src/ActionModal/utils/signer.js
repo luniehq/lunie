@@ -36,15 +36,12 @@ export async function getSigner(
         return await getCosmosLedgerSigner(config)
     }
   } else if (signingType === `extension`) {
-    return signMessage => {
-      return signWithExtension(
-        signMessage,
-        address,
-        network,
-        displayedProperties,
-        transactionData
-      )
-    }
+    return signWithExtension(
+      address,
+      network,
+      displayedProperties,
+      transactionData
+    )
   }
 
   throw new Error(

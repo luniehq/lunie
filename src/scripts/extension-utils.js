@@ -69,6 +69,7 @@ function waitForResponse(type, antifreeze = false) {
 }
 
 const sendAsyncMessageToContentScript = async (payload, antifreeze = false) => {
+  console.log(payload)
   // I think we can deal with async console errors problems by returning true
   sendMessageToContentScript(payload, true)
 
@@ -100,17 +101,16 @@ export const getSignQueue = async () => {
 }
 
 export const signWithExtension = async (
-  signMessage,
   senderAddress,
   network,
   displayedProperties,
   transactionData
 ) => {
+  // network, senderAddress, [messageType, messageData], transactionData
+  // network, senderAddress, transactionData, [TransactionV2]
   const { signature, publicKey } = await sendAsyncMessageToContentScript({
     type: "LUNIE_SIGN_REQUEST",
     payload: {
-      signMessage: network.id.startsWith('polka') ? JSON.stringify(signMessage) : signMessage,
-      // signMessage,
       senderAddress,
       network,
       displayedProperties,
