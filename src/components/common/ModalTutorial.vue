@@ -46,9 +46,7 @@
                 class="affiliate-link"
               >
                 Want some?
-                <a href="https://coinbase-consumer.sjv.io/31vxX"
-                  >Go to Coinbase</a
-                >
+                <a :href="coinbaseLink">Go to Coinbase</a>
               </span>
             </p>
             <button
@@ -70,6 +68,7 @@
 </template>
 
 <script>
+import config from "src/../config"
 export default {
   name: `modal-tutorial`,
   props: {
@@ -93,7 +92,8 @@ export default {
   },
   data: function() {
     return {
-      currentStep: 1
+      currentStep: 1,
+      coinbaseLink: config.referralLinks["Coinbase"]
     }
   },
   computed: {
