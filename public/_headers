@@ -1,7 +1,9 @@
 /*
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
-  Content-Security-Policy: frame-ancestors 'self'
+  Content-Security-Policy: frame-ancestors 'self'; default-src 'self'; script-src 'self'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: same-origin
 
 /index.html
   cache-control: max-age=0
