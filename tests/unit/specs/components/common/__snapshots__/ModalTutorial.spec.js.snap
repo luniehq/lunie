@@ -107,14 +107,16 @@ exports[`TmModal has the expected html structure 1`] = `
           class="affiliate-link"
         >
           
-              Need some ATOM to stake with Lunie? Buy some at 
+              Need some ATOM to stake with Lunie? Buy some at
               
           <a
+            click="function () { [native code] }"
             href="https://coinbase-consumer.sjv.io/31vxX"
           >
             Coinbase
           </a>
-           today!
+          
+              today!
             
         </span>
       </p>

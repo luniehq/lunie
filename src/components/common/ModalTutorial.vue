@@ -46,7 +46,8 @@
                 class="affiliate-link"
               >
                 Need some ATOM to stake with Lunie? Buy some at
-                <a :href="coinbaseLink">Coinbase</a> today!
+                <a :href="coinbaseLink" :click="sendEventToGA">Coinbase</a>
+                today!
               </span>
             </p>
             <button
@@ -69,6 +70,8 @@
 
 <script>
 import config from "src/../config"
+import { sendEvent } from "scripts/google-analytics"
+import { mapGetters } from "vuex"
 export default {
   name: `modal-tutorial`,
   props: {
@@ -97,6 +100,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([`address`, `network`]),
     finalStep() {
       return this.currentStep === this.steps.length
     }
@@ -113,6 +117,18 @@ export default {
       if (this.currentStep > 1) {
         this.currentStep--
       }
+    },
+    sendEventToGA() {
+      sendEvent(
+        {
+          network: this.network,
+          address: this.address
+        },
+        "Portfolio",
+        "Tutorials",
+        "linkToCoinbase",
+        "click"
+      )
     }
   }
 }
