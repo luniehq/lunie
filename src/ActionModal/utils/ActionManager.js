@@ -75,14 +75,12 @@ export default class ActionManager {
       gasPrice,
       submitType,
       password,
-      displayedProperties,
       transactionData
     } = txMetaData
     const signer = await getSigner(config, submitType, {
       address: userAddress,
       password,
       network,
-      displayedProperties,
       transactionData
     })
 

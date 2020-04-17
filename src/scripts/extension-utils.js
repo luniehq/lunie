@@ -96,7 +96,7 @@ const createLunieTransaction = (transactionData, senderAddress) => {
     height: 0, // to be created
     details: {
       // HACK: we add here all possible details for every transaction type
-      amount: lunieTransactionAmount,
+      amount: lunieTransactionAmount || {},
       from: senderAddress,
       to: transactionData.toAddress || [],
       liquidDate: transactionData.liquidDate || "",
@@ -140,11 +140,8 @@ export const getSignQueue = async () => {
 export const signWithExtension = async (
   network,
   senderAddress,
-  displayedProperties,
   transactionData
 ) => {
-  // network, senderAddress, [messageType, messageData], transactionData
-  // network, senderAddress, transactionData, [TransactionV2]
   const lunieTransaction = createLunieTransaction(
     transactionData,
     senderAddress
