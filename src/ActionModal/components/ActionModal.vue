@@ -304,7 +304,7 @@ import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
 import { mapState, mapGetters } from "vuex"
-import { viewDenom, prettyInt, SMALLEST } from "src/scripts/num"
+import { prettyInt, SMALLEST } from "src/scripts/num"
 import { requiredIf } from "vuelidate/lib/validators"
 import { track, sendEvent } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
@@ -369,7 +369,6 @@ export default {
     FeatureNotAvailable
   },
   filters: {
-    viewDenom,
     prettyInt
   },
   props: {

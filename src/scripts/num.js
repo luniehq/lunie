@@ -126,45 +126,6 @@ export function bigFigureOrPercent(number) {
   }
 }
 
-export function atoms(number = 0) {
-  return BigNumber(number)
-    .div(1e6)
-    .toNumber()
-}
-
-export function uatoms(number = 0) {
-  return (
-    BigNumber(number)
-      .times(1e6)
-      // .toFixed(0) // Temporary here. Waiting for Aleksei/fee in extension #3567 to be merged
-      .toString()
-  )
-}
-
-export function toMicroUnit(number, viewDenom, network) {
-  const coinLookup = network.coinLookup.find(
-    coin => coin.viewDenom === viewDenom
-  )
-  return BigNumber(number)
-    .div(coinLookup.chainToViewConversionFactor)
-    .toString()
-}
-
-// convert micro denoms like uatom to display denoms like ATOM
-export function viewDenom(denom) {
-  if (denom.charAt(0) === `u`) {
-    return denom.substr(1).toUpperCase()
-  }
-  return denom.toUpperCase()
-}
-
-export function createDisplayCoin({ amount, denom }, length = 3) {
-  return {
-    amount: setDecimalLength(atoms(amount), length),
-    denom: viewDenom(denom)
-  }
-}
-
 // This will take an object and for each (k,v) will return
 // v rounded such that the sum of all v is 100.
 // Used the following as a reference:
@@ -215,10 +176,6 @@ export const roundObjectPercentages = dataMap => {
 
 export default {
   SMALLEST,
-  atoms,
-  uatoms,
-  viewDenom,
-  createDisplayCoin,
   shortDecimals,
   fullDecimals,
   pretty,

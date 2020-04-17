@@ -48,14 +48,11 @@
 <script>
 import { mapGetters } from "vuex"
 import moment from "moment"
-import { atoms, viewDenom } from "scripts/num.js"
 import { prettyInt } from "scripts/num"
 
 export default {
   name: `transaction-metadata`,
   filters: {
-    atoms,
-    viewDenom,
     prettyInt
   },
   props: {
