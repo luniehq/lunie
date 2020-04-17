@@ -83,7 +83,7 @@ export default {
         type: transactionTypes.WITHDRAW,
         amounts: this.totalRewards.map(({ amount, denom }) => ({
           denom,
-          amount: Number(fullDecimals(amount))
+          amount: Number(amount)
         }))
       }
     },
