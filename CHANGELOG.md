@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.190] - 2020-04-13
+
+### Fixed
+
+- Propper upgrade to AndroidX @faboweb
+
+### Repository
+
+- Move changelog check and release to GithubActions @faboweb
+
 ## [1.0.189] - 2020-04-09
 
 ### Added

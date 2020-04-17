@@ -375,13 +375,13 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.userAddress
+        return !this.address
       },
       /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
-          address: this.userAddress,
+          address: this.address,
           denom: this.stakingDenom
         }
       },
@@ -410,6 +410,10 @@ export default {
       /* istanbul ignore next */
       update(data) {
         return data.validators || []
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
       }
     },
 
@@ -419,12 +423,12 @@ export default {
         variables() {
           return {
             networkId: this.network,
-            address: this.userAddress
+            address: this.address
           }
         },
         /* istanbul ignore next */
         skip() {
-          return !this.userAddress
+          return !this.address
         },
         query: UserTransactionAdded,
         /* istanbul ignore next */

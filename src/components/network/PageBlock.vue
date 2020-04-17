@@ -26,6 +26,12 @@
         <div class="column">
           <h3 class="page-profile__section-title">
             Transactions ({{ block.transactions.length }})
+            <template v-if="unknownTxs.length">
+              ({{ unknownTxs.length }} transaction{{
+                unknownTxs.length > 1 ? "s" : ""
+              }}
+              not showing)
+            </template>
           </h3>
 
           <TmDataMsg v-if="block.transactions.length === 0" icon="info_outline">
@@ -42,6 +48,7 @@
             :address="address"
             :validators="validatorsAddressMap"
           />
+
           <br />
         </div>
       </div>
@@ -160,6 +167,14 @@ export default {
         names[item.operatorAddress] = item
       })
       return names
+    },
+    unknownTxs() {
+      if (this.block && this.block.transactions) {
+        return this.block.transactions.filter(
+          transaction => transaction.type === `UnknownTx`
+        )
+      }
+      return []
     },
     filteredTransactions() {
       if (this.block && this.block.transactions) {

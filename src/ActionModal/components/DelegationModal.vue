@@ -358,6 +358,10 @@ export default {
       /* istanbul ignore next */
       update(data) {
         return data.validators
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
       }
     },
     delegations: {
