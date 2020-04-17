@@ -9,7 +9,7 @@ export function MsgSend(senderAddress, { to, amount }, network) {
     value: {
       from_address: senderAddress,
       to_address: to[0],
-      amount: Coin(amount, network.coinLookup)
+      amount: [Coin(amount, network.coinLookup)]
     }
   }
 }
