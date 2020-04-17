@@ -112,7 +112,6 @@ export default class ActionManager {
       signedContext
     )
 
-    debugger
     const txPayload = {
       simulate: false,
       messageType: type,
