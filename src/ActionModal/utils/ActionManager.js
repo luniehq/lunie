@@ -1,14 +1,8 @@
 import config from "src/../config"
 import { getSigner, cancelSign, signQueue } from "./signer"
-import transaction from "./transactionTypes"
-import { toMicroUnit } from "scripts/num"
-import { toMicroDenom } from "src/scripts/common"
 import { getGraphqlHost } from "scripts/url"
 import { getFingerprint } from "scripts/fingerprint"
-import {
-  getSignedTransactionCreator,
-  getMessage
-} from "./MessageConstructor.js"
+import { getMessage } from "./MessageConstructor.js"
 
 const txFetchOptions = fingerprint => ({
   method: "POST",
@@ -64,12 +58,13 @@ export default class ActionManager {
   }
 
   async sendTxAPI(
-    { userAddress, network, rewards, chainId, account },
+    { userAddress, network, chainId, account },
     type,
     memo,
     transactionProperties,
     txMetaData
   ) {
+    const { Coin } = await import("./networkMessages/cosmos-hub-mainnet")
     const {
       gasEstimate,
       gasPrice,
@@ -77,59 +72,53 @@ export default class ActionManager {
       password,
       displayedProperties
     } = txMetaData
-    const signer = await getSigner(config, submitType, {
-      address: userAddress,
-      password,
-      network: network.id,
-      networkType: network.network_type,
-      displayedProperties
-    })
+    const signer = await getSigner(
+      submitType,
+      {
+        address: userAddress,
+        password,
+        network: network.id,
+        networkType: network.network_type,
+        displayedProperties
+      },
+      config
+    )
 
-    const messageMetadata = {
+    // only for Cosmos
+    const transactionData = {
       gas: String(gasEstimate),
-      gasPrices: convertCurrencyData([gasPrice], network),
-      memo
-    }
-
-    let txMessages = []
-    if (type === transaction.WITHDRAW) {
-      const validators = getTop5RewardsValidators(rewards)
-      await Promise.all(
-        validators.map(async validator => {
-          const txMessage = await getMessage(network.id, type, userAddress, {
-            validatorAddress: validator
-          })
-          txMessages.push(txMessage)
-        })
-      )
-    } else {
-      const txMessage = await getMessage(
-        network.id,
-        type,
-        userAddress,
-        transactionProperties
-      )
-      txMessages.push(txMessage)
-    }
-
-    const createSignedTransaction = await getSignedTransactionCreator(
-      network.network_type
-    )
-    const signedMessage = await createSignedTransaction(
-      messageMetadata,
-      txMessages,
-      signer,
+      gasPrices: [Coin(gasPrice, network.coinLookup)],
+      memo,
       chainId,
-      account ? account.accountNumber : null,
-      account ? account.sequence : null
+      sequence: account && account.sequence,
+      accountNumber: account && account.accountNumber
+    }
+
+    const messages = await getMessage(
+      network,
+      type,
+      userAddress,
+      transactionProperties
     )
 
+    const { getSignableObject, getBroadcastableObject } = await import(
+      `./${network.network_type}-signing.js`
+    )
+    const signableObject = await getSignableObject(messages, transactionData)
+    const signedContext = await signer(signableObject)
+    const broadcastableObject = await getBroadcastableObject(
+      messages,
+      transactionData,
+      signedContext
+    )
+
+    debugger
     const txPayload = {
       simulate: false,
       messageType: type,
       networkId: network.id,
       senderAddress: userAddress,
-      signedMessage
+      signedMessage: broadcastableObject
     }
     const result = await this.transactionAPIRequest(txPayload)
     if (result.success) {
@@ -138,13 +127,6 @@ export default class ActionManager {
       throw Error("Broadcast was not successful: " + result.error)
     }
   }
-}
-
-function convertCurrencyData(amounts, network) {
-  return amounts.map(({ amount, denom }) => ({
-    amount: toMicroUnit(amount, denom, network),
-    denom: toMicroDenom(denom)
-  }))
 }
 
 // limitation of the Ledger Nano S, so we pick the top 5 rewards and inform the user.

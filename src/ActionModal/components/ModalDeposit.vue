@@ -67,7 +67,7 @@
 <script>
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
-import { toMicroUnit, viewDenom, SMALLEST } from "src/scripts/num"
+import { viewDenom, SMALLEST } from "src/scripts/num"
 import { decimal } from "vuelidate/lib/validators"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
@@ -75,7 +75,6 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
-import { toMicroDenom } from "src/scripts/common"
 
 export default {
   name: `modal-deposit`,
@@ -124,12 +123,8 @@ export default {
         proposalId: this.proposalId,
         amounts: [
           {
-            amount: toMicroUnit(
-              this.amount,
-              this.denom,
-              this.networks.find(({ id }) => id === this.network)
-            ),
-            denom: toMicroDenom(this.denom)
+            amount: this.amount,
+            denom: this.denom
           }
         ]
       }

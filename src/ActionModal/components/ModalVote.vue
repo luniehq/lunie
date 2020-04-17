@@ -109,7 +109,7 @@ export default {
       return {
         type: transactionTypes.VOTE,
         proposalId: this.proposalId,
-        option: this.vote
+        voteOption: this.vote
       }
     },
     notifyMessage() {

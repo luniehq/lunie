@@ -15,14 +15,19 @@ export async function signQueue(submitType = "") {
   }
 }
 
+async function getWallet(address, password) {
+  const { getStoredWallet } = await import("@lunie/cosmos-keys")
+  const wallet = getStoredWallet(address, password)
+  return wallet
+}
+
 export async function getSigner(
-  config,
   signingType = "",
-  { address, password, network, networkType, displayedProperties }
+  { address, password, network, networkType, displayedProperties },
+  config
 ) {
   if (signingType === `local`) {
-    const { getStoredWallet } = await import("@lunie/cosmos-keys")
-    const wallet = getStoredWallet(address, password)
+    const wallet = await getWallet(address, password)
 
     switch (networkType) {
       case "cosmos":
@@ -60,21 +65,15 @@ async function getCosmosLocalSigner(wallet) {
       Buffer.from(wallet.privateKey, "hex")
     )
 
-    return {
-      signature,
-      publicKey: Buffer.from(wallet.publicKey, "hex")
-    }
+    return { signature, publicKey: Buffer.from(wallet.publicKey, "hex") }
   }
 }
 
 async function getPolkadotLocalSigner(wallet) {
-  const { getSignedMessage } = await import("./polkadot-signing")
+  const { getSignature } = await import("./polkadot-signing")
 
-  return signMessage => {
-    const signedMessage = getSignedMessage(signMessage, wallet.seedPhrase)
-
-    return signedMessage
-  }
+  return ({ payload, transaction }) =>
+    getSignature({ payload, transaction }, wallet)
 }
 
 async function getCosmosLedgerSigner(config) {

@@ -147,7 +147,7 @@
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
 import { required, decimal, maxLength } from "vuelidate/lib/validators"
-import { toMicroUnit, SMALLEST } from "src/scripts/num"
+import { SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
@@ -157,7 +157,6 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
-import { toMicroDenom } from "src/scripts/common"
 import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
 import BigNumber from "bignumber.js"
@@ -216,17 +215,11 @@ export default {
       }
       return {
         type: transactionTypes.SEND,
-        toAddress: this.address,
-        amounts: [
-          {
-            amount: toMicroUnit(
-              this.amount,
-              this.selectedToken,
-              this.networks.find(({ id }) => id === this.network)
-            ),
-            denom: toMicroDenom(this.selectedToken)
-          }
-        ],
+        to: [this.address],
+        amount: {
+          amount: this.amount,
+          denom: this.selectedToken
+        },
         memo: this.memo
       }
     },

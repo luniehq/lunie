@@ -1,24 +1,20 @@
 import { getSignMessage, getAPI } from "./polkadot-transactions"
 import uniqBy from "lodash.uniqby"
+import BigNumber from "bignumber.js"
 
 // Bank
 /* istanbul ignore next */
-export async function MsgSend(
-  senderAddress,
-  {
-    toAddress,
-    amounts // [{ denom, amount}]
-  }
-) {
+export async function MsgSend(senderAddress, { to, amount }, network) {
   const api = await getAPI()
+
   return await getSignMessage(
     senderAddress,
-    api.tx.balances.transfer(toAddress, amounts[0].amount)
+    api.tx.balances.transfer(to[0], toChainAmount(amount, network.coinLookup))
   )
 }
 
 // Staking
-export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
+export async function MsgDelegate(senderAddress, { to, amount }, network) {
   // stake with all existing plus the selected
   const api = await getAPI()
   const transactions = []
@@ -26,22 +22,31 @@ export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
   // Check if controller is already set
   const controller = await api.query.staking.bonded(senderAddress)
 
+  const chainAmount = toChainAmount(amount, network.coinLookup)
   if (controller.toString() === `` && amount > 0) {
     const payee = 0
-    transactions.push(await api.tx.staking.bond(senderAddress, amount, payee))
+    transactions.push(
+      await api.tx.staking.bond(senderAddress, chainAmount, payee)
+    )
   } else {
-    transactions.push(await api.tx.staking.bondExtra(amount))
+    transactions.push(await api.tx.staking.bondExtra(chainAmount))
   }
 
   const response = await api.query.staking.nominators(senderAddress)
   const { targets: delegatedValidators = [] } = response.toJSON() || {}
-  const validatorAddresses = uniqBy(
-    delegatedValidators.concat(validatorAddress),
-    x => x
-  )
+  const validatorAddresses = uniqBy(delegatedValidators.concat(to[0]), x => x)
   transactions.push(await api.tx.staking.nominate(validatorAddresses))
   if (transactions.length === 0) {
     throw new Error("You have to either bond stake or nominate a new validator")
   }
   return await getSignMessage(senderAddress, transactions)
+}
+
+function toChainAmount({ amount, denom }, coinLookup) {
+  const lookup = coinLookup.find(({ viewDenom }) => viewDenom === denom)
+  const chainAmount = BigNumber(amount)
+    .dividedBy(lookup.chainToViewConversionFactor)
+    .toFixed()
+
+  return chainAmount
 }

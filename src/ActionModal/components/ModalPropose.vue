@@ -123,14 +123,13 @@ import {
   required,
   decimal
 } from "vuelidate/lib/validators"
-import { toMicroUnit, SMALLEST } from "scripts/num"
+import { SMALLEST } from "scripts/num"
 import isEmpty from "lodash.isempty"
 import trim from "lodash.trim"
 import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import { toMicroDenom } from "src/scripts/common"
 
 import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
@@ -184,19 +183,12 @@ export default {
       }
       return {
         type: transactionTypes.SUBMIT_PROPOSAL,
-        proposalType: this.type,
-        title: this.title,
-        description: this.description,
-        initialDeposits: [
-          {
-            amount: toMicroUnit(
-              this.amount,
-              this.stakingDenom,
-              this.networks.find(({ id }) => id === this.network)
-            ),
-            denom: toMicroDenom(this.denom)
-          }
-        ]
+        proposalTitle: this.title,
+        proposalDescription: this.description,
+        initialDeposit: {
+          amount: this.amount,
+          denom: this.denom
+        }
       }
     },
     notifyMessage() {
