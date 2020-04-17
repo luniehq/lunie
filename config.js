@@ -21,5 +21,5 @@ export default {
   graphqlHost: graphql,
 
   e2e: process.env.VUE_APP_E2E || false,
-  firebasePublicVapidKey: process.env.VUE_APP_FIREBASE_PUBLIC_KEY || ""
+  firebasePublicVapidKey: process.env.VUE_APP_FIREBASE_PUBLIC_KEY || "BC_2HRHQW9erg_lOd-dFe_R2ISeiXi0qPNqNcL-jBDnsmMXkqnFcBpXqIklsJtkDPiBmSoOlAMDMOyZMt_Njugo"
 }
