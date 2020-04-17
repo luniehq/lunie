@@ -9,6 +9,9 @@ describe(`Module: Session`, () => {
     state = module.state
     actions = module.actions
     mutations = module.mutations
+    global.Notification = {
+      requestPermission: jest.fn()
+    }
 
     state.externals = {
       track: jest.fn(),
