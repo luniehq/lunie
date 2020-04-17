@@ -79,7 +79,7 @@
             />
             <TmFormMsg
               v-if="Number(selectedBalance.amount) === 0"
-              :msg="`doesn't have any ${selectedBalance.denom}s`"
+              :msg="`doesn't have any ${selectedDenom}s`"
               name="Wallet"
               type="custom"
             />
@@ -745,7 +745,13 @@ export default {
         displayedProperties: {
           claimableRewards: properties.amounts
         },
-        transactionData: this.transactionData
+        transactionData: {
+          ...this.transactionData,
+          fee: {
+            amount: this.estimatedFee, // TODO: check if it is the real fee
+            denom: this.selectedBalance.denom
+          }
+        }
       }
 
       try {

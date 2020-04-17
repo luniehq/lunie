@@ -111,10 +111,10 @@ const createLunieTransaction = (transactionData, senderAddress) => {
       voteOption: transactionData.voteOption || ""
     },
     timestamp: "", // to be created
-    memo: transactionData.memo,
+    memo: transactionData.memo || "",
     fees: {
-      amount: 0, // TODO
-      denom: "" // TODO
+      amount: transactionData.fee.amount || 0,
+      denom: transactionData.fee.denom || ""
     },
     success: false, // to be created
     log: ""
