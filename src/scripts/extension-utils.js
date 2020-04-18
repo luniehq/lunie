@@ -98,7 +98,7 @@ const createLunieTransaction = (transactionData, senderAddress) => {
       // HACK: we add here all possible details for every transaction type
       amount: lunieTransactionAmount || {},
       from:
-        transactionData.type === "MsgWithdrawDelegationReward"
+        transactionData.type === "ClaimRewardsTx"
           ? transactionData.validatorRewards
           : senderAddress,
       to: transactionData.toAddress || [],
