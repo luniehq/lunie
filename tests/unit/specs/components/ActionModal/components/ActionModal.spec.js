@@ -689,7 +689,6 @@ describe(`ActionModal`, () => {
         $store,
         $apollo,
         actionManager: {
-          simulateTxAPI: jest.fn(),
           sendTxAPI: ActionManagerSend
         },
         transactionData: {},

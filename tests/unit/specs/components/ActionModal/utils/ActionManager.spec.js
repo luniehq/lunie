@@ -116,48 +116,6 @@ describe("ActionManager", () => {
       expect(signQueue).toHaveBeenCalledWith(`extension`)
     })
 
-    it("should estimate via Tx API", async () => {
-      actionManager.transactionAPIRequest = jest
-        .fn()
-        .mockResolvedValue({ success: true, gasEstimate: 12345 })
-
-      await actionManager.simulateTxAPI(
-        defaultContext,
-        "MsgSend",
-        sendTx.txProps
-      )
-
-      const expectArgs = {
-        simulate: true,
-        messageType: "MsgSend",
-        address: "cosmos12345",
-        networkId: "cosmos-hub-testnet",
-        txProperties: {
-          amounts: [{ amount: "20000", denom: "uatom" }],
-          toAddress: "cosmos123"
-        }
-      }
-
-      expect(actionManager.transactionAPIRequest).toHaveBeenCalledWith(
-        expectArgs
-      )
-    })
-
-    it("should estimate via Tx API FAILS", async () => {
-      actionManager.transactionAPIRequest = jest
-        .fn()
-        .mockResolvedValue({ success: false })
-
-      await expect(
-        actionManager.simulateTxAPI(
-          defaultContext,
-          "MsgSend",
-          sendTx.txProps,
-          "memo"
-        )
-      ).rejects.toThrow()
-    })
-
     it("should send via Tx API", async () => {
       const context = {
         ...defaultContext,

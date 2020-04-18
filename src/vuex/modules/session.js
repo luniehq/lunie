@@ -1,7 +1,8 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/../config"
+import gql from "graphql-tag"
 
-export default () => {
+export default ({ apollo }) => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
   const state = {
