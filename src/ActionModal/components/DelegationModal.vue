@@ -152,7 +152,6 @@ import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroDenom } from "src/scripts/common"
 import { formatAddress, validatorEntry } from "src/filters"
@@ -186,7 +185,6 @@ export default {
     },
     validators: [],
     delegations: [],
-    transactionTypes,
     messageType,
     smallestAmount: SMALLEST
   }),
@@ -250,7 +248,7 @@ export default {
 
       if (this.isRedelegation) {
         return {
-          type: transactionTypes.REDELEGATE,
+          type: messageType.RESTAKE,
           validatorSourceAddress: this.from,
           validatorDestinationAddress: this.targetValidator.operatorAddress,
           amount: toMicroUnit(
@@ -262,7 +260,7 @@ export default {
         }
       } else {
         return {
-          type: transactionTypes.DELEGATE,
+          type: messageType.STAKE,
           validatorAddress: this.targetValidator.operatorAddress,
           amount: toMicroUnit(
             this.amount,

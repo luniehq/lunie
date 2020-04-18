@@ -133,7 +133,6 @@ import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
-import transactionTypes from "../utils/transactionTypes"
 import { toMicroDenom } from "src/scripts/common"
 import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
@@ -191,7 +190,7 @@ export default {
           return {}
         }
         return {
-          type: transactionTypes.REDELEGATE,
+          type: messageType.RESTAKE,
           validatorSourceAddress: this.sourceValidator.operatorAddress,
           validatorDestinationAddress: this.toSelectedIndex,
           amount: toMicroUnit(
@@ -210,7 +209,7 @@ export default {
           return {}
         }
         return {
-          type: transactionTypes.UNDELEGATE,
+          type: messageType.UNSTAKE,
           validatorAddress: this.sourceValidator.operatorAddress,
           amount: toMicroUnit(
             this.amount,

@@ -131,8 +131,6 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import { toMicroDenom } from "src/scripts/common"
-
-import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 
 const isValid = type =>
@@ -165,7 +163,6 @@ export default {
       amount: null,
       denom: ``
     },
-    transactionTypes,
     messageType,
     smallestAmount: SMALLEST
   }),
@@ -183,7 +180,7 @@ export default {
         return {}
       }
       return {
-        type: transactionTypes.SUBMIT_PROPOSAL,
+        type: messageType.SUBMIT_PROPOSAL,
         proposalType: this.type,
         title: this.title,
         description: this.description,

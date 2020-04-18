@@ -45,8 +45,6 @@ import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import { getTop5RewardsValidators } from "../utils/ActionManager"
 import gql from "graphql-tag"
-
-import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 
 function rewardsToDictionary(rewards) {
@@ -71,7 +69,6 @@ export default {
     rewards: [],
     balances: [],
     getTop5RewardsValidators,
-    transactionTypes,
     messageType
   }),
   computed: {
@@ -80,7 +77,7 @@ export default {
     transactionData() {
       if (this.totalRewards.length === 0) return {}
       return {
-        type: transactionTypes.WITHDRAW,
+        type: messageType.CLAIM_REWARDS,
         amounts: this.totalRewards.map(({ amount, denom }) => ({
           denom,
           amount: Number(amount)

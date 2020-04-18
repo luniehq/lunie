@@ -90,7 +90,7 @@ const createLunieTransaction = (transactionData, senderAddress) => {
     lunieTransactionAmount = transactionData.amounts[0]
   }
   return {
-    type: transactionData.type, // TODO: type should be Lunie Tx type
+    type: transactionData.type,
     hash: "", // to be created
     key: "",
     height: 0, // to be created

@@ -73,7 +73,6 @@ import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroDenom } from "src/scripts/common"
 
@@ -108,7 +107,6 @@ export default {
       amount: null,
       denom: ``
     },
-    transactionTypes,
     messageType,
     smallestAmount: SMALLEST
   }),
@@ -120,7 +118,7 @@ export default {
         return {}
       }
       return {
-        type: transactionTypes.DEPOSIT,
+        type: messageType.DEPOSIT,
         proposalId: this.proposalId,
         amounts: [
           {
