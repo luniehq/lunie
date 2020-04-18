@@ -41,7 +41,7 @@
                 {{ item }}
               </span>
               <span
-                v-if="index === 0"
+                v-if="step.title === `How to get tokens`"
                 :key="`affiliate-${index}`"
                 class="affiliate-link"
               >
