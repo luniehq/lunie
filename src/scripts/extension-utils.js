@@ -101,9 +101,9 @@ const createLunieTransaction = (transactionData, senderAddress) => {
       to: transactionData.toAddress || [],
       liquidDate: transactionData.liquidDate || "",
       amounts:
-        lunieTransactionAmount && transactionData.amounts
+        lunieTransactionAmount && transactionData.claimableRewards
           ? []
-          : transactionData.amounts,
+          : transactionData.claimableRewards,
       proposalType: transactionData.proposalType || "",
       proposalTitle: transactionData.proposalTitle || "",
       proposalDescription: transactionData.proposalDescription || "",
