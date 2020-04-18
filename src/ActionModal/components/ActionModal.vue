@@ -748,7 +748,6 @@ export default {
             amount: this.estimatedFee, // TODO: check if it is the real fee
             denom: this.selectedBalance.denom
           },
-          claimableRewards: properties.amounts,
           validatorRewards: properties.validators
         }
       }

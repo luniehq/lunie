@@ -85,10 +85,6 @@ const sendAsyncMessageToContentScript = async (payload, antifreeze = false) => {
 }
 
 const createLunieTransaction = (transactionData, senderAddress) => {
-  let lunieTransactionAmount = null
-  if (transactionData.amounts && transactionData.amounts.length === 1) {
-    lunieTransactionAmount = transactionData.amounts[0]
-  }
   return {
     type: transactionData.type,
     hash: "", // to be created
@@ -96,17 +92,14 @@ const createLunieTransaction = (transactionData, senderAddress) => {
     height: 0, // to be created
     details: {
       // HACK: we add here all possible details for every transaction type
-      amount: lunieTransactionAmount || {},
+      amount: transactionData.amount || {},
       from:
         transactionData.type === "ClaimRewardsTx"
           ? transactionData.validatorRewards
           : senderAddress,
       to: transactionData.toAddress || [],
       liquidDate: transactionData.liquidDate || "",
-      amounts:
-        lunieTransactionAmount && transactionData.claimableRewards
-          ? []
-          : transactionData.claimableRewards,
+      amounts: transactionData.amounts || [],
       proposalType: transactionData.proposalType || "",
       proposalTitle: transactionData.proposalTitle || "",
       proposalDescription: transactionData.proposalDescription || "",
