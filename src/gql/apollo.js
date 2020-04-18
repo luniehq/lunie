@@ -46,10 +46,11 @@ const makeWebSocketLink = () => {
 const createApolloClient = async () => {
   const fingerprint = await getFingerprint()
   const middleware = new ApolloLink((operation, forward) => {
-    // add the authorization to the headers
+    // add the authentication to the headers
     operation.setContext({
       headers: {
-        fingerprint
+        fingerprint,
+        development: config.development
       }
     })
     return forward(operation)
