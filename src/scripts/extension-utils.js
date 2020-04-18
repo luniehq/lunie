@@ -92,12 +92,19 @@ const createLunieTransaction = (transactionData, senderAddress) => {
     height: 0, // to be created
     details: {
       // HACK: we add here all possible details for every transaction type
-      amount: transactionData.amount || {},
+      amount:
+        {
+          amount: transactionData.amount,
+          denom: transactionData.denom
+        } || {},
       from:
         transactionData.type === "ClaimRewardsTx"
           ? transactionData.validatorRewards
           : senderAddress,
-      to: transactionData.toAddress || [],
+      to:
+        transactionData.type === "StakeTx"
+          ? transactionData.validatorAddress || ""
+          : transactionData.toAddress || [],
       liquidDate: transactionData.liquidDate || "",
       amounts: transactionData.amounts || [],
       proposalType: transactionData.proposalType || "",
