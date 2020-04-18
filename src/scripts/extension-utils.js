@@ -84,6 +84,30 @@ const sendAsyncMessageToContentScript = async (payload, antifreeze = false) => {
   return response
 }
 
+const lunieTransactionGetFrom = (transactionData, senderAddress) => {
+  switch (transactionData.type) {
+    case "RestakeTx":
+      return transactionData.validatorSourceAddress
+    case "ClaimRewardsTx":
+      return transactionData.validatorRewards
+    default:
+      return senderAddress
+  }
+}
+
+const lunieTransactionGetTo = transactionData => {
+  switch (transactionData.type) {
+    case "StakeTx":
+      return transactionData.validatorAddress
+    case "RestakeTx":
+      return transactionData.validatorDestinationAddress
+    case "SendTx":
+      return transactionData.toAddress
+    default:
+      return ""
+  }
+}
+
 const createLunieTransaction = (transactionData, senderAddress) => {
   return {
     type: transactionData.type,
@@ -97,14 +121,8 @@ const createLunieTransaction = (transactionData, senderAddress) => {
           amount: transactionData.amount,
           denom: transactionData.denom
         } || {},
-      from:
-        transactionData.type === "ClaimRewardsTx"
-          ? transactionData.validatorRewards
-          : senderAddress,
-      to:
-        transactionData.type === "StakeTx"
-          ? transactionData.validatorAddress || ""
-          : transactionData.toAddress || [],
+      from: lunieTransactionGetFrom(transactionData, senderAddress),
+      to: lunieTransactionGetTo(transactionData),
       liquidDate: transactionData.liquidDate || "",
       amounts: transactionData.amounts || [],
       proposalType: transactionData.proposalType || "",

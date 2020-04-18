@@ -215,16 +215,12 @@ export default {
       return {
         type: messageType.SEND,
         toAddress: this.address,
-        amounts: [
-          {
-            amount: toMicroUnit(
-              this.amount,
-              this.selectedToken,
-              this.networks.find(({ id }) => id === this.network)
-            ),
-            denom: toMicroDenom(this.selectedToken)
-          }
-        ],
+        amount: toMicroUnit(
+          this.amount,
+          this.selectedToken,
+          this.networks.find(({ id }) => id === this.network)
+        ),
+        denom: toMicroDenom(this.selectedToken),
         memo: this.memo
       }
     },
