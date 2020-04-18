@@ -191,7 +191,11 @@ export default {
               this.stakingDenom,
               this.networks.find(({ id }) => id === this.network)
             ),
-            denom: toMicroDenom(this.denom)
+            denom: toMicroDenom(this.denom),
+            displayAmount: {
+              amount: this.amount,
+              denom: this.denom
+            }
           }
         ]
       }

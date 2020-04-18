@@ -113,11 +113,7 @@ const createLunieTransaction = (transactionData, senderAddress) => {
     type: transactionData.type,
     details: {
       // HACK: we add here all possible details for every transaction type
-      amount:
-        {
-          amount: transactionData.amount,
-          denom: transactionData.denom
-        } || {},
+      amount: transactionData.displayAmount || {},
       from: lunieTransactionGetFrom(transactionData, senderAddress),
       to: lunieTransactionGetTo(transactionData),
       liquidDate: transactionData.liquidDate || "",
@@ -125,7 +121,7 @@ const createLunieTransaction = (transactionData, senderAddress) => {
       proposalType: transactionData.proposalType || "",
       proposalTitle: transactionData.proposalTitle || "",
       proposalDescription: transactionData.proposalDescription || "",
-      initialDeposit: transactionData.initialDeposit || "",
+      initialDeposit: transactionData.initialDeposits || "",
       voteOption: transactionData.voteOption || ""
     },
     fees: {

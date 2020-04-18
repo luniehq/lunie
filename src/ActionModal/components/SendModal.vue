@@ -221,7 +221,11 @@ export default {
           this.networks.find(({ id }) => id === this.network)
         ),
         denom: toMicroDenom(this.selectedToken),
-        memo: this.memo
+        memo: this.memo,
+        displayAmount: {
+          amount: this.amount,
+          denom: this.stakingDenom
+        }
       }
     },
     notifyMessage() {

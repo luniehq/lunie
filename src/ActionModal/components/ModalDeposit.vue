@@ -129,7 +129,11 @@ export default {
             ),
             denom: toMicroDenom(this.denom)
           }
-        ]
+        ],
+        displayAmount: {
+          amount: this.amount,
+          denom: this.denom
+        }
       }
     },
     notifyMessage() {

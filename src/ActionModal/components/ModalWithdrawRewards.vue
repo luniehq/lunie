@@ -81,7 +81,7 @@ export default {
         amounts: this.totalRewards.map(({ amount, denom }) => ({
           denom,
           amount: Number(amount)
-        })),
+        })), // TODO: add microunits and microdenom to sign transaction in the extension
         validators: this.top5Validators
       }
     },
