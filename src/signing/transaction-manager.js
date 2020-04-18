@@ -2,7 +2,7 @@ import config from "src/../config"
 import { getSigner, cancelSign, signQueue } from "./signer"
 import { getGraphqlHost } from "scripts/url"
 import { getFingerprint } from "scripts/fingerprint"
-import { getMessage } from "./MessageConstructor.js"
+import { getMessage } from "./message-creator.js"
 import gql from "graphql-tag"
 
 const txFetchOptions = fingerprint => ({
@@ -18,20 +18,17 @@ export default class TransactionManager {
     this.apollo = apolloClient
   }
 
-  async transactionAPIRequest(payload) {
+  async broadcastAPIRequest(payload) {
     const fingerprint = await getFingerprint()
     const options = {
       ...txFetchOptions(fingerprint),
       body: JSON.stringify({ payload })
     }
-    const command = payload.simulate ? "estimate" : "broadcast"
-
     const graphqlHost = getGraphqlHost()
 
-    return fetch(
-      `${graphqlHost}/transaction/${command}`,
-      options
-    ).then(result => result.json())
+    return fetch(`${graphqlHost}/transaction/broadcast`, options).then(result =>
+      result.json()
+    )
   }
 
   async getSignQueue(submitType) {

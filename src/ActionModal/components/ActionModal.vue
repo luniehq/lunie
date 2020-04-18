@@ -308,7 +308,7 @@ import { requiredIf } from "vuelidate/lib/validators"
 import { track, sendEvent } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
-import TransactionManager from "../../signing/TransactionManager"
+import TransactionManager from "../../signing/transaction-manager"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -431,7 +431,6 @@ export default {
     submissionError: null,
     show: false,
     loaded: false,
-    transactionManager: new TransactionManager(this.$apollo),
     txHash: null,
     defaultStep,
     feeStep,
@@ -569,6 +568,9 @@ export default {
     ) {
       this.$refs.next.$el.focus()
     }
+  },
+  created() {
+    this.transactionManager = new TransactionManager(this.$apollo)
   },
   methods: {
     confirmModalOpen() {
