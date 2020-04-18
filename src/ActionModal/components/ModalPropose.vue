@@ -131,7 +131,7 @@ import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "./ActionModal"
 
-import transactionTypes from "../utils/transactionTypes"
+import transactionTypes from "../../signing/lunieTransactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 
 const isValid = type =>

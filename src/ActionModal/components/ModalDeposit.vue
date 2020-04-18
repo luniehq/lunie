@@ -73,7 +73,7 @@ import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transactionTypes from "../utils/transactionTypes"
+import transactionTypes from "../../signing/lunieTransactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 
 export default {

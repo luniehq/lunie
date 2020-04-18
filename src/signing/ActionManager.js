@@ -2,7 +2,7 @@ import config from "src/../config"
 import { getSigner, cancelSign, signQueue } from "./signer"
 import { getGraphqlHost } from "scripts/url"
 import { getFingerprint } from "scripts/fingerprint"
-import { getMessage } from "./MessageConstructor.js"
+import { getMessage } from "./message-creator.js"
 
 const txFetchOptions = fingerprint => ({
   method: "POST",

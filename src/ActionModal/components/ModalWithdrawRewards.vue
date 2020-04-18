@@ -46,7 +46,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import { getTop5RewardsValidators } from "../utils/ActionManager"
 import gql from "graphql-tag"
 
-import transactionTypes from "../utils/transactionTypes"
+import transactionTypes from "../../signing/lunieTransactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 
 function rewardsToDictionary(rewards) {

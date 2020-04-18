@@ -69,7 +69,7 @@ import ActionModal from "./ActionModal"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 
-import transactionTypes from "../utils/transactionTypes"
+import transactionTypes from "../../signing/lunieTransactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 
 const isValid = option =>
