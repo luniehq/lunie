@@ -43,7 +43,7 @@ import { mapGetters } from "vuex"
 import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
-import { getTop5RewardsValidators } from "../utils/ActionManager"
+import { getTop5RewardsValidators } from "../../signing/transaction-manager"
 import gql from "graphql-tag"
 
 import transactionTypes from "../../signing/lunieTransactionTypes"

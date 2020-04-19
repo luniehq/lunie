@@ -6,10 +6,10 @@ function createSignedTransactionObject(tx, signature) {
 }
 
 // attaches the request meta data to the message
-function createStdTx({ gas, gasPrices, memo }, messages) {
+function createStdTx({ gasEstimate, gasPrices, memo }, messages) {
   const fees = gasPrices
     .map(({ amount, denom }) => ({
-      amount: String(Math.round(amount * gas)),
+      amount: String(Math.round(amount * gasEstimate)),
       denom
     }))
     .filter(({ amount }) => amount > 0)
@@ -17,7 +17,7 @@ function createStdTx({ gas, gasPrices, memo }, messages) {
     msg: Array.isArray(messages) ? messages : [messages],
     fee: {
       amount: fees.length > 0 ? fees : null,
-      gas
+      gas: gasEstimate
     },
     signatures: null,
     memo
@@ -105,10 +105,10 @@ export async function getSignableObject(
 
 export async function getBroadcastableObject(
   messages,
-  { sequence, accountNumber, gas, gasPrices, memo },
+  { sequence, accountNumber, gasEstimate, gasPrices, memo },
   { signature, publicKey }
 ) {
-  const stdTx = createStdTx({ gas, gasPrices, memo }, messages)
+  const stdTx = createStdTx({ gasEstimate, gasPrices, memo }, messages)
   const signatureObject = formatSignature(
     signature,
     sequence,

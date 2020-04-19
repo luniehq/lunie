@@ -118,8 +118,8 @@ describe(`ModalDeposit`, () => {
       proposalId: "1",
       amounts: [
         {
-          amount: "2000000",
-          denom: "stake"
+          amount: 2,
+          denom: "STAKE"
         }
       ]
     })

@@ -123,35 +123,29 @@ describe(`Module: Keystore`, () => {
   })
 
   it(`should create a Cosmos address from a seed phrase`, async () => {
-    const address = await actions.getAddressFromSeed(
-      {
-        getters: {
-          networks
-        }
-      },
-      {
-        seedPhrase: `xxx`,
-        network: `cosmos-hub-mainnet`
+    const address = await actions.getAddressFromSeed(undefined, {
+      seedPhrase: `xxx`,
+      network: {
+        id: "cosmos-hub-testnet",
+        network_type: "cosmos",
+        address_prefix: "cosmos",
+        testnet: true
       }
-    )
+    })
     expect(address).toBe(`cosmos1234`)
   })
 
   it(`should create a Polkadot address from a seed phrase`, async () => {
-    const store = {
-      getters: {
-        networks: [
-          {
-            id: "polkadot-testnet",
-            network_type: "polkadot",
-            address_prefix: "2"
-          }
-        ]
-      }
-    }
-    const address = await actions.getAddressFromSeed(store, {
+    jest.setTimeout(10000)
+
+    const address = await actions.getAddressFromSeed(undefined, {
       seedPhrase: `enable story warrior detail cradle inherit over cattle unhappy concert reveal clay keep tourist tenant brief simple drum plug inform glue business ski dream`,
-      network: `polkadot-testnet`
+      network: {
+        id: "polkadot-testnet",
+        network_type: "polkadot",
+        address_prefix: "2",
+        testnet: true
+      }
     })
     expect(address).toBe(`HKFeFq1CTzCfTNhNtQDqe3nCR6WzimGdUdLzr7v7ukw6fnx`)
   })

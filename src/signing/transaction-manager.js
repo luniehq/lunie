@@ -93,13 +93,13 @@ export default class TransactionManager {
       {
         address: senderAddress,
         password,
-        network: network.id,
-        networkType: network.network_type
+        network
       },
       config // only needed for Ledger
     )
 
     const broadcastableObject = await createAndSign(
+      messageType,
       message,
       transactionData,
       senderAddress,
@@ -107,12 +107,33 @@ export default class TransactionManager {
       signer
     )
 
-    return broadcastTransaction(
+    return this.broadcastTransaction(
       broadcastableObject,
       messageType,
       network,
       senderAddress
     )
+  }
+
+  async broadcastTransaction(
+    broadcastableObject,
+    messageType,
+    network,
+    senderAddress
+  ) {
+    const txPayload = {
+      messageType,
+      networkId: network.id,
+      senderAddress: senderAddress,
+      signedMessage: broadcastableObject,
+      transaction: broadcastableObject // to change the naming in the API as well later
+    }
+    const result = await this.broadcastAPIRequest(txPayload)
+    if (result.success) {
+      return { hash: result.hash }
+    } else {
+      throw Error("Broadcast was not successful: " + result.error)
+    }
   }
 }
 
@@ -125,9 +146,8 @@ async function createAndSign(
   signer
 ) {
   const messages = await getMessage(
-    messageType,
     network,
-    message,
+    messageType,
     senderAddress,
     message
   )
@@ -144,27 +164,6 @@ async function createAndSign(
   )
 
   return broadcastableObject
-}
-
-async function broadcastTransaction(
-  broadcastableObject,
-  messageType,
-  network,
-  senderAddress
-) {
-  const txPayload = {
-    simulate: false,
-    messageType,
-    networkId: network.id,
-    senderAddress: senderAddress,
-    signedMessage: broadcastableObject
-  }
-  const result = await this.transactionAPIRequest(txPayload)
-  if (result.success) {
-    return { hash: result.hash }
-  } else {
-    throw Error("Broadcast was not successful: " + result.error)
-  }
 }
 
 // limitation of the Ledger Nano S, so we pick the top 5 rewards and inform the user.

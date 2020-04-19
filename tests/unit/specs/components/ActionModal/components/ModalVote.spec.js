@@ -101,7 +101,7 @@ describe(`ModalVote`, () => {
     expect(wrapper.vm.transactionData).toEqual({
       type: "MsgVote",
       proposalId: "1",
-      option: "Yes"
+      voteOption: "Yes"
     })
   })
 

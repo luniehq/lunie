@@ -22,21 +22,21 @@ async function getWallet(address, password) {
 }
 
 export async function getSigner(
-  signingType = "",
-  { address, password, network, networkType, displayedProperties },
+  signingType,
+  { address, password, network, displayedProperties },
   config
 ) {
   if (signingType === `local`) {
     const wallet = await getWallet(address, password)
 
-    switch (networkType) {
+    switch (network.network_type) {
       case "cosmos":
         return await getCosmosLocalSigner(wallet)
       case "polkadot":
         return await getPolkadotLocalSigner(wallet)
     }
   } else if (signingType === `ledger`) {
-    switch (networkType) {
+    switch (network.network_type) {
       case "cosmos":
         return await getCosmosLedgerSigner(config)
     }
@@ -45,14 +45,14 @@ export async function getSigner(
       return signWithExtension(
         signMessage,
         address,
-        network,
+        network.id,
         displayedProperties
       )
     }
   }
 
   throw new Error(
-    `Lunie doesn't support signing via ${signingType} for network type ${networkType}`
+    `Lunie doesn't support signing via ${signingType} for network type ${network.network_type}`
   )
 }
 

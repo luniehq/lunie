@@ -220,7 +220,7 @@ describe(`ActionModal`, () => {
   })
 
   it(`should set the submissionError if the submission is rejected`, async () => {
-    const ActionManagerSend = jest
+    const failingSendMock = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))
     const $store = { dispatch: jest.fn() }
@@ -241,7 +241,7 @@ describe(`ActionModal`, () => {
         address: "cosmos1234"
       },
       transactionManager: {
-        createSignBroadcast: mockSend,
+        createSignBroadcast: failingSendMock,
         getCosmosTransactionData: () => ({})
       },
       submissionErrorPrefix: `PREFIX`,
@@ -668,7 +668,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.transactionManager.sendTxAPI = mockSubmitFail
+      wrapper.vm.transactionManager.createSignBroadcast = mockSubmitFail
       await wrapper.vm.submit()
       await wrapper.vm.$nextTick()
 
