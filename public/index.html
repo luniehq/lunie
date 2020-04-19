@@ -69,9 +69,11 @@
       continue.</strong>
   </noscript>
   <div id="app">
+    <% if (process.env.NODE_ENV !== 'development') { %>
     <div class="preloader">
       <img src="/img/spinner_blue@256.gif" style="height: 128px; width: 128px;" />
     </div>
+    <% } %>
   </div>
   <!-- built files will be auto injected -->
 
