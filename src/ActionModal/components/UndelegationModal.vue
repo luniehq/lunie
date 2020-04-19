@@ -266,7 +266,9 @@ export default {
           // exclude the validator we are redelegating from
           .filter(
             validator =>
-              validator.operatorAddress !== this.sourceValidator.operatorAddress
+              validator.operatorAddress !==
+                this.sourceValidator.operatorAddress &&
+              validator.status !== "INACTIVE"
           )
           .map(validator => {
             return {
