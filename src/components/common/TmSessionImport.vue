@@ -52,10 +52,6 @@ import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 
-const words24 = param => {
-  return param && param.split(` `).length === 24
-}
-
 const lowerCaseAndSpaces = param => {
   const seedWordsAreLowerCaseAndSpaces = /^([a-z]+\s)*[a-z]+$/g
   if (param.match(seedWordsAreLowerCaseAndSpaces)) {
@@ -105,8 +101,7 @@ export default {
     seed: {
       required,
       seedIsLowerCaseAndSpaces: param =>
-        lowerCaseAndSpaces(param) || polkadotRawSeed(param),
-      seedHas24Words: param => words24(param) || polkadotRawSeed(param)
+        lowerCaseAndSpaces(param) || polkadotRawSeed(param)
     }
   })
 }
