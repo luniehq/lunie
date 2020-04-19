@@ -85,8 +85,7 @@ export default {
         displayAmounts: this.totalRewards.map(({ amount, denom }) => ({
           denom,
           amount: Number(amount)
-        })),
-        validators: this.top5Validators
+        }))
       }
     },
     top5Validators() {

@@ -248,6 +248,10 @@ describe(`ActionModal`, () => {
           accountNumber: 12
         }
       },
+      selectedBalance: {
+        amount: 10,
+        denom: "MUON"
+      },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
       sendEvent: jest.fn(),

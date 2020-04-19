@@ -142,8 +142,18 @@ describe(`ModalWithdrawRewards`, () => {
           ]
         })
       ).toEqual({
-        type: "MsgWithdrawDelegationReward",
+        type: "ClaimRewardsTx",
         amounts: [
+          {
+            amount: 4,
+            denom: "NOTSTAKE"
+          },
+          {
+            amount: 1.5,
+            denom: "STAKE"
+          }
+        ],
+        displayAmounts: [
           {
             amount: 4,
             denom: "NOTSTAKE"

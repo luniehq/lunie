@@ -7,6 +7,22 @@ import {
   cancelSignWithExtension
 } from "scripts/extension-utils.js"
 
+const transactionData = {
+  type: "SendTx",
+  toAddress: "cosmos4321",
+  from: "cosmos1234",
+  displayAmount: [
+    {
+      amount: 1,
+      denom: "MUON"
+    }
+  ],
+  fee: {
+    amount: 0.000385,
+    denom: "MUON"
+  }
+}
+
 describe(`Extension Utils`, () => {
   describe("listenToExtensionMessages", () => {
     let store
@@ -167,14 +183,70 @@ describe(`Extension Utils`, () => {
       })
 
       it("should request a signature", () => {
-        signWithExtension("abc", "cosmos1234")
+        signWithExtension(
+          "abc",
+          "cosmos1234",
+          {
+            id: "cosmos-hub-testnet"
+          },
+          transactionData,
+          {
+            claimableRewards: undefined
+          }
+        )
         expect(global.postMessage.mock.calls).toEqual([
           [
             {
               payload: {
                 payload: {
                   senderAddress: "cosmos1234",
-                  signMessage: "abc"
+                  signMessage: "abc",
+                  network: "cosmos-hub-testnet",
+                  transactionData: {
+                    displayAmount: [
+                      {
+                        amount: 1,
+                        denom: "MUON"
+                      }
+                    ],
+                    fee: {
+                      amount: 0.000385,
+                      denom: "MUON"
+                    },
+                    from: "cosmos1234",
+                    toAddress: "cosmos4321",
+                    type: "SendTx"
+                  },
+                  displayedProperties: {
+                    claimableRewards: undefined
+                  },
+                  lunieTransaction: {
+                    details: {
+                      amount: [
+                        {
+                          amount: 1,
+                          denom: "MUON"
+                        }
+                      ],
+                      amounts: [],
+                      from: "cosmos1234",
+                      initialDeposit: "",
+                      liquidDate: "",
+                      proposalDescription: "",
+                      proposalTitle: "",
+                      proposalType: "",
+                      to: "cosmos4321",
+                      voteOption: ""
+                    },
+                    fees: {
+                      amount: 0.000385,
+                      denom: "MUON"
+                    },
+                    type: "SendTx"
+                  },
+                  networkObject: {
+                    id: "cosmos-hub-testnet"
+                  }
                 },
                 type: "LUNIE_SIGN_REQUEST"
               },
@@ -201,9 +273,16 @@ describe(`Extension Utils`, () => {
             }
           })
         })
-        expect(signWithExtension("abc")).rejects.toThrow(
-          "User rejected action in extension."
-        )
+        expect(
+          signWithExtension(
+            "abc",
+            "cosmos1234",
+            {
+              id: "cosmos-hub-testnet"
+            },
+            transactionData
+          )
+        ).rejects.toThrow("User rejected action in extension.")
       })
 
       it("should react to errors in extension", () => {
@@ -221,7 +300,16 @@ describe(`Extension Utils`, () => {
             }
           })
         })
-        expect(signWithExtension("abc")).rejects.toThrow("Expected")
+        expect(
+          signWithExtension(
+            "abc",
+            "cosmos1234",
+            {
+              id: "cosmos-hub-testnet"
+            },
+            transactionData
+          )
+        ).rejects.toThrow("Expected")
       })
 
       it("should react to signature approval", async () => {
@@ -240,7 +328,14 @@ describe(`Extension Utils`, () => {
             }
           })
         })
-        const result = await signWithExtension("abc")
+        const result = await signWithExtension(
+          "abc",
+          "cosmos1234",
+          {
+            id: "cosmos-hub-testnet"
+          },
+          transactionData
+        )
         expect(result).toEqual({
           signature: expect.any(Buffer),
           publicKey: expect.any(Buffer)

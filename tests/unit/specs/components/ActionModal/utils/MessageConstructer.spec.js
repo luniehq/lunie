@@ -30,7 +30,7 @@ describe("MessageConstructor", () => {
   let result
 
   it("should return message object for network", async () => {
-    result = await getMessage("cosmos-hub-mainnet", "MsgSend", "cosmos1234", {
+    result = await getMessage("cosmos-hub-mainnet", "SendTx", "cosmos1234", {
       toAddress: "cosmos1456",
       amounts: [{ denom: "STAKE", amount: 12345 }]
     })
@@ -40,7 +40,7 @@ describe("MessageConstructor", () => {
 
   it("should throw error with incorrect network", async () => {
     await expect(
-      getMessage("non-existant", "MsgSend", "cosmos1234", {
+      getMessage("non-existant", "SendTx", "cosmos1234", {
         toAddress: "cosmos1456",
         amounts: [{ denom: "STAKE", amount: 12345 }]
       })

@@ -130,11 +130,15 @@ describe(`UndelegationModal`, () => {
 
     it("should return correct transaction data", () => {
       expect(wrapper.vm.transactionData).toEqual({
-        type: "MsgUndelegate",
+        type: "UnstakeTx",
         validatorAddress:
           "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
         amount: "10000000",
-        denom: "stake"
+        denom: "stake",
+        displayAmount: {
+          amount: 10,
+          denom: "STAKE"
+        }
       })
     })
 
@@ -163,12 +167,16 @@ describe(`UndelegationModal`, () => {
 
     it("should return correct transaction data", () => {
       expect(wrapper.vm.transactionData).toEqual({
-        type: "MsgRedelegate",
+        type: "RestakeTx",
         validatorSourceAddress:
           "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
         validatorDestinationAddress: "cosmosvaladdrXYZ",
         amount: "10000000",
-        denom: "stake"
+        denom: "stake",
+        displayAmount: {
+          amount: 10,
+          denom: "STAKE"
+        }
       })
     })
 

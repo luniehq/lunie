@@ -172,9 +172,13 @@ describe(`SendModal`, () => {
       amount: 2
     })
     expect(wrapper.vm.transactionData).toEqual({
-      type: "MsgSend",
+      type: "SendTx",
       toAddress: "cosmos12345",
       amounts: [{ amount: "2000000", denom: "stake" }],
+      displayAmount: {
+        amount: 2,
+        denom: "STAKE"
+      },
       memo: "(Sent via Lunie)"
     })
   })

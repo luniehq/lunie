@@ -172,7 +172,7 @@ describe(`ModalPropose`, () => {
 
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
-        type: "MsgSubmitProposal",
+        type: "SubmitProposalTx",
         proposalType: "Text",
         title: "The Title",
         description: "A long description…",
@@ -181,7 +181,11 @@ describe(`ModalPropose`, () => {
             amount: "10000000",
             denom: "uatom"
           }
-        ]
+        ],
+        displayAmount: {
+          amount: 10,
+          denom: "ATOM"
+        }
       })
     })
 

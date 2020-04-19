@@ -12,19 +12,19 @@ jest.mock("scripts/fingerprint", () => ({
 }))
 
 let mockSimulate = jest.fn(() => 12345)
-const MsgSendFn = jest.fn(() => ({ included: () => async () => true }))
+const SendTxFn = jest.fn(() => ({ included: () => async () => true }))
 const mockGet = jest.fn()
-const mockMsgSend = jest.fn(() => ({
+const mockSendTx = jest.fn(() => ({
   simulate: mockSimulate,
-  send: MsgSendFn
+  send: SendTxFn
 }))
 
 const mockMultiMessage = jest.fn(() => ({
   simulate: mockSimulate,
-  send: MsgSendFn
+  send: SendTxFn
 }))
 
-const mockMsgWithdraw = jest.fn(() => ({
+const mockClaimRewardsTx = jest.fn(() => ({
   simulate: mockSimulate,
   send: () => ({ included: () => async () => true })
 }))
@@ -37,8 +37,8 @@ const mockGetSignedTransactionCreator = jest.fn(() => {
 const mockMessageConstructor = jest.fn().mockImplementation(() => {
   return {
     get: mockGet,
-    MsgSend: mockMsgSend,
-    MsgWithdrawDelegationReward: mockMsgWithdraw,
+    SendTx: mockSendTx,
+    ClaimRewardsTx: mockClaimRewardsTx,
     MultiMessage: mockMultiMessage,
     getSignedTransactionCreator: mockGetSignedTransactionCreator
   }
@@ -123,13 +123,13 @@ describe("ActionManager", () => {
 
       await actionManager.simulateTxAPI(
         defaultContext,
-        "MsgSend",
+        "SendTx",
         sendTx.txProps
       )
 
       const expectArgs = {
         simulate: true,
-        messageType: "MsgSend",
+        messageType: "SendTx",
         address: "cosmos12345",
         networkId: "cosmos-hub-testnet",
         txProperties: {
@@ -151,7 +151,7 @@ describe("ActionManager", () => {
       await expect(
         actionManager.simulateTxAPI(
           defaultContext,
-          "MsgSend",
+          "SendTx",
           sendTx.txProps,
           "memo"
         )
@@ -173,7 +173,7 @@ describe("ActionManager", () => {
 
       await actionManager.sendTxAPI(
         context,
-        "MsgSend",
+        "SendTx",
         "memo",
         sendTx.txProps,
         sendTx.txMetaData
@@ -181,7 +181,7 @@ describe("ActionManager", () => {
 
       const expectArgs = {
         simulate: false,
-        messageType: "MsgSend",
+        messageType: "SendTx",
         networkId: "cosmos-hub-testnet",
         signedMessage: "signedMessage",
         senderAddress: "cosmos12345"
@@ -207,7 +207,7 @@ describe("ActionManager", () => {
 
       await actionManager.sendTxAPI(
         context,
-        "MsgWithdrawDelegationReward",
+        "ClaimRewardsTx",
         "memo",
         sendTx.txProps,
         sendTx.txMetaData
@@ -215,7 +215,7 @@ describe("ActionManager", () => {
 
       const expectArgs = {
         simulate: false,
-        messageType: "MsgWithdrawDelegationReward",
+        messageType: "ClaimRewardsTx",
         networkId: "cosmos-hub-testnet",
         signedMessage: "signedMessage",
         senderAddress: "cosmos12345"
@@ -242,7 +242,7 @@ describe("ActionManager", () => {
       await expect(
         actionManager.sendTxAPI(
           context,
-          "MsgSend",
+          "SendTx",
           "memo",
           sendTx.txProps,
           sendTx.txMetaData
@@ -253,14 +253,14 @@ describe("ActionManager", () => {
     it("should send estimate request", async () => {
       const payload = {
         simulate: true,
-        messageType: "MsgSend",
+        messageType: "SendTx",
         networkId: "cosmos-hub-testnet",
         signedMessage: "signedMessage"
       }
 
       const args2 = {
         body:
-          '{"payload":{"simulate":true,"messageType":"MsgSend","networkId":"cosmos-hub-testnet","signedMessage":"signedMessage"}}',
+          '{"payload":{"simulate":true,"messageType":"SendTx","networkId":"cosmos-hub-testnet","signedMessage":"signedMessage"}}',
         headers: {
           "Content-Type": "application/json",
           fingerprint: "iamafingerprint"
@@ -278,14 +278,14 @@ describe("ActionManager", () => {
     it("should send broadcast request", async () => {
       const payload = {
         simulate: false,
-        messageType: "MsgSend",
+        messageType: "SendTx",
         networkId: "cosmos-hub-testnet",
         signedMessage: "signedMessage"
       }
 
       const args2 = {
         body:
-          '{"payload":{"simulate":false,"messageType":"MsgSend","networkId":"cosmos-hub-testnet","signedMessage":"signedMessage"}}',
+          '{"payload":{"simulate":false,"messageType":"SendTx","networkId":"cosmos-hub-testnet","signedMessage":"signedMessage"}}',
         headers: {
           "Content-Type": "application/json",
           fingerprint: "iamafingerprint"
