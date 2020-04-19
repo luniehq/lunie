@@ -3,7 +3,7 @@ import uniqBy from "lodash.uniqby"
 
 // Bank
 /* istanbul ignore next */
-export async function MsgSend(
+export async function SendTx(
   senderAddress,
   {
     toAddress,
@@ -18,7 +18,7 @@ export async function MsgSend(
 }
 
 // Staking
-export async function MsgDelegate(senderAddress, { validatorAddress, amount }) {
+export async function StakeTx(senderAddress, { validatorAddress, amount }) {
   // stake with all existing plus the selected
   const api = await getAPI()
   const transactions = []

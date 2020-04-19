@@ -1,6 +1,6 @@
 import config from "src/../config"
 import { getSigner, cancelSign, signQueue } from "./signer"
-import transaction from "./transactionTypes"
+import { messageType } from "../../components/transactions/messageTypes"
 import { toMicroUnit } from "scripts/num"
 import { toMicroDenom } from "src/scripts/common"
 import { getGraphqlHost } from "scripts/url"
@@ -91,7 +91,7 @@ export default class ActionManager {
     }
 
     let txMessages = []
-    if (type === transaction.WITHDRAW) {
+    if (type === messageType.CLAIM_REWARDS) {
       const validators = getTop5RewardsValidators(rewards)
       await Promise.all(
         validators.map(async validator => {
@@ -108,6 +108,8 @@ export default class ActionManager {
         userAddress,
         transactionProperties
       )
+      console.log(txMessage)
+      console.log(txMessages.push(txMessage))
       txMessages.push(txMessage)
     }
 

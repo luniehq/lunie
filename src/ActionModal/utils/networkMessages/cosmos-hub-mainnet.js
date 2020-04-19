@@ -1,27 +1,18 @@
 // Bank
 /* istanbul ignore next */
-export function MsgSend(
-  senderAddress,
-  {
-    toAddress,
-    amounts // [{ denom, amount}]
-  }
-) {
+export function SendTx(senderAddress, { toAddress, amount, denom }) {
   return {
     type: `cosmos-sdk/MsgSend`,
     value: {
       from_address: senderAddress,
       to_address: toAddress,
-      amount: amounts.map(Coin)
+      amount: Coin({ amount, denom })
     }
   }
 }
 
 // Staking
-export function MsgDelegate(
-  senderAddress,
-  { validatorAddress, amount, denom }
-) {
+export function StakeTx(senderAddress, { validatorAddress, amount, denom }) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgDelegate`,
@@ -33,10 +24,7 @@ export function MsgDelegate(
   }
 }
 
-export function MsgUndelegate(
-  senderAddress,
-  { validatorAddress, amount, denom }
-) {
+export function UnstakeTx(senderAddress, { validatorAddress, amount, denom }) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgUndelegate`,
@@ -48,7 +36,7 @@ export function MsgUndelegate(
   }
 }
 
-export function MsgRedelegate(
+export function RestakeTx(
   senderAddress,
   { validatorSourceAddress, validatorDestinationAddress, amount, denom }
 ) {
@@ -65,7 +53,7 @@ export function MsgRedelegate(
 }
 
 // Governance
-export function MsgSubmitProposal(
+export function SubmitProposalTx(
   senderAddress,
   {
     title,
@@ -90,7 +78,7 @@ export function MsgSubmitProposal(
   }
 }
 
-export function MsgVote(senderAddress, { proposalId, option }) {
+export function VoteTx(senderAddress, { proposalId, option }) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgVote`,
@@ -102,7 +90,7 @@ export function MsgVote(senderAddress, { proposalId, option }) {
   }
 }
 
-export function MsgDeposit(
+export function DepositTx(
   senderAddress,
   {
     proposalId,
@@ -120,10 +108,7 @@ export function MsgDeposit(
   }
 }
 
-export function MsgWithdrawDelegationReward(
-  senderAddress,
-  { validatorAddress }
-) {
+export function ClaimRewardsTx(senderAddress, { validatorAddress }) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgWithdrawDelegationReward`,
