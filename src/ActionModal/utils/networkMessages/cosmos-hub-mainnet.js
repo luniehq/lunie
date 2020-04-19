@@ -1,12 +1,12 @@
 // Bank
 /* istanbul ignore next */
-export function SendTx(senderAddress, { toAddress, amount, denom }) {
+export function SendTx(senderAddress, { toAddress, amounts }) {
   return {
     type: `cosmos-sdk/MsgSend`,
     value: {
       from_address: senderAddress,
       to_address: toAddress,
-      amount: Coin({ amount, denom })
+      amount: amounts.map(Coin)
     }
   }
 }

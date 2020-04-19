@@ -40,13 +40,12 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { toMicroUnit, fullDecimals } from "src/scripts/num"
+import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import { getTop5RewardsValidators } from "../utils/ActionManager"
 import gql from "graphql-tag"
 import { messageType } from "../../components/transactions/messageTypes"
-import { toMicroDenom } from "src/scripts/common"
 
 function rewardsToDictionary(rewards) {
   return rewards.reduce((all, reward) => {
@@ -80,12 +79,8 @@ export default {
       return {
         type: messageType.CLAIM_REWARDS,
         amounts: this.totalRewards.map(({ amount, denom }) => ({
-          denom: toMicroDenom(denom),
-          amount: toMicroUnit(
-            amount,
-            denom,
-            this.networks.find(({ id }) => id === this.network)
-          )
+          denom,
+          amount: Number(amount) // TODO: convert here for extension with toMicroUnit and toMicroDenom
         })),
         displayAmounts: this.totalRewards.map(({ amount, denom }) => ({
           denom,

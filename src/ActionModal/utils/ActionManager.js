@@ -110,8 +110,6 @@ export default class ActionManager {
         userAddress,
         transactionProperties
       )
-      console.log(txMessage)
-      console.log(txMessages.push(txMessage))
       txMessages.push(txMessage)
     }
 
