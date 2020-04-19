@@ -18,7 +18,7 @@ export async function signQueue(submitType = "") {
 export async function getSigner(
   config,
   signingType = "",
-  { address, password, network, transactionData }
+  { address, password, network, transactionData, displayedProperties }
 ) {
   if (signingType === `local`) {
     const { getStoredWallet } = await import("@lunie/cosmos-keys")
@@ -37,7 +37,13 @@ export async function getSigner(
     }
   } else if (signingType === `extension`) {
     return signMessage => {
-      return signWithExtension(signMessage, address, network, transactionData)
+      return signWithExtension(
+        signMessage,
+        address,
+        network,
+        transactionData,
+        displayedProperties
+      )
     }
   }
 

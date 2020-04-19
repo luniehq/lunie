@@ -151,7 +151,8 @@ export const signWithExtension = async (
   signMessage,
   senderAddress,
   network,
-  transactionData
+  transactionData,
+  displayedProperties
 ) => {
   const lunieTransaction = createLunieTransaction(
     transactionData,
@@ -162,9 +163,11 @@ export const signWithExtension = async (
     payload: {
       signMessage,
       senderAddress,
-      network,
+      network: network.id, // TODO: simplify extension by using the networkObject
       transactionData,
-      lunieTransaction
+      displayedProperties,
+      lunieTransaction,
+      networkObject: network
     }
   })
 

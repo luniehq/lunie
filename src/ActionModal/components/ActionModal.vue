@@ -745,10 +745,14 @@ export default {
         transactionData: {
           ...this.transactionData,
           fee: {
-            amount: this.estimatedFee, // TODO: check if it is the real fee
+            amount: this.estimatedFee,
             denom: this.selectedBalance.denom
           },
           validatorRewards: properties.validators
+        },
+        displayedProperties: {
+          // TODO: deprecate. TransactionData/TransactionDetails has all we need
+          claimableRewards: properties.amounts
         }
       }
 
