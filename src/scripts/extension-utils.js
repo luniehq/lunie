@@ -117,7 +117,7 @@ const createLunieTransaction = (transactionData, senderAddress) => {
       from: lunieTransactionGetFrom(transactionData, senderAddress),
       to: lunieTransactionGetTo(transactionData),
       liquidDate: transactionData.liquidDate || "",
-      amounts: transactionData.amounts || [],
+      amounts: transactionData.displayAmounts || [],
       proposalType: transactionData.proposalType || "",
       proposalTitle: transactionData.proposalTitle || "",
       proposalDescription: transactionData.proposalDescription || "",
