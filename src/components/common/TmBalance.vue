@@ -257,13 +257,16 @@ export default {
             content: [
               "The easiest way to get tokens is to find a reputable exchange, like Coinbase or Binance, to purchase your tokens from."
             ],
-            affiliate: {
-              text: "Need some ATOM to stake with Lunie? Buy some at today at",
-              link: config.referralLinks["Coinbase"],
-              linkText: "Coinbase",
-              onClickFunction: this.sendAffiliateClickEvent,
-              onClickParam: "Coinbase"
-            }
+            affiliate: [
+              {
+                text:
+                  "Need some ATOM to stake with Lunie? Buy some at today at",
+                link: config.referralLinks["Coinbase"],
+                linkText: "Coinbase",
+                onClickFunction: this.sendAffiliateClickEvent,
+                onClickParam: "Coinbase"
+              }
+            ]
           },
           {
             title: "Create your address",

@@ -41,21 +41,17 @@
                 {{ item }}
               </span>
               <span
-                v-if="step.affiliate"
-                :key="`affiliate-item-${index}`"
+                v-for="(item, affiliateIndex) in step.affiliate"
+                :key="`affiliate-item-${index}-${affiliateIndex}`"
                 class="affiliate-link"
               >
                 <span
-                  >{{ step.affiliate.text }}
+                  >{{ item.text }}
                   <a
-                    :href="step.affiliate.link"
-                    :onclick="
-                      step.affiliate.onClickFunction(
-                        step.affiliate.onClickParam
-                      )
-                    "
+                    :href="item.link"
+                    :onclick="item.onClickFunction(item.onClickParam)"
                   >
-                    {{ step.affiliate.linkText }}</a
+                    {{ item.linkText }}</a
                   >
                 </span>
               </span>
