@@ -41,13 +41,12 @@
                 {{ item }}
               </span>
               <span
-                v-if="step.title === `How to get tokens`"
-                :key="`affiliate-${index}`"
+                v-if="step.affiliate"
+                :id="`affiliate-link-${index}`"
+                :key="`affiliate-item-${index}`"
                 class="affiliate-link"
               >
-                Need some ATOM to stake with Lunie? Buy some at
-                <a :href="coinbaseLink" :click="sendEventToGA">Coinbase</a>
-                today!
+                {{ step.affiliate() }}
               </span>
             </p>
             <button
@@ -69,8 +68,6 @@
 </template>
 
 <script>
-import config from "src/../config"
-import { sendEvent } from "scripts/google-analytics"
 import { mapGetters } from "vuex"
 export default {
   name: `modal-tutorial`,
@@ -95,8 +92,7 @@ export default {
   },
   data: function() {
     return {
-      currentStep: 1,
-      coinbaseLink: config.referralLinks["Coinbase"]
+      currentStep: 1
     }
   },
   computed: {
@@ -117,18 +113,6 @@ export default {
       if (this.currentStep > 1) {
         this.currentStep--
       }
-    },
-    sendEventToGA() {
-      sendEvent(
-        {
-          network: this.network,
-          address: this.address
-        },
-        "Portfolio",
-        "Tutorials",
-        "linkToCoinbase",
-        "click"
-      )
     }
   }
 }
