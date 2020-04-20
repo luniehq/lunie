@@ -189,7 +189,7 @@ export default {
           return {}
         }
         return {
-          type: messageType.REDELEGATE,
+          type: messageType.RESTAKE,
           from: [this.sourceValidator.operatorAddress],
           to: [this.toSelectedIndex],
           amount: this.amount,
@@ -204,7 +204,7 @@ export default {
           return {}
         }
         return {
-          type: messageType.UNDELEGATE,
+          type: messageType.UNSTAKE,
           from: [this.sourceValidator.operatorAddress],
           amount: this.amount,
           denom: this.stakingDenom

@@ -247,7 +247,7 @@ export default {
 
       if (this.isRedelegation) {
         return {
-          type: messageType.REDELEGATE,
+          type: messageType.RESTAKE,
           from: [this.from],
           to: [this.targetValidator.operatorAddress],
           amount: this.amount,
@@ -255,7 +255,7 @@ export default {
         }
       } else {
         return {
-          type: messageType.DELEGATE,
+          type: messageType.STAKE,
           to: [this.targetValidator.operatorAddress],
           amount: this.amount,
           denom: this.stakingDenom

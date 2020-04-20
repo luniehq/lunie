@@ -27,10 +27,10 @@ const mockFetch = jest.fn(() =>
 )
 
 let transactionManager
-describe("ActionManager", () => {
+describe("Transaction Manager", () => {
   // values passed in from the ActionModal component
   const defaultContext = {
-    messageType: "MsgSend",
+    messageType: "SendTx",
     message: {
       amount: {
         amount: 2,
@@ -140,7 +140,14 @@ describe("ActionManager", () => {
       }
 
       const expectArgs = {
-        messageType: "MsgSend",
+        messageType: "SendTx",
+        message: {
+          amount: {
+            amount: 2,
+            denom: "ATOM"
+          },
+          to: ["cosmos12345"]
+        },
         networkId: "cosmos-hub-testnet",
         senderAddress: "cosmos12345",
         signedMessage: broadcastableObject,
@@ -163,21 +170,8 @@ describe("ActionManager", () => {
     })
 
     it("should send broadcast request", async () => {
-      const args2 = {
-        body:
-          '{"payload":{"messageType":"MsgSend","networkId":"cosmos-hub-testnet","senderAddress":"cosmos12345","signedMessage":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"from_address":"cosmos12345","to_address":"cosmos12345","amount":[{"amount":"0.000002","denom":"uatom"}]}}],"fee":{"amount":[{"amount":"2000000","denom":"uatom"}],"gas":"200000"},"signatures":[{"signature":"abcd","account_number":1,"sequence":1,"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"c3VwZXJwdWJrZXk="}}],"memo":"(Sent via Lunie)"},"transaction":{"msg":[{"type":"cosmos-sdk/MsgSend","value":{"from_address":"cosmos12345","to_address":"cosmos12345","amount":[{"amount":"0.000002","denom":"uatom"}]}}],"fee":{"amount":[{"amount":"2000000","denom":"uatom"}],"gas":"200000"},"signatures":[{"signature":"abcd","account_number":1,"sequence":1,"pub_key":{"type":"tendermint/PubKeySecp256k1","value":"c3VwZXJwdWJrZXk="}}],"memo":"(Sent via Lunie)"}}}',
-        headers: {
-          "Content-Type": "application/json",
-          fingerprint: "iamafingerprint"
-        },
-        method: "POST"
-      }
-
       await transactionManager.createSignBroadcast(defaultContext)
-      expect(mockFetch).toHaveBeenLastCalledWith(
-        "http://localhost:4000/transaction/broadcast",
-        args2
-      )
+      expect(mockFetch.mock.calls[0]).toMatchSnapshot()
     })
   })
 })

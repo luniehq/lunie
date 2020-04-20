@@ -172,7 +172,7 @@ describe(`SendModal`, () => {
       amount: 2
     })
     expect(wrapper.vm.transactionData).toEqual({
-      type: "MsgSend",
+      type: "SendTx",
       amount: {
         amount: 2,
         denom: "STAKE"

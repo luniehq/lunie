@@ -15,7 +15,7 @@ describe("Message Creator", () => {
           }
         ]
       },
-      "MsgSend",
+      "SendTx",
       "cosmos1234",
       {
         to: ["cosmos1456"],
@@ -28,7 +28,7 @@ describe("Message Creator", () => {
 
   it("should throw error with incorrect network", async () => {
     await expect(
-      getMessage({ id: "non-existant" }, "MsgSend", "cosmos1234", {
+      getMessage({ id: "non-existant" }, "SendTx", "cosmos1234", {
         to: ["cosmos1456"],
         amount: { denom: "STAKE", amount: 12345 }
       })

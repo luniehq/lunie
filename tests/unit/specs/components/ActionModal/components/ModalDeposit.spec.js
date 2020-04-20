@@ -114,7 +114,7 @@ describe(`ModalDeposit`, () => {
       amount: 2
     })
     expect(wrapper.vm.transactionData).toEqual({
-      type: "MsgDeposit",
+      type: "DepositTx",
       proposalId: "1",
       amounts: [
         {
