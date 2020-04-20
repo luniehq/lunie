@@ -1,0 +1,3 @@
+[Fixed] Add denom to transaction statistics @faboweb
+[Deprecated] Removed transaction statistic prestoring @faboweb
+[Deprecated] Removed tracking of totalRewards @faboweb

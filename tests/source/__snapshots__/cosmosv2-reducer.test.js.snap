@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cosmos V2 Reducer transactionReducerV2 on partially failed txs 1`] = `
+Array [
+  Object {
+    "details": Object {
+      "amounts": Array [
+        Object {
+          "amount": 0,
+          "denom": "",
+        },
+      ],
+      "from": Array [
+        "cosmosvaloper1ey69r37gfxvxg62sh4r0ktpuc46pzjrm873ae8",
+      ],
+      "type": "ClaimRewardsTx",
+    },
+    "fees": Array [
+      Object {
+        "amount": "0.0025",
+        "denom": "ATOM",
+      },
+    ],
+    "hash": "8A5713CFA4A3106F7D17D945E661BA7509F7038B7960D2B078B972732BD6FEAD",
+    "height": "1546139",
+    "involvedAddresses": Array [
+      "cosmos1fh44aqn7m4v570ujtjlmt3dytq80qyfwj07ckc",
+    ],
+    "key": "8A5713CFA4A3106F7D17D945E661BA7509F7038B7960D2B078B972732BD6FEAD_0",
+    "log": "",
+    "memo": "",
+    "success": true,
+    "timestamp": "2020-04-16T21:55:10Z",
+    "type": "ClaimRewardsTx",
+  },
+]
+`;

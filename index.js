@@ -8,7 +8,10 @@ const config = require('./config')
 
 if (config.SENTRY_DSN) {
   const Sentry = require('@sentry/node')
-  Sentry.init({ dsn: config.SENTRY_DSN })
+  Sentry.init({
+    dsn: config.SENTRY_DSN,
+    release: require('./package.json').version
+  })
 }
 
 const app = express()

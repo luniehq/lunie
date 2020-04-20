@@ -168,7 +168,13 @@ module.exports = [
     coinLookup: coinLookupDictionary[`polkadot-testnet`],
     enabled: true,
     icon: 'https://app.lunie.io/img/networks/polkadot-testnet.png',
-    slug: 'kusama'
+    slug: 'kusama',
+    powered: {
+      name: 'stake.fish',
+      providerAddress: 'GXaUd6gyCaEoBVzXnkLVGneCF3idnLNtNZs5RHTugb9dCpY',
+      picture:
+        'https://s3.amazonaws.com/keybase_processed_uploads/e1378cd4d5203ded716906687ad53905_360_360.jpg'
+    }
   }
   // {
   //   id: 'akash-testnet',
