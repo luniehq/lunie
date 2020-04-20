@@ -50,11 +50,7 @@ export default class TransactionManager {
     senderAddress,
     network
   }) {
-    const {
-      data: {
-        overview: { accountNumber, sequence }
-      }
-    } = await this.apollo.query({
+    const response = await this.apollo.query({
       query: gql`
         query signingInfo($networkId: String!, $senderAddress: String!) {
           overview(networkId: $networkId, address: $senderAddress) {
@@ -68,6 +64,13 @@ export default class TransactionManager {
       variables: { networkId: network.id, senderAddress },
       fetchPolicy: "network-only"
     })
+    const {
+      data: {
+        overview: {
+          accountInformation: { accountNumber, sequence }
+        }
+      }
+    } = response
     const { Coin } = await import("./networkMessages/cosmos-hub-mainnet")
 
     return {
