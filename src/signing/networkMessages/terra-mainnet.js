@@ -1,50 +1,50 @@
 import * as CosmosMessages from "./cosmos-hub-mainnet.js"
 
-export const MsgSend = (...args) => {
-  const msg = CosmosMessages.MsgSend(...args)
+export const SendTx = (...args) => {
+  const msg = CosmosMessages.SendTx(...args)
   msg.type = "bank/MsgSend"
   return msg
 }
 
-export const MsgDelegate = (...args) => {
-  const msg = CosmosMessages.MsgDelegate(...args)
+export const StakeTx = (...args) => {
+  const msg = CosmosMessages.StakeTx(...args)
   msg.type = "staking/MsgDelegate"
   return msg
 }
 
-export const MsgUndelegate = (...args) => {
-  const msg = CosmosMessages.MsgUndelegate(...args)
+export const UnstakeTx = (...args) => {
+  const msg = CosmosMessages.UnstakeTx(...args)
   msg.type = "staking/MsgUndelegate"
   return msg
 }
 
-export const MsgRedelegate = (...args) => {
-  const msg = CosmosMessages.MsgRedelegate(...args)
+export const RestakeTx = (...args) => {
+  const msg = CosmosMessages.RestakeTx(...args)
   msg.type = "staking/MsgBeginRedelegate"
   return msg
 }
 
-export const MsgWithdrawDelegationReward = (...args) => {
-  const msg = CosmosMessages.MsgWithdrawDelegationReward(...args)
+export const ClaimRewardsTx = (...args) => {
+  const msg = CosmosMessages.ClaimRewardsTx(...args)
   msg.type = "distribution/MsgWithdrawDelegationReward"
   return msg
 }
 
-export const MsgSubmitProposal = (...args) => {
-  const msg = CosmosMessages.MsgSubmitProposal(...args)
+export const SubmitProposalTx = (...args) => {
+  const msg = CosmosMessages.SubmitProposalTx(...args)
   msg.type = "gov/MsgSubmitProposal"
   msg.value.content.type = "gov/TextProposal"
   return msg
 }
 
-export const MsgVote = (...args) => {
-  const msg = CosmosMessages.MsgVote(...args)
+export const VoteTx = (...args) => {
+  const msg = CosmosMessages.VoteTx(...args)
   msg.type = "gov/MsgVote"
   return msg
 }
 
-export const MsgDeposit = (...args) => {
-  const msg = CosmosMessages.MsgDeposit(...args)
+export const DepositTx = (...args) => {
+  const msg = CosmosMessages.DepositTx(...args)
   msg.type = "gov/MsgDeposit"
   return msg
 }

@@ -4,7 +4,7 @@ import BigNumber from "bignumber.js"
 
 // Bank
 /* istanbul ignore next */
-export async function MsgSend(senderAddress, { to, amount }, network) {
+export async function SendTx(senderAddress, { to, amount }, network) {
   const api = await getAPI()
 
   return await getSignMessage(
@@ -14,7 +14,7 @@ export async function MsgSend(senderAddress, { to, amount }, network) {
 }
 
 // Staking
-export async function MsgDelegate(senderAddress, { to, amount }, network) {
+export async function StakeTx(senderAddress, { to, amount }, network) {
   // stake with all existing plus the selected
   const api = await getAPI()
   const transactions = []

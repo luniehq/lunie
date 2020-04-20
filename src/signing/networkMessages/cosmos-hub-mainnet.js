@@ -3,7 +3,7 @@
 import BigNumber from "bignumber.js"
 
 /* istanbul ignore next */
-export function MsgSend(senderAddress, { to, amount }, network) {
+export function SendTx(senderAddress, { to, amount }, network) {
   return {
     type: `cosmos-sdk/MsgSend`,
     value: {
@@ -15,7 +15,7 @@ export function MsgSend(senderAddress, { to, amount }, network) {
 }
 
 // Staking
-export function MsgDelegate(senderAddress, { to, amount }, network) {
+export function StakeTx(senderAddress, { to, amount }, network) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgDelegate`,
@@ -27,7 +27,7 @@ export function MsgDelegate(senderAddress, { to, amount }, network) {
   }
 }
 
-export function MsgUndelegate(senderAddress, { from, amount }, network) {
+export function UnstakeTx(senderAddress, { from, amount }, network) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgUndelegate`,
@@ -39,7 +39,7 @@ export function MsgUndelegate(senderAddress, { from, amount }, network) {
   }
 }
 
-export function MsgRedelegate(senderAddress, { from, to, amount }, network) {
+export function RestakeTx(senderAddress, { from, to, amount }, network) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgBeginRedelegate`,
@@ -53,7 +53,7 @@ export function MsgRedelegate(senderAddress, { from, to, amount }, network) {
 }
 
 // Governance
-export function MsgSubmitProposal(
+export function SubmitProposalTx(
   senderAddress,
   {
     // proposalType,
@@ -80,7 +80,7 @@ export function MsgSubmitProposal(
   }
 }
 
-export function MsgVote(senderAddress, { proposalId, voteOption }) {
+export function VoteTx(senderAddress, { proposalId, voteOption }) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgVote`,
@@ -92,7 +92,7 @@ export function MsgVote(senderAddress, { proposalId, voteOption }) {
   }
 }
 
-export function MsgDeposit(senderAddress, { proposalId, amount }, network) {
+export function DepositTx(senderAddress, { proposalId, amount }, network) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgDeposit`,
@@ -104,7 +104,7 @@ export function MsgDeposit(senderAddress, { proposalId, amount }, network) {
   }
 }
 
-export function MsgWithdrawDelegationReward(
+export function ClaimRewardsTx(
   senderAddress,
   {
     // amounts,
