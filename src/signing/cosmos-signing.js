@@ -90,10 +90,10 @@ function removeEmptyProperties(jsonTx) {
 
 export async function getSignableObject(
   messages,
-  { gas, gasPrices, memo = ``, chainId, accountNumber, sequence }
+  { gasEstimate, gasPrices, memo = ``, chainId, accountNumber, sequence }
 ) {
   // sign transaction
-  const stdTx = createStdTx({ gas, gasPrices, memo }, messages)
+  const stdTx = createStdTx({ gasEstimate, gasPrices, memo }, messages)
   const signMessage = createSignMessage(stdTx, {
     sequence,
     accountNumber,
