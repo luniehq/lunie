@@ -42,11 +42,22 @@
               </span>
               <span
                 v-if="step.affiliate"
-                :id="`affiliate-link-${index}`"
                 :key="`affiliate-item-${index}`"
                 class="affiliate-link"
               >
-                {{ step.affiliate() }}
+                <span
+                  >{{ step.affiliate.text }}
+                  <a
+                    :href="step.affiliate.link"
+                    :onclick="
+                      step.affiliate.onClickFunction(
+                        step.affiliate.onClickParam
+                      )
+                    "
+                  >
+                    {{ step.affiliate.linkText }}</a
+                  >
+                </span>
               </span>
             </p>
             <button

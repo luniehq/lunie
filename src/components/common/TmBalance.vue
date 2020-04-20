@@ -257,20 +257,12 @@ export default {
             content: [
               "The easiest way to get tokens is to find a reputable exchange, like Coinbase or Binance, to purchase your tokens from."
             ],
-            affiliate: () => {
-              let affiliateLink = document.createElement("a")
-              affiliateLink.setAttribute(
-                "href",
-                `${config.referralLinks["Coinbase"]}`
-              )
-              affiliateLink.setAttribute("onclick", `${this.sendEventToGA}`)
-              affiliateLink.innerHTML = `Coinbase`
-
-              const affiliateSpan = (document.createElement(
-                "span"
-              ).innerHTML = `
-              Need some ATOM to stake with Lunie? Buy some at ${affiliateLink} today!`)
-              return affiliateSpan
+            affiliate: {
+              text: "Need some ATOM to stake with Lunie? Buy some at today at",
+              link: config.referralLinks["Coinbase"],
+              linkText: "Coinbase",
+              onClickFunction: this.sendAffiliateClickEvent,
+              onClickParam: "Coinbase"
             }
           },
           {
@@ -399,7 +391,7 @@ export default {
       )
       this.rewardsSentToGA = true
     },
-    sendEventToGA() {
+    sendAffiliateClickEvent(partner) {
       sendEvent(
         {
           network: this.network,
@@ -407,7 +399,7 @@ export default {
         },
         "Portfolio",
         "Tutorials",
-        "linkToCoinbase",
+        `linkTo${partner}`,
         "click"
       )
     }
