@@ -152,7 +152,6 @@ import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transactionTypes from "../../signing/lunieTransactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
@@ -185,7 +184,6 @@ export default {
     },
     validators: [],
     delegations: [],
-    transactionTypes,
     messageType,
     smallestAmount: SMALLEST
   }),
@@ -249,7 +247,7 @@ export default {
 
       if (this.isRedelegation) {
         return {
-          type: transactionTypes.REDELEGATE,
+          type: messageType.REDELEGATE,
           from: [this.from],
           to: [this.targetValidator.operatorAddress],
           amount: this.amount,
@@ -257,7 +255,7 @@ export default {
         }
       } else {
         return {
-          type: transactionTypes.DELEGATE,
+          type: messageType.DELEGATE,
           to: [this.targetValidator.operatorAddress],
           amount: this.amount,
           denom: this.stakingDenom

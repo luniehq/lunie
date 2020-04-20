@@ -130,8 +130,6 @@ import TmField from "common/TmField"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "./ActionModal"
-
-import transactionTypes from "../../signing/lunieTransactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 
 const isValid = type =>
@@ -164,7 +162,6 @@ export default {
       amount: null,
       denom: ``
     },
-    transactionTypes,
     messageType,
     smallestAmount: SMALLEST
   }),
@@ -182,7 +179,7 @@ export default {
         return {}
       }
       return {
-        type: transactionTypes.SUBMIT_PROPOSAL,
+        type: messageType.SUBMIT_PROPOSAL,
         proposalTitle: this.title,
         proposalDescription: this.description,
         initialDeposit: {

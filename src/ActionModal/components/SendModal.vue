@@ -155,7 +155,6 @@ import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transactionTypes from "../../signing/lunieTransactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
@@ -195,7 +194,6 @@ export default {
     isFirstLoad: true,
     selectedToken: undefined,
     balances: [],
-    transactionTypes,
     messageType,
     smallestAmount: SMALLEST
   }),
@@ -214,7 +212,7 @@ export default {
         return {}
       }
       return {
-        type: transactionTypes.SEND,
+        type: messageType.SEND,
         to: [this.address],
         amount: {
           amount: this.amount,

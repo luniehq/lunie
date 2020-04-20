@@ -69,7 +69,6 @@ import ActionModal from "./ActionModal"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 
-import transactionTypes from "../../signing/lunieTransactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 
 const isValid = option =>
@@ -101,13 +100,12 @@ export default {
   },
   data: () => ({
     vote: null,
-    transactionTypes,
     messageType
   }),
   computed: {
     transactionData() {
       return {
-        type: transactionTypes.VOTE,
+        type: messageType.VOTE,
         proposalId: this.proposalId,
         voteOption: this.vote
       }

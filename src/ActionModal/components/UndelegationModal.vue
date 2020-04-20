@@ -133,7 +133,6 @@ import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
-import transactionTypes from "../../signing/lunieTransactionTypes"
 import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
 import { messageType } from "../../components/transactions/messageTypes"
@@ -190,7 +189,7 @@ export default {
           return {}
         }
         return {
-          type: transactionTypes.REDELEGATE,
+          type: messageType.REDELEGATE,
           from: [this.sourceValidator.operatorAddress],
           to: [this.toSelectedIndex],
           amount: this.amount,
@@ -205,7 +204,7 @@ export default {
           return {}
         }
         return {
-          type: transactionTypes.UNDELEGATE,
+          type: messageType.UNDELEGATE,
           from: [this.sourceValidator.operatorAddress],
           amount: this.amount,
           denom: this.stakingDenom
