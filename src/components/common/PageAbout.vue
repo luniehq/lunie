@@ -146,7 +146,8 @@ export default {
         "Woah, that was scary",
         "Too much for one simple demo, that's for sure!",
         "OK, where were we?"
-      ]
+      ],
+      retake: false
     }
   },
   watch: {
@@ -165,13 +166,19 @@ export default {
       this.enthropyCounter += 1
     },
     startEnthropy() {
+      if (this.retake) {
+        const textBubble = document.getElementById("text-bubble")
+        document.body.removeChild(textBubble)
+      }
       this.reggaeMusic.play()
       this.createGandalf()
       this.createSunglasses()
-      setTimeout(() => {
-        this.createTextBubble()
-        this.gandalfTaks(this.textLines)
-      }, 3000)
+      if (!this.retake) {
+        setTimeout(() => {
+          this.createTextBubble()
+          this.gandalfTaks(this.textLines)
+        }, 3000)
+      }
       setTimeout(() => {
         this.createJoint()
       }, 13000)
@@ -230,9 +237,9 @@ export default {
       const sunglasses = document.getElementById("sunglasses")
       const textBubble = document.getElementById("text-bubble")
 
-      joint.style.visibility = "hidden"
-      sunglasses.style.visibility = "hidden"
-      textBubble.style.visibility = "hidden"
+      document.body.removeChild(joint)
+      document.body.removeChild(sunglasses)
+      document.body.removeChild(textBubble)
 
       const balrog = document.createElement("img")
       balrog.src = "/enthropies/balrog.png"
@@ -260,10 +267,9 @@ export default {
       textBubble.style.padding = "15px"
       textBubble.style.lineHeight = "1.7em"
       textBubble.style.borderRadius = "7px"
+      textBubble.style.backgroundColor = "white"
 
       document.body.appendChild(textBubble)
-
-      textBubble.style.backgroundColor = "white"
     },
     typingText(line) {
       const text = document.getElementById("text-bubble")
@@ -279,11 +285,11 @@ export default {
         }
       }, 60)
     },
-    isLineFinishedChecker(index) {
+    isLineFinishedChecker(index, textLines) {
       const textBubbleText = document.getElementById("text-bubble")
       if (
         textBubbleText &&
-        textBubbleText.innerText.length === this.textLines[index - 1].length
+        textBubbleText.innerText.length === textLines[index - 1].length
       ) {
         return true
       } else {
@@ -297,6 +303,7 @@ export default {
       document.body.removeChild(balrog)
       this.createTextBubble()
       this.gandalfTaks(this.finalTextLines)
+      this.retake = true
       gandalf.onclick = this.startEnthropy
     },
     gandalfTaks(textLines) {
@@ -309,7 +316,7 @@ export default {
           if (index >= textLines.length) {
             clearInterval(interval)
           } else {
-            const checker = this.isLineFinishedChecker(index)
+            const checker = this.isLineFinishedChecker(index, textLines)
             if (checker) {
               this.typingText(textLines[index])
               index++
