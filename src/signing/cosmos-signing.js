@@ -110,10 +110,10 @@ export async function getBroadcastableObject(
 ) {
   const stdTx = createStdTx({ gasEstimate, gasPrices, memo }, messages)
   const signatureObject = formatSignature(
-    signature,
+    Buffer.from(signature, "hex"),
     sequence,
     accountNumber,
-    publicKey
+    Buffer.from(publicKey, "hex")
   )
   const signedTx = createSignedTransactionObject(stdTx, signatureObject)
 

@@ -1,4 +1,7 @@
 /* istanbul ignore next */
+
+import BigNumber from "bignumber.js"
+
 /* returns the a message creator for a specific network and transaction type */
 async function getNetworkSpecificMessageCreator(network, messageType) {
   let networkMessages
@@ -25,4 +28,29 @@ export async function getMessage(network, messageType, senderAddress, message) {
     messageType
   )
   return await messageFormatter(senderAddress, message, network)
+}
+
+export function getDisplayTransaction(messages, transactionData, network) {
+  if (network.network_type === "cosmos") {
+    const fees = transactionData.gasPrices.map(({ amount, denom }) => {
+      const lookup = network.coinLookup.find(
+        ({ chainDenom }) => chainDenom === denom
+      )
+      return {
+        amount: BigNumber(amount).times(lookup.chainToViewConversionFactor),
+        denom: lookup.viewDenom
+      }
+    })
+
+    return messages.map(message => ({
+      details: message,
+      fees
+    }))
+  }
+  if (network.network_type === "polkadot") {
+    return messages.map(message => ({
+      details: message,
+      fees: [{ amount: 0 }]
+    }))
+  }
 }
