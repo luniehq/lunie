@@ -84,6 +84,7 @@
           <img
             src="~assets/images/team/jordan.jpg"
             alt="Profile photo for Jordan Bibla"
+            @click="setEnthropyCounter()"
           />
           <div class="profile-info">
             <span>Jordan Bibla</span>
@@ -125,6 +126,34 @@ export default {
   name: `page-about`,
   components: {
     TmPage
+  },
+  data: () => {
+    return {
+      enthropyCounter: 0
+    }
+  },
+  watch: {
+    enthropyCounter: {
+      handler() {
+        if (this.enthropyCounter === 5) {
+          this.enthropyCounter = 0
+          this.startEnthropy()
+        }
+      }
+    }
+  },
+  methods: {
+    setEnthropyCounter() {
+      console.log(this.enthropyCounter)
+      this.enthropyCounter += 1
+    },
+    startEnthropy() {
+      console.log("HIIII")
+      let reggaeMusic = new Audio(
+        "/img/enthropies/The Maytals - Do The Reggay.mp3"
+      )
+      reggaeMusic.play()
+    }
   }
 }
 </script>
