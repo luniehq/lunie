@@ -100,7 +100,7 @@ export default class TransactionManager {
         message,
         transactionData,
         senderAddress,
-        network.id
+        network
       )
     } else {
       broadcastableObject = await this.createAndSignLocally(
