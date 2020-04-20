@@ -51,7 +51,7 @@ export default class TransactionManager {
   }) {
     const {
       data: {
-        signingInfo: { accountNumber, sequence }
+        overview: { accountNumber, sequence }
       }
     } = await this.apollo.query({
       query: gql`
