@@ -132,7 +132,7 @@ export default {
     return {
       enthropyCounter: 0,
       reggaeMusic: new Audio("/enthropies/The Maytals - Do The Reggay.mp3"),
-      partyIsOff: new Audio("record_scratch.mp3"),
+      partyIsOff: new Audio("/enthropies/record_scratch.mp3"),
       textLines: [
         "Hello, welcome to Lunie World",
         "Are you as excited about staking as I am?",
@@ -140,7 +140,13 @@ export default {
         "But first things first. Let's take it easy. Don't you agree?",
         "Let the party begin!"
       ],
-      isLineFinished: false
+      balrogRoar0: new Audio("/enthropies/balrog_roar0.mp3"),
+      balrogRoar1: new Audio("/enthropies/balrog_roar1.mp3"),
+      finalTextLines: [
+        "Woah, that was scary",
+        "Too much for one simple demo, that's for sure!",
+        "OK, where were we?"
+      ]
     }
   },
   watch: {
@@ -164,31 +170,16 @@ export default {
       this.createSunglasses()
       setTimeout(() => {
         this.createTextBubble()
-        let index = 0
-        let interval = setInterval(() => {
-          if (index === 0) {
-            this.typingText(this.textLines[index])
-            index++
-          } else {
-            if (index >= this.textLines.length) {
-              clearInterval(interval)
-            } else {
-              const checker = this.isLineFinishedChecker(index)
-              if (checker) {
-                this.typingText(this.textLines[index])
-                index++
-              }
-            }
-          }
-        }, 300)
+        this.gandalfTaks(this.textLines)
       }, 3000)
       setTimeout(() => {
         this.createJoint()
-      }, 10000)
+      }, 13000)
     },
     createGandalf() {
       const gandalf = document.createElement("img")
       gandalf.src = "/enthropies/gandalf.png"
+      gandalf.id = "gandalf"
       gandalf.style.position = "absolute"
       gandalf.style.width = "72%"
       gandalf.style.top = "120vh"
@@ -198,6 +189,7 @@ export default {
     createSunglasses() {
       const sunglasses = document.createElement("img")
       sunglasses.src = "/enthropies/sunglasses.png"
+      sunglasses.id = "sunglasses"
       sunglasses.style.position = "absolute"
       sunglasses.style.width = "30%"
       sunglasses.style.top = "134vh"
@@ -219,20 +211,43 @@ export default {
     createJoint() {
       const joint = document.createElement("img")
       joint.src = "/enthropies/joint.png"
+      joint.id = "joint"
       joint.style.transform = "scaleX(-1)"
       joint.style.width = "30%"
       joint.style.height = "60%"
       joint.style.position = "absolute"
       joint.style.top = "157vh"
       joint.style.left = "33vw"
+
+      joint.onclick = this.enterBalrog
       document.body.appendChild(joint)
     },
     enterBalrog() {
       this.reggaeMusic.pause()
       this.reggaeMusic.currentTime = 0
       this.partyIsOff.play()
-      // joint.style.visibility = "hidden"
-      // sunglasses.style.visibility = "hidden"
+      const joint = document.getElementById("joint")
+      const sunglasses = document.getElementById("sunglasses")
+      const textBubble = document.getElementById("text-bubble")
+
+      joint.style.visibility = "hidden"
+      sunglasses.style.visibility = "hidden"
+      textBubble.style.visibility = "hidden"
+
+      const balrog = document.createElement("img")
+      balrog.src = "/enthropies/balrog.png"
+      balrog.id = "balrog"
+      balrog.style.position = "absolute"
+      balrog.style.transform = "scaleX(-1)"
+      balrog.style.top = "116vh"
+      balrog.style.right = "-8vw"
+
+      balrog.onclick = this.balrogRoars
+      balrog.ondblclick = this.byeBalrog
+
+      document.body.appendChild(balrog)
+
+      this.balrogRoar0.play()
     },
     createTextBubble() {
       const textBubble = document.createElement("div")
@@ -244,6 +259,8 @@ export default {
       textBubble.style.left = "21vw"
       textBubble.style.padding = "15px"
       textBubble.style.lineHeight = "1.7em"
+      textBubble.style.borderRadius = "7px"
+
       document.body.appendChild(textBubble)
 
       textBubble.style.backgroundColor = "white"
@@ -268,12 +285,41 @@ export default {
         textBubbleText &&
         textBubbleText.innerText.length === this.textLines[index - 1].length
       ) {
-        // previous line is already finished
-        this.isLineFinished = true
         return true
       } else {
         return false
       }
+    },
+    byeBalrog() {
+      const balrog = document.getElementById("balrog")
+      const gandalf = document.getElementById("gandalf")
+      this.balrogRoar1.play()
+      document.body.removeChild(balrog)
+      this.createTextBubble()
+      this.gandalfTaks(this.finalTextLines)
+      gandalf.onclick = this.startEnthropy
+    },
+    gandalfTaks(textLines) {
+      let index = 0
+      let interval = setInterval(() => {
+        if (index === 0) {
+          this.typingText(textLines[index])
+          index++
+        } else {
+          if (index >= textLines.length) {
+            clearInterval(interval)
+          } else {
+            const checker = this.isLineFinishedChecker(index)
+            if (checker) {
+              this.typingText(textLines[index])
+              index++
+            }
+          }
+        }
+      }, 300)
+    },
+    balrogRoars() {
+      this.balrogRoar1.play()
     }
   }
 }
