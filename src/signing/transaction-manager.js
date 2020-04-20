@@ -110,6 +110,8 @@ export default class TransactionManager {
       config // only needed for Ledger
     )
 
+    // we need to split extension signing and message signing in the future
+    // extension signing doesn't require to create the signableObject in advance
     const broadcastableObject = await createAndSign(
       messageType,
       message,
