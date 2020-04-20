@@ -10,7 +10,8 @@ const txFetchOptions = fingerprint => ({
   method: "POST",
   headers: {
     "Content-Type": "application/json",
-    fingerprint
+    fingerprint,
+    development: config.development
   }
 })
 
