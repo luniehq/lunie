@@ -129,7 +129,9 @@ export default {
   },
   data: () => {
     return {
-      enthropyCounter: 0
+      enthropyCounter: 0,
+      reggaeMusic: new Audio("/enthropies/The Maytals - Do The Reggay.mp3"),
+      partyIsOff: new Audio("record_scratch.mp3")
     }
   },
   watch: {
@@ -149,10 +151,65 @@ export default {
     },
     startEnthropy() {
       console.log("HIIII")
-      let reggaeMusic = new Audio(
-        "/img/enthropies/The Maytals - Do The Reggay.mp3"
-      )
-      reggaeMusic.play()
+      this.reggaeMusic.play()
+      this.createGandalf()
+      const sunglasses = this.createSunglasses()
+      let joint
+      setTimeout(() => {
+        joint = this.createJoint()
+      }, 5000)
+      setTimeout(() => {
+        this.enterBalrog(sunglasses, joint)
+      }, 15000)
+    },
+    createGandalf() {
+      const gandalf = document.createElement("img")
+      gandalf.src = "/enthropies/gandalf.jpg"
+      gandalf.style.position = "absolute"
+      document.body.appendChild(gandalf)
+    },
+    createSunglasses() {
+      const sunglasses = document.createElement("img")
+      sunglasses.src = "/enthropies/sunglasses.png"
+      sunglasses.style.position = "absolute"
+      sunglasses.style.top = "0px"
+      sunglasses.style.left = "100px"
+      sunglasses.style.visibility = "visible"
+      document.body.appendChild(sunglasses)
+      let top = 0
+
+      let interval = setInterval(frame, 5)
+
+      function frame() {
+        if (top >= 130) {
+          clearInterval(interval)
+        } else {
+          top++
+          sunglasses.style.top = top + "px"
+        }
+      }
+
+      return sunglasses
+    },
+    createJoint() {
+      const joint = document.createElement("img")
+      joint.src = "/enthropies/joint.png"
+      joint.style.width = "30%"
+      joint.style.height = "60%"
+      joint.style.position = "absolute"
+      joint.style.top = "357px"
+      joint.style.left = "310px"
+      joint.style.visibility = "visible"
+      document.body.appendChild(joint)
+
+      return joint
+    },
+    enterBalrog() {
+      this.reggaeMusic.pause()
+      this.reggaeMusic.currentTime = 0
+      this.partyIsOff.play()
+      // joint.style.visibility = "hidden"
+      // sunglasses.style.visibility = "hidden"
     }
   }
 }
