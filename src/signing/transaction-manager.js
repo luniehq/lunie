@@ -3,6 +3,7 @@ import { getSigner, cancelSign, signQueue } from "./signer"
 import { getGraphqlHost } from "scripts/url"
 import { getFingerprint } from "scripts/fingerprint"
 import { getMessage } from "./message-creator.js"
+import { messageType as messageTypes } from "../components/transactions/messageTypes"
 import gql from "graphql-tag"
 
 const txFetchOptions = fingerprint => ({
@@ -88,12 +89,20 @@ export default class TransactionManager {
     signingType,
     password
   }) {
+    // DEPRECATE, needed for extension
+    const displayedProperties = {}
+    if (messageType === messageTypes.CLAIM_REWARDS) {
+      displayedProperties.claimableRewards = message.amounts
+    }
+
     const signer = await getSigner(
       signingType,
       {
         address: senderAddress,
         password,
-        network
+        network,
+        // DEPRECATE
+        displayedProperties
       },
       config // only needed for Ledger
     )
@@ -110,6 +119,7 @@ export default class TransactionManager {
     return this.broadcastTransaction(
       broadcastableObject,
       messageType,
+      message,
       network,
       senderAddress
     )
@@ -118,11 +128,13 @@ export default class TransactionManager {
   async broadcastTransaction(
     broadcastableObject,
     messageType,
+    message,
     network,
     senderAddress
   ) {
     const txPayload = {
       messageType,
+      message,
       networkId: network.id,
       senderAddress: senderAddress,
       signedMessage: broadcastableObject,
