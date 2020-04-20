@@ -30,7 +30,12 @@ export async function getMessage(network, messageType, senderAddress, message) {
   return await messageFormatter(senderAddress, message, network)
 }
 
-export function getDisplayTransaction(messages, transactionData, network) {
+export function getDisplayTransaction(
+  messageType,
+  messages,
+  transactionData,
+  network
+) {
   if (network.network_type === "cosmos") {
     const fees = transactionData.gasPrices.map(({ amount, denom }) => {
       const lookup = network.coinLookup.find(
@@ -43,12 +48,14 @@ export function getDisplayTransaction(messages, transactionData, network) {
     })
 
     return messages.map(message => ({
+      type: messageType,
       details: message,
       fees
     }))
   }
   if (network.network_type === "polkadot") {
     return messages.map(message => ({
+      type: messageType,
       details: message,
       fees: [{ amount: 0 }]
     }))
