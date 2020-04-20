@@ -89,8 +89,8 @@ export default {
         case `words16`:
           msg = `phrase must be 16 words`
           break
-        case `words24`:
-          msg = `phrase must be 24 words`
+        case `words12Or24`:
+          msg = `phrase must be 12 or 24 words`
           break
         case `lowercaseAndSpaces`:
           msg = `phrase words must be all lowercase and separated by spaces`

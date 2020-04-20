@@ -14,7 +14,7 @@
           <FieldSeed
             id="import-seed"
             :value="seed"
-            placeholder="Must be exactly 24 words"
+            placeholder="Must be exactly 12 or 24 words"
             @input="val => (seed = val)"
           />
           <TmFormMsg
@@ -23,9 +23,9 @@
             type="required"
           />
           <TmFormMsg
-            v-else-if="$v.seed.$error && !$v.seed.seedHas24Words"
+            v-else-if="$v.seed.$error && !$v.seed.seedHas12Or24Words"
             name="Seed"
-            type="words24"
+            type="words12Or24"
           />
           <TmFormMsg
             v-else-if="$v.seed.$error && !$v.seed.seedIsLowerCaseAndSpaces"
@@ -51,6 +51,13 @@ import FieldSeed from "common/TmFieldSeed"
 import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
+
+const words12Or24 = param => {
+  return (
+    (param && param.split(` `).length === 12) ||
+    (param && param.split(` `).length === 24)
+  )
+}
 
 const lowerCaseAndSpaces = param => {
   const seedWordsAreLowerCaseAndSpaces = /^([a-z]+\s)*[a-z]+$/g
@@ -101,7 +108,8 @@ export default {
     seed: {
       required,
       seedIsLowerCaseAndSpaces: param =>
-        lowerCaseAndSpaces(param) || polkadotRawSeed(param)
+        lowerCaseAndSpaces(param) || polkadotRawSeed(param),
+      seedHas12Or24Words: param => words12Or24(param) || polkadotRawSeed(param)
     }
   })
 }
