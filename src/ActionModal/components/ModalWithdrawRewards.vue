@@ -77,7 +77,7 @@ export default {
     transactionData() {
       if (this.totalRewards.length === 0) return {}
       return {
-        type: messageType.WITHDRAW,
+        type: messageType.CLAIM_REWARDS,
         amounts: this.totalRewards,
         from: this.top5Validators
       }
