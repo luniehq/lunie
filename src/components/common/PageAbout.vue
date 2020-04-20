@@ -121,6 +121,7 @@
 
 <script>
 import TmPage from "common/TmPage"
+import { setInterval } from "timers"
 
 export default {
   name: `page-about`,
@@ -131,7 +132,15 @@ export default {
     return {
       enthropyCounter: 0,
       reggaeMusic: new Audio("/enthropies/The Maytals - Do The Reggay.mp3"),
-      partyIsOff: new Audio("record_scratch.mp3")
+      partyIsOff: new Audio("record_scratch.mp3"),
+      textLines: [
+        "Hello, welcome to Lunie World",
+        "Are you as excited about staking as I am?",
+        "Hohoho, just don't mistake it with skating. Very important. Hohoho",
+        "But first things first. Let's take it easy. Don't you agree?",
+        "Let the party begin!"
+      ],
+      isLineFinished: false
     }
   },
   watch: {
@@ -150,59 +159,73 @@ export default {
       this.enthropyCounter += 1
     },
     startEnthropy() {
-      console.log("HIIII")
       this.reggaeMusic.play()
       this.createGandalf()
-      const sunglasses = this.createSunglasses()
-      let joint
+      this.createSunglasses()
       setTimeout(() => {
-        joint = this.createJoint()
-      }, 5000)
+        this.createTextBubble()
+        let index = 0
+        let interval = setInterval(() => {
+          if (index === 0) {
+            this.typingText(this.textLines[index])
+            index++
+          } else {
+            if (index >= this.textLines.length) {
+              clearInterval(interval)
+            } else {
+              const checker = this.isLineFinishedChecker(index)
+              if (checker) {
+                this.typingText(this.textLines[index])
+                index++
+              }
+            }
+          }
+        }, 300)
+      }, 3000)
       setTimeout(() => {
-        this.enterBalrog(sunglasses, joint)
-      }, 15000)
+        this.createJoint()
+      }, 10000)
     },
     createGandalf() {
       const gandalf = document.createElement("img")
-      gandalf.src = "/enthropies/gandalf.jpg"
+      gandalf.src = "/enthropies/gandalf.png"
       gandalf.style.position = "absolute"
+      gandalf.style.width = "72%"
+      gandalf.style.top = "120vh"
+      gandalf.style.right = "0"
       document.body.appendChild(gandalf)
     },
     createSunglasses() {
       const sunglasses = document.createElement("img")
       sunglasses.src = "/enthropies/sunglasses.png"
       sunglasses.style.position = "absolute"
-      sunglasses.style.top = "0px"
-      sunglasses.style.left = "100px"
-      sunglasses.style.visibility = "visible"
+      sunglasses.style.width = "30%"
+      sunglasses.style.top = "134vh"
+      sunglasses.style.right = "25vw"
       document.body.appendChild(sunglasses)
-      let top = 0
+      let top = 70
 
-      let interval = setInterval(frame, 5)
+      let interval = setInterval(frame, 30)
 
       function frame() {
-        if (top >= 130) {
+        if (top >= 134) {
           clearInterval(interval)
         } else {
           top++
-          sunglasses.style.top = top + "px"
+          sunglasses.style.top = top + "vh"
         }
       }
-
-      return sunglasses
     },
     createJoint() {
       const joint = document.createElement("img")
       joint.src = "/enthropies/joint.png"
+      joint.style.transform = "scaleX(-1)"
       joint.style.width = "30%"
       joint.style.height = "60%"
       joint.style.position = "absolute"
-      joint.style.top = "357px"
-      joint.style.left = "310px"
-      joint.style.visibility = "visible"
+      joint.style.top = "157vh"
+      joint.style.left = "33vw"
       document.body.appendChild(joint)
-
-      return joint
     },
     enterBalrog() {
       this.reggaeMusic.pause()
@@ -210,6 +233,47 @@ export default {
       this.partyIsOff.play()
       // joint.style.visibility = "hidden"
       // sunglasses.style.visibility = "hidden"
+    },
+    createTextBubble() {
+      const textBubble = document.createElement("div")
+      textBubble.id = "text-bubble"
+      textBubble.style.position = "absolute"
+      textBubble.style.width = "25vw"
+      textBubble.style.height = "20vh"
+      textBubble.style.top = "130vh"
+      textBubble.style.left = "21vw"
+      textBubble.style.padding = "15px"
+      textBubble.style.lineHeight = "1.7em"
+      document.body.appendChild(textBubble)
+
+      textBubble.style.backgroundColor = "white"
+    },
+    typingText(line) {
+      const text = document.getElementById("text-bubble")
+      let i = 0
+      text.innerText = ""
+
+      let interval = setInterval(() => {
+        if (i >= line.length) {
+          clearInterval(interval)
+        } else {
+          text.innerHTML += line[i]
+          i++
+        }
+      }, 60)
+    },
+    isLineFinishedChecker(index) {
+      const textBubbleText = document.getElementById("text-bubble")
+      if (
+        textBubbleText &&
+        textBubbleText.innerText.length === this.textLines[index - 1].length
+      ) {
+        // previous line is already finished
+        this.isLineFinished = true
+        return true
+      } else {
+        return false
+      }
     }
   }
 }
