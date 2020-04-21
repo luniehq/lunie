@@ -1,67 +1,24 @@
+@import "themes/cosmos";
+@import "themes/e-money";
+@import "themes/terra";
+@import "themes/polkadot";
+
 :root {
-  /*  ============================================================================= */
-
-  /* colors */
-  --tertiary: hsl(325, 96%, 59%);
-  --secondary: hsl(277, 92%, 58%);
-  --primary: hsl(233, 88%, 57%);
-  --primary-alpha: hsla(233, 88%, 57%, 0.15);
-  --primary-dark: hsla(233, 88%, 57%, 0.55);
-  --link: hsl(217, 100%, 70%);
-  --input-bc: var(--dim);
-  --link-dark: hsl(233, 88%, 50%);
-  --link-hover: rgba(31, 117, 255, 1);
-  --hover: rgba(0, 0, 0, 8%);
-  --hover-bg: rgba(27, 113, 255, 0.1);
-  --bright: hsl(0, 100%, 100%);
-  --txt: hsl(0, 0%, 82%);
-  --dim: rgb(175, 175, 175);
-  --bc: hsla(233, 24%, 75%, 0.175);
-  --bc-dim: hsla(233, 24%, 75%, 0.0875);
-  --app-fg: hsl(233, 36%, 18%);
-  --app-fg-dark: hsl(233, 36%, 15%);
-  --app-bg: hsl(233, 30%, 22%);
-  --app-nav: hsl(233, 38%, 7%);
-  --app-nav-light: hsl(233, 38%, 11%);
-  --black: rgb(0, 0, 0);
-  --grey: hsl(234, 13%, 85%);
-  --white-fade-1: rgba(177, 179, 187, 0.25);
-  --white-fade-2: rgba(208, 209, 214, 0.15);
-  --green: hsl(105, 60%, 44%, 1);
-  --green-fade-1: hsla(105, 60%, 44%, 0.25);
-  --green-fade-2: hsla(105, 60%, 44%, 0.15);
-  --orange: hsla(34, 100%, 50%, 1);
-  --orange-fade-1: hsla(34, 100%, 50%, 0.25);
-  --orange-fade-2: hsla(34, 100%, 50%, 0.15);
-  --red: hsla(0, 100%, 40%, 1);
-  --red-fade-1: hsla(0, 100%, 40%, 0.25);
-  --red-fade-2: hsla(0, 100%, 40%, 0.15);
-
-  /* Transaction group colours */
-  --tx-banking: #ed553b;
-  --tx-staking: #47ab6c;
-  --tx-governance: #15cfcc;
-  --tx-distribution: #f2b134;
-
-  /* don't change - should be consistent across themes */
   --input-bg: transparent;
-  --success: hsl(120, 58%, 50%);
-  --success-bc: hsl(120, 58%, 41%);
-  --warning: hsl(35, 100%, 50%);
-  --warning-bc: hsl(35, 75%, 38%);
-  --danger: hsl(0, 100%, 55%);
-  --danger-bc: hsl(0, 100%, 41%);
-  --tendermint: #5ead37;
-  --info: #551f38;
+  --menu-bright: white;
+  --menu-text: rgb(230, 230, 230);
 
-  /* tutorial component */
+  --success: hsl(120, 59%, 33%);
+  --warning: hsl(35, 100%, 50%);
+  --danger: hsl(0, 100%, 55%);
+  --info: #551f38;
+  
+  --light-grey: #f7f7f7;
+
   --sky-blue: #66a1ff;
   --faded-blue: #7a88b8;
   --dark-grey-blue: #324175;
 
-  /* ============================================================================= */
-
-  /* typography */
   --x: 16px;
   --px: 0.0625rem;
   --sans:
@@ -90,22 +47,13 @@
   --h5: 1rem;
   --h6: 0.75rem;
 
-  /* sizes */
-  --aw: 64rem;
-  --width-main: 100%;
-  --width-main-max: 48rem;
   --width-side: 14rem;
 
-  /* ============================================================================= */
-
-  /* z-index */
   --z-modalError: 1002;
   --z-modal: 1000;
   --z-appHeader: 100;
   --z-appMenu: 99;
-  --z-toolBar: 98;
   --z-listItem: 10;
   --z-default: 1;
-  --z-zero: 0;
   --z-below: -1;
 }
