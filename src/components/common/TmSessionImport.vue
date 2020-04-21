@@ -14,7 +14,7 @@
           <FieldSeed
             id="import-seed"
             :value="seed"
-            placeholder="Must be exactly 24 words"
+            placeholder="Must be exactly 12 or 24 words"
             @input="val => (seed = val)"
           />
           <TmFormMsg
