@@ -88,8 +88,8 @@ export default {
 <style scoped>
 h2 {
   font-size: 24px;
-  color: white;
-  font-weight: 300;
+  color: var(--bright);
+  font-weight: 400;
 }
 
 h2,

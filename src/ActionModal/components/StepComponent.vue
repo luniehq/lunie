@@ -54,9 +54,9 @@ export default {
 }
 
 .circle--default {
-  border: 0.1rem var(--grey) solid;
+  border: 0.1rem var(--bc) solid;
   border-radius: 50%;
-  background: var(--app-nav-light);
+  background: var(--bc);
   width: 1.6rem;
   height: 1.6rem;
   min-height: 1.6rem;
@@ -69,11 +69,11 @@ export default {
 }
 
 .active {
-  border-color: var(--tertiary);
+  border-color: var(--highlight);
 }
 
 .text--default {
-  color: var(--grey);
+  color: var(--dim);
   font-size: var(--xs);
   font-weight: 500;
   line-height: normal;
@@ -89,7 +89,7 @@ export default {
 .includeLine::after {
   display: inline-block;
   content: "";
-  background: var(--grey);
+  background: var(--bc-dim);
   width: 50px;
   height: 2px;
   position: absolute;
@@ -98,6 +98,6 @@ export default {
 }
 
 .textActive {
-  color: var(--tertiary);
+  color: var(--highlight);
 }
 </style>

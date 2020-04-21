@@ -560,6 +560,8 @@ export default {
   font-size: var(--h1);
   line-height: 2rem;
   font-weight: 500;
+  max-width: 600px;
+  word-break: break-word;
 }
 
 .validator-info {

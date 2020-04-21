@@ -4,7 +4,7 @@
       id="intercom-button"
       class="intercom-button"
       value="Help / Feedback"
-      type="secondary"
+      type="sidebar"
       size="small"
       @click.native="handleIntercom()"
     />
@@ -186,7 +186,7 @@ export default {
   background: var(--app-nav);
 }
 
-.intercom-button {
+button.intercom-button {
   width: 100%;
   margin: 1rem 0;
 }
@@ -194,7 +194,7 @@ export default {
 .tm-connected-network {
   align-items: center;
   border-radius: 0.25rem;
-  color: var(--dim);
+  color: var(--menu-text);
   display: flex;
   font-size: var(--sm);
   justify-content: space-between;

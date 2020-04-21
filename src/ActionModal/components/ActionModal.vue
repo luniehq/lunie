@@ -239,7 +239,7 @@
               <TmBtn
                 id="closeBtn"
                 value="Cancel"
-                type="tertiary"
+                type="secondary"
                 @click.native="close"
               />
               <TmBtn
@@ -967,7 +967,7 @@ export default {
 
 <style>
 .action-modal {
-  background: var(--app-nav-light);
+  background: var(--app-fg);
   display: flex;
   flex-direction: column;
   right: 1rem;
@@ -980,7 +980,7 @@ export default {
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
-  border: 1px solid var(--bc);
+  border: 2px solid var(--bc);
   box-shadow: 0 2px 8px rgba(200, 200, 200, 0.1);
 }
 
@@ -1046,7 +1046,7 @@ export default {
   justify-content: flex-end;
 }
 
-.action-modal-footer .tm-form-group .tm-form-group__field .tertiary {
+.action-modal-footer .tm-form-group .tm-form-group__field .secondary {
   margin-right: 0.5rem;
 }
 

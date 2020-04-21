@@ -3,9 +3,9 @@
     class="button"
     :class="{
       secondary: type === `secondary`,
-      tertiary: type === `tertiary`,
       small: size === `small`,
-      active: type === `active`
+      active: type === `active`,
+      sidebar: type === `sidebar`
     }"
     :disabled="disabled"
   >
@@ -45,7 +45,7 @@ export default {
   padding: 8px 16px;
   width: auto;
   min-width: 100px;
-  color: var(--bright);
+  color: var(--menu-bright);
   margin: 0;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -56,54 +56,44 @@ export default {
 }
 
 .button:hover {
-  background: var(--primary-dark);
-  border-color: var(--primary-dark);
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 
 .button:disabled {
-  opacity: 0.5;
-  background: var(--primary-dark);
-  border-color: var(--bc-dim);
+  opacity: 0.7;
+  background: var(--primary);
+  border-color: var(--primary);
   cursor: default;
 }
 
 .button:disabled:hover {
-  background: var(--primary-dark);
-  border-color: var(--bc-dim);
+  background: var(--primary);
+  border-color: var(--primary);
 }
 
 .button.secondary.active {
-  background: var(--primary-dark);
+  background: var(--primary);
+  color: var(--menu-bright);
 }
 
 .button.secondary {
-  background: var(--primary-alpha);
+  color: var(--bright);
+  background: transparent;
+  border-color: var(--primary-hover);
 }
 
-.button.secondary:hover {
-  background: var(--primary-dark);
-}
-
-.button.tertiary {
-  background: var(--bc-dim);
-  border-color: var(--bc);
-}
-
-.button.tertiary:hover {
-  background: var(--bc);
-}
-
-.button.secondary.small {
+.button.small {
   padding: 6px 10px;
   font-size: 12px;
   min-width: 0;
-  color: var(--dim);
+  color: var(--menu-text);
   border-color: var(--bc);
   background-color: transparent;
 }
 
-.button.secondary.small:hover {
-  background-color: var(--bc-dim);
+.button.small:hover {
+  background: var(--app-nav-hover);
 }
 
 @media screen and (max-width: 1023px) {
@@ -133,19 +123,19 @@ export default {
 }
 
 .addon-max:hover {
-  background: var(--primary-dark);
-  border-color: var(--primary-dark);
+  background: var(--primary);
+  border-color: var(--primary);
 }
 
 .addon-max:disabled {
   opacity: 0.5;
-  background: var(--primary-dark);
-  border-color: var(--bc-dim);
+  background: var(--primary);
+  border-color: var(--primary);
   cursor: default;
 }
 
 .addon-max:disabled:hover {
-  background: var(--primary-dark);
-  border-color: var(--bc-dim);
+  background: var(--primary);
+  border-color: var(--primary);
 }
 </style>

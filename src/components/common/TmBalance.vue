@@ -557,13 +557,13 @@ export default {
 
 h1 {
   font-size: 24px;
-  color: white;
+  color: var(--bright);
   font-weight: 300;
 }
 
 select {
   background: var(--input-bg);
-  color: var(--txt, #333);
+  color: var(--txt);
   border: none;
 }
 
@@ -613,7 +613,7 @@ select option {
 }
 
 .currency-div:hover {
-  background: var(--hover-bg);
+  background: var(--app-fg-hover);
 }
 
 .header-container {
@@ -707,7 +707,7 @@ select option {
 }
 
 .available-amount {
-  color: #ffdc82;
+  color: var(--highlight);
 }
 
 .rewards {

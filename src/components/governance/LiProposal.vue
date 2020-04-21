@@ -62,12 +62,11 @@ export default {
   max-width: 680px;
   background: var(--app-fg);
   border-radius: 0.25rem;
-  border: 1px solid var(--bc-dim);
 }
 
 .li-proposal:hover {
   cursor: pointer;
-  background: var(--hover-bg);
+  background: var(--app-fg-hover);
 }
 
 .li-proposal-title {

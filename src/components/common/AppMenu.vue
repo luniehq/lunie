@@ -28,7 +28,7 @@
     <TmBtn
       v-else
       id="sign-in"
-      class="session-link"
+      class="session-link sidebar"
       value="Sign In / Sign Up"
       type="secondary"
       size="small"
@@ -240,6 +240,14 @@ export default {
   height: 100%;
 }
 
+.app-menu-item {
+  color: var(--menu-text);
+}
+
+.app-menu-item:hover {
+  background: var(--app-nav-hover);
+}
+
 .app-menu .app-menu-item {
   display: flex;
   justify-content: space-between;
@@ -248,13 +256,9 @@ export default {
   margin: 0.5rem 1rem;
   font-weight: 400;
   font-size: 14px;
-  color: var(--text);
+  color: var(--menu-text);
   border-radius: 0.25rem;
   transition: all 0.5s ease;
-}
-
-.app-menu-item:hover {
-  background: var(--hover-bg);
 }
 
 .session-link {
@@ -284,20 +288,20 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: var(--menu-text);
 }
 
 .user-box i {
-  color: var(--dim);
+  color: var(--link);
   font-size: var(--m);
   display: flex;
   align-items: center;
   padding: 0.5rem;
   border-radius: 50%;
-  background: var(--bc-dim);
+  background: var(--app-nav-hover);
 }
 
 .user-box i:hover {
-  background: var(--bc);
   cursor: pointer;
 }
 
@@ -306,15 +310,15 @@ export default {
 }
 
 .app-menu .app-menu-item.router-link-active {
-  background: var(--app-fg);
+  background: var(--app-nav-hover);
 }
 
 .app-menu .app-menu-item.router-link-active i {
-  color: var(--tertiary);
+  color: var(--highlight);
 }
 
 .app-menu .app-menu-item.router-link-active h2 {
-  color: var(--bright);
+  color: var(--menu-bright);
   font-weight: 500;
 }
 
@@ -335,7 +339,7 @@ export default {
     line-height: 1.125;
     font-weight: 600;
     letter-spacing: 0.004em;
-    color: var(--bright);
+    color: var(--menu-bright);
   }
 }
 
