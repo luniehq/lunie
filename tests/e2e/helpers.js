@@ -252,6 +252,9 @@ async function getAccountBalance(browser) {
         browser.globals.denom = total[1]
         browser.globals.totalAtoms = total[0]
       })
+      /*await browser.getText(".total-atoms h2", result => {
+        browser.globals.totalAtoms = result.value.replace(",", "")
+      })*/
       await browser.getText(".available-amount", result => {
         let availableAtoms = result.value.split(" ")
         browser.globals.availableAtoms = availableAtoms[0]

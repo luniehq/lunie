@@ -1,0 +1,2 @@
+[Fixed] [#3855](https://github.com/cosmos/lunie/issues/3855) Fixes broken link in ActionModal redirecting to staking/validators/porfolio. Also fixes some other broken link @Bitcoinera
+[Fixed] [#3865](https://github.com/cosmos/lunie/pull/3865) Fixes single proposals routing @Bitcoinera

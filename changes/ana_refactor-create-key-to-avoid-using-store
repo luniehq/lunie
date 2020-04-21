@@ -1,0 +1,1 @@
+[Changed] [#3860](https://github.com/cosmos/lunie/pull/3860) Refactor createKey to avoid using store so it can be usable in extension @Bitcoinera
