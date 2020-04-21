@@ -22,4 +22,12 @@ describe(`Bar`, () => {
     wrapper.vm.close()
     expect(wrapper.text()).toBe("")
   })
+
+  it(`should emit a close event when we click on close link`, () => {
+    const self = {
+      $emit: jest.fn()
+    }
+    Bar.methods.close.call(self)
+    expect(self.$emit).toHaveBeenCalledWith("close")
+  })
 })
