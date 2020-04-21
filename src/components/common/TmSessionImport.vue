@@ -54,7 +54,7 @@ import Steps from "../../ActionModal/components/Steps"
 
 const has12or24words = param => {
   return (
-    param && (param.split(` `).length === 24 || param.split(` `).length === 12)
+    param && (param.split(` `).length === 12 || param.split(` `).length === 24)
   )
 }
 
