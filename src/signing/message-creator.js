@@ -37,6 +37,7 @@ export function getDisplayTransaction(
   network
 ) {
   if (network.network_type === "cosmos") {
+    // TODO extract fee calculation from ActionModal. Also needs on chain applied fees calculation like on Terra SendTx.
     const fees = transactionData.gasPrices.map(({ amount, denom }) => {
       const lookup = network.coinLookup.find(
         ({ chainDenom }) => chainDenom === denom
