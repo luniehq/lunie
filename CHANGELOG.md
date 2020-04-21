@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.191] - 2020-04-21
+
+### Added
+
+- [#3835](https://github.com/cosmos/lunie/issues/3835) Not about not showing some transactions @faboweb
+- Added loader for the app start @faboweb
+- [#3793](https://github.com/cosmos/lunie/issues/3793) Allow 12 words seeds import in Polkadot @mariopino
+
+### Changed
+
+- [#3860](https://github.com/cosmos/lunie/pull/3860) Refactor createKey to avoid using store so it can be usable in extension @Bitcoinera
+- Add ability to not track certain statistics in development mode @faboweb
+
+### Fixed
+
+- [#3738](https://github.com/cosmos/lunie/issues/3738) Fixes ActionModal getting stuck in loading @Bitcoinera
+- [#3863](https://github.com/cosmos/lunie/pull/3863) Fixes $address is null in the ActionModal queries @Bitcoinera
+- [#3855](https://github.com/cosmos/lunie/issues/3855) Fixes broken link in ActionModal redirecting to staking/validators/porfolio. Also fixes some other broken link @Bitcoinera
+- [#3865](https://github.com/cosmos/lunie/pull/3865) Fixes single proposals routing @Bitcoinera
+- [#3771](https://github.com/cosmos/lunie/issues/3771) Always hide cookies bar after closing it @mariopino
+
 ## [1.0.190] - 2020-04-13
 
 ### Fixed
