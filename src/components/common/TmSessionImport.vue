@@ -23,9 +23,9 @@
             type="required"
           />
           <TmFormMsg
-            v-else-if="$v.seed.$error && !$v.seed.seedHas24Words"
+            v-else-if="$v.seed.$error && !$v.seed.seedHasCorrectLength"
             name="Seed"
-            type="words24"
+            type="words12or24"
           />
           <TmFormMsg
             v-else-if="$v.seed.$error && !$v.seed.seedIsLowerCaseAndSpaces"
@@ -52,8 +52,10 @@ import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 
-const words24 = param => {
-  return param && param.split(` `).length === 24
+const has12or24words = param => {
+  return (
+    param && (param.split(` `).length === 24 || param.split(` `).length === 12)
+  )
 }
 
 const lowerCaseAndSpaces = param => {
@@ -106,7 +108,8 @@ export default {
       required,
       seedIsLowerCaseAndSpaces: param =>
         lowerCaseAndSpaces(param) || polkadotRawSeed(param),
-      seedHas24Words: param => words24(param) || polkadotRawSeed(param)
+      seedHasCorrectLength: param =>
+        has12or24words(param) || polkadotRawSeed(param)
     }
   })
 }
