@@ -150,10 +150,10 @@ describe(`Module: Keystore`, () => {
       }
     }
     const address = await actions.getAddressFromSeed(store, {
-      seedPhrase: `enable story warrior detail cradle inherit over cattle unhappy concert reveal clay keep tourist tenant brief simple drum plug inform glue business ski dream`,
+      seedPhrase: `lunch primary know smoke track sustain parrot enact shock final rookie banana`,
       network: `polkadot-testnet`
     })
-    expect(address).toBe(`HKFeFq1CTzCfTNhNtQDqe3nCR6WzimGdUdLzr7v7ukw6fnx`)
+    expect(address).toBe(`DcjhGvTmsVvJHzqFR1SQVHs77cFTQTJrm59WPM4FRgbGFoR`)
   })
 
   it(`should create a key from a seed phrase`, async () => {
