@@ -8,7 +8,7 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
     class="intercom-button"
     id="intercom-button"
     size="small"
-    type="secondary"
+    type="sidebar"
     value="Help / Feedback"
   />
    
@@ -69,7 +69,7 @@ exports[`TmConnectedNetwork has the expected html structure when connected 1`] =
     class="intercom-button"
     id="intercom-button"
     size="small"
-    type="secondary"
+    type="sidebar"
     value="Help / Feedback"
   />
    
