@@ -1,1 +1,1 @@
-[Code Improvements] Refactoring of signing process for simplicity @faboweb
+[Code Improvements] [#3875](https://github.com/cosmos/lunie/pull/3875) Refactored signing flow to be reused in the extension @faboweb
