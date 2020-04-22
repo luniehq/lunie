@@ -15,9 +15,3 @@
   Content-Security-Policy: base-uri 'self';
   X-Content-Type-Options: nosniff
   Referrer-Policy: same-origin
-
-/index.html
-  cache-control: max-age=0
-  cache-control: no-cache
-  cache-control: no-store
-  cache-control: must-revalidate
