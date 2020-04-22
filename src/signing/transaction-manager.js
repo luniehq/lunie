@@ -158,7 +158,7 @@ export default class TransactionManager {
       )
 
       const { getSignableObject, getBroadcastableObject } = await import(
-        `./${network.network_type}-signing.js`
+        `./networkMessages/${network.network_type}-transactions.js`
       )
       const signableObject = await getSignableObject(messages, transactionData)
       const signedContext = await signer(signableObject)

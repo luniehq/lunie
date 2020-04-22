@@ -89,11 +89,11 @@ function removeEmptyProperties(jsonTx) {
 }
 
 export async function getSignableObject(
-  messages,
+  chainMessages,
   { gasEstimate, gasPrices, memo = ``, chainId, accountNumber, sequence }
 ) {
   // sign transaction
-  const stdTx = createStdTx({ gasEstimate, gasPrices, memo }, messages)
+  const stdTx = createStdTx({ gasEstimate, gasPrices, memo }, chainMessages)
   const signMessage = createSignMessage(stdTx, {
     sequence,
     accountNumber,
@@ -104,11 +104,11 @@ export async function getSignableObject(
 }
 
 export async function getBroadcastableObject(
-  messages,
+  chainMessages,
   { sequence, accountNumber, gasEstimate, gasPrices, memo },
   { signature, publicKey }
 ) {
-  const stdTx = createStdTx({ gasEstimate, gasPrices, memo }, messages)
+  const stdTx = createStdTx({ gasEstimate, gasPrices, memo }, chainMessages)
   const signatureObject = formatSignature(
     Buffer.from(signature, "hex"),
     sequence,

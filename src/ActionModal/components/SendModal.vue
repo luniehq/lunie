@@ -214,6 +214,7 @@ export default {
       return {
         type: messageType.SEND,
         to: [this.address],
+        from: [this.userAddress],
         amount: {
           amount: this.amount,
           denom: this.selectedToken
