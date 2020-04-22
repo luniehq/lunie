@@ -22,12 +22,12 @@ jest.mock('apollo-datasource-rest', () => {
 
   return {
     RESTDataSource: MockRESTDataSource,
-    HTTPCache: class MockHTTPCache { }
+    HTTPCache: class MockHTTPCache {}
   }
 })
 
-describe('Cosmos V2 API', function () {
-  describe('getRewards()', function () {
+describe('Cosmos V2 API', function() {
+  describe('getRewards()', function() {
     let api, cosmosNetworkConfig, store
 
     beforeEach(() => {
