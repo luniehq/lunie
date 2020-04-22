@@ -89,8 +89,8 @@ function formatSignature(rawSignature) {
 }
 
 export function getBroadcastableObject(
-  _,
-  y,
+  chainMessages,
+  transactionData,
   { transaction, payload, rawSignature }
 ) {
   const signature = formatSignature(rawSignature)
