@@ -137,7 +137,7 @@ describe(`Module: Keystore`, () => {
     expect(address).toBe(`cosmos1234`)
   })
 
-  it(`should create a Polkadot address from a seed phrase`, async () => {
+  it(`should create a Polkadot address from a 12 words seed phrase`, async () => {
     const store = {
       getters: {
         networks: [
@@ -154,6 +154,44 @@ describe(`Module: Keystore`, () => {
       network: `polkadot-testnet`
     })
     expect(address).toBe(`DcjhGvTmsVvJHzqFR1SQVHs77cFTQTJrm59WPM4FRgbGFoR`)
+  })
+
+  it(`should create a Polkadot address from a 24 words seed phrase`, async () => {
+    const store = {
+      getters: {
+        networks: [
+          {
+            id: "polkadot-testnet",
+            network_type: "polkadot",
+            address_prefix: "2"
+          }
+        ]
+      }
+    }
+    const address = await actions.getAddressFromSeed(store, {
+      seedPhrase: `spirit ride warm like ribbon axis minimum number myth wrestle minute amount subway whip system axis cross box actual rifle control profit town advice`,
+      network: `polkadot-testnet`
+    })
+    expect(address).toBe(`DGTPCmSeaMKKkno6GMLteH6JUBjjRf6PEtvLgmKQS4SV3Tc`)
+  })
+
+  it(`should create a Polkadot address from a raw hex seed phrase`, async () => {
+    const store = {
+      getters: {
+        networks: [
+          {
+            id: "polkadot-testnet",
+            network_type: "polkadot",
+            address_prefix: "2"
+          }
+        ]
+      }
+    }
+    const address = await actions.getAddressFromSeed(store, {
+      seedPhrase: `0x2fbaa6dc94a4bc904cc913de9151b890c5c1de1beb08ec01c96b66b355a7b9ca`,
+      network: `polkadot-testnet`
+    })
+    expect(address).toBe(`EkpVDgUgARxa96strjK5oCiEdLTokcTqw4uUMqEGBTmibLe`)
   })
 
   it(`should create a key from a seed phrase`, async () => {
