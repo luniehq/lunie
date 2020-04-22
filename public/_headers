@@ -4,10 +4,10 @@
   Content-Security-Policy: frame-ancestors 'self';
   Content-Security-Policy: object-src 'none'; 
   Content-Security-Policy: base-uri 'self'; 
-  Content-Security-Policy: img-src 'self' https://www.google-analytics.com data:;
-  Content-Security-Policy: manifest-src 'self' https://*.lunie.io https://*.netlify.app;
-  Content-Security-Policy: script-src-elem 'unsafe-inline' data:;
   Content-Security-Policy: default-src 'unsafe-inline'; 
+  Content-Security-Policy: img-src 'self' https://www.google-analytics.com;
+  Content-Security-Policy: manifest-src 'self' https://*.lunie.io https://*.netlify.app;
+  Content-Security-Policy: script-src-elem 'unsafe-inline';
   Content-Security-Policy: script-src 'unsafe-inline' https://*.lunie.io https://*.netlify.app; 
   Content-Security-Policy: worker-src 'none'; 
   Content-Security-Policy: style-src 'unsafe-inline';
