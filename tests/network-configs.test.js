@@ -54,14 +54,14 @@ const schema = Joi.object({
     .optional()
 })
 
-describe('Network configs', function () {
+describe('Network configs', function() {
   const options = {
     presence: 'required',
     abortEarly: false
   }
 
   allNetworks.forEach(networkConfig => {
-    it(`${networkConfig.id} is valid `, function () {
+    it(`${networkConfig.id} is valid `, function() {
       const { error } = schema.validate(networkConfig, options)
       expect(error).toBeFalsy()
     })
