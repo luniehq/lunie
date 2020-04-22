@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.192] - 2020-04-22
+
+### Fixed
+
+- Delegations query got wrong argument @faboweb
+
 ## [1.0.191] - 2020-04-21
 
 ### Added
