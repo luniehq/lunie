@@ -1,6 +1,6 @@
 <template>
   <div v-if="!session.cookiesAccepted">
-    <Bar :show="show" :bar-type="'primary'">
+    <Bar :show="show" :bar-type="'primary'" @close="onClose">
       <span class="hide-on-mobile"
         >This site uses cookies to help improve your experience.</span
       >
@@ -25,13 +25,11 @@ export default {
   computed: {
     ...mapState([`session`])
   },
-  watch: {
-    show: function(val) {
-      if (val === false) {
-        this.$store.dispatch(`setAnalyticsCollection`, true)
-        this.$store.dispatch(`setErrorCollection`, true)
-        this.$store.dispatch(`storeLocalPreferences`)
-      }
+  methods: {
+    onClose: function() {
+      this.$store.dispatch(`setAnalyticsCollection`, true)
+      this.$store.dispatch(`setErrorCollection`, true)
+      this.$store.dispatch(`storeLocalPreferences`)
     }
   }
 }

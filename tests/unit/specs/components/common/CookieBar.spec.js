@@ -29,7 +29,7 @@ describe(`CookieBar`, () => {
   })
 
   it(`can triggers cookie acceptance on close`, () => {
-    wrapper.setData({ show: false })
+    wrapper.vm.onClose()
     expect(dispatch).toHaveBeenCalledWith(`setAnalyticsCollection`, true)
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, true)
     expect(dispatch).toHaveBeenCalledWith(`storeLocalPreferences`)
