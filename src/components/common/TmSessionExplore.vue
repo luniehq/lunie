@@ -120,6 +120,10 @@ export default {
   },
   mounted() {
     this.address = localStorage.getItem(`prevAddress`)
+    // Check testnet checkbox if current network is a testnet
+    this.testnet = this.networks.find(
+      network => network.id === this.network
+    ).testnet
   },
   methods: {
     async onSubmit() {
