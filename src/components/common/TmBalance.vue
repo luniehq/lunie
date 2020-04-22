@@ -394,6 +394,7 @@ export default {
       )
       this.rewardsSentToGA = true
     },
+    /* istanbul ignore next */
     sendAffiliateClickEvent(partner) {
       sendEvent(
         {
