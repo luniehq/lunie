@@ -163,7 +163,7 @@ async function createAndSign(
   network,
   signer
 ) {
-  const messages = await getMessage(
+  const chainMessages = await getMessage(
     network,
     messageType,
     senderAddress,
@@ -173,10 +173,10 @@ async function createAndSign(
   const { getSignableObject, getBroadcastableObject } = await import(
     `./networkMessages/${network.network_type}-transactions.js`
   )
-  const signableObject = await getSignableObject(messages, transactionData)
+  const signableObject = await getSignableObject(chainMessages, transactionData)
   const signedContext = await signer(signableObject)
   const broadcastableObject = await getBroadcastableObject(
-    messages,
+    chainMessages,
     transactionData,
     signedContext
   )
