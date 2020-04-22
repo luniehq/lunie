@@ -151,7 +151,7 @@ describe(`Module: Keystore`, () => {
     }
     const address = await actions.getAddressFromSeed(store, {
       seedPhrase: `lunch primary know smoke track sustain parrot enact shock final rookie banana`,
-      network: `polkadot-testnet`
+      network: networks[2]
     })
     expect(address).toBe(`DcjhGvTmsVvJHzqFR1SQVHs77cFTQTJrm59WPM4FRgbGFoR`)
   })
