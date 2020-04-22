@@ -1,8 +1,8 @@
 /*
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
-  Content-Security-Policy: default-src 'self' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com;
-  Content-Security-Policy: connect-src 'self' https://api-iam.intercom.io;
+  Content-Security-Policy: default-src 'self' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://monitoring.lunie.io:9000;
+  Content-Security-Policy: connect-src 'self' https://api-iam.intercom.io wss://production-api.lunie.io/graphql https://production-api.lunie.io;
   Content-Security-Policy: img-src 'self' data: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com;
   Content-Security-Policy: script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://api-iam.intercom.io;
   Content-Security-Policy: style-src 'self' 'unsafe-inline' https://*.lunie.io https://*.netlify.app;
