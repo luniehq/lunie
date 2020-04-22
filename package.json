@@ -13,8 +13,9 @@
     "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
     "lint": "eslint index.js config.js lib tests",
     "lint-fix": "yarn lint --fix",
-    "start": "node index.js",
-    "test": "jest"
+    "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git checkout origin/release -B release && git pull && git merge origin/develop && git push",
+    "start": "node index.js ",
+    "test": "cross-env TEST=true jest"
   },
   "husky": {
     "hooks": {
@@ -25,7 +26,8 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^16.1.8",
-    "@pm2/io": "^4.3.3",
+    "@polkadot/api": "^1.9.1",
+    "@polkadot/util": "^2.6.1",
     "@sentry/node": "^5.9.0",
     "apollo-datasource-rest": "^0.6.6",
     "apollo-server": "^2.9.9",
@@ -53,5 +55,8 @@
     "node-fetch": "^2.6.0",
     "nodemon": "^1.19.4",
     "prettier": "^1.19.1"
+  },
+  "resolutions": {
+    "minimist": "1.2.2"
   }
 }
