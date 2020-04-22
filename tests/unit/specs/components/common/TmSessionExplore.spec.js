@@ -138,3 +138,4 @@ describe(`TmSessionExplore`, () => {
     expect(wrapper.vm.testnet).toBe(true)
   })
 })
+
