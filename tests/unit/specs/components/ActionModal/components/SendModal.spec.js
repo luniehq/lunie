@@ -11,10 +11,7 @@ describe(`SendModal`, () => {
 
   const getters = {
     connected: true,
-    session: {
-      signedIn: true,
-      address: "cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx"
-    },
+    address: "cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx",
     network: "cosmos-hub-mainnet",
     networks: [
       {
@@ -178,7 +175,8 @@ describe(`SendModal`, () => {
         denom: "STAKE"
       },
       memo: "(Sent via Lunie)",
-      to: ["cosmos12345"]
+      to: ["cosmos12345"],
+      from: ["cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx"]
     })
   })
 
