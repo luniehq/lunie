@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.2] - 2020-04-20
+
+### Changed
+
+- [#598](https://github.com/cosmos/lunie/pull/598) Adds powered to Kusama with stake.fish infos @Bitcoinera
+- Switch back memory limit as we shrunk the instance @faboweb
+- Add link paramter and formatting for push notifications @michielmulders
+
+### Fixed
+
+- [#588](https://github.com/cosmos/lunie/issues/588) Handles succesful withdraws without rewards @faboweb
+- Add denom to transaction statistics @faboweb
+
+### Deprecated
+
+- Removed transaction statistic prestoring @faboweb
+- Removed tracking of totalRewards @faboweb
+- [#560](https://github.com/cosmos/lunie/pull/560) Removes deprecated code from old block resolver, getTransactionByHeight and getBlockByHeight @michielmulders
+
+### Repository
+
+- Set version of API in Sentry for easier tracking @faboweb
+
 ## [1.0.1] - 2020-04-15
 
 ### Added

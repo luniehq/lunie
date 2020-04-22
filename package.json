@@ -1,6 +1,6 @@
 {
   "name": "lunie-api",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "GraphQL API for Lunie.io",
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^16.1.8",
-    "@polkadot/api": "^1.10.1",
+    "@polkadot/api": "^1.11.1",
     "@polkadot/util": "^2.6.1",
     "@sentry/node": "^5.9.0",
     "apollo-datasource-rest": "^0.6.6",
