@@ -5,13 +5,11 @@ const { ApiPromise, WsProvider } = require('@polkadot/api')
 const _ = require('lodash')
 
 async function initPolkadotRPC(network, store) {
-  console.time('init polkadot')
   const api = new ApiPromise({
     provider: new WsProvider(network.rpc_url)
   })
   store.polkadotRPC = api
   await api.isReady
-  console.timeEnd('init polkadot')
 }
 
 function storeRewards(rewards, chainId) {
@@ -29,14 +27,18 @@ async function main() {
   const validators = await polkadotAPI.getAllValidators()
   store.validators = _.keyBy(validators, 'operatorAddress')
   const delegators = await polkadotAPI.getAllDelegators()
+  console.log(`Querying rewards for ${delegators.length} delegators.`)
 
   await Promise.all(
     delegators.map(async delegator => {
-      const rewards = await polkadotAPI.getRewards(delegator)
+      const rewards = await polkadotAPI.getRemoteRewards(delegator)
       const storableRewards = rewards
         ? rewards.filter(({ amount }) => amount > 0)
         : []
       if (storableRewards.length > 0) {
+        console.log(
+          `Storing ${storableRewards.length} rewards for era ${storableRewards[0].height}.`
+        )
         await storeRewards(
           rewards.map(reward => ({
             amount: reward.amount,

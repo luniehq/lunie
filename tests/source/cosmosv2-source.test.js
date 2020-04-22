@@ -22,12 +22,12 @@ jest.mock('apollo-datasource-rest', () => {
 
   return {
     RESTDataSource: MockRESTDataSource,
-    HTTPCache: class MockHTTPCache {}
+    HTTPCache: class MockHTTPCache { }
   }
 })
 
-describe('Cosmos V2 API', function() {
-  describe('getRewards()', function() {
+describe('Cosmos V2 API', function () {
+  describe('getRewards()', function () {
     let api, cosmosNetworkConfig, store
 
     beforeEach(() => {
@@ -68,25 +68,20 @@ describe('Cosmos V2 API', function() {
       //Act & Assert
       await expect(api.getRewards(delegatorAddress)).resolves.toEqual([
         {
-          amount: '49.000000',
+          amount: '49',
           denom: 'MUON',
+          fiatValue: undefined,
           validator: mockValidatorsDictionary[delegatorAddress]
         }
       ])
     })
 
-    it('When an existing delegator address is passed with a reward < 1 (umuon), it should return amount = 0 (muon)', async () => {
+    it('When an existing delegator address is passed with a reward < 1 (umuon), it should get filtered out', async () => {
       //Arrange
       mockDelegatorRewards.result.rewards[0].reward[0].amount = 0.05
 
       //Act & Assert
-      await expect(api.getRewards(delegatorAddress)).resolves.toEqual([
-        {
-          amount: '0.000000',
-          denom: 'MUON',
-          validator: mockValidatorsDictionary[delegatorAddress]
-        }
-      ])
+      await expect(api.getRewards(delegatorAddress)).resolves.toEqual([])
     })
   })
 })
