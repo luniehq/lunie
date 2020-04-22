@@ -1,18 +1,19 @@
 /*
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
-  Content-Security-Policy: frame-ancestors 'self';
-  Content-Security-Policy: object-src 'none'; 
-  Content-Security-Policy: base-uri 'self'; 
-  Content-Security-Policy: default-src 'unsafe-inline'; 
-  Content-Security-Policy: img-src 'self' https://www.google-analytics.com;
+  Content-Security-Policy: default-src 'self' https://*.lunie.io;
+  Content-Security-Policy: child-src 'self' https://*.lunie.io https://*.netlify.app;
+  Content-Security-Policy: connect-src 'self' https://api-iam.intercom.io;
+  Content-Security-Policy: img-src 'self' data: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://s3.amazonaws.com/keybase_processed_uploads;
+  Content-Security-Policy: media-src 'self' https://*.lunie.io https://*.netlify.app blob:;
+  Content-Security-Policy: object-src 'self' data: blob: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://s3.amazonaws.com/keybase_processed_uploads;
+  Content-Security-Policy: script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://api-iam.intercom.io;
+  Content-Security-Policy: style-src 'self' 'unsafe-inline' https://*.lunie.io https://*.netlify.app;
   Content-Security-Policy: manifest-src 'self' https://*.lunie.io https://*.netlify.app;
-  Content-Security-Policy: script-src-elem 'unsafe-inline';
-  Content-Security-Policy: script-src 'unsafe-inline' https://*.lunie.io https://*.netlify.app; 
-  Content-Security-Policy: worker-src 'none'; 
-  Content-Security-Policy: style-src 'unsafe-inline';
+  Content-Security-Policy: worker-src 'none';
   Content-Security-Policy: frame-src 'self' https://api-iam.intercom.io;
-  Content-Security-Policy: connect-src 'self' https://api-iam.intercom.io; 
+  Content-Security-Policy: frame-ancestors 'self';
+  Content-Security-Policy: base-uri 'self';
   X-Content-Type-Options: nosniff
   Referrer-Policy: same-origin
 
