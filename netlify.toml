@@ -8,9 +8,9 @@
       must-revalidate
     '''
     Content-Security-Policy = '''
-      default-src 'self' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://monitoring.lunie.io:9000;
+      default-src 'self' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://monitoring.lunie.io:9000 https://widget.intercom.io https://js.intercomcdn.com;
       connect-src 'self' https://api-iam.intercom.io https://widget.intercom.io wss://production-api.lunie.io/graphql https://production-api.lunie.io;
-      img-src 'self' data: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com;
+      img-src 'self' data: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://s3.amazonaws.com/keybase_processed_uploads https://lunie.fra1.digitaloceanspaces.com;
       script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://api-iam.intercom.io https://widget.intercom.io;
       style-src 'self' 'unsafe-inline' https://*.lunie.io https://*.netlify.app;
       media-src 'self' https://*.lunie.io https://*.netlify.app blob:;
