@@ -40,6 +40,21 @@
               >
                 {{ item }}
               </span>
+              <span
+                v-for="(item, affiliateIndex) in step.affiliate"
+                :key="`affiliate-item-${index}-${affiliateIndex}`"
+                class="affiliate-link"
+              >
+                <span
+                  >{{ item.text }}
+                  <a
+                    :href="item.link"
+                    :onclick="item.onClickFunction(item.onClickParam)"
+                  >
+                    {{ item.linkText }}</a
+                  >
+                </span>
+              </span>
             </p>
             <button
               :key="`btn-${index}`"
@@ -60,6 +75,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 export default {
   name: `modal-tutorial`,
   props: {
@@ -87,6 +103,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([`address`, `network`]),
     finalStep() {
       return this.currentStep === this.steps.length
     }
@@ -278,6 +295,11 @@ export default {
 .content-item {
   display: block;
   font-size: 12px;
+}
+
+.affiliate-link {
+  display: block;
+  margin-top: 12px;
 }
 
 .final-step {

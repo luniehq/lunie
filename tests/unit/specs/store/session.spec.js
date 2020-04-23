@@ -354,6 +354,7 @@ describe(`Module: Session`, () => {
     localStorage.setItem(
       `lunie_user_preferences`,
       JSON.stringify({
+        cookiesAccepted: true,
         errorCollection: true,
         analyticsCollection: true
       })
@@ -371,6 +372,7 @@ describe(`Module: Session`, () => {
     localStorage.setItem(
       `lunie_user_preferences`,
       JSON.stringify({
+        cookiesAccepted: false,
         errorCollection: false,
         analyticsCollection: false
       })
@@ -383,7 +385,6 @@ describe(`Module: Session`, () => {
       state,
       dispatch
     })
-
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, false)
     expect(dispatch).toHaveBeenCalledWith(`setAnalyticsCollection`, false)
   })
@@ -398,7 +399,7 @@ describe(`Module: Session`, () => {
     })
 
     expect(localStorage.getItem(`lunie_user_preferences`)).toBe(
-      `{"errorCollection":true,"analyticsCollection":true}`
+      `{"cookiesAccepted":true,"errorCollection":true,"analyticsCollection":true}`
     )
   })
 

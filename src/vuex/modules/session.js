@@ -173,11 +173,16 @@ export default () => {
         state.cookiesAccepted = false
         return
       }
-      state.cookiesAccepted = true
 
-      const { errorCollection, analyticsCollection } = JSON.parse(
-        localPreferences
-      )
+      const {
+        cookiesAccepted,
+        errorCollection,
+        analyticsCollection
+      } = JSON.parse(localPreferences)
+
+      if (cookiesAccepted) {
+        state.cookiesAccepted = true
+      }
       if (state.errorCollection !== errorCollection)
         dispatch(`setErrorCollection`, errorCollection)
       if (state.analyticsCollection !== analyticsCollection)
@@ -188,6 +193,7 @@ export default () => {
       localStorage.setItem(
         USER_PREFERENCES_KEY,
         JSON.stringify({
+          cookiesAccepted: state.cookiesAccepted,
           errorCollection: state.errorCollection,
           analyticsCollection: state.analyticsCollection
         })

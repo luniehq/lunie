@@ -22,6 +22,11 @@ describe(`TmFormMsg`, () => {
       error: `Seed phrase must be 24 words`
     },
     {
+      type: `words12or24`,
+      name: `Seed`,
+      error: `Seed phrase must be 12 or 24 words`
+    },
+    {
       type: `alphaNum`,
       name: `Asdf`,
       error: `Asdf must contain only alphanumeric characters`
