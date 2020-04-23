@@ -108,6 +108,7 @@ exports[`TmConnectedNetwork has the expected html structure when connected 1`] =
       id="tm-connected-network__block"
     >
       <router-link-stub
+        class="block-number"
         to="[object Object]"
       >
         
