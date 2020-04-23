@@ -25,6 +25,7 @@ export default {
   methods: {
     close() {
       this.showMessage = false
+      this.$emit(`close`)
     }
   }
 }

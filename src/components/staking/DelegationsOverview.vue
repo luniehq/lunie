@@ -74,7 +74,8 @@ export default {
       variables() {
         /* istanbul ignore next */
         return {
-          delegatorAddress: this.address
+          delegatorAddress: this.address,
+          networkId: this.network
         }
       },
       /* istanbul ignore next */

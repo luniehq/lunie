@@ -223,6 +223,7 @@ import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
+import config from "src/../config"
 
 export default {
   name: `tm-balance`,
@@ -255,6 +256,16 @@ export default {
             // Each content array item will be enclosed in a span (newline)
             content: [
               "The easiest way to get tokens is to find a reputable exchange, like Coinbase or Binance, to purchase your tokens from."
+            ],
+            affiliate: [
+              {
+                text:
+                  "Need some ATOM to stake with Lunie? Buy some at today at",
+                link: config.referralLinks["Coinbase"],
+                linkText: "Coinbase",
+                onClickFunction: this.sendAffiliateClickEvent,
+                onClickParam: "Coinbase"
+              }
             ]
           },
           {
@@ -382,6 +393,19 @@ export default {
         totalRewards
       )
       this.rewardsSentToGA = true
+    },
+    /* istanbul ignore next */
+    sendAffiliateClickEvent(partner) {
+      sendEvent(
+        {
+          network: this.network,
+          address: this.address
+        },
+        "Portfolio",
+        "Tutorials",
+        `linkTo${partner}`,
+        "click"
+      )
     }
   },
   apollo: {
