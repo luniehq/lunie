@@ -4,7 +4,7 @@
       <div class="user-box-address">
         <div>
           <h3>Your Address</h3>
-          <Address :address="address || ''" />
+          <Address class="menu-address" :address="address || ''" />
         </div>
         <a v-if="session.signedIn" id="sign-out" @click="signOut()">
           <i v-tooltip.top="'Sign Out'" class="material-icons notranslate">
@@ -274,11 +274,15 @@ export default {
   cursor: pointer;
 }
 
+.button.small {
+  border-color: var(--menu-border);
+}
+
 .user-box {
   font-size: 12px;
   margin: 1rem;
   padding: 0.5rem 0.75rem;
-  border: 2px solid var(--bc);
+  border: 2px solid var(--menu-border);
   border-radius: 0.25rem;
   display: block;
 }
@@ -292,7 +296,7 @@ export default {
 }
 
 .user-box i {
-  color: var(--link);
+  color: var(--menu-link);
   font-size: var(--m);
   display: flex;
   align-items: center;
@@ -302,11 +306,12 @@ export default {
 }
 
 .user-box i:hover {
+  color: var(--menu-link-hover);
   cursor: pointer;
 }
 
 .app-menu .app-menu-item--link:hover {
-  color: var(--link);
+  color: var(--menu-link-hover);
 }
 
 .app-menu .app-menu-item.router-link-active {

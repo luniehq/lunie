@@ -980,8 +980,11 @@ export default {
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
-  border: 2px solid var(--bc);
-  box-shadow: 0 2px 8px rgba(200, 200, 200, 0.1);
+  border-left: 2px solid var(--bc-dim);
+  border-right: 2px solid var(--bc-dim);
+  border-top: 2px solid var(--bc-dim);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  outline: none;
 }
 
 .action-modal-header {
@@ -1064,11 +1067,7 @@ export default {
   font-style: italic;
   color: var(--dim);
   display: inline-block;
-  padding: 0.5rem;
-}
-
-.form-message.notice {
-  padding: 2rem 0.5rem 0.5rem;
+  padding: 0.5rem 0;
 }
 
 .slide-fade-enter-active {

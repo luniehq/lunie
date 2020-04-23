@@ -8,12 +8,10 @@
   --menu-bright: white;
   --menu-text: rgb(230, 230, 230);
 
-  --success: hsl(120, 59%, 33%);
-  --warning: hsl(35, 100%, 50%);
+  --success: hsl(120, 72%, 31%);
+  --warning: hsl(22, 86%, 56%);
   --danger: hsl(0, 100%, 55%);
   --info: #551f38;
-  
-  --light-grey: #f7f7f7;
 
   --sky-blue: #66a1ff;
   --faded-blue: #7a88b8;

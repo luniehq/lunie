@@ -15,14 +15,17 @@
     /* menu styles */
     --app-nav: hsl(233, 38%, 14%);
     --app-nav-hover: hsl(233, 38%, 19%);
+    --menu-link: var(--link);
+    --menu-link-hover: var(--link-hover);
+    --menu-border: hsl(233, 38%, 29%);
 
     /* dark-theme typography */
     --bright: hsl(0, 0%, 100%);
     --txt: hsl(0, 0%, 90%);
     --dim: hsl(0, 0%, 70%);
-    --bc: hsl(233, 38%, 25%);
-    --bc-dim: hsl(233, 38%, 20%);
-    --input-bc: var(--dim);
+    --bc: hsl(233, 38%, 30%);
+    --bc-dim: hsl(233, 38%, 25%);
+    --input-bc: hsl(0, 0%, 55%);
 
     --success: hsl(120, 72%, 47%);
 }

@@ -37,7 +37,7 @@ export default {
   flex-direction: row;
   text-align: center;
   justify-content: space-between;
-  width: 14rem;
-  margin: 0 auto;
+  width: 100%;
+  margin: 1rem auto 2rem;
 }
 </style>

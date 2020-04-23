@@ -36,6 +36,7 @@
         <router-link
           v-if="block.height"
           v-tooltip.top="'Block Height'"
+          class="block-number"
           :to="{
             name: `block`,
             params: { height: block.height, networkId: networkSlug }
@@ -186,9 +187,10 @@ export default {
   background: var(--app-nav);
 }
 
-button.intercom-button {
+button.small.intercom-button {
   width: 100%;
   margin: 1rem 0;
+  border-color: var(--menu-border);
 }
 
 .tm-connected-network {
@@ -250,6 +252,14 @@ button.intercom-button {
   height: 6px;
   border-radius: 50%;
   background: var(--success);
+}
+
+.block-number {
+  color: var(--menu-link);
+}
+
+.block-number:hover {
+  color: var(--menu-link-hover);
 }
 
 @media screen and (max-width: 1023px) {

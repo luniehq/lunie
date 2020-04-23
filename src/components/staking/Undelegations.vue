@@ -92,7 +92,7 @@ export default {
   }
 }
 </script>
-<style scope>
+<style scoped>
 h1 {
   font-size: 24px;
   color: white;

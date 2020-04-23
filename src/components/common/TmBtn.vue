@@ -53,6 +53,7 @@ export default {
   border: 2px solid var(--primary);
   transition: all 0.5s ease;
   white-space: nowrap;
+  outline: none;
 }
 
 .button:hover {
@@ -115,16 +116,15 @@ export default {
   border-top-right-radius: 0.25rem !important;
   border-bottom-right-radius: 0.25rem !important;
   cursor: pointer;
-  background: var(--primary);
+  background: transparent;
   border: 2px solid var(--primary);
-  transition: all 0.5s ease;
   white-space: nowrap;
   outline: none;
 }
 
 .addon-max:hover {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: transparent;
+  border-color: var(--primary-hover);
 }
 
 .addon-max:disabled {

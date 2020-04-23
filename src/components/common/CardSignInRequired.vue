@@ -100,6 +100,7 @@ h3 {
 .footnote {
   padding-left: 1.5rem;
   font-size: 12px;
+  color: var(--link);
 }
 
 .card-sign-in {
