@@ -20,7 +20,7 @@
       frame-src 'self' https://api-iam.intercom.io https://widget.intercom.io;
       frame-ancestors 'self';
       base-uri 'self';
-      font-src 'self' data:;
+      font-src 'self' data: https://js.intercomcdn.com;
     '''
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
