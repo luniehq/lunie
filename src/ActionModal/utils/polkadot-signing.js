@@ -14,7 +14,7 @@ function getSignature(rawSignature) {
 }
 
 export function getSignedMessage({ payload, transaction }, seed) {
-  const keyring = new Keyring({ type: "sr25519" })
+  const keyring = new Keyring()
   const keypair = keyring.createFromUri(seed, {}, "sr25519")
 
   const rawSignature = keypair.sign(hexToU8a(payload.toRaw().data))
