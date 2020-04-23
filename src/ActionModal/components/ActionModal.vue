@@ -78,13 +78,7 @@
               min="0"
             />
             <TmFormMsg
-              v-if="Number(selectedBalance.amount) === 0"
-              :msg="`doesn't have any ${selectedBalance.denom}s`"
-              name="Wallet"
-              type="custom"
-            />
-            <TmFormMsg
-              v-else-if="$v.gasPrice.$error && !$v.gasPrice.required"
+              v-if="$v.gasPrice.$error && !$v.gasPrice.required"
               name="Gas price"
               type="required"
             />
@@ -92,12 +86,6 @@
               v-if="$v.gasPrice.$error && !$v.gasPrice.max"
               type="custom"
               :msg="`You don't have enough ${selectedDenom}s to proceed.`"
-            />
-            <TmFormMsg
-              v-else-if="$v.gasPrice.$error && !$v.gasPrice.min"
-              :min="0"
-              name="Gas price"
-              type="min"
             />
           </TmFormGroup>
           <TableInvoice
@@ -109,12 +97,6 @@
             v-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.max"
             type="custom"
             :msg="`You don't have enough ${selectedDenom}s to proceed.`"
-          />
-          <TmFormMsg
-            v-else-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.min"
-            :min="smallestAmount"
-            name="Total"
-            type="min"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
@@ -830,12 +812,10 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        max: x => Number(x) <= this.selectedBalance.amount,
-        min: x => Number(x) >= 0
+        max: x => Number(x) <= this.selectedBalance.amount
       },
       invoiceTotal: {
-        max: x => Number(x) <= this.selectedBalance.amount,
-        min: x => Number(x) >= SMALLEST
+        max: x => Number(x) <= this.selectedBalance.amount
       }
     }
   },
