@@ -17,14 +17,6 @@ export default {
     active: {
       type: Boolean,
       required: true
-    },
-    number: {
-      type: Number,
-      required: true
-    },
-    includeLine: {
-      type: Boolean,
-      default: true
     }
   }
 }

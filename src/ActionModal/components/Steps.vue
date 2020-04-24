@@ -1,12 +1,10 @@
 <template>
   <div class="step--container">
     <Step
-      v-for="(step, i) in steps"
+      v-for="step in steps"
       :key="step"
       :title="step"
       :active="step.toLocaleLowerCase() === activeStep.toLocaleLowerCase()"
-      :number="i + 1"
-      :include-line="i < steps.length - 1"
     />
   </div>
 </template>
