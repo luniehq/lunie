@@ -1,6 +1,5 @@
 const path = require(`path`)
 const webpack = require(`webpack`)
-const CSPWebpackPlugin = require(`csp-webpack-plugin`)
 const { version } = require("./package.json")
 
 function resolve(dir) {
@@ -50,29 +49,6 @@ const config = {
           chunks: "all"
         }
       }
-    }
-
-    if (process.env.NODE_ENV === `production` && !process.env.E2E_TESTS) {
-      config.plugins.push(
-        // adds the content security policy to the index.html
-        new CSPWebpackPlugin({
-          "object-src": `'none'`,
-          "base-uri": `'self'`,
-          "default-src": `'self'`,
-          "script-src": [`'self'`, `https://*.lunie.io`],
-          "worker-src": `'none'`,
-          "style-src": [`'self'`, `'unsafe-inline'`],
-          "connect-src": [
-            // third party tools
-            `https://api-iam.intercom.io`,
-            // mainnet
-            `https://lcd.nylira.net`,
-            `https://gaia-13006.lunie.io`
-          ],
-          "frame-src": [`'self'`, `https://api-iam.intercom.io`],
-          "img-src": [`'self'`, `https://www.google-analytics.com/`]
-        })
-      )
     }
 
     return config
