@@ -71,6 +71,9 @@ services:
       - general
     volumes:
       - ./redis_data:/data
+secrets:
+  PORT:
+    external: true
 volumes:
   caddy_certs:
   redis_data:
