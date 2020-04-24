@@ -175,7 +175,7 @@ export default {
       this.$emit(`input`, formattedValue)
     },
     onChange(...args) {
-      if (this.type === `number`) {
+      if (this.type === `number` && this.$refs.numTextInput) {
         this.$refs.numTextInput.focus()
       }
       if (this.change) return this.change(...args)
