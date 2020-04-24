@@ -10,6 +10,7 @@ function getCosmosAddressCreator(bech32Prefix) {
 async function createPolkadotAddress(seedPhrase, addressPrefix) {
   const [{ Keyring }] = await Promise.all([
     import("@polkadot/api"),
+    import("@polkadot/wasm-crypto"),
     import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
       // Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
       await cryptoWaitReady()
