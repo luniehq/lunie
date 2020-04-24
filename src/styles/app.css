@@ -23,6 +23,18 @@ body,
   background: var(--app-bg);
 }
 
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
 a {
   color: var(--link);
   text-decoration: none;
@@ -123,14 +135,6 @@ input.tm-field {
 
 .loading-image-container {
   animation: fade 1.5s infinite;
-}
-
-::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(250, 250, 250, 0.2)
 }
 
 @keyframes fade {

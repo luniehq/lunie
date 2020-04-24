@@ -116,5 +116,9 @@ h1 {
   .undelegations {
     padding: 2rem;
   }
+
+  .table-container {
+    padding: 2rem;
+  }
 }
 </style>
