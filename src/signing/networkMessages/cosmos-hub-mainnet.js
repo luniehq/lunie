@@ -15,31 +15,32 @@ export function SendTx(senderAddress, { to, amount }, network) {
 }
 
 // Staking
-export function StakeTx(senderAddress, { to, amount }, network) {
+export function StakeTx(senderAddress, { to, amount, denom }, network) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgDelegate`,
     value: {
       delegator_address: senderAddress,
       validator_address: to[0],
-      amount: Coin(amount, network.coinLookup)
+      amount: Coin({ amount, denom }, network.coinLookup)
     }
   }
 }
 
-export function UnstakeTx(senderAddress, { from, amount }, network) {
+export function UnstakeTx(senderAddress, { from, amount, denom }, network) {
+  console.log("amount", amount)
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgUndelegate`,
     value: {
       validator_address: from[0],
       delegator_address: senderAddress,
-      amount: Coin(amount, network.coinLookup)
+      amount: Coin({ amount, denom }, network.coinLookup)
     }
   }
 }
 
-export function RestakeTx(senderAddress, { from, to, amount }, network) {
+export function RestakeTx(senderAddress, { from, to, amount, denom }, network) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgBeginRedelegate`,
@@ -47,7 +48,7 @@ export function RestakeTx(senderAddress, { from, to, amount }, network) {
       delegator_address: senderAddress,
       validator_src_address: from[0],
       validator_dst_address: to[0],
-      amount: Coin(amount, network.coinLookup)
+      amount: Coin({ amount, denom }, network.coinLookup)
     }
   }
 }
@@ -92,14 +93,14 @@ export function VoteTx(senderAddress, { proposalId, voteOption }) {
   }
 }
 
-export function DepositTx(senderAddress, { proposalId, amount }, network) {
+export function DepositTx(senderAddress, { proposalId, amounts }, network) {
   /* istanbul ignore next */
   return {
     type: `cosmos-sdk/MsgDeposit`,
     value: {
       depositor: senderAddress,
       proposal_id: proposalId,
-      amount: Coin(amount, network.coinLookup)
+      amount: Coin(amounts[0], network.coinLookup)
     }
   }
 }
