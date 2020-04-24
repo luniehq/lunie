@@ -192,8 +192,10 @@ export default {
           type: messageType.RESTAKE,
           from: [this.sourceValidator.operatorAddress],
           to: [this.toSelectedIndex],
-          amount: this.amount,
-          denom: this.stakingDenom
+          amount: {
+            amount: this.amount,
+            denom: this.stakingDenom
+          }
         }
       } else {
         if (
@@ -206,8 +208,10 @@ export default {
         return {
           type: messageType.UNSTAKE,
           from: [this.sourceValidator.operatorAddress],
-          amount: this.amount,
-          denom: this.stakingDenom
+          amount: {
+            amount: this.amount,
+            denom: this.stakingDenom
+          }
         }
       }
     },
