@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.193] - 2020-04-26
+
+### Added
+
+- [#3887](https://github.com/cosmos/lunie/issues/3887) Use schnorrkel (sr25519) in Polkadot @mariopino
+- Some additional testing for address import in polkadot @mariopino
+
+### Changed
+
+- [#3867](https://github.com/cosmos/lunie/pull/3867) Adds the Coinbase referral link to Tutorials @Bitcoinera
+- implemented theme switching and cleaned up a lot of css variables @jbibla
+- [#3557](https://github.com/cosmos/lunie/issues/3557) Check testnet checkbox if current network is a testnet in explore mode @mariopino
+
+### Fixed
+
+- [#3897](https://github.com/cosmos/lunie/issues/3897) Fixes operation with 0 balance by removing the unnecessary validations for both gasPrice and invoiceTotal in ActionModal @Bitcoinera
+- [#3901](https://github.com/cosmos/lunie/issues/3901) Fixes Polkadot account import with Schnorrkel on first run @Bitcoinera
+- Extension accounts where not loaded in the ActionModal so the error of not existing account would always show @faboweb
+- [#3902](https://github.com/cosmos/lunie/issues/3902) Fix broken tx sign with Schnorrkel accounts in polkadot @mariopino
+
+### Security
+
+- [#3871](https://github.com/cosmos/lunie/pull/3871) Adds the missing security headers and options recommented by observatory.mozilla.org @Bitcoinera
+
+### Code Improvements
+
+- [#3875](https://github.com/cosmos/lunie/pull/3875) Refactored signing flow to be reused in the extension @faboweb
+
 ## [1.0.192] - 2020-04-22
 
 ### Fixed
