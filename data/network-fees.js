@@ -55,6 +55,10 @@ const polkadotGasEstimates = {
   default: 0
 }
 
+const kavaGasEstimates = {
+  default: 550000
+}
+
 const networkGasEstimatesDictionary = {
   'cosmos-hub-mainnet': cosmosGasEstimates,
   'cosmos-hub-testnet': cosmosGasEstimates,
@@ -63,7 +67,8 @@ const networkGasEstimatesDictionary = {
   'emoney-mainnet': emoneyGasEstimates,
   'emoney-testnet': emoneyGasEstimates,
   'akash-testnet': akashGasEstimates,
-  'polkadot-testnet': polkadotGasEstimates
+  'polkadot-testnet': polkadotGasEstimates,
+  'kava-mainnet': kavaGasEstimates
 }
 
 module.exports = { getNetworkTransactionGasEstimates }
