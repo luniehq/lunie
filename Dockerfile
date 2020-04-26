@@ -14,6 +14,8 @@ COPY package.json .
 
 COPY config.js .
 
+COPY secrets.js .
+
 COPY pm2.json .
 
 COPY index.js .
