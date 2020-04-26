@@ -1,10 +1,12 @@
 require('dotenv').config()
+const secrets = require('./secrets')
 
 const env = process.env.NODE_ENV || 'development'
+console.info('\nPort read from Docker secrets', secrets.read('PORT'))
 
 module.exports = {
   env: env,
-  port: process.env.PORT || '4000',
+  port: secrets.read('PORT') || process.env.PORT || '4000',
   queryPath: '/',
   transactionPath: '/transaction',
   pushRegistrationPath: '/push',
