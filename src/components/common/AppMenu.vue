@@ -167,7 +167,7 @@ import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
 import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
-import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
+import { shortDecimals } from "scripts/num.js"
 import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `app-menu`,
@@ -178,8 +178,6 @@ export default {
     TmFormMsg
   },
   filters: {
-    atoms,
-    viewDenom,
     shortDecimals
   },
   data: () => ({

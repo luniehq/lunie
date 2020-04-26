@@ -1,5 +1,4 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import { toMicroDenom } from "scripts/common"
 import VueApollo from "vue-apollo"
 import LiValidator from "src/components/staking/LiValidator"
 
@@ -117,8 +116,7 @@ describe(`LiValidator`, () => {
     ]
     const self = {
       stakingDenom: `TOKEN1`,
-      rewards: rewards,
-      toMicroDenom
+      rewards: rewards
     }
     const stakingDenomReward = LiValidator.methods.filterStakingDenomReward.call(
       self

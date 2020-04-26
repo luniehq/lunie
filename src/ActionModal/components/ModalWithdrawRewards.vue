@@ -43,10 +43,8 @@ import { mapGetters } from "vuex"
 import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
-import { getTop5RewardsValidators } from "../utils/ActionManager"
+import { getTop5RewardsValidators } from "../../signing/transaction-manager"
 import gql from "graphql-tag"
-
-import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 
 function rewardsToDictionary(rewards) {
@@ -71,7 +69,6 @@ export default {
     rewards: [],
     balances: [],
     getTop5RewardsValidators,
-    transactionTypes,
     messageType
   }),
   computed: {
@@ -80,11 +77,9 @@ export default {
     transactionData() {
       if (this.totalRewards.length === 0) return {}
       return {
-        type: transactionTypes.WITHDRAW,
-        amounts: this.totalRewards.map(({ amount, denom }) => ({
-          denom,
-          amount: Number(fullDecimals(amount))
-        }))
+        type: messageType.CLAIM_REWARDS,
+        amounts: this.totalRewards,
+        from: this.top5Validators
       }
     },
     top5Validators() {
