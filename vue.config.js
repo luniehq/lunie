@@ -13,6 +13,7 @@ const config = {
   },
   configureWebpack: () => {
     const config = {
+      devtool: "inline-cheap-source-map",
       resolve: {
         alias: {
           src: resolve(`src`),
