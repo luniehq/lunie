@@ -15,23 +15,28 @@ export async function signQueue(submitType = "") {
   }
 }
 
+async function getWallet(address, password) {
+  const { getStoredWallet } = await import("@lunie/cosmos-keys")
+  const wallet = getStoredWallet(address, password)
+  return wallet
+}
+
 export async function getSigner(
-  config,
-  signingType = "",
-  { address, password, network, networkType, displayedProperties }
+  signingType,
+  { address, password, network, displayedProperties },
+  config
 ) {
   if (signingType === `local`) {
-    const { getStoredWallet } = await import("@lunie/cosmos-keys")
-    const wallet = getStoredWallet(address, password)
+    const wallet = await getWallet(address, password)
 
-    switch (networkType) {
+    switch (network.network_type) {
       case "cosmos":
         return await getCosmosLocalSigner(wallet)
       case "polkadot":
         return await getPolkadotLocalSigner(wallet)
     }
   } else if (signingType === `ledger`) {
-    switch (networkType) {
+    switch (network.network_type) {
       case "cosmos":
         return await getCosmosLedgerSigner(config)
     }
@@ -40,14 +45,14 @@ export async function getSigner(
       return signWithExtension(
         signMessage,
         address,
-        network,
+        network.id,
         displayedProperties
       )
     }
   }
 
   throw new Error(
-    `Lunie doesn't support signing via ${signingType} for network type ${networkType}`
+    `Lunie doesn't support signing via ${signingType} for network type ${network.network_type}`
   )
 }
 
@@ -60,21 +65,15 @@ async function getCosmosLocalSigner(wallet) {
       Buffer.from(wallet.privateKey, "hex")
     )
 
-    return {
-      signature,
-      publicKey: Buffer.from(wallet.publicKey, "hex")
-    }
+    return { signature, publicKey: Buffer.from(wallet.publicKey, "hex") }
   }
 }
 
 async function getPolkadotLocalSigner(wallet) {
-  const { getSignedMessage } = await import("./polkadot-signing")
+  const { getSignature } = await import("./polkadot-signing")
 
-  return signMessage => {
-    const signedMessage = getSignedMessage(signMessage, wallet.seedPhrase)
-
-    return signedMessage
-  }
+  return ({ payload, transaction }) =>
+    getSignature({ payload, transaction }, wallet)
 }
 
 async function getCosmosLedgerSigner(config) {

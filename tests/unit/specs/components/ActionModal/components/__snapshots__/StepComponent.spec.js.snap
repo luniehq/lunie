@@ -5,50 +5,26 @@ exports[`Steps shows steps 1`] = `
   class="step--container"
 >
   <div
-    class="stepItem"
+    class="stepItem active"
   >
-    <div
-      class="circle--container"
+    <span
+      class="text--default"
     >
-      <div
-        class="circle--default active includeLine"
-      >
-        
-      1
-    
-      </div>
-       
-      <p
-        class="text--default textActive"
-      >
-        
-      first
-    
-      </p>
-    </div>
+      
+    first
+  
+    </span>
   </div>
   <div
     class="stepItem"
   >
-    <div
-      class="circle--container"
+    <span
+      class="text--default"
     >
-      <div
-        class="circle--default"
-      >
-        
-      2
-    
-      </div>
-       
-      <p
-        class="text--default"
-      >
-        
-      second
-    
-      </p>
-    </div>
+      
+    second
+  
+    </span>
   </div>
 </div>
 `;

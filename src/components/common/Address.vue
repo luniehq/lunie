@@ -42,14 +42,13 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .copyable-address {
   font-size: 12px;
   display: inline-flex;
   align-items: center;
   padding: 0;
   margin: 0;
-  color: var(--link);
 }
 
 .copyable-address .address {
@@ -57,10 +56,19 @@ export default {
   display: inline-flex;
   align-items: center;
   cursor: pointer;
+  color: var(--link);
 }
 
 .copyable-address .address:hover {
   color: var(--link-hover);
+}
+
+.menu-address .address {
+  color: var(--menu-link);
+}
+
+.menu-address .address:hover {
+  color: var(--menu-link-hover);
 }
 
 .copyable-address .icon-container {
@@ -88,5 +96,9 @@ export default {
 }
 .copyable-address .icon-container i.success {
   color: var(--success);
+}
+
+.material-icons {
+  font-size: 12px;
 }
 </style>

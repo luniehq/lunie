@@ -1,11 +1,4 @@
-import { toMicroDenom, sleep } from "scripts/common"
-
-describe(`toMicroDenom`, () => {
-  it(`returns the right micro denom of a given network`, () => {
-    const microDenom = toMicroDenom(`ATOM`)
-    expect(microDenom).toBe(`uatom`)
-  })
-})
+import { sleep } from "scripts/common"
 
 describe(`sleep`, () => {
   it(`the timer works properly, taking as many millisecons as we input and the Promise returns true`, done => {

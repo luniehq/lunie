@@ -54,7 +54,7 @@ export default {
 }
 
 .tabs .tab.tab-selected {
-  border-bottom: 2px solid var(--tertiary);
+  border-bottom: 2px solid var(--highlight);
 }
 
 .tabs .tab.tab-selected a {

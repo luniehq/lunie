@@ -7,9 +7,7 @@ import {
   percent,
   percentInt,
   bigFigure,
-  createDisplayCoin,
   prettyDecimals,
-  viewDenom,
   roundObjectPercentages
 } from "scripts/num"
 import {
@@ -111,36 +109,5 @@ describe(`number helper`, () => {
 
   it(`should format long decimals well if whole number`, () => {
     expect(prettyDecimals(12)).toBe(`12`)
-  })
-
-  it(`should convert utam denom to atom denom`, () => {
-    expect(viewDenom(`uatom`)).toBe(`ATOM`)
-  })
-
-  it(`should convert SDK coins to view coins with 6 decimal points`, () => {
-    expect(
-      createDisplayCoin(
-        {
-          denom: `uatom`,
-          amount: 1000000
-        },
-        6
-      )
-    ).toEqual({
-      denom: `ATOM`,
-      amount: `1.000000`
-    })
-  })
-
-  it(`should convert SDK coins to view coins with 3 decimal points`, () => {
-    expect(
-      createDisplayCoin({
-        denom: `uatom`,
-        amount: 1000000
-      })
-    ).toEqual({
-      denom: `ATOM`,
-      amount: `1`
-    })
   })
 })
