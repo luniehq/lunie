@@ -151,7 +151,7 @@ export default {
 }
 .li-validator:hover {
   cursor: pointer;
-  background: var(--hover-bg);
+  background: var(--app-fg-hover);
   color: var(--bright);
 }
 .li-validator-name {

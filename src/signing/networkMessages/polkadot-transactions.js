@@ -83,7 +83,7 @@ const curvePrefixes = {
 }
 
 function formatSignature(rawSignature) {
-  const prefix = new Uint8Array(curvePrefixes["ed25519"])
+  const prefix = new Uint8Array(curvePrefixes["sr25519"])
   const signature = u8aToHex(u8aConcat(prefix, rawSignature))
   return signature
 }

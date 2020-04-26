@@ -102,15 +102,15 @@ export default {
 }
 
 .sort-by.active a {
-  color: var(--tertiary);
+  color: var(--highlight);
 }
 
 .sort-by.asc i {
-  color: var(--tertiary);
+  color: var(--highlight);
 }
 
 .sort-by.desc i {
   transform: rotate(180deg);
-  color: var(--tertiary);
+  color: var(--highlight);
 }
 </style>

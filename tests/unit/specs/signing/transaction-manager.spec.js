@@ -134,7 +134,7 @@ describe("Transaction Manager", () => {
               value: "c3VwZXJwdWJrZXk="
             },
             sequence: 1,
-            signature: "abcd"
+            signature: "q80="
           }
         ]
       }

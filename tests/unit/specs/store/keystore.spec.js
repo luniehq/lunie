@@ -135,16 +135,13 @@ describe(`Module: Keystore`, () => {
     expect(address).toBe(`cosmos1234`)
   })
 
-  it(`should create a Polkadot address from a seed phrase`, async () => {
-    jest.setTimeout(10000)
-
+  it(`should create a Polkadot address from a 12 words seed phrase`, async () => {
     const address = await actions.getAddressFromSeed(undefined, {
-      seedPhrase: `enable story warrior detail cradle inherit over cattle unhappy concert reveal clay keep tourist tenant brief simple drum plug inform glue business ski dream`,
+      seedPhrase: `lunch primary know smoke track sustain parrot enact shock final rookie banana`,
       network: {
         id: "polkadot-testnet",
         network_type: "polkadot",
-        address_prefix: "2",
-        testnet: true
+        address_prefix: "2"
       }
     })
     expect(address).toBe(`DcjhGvTmsVvJHzqFR1SQVHs77cFTQTJrm59WPM4FRgbGFoR`)
@@ -153,26 +150,24 @@ describe(`Module: Keystore`, () => {
   it(`should create a Polkadot address from a 24 words seed phrase`, async () => {
     const address = await actions.getAddressFromSeed(undefined, {
       seedPhrase: `spirit ride warm like ribbon axis minimum number myth wrestle minute amount subway whip system axis cross box actual rifle control profit town advice`,
-      network: `polkadot-testnet`
+      network: {
+        id: `polkadot-testnet`,
+        network_type: `polkadot`,
+        address_prefix: 2
+      }
     })
     expect(address).toBe(`DGTPCmSeaMKKkno6GMLteH6JUBjjRf6PEtvLgmKQS4SV3Tc`)
   })
 
   it(`should create a Polkadot address from a raw hex seed phrase`, async () => {
-    const store = {
-      getters: {
-        networks: [
-          {
-            id: "polkadot-testnet",
-            network_type: "polkadot",
-            address_prefix: "2"
-          }
-        ]
-      }
-    }
+    const store = {}
     const address = await actions.getAddressFromSeed(store, {
       seedPhrase: `0x2fbaa6dc94a4bc904cc913de9151b890c5c1de1beb08ec01c96b66b355a7b9ca`,
-      network: `polkadot-testnet`
+      network: {
+        id: `polkadot-testnet`,
+        network_type: `polkadot`,
+        address_prefix: 2
+      }
     })
     expect(address).toBe(`EkpVDgUgARxa96strjK5oCiEdLTokcTqw4uUMqEGBTmibLe`)
   })

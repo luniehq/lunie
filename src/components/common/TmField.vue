@@ -326,7 +326,7 @@ textarea.tm-field {
 }
 
 .tm-toggle .tm-toggle-wrapper .toggle-handle::after {
-  background: var(--grey);
+  background: var(--bc-dim);
   border-radius: 1rem;
   content: "";
   height: 1.625rem;

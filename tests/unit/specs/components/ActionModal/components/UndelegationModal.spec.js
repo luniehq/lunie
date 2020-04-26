@@ -131,8 +131,10 @@ describe(`UndelegationModal`, () => {
     it("should return correct transaction data", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "UnstakeTx",
-        amount: 10,
-        denom: "STAKE",
+        amount: {
+          amount: 10,
+          denom: "STAKE"
+        },
         from: ["cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"]
       })
     })
@@ -163,8 +165,10 @@ describe(`UndelegationModal`, () => {
     it("should return correct transaction data", () => {
       expect(wrapper.vm.transactionData).toEqual({
         type: "RestakeTx",
-        amount: 10,
-        denom: "STAKE",
+        amount: {
+          amount: 10,
+          denom: "STAKE"
+        },
         from: ["cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"],
         to: ["cosmosvaladdrXYZ"]
       })

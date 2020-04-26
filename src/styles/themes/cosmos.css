@@ -1,0 +1,31 @@
+.cosmos-hub-testnet,
+.cosmos-hub-mainnet {
+    /* theme colors */
+    --primary: hsl(233, 96%, 65%);
+    --primary-hover: hsl(233, 96%, 60%);
+    --highlight: hsl(288, 100%, 77%);
+    --link: hsl(233, 96%, 75%);
+    --link-hover: hsl(233, 96%, 70%);
+
+    /* background-colors */
+    --app-fg: hsl(233, 36%, 18%);
+    --app-fg-hover: hsl(233, 30%, 27%);
+    --app-bg: hsl(233, 30%, 22%);
+    
+    /* menu styles */
+    --app-nav: hsl(233, 38%, 14%);
+    --app-nav-hover: hsl(233, 38%, 19%);
+    --menu-link: var(--link);
+    --menu-link-hover: var(--link-hover);
+    --menu-border: hsl(233, 38%, 29%);
+
+    /* dark-theme typography */
+    --bright: hsl(0, 0%, 100%);
+    --txt: hsl(0, 0%, 90%);
+    --dim: hsl(0, 0%, 70%);
+    --bc: hsl(233, 38%, 30%);
+    --bc-dim: hsl(233, 38%, 25%);
+    --input-bc: hsl(0, 0%, 55%);
+
+    --success: hsl(120, 72%, 47%);
+}

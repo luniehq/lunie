@@ -88,7 +88,7 @@ export default {
 .seed-table td {
   text-align: center;
   width: 16.6666666666667%;
-  background-color: var(--app-nav-light);
+  background-color: var(--app-fg);
   padding: 0.5rem 0.1rem 0.5rem 0.1rem;
   border-radius: 0.2rem;
   font-size: 0.9rem;

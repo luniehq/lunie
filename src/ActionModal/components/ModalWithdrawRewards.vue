@@ -191,7 +191,7 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 .input-suffix-reward {
   background: var(--bc-dim);
   display: inline-block;

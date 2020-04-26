@@ -70,7 +70,7 @@
         />
         <TmBtn
           type="button"
-          class="secondary addon-max"
+          class="addon-max"
           value="Set Max"
           @click.native="setMaxAmount()"
         />

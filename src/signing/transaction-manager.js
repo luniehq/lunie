@@ -1,9 +1,9 @@
 import config from "src/../config"
 import { getSigner, cancelSign, signQueue } from "./signer"
-import { signWithExtension } from "src/scripts/extension-utils"
 import { getGraphqlHost } from "scripts/url"
 import { getFingerprint } from "scripts/fingerprint"
 import { getMessage } from "./message-creator.js"
+import { signWithExtension } from "scripts/extension-utils"
 import gql from "graphql-tag"
 
 const txFetchOptions = fingerprint => ({

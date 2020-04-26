@@ -250,15 +250,19 @@ export default {
           type: messageType.RESTAKE,
           from: [this.from],
           to: [this.targetValidator.operatorAddress],
-          amount: this.amount,
-          denom: this.stakingDenom
+          amount: {
+            amount: this.amount,
+            denom: this.stakingDenom
+          }
         }
       } else {
         return {
           type: messageType.STAKE,
           to: [this.targetValidator.operatorAddress],
-          amount: this.amount,
-          denom: this.stakingDenom
+          amount: {
+            amount: this.amount,
+            denom: this.stakingDenom
+          }
         }
       }
     },
