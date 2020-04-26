@@ -54,14 +54,17 @@ describe(`TmSessionImport`, () => {
     expect(wrapper.vm.$v.seed.$error).toBe(true)
   })
 
-  it(`validation should fail if seed is not 24 words long`, async () => {
+  it(`validation should fail if seed is not 12 or 24 words long`, async () => {
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf`
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.seed.$error).toBe(true)
   })
 
-  it(`should validate if seed is 24 words long`, async () => {
+  it(`should validate if seed is 12 or 24 words long`, async () => {
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
+    await wrapper.vm.onSubmit()
+    expect(wrapper.vm.$v.seed.$error).toBe(false)
+    wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.seed.$error).toBe(false)
   })
