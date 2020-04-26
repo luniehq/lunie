@@ -1,1 +1,0 @@
-[Fixed] [#3897](https://github.com/cosmos/lunie/issues/3897) Fixes operation with 0 balance by removing the unnecessary validations for both gasPrice and invoiceTotal in ActionModal @Bitcoinera

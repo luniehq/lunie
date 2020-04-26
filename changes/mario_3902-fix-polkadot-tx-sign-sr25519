@@ -1,1 +1,0 @@
-[Fixed] [#3902](https://github.com/cosmos/lunie/issues/3902) Fix broken tx sign with Schnorrkel accounts in polkadot @mariopino
