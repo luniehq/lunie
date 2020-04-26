@@ -7,7 +7,7 @@
       <LiSession
         v-if="
           session.insecureMode ||
-            session.developmentMode ||
+            (session.developmentMode && !session.productionMode) ||
             (isMobileApp && !accountExists)
         "
         id="create-new-address"
@@ -33,7 +33,9 @@
       <LiSession
         v-if="
           accountExists &&
-            (session.insecureMode || session.developmentMode || isMobileApp)
+            (session.insecureMode ||
+              (session.developmentMode && !session.productionMode) ||
+              isMobileApp)
         "
         id="sign-in-with-account"
         icon="lock"
@@ -47,7 +49,11 @@
         route="/explore"
       />
       <LiSession
-        v-if="isMobileApp || session.insecureMode || session.developmentMode"
+        v-if="
+          isMobileApp ||
+            session.insecureMode ||
+            (session.developmentMode && !session.productionMode)
+        "
         id="recover-with-backup"
         icon="settings_backup_restore"
         title="Recover with backup code"
@@ -84,7 +90,7 @@ export default {
     createAccountLink() {
       return this.isMobileApp ||
         this.session.insecureMode ||
-        this.session.developmentMode
+        (this.session.developmentMode && !this.session.productionMode)
         ? `/select-network/create`
         : `/create`
     }

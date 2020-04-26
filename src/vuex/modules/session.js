@@ -57,6 +57,9 @@ export default () => {
     setInsecureMode(state) {
       state.insecureMode = true
     },
+    setProductionMode(state) {
+      state.productionMode = true
+    },
     addHistory(state, path) {
       state.history.push(path)
       state.externals.track(`pageview`, {
