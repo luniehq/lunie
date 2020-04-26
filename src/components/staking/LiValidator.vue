@@ -72,11 +72,7 @@
 </template>
 
 <script>
-import {
-  bigFigureOrPercent,
-  bigFigureOrShortDecimals,
-  atoms
-} from "scripts/num"
+import { bigFigureOrPercent, bigFigureOrShortDecimals } from "scripts/num"
 import Avatar from "common/Avatar"
 
 export default {
@@ -85,7 +81,6 @@ export default {
     Avatar
   },
   filters: {
-    atoms,
     toLower: text => text.toLowerCase(),
     bigFigureOrShortDecimals,
     bigFigureOrPercent
@@ -156,7 +151,7 @@ export default {
 }
 .li-validator:hover {
   cursor: pointer;
-  background: var(--hover-bg);
+  background: var(--app-fg-hover);
   color: var(--bright);
 }
 .li-validator-name {

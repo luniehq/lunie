@@ -20,7 +20,7 @@
         id="tutorial-btn"
         class="tutorial-btn"
         value="Want to learn how governance works?"
-        type="tertiary"
+        type="secondary"
         @click.native="openTutorial()"
       />
     </div>

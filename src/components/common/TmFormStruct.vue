@@ -48,7 +48,7 @@ export default {
 <style scoped>
 .form {
   position: relative;
-  width: var(--width-main);
+  width: 100%;
   display: flex;
 }
 

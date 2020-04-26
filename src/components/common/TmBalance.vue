@@ -119,7 +119,7 @@
         </div>
 
         <div class="table-cell rewards">
-          <h2 v-if="totalRewards > 0.001">
+          <h2>
             +{{ totalRewards | bigFigureOrShortDecimals }}
             {{ stakingDenom }}
           </h2>
@@ -223,6 +223,7 @@ import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
+import config from "src/../config"
 
 export default {
   name: `tm-balance`,
@@ -255,6 +256,16 @@ export default {
             // Each content array item will be enclosed in a span (newline)
             content: [
               "The easiest way to get tokens is to find a reputable exchange, like Coinbase or Binance, to purchase your tokens from."
+            ],
+            affiliate: [
+              {
+                text:
+                  "Need some ATOM to stake with Lunie? Buy some at today at",
+                link: config.referralLinks["Coinbase"],
+                linkText: "Coinbase",
+                onClickFunction: this.sendAffiliateClickEvent,
+                onClickParam: "Coinbase"
+              }
             ]
           },
           {
@@ -291,9 +302,7 @@ export default {
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
-      return Object.values(this.totalRewardsPerDenom).find(
-        value => value > 0.001
-      )
+      return Object.values(this.totalRewardsPerDenom).find(value => value > 0)
     },
     stakingBalance() {
       return this.balances.find(({ denom }) => denom === this.stakingDenom)
@@ -382,6 +391,19 @@ export default {
         totalRewards
       )
       this.rewardsSentToGA = true
+    },
+    /* istanbul ignore next */
+    sendAffiliateClickEvent(partner) {
+      sendEvent(
+        {
+          network: this.network,
+          address: this.address
+        },
+        "Portfolio",
+        "Tutorials",
+        `linkTo${partner}`,
+        "click"
+      )
     }
   },
   apollo: {
@@ -557,13 +579,13 @@ export default {
 
 h1 {
   font-size: 24px;
-  color: white;
+  color: var(--bright);
   font-weight: 300;
 }
 
 select {
   background: var(--input-bg);
-  color: var(--txt, #333);
+  color: var(--txt);
   border: none;
 }
 
@@ -613,7 +635,7 @@ select option {
 }
 
 .currency-div:hover {
-  background: var(--hover-bg);
+  background: var(--app-fg-hover);
 }
 
 .header-container {
@@ -621,7 +643,7 @@ select option {
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 2rem 1rem;
+  padding: 0 2rem 2rem;
   width: 100%;
 }
 
@@ -706,10 +728,6 @@ select option {
   color: var(--bright);
 }
 
-.available-amount {
-  color: #ffdc82;
-}
-
 .rewards {
   color: var(--success);
 }
@@ -729,7 +747,7 @@ select option {
 
 .icon-button {
   border-radius: 50%;
-  background: #7a88b8;
+  background: var(--link);
   border: none;
   outline: none;
   height: 2rem;
@@ -741,13 +759,13 @@ select option {
 }
 
 .icon-button:hover {
-  background: #354682;
+  background: var(--link-hover);
   cursor: pointer;
 }
 
 .icon-button i {
   font-size: 14px;
-  color: var(--bright);
+  color: var(--menu-bright);
 }
 
 .total-and-fiat {

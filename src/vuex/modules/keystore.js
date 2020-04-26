@@ -35,8 +35,7 @@ export default () => {
       return getSeed()
     },
     async getAddressFromSeed(store, { seedPhrase, network }) {
-      const networkObject = await getNetworkInfo(network, store)
-      const wallet = await getWallet(seedPhrase, networkObject)
+      const wallet = await getWallet(seedPhrase, network)
       return wallet.cosmosAddress
     },
     async createKey(store, { seedPhrase, password, name, network }) {

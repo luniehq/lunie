@@ -1,5 +1,4 @@
 import PageValidator from "staking/PageValidator"
-import { toMicroDenom } from "scripts/common"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 
 const validator = {
@@ -142,8 +141,7 @@ describe(`PageValidator`, () => {
     ]
     const self = {
       stakingDenom: `TOKEN1`,
-      rewards: rewards,
-      toMicroDenom
+      rewards: rewards
     }
     const stakingDenomReward = PageValidator.methods.filterStakingDenomReward.call(
       self

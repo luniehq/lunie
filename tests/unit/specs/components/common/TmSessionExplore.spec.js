@@ -109,13 +109,13 @@ describe(`TmSessionExplore`, () => {
 
   it(`should show the last account used`, () => {
     localStorage.setItem(`prevAddress`, `cosmos1xxx`)
-
-    const self = {
-      address: ``
-    }
-    TmSessionExplore.mounted.call(self)
-
-    expect(self.address).toBe(`cosmos1xxx`)
+    wrapper = shallowMount(TmSessionExplore, {
+      localVue,
+      mocks: {
+        $store
+      }
+    })
+    expect(wrapper.vm.address).toBe(`cosmos1xxx`)
   })
 
   it(`should explore with a previously used address`, async () => {
@@ -127,10 +127,14 @@ describe(`TmSessionExplore`, () => {
     })
   })
 
-  it(`should set an error message if the address sin't recognised by Lunie`, async () => {
+  it(`should set an error message if the address isn't recognised by Lunie`, async () => {
     let address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
     $store.dispatch = () => Promise.reject(new Error("Not recognised address"))
     await wrapper.vm.addressValidate(address)
     expect(wrapper.vm.addressError).toBe("Not recognised address")
+  })
+
+  it(`should check testnet checkbox if current network is a testnet`, async () => {
+    expect(wrapper.vm.testnet).toBe(true)
   })
 })

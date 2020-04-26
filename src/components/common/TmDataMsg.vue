@@ -66,7 +66,8 @@ export default {
   display: flex;
   align-items: center;
   border-radius: 0.25rem;
-  border: 1px solid var(--bc);
+  background: var(--app-fg);
+  border: 2px solid var(--app-fg-hover);
   margin: 1rem;
 }
 
@@ -76,7 +77,7 @@ export default {
 
 .tm-data-msg__icon i.material-icons {
   font-size: 2rem;
-  color: var(--txt);
+  color: var(--menu-bright);
   background: var(--warning);
   padding: 0.5rem;
   border-radius: 50%;

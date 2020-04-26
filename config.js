@@ -20,5 +20,9 @@ export default {
 
   graphqlHost: graphql,
 
-  e2e: process.env.VUE_APP_E2E || false
+  e2e: process.env.VUE_APP_E2E || false,
+
+  referralLinks: {
+    Coinbase: "https://coinbase-consumer.sjv.io/31vxX"
+  }
 }

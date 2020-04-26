@@ -34,9 +34,7 @@ exports[`ActionModal back button renders and functions 1`] = `
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -79,7 +77,7 @@ exports[`ActionModal back button renders and functions 1`] = `
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -126,9 +124,7 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -177,7 +173,7 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -215,9 +211,7 @@ exports[`ActionModal should show the action modal on success 1`] = `
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <!---->
@@ -290,9 +284,7 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <!---->
@@ -346,9 +338,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Sign in required
-      
+      Sign in required
     </span>
      
     <steps-stub
@@ -382,7 +372,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -429,9 +419,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Sign in required
-      
+      Sign in required
     </span>
      
     <steps-stub
@@ -465,7 +453,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -503,9 +491,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Sign in required
-      
+      Sign in required
     </span>
      
     <steps-stub
@@ -539,7 +525,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -586,9 +572,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -610,12 +594,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
       estimatedfee="0"
     />
      
-    <tmformmsg-stub
-      min="0.000001"
-      msg=""
-      name="Total"
-      type="min"
-    />
+    <!---->
   </div>
    
   <!---->
@@ -628,12 +607,11 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
-        disabled="true"
         type="primary"
         value="Next"
       />
@@ -676,9 +654,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -727,7 +703,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -765,9 +741,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -817,7 +791,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -865,9 +839,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -889,12 +861,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       estimatedfee="0"
     />
      
-    <tmformmsg-stub
-      min="0.000001"
-      msg=""
-      name="Total"
-      type="min"
-    />
+    <!---->
   </div>
    
   <!---->
@@ -907,12 +874,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
-        disabled="true"
         type="primary"
         value="Next"
       />
@@ -955,9 +921,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -995,7 +959,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -1033,9 +997,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -1074,7 +1036,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -1122,9 +1084,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -1146,12 +1106,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       estimatedfee="0"
     />
      
-    <tmformmsg-stub
-      min="0.000001"
-      msg=""
-      name="Total"
-      type="min"
-    />
+    <!---->
   </div>
    
   <!---->
@@ -1164,12 +1119,11 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
-        disabled="true"
         type="primary"
         value="Next"
       />
@@ -1212,9 +1166,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -1257,7 +1209,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -1295,9 +1247,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -1340,7 +1290,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -1379,9 +1329,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     <span
       class="action-modal-title"
     >
-      
-        Sign in required
-      
+      Sign in required
     </span>
      
     <steps-stub
@@ -1415,7 +1363,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -1453,9 +1401,7 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
     <span
       class="action-modal-title"
     >
-      
-        Send
-      
+      Send
     </span>
      
     <steps-stub
@@ -1480,7 +1426,7 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        

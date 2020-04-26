@@ -120,6 +120,10 @@ export default {
   },
   mounted() {
     this.address = localStorage.getItem(`prevAddress`)
+    // Check testnet checkbox if current network is a testnet
+    this.testnet = this.networks.find(
+      network => network.id === this.network
+    ).testnet
   },
   methods: {
     async onSubmit() {
@@ -210,7 +214,7 @@ export default {
 
 .tm-li-session:hover {
   cursor: pointer;
-  background: var(--hover-bg);
+  background: var(--app-fg-hover);
 }
 
 .tm-li-session-icon {
