@@ -95,11 +95,11 @@ menu a i {
 }
 
 .mobile-menu-item.router-link-active {
-  color: var(--tertiary);
+  color: var(--highlight);
 }
 
 menu a:not(.router-link-active) {
-  color: var(--bright);
+  color: var(--menu-bright);
 }
 
 menu a h2 {

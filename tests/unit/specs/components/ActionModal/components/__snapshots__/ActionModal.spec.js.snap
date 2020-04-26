@@ -79,7 +79,7 @@ exports[`ActionModal back button renders and functions 1`] = `
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -177,7 +177,7 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -382,7 +382,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -465,7 +465,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -539,7 +539,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -623,7 +623,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -721,7 +721,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -811,7 +811,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -896,7 +896,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -983,7 +983,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -1062,7 +1062,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -1147,7 +1147,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -1239,7 +1239,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -1322,7 +1322,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -1397,7 +1397,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        
@@ -1462,7 +1462,7 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
     >
       <tmbtn-stub
         id="closeBtn"
-        type="tertiary"
+        type="secondary"
         value="Cancel"
       />
        

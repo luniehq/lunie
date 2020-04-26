@@ -169,7 +169,7 @@ export default {
 }
 
 .vote-options button.active {
-  background: var(--tertiary);
-  border-color: var(--tertiary);
+  background: var(--highlight);
+  border-color: var(--highlight);
 }
 </style>

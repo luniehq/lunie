@@ -33,11 +33,6 @@ export default {
         icon: "/img/networks/polkadot-mainnet.png"
       },
       {
-        id: "polkadot-testnet",
-        title: "Kusama",
-        icon: "/img/networks/polkadot-testnet.png"
-      },
-      {
         id: "tezos-mainnet",
         title: "Tezos",
         icon: "/img/networks/tezos-mainnet.png"

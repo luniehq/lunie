@@ -68,19 +68,17 @@ export default {
 .network-item {
   display: flex;
   align-items: center;
-  border: 1px solid var(--bc-dim);
   background: var(--app-fg);
   width: 100%;
   position: relative;
-  padding: 0.5rem 1rem;
-  margin-bottom: 0.25rem;
-  border-bottom: 1px solid var(--bc-dim);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
   border-radius: 0.25rem;
 }
 
 .network-item:hover {
   cursor: pointer;
-  background: var(--hover-bg);
+  background: var(--app-fg-hover);
   color: var(--bright);
 }
 
