@@ -50,7 +50,7 @@ export default {
 
 .tm-li-session:hover {
   cursor: pointer;
-  background: var(--hover-bg);
+  background: var(--app-fg-hover);
 }
 
 .arrow {

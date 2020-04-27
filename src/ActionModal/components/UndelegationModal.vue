@@ -125,7 +125,7 @@
 <script>
 import { mapState, mapGetters } from "vuex"
 import gql from "graphql-tag"
-import { toMicroUnit, SMALLEST } from "src/scripts/num"
+import { SMALLEST } from "src/scripts/num"
 import { decimal } from "vuelidate/lib/validators"
 import ActionModal from "./ActionModal"
 import TmField from "src/components/common/TmField"
@@ -133,8 +133,6 @@ import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
-import transactionTypes from "../utils/transactionTypes"
-import { toMicroDenom } from "src/scripts/common"
 import { formatAddress, validatorEntry } from "src/filters"
 import { UserTransactionAdded } from "src/gql"
 import { messageType } from "../../components/transactions/messageTypes"
@@ -191,15 +189,13 @@ export default {
           return {}
         }
         return {
-          type: transactionTypes.REDELEGATE,
-          validatorSourceAddress: this.sourceValidator.operatorAddress,
-          validatorDestinationAddress: this.toSelectedIndex,
-          amount: toMicroUnit(
-            this.amount,
-            this.stakingDenom,
-            this.networks.find(({ id }) => id === this.network)
-          ),
-          denom: toMicroDenom(this.stakingDenom)
+          type: messageType.RESTAKE,
+          from: [this.sourceValidator.operatorAddress],
+          to: [this.toSelectedIndex],
+          amount: {
+            amount: this.amount,
+            denom: this.stakingDenom
+          }
         }
       } else {
         if (
@@ -210,14 +206,12 @@ export default {
           return {}
         }
         return {
-          type: transactionTypes.UNDELEGATE,
-          validatorAddress: this.sourceValidator.operatorAddress,
-          amount: toMicroUnit(
-            this.amount,
-            this.stakingDenom,
-            this.networks.find(({ id }) => id === this.network)
-          ),
-          denom: toMicroDenom(this.stakingDenom)
+          type: messageType.UNSTAKE,
+          from: [this.sourceValidator.operatorAddress],
+          amount: {
+            amount: this.amount,
+            denom: this.stakingDenom
+          }
         }
       }
     },
@@ -375,13 +369,13 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.userAddress
+        return !this.address
       },
       /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
-          address: this.userAddress,
+          address: this.address,
           denom: this.stakingDenom
         }
       },
@@ -410,6 +404,10 @@ export default {
       /* istanbul ignore next */
       update(data) {
         return data.validators || []
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
       }
     },
 
@@ -419,12 +417,12 @@ export default {
         variables() {
           return {
             networkId: this.network,
-            address: this.userAddress
+            address: this.address
           }
         },
         /* istanbul ignore next */
         skip() {
-          return !this.userAddress
+          return !this.address
         },
         query: UserTransactionAdded,
         /* istanbul ignore next */

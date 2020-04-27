@@ -19,10 +19,11 @@ jest.mock("src/../config.js", () => ({
   graphqlHost: "http://localhost:4000"
 }))
 
-jest.mock(`src/ActionModal/utils/ActionManager.js`, () => {
+jest.mock(`src/signing/transaction-manager.js`, () => {
   return jest.fn(() => {
     return {
-      sendTxAPI: mockSend,
+      createSignBroadcast: mockSend,
+      getCosmosTransactionData: () => {},
       getSignQueue: mockGetSignQueue
     }
   })
@@ -95,7 +96,6 @@ describe(`ActionModal`, () => {
   ]
 
   $apollo = {
-    skipAll: jest.fn(() => false),
     queries: {
       overview: {
         refetch: jest.fn()
@@ -166,10 +166,10 @@ describe(`ActionModal`, () => {
       },
       stubs: ["router-link"]
     })
-    wrapper.vm.actionManager.getSignQueue = jest.fn(
+    wrapper.vm.transactionManager.getSignQueue = jest.fn(
       () => new Promise(resolve => resolve(0))
     )
-    wrapper.setData({ network, overview, balances, loaded: true })
+    wrapper.setData({ network, balances })
     wrapper.vm.open()
   })
 
@@ -220,16 +220,13 @@ describe(`ActionModal`, () => {
   })
 
   it(`should set the submissionError if the submission is rejected`, async () => {
-    const ActionManagerSend = jest
+    const failingSendMock = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))
     const $store = { dispatch: jest.fn() }
     const self = {
       $store,
       $apollo,
-      actionManager: {
-        sendTxAPI: ActionManagerSend
-      },
       transactionData: {
         type: "TYPE",
         denom: "uatom",
@@ -243,11 +240,9 @@ describe(`ActionModal`, () => {
       session: {
         address: "cosmos1234"
       },
-      overview: {
-        accountInformation: {
-          sequence: 42,
-          accountNumber: 12
-        }
+      transactionManager: {
+        createSignBroadcast: failingSendMock,
+        getCosmosTransactionData: () => ({})
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
@@ -268,16 +263,16 @@ describe(`ActionModal`, () => {
   })
 
   it(`should trigger onSendingFailed if transaction data is empty`, async () => {
-    const ActionManagerSend = jest
+    const failingSendMock = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))
     const $store = { dispatch: jest.fn() }
     const self = {
       $store,
       $apollo,
-      actionManager: {
-        send: ActionManagerSend,
-        sendTxAPI: jest.fn().mockResolvedValue({ hash: 12345 })
+      transactionManager: {
+        createSignBroadcast: failingSendMock,
+        getCosmosTransactionData: () => ({})
       },
       transactionData: {},
       network: {
@@ -308,25 +303,44 @@ describe(`ActionModal`, () => {
   })
 
   it("shows loading when there is still data to be loaded", () => {
-    wrapper.setData({ loaded: false })
-
-    expect(wrapper.find("TmDataLoading-stub").exists()).toBe(true)
+    wrapper = shallowMount(ActionModal, {
+      localVue,
+      propsData: {
+        title: `Send`,
+        validate: jest.fn(),
+        featureFlag: `send`,
+        queueNotEmpty: false,
+        transactionData: {
+          type: "MsgSend",
+          denom: "uatom",
+          validatorAddress: "cosmos12345"
+        }
+      },
+      mocks: {
+        $store,
+        $router: {
+          push: jest.fn()
+        },
+        $apollo: {
+          queries: {
+            overview: {
+              loading: true
+            },
+            balances: {
+              loading: true
+            }
+          }
+        }
+      },
+      stubs: ["router-link"]
+    })
     expect(wrapper.element).toMatchSnapshot()
-  })
-
-  it("sets the loaded state when apollo is done loading", () => {
-    let self = { loaded: false }
-    ActionModal.watch["$apollo.loading"].call(self, true)
-    expect(self.loaded).toBe(false)
-
-    ActionModal.watch["$apollo.loading"].call(self, false)
-    expect(self.loaded).toBe(true)
   })
 
   it(`should confirm modal closing`, () => {
     global.confirm = () => true
     const closeModal = jest.fn()
-    wrapper.vm.actionManager.cancel = jest.fn()
+    wrapper.vm.transactionManager.cancel = jest.fn()
     wrapper.vm.session.currrentModalOpen = {
       close: closeModal
     }
@@ -352,7 +366,7 @@ describe(`ActionModal`, () => {
     }
     ActionModal.methods.goToSession.call(self)
     expect(self.close).toHaveBeenCalled()
-    expect(self.$router.push).toHaveBeenCalledWith(`portfolio`)
+    expect(self.$router.push).toHaveBeenCalledWith({ name: "portfolio" })
   })
 
   it(`shows a password input for local signing`, async () => {
@@ -436,13 +450,13 @@ describe(`ActionModal`, () => {
     })
 
     it(`should set the step to transaction details`, () => {
-      wrapper.vm.actionManager = {
+      wrapper.vm.transactionManager = {
         cancel: jest.fn()
       }
       wrapper.vm.step = `sign`
       wrapper.vm.close()
       expect(wrapper.vm.step).toBe(`details`)
-      expect(wrapper.vm.actionManager.cancel).toHaveBeenCalled()
+      expect(wrapper.vm.transactionManager.cancel).toHaveBeenCalled()
     })
 
     it(`should close on escape key press`, () => {
@@ -654,7 +668,7 @@ describe(`ActionModal`, () => {
 
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
-      wrapper.vm.actionManager.sendTxAPI = mockSubmitFail
+      wrapper.vm.transactionManager.createSignBroadcast = mockSubmitFail
       await wrapper.vm.submit()
       await wrapper.vm.$nextTick()
 
@@ -670,8 +684,7 @@ describe(`ActionModal`, () => {
       const self = {
         $store,
         $apollo,
-        actionManager: {
-          simulateTxAPI: jest.fn(),
+        transactionManager: {
           sendTxAPI: ActionManagerSend
         },
         transactionData: {},

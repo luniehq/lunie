@@ -11,10 +11,7 @@ describe(`SendModal`, () => {
 
   const getters = {
     connected: true,
-    session: {
-      signedIn: true,
-      address: "cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx"
-    },
+    address: "cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx",
     network: "cosmos-hub-mainnet",
     networks: [
       {
@@ -172,10 +169,14 @@ describe(`SendModal`, () => {
       amount: 2
     })
     expect(wrapper.vm.transactionData).toEqual({
-      type: "MsgSend",
-      toAddress: "cosmos12345",
-      amounts: [{ amount: "2000000", denom: "stake" }],
-      memo: "(Sent via Lunie)"
+      type: "SendTx",
+      amount: {
+        amount: 2,
+        denom: "STAKE"
+      },
+      memo: "(Sent via Lunie)",
+      to: ["cosmos12345"],
+      from: ["cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx"]
     })
   })
 

@@ -139,10 +139,11 @@ describe(`ModalWithdrawRewards`, () => {
           totalRewards: [
             { amount: 4, denom: "NOTSTAKE" },
             { amount: 1.5, denom: "STAKE" }
-          ]
+          ],
+          top5Validators: ["cosmosvaloper12", "cosmosvaloper13"]
         })
       ).toEqual({
-        type: "MsgWithdrawDelegationReward",
+        type: "ClaimRewardsTx",
         amounts: [
           {
             amount: 4,
@@ -152,7 +153,8 @@ describe(`ModalWithdrawRewards`, () => {
             amount: 1.5,
             denom: "STAKE"
           }
-        ]
+        ],
+        from: ["cosmosvaloper12", "cosmosvaloper13"]
       })
     })
 

@@ -25,6 +25,7 @@ export default {
   methods: {
     close() {
       this.showMessage = false
+      this.$emit(`close`)
     }
   }
 }
@@ -43,7 +44,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--bright);
+  color: var(--menu-text);
 }
 
 .bar.primary {
@@ -68,7 +69,7 @@ export default {
 
 .bar .link {
   text-decoration: underline;
-  color: var(--bright);
+  color: var(--menu-bright);
   cursor: pointer;
 }
 

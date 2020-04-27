@@ -7,6 +7,71 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.194] - 2020-04-27
+
+### Changed
+
+- [#3906](https://github.com/cosmos/lunie/pull/3906) Adds the nordic coins (DKK, SEK, NOK) to the currency selector in Portfolio @Bitcoinera
+
+### Fixed
+
+- [#3913](https://github.com/cosmos/lunie/issues/3913) Fix account import @mariopino
+
+## [1.0.193] - 2020-04-26
+
+### Added
+
+- [#3887](https://github.com/cosmos/lunie/issues/3887) Use schnorrkel (sr25519) in Polkadot @mariopino
+- Some additional testing for address import in polkadot @mariopino
+
+### Changed
+
+- [#3867](https://github.com/cosmos/lunie/pull/3867) Adds the Coinbase referral link to Tutorials @Bitcoinera
+- implemented theme switching and cleaned up a lot of css variables @jbibla
+- [#3557](https://github.com/cosmos/lunie/issues/3557) Check testnet checkbox if current network is a testnet in explore mode @mariopino
+
+### Fixed
+
+- [#3897](https://github.com/cosmos/lunie/issues/3897) Fixes operation with 0 balance by removing the unnecessary validations for both gasPrice and invoiceTotal in ActionModal @Bitcoinera
+- [#3901](https://github.com/cosmos/lunie/issues/3901) Fixes Polkadot account import with Schnorrkel on first run @Bitcoinera
+- Extension accounts where not loaded in the ActionModal so the error of not existing account would always show @faboweb
+- [#3902](https://github.com/cosmos/lunie/issues/3902) Fix broken tx sign with Schnorrkel accounts in polkadot @mariopino
+
+### Security
+
+- [#3871](https://github.com/cosmos/lunie/pull/3871) Adds the missing security headers and options recommented by observatory.mozilla.org @Bitcoinera
+
+### Code Improvements
+
+- [#3875](https://github.com/cosmos/lunie/pull/3875) Refactored signing flow to be reused in the extension @faboweb
+
+## [1.0.192] - 2020-04-22
+
+### Fixed
+
+- Delegations query got wrong argument @faboweb
+
+## [1.0.191] - 2020-04-21
+
+### Added
+
+- [#3835](https://github.com/cosmos/lunie/issues/3835) Not about not showing some transactions @faboweb
+- Added loader for the app start @faboweb
+- [#3793](https://github.com/cosmos/lunie/issues/3793) Allow 12 words seeds import in Polkadot @mariopino
+
+### Changed
+
+- [#3860](https://github.com/cosmos/lunie/pull/3860) Refactor createKey to avoid using store so it can be usable in extension @Bitcoinera
+- Add ability to not track certain statistics in development mode @faboweb
+
+### Fixed
+
+- [#3738](https://github.com/cosmos/lunie/issues/3738) Fixes ActionModal getting stuck in loading @Bitcoinera
+- [#3863](https://github.com/cosmos/lunie/pull/3863) Fixes $address is null in the ActionModal queries @Bitcoinera
+- [#3855](https://github.com/cosmos/lunie/issues/3855) Fixes broken link in ActionModal redirecting to staking/validators/porfolio. Also fixes some other broken link @Bitcoinera
+- [#3865](https://github.com/cosmos/lunie/pull/3865) Fixes single proposals routing @Bitcoinera
+- [#3771](https://github.com/cosmos/lunie/issues/3771) Always hide cookies bar after closing it @mariopino
+
 ## [1.0.190] - 2020-04-13
 
 ### Fixed

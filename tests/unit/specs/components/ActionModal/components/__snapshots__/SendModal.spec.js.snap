@@ -54,7 +54,7 @@ exports[`SendModal should display send modal form 1`] = `
       />
        
       <tmbtn-stub
-        class="secondary addon-max"
+        class="addon-max"
         type="button"
         value="Set Max"
       />
@@ -143,7 +143,7 @@ exports[`SendModal validation should show address required error 1`] = `
       />
        
       <tmbtn-stub
-        class="secondary addon-max"
+        class="addon-max"
         type="button"
         value="Set Max"
       />
@@ -232,7 +232,7 @@ exports[`SendModal validation should show an error if trying to send more then t
       />
        
       <tmbtn-stub
-        class="secondary addon-max"
+        class="addon-max"
         type="button"
         value="Set Max"
       />
@@ -321,7 +321,7 @@ exports[`SendModal validation should show bech32 error when address is not bech3
       />
        
       <tmbtn-stub
-        class="secondary addon-max"
+        class="addon-max"
         type="button"
         value="Set Max"
       />

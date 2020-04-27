@@ -35,7 +35,9 @@ export default () => {
       return getSeed()
     },
     async getAddressFromSeed(store, { seedPhrase, network }) {
+      // get current network
       const networkObject = await getNetworkInfo(network, store)
+
       const wallet = await getWallet(seedPhrase, networkObject)
       return wallet.cosmosAddress
     },

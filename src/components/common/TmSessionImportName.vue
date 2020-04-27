@@ -84,7 +84,7 @@ export default {
   }),
   computed: {
     ...mapGetters([`connected`, `recover`]),
-    ...mapGetters({ networkId: `network` }),
+    ...mapGetters([`network`]),
     name: {
       get() {
         return this.$store.state.recover.name
@@ -99,7 +99,7 @@ export default {
       `getAddressFromSeed`,
       {
         seedPhrase: this.$store.state.recover.seed,
-        network: this.networkId
+        network: this.network
       }
     )
   },

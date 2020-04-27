@@ -15,7 +15,12 @@
           transaction.details.from[0] | resolveValidatorName(validators)
         }} </router-link
       ><i class="material-icons notranslate arrow">arrow_right_alt</i>
-      <router-link :to="`staking/validators/${transaction.details.to[0]}`">
+      <router-link
+        :to="{
+          name: 'validator',
+          params: { validator: transaction.details.to[0] }
+        }"
+      >
         <img
           v-if="destinationValidator && destinationValidator.picture"
           :src="destinationValidator.picture"

@@ -5,8 +5,8 @@
   border: 2px solid;
   padding: 2px 4px;
   border-radius: 0.25rem;
-  color: var(--grey);
-  border-color: var(--grey);
+  color: var(--bc-dim);
+  border-color: var(--bc-dim);
 }
 
 .proposal-status.rejected {
@@ -25,6 +25,6 @@
 }
 
 .proposal-status.votingperiod {
-  color: var(--tertiary);
-  border-color: var(--tertiary);
+  color: var(--highlight);
+  border-color: var(--highlight);
 }

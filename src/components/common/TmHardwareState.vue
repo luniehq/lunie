@@ -41,7 +41,6 @@ export default {
   margin: 1.5rem auto 0;
   padding: 1.5rem;
   user-select: none;
-  border: 2px solid var(--bc);
   border-radius: 0.25rem;
 }
 
