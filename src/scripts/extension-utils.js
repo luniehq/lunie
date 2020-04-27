@@ -125,7 +125,7 @@ export const cancelSignWithExtension = async (senderAddress, network) => {
     type: "LUNIE_SIGN_REQUEST_CANCEL",
     payload: {
       senderAddress,
-      network
+      network: network.id
     }
   })
 
