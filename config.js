@@ -24,5 +24,7 @@ export default {
 
   referralLinks: {
     Coinbase: "https://coinbase-consumer.sjv.io/31vxX"
-  }
+  },
+
+  moonPayAPIKey: process.env.MOONPAY_TEST_API_KEY || ""
 }

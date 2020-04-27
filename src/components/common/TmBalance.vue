@@ -144,6 +144,14 @@
               <i class="material-icons">send</i></button
             ><span>Send</span>
           </div>
+          <div class="icon-button-container">
+            <button
+              class="icon-button circle-buy-button"
+              @click="onBuy(stakingDenom)"
+            >
+              <i class="material-icons">add</i></button
+            ><span>Buy</span>
+          </div>
         </div>
 
         <template v-for="balance in filteredMultiDenomBalances">
@@ -195,6 +203,14 @@
               <button class="icon-button" @click="onSend(balance.denom)">
                 <i class="material-icons">send</i></button
               ><span>Send</span>
+            </div>
+          </div>
+
+          <div :key="balance.denom + 4" class="table-cell actions">
+            <div class="icon-button-container">
+              <button class="icon-button" @click="onBuy(balance.denom)">
+                <i class="material-icons">plus</i></button
+              ><span>Buy</span>
             </div>
           </div>
         </template>
@@ -370,6 +386,13 @@ export default {
     },
     onSend(denom = undefined) {
       this.$refs.SendModal.open(denom)
+    },
+    onBuy(denom = undefined) {
+      if (denom) {
+        window.location = `https://buy-staging.moonpay.io?apiKey=${
+          config.moonPayAPIKey
+        }&currencyCode=${denom.toLowerCase()}&enabledPaymentMethods=credit_debit_card,sepa_bank_transfer,gbp_bank_transfer`
+      }
     },
     openTutorial() {
       this.showTutorial = true
@@ -740,6 +763,10 @@ select option {
   padding-left: 1rem;
 }
 
+.icon-button-container button {
+  margin-right: 5px;
+}
+
 .icon-button-container span {
   display: block;
   font-size: 12px;
@@ -769,6 +796,10 @@ select option {
 .icon-button i {
   font-size: 14px;
   color: var(--menu-bright);
+}
+
+.circle-buy-button {
+  background: #f67f70;
 }
 
 .total-and-fiat {
