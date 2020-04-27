@@ -21,7 +21,6 @@
       frame-ancestors 'self';
       base-uri 'self';
       form-action 'self';
-      navigate-to 'self';
       font-src 'self' data: https://js.intercomcdn.com;
     '''
     X-Frame-Options = "DENY"
