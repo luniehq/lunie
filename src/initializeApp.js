@@ -14,7 +14,7 @@ import { createApolloProvider } from "src/gql/apollo.js"
 
 if (navigator && navigator.serviceWorker) {
   // remove any existing service worker
-  navigator.serviceWorker.getRegistrations().then(function (registrations) {
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
     for (let registration of registrations) {
       registration.unregister()
     }

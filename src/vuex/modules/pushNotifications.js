@@ -4,7 +4,7 @@ import config from "../../../config"
 let messaging
 
 const initializeFirebase = async () => {
-  navigator.serviceWorker.register('/firebase-messaging-sw.js', {
+  navigator.serviceWorker.register("/firebase-messaging-sw.js", {
     scope: "/"
   })
 
@@ -20,9 +20,9 @@ const initializeFirebase = async () => {
 
   await navigator.serviceWorker.ready
 
-  messaging.onMessage((payload) => {
-    console.log('Message received. ', payload) // TODO: Do something with message when window is open such as a toast
-  });
+  messaging.onMessage(payload => {
+    console.log("Message received. ", payload) // TODO: Do something with message when window is open such as a toast
+  })
 }
 
 const askPermissionAndRegister = async activeNetworks => {
@@ -33,27 +33,35 @@ const askPermissionAndRegister = async activeNetworks => {
 
   if (isDeviceRegistered !== "true") {
     try {
-      messaging.requestPermission().then(async () => {
-        // First delete old token
-        const oldToken = localStorage.getItem(
-          "registration-push-notifications-token"
-        )
+      messaging
+        .requestPermission()
+        .then(async () => {
+          // First delete old token
+          const oldToken = localStorage.getItem(
+            "registration-push-notifications-token"
+          )
 
-        if (oldToken) {
-          try {
-            await messaging.deleteToken(oldToken)
-
-          } catch (error) {
-            console.log('bug FCM throws error while deleting token on first refresh')
+          if (oldToken) {
+            try {
+              await messaging.deleteToken(oldToken)
+            } catch (error) {
+              console.log(
+                "bug FCM throws error while deleting token on first refresh"
+              )
+            }
           }
-        }
 
-        // Granted? Store device
-        const token = await messaging.getToken()
-        await registerDevice(token, activeNetworks)
-      }).catch(() => console.log('bug FCM throws error while deleting token on first refresh'))
+          // Granted? Store device
+          const token = await messaging.getToken()
+          await registerDevice(token, activeNetworks)
+        })
+        .catch(() =>
+          console.log(
+            "bug FCM throws error while deleting token on first refresh"
+          )
+        )
     } catch (error) {
-      console.log('Permission denied')
+      console.log("Permission denied")
     }
   }
 }

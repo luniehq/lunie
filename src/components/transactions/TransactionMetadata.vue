@@ -75,7 +75,7 @@ export default {
   methods: {
     checkFeatureAvailable() {
       const feature = `feature_explorer`
-      return this.network[feature] === 'ENABLED'
+      return this.network[feature] === "ENABLED"
     }
   }
 }
