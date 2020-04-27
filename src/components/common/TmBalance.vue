@@ -301,7 +301,7 @@ export default {
   },
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`address`, `network`, `stakingDenom`, `networks`]),
+    ...mapGetters([`address`, `network`, `stakingDenom`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
@@ -360,7 +360,7 @@ export default {
       }
     }
   },
-  async mounted() {
+  mounted() {
     this.setPreferredCurrency()
   },
   methods: {
