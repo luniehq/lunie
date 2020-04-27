@@ -5,11 +5,7 @@
 
     <div class="session-list">
       <LiSession
-        v-if="
-          session.insecureMode ||
-            (session.developmentMode && !session.productionMode) ||
-            (isMobileApp && !accountExists)
-        "
+        v-if="session.insecureMode || (isMobileApp && !accountExists)"
         id="create-new-address"
         icon="person_add"
         title="Create a new address"
@@ -31,12 +27,7 @@
       >
       </LiSession>
       <LiSession
-        v-if="
-          accountExists &&
-            (session.insecureMode ||
-              (session.developmentMode && !session.productionMode) ||
-              isMobileApp)
-        "
+        v-if="accountExists && (session.insecureMode || isMobileApp)"
         id="sign-in-with-account"
         icon="lock"
         title="Sign in with account"
@@ -49,11 +40,7 @@
         route="/explore"
       />
       <LiSession
-        v-if="
-          isMobileApp ||
-            session.insecureMode ||
-            (session.developmentMode && !session.productionMode)
-        "
+        v-if="isMobileApp || session.insecureMode"
         id="recover-with-backup"
         icon="settings_backup_restore"
         title="Recover with backup code"
@@ -88,9 +75,7 @@ export default {
       return this.keystore && this.keystore.accounts.length > 0
     },
     createAccountLink() {
-      return this.isMobileApp ||
-        this.session.insecureMode ||
-        (this.session.developmentMode && !this.session.productionMode)
+      return this.isMobileApp || this.session.insecureMode
         ? `/select-network/create`
         : `/create`
     }
