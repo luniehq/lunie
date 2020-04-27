@@ -8,7 +8,6 @@ export function getURLParams(window) {
       [
         `experimental`,
         `insecure`,
-        `production`,
         `api`,
         `iwouldliketochangetheapipersistentlyandiknowwhatido`,
         `network`
