@@ -132,6 +132,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
             Send
           </span>
         </div>
+         
+        <!---->
       </div>
        
       <div
@@ -194,6 +196,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
           </span>
         </div>
       </div>
+       
+      <!---->
     </div>
      
     <sendmodal-stub
@@ -339,6 +343,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             Send
           </span>
         </div>
+         
+        <!---->
       </div>
        
       <div
@@ -401,6 +407,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
           </span>
         </div>
       </div>
+       
+      <!---->
     </div>
      
     <sendmodal-stub

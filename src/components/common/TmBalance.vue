@@ -144,7 +144,7 @@
               <i class="material-icons">send</i></button
             ><span>Send</span>
           </div>
-          <div class="icon-button-container">
+          <div v-if="developmentMode" class="icon-button-container">
             <button
               class="icon-button circle-buy-button"
               @click="onBuy(stakingDenom)"
@@ -206,7 +206,11 @@
             </div>
           </div>
 
-          <div :key="balance.denom + 4" class="table-cell actions">
+          <div
+            v-if="developmentMode"
+            :key="balance.denom + 4"
+            class="table-cell actions"
+          >
             <div class="icon-button-container">
               <button class="icon-button" @click="onBuy(balance.denom)">
                 <i class="material-icons">plus</i></button
@@ -266,6 +270,7 @@ export default {
       rewards: [],
       selectedFiatCurrency: "USD",
       preferredCurrency: "",
+      developmentMode: config.development,
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -763,7 +768,7 @@ select option {
   padding-left: 1rem;
 }
 
-.icon-button-container button {
+.icon-button-container {
   margin-right: 5px;
 }
 
