@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.194] - 2020-04-27
+
+### Changed
+
+- [#3906](https://github.com/cosmos/lunie/pull/3906) Adds the nordic coins (DKK, SEK, NOK) to the currency selector in Portfolio @Bitcoinera
+
+### Fixed
+
+- [#3913](https://github.com/cosmos/lunie/issues/3913) Fix account import @mariopino
+
 ## [1.0.193] - 2020-04-26
 
 ### Added
