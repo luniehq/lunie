@@ -18,29 +18,32 @@ messaging.usePublicVapidKey("BC_2HRHQW9erg_lOd-dFe_R2ISeiXi0qPNqNcL-jBDnsmMXkqnF
 // If you would like to customize notifications that are received in the
 // background (Web app is closed or not in browser focus) then you should implement this optional method.
 messaging.setBackgroundMessageHandler(payload => {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
-  // Customize notification here
-  const notificationTitle = 'Background Message Title';
   const notificationOptions = {
-    body: 'Background Message body.',
-    icon: '/firebase-logo.png'
+    body: payload.notification.body,
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png'
   }
 
-  return self.registration.showNotification(notificationTitle,
+  // no notification sent if web app is focused
+  return self.registration.showNotification(payload.notification.title,
     notificationOptions);
 })
 
 self.addEventListener('push', event => {
-  console.log(event)
-  console.log(typeof event)
-  console.log(event.data)
-  console.log(typeof event.data)
-
+  const eventData = event.data.json()
   const options = {
-    body: event.data.notification.body,
+    body: eventData.notification.body,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png',
-    badge: 'https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png'
+    data: {
+      url: eventData.fcmOptions.link
+    }
   }
 
-  event.waitUntil(self.registration.showNotification(event.data.notification.title, options))
+  event.waitUntil(self.registration.showNotification(eventData.notification.title, options))
 })
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  if (clients.openWindow && event.notification.data.url) {
+    event.waitUntil(clients.openWindow(event.notification.data.url));
+  }
+});

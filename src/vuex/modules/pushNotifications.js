@@ -21,7 +21,7 @@ const initializeFirebase = async () => {
   await navigator.serviceWorker.ready
 
   messaging.onMessage((payload) => {
-    console.log('Message received. ', payload)
+    console.log('Message received. ', payload) // TODO: Do something with message when window is open such as a toast
   });
 }
 

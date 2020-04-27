@@ -19,28 +19,6 @@ if (navigator && navigator.serviceWorker) {
       registration.unregister()
     }
   })
-
-  // Register Service Worker
-  /*console.log("Registering service worker...");
-  const register = await navigator.serviceWorker.register("/firebase-messaging-sw.js", {
-    scope: "/"
-  });
-  console.log("Service Worker Registered...");
-
-  await navigator.serviceWorker.ready;  // <---------- WAIT 
-  
-  // Register Push
-  console.log("Registering Push...");
-  const subscription = await register.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(config.firebasePublicVapidKey)
-  });
-  console.log("Push Registered...");*/
-
-  // Register service worker firebase
-  // path set from root of public folder (after build)
-  //navigator.serviceWorker.register('/firebase-messaging-sw.js').catch(console.error)
-  
 }
 
 function setOptions(urlParams, store) {
