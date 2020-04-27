@@ -17,30 +17,30 @@ messaging.usePublicVapidKey("BC_2HRHQW9erg_lOd-dFe_R2ISeiXi0qPNqNcL-jBDnsmMXkqnF
 
 // If you would like to customize notifications that are received in the
 // background (Web app is closed or not in browser focus) then you should implement this optional method.
-messaging.setBackgroundMessageHandler(function (payload) {
+messaging.setBackgroundMessageHandler(payload => {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
   // Customize notification here
   const notificationTitle = 'Background Message Title';
   const notificationOptions = {
     body: 'Background Message body.',
     icon: '/firebase-logo.png'
-  };
+  }
 
   return self.registration.showNotification(notificationTitle,
     notificationOptions);
-});
+})
 
-self.addEventListener('push', function(event) {
-  console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
-  console.log('extra')
+self.addEventListener('push', event => {
+  console.log(event)
+  console.log(typeof event)
+  console.log(event.data)
+  console.log(typeof event.data)
 
-  const title = 'Push Codelab';
   const options = {
-    body: 'Yay it works.',
-    icon: 'https://i.ibb.co/3h2p9dX/android-icon-72x72.png',
-    badge: 'images/badge.png'
-  };
+    body: event.data.notification.body,
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png',
+    badge: 'https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png'
+  }
 
-  event.waitUntil(self.registration.showNotification(title, options));
-});
+  event.waitUntil(self.registration.showNotification(event.data.notification.title, options))
+})
