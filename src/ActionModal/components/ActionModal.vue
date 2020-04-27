@@ -593,6 +593,9 @@ export default {
       this.$store.commit(`setCurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
       this.show = true
+      if (this.session.sessionType === sessionType.EXTENSION) {
+        this.$store.dispatch(`getAddressesFromExtension`)
+      }
       if (config.isMobileApp) noScroll.on()
     },
     close() {
