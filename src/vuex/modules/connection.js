@@ -7,7 +7,7 @@ const isPolkadotAddress = address => {
   return polkadotRegexp.test(address)
 }
 
-export default function ({ apollo }) {
+export default function({ apollo }) {
   const state = {
     stopConnecting: false,
     connected: true, // TODO do connection test

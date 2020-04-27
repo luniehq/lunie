@@ -14,12 +14,8 @@ describe(`Steps`, () => {
   })
 
   it(`sets a step active active class`, () => {
-    expect(
-      wrapper.find(".stepItem:first-child").classes()
-    ).toContain("active")
+    expect(wrapper.find(".stepItem:first-child").classes()).toContain("active")
     wrapper.setProps({ activeStep: "second" })
-    expect(
-      wrapper.find(".stepItem:nth-child(2)").classes()
-    ).toContain("active")
+    expect(wrapper.find(".stepItem:nth-child(2)").classes()).toContain("active")
   })
 })
