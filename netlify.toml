@@ -9,7 +9,7 @@
     '''
     Content-Security-Policy = '''
       default-src 'self' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://monitoring.lunie.io:9000 https://js.intercomcdn.com;
-      connect-src 'self' https://api-iam.intercom.io https://widget.intercom.io wss://production-api.lunie.io/graphql https://production-api.lunie.io https://monitoring.lunie.io:9000;
+      connect-src 'self' https://api-iam.intercom.io https://widget.intercom.io wss://production-api.lunie.io/graphql https://production-api.lunie.io https://monitoring.lunie.io:9000 wss://*.intercom.io;
       img-src 'self' data: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://s3.amazonaws.com https://lunie.fra1.digitaloceanspaces.com;
       script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://api-iam.intercom.io https://js.intercomcdn.com https://widget.intercom.io;
       style-src 'self' 'unsafe-inline' https://*.lunie.io https://*.netlify.app;
@@ -20,6 +20,8 @@
       frame-src 'self' https://api-iam.intercom.io https://widget.intercom.io;
       frame-ancestors 'self';
       base-uri 'self';
+      form-action 'self';
+      navigate-to 'self';
       font-src 'self' data: https://js.intercomcdn.com;
     '''
     X-Frame-Options = "DENY"
