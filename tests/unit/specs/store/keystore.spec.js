@@ -136,6 +136,8 @@ describe(`Module: Keystore`, () => {
   })
 
   it(`should create a Polkadot address from a 12 words seed phrase`, async () => {
+    jest.setTimeout(10000)
+
     const address = await actions.getAddressFromSeed(undefined, {
       seedPhrase: `lunch primary know smoke track sustain parrot enact shock final rookie banana`,
       network: {
@@ -148,6 +150,8 @@ describe(`Module: Keystore`, () => {
   })
 
   it(`should create a Polkadot address from a 24 words seed phrase`, async () => {
+    jest.setTimeout(10000)
+
     const address = await actions.getAddressFromSeed(undefined, {
       seedPhrase: `spirit ride warm like ribbon axis minimum number myth wrestle minute amount subway whip system axis cross box actual rifle control profit town advice`,
       network: {
@@ -160,6 +164,8 @@ describe(`Module: Keystore`, () => {
   })
 
   it(`should create a Polkadot address from a raw hex seed phrase`, async () => {
+    jest.setTimeout(10000)
+
     const store = {}
     const address = await actions.getAddressFromSeed(store, {
       seedPhrase: `0x2fbaa6dc94a4bc904cc913de9151b890c5c1de1beb08ec01c96b66b355a7b9ca`,
