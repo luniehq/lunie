@@ -3,7 +3,11 @@ import config from "../../../config"
 
 let messaging
 
-const initializeFirebase = () => {
+const initializeFirebase = async () => {
+  navigator.serviceWorker.register('/firebase-messaging-sw.js', {
+    scope: "/"
+  })
+
   firebase.initializeApp({
     apiKey: "AIzaSyCrA4mq9v926h3aX9mfkLlzUSRbjFude14",
     projectId: "lunie-push-notifications",
@@ -13,6 +17,12 @@ const initializeFirebase = () => {
 
   messaging = firebase.messaging()
   messaging.usePublicVapidKey(config.firebasePublicVapidKey)
+
+  await navigator.serviceWorker.ready
+
+  messaging.onMessage((payload) => {
+    console.log('Message received. ', payload)
+  });
 }
 
 const askPermissionAndRegister = async activeNetworks => {
@@ -22,12 +32,28 @@ const askPermissionAndRegister = async activeNetworks => {
   ) // "true" if stored
 
   if (isDeviceRegistered !== "true") {
-    const permission = await Notification.requestPermission()
+    try {
+      messaging.requestPermission().then(async () => {
+        // First delete old token
+        const oldToken = localStorage.getItem(
+          "registration-push-notifications-token"
+        )
 
-    // Granted? Store device
-    if (permission === "granted") {
-      const token = await messaging.getToken()
-      await registerDevice(token, activeNetworks)
+        if (oldToken) {
+          try {
+            await messaging.deleteToken(oldToken)
+
+          } catch (error) {
+            console.log('bug FCM throws error while deleting token on first refresh')
+          }
+        }
+
+        // Granted? Store device
+        const token = await messaging.getToken()
+        await registerDevice(token, activeNetworks)
+      }).catch(() => console.log('bug FCM throws error while deleting token on first refresh'))
+    } catch (error) {
+      console.log('Permission denied')
     }
   }
 }
@@ -51,6 +77,7 @@ const registerDevice = async (token, activeNetworks) => {
 
   if (registrationResponse.status === 200 && registrationResponse.ok) {
     localStorage.setItem("registration-push-notifications", "true")
+    localStorage.setItem("registration-push-notifications-token", token)
   }
 }
 

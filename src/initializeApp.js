@@ -12,13 +12,35 @@ import Store from "./vuex/store"
 import pushNotifications from "./vuex/modules/pushNotifications"
 import { createApolloProvider } from "src/gql/apollo.js"
 
-// remove any existing service worker
 if (navigator && navigator.serviceWorker) {
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+  // remove any existing service worker
+  navigator.serviceWorker.getRegistrations().then(function (registrations) {
     for (let registration of registrations) {
       registration.unregister()
     }
   })
+
+  // Register Service Worker
+  /*console.log("Registering service worker...");
+  const register = await navigator.serviceWorker.register("/firebase-messaging-sw.js", {
+    scope: "/"
+  });
+  console.log("Service Worker Registered...");
+
+  await navigator.serviceWorker.ready;  // <---------- WAIT 
+  
+  // Register Push
+  console.log("Registering Push...");
+  const subscription = await register.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(config.firebasePublicVapidKey)
+  });
+  console.log("Push Registered...");*/
+
+  // Register service worker firebase
+  // path set from root of public folder (after build)
+  //navigator.serviceWorker.register('/firebase-messaging-sw.js').catch(console.error)
+  
 }
 
 function setOptions(urlParams, store) {
@@ -56,7 +78,7 @@ export default async function init(urlParams, env = process.env) {
     setGoogleAnalyticsPage(to.path)
   })
 
-  pushNotifications.initializeFirebase()
+  await pushNotifications.initializeFirebase()
 
   setOptions(urlParams, store)
 

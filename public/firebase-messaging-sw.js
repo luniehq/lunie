@@ -1,7 +1,3 @@
-// [START initialize_firebase_in_sw]
-// Give the service worker access to Firebase Messaging.
-// Note that you can only use Firebase Messaging here, other Firebase libraries
-// are not available in the service worker.
 importScripts('https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js');
 importScripts('https://www.gstatic.com/firebasejs/7.12.0/firebase-messaging.js');
 
@@ -14,16 +10,13 @@ firebase.initializeApp({
   messagingSenderId: "783884833065",
   appId: "1:783884833065:web:ea02768959989b9218a738"
 });
-// Retrieve an instance of Firebase Messaging so that it can handle background
-// messages.
-const messaging = firebase.messaging();
-// [END initialize_firebase_in_sw]
 
+// Retrieve an instance of Firebase Messaging so that it can handle background messages
+const messaging = firebase.messaging();
+messaging.usePublicVapidKey("BC_2HRHQW9erg_lOd-dFe_R2ISeiXi0qPNqNcL-jBDnsmMXkqnFcBpXqIklsJtkDPiBmSoOlAMDMOyZMt_Njugo")
 
 // If you would like to customize notifications that are received in the
-// background (Web app is closed or not in browser focus) then you should
-// implement this optional method.
-// [START background_handler]
+// background (Web app is closed or not in browser focus) then you should implement this optional method.
 messaging.setBackgroundMessageHandler(function (payload) {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
   // Customize notification here
@@ -36,4 +29,18 @@ messaging.setBackgroundMessageHandler(function (payload) {
   return self.registration.showNotification(notificationTitle,
     notificationOptions);
 });
-// [END background_handler]
+
+self.addEventListener('push', function(event) {
+  console.log('[Service Worker] Push Received.');
+  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
+  console.log('extra')
+
+  const title = 'Push Codelab';
+  const options = {
+    body: 'Yay it works.',
+    icon: 'https://i.ibb.co/3h2p9dX/android-icon-72x72.png',
+    badge: 'images/badge.png'
+  };
+
+  event.waitUntil(self.registration.showNotification(title, options));
+});
