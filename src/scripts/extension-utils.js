@@ -113,7 +113,7 @@ export const signWithExtension = async (
       message,
       transactionData,
       senderAddress,
-      network
+      network: network.id
     }
   })
 
