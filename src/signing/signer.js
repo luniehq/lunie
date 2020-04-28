@@ -31,9 +31,9 @@ export async function getSigner(
 
     switch (network.network_type) {
       case "cosmos":
-        return await getCosmosLocalSigner(wallet)
+        return await getCosmosLocalSigner(wallet, network)
       case "polkadot":
-        return await getPolkadotLocalSigner(wallet)
+        return await getPolkadotLocalSigner(wallet, network)
     }
   } else if (signingType === `ledger`) {
     switch (network.network_type) {
@@ -69,11 +69,11 @@ async function getCosmosLocalSigner(wallet) {
   }
 }
 
-async function getPolkadotLocalSigner(wallet) {
+async function getPolkadotLocalSigner(wallet, network) {
   const { getSignature } = await import("./polkadot-signing")
 
   return ({ payload, transaction }) =>
-    getSignature({ payload, transaction }, wallet)
+    getSignature({ payload, transaction }, wallet, network)
 }
 
 async function getCosmosLedgerSigner(config) {
