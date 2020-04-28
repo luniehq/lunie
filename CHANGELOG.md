@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.5] - 2020-04-28
+
+### Changed
+
+- [#631](https://github.com/cosmos/lunie/pull/631) Disable Kava for production @Bitcoinera
+- [#633](https://github.com/cosmos/lunie/issues/633) Returns 0 instead of NaN when a delegation doesn't exist in cosmosV2-reducers @Bitcoinera
+- [#627](https://github.com/cosmos/lunie/pull/627) Enables most of Kava features and actions. Adds kavaV0-reducers @Bitcoinera
+- [#616](https://github.com/cosmos/lunie/issues/616) Deliver blocks from store @mariopino
+
+### Fixed
+
+- [#634](https://github.com/cosmos/lunie/issues/634) Fixes denom.toUpperCase is not a function @Bitcoinera
+- 	Handle no delegations in Polkadot better @faboweb
+- Inactive Polkadot delegation where not showing correctly @faboweb
+- [#637](https://github.com/cosmos/lunie/issues/637) Fix empty polkadot rewards @mariopino
+
+### Repository
+
+- Added CI step to publish @faboweb
+
 ## [1.0.4] - 2020-04-26
 
 ### Added
