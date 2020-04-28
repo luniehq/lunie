@@ -1,0 +1,1 @@
+[Fixed] [#634](https://github.com/cosmos/lunie/issues/634) Fixes denom.toUpperCase is not a function @Bitcoinera
