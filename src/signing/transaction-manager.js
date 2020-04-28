@@ -137,37 +137,26 @@ export default class TransactionManager {
       senderAddress,
       message
     )
-
-    let broadcastableObject
-    if (signingType === "extension") {
-      broadcastableObject = await signWithExtension(
-        messages,
-        transactionData,
-        senderAddress,
+    const signer = await getSigner(
+      signingType,
+      {
+        address: senderAddress,
+        password,
         network
-      )
-    } else {
-      const signer = await getSigner(
-        signingType,
-        {
-          address: senderAddress,
-          password,
-          network
-        },
-        config // only needed for Ledger
-      )
+      },
+      config // only needed for Ledger
+    )
 
-      const { getSignableObject, getBroadcastableObject } = await import(
-        `./networkMessages/${network.network_type}-transactions.js`
-      )
-      const signableObject = await getSignableObject(messages, transactionData)
-      const signedContext = await signer(signableObject)
-      broadcastableObject = await getBroadcastableObject(
-        messages,
-        transactionData,
-        signedContext
-      )
-    }
+    const { getSignableObject, getBroadcastableObject } = await import(
+      `./networkMessages/${network.network_type}-transactions.js`
+    )
+    const signableObject = await getSignableObject(messages, transactionData)
+    const signedContext = await signer(signableObject)
+    const broadcastableObject = await getBroadcastableObject(
+      messages,
+      transactionData,
+      signedContext
+    )
 
     return broadcastableObject
   }
