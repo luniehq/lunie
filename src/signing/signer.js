@@ -69,7 +69,7 @@ async function getCosmosLocalSigner(wallet) {
   }
 }
 
-async function getPolkadotLocalSigner(wallet, network) {
+export async function getPolkadotLocalSigner(wallet, network) {
   const { getSignature } = await import("./polkadot-signing")
 
   return ({ payload, transaction }) =>
