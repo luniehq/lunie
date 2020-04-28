@@ -71,25 +71,21 @@ jobs:
       - run:
           name: Test
           command: yarn test
-
-  # Create release.
-  release:
+          
+  publish:
     executor: node
     steps:
       - checkout
-      - run: |
-          yarn add simsala
-          git config user.email "bot@lunie.io"
-          git config user.name "Release Lunie Bot"
-          node node_modules/simsala/src/cli.js release-candidate --semver patch --pending-path ./changes --owner luniehq --repository lunie --token $GIT_BOT_TOKEN --message "Please manually test before merging this to master"
+      - run:
+          command: bash ./scripts/publish.sh
 
-workflows:
-  releaseManually:
+workflows:  
+  publish:
     jobs:
-      - release:
+      - publish:
           filters:
             branches:
-              only: release
+              only: develop
 
   testing:
     jobs:
