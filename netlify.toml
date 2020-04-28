@@ -16,7 +16,7 @@
       media-src 'self' https://*.lunie.io https://*.netlify.app blob:;
       object-src 'self' data: blob: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com;
       manifest-src 'self' https://*.lunie.io https://*.netlify.app;
-      worker-src 'none';
+      worker-src 'self';
       frame-src 'self' https://api-iam.intercom.io https://widget.intercom.io;
       frame-ancestors 'self';
       base-uri 'self';
