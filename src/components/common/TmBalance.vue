@@ -111,8 +111,7 @@
               "
             >
               <span class="fiat">
-                {{ overview.totalStakeFiatValue.symbol
-                }}{{
+                {{
                   bigFigureOrShortDecimals(overview.totalStakeFiatValue.amount)
                 }}
                 {{ preferredCurrency }}
@@ -172,8 +171,7 @@
                 {{ balance.denom }}
               </span>
               <span v-if="balance.fiatValue" class="fiat">
-                {{ balance.fiatValue.symbol
-                }}{{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
+                {{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
                 {{ balance.fiatValue.denom }}</span
               >
             </div>
@@ -736,7 +734,7 @@ select option {
 }
 
 .fiat {
-  color: #b0bade;
+  color: var(--dim);
   padding-left: 1rem;
 }
 

@@ -26,6 +26,7 @@ describe(`ModalPropose`, () => {
       getters: {
         userAddress: "cosmo1",
         network: "testnet",
+        address: "cosmosguay",
         networks: [
           {
             id: "testnet",
@@ -178,7 +179,8 @@ describe(`ModalPropose`, () => {
         initialDeposit: {
           amount: 10,
           denom: "ATOM"
-        }
+        },
+        proposer: "cosmosguay"
       })
     })
 
