@@ -1,0 +1,2 @@
+[Repository] Persist Polkadot eras in a docker volume @faboweb
+[Fixed] Store caches in folder to properly use docker volumes @faboweb
