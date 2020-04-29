@@ -93,7 +93,7 @@ describe("Transaction Manager", () => {
   })
 
   describe("Create sign broadcast", () => {
-    it("should create sign and broadcast a transaction", async () => {
+    it("should create sign and broadcast a transaction for Cosmos", async () => {
       transactionManager.broadcastAPIRequest = jest
         .fn()
         .mockResolvedValue({ success: true, hash: "abcdsuperhash" })
