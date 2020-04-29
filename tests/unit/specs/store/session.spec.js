@@ -215,7 +215,10 @@ describe(`Module: Session`, () => {
           networkId: "not-fabo-net"
         }
       ]
-      localStorage.setItem('session_fabo-net', JSON.stringify({ address, networkId: "not-fabo-net" }))
+      localStorage.setItem(
+        "session_fabo-net",
+        JSON.stringify({ address, networkId: "not-fabo-net" })
+      )
       await actions.signIn(
         {
           state,
@@ -230,10 +233,10 @@ describe(`Module: Session`, () => {
       expect(pushNotifications.askPermissionAndRegister).toHaveBeenCalledWith([
         {
           address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          networkId: "fabo-net",
+          networkId: "fabo-net"
         }
       ])
-      localStorage.removeItem('session_fabo-net')
+      localStorage.removeItem("session_fabo-net")
     })
 
     it("should dispatch required actions", async () => {
