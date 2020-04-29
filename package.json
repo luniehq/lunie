@@ -1,6 +1,6 @@
 {
   "name": "lunie-api",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "GraphQL API for Lunie.io",
   "repository": {
     "type": "git",
@@ -22,6 +22,9 @@
     "hooks": {
       "pre-push": "yarn lint"
     }
+  },
+  "nodemonConfig": {
+    "ignore": ["eras.json"]
   },
   "author": "",
   "license": "ISC",

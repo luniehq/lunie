@@ -6,6 +6,7 @@ services:
     restart: on-failure
     volumes:
     - /logs:/var/www/server/logs
+    - ./pushCredentials.json:/var/www/server/pushCredentials.json
     networks:
        - general
     logging:
@@ -26,6 +27,11 @@ services:
       - NODE_ENV=staging
       - ENABLE_CACHE=true
       - REDIS_URL=http://redis:6379
+      - PUBLIC_VAPID_KEY=BJwy1mP8njRNKyo2uPfjnB73tq6_HHXYnozMPaafCSBpdmoxe9RLYjC2DvRpDfUWoxY3c0-7R3ki9exKJ6cfe5k
+      - PRIVATE_VAPID_KEY=$PRIVATE_VAPID_KEY
+      - PUSH_NOTIFICATIONS_DATABASE_URL=https://lunie-push-notifications.firebaseio.com
+      - GOOGLE_APPLICATION_CREDENTIALS=/var/www/server/pushCredentials.json
+      - PUSH_NOTIFICATIONS_FRONTEND_URL=https://app.lunie.io
   node-exporter:
     image: prom/node-exporter
     container_name: node_exporter
