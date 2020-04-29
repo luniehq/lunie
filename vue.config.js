@@ -13,7 +13,6 @@ const config = {
   },
   configureWebpack: () => {
     const config = {
-      devtool: "source-map",
       resolve: {
         alias: {
           src: resolve(`src`),
