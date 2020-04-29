@@ -736,7 +736,7 @@ select option {
 }
 
 .fiat {
-  color: #b0bade;
+  color: var(--dim);
   padding-left: 1rem;
 }
 
