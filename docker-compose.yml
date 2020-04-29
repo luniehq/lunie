@@ -7,6 +7,7 @@ services:
     volumes:
     - /logs:/var/www/server/logs
     - ./pushCredentials.json:/var/www/server/pushCredentials.json
+    - polkadot_era_cache:/var/www/server/eras.json
     networks:
        - general
     logging:
@@ -83,6 +84,7 @@ secrets:
 volumes:
   caddy_certs:
   redis_data:
+  polkadot_era_cache:
 networks:
   general:
 
