@@ -111,8 +111,7 @@
               "
             >
               <span class="fiat">
-                {{ overview.totalStakeFiatValue.symbol
-                }}{{
+                {{
                   bigFigureOrShortDecimals(overview.totalStakeFiatValue.amount)
                 }}
                 {{ preferredCurrency }}
