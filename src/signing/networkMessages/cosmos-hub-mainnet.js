@@ -99,7 +99,7 @@ export function DepositTx(senderAddress, { proposalId, amount }, network) {
     value: {
       depositor: senderAddress,
       proposal_id: proposalId,
-      amount: Coin(amount, network.coinLookup)
+      amount: [Coin(amount, network.coinLookup)]
     }
   }
 }
