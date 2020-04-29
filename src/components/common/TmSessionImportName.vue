@@ -8,7 +8,7 @@
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" field-label="Your Address">
           <img
-            v-if="importedAddress !== {}"
+            v-if="importedAddress === undefined"
             class="tm-data-msg__icon"
             src="~assets/images/loader.svg"
             alt="a small spinning circle to display loading"
@@ -86,7 +86,7 @@ export default {
     Steps
   },
   data: () => ({
-    importedAddress: {}
+    importedAddress: undefined
   }),
   computed: {
     ...mapGetters([`connected`, `recover`]),
@@ -101,13 +101,10 @@ export default {
     }
   },
   async created() {
-    this.importedAddress = await this.$store.dispatch(
-      `getAddressFromSeed`,
-      {
-        seedPhrase: this.$store.state.recover.seed,
-        network: this.network
-      }
-    )
+    this.importedAddress = await this.$store.dispatch(`getAddressFromSeed`, {
+      seedPhrase: this.$store.state.recover.seed,
+      network: this.network
+    })
   },
   methods: {
     onSubmit() {
