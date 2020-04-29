@@ -1,1 +1,2 @@
 [Fixed] [#3939](https://github.com/cosmos/lunie/pull/3939) Fixes opening proposals after the signing refactor @Bitcoinera
+[Fixed] [#3939](https://github.com/cosmos/lunie/pull/3939) Fixes making a deposit in Lunie after the signing refactor @Bitcoinera
