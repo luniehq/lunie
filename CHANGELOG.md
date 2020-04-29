@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.195] - 2020-04-29
+
+### Added
+
+- added lunie dark theme @jbibla
+
+### Changed
+
+- [#3908](https://github.com/cosmos/lunie/pull/3908) Enables insecure signups in development. Adds productionMode to session @Bitcoinera
+- [#3904](https://github.com/cosmos/lunie/pull/3904) Adds what Kava needs to work in the FE and its images @Bitcoinera
+- Always show currency selector @faboweb
+- [#3927](https://github.com/cosmos/lunie/issues/3927) Add a loading spinner icon in import account @mariopino
+
+### Fixed
+
+- [#3919](https://github.com/cosmos/lunie/issues/3919) Fixes block links in transaction details in Activity @Bitcoinera
+- [#3939](https://github.com/cosmos/lunie/pull/3939) Fixes opening proposals after the signing refactor @Bitcoinera
+- [#3939](https://github.com/cosmos/lunie/pull/3939) Fixes making a deposit in Lunie after the signing refactor @Bitcoinera
+- Fix polkadot signing @faboweb
+- Remove fiat symbols for simplicity @faboweb
+
+### Security
+
+- [#3912](https://github.com/cosmos/lunie/pull/3912) Add intercom wss path to CSP @michielmulders
+
+### Repository
+
+- Allow staging-api in production builds @faboweb
+- Deactivate Sentry in development (also deployed) @faboweb
+- Better source maps in branch previews @faboweb
+- Updated vue to reenable vue devtools @faboweb
+
 ## [1.0.194] - 2020-04-27
 
 ### Changed
