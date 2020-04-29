@@ -70,12 +70,12 @@ export function SubmitProposalTx(
       content: {
         type: "cosmos-sdk/TextProposal",
         value: {
-          proposalTitle,
-          proposalDescription
+          title: proposalTitle,
+          description: proposalDescription
         }
       },
       proposer: senderAddress,
-      initial_deposit: Coin(initialDeposit, network.coinLookup)
+      initial_deposit: [Coin(initialDeposit, network.coinLookup)]
     }
   }
 }
@@ -99,7 +99,7 @@ export function DepositTx(senderAddress, { proposalId, amount }, network) {
     value: {
       depositor: senderAddress,
       proposal_id: proposalId,
-      amount: Coin(amount, network.coinLookup)
+      amount: [Coin(amount, network.coinLookup)]
     }
   }
 }

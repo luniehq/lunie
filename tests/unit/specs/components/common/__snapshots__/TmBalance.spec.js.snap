@@ -35,7 +35,72 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
           </span>
         </button>
          
-        <!---->
+        <div
+          class="currency-selector"
+        >
+          <img
+            alt="USD currency"
+            class="currency-flag"
+            src="/img/icons/currencies/usd.png"
+          />
+           
+          <select>
+            <option
+              hidden="hidden"
+              value=""
+            >
+              USD
+            </option>
+             
+            <option
+              value="USD"
+            >
+              USD
+            </option>
+             
+            <option
+              value="EUR"
+            >
+              EUR
+            </option>
+             
+            <option
+              value="GBP"
+            >
+              GBP
+            </option>
+             
+            <option
+              value="JPY"
+            >
+              JPY
+            </option>
+             
+            <option
+              value="CHF"
+            >
+              CHF
+            </option>
+             
+            <option
+              value="DKK"
+            >
+              DKK
+            </option>
+             
+            <option
+              value="NOK"
+            >
+              NOK
+            </option>
+             
+            <option
+              value="SEK"
+            >
+              SEK
+            </option>
+          </select>
+        </div>
       </div>
     </div>
      
@@ -242,7 +307,72 @@ exports[`TmBalance show the balance header when signed in 1`] = `
           </span>
         </button>
          
-        <!---->
+        <div
+          class="currency-selector"
+        >
+          <img
+            alt="USD currency"
+            class="currency-flag"
+            src="/img/icons/currencies/usd.png"
+          />
+           
+          <select>
+            <option
+              hidden="hidden"
+              value=""
+            >
+              USD
+            </option>
+             
+            <option
+              value="USD"
+            >
+              USD
+            </option>
+             
+            <option
+              value="EUR"
+            >
+              EUR
+            </option>
+             
+            <option
+              value="GBP"
+            >
+              GBP
+            </option>
+             
+            <option
+              value="JPY"
+            >
+              JPY
+            </option>
+             
+            <option
+              value="CHF"
+            >
+              CHF
+            </option>
+             
+            <option
+              value="DKK"
+            >
+              DKK
+            </option>
+             
+            <option
+              value="NOK"
+            >
+              NOK
+            </option>
+             
+            <option
+              value="SEK"
+            >
+              SEK
+            </option>
+          </select>
+        </div>
       </div>
     </div>
      

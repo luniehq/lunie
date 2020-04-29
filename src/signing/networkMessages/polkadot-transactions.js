@@ -88,6 +88,10 @@ function formatSignature(rawSignature) {
   return signature
 }
 
+export function getSignableObject(chainMessages) {
+  return chainMessages
+}
+
 export function getBroadcastableObject(
   chainMessages,
   transactionData,
