@@ -111,8 +111,7 @@
               "
             >
               <span class="fiat">
-                {{ overview.totalStakeFiatValue.symbol
-                }}{{
+                {{
                   bigFigureOrShortDecimals(overview.totalStakeFiatValue.amount)
                 }}
                 {{ preferredCurrency }}
@@ -736,7 +735,7 @@ select option {
 }
 
 .fiat {
-  color: #b0bade;
+  color: var(--dim);
   padding-left: 1rem;
 }
 

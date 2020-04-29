@@ -10,7 +10,7 @@ export default {
   network: process.env.NETWORK || fallbackNetwork,
   fallbackNetwork,
   google_analytics_uid: process.env.GOOGLE_ANALYTICS_UID || "",
-  sentryDSN,
+  sentryDSN: dev ? "" : sentryDSN,
   default_gas_price: dev ? 1e-9 : 0.65e-8, // Recommended from Cosmos Docs devided by 4 as we increased the gas amount heavily
 
   // Ledger

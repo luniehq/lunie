@@ -8,7 +8,7 @@ export default () => {
   const state = {
     developmentMode: config.development, // can't be set in browser
     experimentalMode: config.development, // development mode, can be set from browser
-    insecureMode: config.e2e || false, // show the local signer
+    insecureMode: config.development || config.e2e || false, // show the local signer
     mobile: config.mobileApp || false,
     signedIn: false,
     sessionType: null, // local, explore, ledger, extension
