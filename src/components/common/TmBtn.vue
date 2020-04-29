@@ -62,15 +62,15 @@ export default {
 }
 
 .button:disabled {
-  opacity: 0.7;
-  background: var(--primary);
-  border-color: var(--primary);
+  opacity: 0.6;
+  background: var(--dim);
+  border-color: var(--dim);
   cursor: default;
 }
 
 .button:disabled:hover {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: var(--dim);
+  border-color: var(--dim);
 }
 
 .button.secondary.active {
