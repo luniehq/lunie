@@ -175,6 +175,34 @@ module.exports = [
       picture:
         'https://s3.amazonaws.com/keybase_processed_uploads/e1378cd4d5203ded716906687ad53905_360_360.jpg'
     }
+  },
+  {
+    id: 'kava-mainnet',
+    title: 'Kava',
+    chain_id: 'kava-2',
+    api_url: 'http://lcd.kava.forbole.com:1317',
+    rpc_url: 'http://rpc.kava.forbole.com:26657',
+    bech32_prefix: 'kava',
+    address_prefix: 'kava',
+    address_creator: 'cosmos',
+    ledger_app: 'cosmos',
+    network_type: 'cosmos',
+    source_class_name: 'source/kavaV0-source',
+    block_listener_class_name: 'block-listeners/cosmos-node-subscription',
+    testnet: false,
+    ...getNetworkCapabilities[`kava-mainnet`],
+    default: false,
+    stakingDenom: 'KAVA',
+    coinLookup: coinLookupDictionary[`kava-mainnet`],
+    enabled: true,
+    icon: 'img/networks/kava-mainnet.png',
+    slug: 'kava',
+    powered: {
+      name: 'Forbole',
+      providerAddress: 'kavavaloper14kn0kk33szpwus9nh8n87fjel8djx0y02c7me3',
+      picture:
+        'https://lunie.fra1.digitaloceanspaces.com/validator-pictures/forbole.jpeg'
+    }
   }
   // {
   //   id: 'akash-testnet',

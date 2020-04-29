@@ -7,6 +7,57 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.5] - 2020-04-28
+
+### Changed
+
+- [#631](https://github.com/cosmos/lunie/pull/631) Disable Kava for production @Bitcoinera
+- [#633](https://github.com/cosmos/lunie/issues/633) Returns 0 instead of NaN when a delegation doesn't exist in cosmosV2-reducers @Bitcoinera
+- [#627](https://github.com/cosmos/lunie/pull/627) Enables most of Kava features and actions. Adds kavaV0-reducers @Bitcoinera
+- [#616](https://github.com/cosmos/lunie/issues/616) Deliver blocks from store @mariopino
+
+### Fixed
+
+- [#634](https://github.com/cosmos/lunie/issues/634) Fixes denom.toUpperCase is not a function @Bitcoinera
+- 	Handle no delegations in Polkadot better @faboweb
+- Inactive Polkadot delegation where not showing correctly @faboweb
+- [#637](https://github.com/cosmos/lunie/issues/637) Fix empty polkadot rewards @mariopino
+
+### Repository
+
+- Added CI step to publish @faboweb
+
+## [1.0.4] - 2020-04-26
+
+### Added
+
+- Added better logging for polkadot rewards scripts @faboweb
+- Detect proposal additions for push notifications @michielmulders
+
+### Changed
+
+- [#624](https://github.com/cosmos/lunie/pull/624) Adds Kava mainnet as a network and enables the validator feature @Bitcoinera
+
+### Fixed
+
+- [#614](https://github.com/cosmos/lunie/pull/614) Fixes delegation query when there are no delegations @Bitcoinera
+- [#622](https://github.com/cosmos/lunie/issues/622) Fixes Polkadot overview for 0 balance accounts @Bitcoinera
+- [#613](https://github.com/cosmos/lunie/pull/613) Fixes transactionClaimEvents is undefined in cosmosV2-reducers @Bitcoinera
+- Add missing scripts folder to docker @faboweb
+- Rewrite the rewards query to not time out the API @faboweb
+- Secrets file was not copyed to the Docker file @faboweb
+
+### Security
+
+- Add Docker secrets @michielmulders
+
+## [1.0.3] - 2020-04-22
+
+### Fixed
+
+- [#606](https://github.com/cosmos/lunie/pull/606) Fixes Polkadot delegations in a hacky way @Bitcoinera
+- [#607](https://github.com/cosmos/lunie/issues/607) Handles case with no delegations in Polkadot @faboweb
+
 ## [1.0.2] - 2020-04-20
 
 ### Changed

@@ -137,6 +137,23 @@ const getNetworkCapabilities = {
         action_vote: capabilityEnum.DISABLED,
         action_proposal: capabilityEnum.DISABLED
     },
+    "kava-mainnet": {
+        feature_session: capabilityEnum.ENABLED,
+        feature_explore: capabilityEnum.ENABLED,
+        feature_portfolio: capabilityEnum.ENABLED,
+        feature_validators: capabilityEnum.ENABLED,
+        feature_proposals: capabilityEnum.ENABLED,
+        feature_activity: capabilityEnum.ENABLED,
+        feature_explorer: capabilityEnum.DISABLED,
+        action_send: capabilityEnum.ENABLED,
+        action_claim_rewards: capabilityEnum.ENABLED,
+        action_delegate: capabilityEnum.ENABLED,
+        action_redelegate: capabilityEnum.ENABLED,
+        action_undelegate: capabilityEnum.ENABLED,
+        action_deposit: capabilityEnum.DISABLED,
+        action_vote: capabilityEnum.DISABLED,
+        action_proposal: capabilityEnum.DISABLED
+    },
     "local-cosmos-hub-testnet": {
         feature_explore: capabilityEnum.ENABLED,
         feature_session: capabilityEnum.ENABLED,
