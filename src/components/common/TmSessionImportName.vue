@@ -8,12 +8,12 @@
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" field-label="Your Address">
           <img
-            v-if="importCosmosAddress !== {}"
+            v-if="importedAddress !== {}"
             class="tm-data-msg__icon"
             src="~assets/images/loader.svg"
             alt="a small spinning circle to display loading"
           />
-          <p v-else class="address">{{ importCosmosAddress }}</p>
+          <p v-else class="address">{{ importedAddress }}</p>
         </TmFormGroup>
         <TmFormGroup
           :error="$v.$error && $v.name.$invalid"
@@ -86,7 +86,7 @@ export default {
     Steps
   },
   data: () => ({
-    importCosmosAddress: {}
+    importedAddress: {}
   }),
   computed: {
     ...mapGetters([`connected`, `recover`]),
@@ -101,7 +101,7 @@ export default {
     }
   },
   async created() {
-    this.importCosmosAddress = await this.$store.dispatch(
+    this.importedAddress = await this.$store.dispatch(
       `getAddressFromSeed`,
       {
         seedPhrase: this.$store.state.recover.seed,
