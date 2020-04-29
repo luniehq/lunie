@@ -39,7 +39,7 @@
             </i>
             <span v-else>Need some tokens?</span>
           </button>
-          <div v-if="currencySupport" class="currency-selector">
+          <div class="currency-selector">
             <img
               v-if="preferredCurrency"
               class="currency-flag"
@@ -305,9 +305,6 @@ export default {
     readyToWithdraw() {
       return Object.values(this.totalRewardsPerDenom).find(value => value > 0)
     },
-    stakingBalance() {
-      return this.balances.find(({ denom }) => denom === this.stakingDenom)
-    },
     filteredMultiDenomBalances() {
       const rewards = Object.entries(this.totalRewardsPerDenom)
       const filteredBalances = this.balances.filter(
@@ -335,9 +332,6 @@ export default {
       } else {
         return [this.stakingDenom]
       }
-    },
-    currencySupport() {
-      return this.stakingBalance && this.stakingBalance.fiatValue
     },
     totalRewardsPerDenom() {
       return this.rewards.reduce((all, reward) => {
