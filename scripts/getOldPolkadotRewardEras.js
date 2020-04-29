@@ -6,6 +6,8 @@ const _ = require('lodash')
 const BN = require('bignumber.js')
 const fs = require('fs')
 
+const eraCachePath = './caches/eras.json'
+
 async function initPolkadotRPC(network, store) {
   const api = new ApiPromise({
     provider: new WsProvider(network.rpc_url)
@@ -29,17 +31,17 @@ function storeRewards(rewards, chainId) {
 }
 
 function storeEraData([erasPoints, erasPreferences, erasRewards, exposures]) {
-  if (fs.existsSync('./eras.json')) fs.unlinkSync('./eras.json')
+  if (fs.existsSync(eraCachePath)) fs.unlinkSync(eraCachePath)
   fs.writeFileSync(
-    './eras.json',
+    eraCachePath,
     JSON.stringify([erasPoints, erasPreferences, erasRewards, exposures])
   )
 }
 
 function loadStoredEraData() {
   if (
-    !fs.existsSync('./eras.json') ||
-    fs.readFileSync('./eras.json', 'utf8') === ''
+    !fs.existsSync(eraCachePath) ||
+    fs.readFileSync(eraCachePath, 'utf8') === ''
   )
     return {
       storedEraPoints: [],
@@ -53,7 +55,7 @@ function loadStoredEraData() {
     storedEraPreferences,
     storedEraRewards,
     storedExposures
-  ] = JSON.parse(fs.readFileSync('./eras.json', 'utf8'))
+  ] = JSON.parse(fs.readFileSync(eraCachePath, 'utf8'))
 
   return {
     storedEraPoints,
