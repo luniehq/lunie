@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.195] - 2020-04-29
+
+### Changed
+
+- [#3908](https://github.com/cosmos/lunie/pull/3908) Enables insecure signups in development. Adds productionMode to session @Bitcoinera
+- [#3904](https://github.com/cosmos/lunie/pull/3904) Adds what Kava needs to work in the FE and its images @Bitcoinera
+
+### Fixed
+
+- [#3919](https://github.com/cosmos/lunie/issues/3919) Fixes block links in transaction details in Activity @Bitcoinera
+- Fix polkadot signing @faboweb
+
+### Security
+
+- [#3912](https://github.com/cosmos/lunie/pull/3912) Add intercom wss path to CSP @michielmulders
+
+### Repository
+
+- Allow staging-api in production builds @faboweb
+
 ## [1.0.194] - 2020-04-27
 
 ### Changed
