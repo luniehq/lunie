@@ -1,6 +1,6 @@
 {
   "name": "lunie",
-  "version": "1.0.194",
+  "version": "1.0.195",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
@@ -54,6 +54,7 @@
     "cross-spawn": "7.0.1",
     "crypto-js": "^3.1.9-1",
     "fingerprintjs2": "2.1.0",
+    "firebase": "7.14.0",
     "graphql": "14.4.2",
     "graphql-tag": "2.10.1",
     "https-proxy-agent": ">=3.0.0",
