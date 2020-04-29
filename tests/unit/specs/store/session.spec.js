@@ -1,5 +1,7 @@
 import sessionModule from "src/vuex/modules/session.js"
 
+jest.mock("src/vuex/modules/pushNotifications.js")
+
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
 
@@ -218,7 +220,7 @@ describe(`Module: Session`, () => {
             connection: { network: "fabo-net" }
           }
         },
-        { sessionType: `explore`, address }
+        { sessionType: `explore`, address, networkId: "fabo-net" }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistAddresses`, {
         addresses: [
@@ -239,7 +241,8 @@ describe(`Module: Session`, () => {
       })
       expect(dispatch).toHaveBeenCalledWith(`rememberAddress`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
-        sessionType: `explore`
+        sessionType: `explore`,
+        networkId: "fabo-net"
       })
     })
 
@@ -275,12 +278,13 @@ describe(`Module: Session`, () => {
       state.signedIn = true
       await actions.rememberAddress(
         { state, commit },
-        { sessionType: `explore`, address }
+        { sessionType: `explore`, address, networkId: "fabo-net" }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
         {
           type: `explore`,
-          address
+          address,
+          networkId: "fabo-net"
         }
       ])
     })
