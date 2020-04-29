@@ -157,6 +157,7 @@ export default () => {
 
       // Register device for push registrations
       const activeNetworks = getActiveNetworks(state.addresses)
+      /* istanbul ignore next */
       await pushNotifications.askPermissionAndRegister(activeNetworks)
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)

@@ -1,4 +1,5 @@
 import sessionModule from "src/vuex/modules/session.js"
+import pushNotifications from "src/vuex/modules/pushNotifications.js"
 
 jest.mock("src/vuex/modules/pushNotifications.js")
 
@@ -194,6 +195,45 @@ describe(`Module: Session`, () => {
         `sign-in`,
         `explore`
       )
+    })
+
+    it("should register device with correct addressObjects", async () => {
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      const sessionType = `local`
+      const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      state.signedIn = true
+      state.addresses = [
+        {
+          address: `123`,
+          type: `explore`,
+          networkId: "fabo-net"
+        },
+        {
+          address: `456`,
+          type: `ledger`,
+          networkId: "not-fabo-net"
+        }
+      ]
+      localStorage.setItem('session_fabo-net', JSON.stringify({ address, networkId: "not-fabo-net" }))
+      await actions.signIn(
+        {
+          state,
+          commit,
+          dispatch,
+          rootState: {
+            connection: { network: "fabo-net" }
+          }
+        },
+        { address, sessionType, networkId: "fabo-net" }
+      )
+      expect(pushNotifications.askPermissionAndRegister).toHaveBeenCalledWith([
+        {
+          address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          networkId: "fabo-net",
+        }
+      ])
+      localStorage.removeItem('session_fabo-net')
     })
 
     it("should dispatch required actions", async () => {
