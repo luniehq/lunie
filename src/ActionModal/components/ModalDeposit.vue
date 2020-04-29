@@ -116,12 +116,10 @@ export default {
       return {
         type: messageType.DEPOSIT,
         proposalId: this.proposalId,
-        amounts: [
-          {
-            amount: this.amount,
-            denom: this.denom
-          }
-        ]
+        amount: {
+          amount: this.amount,
+          denom: this.denom
+        }
       }
     },
     notifyMessage() {
