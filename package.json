@@ -23,6 +23,9 @@
       "pre-push": "yarn lint"
     }
   },
+  "nodemonConfig": {
+    "ignore": ["eras.json"]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
