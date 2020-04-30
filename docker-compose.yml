@@ -4,6 +4,8 @@ services:
     image: lunieapi:latest
     container_name: lunieapi
     restart: on-failure
+    secrets:
+    - PORT
     volumes:
     - /logs:/var/www/server/logs
     - ./pushCredentials.json:/var/www/server/pushCredentials.json
