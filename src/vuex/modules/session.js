@@ -128,9 +128,7 @@ export default () => {
     async signIn(
       {
         state,
-        getters: {
-          networks
-        },
+        getters: { networks },
         commit,
         dispatch,
         rootState: {
