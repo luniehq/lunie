@@ -144,7 +144,7 @@
           <h4>Self Stake</h4>
           <span id="page-profile__self-bond">
             {{ validator.selfStake | shortDecimals }} /
-            {{ (validator.selfStake / validator.tokens) | percent }}
+            {{ (validator.selfStake / validator.tokens || 0) | percent }}
           </span>
         </li>
         <li>
