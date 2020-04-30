@@ -127,6 +127,7 @@ export default ({ apollo }) => {
     async signIn(
       {
         state,
+        getters: { networks },
         commit,
         dispatch,
         rootState: {
@@ -156,7 +157,7 @@ export default ({ apollo }) => {
       })
 
       // Register device for push registrations
-      const activeNetworks = getActiveNetworks(state.addresses)
+      const activeNetworks = getActiveNetworks(networks)
       /* istanbul ignore next */
       await pushNotifications.askPermissionAndRegister(activeNetworks, apollo)
 
@@ -243,19 +244,19 @@ export default ({ apollo }) => {
 /**
  * Retrieve active networks from localstorage via session keys
  */
-const getActiveNetworks = addressObjects => {
+const getActiveNetworks = networkObjects  => {
   let activeNetworks = []
-  addressObjects.forEach(addressObject => {
+  networkObjects.forEach(network => {
     // Session object: { address: string, sessionType: string (e.g. ledger)}
     const networkObject = JSON.parse(
-      localStorage.getItem(`session_${addressObject.networkId}`)
+      localStorage.getItem(`session_${network.id}`)
     )
 
     // Only store network object if it has an associated address
     if (networkObject) {
       activeNetworks.push({
         address: networkObject.address,
-        networkId: addressObject.networkId
+        networkId: network.id
       })
     }
   })
