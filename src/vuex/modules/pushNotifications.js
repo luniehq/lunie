@@ -55,9 +55,10 @@ const askPermissionAndRegister = async activeNetworks => {
           const token = await messaging.getToken()
           await registerDevice(token, activeNetworks)
         })
-        .catch(() =>
+        .catch(error =>
           console.log(
-            "bug FCM throws error while deleting token on first refresh"
+            "bug FCM throws error while deleting token on first refresh",
+            error
           )
         )
     } catch (error) {
