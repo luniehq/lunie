@@ -48,6 +48,8 @@ You need to provide 2 environment variables for the extension to work as expecte
 
 ## Develop (with hot reload)
 
+Make sure you're using node 10 or up.
+
 ```bash
 $ yarn watch:dev
 ```

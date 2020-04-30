@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="lunie-dark">
     <router-view />
   </div>
 </template>
