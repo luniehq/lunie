@@ -42,6 +42,46 @@ export async function StakeTx(senderAddress, { to, amount }, network) {
   return await getSignMessage(senderAddress, transactions)
 }
 
+export async function ClaimRewardsTx(
+  senderAddress,
+  {
+    // amounts,
+    from
+  }
+) {
+  const api = await getAPI()
+  const [currentEra, oldestClaimableEra, stakingInfo] = await Promise.all([
+    api.query.staking.historyDepth(),
+    api.query.staking.currentEra(),
+    api.derive.staking.query(senderAddress)
+  ])
+  let claimedRewards
+  if (
+    !stakingInfo.stakingLedger ||
+    !stakingInfo.stakingLedger.claimedRewards ||
+    stakingInfo.stakingLedger.claimedRewards.length === 0
+  ) {
+    claimedRewards = []
+  } else {
+    claimedRewards = stakingInfo.stakingLedger.claimedRewards.toHuman()
+  }
+  // No claimed rewards yet so we substract HISTORY_DEPTH to current era index
+  const claimRewardsSinceEra =
+    parseInt(currentEra) - parseInt(oldestClaimableEra)
+
+  const allClaimingTxs = []
+  for (let era = claimRewardsSinceEra; era <= currentEra; era++) {
+    if (!claimedRewards.included(era)) {
+      allClaimingTxs.push(api.tx.staking.payoutNominator(era, from))
+    }
+  }
+
+  if (allClaimingTxs.length === 0) {
+    throw new Error("There are no claimable rewards")
+  }
+  return getSignMessage(senderAddress, allClaimingTxs)
+}
+
 function toChainAmount({ amount, denom }, coinLookup) {
   const lookup = coinLookup.find(({ viewDenom }) => viewDenom === denom)
   const chainAmount = BigNumber(amount)
