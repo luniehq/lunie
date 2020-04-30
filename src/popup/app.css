@@ -91,6 +91,10 @@ input.tm-field {
   flex-flow: column no-wrap;
 }
 
+.session-frame {
+  background: transparent !important;
+}
+
 @media screen and (min-width: 1023px) {
   #app {
     padding-top: 0;

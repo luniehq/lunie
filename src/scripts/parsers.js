@@ -2,6 +2,36 @@
 
 import BigNumber from 'bignumber.js'
 
+export function getDisplayTransaction(
+  network,
+  messageType,
+  message,
+  transactionData
+) {
+  let fees = []
+  if (network.network_type === 'cosmos') {
+    const gasPrice = transactionData.gasPrices[0] // HACK
+    const coinLookup = network.coinLookup.find(
+      ({ chainDenom }) => chainDenom === gasPrice.denom
+    )
+    fees = [
+      {
+        amount: BigNumber(gasPrice.amount)
+          .times(transactionData.gasEstimate)
+          .times(coinLookup.chainToViewConversionFactor)
+          .toString(),
+        denom: coinLookup.viewDenom
+      }
+    ]
+  }
+  return {
+    type: messageType,
+    details: message,
+    fees
+  }
+}
+
+// DEPRECATE
 export const parseTx = (signMessage, displayedProperties) => {
   const { msgs, fee, memo } = JSON.parse(signMessage)
 

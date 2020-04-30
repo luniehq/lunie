@@ -202,10 +202,6 @@ export default ({ apollo }) => {
     return wallet.cosmosAddress
   }
 
-  const parseSignMessageTx = (signRequest, displayedProperties) => {
-    return signRequest ? parseTx(signRequest, displayedProperties) : null
-  }
-
   return {
     createSeed,
     createKey,
@@ -222,6 +218,6 @@ export default ({ apollo }) => {
     getAddressFromSeed,
     setNetwork,
     preloadNetworkCapabilities,
-    parseSignMessageTx
+    parseTx
   }
 }
