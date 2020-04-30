@@ -6,6 +6,8 @@ const _ = require('lodash')
 const BN = require('bignumber.js')
 const fs = require('fs')
 
+const eraCachePath = './caches/eras.json'
+
 async function initPolkadotRPC(network, store) {
   const api = new ApiPromise({
     provider: new WsProvider(network.rpc_url)
@@ -29,22 +31,37 @@ function storeRewards(rewards, chainId) {
 }
 
 function storeEraData([erasPoints, erasPreferences, erasRewards, exposures]) {
-  if (fs.existsSync("./eras.json")) fs.unlinkSync("./eras.json")
-  fs.writeFileSync("./eras.json", JSON.stringify([erasPoints, erasPreferences, erasRewards, exposures]))
+  if (fs.existsSync(eraCachePath)) fs.unlinkSync(eraCachePath)
+  fs.writeFileSync(
+    eraCachePath,
+    JSON.stringify([erasPoints, erasPreferences, erasRewards, exposures])
+  )
 }
 
 function loadStoredEraData() {
-  if (!fs.existsSync("./eras.json")) return {
-    storedEraPoints: [],
-    storedEraPreferences: [],
-    storedEraRewards: [],
-    storedExposures: [],
-    lastStoredEra: 0
-  }
-  const [storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures] = JSON.parse(fs.readFileSync("./eras.json"))
+  if (
+    !fs.existsSync(eraCachePath) ||
+    fs.readFileSync(eraCachePath, 'utf8') === ''
+  )
+    return {
+      storedEraPoints: [],
+      storedEraPreferences: [],
+      storedEraRewards: [],
+      storedExposures: [],
+      lastStoredEra: 0
+    }
+  const [
+    storedEraPoints,
+    storedEraPreferences,
+    storedEraRewards,
+    storedExposures
+  ] = JSON.parse(fs.readFileSync(eraCachePath, 'utf8'))
 
   return {
-    storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures,
+    storedEraPoints,
+    storedEraPreferences,
+    storedEraRewards,
+    storedExposures,
     lastStoredEra: _.max(_.keys(storedEraPoints))
   }
 }
@@ -55,21 +72,33 @@ function parseRewards(
   delegator,
   [erasPoints, erasPreferences, erasRewards, exposures]
 ) {
-  return exposures.map(
-    ({ era, isEmpty, validators: eraValidators }) => {
-      const { eraPoints, validators: allValidatorPoints } = erasPoints[era]
-        || { eraPoints: ZERO, validators: {} }
+  return exposures
+    .map(({ era, isEmpty, validators: eraValidators }) => {
+      const { eraPoints, validators: allValidatorPoints } = erasPoints[era] || {
+        eraPoints: ZERO,
+        validators: {}
+      }
       const { eraReward } = erasRewards[era] || {
         eraReward: 0
       }
-      const { validators: allValidatorPreferences } = erasPreferences[era] || { validators: {} }
+      const { validators: allValidatorPreferences } = erasPreferences[era] || {
+        validators: {}
+      }
       const validators = {}
 
       Object.entries(eraValidators).forEach(([validatorId, exposure]) => {
-        const validatorPoints = allValidatorPoints[validatorId] ? BN(allValidatorPoints[validatorId]) : ZERO
-        const validatorCommission = allValidatorPreferences[validatorId] ? BN(allValidatorPreferences[validatorId].commission) : ZERO
-        const available = BN(eraReward).times(validatorPoints).dividedBy(eraPoints)
-        const validatorCut = validatorCommission.times(available).dividedBy(COMM_DIV)
+        const validatorPoints = allValidatorPoints[validatorId]
+          ? BN(allValidatorPoints[validatorId])
+          : ZERO
+        const validatorCommission = allValidatorPreferences[validatorId]
+          ? BN(allValidatorPreferences[validatorId].commission)
+          : ZERO
+        const available = BN(eraReward)
+          .times(validatorPoints)
+          .dividedBy(eraPoints)
+        const validatorCut = validatorCommission
+          .times(available)
+          .dividedBy(COMM_DIV)
         const exposureTotal = BN(exposure.total)
         let value = BN(0)
 
@@ -79,8 +108,8 @@ function parseRewards(
           if (validatorId === delegator) {
             staked = exposure.own
           } else {
-            const stakerExposure = exposure.others.find(({ who }) =>
-              who === delegator
+            const stakerExposure = exposure.others.find(
+              ({ who }) => who === delegator
             )
 
             staked = stakerExposure ? stakerExposure.value : ZERO
@@ -102,8 +131,8 @@ function parseRewards(
         validators,
         address: delegator
       }
-    }
-  ).filter(({ isEmpty }) => !isEmpty)
+    })
+    .filter(({ isEmpty }) => !isEmpty)
 }
 
 function getDelegatorExposure(exposures, delegator) {
@@ -152,39 +181,58 @@ function getRewardsForDelegator(
 
 async function loadEraData(missingEras, api) {
   let [eraPoints, eraPreferences, eraRewards] = await Promise.all([
-    api.derive.staking._erasPoints(missingEras).then(result => _.keyBy(result, "era")),
-    api.derive.staking._erasPrefs(missingEras).then(result => _.keyBy(result, "era")),
-    api.derive.staking._erasRewards(missingEras).then(result => _.keyBy(result, "era")),
+    api.derive.staking
+      ._erasPoints(missingEras)
+      .then(result => _.keyBy(result, 'era')),
+    api.derive.staking
+      ._erasPrefs(missingEras)
+      .then(result => _.keyBy(result, 'era')),
+    api.derive.staking
+      ._erasRewards(missingEras)
+      .then(result => _.keyBy(result, 'era'))
   ])
   // load one exposure after another as this is very costly and might time out the API
   let exposures = []
   for (let i = 0; i < missingEras.length; i++) {
-    console.time("loading exposure for era " + missingEras[i])
+    console.time('loading exposure for era ' + missingEras[i])
     const result = await api.derive.staking._erasExposure([missingEras[i]])
-    console.timeEnd("loading exposure for era " + missingEras[i])
+    console.timeEnd('loading exposure for era ' + missingEras[i])
     exposures = exposures.concat(result)
   }
 
   return [eraPoints, eraPreferences, eraRewards, exposures]
 }
 
-function cropEraData(minDesiredEra, [storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures], [eraPoints, eraPrefs, eraRewards, exposures]) {
+function cropEraData(
+  minDesiredEra,
+  [storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures],
+  [eraPoints, eraPrefs, eraRewards, exposures]
+) {
   const newEraData = [
-    _.fromPairs(_.toPairs(storedEraPoints).filter(([era]) => era >= minDesiredEra)
-      .concat(_.toPairs(eraPoints))),
-    _.fromPairs(_.toPairs(storedEraPreferences).filter(([era]) => era >= minDesiredEra)
-      .concat(_.toPairs(eraPrefs))),
-    _.fromPairs(_.toPairs(storedEraRewards).filter(([era]) => era >= minDesiredEra)
-      .concat(_.toPairs(eraRewards))),
-    storedExposures.filter(({ era }) => era >= minDesiredEra)
-      .concat(exposures)
+    _.fromPairs(
+      _.toPairs(storedEraPoints)
+        .filter(([era]) => era >= minDesiredEra)
+        .concat(_.toPairs(eraPoints))
+    ),
+    _.fromPairs(
+      _.toPairs(storedEraPreferences)
+        .filter(([era]) => era >= minDesiredEra)
+        .concat(_.toPairs(eraPrefs))
+    ),
+    _.fromPairs(
+      _.toPairs(storedEraRewards)
+        .filter(([era]) => era >= minDesiredEra)
+        .concat(_.toPairs(eraRewards))
+    ),
+    storedExposures.filter(({ era }) => era >= minDesiredEra).concat(exposures)
   ]
 
   return newEraData
 }
 
 async function getMissingEras(api, lastStoredEra) {
-  const desiredEras = await api.derive.staking.erasHistoric(false)
+  const desiredEras = await api.derive.staking
+    .erasHistoric(false)
     .then(rawEras => rawEras.map(rawEra => rawEra.toJSON()))
   const minDesiredEra = _.min(desiredEras)
   const maxDesiredEra = _.max(desiredEras)
@@ -208,32 +256,54 @@ async function main() {
   console.log(`Querying rewards for ${delegators.length} delegators.`)
 
   // get previously stored data
-  let { storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures, lastStoredEra } = loadStoredEraData()
-  const { minDesiredEra, missingEras, maxDesiredEra } = await getMissingEras(api, lastStoredEra)
+  let {
+    storedEraPoints,
+    storedEraPreferences,
+    storedEraRewards,
+    storedExposures,
+    lastStoredEra
+  } = loadStoredEraData()
+  const { minDesiredEra, missingEras, maxDesiredEra } = await getMissingEras(
+    api,
+    lastStoredEra
+  )
 
-  const [eraPoints, eraPreferences, eraRewards, exposures] = await loadEraData(missingEras, api)
+  const [eraPoints, eraPreferences, eraRewards, exposures] = await loadEraData(
+    missingEras,
+    api
+  )
 
   // disconnect from the API WS
   api.disconnect()
 
   // filter out not needed data and stitch old and new data together
-  const newEraData = cropEraData(minDesiredEra, [storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures], [eraPoints, eraPreferences, eraRewards, exposures])
+  const newEraData = cropEraData(
+    minDesiredEra,
+    [storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures],
+    [eraPoints, eraPreferences, eraRewards, exposures]
+  )
 
   // store data to only load missing data the next run
   storeEraData(newEraData)
 
   // calculate the actual rewards from the inputs
-  console.time("calculating rewards")
-  const polkadotRewards = [].concat(...delegators.map(delegator => getRewardsForDelegator(
-    delegator,
-    ...newEraData
-  )))
-  console.timeEnd("calculating rewards")
+  console.time('calculating rewards')
+  const polkadotRewards = [].concat(
+    ...delegators.map(delegator =>
+      getRewardsForDelegator(delegator, ...newEraData)
+    )
+  )
+  console.timeEnd('calculating rewards')
 
   // parse to lunie format
-  console.time("parsing lunie rewards")
-  const lunieRewards = polkadotAPI.reducers.rewardsReducer(network, validators, polkadotRewards, polkadotAPI.reducers)
-  console.timeEnd("parsing lunie rewards")
+  console.time('parsing lunie rewards')
+  const lunieRewards = polkadotAPI.reducers.rewardsReducer(
+    network,
+    validators,
+    polkadotRewards,
+    polkadotAPI.reducers
+  )
+  console.timeEnd('parsing lunie rewards')
 
   // store
   const storableRewards = lunieRewards
@@ -256,7 +326,7 @@ async function main() {
     )
   }
   cleanOldRewards(minDesiredEra)
-  console.log("Finished querying and storing rewards")
+  console.log('Finished querying and storing rewards')
   process.exit(0)
 }
 

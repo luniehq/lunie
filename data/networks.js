@@ -22,7 +22,7 @@ module.exports = [
     stakingDenom: 'MUON',
     coinLookup: coinLookupDictionary[`cosmos-hub-testnet`],
     enabled: true,
-    icon: 'https://app.lunie.io/img/networks/cosmos-hub-mainnet.png',
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png',
     slug: 'cosmos-hub-testnet',
     powered: {
       name: 'Figment',
@@ -50,7 +50,7 @@ module.exports = [
     stakingDenom: 'ATOM',
     coinLookup: coinLookupDictionary[`cosmos-hub-mainnet`],
     enabled: true,
-    icon: 'https://app.lunie.io/img/networks/cosmos-hub-mainnet.png',
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png',
     slug: 'cosmos-hub',
     powered: {
       name: 'Figment',
@@ -78,7 +78,7 @@ module.exports = [
     stakingDenom: 'LUNA',
     coinLookup: coinLookupDictionary[`terra-mainnet`],
     enabled: true,
-    icon: 'https://app.lunie.io/img/networks/terra-mainnet.png',
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/terra.png',
     slug: 'terra'
   },
   {
@@ -100,7 +100,7 @@ module.exports = [
     stakingDenom: 'LUNA',
     coinLookup: coinLookupDictionary[`terra-testnet`],
     enabled: true,
-    icon: 'https://app.lunie.io/img/networks/terra-testnet.png',
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/terra.png',
     slug: 'terra-testnet'
   },
   {
@@ -122,7 +122,7 @@ module.exports = [
     stakingDenom: 'NGM',
     coinLookup: coinLookupDictionary[`emoney-mainnet`],
     enabled: true,
-    icon: 'https://app.lunie.io/img/networks/emoney-mainnet.png',
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/emoney.png',
     slug: 'emoney'
   },
   {
@@ -144,7 +144,7 @@ module.exports = [
     stakingDenom: 'NGM',
     coinLookup: coinLookupDictionary[`emoney-testnet`],
     enabled: true,
-    icon: 'https://app.lunie.io/img/networks/emoney-testnet.png',
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/emoney.png',
     slug: 'emoney-testnet'
   },
   {
@@ -167,7 +167,7 @@ module.exports = [
     // https://wiki.polkadot.network/docs/en/learn-DOT
     coinLookup: coinLookupDictionary[`polkadot-testnet`],
     enabled: true,
-    icon: 'https://app.lunie.io/img/networks/polkadot-testnet.png',
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/polkadot.png',
     slug: 'kusama',
     powered: {
       name: 'stake.fish',
@@ -195,7 +195,7 @@ module.exports = [
     stakingDenom: 'KAVA',
     coinLookup: coinLookupDictionary[`kava-mainnet`],
     enabled: false,
-    icon: 'https://app.lunie.io/img/networks/kava-mainnet.png',
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/kava.png',
     slug: 'kava',
     powered: {
       name: 'Forbole',
