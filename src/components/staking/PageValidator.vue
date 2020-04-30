@@ -504,6 +504,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 .back-button,
 .tutorial-button {
