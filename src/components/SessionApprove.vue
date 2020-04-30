@@ -208,8 +208,9 @@ export default {
 <style scoped>
 .session-approve {
   padding: 2rem;
-  background: var(--fg);
   border-left: 1px solid var(--bc-dim);
+  background: var(--app-bg);
+  color: var(--bright);
 }
 
 .session-approve h2 {
