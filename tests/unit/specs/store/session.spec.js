@@ -4,7 +4,7 @@ import pushNotifications from "src/vuex/modules/pushNotifications.js"
 jest.mock("src/vuex/modules/pushNotifications.js")
 
 describe(`Module: Session`, () => {
-  let module, state, actions, mutations, node
+  let module, state, actions, mutations, node, getters
 
   beforeEach(() => {
     node = {}
@@ -14,6 +14,13 @@ describe(`Module: Session`, () => {
     mutations = module.mutations
     global.Notification = {
       requestPermission: jest.fn()
+    }
+    getters = {
+      networks: [
+        {
+          id: "fabo-net"
+        }
+      ]
     }
 
     state.externals = {
@@ -122,6 +129,7 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
+          getters,
           commit,
           dispatch,
           rootState: {
@@ -154,6 +162,7 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
+          getters,
           commit,
           dispatch,
           rootState: {
@@ -179,6 +188,7 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
+          getters,
           commit,
           dispatch,
           rootState: {
@@ -222,6 +232,7 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
+          getters,
           commit,
           dispatch,
           rootState: {
@@ -260,6 +271,7 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
+          getters,
           commit,
           dispatch,
           rootState: {
@@ -475,6 +487,7 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
+          getters,
           commit: jest.fn(),
           dispatch,
           rootState: {
@@ -496,6 +509,7 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
+          getters,
           commit: jest.fn(),
           dispatch,
           rootState: {
