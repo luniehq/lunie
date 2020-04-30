@@ -9,14 +9,14 @@
     '''
     Content-Security-Policy = '''
       default-src 'self' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://monitoring.lunie.io:9000 https://js.intercomcdn.com;
-      connect-src 'self' https://api-iam.intercom.io https://widget.intercom.io wss://*.intercom.io wss://production-api.lunie.io/graphql https://production-api.lunie.io wss://staging-api.lunie.io/graphql https://staging-api.lunie.io https://monitoring.lunie.io:9000 https://firebaseinstallations.googleapis.com https://fcmregistrations.googleapis.com;
+      connect-src * 'self' 'unsafe-inline' 'unsafe-eval' storybook.js.org data: blob:;
       img-src 'self' data: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://s3.amazonaws.com https://lunie.fra1.digitaloceanspaces.com;
       script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://api-iam.intercom.io https://js.intercomcdn.com https://widget.intercom.io https://www.gstatic.com;
       style-src 'self' 'unsafe-inline' https://*.lunie.io https://*.netlify.app;
       media-src 'self' https://*.lunie.io https://*.netlify.app blob:;
       object-src 'self' data: blob: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com;
       manifest-src 'self' https://*.lunie.io https://*.netlify.app;
-      worker-src 'self';
+      worker-src * 'self' 'unsafe-inline' 'unsafe-eval' storybook.js.org data: blob:;
       frame-src 'self' https://api-iam.intercom.io https://widget.intercom.io;
       frame-ancestors 'self';
       base-uri 'self';
