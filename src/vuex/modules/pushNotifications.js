@@ -69,8 +69,8 @@ const askPermissionAndRegister = async (activeNetworks, apollo) => {
 }
 
 const registerDevice = async (token, activeNetworks, apollo) => {
-  await apollo.query({
-    query: gql`
+  await apollo.mutate({
+    mutation: gql`
       mutation($token: String!, $activeNetworks: String!, $topics: [String]) {
         registerDevice(
           token: $token

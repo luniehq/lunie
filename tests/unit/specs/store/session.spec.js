@@ -230,12 +230,15 @@ describe(`Module: Session`, () => {
         },
         { address, sessionType, networkId: "fabo-net" }
       )
-      expect(pushNotifications.askPermissionAndRegister).toHaveBeenCalledWith([
-        {
-          address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-          networkId: "fabo-net"
-        }
-      ])
+      expect(pushNotifications.askPermissionAndRegister).toHaveBeenCalledWith(
+        [
+          {
+            address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+            networkId: "fabo-net"
+          }
+        ],
+        expect.objectContaining({}) // apollo
+      )
       localStorage.removeItem("session_fabo-net")
     })
 
