@@ -1,6 +1,6 @@
 import firebase from "firebase"
 import config from "../../../config"
-
+import { getGraphqlHost } from "../../scripts/url"
 let messaging
 
 const initializeFirebase = async () => {
@@ -67,7 +67,7 @@ const askPermissionAndRegister = async activeNetworks => {
 }
 
 const registerDevice = async (token, activeNetworks) => {
-  const registrationResponse = await fetch(`${config.graphqlHost}`, {
+  const registrationResponse = await fetch(`${getGraphqlHost()}`, {
     method: "POST",
     headers: {
       Accept: "application/json",
