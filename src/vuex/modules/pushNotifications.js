@@ -83,7 +83,7 @@ const registerDevice = async (token, activeNetworks, apollo) => {
     `,
     variables: {
       token,
-      activeNetworks: activeNetworks
+      activeNetworks: JSON.stringify(activeNetworks)
     }
   })
 
