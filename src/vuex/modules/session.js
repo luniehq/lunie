@@ -2,7 +2,7 @@ import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import pushNotifications from "./pushNotifications.js"
 import config from "src/../config"
 
-export default () => {
+export default ({ apollo }) => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
   const state = {
@@ -158,7 +158,7 @@ export default () => {
       // Register device for push registrations
       const activeNetworks = getActiveNetworks(state.addresses)
       /* istanbul ignore next */
-      await pushNotifications.askPermissionAndRegister(activeNetworks)
+      await pushNotifications.askPermissionAndRegister(activeNetworks, apollo)
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
