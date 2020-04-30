@@ -56,13 +56,14 @@ const askPermissionAndRegister = async (activeNetworks, apollo) => {
           const token = await messaging.getToken()
           await registerDevice(token, activeNetworks, apollo)
         })
-        .catch(() =>
+        .catch(error =>
           console.log(
-            "bug FCM throws error while deleting token on first refresh"
+            "bug FCM throws error while deleting token on first refresh",
+            error
           )
         )
     } catch (error) {
-      console.log("Permission denied")
+      console.log("Permission denied", error)
     }
   }
 }
