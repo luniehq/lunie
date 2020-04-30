@@ -25,7 +25,7 @@ const {
   approveSignRequest,
   rejectSignRequest,
   getValidatorsData,
-  parseSignMessageTx
+  parseTx
 } = actions({
   apollo: mockApollo
 })
@@ -209,7 +209,7 @@ describe('actions', () => {
     }
 
     await expect(
-      getValidatorsData(parseSignMessageTx(JSON.stringify(v1)))
+      getValidatorsData(parseTx(JSON.stringify(v1)))
     ).resolves.toEqual([
       {
         name: 'name1',
@@ -252,7 +252,7 @@ describe('actions', () => {
     }
 
     await expect(
-      getValidatorsData(parseSignMessageTx(JSON.stringify(validatorAddress)))
+      getValidatorsData(parseTx(JSON.stringify(validatorAddress)))
     ).resolves.toEqual([
       {
         operatorAddress: 'dstaddress1',

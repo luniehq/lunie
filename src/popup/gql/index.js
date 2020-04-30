@@ -36,26 +36,15 @@ export const NetworksAll = gql`
         providerAddress
         picture
       }
-      feature_session
-      feature_portfolio
-      feature_validators
-      feature_proposals
-      feature_activity
-      feature_explorer
-      action_send
-      action_claim_rewards
-      action_delegate
-      action_redelegate
-      action_undelegate
-      action_deposit
-      action_vote
-      action_proposal
       stakingDenom
       network_type
-      address_creator
       address_prefix
       testnet
-      enabled
+      coinLookup {
+        chainDenom
+        viewDenom
+        chainToViewConversionFactor
+      }
     }
   }
 `

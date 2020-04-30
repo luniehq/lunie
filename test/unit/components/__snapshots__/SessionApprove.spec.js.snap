@@ -33,7 +33,7 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
       amount="12"
       bonddenom="STAKE"
       class="approval-table"
-      estimatedfee="0.00004"
+      estimatedfee="2e-8"
     />
      
     <tmformgroup-stub

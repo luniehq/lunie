@@ -17,6 +17,7 @@
       />
       <!-- Going to take some more logic based on how transactions are passed in -->
       <TableInvoice
+        v-if="tx"
         class="approval-table"
         :amount="amount"
         :estimated-fee="fees"
@@ -79,9 +80,9 @@ import TableInvoice from 'src/ActionModal/components/TableInvoice'
 import Address from 'common/Address'
 import { required } from 'vuelidate/lib/validators'
 import actions from '../store/actions.js'
+import { getDisplayTransaction, parseTx } from '../scripts/parsers'
 
 const getValidatorsData = actions({}).getValidatorsData
-const parseSignMessageTx = actions({}).parseSignMessageTx
 
 export default {
   name: `session-approve`,
@@ -100,30 +101,43 @@ export default {
     passwordError: false
   }),
   computed: {
-    ...mapGetters(['signRequest']),
+    ...mapGetters(['signRequest', 'networks']),
     tx() {
-      return parseSignMessageTx(
-        this.signRequest.signMessage,
-        this.displayedProperties
-      )
+      // enrich with parsed lunie transaction
+      // DEPRECATE old format
+      if (this.signRequest.signMessage) {
+        return parseTx(
+          this.signRequest.signMessage,
+          this.signRequest.displayedProperties
+        )
+      } else {
+        if (this.networks.length === 0) return undefined
+        // new format
+        const network = this.networks.find(
+          ({ id }) => id === this.signRequest.network
+        )
+        return getDisplayTransaction(
+          network,
+          this.signRequest.messageType,
+          this.signRequest.message,
+          this.signRequest.transactionData
+        )
+      }
     },
     network() {
       return this.signRequest ? this.signRequest.network : null
     },
     fees() {
-      return this.tx ? this.tx.fees[0].amount : null
+      return this.tx && this.tx.fees[0] ? Number(this.tx.fees[0].amount) : 0
     },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
-    },
-    displayedProperties() {
-      return this.signRequest ? this.signRequest.displayedProperties : null
     },
     amountCoin() {
       return this.tx ? this.tx.details.amount : null
     },
     amount() {
-      return this.amountCoin ? this.amountCoin.amount : 0
+      return this.amountCoin ? Number(this.amountCoin.amount) : 0
     },
     bondDenom() {
       return this.amountCoin ? this.amountCoin.denom : ''
@@ -139,11 +153,13 @@ export default {
   watch: {
     password: function() {
       this.passwordError = false
+    },
+    tx: async function(tx) {
+      if (tx) {
+        const validatorsObject = await getValidatorsData(tx, this.network)
+        this.validators = validatorsObject
+      }
     }
-  },
-  async mounted() {
-    const validatorsObject = await getValidatorsData(this.tx, this.network)
-    this.validators = validatorsObject
   },
   methods: {
     isValidInput(property) {

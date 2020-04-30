@@ -5,14 +5,15 @@ const {
   testPassword,
   removeWallet
 } = require('@lunie/cosmos-keys')
+const TransactionManager = require('src/signing/transaction-manager')
 
-export function signMessageHandler(
+export async function signMessageHandler(
   signRequestQueue,
-  message,
+  event,
   sender,
   sendResponse
 ) {
-  switch (message.type) {
+  switch (event.type) {
     case 'LUNIE_SIGN_REQUEST_CANCEL': {
       signRequestQueue.unqueueSignRequestForTab(sender.tab.id)
       break
@@ -28,40 +29,80 @@ export function signMessageHandler(
     }
     case 'LUNIE_SIGN_REQUEST': {
       const {
-        signMessage,
+        // old messaging
+        signMessage, //DEPRECATE
+        displayedProperties, //DEPRECATE
+
+        messageType,
+        message,
+        transactionData,
         senderAddress,
-        network,
-        displayedProperties
-      } = message.payload
+        network
+      } = event.payload
       const wallet = getWalletFromIndex(getWalletIndex(), senderAddress)
       if (!wallet) {
         throw new Error('No wallet found matching the sender address.')
       }
+
       signRequestQueue.queueSignRequest({
-        signMessage,
+        signMessage, // DEPRECATE
+        displayedProperties, //DEPRECATE
+
+        messageType,
+        message,
+        transactionData,
         senderAddress,
         network,
-        displayedProperties,
         tabID: sender.tab.id
       })
       break
     }
     case 'SIGN': {
-      const { signMessage, senderAddress, password, id } = message.payload
-      const wallet = getStoredWallet(senderAddress, password)
+      const {
+        signMessage, // DEPRECATE
+
+        messageType,
+        message,
+        transactionData,
+        senderAddress,
+        network,
+        password,
+        id
+      } = event.payload
 
       const { tabID } = signRequestQueue.unqueueSignRequest(id)
-      const signature = signWithPrivateKey(
-        signMessage,
-        Buffer.from(wallet.privateKey, 'hex')
-      )
-      sendAsyncResponseToLunie(tabID, {
-        type: 'LUNIE_SIGN_REQUEST_RESPONSE',
-        payload: {
-          signature: signature.toString('hex'),
-          publicKey: wallet.publicKey
-        }
-      })
+      if (signMessage) {
+        const wallet = getStoredWallet(senderAddress, password)
+        const signature = signWithPrivateKey(
+          signMessage,
+          Buffer.from(wallet.privateKey, 'hex')
+        )
+
+        sendAsyncResponseToLunie(tabID, {
+          type: 'LUNIE_SIGN_REQUEST_RESPONSE',
+          payload: {
+            signature: signature.toString('hex'),
+            publicKey: wallet.publicKey
+          }
+        })
+      } else {
+        const transactionManager = new TransactionManager()
+        const broadcastableObject = await transactionManager.createAndSignLocally(
+          messageType,
+          message,
+          transactionData,
+          senderAddress,
+          network,
+          'local',
+          password
+        )
+
+        sendAsyncResponseToLunie(tabID, {
+          type: 'LUNIE_SIGN_REQUEST_RESPONSE',
+          payload: broadcastableObject
+        })
+      }
+
       sendResponse() // to popup
       break
     }
@@ -70,7 +111,7 @@ export function signMessageHandler(
       break
     }
     case 'REJECT_SIGN_REQUEST': {
-      const { id, tabID } = message.payload
+      const { id, tabID } = event.payload
       sendAsyncResponseToLunie(tabID, {
         type: 'LUNIE_SIGN_REQUEST_RESPONSE',
         payload: { rejected: true }
