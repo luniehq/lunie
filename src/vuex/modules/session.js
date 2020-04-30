@@ -16,7 +16,6 @@ export default () => {
     history: [],
     address: null, // Current address
     addresses: [], // Array of previously used addresses
-    networks: [],
     errorCollection: false,
     analyticsCollection: false,
     cookiesAccepted: undefined,

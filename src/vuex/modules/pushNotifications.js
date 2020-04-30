@@ -1,6 +1,7 @@
 import firebase from "firebase"
 import config from "../../../config"
 import { getGraphqlHost } from "../../scripts/url"
+
 let messaging
 
 const initializeFirebase = async () => {
