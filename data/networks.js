@@ -84,7 +84,7 @@ module.exports = [
   {
     id: 'terra-testnet',
     title: 'Terra Testnet',
-    chain_id: 'soju-0013',
+    chain_id: 'soju-0014',
     api_url: 'https://soju-fcd.terra.dev',
     rpc_url: 'wss://terra-testnet.lunie.io/websocket',
     bech32_prefix: 'terra',
@@ -167,7 +167,8 @@ module.exports = [
     // https://wiki.polkadot.network/docs/en/learn-DOT
     coinLookup: coinLookupDictionary[`polkadot-testnet`],
     enabled: true,
-    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/polkadot.png',
+    icon:
+      'https://lunie.fra1.digitaloceanspaces.com/network-icons/polkadot.png',
     slug: 'kusama',
     powered: {
       name: 'stake.fish',
