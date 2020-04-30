@@ -1,4 +1,7 @@
 import sessionModule from "src/vuex/modules/session.js"
+import pushNotifications from "src/vuex/modules/pushNotifications.js"
+
+jest.mock("src/vuex/modules/pushNotifications.js")
 
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
@@ -9,6 +12,9 @@ describe(`Module: Session`, () => {
     state = module.state
     actions = module.actions
     mutations = module.mutations
+    global.Notification = {
+      requestPermission: jest.fn()
+    }
 
     state.externals = {
       track: jest.fn(),
@@ -191,6 +197,48 @@ describe(`Module: Session`, () => {
       )
     })
 
+    it("should register device with correct addressObjects", async () => {
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      const sessionType = `local`
+      const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      state.signedIn = true
+      state.addresses = [
+        {
+          address: `123`,
+          type: `explore`,
+          networkId: "fabo-net"
+        },
+        {
+          address: `456`,
+          type: `ledger`,
+          networkId: "not-fabo-net"
+        }
+      ]
+      localStorage.setItem(
+        "session_fabo-net",
+        JSON.stringify({ address, networkId: "not-fabo-net" })
+      )
+      await actions.signIn(
+        {
+          state,
+          commit,
+          dispatch,
+          rootState: {
+            connection: { network: "fabo-net" }
+          }
+        },
+        { address, sessionType, networkId: "fabo-net" }
+      )
+      expect(pushNotifications.askPermissionAndRegister).toHaveBeenCalledWith([
+        {
+          address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+          networkId: "fabo-net"
+        }
+      ])
+      localStorage.removeItem("session_fabo-net")
+    })
+
     it("should dispatch required actions", async () => {
       const address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
       const commit = jest.fn()
@@ -215,7 +263,7 @@ describe(`Module: Session`, () => {
             connection: { network: "fabo-net" }
           }
         },
-        { sessionType: `explore`, address }
+        { sessionType: `explore`, address, networkId: "fabo-net" }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistAddresses`, {
         addresses: [
@@ -236,7 +284,8 @@ describe(`Module: Session`, () => {
       })
       expect(dispatch).toHaveBeenCalledWith(`rememberAddress`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
-        sessionType: `explore`
+        sessionType: `explore`,
+        networkId: "fabo-net"
       })
     })
 
@@ -272,12 +321,13 @@ describe(`Module: Session`, () => {
       state.signedIn = true
       await actions.rememberAddress(
         { state, commit },
-        { sessionType: `explore`, address }
+        { sessionType: `explore`, address, networkId: "fabo-net" }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
         {
           type: `explore`,
-          address
+          address,
+          networkId: "fabo-net"
         }
       ])
     })

@@ -2,6 +2,8 @@
 @import "themes/e-money";
 @import "themes/terra";
 @import "themes/polkadot";
+@import "themes/kava";
+@import "themes/lunie-dark";
 
 :root {
   --input-bg: transparent;
