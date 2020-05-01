@@ -1,2 +1,0 @@
-[Changed] [#191](https://github.com/cosmos/lunie/pull/191) Refactor createKey in actions to not depend on store. Create wallet.js for the refactor @Bitcoinera
-[Added] [#191](https://github.com/cosmos/lunie/pull/191) Allows Polkadot account creation and restore @Bitcoinera

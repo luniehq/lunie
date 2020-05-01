@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.18] - 2020-05-01
+
+### Added
+
+- [#191](https://github.com/cosmos/lunie/pull/191) Allows Polkadot account creation and restore @Bitcoinera
+- Ability to sign with Polkadot @faboweb
+- added theme changes for new extension theme @jbibla
+
+### Changed
+
+- [#191](https://github.com/cosmos/lunie/pull/191) Refactor createKey in actions to not depend on store. Create wallet.js for the refactor @Bitcoinera
+- [#184](https://github.com/cosmos/lunie/pull/184) Changes submodule for a Lunie version where  ClaimRewardsTxDetails doesn't open inside extension @Bitcoinera
+- Adjust allowed pages to new Netlify link schema @faboweb
+- Change title of extension @faboweb
+- minor style updates, changes to route names @jbibla
+
+### Fixed
+
+- [#188](https://github.com/cosmos/lunie/issues/188) Fixes the deposit transactions parser @Bitcoinera
+- Fix session approve styling @faboweb
+
+### Deprecated
+
+- Removed need to set extension environment variable @faboweb
+
 ## [1.0.17] - 2020-03-22
 
 ### Changed
