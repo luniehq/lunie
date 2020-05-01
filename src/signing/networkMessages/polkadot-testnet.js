@@ -45,28 +45,25 @@ export async function StakeTx(senderAddress, { to, amount }, network) {
 export async function ClaimRewardsTx(senderAddress) {
   let allClaimingTxs = []
   const api = await getAPI()
-  const stakerRewards = JSON.parse(
-    JSON.stringify(await api.derive.staking.stakerRewards(senderAddress))
-  )
+  const stakerRewards = await api.derive.staking.stakerRewards(senderAddress)
 
   if (stakerRewards.length === 0) {
     allClaimingTxs = []
   } else {
     stakerRewards.forEach(reward => {
-      reward.nominating.forEach(async nomination => {
-        allClaimingTxs.push(
-          await api.tx.staking.payoutNominator(
-            reward.era,
-            nomination.validatorId
-          )
-        )
-      })
+      const validators = reward.nominating.map(
+        ({ validatorId, validatorIndex }) => [validatorId, validatorIndex]
+      )
+      allClaimingTxs.push(
+        api.tx.staking.payoutNominator(reward.era, validators)
+      )
     })
   }
+  console.log(allClaimingTxs)
   if (allClaimingTxs.length === 0) {
     throw new Error("There are no claimable rewards")
   }
-  return getSignMessage(senderAddress, allClaimingTxs)
+  return await getSignMessage(senderAddress, allClaimingTxs)
 }
 
 function toChainAmount({ amount, denom }, coinLookup) {
