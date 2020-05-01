@@ -9,14 +9,42 @@ describe(`SessionApprove`, () => {
 
   let wrapper, $store
 
-  const signMessage = `{"account_number":"1","chain_id":"testnet","fee":{"amount":[{"amount":"40","denom":"stake"}],"gas":"39953"},"memo":"(Sent via Lunie)","msgs":[{"type":"cosmos-sdk/MsgSend","value":{"amount":[{"amount":"12000000","denom":"stake"}],"from_address":"cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e","to_address":"cosmos1324vt5j3wzx0xsc32mjhkrvy5gn5ef2hrwcg29"}}],"sequence":"0"}`
-
   beforeEach(() => {
     const getters = {
       signRequest: {
         senderAddress: 'cosmos1234',
-        signMessage
-      }
+        messageType: 'SendTx',
+        message: {
+          amount: {
+            amount: 12,
+            denom: 'STAKE'
+          },
+          to: ['cosmos1324vt5j3wzx0xsc32mjhkrvy5gn5ef2hrwcg29']
+        },
+        transactionData: {
+          gasPrices: [
+            {
+              amount: 1e-6,
+              denom: 'ustake'
+            }
+          ],
+          gasEstimate: 20000
+        },
+        network: 'cosmos-hub-testnet'
+      },
+      networks: [
+        {
+          id: 'cosmos-hub-testnet',
+          network_type: 'cosmos',
+          coinLookup: [
+            {
+              chainDenom: 'ustake',
+              viewDenom: 'STAKE',
+              chainToViewConversionFactor: 1e-6
+            }
+          ]
+        }
+      ]
     }
 
     $store = {
@@ -62,7 +90,10 @@ describe(`SessionApprove`, () => {
       wrapper.find('#approve-btn').trigger('click')
       expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
         'approveSignRequest',
-        { password: '1234', senderAddress: 'cosmos1234', signMessage }
+        {
+          password: '1234',
+          ...$store.getters.signRequest
+        }
       )
       await wrapper.vm.$nextTick()
       await wrapper.vm.$nextTick()
@@ -78,8 +109,7 @@ describe(`SessionApprove`, () => {
     expect(wrapper.vm.$store.dispatch).toHaveBeenCalledWith(
       'rejectSignRequest',
       {
-        signMessage,
-        senderAddress: 'cosmos1234'
+        ...$store.getters.signRequest
       }
     )
     await wrapper.vm.$nextTick()

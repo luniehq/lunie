@@ -26,7 +26,7 @@ export default store => {
     {
       path: '/existing',
       name: 'existing',
-      component: require('common/TmSessionExisting').default
+      component: require('common/CardSignInRequired').default
     },
     {
       path: `/create`,
@@ -49,13 +49,18 @@ export default store => {
       component: require('common/TmSessionImport').default
     },
     {
-      path: `/selectnetwork`,
-      name: `selectnetwork`,
+      path: `/select-network`,
+      name: `select-network`,
       component: require('common/TmSelectNetwork').default
     },
     {
-      path: `/selectnetwork/:recover`,
-      name: `selectnetwork-recover`,
+      path: `/select-network/recover`,
+      name: `select-network-recover`,
+      component: require('common/TmSelectNetwork').default
+    },
+    {
+      path: `/select-network/create`,
+      name: `select-network-create`,
       component: require('common/TmSelectNetwork').default
     },
     {

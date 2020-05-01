@@ -17,7 +17,7 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
     
     From
     
-    <bech32-stub
+    <address-stub
       address="cosmos1234"
     />
   </div>
@@ -31,9 +31,9 @@ exports[`SessionApprove shows the approval modal with the transaction and an inv
      
     <tableinvoice-stub
       amount="12"
-      bonddenom="stake"
+      bonddenom="STAKE"
       class="approval-table"
-      estimatedfee="0.00004"
+      estimatedfee="2e-8"
     />
      
     <tmformgroup-stub

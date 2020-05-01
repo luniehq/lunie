@@ -10,6 +10,13 @@ export const setNetworkId = (state, networkId) => {
   state.network = networkId
 }
 
+export const setNetworks = (state, networks) => {
+  state.networks = networks
+}
+export const setNetworkSlug = (state, networkSlug) => {
+  state.networkSlug = networkSlug
+}
+
 export const updateField = (state, payload) => {
   // Recover flow
   if (payload.field === `seed`) {

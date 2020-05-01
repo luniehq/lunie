@@ -1,64 +1,37 @@
 import config from '../../config.js'
-import { getNewWalletFromSeed } from '@lunie/cosmos-keys'
 import gql from 'graphql-tag'
+import { NetworksAll } from '../popup/gql'
+import { lunieMessageTypes } from '../scripts/parsers'
+import { parseTx } from '../scripts/parsers.js'
+import { getWallet } from '../../lunie/src/vuex/modules/wallet'
+import { storeWallet } from '@lunie/cosmos-keys'
 
 export default ({ apollo }) => {
-  const createSeed = () => {
-    return new Promise(resolve => {
-      chrome.runtime.sendMessage({ type: 'GET_SEED' }, function(seed) {
-        resolve(seed)
-      })
-    })
+  const createSeed = async () => {
+    const { getSeed } = await import('@lunie/cosmos-keys')
+    return getSeed()
   }
 
-  const getNetwork = async (networkId, apollo) => {
-    const {
-      data: { network }
-    } = await apollo.query({
-      query: gql`
-        query Network {
-          network(id: "${networkId}") {
-            id
-            address_creator,
-            address_prefix
-          }
-        }
-      `,
-      fetchPolicy: `cache-first`
+  const preloadNetworkCapabilities = async ({ commit }) => {
+    const { data } = await apollo.query({
+      query: NetworksAll,
+      variables: { experimental: config.development },
+      fetchPolicy: 'cache-first'
     })
-
-    if (!network)
-      throw new Error(
-        `Lunie doesn't support address creation for this network.`
-      )
-
-    return network
+    commit('setNetworks', data.networks)
   }
 
   const setNetwork = ({ commit }, network) => {
     commit('setNetworkId', network.id)
   }
 
-  const createKey = ({ dispatch }, { seedPhrase, password, name, network }) => {
-    return new Promise(async resolve => {
-      const net = await getNetwork(network, apollo)
-      chrome.runtime.sendMessage(
-        {
-          type: 'IMPORT_WALLET',
-          payload: {
-            password,
-            name,
-            prefix: net.address_prefix,
-            mnemonic: seedPhrase,
-            network
-          }
-        },
-        function() {
-          resolve()
-          dispatch('loadAccounts')
-        }
-      )
-    })
+  const createKey = async (store, { seedPhrase, password, name, network }) => {
+    const networkObject = store.getters.networks.find(
+      ({ id }) => id === network
+    )
+    const wallet = await getWallet(seedPhrase, networkObject)
+    storeWallet(wallet, name, password, network)
+    store.dispatch('loadAccounts')
   }
 
   const loadAccounts = ({ commit }) => {
@@ -100,70 +73,34 @@ export default ({ apollo }) => {
     })
   }
 
-  const getValidatorsData = async (validatorAddress, network) => {
-    const txMessage = validatorAddress.value.msg[0]
+  const getValidatorsData = async (lunieTx, network) => {
+    let validators = []
     if (
-      txMessage.type.indexOf('/MsgDelegate') !== -1 ||
-      txMessage.type.indexOf('/MsgUndelegate') !== -1
+      lunieTx.type === lunieMessageTypes.STAKE ||
+      lunieTx.type === lunieMessageTypes.RESTAKE
     ) {
-      const validatorAddress = txMessage.value.validator_address
-      const { name: validatorToMoniker, picture } = await fetchValidatorData(
-        validatorAddress,
-        network
-      )
-      return [
-        {
-          operator_address: validatorAddress,
+      validators.push(...lunieTx.details.to)
+    }
+    if (
+      lunieTx.type === lunieMessageTypes.UNSTAKE ||
+      lunieTx.type === lunieMessageTypes.RESTAKE ||
+      lunieTx.type === lunieMessageTypes.CLAIM_REWARDS
+    ) {
+      validators.push(...lunieTx.details.from)
+    }
+    return await Promise.all(
+      validators.map(async validatorAddress => {
+        const { name: validatorToMoniker, picture } = await fetchValidatorData(
+          validatorAddress,
+          network
+        )
+        return {
+          operatorAddress: validatorAddress,
           name: validatorToMoniker,
           picture
         }
-      ]
-    }
-    if (txMessage.type.indexOf('/MsgBeginRedelegate') !== -1) {
-      const validator_src_address = txMessage.value.validator_src_address
-      const {
-        name: validator_src_moniker,
-        picture: validator_src_picture
-      } = await fetchValidatorData(validator_src_address, network)
-      const validator_dst_address = txMessage.value.validator_dst_address
-      const {
-        name: validator_dst_moniker,
-        picture: validator_dst_picture
-      } = await fetchValidatorData(validator_dst_address, network)
-
-      return [
-        {
-          operator_address: validator_src_address,
-          name: validator_src_moniker,
-          picture: validator_src_picture
-        },
-        {
-          operator_address: validator_dst_address,
-          name: validator_dst_moniker,
-          picture: validator_dst_picture
-        }
-      ]
-    }
-    if (txMessage.type.indexOf('/MsgWithdrawDelegationReward') !== -1) {
-      let validators = []
-      await Promise.all(
-        validatorAddress.value.msg.map(async ({ value }) => {
-          const validator_src_address = value.validator_address
-          const {
-            name: validator_src_moniker,
-            picture
-          } = await fetchValidatorData(validator_src_address, network)
-          validators.push({
-            operator_address: validator_src_address,
-            operatorAddress: validator_src_address, // looks carzy, needed to be fix in lunie\src\components\transactions\message-view\WithdrawDelegationRewardMessageDetails.vue
-            name: validator_src_moniker,
-            picture
-          })
-        })
-      )
-      return validators
-    }
-    return []
+      })
+    )
   }
 
   const fetchValidatorData = async (validatorAddress, network) => {
@@ -258,8 +195,10 @@ export default ({ apollo }) => {
   }
 
   const getAddressFromSeed = async (store, { seedPhrase, network }) => {
-    const net = await getNetwork(network, apollo)
-    const wallet = getNewWalletFromSeed(seedPhrase, net.address_prefix)
+    const networkObject = store.getters.networks.find(
+      ({ id }) => id === network
+    )
+    const wallet = await getWallet(seedPhrase, networkObject)
     return wallet.cosmosAddress
   }
 
@@ -277,6 +216,8 @@ export default ({ apollo }) => {
     resetSignUpData,
     resetRecoverData,
     getAddressFromSeed,
-    setNetwork
+    setNetwork,
+    preloadNetworkCapabilities,
+    parseTx
   }
 }

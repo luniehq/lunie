@@ -30,7 +30,9 @@ export default (opts = {}) => {
         password: ``,
         passwordConfirm: ``
       },
-      network: ''
+      network: '',
+      networkSlug: `cosmos-hub`,
+      networks: []
     },
     getters,
     actions: actions(opts),

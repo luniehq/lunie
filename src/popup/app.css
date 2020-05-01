@@ -28,7 +28,7 @@ body,
   overflow: hidden;
   width: 100%;
   min-width: 400px;
-  min-height: 496px;
+  min-height: 540px;
 }
 
 a {
@@ -89,6 +89,10 @@ input.tm-field {
   flex: 1;
   display: flex;
   flex-flow: column no-wrap;
+}
+
+.session-frame {
+  background: transparent !important;
 }
 
 @media screen and (min-width: 1023px) {

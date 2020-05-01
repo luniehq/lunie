@@ -3,19 +3,17 @@ const {
   getStoredWallet,
   signWithPrivateKey,
   testPassword,
-  storeWallet,
-  getNewWalletFromSeed,
-  removeWallet,
-  getSeed
+  removeWallet
 } = require('@lunie/cosmos-keys')
+const TransactionManager = require('src/signing/transaction-manager')
 
-export function signMessageHandler(
+export async function signMessageHandler(
   signRequestQueue,
-  message,
+  event,
   sender,
   sendResponse
 ) {
-  switch (message.type) {
+  switch (event.type) {
     case 'LUNIE_SIGN_REQUEST_CANCEL': {
       signRequestQueue.unqueueSignRequestForTab(sender.tab.id)
       break
@@ -30,13 +28,29 @@ export function signMessageHandler(
       break
     }
     case 'LUNIE_SIGN_REQUEST': {
-      const { signMessage, senderAddress, network } = message.payload
+      const {
+        // old messaging
+        signMessage, //DEPRECATE
+        displayedProperties, //DEPRECATE
+
+        messageType,
+        message,
+        transactionData,
+        senderAddress,
+        network
+      } = event.payload
       const wallet = getWalletFromIndex(getWalletIndex(), senderAddress)
       if (!wallet) {
         throw new Error('No wallet found matching the sender address.')
       }
+
       signRequestQueue.queueSignRequest({
-        signMessage,
+        signMessage, // DEPRECATE
+        displayedProperties, //DEPRECATE
+
+        messageType,
+        message,
+        transactionData,
         senderAddress,
         network,
         tabID: sender.tab.id
@@ -44,21 +58,51 @@ export function signMessageHandler(
       break
     }
     case 'SIGN': {
-      const { signMessage, senderAddress, password, id } = message.payload
-      const wallet = getStoredWallet(senderAddress, password)
+      const {
+        signMessage, // DEPRECATE
+
+        messageType,
+        message,
+        transactionData,
+        senderAddress,
+        network,
+        password,
+        id
+      } = event.payload
 
       const { tabID } = signRequestQueue.unqueueSignRequest(id)
-      const signature = signWithPrivateKey(
-        signMessage,
-        Buffer.from(wallet.privateKey, 'hex')
-      )
-      sendAsyncResponseToLunie(tabID, {
-        type: 'LUNIE_SIGN_REQUEST_RESPONSE',
-        payload: {
-          signature: signature.toString('hex'),
-          publicKey: wallet.publicKey
-        }
-      })
+      if (signMessage) {
+        const wallet = getStoredWallet(senderAddress, password)
+        const signature = signWithPrivateKey(
+          signMessage,
+          Buffer.from(wallet.privateKey, 'hex')
+        )
+
+        sendAsyncResponseToLunie(tabID, {
+          type: 'LUNIE_SIGN_REQUEST_RESPONSE',
+          payload: {
+            signature: signature.toString('hex'),
+            publicKey: wallet.publicKey
+          }
+        })
+      } else {
+        const transactionManager = new TransactionManager()
+        const broadcastableObject = await transactionManager.createAndSignLocally(
+          messageType,
+          message,
+          transactionData,
+          senderAddress,
+          network,
+          'local',
+          password
+        )
+
+        sendAsyncResponseToLunie(tabID, {
+          type: 'LUNIE_SIGN_REQUEST_RESPONSE',
+          payload: broadcastableObject
+        })
+      }
+
       sendResponse() // to popup
       break
     }
@@ -67,7 +111,7 @@ export function signMessageHandler(
       break
     }
     case 'REJECT_SIGN_REQUEST': {
-      const { id, tabID } = message.payload
+      const { id, tabID } = event.payload
       sendAsyncResponseToLunie(tabID, {
         type: 'LUNIE_SIGN_REQUEST_RESPONSE',
         payload: { rejected: true }
@@ -80,19 +124,8 @@ export function signMessageHandler(
 }
 export function walletMessageHandler(message, sender, sendResponse) {
   switch (message.type) {
-    case 'GET_SEED': {
-      sendResponse(getSeed())
-      break
-    }
     case 'GET_WALLETS': {
       sendResponse(getWalletIndex())
-      break
-    }
-    case 'IMPORT_WALLET': {
-      const { name, password, prefix, mnemonic, network } = message.payload
-      const wallet = getNewWalletFromSeed(mnemonic, prefix)
-      storeWallet(wallet, name, password, network)
-      sendResponse()
       break
     }
     case 'DELETE_WALLET': {

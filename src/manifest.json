@@ -7,7 +7,7 @@
     "128": "icons/128x128.png"
   },
   "browser_action": {
-    "default_title": "lunie-signer-x",
+    "default_title": "Lunie Browser Extension",
     "default_popup": "popup/popup.html"
   },
   "background": {
@@ -27,7 +27,8 @@
         "https://lunie.io/*",
         "https://app.lunie.io/*",
         "https://www.lunie.io/*",
-        "https://*.netlify.com/*"
+        "https://*.netlify.com/*",
+        "https://*.netlify.app/*"
       ],
       "js": [
         "contentScript.js"

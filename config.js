@@ -10,5 +10,6 @@ export default {
   sentry_dsn: process.env.SENTRY_DSN || '', // needs to be configured in webpack.config.js
   stargate,
   lunieLink: dev ? `http://localhost:9080` : `https://app.lunie.io`,
-  graphqlHost: process.env.LUNIE_API
+  graphqlHost: process.env.LUNIE_API,
+  isExtension: true
 }

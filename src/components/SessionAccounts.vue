@@ -62,6 +62,7 @@ export default {
 <style scoped>
 .session-container p {
   font-size: 14px;
+  color: var(--txt);
 }
 
 .back-link {

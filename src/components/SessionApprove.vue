@@ -4,19 +4,20 @@
     <br />
     <div class="from">
       From
-      <Bech32 :address="senderAddress" />
+      <Address :address="senderAddress" />
     </div>
     <TmFormGroup v-if="signRequest">
       <TransactionItem
-        v-if="transaction"
-        :key="transaction.key"
-        :transaction="transaction"
+        v-if="tx"
+        :key="tx.hash"
+        :transaction="tx"
         :validators="validatorsAddressMap"
         :address="senderAddress"
         :show-meta-data="false"
       />
       <!-- Going to take some more logic based on how transactions are passed in -->
       <TableInvoice
+        v-if="tx"
         class="approval-table"
         :amount="amount"
         :estimated-fee="fees"
@@ -76,35 +77,12 @@ import TmField from 'common/TmField'
 import TmFormMsg from 'common/TmFormMsg'
 import TransactionItem from 'transactions/TransactionItem'
 import TableInvoice from 'src/ActionModal/components/TableInvoice'
-import Bech32 from 'common/Bech32'
+import Address from 'common/Address'
 import { required } from 'vuelidate/lib/validators'
-import { parseTx, parseFee, parseValueObj } from '../scripts/parsers.js'
-import { atoms } from 'scripts/num.js'
 import actions from '../store/actions.js'
+import { getDisplayTransaction, parseTx } from '../scripts/parsers'
 
 const getValidatorsData = actions({}).getValidatorsData
-
-import { flattenTransactionMsgs } from 'scripts/transaction-utils'
-
-const getWithdrawValidators = messages => {
-  const withdrawMessages = messages.filter(({ type }) => {
-    const messageSuffix = type.split('/')[1]
-    return messageSuffix === 'MsgWithdrawDelegationReward'
-  })
-
-  // strange syntax where we actually return the whole message instead of just the validator
-  return withdrawMessages
-}
-
-const getLunieTransaction = tx => {
-  const lunieTransactions = flattenTransactionMsgs([], tx)
-  const pickFirst = lunieTransactions[0] // obviously error prone as we ignore the rest
-  pickFirst.withdrawValidators = JSON.stringify(
-    getWithdrawValidators(lunieTransactions)
-  )
-
-  return pickFirst
-}
 
 export default {
   name: `session-approve`,
@@ -113,7 +91,7 @@ export default {
     TmFormGroup,
     TransactionItem,
     TableInvoice,
-    Bech32,
+    Address,
     TmField,
     TmFormMsg
   },
@@ -123,27 +101,43 @@ export default {
     passwordError: false
   }),
   computed: {
-    ...mapGetters(['signRequest']),
+    ...mapGetters(['signRequest', 'networks']),
     tx() {
-      return this.signRequest ? parseTx(this.signRequest.signMessage) : null
+      // enrich with parsed lunie transaction
+      // DEPRECATE old format
+      if (this.signRequest.signMessage) {
+        return parseTx(
+          this.signRequest.signMessage,
+          this.signRequest.displayedProperties
+        )
+      } else {
+        if (this.networks.length === 0) return undefined
+        // new format
+        const network = this.networks.find(
+          ({ id }) => id === this.signRequest.network
+        )
+        return getDisplayTransaction(
+          network,
+          this.signRequest.messageType,
+          this.signRequest.message,
+          this.signRequest.transactionData
+        )
+      }
     },
     network() {
       return this.signRequest ? this.signRequest.network : null
     },
-    transaction() {
-      return getLunieTransaction(this.tx)
-    },
     fees() {
-      return this.tx ? atoms(parseFee(this.tx.tx)) : null
+      return this.tx && this.tx.fees[0] ? Number(this.tx.fees[0].amount) : 0
     },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
     },
     amountCoin() {
-      return this.tx ? parseValueObj(this.tx.tx) : null
+      return this.tx ? this.tx.details.amount : null
     },
     amount() {
-      return this.amountCoin ? atoms(Number(this.amountCoin.amount)) : 0
+      return this.amountCoin ? Number(this.amountCoin.amount) : 0
     },
     bondDenom() {
       return this.amountCoin ? this.amountCoin.denom : ''
@@ -151,7 +145,7 @@ export default {
     validatorsAddressMap() {
       const names = {}
       this.validators.forEach(item => {
-        names[item.operator_address] = item
+        names[item.operatorAddress] = item
       })
       return names
     }
@@ -159,11 +153,13 @@ export default {
   watch: {
     password: function() {
       this.passwordError = false
+    },
+    tx: async function(tx) {
+      if (tx) {
+        const validatorsObject = await getValidatorsData(tx, this.network)
+        this.validators = validatorsObject
+      }
     }
-  },
-  async mounted() {
-    const validatorsObject = await getValidatorsData(this.tx.tx, this.network)
-    this.validators = validatorsObject
   },
   methods: {
     isValidInput(property) {
@@ -212,8 +208,9 @@ export default {
 <style scoped>
 .session-approve {
   padding: 2rem;
-  background: var(--fg);
   border-left: 1px solid var(--bc-dim);
+  background: var(--app-bg);
+  color: var(--bright);
 }
 
 .session-approve h2 {

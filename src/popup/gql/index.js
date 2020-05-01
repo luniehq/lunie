@@ -19,3 +19,32 @@ export const Networks = gql`
     }
   }
 `
+
+// load all the data immediatly to avoid async loading later
+export const NetworksAll = gql`
+  query Networks($experimental: Boolean) {
+    networks(experimental: $experimental) {
+      id
+      chain_id
+      testnet
+      title
+      icon
+      slug
+      default
+      powered {
+        name
+        providerAddress
+        picture
+      }
+      stakingDenom
+      network_type
+      address_prefix
+      testnet
+      coinLookup {
+        chainDenom
+        viewDenom
+        chainToViewConversionFactor
+      }
+    }
+  }
+`

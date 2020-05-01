@@ -22,13 +22,15 @@ const config = {
   },
   output: {
     path: resolve('dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    publicPath: '/'
   },
   resolve: {
     alias: {
       assets: resolve('lunie/src/assets'),
       'common/Avatar': resolve('./src/components/BlankAvatar'),
       common: resolve('lunie/src/components/common'),
+      network: resolve('lunie/src/components/network'),
       transactions: resolve('lunie/src/components/transactions'),
       modules: resolve('lunie/src/vuex/modules'),
       config: resolve('config.js'),
@@ -68,7 +70,7 @@ const config = {
         test: /\.(png|jpg|gif|svg|ico)$/,
         loader: 'file-loader',
         query: {
-          name: `/images/[name].[ext]`
+          name: `images/[name].[ext]`
         }
       },
       {
@@ -77,7 +79,7 @@ const config = {
           {
             loader: `file-loader`,
             query: {
-              name: `/fonts/[name].[ext]`
+              name: `fonts/[name].[ext]`
             }
           }
         ]
@@ -92,7 +94,7 @@ const config = {
         SENTRY_DSN: JSON.stringify(process.env.SENTRY_DSN),
         GOOGLE_ANALYTICS_UID: JSON.stringify(process.env.GOOGLE_ANALYTICS_UID),
         LUNIE_API: JSON.stringify(process.env.LUNIE_API),
-        EXTENSION: JSON.stringify(process.env.EXTENSION)
+        EXTENSION: 'true'
       }
     }),
     new VueLoaderPlugin(),

@@ -1,6 +1,6 @@
 {
   "name": "lunie-browser-extension",
-  "version": "1.0.16",
+  "version": "1.0.18",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
   "licenses": [
@@ -18,7 +18,8 @@
     "build": "node ./scripts/check-env-variables.js && cross-env NODE_ENV=production webpack --hide-modules && node ./scripts/remove-localhost.js",
     "build:dev": "node ./scripts/check-env-variables.js && cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
-    "initiate-submodule": "git clone https://github.com/luniehq/lunie && cd lunie && git checkout && git checkout b05315a && yarn",
+    "initiate-submodule": "git clone https://github.com/luniehq/lunie && yarn update-submodule",
+    "update-submodule": "cd lunie && git fetch --all && git checkout 1d5fca5 --force && yarn",
     "watch": "npm run build -- --watch",
     "watch:dev": "cross-env HMR=true npm run build:dev -- --watch",
     "test:unit": "jest --coverage",
@@ -125,7 +126,7 @@
     "prettier": "^1.17.1",
     "sass-loader": "^7.1.0",
     "selenium-server": "^3.141.59",
-    "simsala": "^0.0.19",
+    "simsala": "^0.0.21",
     "stylelint": "^10.1.0",
     "stylelint-config-standard": "^18.3.0",
     "vue-jest": "^3.0.4",

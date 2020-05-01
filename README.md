@@ -41,9 +41,14 @@ $ yarn install
 
 ## Set environment
 
-You need to provide the endpoint of the Lunie API via the environment variable `LUNIE_API`
+You need to provide 2 environment variables for the extension to work as expected. 
+
+- Provide an endpoint for the Lunie API: `LUNIE_API`
+- And set `EXTENSION` to true
 
 ## Develop (with hot reload)
+
+Make sure you're using node 10 or up.
 
 ```bash
 $ yarn watch:dev
@@ -63,7 +68,7 @@ $ yarn run build:dev
 
 ## Test in Chrome
 
-1. Go to chrome://extensions/ and check the box for Developer mode in the top right.
+1. Go to chrome://extensions and check the box for Developer mode in the top right.
 2. Click the Load unpacked extension button in the top left and select the build folder `lunie-browser-extension/dist/` to install it.
 
 # Third-party Integration
