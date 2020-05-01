@@ -14,8 +14,17 @@
           <FieldSeed
             id="import-seed"
             :value="seed"
-            placeholder="Must be exactly 12 or 24 words"
+            :placeholder="
+              isPolkadot
+                ? 'Must be your seed phrase or private key hash'
+                : 'Must be exactly 12 or 24 words'
+            "
             @input="val => (seed = val)"
+          />
+          <TmFormMsg
+            v-if="isPolkadot"
+            type="custom"
+            msg="Currently only the Schnorrkel algorithm is supported"
           />
           <TmFormMsg
             v-if="$v.seed.$error && !$v.seed.required"
@@ -83,7 +92,7 @@ export default {
     Steps
   },
   computed: {
-    ...mapGetters([`recover`]),
+    ...mapGetters([`recover`, `network`]),
     seed: {
       get() {
         return this.$store.state.recover.seed
@@ -94,6 +103,9 @@ export default {
           value: value.trim() // remove spaces from beginning and end of string
         })
       }
+    },
+    isPolkadot() {
+      return this.network.startsWith("polkadot")
     }
   },
   methods: {

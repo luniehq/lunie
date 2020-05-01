@@ -14,7 +14,8 @@ describe(`TmSessionImport`, () => {
 
   beforeEach(() => {
     getters = {
-      connected: () => true
+      connected: () => true,
+      network: "cosmos-hub-mainnet"
     }
     $store = {
       state: {
