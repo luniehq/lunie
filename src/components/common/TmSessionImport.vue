@@ -67,16 +67,16 @@ const lowerCaseAndSpaces = param => {
   }
   return false
 }
-
-const isPolkadotHexSeed = seed => {
+// exporting these for testing
+export const isPolkadotHexSeed = seed => {
   return isHex(seed) && seed.length === 66
 }
 
-const polkadotRawSeedValidate = seed => {
+export const polkadotRawSeedValidate = seed => {
   return (seed.length > 0 && seed.length <= 32) || isPolkadotHexSeed(seed)
 }
 
-const polkadotValidation = seed => {
+export const polkadotValidation = seed => {
   return mnemonicValidate(seed) || polkadotRawSeedValidate(seed)
 }
 
