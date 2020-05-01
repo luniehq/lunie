@@ -160,7 +160,7 @@ module.exports = [
     network_type: 'polkadot',
     source_class_name: 'source/polkadotV0-source',
     block_listener_class_name: 'block-listeners/polkadot-node-subscription',
-    testnet: true,
+    testnet: false,
     ...getNetworkCapabilities[`polkadot-testnet`],
     default: false,
     stakingDenom: 'KSM',
