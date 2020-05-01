@@ -53,9 +53,12 @@ export async function ClaimRewardsTx(senderAddress) {
     allClaimingTxs = []
   } else {
     stakerRewards.forEach(reward => {
-      reward.nominating.forEach(nomination => {
+      reward.nominating.forEach(async nomination => {
         allClaimingTxs.push(
-          api.tx.staking.payoutNominator(reward.era, nomination.validatorId)
+          await api.tx.staking.payoutNominator(
+            reward.era,
+            nomination.validatorId
+          )
         )
       })
     })
