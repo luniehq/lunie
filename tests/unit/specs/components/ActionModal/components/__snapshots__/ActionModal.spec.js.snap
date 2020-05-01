@@ -18,19 +18,19 @@ exports[`ActionModal back button renders and functions 1`] = `
   </div>
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -108,19 +108,19 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
   </div>
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -195,19 +195,19 @@ exports[`ActionModal should show the action modal on success 1`] = `
   <!---->
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -224,7 +224,7 @@ exports[`ActionModal should show the action modal on success 1`] = `
   >
     <tmdatamsg-stub
       icon="check"
-      iconcolor="var(--green)"
+      iconcolor="var(--success)"
       success="true"
     >
       <div>
@@ -268,19 +268,19 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
   <!---->
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -322,23 +322,23 @@ exports[`ActionModal should show the action modal when user has logged in with e
   </div>
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
-      Sign in required
+      Send
     </span>
      
     <steps-stub
@@ -356,8 +356,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="form-message notice"
     >
       
-          You're using Lunie in explore mode. Please sign in or create an
-          account to proceed with this action.
+          You're using Lunie in explore mode. Sign in or create an account to
+          get started.
         
     </p>
   </div>
@@ -378,7 +378,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
        
       <tmbtn-stub
         type="primary"
-        value="Sign In / Sign Up"
+        value="Sign In"
       />
     </tmformgroup-stub>
   </div>
@@ -403,23 +403,23 @@ exports[`ActionModal should show the action modal when user has logged in with e
   </div>
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
-      Sign in required
+      Send
     </span>
      
     <steps-stub
@@ -437,8 +437,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="form-message notice"
     >
       
-          You're using Lunie in explore mode. Please sign in or create an
-          account to proceed with this action.
+          You're using Lunie in explore mode. Sign in or create an account to
+          get started.
         
     </p>
   </div>
@@ -459,7 +459,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
        
       <tmbtn-stub
         type="primary"
-        value="Sign In / Sign Up"
+        value="Sign In"
       />
     </tmformgroup-stub>
   </div>
@@ -475,23 +475,23 @@ exports[`ActionModal should show the action modal when user has logged in with e
   <!---->
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
-      Sign in required
+      Send
     </span>
      
     <steps-stub
@@ -509,8 +509,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="form-message notice"
     >
       
-          You're using Lunie in explore mode. Please sign in or create an
-          account to proceed with this action.
+          You're using Lunie in explore mode. Sign in or create an account to
+          get started.
         
     </p>
   </div>
@@ -531,7 +531,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
        
       <tmbtn-stub
         type="primary"
-        value="Sign In / Sign Up"
+        value="Sign In"
       />
     </tmformgroup-stub>
   </div>
@@ -556,19 +556,19 @@ exports[`ActionModal should show the action modal when user has logged in with e
   </div>
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -638,19 +638,19 @@ exports[`ActionModal should show the action modal when user has logged in with e
   </div>
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -725,19 +725,19 @@ exports[`ActionModal should show the action modal when user has logged in with e
   <!---->
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -823,19 +823,19 @@ exports[`ActionModal should show the action modal when user has logged in with l
   </div>
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -905,19 +905,19 @@ exports[`ActionModal should show the action modal when user has logged in with l
   </div>
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -981,19 +981,19 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <!---->
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -1068,19 +1068,19 @@ exports[`ActionModal should show the action modal when user has logged in with l
   </div>
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -1150,19 +1150,19 @@ exports[`ActionModal should show the action modal when user has logged in with l
   </div>
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -1231,19 +1231,19 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <!---->
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
@@ -1313,23 +1313,23 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
   <!---->
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
-      Sign in required
+      Send
     </span>
      
     <steps-stub
@@ -1347,8 +1347,8 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       class="form-message notice"
     >
       
-          You're using Lunie in explore mode. Please sign in or create an
-          account to proceed with this action.
+          You're using Lunie in explore mode. Sign in or create an account to
+          get started.
         
     </p>
   </div>
@@ -1369,7 +1369,7 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
        
       <tmbtn-stub
         type="primary"
-        value="Sign In / Sign Up"
+        value="Sign In"
       />
     </tmformgroup-stub>
   </div>
@@ -1385,19 +1385,19 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
   <!---->
    
   <div
-    class="action-modal-icon action-modal-close"
-    id="closeBtn"
-  >
-    <i
-      class="material-icons notranslate"
-    >
-      close
-    </i>
-  </div>
-   
-  <div
     class="action-modal-header"
   >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
     <span
       class="action-modal-title"
     >
