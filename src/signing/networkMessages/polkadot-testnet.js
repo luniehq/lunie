@@ -42,42 +42,29 @@ export async function StakeTx(senderAddress, { to, amount }, network) {
   return await getSignMessage(senderAddress, transactions)
 }
 
-export async function ClaimRewardsTx(senderAddress, { from }) {
+export async function ClaimRewardsTx(senderAddress) {
   let allClaimingTxs = []
   const api = await getAPI()
-  const [currentEra, stakingInfo] = await Promise.all([
-    api.query.staking.currentEra(),
-    api.derive.staking.query(senderAddress)
-  ])
+  const stakerRewards = JSON.parse(
+    JSON.stringify(await api.derive.staking.stakerRewards(senderAddress))
+  )
 
-  if (
-    !stakingInfo.stakingLedger ||
-    !stakingInfo.stakingLedger.claimedRewards ||
-    stakingInfo.stakingLedger.claimedRewards.length === 0
-  ) {
+  if (stakerRewards.length === 0) {
     allClaimingTxs = []
   } else {
-    const claimedRewards = stakingInfo.stakingLedger.claimedRewards.toHuman()
-    const oldestClaimableEra = parseInt(Math.max(...claimedRewards)) + 1
-
-    console.log(`currentEra:`, currentEra)
-    console.log(`claimedRewards:`, claimedRewards)
-    console.log(`oldestClaimableEra:`, oldestClaimableEra)
-
-    console.log(`Claim rewards from ${oldestClaimableEra} to ${currentEra - 1}`)
-
-    for (let era = oldestClaimableEra; era < currentEra; era++) {
-      // allClaimingTxs.push(api.tx.staking.payoutNominator(era, from))
-      allClaimingTxs.push(`api.tx.staking.payoutNominator(${era}, ${from})`)
-    }
+    stakerRewards.forEach(reward => {
+      console.log(`reward`, reward)
+      reward.nominating.forEach(nomination => {
+        allClaimingTxs.push(
+          api.tx.staking.payoutNominator(reward.era, nomination.validatorId)
+        )
+      })
+    })
   }
-  console.log(`allClaimingTxs:`, allClaimingTxs)
-  return true
-
-  // if (allClaimingTxs.length === 0) {
-  // throw new Error("There are no claimable rewards")
-  // }
-  // return getSignMessage(senderAddress, allClaimingTxs)
+  if (allClaimingTxs.length === 0) {
+    throw new Error("There are no claimable rewards")
+  }
+  return getSignMessage(senderAddress, allClaimingTxs)
 }
 
 function toChainAmount({ amount, denom }, coinLookup) {
