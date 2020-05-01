@@ -53,7 +53,6 @@ export async function ClaimRewardsTx(senderAddress) {
     allClaimingTxs = []
   } else {
     stakerRewards.forEach(reward => {
-      console.log(`reward`, reward)
       reward.nominating.forEach(nomination => {
         allClaimingTxs.push(
           api.tx.staking.payoutNominator(reward.era, nomination.validatorId)
