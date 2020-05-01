@@ -42,44 +42,42 @@ export async function StakeTx(senderAddress, { to, amount }, network) {
   return await getSignMessage(senderAddress, transactions)
 }
 
-export async function ClaimRewardsTx(
-  senderAddress,
-  {
-    // amounts,
-    from
-  }
-) {
+export async function ClaimRewardsTx(senderAddress, { from }) {
+  let allClaimingTxs = []
   const api = await getAPI()
-  const [currentEra, oldestClaimableEra, stakingInfo] = await Promise.all([
-    api.query.staking.historyDepth(),
+  const [currentEra, stakingInfo] = await Promise.all([
     api.query.staking.currentEra(),
     api.derive.staking.query(senderAddress)
   ])
-  let claimedRewards
+
   if (
     !stakingInfo.stakingLedger ||
     !stakingInfo.stakingLedger.claimedRewards ||
     stakingInfo.stakingLedger.claimedRewards.length === 0
   ) {
-    claimedRewards = []
+    allClaimingTxs = []
   } else {
-    claimedRewards = stakingInfo.stakingLedger.claimedRewards.toHuman()
-  }
-  // No claimed rewards yet so we substract HISTORY_DEPTH to current era index
-  const claimRewardsSinceEra =
-    parseInt(currentEra) - parseInt(oldestClaimableEra)
+    const claimedRewards = stakingInfo.stakingLedger.claimedRewards.toHuman()
+    const oldestClaimableEra = parseInt(Math.max(...claimedRewards)) + 1
 
-  const allClaimingTxs = []
-  for (let era = claimRewardsSinceEra; era <= currentEra; era++) {
-    if (!claimedRewards.included(era)) {
-      allClaimingTxs.push(api.tx.staking.payoutNominator(era, from))
+    console.log(`currentEra:`, currentEra)
+    console.log(`claimedRewards:`, claimedRewards)
+    console.log(`oldestClaimableEra:`, oldestClaimableEra)
+
+    console.log(`Claim rewards from ${oldestClaimableEra} to ${currentEra - 1}`)
+
+    for (let era = oldestClaimableEra; era < currentEra; era++) {
+      // allClaimingTxs.push(api.tx.staking.payoutNominator(era, from))
+      allClaimingTxs.push(`api.tx.staking.payoutNominator(${era}, ${from})`)
     }
   }
+  console.log(`allClaimingTxs:`, allClaimingTxs)
+  return true
 
-  if (allClaimingTxs.length === 0) {
-    throw new Error("There are no claimable rewards")
-  }
-  return getSignMessage(senderAddress, allClaimingTxs)
+  // if (allClaimingTxs.length === 0) {
+  // throw new Error("There are no claimable rewards")
+  // }
+  // return getSignMessage(senderAddress, allClaimingTxs)
 }
 
 function toChainAmount({ amount, denom }, coinLookup) {
