@@ -1,3 +1,5 @@
+import { mapGetters } from "vuex"
+
 // creates a cosmos addres for the network desired
 function getCosmosAddressCreator(bech32Prefix) {
   return async seedPhrase => {
@@ -19,7 +21,7 @@ async function createPolkadotAddress(seedPhrase, addressPrefix) {
 
   const keyring = new Keyring({
     ss58Format: Number(addressPrefix),
-    type: "sr25519"
+    type: [...mapGetters([`polkadotAlgo`])]
   })
   const newPair = keyring.addFromUri(seedPhrase)
 

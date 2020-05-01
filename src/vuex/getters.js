@@ -21,3 +21,5 @@ export const isExtensionAccount = state =>
   state.extension.accounts.some(account => {
     return account.address === state.session.address
   })
+
+export const polkadotAlgo = state => state.session.polkadotAlgo

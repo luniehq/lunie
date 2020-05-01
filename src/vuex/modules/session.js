@@ -29,6 +29,7 @@ export default ({ apollo }) => {
     browserWithLedgerSupport:
       navigator.userAgent.includes(`Chrome`) ||
       navigator.userAgent.includes(`Opera`),
+    polkadotAlgo: "sr25519", // we default to Schnorrkel
 
     // import into state to be able to test easier
     externals: {
@@ -231,6 +232,11 @@ export default ({ apollo }) => {
         state.externals.anonymize()
         console.log(`Analytics collection has been disabled`)
       }
+    },
+    // eslint-disable-next-line no-unused-vars
+    setPolkadotAlgo({ dispatch }, algo) {
+      console.log("Polkadot algorithm is now", algo)
+      state.polkadotAlgo = algo
     }
   }
 
@@ -244,7 +250,7 @@ export default ({ apollo }) => {
 /**
  * Retrieve active networks from localstorage via session keys
  */
-const getActiveNetworks = networkObjects  => {
+const getActiveNetworks = networkObjects => {
   let activeNetworks = []
   networkObjects.forEach(network => {
     // Session object: { address: string, sessionType: string (e.g. ledger)}

@@ -21,11 +21,17 @@
             "
             @input="val => (seed = val)"
           />
-          <TmFormMsg
-            v-if="isPolkadot"
-            type="custom"
-            msg="Currently only the Schnorrkel algorithm is supported"
-          />
+          <div class="polkadot-algorithm-div">
+            <span>{{ polkadotAlgo }}</span>
+            <label v-if="isPolkadot" class="polkadot-algorithm-switch">
+              <input
+                v-model="polkadotAlgoCheckbox"
+                type="checkbox"
+                @change="switchPolkadotAlgorithm()"
+              />
+              <span class="slider round"></span>
+            </label>
+          </div>
           <TmFormMsg
             v-if="$v.seed.$error && !$v.seed.required"
             name="Seed"
@@ -91,6 +97,16 @@ export default {
     TmFormStruct,
     Steps
   },
+  data: () => {
+    return {
+      polkadotAlgo: "Schnorrkel",
+      polkadotAlgoCheckbox: false,
+      polkadotAlgoDictionary: {
+        Schnorrkel: "sr25519",
+        Edwards: "ed25519"
+      }
+    }
+  },
   computed: {
     ...mapGetters([`recover`, `network`]),
     seed: {
@@ -113,6 +129,13 @@ export default {
       this.$v.$touch()
       if (this.$v.seed.$invalid || this.$v.seed.$invalid) return
       this.$router.push("/recover/name")
+    },
+    switchPolkadotAlgorithm() {
+      this.polkadotAlgo = this.polkadotAlgoCheckbox ? "Edwards" : "Schnorrkel"
+      this.$store.dispatch(
+        "setPolkadotAlgo",
+        this.polkadotAlgoDictionary[this.polkadotAlgo]
+      )
     }
   },
   validations: () => ({
@@ -126,3 +149,76 @@ export default {
   })
 }
 </script>
+<style scoped>
+.polkadot-algorithm-div {
+  margin-top: 2vh;
+}
+
+.polkadot-algorithm-div span {
+  display: block;
+  font-style: italic;
+  font-size: 1.7vh;
+  color: var(--primary);
+  font-weight: 500;
+  margin-bottom: 1vh;
+}
+
+.polkadot-algorithm-switch {
+  position: relative;
+  display: block;
+  width: 11vw;
+  height: 6vh;
+}
+
+.polkadot-algorithm-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--primary);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: var(--primary-hover);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px var(--primary-hover);
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>

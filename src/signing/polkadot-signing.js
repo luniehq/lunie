@@ -1,4 +1,5 @@
 import { hexToU8a } from "@polkadot/util"
+import { mapGetters } from "vuex"
 
 export async function getSignature({ payload, transaction }, wallet, network) {
   const [{ Keyring }] = await Promise.all([
@@ -12,7 +13,7 @@ export async function getSignature({ payload, transaction }, wallet, network) {
 
   const keyring = new Keyring({
     ss58Format: Number(network.address_prefix),
-    type: "sr25519"
+    type: [...mapGetters([`polkadotAlgo`])]
   })
   const keypair = keyring.createFromUri(wallet.seedPhrase)
 
