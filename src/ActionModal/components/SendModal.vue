@@ -430,9 +430,6 @@ export default {
 .tm-field-addon:focus {
   border-color: var(--input-bc);
 }
-#form-group-amount {
-  margin-bottom: 30px;
-}
 .tm-field-token-selector {
   width: 80px;
 }

@@ -2,7 +2,7 @@
   <div class="sidebar-bottom">
     <TmBtn
       id="intercom-button"
-      class="intercom-button"
+      class="intercom-button secondary"
       value="Help / Feedback"
       type="sidebar"
       size="small"
