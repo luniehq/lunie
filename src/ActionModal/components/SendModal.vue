@@ -124,7 +124,6 @@
       <TmField
         id="memo"
         v-model="memo"
-        v-focus
         type="text"
         @keyup.enter.native="enterPressed"
       />

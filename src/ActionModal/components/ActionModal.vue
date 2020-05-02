@@ -1048,6 +1048,8 @@ export default {
     top: 0;
     overflow-x: scroll;
     padding-top: 3rem;
+    border: 0;
+    border-radius: 0;
   }
 
   .action-modal-footer button {

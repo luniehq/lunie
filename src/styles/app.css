@@ -93,7 +93,7 @@ input.tm-field {
 }
 
 .input-suffix {
-  background: var(--app-fg);
+  background: transparent;
   display: inline-block;
   position: absolute;
   padding: 7px;

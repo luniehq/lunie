@@ -27,7 +27,7 @@
       "
     >
       <div v-for="reward in totalRewards" :key="JSON.stringify(reward.denom)">
-        <span class="input-suffix-reward">{{ reward.denom }}</span>
+        <span class="input-suffix">{{ reward.denom }}</span>
         <input
           class="tm-field-addon"
           disabled="disabled"
@@ -192,19 +192,6 @@ export default {
 </script>
 
 <style scoped>
-.input-suffix-reward {
-  background: var(--bc-dim);
-  display: inline-block;
-  position: absolute;
-  padding: 8px;
-  font-size: var(--sm);
-  text-transform: uppercase;
-  right: 30px;
-  letter-spacing: 1px;
-  text-align: right;
-  font-weight: 500;
-  border-radius: 2px;
-}
 .form-message.withdraw-limit {
   white-space: normal;
 }
