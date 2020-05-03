@@ -34,6 +34,9 @@ services:
       - PUSH_NOTIFICATIONS_DATABASE_URL=https://lunie-push-notifications.firebaseio.com
       - GOOGLE_APPLICATION_CREDENTIALS=/var/www/server/pushCredentials.json
       - PUSH_NOTIFICATIONS_FRONTEND_URL=https://app.lunie.io
+      - EMONEY_EXCHANGE_API_RATES_ENDPOINT=https://api.exchangeratesapi.io/latest?
+      - EMONEY_API_MAINNET=https://api.e-money.com/v1/
+      - EMONEY_API_TESTNET=https://beta-api.e-money.com/v1/
   node-exporter:
     image: prom/node-exporter
     container_name: node_exporter
