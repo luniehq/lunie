@@ -42,28 +42,68 @@ export async function StakeTx(senderAddress, { to, amount }, network) {
   return await getSignMessage(senderAddress, transactions)
 }
 
-export async function ClaimRewardsTx(senderAddress) {
+export async function ClaimRewardsTx(senderAddress, { from }) {
   let allClaimingTxs = []
   const api = await getAPI()
-  const stakerRewards = await api.derive.staking.stakerRewards(senderAddress)
-
-  if (stakerRewards.length === 0) {
-    allClaimingTxs = []
-  } else {
-    stakerRewards.forEach(reward => {
-      const validators = reward.nominating.map(
-        ({ validatorId, validatorIndex }) => [validatorId, validatorIndex]
-      )
-      allClaimingTxs.push(
-        api.tx.staking.payoutNominator(reward.era, validators)
-      )
-    })
+  console.time("rewards")
+  const [desiredEras, stakingInfo] = await Promise.all([
+    api.derive.staking
+      .erasHistoric(false)
+      .then(rawEras => rawEras.map(rawEra => rawEra.toJSON())),
+    api.derive.staking.query(senderAddress)
+  ])
+  let claimedRewards = []
+  if (stakingInfo.stakingLedger && stakingInfo.stakingLedger.claimedRewards) {
+    claimedRewards = stakingInfo.stakingLedger.claimedRewards.toJSON() || []
   }
+  const claimableEras = desiredEras.filter(era => !claimedRewards.includes(era))
+  const clippedExposures = await claimableEras.reduce(
+    async (clippedExposuresPromise, era) => {
+      const clippedExposure = await clippedExposuresPromise
+      clippedExposure[era] = clippedExposure[era] || []
+      clippedExposure[era].push(
+        ...(await Promise.all(
+          from.map(validator =>
+            api.query.staking
+              .erasStakersClipped(era, validator)
+              .then(res => res.toJSON())
+              .then(exposure => ({
+                ...exposure,
+                validator
+              }))
+          )
+        ))
+      )
+      return clippedExposure
+    },
+    {}
+  )
+  const claimableRewards = Object.entries(clippedExposures).reduce(
+    (claimableRewards, [era, exposures]) => {
+      exposures.forEach(({ others, validator }) => {
+        const index = others.findIndex(({ who }) => who === senderAddress)
+        if (index > -1) {
+          claimableRewards[era] = claimableRewards[era] || []
+          claimableRewards[era].push([validator, index])
+        }
+      })
+      return claimableRewards
+    },
+    {}
+  )
+
+  Object.entries(claimableRewards)
+    .filter(([, validators]) => validators.length > 0)
+    .sort((a, b) => a[0] - b[0])
+    .forEach(([era, validators]) => {
+      allClaimingTxs.push(api.tx.staking.payoutStakers(validators[0], era))
+    })
+  console.timeEnd("rewards")
   console.log(allClaimingTxs)
   if (allClaimingTxs.length === 0) {
     throw new Error("There are no claimable rewards")
   }
-  return await getSignMessage(senderAddress, allClaimingTxs)
+  return await getSignMessage(senderAddress, allClaimingTxs[0])
 }
 
 function toChainAmount({ amount, denom }, coinLookup) {
