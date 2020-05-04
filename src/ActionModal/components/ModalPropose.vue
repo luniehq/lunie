@@ -185,7 +185,8 @@ export default {
         initialDeposit: {
           amount: this.amount,
           denom: this.denom
-        }
+        },
+        proposer: this.userAddress
       }
     },
     notifyMessage() {

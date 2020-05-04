@@ -1,13 +1,14 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
+import pushNotifications from "./pushNotifications.js"
 import config from "src/../config"
 
-export default () => {
+export default ({ apollo }) => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
   const state = {
     developmentMode: config.development, // can't be set in browser
     experimentalMode: config.development, // development mode, can be set from browser
-    insecureMode: config.e2e || false, // show the local signer
+    insecureMode: config.development || config.e2e || false, // show the local signer
     mobile: config.mobileApp || false,
     signedIn: false,
     sessionType: null, // local, explore, ledger, extension
@@ -105,7 +106,10 @@ export default () => {
     async persistAddresses(store, { addresses }) {
       localStorage.setItem(`addresses`, JSON.stringify(addresses))
     },
-    async rememberAddress({ state, commit }, { address, sessionType }) {
+    async rememberAddress(
+      { state, commit },
+      { address, sessionType, networkId }
+    ) {
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
         usedAddress => address === usedAddress.address
@@ -113,8 +117,9 @@ export default () => {
       // Add signin address to addresses array if was not used previously
       if (!sessionExist) {
         state.addresses.push({
-          address: address,
-          type: sessionType
+          address,
+          type: sessionType,
+          networkId
         })
         commit(`setUserAddresses`, state.addresses)
       }
@@ -122,6 +127,7 @@ export default () => {
     async signIn(
       {
         state,
+        getters: { networks },
         commit,
         dispatch,
         rootState: {
@@ -138,7 +144,7 @@ export default () => {
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
       commit(`setUserAddress`, address)
-      await dispatch(`rememberAddress`, { address, sessionType })
+      await dispatch(`rememberAddress`, { address, sessionType, networkId })
 
       dispatch(`persistSession`, {
         address,
@@ -149,6 +155,11 @@ export default () => {
       dispatch(`persistAddresses`, {
         addresses
       })
+
+      // Register device for push registrations
+      const activeNetworks = getActiveNetworks(networks)
+      /* istanbul ignore next */
+      await pushNotifications.askPermissionAndRegister(activeNetworks, apollo)
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
@@ -228,6 +239,29 @@ export default () => {
     mutations,
     actions
   }
+}
+
+/**
+ * Retrieve active networks from localstorage via session keys
+ */
+const getActiveNetworks = networkObjects  => {
+  let activeNetworks = []
+  networkObjects.forEach(network => {
+    // Session object: { address: string, sessionType: string (e.g. ledger)}
+    const networkObject = JSON.parse(
+      localStorage.getItem(`session_${network.id}`)
+    )
+
+    // Only store network object if it has an associated address
+    if (networkObject) {
+      activeNetworks.push({
+        address: networkObject.address,
+        networkId: network.id
+      })
+    }
+  })
+
+  return activeNetworks
 }
 
 function sessionKey(networkId) {

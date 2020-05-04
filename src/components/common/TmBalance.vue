@@ -39,7 +39,7 @@
             </i>
             <span v-else>Need some tokens?</span>
           </button>
-          <div v-if="currencySupport" class="currency-selector">
+          <div v-if="!isTestnet" class="currency-selector">
             <img
               v-if="preferredCurrency"
               class="currency-flag"
@@ -104,15 +104,9 @@
               {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
               {{ stakingDenom }}
             </span>
-            <template
-              v-if="
-                overview.totalStakeFiatValue &&
-                  overview.totalStakeFiatValue.amount > 0
-              "
-            >
+            <template v-if="overview.totalStakeFiatValue && !isTestnet">
               <span class="fiat">
-                {{ overview.totalStakeFiatValue.symbol
-                }}{{
+                {{
                   bigFigureOrShortDecimals(overview.totalStakeFiatValue.amount)
                 }}
                 {{ preferredCurrency }}
@@ -179,9 +173,8 @@
                 {{ balance.amount | bigFigureOrShortDecimals }}
                 {{ balance.denom }}
               </span>
-              <span v-if="balance.fiatValue" class="fiat">
-                {{ balance.fiatValue.symbol
-                }}{{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
+              <span v-if="balance.fiatValue && !isTestnet" class="fiat">
+                {{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
                 {{ balance.fiatValue.denom }}</span
               >
             </div>
@@ -321,14 +314,11 @@ export default {
   },
   computed: {
     ...mapState([`connection`, `session`]),
-    ...mapGetters([`address`, `network`, `stakingDenom`]),
+    ...mapGetters([`address`, `networks`, `network`, `stakingDenom`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return Object.values(this.totalRewardsPerDenom).find(value => value > 0)
-    },
-    stakingBalance() {
-      return this.balances.find(({ denom }) => denom === this.stakingDenom)
     },
     filteredMultiDenomBalances() {
       const rewards = Object.entries(this.totalRewardsPerDenom)
@@ -358,9 +348,6 @@ export default {
         return [this.stakingDenom]
       }
     },
-    currencySupport() {
-      return this.stakingBalance && this.stakingBalance.fiatValue
-    },
     totalRewardsPerDenom() {
       return this.rewards.reduce((all, reward) => {
         return {
@@ -371,6 +358,9 @@ export default {
     },
     totalRewards() {
       return this.totalRewardsPerDenom[this.stakingDenom] || 0
+    },
+    isTestnet() {
+      return this.networks.find(network => network.id === this.network).testnet
     }
   },
   watch: {
@@ -763,7 +753,7 @@ select option {
 }
 
 .fiat {
-  color: #b0bade;
+  color: var(--dim);
   padding-left: 1rem;
 }
 

@@ -1,11 +1,12 @@
 import config from "src/../config"
+import { getMessage } from "src/signing/message-creator"
 
 describe("pick signer", () => {
-  let getSigner, cancelSign, signQueue
+  let getSigner, cancelSign, signQueue, getPolkadotLocalSigner
   beforeEach(() => {
     jest.resetModules()
     jest.doMock("@lunie/cosmos-keys", () => ({
-      signWithPrivateKey: () => Buffer.alloc(0),
+      signWithPrivateKey: () => Buffer.from("cool signature"),
       getStoredWallet: () => ({
         privateKey: "1234",
         publicKey: "1234"
@@ -42,6 +43,7 @@ describe("pick signer", () => {
     getSigner = signer.getSigner
     cancelSign = signer.cancelSign
     signQueue = signer.signQueue
+    getPolkadotLocalSigner = signer.getPolkadotLocalSigner
   })
 
   it("should should exist", () => {
@@ -79,8 +81,8 @@ describe("pick signer", () => {
       config
     )
     expect(signer("message")).toEqual({
-      signature: expect.any(Buffer),
-      publicKey: expect.any(Buffer)
+      signature: "636f6f6c207369676e6174757265",
+      publicKey: "1234"
     })
   })
 
@@ -164,5 +166,50 @@ describe("pick signer", () => {
       publicKey: expect.any(Buffer)
     })
     expect(signWithExtension).toHaveBeenCalled()
+  })
+
+  it("should create signature for Polkadot", async () => {
+    jest.setTimeout(30000)
+    const nodeEnv = process.env.NODE_ENV
+    process.env.NODE_ENV = "production"
+    try {
+      const network = {
+        id: "polkadot-testnet",
+        network_type: "polkadot",
+        address_prefix: 2,
+        testnet: true,
+        coinLookup: [
+          {
+            viewDenom: "KSM",
+            chainToViewConversionFactor: 1e-12,
+            chainDenom: "Planck"
+          }
+        ]
+      }
+      const message = {
+        to: ["DPpTYGsMbC1KELwDowaY2S1kEBpDjBAoaotPamfdXKdkYoG"],
+        amount: {
+          denom: "KSM",
+          amount: 0.00001
+        }
+      }
+      const signer = await getPolkadotLocalSigner(
+        {
+          seedPhrase: `lunch primary know smoke track sustain parrot enact shock final rookie banana`
+        },
+        network
+      )
+      const chainMessage = await getMessage(
+        network,
+        "SendTx",
+        "DPpTYGsMbC1KELwDowaY2S1kEBpDjBAoaotPamfdXKdkYoG",
+        message
+      )
+      const signedContext = await signer(chainMessage)
+
+      expect(typeof signedContext.rawSignature).toBe("object") // can't test the value as it changes
+    } finally {
+      process.env.NODE_ENV = nodeEnv
+    }
   })
 })

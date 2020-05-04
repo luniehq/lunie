@@ -41,5 +41,6 @@
   ],
   "background_color": "#15182d",
   "display": "standalone",
-  "description": "The official wallet of the Cosmos Hub."
+  "description": "The official wallet of the Cosmos Hub.",
+  "gcm_sender_id": "783884833065"
 }

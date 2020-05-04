@@ -51,7 +51,8 @@ const config = {
         splitChunks: {
           chunks: "all"
         }
-      }
+      },
+      devtool: "eval-source-map"
     }
 
     return config
