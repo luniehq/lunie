@@ -138,7 +138,10 @@
               <i class="material-icons">send</i></button
             ><span>Send</span>
           </div>
-          <div v-if="session.experimentalMode" class="icon-button-container">
+          <div
+            v-if="session.experimentalMode && moonpayCoins.has(stakingDenom)"
+            class="icon-button-container"
+          >
             <button
               class="icon-button circle-buy-button"
               @click="onBuy(stakingDenom)"
@@ -200,7 +203,7 @@
           </div>
 
           <div
-            v-if="session.experimentalMode"
+            v-if="session.experimentalMode && moonpayCoins.has(denom)"
             :key="balance.denom + 4"
             class="table-cell actions"
           >
@@ -263,6 +266,7 @@ export default {
       rewards: [],
       selectedFiatCurrency: "USD",
       preferredCurrency: "",
+      moonpayCoins: new Set(["ATOM", "LUNA", "SDT", "KAVA"]), // TODO: add warning for US custormers as they cannot purchase any of these coins
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
