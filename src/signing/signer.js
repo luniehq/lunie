@@ -65,7 +65,7 @@ async function getCosmosLocalSigner(wallet) {
       Buffer.from(wallet.privateKey, "hex")
     )
 
-    return { signature, publicKey: Buffer.from(wallet.publicKey, "hex") }
+    return { signature: signature.toString("hex"), publicKey: wallet.publicKey }
   }
 }
 
