@@ -1,5 +1,6 @@
 import firebase from "firebase"
 import config from "../../../config"
+import gql from "graphql-tag"
 
 let messaging
 
@@ -25,7 +26,7 @@ const initializeFirebase = async () => {
   })
 }
 
-const askPermissionAndRegister = async activeNetworks => {
+const askPermissionAndRegister = async (activeNetworks, apollo) => {
   // Only store for new registrations
   const isDeviceRegistered = localStorage.getItem(
     "registration-push-notifications"
@@ -53,40 +54,41 @@ const askPermissionAndRegister = async activeNetworks => {
 
           // Granted? Store device
           const token = await messaging.getToken()
-          await registerDevice(token, activeNetworks)
+          await registerDevice(token, activeNetworks, apollo)
         })
-        .catch(() =>
+        .catch(error =>
           console.log(
-            "bug FCM throws error while deleting token on first refresh"
+            "bug FCM throws error while deleting token on first refresh",
+            error
           )
         )
     } catch (error) {
-      console.log("Permission denied")
+      console.log("Permission denied", error)
     }
   }
 }
 
-const registerDevice = async (token, activeNetworks) => {
-  const registrationResponse = await fetch(`${config.graphqlHost}`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      query:
-        "mutation ($token: String!, $activeNetworks: String!, $topics: [String]) { registerDevice(token: $token, activeNetworks: $activeNetworks, topics: $topics) { topics } } ",
-      variables: {
-        token,
-        activeNetworks: JSON.stringify(activeNetworks)
+const registerDevice = async (token, activeNetworks, apollo) => {
+  await apollo.mutate({
+    mutation: gql`
+      mutation($token: String!, $activeNetworks: String!, $topics: [String]) {
+        registerDevice(
+          token: $token
+          activeNetworks: $activeNetworks
+          topics: $topics
+        ) {
+          topics
+        }
       }
-    })
+    `,
+    variables: {
+      token,
+      activeNetworks: JSON.stringify(activeNetworks)
+    }
   })
 
-  if (registrationResponse.status === 200 && registrationResponse.ok) {
-    localStorage.setItem("registration-push-notifications", "true")
-    localStorage.setItem("registration-push-notifications-token", token)
-  }
+  localStorage.setItem("registration-push-notifications", "true")
+  localStorage.setItem("registration-push-notifications-token", token)
 }
 
 export default {

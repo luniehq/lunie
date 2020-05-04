@@ -100,25 +100,24 @@ export const getSignQueue = async () => {
 }
 
 export const signWithExtension = async (
-  signMessage,
+  messageType,
+  message,
+  transactionData,
   senderAddress,
-  network,
-  displayedProperties
+  network
 ) => {
-  const { signature, publicKey } = await sendAsyncMessageToContentScript({
+  const signedContext = await sendAsyncMessageToContentScript({
     type: "LUNIE_SIGN_REQUEST",
     payload: {
-      signMessage,
+      messageType,
+      message,
+      transactionData,
       senderAddress,
-      network,
-      displayedProperties
+      network: network.id
     }
   })
 
-  return {
-    signature: Buffer.from(signature, "hex"),
-    publicKey: Buffer.from(publicKey, "hex")
-  }
+  return signedContext
 }
 
 export const cancelSignWithExtension = async (senderAddress, network) => {
@@ -126,7 +125,7 @@ export const cancelSignWithExtension = async (senderAddress, network) => {
     type: "LUNIE_SIGN_REQUEST_CANCEL",
     payload: {
       senderAddress,
-      network
+      network: network.id
     }
   })
 

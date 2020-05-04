@@ -433,7 +433,8 @@ export default {
       /* istanbul ignore next */
       skip() {
         return (
-          (!this.address || !this.network) &&
+          !this.address ||
+          !this.network ||
           // only needed for polkadot to determine if user needs to set an amount
           !this.network.startsWith("polkadot")
         )

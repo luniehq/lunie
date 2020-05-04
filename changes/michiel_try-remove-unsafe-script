@@ -1,0 +1,1 @@
+[Security] [#3923](https://github.com/cosmos/lunie/pull/3923) Avoid unsafe inline scripts in build and secure the remaining with CSP hash @michielmulders
