@@ -139,7 +139,7 @@
             ><span>Send</span>
           </div>
           <div
-            v-if="session.experimentalMode && moonpayCoins.has(stakingDenom)"
+            v-if="canUserBuyToken(stakingDenom)"
             class="icon-button-container"
           >
             <button
@@ -203,7 +203,7 @@
           </div>
 
           <div
-            v-if="session.experimentalMode && moonpayCoins.has(denom)"
+            v-if="canUserBuyToken(denom)"
             :key="balance.denom + 4"
             class="table-cell actions"
           >
@@ -386,6 +386,7 @@ export default {
       this.$refs.SendModal.open(denom)
     },
     onBuy(denom = undefined) {
+      // TODO: open modal to select fiat currency, otherwise Moonpay defaults to USD
       if (denom) {
         window.location = `https://buy-staging.moonpay.io?apiKey=${
           config.moonpayAPIKey
@@ -401,6 +402,9 @@ export default {
     setPreferredCurrency() {
       localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
       this.preferredCurrency = this.selectedFiatCurrency
+    },
+    canUserBuyToken(denom) {
+      return this.session.experimentalMode && this.moonpayCoins.has(denom) // TODO: tell if user is located in the US
     },
     sendRewards(totalRewards) {
       // sending to ga only once
@@ -762,7 +766,7 @@ select option {
 }
 
 .icon-button-container {
-  margin-right: 5px;
+  margin-right: 1.5rem;
 }
 
 .icon-button-container span {
@@ -797,7 +801,7 @@ select option {
 }
 
 .circle-buy-button {
-  background: #f67f70;
+  background: var(--buy-button);
 }
 
 .total-and-fiat {
