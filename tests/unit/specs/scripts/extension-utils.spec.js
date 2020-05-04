@@ -8,6 +8,23 @@ import {
 } from "scripts/extension-utils.js"
 
 describe(`Extension Utils`, () => {
+  const signRequest = {
+    messageType: "SendTx",
+    message: {
+      amount: {
+        denom: "STAKE",
+        amount: 5
+      },
+      to: ["cosmos1234"],
+      from: ["cosmos1568"]
+    },
+    transactionData: {},
+    senderAddress: "cosmos1568",
+    network: {
+      id: "cosmos-hub-testnet"
+    }
+  }
+
   describe("listenToExtensionMessages", () => {
     let store
 
@@ -147,14 +164,14 @@ describe(`Extension Utils`, () => {
       })
 
       it("should cancel requests", () => {
-        cancelSignWithExtension("abc", "cosmos1234")
+        cancelSignWithExtension(signRequest.senderAddress, signRequest.network)
         expect(global.postMessage.mock.calls).toEqual([
           [
             {
               payload: {
                 payload: {
-                  senderAddress: "abc",
-                  network: "cosmos1234"
+                  network: "cosmos-hub-testnet",
+                  senderAddress: "cosmos1568"
                 },
                 type: "LUNIE_SIGN_REQUEST_CANCEL"
               },
@@ -167,14 +184,30 @@ describe(`Extension Utils`, () => {
       })
 
       it("should request a signature", () => {
-        signWithExtension("abc", "cosmos1234")
+        signWithExtension(
+          signRequest.messageType,
+          signRequest.message,
+          signRequest.transactionData,
+          signRequest.senderAddress,
+          signRequest.network
+        )
         expect(global.postMessage.mock.calls).toEqual([
           [
             {
               payload: {
                 payload: {
-                  senderAddress: "cosmos1234",
-                  signMessage: "abc"
+                  message: {
+                    amount: {
+                      amount: 5,
+                      denom: "STAKE"
+                    },
+                    from: ["cosmos1568"],
+                    to: ["cosmos1234"]
+                  },
+                  messageType: "SendTx",
+                  network: "cosmos-hub-testnet",
+                  senderAddress: "cosmos1568",
+                  transactionData: {}
                 },
                 type: "LUNIE_SIGN_REQUEST"
               },
@@ -201,9 +234,15 @@ describe(`Extension Utils`, () => {
             }
           })
         })
-        expect(signWithExtension("abc")).rejects.toThrow(
-          "User rejected action in extension."
-        )
+        expect(
+          signWithExtension(
+            signRequest.messageType,
+            signRequest.message,
+            signRequest.transactionData,
+            signRequest.senderAddress,
+            signRequest.network
+          )
+        ).rejects.toThrow("User rejected action in extension.")
       })
 
       it("should react to errors in extension", () => {
@@ -221,7 +260,15 @@ describe(`Extension Utils`, () => {
             }
           })
         })
-        expect(signWithExtension("abc")).rejects.toThrow("Expected")
+        expect(
+          signWithExtension(
+            signRequest.messageType,
+            signRequest.message,
+            signRequest.transactionData,
+            signRequest.senderAddress,
+            signRequest.network
+          )
+        ).rejects.toThrow("Expected")
       })
 
       it("should react to signature approval", async () => {
@@ -240,11 +287,14 @@ describe(`Extension Utils`, () => {
             }
           })
         })
-        const result = await signWithExtension("abc")
-        expect(result).toEqual({
-          signature: expect.any(Buffer),
-          publicKey: expect.any(Buffer)
-        })
+        const result = await signWithExtension(
+          signRequest.messageType,
+          signRequest.message,
+          signRequest.transactionData,
+          signRequest.senderAddress,
+          signRequest.network
+        )
+        expect(result).toEqual({ publicKey: "1234", signature: "abcd" })
       })
     })
   })

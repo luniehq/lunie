@@ -1,0 +1,1 @@
+[Changed] [#3955](https://github.com/cosmos/lunie/pull/3955) Adds a specific warning for Polkadot seed import: only Schnorrkel supported. Also adds a specific seed placeholder @Bitcoinera
