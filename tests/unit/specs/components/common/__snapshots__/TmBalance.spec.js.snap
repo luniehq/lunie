@@ -133,7 +133,22 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
           </span>
         </div>
          
-        <!---->
+        <div
+          class="icon-button-container"
+        >
+          <button
+            class="icon-button circle-buy-button"
+          >
+            <i
+              class="material-icons"
+            >
+              add
+            </i>
+          </button>
+          <span>
+            Buy
+          </span>
+        </div>
       </div>
        
       <div
@@ -197,7 +212,26 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
         </div>
       </div>
        
-      <!---->
+      <div
+        class="table-cell actions"
+      >
+        <div
+          class="icon-button-container"
+        >
+          <button
+            class="icon-button"
+          >
+            <i
+              class="material-icons"
+            >
+              plus
+            </i>
+          </button>
+          <span>
+            Buy
+          </span>
+        </div>
+      </div>
     </div>
      
     <sendmodal-stub
@@ -344,7 +378,22 @@ exports[`TmBalance show the balance header when signed in 1`] = `
           </span>
         </div>
          
-        <!---->
+        <div
+          class="icon-button-container"
+        >
+          <button
+            class="icon-button circle-buy-button"
+          >
+            <i
+              class="material-icons"
+            >
+              add
+            </i>
+          </button>
+          <span>
+            Buy
+          </span>
+        </div>
       </div>
        
       <div
@@ -408,7 +457,26 @@ exports[`TmBalance show the balance header when signed in 1`] = `
         </div>
       </div>
        
-      <!---->
+      <div
+        class="table-cell actions"
+      >
+        <div
+          class="icon-button-container"
+        >
+          <button
+            class="icon-button"
+          >
+            <i
+              class="material-icons"
+            >
+              plus
+            </i>
+          </button>
+          <span>
+            Buy
+          </span>
+        </div>
+      </div>
     </div>
      
     <sendmodal-stub

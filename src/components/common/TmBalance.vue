@@ -144,7 +144,7 @@
               <i class="material-icons">send</i></button
             ><span>Send</span>
           </div>
-          <div v-if="developmentMode" class="icon-button-container">
+          <div v-if="session.experimentalMode" class="icon-button-container">
             <button
               class="icon-button circle-buy-button"
               @click="onBuy(stakingDenom)"
@@ -207,7 +207,7 @@
           </div>
 
           <div
-            v-if="developmentMode"
+            v-if="session.experimentalMode"
             :key="balance.denom + 4"
             class="table-cell actions"
           >
@@ -270,7 +270,6 @@ export default {
       rewards: [],
       selectedFiatCurrency: "USD",
       preferredCurrency: "",
-      developmentMode: config.development,
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -321,7 +320,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([`connection`]),
+    ...mapState([`connection`, `session`]),
     ...mapGetters([`address`, `network`, `stakingDenom`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
@@ -395,8 +394,8 @@ export default {
     onBuy(denom = undefined) {
       if (denom) {
         window.location = `https://buy-staging.moonpay.io?apiKey=${
-          config.moonPayAPIKey
-        }&currencyCode=${denom.toLowerCase()}&enabledPaymentMethods=credit_debit_card,sepa_bank_transfer,gbp_bank_transfer`
+          config.moonpayAPIKey
+        }&currencyCode=${denom.toLowerCase()}`
       }
     },
     openTutorial() {

@@ -40,7 +40,10 @@ const config = {
             GOOGLE_ANALYTICS_UID: JSON.stringify(
               process.env.GOOGLE_ANALYTICS_UID
             ),
-            MOBILE_APP: JSON.stringify(process.env.MOBILE_APP)
+            MOBILE_APP: JSON.stringify(process.env.MOBILE_APP),
+            MOONPAY_API_KEY_TEST: JSON.stringify(
+              process.env.MOONPAY_API_KEY_TEST
+            )
           }
         })
       ],
