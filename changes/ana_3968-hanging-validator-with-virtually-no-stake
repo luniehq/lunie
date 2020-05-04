@@ -1,0 +1,1 @@
+[Fixed] [#3968](https://github.com/cosmos/lunie/issues/3968) Fixes hanging validators with no stake by filtering validators with delegations lower than 0.000001 @Bitcoinera
