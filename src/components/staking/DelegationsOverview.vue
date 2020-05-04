@@ -14,7 +14,11 @@
     <div v-else-if="delegations.length > 0">
       <h1>Your Validators</h1>
       <TableValidators
-        :validators="delegations.map(({ validator }) => validator)"
+        :validators="
+          delegations
+            .filter(({ amount }) => amount > 0.000001)
+            .map(({ validator }) => validator)
+        "
         :delegations="delegations"
         show-on-mobile="expectedReturns"
       />
