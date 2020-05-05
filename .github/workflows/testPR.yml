@@ -5,7 +5,7 @@ on:
     branches:
       - "*"
 jobs:
-  createReleasePR:
+  check_changelog:
     name: checkChangelog
     runs-on: ubuntu-latest
     steps:
@@ -18,6 +18,7 @@ jobs:
       - name: Check if changlog was updated
         run: node node_modules/simsala/src/cli.js check --pending-path ./changes
 
+  prep_environment:
     name: prep
     runs-on: ubuntu-latest
     steps:
@@ -27,6 +28,8 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+  lint:
+    needs: prep_environment
     name: lint
     runs-on: ubuntu-latest
     steps:
@@ -36,6 +39,8 @@ jobs:
       - name: Lint
         run: yarn lint
 
+  test:
+    needs: prep_environment
     name: test
     runs-on: ubuntu-latest
     steps:
