@@ -99,8 +99,7 @@ const registerDevice = async (
     `,
     variables: {
       token,
-      activeNetworks: JSON.stringify(activeNetworks),
-      upsert
+      activeNetworks: JSON.stringify(activeNetworks)
     }
   })
 
