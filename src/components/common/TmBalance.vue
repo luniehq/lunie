@@ -267,6 +267,7 @@ export default {
       selectedFiatCurrency: "USD",
       preferredCurrency: "",
       moonpayCoins: new Set(["ATOM", "LUNA", "SDT", "KAVA"]), // TODO: add warning for US custormers as they cannot purchase any of these coins
+      isUserLocatedInUSA: false,
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -374,8 +375,9 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted: async function() {
     this.setPreferredCurrency()
+    this.isUserLocatedInUSA = await this.checkUserInUSA()
   },
   methods: {
     bigFigureOrShortDecimals,
@@ -408,10 +410,10 @@ export default {
       return (
         this.session.experimentalMode &&
         this.moonpayCoins.has(denom) &&
-        this.checkUserNotInUSA()
+        !this.isUserLocatedInUSA
       )
     },
-    async checkUserNotInUSA() {
+    async checkUserInUSA() {
       const response = await fetch("https://geolocation-db.com/json/")
         .then(async res => {
           if (res.status !== 200) {
@@ -420,7 +422,7 @@ export default {
           return res
         })
         .then(res => res.json())
-      return response ? response.country_code !== "US" : true // by default, we'll presume the user is not located in the US
+      return response ? response.country_code === "US" : false // by default, we'll presume the user is not located in the US
     },
     sendRewards(totalRewards) {
       // sending to ga only once
