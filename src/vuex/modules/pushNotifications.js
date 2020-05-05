@@ -1,5 +1,5 @@
-import firebase from 'firebase/app'
-import 'firebase/messaging'
+import firebase from "firebase/app"
+import "firebase/messaging"
 import config from "../../../config"
 import gql from "graphql-tag"
 
@@ -66,17 +66,32 @@ const askPermissionAndRegister = async (activeNetworks, apollo) => {
     } catch (error) {
       console.log("Permission denied", error)
     }
+  } else {
+    // upsert
+    const token = localStorage.getItem("registration-push-notifications-token")
+    registerDevice(token, activeNetworks, apollo, true) // non-blocking
   }
 }
 
-const registerDevice = async (token, activeNetworks, apollo) => {
+const registerDevice = async (
+  token,
+  activeNetworks,
+  apollo,
+  upsert = false
+) => {
   await apollo.mutate({
     mutation: gql`
-      mutation($token: String!, $activeNetworks: String!, $topics: [String]) {
+      mutation(
+        $token: String!
+        $activeNetworks: String!
+        $topics: [String]
+        $upsert: Boolean
+      ) {
         registerDevice(
           token: $token
           activeNetworks: $activeNetworks
           topics: $topics
+          upsert: $upsert
         ) {
           topics
         }
@@ -84,7 +99,8 @@ const registerDevice = async (token, activeNetworks, apollo) => {
     `,
     variables: {
       token,
-      activeNetworks: JSON.stringify(activeNetworks)
+      activeNetworks: JSON.stringify(activeNetworks),
+      upsert
     }
   })
 
