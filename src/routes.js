@@ -187,6 +187,11 @@ export default store => {
         feature: "Session"
       }
     },
+    {
+      path: `/select-fiat-currency/:denom`,
+      name: `select-fiat-currency`,
+      component: () => import(`./components/common/FiatCurrencySelector`)
+    },
     { path: `/404`, component: () => import(`./components/common/Page404`) },
     {
       path: `/privacy`,

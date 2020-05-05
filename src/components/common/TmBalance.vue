@@ -386,12 +386,12 @@ export default {
       this.$refs.SendModal.open(denom)
     },
     onBuy(denom = undefined) {
-      // TODO: open modal to select fiat currency, otherwise Moonpay defaults to USD
-      if (denom) {
-        window.location = `https://buy-staging.moonpay.io?apiKey=${
-          config.moonpayAPIKey
-        }&currencyCode=${denom.toLowerCase()}`
-      }
+      this.$router.push({
+        name: "select-fiat-currency",
+        params: {
+          denom
+        }
+      })
     },
     openTutorial() {
       this.showTutorial = true
