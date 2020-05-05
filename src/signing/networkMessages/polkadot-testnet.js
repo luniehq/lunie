@@ -67,7 +67,6 @@ export async function ClaimRewardsTx(senderAddress) {
       })
     })
   }
-  console.log(allClaimingTxs)
   if (allClaimingTxs.length === 0) {
     throw new Error("There are no claimable rewards")
   }
