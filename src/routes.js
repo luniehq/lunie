@@ -188,7 +188,7 @@ export default store => {
       }
     },
     {
-      path: `/select-fiat-currency/:denom`,
+      path: `/select-fiat-currency`,
       name: `select-fiat-currency`,
       component: () => import(`./components/common/FiatCurrencySelector`)
     },

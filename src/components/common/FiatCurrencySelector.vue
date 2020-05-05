@@ -26,7 +26,7 @@ export default {
     }
   },
   created() {
-    this.coinDenom = this.$route.params.denom
+    this.coinDenom = this.$store.state.moonpay.coinDenom
   },
   methods: {
     selectCurrency(fiat) {

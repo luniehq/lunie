@@ -386,11 +386,12 @@ export default {
       this.$refs.SendModal.open(denom)
     },
     onBuy(denom = undefined) {
+      this.$store.commit(`updateField`, {
+        field: `coinDenom`,
+        value: denom.trim() // remove spaces from beginning and end of string
+      })
       this.$router.push({
-        name: "select-fiat-currency",
-        params: {
-          denom
-        }
+        name: "select-fiat-currency"
       })
     },
     openTutorial() {
