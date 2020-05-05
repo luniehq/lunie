@@ -18,8 +18,8 @@ jobs:
       - name: Check if changlog was updated
         run: node node_modules/simsala/src/cli.js check --pending-path ./changes
 
-  prep_environment:
-    name: prep
+  test_pr:
+    name: testPR
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -27,25 +27,7 @@ jobs:
         uses: actions/setup-node@v1
       - name: Install dependencies
         run: yarn install
-
-  lint:
-    needs: prep_environment
-    name: lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js
-        uses: actions/setup-node@v1
       - name: Lint
-        run: yarn lint
-
-  test:
-    needs: prep_environment
-    name: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+        run: yarn lint 
       - name: Test
         run: yarn test
