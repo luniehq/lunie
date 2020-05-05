@@ -429,6 +429,34 @@ export default {
     balancesLoaded: false,
     gasEstimateLoaded: false
   }),
+  asyncComputed: {
+    async estimatedFee() {
+      if (this.network.network_type === "cosmos") {
+        // terra uses a tax on all send txs
+        if (this.chainAppliedFees > 0) {
+          return this.chainAppliedFees
+        }
+        return this.maxDecimals(
+          Number(this.gasPrice) * Number(this.gasEstimate),
+          6
+        )
+      }
+
+      if (this.network.network_type === "polkadot" && this.step === feeStep) {
+        const { type, ...message } = this.transactionData
+        const fee = await this.transactionManager.getPolkadotFees({
+          messageType: type,
+          message,
+          senderAddress: this.session.address,
+          network: this.network
+        })
+        this.gasEstimateLoaded = true
+        return fee
+      }
+
+      return 0
+    }
+  },
   computed: {
     ...mapState([`extension`, `session`]),
     ...mapGetters([`connected`, `isExtensionAccount`, `networks`]),
@@ -448,16 +476,6 @@ export default {
       return (
         !this.session.signedIn ||
         this.session.sessionType === sessionType.EXPLORE
-      )
-    },
-    estimatedFee() {
-      // terra uses a tax on all send txs
-      if (this.chainAppliedFees > 0) {
-        return this.chainAppliedFees
-      }
-      return this.maxDecimals(
-        Number(this.gasPrice) * Number(this.gasEstimate),
-        6
       )
     },
     subTotal() {
@@ -870,7 +888,8 @@ export default {
         return (
           !this.session.address ||
           !this.transactionData ||
-          this.step !== feeStep
+          this.step !== feeStep ||
+          this.network.network_type !== "cosmos"
         )
       }
     },

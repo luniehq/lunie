@@ -5,6 +5,7 @@ import { getFingerprint } from "scripts/fingerprint"
 import { getMessage } from "./message-creator.js"
 import { messageType as messageTypes } from "../components/transactions/messageTypes"
 import gql from "graphql-tag"
+import BigNumber from "bignumber.js"
 
 const txFetchOptions = fingerprint => ({
   method: "POST",
@@ -152,6 +153,24 @@ export default class TransactionManager {
     } else {
       throw Error("Broadcast was not successful: " + result.error)
     }
+  }
+
+  async getPolkadotFees({ messageType, message, senderAddress, network }) {
+    const chainMessage = await getMessage(
+      network,
+      messageType,
+      senderAddress,
+      message
+    )
+
+    const { partialFee } = await chainMessage.transaction.paymentInfo(
+      senderAddress
+    )
+    const chainFees = partialFee.toJSON()
+    const viewFees = BigNumber(chainFees)
+      .times(network.coinLookup[0].chainToViewConversionFactor)
+      .toNumber()
+    return viewFees
   }
 }
 
