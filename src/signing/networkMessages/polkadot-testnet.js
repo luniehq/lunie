@@ -52,9 +52,18 @@ export async function ClaimRewardsTx(senderAddress) {
   } else {
     stakerRewards.forEach(reward => {
       reward.nominating.forEach(nomination => {
-        allClaimingTxs.push(
-          api.tx.staking.payoutStakers(nomination.validatorId, reward.era)
-        )
+        if (nomination.isStakerPayout) {
+          allClaimingTxs.push(
+            api.tx.staking.payoutStakers(nomination.validatorId, reward.era)
+          )
+        } else {
+          const validators = reward.nominating.map(
+            ({ validatorId, validatorIndex }) => [validatorId, validatorIndex]
+          )
+          allClaimingTxs.push(
+            api.tx.staking.payoutNominator(reward.era, validators)
+          )
+        }
       })
     })
   }
