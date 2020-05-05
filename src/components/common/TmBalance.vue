@@ -200,16 +200,15 @@
                 <i class="material-icons">send</i></button
               ><span>Send</span>
             </div>
-          </div>
-
-          <div
-            v-if="canUserBuyToken(balance.denom)"
-            :key="balance.denom + 4"
-            class="table-cell actions"
-          >
-            <div class="icon-button-container">
-              <button class="icon-button" @click="onBuy(balance.denom)">
-                <i class="material-icons">plus</i></button
+            <div
+              v-if="canUserBuyToken(balance.denom)"
+              class="icon-button-container"
+            >
+              <button
+                class="icon-button circle-buy-button"
+                @click="onBuy(balance.denom)"
+              >
+                <i class="material-icons">add</i></button
               ><span>Buy</span>
             </div>
           </div>
@@ -242,6 +241,7 @@ import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
+import * as Sentry from "@sentry/browser"
 import config from "src/../config"
 
 export default {
@@ -405,7 +405,22 @@ export default {
       this.preferredCurrency = this.selectedFiatCurrency
     },
     canUserBuyToken(denom) {
-      return this.session.experimentalMode && this.moonpayCoins.has(denom) // TODO: tell if user is located in the US
+      return (
+        this.session.experimentalMode &&
+        this.moonpayCoins.has(denom) &&
+        this.checkUserNotInUSA()
+      )
+    },
+    async checkUserNotInUSA() {
+      const response = await fetch("https://geolocation-db.com/json/")
+        .then(async res => {
+          if (res.status !== 200) {
+            Sentry.captureException(await res.text())
+          }
+          return res
+        })
+        .then(res => res.json())
+      return response ? response.country_code !== "US" : true // by default, we'll presume the user is not located in the US
     },
     sendRewards(totalRewards) {
       // sending to ga only once
@@ -799,6 +814,10 @@ select option {
 .icon-button i {
   font-size: 14px;
   color: var(--menu-bright);
+}
+
+.icon-button.circle-buy-button i {
+  font-size: 20px;
 }
 
 .circle-buy-button {
