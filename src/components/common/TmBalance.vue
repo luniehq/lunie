@@ -203,7 +203,7 @@
           </div>
 
           <div
-            v-if="canUserBuyToken(denom)"
+            v-if="canUserBuyToken(balance.denom)"
             :key="balance.denom + 4"
             class="table-cell actions"
           >
