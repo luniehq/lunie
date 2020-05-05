@@ -54,12 +54,12 @@
           @click.native="vote = 'Abstain'"
         />
       </div>
-      <TmFormMsg
-        v-if="$v.vote.$error && !$v.vote.required"
-        name="Vote"
-        type="required"
-      />
     </div>
+    <TmFormMsg
+      v-if="$v.vote.$error && !$v.vote.required"
+      name="Vote"
+      type="required"
+    />
   </ActionModal>
 </template>
 
@@ -160,7 +160,6 @@ export default {
 }
 
 .vote-options button {
-  background: transparent;
   margin: 0.5rem 0;
   height: 5rem;
   width: 100%;

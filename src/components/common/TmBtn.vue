@@ -81,6 +81,10 @@ export default {
 .button.secondary {
   color: var(--bright);
   background: transparent;
+  border-color: var(--primary);
+}
+
+.button.secondary:hover {
   border-color: var(--primary-hover);
 }
 
