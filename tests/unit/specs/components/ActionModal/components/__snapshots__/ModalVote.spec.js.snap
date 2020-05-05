@@ -54,8 +54,8 @@ exports[`ModalVote should display vote modal form 1`] = `
         value="Abstain"
       />
     </div>
-     
-    <!---->
   </div>
+   
+  <!---->
 </actionmodal-stub>
 `;
