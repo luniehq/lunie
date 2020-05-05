@@ -247,7 +247,9 @@
                 type="primary"
                 value="Next"
                 :disabled="
-                  disabled || (step === feeStep && $v.invoiceTotal.$invalid)
+                  disabled ||
+                    (step === feeStep && $v.invoiceTotal.$invalid) ||
+                    (step === feeStep && !estimatedFee)
                 "
                 @click.native="validateChangeStep"
               />
