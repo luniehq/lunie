@@ -12,6 +12,9 @@ const transactionTypesSet = new Set([
   'UnknownTx'
 ])
 
+const TERRA_TAX_RATE = 0.00675
+const TERRA_TAX_CAP = 1000000
+
 const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
   if (transactionType && !transactionTypesSet.has(transactionType)) {
     throw new UserInputError(
@@ -31,6 +34,24 @@ const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
   return transactionType && networkGasEstimates[`${transactionType}`]
     ? networkGasEstimates[`${transactionType}`]
     : networkGasEstimates.default
+}
+
+const getNetworkGasPrices = (networkId) => {
+  return networkGasPricesDictionary[networkId]
+}
+
+const getNetworkTransactionChainAppliedFees = (networkId, transactionType) => {
+  if (networkId.startsWith('terra') && transactionType === 'SendTx') {
+    return {
+      rate: TERRA_TAX_RATE,
+      cap: TERRA_TAX_CAP
+    }
+  } else {
+    return {
+      rate: 0,
+      cap: 0
+    }
+  }
 }
 
 const terraGasEstimates = {
@@ -72,4 +93,105 @@ const networkGasEstimatesDictionary = {
   'kava-mainnet': kavaGasEstimates
 }
 
-module.exports = { getNetworkTransactionGasEstimates }
+const cosmosGasPrices = [
+  {
+    denom: 'uatom',
+    price: '0.65e-2'
+  },
+  {
+    denom: 'umuon',
+    price: '0.65e-2'
+  }
+]
+
+const terraGasPrices = [
+  {
+    denom: 'ukrw',
+    price: '0.01'
+  },
+  {
+    denom: 'uluna',
+    price: '0.015'
+  },
+  {
+    denom: 'umnt',
+    price: '0.01'
+  },
+  {
+    denom: 'usdr',
+    price: '0.01'
+  },
+  {
+    denom: 'uusd',
+    price: '0.01'
+  }
+]
+
+const emoneyGasPrices = [
+  {
+    denom: 'echf',
+    price: '0.530'
+  },
+  {
+    denom: 'eeur',
+    price: '0.500'
+  },
+  {
+    denom: 'ejpy',
+    price: '48.800'
+  },
+  {
+    denom: 'eusd',
+    price: '0.440'
+  },
+  {
+    denom: 'ungm',
+    price: '1'
+  },
+  {
+    denom: 'esek',
+    price: '5.500'
+  },
+  {
+    denom: 'enok',
+    price: '6.100'
+  },
+  {
+    denom: 'edkk',
+    price: '3.700'
+  }
+]
+
+const kavaGasPrices = [
+  {
+    denom: 'ukava',
+    price: '0.1' // TODO: remind Kava team they have gas price set too high
+  }
+]
+
+const akashGasPrices = [
+  {
+    denom: 'stake',
+    price: '0.01'
+  },
+  {
+    denom: 'akash',
+    price: '0.01'
+  }
+]
+
+const polkadotGasPrices = []
+
+const networkGasPricesDictionary = {
+  'cosmos-hub-mainnet': cosmosGasPrices,
+  'cosmos-hub-testnet': cosmosGasPrices,
+  'terra-mainnet': terraGasPrices,
+  'terra-testnet': terraGasPrices,
+  'emoney-mainnet': emoneyGasPrices,
+  'emoney-testnet': emoneyGasPrices,
+  'kava-mainnet': kavaGasPrices,
+  'akash-testnet': akashGasPrices,
+  'polkadot-testnet': polkadotGasPrices,
+}
+
+module.exports = { getNetworkTransactionGasEstimates, getNetworkTransactionChainAppliedFees, getNetworkGasPrices }
