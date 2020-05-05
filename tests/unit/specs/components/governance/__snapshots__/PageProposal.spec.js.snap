@@ -7,9 +7,9 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
           Voting Period
         </span>
       <div class="proposal-title__row">
-        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_left</i></router-link-stub>
+        <div class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_left</i></div>
         <h2 class="proposal-title">test</h2>
-        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_right</i></router-link-stub>
+        <div class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_right</i></div>
       </div>
       <p class="proposer">
         Proposed by Big Daddy Validator:
@@ -88,9 +88,9 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
           Rejected
         </span>
       <div class="proposal-title__row">
-        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_left</i></router-link-stub>
+        <div class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_left</i></div>
         <h2 class="proposal-title">test</h2>
-        <router-link-stub to="/proposals/undefined" class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_right</i></router-link-stub>
+        <div class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_right</i></div>
       </div>
       <p class="proposer">
         Proposed by Big Daddy Validator:
@@ -176,17 +176,16 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
       <div
         class="proposal-title__row"
       >
-        <router-link-stub
+        <div
           class="read-more-link"
           style="visibility: hidden;"
-          to="/proposals/undefined"
         >
           <i
             class="material-icons notranslate"
           >
             chevron_left
           </i>
-        </router-link-stub>
+        </div>
          
         <h2
           class="proposal-title"
@@ -194,17 +193,16 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
           test
         </h2>
          
-        <router-link-stub
+        <div
           class="read-more-link"
           style="visibility: hidden;"
-          to="/proposals/undefined"
         >
           <i
             class="material-icons notranslate"
           >
             chevron_right
           </i>
-        </router-link-stub>
+        </div>
       </div>
        
       <p
