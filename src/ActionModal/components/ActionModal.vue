@@ -249,7 +249,7 @@
                 :disabled="
                   disabled ||
                     (step === feeStep && $v.invoiceTotal.$invalid) ||
-                    (step === feeStep && !estimatedFee)
+                    (step === feeStep && !gasEstimateLoaded)
                 "
                 @click.native="validateChangeStep"
               />
