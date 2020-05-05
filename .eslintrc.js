@@ -7,7 +7,8 @@ module.exports = {
   rules: {
     "vue/component-name-in-template-casing": ["error", "PascalCase"],
     "no-console": "off",
-    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off"
+    "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
+    "vue/no-async-in-computed-properties": "off"
   },
   parserOptions: {
     parser: "babel-eslint"
