@@ -28,12 +28,23 @@ const initializeFirebase = async () => {
 }
 
 const askPermissionAndRegister = async (activeNetworks, apollo) => {
-  // Only store for new registrations
   const isDeviceRegistered = localStorage.getItem(
     "registration-push-notifications"
-  ) // "true" if stored
+  ) // "allowed" / "blocked" if stored, null if not set
 
-  if (isDeviceRegistered !== "true") {
+  console.log("device", isDeviceRegistered)
+
+  if (isDeviceRegistered === "blocked") {
+    return
+  }
+
+  if (isDeviceRegistered === "allowed") {
+    const token = localStorage.getItem("registration-push-notifications-token")
+    registerDevice(token, activeNetworks, apollo, true) // non-blocking
+  }
+
+  if (!isDeviceRegistered) {
+    // === null
     try {
       messaging
         .requestPermission()
@@ -47,8 +58,9 @@ const askPermissionAndRegister = async (activeNetworks, apollo) => {
             try {
               await messaging.deleteToken(oldToken)
             } catch (error) {
-              console.log(
-                "bug FCM throws error while deleting token on first refresh"
+              console.error(
+                "bug FCM throws error while deleting token on first refresh",
+                error
               )
             }
           }
@@ -57,19 +69,12 @@ const askPermissionAndRegister = async (activeNetworks, apollo) => {
           const token = await messaging.getToken()
           await registerDevice(token, activeNetworks, apollo)
         })
-        .catch(error =>
-          console.log(
-            "bug FCM throws error while deleting token on first refresh",
-            error
-          )
-        )
+        .catch(() => {
+          localStorage.setItem("registration-push-notifications", "blocked")
+        })
     } catch (error) {
-      console.log("Permission denied", error)
+      console.error("Push registration failed", error)
     }
-  } else {
-    // upsert
-    const token = localStorage.getItem("registration-push-notifications-token")
-    registerDevice(token, activeNetworks, apollo, true) // non-blocking
   }
 }
 
@@ -104,7 +109,7 @@ const registerDevice = async (
     }
   })
 
-  localStorage.setItem("registration-push-notifications", "true")
+  localStorage.setItem("registration-push-notifications", "allowed")
   localStorage.setItem("registration-push-notifications-token", token)
 }
 
