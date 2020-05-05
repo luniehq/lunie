@@ -52,7 +52,7 @@ export async function ClaimRewardsTx(senderAddress) {
   } else {
     stakerRewards.forEach(reward => {
       reward.nominating.forEach(nomination => {
-        if (nomination.isStakerPayout) {
+        if (reward.isStakerPayout) {
           allClaimingTxs.push(
             api.tx.staking.payoutStakers(nomination.validatorId, reward.era)
           )

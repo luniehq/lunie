@@ -737,6 +737,7 @@ export default {
           signingType: this.selectedSignMethod,
           password: this.password
         })
+        console.log(hashResult)
 
         const { hash } = hashResult
         this.txHash = hash
