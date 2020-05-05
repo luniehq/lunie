@@ -32,15 +32,13 @@ const askPermissionAndRegister = async (activeNetworks, apollo) => {
     "registration-push-notifications"
   ) // "allowed" / "blocked" if stored, null if not set
 
-  console.log("device", isDeviceRegistered)
-
   if (isDeviceRegistered === "blocked") {
     return
   }
 
   if (isDeviceRegistered === "allowed") {
     const token = localStorage.getItem("registration-push-notifications-token")
-    registerDevice(token, activeNetworks, apollo, true) // non-blocking
+    registerDevice(token, activeNetworks, apollo) // non-blocking
   }
 
   if (!isDeviceRegistered) {
@@ -81,8 +79,7 @@ const askPermissionAndRegister = async (activeNetworks, apollo) => {
 const registerDevice = async (
   token,
   activeNetworks,
-  apollo,
-  upsert = false
+  apollo
 ) => {
   await apollo.mutate({
     mutation: gql`
@@ -90,13 +87,11 @@ const registerDevice = async (
         $token: String!
         $activeNetworks: String!
         $topics: [String]
-        $upsert: Boolean
       ) {
         registerDevice(
           token: $token
           activeNetworks: $activeNetworks
           topics: $topics
-          upsert: $upsert
         ) {
           topics
         }
