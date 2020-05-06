@@ -28,11 +28,15 @@ exports[`TmSessionImport has the expected html structure 1`] = `
       >
         <fieldseed-stub
           id="import-seed"
-          placeholder="Must be exactly 12 or 24 words"
+          placeholder="Must be your seed phrase or private key hash"
           value=""
         />
          
-        <!---->
+        <tmformmsg-stub
+          msg="Currently only the Schnorrkel algorithm is supported"
+          name=""
+          type="custom"
+        />
          
         <!---->
       </tmformgroup-stub>

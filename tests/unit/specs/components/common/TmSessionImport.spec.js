@@ -20,7 +20,8 @@ describe(`TmSessionImport`, () => {
   beforeEach(() => {
     getters = {
       connected: () => true,
-      network: "cosmos-hub-mainnet"
+      network: "kusama",
+      networks: [{ id: "kusama", network_type: "polkadot" }]
     }
     $store = {
       state: {
@@ -61,12 +62,56 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`validation should fail if seed is not 12 or 24 words long`, async () => {
+    wrapper = shallowMount(TmSessionImport, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            recover: { seed: `` }
+          },
+          getters: {
+            network: "cosmos-hub-mainnet",
+            networks: [
+              {
+                id: "cosmos-hub-mainnet"
+              }
+            ]
+          }
+        },
+        $router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
+    })
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf`
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.seed.$error).toBe(true)
   })
 
   it(`should validate if seed is 12 or 24 words long`, async () => {
+    wrapper = shallowMount(TmSessionImport, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            recover: { seed: `` }
+          },
+          getters: {
+            network: "cosmos-hub-mainnet",
+            networks: [
+              {
+                id: "cosmos-hub-mainnet"
+              }
+            ]
+          }
+        },
+        $router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
+    })
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$v.seed.$error).toBe(false)
@@ -84,6 +129,28 @@ describe(`TmSessionImport`, () => {
   })
 
   it(`should go to /recover/name when submit the form`, async () => {
+    wrapper = shallowMount(TmSessionImport, {
+      localVue,
+      mocks: {
+        $store: {
+          state: {
+            recover: { seed: `` }
+          },
+          getters: {
+            network: "cosmos-hub-mainnet",
+            networks: [
+              {
+                id: "cosmos-hub-mainnet"
+              }
+            ]
+          }
+        },
+        $router: {
+          push: jest.fn()
+        }
+      },
+      stubs: [`router-link`]
+    })
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/name`)

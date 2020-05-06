@@ -12,7 +12,11 @@
         route="/select-network/create"
       />
       <LiSession
-        v-if="!isMobileApp && !isExtension && network !== `polkadot-testnet`"
+        v-if="
+          !isMobileApp &&
+            !isExtension &&
+            currentNetwork.network_type !== `polkadot`
+        "
         id="use-ledger-nano"
         icon="vpn_key"
         title="Ledger Nano"
@@ -67,11 +71,15 @@ export default {
   components: { LiSession },
   data: () => ({
     isMobileApp: config.mobileApp,
-    isExtension: config.isExtension
+    isExtension: config.isExtension,
+    currentNetwork: {}
   }),
+  mounted() {
+    this.currentNetwork = this.networks.find(({ id }) => id === this.network)
+  },
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `networks`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
     },

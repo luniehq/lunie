@@ -1,5 +1,5 @@
-import firebase from 'firebase/app'
-import 'firebase/messaging'
+import firebase from "firebase/app"
+import "firebase/messaging"
 import config from "../../../config"
 import gql from "graphql-tag"
 

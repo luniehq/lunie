@@ -1,5 +1,4 @@
-.polkadot-testnet,
-.polkadot-mainnet {
+.kusama {
   /* theme colors */
   --primary: hsl(325, 96%, 44%);
   --primary-hover: hsl(325, 67%, 39%);

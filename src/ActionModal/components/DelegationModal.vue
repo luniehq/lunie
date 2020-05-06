@@ -17,9 +17,9 @@
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
-          It will take 21 days to unlock your tokens after they are staked.
-          There is a risk that some tokens will be lost depending on the
-          behaviour of the validator you choose.
+          It will take {{ undelegationPeriod }} days to unlock your tokens after
+          they are staked. There is a risk that some tokens will be lost
+          depending on the behaviour of the validator you choose.
         </span>
         <span v-else>
           Voting power and rewards will change instantly upon restaking — but
@@ -72,7 +72,9 @@
       field-id="amount"
       :field-label="
         `Amount${
-          network.startsWith('polkadot') && totalStaked > 0 ? ' (Optional)' : ''
+          currentNetwork.network_type === 'polkadot' && totalStaked > 0
+            ? ' (Optional)'
+            : ''
         }`
       "
     >
@@ -284,6 +286,19 @@ export default {
     },
     isRedelegation() {
       return this.fromSelectedIndex !== 0 && this.fromSelectedIndex !== "0" // where are these 0 strings comming from?
+    },
+    currentNetwork() {
+      return this.networks.find(({ id }) => id === this.network)
+    },
+    undelegationPeriod() {
+      // TODO: get this from API. Should be inside the network object
+      if (this.currentNetwork.network_type === "cosmos") {
+        return 21
+      } else if (this.currentNetwork.network_type === "polkadot") {
+        return 7
+      } else {
+        return `a certain number of`
+      }
     }
   },
   methods: {
@@ -318,7 +333,8 @@ export default {
     return {
       amount: {
         required: x =>
-          this.network.startsWith("polkadot") && this.totalStaked > 0
+          this.currentNetwork.network_type === "polkadot" &&
+          this.totalStaked > 0
             ? true
             : !!x && x !== `0`,
         decimal,
@@ -436,7 +452,7 @@ export default {
           !this.address ||
           !this.network ||
           // only needed for polkadot to determine if user needs to set an amount
-          !this.network.startsWith("polkadot")
+          !this.currentNetwork === "polkadot"
         )
       },
       /* istanbul ignore next */
