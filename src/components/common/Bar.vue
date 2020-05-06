@@ -44,7 +44,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--menu-text);
+  color: var(--menu-bright);
 }
 
 .bar.primary {
