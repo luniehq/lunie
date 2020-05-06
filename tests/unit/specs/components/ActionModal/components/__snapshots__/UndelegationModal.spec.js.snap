@@ -24,8 +24,8 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
     >
       <span>
         
-        Unstaking takes a certain number of time to complete and cannot
-        be undone. Please make sure you understand the rules of staking.
+        Unstaking takes a certain number of time to complete and cannot be
+        undone. Please make sure you understand the rules of staking.
       
       </span>
     </div>

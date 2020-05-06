@@ -21,7 +21,10 @@ describe(`TmSessionImport`, () => {
     getters = {
       connected: () => true,
       network: "kusama",
-      networks: [{ id: "kusama", network_type: "polkadot" }]
+      currentNetwork: {
+        id: "kusama",
+        network_type: "polkadot"
+      }
     }
     $store = {
       state: {
@@ -71,11 +74,10 @@ describe(`TmSessionImport`, () => {
           },
           getters: {
             network: "cosmos-hub-mainnet",
-            networks: [
-              {
-                id: "cosmos-hub-mainnet"
-              }
-            ]
+            currentNetwork: {
+              id: "cosmos-hub-mainnet",
+              network_type: "cosmos"
+            }
           }
         },
         $router: {
@@ -99,11 +101,10 @@ describe(`TmSessionImport`, () => {
           },
           getters: {
             network: "cosmos-hub-mainnet",
-            networks: [
-              {
-                id: "cosmos-hub-mainnet"
-              }
-            ]
+            currentNetwork: {
+              id: "cosmos-hub-mainnet",
+              network_type: "cosmos"
+            }
           }
         },
         $router: {
@@ -138,11 +139,10 @@ describe(`TmSessionImport`, () => {
           },
           getters: {
             network: "cosmos-hub-mainnet",
-            networks: [
-              {
-                id: "cosmos-hub-mainnet"
-              }
-            ]
+            currentNetwork: {
+              id: "cosmos-hub-mainnet",
+              network_type: "cosmos"
+            }
           }
         },
         $router: {
