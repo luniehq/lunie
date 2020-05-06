@@ -74,9 +74,6 @@ export default {
     isExtension: config.isExtension,
     currentNetwork: {}
   }),
-  mounted() {
-    this.currentNetwork = this.networks.find(({ id }) => id === this.network)
-  },
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
     ...mapGetters([`network`, `networks`]),
@@ -88,6 +85,9 @@ export default {
         ? `/select-network/create`
         : `/create`
     }
+  },
+  mounted() {
+    this.currentNetwork = this.networks.find(({ id }) => id === this.network)
   },
   created() {
     this.$store.dispatch("loadAccounts")
