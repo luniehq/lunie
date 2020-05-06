@@ -4,7 +4,8 @@
     class="powered-by-container"
     :class="{
       'powered-by-line': poweredByLine,
-      'hide-on-mobile': hideOnMobile
+      'hide-on-mobile': hideOnMobile,
+      'on-menu': isMenu
     }"
   >
     <span class="powered-by-text">Powered by</span>
@@ -27,17 +28,15 @@
         inactive: !network.powered.providerAddress
       }"
       @click="
-        network.powered.providerAddress && isCurrentNetwork
+        isMenu
           ? $router.push({
               name: 'validator',
               params: {
                 networkId: network.slug,
                 validator: network.powered.providerAddress
               }
-            }) && isMenu
-            ? handleClick()
-            : ''
-          : ''
+            })
+          : handleClick()
       "
       >{{ network.powered.name }}</span
     >
@@ -92,11 +91,11 @@ export default {
 .powered-by-line {
   padding-top: 1rem;
   margin-top: 1rem;
-  border-top: 1px solid var(--bc-dim);
+  border-top: 1px solid var(--menu-border);
 }
 
 .powered-by-text {
-  color: var(--dim);
+  color: var(--bright);
   font-size: 12px;
 }
 
@@ -110,15 +109,20 @@ export default {
   font-weight: 500;
   font-size: 12px;
   cursor: pointer;
-  color: var(--txt);
-}
-
-.active:hover {
-  color: var(--link-hover);
+  color: var(--bright);
 }
 
 .inactive {
   cursor: default;
+}
+
+.on-menu .validator-name,
+.on-menu .powered-by-text {
+  color: var(--menu-text);
+}
+
+.on-menu .validator-name:hover {
+  color: var(--link-hover);
 }
 
 @media screen and (max-width: 640px) {

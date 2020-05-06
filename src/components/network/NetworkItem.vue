@@ -124,4 +124,8 @@ export default {
 .network-selected {
   color: var(--success);
 }
+
+.network-status {
+  width: 4rem;
+}
 </style>
