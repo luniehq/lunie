@@ -69,6 +69,8 @@ exports[`ActionModal back button renders and functions 1`] = `
    
   <!---->
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -165,6 +167,8 @@ exports[`ActionModal runs validation and changes step on sign step should dispal
    
   <!---->
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -251,6 +255,8 @@ exports[`ActionModal should show the action modal on success 1`] = `
    
   <!---->
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -291,6 +297,8 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
      
     <!---->
   </div>
+   
+  <!---->
    
   <!---->
    
@@ -361,6 +369,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
         
     </p>
   </div>
+   
+  <!---->
    
   <!---->
    
@@ -445,6 +455,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
    
   <!---->
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -514,6 +526,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
         
     </p>
   </div>
+   
+  <!---->
    
   <!---->
    
@@ -596,6 +610,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
      
     <!---->
   </div>
+   
+  <!---->
    
   <!---->
    
@@ -695,6 +711,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
    
   <!---->
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -783,6 +801,8 @@ exports[`ActionModal should show the action modal when user has logged in with e
    
   <!---->
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -863,6 +883,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <!---->
   </div>
+   
+  <!---->
    
   <!---->
    
@@ -951,6 +973,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
    
   <!---->
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -1025,6 +1049,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
       </div>
     </hardwarestate-stub>
   </div>
+   
+  <!---->
    
   <!---->
    
@@ -1108,6 +1134,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
      
     <!---->
   </div>
+   
+  <!---->
    
   <!---->
    
@@ -1201,6 +1229,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
    
   <!---->
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -1282,6 +1312,8 @@ exports[`ActionModal should show the action modal when user has logged in with l
    
   <!---->
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -1355,6 +1387,8 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
    
   <!---->
    
+  <!---->
+   
   <div
     class="action-modal-footer"
   >
@@ -1415,6 +1449,8 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
   <div
     class="action-modal-form"
   />
+   
+  <!---->
    
   <!---->
    
