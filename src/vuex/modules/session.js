@@ -244,7 +244,7 @@ export default ({ apollo }) => {
 /**
  * Retrieve active networks from localstorage via session keys
  */
-const getActiveNetworks = networkObjects  => {
+const getActiveNetworks = networkObjects => {
   let activeNetworks = []
   networkObjects.forEach(network => {
     // Session object: { address: string, sessionType: string (e.g. ledger)}
