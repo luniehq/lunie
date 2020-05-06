@@ -452,7 +452,7 @@ export default {
           !this.address ||
           !this.network ||
           // only needed for polkadot to determine if user needs to set an amount
-          !this.currentNetwork === "polkadot"
+          this.currentNetwork.network_type !== "polkadot"
         )
       },
       /* istanbul ignore next */
