@@ -632,4 +632,15 @@ describe(`Module: Session`, () => {
       }
     ])
   })
+
+  it(`should retrieve preferredCurrency from localStorage`, async () => {
+    localStorage.setItem(
+      `lunie_user_preferences`,
+      JSON.stringify({
+        preferredCurrency: `USD`
+      })
+    )
+    const preferredCurrency = await actions.getPreferredCurrency()
+    expect(preferredCurrency).toEqual(`USD`)
+  })
 })

@@ -221,8 +221,6 @@ import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
 import config from "src/../config"
 
-const USER_PREFERENCES_KEY = `lunie_user_preferences`
-
 export default {
   name: `tm-balance`,
   components: {
@@ -352,8 +350,7 @@ export default {
     }
   },
   mounted: async function() {
-    this.$store.dispatch(`loadLocalPreferences`)
-    this.preferredCurrency = this.getPreferredCurrency()
+    this.preferredCurrency = await this.$store.dispatch(`getPreferredCurrency`)
   },
   methods: {
     bigFigureOrShortDecimals,
@@ -371,16 +368,6 @@ export default {
     },
     setPreferredCurrency() {
       this.$store.dispatch(`setPreferredCurrency`, this.preferredCurrency)
-    },
-    getPreferredCurrency() {
-      const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
-
-      if (!localPreferences) {
-        return "USD"
-      }
-
-      const { preferredCurrency } = JSON.parse(localPreferences)
-      return preferredCurrency || "USD"
     },
     sendRewards(totalRewards) {
       // sending to ga only once

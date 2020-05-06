@@ -239,6 +239,16 @@ export default ({ apollo }) => {
     setPreferredCurrency({ state, dispatch }, currency) {
       state.preferredCurrency = currency
       dispatch(`storeLocalPreferences`)
+    },
+    async getPreferredCurrency() {
+      const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
+
+      if (!localPreferences) {
+        return "USD"
+      }
+
+      const { preferredCurrency } = JSON.parse(localPreferences)
+      return preferredCurrency || "USD"
     }
   }
 
