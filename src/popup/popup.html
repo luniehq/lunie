@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Title</title>
-    <link rel="stylesheet" href="popup.css" />
-    <% if (NODE_ENV === 'development') { %>
-    <!-- Load some resources only in development environment -->
-    <% } %>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script src="popup.js"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+    content="script-src 'self' https://www.google-analytics.com/analytics.js; object-src 'self'; connect-src 'self' wss://production-api.lunie.io/graphql https://production-api.lunie.io wss://staging-api.lunie.io/graphql https://staging-api.lunie.io https://monitoring.lunie.io:9000">
+  <title>Lunie Browser Extension</title>
+  <link rel="stylesheet" href="popup.css" />
+  <style>
+    #sandboxFrame {
+      height: 0
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="popup.js"></script>
+  <iframe id="sandboxFrame" src="sandbox.html"></iframe>
+</body>
+
 </html>

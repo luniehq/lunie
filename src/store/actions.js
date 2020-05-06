@@ -3,7 +3,6 @@ import gql from 'graphql-tag'
 import { NetworksAll } from '../popup/gql'
 import { lunieMessageTypes } from '../scripts/parsers'
 import { parseTx } from '../scripts/parsers.js'
-import { getWallet } from '../../lunie/src/vuex/modules/wallet'
 import { storeWallet } from '@lunie/cosmos-keys'
 
 export default ({ apollo }) => {
@@ -25,11 +24,33 @@ export default ({ apollo }) => {
     commit('setNetworkId', network.id)
   }
 
+  const getWalletFromSandbox = async (seedPhrase, networkObject) => {
+    return new Promise(resolve => {
+      var iframe = document.getElementById('sandboxFrame')
+      window.addEventListener(
+        'message',
+        function(event) {
+          resolve(event.data)
+        },
+        { once: true }
+      )
+      var message = {
+        type: 'getWallet',
+        seedPhrase,
+        networkObject
+      }
+      iframe.contentWindow.postMessage(message, '*')
+    })
+  }
+
   const createKey = async (store, { seedPhrase, password, name, network }) => {
     const networkObject = store.getters.networks.find(
       ({ id }) => id === network
     )
-    const wallet = await getWallet(seedPhrase, networkObject)
+    const { result: wallet } = await getWalletFromSandbox(
+      seedPhrase,
+      networkObject
+    )
     storeWallet(wallet, name, password, network)
     store.dispatch('loadAccounts')
   }
@@ -198,7 +219,12 @@ export default ({ apollo }) => {
     const networkObject = store.getters.networks.find(
       ({ id }) => id === network
     )
-    const wallet = await getWallet(seedPhrase, networkObject)
+    const { result: wallet } = await getWalletFromSandbox(
+      seedPhrase,
+      networkObject
+    )
+
+    // const wallet = await getWallet(seedPhrase, networkObject)
     return wallet.cosmosAddress
   }
 

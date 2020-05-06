@@ -19,8 +19,10 @@ export default {
 <style scoped>
 .session-success {
   padding: 2rem;
-  background: var(--fg);
   border-left: 1px solid var(--bc-dim);
+  background: var(--app-bg);
+  color: var(--bright);
+  min-height: 540px;
 }
 
 .session-success h2 {

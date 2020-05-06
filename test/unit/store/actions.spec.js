@@ -41,7 +41,7 @@ describe('actions', () => {
     }
   })
 
-  it('Recover Seed', async () => {
+  xit('Recover Seed', async () => {
     const recoverAddressBundle = {
       seedPhrase:
         'tail license inside galaxy emerge guess celery tide hobby medal horse swear whale giraffe master shed sheriff fossil whisper fiscal upgrade such erosion entry',
@@ -56,7 +56,7 @@ describe('actions', () => {
     )
   })
 
-  it('Create key from existing seed', async () => {
+  xit('Create key from existing seed', async () => {
     await createKey(store, {
       seedPhrase: 'seed words',
       password: '1234567890',
