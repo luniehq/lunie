@@ -21,7 +21,7 @@
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
-          Unstaking takes {{ undelegationPeriod }} days to complete and cannot
+          Unstaking takes {{ undelegationPeriod }} to complete and cannot
           be undone. Please make sure you understand the rules of staking.
         </span>
         <span v-else>
@@ -286,11 +286,11 @@ export default {
       // TODO: get this from API. Should be inside the network object
       const currentNetwork = this.networks.find(({ id }) => id === this.network)
       if (currentNetwork.network_type === "cosmos") {
-        return 21
+        return '21 days'
       } else if (currentNetwork.network_type === "polkadot") {
-        return 7
+        return '7 days'
       } else {
-        return `a certain number of`
+        return `a certain number of time`
       }
     }
   },

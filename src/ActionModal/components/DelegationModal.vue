@@ -17,7 +17,7 @@
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
-          It will take {{ undelegationPeriod }} days to unlock your tokens after
+          It will take {{ undelegationPeriod }} to unlock your tokens after
           they are staked. There is a risk that some tokens will be lost
           depending on the behaviour of the validator you choose.
         </span>
@@ -293,11 +293,11 @@ export default {
     undelegationPeriod() {
       // TODO: get this from API. Should be inside the network object
       if (this.currentNetwork.network_type === "cosmos") {
-        return 21
+        return '21 days'
       } else if (this.currentNetwork.network_type === "polkadot") {
-        return 7
+        return '7 days'
       } else {
-        return `a certain number of`
+        return `a certain number of time`
       }
     }
   },
