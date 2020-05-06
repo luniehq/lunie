@@ -1,5 +1,5 @@
 <template>
-  <div class="session-approve">
+  <div class="session session-approve">
     <h2>Approve Transaction</h2>
     <br />
     <div class="from">
