@@ -43,36 +43,37 @@ const askPermissionAndRegister = async (activeNetworks, apollo) => {
 
   if (!isDeviceRegistered) {
     // === null
-    try {
-      messaging
-        .requestPermission()
-        .then(async () => {
-          // First delete old token
-          const oldToken = localStorage.getItem(
-            "registration-push-notifications-token"
-          )
 
-          if (oldToken) {
-            try {
-              await messaging.deleteToken(oldToken)
-            } catch (error) {
-              console.error(
-                "bug FCM throws error while deleting token on first refresh",
-                error
-              )
-            }
+    messaging
+      .requestPermission()
+      .then(async () => {
+        // First delete old token
+        const oldToken = localStorage.getItem(
+          "registration-push-notifications-token"
+        )
+
+        if (oldToken) {
+          try {
+            await messaging.deleteToken(oldToken)
+          } catch (error) {
+            console.error(
+              "bug FCM throws error while deleting token on first refresh",
+              error
+            )
           }
+        }
 
-          // Granted? Store device
-          const token = await messaging.getToken()
-          await registerDevice(token, activeNetworks, apollo)
-        })
-        .catch(() => {
+        // Granted? Store device
+        const token = await messaging.getToken()
+        await registerDevice(token, activeNetworks, apollo)
+      })
+      .catch(error => {
+        if (error.code === "messaging/permission-blocked") {
           localStorage.setItem("registration-push-notifications", "blocked")
-        })
-    } catch (error) {
-      console.error("Push registration failed", error)
-    }
+        } else {
+          console.error("Error occurred during permission request for push notifications", error);
+        }
+      })
   }
 }
 
