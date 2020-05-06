@@ -89,7 +89,7 @@ const networkGasEstimatesDictionary = {
   'emoney-mainnet': emoneyGasEstimates,
   'emoney-testnet': emoneyGasEstimates,
   'akash-testnet': akashGasEstimates,
-  'polkadot-testnet': polkadotGasEstimates,
+  'kusama': polkadotGasEstimates,
   'kava-mainnet': kavaGasEstimates
 }
 
@@ -191,7 +191,7 @@ const networkGasPricesDictionary = {
   'emoney-testnet': emoneyGasPrices,
   'kava-mainnet': kavaGasPrices,
   'akash-testnet': akashGasPrices,
-  'polkadot-testnet': polkadotGasPrices,
+  'kusama': polkadotGasPrices,
 }
 
 module.exports = { getNetworkTransactionGasEstimates, getNetworkTransactionChainAppliedFees, getNetworkGasPrices }

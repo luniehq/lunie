@@ -107,7 +107,7 @@ const getNetworkCapabilities = {
     action_vote: capabilityEnum.MISSING,
     action_proposal: capabilityEnum.MISSING
   },
-  'polkadot-testnet': {
+  'kusama': {
     feature_session: capabilityEnum.ENABLED,
     feature_explore: capabilityEnum.ENABLED,
     feature_portfolio: capabilityEnum.ENABLED,

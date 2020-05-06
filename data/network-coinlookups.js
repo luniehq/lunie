@@ -90,7 +90,7 @@ const coinLookupDictionary = {
     "terra-testnet": terraCoinLookup,
     "emoney-mainnet": emoneyCoinLookup,
     "emoney-testnet": emoneyCoinLookup,
-    "polkadot-testnet": [{
+    "kusama": [{
         chainDenom: 'Planck',
         viewDenom: 'KSM',
         chainToViewConversionFactor: 1e-12

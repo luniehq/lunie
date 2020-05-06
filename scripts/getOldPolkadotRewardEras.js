@@ -1,6 +1,6 @@
 const database = require('../lib/database')
 const config = require('../config')
-const db = database(config)('polkadot_testnet')
+const db = database(config)('kusama')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
 const _ = require('lodash')
 const BN = require('bignumber.js')
@@ -252,7 +252,7 @@ async function main() {
   }
 
   const networks = require('../data/networks')
-  const network = networks.find(({ id }) => id === 'polkadot-testnet')
+  const network = networks.find(({ id }) => id === 'kusama')
   const PolkadotApiClass = require('../lib/' + network.source_class_name)
   const store = {}
   await initPolkadotRPC(network, store)
