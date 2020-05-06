@@ -73,6 +73,7 @@
     "timezone-mock": "^1.0.8",
     "vue": "2.6.11",
     "vue-apollo": "3.0.3",
+    "vue-async-computed": "3.8.2",
     "vue-clipboard2": "0.3.1",
     "vue-directive-tooltip": "1.6.3",
     "vue-infinite-scroll": "2.0.2",
