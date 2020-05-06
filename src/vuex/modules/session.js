@@ -19,6 +19,7 @@ export default ({ apollo }) => {
     errorCollection: false,
     analyticsCollection: false,
     cookiesAccepted: undefined,
+    preferredCurrency: "",
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
     currrentModalOpen: false,
@@ -188,7 +189,8 @@ export default ({ apollo }) => {
       const {
         cookiesAccepted,
         errorCollection,
-        analyticsCollection
+        analyticsCollection,
+        preferredCurrency
       } = JSON.parse(localPreferences)
 
       if (cookiesAccepted) {
@@ -198,15 +200,17 @@ export default ({ apollo }) => {
         dispatch(`setErrorCollection`, errorCollection)
       if (state.analyticsCollection !== analyticsCollection)
         dispatch(`setAnalyticsCollection`, analyticsCollection)
+      if (state.preferredCurrency !== preferredCurrency)
+        dispatch(`setPreferredCurrency`, preferredCurrency)
     },
     storeLocalPreferences({ state }) {
-      state.cookiesAccepted = true
       localStorage.setItem(
         USER_PREFERENCES_KEY,
         JSON.stringify({
           cookiesAccepted: state.cookiesAccepted,
           errorCollection: state.errorCollection,
-          analyticsCollection: state.analyticsCollection
+          analyticsCollection: state.analyticsCollection,
+          preferredCurrency: state.preferredCurrency
         })
       )
     },
@@ -231,6 +235,10 @@ export default ({ apollo }) => {
         state.externals.anonymize()
         console.log(`Analytics collection has been disabled`)
       }
+    },
+    setPreferredCurrency({ state, dispatch }, currency) {
+      state.preferredCurrency = currency
+      dispatch(`storeLocalPreferences`)
     }
   }
 
@@ -244,7 +252,7 @@ export default ({ apollo }) => {
 /**
  * Retrieve active networks from localstorage via session keys
  */
-const getActiveNetworks = networkObjects  => {
+const getActiveNetworks = networkObjects => {
   let activeNetworks = []
   networkObjects.forEach(network => {
     // Session object: { address: string, sessionType: string (e.g. ledger)}

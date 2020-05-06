@@ -51,7 +51,7 @@
               :alt="`${preferredCurrency}` + ' currency'"
             />
             <select
-              v-model="selectedFiatCurrency"
+              v-model="preferredCurrency"
               @change="setPreferredCurrency()"
             >
               <option
@@ -221,6 +221,8 @@ import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
 import config from "src/../config"
 
+const USER_PREFERENCES_KEY = `lunie_user_preferences`
+
 export default {
   name: `tm-balance`,
   components: {
@@ -241,8 +243,7 @@ export default {
       balances: [],
       showTutorial: false,
       rewards: [],
-      selectedFiatCurrency: "USD",
-      preferredCurrency: "",
+      preferredCurrency: "USD",
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -350,8 +351,9 @@ export default {
       }
     }
   },
-  mounted() {
-    this.setPreferredCurrency()
+  mounted: async function() {
+    this.$store.dispatch(`loadLocalPreferences`)
+    this.preferredCurrency = this.getPreferredCurrency()
   },
   methods: {
     bigFigureOrShortDecimals,
@@ -368,8 +370,17 @@ export default {
       this.showTutorial = false
     },
     setPreferredCurrency() {
-      localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
-      this.preferredCurrency = this.selectedFiatCurrency
+      this.$store.dispatch(`setPreferredCurrency`, this.preferredCurrency)
+    },
+    getPreferredCurrency() {
+      const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
+
+      if (!localPreferences) {
+        return "USD"
+      }
+
+      const { preferredCurrency } = JSON.parse(localPreferences)
+      return preferredCurrency || "USD"
     },
     sendRewards(totalRewards) {
       // sending to ga only once
@@ -490,7 +501,7 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          fiatCurrency: this.selectedFiatCurrency || "EUR"
+          fiatCurrency: this.preferredCurrency
         }
       },
       /* istanbul ignore next */
@@ -520,7 +531,7 @@ export default {
         return {
           networkId: this.network,
           delegatorAddress: this.address,
-          fiatCurrency: this.selectedFiatCurrency || "EUR"
+          fiatCurrency: this.preferredCurrency
         }
       },
       /* istanbul ignore next */
