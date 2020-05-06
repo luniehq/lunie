@@ -1,5 +1,6 @@
 import firebase from "firebase/app"
 import "firebase/messaging"
+import * as Sentry from "@sentry/browser"
 import config from "../../../config"
 import gql from "graphql-tag"
 
@@ -71,24 +72,20 @@ const askPermissionAndRegister = async (activeNetworks, apollo) => {
         if (error.code === "messaging/permission-blocked") {
           localStorage.setItem("registration-push-notifications", "blocked")
         } else {
-          console.error("Error occurred during permission request for push notifications", error);
+          Sentry.captureException(error)
+          console.error(
+            "Error occurred during permission request for push notifications",
+            error
+          )
         }
       })
   }
 }
 
-const registerDevice = async (
-  token,
-  activeNetworks,
-  apollo
-) => {
+const registerDevice = async (token, activeNetworks, apollo) => {
   await apollo.mutate({
     mutation: gql`
-      mutation(
-        $token: String!
-        $activeNetworks: String!
-        $topics: [String]
-      ) {
+      mutation($token: String!, $activeNetworks: String!, $topics: [String]) {
         registerDevice(
           token: $token
           activeNetworks: $activeNetworks
