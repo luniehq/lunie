@@ -155,6 +155,7 @@ export default class TransactionManager {
     }
   }
 
+  /* istanbul ignore next */
   async getPolkadotFees({ messageType, message, senderAddress, network }) {
     const chainMessage = await getMessage(
       network,
