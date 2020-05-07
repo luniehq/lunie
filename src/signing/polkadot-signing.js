@@ -3,7 +3,9 @@ import { hexToU8a } from "@polkadot/util"
 export async function getSignature({ payload, transaction }, wallet, network) {
   const [{ Keyring }] = await Promise.all([
     import("@polkadot/api"),
-    import("@polkadot/wasm-crypto"),
+    import("@polkadot/wasm-crypto").then(async ({ waitReady }) => {
+      await waitReady()
+    }),
     import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
       // Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
       await cryptoWaitReady()
