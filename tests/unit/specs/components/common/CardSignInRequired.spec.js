@@ -22,7 +22,7 @@ describe(`CardSignInRequired`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        network: `polka-mon`,
+        network: `polka-mon`
       }
     }
     wrapper = shallowMount(CardSignInRequired, {
