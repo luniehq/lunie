@@ -1,0 +1,2 @@
+[Changed] [#3977](https://github.com/cosmos/lunie/issues/3977) Changes the hardcoded 21 days for unstaking period to a computed to change according to the network @Bitcoinera
+[Code Improvements] [#3977](https://github.com/cosmos/lunie/issues/3977) Changes polkadot-testnet to kusama for themes, tests, and also refactors where network.startsWith('polkadot') was being used @Bitcoinera

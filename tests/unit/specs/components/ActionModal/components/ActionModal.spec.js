@@ -249,7 +249,8 @@ describe(`ActionModal`, () => {
         getPolkadotFees: jest.fn(() => 0.01)
       },
       session: {
-        address: "LUNIE1234"
+        address: "LUNIE1234",
+        developmentMode: false
       }
     }
     const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(self)

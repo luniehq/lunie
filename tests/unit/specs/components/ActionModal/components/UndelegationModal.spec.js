@@ -24,14 +24,12 @@ describe(`UndelegationModal`, () => {
       dispatch: jest.fn(),
       getters: {
         network: "testnet",
-        networks: [
-          {
-            id: "testnet",
-            coinLookup: [
-              { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
-            ]
-          }
-        ],
+        currentNetwork: {
+          id: "testnet",
+          coinLookup: [
+            { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
+          ]
+        },
         stakingDenom: "STAKE",
         address: "cosmos12345"
       }
