@@ -25,9 +25,9 @@
       </li>
     </ol>
 
-    <form name="notifications-form" method="post" netlify data-netlify>
+    <form name="notifications-form" method="POST" netlify data-netlify="true">
       <span>Get on the waitlist by sharing your email below.</span>
-      <input type="email" name="email" />
+      <label>Your Email: <input type="email" name="email"/></label>
       <button type="submit">Send</button>
       <p class="spam">No spam. Just early access to this premium feature.</p>
     </form>
