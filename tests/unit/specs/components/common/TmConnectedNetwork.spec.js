@@ -11,27 +11,11 @@ jest.mock(`src/../config.js`, () => ({
 describe(`TmConnectedNetwork`, () => {
   let wrapper, $store, $apollo, dispatch
 
-  const networks = [
-    {
-      id: `awesomenet`,
-      testnet: true,
-      default: false,
-      powered: null
-    },
-    {
-      id: `keine-ahnungnet`,
-      testnet: true,
-      default: false,
-      powered: `cosmosvaloper1`
-    }
-  ]
-
   beforeEach(() => {
     dispatch = jest.fn()
     $store = {
       commit: jest.fn(),
       state: {
-        networks,
         connection: {
           network: "keine-ahnungnet"
         }
@@ -39,7 +23,12 @@ describe(`TmConnectedNetwork`, () => {
       dispatch,
       getters: {
         network: `awesomenet`,
-        networks
+        currentNetwork: {
+          id: `awesomenet`,
+          testnet: true,
+          default: false,
+          powered: null
+        }
       }
     }
 
@@ -115,14 +104,5 @@ describe(`TmConnectedNetwork`, () => {
   it(`handleIntercom should dispatch displayMessenger action`, () => {
     wrapper.vm.handleIntercom()
     expect(dispatch).toHaveBeenCalledWith(`displayMessenger`)
-  })
-
-  it(`currentNetwork returns the current network`, () => {
-    const self = {
-      network: `keine-ahnungnet`,
-      networks
-    }
-    const currentNetwork = TmConnectedNetwork.computed.currentNetwork.call(self)
-    expect(currentNetwork.id).toEqual(`keine-ahnungnet`)
   })
 })

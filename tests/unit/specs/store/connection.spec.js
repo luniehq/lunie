@@ -121,8 +121,9 @@ describe(`Module: Connection`, () => {
     const state = {
       networks: [
         {
-          id: "polkadot-testnet",
-          slug: "polkadot-tesnet"
+          id: "kusama",
+          slug: "kusama",
+          network_type: "polkadot"
         },
         {
           id: "cosmos-hub-mainnet",

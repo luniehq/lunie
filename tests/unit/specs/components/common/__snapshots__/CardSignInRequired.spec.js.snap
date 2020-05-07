@@ -5,7 +5,7 @@ exports[`CardSignInRequired shows a sign in required card 1`] = `
   class="card-sign-in"
 >
   <h2>
-    Welcome to Lunie
+    Welcome to Lunie 👋
   </h2>
    
   <h3>
@@ -17,13 +17,7 @@ exports[`CardSignInRequired shows a sign in required card 1`] = `
   >
     <!---->
      
-    <lisession-stub
-      icon="vpn_key"
-      id="use-ledger-nano"
-      img=""
-      route="/ledger"
-      title="Ledger Nano"
-    />
+    <!---->
      
     <lisession-stub
       icon="laptop"

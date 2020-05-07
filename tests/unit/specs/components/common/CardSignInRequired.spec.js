@@ -20,7 +20,10 @@ describe(`CardSignInRequired`, () => {
     $store = {
       state,
       commit: jest.fn(),
-      dispatch: jest.fn()
+      dispatch: jest.fn(),
+      getters: {
+        currentNetwork: { id: `polka-mon`, network_type: `polkadot` }
+      }
     }
     wrapper = shallowMount(CardSignInRequired, {
       mocks: {

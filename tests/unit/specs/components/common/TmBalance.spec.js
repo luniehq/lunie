@@ -9,7 +9,13 @@ describe(`TmBalance`, () => {
       getters: {
         address: "cosmos1address",
         network: "test-network",
-        stakingDenom: "ATOM"
+        stakingDenom: "ATOM",
+        networks: [
+          {
+            id: "test-network",
+            testnet: false
+          }
+        ]
       },
       state: {
         connection: {

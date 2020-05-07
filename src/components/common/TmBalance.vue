@@ -39,7 +39,7 @@
             </i>
             <span v-else>Need some tokens?</span>
           </button>
-          <div class="currency-selector">
+          <div v-if="!isTestnet" class="currency-selector">
             <img
               v-if="preferredCurrency"
               class="currency-flag"
@@ -104,12 +104,7 @@
               {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
               {{ stakingDenom }}
             </span>
-            <template
-              v-if="
-                overview.totalStakeFiatValue &&
-                  overview.totalStakeFiatValue.amount > 0
-              "
-            >
+            <template v-if="overview.totalStakeFiatValue && !isTestnet">
               <span class="fiat">
                 {{
                   bigFigureOrShortDecimals(overview.totalStakeFiatValue.amount)
@@ -170,7 +165,7 @@
                 {{ balance.amount | bigFigureOrShortDecimals }}
                 {{ balance.denom }}
               </span>
-              <span v-if="balance.fiatValue" class="fiat">
+              <span v-if="balance.fiatValue && !isTestnet" class="fiat">
                 {{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
                 {{ balance.fiatValue.denom }}</span
               >
@@ -299,7 +294,7 @@ export default {
   },
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`address`, `network`, `stakingDenom`]),
+    ...mapGetters([`address`, `networks`, `network`, `stakingDenom`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
@@ -343,6 +338,9 @@ export default {
     },
     totalRewards() {
       return this.totalRewardsPerDenom[this.stakingDenom] || 0
+    },
+    isTestnet() {
+      return this.networks.find(network => network.id === this.network).testnet
     }
   },
   watch: {

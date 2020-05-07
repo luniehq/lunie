@@ -144,7 +144,7 @@
           <h4>Self Stake</h4>
           <span id="page-profile__self-bond">
             {{ validator.selfStake | shortDecimals }} /
-            {{ (validator.selfStake / validator.tokens) | percent }}
+            {{ (validator.selfStake / validator.tokens || 0) | percent }}
           </span>
         </li>
         <li>
@@ -299,7 +299,7 @@ export default {
         {
           title: "Lock-up period",
           content: [
-            "While your tokens are 'staked' you will not be able to transfer or spend them. It will take 21 days for your tokens to be in your wallet after you 'unstake' them."
+            "While your tokens are 'staked' you will not be able to transfer or spend them. It will take a number of days depending on the network for your tokens to be in your wallet after you 'unstake' them."
           ]
         },
         {

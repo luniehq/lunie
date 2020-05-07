@@ -13,7 +13,6 @@ const config = {
   },
   configureWebpack: () => {
     const config = {
-      devtool: "source-map",
       resolve: {
         alias: {
           src: resolve(`src`),
@@ -49,7 +48,8 @@ const config = {
         splitChunks: {
           chunks: "all"
         }
-      }
+      },
+      devtool: "eval-source-map"
     }
 
     return config

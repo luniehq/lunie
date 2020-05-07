@@ -92,12 +92,13 @@ export default {
   padding: 0.5rem 0.1rem 0.5rem 0.1rem;
   border-radius: 0.2rem;
   font-size: 0.9rem;
+  color: var(--bright);
 }
 
 .seed-table td .word-number {
   display: block;
   width: 100%;
-  opacity: 0.3;
+  opacity: 0.5;
 
   /* Prevent user to copy word numbers, we only want the words in their correct order */
   -moz-user-select: none;

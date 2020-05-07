@@ -26,8 +26,9 @@ export const RestakeTx = (...args) => {
 
 export const ClaimRewardsTx = (...args) => {
   const msg = CosmosMessages.ClaimRewardsTx(...args)
-  msg.type = "distribution/MsgWithdrawDelegationReward"
-  return msg
+  return msg.map(
+    msg => (msg = { ...msg, type: "distribution/MsgWithdrawDelegationReward" })
+  )
 }
 
 export const SubmitProposalTx = (...args) => {

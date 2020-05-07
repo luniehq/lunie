@@ -3,8 +3,9 @@ import { getSigner, cancelSign, signQueue } from "./signer"
 import { getGraphqlHost } from "scripts/url"
 import { getFingerprint } from "scripts/fingerprint"
 import { getMessage } from "./message-creator.js"
-import { messageType as messageTypes } from "../components/transactions/messageTypes"
+import { signWithExtension } from "scripts/extension-utils"
 import gql from "graphql-tag"
+import BigNumber from "bignumber.js"
 
 const txFetchOptions = fingerprint => ({
   method: "POST",
@@ -93,35 +94,26 @@ export default class TransactionManager {
     signingType,
     password
   }) {
-    // DEPRECATE, needed for extension
-    const displayedProperties = {}
-    if (messageType === messageTypes.CLAIM_REWARDS) {
-      displayedProperties.claimableRewards = message.amounts
-    }
-
-    const signer = await getSigner(
-      signingType,
-      {
-        address: senderAddress,
-        password,
+    let broadcastableObject
+    if (signingType === "extension") {
+      broadcastableObject = await signWithExtension(
+        messageType,
+        message,
+        transactionData,
+        senderAddress,
+        network
+      )
+    } else {
+      broadcastableObject = await this.createAndSignLocally(
+        messageType,
+        message,
+        transactionData,
+        senderAddress,
         network,
-        // DEPRECATE
-        displayedProperties
-      },
-      config // only needed for Ledger
-    )
-
-    // we need to split extension signing and message signing in the future
-    // extension signing doesn't require to create the signableObject in advance
-    const broadcastableObject = await createAndSign(
-      messageType,
-      message,
-      transactionData,
-      senderAddress,
-      network,
-      signer
-    )
-
+        signingType,
+        password
+      )
+    }
     return this.broadcastTransaction(
       broadcastableObject,
       messageType,
@@ -129,6 +121,45 @@ export default class TransactionManager {
       network,
       senderAddress
     )
+  }
+
+  async createAndSignLocally(
+    messageType,
+    message,
+    transactionData,
+    senderAddress,
+    network,
+    signingType,
+    password
+  ) {
+    const messages = await getMessage(
+      network,
+      messageType,
+      senderAddress,
+      message
+    )
+    const signer = await getSigner(
+      signingType,
+      {
+        address: senderAddress,
+        password,
+        network
+      },
+      config // only needed for Ledger
+    )
+
+    const { getSignableObject, getBroadcastableObject } = await import(
+      `./networkMessages/${network.network_type}-transactions.js`
+    )
+    const signableObject = await getSignableObject(messages, transactionData)
+    const signedContext = await signer(signableObject)
+    const broadcastableObject = await getBroadcastableObject(
+      messages,
+      transactionData,
+      signedContext
+    )
+
+    return broadcastableObject
   }
 
   async broadcastTransaction(
@@ -153,35 +184,25 @@ export default class TransactionManager {
       throw Error("Broadcast was not successful: " + result.error)
     }
   }
-}
 
-async function createAndSign(
-  messageType,
-  message,
-  transactionData,
-  senderAddress,
-  network,
-  signer
-) {
-  const chainMessages = await getMessage(
-    network,
-    messageType,
-    senderAddress,
-    message
-  )
+  /* istanbul ignore next */
+  async getPolkadotFees({ messageType, message, senderAddress, network }) {
+    const chainMessage = await getMessage(
+      network,
+      messageType,
+      senderAddress,
+      message
+    )
 
-  const { getSignableObject, getBroadcastableObject } = await import(
-    `./networkMessages/${network.network_type}-transactions.js`
-  )
-  const signableObject = await getSignableObject(chainMessages, transactionData)
-  const signedContext = await signer(signableObject)
-  const broadcastableObject = await getBroadcastableObject(
-    chainMessages,
-    transactionData,
-    signedContext
-  )
-
-  return broadcastableObject
+    const { partialFee } = await chainMessage.transaction.paymentInfo(
+      senderAddress
+    )
+    const chainFees = partialFee.toJSON()
+    const viewFees = BigNumber(chainFees)
+      .times(network.coinLookup[0].chainToViewConversionFactor)
+      .toNumber()
+    return viewFees
+  }
 }
 
 // limitation of the Ledger Nano S, so we pick the top 5 rewards and inform the user.

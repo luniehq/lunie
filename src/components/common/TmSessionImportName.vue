@@ -122,5 +122,6 @@ export default {
 .address {
   word-break: break-all;
   font-size: 0.9rem;
+  color: var(--txt);
 }
 </style>
