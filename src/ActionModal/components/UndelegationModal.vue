@@ -21,8 +21,9 @@
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
-          Unstaking takes {{ currentNetwork.lockUpPeriod }} to complete and cannot be
-          undone. Please make sure you understand the rules of staking.
+          Unstaking takes {{ currentNetwork.lockUpPeriod }} to complete and
+          cannot be undone. Please make sure you understand the rules of
+          staking.
         </span>
         <span v-else>
           Voting power and rewards will change instantly upon restaking — but

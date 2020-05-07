@@ -17,9 +17,9 @@
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
-          It will take {{ currentNetwork.lockUpPeriod }} to unlock your tokens after they
-          are staked. There is a risk that some tokens will be lost depending on
-          the behaviour of the validator you choose.
+          It will take {{ currentNetwork.lockUpPeriod }} to unlock your tokens
+          after they are staked. There is a risk that some tokens will be lost
+          depending on the behaviour of the validator you choose.
         </span>
         <span v-else>
           Voting power and rewards will change instantly upon restaking — but
