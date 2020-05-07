@@ -39,14 +39,12 @@ describe(`DelegationModal`, () => {
 
   const getters = {
     network: "testnet",
-    networks: [
-      {
-        id: "testnet",
-        coinLookup: [
-          { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
-        ]
-      }
-    ],
+    currentNetwork: {
+      id: "testnet",
+      coinLookup: [
+        { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
+      ]
+    },
     address: "cosmos1234",
     stakingDenom: "STAKE"
   }
