@@ -1,4 +1,4 @@
-FROM keymetrics/pm2:latest-alpine
+FROM node:lts-alpine3.11
 
 WORKDIR /var/www/server
 
@@ -18,12 +18,10 @@ COPY config.js .
 
 COPY secrets.js .
 
-COPY pm2.json .
-
 COPY index.js .
 
 RUN npm install
 
-CMD [ "pm2-runtime", "start", "pm2.json", "--format"]
+CMD npm run start
 
 EXPOSE 4200
