@@ -230,45 +230,46 @@ describe(`ActionModal`, () => {
     expect(self.gasEstimate).toBe(550000)
   })
 
-  // it("should calculate fees for Polkadot transactions", async () => {
-  //   const self = {
-  //     networkId: "polkadot-testnet",
-  //     network: {
-  //       network_type: "polkadot"
-  //     },
-  //     step: "fees",
-  //     transactionData: {
-  //       type: "SendTx",
-  //       amount: {
-  //         denom: "KSM",
-  //         amount: 1
-  //       },
-  //       to: ["cosmos12345"]
-  //     },
-  //     transactionManager: {
-  //       getPolkadotFees: jest.fn(() => 0.01)
-  //     },
-  //     session: {
-  //       address: "LUNIE1234"
-  //     }
-  //   }
-  //   const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(self)
-  //   expect(estimatedFee).toBe(0.01)
-  //   expect(self.transactionManager.getPolkadotFees).toHaveBeenCalledWith({
-  //     messageType: "SendTx",
-  //     message: {
-  //       amount: {
-  //         denom: "KSM",
-  //         amount: 1
-  //       },
-  //       to: ["cosmos12345"]
-  //     },
-  //     senderAddress: "LUNIE1234",
-  //     network: {
-  //       network_type: "polkadot"
-  //     }
-  //   })
-  // })
+  it("should calculate fees for Polkadot transactions", async () => {
+    const self = {
+      networkId: "polkadot-testnet",
+      network: {
+        network_type: "polkadot"
+      },
+      step: "fees",
+      transactionData: {
+        type: "SendTx",
+        amount: {
+          denom: "KSM",
+          amount: 1
+        },
+        to: ["cosmos12345"]
+      },
+      transactionManager: {
+        getPolkadotFees: jest.fn(() => 0.01)
+      },
+      session: {
+        address: "LUNIE1234",
+        developmentMode: false
+      }
+    }
+    const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(self)
+    expect(estimatedFee).toBe(0.01)
+    expect(self.transactionManager.getPolkadotFees).toHaveBeenCalledWith({
+      messageType: "SendTx",
+      message: {
+        amount: {
+          denom: "KSM",
+          amount: 1
+        },
+        to: ["cosmos12345"]
+      },
+      senderAddress: "LUNIE1234",
+      network: {
+        network_type: "polkadot"
+      }
+    })
+  })
 
   it(`should set the submissionError if the submission is rejected`, async () => {
     const failingSendMock = jest
