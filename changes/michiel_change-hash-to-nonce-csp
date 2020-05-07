@@ -1,0 +1,1 @@
+[Security] [#3992](https://github.com/cosmos/lunie/pull/3992) Change dynamic script tags to nonce instead of hash for CSP @michielmulders
