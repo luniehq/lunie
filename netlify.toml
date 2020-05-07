@@ -9,7 +9,7 @@
     '''
     Content-Security-Policy = '''
       default-src 'self' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://monitoring.lunie.io:9000 https://js.intercomcdn.com;
-      connect-src 'self' https://api-iam.intercom.io https://widget.intercom.io wss://*.intercom.io wss://production-api.lunie.io/graphql https://production-api.lunie.io wss://staging-api.lunie.io/graphql https://staging-api.lunie.io https://geolocation-db.com/json https://monitoring.lunie.io:9000 https://firebaseinstallations.googleapis.com https://fcmregistrations.googleapis.com;
+      connect-src 'self' https://api-iam.intercom.io https://widget.intercom.io wss://*.intercom.io wss://production-api.lunie.io/graphql https://production-api.lunie.io wss://staging-api.lunie.io/graphql https://staging-api.lunie.io https://geolocation-db.com https://monitoring.lunie.io:9000 https://firebaseinstallations.googleapis.com https://fcmregistrations.googleapis.com;
       img-src 'self' data: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://s3.amazonaws.com https://lunie.fra1.digitaloceanspaces.com;
       script-src 'self' 'unsafe-eval' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://api-iam.intercom.io https://js.intercomcdn.com https://widget.intercom.io https://www.gstatic.com 'sha256-G4vvwkai1flA+XSDCXPR0KDlLS9x0zsszpJIV6tiApA=' 'sha256-FakRMA+u6is/Tx11H/OX3XBouQxbbE0TmeFHUdeXZ5o=';
       style-src 'self' 'unsafe-inline' https://*.lunie.io https://*.netlify.app;
