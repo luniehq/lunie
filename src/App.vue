@@ -1,5 +1,6 @@
 <template>
   <div id="app" :class="network">
+    <FeatureModal />
     <AppHeader />
     <div id="app-content">
       <div id="bar-container">
@@ -19,6 +20,7 @@
 import { mapState, mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import MobileMenu from "common/MobileMenu"
+import FeatureModal from "common/FeatureModal"
 import CookieBar from "common/CookieBar"
 import MaintenanceBar from "common/MaintenanceBar"
 import DisconnectedBar from "common/DisconnectedBar"
@@ -32,6 +34,7 @@ export default {
     AppHeader,
     TmNotifications,
     CookieBar,
+    FeatureModal,
     MaintenanceBar,
     DisconnectedBar,
     MobileMenu
