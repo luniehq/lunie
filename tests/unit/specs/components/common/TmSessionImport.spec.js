@@ -20,7 +20,6 @@ describe(`TmSessionImport`, () => {
   beforeEach(() => {
     getters = {
       connected: () => true,
-      network: "kusama",
       currentNetwork: {
         id: "kusama",
         network_type: "polkadot"

@@ -71,12 +71,11 @@ export default {
   components: { LiSession },
   data: () => ({
     isMobileApp: config.mobileApp,
-    isExtension: config.isExtension,
-    currentNetwork: {}
+    isExtension: config.isExtension
   }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
-    ...mapGetters([`network`, `networks`]),
+    ...mapGetters([`currentNetwork`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
     },
@@ -85,9 +84,6 @@ export default {
         ? `/select-network/create`
         : `/create`
     }
-  },
-  mounted() {
-    this.currentNetwork = this.networks.find(({ id }) => id === this.network)
   },
   created() {
     this.$store.dispatch("loadAccounts")

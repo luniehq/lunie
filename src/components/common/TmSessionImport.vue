@@ -102,7 +102,7 @@ export default {
     Steps
   },
   computed: {
-    ...mapGetters([`recover`, `network`, `currentNetwork`]),
+    ...mapGetters([`recover`, `currentNetwork`]),
     seed: {
       get() {
         return this.$store.state.recover.seed
@@ -142,6 +142,6 @@ export default {
 </script>
 <style scoped>
 .schnorrkel-warning {
-  color: var(--warning)
+  color: var(--warning);
 }
 </style>
