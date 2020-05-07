@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.8] - 2020-04-30
+
+### Added
+
+- [#576](https://github.com/cosmos/lunie/issues/576) Add endpoint to query all staking users @faboweb
+
+### Changed
+
+- [#666](https://github.com/cosmos/lunie/pull/666) Now network icons are served from DO @Bitcoinera
+- [#664](https://github.com/cosmos/lunie/pull/664) Update e-Money gas prices adding the nordic coins prices @Bitcoinera
+
+### Fixed
+
+- Store caches in folder to properly use docker volumes @faboweb
+- Update terra testnet chainId @faboweb
+- Attach docker PORT to lunie-api service in docker-compose.yml @michielmulders
+
+### Repository
+
+- Persist Polkadot eras in a docker volume @faboweb
+
 ## [1.0.7] - 2020-04-29
 
 ### Changed

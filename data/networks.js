@@ -28,7 +28,8 @@ module.exports = [
       name: 'Figment',
       picture:
         'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
-    }
+    },
+    lockUpPeriod: '3 days'
   },
   {
     id: 'cosmos-hub-mainnet',
@@ -57,7 +58,8 @@ module.exports = [
       providerAddress: 'cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d',
       picture:
         'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
-    }
+    },
+    lockUpPeriod: '21 days'
   },
   {
     id: 'terra-mainnet',
@@ -79,7 +81,8 @@ module.exports = [
     coinLookup: coinLookupDictionary[`terra-mainnet`],
     enabled: true,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/terra.png',
-    slug: 'terra'
+    slug: 'terra',
+    lockUpPeriod: '21 days'
   },
   {
     id: 'terra-testnet',
@@ -101,7 +104,8 @@ module.exports = [
     coinLookup: coinLookupDictionary[`terra-testnet`],
     enabled: true,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/terra.png',
-    slug: 'terra-testnet'
+    slug: 'terra-testnet',
+    lockUpPeriod: '21 days'
   },
   {
     id: 'emoney-mainnet',
@@ -123,32 +127,33 @@ module.exports = [
     coinLookup: coinLookupDictionary[`emoney-mainnet`],
     enabled: true,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/emoney.png',
-    slug: 'emoney'
+    slug: 'emoney',
+    lockUpPeriod: '21 days'
   },
+  // {
+  //   id: 'emoney-testnet',
+  //   title: 'e-Money Testnet',
+  //   chain_id: 'lilmermaid-5',
+  //   api_url: 'http://lilmermaid.validator.network/light',
+  //   rpc_url: 'wss://lilmermaid.validator.network/websocket',
+  //   bech32_prefix: 'emoney',
+  //   address_prefix: 'emoney',
+  //   address_creator: 'cosmos',
+  //   ledger_app: 'cosmos',
+  //   network_type: 'cosmos',
+  //   source_class_name: 'source/emoneyV0-source',
+  //   block_listener_class_name: 'block-listeners/cosmos-node-subscription',
+  //   testnet: true,
+  //   ...getNetworkCapabilities[`emoney-testnet`],
+  //   default: false,
+  //   stakingDenom: 'NGM',
+  //   coinLookup: coinLookupDictionary[`emoney-testnet`],
+  //   enabled: true,
+  //   icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/emoney.png',
+  //   slug: 'emoney-testnet'
+  // },
   {
-    id: 'emoney-testnet',
-    title: 'e-Money Testnet',
-    chain_id: 'lilmermaid-5',
-    api_url: 'http://lilmermaid.validator.network/light',
-    rpc_url: 'wss://lilmermaid.validator.network/websocket',
-    bech32_prefix: 'emoney',
-    address_prefix: 'emoney',
-    address_creator: 'cosmos',
-    ledger_app: 'cosmos',
-    network_type: 'cosmos',
-    source_class_name: 'source/emoneyV0-source',
-    block_listener_class_name: 'block-listeners/cosmos-node-subscription',
-    testnet: true,
-    ...getNetworkCapabilities[`emoney-testnet`],
-    default: false,
-    stakingDenom: 'NGM',
-    coinLookup: coinLookupDictionary[`emoney-testnet`],
-    enabled: true,
-    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/emoney.png',
-    slug: 'emoney-testnet'
-  },
-  {
-    id: 'polkadot-testnet',
+    id: 'kusama',
     title: 'Kusama',
     chain_id: 'kusama-cc3',
     api_url: 'https://host-01.polkascan.io/kusama/api/v1/',
@@ -160,12 +165,12 @@ module.exports = [
     network_type: 'polkadot',
     source_class_name: 'source/polkadotV0-source',
     block_listener_class_name: 'block-listeners/polkadot-node-subscription',
-    testnet: true,
-    ...getNetworkCapabilities[`polkadot-testnet`],
+    testnet: false,
+    ...getNetworkCapabilities[`kusama`],
     default: false,
     stakingDenom: 'KSM',
     // https://wiki.polkadot.network/docs/en/learn-DOT
-    coinLookup: coinLookupDictionary[`polkadot-testnet`],
+    coinLookup: coinLookupDictionary[`kusama`],
     enabled: true,
     icon:
       'https://lunie.fra1.digitaloceanspaces.com/network-icons/polkadot.png',
@@ -175,7 +180,8 @@ module.exports = [
       providerAddress: 'GXaUd6gyCaEoBVzXnkLVGneCF3idnLNtNZs5RHTugb9dCpY',
       picture:
         'https://s3.amazonaws.com/keybase_processed_uploads/e1378cd4d5203ded716906687ad53905_360_360.jpg'
-    }
+    },
+    lockUpPeriod: '7 days'
   },
   {
     id: 'kava-mainnet',
@@ -203,7 +209,8 @@ module.exports = [
       providerAddress: 'kavavaloper14kn0kk33szpwus9nh8n87fjel8djx0y02c7me3',
       picture:
         'https://lunie.fra1.digitaloceanspaces.com/validator-pictures/forbole.jpeg'
-    }
+    },
+    lockUpPeriod: '21 days'
   }
   // {
   //   id: 'akash-testnet',
