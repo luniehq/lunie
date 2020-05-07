@@ -1,5 +1,8 @@
-import firebase from "firebase"
+import firebase from "firebase/app"
+import "firebase/messaging"
+import * as Sentry from "@sentry/browser"
 import config from "../../../config"
+import gql from "graphql-tag"
 
 let messaging
 
@@ -25,68 +28,81 @@ const initializeFirebase = async () => {
   })
 }
 
-const askPermissionAndRegister = async activeNetworks => {
-  // Only store for new registrations
+const askPermissionAndRegister = async (activeNetworks, apollo) => {
   const isDeviceRegistered = localStorage.getItem(
     "registration-push-notifications"
-  ) // "true" if stored
+  ) // "allowed" / "blocked" if stored, null if not set
 
-  if (isDeviceRegistered !== "true") {
-    try {
-      messaging
-        .requestPermission()
-        .then(async () => {
-          // First delete old token
-          const oldToken = localStorage.getItem(
-            "registration-push-notifications-token"
-          )
+  if (isDeviceRegistered === "blocked") {
+    return
+  }
 
-          if (oldToken) {
-            try {
-              await messaging.deleteToken(oldToken)
-            } catch (error) {
-              console.log(
-                "bug FCM throws error while deleting token on first refresh"
-              )
-            }
-          }
+  if (isDeviceRegistered === "allowed") {
+    const token = localStorage.getItem("registration-push-notifications-token")
+    registerDevice(token, activeNetworks, apollo) // non-blocking
+  }
 
-          // Granted? Store device
-          const token = await messaging.getToken()
-          await registerDevice(token, activeNetworks)
-        })
-        .catch(() =>
-          console.log(
-            "bug FCM throws error while deleting token on first refresh"
-          )
+  if (!isDeviceRegistered) {
+    // === null
+
+    messaging
+      .requestPermission()
+      .then(async () => {
+        // First delete old token
+        const oldToken = localStorage.getItem(
+          "registration-push-notifications-token"
         )
-    } catch (error) {
-      console.log("Permission denied")
-    }
+
+        if (oldToken) {
+          try {
+            await messaging.deleteToken(oldToken)
+          } catch (error) {
+            console.error(
+              "bug FCM throws error while deleting token on first refresh",
+              error
+            )
+          }
+        }
+
+        // Granted? Store device
+        const token = await messaging.getToken()
+        await registerDevice(token, activeNetworks, apollo)
+      })
+      .catch(error => {
+        if (error.code === "messaging/permission-blocked") {
+          localStorage.setItem("registration-push-notifications", "blocked")
+        } else {
+          Sentry.captureException(error)
+          console.error(
+            "Error occurred during permission request for push notifications",
+            error
+          )
+        }
+      })
   }
 }
 
-const registerDevice = async (token, activeNetworks) => {
-  const registrationResponse = await fetch(`${config.graphqlHost}`, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      query:
-        "mutation ($token: String!, $activeNetworks: String!, $topics: [String]) { registerDevice(token: $token, activeNetworks: $activeNetworks, topics: $topics) { topics } } ",
-      variables: {
-        token,
-        activeNetworks: JSON.stringify(activeNetworks)
+const registerDevice = async (token, activeNetworks, apollo) => {
+  await apollo.mutate({
+    mutation: gql`
+      mutation($token: String!, $activeNetworks: String!, $topics: [String]) {
+        registerDevice(
+          token: $token
+          activeNetworks: $activeNetworks
+          topics: $topics
+        ) {
+          topics
+        }
       }
-    })
+    `,
+    variables: {
+      token,
+      activeNetworks: JSON.stringify(activeNetworks)
+    }
   })
 
-  if (registrationResponse.status === 200 && registrationResponse.ok) {
-    localStorage.setItem("registration-push-notifications", "true")
-    localStorage.setItem("registration-push-notifications-token", token)
-  }
+  localStorage.setItem("registration-push-notifications", "allowed")
+  localStorage.setItem("registration-push-notifications-token", token)
 }
 
 export default {

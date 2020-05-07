@@ -116,6 +116,10 @@
   font-size: 14px;
 }
 
+.field-checkbox-label {
+  color: var(--bright);
+}
+
 .accounts-header {
   padding: 0 1rem;
 }
@@ -127,6 +131,10 @@
   padding: 0.25rem;
   cursor: pointer;
   font-size: var(--x);
+}
+
+.session .material-icons.circle:hover {
+  background: var(--app-fg-hover);
 }
 
 @media screen and (min-width: 667px) {
@@ -148,7 +156,7 @@
   .session {
     height: 100vh;
     max-height: 100vh;
-    padding: 2rem 1rem 1rem;
+    padding: 1rem;
     max-width: 100%;
   }
 
@@ -181,8 +189,14 @@
     display: none;
   }
 
-  .session-footer button {
+  .form-main .session-footer button {
     width: 100%;
+  }
+
+  .form-main>div {
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
   }
 
   .session-close-mobile {
@@ -194,6 +208,14 @@
 
   .session-close-mobile i {
     font-size: 1.25rem;
+  }
+
+  .session-title {
+    padding: 0.5rem 0 1rem;
+  }
+
+  .session-main .step--container {
+    margin: 0.5rem 0;
   }
 }
 

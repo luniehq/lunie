@@ -49,7 +49,7 @@ const config = {
           chunks: "all"
         }
       },
-      devtool: "source-map"
+      devtool: "eval-source-map"
     }
 
     return config

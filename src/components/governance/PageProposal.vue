@@ -10,21 +10,27 @@
             {{ status.badge }}
           </span>
           <div class="proposal-title__row">
-            <router-link
-              :to="`/proposals/` + getPrevProposalId"
+            <div class="read-more-link"
+              @click="
+                $router.push({
+                  name: 'Proposal',
+                  params: { proposalId: String(getPrevProposalId) }
+                })"
               :style="{ visibility: getPrevProposalId ? 'visible' : 'hidden' }"
-              class="read-more-link"
             >
               <i class="material-icons notranslate">chevron_left</i>
-            </router-link>
+            </div>
             <h2 class="proposal-title">{{ proposal.title }}</h2>
-            <router-link
-              :to="`/proposals/` + getNextProposalId"
+            <div class="read-more-link"
+              @click="
+                $router.push({
+                  name: 'Proposal',
+                  params: { proposalId: String(getNextProposalId) }
+                })"
               :style="{ visibility: getNextProposalId ? 'visible' : 'hidden' }"
-              class="read-more-link"
             >
               <i class="material-icons notranslate">chevron_right</i>
-            </router-link>
+            </div>
           </div>
           <p class="proposer">
             <template v-if="proposal.validator">
@@ -481,6 +487,17 @@ export default {
 
 .button-container button:first-child {
   margin-right: 0.5rem;
+}
+
+.read-more-link {
+  padding-top: 1rem;
+  font-size: 14px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.read-more-link:hover {
+  color: var(--link);
 }
 
 @media screen and (max-width: 667px) {
