@@ -349,10 +349,9 @@ export default {
       }
     }
   },
-  mounted: async function() {
-    const persistedPreferredCurrency = await this.$store.dispatch(
-      `getPreferredCurrency`
-    )
+  mounted: function() {
+    const persistedPreferredCurrency = this.$store.state.session
+      .preferredCurrency
     if (persistedPreferredCurrency) {
       this.preferredCurrency = persistedPreferredCurrency
     }

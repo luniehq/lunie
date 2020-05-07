@@ -461,13 +461,14 @@ describe(`Module: Session`, () => {
     localStorage.setItem(`lunie_user_preferences`, ``)
     state.errorCollection = true
     state.analyticsCollection = true
+    state.preferredCurrency = "USD"
 
     actions.storeLocalPreferences({
       state
     })
 
     expect(localStorage.getItem(`lunie_user_preferences`)).toBe(
-      `{"errorCollection":true,"analyticsCollection":true,"preferredCurrency":""}`
+      `{"errorCollection":true,"analyticsCollection":true,"preferredCurrency":"USD"}`
     )
   })
 
@@ -631,16 +632,5 @@ describe(`Module: Session`, () => {
         type: `ledger`
       }
     ])
-  })
-
-  it(`should retrieve preferredCurrency from localStorage`, async () => {
-    localStorage.setItem(
-      `lunie_user_preferences`,
-      JSON.stringify({
-        preferredCurrency: `USD`
-      })
-    )
-    const preferredCurrency = await actions.getPreferredCurrency()
-    expect(preferredCurrency).toEqual(`USD`)
   })
 })
