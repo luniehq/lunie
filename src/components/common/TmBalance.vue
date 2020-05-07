@@ -292,7 +292,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([`connection`]),
+    ...mapState([`connection`, `session`]),
     ...mapGetters([`address`, `networks`, `network`, `stakingDenom`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
@@ -350,8 +350,7 @@ export default {
     }
   },
   mounted: function() {
-    const persistedPreferredCurrency = this.$store.state.session
-      .preferredCurrency
+    const persistedPreferredCurrency = this.session.preferredCurrency
     if (persistedPreferredCurrency) {
       this.preferredCurrency = persistedPreferredCurrency
     }
