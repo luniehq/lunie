@@ -26,6 +26,7 @@ describe(`ModalPropose`, () => {
       getters: {
         userAddress: "cosmo1",
         network: "testnet",
+        address: "cosmosguay",
         networks: [
           {
             id: "testnet",
@@ -172,16 +173,14 @@ describe(`ModalPropose`, () => {
 
     it("should return correct transaction data for delegating", () => {
       expect(wrapper.vm.transactionData).toEqual({
-        type: "MsgSubmitProposal",
-        proposalType: "Text",
-        title: "The Title",
-        description: "A long description…",
-        initialDeposits: [
-          {
-            amount: "10000000",
-            denom: "uatom"
-          }
-        ]
+        type: "SubmitProposalTx",
+        proposalDescription: "A long description…",
+        proposalTitle: "The Title",
+        initialDeposit: {
+          amount: 10,
+          denom: "ATOM"
+        },
+        proposer: "cosmosguay"
       })
     })
 

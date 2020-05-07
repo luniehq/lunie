@@ -5,10 +5,10 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
   class="sidebar-bottom"
 >
   <tmbtn-stub
-    class="intercom-button"
+    class="intercom-button secondary"
     id="intercom-button"
     size="small"
-    type="secondary"
+    type="sidebar"
     value="Help / Feedback"
   />
    
@@ -66,10 +66,10 @@ exports[`TmConnectedNetwork has the expected html structure when connected 1`] =
   class="sidebar-bottom"
 >
   <tmbtn-stub
-    class="intercom-button"
+    class="intercom-button secondary"
     id="intercom-button"
     size="small"
-    type="secondary"
+    type="sidebar"
     value="Help / Feedback"
   />
    
@@ -108,6 +108,7 @@ exports[`TmConnectedNetwork has the expected html structure when connected 1`] =
       id="tm-connected-network__block"
     >
       <router-link-stub
+        class="block-number"
         to="[object Object]"
       >
         

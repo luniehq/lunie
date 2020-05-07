@@ -92,8 +92,14 @@ export default {
         case `words24`:
           msg = `phrase must be 24 words`
           break
+        case `words12or24`:
+          msg = `phrase must be 12 or 24 words`
+          break
         case `lowercaseAndSpaces`:
           msg = `phrase words must be all lowercase and separated by spaces`
+          break
+        case `incorrectPolkadotSeed`:
+          msg = `is not correct. Check spelling, spaces or hash length`
           break
         case `url`:
           msg = `must be a valid URL (http:// required)`

@@ -70,7 +70,7 @@
         />
         <TmBtn
           type="button"
-          class="secondary addon-max"
+          class="addon-max"
           value="Set Max"
           @click.native="setMaxAmount()"
         />
@@ -124,7 +124,6 @@
       <TmField
         id="memo"
         v-model="memo"
-        v-focus
         type="text"
         @keyup.enter.native="enterPressed"
       />
@@ -147,7 +146,7 @@
 import gql from "graphql-tag"
 import b32 from "scripts/b32"
 import { required, decimal, maxLength } from "vuelidate/lib/validators"
-import { toMicroUnit, SMALLEST } from "src/scripts/num"
+import { SMALLEST } from "src/scripts/num"
 import { mapGetters } from "vuex"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
@@ -155,9 +154,7 @@ import TmFieldGroup from "src/components/common/TmFieldGroup"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
-import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
-import { toMicroDenom } from "src/scripts/common"
 import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
 import BigNumber from "bignumber.js"
@@ -196,7 +193,6 @@ export default {
     isFirstLoad: true,
     selectedToken: undefined,
     balances: [],
-    transactionTypes,
     messageType,
     smallestAmount: SMALLEST
   }),
@@ -215,18 +211,13 @@ export default {
         return {}
       }
       return {
-        type: transactionTypes.SEND,
-        toAddress: this.address,
-        amounts: [
-          {
-            amount: toMicroUnit(
-              this.amount,
-              this.selectedToken,
-              this.networks.find(({ id }) => id === this.network)
-            ),
-            denom: toMicroDenom(this.selectedToken)
-          }
-        ],
+        type: messageType.SEND,
+        to: [this.address],
+        from: [this.userAddress],
+        amount: {
+          amount: this.amount,
+          denom: this.selectedToken
+        },
         memo: this.memo
       }
     },
@@ -437,9 +428,6 @@ export default {
 }
 .tm-field-addon:focus {
   border-color: var(--input-bc);
-}
-#form-group-amount {
-  margin-bottom: 30px;
 }
 .tm-field-token-selector {
   width: 80px;

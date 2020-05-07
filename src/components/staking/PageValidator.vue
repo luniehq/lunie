@@ -144,7 +144,7 @@
           <h4>Self Stake</h4>
           <span id="page-profile__self-bond">
             {{ validator.selfStake | shortDecimals }} /
-            {{ (validator.selfStake / validator.tokens) | percent }}
+            {{ (validator.selfStake / validator.tokens || 0) | percent }}
           </span>
         </li>
         <li>
@@ -210,7 +210,7 @@
 <script>
 import moment from "moment"
 import { mapGetters, mapState } from "vuex"
-import { atoms, shortDecimals, fullDecimals, percent } from "scripts/num"
+import { shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
@@ -245,7 +245,6 @@ export default {
     ModalTutorial
   },
   filters: {
-    atoms,
     shortDecimals,
     fullDecimals,
     percent,
@@ -324,7 +323,6 @@ export default {
   methods: {
     shortDecimals,
     fullDecimals,
-    atoms,
     percent,
     fromNow,
     noBlanks,
@@ -560,6 +558,8 @@ export default {
   font-size: var(--h1);
   line-height: 2rem;
   font-weight: 500;
+  max-width: 600px;
+  word-break: break-word;
 }
 
 .validator-info {

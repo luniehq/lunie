@@ -175,7 +175,7 @@ export default {
       this.$emit(`input`, formattedValue)
     },
     onChange(...args) {
-      if (this.type === `number`) {
+      if (this.type === `number` && this.$refs.numTextInput) {
         this.$refs.numTextInput.focus()
       }
       if (this.change) return this.change(...args)
@@ -326,7 +326,7 @@ textarea.tm-field {
 }
 
 .tm-toggle .tm-toggle-wrapper .toggle-handle::after {
-  background: var(--grey);
+  background: var(--bc-dim);
   border-radius: 1rem;
   content: "";
   height: 1.625rem;

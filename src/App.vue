@@ -1,25 +1,22 @@
 <template>
-  <div>
-    <div id="app">
-      <NetworkSelector />
-      <AppHeader />
-      <div id="app-content">
-        <div id="bar-container">
-          <CookieBar v-if="!isMobileApp" />
-          <MaintenanceBar />
-          <DisconnectedBar />
-        </div>
-        <router-view name="session" />
-        <router-view />
+  <div id="app" :class="network">
+    <AppHeader />
+    <div id="app-content">
+      <div id="bar-container">
+        <CookieBar v-if="!isMobileApp" />
+        <MaintenanceBar />
+        <DisconnectedBar />
       </div>
-      <MobileMenu />
-      <TmNotifications :notifications="notifications" />
+      <router-view name="session" />
+      <router-view />
     </div>
+    <MobileMenu />
+    <TmNotifications :notifications="notifications" />
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import CookieBar from "common/CookieBar"
 import DisconnectedBar from "common/DisconnectedBar"
@@ -45,7 +42,8 @@ export default {
     isMobileApp: config.mobileApp
   }),
   computed: {
-    ...mapState([`notifications`, `session`])
+    ...mapState([`notifications`, `session`]),
+    ...mapGetters([`network`])
   },
   store
 }

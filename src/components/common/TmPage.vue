@@ -139,10 +139,11 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
+  padding-bottom: 3rem;
 }
 
 .tm-page-main.dark-background {
-  background: rgba(16, 18, 31, 0.4);
+  background: var(--app-fg);
 }
 
 .tm-page-title {

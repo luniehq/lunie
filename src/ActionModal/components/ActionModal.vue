@@ -9,17 +9,15 @@
       >
         <i class="material-icons notranslate">arrow_back</i>
       </div>
-      <div
-        id="closeBtn"
-        class="action-modal-icon action-modal-close"
-        @click="close"
-      >
-        <i class="material-icons notranslate">close</i>
-      </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">
-          {{ requiresSignIn ? `Sign in required` : title }}
-        </span>
+        <div
+          id="closeBtn"
+          class="action-modal-icon action-modal-close"
+          @click="close"
+        >
+          <i class="material-icons notranslate">close</i>
+        </div>
+        <span class="action-modal-title">{{ title }}</span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -45,12 +43,14 @@
       <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
-      <TmDataLoading v-else-if="!loaded" />
+      <TmDataLoading
+        v-else-if="$apollo.loading && (!balancesLoaded || gasEstimateLoaded)"
+      />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
-            You're using Lunie in explore mode. Please sign in or create an
-            account to proceed with this action.
+            You're using Lunie in explore mode. Sign in or create an account to
+            get started.
           </p>
         </div>
         <div v-else-if="step === defaultStep" class="action-modal-form">
@@ -73,13 +73,7 @@
               min="0"
             />
             <TmFormMsg
-              v-if="Number(selectedBalance.amount) === 0"
-              :msg="`doesn't have any ${selectedBalance.denom}s`"
-              name="Wallet"
-              type="custom"
-            />
-            <TmFormMsg
-              v-else-if="$v.gasPrice.$error && !$v.gasPrice.required"
+              v-if="$v.gasPrice.$error && !$v.gasPrice.required"
               name="Gas price"
               type="required"
             />
@@ -87,12 +81,6 @@
               v-if="$v.gasPrice.$error && !$v.gasPrice.max"
               type="custom"
               :msg="`You don't have enough ${selectedDenom}s to proceed.`"
-            />
-            <TmFormMsg
-              v-else-if="$v.gasPrice.$error && !$v.gasPrice.min"
-              :min="0"
-              name="Gas price"
-              type="min"
             />
           </TmFormGroup>
           <TableInvoice
@@ -104,12 +92,6 @@
             v-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.max"
             type="custom"
             :msg="`You don't have enough ${selectedDenom}s to proceed.`"
-          />
-          <TmFormMsg
-            v-else-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.min"
-            :min="smallestAmount"
-            name="Total"
-            type="min"
           />
         </div>
         <div v-else-if="step === signStep" class="action-modal-form">
@@ -204,7 +186,7 @@
           v-else-if="step === successStep"
           class="action-modal-form success-step"
         >
-          <TmDataMsg icon="check" icon-color="var(--green)" :success="true">
+          <TmDataMsg icon="check" icon-color="var(--success)" :success="true">
             <div slot="title">{{ notifyMessage.title }}</div>
             <div slot="subtitle">
               {{ notifyMessage.body }}
@@ -225,6 +207,12 @@
         >
           {{ submissionError }}
         </p>
+        <p
+          v-if="step === feeStep && !gasEstimateLoaded"
+          class="waiting-fees-message"
+        >
+          Fetching fees...
+        </p>
         <div class="action-modal-footer">
           <slot name="action-modal-footer">
             <TmFormGroup
@@ -234,13 +222,13 @@
               <TmBtn
                 id="closeBtn"
                 value="Cancel"
-                type="tertiary"
+                type="secondary"
                 @click.native="close"
               />
               <TmBtn
                 v-if="requiresSignIn"
                 v-focus
-                value="Sign In / Sign Up"
+                value="Sign In"
                 type="primary"
                 @click.native="goToSession"
                 @click.enter.native="goToSession"
@@ -263,7 +251,9 @@
                 type="primary"
                 value="Next"
                 :disabled="
-                  disabled || (step === feeStep && $v.invoiceTotal.$invalid)
+                  disabled ||
+                    (step === feeStep && $v.invoiceTotal.$invalid) ||
+                    (step === feeStep && !gasEstimateLoaded)
                 "
                 @click.native="validateChangeStep"
               />
@@ -288,6 +278,9 @@
 <script>
 import gql from "graphql-tag"
 import noScroll from "no-scroll"
+import * as Sentry from "@sentry/browser"
+import BigNumber from "bignumber.js"
+import { mapState, mapGetters } from "vuex"
 import HardwareState from "src/components/common/TmHardwareState"
 import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
@@ -298,16 +291,12 @@ import FeatureNotAvailable from "src/components/common/FeatureNotAvailable"
 import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
 import Steps from "./Steps"
-import { mapState, mapGetters } from "vuex"
-import { viewDenom, prettyInt, SMALLEST } from "src/scripts/num"
+import { prettyInt, SMALLEST } from "src/scripts/num"
 import { requiredIf } from "vuelidate/lib/validators"
 import { track, sendEvent } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
-import * as Sentry from "@sentry/browser"
-
-import ActionManager from "../utils/ActionManager"
-import BigNumber from "bignumber.js"
+import TransactionManager from "../../signing/transaction-manager"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -364,7 +353,6 @@ export default {
     FeatureNotAvailable
   },
   filters: {
-    viewDenom,
     prettyInt
   },
   props: {
@@ -431,7 +419,6 @@ export default {
     submissionError: null,
     show: false,
     loaded: false,
-    actionManager: new ActionManager(),
     txHash: null,
     defaultStep,
     feeStep,
@@ -440,13 +427,42 @@ export default {
     successStep,
     SIGN_METHODS,
     featureAvailable: true,
-    overview: {},
     isMobileApp: config.mobileApp,
     balances: [],
     queueEmpty: true,
     includedHeight: undefined,
-    smallestAmount: SMALLEST
+    smallestAmount: SMALLEST,
+    balancesLoaded: false,
+    gasEstimateLoaded: false
   }),
+  asyncComputed: {
+    async estimatedFee() {
+      if (this.network.network_type === "cosmos") {
+        // terra uses a tax on all send txs
+        if (this.chainAppliedFees > 0) {
+          return this.chainAppliedFees
+        }
+        return this.maxDecimals(
+          Number(this.gasPrice) * Number(this.gasEstimate),
+          6
+        )
+      }
+
+      if (this.network.network_type === "polkadot" && this.step === feeStep) {
+        const { type, ...message } = this.transactionData
+        const fee = await this.transactionManager.getPolkadotFees({
+          messageType: type,
+          message,
+          senderAddress: this.session.address,
+          network: this.network
+        })
+        this.gasEstimateLoaded = true
+        return fee
+      }
+
+      return 0
+    }
+  },
   computed: {
     ...mapState([`extension`, `session`]),
     ...mapGetters([`connected`, `isExtensionAccount`, `networks`]),
@@ -466,16 +482,6 @@ export default {
       return (
         !this.session.signedIn ||
         this.session.sessionType === sessionType.EXPLORE
-      )
-    },
-    estimatedFee() {
-      // terra uses a tax on all send txs
-      if (this.chainAppliedFees > 0) {
-        return this.chainAppliedFees
-      }
-      return this.maxDecimals(
-        Number(this.gasPrice) * Number(this.gasEstimate),
-        6
       )
     },
     subTotal() {
@@ -555,17 +561,11 @@ export default {
         }
       }
     },
-    "$apollo.loading": function(loading) {
-      this.loaded = this.loaded || !loading
-    },
     selectedBalance: {
       handler(selectedBalance) {
         this.gasPrice = selectedBalance.gasPrice
       }
     }
-  },
-  created() {
-    this.$apollo.skipAll = true
   },
   updated: function() {
     if (
@@ -574,6 +574,9 @@ export default {
     ) {
       this.$refs.next.$el.focus()
     }
+  },
+  created() {
+    this.transactionManager = new TransactionManager(this.$apollo)
   },
   methods: {
     confirmModalOpen() {
@@ -588,7 +591,7 @@ export default {
           }
           this.$store.commit(`setCurrrentModalOpen`, false)
           // clearing request query
-          this.actionManager.cancel(
+          this.transactionManager.cancel(
             { userAddress: this.session.address, networkId: this.network.id },
             this.selectedSignMethod
           )
@@ -597,9 +600,11 @@ export default {
       }
     },
     async open() {
-      this.$apollo.skipAll = false
+      if (!this.address) {
+        this.$apollo.skipAll = true
+      }
       // checking if there is something in a queue
-      const queue = await this.actionManager.getSignQueue(
+      const queue = await this.transactionManager.getSignQueue(
         this.selectedSignMethod
       )
       if (queue) {
@@ -612,13 +617,16 @@ export default {
       this.$store.commit(`setCurrrentModalOpen`, this)
       this.trackEvent(`event`, `modal`, this.title)
       this.show = true
-      if (config.isMobileApp) noScroll.on()
+      if (this.session.sessionType === sessionType.EXTENSION) {
+        this.$store.dispatch(`getAddressesFromExtension`)
+      }
+      noScroll.on()
     },
     close() {
-      if (config.isMobileApp) noScroll.off()
+      noScroll.off()
       if (this.step == "sign") {
         // remove the request from any sign method to avoid orphaned transactions in the sign methods
-        this.actionManager.cancel(
+        this.transactionManager.cancel(
           { userAddress: this.session.address, networkId: this.network.id },
           this.selectedSignMethod
         )
@@ -630,7 +638,6 @@ export default {
       this.show = false
       this.sending = false
       this.includedHeight = undefined
-      this.$apollo.skipAll = true
 
       // reset form
       // in some cases $v is not yet set
@@ -649,7 +656,8 @@ export default {
       this.close()
 
       this.$store.dispatch(`signOut`, this.network)
-      if (this.$route.name !== `portfolio`) this.$router.push(`portfolio`)
+      if (this.$route.name !== `portfolio`)
+        this.$router.push({ name: "portfolio" })
     },
     isValidInput(property) {
       this.$v[property].$touch()
@@ -724,41 +732,35 @@ export default {
 
       this.trackEvent(`event`, `submit`, this.title, this.selectedSignMethod)
 
-      const { type, memo, ...properties } = this.transactionData
-      const feeProperties = {
-        gasEstimate: this.gasEstimate,
-        gasPrice: {
-          // the cosmos-api lib uses gasEstimate * gasPrice to calculate the fees
-          // here we just reverse this calculation to get the same fees as displayed
-          amount: this.estimatedFee / this.gasEstimate,
-          denom: this.getDenom
-        },
-        submitType: this.selectedSignMethod,
-        password: this.password
-      }
-      const txMetaData = {
-        ...feeProperties,
-        displayedProperties: {
-          claimableRewards: properties.amounts
-        }
-      }
+      const { type, memo, ...message } = this.transactionData
 
       try {
-        await this.$apollo.queries.overview.refetch()
-        const hashResult = await this.actionManager.sendTxAPI(
-          {
-            network: this.network,
-            networkType: this.network.network_type,
-            chainId: this.network.chain_id,
-            userAddress: this.session.address,
-            rewards: this.rewards,
-            account: this.overview.accountInformation
-          },
-          type,
-          memo,
-          properties,
-          txMetaData
-        )
+        let transactionData
+        // Polkadot loads transaction data automatic
+        if (this.network.network_type === "cosmos") {
+          transactionData = await this.transactionManager.getCosmosTransactionData(
+            {
+              memo,
+              gasEstimate: this.gasEstimate,
+              gasPrice: {
+                amount: this.gasPrice,
+                denom: this.getDenom
+              },
+              senderAddress: this.session.address,
+              network: this.network
+            }
+          )
+        }
+
+        const hashResult = await this.transactionManager.createSignBroadcast({
+          messageType: type,
+          message,
+          transactionData,
+          senderAddress: this.session.address,
+          network: this.network,
+          signingType: this.selectedSignMethod,
+          password: this.password
+        })
 
         const { hash } = hashResult
         this.txHash = hash
@@ -791,7 +793,6 @@ export default {
           ? this.rewards[0].amount
           : this.amount
       )
-      this.$apollo.queries.overview.refetch()
     },
     onSendingFailed(error) {
       /* istanbul ignore next */
@@ -805,7 +806,6 @@ export default {
       this.step = signStep
       this.submissionError = `${this.submissionErrorPrefix}: ${error.message}.`
       this.trackEvent(`event`, `failed-submit`, this.title, error.message)
-      this.$apollo.queries.overview.refetch()
     },
     maxDecimals(value, decimals) {
       return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
@@ -826,12 +826,10 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        max: x => Number(x) <= this.selectedBalance.amount,
-        min: x => Number(x) >= 0
+        max: x => Number(x) <= this.selectedBalance.amount
       },
       invoiceTotal: {
-        max: x => Number(x) <= this.selectedBalance.amount,
-        min: x => Number(x) >= SMALLEST
+        max: x => Number(x) <= this.selectedBalance.amount
       }
     }
   },
@@ -854,35 +852,13 @@ export default {
         }
       },
       /* istanbul ignore next */
+      update(data) {
+        this.balancesLoaded = true
+        return data.balances || []
+      },
+      /* istanbul ignore next */
       skip() {
         return !this.session.address
-      }
-    },
-    overview: {
-      query: gql`
-        query OverviewActionModal($networkId: String!, $address: String!) {
-          overview(networkId: $networkId, address: $address) {
-            accountInformation {
-              accountNumber
-              sequence
-            }
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.networkId,
-          address: this.session.address
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        return data.overview || {}
-      },
-      /* istanbul ignore next */
-      skip() {
-        return !this.session.address || this.step !== signStep
       }
     },
     gasEstimate: {
@@ -909,6 +885,7 @@ export default {
       /* istanbul ignore next */
       update(data) {
         if (data.networkFees) {
+          this.gasEstimateLoaded = true
           return data.networkFees.gasEstimate
         }
       },
@@ -917,7 +894,8 @@ export default {
         return (
           !this.session.address ||
           !this.transactionData ||
-          this.step !== feeStep
+          this.step !== feeStep ||
+          this.network.network_type !== "cosmos"
         )
       }
     },
@@ -932,7 +910,7 @@ export default {
         },
         /* istanbul ignore next */
         skip() {
-          return !this.txHash
+          return !this.session.address || !this.txHash
         },
         query: UserTransactionAdded,
         /* istanbul ignore next */
@@ -956,21 +934,25 @@ export default {
 
 <style>
 .action-modal {
-  background: var(--app-nav-light);
+  background: var(--app-fg);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   right: 1rem;
   padding: 1.5rem 1.5rem 2rem 1.5rem;
   position: fixed;
   bottom: 0;
   width: 100%;
-  max-width: 564px;
+  max-width: 500px;
   min-height: 400px;
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
-  border: 1px solid var(--bc);
-  box-shadow: 0 2px 8px rgba(200, 200, 200, 0.1);
+  border-left: 2px solid var(--bc-dim);
+  border-right: 2px solid var(--bc-dim);
+  border-top: 2px solid var(--bc-dim);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  outline: none;
 }
 
 .action-modal-header {
@@ -985,7 +967,7 @@ export default {
   font-size: var(--h2);
   font-weight: 400;
   color: var(--bright);
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 
 .action-modal-icon {
@@ -1022,11 +1004,12 @@ export default {
 }
 
 .action-modal-footer {
-  display: flex;
-  flex-grow: 1;
-  align-self: flex-end;
-  flex-direction: column;
   padding: 1.5rem 0 1rem;
+  width: 100%;
+}
+
+.action-modal-footer .tm-form-group .tm-form-group__field button {
+  width: 100%;
 }
 
 .action-modal-footer .tm-form-group .tm-form-group__field {
@@ -1035,12 +1018,20 @@ export default {
   justify-content: flex-end;
 }
 
-.action-modal-footer .tm-form-group .tm-form-group__field .tertiary {
+.action-modal-footer .tm-form-group .tm-form-group__field .secondary {
   margin-right: 0.5rem;
 }
 
 .action-modal-footer .tm-form-group {
   padding: 0;
+}
+
+.waiting-fees-message {
+  color: var(--warning);
+  font-size: var(--sm);
+  font-style: italic;
+  margin-bottom: 0;
+  padding-top: 1rem;
 }
 
 .submission-error {
@@ -1049,15 +1040,9 @@ export default {
 
 .form-message {
   font-size: var(--sm);
-  font-weight: 500;
+  color: var(--bright);
   font-style: italic;
-  color: var(--dim);
   display: inline-block;
-  padding: 0.5rem;
-}
-
-.form-message.notice {
-  padding: 2rem 0.5rem 0.5rem;
 }
 
 .slide-fade-enter-active {
@@ -1082,33 +1067,13 @@ export default {
   margin: 2rem 0 2rem 0;
 }
 
-/* max width of the action modal */
-@media screen and (max-width: 564px) {
-  .action-modal-footer {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--app-nav);
-    padding: 1rem;
-    border-top: 1px solid var(--bc);
-  }
-}
-
 @media screen and (max-width: 576px) {
   .tm-data-msg__icon {
     margin-right: 0;
   }
 }
 
-@media screen and (max-width: 767px) {
-  .tm-form-group__field {
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 667px) {
   .row {
     flex-direction: column;
   }
@@ -1117,16 +1082,17 @@ export default {
     right: 0;
     top: 0;
     overflow-x: scroll;
-    padding-bottom: 69px;
-    padding-top: 4rem;
+    padding-top: 3rem;
+    border: 0;
+    border-radius: 0;
   }
 
   .action-modal-footer button {
     width: 100%;
   }
 
-  .action-modal-icon.action-modal-close {
-    top: 3rem;
+  .tm-form-group__field {
+    width: 100%;
   }
 }
 

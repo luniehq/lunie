@@ -92,7 +92,7 @@ export default {
   }
 }
 </script>
-<style scope>
+<style scoped>
 h1 {
   font-size: 24px;
   color: white;
@@ -114,6 +114,10 @@ h1 {
 
 @media screen and (min-width: 667px) {
   .undelegations {
+    padding: 2rem;
+  }
+
+  .table-container {
     padding: 2rem;
   }
 }

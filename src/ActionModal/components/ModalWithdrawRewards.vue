@@ -27,7 +27,7 @@
       "
     >
       <div v-for="reward in totalRewards" :key="JSON.stringify(reward.denom)">
-        <span class="input-suffix-reward">{{ reward.denom }}</span>
+        <span class="input-suffix">{{ reward.denom }}</span>
         <input
           class="tm-field-addon"
           disabled="disabled"
@@ -43,10 +43,8 @@ import { mapGetters } from "vuex"
 import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
-import { getTop5RewardsValidators } from "../utils/ActionManager"
+import { getTop5RewardsValidators } from "../../signing/transaction-manager"
 import gql from "graphql-tag"
-
-import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 
 function rewardsToDictionary(rewards) {
@@ -71,7 +69,6 @@ export default {
     rewards: [],
     balances: [],
     getTop5RewardsValidators,
-    transactionTypes,
     messageType
   }),
   computed: {
@@ -80,11 +77,9 @@ export default {
     transactionData() {
       if (this.totalRewards.length === 0) return {}
       return {
-        type: transactionTypes.WITHDRAW,
-        amounts: this.totalRewards.map(({ amount, denom }) => ({
-          denom,
-          amount: Number(fullDecimals(amount))
-        }))
+        type: messageType.CLAIM_REWARDS,
+        amounts: this.totalRewards,
+        from: this.top5Validators
       }
     },
     top5Validators() {
@@ -196,20 +191,7 @@ export default {
 }
 </script>
 
-<style scope>
-.input-suffix-reward {
-  background: var(--bc-dim);
-  display: inline-block;
-  position: absolute;
-  padding: 8px;
-  font-size: var(--sm);
-  text-transform: uppercase;
-  right: 30px;
-  letter-spacing: 1px;
-  text-align: right;
-  font-weight: 500;
-  border-radius: 2px;
-}
+<style scoped>
 .form-message.withdraw-limit {
   white-space: normal;
 }

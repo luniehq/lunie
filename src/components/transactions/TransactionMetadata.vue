@@ -48,14 +48,11 @@
 <script>
 import { mapGetters } from "vuex"
 import moment from "moment"
-import { atoms, viewDenom } from "scripts/num.js"
 import { prettyInt } from "scripts/num"
 
 export default {
   name: `transaction-metadata`,
   filters: {
-    atoms,
-    viewDenom,
     prettyInt
   },
   props: {
@@ -78,7 +75,7 @@ export default {
   methods: {
     checkFeatureAvailable() {
       const feature = `feature_explorer`
-      return this.network[feature] === true
+      return this.network[feature] === `ENABLED`
     }
   }
 }

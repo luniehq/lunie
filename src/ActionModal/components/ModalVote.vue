@@ -54,12 +54,12 @@
           @click.native="vote = 'Abstain'"
         />
       </div>
-      <TmFormMsg
-        v-if="$v.vote.$error && !$v.vote.required"
-        name="Vote"
-        type="required"
-      />
     </div>
+    <TmFormMsg
+      v-if="$v.vote.$error && !$v.vote.required"
+      name="Vote"
+      type="required"
+    />
   </ActionModal>
 </template>
 
@@ -69,7 +69,6 @@ import ActionModal from "./ActionModal"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 
-import transactionTypes from "../utils/transactionTypes"
 import { messageType } from "../../components/transactions/messageTypes"
 
 const isValid = option =>
@@ -101,15 +100,14 @@ export default {
   },
   data: () => ({
     vote: null,
-    transactionTypes,
     messageType
   }),
   computed: {
     transactionData() {
       return {
-        type: transactionTypes.VOTE,
+        type: messageType.VOTE,
         proposalId: this.proposalId,
-        option: this.vote
+        voteOption: this.vote
       }
     },
     notifyMessage() {
@@ -162,14 +160,13 @@ export default {
 }
 
 .vote-options button {
-  background: transparent;
   margin: 0.5rem 0;
   height: 5rem;
   width: 100%;
 }
 
 .vote-options button.active {
-  background: var(--tertiary);
-  border-color: var(--tertiary);
+  background: var(--highlight);
+  border-color: var(--highlight);
 }
 </style>

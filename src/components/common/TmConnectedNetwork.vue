@@ -2,9 +2,9 @@
   <div class="sidebar-bottom">
     <TmBtn
       id="intercom-button"
-      class="intercom-button"
+      class="intercom-button secondary"
       value="Help / Feedback"
-      type="secondary"
+      type="sidebar"
       size="small"
       @click.native="handleIntercom()"
     />
@@ -36,6 +36,7 @@
         <router-link
           v-if="block.height"
           v-tooltip.top="'Block Height'"
+          class="block-number"
           :to="{
             name: `block`,
             params: { height: block.height, networkId: networkSlug }
@@ -181,15 +182,16 @@ export default {
   background: var(--app-nav);
 }
 
-.intercom-button {
+button.small.intercom-button {
   width: 100%;
   margin: 1rem 0;
+  border-color: var(--menu-border);
 }
 
 .tm-connected-network {
   align-items: center;
   border-radius: 0.25rem;
-  color: var(--dim);
+  color: var(--menu-text);
   display: flex;
   font-size: var(--sm);
   justify-content: space-between;
@@ -199,6 +201,7 @@ export default {
 .tm-connected-network .chain-id {
   font-weight: 500;
   padding-right: 1rem;
+  color: var(--menu-text);
 }
 
 .tm-connected-network .exit {
@@ -245,6 +248,14 @@ export default {
   height: 6px;
   border-radius: 50%;
   background: var(--success);
+}
+
+.block-number {
+  color: var(--menu-link);
+}
+
+.block-number:hover {
+  color: var(--menu-link-hover);
 }
 
 @media screen and (max-width: 1023px) {

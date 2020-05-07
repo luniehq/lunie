@@ -88,16 +88,17 @@ export default {
 .seed-table td {
   text-align: center;
   width: 16.6666666666667%;
-  background-color: var(--app-nav-light);
+  background-color: var(--app-fg);
   padding: 0.5rem 0.1rem 0.5rem 0.1rem;
   border-radius: 0.2rem;
   font-size: 0.9rem;
+  color: var(--bright);
 }
 
 .seed-table td .word-number {
   display: block;
   width: 100%;
-  opacity: 0.3;
+  opacity: 0.5;
 
   /* Prevent user to copy word numbers, we only want the words in their correct order */
   -moz-user-select: none;

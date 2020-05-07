@@ -22,6 +22,21 @@ describe(`TmFormMsg`, () => {
       error: `Seed phrase must be 24 words`
     },
     {
+      type: `words12or24`,
+      name: `Seed`,
+      error: `Seed phrase must be 12 or 24 words`
+    },
+    {
+      type: `lowercaseAndSpaces`,
+      name: `Seed`,
+      error: `phrase words must be all lowercase and separated by spaces`
+    },
+    {
+      type: `incorrectPolkadotSeed`,
+      name: `Seed`,
+      error: `is not correct. Check spelling, spaces or hash length`
+    },
+    {
       type: `alphaNum`,
       name: `Asdf`,
       error: `Asdf must contain only alphanumeric characters`

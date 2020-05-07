@@ -1,17 +1,10 @@
 <template>
   <menu class="app-menu">
-    <div class="app-menu-main">
-      <div v-if="session.signedIn" class="user-box">
-        <div class="user-box-address">
-          <div>
-            <h3>Your Address</h3>
-            <Address :address="address || ''" />
-          </div>
-          <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-            <i v-tooltip.top="'Sign Out'" class="material-icons notranslate">
-              exit_to_app
-            </i>
-          </a>
+    <div v-if="session.signedIn" class="user-box">
+      <div class="user-box-address">
+        <div>
+          <h3>Your Address</h3>
+          <Address class="menu-address" :address="address || ''" />
         </div>
         <a
           v-if="!session.isMobile && session.sessionType === 'ledger'"
@@ -35,6 +28,17 @@
         size="small"
         @click.native="signIn()"
       />
+    </div>
+    <TmBtn
+      v-else
+      id="sign-in"
+      class="session-link sidebar"
+      value="Sign In / Sign Up"
+      type="secondary"
+      size="small"
+      @click.native="signIn()"
+    />
+    <div class="app-menu-main">
       <router-link
         class="app-menu-item hide-xs"
         :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
@@ -167,7 +171,7 @@ import ConnectedNetwork from "common/TmConnectedNetwork"
 import TmBtn from "common/TmBtn"
 import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
-import { atoms, viewDenom, shortDecimals } from "scripts/num.js"
+import { shortDecimals } from "scripts/num.js"
 import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `app-menu`,
@@ -178,8 +182,6 @@ export default {
     TmFormMsg
   },
   filters: {
-    atoms,
-    viewDenom,
     shortDecimals
   },
   data: () => ({
@@ -240,6 +242,14 @@ export default {
   height: 100%;
 }
 
+.app-menu-item {
+  color: var(--menu-text);
+}
+
+.app-menu-item:hover {
+  background: var(--app-nav-hover);
+}
+
 .app-menu .app-menu-item {
   display: flex;
   justify-content: space-between;
@@ -248,13 +258,9 @@ export default {
   margin: 0.5rem 1rem;
   font-weight: 400;
   font-size: 14px;
-  color: var(--text);
+  color: var(--menu-text);
   border-radius: 0.25rem;
   transition: all 0.5s ease;
-}
-
-.app-menu-item:hover {
-  background: var(--hover-bg);
 }
 
 .session-link {
@@ -270,11 +276,15 @@ export default {
   cursor: pointer;
 }
 
+.button.small {
+  border-color: var(--menu-border);
+}
+
 .user-box {
   font-size: 12px;
   margin: 1rem;
   padding: 0.5rem 0.75rem;
-  border: 2px solid var(--bc);
+  border: 2px solid var(--menu-border);
   border-radius: 0.25rem;
   display: block;
 }
@@ -284,37 +294,38 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: var(--menu-text);
 }
 
 .user-box i {
-  color: var(--dim);
+  color: var(--menu-link);
   font-size: var(--m);
   display: flex;
   align-items: center;
   padding: 0.5rem;
   border-radius: 50%;
-  background: var(--bc-dim);
+  background: var(--app-nav-hover);
 }
 
 .user-box i:hover {
-  background: var(--bc);
+  color: var(--menu-link-hover);
   cursor: pointer;
 }
 
 .app-menu .app-menu-item--link:hover {
-  color: var(--link);
+  color: var(--menu-link-hover);
 }
 
 .app-menu .app-menu-item.router-link-active {
-  background: var(--app-fg);
+  background: var(--app-nav-hover);
 }
 
 .app-menu .app-menu-item.router-link-active i {
-  color: var(--tertiary);
+  color: var(--highlight);
 }
 
 .app-menu .app-menu-item.router-link-active h2 {
-  color: var(--bright);
+  color: var(--menu-bright);
   font-weight: 500;
 }
 
@@ -335,7 +346,7 @@ export default {
     line-height: 1.125;
     font-weight: 600;
     letter-spacing: 0.004em;
-    color: var(--bright);
+    color: var(--menu-bright);
   }
 }
 
