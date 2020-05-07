@@ -1,6 +1,6 @@
 const database = require('../lib/database')
 const config = require('../config')
-const db = database(config)('polkadot_testnet')
+const db = database(config)('kusama')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
 const _ = require('lodash')
 const BN = require('bignumber.js')
@@ -242,8 +242,17 @@ async function getMissingEras(api, lastStoredEra) {
 }
 
 async function main() {
+  const currentEraArg = require('minimist')(process.argv.slice(2))
+  const currentEra = currentEraArg['currentEra']
+  // get previously stored data
+  let { storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures, lastStoredEra } = loadStoredEraData()
+  if (currentEra <= lastStoredEra) {
+    console.log("Rewards for this era are already stored")
+    process.exit(0)
+  }
+
   const networks = require('../data/networks')
-  const network = networks.find(({ id }) => id === 'polkadot-testnet')
+  const network = networks.find(({ id }) => id === 'kusama')
   const PolkadotApiClass = require('../lib/' + network.source_class_name)
   const store = {}
   await initPolkadotRPC(network, store)
@@ -255,14 +264,6 @@ async function main() {
   const delegators = await polkadotAPI.getAllDelegators()
   console.log(`Querying rewards for ${delegators.length} delegators.`)
 
-  // get previously stored data
-  let {
-    storedEraPoints,
-    storedEraPreferences,
-    storedEraRewards,
-    storedExposures,
-    lastStoredEra
-  } = loadStoredEraData()
   const { minDesiredEra, missingEras, maxDesiredEra } = await getMissingEras(
     api,
     lastStoredEra
