@@ -54,9 +54,9 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
     >
       <span>
         
-        It will take  to unlock your tokens after they
-        are staked. There is a risk that some tokens will be lost depending on
-        the behaviour of the validator you choose.
+        It will take a certain number of time to unlock your tokens
+        after they are staked. There is a risk that some tokens will be lost
+        depending on the behaviour of the validator you choose.
       
       </span>
     </div>
