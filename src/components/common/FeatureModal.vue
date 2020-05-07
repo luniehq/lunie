@@ -25,9 +25,10 @@
       </li>
     </ol>
 
-    <form name="notifications-form" netlify netlify-honeypot="bot-field">
+    <form name="notifications-form" netlify>
       <span>Get on the waitlist by sharing your email below.</span>
       <input type="email" name="email" />
+      <button type="submit" v-show="false">Send</button>
       <p class="spam">No spam. Just early access to this premium feature.</p>
     </form>
   </TmModal>
