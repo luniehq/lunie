@@ -19,7 +19,7 @@ export default ({ apollo }) => {
     errorCollection: false,
     analyticsCollection: false,
     cookiesAccepted: undefined,
-    preferredCurrency: "",
+    preferredCurrency: undefined,
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
     currrentModalOpen: false,
@@ -178,9 +178,6 @@ export default ({ apollo }) => {
     loadLocalPreferences({ state, dispatch }) {
       const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
 
-      // don't track in development
-      if (state.developmentMode) return
-
       if (!localPreferences) {
         state.cookiesAccepted = false
         return
@@ -241,14 +238,7 @@ export default ({ apollo }) => {
       dispatch(`storeLocalPreferences`)
     },
     async getPreferredCurrency() {
-      const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
-
-      if (!localPreferences) {
-        return "USD"
-      }
-
-      const { preferredCurrency } = JSON.parse(localPreferences)
-      return preferredCurrency || "USD"
+      return state.preferredCurrency
     }
   }
 

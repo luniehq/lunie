@@ -350,7 +350,12 @@ export default {
     }
   },
   mounted: async function() {
-    this.preferredCurrency = await this.$store.dispatch(`getPreferredCurrency`)
+    const persistedPreferredCurrency = await this.$store.dispatch(
+      `getPreferredCurrency`
+    )
+    if (persistedPreferredCurrency) {
+      this.preferredCurrency = persistedPreferredCurrency
+    }
   },
   methods: {
     bigFigureOrShortDecimals,
