@@ -1,5 +1,6 @@
 import firebase from "firebase/app"
 import "firebase/messaging"
+import * as Sentry from "@sentry/browser"
 import config from "../../../config"
 import gql from "graphql-tag"
 
@@ -28,44 +29,56 @@ const initializeFirebase = async () => {
 }
 
 const askPermissionAndRegister = async (activeNetworks, apollo) => {
-  // Only store for new registrations
   const isDeviceRegistered = localStorage.getItem(
     "registration-push-notifications"
-  ) // "true" if stored
+  ) // "allowed" / "blocked" if stored, null if not set
 
-  if (isDeviceRegistered !== "true") {
-    try {
-      messaging
-        .requestPermission()
-        .then(async () => {
-          // First delete old token
-          const oldToken = localStorage.getItem(
-            "registration-push-notifications-token"
-          )
+  if (isDeviceRegistered === "blocked") {
+    return
+  }
 
-          if (oldToken) {
-            try {
-              await messaging.deleteToken(oldToken)
-            } catch (error) {
-              console.log(
-                "bug FCM throws error while deleting token on first refresh"
-              )
-            }
+  if (isDeviceRegistered === "allowed") {
+    const token = localStorage.getItem("registration-push-notifications-token")
+    registerDevice(token, activeNetworks, apollo) // non-blocking
+  }
+
+  if (!isDeviceRegistered) {
+    // === null
+
+    messaging
+      .requestPermission()
+      .then(async () => {
+        // First delete old token
+        const oldToken = localStorage.getItem(
+          "registration-push-notifications-token"
+        )
+
+        if (oldToken) {
+          try {
+            await messaging.deleteToken(oldToken)
+          } catch (error) {
+            console.error(
+              "bug FCM throws error while deleting token on first refresh",
+              error
+            )
           }
+        }
 
-          // Granted? Store device
-          const token = await messaging.getToken()
-          await registerDevice(token, activeNetworks, apollo)
-        })
-        .catch(error =>
-          console.log(
-            "bug FCM throws error while deleting token on first refresh",
+        // Granted? Store device
+        const token = await messaging.getToken()
+        await registerDevice(token, activeNetworks, apollo)
+      })
+      .catch(error => {
+        if (error.code === "messaging/permission-blocked") {
+          localStorage.setItem("registration-push-notifications", "blocked")
+        } else {
+          Sentry.captureException(error)
+          console.error(
+            "Error occurred during permission request for push notifications",
             error
           )
-        )
-    } catch (error) {
-      console.log("Permission denied", error)
-    }
+        }
+      })
   }
 }
 
@@ -88,7 +101,7 @@ const registerDevice = async (token, activeNetworks, apollo) => {
     }
   })
 
-  localStorage.setItem("registration-push-notifications", "true")
+  localStorage.setItem("registration-push-notifications", "allowed")
   localStorage.setItem("registration-push-notifications-token", token)
 }
 

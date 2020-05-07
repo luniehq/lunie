@@ -24,6 +24,7 @@
           <TmFormMsg
             v-if="isPolkadot"
             type="custom"
+            class="tm-form-msg--desc"
             msg="Currently only the Schnorrkel algorithm is supported"
           />
           <TmFormMsg
@@ -139,3 +140,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.schnorrkel-warning {
+  color: var(--warning)
+}
+</style>
