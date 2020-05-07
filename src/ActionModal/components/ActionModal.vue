@@ -448,19 +448,19 @@ export default {
         )
       }
 
-      if (this.network.network_type === "polkadot" && this.step === feeStep) {
-        const { type, ...message } = this.transactionData
-        const fee = await this.transactionManager.getPolkadotFees({
-          messageType: type,
-          message,
-          senderAddress: this.session.address,
-          network: this.network
-        })
-        this.gasEstimateLoaded = true
-        return fee
-      }
-
-      return 0
+      // if (this.network.network_type === "polkadot" && this.step === feeStep) {
+      //   const { type, ...message } = this.transactionData
+      //   const fee = await this.transactionManager.getPolkadotFees({
+      //     messageType: type,
+      //     message,
+      //     senderAddress: this.session.address,
+      //     network: this.network
+      //   })
+      //   this.gasEstimateLoaded = true
+      //   return fee
+      // }
+      this.gasEstimateLoaded = true
+      return  0
     }
   },
   computed: {
