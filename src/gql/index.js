@@ -135,7 +135,6 @@ export const NetworksAll = gql`
         viewDenom
         chainToViewConversionFactor
       }
-      lockUpPeriod
     }
   }
 `
