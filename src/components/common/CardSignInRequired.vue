@@ -1,6 +1,6 @@
 <template>
   <div class="card-sign-in">
-    <h2>Welcome to Lunie</h2>
+    <h2>Welcome to Lunie 👋</h2>
     <h3>How would you like to get started?</h3>
 
     <div class="session-list">
@@ -12,7 +12,7 @@
         route="/select-network/create"
       />
       <LiSession
-        v-if="!isMobileApp && !isExtension"
+        v-if="!isMobileApp && !isExtension && network !== `polkadot-testnet`"
         id="use-ledger-nano"
         icon="vpn_key"
         title="Ledger Nano"
@@ -59,7 +59,7 @@
 
 <script>
 import config from "src/../config"
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import LiSession from "common/TmLiSession"
 
 export default {
@@ -71,6 +71,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
+    ...mapGetters([`network`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
     },

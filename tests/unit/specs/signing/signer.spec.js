@@ -6,7 +6,7 @@ describe("pick signer", () => {
   beforeEach(() => {
     jest.resetModules()
     jest.doMock("@lunie/cosmos-keys", () => ({
-      signWithPrivateKey: () => Buffer.alloc(0),
+      signWithPrivateKey: () => Buffer.from("cool signature"),
       getStoredWallet: () => ({
         privateKey: "1234",
         publicKey: "1234"
@@ -81,8 +81,8 @@ describe("pick signer", () => {
       config
     )
     expect(signer("message")).toEqual({
-      signature: expect.any(Buffer),
-      publicKey: expect.any(Buffer)
+      signature: "636f6f6c207369676e6174757265",
+      publicKey: "1234"
     })
   })
 

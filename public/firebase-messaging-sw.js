@@ -28,19 +28,6 @@ messaging.setBackgroundMessageHandler(payload => {
     notificationOptions);
 })
 
-self.addEventListener('push', event => {
-  const eventData = event.data.json()
-  const options = {
-    body: eventData.notification.body,
-    icon: 'https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png',
-    data: {
-      url: eventData.fcmOptions.link
-    }
-  }
-
-  event.waitUntil(self.registration.showNotification(eventData.notification.title, options))
-})
-
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   if (clients.openWindow && event.notification.data.url) {

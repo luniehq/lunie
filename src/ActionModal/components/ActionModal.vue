@@ -9,17 +9,15 @@
       >
         <i class="material-icons notranslate">arrow_back</i>
       </div>
-      <div
-        id="closeBtn"
-        class="action-modal-icon action-modal-close"
-        @click="close"
-      >
-        <i class="material-icons notranslate">close</i>
-      </div>
       <div class="action-modal-header">
-        <span class="action-modal-title">{{
-          requiresSignIn ? `Sign in required` : title
-        }}</span>
+        <div
+          id="closeBtn"
+          class="action-modal-icon action-modal-close"
+          @click="close"
+        >
+          <i class="material-icons notranslate">close</i>
+        </div>
+        <span class="action-modal-title">{{ title }}</span>
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -51,8 +49,8 @@
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
-            You're using Lunie in explore mode. Please sign in or create an
-            account to proceed with this action.
+            You're using Lunie in explore mode. Sign in or create an account to
+            get started.
           </p>
         </div>
         <div v-else-if="step === defaultStep" class="action-modal-form">
@@ -188,7 +186,7 @@
           v-else-if="step === successStep"
           class="action-modal-form success-step"
         >
-          <TmDataMsg icon="check" icon-color="var(--green)" :success="true">
+          <TmDataMsg icon="check" icon-color="var(--success)" :success="true">
             <div slot="title">{{ notifyMessage.title }}</div>
             <div slot="subtitle">
               {{ notifyMessage.body }}
@@ -209,6 +207,12 @@
         >
           {{ submissionError }}
         </p>
+        <p
+          v-if="step === feeStep && !gasEstimateLoaded"
+          class="waiting-fees-message"
+        >
+          Fetching fees...
+        </p>
         <div class="action-modal-footer">
           <slot name="action-modal-footer">
             <TmFormGroup
@@ -224,7 +228,7 @@
               <TmBtn
                 v-if="requiresSignIn"
                 v-focus
-                value="Sign In / Sign Up"
+                value="Sign In"
                 type="primary"
                 @click.native="goToSession"
                 @click.enter.native="goToSession"
@@ -247,7 +251,9 @@
                 type="primary"
                 value="Next"
                 :disabled="
-                  disabled || (step === feeStep && $v.invoiceTotal.$invalid)
+                  disabled ||
+                    (step === feeStep && $v.invoiceTotal.$invalid) ||
+                    (step === feeStep && !gasEstimateLoaded)
                 "
                 @click.native="validateChangeStep"
               />
@@ -614,10 +620,10 @@ export default {
       if (this.session.sessionType === sessionType.EXTENSION) {
         this.$store.dispatch(`getAddressesFromExtension`)
       }
-      if (config.isMobileApp) noScroll.on()
+      noScroll.on()
     },
     close() {
-      if (config.isMobileApp) noScroll.off()
+      noScroll.off()
       if (this.step == "sign") {
         // remove the request from any sign method to avoid orphaned transactions in the sign methods
         this.transactionManager.cancel(
@@ -931,12 +937,13 @@ export default {
   background: var(--app-fg);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   right: 1rem;
   padding: 1.5rem 1.5rem 2rem 1.5rem;
   position: fixed;
   bottom: 0;
   width: 100%;
-  max-width: 564px;
+  max-width: 500px;
   min-height: 400px;
   z-index: var(--z-modal);
   border-top-left-radius: 0.25rem;
@@ -960,7 +967,7 @@ export default {
   font-size: var(--h2);
   font-weight: 400;
   color: var(--bright);
-  padding-bottom: 2rem;
+  padding-bottom: 1rem;
 }
 
 .action-modal-icon {
@@ -997,11 +1004,12 @@ export default {
 }
 
 .action-modal-footer {
-  display: flex;
-  flex-grow: 1;
-  align-self: flex-end;
-  flex-direction: column;
   padding: 1.5rem 0 1rem;
+  width: 100%;
+}
+
+.action-modal-footer .tm-form-group .tm-form-group__field button {
+  width: 100%;
 }
 
 .action-modal-footer .tm-form-group .tm-form-group__field {
@@ -1018,17 +1026,23 @@ export default {
   padding: 0;
 }
 
+.waiting-fees-message {
+  color: var(--warning);
+  font-size: var(--sm);
+  font-style: italic;
+  margin-bottom: 0;
+  padding-top: 1rem;
+}
+
 .submission-error {
   padding: 1rem;
 }
 
 .form-message {
   font-size: var(--sm);
-  font-weight: 500;
+  color: var(--bright);
   font-style: italic;
-  color: var(--dim);
   display: inline-block;
-  padding: 0.5rem 0;
 }
 
 .slide-fade-enter-active {
@@ -1053,33 +1067,13 @@ export default {
   margin: 2rem 0 2rem 0;
 }
 
-/* max width of the action modal */
-@media screen and (max-width: 564px) {
-  .action-modal-footer {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--app-nav);
-    padding: 1rem;
-    border-top: 1px solid var(--bc);
-  }
-}
-
 @media screen and (max-width: 576px) {
   .tm-data-msg__icon {
     margin-right: 0;
   }
 }
 
-@media screen and (max-width: 767px) {
-  .tm-form-group__field {
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: 667px) {
   .row {
     flex-direction: column;
   }
@@ -1088,16 +1082,17 @@ export default {
     right: 0;
     top: 0;
     overflow-x: scroll;
-    padding-bottom: 69px;
-    padding-top: 4rem;
+    padding-top: 3rem;
+    border: 0;
+    border-radius: 0;
   }
 
   .action-modal-footer button {
     width: 100%;
   }
 
-  .action-modal-icon.action-modal-close {
-    top: 3rem;
+  .tm-form-group__field {
+    width: 100%;
   }
 }
 
