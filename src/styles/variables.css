@@ -47,7 +47,8 @@
   --h5: 1rem;
   --h6: 0.75rem;
 
-  --width-side: 14rem;
+  --sidebar-width: 14rem;
+  --sidebar-plus-width: 18rem;
 
   --z-modalError: 1002;
   --z-modal: 1000;

@@ -1,5 +1,6 @@
 <template>
   <div id="app" :class="network">
+    <NetworkSelector />
     <AppHeader />
     <div id="app-content">
       <div id="bar-container">

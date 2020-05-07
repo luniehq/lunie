@@ -10,24 +10,28 @@
             {{ status.badge }}
           </span>
           <div class="proposal-title__row">
-            <div class="read-more-link"
+            <div
+              class="read-more-link"
+              :style="{ visibility: getPrevProposalId ? 'visible' : 'hidden' }"
               @click="
                 $router.push({
                   name: 'Proposal',
                   params: { proposalId: String(getPrevProposalId) }
-                })"
-              :style="{ visibility: getPrevProposalId ? 'visible' : 'hidden' }"
+                })
+              "
             >
               <i class="material-icons notranslate">chevron_left</i>
             </div>
             <h2 class="proposal-title">{{ proposal.title }}</h2>
-            <div class="read-more-link"
+            <div
+              class="read-more-link"
+              :style="{ visibility: getNextProposalId ? 'visible' : 'hidden' }"
               @click="
                 $router.push({
                   name: 'Proposal',
                   params: { proposalId: String(getNextProposalId) }
-                })"
-              :style="{ visibility: getNextProposalId ? 'visible' : 'hidden' }"
+                })
+              "
             >
               <i class="material-icons notranslate">chevron_right</i>
             </div>

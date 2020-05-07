@@ -120,7 +120,7 @@ export default {
 .app-header {
   z-index: var(--z-appHeader);
   position: relative;
-  width: 17rem;
+  width: var(--sidebar-plus-width);
   display: flex;
   flex-direction: row;
 }

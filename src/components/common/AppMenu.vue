@@ -6,6 +6,11 @@
           <h3>Your Address</h3>
           <Address class="menu-address" :address="address || ''" />
         </div>
+        <a v-if="session.signedIn" id="sign-out" @click="signOut()">
+          <i v-tooltip.top="'Sign Out'" class="material-icons notranslate">
+            exit_to_app
+          </i>
+        </a>
         <a
           v-if="!session.isMobile && session.sessionType === 'ledger'"
           class="show-on-ledger"
@@ -19,15 +24,6 @@
           type="custom"
         />
       </div>
-      <TmBtn
-        v-else
-        id="sign-in"
-        class="session-link"
-        value="Sign In / Sign Up"
-        type="secondary"
-        size="small"
-        @click.native="signIn()"
-      />
     </div>
     <TmBtn
       v-else
@@ -86,19 +82,6 @@
           Activity
         </h2>
         <i class="material-icons notranslate">chevron_right</i>
-      </router-link>
-
-      <router-link
-        class="app-menu-item hide-xs"
-        to="/networks"
-        exact="exact"
-        title="Networks"
-        @click.native="handleClick()"
-      >
-        <h2 class="app-menu-title">
-          Networks
-        </h2>
-        <i class="material-icons notranslate hide-xs">chevron_right</i>
       </router-link>
 
       <router-link
@@ -189,7 +172,7 @@ export default {
     showAddressOnLedgerFn: showAddressOnLedger
   }),
   computed: {
-    ...mapState([`session`, "connection"]),
+    ...mapState([`session`, `connection`]),
     ...mapGetters([`address`, `network`]),
     networkSlug() {
       return this.connection.networkSlug
@@ -352,7 +335,7 @@ export default {
 
 @media screen and (min-width: 1023px) {
   .app-menu {
-    width: var(--width-side);
+    width: var(--sidebar-width);
     justify-content: space-between;
   }
 }

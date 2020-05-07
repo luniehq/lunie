@@ -1,7 +1,7 @@
 <template>
   <div class="copyable-address">
     <div
-      v-tooltip.top="`Click to copy`"
+      v-tooltip="`Click to copy`"
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
       class="address"

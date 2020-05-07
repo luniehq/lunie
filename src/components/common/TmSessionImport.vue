@@ -142,6 +142,6 @@ export default {
 </script>
 <style scoped>
 .schnorrkel-warning {
-  color: var(--warning)
+  color: var(--warning);
 }
 </style>
