@@ -33,6 +33,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
         />
          
         <tmformmsg-stub
+          class="tm-form-msg--desc"
           msg="Currently only the Schnorrkel algorithm is supported"
           name=""
           type="custom"

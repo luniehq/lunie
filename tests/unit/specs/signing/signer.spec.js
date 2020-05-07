@@ -177,7 +177,7 @@ describe("pick signer", () => {
         id: "kusama",
         network_type: "polkadot",
         address_prefix: 2,
-        testnet: true,
+        testnet: false,
         coinLookup: [
           {
             viewDenom: "KSM",
