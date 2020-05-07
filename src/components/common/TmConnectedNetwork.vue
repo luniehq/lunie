@@ -99,19 +99,12 @@ export default {
   }),
   computed: {
     ...mapState([`intercom`, `connection`]),
-    ...mapGetters([`network`, `networks`]),
+    ...mapGetters([`network`, `currentNetwork`]),
     networkSlug() {
       return this.connection.networkSlug
     },
     networkTooltip() {
       return `You're connected to ${this.block.chainId}.`
-    },
-    currentNetwork() {
-      if (this.networks && this.networks.length > 0) {
-        return this.networks.filter(({ id }) => id === this.network)[0]
-      } else {
-        return {}
-      }
     }
   },
   methods: {

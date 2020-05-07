@@ -14,10 +14,10 @@ const networks = [
     testnet: false
   },
   {
-    id: "polkadot-testnet",
-    network_type: "polkadot",
+    id: "kusama",
     address_prefix: "2",
-    testnet: true
+    testnet: false,
+    network_type: "polkadot"
   }
 ]
 
@@ -148,10 +148,10 @@ describe(`Module: Keystore`, () => {
       getters: {
         networks: [
           {
-            id: "polkadot-testnet",
-            network_type: "polkadot",
-            address_prefix: 2,
-            testnet: true
+            id: "kusama",
+            address_prefix: "2",
+            testnet: false,
+            network_type: "polkadot"
           }
         ]
       }
@@ -159,7 +159,7 @@ describe(`Module: Keystore`, () => {
 
     const address = await actions.getAddressFromSeed(store, {
       seedPhrase: `lunch primary know smoke track sustain parrot enact shock final rookie banana`,
-      network: "polkadot-testnet"
+      network: "kusama"
     })
     expect(address).toBe(`DcjhGvTmsVvJHzqFR1SQVHs77cFTQTJrm59WPM4FRgbGFoR`)
   })
@@ -170,10 +170,10 @@ describe(`Module: Keystore`, () => {
       getters: {
         networks: [
           {
-            id: "polkadot-testnet",
-            network_type: "polkadot",
-            address_prefix: 2,
-            testnet: true
+            id: "kusama",
+            address_prefix: "2",
+            testnet: false,
+            network_type: "polkadot"
           }
         ]
       }
@@ -181,7 +181,7 @@ describe(`Module: Keystore`, () => {
 
     const address = await actions.getAddressFromSeed(store, {
       seedPhrase: `spirit ride warm like ribbon axis minimum number myth wrestle minute amount subway whip system axis cross box actual rifle control profit town advice`,
-      network: `polkadot-testnet`
+      network: `kusama`
     })
     expect(address).toBe(`DGTPCmSeaMKKkno6GMLteH6JUBjjRf6PEtvLgmKQS4SV3Tc`)
   })
@@ -192,10 +192,10 @@ describe(`Module: Keystore`, () => {
       getters: {
         networks: [
           {
-            id: "polkadot-testnet",
-            network_type: "polkadot",
-            address_prefix: 2,
-            testnet: true
+            id: "kusama",
+            address_prefix: "2",
+            testnet: false,
+            network_type: "polkadot"
           }
         ]
       }
@@ -203,7 +203,7 @@ describe(`Module: Keystore`, () => {
 
     const address = await actions.getAddressFromSeed(store, {
       seedPhrase: `0x2fbaa6dc94a4bc904cc913de9151b890c5c1de1beb08ec01c96b66b355a7b9ca`,
-      network: `polkadot-testnet`
+      network: `kusama`
     })
     expect(address).toBe(`EkpVDgUgARxa96strjK5oCiEdLTokcTqw4uUMqEGBTmibLe`)
   })

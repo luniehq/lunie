@@ -448,7 +448,11 @@ export default {
         )
       }
 
-      if (this.network.network_type === "polkadot" && this.step === feeStep) {
+      if (
+        this.network.network_type === "polkadot" &&
+        this.step === feeStep &&
+        !this.session.developmentMode
+      ) {
         const { type, ...message } = this.transactionData
         const fee = await this.transactionManager.getPolkadotFees({
           messageType: type,
@@ -460,6 +464,7 @@ export default {
         return fee
       }
 
+      this.gasEstimateLoaded = true
       return 0
     }
   },
