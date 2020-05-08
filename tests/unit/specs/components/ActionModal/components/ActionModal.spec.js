@@ -129,6 +129,7 @@ describe(`ActionModal`, () => {
       getters: {
         connected: true,
         network: "cosmos-hub-testnet",
+        currentNetwork: network,
         isExtensionAccount: false,
         networks: [
           {
@@ -431,6 +432,9 @@ describe(`ActionModal`, () => {
   it(`hides password input if signing with Ledger`, async () => {
     wrapper.vm.session.sessionType = `ledger`
     wrapper.vm.step = `sign`
+    wrapper.vm.transactionManager = {
+      getPolkadotFees: jest.fn(() => 0.001)
+    }
     expect(wrapper.vm.selectedSignMethod).toBe(`ledger`)
     expect(wrapper.find(`#password`).exists()).toBe(false)
   })
@@ -453,6 +457,9 @@ describe(`ActionModal`, () => {
           wrapper.vm.session.sessionType = signMethod
           wrapper.vm.step = step
           wrapper.vm.sending = sending
+          wrapper.vm.transactionManager = {
+            getPolkadotFees: jest.fn(() => 0.001)
+          }
           expect(wrapper.element).toMatchSnapshot()
         })
       })
@@ -542,6 +549,9 @@ describe(`ActionModal`, () => {
       it(`when password is required`, () => {
         wrapper.vm.step = `sign`
         wrapper.vm.session.sessionType = `localKeystore`
+        wrapper.vm.transactionManager = {
+          getPolkadotFees: jest.fn(() => 0.001)
+        }
         wrapper.setData({ password: `1234567890` })
         expect(wrapper.vm.isValidInput(`password`)).toBe(true)
       })
@@ -568,8 +578,10 @@ describe(`ActionModal`, () => {
 
     describe(`fails`, () => {
       it(`if password is undefined`, () => {
+        const mockgetPolkadotFees = jest.fn(() => 0.001)
         wrapper.vm.step = `sign`
         wrapper.vm.session.sessionType = `localKeystore`
+        wrapper.vm.transactionManager.getPolkadotFees = mockgetPolkadotFees
         wrapper.setData({ password: undefined })
         expect(wrapper.vm.isValidInput(`password`)).toBe(false)
       })
@@ -703,6 +715,7 @@ describe(`ActionModal`, () => {
       const mockSubmitFail = jest.fn(() =>
         Promise.reject(new Error(`invalid request`))
       )
+      const mockgetPolkadotFees = jest.fn(() => 0.001)
 
       const data = {
         step: `fees`,
@@ -725,6 +738,7 @@ describe(`ActionModal`, () => {
       wrapper.setProps({ transactionProperties })
       wrapper.setData(data)
       wrapper.vm.transactionManager.createSignBroadcast = mockSubmitFail
+      wrapper.vm.transactionManager.getPolkadotFees = mockgetPolkadotFees
       await wrapper.vm.submit()
       await wrapper.vm.$nextTick()
 
@@ -838,10 +852,13 @@ describe(`ActionModal`, () => {
         expect(self.submit).not.toHaveBeenCalled()
       })
 
-      it("should dispaly warning when using an address not in the extension", () => {
+      it("should display warning when using an address not in the extension", () => {
         $store.getters.isExtensionAccount = false
         wrapper.vm.step = "sign"
         wrapper.vm.selectedSignMethod = "extension"
+        wrapper.vm.transactionManager = {
+          getPolkadotFees: jest.fn(() => 0.001)
+        }
         expect(
           wrapper.find(".form-message.notice.extension-address").exists()
         ).toBe(true)
