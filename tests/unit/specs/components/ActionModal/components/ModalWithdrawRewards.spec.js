@@ -12,7 +12,11 @@ describe(`ModalWithdrawRewards`, () => {
       getters: {
         stakingDenom: "STAKE",
         network: "cosmos-hub-mainnet",
-        address: "cosmos1234"
+        address: "cosmos1234",
+        currentNetwork: {
+          id: "cosmos-hub-mainnet",
+          network_type: "cosmos"
+        }
       }
     }
 

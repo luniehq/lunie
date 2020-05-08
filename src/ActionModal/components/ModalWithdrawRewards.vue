@@ -34,6 +34,12 @@
           :value="reward.amount | fullDecimals"
         />
       </div>
+      <TmFormMsg
+        v-if="currentNetwork.network_type === 'polkadot'"
+        type="custom"
+        class="tm-form-msg--desc"
+        msg="Currently only rewards from era 718 onwards are claimable"
+      />
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -43,6 +49,7 @@ import { mapGetters } from "vuex"
 import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
+import TmFormMsg from "common/TmFormMsg"
 import { getTop5RewardsValidators } from "../../signing/transaction-manager"
 import gql from "graphql-tag"
 import { messageType } from "../../components/transactions/messageTypes"
@@ -60,7 +67,8 @@ export default {
   name: `modal-withdraw-rewards`,
   components: {
     ActionModal,
-    TmFormGroup
+    TmFormGroup,
+    TmFormMsg
   },
   filters: {
     fullDecimals
@@ -72,7 +80,7 @@ export default {
     messageType
   }),
   computed: {
-    ...mapGetters([`address`, `network`, `stakingDenom`]),
+    ...mapGetters([`address`, `network`, `stakingDenom`, `currentNetwork`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
       if (this.totalRewards.length === 0) return {}
