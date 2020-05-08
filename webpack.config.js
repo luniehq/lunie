@@ -18,7 +18,8 @@ const config = {
   entry: {
     background: './background.js',
     contentScript: './contentScript.js',
-    'popup/popup': './popup/popup.js'
+    'popup/popup': './popup/popup.js',
+    'popup/sandbox': './popup/sandbox.js'
   },
   output: {
     path: resolve('dist'),
@@ -106,6 +107,11 @@ const config = {
       {
         from: 'popup/popup.html',
         to: 'popup/popup.html',
+        transform: transformHtml
+      },
+      {
+        from: 'popup/sandbox.html',
+        to: 'popup/sandbox.html',
         transform: transformHtml
       },
       {

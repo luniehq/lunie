@@ -190,12 +190,9 @@ jobs:
       - run: 
           command: |
             npm run initiate-submodule
-            npm run build
+            EXTENSION=true LUNIE_API=$LUNIE_API npm run build
             npm run build-zip
             sh ./scripts/deploy.sh ./dist-zip/lunie-browser-extension.zip
-          environment:
-            EXTENSION: true
-            LUNIE_API: $LUNIE_API
 
 workflows:
   version: 2

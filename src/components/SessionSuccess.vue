@@ -1,11 +1,11 @@
 <template>
-  <div class="session-success">
+  <div class="session session-success">
     <h2>Transaction Complete</h2>
     <div>
-      <p>You successfully signed the transaction.</p>
+      <p>🎉 Your transaction was successfully signed!</p>
     </div>
     <div class="session-footer">
-      <router-link to="/accounts">View Accounts</router-link>
+      <router-link to="/accounts">Back to my account list</router-link>
     </div>
   </div>
 </template>
@@ -19,8 +19,8 @@ export default {
 <style scoped>
 .session-success {
   padding: 2rem;
-  background: var(--fg);
-  border-left: 1px solid var(--bc-dim);
+  background: var(--app-bg);
+  color: var(--txt);
 }
 
 .session-success h2 {

@@ -15,10 +15,15 @@
       "background.js"
     ]
   },
+  "sandbox": {
+    "pages": [
+      "popup/sandbox.html"
+    ]
+  },
   "web_accessible_resources": [
     "fonts/*.woff2"
   ],
-  "content_security_policy": "script-src 'self' https://www.google-analytics.com/analytics.js; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/analytics.js; object-src 'self'; connect-src 'self' wss://production-api.lunie.io/graphql https://production-api.lunie.io wss://staging-api.lunie.io/graphql https://staging-api.lunie.io https://monitoring.lunie.io:9000 wss://kusama-rpc.polkadot.io/",
   "content_scripts": [
     {
       "matches": [
