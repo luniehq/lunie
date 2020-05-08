@@ -103,6 +103,8 @@ export default {
   computed: {
     ...mapGetters(['signRequest', 'networks']),
     tx() {
+      if (!this.signRequest) return undefined
+
       // enrich with parsed lunie transaction
       // DEPRECATE old format
       if (this.signRequest.signMessage) {
@@ -174,10 +176,11 @@ export default {
             ...this.signRequest,
             password: this.password
           })
-          .catch(e => {
-            if (e === 'Incorrect password') {
+          .catch(error => {
+            if (error === 'Incorrect password') {
               this.passwordError = true
             }
+            console.error(error)
             return
           })
         this.$router.push(`/success`)

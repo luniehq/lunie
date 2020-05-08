@@ -5,7 +5,9 @@ const {
   testPassword,
   removeWallet
 } = require('@lunie/cosmos-keys')
-const TransactionManager = require('src/signing/transaction-manager')
+const {
+  default: TransactionManager
+} = require('../lunie/src/signing/transaction-manager')
 
 export async function signMessageHandler(
   signRequestQueue,
