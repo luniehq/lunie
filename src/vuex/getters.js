@@ -10,6 +10,8 @@ export const networkSlug = state => state.connection.networkSlug
 export const addressType = state => state.connection.addressType
 export const isExtension = () => config.isExtension
 export const networks = state => state.connection.networks
+export const currentNetwork = state =>
+  state.connection.networks.find(({ id }) => id === state.connection.network)
 export const stakingDenom = state => {
   let filteredNetwork = state.connection.networks.find(
     ({ id }) => id === state.connection.network

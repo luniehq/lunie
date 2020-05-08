@@ -102,7 +102,7 @@ export default {
     Steps
   },
   computed: {
-    ...mapGetters([`recover`, `network`]),
+    ...mapGetters([`recover`, `currentNetwork`]),
     seed: {
       get() {
         return this.$store.state.recover.seed
@@ -115,7 +115,7 @@ export default {
       }
     },
     isPolkadot() {
-      return this.network.startsWith("polkadot")
+      return this.currentNetwork.network_type === "polkadot"
     }
   },
   methods: {
