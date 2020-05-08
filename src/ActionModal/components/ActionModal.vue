@@ -433,7 +433,8 @@ export default {
     includedHeight: undefined,
     smallestAmount: SMALLEST,
     balancesLoaded: false,
-    gasEstimateLoaded: false
+    gasEstimateLoaded: false,
+    polkadotFee: 0
   }),
   asyncComputed: {
     async estimatedFee() {
@@ -450,7 +451,7 @@ export default {
 
       if (
         this.network.network_type === "polkadot" &&
-        (this.step === feeStep || this.step === signStep) &&
+        this.step === feeStep &&
         !this.session.developmentMode
       ) {
         const { type, ...message } = this.transactionData
@@ -461,6 +462,7 @@ export default {
           network: this.network
         })
         this.gasEstimateLoaded = true
+        this.polkadotFee = fee
         return fee
       }
 
@@ -764,7 +766,7 @@ export default {
         if (this.network.network_type === "polkadot") {
           transactionData = {
             fee: {
-              amount: this.estimatedFee,
+              amount: this.polkadotFee,
               denom: this.getDenom
             }
           }
