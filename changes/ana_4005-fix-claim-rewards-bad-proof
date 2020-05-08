@@ -1,0 +1,1 @@
+[Fixed] [#4005](https://github.com/cosmos/lunie/issues/4005) Fixes Bad Proof error for Claiming Rewards in Kusama by claiming only rewards from era 718 onwards @Bitcoinera
