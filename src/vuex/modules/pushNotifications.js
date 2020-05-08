@@ -29,6 +29,8 @@ const initializeFirebase = async () => {
 }
 
 const askPermissionAndRegister = async (activeNetworks, apollo) => {
+  if (!config.development) return
+
   const isDeviceRegistered = localStorage.getItem(
     "registration-push-notifications"
   ) // "allowed" / "blocked" if stored, null if not set
