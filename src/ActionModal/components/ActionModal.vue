@@ -763,20 +763,10 @@ export default {
         }
         if (this.network.network_type === "polkadot") {
           transactionData = {
-            gasEstimate: this.estimatedFee,
-            gasPrices: [
-              {
-                amount:
-                  10 **
-                  Math.abs(
-                    Math.log10(
-                      this.currentNetwork.coinLookup[0]
-                        .chainToViewConversionFactor
-                    )
-                  ),
-                denom: this.currentNetwork.coinLookup[0].chainDenom
-              }
-            ]
+            fee: {
+              amount: this.estimatedFee,
+              denom: this.getDenom
+            }
           }
         }
 
