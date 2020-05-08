@@ -449,8 +449,9 @@ export default {
       }
 
       if (
-        (this.network.network_type === "polkadot" && this.step === feeStep) ||
-        (this.step === signStep && !this.session.developmentMode)
+        this.network.network_type === "polkadot" &&
+        (this.step === feeStep || this.step === signStep) &&
+        !this.session.developmentMode
       ) {
         const { type, ...message } = this.transactionData
         const fee = await this.transactionManager.getPolkadotFees({
