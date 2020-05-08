@@ -51,7 +51,7 @@ You need to provide 2 environment variables for the extension to work as expecte
 Make sure you're using node 10 or up.
 
 ```bash
-$ yarn watch:dev
+$ LUNIE_API=https://staging-api.lunie.io EXTENSION=true yarn watch:dev
 ```
 
 ## Build

@@ -2,7 +2,7 @@
 
 exports[`SessionSuccess renders correctly 1`] = `
 <div
-  class="session-success"
+  class="session session-success"
 >
   <h2>
     Transaction Complete
@@ -10,7 +10,7 @@ exports[`SessionSuccess renders correctly 1`] = `
    
   <div>
     <p>
-      You successfully signed the transaction.
+      🎉 Your transaction was successfully signed!
     </p>
   </div>
    
@@ -18,7 +18,7 @@ exports[`SessionSuccess renders correctly 1`] = `
     class="session-footer"
   >
     <a>
-      View Accounts
+      Back to my account list
     </a>
   </div>
 </div>

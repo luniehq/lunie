@@ -104,9 +104,13 @@ export default {
 }
 
 .lunie-logo {
-  margin: 1rem 0 1rem 1.7rem;
+  margin: 2rem 0 1rem;
   height: 32px;
-  fill: var(--highlight);
+  width: 100%;
+}
+
+.lunie-logo path {
+  fill: var(--bright);
 }
 
 .session-paragraph {
