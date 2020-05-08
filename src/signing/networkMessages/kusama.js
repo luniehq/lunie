@@ -70,7 +70,7 @@ export async function ClaimRewardsTx(senderAddress) {
   if (allClaimingTxs.length === 0) {
     throw new Error("There are no claimable rewards")
   }
-  return await getSignMessage(senderAddress, allClaimingTxs)
+  return await getSignMessage(senderAddress, allClaimingTxs[0])
 }
 
 function toChainAmount({ amount, denom }, coinLookup) {
