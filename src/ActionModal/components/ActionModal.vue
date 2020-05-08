@@ -449,9 +449,8 @@ export default {
       }
 
       if (
-        this.network.network_type === "polkadot" &&
-        this.step === feeStep &&
-        !this.session.developmentMode
+        (this.network.network_type === "polkadot" && this.step === feeStep) ||
+        (this.step === signStep && !this.session.developmentMode)
       ) {
         const { type, ...message } = this.transactionData
         const fee = await this.transactionManager.getPolkadotFees({
@@ -470,7 +469,12 @@ export default {
   },
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapGetters([`connected`, `isExtensionAccount`, `networks`]),
+    ...mapGetters([
+      `connected`,
+      `isExtensionAccount`,
+      `networks`,
+      `currentNetwork`
+    ]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
@@ -755,6 +759,24 @@ export default {
               network: this.network
             }
           )
+        }
+        if (this.network.network_type === "polkadot") {
+          transactionData = {
+            gasEstimate: this.estimatedFee,
+            gasPrices: [
+              {
+                amount:
+                  10 **
+                  Math.abs(
+                    Math.log10(
+                      this.currentNetwork.coinLookup[0]
+                        .chainToViewConversionFactor
+                    )
+                  ),
+                denom: this.currentNetwork.coinLookup[0].chainDenom
+              }
+            ]
+          }
         }
 
         const hashResult = await this.transactionManager.createSignBroadcast({
