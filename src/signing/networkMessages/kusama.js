@@ -46,11 +46,11 @@ export async function ClaimRewardsTx(senderAddress) {
   let allClaimingTxs = []
   const api = await getAPI()
   const stakerRewards = await api.derive.staking.stakerRewards(senderAddress)
-
-  if (stakerRewards.length === 0) {
+  const newStakerRewards = stakerRewards.filter(({ era }) => era.words[0] > 718)
+  if (newStakerRewards.length === 0) {
     allClaimingTxs = []
   } else {
-    stakerRewards.forEach(reward => {
+    newStakerRewards.forEach(reward => {
       reward.nominating.forEach(nomination => {
         if (reward.isStakerPayout) {
           allClaimingTxs.push(
@@ -70,7 +70,7 @@ export async function ClaimRewardsTx(senderAddress) {
   if (allClaimingTxs.length === 0) {
     throw new Error("There are no claimable rewards")
   }
-  return await getSignMessage(senderAddress, allClaimingTxs[0])
+  return await getSignMessage(senderAddress, allClaimingTxs)
 }
 
 function toChainAmount({ amount, denom }, coinLookup) {
