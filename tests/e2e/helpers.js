@@ -165,6 +165,10 @@ async function actionModalCheckout(
   await detailsActionFn()
 
   // proceed to invoice step
+  browser.waitForElementVisible(
+    ".action-modal-footer .button:nth-of-type(2):enabled",
+    10000
+  )
   browser.click(".action-modal-footer .button:nth-of-type(2)")
   browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
 
@@ -192,6 +196,10 @@ async function actionModalCheckout(
   // await nextBlock(browser)
 
   // submit
+  browser.waitForElementVisible(
+    ".action-modal-footer .button:nth-of-type(2):enabled",
+    10000
+  )
   browser.click(".action-modal-footer .button:nth-of-type(2)")
   browser.setValue("#password", browser.globals.password)
   browser.click(".action-modal-footer .button:nth-of-type(2)")
