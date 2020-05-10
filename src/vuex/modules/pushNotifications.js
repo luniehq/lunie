@@ -47,6 +47,8 @@ const initializeFirebase = async () => {
       messaging.onMessage(payload => {
         console.log("Message received. ", payload) // TODO: Do something with message when window is open such as a toast
       })
+
+      resolve(messaging)
     } catch (error) {
       console.error("Couldn't initialize Firebase messaging", error)
       Sentry.captureException(error)
