@@ -56,7 +56,7 @@ export default async function init(urlParams, env = process.env) {
     setGoogleAnalyticsPage(to.path)
   })
 
-  await pushNotifications.initializeFirebase(apolloClient)
+  pushNotifications.initializeFirebase(apolloClient)
 
   setOptions(urlParams, store)
 
