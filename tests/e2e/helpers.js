@@ -100,7 +100,7 @@ async function getLastActivityItemHash(browser) {
         if (step == 1) {
           const container = document.querySelector(".tx-container .tx")
           if (!container && attempts-- > 0) {
-            setTimeout(f, 2000)
+            setTimeout(f, 10000)
             return false
           }
           if (container) {
@@ -116,7 +116,7 @@ async function getLastActivityItemHash(browser) {
             ".tx-container:nth-of-type(1) .hash"
           )
           if (!hash && attempts-- > 0) {
-            setTimeout(f, 2000)
+            setTimeout(f, 10000)
             return false
           }
           resolve(hash ? hash.textContent : false)
