@@ -21,9 +21,8 @@
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
-          Unstaking takes {{ undelegationPeriod }} to complete and
-          cannot be undone. Please make sure you understand the rules of
-          staking.
+          Unstaking takes {{ undelegationPeriod }} to complete and cannot be
+          undone. Please make sure you understand the rules of staking.
         </span>
         <span v-else>
           Voting power and rewards will change instantly upon restaking — but
@@ -286,9 +285,9 @@ export default {
     undelegationPeriod() {
       // TODO: get this from API. Should be inside the network object
       if (this.currentNetwork.network_type === "cosmos") {
-        return '21 days'
+        return "21 days"
       } else if (this.currentNetwork.network_type === "polkadot") {
-        return '7 days'
+        return "7 days"
       } else {
         return `a certain number of time`
       }
