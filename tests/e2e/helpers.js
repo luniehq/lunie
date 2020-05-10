@@ -183,6 +183,12 @@ async function actionModalCheckout(
     )
   }
 
+  // wait until fees have been loaded
+  browser.waitForElementVisible(
+    ".action-modal-footer .button:nth-of-type(2):enabled",
+    10000
+  )
+
   // remember fees
   const fees = await new Promise(resolve =>
     browser.getText(
@@ -196,10 +202,6 @@ async function actionModalCheckout(
   // await nextBlock(browser)
 
   // submit
-  browser.waitForElementVisible(
-    ".action-modal-footer .button:nth-of-type(2):enabled",
-    10000
-  )
   browser.click(".action-modal-footer .button:nth-of-type(2)")
   browser.setValue("#password", browser.globals.password)
   browser.click(".action-modal-footer .button:nth-of-type(2)")
