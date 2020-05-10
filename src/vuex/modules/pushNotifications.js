@@ -5,49 +5,54 @@ import gql from "graphql-tag"
 let messaging
 
 const initializeFirebase = async () => {
-  // ignore service workers when they are not available, like on mobile
-  if (config.mobileApp || !navigator.serviceWorker) return
+  messaging = new Promise(async (resolve, reject) => {
+    // ignore service workers when they are not available, like on mobile
+    if (config.mobileApp || !navigator.serviceWorker) return
 
-  let firebase
-  try {
-    firebase = await import("firebase/app")
-    await import("firebase/messaging")
-  } catch (error) {
-    console.error("Couldn't initialize firebase dependencies", error)
-    Sentry.captureException(error)
-    return
-  }
+    let firebase
+    try {
+      firebase = await import("firebase/app")
+      await import("firebase/messaging")
+    } catch (error) {
+      console.error("Couldn't initialize firebase dependencies", error)
+      Sentry.captureException(error)
+      reject()
+      return
+    }
 
-  try {
-    navigator.serviceWorker.register("/firebase-messaging-sw.js", {
-      scope: "/"
-    })
-  } catch (error) {
-    console.error("Couldn't initialize firebase service worker", error)
-    Sentry.captureException(error)
-    return
-  }
+    try {
+      navigator.serviceWorker.register("/firebase-messaging-sw.js", {
+        scope: "/"
+      })
+    } catch (error) {
+      console.error("Couldn't initialize firebase service worker", error)
+      Sentry.captureException(error)
+      reject()
+      return
+    }
 
-  try {
-    firebase.initializeApp({
-      apiKey: "AIzaSyCrA4mq9v926h3aX9mfkLlzUSRbjFude14",
-      projectId: "lunie-push-notifications",
-      messagingSenderId: "783884833065",
-      appId: "1:783884833065:web:ea02768959989b9218a738"
-    })
+    try {
+      firebase.initializeApp({
+        apiKey: "AIzaSyCrA4mq9v926h3aX9mfkLlzUSRbjFude14",
+        projectId: "lunie-push-notifications",
+        messagingSenderId: "783884833065",
+        appId: "1:783884833065:web:ea02768959989b9218a738"
+      })
 
-    messaging = firebase.messaging()
-    messaging.usePublicVapidKey(config.firebasePublicVapidKey)
+      messaging = firebase.messaging()
+      messaging.usePublicVapidKey(config.firebasePublicVapidKey)
 
-    await navigator.serviceWorker.ready
+      await navigator.serviceWorker.ready
 
-    messaging.onMessage(payload => {
-      console.log("Message received. ", payload) // TODO: Do something with message when window is open such as a toast
-    })
-  } catch (error) {
-    console.error("Couldn't initialize Firebase messaging", error)
-    Sentry.captureException(error)
-  }
+      messaging.onMessage(payload => {
+        console.log("Message received. ", payload) // TODO: Do something with message when window is open such as a toast
+      })
+    } catch (error) {
+      console.error("Couldn't initialize Firebase messaging", error)
+      Sentry.captureException(error)
+      reject()
+    }
+  })
 }
 
 const askPermissionAndRegister = async (activeNetworks, apollo) => {
@@ -69,7 +74,7 @@ const askPermissionAndRegister = async (activeNetworks, apollo) => {
   if (!isDeviceRegistered) {
     // === null
 
-    messaging
+    ;(await messaging)
       .requestPermission()
       .then(async () => {
         // First delete old token
