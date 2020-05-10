@@ -8,15 +8,22 @@ const initializeFirebase = async () => {
   // ignore service workers when they are not available, like on mobile
   if (config.mobileApp || !navigator.serviceWorker) return
 
-  const firebase = await import("firebase/app")
-  await import("firebase/messaging")
+  let firebase
+  try {
+    firebase = await import("firebase/app")
+    await import("firebase/messaging")
+  } catch (error) {
+    console.error("Couldn't initialize firebase dependencies", error)
+    Sentry.captureException(error)
+    return
+  }
 
   try {
     navigator.serviceWorker.register("/firebase-messaging-sw.js", {
       scope: "/"
     })
   } catch (error) {
-    console.error("Couldn't initialize firebase service worker")
+    console.error("Couldn't initialize firebase service worker", error)
     Sentry.captureException(error)
     return
   }
