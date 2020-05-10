@@ -1,5 +1,3 @@
-import firebase from "firebase/app"
-import "firebase/messaging"
 import * as Sentry from "@sentry/browser"
 import config from "../../../config"
 import gql from "graphql-tag"
@@ -7,9 +5,21 @@ import gql from "graphql-tag"
 let messaging
 
 const initializeFirebase = async () => {
-  navigator.serviceWorker.register("/firebase-messaging-sw.js", {
-    scope: "/"
-  })
+  // ignore service workers when they are not available, like on mobile
+  if (config.mobileApp || !navigator.serviceWorker) return
+
+  const firebase = await import("firebase/app")
+  await import("firebase/messaging")
+
+  try {
+    navigator.serviceWorker.register("/firebase-messaging-sw.js", {
+      scope: "/"
+    })
+  } catch (error) {
+    console.error("Couldn't initialize firebase service worker")
+    Sentry.captureException(error)
+    return
+  }
 
   firebase.initializeApp({
     apiKey: "AIzaSyCrA4mq9v926h3aX9mfkLlzUSRbjFude14",
