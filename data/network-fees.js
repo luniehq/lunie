@@ -64,7 +64,10 @@ const cosmosGasEstimates = {
 }
 
 const emoneyGasEstimates = {
-  default: 200000,
+  default: 300000,
+  SendTx: 75000,
+  StakeTx: 550000,
+  UnstakeTx: 550000,
   ClaimRewardsTx: 550000,
   RestakeTx: 550000
 }
