@@ -46,7 +46,7 @@ export async function ClaimRewardsTx(senderAddress) {
   let allClaimingTxs = []
   const api = await getAPI()
   const stakerRewards = await api.derive.staking.stakerRewards(senderAddress)
-  const newStakerRewards = stakerRewards.filter(({ era }) => era.words[0] > 718)
+  const newStakerRewards = stakerRewards.filter(({ era }) => era.toJSON() > 718)
   if (newStakerRewards.length === 0) {
     allClaimingTxs = []
   } else {
