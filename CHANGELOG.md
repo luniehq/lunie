@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.197] - 2020-05-08
+
+### Changed
+
+- Disable push notification registration in production @faboweb
+
+### Fixed
+
+- Wait for wasm to have been loaded @faboweb
+
 ## [1.0.196] - 2020-05-07
 
 ### Added

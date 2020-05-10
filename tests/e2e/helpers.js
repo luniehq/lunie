@@ -165,6 +165,10 @@ async function actionModalCheckout(
   await detailsActionFn()
 
   // proceed to invoice step
+  browser.waitForElementVisible(
+    ".action-modal-footer .button:nth-of-type(2):enabled",
+    10000
+  )
   browser.click(".action-modal-footer .button:nth-of-type(2)")
   browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
 
@@ -178,6 +182,12 @@ async function actionModalCheckout(
       expectedSubtotal
     )
   }
+
+  // wait until fees have been loaded
+  browser.waitForElementVisible(
+    ".action-modal-footer .button:nth-of-type(2):enabled",
+    10000
+  )
 
   // remember fees
   const fees = await new Promise(resolve =>
@@ -209,7 +219,12 @@ async function actionModalCheckout(
 
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
-  console.log("Wait for total balance to update")
+  console.log(
+    "Wait for total balance to update",
+    browser.globals.totalAtoms,
+    expectedTotalChange,
+    fees
+  )
   await waitFor(
     async () => {
       const approximatedBalanceAfter =
