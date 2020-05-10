@@ -32,7 +32,8 @@ const nightwatch_config = {
           args: [
             "disable-web-security",
             "ignore-certificate-errors",
-            "disable-application-cache"
+            "disable-application-cache",
+            "disable-notifications"
           ],
           prefs: {
             "intl.accept_languages": "en-US,en"
