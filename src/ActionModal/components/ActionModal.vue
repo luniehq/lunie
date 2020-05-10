@@ -463,8 +463,10 @@ export default {
         this.gasEstimateLoaded = true
         return fee
       }
-
-      this.gasEstimateLoaded = true
+      // in development we don't need to worry about fees. Next button won't be disabled
+      if (this.session.developmentMode) {
+        this.gasEstimateLoaded = true
+      }
       return 0
     }
   },
