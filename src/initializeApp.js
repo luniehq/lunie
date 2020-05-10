@@ -9,7 +9,7 @@ import {
 import config from "src/../config"
 import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
-import pushNotifications from "./vuex/modules/pushNotifications"
+// import pushNotifications from "./vuex/modules/pushNotifications"
 import { createApolloProvider } from "src/gql/apollo.js"
 
 if (navigator && navigator.serviceWorker) {
@@ -56,7 +56,7 @@ export default async function init(urlParams, env = process.env) {
     setGoogleAnalyticsPage(to.path)
   })
 
-  await pushNotifications.initializeFirebase(apolloClient)
+  // await pushNotifications.initializeFirebase(apolloClient)
 
   setOptions(urlParams, store)
 

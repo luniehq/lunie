@@ -219,7 +219,12 @@ async function actionModalCheckout(
 
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
-  console.log("Wait for total balance to update")
+  console.log(
+    "Wait for total balance to update",
+    browser.globals.totalAtoms,
+    expectedTotalChange,
+    fees
+  )
   await waitFor(
     async () => {
       const approximatedBalanceAfter =
