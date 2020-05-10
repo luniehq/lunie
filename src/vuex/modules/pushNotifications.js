@@ -28,21 +28,26 @@ const initializeFirebase = async () => {
     return
   }
 
-  firebase.initializeApp({
-    apiKey: "AIzaSyCrA4mq9v926h3aX9mfkLlzUSRbjFude14",
-    projectId: "lunie-push-notifications",
-    messagingSenderId: "783884833065",
-    appId: "1:783884833065:web:ea02768959989b9218a738"
-  })
+  try {
+    firebase.initializeApp({
+      apiKey: "AIzaSyCrA4mq9v926h3aX9mfkLlzUSRbjFude14",
+      projectId: "lunie-push-notifications",
+      messagingSenderId: "783884833065",
+      appId: "1:783884833065:web:ea02768959989b9218a738"
+    })
 
-  messaging = firebase.messaging()
-  messaging.usePublicVapidKey(config.firebasePublicVapidKey)
+    messaging = firebase.messaging()
+    messaging.usePublicVapidKey(config.firebasePublicVapidKey)
 
-  await navigator.serviceWorker.ready
+    await navigator.serviceWorker.ready
 
-  messaging.onMessage(payload => {
-    console.log("Message received. ", payload) // TODO: Do something with message when window is open such as a toast
-  })
+    messaging.onMessage(payload => {
+      console.log("Message received. ", payload) // TODO: Do something with message when window is open such as a toast
+    })
+  } catch (error) {
+    console.error("Couldn't initialize Firebase messaging", error)
+    Sentry.captureException(error)
+  }
 }
 
 const askPermissionAndRegister = async (activeNetworks, apollo) => {
