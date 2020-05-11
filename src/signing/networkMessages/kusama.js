@@ -41,6 +41,27 @@ export async function StakeTx(senderAddress, { to, amount }, network) {
   }
   return await getSignMessage(senderAddress, transactions)
 }
+export async function UnstakeTx(senderAddress, { from, amount }, network) {
+  // stake with all existing plus the selected
+  const api = await getAPI()
+  const transactions = []
+
+  const chainAmount = toChainAmount(amount, network.coinLookup)
+  if (amount > 0) {
+    transactions.push(await api.tx.staking.unbond(chainAmount))
+  }
+
+  const response = await api.query.staking.nominators(senderAddress)
+  const { targets: delegatedValidators = [] } = response.toJSON() || {}
+  const validatorAddresses = delegatedValidators.filter(
+    validator => !from.includes(validator)
+  )
+  transactions.push(await api.tx.staking.nominate(validatorAddresses))
+  if (transactions.length === 0) {
+    throw new Error("You have to either unbond stake or unnominate a validator")
+  }
+  return await getSignMessage(senderAddress, transactions)
+}
 
 export async function ClaimRewardsTx(senderAddress) {
   let allClaimingTxs = []
