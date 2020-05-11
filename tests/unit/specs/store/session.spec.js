@@ -468,7 +468,7 @@ describe(`Module: Session`, () => {
     })
 
     expect(localStorage.getItem(`lunie_user_preferences`)).toBe(
-      `{"errorCollection":true,"analyticsCollection":true,"preferredCurrency":"USD"}`
+      `{"cookiesAccepted":true,"errorCollection":true,"analyticsCollection":true,"preferredCurrency":"USD"}`
     )
   })
 
