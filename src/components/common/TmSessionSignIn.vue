@@ -104,8 +104,10 @@ export default {
     },
     networkOfAddress() {
       // HACK as polkadot addresses don't have a prefix
-      if (isPolkadotAddress(this.signInAddress) && this.testnet) {
-        return this.networks.find(({ id }) => id === "polkadot-testnet")
+      if (isPolkadotAddress(this.signInAddress)) {
+        return this.networks.find(
+          ({ network_type }) => network_type === "polkadot"
+        )
       }
 
       const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
@@ -192,9 +194,9 @@ export default {
         selectedNetwork = selectedNetworksArray[0]
       }
       // HACK as polkadot addresses don't have a prefix
-      if (isPolkadotAddress(this.signInAddress) && this.testnet) {
+      if (isPolkadotAddress(this.signInAddress)) {
         selectedNetwork = this.networks.find(
-          ({ id }) => id === "polkadot-testnet"
+          ({ network_type }) => network_type === "polkadot"
         )
       }
 

@@ -448,7 +448,11 @@ export default {
         )
       }
 
-      if (this.network.network_type === "polkadot" && this.step === feeStep) {
+      if (
+        this.network.network_type === "polkadot" &&
+        this.step === feeStep &&
+        !this.session.developmentMode
+      ) {
         const { type, ...message } = this.transactionData
         const fee = await this.transactionManager.getPolkadotFees({
           messageType: type,
@@ -459,7 +463,10 @@ export default {
         this.gasEstimateLoaded = true
         return fee
       }
-
+      // in development we don't need to worry about fees. Next button won't be disabled
+      if (this.session.developmentMode) {
+        this.gasEstimateLoaded = true
+      }
       return 0
     }
   },

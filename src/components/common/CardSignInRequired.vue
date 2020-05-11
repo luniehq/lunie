@@ -12,7 +12,11 @@
         route="/select-network/create"
       />
       <LiSession
-        v-if="!isMobileApp && !isExtension && network !== `polkadot-testnet`"
+        v-if="
+          !isMobileApp &&
+            !isExtension &&
+            currentNetwork.network_type !== `polkadot`
+        "
         id="use-ledger-nano"
         icon="vpn_key"
         title="Ledger Nano"
@@ -71,7 +75,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
-    ...mapGetters([`network`]),
+    ...mapGetters([`currentNetwork`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
     },
