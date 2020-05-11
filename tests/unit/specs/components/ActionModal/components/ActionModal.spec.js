@@ -129,6 +129,7 @@ describe(`ActionModal`, () => {
       getters: {
         connected: true,
         network: "cosmos-hub-testnet",
+        currentNetwork: network,
         isExtensionAccount: false,
         networks: [
           {
@@ -838,7 +839,7 @@ describe(`ActionModal`, () => {
         expect(self.submit).not.toHaveBeenCalled()
       })
 
-      it("should dispaly warning when using an address not in the extension", () => {
+      it("should display warning when using an address not in the extension", () => {
         $store.getters.isExtensionAccount = false
         wrapper.vm.step = "sign"
         wrapper.vm.selectedSignMethod = "extension"
