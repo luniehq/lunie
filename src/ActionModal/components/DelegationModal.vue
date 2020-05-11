@@ -178,7 +178,7 @@ export default {
     }
   },
   data: () => ({
-    amount: null,
+    amount: 0,
     fromSelectedIndex: 0,
     balance: {
       amount: null,
@@ -311,7 +311,7 @@ export default {
     clear() {
       this.$v.$reset()
       this.fromSelectedIndex = 0
-      this.amount = null
+      this.amount = 0
     },
     setMaxAmount() {
       this.amount = this.maxAmount
