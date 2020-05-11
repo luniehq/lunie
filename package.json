@@ -64,6 +64,9 @@
     "simsala": "^0.0.21"
   },
   "resolutions": {
-    "minimist": "1.2.2"
+    "yargs-parser": ">=18.1.2",
+    "minimist": ">=1.2.3",
+    "kind-of": ">=6.0.3",
+    "acorn": ">=7.1.1"
   }
 }
