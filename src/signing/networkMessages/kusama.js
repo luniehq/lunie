@@ -51,8 +51,8 @@ export async function UnstakeTx(senderAddress, { from, amount }, network) {
   const api = await getAPI()
   const transactions = []
 
-  const chainAmount = toChainAmount(amount, network.coinLookup)
   if (amount > 0) {
+    const chainAmount = toChainAmount(amount, network.coinLookup)
     transactions.push(await api.tx.staking.unbond(chainAmount))
   }
 
