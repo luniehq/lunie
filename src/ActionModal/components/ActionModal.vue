@@ -433,7 +433,8 @@ export default {
     includedHeight: undefined,
     smallestAmount: SMALLEST,
     balancesLoaded: false,
-    gasEstimateLoaded: false
+    gasEstimateLoaded: false,
+    polkadotFee: 0
   }),
   asyncComputed: {
     async estimatedFee() {
@@ -461,6 +462,7 @@ export default {
           network: this.network
         })
         this.gasEstimateLoaded = true
+        this.polkadotFee = fee
         return fee
       }
       // in development we don't need to worry about fees. Next button won't be disabled
@@ -472,7 +474,12 @@ export default {
   },
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapGetters([`connected`, `isExtensionAccount`, `networks`]),
+    ...mapGetters([
+      `connected`,
+      `isExtensionAccount`,
+      `networks`,
+      `currentNetwork`
+    ]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
@@ -757,6 +764,14 @@ export default {
               network: this.network
             }
           )
+        }
+        if (this.network.network_type === "polkadot") {
+          transactionData = {
+            fee: {
+              amount: this.polkadotFee,
+              denom: this.getDenom
+            }
+          }
         }
 
         const hashResult = await this.transactionManager.createSignBroadcast({

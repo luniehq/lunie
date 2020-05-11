@@ -21,6 +21,7 @@ export default () =>
       errorCollection: false,
       analyticsCollection: false,
       cookiesAccepted: undefined,
+      preferredCurrency: undefined,
       stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
       error: null,
       currrentModalOpen: false,
@@ -179,9 +180,6 @@ export default () =>
       loadLocalPreferences({ state, dispatch }) {
         const localPreferences = localStorage.getItem(USER_PREFERENCES_KEY)
 
-        // don't track in development
-        if (state.developmentMode) return
-
         if (!localPreferences) {
           state.cookiesAccepted = false
           return
@@ -190,7 +188,8 @@ export default () =>
         const {
           cookiesAccepted,
           errorCollection,
-          analyticsCollection
+          analyticsCollection,
+          preferredCurrency
         } = JSON.parse(localPreferences)
 
         if (cookiesAccepted) {
@@ -200,6 +199,8 @@ export default () =>
           dispatch(`setErrorCollection`, errorCollection)
         if (state.analyticsCollection !== analyticsCollection)
           dispatch(`setAnalyticsCollection`, analyticsCollection)
+        if (state.preferredCurrency !== preferredCurrency)
+          dispatch(`setPreferredCurrency`, preferredCurrency)
       },
       storeLocalPreferences({ state }) {
         state.cookiesAccepted = true
@@ -208,7 +209,8 @@ export default () =>
           JSON.stringify({
             cookiesAccepted: state.cookiesAccepted,
             errorCollection: state.errorCollection,
-            analyticsCollection: state.analyticsCollection
+            analyticsCollection: state.analyticsCollection,
+            preferredCurrency: state.preferredCurrency
           })
         )
       },
@@ -233,7 +235,11 @@ export default () =>
           state.externals.anonymize()
           console.log(`Analytics collection has been disabled`)
         }
-      }
+      },
+      setPreferredCurrency({ state, dispatch }, currency) {
+        state.preferredCurrency = currency
+        dispatch(`storeLocalPreferences`)
+      }  
     }
 
     return {
