@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.19] - 2020-05-06
+
+### Changed
+
+- [#206](https://github.com/cosmos/lunie/pull/206) Change the submodule hash to an existing one @Bitcoinera
+
 ## [1.0.18] - 2020-05-01
 
 ### Added
