@@ -41,9 +41,8 @@
           <span
             v-if="validator.statusDetailed"
             class="validator-status-detailed"
+            >{{ validator.statusDetailed }}</span
           >
-            {{ validator.statusDetailed }}
-          </span>
         </div>
       </div>
       <tr class="li-validator">
@@ -62,9 +61,7 @@
               class="li-validator-image"
             />
             <div class="validator-info">
-              <h3 class="li-validator-name">
-                {{ validator.name }}
-              </h3>
+              <h3 class="li-validator-name">{{ validator.name }}</h3>
               <div v-if="delegation.amount">
                 <h4>{{ delegation.amount | fullDecimals }}</h4>
                 <h5 v-if="rewards">
@@ -89,7 +86,7 @@
         <TmBtn
           id="undelegation-btn"
           class="undelegation-btn"
-          :disabled="delegation.amount === 0"
+          :disabled="delegation.noDelegation"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
@@ -99,9 +96,7 @@
       <ul class="row">
         <li class="column">
           <h4>Description</h4>
-          <span>
-            {{ validator.details | noBlanks }}
-          </span>
+          <span>{{ validator.details | noBlanks }}</span>
         </li>
         <li class="column">
           <h4>Website</h4>
@@ -189,8 +184,8 @@
       <div slot="title">Validator Not Found</div>
       <div slot="subtitle">
         Please visit the
-        <router-link to="/validators/"> Validators </router-link>page to view
-        all validators
+        <router-link to="/validators/">Validators</router-link>page to view all
+        validators
       </div>
     </template>
     <ModalTutorial
@@ -313,7 +308,7 @@ export default {
   }),
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`network`, `stakingDenom`]),
+    ...mapGetters([`network`, `stakingDenom`, `currentNetwork`]),
     ...mapGetters({ userAddress: `address` })
   },
   mounted() {
@@ -390,7 +385,8 @@ export default {
       update(result) {
         if (!result.delegation) {
           return {
-            amount: 0
+            amount: 0,
+            noDelegation: true
           }
         }
         /* istanbul ignore next */
