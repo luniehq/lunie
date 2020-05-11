@@ -20,16 +20,18 @@ export async function StakeTx(senderAddress, { to, amount }, network) {
   const transactions = []
 
   // Check if controller is already set
-  const controller = await api.query.staking.bonded(senderAddress)
+  if (amount > 0) {
+    const controller = await api.query.staking.bonded(senderAddress)
 
-  const chainAmount = toChainAmount(amount, network.coinLookup)
-  if (controller.toString() === `` && amount > 0) {
-    const payee = 0
-    transactions.push(
-      await api.tx.staking.bond(senderAddress, chainAmount, payee)
-    )
-  } else {
-    transactions.push(await api.tx.staking.bondExtra(chainAmount))
+    const chainAmount = toChainAmount(amount, network.coinLookup)
+    if (controller.toString() === ``) {
+      const payee = 0
+      transactions.push(
+        await api.tx.staking.bond(senderAddress, chainAmount, payee)
+      )
+    } else {
+      transactions.push(await api.tx.staking.bondExtra(chainAmount))
+    }
   }
 
   if (to.length > 0) {
