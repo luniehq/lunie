@@ -25,9 +25,10 @@ describe(`TmSessionExplore`, () => {
       testnet: true
     },
     {
-      id: "polkadot-testnet",
+      id: "kusama",
       address_prefix: "",
-      testnet: true
+      testnet: false,
+      type: "polkadot"
     }
   ]
   const addresses = [

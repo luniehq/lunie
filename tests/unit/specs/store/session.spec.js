@@ -207,7 +207,7 @@ describe(`Module: Session`, () => {
       )
     })
 
-    it("should register device with correct addressObjects", async () => {
+    xit("should register device with correct addressObjects", async () => {
       const commit = jest.fn()
       const dispatch = jest.fn()
       const sessionType = `local`

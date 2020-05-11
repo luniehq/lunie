@@ -174,10 +174,10 @@ describe("pick signer", () => {
     process.env.NODE_ENV = "production"
     try {
       const network = {
-        id: "polkadot-testnet",
+        id: "kusama",
         network_type: "polkadot",
         address_prefix: 2,
-        testnet: true,
+        testnet: false,
         coinLookup: [
           {
             viewDenom: "KSM",

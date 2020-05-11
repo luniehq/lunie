@@ -99,19 +99,12 @@ export default {
   }),
   computed: {
     ...mapState([`intercom`, `connection`]),
-    ...mapGetters([`network`, `networks`]),
+    ...mapGetters([`network`, `currentNetwork`]),
     networkSlug() {
       return this.connection.networkSlug
     },
     networkTooltip() {
       return `You're connected to ${this.block.chainId}.`
-    },
-    currentNetwork() {
-      if (this.networks && this.networks.length > 0) {
-        return this.networks.filter(({ id }) => id === this.network)[0]
-      } else {
-        return {}
-      }
     }
   },
   methods: {
@@ -206,6 +199,7 @@ button.small.intercom-button {
 .tm-connected-network .chain-id {
   font-weight: 500;
   padding-right: 1rem;
+  color: var(--menu-text);
 }
 
 .tm-connected-network .exit {

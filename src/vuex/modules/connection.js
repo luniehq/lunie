@@ -69,8 +69,10 @@ export default function({ apollo }) {
         return state.networks.find(({ id }) => id === network)
       }
       // HACK as polkadot addresses don't have a prefix
-      if (isPolkadotAddress(address) && testnet) {
-        return state.networks.find(({ id }) => id === "polkadot-testnet")
+      if (isPolkadotAddress(address)) {
+        return state.networks.find(
+          ({ network_type }) => network_type === "polkadot"
+        )
       }
 
       const selectedNetworksArray = state.networks.filter(

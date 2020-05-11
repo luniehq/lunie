@@ -24,6 +24,7 @@
           <TmFormMsg
             v-if="isPolkadot"
             type="custom"
+            class="tm-form-msg--desc"
             msg="Currently only the Schnorrkel algorithm is supported"
           />
           <TmFormMsg
@@ -101,7 +102,7 @@ export default {
     Steps
   },
   computed: {
-    ...mapGetters([`recover`, `network`]),
+    ...mapGetters([`recover`, `currentNetwork`]),
     seed: {
       get() {
         return this.$store.state.recover.seed
@@ -114,7 +115,7 @@ export default {
       }
     },
     isPolkadot() {
-      return this.network.startsWith("polkadot")
+      return this.currentNetwork.network_type === "polkadot"
     }
   },
   methods: {
@@ -139,3 +140,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+.schnorrkel-warning {
+  color: var(--warning);
+}
+</style>

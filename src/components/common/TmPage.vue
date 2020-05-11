@@ -139,6 +139,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
+  padding-bottom: 3rem;
 }
 
 .tm-page-main.dark-background {

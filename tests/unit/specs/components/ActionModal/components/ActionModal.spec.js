@@ -1,10 +1,12 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
+import AsyncComputed from "vue-async-computed"
 import ActionModal from "src/ActionModal/components/ActionModal"
 import { focusParentLast } from "src/directives"
 
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
+localVue.use(AsyncComputed)
 localVue.directive("focus-last", focusParentLast)
 localVue.directive("focus", () => {})
 
@@ -178,33 +180,39 @@ describe(`ActionModal`, () => {
     expect(maxDecimalsNumber).toBe(9.8964)
   })
 
-  it(`should return the chain applied fees (in this case the Terra tax you need to payfor sending alt-tokens)`, () => {
+  it(`should return the chain applied fees (in this case the Terra tax you need to payfor sending alt-tokens)`, async () => {
     const self = {
       gasEstimate: 200000,
       gasPrice: "3e-8",
       networkId: "terra-mainnet",
+      network: {
+        network_type: "cosmos"
+      },
       maxDecimals: ActionModal.methods.maxDecimals,
       updateTerraGasEstimate: jest.fn(),
       updateEmoneyGasEstimate: () => {},
       chainAppliedFees: 0.00675
     }
-    const estimatedFee = ActionModal.computed.estimatedFee.call(self)
+    const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(self)
     expect(estimatedFee).toBe(0.00675)
   })
 
-  it(`should return the normal estimated fee (gas price * gas estimate) when chainAppliedFees equal 0`, () => {
+  it(`should return the normal estimated fee (gas price * gas estimate) when chainAppliedFees equal 0`, async () => {
     const self = {
       gasPrice: "1.5e-8",
       gasEstimate: 300000,
       networkId: `terra-mainnet`,
+      network: {
+        network_type: "cosmos"
+      },
       maxDecimals: ActionModal.methods.maxDecimals,
       updateTerraGasEstimate: ActionModal.methods.updateTerraGasEstimate
     }
-    const estimatedFee = ActionModal.computed.estimatedFee.call(self)
+    const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(self)
     expect(estimatedFee).toBe(0.0045)
   })
 
-  it(`should not update the gas estimate for emoney when it is a claim rewards transaction`, () => {
+  it(`should not update the gas estimate for emoney when it is a claim rewards transaction`, async () => {
     const self = {
       gasPrice: "1.5e-8",
       gasEstimate: 550000,
@@ -212,11 +220,55 @@ describe(`ActionModal`, () => {
       transactionData: {
         type: `MsgWithdrawDelegationReward`
       },
+      network: {
+        network_type: "cosmos"
+      },
       maxDecimals: ActionModal.methods.maxDecimals,
       updateEmoneyGasEstimate: ActionModal.methods.updateEmoneyGasEstimate
     }
-    ActionModal.computed.estimatedFee.call(self)
+    await ActionModal.asyncComputed.estimatedFee.call(self)
     expect(self.gasEstimate).toBe(550000)
+  })
+
+  it("should calculate fees for Polkadot transactions", async () => {
+    const self = {
+      networkId: "polkadot-testnet",
+      network: {
+        network_type: "polkadot"
+      },
+      step: "fees",
+      transactionData: {
+        type: "SendTx",
+        amount: {
+          denom: "KSM",
+          amount: 1
+        },
+        to: ["cosmos12345"]
+      },
+      transactionManager: {
+        getPolkadotFees: jest.fn(() => 0.01)
+      },
+      session: {
+        address: "LUNIE1234",
+        developmentMode: false
+      }
+    }
+    const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(self)
+    expect(estimatedFee).toBe(0.01)
+    expect(self.transactionManager.getPolkadotFees).toHaveBeenCalledWith({
+      messageType: "SendTx",
+      message: {
+        amount: {
+          denom: "KSM",
+          amount: 1
+        },
+        to: ["cosmos12345"]
+      },
+      senderAddress: "LUNIE1234",
+      network: {
+        network_type: "polkadot"
+      }
+    })
   })
 
   it(`should set the submissionError if the submission is rejected`, async () => {
@@ -391,6 +443,10 @@ describe(`ActionModal`, () => {
         ["on sign step", "sign", false],
         ["sending", "sign", true]
       ]
+
+      beforeEach(() => {
+        wrapper.vm.gasEstimateLoaded = true
+      })
 
       describe.each(signMethods)(`with %s`, signMethod => {
         it.each(steps)(`%s`, async (name, step, sending) => {
