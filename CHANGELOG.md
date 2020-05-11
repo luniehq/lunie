@@ -7,11 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
-## [1.0.19] - 2020-05-06
+## [1.0.20] - 2020-05-11
+
+### Changed
+
+- [#216](https://github.com/cosmos/lunie/pull/216) Displays also Kusama fees @Bitcoinera
+
+## [1.0.19] - 2020-05-08
 
 ### Changed
 
 - [#206](https://github.com/cosmos/lunie/pull/206) Change the submodule hash to an existing one @Bitcoinera
+
+### Fixed
+
+- [#212](https://github.com/cosmos/lunie/pull/212) Fixes addresses being unreadable when imported because of dark color @Bitcoinera
+- Fixes sign approval @faboweb
+- Fixes Polkadot signing by allowing unsafe-eval @faboweb
+- proper theme colours were missing from approve screen @jbibla
+
+### Security
+
+- Move WASM execution into sandboxed script @faboweb
 
 ## [1.0.18] - 2020-05-01
 
