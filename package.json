@@ -140,6 +140,8 @@
   },
   "resolutions": {
     "handlebars": ">=4.5.2",
-    "serialize-javascript": ">=2.1.1"
+    "serialize-javascript": ">=2.1.1",
+    "yargs-parser": ">=18.1.2",
+    "minimist": ">=1.2.3"
   }
 }
