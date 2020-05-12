@@ -24,7 +24,11 @@ export function getDisplayTransaction(
       }
     ]
   }
-  if (network.network_type === 'polkadot' && !!transactionData.fee) {
+  if (
+    network.network_type === 'polkadot' &&
+    transactionData &&
+    !!transactionData.fee
+  ) {
     fees = [
       {
         amount: transactionData.fee.amount,
