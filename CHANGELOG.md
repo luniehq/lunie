@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.198] - 2020-05-10
+
+### Fixed
+
+- [#4007](https://github.com/cosmos/lunie/pull/4007) Fix Next button in ActionModal always enabled even without Polkadot fees @Bitcoinera
+- [#4013](https://github.com/cosmos/lunie/pull/4013) Remove firebase init as it breaks apps and doesn't work in Brave @faboweb
+
 ## [1.0.197] - 2020-05-08
 
 ### Changed

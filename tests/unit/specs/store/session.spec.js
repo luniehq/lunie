@@ -421,7 +421,8 @@ describe(`Module: Session`, () => {
       JSON.stringify({
         cookiesAccepted: true,
         errorCollection: true,
-        analyticsCollection: true
+        analyticsCollection: true,
+        preferredCurrency: `USD`
       })
     )
     state.errorCollection = false
@@ -439,7 +440,8 @@ describe(`Module: Session`, () => {
       JSON.stringify({
         cookiesAccepted: false,
         errorCollection: false,
-        analyticsCollection: false
+        analyticsCollection: false,
+        preferredCurrency: `USD`
       })
     )
     state.errorCollection = true
@@ -452,19 +454,21 @@ describe(`Module: Session`, () => {
     })
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, false)
     expect(dispatch).toHaveBeenCalledWith(`setAnalyticsCollection`, false)
+    expect(dispatch).toHaveBeenCalledWith(`setPreferredCurrency`, `USD`)
   })
 
   it(`should store the persisted user preferences`, () => {
     localStorage.setItem(`lunie_user_preferences`, ``)
     state.errorCollection = true
     state.analyticsCollection = true
+    state.preferredCurrency = "USD"
 
     actions.storeLocalPreferences({
       state
     })
 
     expect(localStorage.getItem(`lunie_user_preferences`)).toBe(
-      `{"cookiesAccepted":true,"errorCollection":true,"analyticsCollection":true}`
+      `{"cookiesAccepted":true,"errorCollection":true,"analyticsCollection":true,"preferredCurrency":"USD"}`
     )
   })
 

@@ -165,8 +165,8 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
                 class="button"
               >
                 
-  Sign In
-
+    Sign In
+  
               </button>
             </div>
           </div>
@@ -249,8 +249,8 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
                 class="button"
               >
                 
-  Sign In
-
+    Sign In
+  
               </button>
             </div>
           </div>

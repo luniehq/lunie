@@ -51,7 +51,7 @@
               :alt="`${preferredCurrency}` + ' currency'"
             />
             <select
-              v-model="selectedFiatCurrency"
+              v-model="preferredCurrency"
               @change="setPreferredCurrency()"
             >
               <option
@@ -241,8 +241,7 @@ export default {
       balances: [],
       showTutorial: false,
       rewards: [],
-      selectedFiatCurrency: "USD",
-      preferredCurrency: "",
+      preferredCurrency: "USD",
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -293,7 +292,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([`connection`]),
+    ...mapState([`connection`, `session`]),
     ...mapGetters([`address`, `networks`, `network`, `stakingDenom`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
@@ -350,8 +349,11 @@ export default {
       }
     }
   },
-  mounted() {
-    this.setPreferredCurrency()
+  mounted: function() {
+    const persistedPreferredCurrency = this.session.preferredCurrency
+    if (persistedPreferredCurrency) {
+      this.preferredCurrency = persistedPreferredCurrency
+    }
   },
   methods: {
     bigFigureOrShortDecimals,
@@ -368,8 +370,7 @@ export default {
       this.showTutorial = false
     },
     setPreferredCurrency() {
-      localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
-      this.preferredCurrency = this.selectedFiatCurrency
+      this.$store.dispatch(`setPreferredCurrency`, this.preferredCurrency)
     },
     sendRewards(totalRewards) {
       // sending to ga only once
@@ -490,7 +491,7 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          fiatCurrency: this.selectedFiatCurrency || "EUR"
+          fiatCurrency: this.preferredCurrency
         }
       },
       /* istanbul ignore next */
@@ -520,7 +521,7 @@ export default {
         return {
           networkId: this.network,
           delegatorAddress: this.address,
-          fiatCurrency: this.selectedFiatCurrency || "EUR"
+          fiatCurrency: this.preferredCurrency
         }
       },
       /* istanbul ignore next */

@@ -238,7 +238,6 @@ export default {
 }
 
 .session-main .button {
-  margin: 0 auto;
-  display: block;
+  margin: 2rem auto 0;
 }
 </style>

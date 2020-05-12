@@ -6,6 +6,7 @@ describe(`TmBalance`, () => {
 
   beforeEach(async () => {
     $store = {
+      dispatch: jest.fn(),
       getters: {
         address: "cosmos1address",
         network: "test-network",
@@ -151,12 +152,12 @@ describe(`TmBalance`, () => {
     expect(wrapper.vm.showTutorial).toBe(false)
   })
 
-  it(`should set the preferred fiat currency in localstorage`, () => {
-    const self = {
-      selectedFiatCurrency: `USD`
-    }
-    TmBalance.methods.setPreferredCurrency.call(self)
-    expect(localStorage.getItem(`preferredCurrency`, `USD`))
+  it(`should set the preferred fiat currency in store`, () => {
+    wrapper.setData({
+      preferredCurrency: `USD`
+    })
+    wrapper.vm.setPreferredCurrency()
+    expect($store.dispatch).toHaveBeenCalledWith(`setPreferredCurrency`, `USD`)
   })
 
   it(`should calculate the total rewards amount `, () => {
