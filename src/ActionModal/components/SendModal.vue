@@ -166,7 +166,7 @@ const isPolkadotAddress = address => {
   return polkadotRegexp.test(address)
 }
 
-const TERRA_TAX_RATE = 0.00675
+const TERRA_TAX_RATE = 0.007
 const TERRA_TAX_CAP = 1000000
 
 export default {

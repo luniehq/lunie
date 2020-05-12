@@ -755,9 +755,11 @@ export default {
           transactionData = await this.transactionManager.getCosmosTransactionData(
             {
               memo,
-              gasEstimate: this.gasEstimate,
+              gasEstimate: this.chainAppliedFees
+                ? this.chainAppliedFees * 1e9
+                : this.gasEstimate, // 1e-9 is a hack to avoid Go unmarshal errors
               gasPrice: {
-                amount: this.gasPrice,
+                amount: this.chainAppliedFees ? 1e-9 : this.gasPrice,
                 denom: this.getDenom
               },
               senderAddress: this.session.address,
