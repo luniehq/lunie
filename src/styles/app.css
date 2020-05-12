@@ -99,7 +99,7 @@ input.tm-field {
   padding: 7px;
   font-size: var(--sm);
   text-transform: uppercase;
-  top: 2px;
+  top: 0;
   right: 30px;
   letter-spacing: 1px;
   text-align: right;
