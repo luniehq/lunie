@@ -12,12 +12,13 @@
         :src="`${network.icon}`"
         :alt="`logo for network ${network.title}`"
       />
-      <div v-if="networkId === network.id" class="checkmark-circle">
-        <i class="material-icons notranslate">check</i>
-      </div>
     </div>
     <div class="network-item">
-      <div></div>
+      <i
+        class="all-networks material-icons notranslate"
+        v-tooltip.right="{ content: `All Networks`, offset: 8 }"
+        >add</i
+      >
     </div>
   </div>
 </template>
@@ -71,7 +72,7 @@ export default {
 .network-item {
   position: relative;
   transition: opacity 0.2s ease-in-out;
-  opacity: 0.7;
+  opacity: 0.8;
   padding: 0.25rem;
 }
 
@@ -102,13 +103,32 @@ export default {
   opacity: 1;
 }
 
+.selected img {
+  border: 2px solid white;
+}
+
 img {
   display: block;
   position: relative;
   max-height: 100%;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  margin: 0 auto;
+  padding: 2px;
+  border: 2px solid transparent;
+}
+
+.all-networks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 2rem;
   width: 2rem;
   border-radius: 50%;
-  margin: 0.25rem auto;
+  margin: 0 auto;
+  background: var(--menu-border);
+  font-size: 16px;
+  font-weight: 700;
 }
 </style>
