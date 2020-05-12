@@ -5,8 +5,8 @@ exports[`TmBtn allows for customization 1`] = `
   class="button"
 >
   
-  button
-
+    button
+  
 </button>
 `;
 
@@ -15,8 +15,8 @@ exports[`TmBtn displays as a link 1`] = `
   class="button"
 >
   
-  button
-
+    button
+  
 </button>
 `;
 
@@ -25,8 +25,8 @@ exports[`TmBtn displays as an external link 1`] = `
   class="button"
 >
   
-  button
-
+    button
+  
 </button>
 `;
 
@@ -35,8 +35,8 @@ exports[`TmBtn displays as an icon 1`] = `
   class="button"
 >
   
-  button
-
+    button
+  
 </button>
 `;
 
@@ -45,8 +45,8 @@ exports[`TmBtn displays as an img as an icon 1`] = `
   class="button"
 >
   
-  button
-
+    button
+  
 </button>
 `;
 
@@ -55,7 +55,7 @@ exports[`TmBtn has the expected html structure 1`] = `
   class="button"
 >
   
-  button
-
+    button
+  
 </button>
 `;
