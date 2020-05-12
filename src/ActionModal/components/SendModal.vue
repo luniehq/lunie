@@ -24,10 +24,12 @@
     >
       <TmField
         id="send-address"
+        ref="sendAddress"
         v-model="address"
         v-focus
         type="text"
         placeholder="Address"
+        @change.native="trimSendAddress"
         @keyup.enter.native="refocusOnAmount"
       />
       <TmFormMsg
@@ -327,6 +329,9 @@ export default {
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
+    },
+    trimSendAddress() {
+      this.address = this.$refs.sendAddress.value.trim()
     },
     refocusOnAmount() {
       this.$refs.amount.$el.focus()
