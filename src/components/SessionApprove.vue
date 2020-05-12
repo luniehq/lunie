@@ -21,7 +21,7 @@
         class="approval-table"
         :amount="amount"
         :estimated-fee="fees"
-        :bond-denom="bondDenom"
+        :bond-denom="invoiceDenom"
       />
       <TmFormGroup
         :error="$v.password.$error && $v.password.$invalid"
@@ -141,8 +141,14 @@ export default {
     amount() {
       return this.amountCoin ? Number(this.amountCoin.amount) : 0
     },
-    bondDenom() {
-      return this.amountCoin ? this.amountCoin.denom : ''
+    invoiceDenom() {
+      if (this.amountCoin) {
+        return this.amountCoin.denom
+      }
+      if (this.tx && this.tx.fees[0]) {
+        return this.tx.fees.find(({ denom }) => denom).denom
+      }
+      return ''
     },
     validatorsAddressMap() {
       const names = {}
