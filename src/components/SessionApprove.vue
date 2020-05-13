@@ -62,6 +62,7 @@
           value="Approve"
           class="right-button"
           type="primary"
+          :loading="isTransactionBroadcasting"
           @click.native="approve"
         />
       </div>
@@ -98,7 +99,8 @@ export default {
   data: () => ({
     validators: [],
     password: null,
-    passwordError: false
+    passwordError: false,
+    isTransactionBroadcasting: false
   }),
   computed: {
     ...mapGetters(['signRequest', 'networks']),
@@ -177,6 +179,7 @@ export default {
     },
     async approve() {
       if (this.isValidInput('password')) {
+        this.isTransactionBroadcasting = true
         await this.$store
           .dispatch('approveSignRequest', {
             ...this.signRequest,
@@ -189,6 +192,7 @@ export default {
             console.error(error)
             return
           })
+        this.isTransactionBroadcasting = false
         this.$router.push(`/success`)
       }
     },
@@ -264,9 +268,7 @@ export default {
 .left-button {
   margin-right: 0.5rem;
 }
-</style>
 
-<style>
 .approval-table .table-invoice {
   padding: 0.5rem 0;
   margin: 1rem 0;
