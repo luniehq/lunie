@@ -1,40 +1,40 @@
 <template>
   <menu class="app-menu">
-    <div v-if="session.signedIn" class="user-box">
-      <div class="user-box-address">
-        <div>
-          <h3>Your Address</h3>
-          <Address class="menu-address" :address="address || ''" />
-        </div>
-        <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-          <i v-tooltip.top="'Sign Out'" class="material-icons notranslate">
-            exit_to_app
-          </i>
-        </a>
-        <a
-          v-if="!session.isMobile && session.sessionType === 'ledger'"
-          class="show-on-ledger"
-          @click="showAddressOnLedger()"
-        >
-          Show on Ledger
-        </a>
-        <TmFormMsg
-          v-if="ledgerAddressError"
-          :msg="ledgerAddressError"
-          type="custom"
-        />
-      </div>
-    </div>
-    <TmBtn
-      v-else
-      id="sign-in"
-      class="session-link sidebar"
-      value="Sign In / Sign Up"
-      type="secondary"
-      size="small"
-      @click.native="signIn()"
-    />
     <div class="app-menu-main">
+      <div v-if="session.signedIn" class="user-box">
+        <div class="user-box-address">
+          <div>
+            <h3>Your Address</h3>
+            <Address class="menu-address" :address="address || ''" />
+          </div>
+          <a v-if="session.signedIn" id="sign-out" @click="signOut()">
+            <i v-tooltip.top="'Sign Out'" class="material-icons notranslate">
+              exit_to_app
+            </i>
+          </a>
+          <a
+            v-if="!session.isMobile && session.sessionType === 'ledger'"
+            class="show-on-ledger"
+            @click="showAddressOnLedger()"
+          >
+            Show on Ledger
+          </a>
+          <TmFormMsg
+            v-if="ledgerAddressError"
+            :msg="ledgerAddressError"
+            type="custom"
+          />
+        </div>
+      </div>
+      <TmBtn
+        v-else
+        id="sign-in"
+        class="session-link sidebar"
+        value="Sign In / Sign Up"
+        type="secondary"
+        size="small"
+        @click.native="signIn()"
+      />
       <router-link
         class="app-menu-item hide-xs"
         :to="{ name: 'portfolio', params: { networkId: networkSlug } }"

@@ -143,7 +143,6 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   padding-top: 1.4rem;
-  left: 4rem;
 }
 
 @media screen and (max-width: 1023px) {
@@ -196,6 +195,12 @@ export default {
 
   .header-item-logo {
     height: 1.75rem;
+  }
+}
+
+@media screen and (min-width: 667px) {
+  .app-header > .container {
+    left: 4rem;
   }
 }
 

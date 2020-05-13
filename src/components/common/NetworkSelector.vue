@@ -17,6 +17,9 @@
       <i
         class="all-networks material-icons notranslate"
         v-tooltip.right="{ content: `All Networks`, offset: 8 }"
+        @click="
+          $route.name !== `networks` ? $router.push({ name: `networks` }) : null
+        "
         >add</i
       >
     </div>
@@ -130,5 +133,15 @@ img {
   background: var(--menu-border);
   font-size: 16px;
   font-weight: 700;
+}
+
+@media screen and (max-width: 1025px) {
+  .network-selector {
+    display: flex;
+    width: 100%;
+    height: 4rem;
+    padding: 0 1rem;
+    top: 4rem;
+  }
 }
 </style>
