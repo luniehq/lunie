@@ -281,10 +281,10 @@ describe(`SendModal`, () => {
         maxDecimals: SendModal.methods.maxDecimals
       }
       const maxAmount = SendModal.computed.maxAmount.call(self)
-      expect(maxAmount).toBe(0.99325)
+      expect(maxAmount).toBe(0.993)
       self.maxAmount = maxAmount
       SendModal.methods.setMaxAmount.call(self)
-      expect(self.amount).toBe(0.99325)
+      expect(self.amount).toBe(0.993)
     })
   })
 

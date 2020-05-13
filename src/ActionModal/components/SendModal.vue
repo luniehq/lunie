@@ -24,10 +24,12 @@
     >
       <TmField
         id="send-address"
+        ref="sendAddress"
         v-model="address"
         v-focus
         type="text"
         placeholder="Address"
+        @change.native="trimSendAddress"
         @keyup.enter.native="refocusOnAmount"
       />
       <TmFormMsg
@@ -167,7 +169,7 @@ const isPolkadotAddress = address => {
   return polkadotRegexp.test(address)
 }
 
-const TERRA_TAX_RATE = 0.00675
+const TERRA_TAX_RATE = 0.007
 const TERRA_TAX_CAP = 1000000
 
 export default {
@@ -330,6 +332,9 @@ export default {
     },
     enterPressed() {
       this.$refs.actionModal.validateChangeStep()
+    },
+    trimSendAddress() {
+      this.address = this.$refs.sendAddress.value.trim()
     },
     refocusOnAmount() {
       this.$refs.amount.$el.focus()

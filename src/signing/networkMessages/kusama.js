@@ -46,11 +46,11 @@ export async function ClaimRewardsTx(senderAddress) {
   let allClaimingTxs = []
   const api = await getAPI()
   const stakerRewards = await api.derive.staking.stakerRewards(senderAddress)
-
-  if (stakerRewards.length === 0) {
+  const newStakerRewards = stakerRewards.filter(({ era }) => era.toJSON() > 718)
+  if (newStakerRewards.length === 0) {
     allClaimingTxs = []
   } else {
-    stakerRewards.forEach(reward => {
+    newStakerRewards.forEach(reward => {
       reward.nominating.forEach(nomination => {
         if (reward.isStakerPayout) {
           allClaimingTxs.push(

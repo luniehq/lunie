@@ -433,7 +433,8 @@ export default {
     includedHeight: undefined,
     smallestAmount: SMALLEST,
     balancesLoaded: false,
-    gasEstimateLoaded: false
+    gasEstimateLoaded: false,
+    polkadotFee: 0
   }),
   asyncComputed: {
     async estimatedFee() {
@@ -461,16 +462,24 @@ export default {
           network: this.network
         })
         this.gasEstimateLoaded = true
+        this.polkadotFee = fee
         return fee
       }
-
-      this.gasEstimateLoaded = true
+      // in development we don't need to worry about fees. Next button won't be disabled
+      if (this.session.developmentMode) {
+        this.gasEstimateLoaded = true
+      }
       return 0
     }
   },
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapGetters([`connected`, `isExtensionAccount`, `networks`]),
+    ...mapGetters([
+      `connected`,
+      `isExtensionAccount`,
+      `networks`,
+      `currentNetwork`
+    ]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
@@ -746,15 +755,25 @@ export default {
           transactionData = await this.transactionManager.getCosmosTransactionData(
             {
               memo,
-              gasEstimate: this.gasEstimate,
+              gasEstimate: this.chainAppliedFees
+                ? this.chainAppliedFees * 1e9
+                : this.gasEstimate, // 1e-9 is a hack to avoid Go unmarshal errors
               gasPrice: {
-                amount: this.gasPrice,
+                amount: this.chainAppliedFees ? 1e-9 : this.gasPrice,
                 denom: this.getDenom
               },
               senderAddress: this.session.address,
               network: this.network
             }
           )
+        }
+        if (this.network.network_type === "polkadot") {
+          transactionData = {
+            fee: {
+              amount: this.polkadotFee,
+              denom: this.getDenom
+            }
+          }
         }
 
         const hashResult = await this.transactionManager.createSignBroadcast({

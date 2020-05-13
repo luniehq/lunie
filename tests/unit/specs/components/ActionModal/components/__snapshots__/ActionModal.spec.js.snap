@@ -92,7 +92,7 @@ exports[`ActionModal back button renders and functions 1`] = `
 </div>
 `;
 
-exports[`ActionModal runs validation and changes step on sign step should dispaly warning when using an address not in the extension 1`] = `
+exports[`ActionModal runs validation and changes step on sign step should display warning when using an address not in the extension 1`] = `
 <div
   class="action-modal"
   name="slide-fade"

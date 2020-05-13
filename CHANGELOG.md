@@ -7,6 +7,87 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.199] - 2020-05-12
+
+### Changed
+
+- [#4008](https://github.com/cosmos/lunie/issues/4008) Send Polkadot/Kusama fees to extension @Bitcoinera
+- [#4018](https://github.com/cosmos/lunie/pull/4018) Adds kava-testnet to networkMessages @Bitcoinera
+- buttons now have an optional loading state @jbibla
+
+### Fixed
+
+- [#3750](https://github.com/cosmos/lunie/issues/3750) Fixes selected fiat currency not being persisted @Bitcoinera
+- [#4005](https://github.com/cosmos/lunie/issues/4005) Fixes Bad Proof error for Claiming Rewards in Kusama by claiming only rewards from era 718 onwards @Bitcoinera
+- [#4023](https://github.com/cosmos/lunie/pull/4023) Fixes Terra fees for sending alt-tokens after async gasEstimate @Bitcoinera
+
+### Security
+
+- [#4015](https://github.com/cosmos/lunie/pull/4015) Fixes all dependencies vulnerabilities (for now) @Bitcoinera
+- [#3992](https://github.com/cosmos/lunie/pull/3992) Change dynamic script tags to nonce instead of hash for CSP @michielmulders
+
+## [1.0.198] - 2020-05-10
+
+### Fixed
+
+- [#4007](https://github.com/cosmos/lunie/pull/4007) Fix Next button in ActionModal always enabled even without Polkadot fees @Bitcoinera
+- [#4013](https://github.com/cosmos/lunie/pull/4013) Remove firebase init as it breaks apps and doesn't work in Brave @faboweb
+
+## [1.0.197] - 2020-05-08
+
+### Changed
+
+- Disable push notification registration in production @faboweb
+
+### Fixed
+
+- Wait for wasm to have been loaded @faboweb
+
+## [1.0.196] - 2020-05-07
+
+### Added
+
+- Show Polkadot fees @faboweb
+- proper kava theme colors and related style improvements @jbibla
+- [#3972](https://github.com/cosmos/lunie/issues/3972) Upgrade polkadot api to v1.12.2 @mariopino
+- [#3924](https://github.com/cosmos/lunie/issues/3924) Add claiming rewards in Polkadot @mariopino
+- Add push notifications support @michielmulders
+
+### Changed
+
+- [#3956](https://github.com/cosmos/lunie/pull/3956) Applies same Polkadot seed validation as the one used in PolkadotUI @Bitcoinera
+- [#3977](https://github.com/cosmos/lunie/issues/3977) Changes the hardcoded 21 days for unstaking period to a computed to change according to the network @Bitcoinera
+- [#3955](https://github.com/cosmos/lunie/pull/3955) Adds a specific warning for Polkadot seed import: only Schnorrkel supported. Also adds a specific seed placeholder @Bitcoinera
+- [#4001](https://github.com/cosmos/lunie/pull/4001) Disable Polkadot fees calculation in development @bitcoinera
+- [#3950](https://github.com/cosmos/lunie/pull/3950) Now fiatValues are only displayed on mainnets and also 0 fiatValues are shown @Bitcoinera
+- [#3957](https://github.com/cosmos/lunie/pull/3957) Brings webpack-internal back @Bitcoinera
+- [#3990](https://github.com/cosmos/lunie/pull/3990) Changes the Schnorrkel warning color to warning color @Bitcoinera
+- Refactor communication with extension so we can sign easily Polkadot @faboweb
+- cleaned up action modals especially on mobile @jbibla
+- [#3976](https://github.com/cosmos/lunie/pull/3976) Change push registration flow using upsert @michielmulders
+
+### Fixed
+
+- [#3938](https://github.com/cosmos/lunie/issues/3938) Fixes the arrow links between proposals @Bitcoinera
+- [#3964](https://github.com/cosmos/lunie/issues/3964) Fixes claim rewards transactions in Terra after the signing refactor @Bitcoinera
+- [#3933](https://github.com/cosmos/lunie/issues/3933) Skip total staked query in delegation modal correctly @faboweb
+- Allow CSP to connect to Kusama API @faboweb
+- Fix styling of address when importing account @faboweb
+- seed screen was missing proper variables @jbibla
+- [#3931](https://github.com/cosmos/lunie/issues/3931) Fix wrong Self Stake percentage in inactive validators in polkadot  @mariopino
+- [#3948](https://github.com/cosmos/lunie/pull/3948) Add more CSP fixes for push registrations @michielmulders
+- Remove Firebase import warning @michielmulders
+
+### Security
+
+- Add CSP hash for preloader script @michielmulders
+- [#3923](https://github.com/cosmos/lunie/pull/3923) Avoid unsafe inline scripts in build and secure the remaining with CSP hash @michielmulders
+
+### Code Improvements
+
+- [#3977](https://github.com/cosmos/lunie/issues/3977) Changes polkadot-testnet to kusama for themes, tests, and also refactors where network.startsWith('polkadot') was being used @Bitcoinera
+- Reuse apollo for push notification registration @faboweb
+
 ## [1.0.195] - 2020-04-29
 
 ### Added
