@@ -147,9 +147,8 @@ export default {
       if (sessionCorrect) {
         this.selectNetworkByAddress(this.signInAddress)
 
-        // Check address role, useful for Polkadot networks so we can limit actions based on it
+        // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
         const addressRole = await this.checkAddressRole(this.signInAddress)
-
         await this.$store.dispatch(`setUserAddressRole`, {
           addressRole
         })

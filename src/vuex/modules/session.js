@@ -241,9 +241,8 @@ export default () =>
         state.preferredCurrency = currency
         dispatch(`storeLocalPreferences`)
       },
-      setUserAddressRole({ state, dispatch }, addressRole) {
+      setUserAddressRole({ state }, addressRole) {
         state.addressRole = addressRole
-        dispatch(`storeLocalPreferences`)
       }
     }
 
