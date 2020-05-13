@@ -95,7 +95,7 @@ async function createNewAccount(browser, networkData) {
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
     browser.click("#sign-up-warning")
     await next(browser)
-    browser.waitForElementVisible(".balance-header", 10000, true) // wait until signup is completed
+    browser.waitForElementVisible(".balance-header", 15000, true) // wait until signup is completed
     return true
   })
 }
