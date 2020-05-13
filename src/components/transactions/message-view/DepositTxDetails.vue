@@ -4,7 +4,11 @@
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
       <span>On&nbsp;</span>
-      <router-link :to="`/proposals/${transaction.details.proposalId}`"
+      <router-link
+        :to="{
+          name: 'Proposal',
+          params: { proposalId: String(transaction.details.proposalId) }
+        }"
         >Proposal &#35;{{ transaction.details.proposalId }}</router-link
       >
     </div>
