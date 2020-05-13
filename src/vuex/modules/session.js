@@ -239,7 +239,7 @@ export default () =>
       setPreferredCurrency({ state, dispatch }, currency) {
         state.preferredCurrency = currency
         dispatch(`storeLocalPreferences`)
-      }  
+      }
     }
 
     return {
