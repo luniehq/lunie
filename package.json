@@ -58,7 +58,7 @@
     "@lunie/cosmos-keys": "^0.2.1",
     "@polkadot/api": "^1.13.1",
     "@sentry/browser": "^5.7.1",
-    "@sentry/integrations": "^5.7.1",
+    "@sentry/integrations": "^5.15.5",
     "apollo-boost": "^0.4.3",
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-client": "2.6.8",
