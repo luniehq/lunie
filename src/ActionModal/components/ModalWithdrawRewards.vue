@@ -28,7 +28,7 @@
     >
       <div
         v-for="reward in totalRewards"
-        :key="JSON.stringify(reward.denom)"
+        :key="reward.denom"
         class="rewards-list-item"
       >
         <input
