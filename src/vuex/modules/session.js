@@ -254,18 +254,18 @@ export default () =>
         state.preferredCurrency = currency
         dispatch(`storeLocalPreferences`)
       },
+      /* istanbul ignore next */
       async checkAddressRole({ commit }, { address, currentNetwork }) {
+        // too costly to test due to polkadot/api usage
         if (currentNetwork.network_type === `polkadot`) {
           const api = await getAPI()
           const bonded = await api.query.staking.bonded(address)
           if (!bonded) {
             // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
-            console.log(`controller`)
             commit(`setUserAddressRole`, {
               addressRole: `controller`
             })
           } else {
-            console.log(`stash`)
             commit(`setUserAddressRole`, {
               addressRole: `stash`
             })

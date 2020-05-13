@@ -354,19 +354,6 @@ describe(`Module: Session`, () => {
         }
       ])
     })
-
-    it("should get a polkadot address role", async () => {
-      jest.setTimeout(30000)
-      const address = `F7uBbx4pbZ5u7eRGPExD6SKSA6TVqTsLf7daXYjAeEChcEY`
-      const commit = jest.fn()
-      await actions.checkAddressRole(
-        { commit },
-        { address, currentNetwork: { id: "kusama", network_type: "polkadot" } }
-      )
-      expect(commit).toHaveBeenCalledWith(`setUserAddressRole`, {
-        addressRole: `stash`
-      })
-    })
   })
 
   it(`should sign out`, async () => {
