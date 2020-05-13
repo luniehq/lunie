@@ -4,7 +4,7 @@ import sessionModule from "src/vuex/modules/session.js"
 jest.mock("src/vuex/modules/pushNotifications.js")
 
 describe(`Module: Session`, () => {
-  let module, state, actions, mutations, node, getters
+  let module, state, actions, mutations, node
 
   beforeEach(() => {
     node = {}
@@ -14,17 +14,6 @@ describe(`Module: Session`, () => {
     mutations = module.mutations
     global.Notification = {
       requestPermission: jest.fn()
-    }
-    getters = {
-      networks: [
-        {
-          id: "fabo-net"
-        },
-        {
-          id: "kusama",
-          network_type: "polkadot"
-        }
-      ]
     }
 
     state.externals = {
@@ -133,12 +122,14 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos"
+            }
+          },
           commit,
-          dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
+          dispatch
         },
         { address, sessionType, networkId: "not-fabo-net" }
       )
@@ -166,12 +157,14 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos"
+            }
+          },
           commit,
-          dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
+          dispatch
         },
         { sessionType: `ledger`, address }
       )
@@ -192,12 +185,14 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos"
+            }
+          },
           commit,
-          dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
+          dispatch
         },
         { sessionType: `explore`, address }
       )
@@ -236,12 +231,14 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos"
+            }
+          },
           commit,
-          dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
+          dispatch
         },
         { address, sessionType, networkId: "fabo-net" }
       )
@@ -275,12 +272,14 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos"
+            }
+          },
           commit,
-          dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
+          dispatch
         },
         { sessionType: `explore`, address, networkId: "fabo-net" }
       )
@@ -305,9 +304,6 @@ describe(`Module: Session`, () => {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
         sessionType: `explore`,
         networkId: "fabo-net"
-      })
-      expect(commit).toHaveBeenCalledWith(`setUserAddressRole`, {
-        addressRole: undefined
       })
     })
 
@@ -363,7 +359,12 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "kusama",
+              network_type: "polkadot"
+            }
+          },
           commit,
           dispatch,
           rootState: {
@@ -372,8 +373,40 @@ describe(`Module: Session`, () => {
         },
         { sessionType, address, networkId: "kusama" }
       )
-      expect(commit).toHaveBeenCalledWith(`setUserAddressRole`, {
-        addressRole: `stash`
+      expect(dispatch).toHaveBeenCalledWith(`checkAddressRole`, {
+        address,
+        currentNetwork: {
+          id: "kusama",
+          network_type: "polkadot"
+        }
+      })
+    })
+
+    describe("checkAddressRole", () => {
+      it("should set the role to a stash account", async () => {
+        jest.setTimeout(60000)
+        const nodeEnv = process.env.NODE_ENV
+        process.env.NODE_ENV = "production"
+
+        try {
+          const address = `F7uBbx4pbZ5u7eRGPExD6SKSA6TVqTsLf7daXYjAeEChcEY`
+          const commit = jest.fn()
+          await actions.checkAddressRole(
+            { commit },
+            {
+              address,
+              currentNetwork: {
+                id: "kusama",
+                network_type: "polkadot"
+              }
+            }
+          )
+          expect(commit).toHaveBeenCalledWith(`setUserAddressRole`, {
+            addressRole: `stash`
+          })
+        } finally {
+          process.env.NODE_ENV = nodeEnv
+        }
       })
     })
   })
@@ -521,12 +554,14 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos"
+            }
+          },
           commit: jest.fn(),
-          dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
+          dispatch
         },
         {
           address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -543,12 +578,14 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos"
+            }
+          },
           commit: jest.fn(),
-          dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
+          dispatch
         },
         {
           address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,

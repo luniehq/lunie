@@ -133,21 +133,13 @@ export default () =>
         }
       },
       async signIn(
-        {
-          state,
-          getters: { networks },
-          commit,
-          dispatch,
-          rootState: {
-            connection: { network }
-          }
-        },
+        { state, getters: { currentNetwork }, commit, dispatch },
         { address, sessionType = `ledger`, networkId }
       ) {
-        if (networkId && network !== networkId) {
+        if (networkId && currentNetwork.id !== networkId) {
           await commit(`setNetworkId`, networkId)
           await dispatch(`persistNetwork`, { id: networkId })
-          network = networkId
+          currentNetwork.id = networkId
         }
         commit(`setSignIn`, true)
         commit(`setSessionType`, sessionType)
@@ -157,21 +149,19 @@ export default () =>
         dispatch(`persistSession`, {
           address,
           sessionType,
-          networkId: network
+          networkId: currentNetwork.id
         })
         const addresses = state.addresses
         dispatch(`persistAddresses`, {
           addresses
         })
 
-        const currentNetwork = networks.find(
-          network => network.id === networkId
-        )
-
-        await dispatch(`checkAddressRole`, {
-          address,
-          currentNetwork
-        })
+        if (currentNetwork.network_type === "polkadot") {
+          await dispatch(`checkAddressRole`, {
+            address,
+            currentNetwork
+          })
+        }
 
         // Register device for push registrations
         // const activeNetworks = getActiveNetworks(networks)
@@ -260,18 +250,15 @@ export default () =>
           const bonded = await api.query.staking.bonded(address)
           if (!bonded) {
             // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
-            console.log(`controller`)
             commit(`setUserAddressRole`, {
               addressRole: `controller`
             })
-          } else {
-            console.log(`stash`)
-            commit(`setUserAddressRole`, {
-              addressRole: `stash`
-            })
+            return
           }
+          commit(`setUserAddressRole`, {
+            addressRole: `stash`
+          })
         }
-        return undefined
       }
     }
 
