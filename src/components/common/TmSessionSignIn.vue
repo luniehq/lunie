@@ -150,7 +150,6 @@ export default {
         // Check address role, useful for Polkadot networks so we can limit actions based on it
         const addressRole = await this.checkAddressRole(this.signInAddress)
 
-        console.log(`address role is`, addressRole)
         await this.$store.dispatch(`setUserAddressRole`, {
           addressRole
         })
