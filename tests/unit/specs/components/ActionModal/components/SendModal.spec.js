@@ -212,7 +212,7 @@ describe(`SendModal`, () => {
     })
     expect(wrapper.vm.notifyMessage).toEqual({
       title: `Successful Send`,
-      body: `Successfully sent 2 STAKEs to cosmos12345`
+      body: `Successfully sent 2 STAKEs to cosm…2345`
     })
   })
 

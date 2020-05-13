@@ -191,12 +191,12 @@
             <div slot="subtitle">
               {{ notifyMessage.body }}
               <br />
-              <br />Block
+              <br />
               <router-link
                 :to="
-                  `/${$router.history.current.params.networkId}/blocks/${includedHeight}`
+                  `/${$router.history.current.params.networkId}/transactions`
                 "
-                >#{{ includedHeight | prettyInt }}</router-link
+                >See your transaction</router-link
               >
             </div>
           </TmDataMsg>

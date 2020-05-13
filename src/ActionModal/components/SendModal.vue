@@ -160,6 +160,7 @@ import { messageType } from "../../components/transactions/messageTypes"
 import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
 import BigNumber from "bignumber.js"
+import { formatAddress } from "src/filters"
 
 const defaultMemo = "(Sent via Lunie)"
 
@@ -226,7 +227,9 @@ export default {
     notifyMessage() {
       return {
         title: `Successful Send`,
-        body: `Successfully sent ${this.amount} ${this.selectedToken}s to ${this.address}`
+        body: `Successfully sent ${this.amount} ${
+          this.selectedToken
+        }s to ${formatAddress(this.address)}`
       }
     },
     getDenoms() {
