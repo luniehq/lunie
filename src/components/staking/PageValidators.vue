@@ -162,6 +162,7 @@ export default {
   .toggles {
     margin-top: 0;
     margin-bottom: 1rem;
+    display: inline-flex;
   }
 
   label {
