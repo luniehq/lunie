@@ -350,39 +350,8 @@ describe(`Module: Session`, () => {
       ])
     })
 
-    it("should get a polkadot address role", async () => {
-      jest.setTimeout(30000)
-      const sessionType = `explore`
-      const address = `F7uBbx4pbZ5u7eRGPExD6SKSA6TVqTsLf7daXYjAeEChcEY`
-      const commit = jest.fn()
-      const dispatch = jest.fn()
-      await actions.signIn(
-        {
-          state,
-          getters: {
-            currentNetwork: {
-              id: "kusama",
-              network_type: "polkadot"
-            }
-          },
-          commit,
-          dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
-        },
-        { sessionType, address, networkId: "kusama" }
-      )
-      expect(dispatch).toHaveBeenCalledWith(`checkAddressRole`, {
-        address,
-        currentNetwork: {
-          id: "kusama",
-          network_type: "polkadot"
-        }
-      })
-    })
-
-    describe("checkAddressRole", () => {
+    // too costly to test
+    xdescribe("checkAddressRole", () => {
       it("should set the role to a stash account", async () => {
         jest.setTimeout(60000)
         const nodeEnv = process.env.NODE_ENV
