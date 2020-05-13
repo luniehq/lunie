@@ -77,6 +77,9 @@ export default () =>
       },
       setCurrrentModalOpen(state, modal) {
         state.currrentModalOpen = modal
+      },
+      setUserAddressRole(state, addressRole) {
+        state.addressRole = addressRole
       }
     }
 
@@ -170,7 +173,7 @@ export default () =>
         })
 
         // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
-        await dispatch(`setUserAddressRole`, {
+        commit(`setUserAddressRole`, {
           addressRole
         })
 
@@ -266,9 +269,6 @@ export default () =>
           }
         }
         return undefined
-      },
-      setUserAddressRole({ state }, addressRole) {
-        state.addressRole = addressRole
       }
     }
 

@@ -1,5 +1,5 @@
 import sessionModule from "src/vuex/modules/session.js"
-import pushNotifications from "src/vuex/modules/pushNotifications.js"
+// import pushNotifications from "src/vuex/modules/pushNotifications.js"
 
 jest.mock("src/vuex/modules/pushNotifications.js")
 
@@ -19,6 +19,10 @@ describe(`Module: Session`, () => {
       networks: [
         {
           id: "fabo-net"
+        },
+        {
+          id: "kusama",
+          network_type: "polkadot"
         }
       ]
     }
@@ -207,7 +211,7 @@ describe(`Module: Session`, () => {
       )
     })
 
-    xit("should register device with correct addressObjects", async () => {
+    it("should register device with correct addressObjects", async () => {
       const commit = jest.fn()
       const dispatch = jest.fn()
       const sessionType = `local`
@@ -241,15 +245,15 @@ describe(`Module: Session`, () => {
         },
         { address, sessionType, networkId: "fabo-net" }
       )
-      expect(pushNotifications.askPermissionAndRegister).toHaveBeenCalledWith(
-        [
-          {
-            address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-            networkId: "fabo-net"
-          }
-        ],
-        expect.objectContaining({}) // apollo
-      )
+      // expect(pushNotifications.askPermissionAndRegister).toHaveBeenCalledWith(
+      //   [
+      //     {
+      //       address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      //       networkId: "fabo-net"
+      //     }
+      //   ],
+      //   expect.objectContaining({}) // apollo
+      // )
       localStorage.removeItem("session_fabo-net")
     })
 
@@ -302,6 +306,9 @@ describe(`Module: Session`, () => {
         sessionType: `explore`,
         networkId: "fabo-net"
       })
+      expect(commit).toHaveBeenCalledWith(`setUserAddressRole`, {
+        addressRole: undefined
+      })
     })
 
     it("should commit checkForPersistedAddresses when dispatch checkForPersistedAddresses ", async () => {
@@ -345,6 +352,29 @@ describe(`Module: Session`, () => {
           networkId: "fabo-net"
         }
       ])
+    })
+
+    it("should get a polkadot address role", async () => {
+      jest.setTimeout(30000)
+      const sessionType = `explore`
+      const address = `F7uBbx4pbZ5u7eRGPExD6SKSA6TVqTsLf7daXYjAeEChcEY`
+      const commit = jest.fn()
+      const dispatch = jest.fn()
+      await actions.signIn(
+        {
+          state,
+          getters,
+          commit,
+          dispatch,
+          rootState: {
+            connection: { network: "fabo-net" }
+          }
+        },
+        { sessionType, address, networkId: "kusama" }
+      )
+      expect(commit).toHaveBeenCalledWith(`setUserAddressRole`, {
+        addressRole: undefined
+      })
     })
   })
 
