@@ -76,6 +76,8 @@ const isPolkadotAddress = address => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
+import { getAPI } from "../../signing/networkMessages/polkadot-transactions"
+
 export default {
   name: `session-sign-in`,
   components: {
@@ -144,6 +146,15 @@ export default {
       })
       if (sessionCorrect) {
         this.selectNetworkByAddress(this.signInAddress)
+
+        // Check address role, useful for Polkadot networks so we can limit actions based on it
+        const addressRole = await this.checkAddressRole(this.signInAddress)
+
+        console.log(`address role is`, addressRole)
+        await this.$store.dispatch(`setUserAddressRole`, {
+          addressRole
+        })
+
         this.$store.dispatch(`signIn`, {
           password: this.signInPassword,
           address: this.signInAddress,
@@ -201,6 +212,18 @@ export default {
       }
 
       this.$store.dispatch(`setNetwork`, selectedNetwork)
+    },
+    async checkAddressRole(address) {
+      if (this.networkOfAddress.network_type === `polkadot`) {
+        const api = await getAPI()
+        const bonded = await api.query.staking.bonded(address)
+        if (!bonded) {
+          return `controller`
+        } else {
+          return `stash`
+        }
+      }
+      return undefined
     }
   },
   validations() {

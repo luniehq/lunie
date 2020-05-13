@@ -18,6 +18,7 @@ export default () =>
       history: [],
       address: null, // Current address
       addresses: [], // Array of previously used addresses
+      addressRole: null, // For Polkadot: stash, controller
       errorCollection: false,
       analyticsCollection: false,
       cookiesAccepted: undefined,
@@ -238,6 +239,10 @@ export default () =>
       },
       setPreferredCurrency({ state, dispatch }, currency) {
         state.preferredCurrency = currency
+        dispatch(`storeLocalPreferences`)
+      },
+      setUserAddressRole({ state, dispatch }, addressRole) {
+        state.addressRole = addressRole
         dispatch(`storeLocalPreferences`)
       }
     }
