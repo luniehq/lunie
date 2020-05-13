@@ -191,12 +191,12 @@
             <div slot="subtitle">
               {{ notifyMessage.body }}
               <br />
-              <br />See your transaction
+              <br />
               <router-link
                 :to="
                   `/${$router.history.current.params.networkId}/transactions`
                 "
-                >here</router-link
+                >See your transaction</router-link
               >
             </div>
           </TmDataMsg>
