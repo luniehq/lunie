@@ -19,7 +19,7 @@ export default () =>
       history: [],
       address: null, // Current address
       addresses: [], // Array of previously used addresses
-      addressRole: null, // For Polkadot: stash, controller
+      addressRole: undefined, // For Polkadot: stash, controller
       errorCollection: false,
       analyticsCollection: false,
       cookiesAccepted: undefined,
