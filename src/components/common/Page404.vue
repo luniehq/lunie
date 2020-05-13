@@ -8,22 +8,30 @@
       <p>Here are some helpful links to get you out of here:</p>
       <ul>
         <li>
-          <router-link to="/portfolio">
+          <router-link
+            :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
+          >
             Portfolio
           </router-link>
         </li>
         <li>
-          <router-link to="/validators">
+          <router-link
+            :to="{ name: 'Validators', params: { networkId: networkSlug } }"
+          >
             Validators
           </router-link>
         </li>
         <li>
-          <router-link to="/transactions">
+          <router-link
+            :to="{ name: 'transactions', params: { networkId: networkSlug } }"
+          >
             Transactions
           </router-link>
         </li>
         <li>
-          <router-link to="/proposals">
+          <router-link
+            :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
+          >
             Proposals
           </router-link>
         </li>
@@ -35,11 +43,15 @@
 <script>
 import TmPage from "common/TmPage"
 import TmPart from "common/TmPart"
+import { mapGetters } from "vuex"
 export default {
   name: `page-404`,
   components: {
     TmPage,
     TmPart
+  },
+  computed: {
+    ...mapGetters([`networkSlug`])
   }
 }
 </script>

@@ -7,7 +7,11 @@
         ><i class="italic">{{ transaction.details.voteOption }}</i>
         &nbsp;on&nbsp;</span
       >
-      <router-link :to="`/proposals/${transaction.details.proposalId}`"
+      <router-link
+        :to="{
+          name: 'Proposal',
+          params: { proposalId: String(transaction.details.proposalId) }
+        }"
         >Proposal &#35;{{ transaction.details.proposalId }}</router-link
       >
     </div>

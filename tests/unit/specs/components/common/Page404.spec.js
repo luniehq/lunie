@@ -2,10 +2,18 @@ import { shallowMount } from "@vue/test-utils"
 import Page404 from "src/components/common/Page404"
 
 describe(`Page404`, () => {
-  let wrapper
+  let wrapper, $store
 
   beforeEach(() => {
+    $store = {
+      getters: {
+        networkSlug: "cosmos-hub"
+      }
+    }
     wrapper = shallowMount(Page404, {
+      mocks: {
+        $store
+      },
       stubs: [`router-link`]
     })
   })
