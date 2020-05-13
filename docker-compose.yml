@@ -5,7 +5,7 @@ services:
     container_name: lunieapi
     restart: on-failure
     secrets:
-    - PORT
+    - HASURA_ADMIN_KEY
     volumes:
     - /logs:/var/www/server/logs
     - ./pushCredentials.json:/var/www/server/pushCredentials.json
@@ -24,8 +24,8 @@ services:
       restart_policy:
         condition: on-failure
     environment:
+      - PORT=$PORT
       - HASURA_URL=$HASURA_URL
-      - HASURA_ADMIN_KEY=$HASURA_ADMIN_KEY
       - SENTRY_DSN=$SENTRY_DSN
       - NODE_ENV=staging
       - ENABLE_CACHE=true
@@ -84,7 +84,7 @@ services:
     volumes:
       - ./redis_data:/data
 secrets:
-  PORT:
+  HASURA_ADMIN_KEY:
     external: true
 volumes:
   caddy_certs:

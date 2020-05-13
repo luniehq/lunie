@@ -17,9 +17,9 @@ async function initPolkadotRPC(network, store) {
 }
 
 function cleanOldRewards(minDesiredEra) {
-  db.query(`
+  return db.query(`
     mutation {
-      delete_polkadot_testnet_rewards(where:{height: {_lt: "${minDesiredEra}"}}) {
+      delete_kusama_rewards(where:{height: {_lt: "${minDesiredEra}"}}) {
         affected_rows
       }
     }
@@ -230,10 +230,10 @@ function cropEraData(
   return newEraData
 }
 
-async function getMissingEras(api, lastStoredEra) {
-  const desiredEras = await api.derive.staking
-    .erasHistoric(false)
-    .then(rawEras => rawEras.map(rawEra => rawEra.toJSON()))
+async function getMissingEras(lastStoredEra, currentEra) {
+  const CLAIMABLE_REWARD_SPAN = 84
+  const desiredEras = Array.from(new Array(CLAIMABLE_REWARD_SPAN).keys()).map((index) => index + 1 + currentEra - CLAIMABLE_REWARD_SPAN)
+
   const minDesiredEra = _.min(desiredEras)
   const maxDesiredEra = _.max(desiredEras)
   const missingEras = desiredEras.filter(era => era > lastStoredEra)
@@ -244,10 +244,17 @@ async function getMissingEras(api, lastStoredEra) {
 async function main() {
   const currentEraArg = require('minimist')(process.argv.slice(2))
   const currentEra = currentEraArg['currentEra']
+  console.log(currentEra)
   // get previously stored data
-  let { storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures, lastStoredEra } = loadStoredEraData()
+  let {
+    storedEraPoints,
+    storedEraPreferences,
+    storedEraRewards,
+    storedExposures,
+    lastStoredEra
+  } = loadStoredEraData()
   if (currentEra <= lastStoredEra) {
-    console.log("Rewards for this era are already stored")
+    console.log('Rewards for this era are already stored')
     process.exit(0)
   }
 
@@ -265,9 +272,10 @@ async function main() {
   console.log(`Querying rewards for ${delegators.length} delegators.`)
 
   const { minDesiredEra, missingEras, maxDesiredEra } = await getMissingEras(
-    api,
-    lastStoredEra
+    lastStoredEra,
+    currentEra
   )
+  console.log({ minDesiredEra, missingEras, maxDesiredEra })
 
   const [eraPoints, eraPreferences, eraRewards, exposures] = await loadEraData(
     missingEras,
@@ -326,7 +334,7 @@ async function main() {
       network.chain_id
     )
   }
-  cleanOldRewards(minDesiredEra)
+  await cleanOldRewards(minDesiredEra)
   console.log('Finished querying and storing rewards')
   process.exit(0)
 }

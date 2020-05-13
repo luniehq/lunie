@@ -99,6 +99,11 @@ const coinLookupDictionary = {
       chainDenom: 'ukava',
       viewDenom: 'KAVA',
       chainToViewConversionFactor: 1e-6
+    }],
+    "kava-testnet": [{
+      chainDenom: 'ukava',
+      viewDenom: 'KAVA',
+      chainToViewConversionFactor: 1e-6
     }]
 }
 
