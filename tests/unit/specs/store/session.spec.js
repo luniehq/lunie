@@ -373,7 +373,7 @@ describe(`Module: Session`, () => {
         { sessionType, address, networkId: "kusama" }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddressRole`, {
-        addressRole: undefined
+        addressRole: `stash`
       })
     })
   })

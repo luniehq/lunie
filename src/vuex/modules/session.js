@@ -167,14 +167,10 @@ export default () =>
         const currentNetwork = networks.find(
           network => network.id === networkId
         )
-        const addressRole = await dispatch(`checkAddressRole`, {
+
+        await dispatch(`checkAddressRole`, {
           address,
           currentNetwork
-        })
-
-        // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
-        commit(`setUserAddressRole`, {
-          addressRole
         })
 
         // Register device for push registrations
@@ -258,14 +254,21 @@ export default () =>
         state.preferredCurrency = currency
         dispatch(`storeLocalPreferences`)
       },
-      async checkAddressRole(store, { address, currentNetwork }) {
+      async checkAddressRole({ commit }, { address, currentNetwork }) {
         if (currentNetwork.network_type === `polkadot`) {
           const api = await getAPI()
           const bonded = await api.query.staking.bonded(address)
           if (!bonded) {
-            return `controller`
+            // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
+            console.log(`controller`)
+            commit(`setUserAddressRole`, {
+              addressRole: `controller`
+            })
           } else {
-            return `stash`
+            console.log(`stash`)
+            commit(`setUserAddressRole`, {
+              addressRole: `stash`
+            })
           }
         }
         return undefined
