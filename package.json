@@ -43,7 +43,7 @@
     "coingecko-api": "^1.0.10",
     "dotenv": "^8.2.0",
     "firebase-admin": "^8.8.0",
-    "graphql": "^14.5.8",
+    "graphql": "^14.6.0",
     "graphql-redis-subscriptions": "^2.1.1",
     "lodash": "^4.17.15",
     "nock": "^11.7.0",
