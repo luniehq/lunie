@@ -143,7 +143,7 @@ describe(`Module: Keystore`, () => {
   })
 
   it(`should create a Polkadot address from a 12 words seed phrase`, async () => {
-    jest.setTimeout(10000)
+    jest.setTimeout(30000)
     const store = {
       getters: {
         networks: [

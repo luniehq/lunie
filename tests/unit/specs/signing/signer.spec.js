@@ -169,7 +169,7 @@ describe("pick signer", () => {
   })
 
   it("should create signature for Polkadot", async () => {
-    jest.setTimeout(30000)
+    jest.setTimeout(60000)
     const nodeEnv = process.env.NODE_ENV
     process.env.NODE_ENV = "production"
     try {
