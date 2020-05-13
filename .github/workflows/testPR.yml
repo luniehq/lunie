@@ -1,0 +1,109 @@
+name: PR testing
+
+on:
+  pull_request:
+    branches:
+      - "*"
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  check_changelog:
+    name: checkChangelog
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      # What you should use
+      - name: Add simsala
+        run: npm install simsala
+      - name: Check if changlog was updated
+        run: node node_modules/simsala/src/cli.js check --pending-path ./changes
+
+  prep:
+    name: prep
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - name: Install dependencies
+        run: yarn install
+      - name: Persist data between jobs
+
+  lint:
+    name: lint
+    needs: prep
+    runs-on: ubuntu-latest
+    steps:
+        if: github.head_ref != 'release' # ignore for branches with 'release' as name
+      - name: Lint
+        run: yarn lint
+
+  testUnit:
+    name: testUnit
+    needs: prep
+    runs-on: ubuntu-latest
+    steps:
+        if: github.head_ref != 'release' # ignore for branches with 'release' as name
+      - name: Unit tests
+        run: |
+          yarn run test:unit --coverage --maxWorkers=2
+          bash <(curl -s https://codecov.io/bash)
+        # no_output_timeout: 180
+
+  security:
+    name: security
+    needs: prep
+    runs-on: ubuntu-latest
+    steps:
+      - name: Audit
+        run: |
+          set +e
+          yarn audit
+          SUMMARY="$(yarn audit | grep Severity)"
+          VULNERABILITIES=".*(High|Critical).*"
+          if [[ $SUMMARY =~ $VULNERABILITIES ]]; then
+            echo "Unsafe dependencies found: $SUMMARY" >&2
+            exit 1
+          fi
+          echo "Your dependencies are secure enough: $SUMMARY"
+          exit 0
+
+  test_e2e:
+    name: testE2E
+    needs: prep
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - name: Wait for netlify preview
+        env:
+        SENTRY_URL: ""
+        SENTRY_TOKEN: ""
+        run: |
+          PR_NUMBER="$(echo $CIRCLE_PULL_REQUEST | cut -d'/' -f 7)"
+          FE_URL=https://deploy-preview-${PR_NUMBER}--lunieio.netlify.com
+
+          attempt_counter=0
+          max_attempts=10
+
+          until $(curl --output /dev/null --silent --head --fail ${FE_URL}); do
+              if [ ${attempt_counter} -eq ${max_attempts} ];then
+                echo "Max attempts reached"
+                exit 1
+              fi
+
+              printf '.'
+              attempt_counter=$(($attempt_counter+1))
+              sleep 30
+          done
+
+          PASSWORD=${NETWORK_PASSWORD} CHT_PWD=${ACCOUNT_PASSWORD} yarn test:e2e:browserstack --fe=${FE_URL} --api=https://production-api.lunie.io
+
+
