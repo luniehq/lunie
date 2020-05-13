@@ -15,7 +15,7 @@
           @click="$router.go(-1)"
         >
           <i class="material-icons notranslate arrow">arrow_back</i>
-          Back to previous page
+          Back
         </button>
         <button
           v-if="
