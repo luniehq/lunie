@@ -76,6 +76,7 @@ const isPolkadotAddress = address => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
+
 export default {
   name: `session-sign-in`,
   components: {
@@ -144,6 +145,7 @@ export default {
       })
       if (sessionCorrect) {
         this.selectNetworkByAddress(this.signInAddress)
+
         this.$store.dispatch(`signIn`, {
           password: this.signInPassword,
           address: this.signInAddress,

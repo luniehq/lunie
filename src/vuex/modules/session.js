@@ -1,6 +1,7 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 // import pushNotifications from "./pushNotifications.js"
 import config from "src/../config"
+import { getAPI } from "../../signing/networkMessages/polkadot-transactions"
 
 export default () =>
   // { apollo }
@@ -18,6 +19,7 @@ export default () =>
       history: [],
       address: null, // Current address
       addresses: [], // Array of previously used addresses
+      addressRole: undefined, // For Polkadot: stash, controller
       errorCollection: false,
       analyticsCollection: false,
       cookiesAccepted: undefined,
@@ -75,6 +77,9 @@ export default () =>
       },
       setCurrrentModalOpen(state, modal) {
         state.currrentModalOpen = modal
+      },
+      setUserAddressRole(state, addressRole) {
+        state.addressRole = addressRole
       }
     }
 
@@ -128,21 +133,13 @@ export default () =>
         }
       },
       async signIn(
-        {
-          state,
-          // getters: { networks },
-          commit,
-          dispatch,
-          rootState: {
-            connection: { network }
-          }
-        },
+        { state, getters: { currentNetwork }, commit, dispatch },
         { address, sessionType = `ledger`, networkId }
       ) {
-        if (networkId && network !== networkId) {
+        if (networkId && currentNetwork.id !== networkId) {
           await commit(`setNetworkId`, networkId)
           await dispatch(`persistNetwork`, { id: networkId })
-          network = networkId
+          currentNetwork.id = networkId
         }
         commit(`setSignIn`, true)
         commit(`setSessionType`, sessionType)
@@ -152,12 +149,19 @@ export default () =>
         dispatch(`persistSession`, {
           address,
           sessionType,
-          networkId: network
+          networkId: currentNetwork.id
         })
         const addresses = state.addresses
         dispatch(`persistAddresses`, {
           addresses
         })
+
+        if (currentNetwork.network_type === "polkadot") {
+          await dispatch(`checkAddressRole`, {
+            address,
+            currentNetwork
+          })
+        }
 
         // Register device for push registrations
         // const activeNetworks = getActiveNetworks(networks)
@@ -239,6 +243,21 @@ export default () =>
       setPreferredCurrency({ state, dispatch }, currency) {
         state.preferredCurrency = currency
         dispatch(`storeLocalPreferences`)
+      },
+      /* istanbul ignore next */
+      async checkAddressRole({ commit }, { address }) {
+        const api = await getAPI()
+        const bonded = await api.query.staking.bonded(address)
+        if (!bonded) {
+          // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
+          commit(`setUserAddressRole`, {
+            addressRole: `controller`
+          })
+          return
+        }
+        commit(`setUserAddressRole`, {
+          addressRole: `stash`
+        })
       }
     }
 
