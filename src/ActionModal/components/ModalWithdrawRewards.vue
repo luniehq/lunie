@@ -26,13 +26,17 @@
         }`
       "
     >
-      <div v-for="reward in totalRewards" :key="JSON.stringify(reward.denom)">
-        <span class="input-suffix">{{ reward.denom }}</span>
+      <div
+        v-for="reward in totalRewards"
+        :key="reward.denom"
+        class="rewards-list-item"
+      >
         <input
           class="tm-field-addon"
           disabled="disabled"
           :value="reward.amount | fullDecimals"
         />
+        <span class="input-suffix">{{ reward.denom }}</span>
       </div>
       <TmFormMsg
         v-if="currentNetwork.network_type === 'polkadot'"
@@ -205,5 +209,8 @@ export default {
 }
 .tm-field-addon {
   margin-bottom: 0.25rem;
+}
+.rewards-list-item {
+  position: relative;
 }
 </style>
