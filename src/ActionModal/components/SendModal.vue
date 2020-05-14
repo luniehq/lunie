@@ -169,9 +169,6 @@ const isPolkadotAddress = address => {
   return polkadotRegexp.test(address)
 }
 
-const TERRA_TAX_RATE = 0.007
-const TERRA_TAX_CAP = 1000000
-
 export default {
   name: `send-modal`,
   components: {
@@ -190,6 +187,7 @@ export default {
   },
   data: () => ({
     address: ``,
+    chainAppliedFees: {},
     amount: config.development ? 0.000001 : null, // dev life, hard life > make simple
     memo: defaultMemo,
     max_memo_characters: 256,
@@ -349,10 +347,15 @@ export default {
         : this.amount
       if (
         this.network.startsWith(`terra`) &&
-        this.selectedBalance.denom !== `LUNA`
+        this.selectedBalance.denom !== `LUNA` &&
+        this.chainAppliedFees &&
+        this.chainAppliedFees.rate
       ) {
         return this.maxDecimals(
-          Math.min(Number(amountToTax) * TERRA_TAX_RATE, TERRA_TAX_CAP),
+          Math.min(
+            Number(amountToTax) * this.chainAppliedFees.rate,
+            this.chainAppliedFees.cap
+          ),
           6
         )
       } else {
@@ -405,6 +408,38 @@ export default {
           networkId: this.network,
           address: this.userAddress
         }
+      }
+    },
+    chainAppliedFees: {
+      query: gql`
+        query NetworkFees($networkId: String!, $transactionType: String) {
+          networkFees(
+            networkId: $networkId
+            transactionType: $transactionType
+          ) {
+            chainAppliedFees {
+              rate
+              cap
+            }
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          transactionType: "SendTx"
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        if (data.networkFees) {
+          return data.networkFees.chainAppliedFees
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.userAddress
       }
     },
     $subscribe: {
