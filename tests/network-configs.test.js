@@ -42,7 +42,7 @@ const schema = Joi.object({
     .items(coinLookup)
     .optional(),
   enabled: Joi.boolean(),
-  experimental: Joi.boolean().optional(),
+  experimental: Joi.boolean(),
   icon: Joi.string().optional(),
   slug: Joi.string().optional(),
   powered: Joi.object()
