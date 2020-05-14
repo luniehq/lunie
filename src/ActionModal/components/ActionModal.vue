@@ -504,14 +504,11 @@ export default {
     invoiceTotal() {
       // emoney-mainnet and kava-mainnet don't allow discounts on fees
       if (
-        this.networkId === "emoney-mainnet" ||
-        this.networkId === "kava-mainnet"
-      ) {
-        return Number(this.subTotal) + this.estimatedFee
-      }
-      if (
         this.gasEstimate &&
-        Number(this.subTotal) + this.estimatedFee > this.selectedBalance.amount
+        Number(this.subTotal) + this.estimatedFee >
+          this.selectedBalance.amount &&
+        !this.networkId === "emoney-mainnet" &&
+        !this.networkId === "kava-mainnet"
       ) {
         this.adjustFeesToMaxPayable()
       }
