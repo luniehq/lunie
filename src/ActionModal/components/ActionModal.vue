@@ -502,7 +502,6 @@ export default {
       return this.featureFlag === "undelegate" ? 0 : this.amount
     },
     invoiceTotal() {
-      // emoney-mainnet and kava-mainnet don't allow discounts on fees
       if (
         this.gasEstimate &&
         Number(this.subTotal) + this.estimatedFee >
