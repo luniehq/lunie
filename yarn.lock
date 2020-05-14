@@ -13269,10 +13269,10 @@ timers-ext@^0.1.5:
     es5-ext "~0.10.46"
     next-tick "1"
 
-timezone-mock@^1.0.8:
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/timezone-mock/-/timezone-mock-1.0.12.tgz#26ff3767e8a2029e429033693c3b4280b3a082c0"
-  integrity sha512-zSC87YTKvUJaBhGC3sqlniQjZrIbuL69MMrH9jCyMbSFubfuRGSc+m5XQd//12+6rBZu5cHh61N/YmpbbiStFw==
+timezone-mock@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/timezone-mock/-/timezone-mock-1.1.0.tgz#ac402345b42721538131368876cc17cfbb849da3"
+  integrity sha512-YBUMlri3qt6yh07Q+zEr7boXLaumRnUA96Y/NJxaapW7BcR9GRp39nyg5XrRm1+h2q0L5LIOzHt78uHeBntdaA==
 
 timsort@^0.3.0:
   version "0.3.0"
