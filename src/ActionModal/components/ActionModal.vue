@@ -507,8 +507,9 @@ export default {
         this.gasEstimate &&
         Number(this.subTotal) + this.estimatedFee >
           this.selectedBalance.amount &&
-        !this.networkId === "emoney-mainnet" &&
-        !this.networkId === "kava-mainnet"
+        // emoney-mainnet and kava-mainnet don't allow discounts on fees
+        this.networkId !== "emoney-mainnet" &&
+        this.networkId !== "kava-mainnet"
       ) {
         this.adjustFeesToMaxPayable()
       }
