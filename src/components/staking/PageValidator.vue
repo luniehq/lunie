@@ -10,10 +10,7 @@
   >
     <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="button-container">
-        <button
-          class="back-button"
-          @click="$router.go(-1)"
-        >
+        <button class="back-button" @click="$router.go(-1)">
           <i class="material-icons notranslate arrow">arrow_back</i>
           Back
         </button>
