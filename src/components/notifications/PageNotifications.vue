@@ -10,8 +10,10 @@
     >
       <div class="content">
         <img :src="notification.icon" />
-        <!-- <p class="title">{{ notification.title }}</p> -->
-        <p class="body">{{ notification.body }}</p>
+        <div>
+          <h3 class="title">{{ notification.title }}</h3>
+          <p class="body">{{ notification.body }}</p>
+        </div>
       </div>
       <i class="material-icons notranslate">chevron_right</i>
     </div>
@@ -32,10 +34,26 @@ export default {
     notificationsMock: [
       {
         id: 1,
-        title: "1",
+        title: "Hello World",
         date: new Date(),
         body:
           "hello world hello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello world",
+        link: "www.google.de",
+        icon: "https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png"
+      },
+      {
+        id: 2,
+        title: "Lunie promo",
+        date: new Date(),
+        body: "Lunie rocks. Join the family",
+        link: "www.google.de",
+        icon: "https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png"
+      },
+      {
+        id: 3,
+        title: "Lunie becomes the first PoS wallet with more than 12 networks",
+        date: new Date(),
+        body: "As their CEO announced on Monday, this wallet is on fire",
         link: "www.google.de",
         icon: "https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png"
       }
@@ -61,12 +79,14 @@ export default {
 }
 .notification {
   background-color: white;
+  margin: 0.5rem 0 0.5rem;
   border-radius: 0.25rem;
   display: flex;
   color: darkgray;
   align-items: center;
   padding: 1rem;
   justify-content: space-between;
+  cursor: pointer;
 }
 img {
   width: 2rem;
@@ -77,5 +97,9 @@ img {
   flex-direction: row;
   display: flex;
   align-items: center;
+}
+.title {
+  color: var(--notification-title);
+  font-weight: 400;
 }
 </style>
