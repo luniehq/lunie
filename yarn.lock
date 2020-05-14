@@ -875,10 +875,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@capacitor/android@2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-2.0.0.tgz#2f992de014d14ccda5c0d460b1002458efd1c6b9"
-  integrity sha512-ATMKHFSdBMcP5iqNeVwpyzAvXQ44bFmCEjmGuTqr9VCooUvwLpekiLedwWXldA94jJ0TbyGQZJeyLq++7f+kLg==
+"@capacitor/android@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-2.1.0.tgz#09dd063bb90424fb7fda9a86113584ace6072c88"
+  integrity sha512-20t6Ep4cVp6X/7tz3BzvNyqv6WEMfZr4VLA3nQC7WxTLfrYSWWaP8vaKvTFn8u56qCSoCUwYmYlpkib38ptwJg==
 
 "@capacitor/cli@2.0.0":
   version "2.0.0"
