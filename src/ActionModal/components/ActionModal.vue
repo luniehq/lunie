@@ -87,6 +87,7 @@
             :amount="Number(subTotal)"
             :estimated-fee="estimatedFee"
             :bond-denom="getDenom"
+            :fixed-fees="fixedFeesDictionary[this.getDenom]"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.max"
@@ -434,7 +435,16 @@ export default {
     smallestAmount: SMALLEST,
     balancesLoaded: false,
     gasEstimateLoaded: false,
-    polkadotFee: 0
+    polkadotFee: 0,
+    fixedFeesDictionary: {
+      eCHF: 0.2915, // TODO: add e-money testnet tokens when testnet is back
+      eDKK: 1, //2.035,
+      eEUR: 0.275,
+      eNOK: 1, //3.355,
+      eSEK: 1, //3.025,
+      NGM: 0.55, //550000,
+      KAVA: 0.04125
+    }
   }),
   asyncComputed: {
     async estimatedFee() {
@@ -502,13 +512,24 @@ export default {
       return this.featureFlag === "undelegate" ? 0 : this.amount
     },
     invoiceTotal() {
-      if (
-        Number(this.subTotal) + this.estimatedFee >
-        this.selectedBalance.amount
-      ) {
-        this.adjustFeesToMaxPayable()
+      if (this.fixedFeesDictionary[this.getDenom]) {
+        if (
+          Number(this.subTotal) + this.fixedFeesDictionary[this.getDenom] >
+          this.selectedBalance.amount
+        ) {
+          return Number(this.subTotal) + (this.fixedFeesDictionary[this.getDenom] || 0)
+        }
+        return Number(this.subTotal) + this.fixedFeesDictionary[this.getDenom]
+      } else {
+        if (
+          this.gasEstimate &&
+          Number(this.subTotal) + this.estimatedFee >
+          this.selectedBalance.amount
+        ) {
+          this.adjustFeesToMaxPayable()
+        }
+        return Number(this.subTotal) + this.estimatedFee
       }
-      return Number(this.subTotal) + this.estimatedFee
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -724,11 +745,9 @@ export default {
     // limit fees to the maximum the user has
     adjustFeesToMaxPayable() {
       let payable = Number(this.subTotal)
-      // in terra we also have to pay the tax
-      // TODO refactor using a `fixedFee` property
-      if (this.chainAppliedFees) {
-        payable += this.chainAppliedFees
-      }
+      // chainAppliedFees defaults to 0 so we can just add it
+      payable += this.chainAppliedFees
+      
       this.gasPrice =
         (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
