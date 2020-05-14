@@ -628,7 +628,8 @@ describe(`ActionModal`, () => {
       invoiceTotal: 1.001,
       selectedBalance: balances[0],
       subTotal: 0.999,
-      gasEstimate: 100000
+      gasEstimate: 100000,
+      chainAppliedFees: 0
     }
     ActionModal.methods.adjustFeesToMaxPayable.call(self)
     expect(self.gasPrice).toBe(1.0000000000000008e-8) // a bit lower then gasEstimate. feels right
