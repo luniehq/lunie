@@ -7,6 +7,9 @@
         <MaintenanceBar />
         <DisconnectedBar />
       </div>
+      <div id="notifications-button" @click="$router.push('/notifications')">
+        🔔 Notifications
+      </div>
       <router-view name="session" />
       <router-view />
     </div>

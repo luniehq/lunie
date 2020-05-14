@@ -1,7 +1,10 @@
 <template>
   <TmPage hide-header>
+    <div class="header">
+      <i>🔔</i>
+    </div>
     <div
-      v-for="notification in notifications"
+      v-for="notification in notificationsMock"
       :key="notification.id"
       class="notification"
     >
@@ -17,6 +20,7 @@
 
 <script>
 import TmPage from "../common/TmPage"
+import { Notifications } from "src/gql"
 
 export default {
   name: "PageNotifications",
@@ -24,7 +28,8 @@ export default {
     TmPage
   },
   data: () => ({
-    notifications: [
+    notifications: [],
+    notificationsMock: [
       {
         id: 1,
         title: "1",
@@ -35,13 +40,24 @@ export default {
         icon: "https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png"
       }
     ]
-  })
+  }),
+  apollo: {
+    notifications: {
+      query: Notifications
+    }
+  }
 }
 </script>
 
 <style scoped>
 .tm-page {
-  padding: 2rem;
+  padding: 0 2rem;
+}
+.header {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 1.5rem;
+  margin: 0 1rem 1rem;
 }
 .notification {
   background-color: white;
