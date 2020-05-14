@@ -46,7 +46,7 @@
     "graphql": "^14.6.0",
     "graphql-redis-subscriptions": "^2.1.1",
     "lodash": "^4.17.15",
-    "nock": "^11.7.0",
+    "nock": "^12.0.3",
     "should": "^13.2.3",
     "supertest": "^4.0.2",
     "websocket": "^1.0.30"
