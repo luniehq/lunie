@@ -70,6 +70,7 @@
     :class="css"
     :placeholder="placeholder"
     :value="value"
+    step="0.000001"
     @change="onChange"
     @keyup="onKeyup"
     @keydown="onKeydown"

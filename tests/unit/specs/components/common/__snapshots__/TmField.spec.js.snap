@@ -3,6 +3,7 @@
 exports[`TmField allows for style customization 1`] = `
 <input
   class="tm-field tm-field-size-lg"
+  step="0.000001"
   type="text"
 />
 `;
@@ -94,6 +95,7 @@ exports[`TmField displays a disabled toggle 2`] = `
 exports[`TmField displays a number input 1`] = `
 <input
   class="tm-field"
+  step="0.000001"
   type="number"
 />
 `;
@@ -354,6 +356,7 @@ exports[`TmField displays as a select 3`] = `
 exports[`TmField has the expected html structure 1`] = `
 <input
   class="tm-field"
+  step="0.000001"
   type="text"
 />
 `;
