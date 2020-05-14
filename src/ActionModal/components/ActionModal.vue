@@ -85,7 +85,7 @@
           </TmFormGroup>
           <TableInvoice
             :amount="Number(subTotal)"
-            :estimated-fee="totalFees"
+            :estimated-fee="estimatedFee"
             :bond-denom="getDenom"
           />
           <TmFormMsg
@@ -434,16 +434,7 @@ export default {
     smallestAmount: SMALLEST,
     balancesLoaded: false,
     gasEstimateLoaded: false,
-    polkadotFee: 0,
-    fixedFeesDictionary: {
-      eCHF: 0.1, // TODO: add e-money testnet tokens when testnet is back
-      eDKK: 0.275,
-      eEUR: 0.1,
-      eNOK: 0.275,
-      eSEK: 0.275,
-      NGM: 0.55,
-      KAVA: 0.04125
-    }
+    polkadotFee: 0
   }),
   asyncComputed: {
     async estimatedFee() {
@@ -510,29 +501,21 @@ export default {
     subTotal() {
       return this.featureFlag === "undelegate" ? 0 : this.amount
     },
-    totalFees() {
-      let totalFees = this.fixedFeesDictionary[this.getDenom] || 0
-      // if for some reason estimatedFee is larger than the fixed fee, we add the difference
-      if (this.estimatedFee && this.estimatedFee > totalFees) {
-        totalFees = totalFees + (totalFees - this.estimatedFee)
-      }
-      return totalFees
-    },
     invoiceTotal() {
-      // if estimatedFees is lower than fixed fees for this denom, then fixed fees is what we should add to subtotal
-      if (this.fixedFeesDictionary[this.getDenom]) {
-        return Number(this.subTotal) + this.totalFees
-        // otherwise, we continue working normally with gasEstimate and gasPrices
-      } else {
-        if (
-          this.gasEstimate &&
-          Number(this.subTotal) + this.estimatedFee >
-            this.selectedBalance.amount
-        ) {
-          this.adjustFeesToMaxPayable()
-        }
+      // emoney-mainnet and kava-mainnet don't allow discounts on fees
+      if (
+        this.networkId === "emoney-mainnet" ||
+        this.networkId === "kava-mainnet"
+      ) {
         return Number(this.subTotal) + this.estimatedFee
       }
+      if (
+        this.gasEstimate &&
+        Number(this.subTotal) + this.estimatedFee > this.selectedBalance.amount
+      ) {
+        this.adjustFeesToMaxPayable()
+      }
+      return Number(this.subTotal) + this.estimatedFee
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
