@@ -85,9 +85,8 @@
           </TmFormGroup>
           <TableInvoice
             :amount="Number(subTotal)"
-            :estimated-fee="estimatedFee"
+            :estimated-fee="totalFees"
             :bond-denom="getDenom"
-            :fixed-fees="fixedFeesDictionary[this.getDenom]"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.max"
@@ -437,12 +436,12 @@ export default {
     gasEstimateLoaded: false,
     polkadotFee: 0,
     fixedFeesDictionary: {
-      eCHF: 0.2915, // TODO: add e-money testnet tokens when testnet is back
-      eDKK: 1, //2.035,
-      eEUR: 0.275,
-      eNOK: 1, //3.355,
-      eSEK: 1, //3.025,
-      NGM: 0.55, //550000,
+      eCHF: 0.1, // TODO: add e-money testnet tokens when testnet is back
+      eDKK: 0.275,
+      eEUR: 0.1,
+      eNOK: 0.275,
+      eSEK: 0.275,
+      NGM: 0.55,
       KAVA: 0.04125
     }
   }),
@@ -511,20 +510,24 @@ export default {
     subTotal() {
       return this.featureFlag === "undelegate" ? 0 : this.amount
     },
+    totalFees() {
+      let totalFees = this.fixedFeesDictionary[this.getDenom] || 0
+      // if for some reason estimatedFee is larger than the fixed fee, we add the difference
+      if (this.estimatedFee && this.estimatedFee > totalFees) {
+        totalFees = totalFees + (totalFees - this.estimatedFee)
+      }
+      return totalFees
+    },
     invoiceTotal() {
+      // if estimatedFees is lower than fixed fees for this denom, then fixed fees is what we should add to subtotal
       if (this.fixedFeesDictionary[this.getDenom]) {
-        if (
-          Number(this.subTotal) + this.fixedFeesDictionary[this.getDenom] >
-          this.selectedBalance.amount
-        ) {
-          return Number(this.subTotal) + (this.fixedFeesDictionary[this.getDenom] || 0)
-        }
-        return Number(this.subTotal) + this.fixedFeesDictionary[this.getDenom]
+        return Number(this.subTotal) + this.totalFees
+        // otherwise, we continue working normally with gasEstimate and gasPrices
       } else {
         if (
           this.gasEstimate &&
           Number(this.subTotal) + this.estimatedFee >
-          this.selectedBalance.amount
+            this.selectedBalance.amount
         ) {
           this.adjustFeesToMaxPayable()
         }
@@ -747,7 +750,7 @@ export default {
       let payable = Number(this.subTotal)
       // chainAppliedFees defaults to 0 so we can just add it
       payable += this.chainAppliedFees
-      
+
       this.gasPrice =
         (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:

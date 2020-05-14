@@ -8,7 +8,7 @@
       <li>
         <span>Network Fee</span>
         <span>
-          {{ networkFee | fullDecimals }}
+          {{ estimatedFee | fullDecimals }}
           {{ bondDenom }}
         </span>
       </li>
@@ -39,10 +39,6 @@ export default {
     bondDenom: {
       type: String,
       required: true
-    },
-    fixedFees: {
-      type: Number,
-      default: 0
     }
   },
   data: () => ({
@@ -52,11 +48,8 @@ export default {
     subTotal() {
       return this.amount
     },
-    networkFee() {
-      return this.fixedFees ? this.fixedFees : this.estimatedFee
-    },
     total() {
-      return this.networkFee + this.subTotal
+      return this.estimatedFee + this.subTotal
     }
   }
 }
