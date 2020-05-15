@@ -25,7 +25,7 @@
 
 <script>
 import TmPage from "../common/TmPage"
-import { mapState } from "vuex"
+import { mapGetters } from "vuex"
 import gql from "graphql-tag"
 
 export default {
@@ -64,13 +64,27 @@ export default {
     ]
   }),
   computed: {
-    ...mapState([`session`])
+    ...mapGetters([`networks`]),
+    networkIds() {
+      return this.networks.map(network => network.id)
+    },
+    allSessionAddresses() {
+      let allSessionAddresses = []
+      this.networkIds.forEach(networkId => {
+        allSessionAddresses.push({
+          networkId,
+          address: JSON.parse(localStorage.getItem(`session_${networkId}`))
+            .address
+        })
+      })
+      return allSessionAddresses
+    }
   },
   apollo: {
     notifications: {
       query: gql`
-        query notifications($address: String!) {
-          notifications(address: $address) {
+        query notifications($addresses: [NotificationInput]!) {
+          notifications(addresses: $addresses) {
             created_at
             data
             eventType
@@ -85,12 +99,14 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          address: this.session.address
+          address: this.allSessionAddresses
         }
       },
       /* istanbul ignore next */
       skip() {
-        return !this.session.address
+        return (
+          !this.allSessionAddresses || this.allSessionAddresses.length === 0
+        )
       }
     }
   }
