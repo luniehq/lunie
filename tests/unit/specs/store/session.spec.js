@@ -1,7 +1,4 @@
 import sessionModule from "src/vuex/modules/session.js"
-// import pushNotifications from "src/vuex/modules/pushNotifications.js"
-
-jest.mock("src/vuex/modules/pushNotifications.js")
 
 describe(`Module: Session`, () => {
   let module, state, actions, mutations, node
@@ -12,9 +9,6 @@ describe(`Module: Session`, () => {
     state = module.state
     actions = module.actions
     mutations = module.mutations
-    global.Notification = {
-      requestPermission: jest.fn()
-    }
 
     state.externals = {
       track: jest.fn(),
@@ -242,15 +236,6 @@ describe(`Module: Session`, () => {
         },
         { address, sessionType, networkId: "fabo-net" }
       )
-      // expect(pushNotifications.askPermissionAndRegister).toHaveBeenCalledWith(
-      //   [
-      //     {
-      //       address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-      //       networkId: "fabo-net"
-      //     }
-      //   ],
-      //   expect.objectContaining({}) // apollo
-      // )
       localStorage.removeItem("session_fabo-net")
     })
 
