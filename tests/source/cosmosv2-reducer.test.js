@@ -1,7 +1,7 @@
 const CosmosV2Reducer = require('../../lib/reducers/cosmosV2-reducers')
 
-describe('Cosmos V2 Reducer', function() {
-  describe('transactionReducerV2', function() {
+describe('Cosmos V2 Reducer', function () {
+  describe('transactionReducerV2', function () {
     it('on partially failed txs', () => {
       //Arrange
       const transaction = {

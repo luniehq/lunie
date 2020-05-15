@@ -6,12 +6,12 @@ const { nockDo } = require('./helpers')
 nock.disableNetConnect()
 nock.enableNetConnect('127.0.0.1')
 
-describe('POST /transaction', function() {
+describe('POST /transaction', function () {
   afterAll(async () => {
     app.close()
   })
 
-  it('responds with json error when request is empty', function(done) {
+  it('responds with json error when request is empty', function (done) {
     request(app)
       .get('/transaction')
       .set('Accept', 'application/json')
@@ -20,7 +20,7 @@ describe('POST /transaction', function() {
       .expect(200, done)
   })
 
-  describe('POST /tranasction/estimate', function() {
+  describe('POST /tranasction/estimate', function () {
     nockDo.accountResponse()
 
     nock('http://localhost:9071')
@@ -28,7 +28,7 @@ describe('POST /transaction', function() {
       .post('/bank/accounts/cosmos1abcdefg/transfers')
       .reply(200, { gas_estimate: 12345 })
 
-    it('responds with correct gas estimate for send transaction', function(done) {
+    it('responds with correct gas estimate for send transaction', function (done) {
       const payload = {
         simulate: true,
         networkId: 'local-cosmos-hub-testnet',

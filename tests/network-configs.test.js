@@ -38,9 +38,7 @@ const schema = Joi.object({
   action_proposal: Joi.string().valid('ENABLED', 'DISABLED', 'MISSING'),
   default: Joi.boolean(),
   stakingDenom: Joi.string().uppercase(),
-  coinLookup: Joi.array()
-    .items(coinLookup)
-    .optional(),
+  coinLookup: Joi.array().items(coinLookup).optional(),
   enabled: Joi.boolean(),
   experimental: Joi.boolean(),
   icon: Joi.string().optional(),
@@ -55,14 +53,14 @@ const schema = Joi.object({
   lockUpPeriod: Joi.string().optional()
 })
 
-describe('Network configs', function() {
+describe('Network configs', function () {
   const options = {
     presence: 'required',
     abortEarly: false
   }
 
-  allNetworks.forEach(networkConfig => {
-    it(`${networkConfig.id} is valid `, function() {
+  allNetworks.forEach((networkConfig) => {
+    it(`${networkConfig.id} is valid `, function () {
       const { error } = schema.validate(networkConfig, options)
       expect(error).toBeFalsy()
     })
