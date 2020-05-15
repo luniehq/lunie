@@ -24,7 +24,6 @@ export default {
     ...mapState([`session`]),
     isRestrictedAddressRole() {
       return (
-        this.session.addressRole === "stash" ||
         this.session.addressRole === "controller"
       )
     }
