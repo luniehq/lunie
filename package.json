@@ -36,7 +36,7 @@
     "@sentry/node": "^5.15.5",
     "apollo-datasource-rest": "^0.6.6",
     "apollo-server": "^2.13.1",
-    "apollo-server-cache-redis": "^1.1.4",
+    "apollo-server-cache-redis": "^1.2.0",
     "apollo-server-plugin-response-cache": "^0.3.5",
     "bech32": "^1.1.4",
     "bignumber.js": "^9.0.0",
