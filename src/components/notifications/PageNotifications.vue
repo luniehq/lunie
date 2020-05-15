@@ -2,9 +2,6 @@
   <TmPage data-title="My alerts" hide-header>
     <div class="header">
       <h1>Notifications</h1>
-      <div class="icon">
-        <i>🔔</i>
-      </div>
     </div>
 
     <div
@@ -115,7 +112,6 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        console.log(data.notifications)
         return data.notifications
       },
       /* istanbul ignore next */
@@ -135,14 +131,9 @@ export default {
 }
 .header {
   display: flex;
+  justify-content: center;
   font-size: 1.5rem;
-  text-align: center;
-}
-.header h1 {
-  flex: 1;
-}
-.icon {
-  margin: 0 1rem 1rem;
+  margin-bottom: 1rem;
 }
 .notification {
   background-color: white;
