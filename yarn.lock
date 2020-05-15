@@ -8160,10 +8160,10 @@ pn@^1.1.0:
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
   integrity sha512-2qHaIQr2VLRFoxe2nASzsV6ef4yOOH+Fi9FBOVH6cqeSgUnoyySPZkxzLuzd+RYOQTRpROA0ztTMqxROKSb/nA==
 
-popper.js@1.12.5:
-  version "1.12.5"
-  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.12.5.tgz#229e4dea01629e1f1a1e26991ffade5024220fa6"
-  integrity sha512-6R2eXIy1xYukMNutoD+y/Gj0IpjEQhivyZonm5Vz0Fp8jdc7kvheKCvpM/t+PxqKb7VbLVnvPVEdTyslEb7f6w==
+popper.js@1.15.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/popper.js/-/popper.js-1.15.0.tgz#5560b99bbad7647e9faa475c6b8056621f5a4ff2"
+  integrity sha512-w010cY1oCUmI+9KwwlWki+r5jxKfTFDVoadl7MSrIujHU5MJ5OR6HTDj6Xo8aoR/QsA56x8jKjA59qGH4ELtrA==
 
 posix-character-classes@^0.1.0:
   version "0.1.1"
@@ -10540,12 +10540,12 @@ vue-clipboard2@^0.3.0:
   dependencies:
     clipboard "^2.0.0"
 
-vue-directive-tooltip@1.4.5:
-  version "1.4.5"
-  resolved "https://registry.yarnpkg.com/vue-directive-tooltip/-/vue-directive-tooltip-1.4.5.tgz#d55519132cd7d405d4e941d6bea0a0da01ef6278"
-  integrity sha512-uC+Y+Qs+FeXu/Xpn6rSitafSvgXfgO1GyL4QOEC9GYeuxovnmDzxWRFETbh3CoSwS0tky9zft1Zt3/3PMdSU9Q==
+vue-directive-tooltip@1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/vue-directive-tooltip/-/vue-directive-tooltip-1.6.3.tgz#18d1a645b5649a45748884049c819a13f03e1ff5"
+  integrity sha512-aSdlBIdibctL+Tw+2j+IVUtz/fOZPLMQz0xxSoIGOA223WsPahiybSykJHx6QxtPzWq2phE/OZaCTmvMOVPyeA==
   dependencies:
-    popper.js "1.12.5"
+    popper.js "1.15.0"
 
 vue-eslint-parser@^5.0.0:
   version "5.0.0"
