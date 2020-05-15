@@ -61,6 +61,20 @@ export default {
         link: "www.google.de",
         icon: "https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png"
       }
+    ],
+    dbNotificationsAddressObjects: [
+      {
+        networkId: "cosmos-hub-testnet",
+        address: "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0"
+      },
+      {
+        networkId: "kava-testnet",
+        address: "kava1keh9ywk0h47l9zz9z7tjk0v4c94hxpkn4620vx"
+      },
+      {
+        networkId: "kusama",
+        address: "HRPW2yeG84Z7uGouPyCvDFR2W61CCe9dkABhrToxgjPQ97i"
+      }
     ]
   }),
   computed: {
@@ -83,24 +97,26 @@ export default {
   apollo: {
     notifications: {
       query: gql`
-        query notifications($addresses: [NotificationInput]!) {
-          notifications(addresses: $addresses) {
-            created_at
-            data
-            eventType
-            id
+        query notifications($addressObjects: [NotificationInput]!) {
+          notifications(addressObjects: $addressObjects) {
             networkId
-            resourceId
-            resourceType
-            topic
+            timestamp
+            title
+            link
+            icon
           }
         }
       `,
       /* istanbul ignore next */
       variables() {
         return {
-          address: this.allSessionAddresses
+          addressObjects: this.dbNotificationsAddressObjects
         }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        console.log(data.notifications)
+        return data.notifications
       },
       /* istanbul ignore next */
       skip() {
