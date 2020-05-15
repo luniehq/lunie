@@ -12,11 +12,16 @@
     <div v-else>
       <div class="header-container">
         <h1>Your Portfolio</h1>
-        <span v-if="isRestrictedAddressRole"
-          >Currently you are logged in with a {{ session.addressRole }} account.
+        <TmFormMsg
+          v-if="isRestrictedAddressRole"
+          :msg="
+            `Currently you are logged in with a ${session.addressRole} account.
           If you want to stake and see your delegations, create and sing in with
-          a Lunie account.</span
-        >
+          a Lunie account.`
+          "
+          type="custom"
+          class="tm-form-msg--desc"
+        />
         <div class="buttons">
           <TmBtn
             class="send-button"
@@ -219,6 +224,7 @@ import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
+import TmFormMsg from "common/TmFormMsg"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
@@ -231,6 +237,7 @@ export default {
   components: {
     TmBtn,
     SendModal,
+    TmFormMsg,
     ModalWithdrawRewards,
     ModalTutorial
   },

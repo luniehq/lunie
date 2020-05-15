@@ -18,11 +18,16 @@
           <i class="material-icons notranslate">close</i>
         </div>
         <span class="action-modal-title">{{ title }}</span>
-        <span
-          >Currently you are logged in with a {{ session.addressRole }} account.
+        <TmFormMsg
+          v-if="isRestrictedAddressRole"
+          :msg="
+            `Currently you are logged in with a ${session.addressRole} account.
           Only send action is allowed. To perform other actions, please create
-          and sign in with a Lunie account</span
-        >
+          and sign in with a Lunie account`
+          "
+          type="custom"
+          class="tm-form-msg--desc"
+        />
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&

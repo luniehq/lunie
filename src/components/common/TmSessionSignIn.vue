@@ -93,7 +93,8 @@ export default {
     signInPassword: ``,
     error: ``,
     testnet: false,
-    addressRole: null
+    addressRole: null,
+    isAddressRoleSet: false
   }),
   computed: {
     ...mapState([`keystore`, `session`]),
@@ -145,7 +146,7 @@ export default {
         password: this.signInPassword,
         address: this.signInAddress
       })
-      if (sessionCorrect) {
+      if (sessionCorrect && this.isAddressRoleSet) {
         this.selectNetworkByAddress(this.signInAddress)
 
         this.$store.dispatch(`signIn`, {
@@ -226,16 +227,23 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          address: this.address
+          address: this.signInAddress
         }
       },
       /* istanbul ignore next */
       update(data) {
+        this.$store.dispatch(`setAddressRole`, {
+          role: data.polkadotSignIn.role
+        })
+        this.isAddressRoleSet = true
+        this.addressRole = data.polkadotSignIn.role
         return data.polkadotSignIn.role
       },
       /* istanbul ignore next */
       skip() {
-        return this.currentNetwork.network_type !== "polkadot"
+        return (
+          !this.signInAddress || this.currentNetwork.network_type !== "polkadot"
+        )
       }
     }
   }
