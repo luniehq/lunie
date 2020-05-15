@@ -44,6 +44,7 @@
 import AccountList from "common/AccountList"
 import SessionFrame from "common/SessionFrame"
 import { mapState, mapGetters } from "vuex"
+import gql from "graphql-tag"
 export default {
   name: `session-extension`,
   components: {
@@ -52,11 +53,12 @@ export default {
   },
   data: () => ({
     connectionError: null,
-    address: null
+    address: null,
+    addressRole: null
   }),
   computed: {
     ...mapState([`extension`]),
-    ...mapGetters([`networks`]),
+    ...mapGetters([`networks`, `currentNetwork`]),
     accounts() {
       return this.extension.accounts
     }
@@ -72,7 +74,8 @@ export default {
       this.$store.dispatch(`signIn`, {
         sessionType: `extension`,
         address: account.address,
-        networkId: account.network ? account.network : "cosmos-hub-mainnet" // defaulting to cosmos-hub-mainnet
+        networkId: account.network ? account.network : "cosmos-hub-mainnet", // defaulting to cosmos-hub-mainnet
+        addressRole: this.addressRole
       })
     },
     async signInAndRedirect(account) {
@@ -86,6 +89,31 @@ export default {
           networkId: accountNetwork.slug
         }
       })
+    }
+  },
+  apollo: {
+    polkadotSignIn: {
+      query: gql`
+        query polkadotSignIn($address: String!) {
+          polkadotSignIn(address: $address) {
+            role
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          address: this.address
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        return data.polkadotSignIn.role
+      },
+      /* istanbul ignore next */
+      skip() {
+        return this.currentNetwork.network_type !== "polkadot"
+      }
     }
   }
 }

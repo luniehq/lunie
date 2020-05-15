@@ -93,6 +93,7 @@ import HardwareState from "common/TmHardwareState"
 import SessionFrame from "common/SessionFrame"
 import { getAddressFromLedger } from "scripts/ledger"
 import * as Sentry from "@sentry/browser"
+import gql from "graphql-tag"
 
 export default {
   name: `session-hardware`,
@@ -105,6 +106,7 @@ export default {
     status: `connect`,
     connectionError: null,
     address: null,
+    addressRole: null,
     copySuccess: false,
     hidFeatureLink: `chrome://flags/#enable-experimental-web-platform-features`,
     linuxLedgerConnectionLink: `https://support.ledger.com/hc/en-us/articles/360019301813-Fix-USB-issues`,
@@ -112,7 +114,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`networkSlug`]),
+    ...mapGetters([`networkSlug`, `currentNetwork`]),
     ...mapGetters({ networkId: `network` }),
     submitCaption() {
       return {
@@ -156,7 +158,8 @@ export default {
 
       await this.$store.dispatch(`signIn`, {
         sessionType: `ledger`,
-        address: this.address
+        address: this.address,
+        addressRole: this.addressRole
       })
     },
     onCopy() {
@@ -164,6 +167,31 @@ export default {
       setTimeout(() => {
         this.copySuccess = false
       }, 2500)
+    }
+  },
+  apollo: {
+    polkadotSignIn: {
+      query: gql`
+        query polkadotSignIn($address: String!) {
+          polkadotSignIn(address: $address) {
+            role
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          address: this.address
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        return data.polkadotSignIn.role
+      },
+      /* istanbul ignore next */
+      skip() {
+        return this.currentNetwork.network_type !== "polkadot"
+      }
     }
   }
 }

@@ -1,7 +1,6 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 // import pushNotifications from "./pushNotifications.js"
 import config from "src/../config"
-import { getAPI } from "../../signing/networkMessages/polkadot-transactions"
 
 export default () =>
   // { apollo }
@@ -134,7 +133,7 @@ export default () =>
       },
       async signIn(
         { state, getters: { currentNetwork }, commit, dispatch },
-        { address, sessionType = `ledger`, networkId }
+        { address, sessionType = `ledger`, networkId, role }
       ) {
         if (networkId && currentNetwork.id !== networkId) {
           await commit(`setNetworkId`, networkId)
@@ -157,10 +156,7 @@ export default () =>
         })
 
         if (currentNetwork.network_type === "polkadot") {
-          await dispatch(`checkAddressRole`, {
-            address,
-            currentNetwork
-          })
+          await dispatch(`setAddressRole`, { role })
         }
 
         // Register device for push registrations
@@ -245,19 +241,9 @@ export default () =>
         dispatch(`storeLocalPreferences`)
       },
       /* istanbul ignore next */
-      async checkAddressRole({ commit }, { address }) {
-        const api = await getAPI()
-        const bonded = await api.query.staking.bonded(address)
-        if (!bonded) {
-          // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
-          commit(`setUserAddressRole`, {
-            addressRole: `controller`
-          })
-          return
-        }
-        commit(`setUserAddressRole`, {
-          addressRole: `stash`
-        })
+      async setAddressRole({ commit }, { role }) {
+        // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
+        commit(`setUserAddressRole`, role)
       }
     }
 

@@ -72,6 +72,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
+import gql from "graphql-tag"
 const isPolkadotAddress = address => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
@@ -91,11 +92,12 @@ export default {
     signInAddress: ``,
     signInPassword: ``,
     error: ``,
-    testnet: false
+    testnet: false,
+    addressRole: null
   }),
   computed: {
     ...mapState([`keystore`, `session`]),
-    ...mapGetters([`networks`]),
+    ...mapGetters([`networks`, `currentNetwork`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({
@@ -149,7 +151,8 @@ export default {
         this.$store.dispatch(`signIn`, {
           password: this.signInPassword,
           address: this.signInAddress,
-          sessionType: "local"
+          sessionType: "local",
+          addressRole: this.addressRole
         })
         localStorage.setItem(`prevAccountKey`, this.signInAddress)
         this.$router.push({
@@ -209,6 +212,31 @@ export default {
     return {
       signInAddress: { required },
       signInPassword: { required, minLength: minLength(10) }
+    }
+  },
+  apollo: {
+    polkadotSignIn: {
+      query: gql`
+        query polkadotSignIn($address: String!) {
+          polkadotSignIn(address: $address) {
+            role
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          address: this.address
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        return data.polkadotSignIn.role
+      },
+      /* istanbul ignore next */
+      skip() {
+        return this.currentNetwork.network_type !== "polkadot"
+      }
     }
   }
 }
