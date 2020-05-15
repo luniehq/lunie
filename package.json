@@ -44,7 +44,7 @@
     "dotenv": "^8.2.0",
     "firebase-admin": "^8.8.0",
     "graphql": "^14.6.0",
-    "graphql-redis-subscriptions": "^2.1.1",
+    "graphql-redis-subscriptions": "^2.2.1",
     "lodash": "^4.17.15",
     "nock": "^12.0.3",
     "should": "^13.2.3",
