@@ -12,6 +12,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
         Your Portfolio
       </h1>
        
+      <!---->
+       
       <div
         class="buttons"
       >
@@ -283,6 +285,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
       <h1>
         Your Portfolio
       </h1>
+       
+      <!---->
        
       <div
         class="buttons"

@@ -123,7 +123,8 @@ describe(`TmSessionSignIn`, () => {
     expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
       password: `1234567890`,
       address: "cosmosdefault",
-      sessionType: `local`
+      sessionType: `local`,
+      addressRole: null
     })
   })
 

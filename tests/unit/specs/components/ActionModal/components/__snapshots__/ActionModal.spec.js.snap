@@ -37,6 +37,12 @@ exports[`ActionModal back button renders and functions 1`] = `
       Send
     </span>
      
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
+    </span>
+     
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
@@ -129,6 +135,12 @@ exports[`ActionModal runs validation and changes step on sign step should displa
       Send
     </span>
      
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
+    </span>
+     
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
@@ -218,6 +230,12 @@ exports[`ActionModal should show the action modal on success 1`] = `
       Send
     </span>
      
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
+    </span>
+     
     <!---->
      
     <!---->
@@ -292,6 +310,12 @@ exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
       Send
     </span>
      
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
+    </span>
+     
     <!---->
      
     <!---->
@@ -346,6 +370,12 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="action-modal-title"
     >
       Send
+    </span>
+     
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
     </span>
      
     <steps-stub
@@ -431,6 +461,12 @@ exports[`ActionModal should show the action modal when user has logged in with e
       Send
     </span>
      
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
+    </span>
+     
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
@@ -503,6 +539,12 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="action-modal-title"
     >
       Send
+    </span>
+     
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
     </span>
      
     <steps-stub
@@ -588,6 +630,12 @@ exports[`ActionModal should show the action modal when user has logged in with e
       Send
     </span>
      
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
+    </span>
+     
     <steps-stub
       activestep="fees"
       steps="Details,Fees,Sign"
@@ -670,6 +718,12 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="action-modal-title"
     >
       Send
+    </span>
+     
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
     </span>
      
     <steps-stub
@@ -759,6 +813,12 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="action-modal-title"
     >
       Send
+    </span>
+     
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
     </span>
      
     <steps-stub
@@ -861,6 +921,12 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Send
     </span>
      
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
+    </span>
+     
     <steps-stub
       activestep="fees"
       steps="Details,Fees,Sign"
@@ -945,6 +1011,12 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Send
     </span>
      
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
+    </span>
+     
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
@@ -1021,6 +1093,12 @@ exports[`ActionModal should show the action modal when user has logged in with l
       class="action-modal-title"
     >
       Send
+    </span>
+     
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
     </span>
      
     <steps-stub
@@ -1112,6 +1190,12 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Send
     </span>
      
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
+    </span>
+     
     <steps-stub
       activestep="fees"
       steps="Details,Fees,Sign"
@@ -1196,6 +1280,12 @@ exports[`ActionModal should show the action modal when user has logged in with l
       Send
     </span>
      
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
+    </span>
+     
     <steps-stub
       activestep="sign"
       steps="Details,Fees,Sign"
@@ -1277,6 +1367,12 @@ exports[`ActionModal should show the action modal when user has logged in with l
       class="action-modal-title"
     >
       Send
+    </span>
+     
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
     </span>
      
     <steps-stub
@@ -1363,6 +1459,12 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       Send
     </span>
      
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
+    </span>
+     
     <steps-stub
       activestep="details"
       steps="Details,Fees,Sign"
@@ -1435,6 +1537,12 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
       class="action-modal-title"
     >
       Send
+    </span>
+     
+    <span>
+      Currently you are logged in with a  account.
+        Only send action is allowed. To perform other actions, please create
+        and sign in with a Lunie account
     </span>
      
     <steps-stub

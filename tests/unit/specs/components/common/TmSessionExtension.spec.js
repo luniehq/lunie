@@ -78,7 +78,8 @@ describe(`TmSessionExtension`, () => {
     expect($store.dispatch).toHaveBeenCalledWith("signIn", {
       sessionType: `extension`,
       address: "cosmos1",
-      networkId: "cosmos-hub-mainnet"
+      networkId: "cosmos-hub-mainnet",
+      addressRole: null
     })
   })
 
