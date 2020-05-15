@@ -1,0 +1,1 @@
+[Fixed] [#3965](https://github.com/cosmos/lunie/issues/3965) Fixes getting insufficient fees error in e-Money and Kava mainnet by not applying adjustFeesToMaxPayable in those @Bitcoinera

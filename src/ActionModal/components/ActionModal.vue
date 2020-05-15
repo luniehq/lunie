@@ -503,8 +503,12 @@ export default {
     },
     invoiceTotal() {
       if (
+        this.gasEstimate &&
         Number(this.subTotal) + this.estimatedFee >
-        this.selectedBalance.amount
+          this.selectedBalance.amount &&
+        // emoney-mainnet and kava-mainnet don't allow discounts on fees
+        this.networkId !== "emoney-mainnet" &&
+        this.networkId !== "kava-mainnet"
       ) {
         this.adjustFeesToMaxPayable()
       }
@@ -724,11 +728,9 @@ export default {
     // limit fees to the maximum the user has
     adjustFeesToMaxPayable() {
       let payable = Number(this.subTotal)
-      // in terra we also have to pay the tax
-      // TODO refactor using a `fixedFee` property
-      if (this.chainAppliedFees) {
-        payable += this.chainAppliedFees
-      }
+      // chainAppliedFees defaults to 0 so we can just add it
+      payable += this.chainAppliedFees
+
       this.gasPrice =
         (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
