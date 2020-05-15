@@ -217,26 +217,25 @@ export default {
   apollo: {
     addressRole: {
       query: gql`
-        query polkadotSignIn($address: String!) {
-          polkadotSignIn(address: $address) {
-            role
-          }
+        query accountRole($networkId: String!, $address: String!) {
+          accountRole(networkId: $networkId, address: $address)
         }
       `,
       /* istanbul ignore next */
       variables() {
         return {
-          address: this.signInAddress
+          address: this.signInAddress,
+          networkId: this.currentNetwork.id
         }
       },
       /* istanbul ignore next */
       update(data) {
-        return data.polkadotSignIn.role
+        return data.accountRole
       },
       /* istanbul ignore next */
       skip() {
         return (
-          !this.signInAddress || this.currentNetwork.network_type !== "polkadot"
+          this.currentNetwork.network_type !== "polkadot" || !this.signInAddress
         )
       }
     }
