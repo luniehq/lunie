@@ -39,7 +39,6 @@ jobs:
     needs: prep
     runs-on: ubuntu-latest
     steps:
-        if: github.head_ref != 'release' # ignore for branches with 'release' as name
       - name: Lint
         run: yarn lint
 
@@ -48,7 +47,6 @@ jobs:
     needs: prep
     runs-on: ubuntu-latest
     steps:
-        if: github.head_ref != 'release' # ignore for branches with 'release' as name
       - name: Unit tests
         run: |
           yarn run test:unit --coverage --maxWorkers=2
