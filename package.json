@@ -30,7 +30,7 @@
     "@lunie/cosmos-ledger": "0.1.7",
     "@polkadot/api": "1.13.1",
     "@polkadot/util-crypto": "2.6.2",
-    "@sentry/browser": "5.7.1",
+    "@sentry/browser": "5.15.5",
     "@sentry/integrations": "5.7.1",
     "apollo-boost": "^0.4.9",
     "apollo-cache-inmemory": "^1.6.2",
