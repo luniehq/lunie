@@ -155,9 +155,7 @@ export default () =>
           addresses
         })
 
-        if (currentNetwork.network_type === "polkadot") {
-          await dispatch(`setAddressRole`, { role })
-        }
+        await dispatch(`setAddressRole`, { role })
 
         // Register device for push registrations
         // const activeNetworks = getActiveNetworks(networks)
@@ -243,6 +241,7 @@ export default () =>
       /* istanbul ignore next */
       async setAddressRole({ commit }, { role }) {
         // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
+        // if role is null (all non-polkadot accounts) we allow all actions
         commit(`setUserAddressRole`, role)
       }
     }

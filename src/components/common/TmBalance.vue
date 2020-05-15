@@ -12,6 +12,11 @@
     <div v-else>
       <div class="header-container">
         <h1>Your Portfolio</h1>
+        <span v-if="isRestrictedAddressRole"
+          >Currently you are logged in with a {{ session.addressRole }} account.
+          If you want to stake and see your delegations, create and sing in with
+          a Lunie account.</span
+        >
         <div class="buttons">
           <TmBtn
             class="send-button"
@@ -21,7 +26,7 @@
           />
           <TmBtn
             id="withdraw-btn"
-            :disabled="!readyToWithdraw"
+            :disabled="!readyToWithdraw || isRestrictedAddressRole"
             class="withdraw-rewards"
             value="Claim Rewards"
             @click.native="readyToWithdraw && onWithdrawal()"
@@ -340,6 +345,12 @@ export default {
     },
     isTestnet() {
       return this.networks.find(network => network.id === this.network).testnet
+    },
+    isRestrictedAddressRole() {
+      return (
+        this.session.addressRole === "stash" ||
+        this.session.addressRole === "controller"
+      )
     }
   },
   watch: {

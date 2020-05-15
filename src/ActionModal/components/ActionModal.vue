@@ -18,6 +18,11 @@
           <i class="material-icons notranslate">close</i>
         </div>
         <span class="action-modal-title">{{ title }}</span>
+        <span
+          >Currently you are logged in with a {{ session.addressRole }} account.
+          Only send action is allowed. To perform other actions, please create
+          and sign in with a Lunie account</span
+        >
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
@@ -563,6 +568,12 @@ export default {
       // some API responses don't have gasPrices set
       if (!balance.gasPrice) balance.gasPrice = defaultBalance.gasPrice
       return balance
+    },
+    isRestrictedAddressRole() {
+      return (
+        this.session.addressRole === "stash" ||
+        this.session.addressRole === "controller"
+      )
     }
   },
   watch: {

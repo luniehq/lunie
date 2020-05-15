@@ -10,10 +10,7 @@
   >
     <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="button-container">
-        <button
-          class="back-button"
-          @click="$router.go(-1)"
-        >
+        <button class="back-button" @click="$router.go(-1)">
           <i class="material-icons notranslate arrow">arrow_back</i>
           Back
         </button>
@@ -81,11 +78,16 @@
       </tr>
 
       <div class="action-button-container">
-        <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
+        <TmBtn
+          id="delegation-btn"
+          value="Stake"
+          :disabled="isRestrictedAddressRole"
+          @click.native="onDelegation"
+        />
         <TmBtn
           id="undelegation-btn"
           class="undelegation-btn"
-          :disabled="delegation.amount === 0"
+          :disabled="delegation.amount === 0 || isRestrictedAddressRole"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
@@ -308,9 +310,15 @@ export default {
     }
   }),
   computed: {
-    ...mapState([`connection`]),
+    ...mapState([`connection`, `session`]),
     ...mapGetters([`network`, `stakingDenom`]),
-    ...mapGetters({ userAddress: `address` })
+    ...mapGetters({ userAddress: `address` }),
+    isRestrictedAddressRole() {
+      return (
+        this.session.addressRole === "stash" ||
+        this.session.addressRole === "controller"
+      )
+    }
   },
   mounted() {
     this.$apollo.queries.rewards.refetch()
