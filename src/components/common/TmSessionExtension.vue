@@ -92,7 +92,7 @@ export default {
     }
   },
   apollo: {
-    polkadotSignIn: {
+    addressRole: {
       query: gql`
         query polkadotSignIn($address: String!) {
           polkadotSignIn(address: $address) {
