@@ -820,6 +820,11 @@ select option {
   .rewards {
     font-size: 12px;
   }
+
+  .tm-form-msg.tm-form-msg--desc {
+    padding-bottom: 1rem;
+    text-align: center;
+  }
 }
 
 @media screen and (min-width: 1254px) {

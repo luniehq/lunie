@@ -104,6 +104,12 @@ export default () =>
           await commit(`setUserAddresses`, JSON.parse(addresses))
         }
       },
+      async checkForPersistedAddressRole({ commit }) {
+        const addressRole = localStorage.getItem(`addressRole`)
+        if (addressRole) {
+          await commit(`setUserAddressRole`, addressRole)
+        }
+      },
       async persistSession(store, { address, sessionType, networkId }) {
         localStorage.setItem(
           sessionKey(networkId),
@@ -112,6 +118,9 @@ export default () =>
       },
       async persistAddresses(store, { addresses }) {
         localStorage.setItem(`addresses`, JSON.stringify(addresses))
+      },
+      async persistUserAddressRole(store, { addressRole }) {
+        localStorage.setItem(`addressRole`, addressRole)
       },
       async rememberAddress(
         { state, commit },
@@ -133,7 +142,7 @@ export default () =>
       },
       async signIn(
         { state, getters: { currentNetwork }, commit, dispatch },
-        { address, sessionType = `ledger`, networkId, role }
+        { address, sessionType = `ledger`, networkId, addressRole }
       ) {
         if (networkId && currentNetwork.id !== networkId) {
           await commit(`setNetworkId`, networkId)
@@ -155,7 +164,10 @@ export default () =>
           addresses
         })
 
-        await dispatch(`setAddressRole`, { role })
+        dispatch(`persistUserAddressRole`, { addressRole })
+        // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
+        // if role is null (all non-polkadot accounts) we allow all actions
+        dispatch(`checkForPersistedAddressRole`)
 
         // Register device for push registrations
         // const activeNetworks = getActiveNetworks(networks)
@@ -237,12 +249,6 @@ export default () =>
       setPreferredCurrency({ state, dispatch }, currency) {
         state.preferredCurrency = currency
         dispatch(`storeLocalPreferences`)
-      },
-      /* istanbul ignore next */
-      async setAddressRole({ commit }, { role }) {
-        // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
-        // if role is null (all non-polkadot accounts) we allow all actions
-        commit(`setUserAddressRole`, role)
       }
     }
 
