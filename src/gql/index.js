@@ -219,18 +219,3 @@ export const UserTransactionAdded = gql`
     }
   }
 `
-
-export const Notifications = gql`
-  query Notifications {
-    notifications {
-      created_at
-      data
-      eventType
-      id
-      networkId
-      resourceId
-      resourceType
-      topic
-    }
-  }
-`

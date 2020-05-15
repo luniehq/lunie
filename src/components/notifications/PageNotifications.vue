@@ -1,10 +1,14 @@
 <template>
-  <TmPage hide-header>
+  <TmPage data-title="My alerts" hide-header>
     <div class="header">
-      <i>🔔</i>
+      <h1>Notifications</h1>
+      <div class="icon">
+        <i>🔔</i>
+      </div>
     </div>
+
     <div
-      v-for="notification in notificationsMock"
+      v-for="notification in notifications"
       :key="notification.id"
       class="notification"
     >
@@ -12,7 +16,6 @@
         <img :src="notification.icon" />
         <div>
           <h3 class="title">{{ notification.title }}</h3>
-          <p class="body">{{ notification.body }}</p>
         </div>
       </div>
       <i class="material-icons notranslate">chevron_right</i>
@@ -22,7 +25,8 @@
 
 <script>
 import TmPage from "../common/TmPage"
-import { Notifications } from "src/gql"
+import { mapState } from "vuex"
+import gql from "graphql-tag"
 
 export default {
   name: "PageNotifications",
@@ -59,9 +63,35 @@ export default {
       }
     ]
   }),
+  computed: {
+    ...mapState([`session`])
+  },
   apollo: {
     notifications: {
-      query: Notifications
+      query: gql`
+        query notifications($address: String!) {
+          notifications(address: $address) {
+            created_at
+            data
+            eventType
+            id
+            networkId
+            resourceId
+            resourceType
+            topic
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          address: this.session.address
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.session.address
+      }
     }
   }
 }
@@ -73,8 +103,13 @@ export default {
 }
 .header {
   display: flex;
-  justify-content: flex-end;
   font-size: 1.5rem;
+  text-align: center;
+}
+.header h1 {
+  flex: 1;
+}
+.icon {
   margin: 0 1rem 1rem;
 }
 .notification {
