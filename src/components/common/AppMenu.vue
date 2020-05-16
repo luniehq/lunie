@@ -3,7 +3,10 @@
     <div v-if="session.signedIn" class="user-box">
       <div class="user-box-address">
         <div>
-          <h3>Your Address</h3>
+          <h3 v-if="session.addressRole">
+            {{ capitalizeFirstLetter(session.addressRole) }} address
+          </h3>
+          <h3 v-else>Your Address</h3>
           <Address class="menu-address" :address="address || ''" />
         </div>
         <a v-if="session.signedIn" id="sign-out" @click="signOut()">
@@ -224,6 +227,9 @@ export default {
           8000
         )
       }
+    },
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
     }
   }
 }
