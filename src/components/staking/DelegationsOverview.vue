@@ -58,7 +58,6 @@
         <a @click="goToValidators()"> validator list</a>&nbsp;to get staking!
       </div>
     </TmDataMsg>
-    
   </div>
 </template>
 
