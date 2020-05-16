@@ -8,7 +8,7 @@
               session.addressRole && session.addressRole !== `stash/controller`
             "
           >
-            {{ capitalizeFirstLetter(session.addressRole) }} address
+            {{ capitalizeFirstLetter(session.addressRole) }} Address
           </h3>
           <h3 v-else>Your Address</h3>
           <Address class="menu-address" :address="address || ''" />
