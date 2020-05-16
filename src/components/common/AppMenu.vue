@@ -3,7 +3,11 @@
     <div v-if="session.signedIn" class="user-box">
       <div class="user-box-address">
         <div>
-          <h3 v-if="session.addressRole">
+          <h3
+            v-if="
+              session.addressRole && session.addressRole !== `stash/controller`
+            "
+          >
             {{ capitalizeFirstLetter(session.addressRole) }} address
           </h3>
           <h3 v-else>Your Address</h3>
