@@ -21,6 +21,22 @@
     </div>
 
     <TmDataMsg
+      v-else-if="
+        session.addressRole &&
+          session.addressRole === `controller` &&
+          !$apollo.loading
+      "
+      icon="sentiment_dissatisfied"
+    >
+      <div slot="title">
+        This is a controller account
+      </div>
+      <div slot="subtitle">
+        If you want to see your validators, sign-in with your stash account.
+      </div>
+    </TmDataMsg>
+
+    <TmDataMsg
       v-else-if="delegations.length === 0 && !$apollo.loading"
       icon="sentiment_dissatisfied"
     >
