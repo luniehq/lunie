@@ -74,4 +74,14 @@ export default {
 #notifications-button:hover {
   background-color: #db621e;
 }
+
+@media screen and (max-width: 667px) {
+  #notifications-button {
+    right: 2.5rem;
+    top: 2rem;
+    padding: 0.1rem;
+    font-size: 0.8rem;
+    z-index: 100;
+  }
+}
 </style>
