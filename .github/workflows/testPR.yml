@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - "*"
+  push:
+    branches:
+      - "ana/3958-movee2e-to-github-actions"
 
 defaults:
   run:
