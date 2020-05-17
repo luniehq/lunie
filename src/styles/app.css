@@ -123,22 +123,6 @@ input.tm-field {
   padding: 0.75rem;
 }
 
-#notifications-button {
-  position: fixed;
-  right: 1rem;
-  top: 5rem;
-  padding: 0.3rem;
-  border-radius: 1rem;
-  background-color: #fafa61;
-  color: #000;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-#notifications-button:hover {
-  background-color: #db621e;
-}
-
 .hide {
   display: none;
 }

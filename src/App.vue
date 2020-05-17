@@ -7,7 +7,11 @@
         <MaintenanceBar />
         <DisconnectedBar />
       </div>
-      <div id="notifications-button" @click="$router.push('/notifications')">
+      <div
+        v-if="session.experimentalMode"
+        id="notifications-button"
+        @click="$router.push('/notifications')"
+      >
         🔔 Notifications
       </div>
       <router-view name="session" />
@@ -52,4 +56,22 @@ export default {
 
 <style>
 @import "./styles/app.css";
+
+#notifications-button {
+  position: fixed;
+  right: 1rem;
+  top: 5rem;
+  padding: 0.3rem;
+  border-radius: 1rem;
+  background-color: #fafa61;
+  color: #000;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border: #f3b440 2px solid;
+  z-index: 1;
+}
+
+#notifications-button:hover {
+  background-color: #db621e;
+}
 </style>
