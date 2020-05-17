@@ -32,33 +32,6 @@ export default {
   },
   data: () => ({
     notifications: [],
-    notificationsMock: [
-      {
-        id: 1,
-        title: "Hello World",
-        date: new Date(),
-        body:
-          "hello world hello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello worldhello world",
-        link: "www.google.de",
-        icon: "https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png"
-      },
-      {
-        id: 2,
-        title: "Lunie promo",
-        date: new Date(),
-        body: "Lunie rocks. Join the family",
-        link: "www.google.de",
-        icon: "https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png"
-      },
-      {
-        id: 3,
-        title: "Lunie becomes the first PoS wallet with more than 12 networks",
-        date: new Date(),
-        body: "As their CEO announced on Monday, this wallet is on fire",
-        link: "www.google.de",
-        icon: "https://lunie.fra1.digitaloceanspaces.com/android-icon-72x72.png"
-      }
-    ],
     dbNotificationsAddressObjects: [
       {
         networkId: "cosmos-hub-testnet",
