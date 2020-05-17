@@ -46,16 +46,13 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install dependencies
         run: yarn install
-
       - name: 2 - Lint
         run: yarn lint
-
       - name: 3 - Unit tests
         run: |
           yarn run test:unit --coverage --maxWorkers=2
           bash <(curl -s https://codecov.io/bash)
         # no_output_timeout: 180
-
       - name: 4 - Audit
         run: |
           set +e
@@ -68,7 +65,6 @@ jobs:
           fi
           echo "Your dependencies are secure enough: $SUMMARY"
           exit 0
-
       - name: 5 - TestE2E
         env:
           SENTRY_URL: ""
@@ -92,5 +88,3 @@ jobs:
           done
 
           PASSWORD=${NETWORK_PASSWORD} CHT_PWD=${ACCOUNT_PASSWORD} yarn test:e2e:browserstack --fe=${FE_URL} --api=https://production-api.lunie.io
-
-
