@@ -26,10 +26,11 @@ jobs:
       - name: Check if changlog was updated
         run: node node_modules/simsala/src/cli.js check --pending-path ./changes
 
-  prep:
-    name: prep
+  test_pr:
+    name: testPR
     runs-on: ubuntu-latest
     steps:
+      - name: 1 - Prep
       - uses: actions/checkout@v1
       - name: Use Node.js
         uses: actions/setup-node@v1
@@ -46,31 +47,16 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-  lint:
-    name: lint
-    needs: prep
-    runs-on: ubuntu-latest
-    steps:
-      - name: Lint
+      - name: 2 - Lint
         run: yarn lint
 
-  testUnit:
-    name: testUnit
-    needs: prep
-    runs-on: ubuntu-latest
-    steps:
-      - name: Unit tests
+      - name: 3 - Unit tests
         run: |
           yarn run test:unit --coverage --maxWorkers=2
           bash <(curl -s https://codecov.io/bash)
         # no_output_timeout: 180
 
-  security:
-    name: security
-    needs: prep
-    runs-on: ubuntu-latest
-    steps:
-      - name: Audit
+      - name: 4 - Audit
         run: |
           set +e
           yarn audit
@@ -83,16 +69,7 @@ jobs:
           echo "Your dependencies are secure enough: $SUMMARY"
           exit 0
 
-  test_e2e:
-    name: testE2E
-    needs: prep
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-      - name: Wait for netlify preview
+      - name: 5 - TestE2E
         env:
           SENTRY_URL: ""
           SENTRY_TOKEN: ""
