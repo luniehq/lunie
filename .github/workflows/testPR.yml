@@ -56,7 +56,6 @@ jobs:
           bash <(curl -s https://codecov.io/bash)
         # no_output_timeout: 180
       - name: 4 - Audit
-        continue-on-error: true
         run: |
           set +e
           yarn audit
@@ -68,7 +67,16 @@ jobs:
           fi
           echo "Your dependencies are secure enough: $SUMMARY"
           exit 0
-      - name: 5 - TestE2E
+
+  test_e2e:
+    name: testE2E
+    runs-on: ubuntu-latest
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - name: Install dependencies
+        run: yarn install
+      - name: Run testE2E
         env:
           SENTRY_URL: ""
           SENTRY_TOKEN: ""
