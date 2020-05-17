@@ -72,12 +72,10 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
-import gql from "graphql-tag"
 const isPolkadotAddress = address => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
-
 export default {
   name: `session-sign-in`,
   components: {
@@ -92,12 +90,11 @@ export default {
     signInAddress: ``,
     signInPassword: ``,
     error: ``,
-    testnet: false,
-    addressRole: null
+    testnet: false
   }),
   computed: {
     ...mapState([`keystore`, `session`]),
-    ...mapGetters([`networks`, `currentNetwork`]),
+    ...mapGetters([`networks`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({
@@ -112,15 +109,12 @@ export default {
           ({ network_type }) => network_type === "polkadot"
         )
       }
-
       const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
         this.signInAddress.startsWith(address_prefix)
       )
-
       const selectedNetwork = selectedNetworksArray.find(({ testnet }) =>
         this.testnet ? testnet === true : testnet === false
       )
-
       return selectedNetwork
     }
   },
@@ -134,7 +128,6 @@ export default {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
-
       if (!this.networkOfAddress) {
         this.error = `No ${
           this.testnet ? "testnet" : "mainnet"
@@ -145,14 +138,12 @@ export default {
         password: this.signInPassword,
         address: this.signInAddress
       })
-      if (sessionCorrect && this.addressRole) {
+      if (sessionCorrect) {
         this.selectNetworkByAddress(this.signInAddress)
-
         this.$store.dispatch(`signIn`, {
           password: this.signInPassword,
           address: this.signInAddress,
-          sessionType: "local",
-          addressRole: this.addressRole
+          sessionType: "local"
         })
         localStorage.setItem(`prevAccountKey`, this.signInAddress)
         this.$router.push({
@@ -170,13 +161,11 @@ export default {
       const prevAccountExists = this.accounts.find(
         a => a.value === prevAccountKey
       )
-
       if (this.accounts.length === 1) {
         this.signInAddress = this.accounts[0].value
       } else if (prevAccountExists) {
         this.signInAddress = prevAccountKey
       }
-
       if (this.signInAddress) {
         this.$el.querySelector(`#sign-in-password`).focus()
       } else {
@@ -188,7 +177,6 @@ export default {
         address.startsWith(address_prefix)
       )
       let selectedNetwork = ``
-
       // handling when there are both mainnet and testnet networks
       if (selectedNetworksArray.length > 1) {
         /* istanbul ignore next */
@@ -204,7 +192,6 @@ export default {
           ({ network_type }) => network_type === "polkadot"
         )
       }
-
       this.$store.dispatch(`setNetwork`, selectedNetwork)
     }
   },
@@ -212,32 +199,6 @@ export default {
     return {
       signInAddress: { required },
       signInPassword: { required, minLength: minLength(10) }
-    }
-  },
-  apollo: {
-    addressRole: {
-      query: gql`
-        query accountRole($networkId: String!, $address: String!) {
-          accountRole(networkId: $networkId, address: $address)
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          address: this.signInAddress,
-          networkId: this.currentNetwork.id
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        return data.accountRole
-      },
-      /* istanbul ignore next */
-      skip() {
-        return (
-          this.currentNetwork.network_type !== "polkadot" || !this.signInAddress
-        )
-      }
     }
   }
 }

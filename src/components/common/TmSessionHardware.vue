@@ -93,8 +93,6 @@ import HardwareState from "common/TmHardwareState"
 import SessionFrame from "common/SessionFrame"
 import { getAddressFromLedger } from "scripts/ledger"
 import * as Sentry from "@sentry/browser"
-import gql from "graphql-tag"
-
 export default {
   name: `session-hardware`,
   components: {
@@ -106,7 +104,6 @@ export default {
     status: `connect`,
     connectionError: null,
     address: null,
-    addressRole: null,
     copySuccess: false,
     hidFeatureLink: `chrome://flags/#enable-experimental-web-platform-features`,
     linuxLedgerConnectionLink: `https://support.ledger.com/hc/en-us/articles/360019301813-Fix-USB-issues`,
@@ -114,7 +111,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`networkSlug`, `currentNetwork`]),
+    ...mapGetters([`networkSlug`]),
     ...mapGetters({ networkId: `network` }),
     submitCaption() {
       return {
@@ -155,11 +152,9 @@ export default {
         Sentry.captureException(error)
         return
       }
-
       await this.$store.dispatch(`signIn`, {
         sessionType: `ledger`,
-        address: this.address,
-        addressRole: this.addressRole
+        address: this.address
       })
     },
     onCopy() {
@@ -167,30 +162,6 @@ export default {
       setTimeout(() => {
         this.copySuccess = false
       }, 2500)
-    }
-  },
-  apollo: {
-    addressRole: {
-      query: gql`
-        query accountRole($networkId: String!, $address: String!) {
-          accountRole(networkId: $networkId, address: $address)
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          address: this.address,
-          networkId: this.currentNetwork.id
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        return data.accountRole
-      },
-      /* istanbul ignore next */
-      skip() {
-        return this.currentNetwork.network_type !== "polkadot" || !this.address
-      }
     }
   }
 }
@@ -203,23 +174,19 @@ export default {
   margin-bottom: 0;
   padding-top: 1rem;
 }
-
 .install-notes {
   flex-direction: column;
 }
-
 .ledger-install {
   font-size: var(--sm);
   margin-bottom: 0;
 }
-
 .address {
   color: var(--link);
   font-weight: 500;
   font-size: 14px;
   white-space: nowrap;
 }
-
 .form-message {
   font-size: var(--sm);
   font-weight: 500;
@@ -227,7 +194,6 @@ export default {
   color: var(--dim);
   display: inline-block;
 }
-
 .form-message.notice {
   border-radius: 0.25rem;
   border: 1px solid var(--bc-dim);
@@ -239,7 +205,6 @@ export default {
   font-style: normal;
   width: 100%;
 }
-
 .copy-feature-link {
   display: initial;
   font-size: 0.8rem;
@@ -247,11 +212,9 @@ export default {
   margin-bottom: 0.2rem;
   color: var(--link);
 }
-
 .copy-feature-link .material-icons {
   font-size: 12px;
 }
-
 .copy-feature-link .copied {
   padding-bottom: 2px;
   padding-right: 0;
@@ -259,11 +222,9 @@ export default {
   color: var(--success);
   opacity: 0;
 }
-
 .copy-feature-link .copied.active {
   opacity: 1;
 }
-
 .session-main .button {
   margin: 2rem auto 0;
 }

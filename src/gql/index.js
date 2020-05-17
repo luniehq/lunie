@@ -219,3 +219,9 @@ export const UserTransactionAdded = gql`
     }
   }
 `
+
+export const AccountRole = gql`
+  query accountRole($networkId: String!, $address: String!) {
+    accountRole(networkId: $networkId, address: $address)
+  }
+`
