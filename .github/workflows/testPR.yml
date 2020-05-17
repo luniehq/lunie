@@ -94,8 +94,8 @@ jobs:
         uses: actions/setup-node@v1
       - name: Wait for netlify preview
         env:
-        SENTRY_URL: ""
-        SENTRY_TOKEN: ""
+          SENTRY_URL: ""
+          SENTRY_TOKEN: ""
         run: |
           PR_NUMBER="$(echo $CIRCLE_PULL_REQUEST | cut -d'/' -f 7)"
           FE_URL=https://deploy-preview-${PR_NUMBER}--lunieio.netlify.com
