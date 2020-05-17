@@ -120,6 +120,7 @@ export default {
   cursor: pointer;
 }
 img {
+  flex-shrink: 0;
   width: 2rem;
   height: 2rem;
   margin-right: 1rem;
@@ -132,5 +133,6 @@ img {
 .title {
   color: var(--notification-title);
   font-weight: 400;
+  overflow-wrap: anywhere; /** Important. Otherwise awful style bug */
 }
 </style>
