@@ -47,13 +47,16 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: 2 - Lint
+        continue-on-error: true
         run: yarn lint
       - name: 3 - Unit tests
+        continue-on-error: true
         run: |
           yarn run test:unit --coverage --maxWorkers=2
           bash <(curl -s https://codecov.io/bash)
         # no_output_timeout: 180
       - name: 4 - Audit
+        continue-on-error: true
         run: |
           set +e
           yarn audit
