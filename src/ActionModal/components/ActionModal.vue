@@ -576,8 +576,8 @@ export default {
     },
     isRestrictedAddressRole() {
       return (
-        this.session.addressRole === "stash" ||
-        this.session.addressRole === "controller"
+        this.session.accountRole === "stash" ||
+        this.session.accountRole === "controller"
       )
     }
   },

@@ -23,9 +23,7 @@ export default {
   computed: {
     ...mapState([`session`]),
     isRestrictedAddressRole() {
-      return (
-        this.session.addressRole === "controller"
-      )
+      return this.session.accountRole === "controller"
     }
   }
 }
