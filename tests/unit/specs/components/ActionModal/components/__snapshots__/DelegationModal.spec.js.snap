@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DelegationModal Submission Data for Redelegating should set the subtotal to 0 on a restake 1`] = `
-<actionmodal-stub title="Restake" validate="function () { [native code] }" submissionerrorprefix="Staking failed" rewards="" transactiondata="[object Object]" notifymessage="[object Object]" featureflag="delegate" selecteddenom="" chainappliedfees="0" transactiontype="RestakeTx" id="delegation-modal" class="delegation-modal" amount="0">
+<actionmodal-stub title="Restake" validate="function () { [native code] }" submissionerrorprefix="Staking failed" amount="0" rewards="" transactiondata="[object Object]" notifymessage="[object Object]" featureflag="delegate" selecteddenom="" chainappliedfees="0" transactiontype="RestakeTx" id="delegation-modal" class="delegation-modal">
   <tmformgroup-stub class="action-modal-form-group">
     <div class="form-message notice"><span>
         Voting power and rewards will change instantly upon restaking — but
@@ -19,7 +19,7 @@ exports[`DelegationModal Submission Data for Redelegating should set the subtota
   </tmformgroup-stub>
   <tmformgroup-stub fieldid="amount" fieldlabel="Amount" class="action-modal-form-group"><span class="input-suffix max-button">STAKE</span>
     <tmfieldgroup-stub>
-      <tmfield-stub type="number" placeholder="0" id="amount" class="tm-field-addon" value="10"></tmfield-stub>
+      <tmfield-stub type="number" value="10" placeholder="0" id="amount" class="tm-field-addon"></tmfield-stub>
       <tmbtn-stub value="Set Max" type="button" class="secondary addon-max"></tmbtn-stub>
     </tmfieldgroup-stub> <span class="form-message">
       Available to stake:
@@ -33,6 +33,7 @@ exports[`DelegationModal Submission Data for Redelegating should set the subtota
 
 exports[`DelegationModal should display the delegation modal form 1`] = `
 <actionmodal-stub
+  amount="0"
   chainappliedfees="0"
   class="delegation-modal"
   featureflag="delegate"
@@ -110,6 +111,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
         id="amount"
         placeholder="0"
         type="number"
+        value="0"
       />
        
       <tmbtn-stub
