@@ -243,7 +243,7 @@ export default ({ apollo }) => {
       dispatch(`storeLocalPreferences`)
     },
     /* istanbul ignore next */
-    async checkAddressRole({ commit }, { address, currentNetwork }) {
+    async checkAddressRole({ commit }, { address, networkId}) {
       const { data } = await apollo.query({
         query: AddressRole,
         variables: { networkId, address },
