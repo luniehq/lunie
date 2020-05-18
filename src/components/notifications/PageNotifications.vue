@@ -4,6 +4,18 @@
       <h1>Notifications</h1>
     </div>
 
+    <TmDataMsg
+      v-if="notifications.length === 0"
+      icon="error"
+      icon-color="var(--dark-grey-blue)"
+    >
+      <div>
+        <i class="material-icons nontranslate">error</i>
+      </div>
+      <div slot="title">You don't have any notifications yet</div>
+      <div slot="subtitle">Don't worry, they are on their way!</div>
+    </TmDataMsg>
+
     <div
       v-for="notification in notifications"
       :key="notification.id"
@@ -22,13 +34,15 @@
 
 <script>
 import TmPage from "../common/TmPage"
+import TmDataMsg from "common/TmDataMsg"
 import { mapGetters } from "vuex"
 import gql from "graphql-tag"
 
 export default {
   name: "PageNotifications",
   components: {
-    TmPage
+    TmPage,
+    TmDataMsg
   },
   data: () => ({
     notifications: [],
