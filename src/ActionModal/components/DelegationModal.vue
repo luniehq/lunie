@@ -27,7 +27,7 @@
       <div class="form-message notice">
         <span>
           This is a controller account, you can set or change your validators
-          but to increase the amount to stake you need to sign in with 
+          but to increase the amount to stake you need to sign in with
           your stash account.
         </span>
       </div>
@@ -47,35 +47,22 @@
       </div>
     </TmFormGroup>
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
-      <TmField
-        id="to"
-        :value="targetValidator | validatorEntry"
-        type="text"
-        readonly
-      />
+      <TmField id="to" :value="targetValidator | validatorEntry" type="text" readonly />
       <TmFormMsg
         v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
-        :msg="
-          `You are about to stake to an inactive validator (${targetValidator.statusDetailed})`
-        "
+        :msg="`You are about to stake to an inactive validator (${targetValidator.statusDetailed})`"
         type="custom"
         class="tm-form-msg--desc"
       />
       <TmFormMsg
         v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
-        :msg="
-          `You are about to restake to an inactive validator (${targetValidator.statusDetailed})`
-        "
+        :msg="`You are about to restake to an inactive validator (${targetValidator.statusDetailed})`"
         type="custom"
         class="tm-form-msg--desc"
       />
     </TmFormGroup>
 
-    <TmFormGroup
-      class="action-modal-form-group"
-      field-id="from"
-      field-label="From"
-    >
+    <TmFormGroup class="action-modal-form-group" field-id="from" field-label="From">
       <TmField
         id="from"
         v-model="fromSelectedIndex"
@@ -89,13 +76,11 @@
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
-      :field-label="
-        `Amount${
-          currentNetwork.network_type === 'polkadot' && totalStaked > 0
-            ? ' (Optional)'
-            : ''
-        }`
-      "
+      :field-label="`Amount${
+        currentNetwork.network_type === 'polkadot' && totalStaked > 0
+          ? ' (Optional)'
+          : ''
+      }`"
     >
       <span class="input-suffix max-button">{{ stakingDenom }}</span>
       <TmFieldGroup>
@@ -127,11 +112,7 @@
         name="Wallet"
         type="custom"
       />
-      <TmFormMsg
-        v-else-if="$v.amount.$error && !$v.amount.decimal"
-        name="Amount"
-        type="numeric"
-      />
+      <TmFormMsg v-else-if="$v.amount.$error && !$v.amount.decimal" name="Amount" type="numeric" />
       <TmFormMsg
         v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
         name="Amount"
@@ -164,19 +145,19 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
-import { decimal } from "vuelidate/lib/validators"
-import gql from "graphql-tag"
-import { SMALLEST } from "src/scripts/num"
-import TmField from "src/components/common/TmField"
-import TmFieldGroup from "src/components/common/TmFieldGroup"
-import TmBtn from "src/components/common/TmBtn"
-import TmFormGroup from "src/components/common/TmFormGroup"
-import TmFormMsg from "src/components/common/TmFormMsg"
-import ActionModal from "./ActionModal"
-import { messageType } from "../../components/transactions/messageTypes"
-import { formatAddress, validatorEntry } from "src/filters"
-import { UserTransactionAdded } from "src/gql"
+import { mapState, mapGetters } from 'vuex'
+import { decimal } from 'vuelidate/lib/validators'
+import gql from 'graphql-tag'
+import { SMALLEST } from 'src/scripts/num'
+import TmField from 'src/components/common/TmField'
+import TmFieldGroup from 'src/components/common/TmFieldGroup'
+import TmBtn from 'src/components/common/TmBtn'
+import TmFormGroup from 'src/components/common/TmFormGroup'
+import TmFormMsg from 'src/components/common/TmFormMsg'
+import ActionModal from './ActionModal'
+import { messageType } from '../../components/transactions/messageTypes'
+import { formatAddress, validatorEntry } from 'src/filters'
+import { UserTransactionAdded } from 'src/gql'
 
 export default {
   name: `delegation-modal`,
@@ -307,14 +288,14 @@ export default {
       return this.fromOptions[this.fromSelectedIndex].maximum
     },
     isRedelegation() {
-      return this.fromSelectedIndex !== 0 && this.fromSelectedIndex !== "0" // where are these 0 strings comming from?
+      return this.fromSelectedIndex !== 0 && this.fromSelectedIndex !== '0' // where are these 0 strings comming from?
     },
     undelegationPeriod() {
       // TODO: get this from API. Should be inside the network object
-      if (this.currentNetwork.network_type === "cosmos") {
-        return "21 days"
-      } else if (this.currentNetwork.network_type === "polkadot") {
-        return "7 days"
+      if (this.currentNetwork.network_type === 'cosmos') {
+        return '21 days'
+      } else if (this.currentNetwork.network_type === 'polkadot') {
+        return '7 days'
       } else {
         return `a certain number of time`
       }
@@ -352,7 +333,11 @@ export default {
     return {
       amount: {
         required: x => {
-          if ((this.currentNetwork.network_type === "polkadot" && this.totalStaked > 0) || this.session.addressRole === `controller`) {
+          if (
+            (this.currentNetwork.network_type === 'polkadot' &&
+              this.totalStaked > 0) ||
+            this.session.addressRole === `controller`
+          ) {
             return true
           } else {
             return !!x && x !== `0`
@@ -362,8 +347,8 @@ export default {
         max: x => Number(x) <= this.maxAmount,
         min: x => Number(x) >= SMALLEST,
         maxDecimals: x => {
-          return x.toString().split(".").length > 1
-            ? x.toString().split(".")[1].length <= 6
+          return x.toString().split('.').length > 1
+            ? x.toString().split('.')[1].length <= 6
             : true
         }
       }
@@ -473,7 +458,7 @@ export default {
           !this.address ||
           !this.network ||
           // only needed for polkadot to determine if user needs to set an amount
-          this.currentNetwork.network_type !== "polkadot"
+          this.currentNetwork.network_type !== 'polkadot'
         )
       },
       /* istanbul ignore next */

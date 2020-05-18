@@ -21,26 +21,26 @@ import TransactionIcon from "../TransactionIcon"
 export default {
   name: `submit-proposal-tx-details`,
   filters: {
-    prettyLong
+    prettyLong,
   },
   components: {
-    TransactionIcon
+    TransactionIcon,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
+      required: true,
     },
     validators: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => {
     return {
       type: `Submitted`,
-      caption: `Submitted proposal`
+      caption: `Submitted proposal`,
     }
-  }
+  },
 }
 </script>

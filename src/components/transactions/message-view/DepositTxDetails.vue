@@ -7,7 +7,7 @@
       <router-link
         :to="{
           name: 'Proposal',
-          params: { proposalId: String(transaction.details.proposalId) }
+          params: { proposalId: String(transaction.details.proposalId) },
         }"
         >Proposal &#35;{{ transaction.details.proposalId }}</router-link
       >
@@ -28,26 +28,26 @@ import TransactionIcon from "../TransactionIcon"
 export default {
   name: `deposit-tx-details`,
   filters: {
-    prettyLong
+    prettyLong,
   },
   components: {
-    TransactionIcon
+    TransactionIcon,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
+      required: true,
     },
     validators: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => {
     return {
       type: `Deposit`,
-      caption: `Deposit`
+      caption: `Deposit`,
     }
-  }
+  },
 }
 </script>

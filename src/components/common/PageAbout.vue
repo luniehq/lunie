@@ -124,8 +124,8 @@ import TmPage from "common/TmPage"
 export default {
   name: `page-about`,
   components: {
-    TmPage
-  }
+    TmPage,
+  },
 }
 </script>
 

@@ -129,7 +129,7 @@ export default {
     TransactionList,
     DataEmptyTx,
     TmDataMsg,
-    TmPage
+    TmPage,
   },
   data: () => ({
     showing: 15,
@@ -138,13 +138,13 @@ export default {
     transactions: [],
     loadedTransactions: [],
     lastLoadedRecordsCount: 0,
-    dataLoaded: false
+    dataLoaded: false,
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
     validatorsAddressMap() {
       const names = {}
-      this.validators.forEach(item => {
+      this.validators.forEach((item) => {
         names[item.operatorAddress] = item
       })
       return names
@@ -154,7 +154,7 @@ export default {
     },
     showingTransactions() {
       return this.transactions.slice(0, this.showing)
-    }
+    },
   },
   methods: {
     loadMore() {
@@ -174,7 +174,7 @@ export default {
             variables: {
               networkId: this.network,
               address: this.address,
-              pageNumber: this.pageNumber
+              pageNumber: this.pageNumber,
             },
             // Transform the previous result with new data
             updateQuery: (previousResult, { fetchMoreResult }) => {
@@ -183,17 +183,17 @@ export default {
               return {
                 transactionsV2: [
                   ...previousResult.transactionsV2,
-                  ...fetchMoreResult.transactionsV2
-                ]
+                  ...fetchMoreResult.transactionsV2,
+                ],
               }
-            }
+            },
           })
         }
       }
     },
     handleIntercom() {
       this.$store.dispatch(`displayMessenger`)
-    }
+    },
   },
   apollo: {
     transactions: {
@@ -211,7 +211,7 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          pageNumber: 0
+          pageNumber: 0,
         }
       },
       update(result) {
@@ -232,8 +232,8 @@ export default {
             return {
               transactionsV2: [
                 subscriptionData.data.userTransactionAddedV2,
-                ...previousResult.transactionsV2
-              ]
+                ...previousResult.transactionsV2,
+              ],
             }
           }
         },
@@ -241,10 +241,10 @@ export default {
         variables() {
           return {
             networkId: this.network,
-            address: this.address
+            address: this.address,
           }
-        }
-      }
+        },
+      },
     },
     validators: {
       query: gql`
@@ -261,10 +261,10 @@ export default {
       },
       variables() {
         return {
-          networkId: this.network
+          networkId: this.network,
         }
-      }
-    }
-  }
+      },
+    },
+  },
 }
 </script>

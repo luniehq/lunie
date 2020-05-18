@@ -7,14 +7,14 @@ describe(`Page404`, () => {
   beforeEach(() => {
     $store = {
       getters: {
-        networkSlug: "cosmos-hub"
-      }
+        networkSlug: "cosmos-hub",
+      },
     }
     wrapper = shallowMount(Page404, {
       mocks: {
-        $store
+        $store,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 

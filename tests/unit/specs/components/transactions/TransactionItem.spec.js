@@ -9,8 +9,8 @@ describe(`TransactionItem`, () => {
   let offset = 1
   const event = {
     target: {
-      className: `tx__content__left`
-    }
+      className: `tx__content__left`,
+    },
   }
 
   for (var type in messageType) {
@@ -32,15 +32,15 @@ describe(`TransactionItem`, () => {
         voteOption: "Yes",
         initialDeposit: {
           denom: "ATOM",
-          amount: "10"
+          amount: "10",
         },
         amount: {
           denom: "ATOM",
-          amount: "10"
+          amount: "10",
         },
         blockExplorerLink:
-          "https://awesome.blockexplorer.io/transactions/A0DEB29E97A4DF38289D55D63C5724588985E1D35B26518CB66EAF96CFEF2E04"
-      }
+          "https://awesome.blockexplorer.io/transactions/A0DEB29E97A4DF38289D55D63C5724588985E1D35B26518CB66EAF96CFEF2E04",
+      },
     })
     height += offset
   }
@@ -51,15 +51,15 @@ describe(`TransactionItem`, () => {
         propsData: {
           transaction: txs[i],
           validators: {},
-          address: "cosmos1"
+          address: "cosmos1",
         },
         mocks: {
           $store: {
             getters: {
-              isExtension: false
-            }
-          }
-        }
+              isExtension: false,
+            },
+          },
+        },
       })
       expect(wrapper.element).toMatchSnapshot()
       wrapper.vm.toggleDetail(event)

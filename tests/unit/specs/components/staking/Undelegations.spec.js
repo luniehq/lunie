@@ -5,29 +5,29 @@ import validators from "../../store/json/validators.js"
 describe(`Undelegations`, () => {
   let wrapper, $store, $apollo, undelegations
   const getters = {
-    address: "cosmos1"
+    address: "cosmos1",
   }
 
   undelegations = [
     {
       validator: validators[0],
       delegatorAddress: `cosmos1`,
-      amount: 10
+      amount: 10,
     },
     {
       validator: validators[1],
       delegatorAddress: `cosmos1`,
-      amount: 12
+      amount: 12,
     },
     {
       validator: validators[2],
       delegatorAddress: `cosmos1`,
-      amount: 11
-    }
+      amount: 11,
+    },
   ]
 
   const state = {
-    session: { signedIn: true }
+    session: { signedIn: true },
   }
 
   beforeEach(() => {
@@ -35,23 +35,23 @@ describe(`Undelegations`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       state,
-      getters
+      getters,
     }
 
     $apollo = {
       queries: {
         undelegations: {
           loading: false,
-          error: false
-        }
-      }
+          error: false,
+        },
+      },
     }
 
     wrapper = shallowMount(Undelegations, {
       mocks: {
         $store,
-        $apollo
-      }
+        $apollo,
+      },
     })
     wrapper.setData({ undelegations })
   })

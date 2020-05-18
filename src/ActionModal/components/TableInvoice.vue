@@ -25,24 +25,24 @@ import { fullDecimals } from "../../scripts/num"
 export default {
   name: `table-invoice`,
   filters: {
-    fullDecimals
+    fullDecimals,
   },
   props: {
     amount: {
       type: Number,
-      required: true
+      required: true,
     },
     estimatedFee: {
       type: Number,
-      required: true
+      required: true,
     },
     bondDenom: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
-    info: `Estimated network fees based on simulation.`
+    info: `Estimated network fees based on simulation.`,
   }),
   computed: {
     subTotal() {
@@ -50,8 +50,8 @@ export default {
     },
     total() {
       return this.estimatedFee + this.subTotal
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

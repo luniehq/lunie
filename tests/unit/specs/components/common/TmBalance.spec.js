@@ -14,62 +14,62 @@ describe(`TmBalance`, () => {
         networks: [
           {
             id: "test-network",
-            testnet: false
-          }
-        ]
+            testnet: false,
+          },
+        ],
       },
       state: {
         connection: {
-          network: "cosmos-hub-mainnet"
+          network: "cosmos-hub-mainnet",
         },
         session: {
-          experimentalMode: true
-        }
-      }
+          experimentalMode: true,
+        },
+      },
     }
 
     $apollo = {
       queries: {
         overview: {
           loading: false,
-          error: false
+          error: false,
         },
         rewards: {
           loading: false,
-          error: false
-        }
-      }
+          error: false,
+        },
+      },
     }
 
     wrapper = shallowMount(TmBalance, {
       mocks: {
         $store,
-        $apollo
-      }
+        $apollo,
+      },
     })
     wrapper.setData({
       overview: {
         totalStake: 3210,
-        liquidStake: 1230
+        liquidStake: 1230,
       },
       rewards: [
         {
           amount: 1,
-          denom: `TOKEN1`
+          denom: `TOKEN1`,
         },
         {
           amount: 2,
-          denom: `TOKEN1`
+          denom: `TOKEN1`,
         },
         {
           amount: 1.5,
-          denom: `TOKEN1`
+          denom: `TOKEN1`,
         },
         {
           amount: 5,
-          denom: `ATOM`
-        }
-      ]
+          denom: `ATOM`,
+        },
+      ],
     })
   })
 
@@ -84,8 +84,8 @@ describe(`TmBalance`, () => {
       overview: {
         totalStake: 0,
         liquidStake: 0,
-        totalRewards: 0
-      }
+        totalRewards: 0,
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
     expect(wrapper.text()).toContain("Token")
@@ -96,8 +96,8 @@ describe(`TmBalance`, () => {
   it(`opens send modal`, () => {
     const $refs = {
       SendModal: {
-        open: jest.fn()
-      }
+        open: jest.fn(),
+      },
     }
     wrapper.vm.$refs = $refs
     wrapper.find(".circle-send-button").trigger("click")
@@ -107,8 +107,8 @@ describe(`TmBalance`, () => {
   it(`opens claim rewards modal`, () => {
     const $refs = {
       ModalWithdrawRewards: {
-        open: jest.fn()
-      }
+        open: jest.fn(),
+      },
     }
     wrapper.vm.$refs = $refs
     wrapper.find("#withdraw-btn").trigger("click")
@@ -117,12 +117,12 @@ describe(`TmBalance`, () => {
 
   it(`disables claim rewards button when no rewards`, () => {
     wrapper.setData({
-      rewards: []
+      rewards: [],
     })
     const $refs = {
       ModalWithdrawRewards: {
-        open: jest.fn()
-      }
+        open: jest.fn(),
+      },
     }
     wrapper.vm.$refs = $refs
     wrapper.find("#withdraw-btn").trigger("click")
@@ -131,14 +131,14 @@ describe(`TmBalance`, () => {
 
   it(`if no balances are found, then it returns the staking denom`, () => {
     wrapper.setData({
-      balances: []
+      balances: [],
     })
     expect(wrapper.vm.getAllDenoms).toEqual(["ATOM"])
   })
 
   it(`should show How To Get Tokens tutorial`, () => {
     wrapper.setData({
-      showTutorial: false
+      showTutorial: false,
     })
     wrapper.vm.openTutorial()
     expect(wrapper.vm.showTutorial).toBe(true)
@@ -146,7 +146,7 @@ describe(`TmBalance`, () => {
 
   it(`should hide How To Get Tokens tutorial`, () => {
     wrapper.setData({
-      showTutorial: true
+      showTutorial: true,
     })
     wrapper.vm.hideTutorial()
     expect(wrapper.vm.showTutorial).toBe(false)
@@ -154,7 +154,7 @@ describe(`TmBalance`, () => {
 
   it(`should set the preferred fiat currency in store`, () => {
     wrapper.setData({
-      preferredCurrency: `USD`
+      preferredCurrency: `USD`,
     })
     wrapper.vm.setPreferredCurrency()
     expect($store.dispatch).toHaveBeenCalledWith(`setPreferredCurrency`, `USD`)

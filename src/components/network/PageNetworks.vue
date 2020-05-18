@@ -23,41 +23,41 @@ export default {
   name: `page-networks`,
   components: {
     TmPage,
-    NetworkList
+    NetworkList,
   },
   data: () => ({
     comingSoon: [
       {
         id: "polkadot-mainnet",
         title: "Polkadot",
-        icon: "/img/networks/polkadot-mainnet.png"
+        icon: "/img/networks/polkadot-mainnet.png",
       },
       {
         id: "tezos-mainnet",
         title: "Tezos",
-        icon: "/img/networks/tezos-mainnet.png"
+        icon: "/img/networks/tezos-mainnet.png",
       },
       {
         id: "dawnchain-testnet",
         title: "Dawn",
-        icon: "/img/networks/dawnchain-testnet.png"
+        icon: "/img/networks/dawnchain-testnet.png",
       },
       {
         id: "akash-testnet",
         title: "Akash",
-        icon: "/img/networks/akash-testnet.png"
-      }
-    ]
+        icon: "/img/networks/akash-testnet.png",
+      },
+    ],
   }),
   computed: {
     ...mapGetters([`networks`]),
     mainNetworks() {
-      return this.networks.filter(network => !network.testnet)
+      return this.networks.filter((network) => !network.testnet)
     },
     testNetworks() {
-      return this.networks.filter(network => network.testnet)
-    }
-  }
+      return this.networks.filter((network) => network.testnet)
+    },
+  },
 }
 </script>
 <style scoped>

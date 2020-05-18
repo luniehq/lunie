@@ -8,7 +8,7 @@ describe(`Module: Signup`, () => {
     signUpSeed: `Creating seed...`,
     signUpPassword: ``,
     signUpPasswordConfirm: ``,
-    signUpWarning: false
+    signUpWarning: false,
   }
 
   beforeEach(() => {

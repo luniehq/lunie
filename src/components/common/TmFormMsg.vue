@@ -10,28 +10,28 @@ export default {
   props: {
     type: {
       type: String,
-      required: true
+      required: true,
     },
     name: {
       type: String,
-      default: ``
+      default: ``,
     },
     min: {
       type: [String, Number], // for convenience you can provide a string
-      default: null
+      default: null,
     },
     max: {
       type: [String, Number], // for convenience you can provide a string
-      default: null
+      default: null,
     },
     length: {
       type: Number,
-      default: null
+      default: null,
     },
     msg: {
       type: String,
-      default: ``
-    }
+      default: ``,
+    },
   },
   computed: {
     cssClass() {
@@ -118,8 +118,8 @@ export default {
           break
       }
       return msg
-    }
-  }
+    },
+  },
 }
 </script>
 

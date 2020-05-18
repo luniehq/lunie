@@ -15,7 +15,7 @@
       <TmBtn
         v-if="
           connection.network === 'cosmos-hub-mainnet' ||
-            connection.network === 'cosmos-hub-testnet'
+          connection.network === 'cosmos-hub-testnet'
         "
         id="tutorial-btn"
         class="tutorial-btn"
@@ -46,8 +46,8 @@
     <ModalTutorial
       v-if="
         showTutorial &&
-          (connection.network === 'cosmos-hub-mainnet' ||
-            connection.network === 'cosmos-hub-testnet')
+        (connection.network === 'cosmos-hub-mainnet' ||
+          connection.network === 'cosmos-hub-testnet')
       "
       :steps="cosmosGovernanceTutorial.steps"
       :fullguide="cosmosGovernanceTutorial.fullguide"
@@ -76,12 +76,12 @@ export default {
     TmDataMsg,
     TmBtn,
     TmPage,
-    ModalTutorial
+    ModalTutorial,
   },
   data: () => ({
     proposals: [],
     parameters: {
-      depositDenom: "xxx"
+      depositDenom: "xxx",
     },
     loaded: false,
     showTutorial: false,
@@ -93,39 +93,39 @@ export default {
           title: "Intro to governance",
           // Each content array item will be enclosed in a span (newline)
           content: [
-            "If you have staked ATOMs on the Cosmos Hub, you can submit your own improvement proposal and vote on what others have proposed."
-          ]
+            "If you have staked ATOMs on the Cosmos Hub, you can submit your own improvement proposal and vote on what others have proposed.",
+          ],
         },
         {
           title: "Proposals",
           content: [
-            "Proposals are submitted by community members and typically include ideas for how to improve the underlying protocols. Proposals are stored 'on-chain'."
-          ]
+            "Proposals are submitted by community members and typically include ideas for how to improve the underlying protocols. Proposals are stored 'on-chain'.",
+          ],
         },
         {
           title: "Deposit Period",
           content: [
-            "Proposals start in the 'Deposit Period' and require a certain number of deposits, before the proposal can be voted on. This is both a spam prevention and signalling mechanism."
-          ]
+            "Proposals start in the 'Deposit Period' and require a certain number of deposits, before the proposal can be voted on. This is both a spam prevention and signalling mechanism.",
+          ],
         },
         {
           title: "The Vote!",
           content: [
-            "Validators have an obligation to vote and do so on behalf of the people who 'staked' tokens with them. As a token holder, you can vote independently of your validators if you wish."
-          ]
+            "Validators have an obligation to vote and do so on behalf of the people who 'staked' tokens with them. As a token holder, you can vote independently of your validators if you wish.",
+          ],
         },
         {
           title: "Have more questions?",
           content: [
-            "Check out our full governance guide for an in depth explanation of all things governance."
-          ]
-        }
-      ]
-    }
+            "Check out our full governance guide for an in depth explanation of all things governance.",
+          ],
+        },
+      ],
+    },
   }),
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`network`])
+    ...mapGetters([`network`]),
   },
   methods: {
     onPropose() {
@@ -139,7 +139,7 @@ export default {
     },
     hideTutorial() {
       this.showTutorial = false
-    }
+    },
   },
   apollo: {
     proposals: {
@@ -160,7 +160,7 @@ export default {
       variables() {
         /* istanbul ignore next */
         return {
-          networkId: this.network
+          networkId: this.network,
         }
       },
       update(data) {
@@ -168,7 +168,7 @@ export default {
         this.loaded = true
         /* istanbul ignore next */
         return data.proposals
-      }
+      },
     },
     parameters: {
       query() {
@@ -178,14 +178,14 @@ export default {
       update(data) {
         /* istanbul ignore next */
         return data.governanceParameters
-      }
+      },
     },
     $subscribe: {
       blockAdded: {
         variables() {
           /* istanbul ignore next */
           return {
-            networkId: this.network
+            networkId: this.network,
           }
         },
         query() {
@@ -201,10 +201,10 @@ export default {
         result() {
           /* istanbul ignore next */
           this.$apollo.queries.proposals.refetch()
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 

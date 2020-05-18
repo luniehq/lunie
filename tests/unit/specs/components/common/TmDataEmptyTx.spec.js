@@ -6,8 +6,8 @@ describe(`TmDataEmptyTx`, () => {
   beforeEach(() => {
     wrapper = mount(TmDataEmptyTx, {
       stubs: {
-        "router-link": true
-      }
+        "router-link": true,
+      },
     })
   })
 
@@ -17,28 +17,19 @@ describe(`TmDataEmptyTx`, () => {
 
   it(`has an icon`, () => {
     expect(
-      wrapper
-        .find(`.tm-data-msg__icon i.material-icons`)
-        .text()
-        .trim()
+      wrapper.find(`.tm-data-msg__icon i.material-icons`).text().trim()
     ).toBe(`receipt`)
   })
 
   it(`has a title`, () => {
-    expect(
-      wrapper
-        .find(`.tm-data-msg__title div`)
-        .text()
-        .trim()
-    ).toBe(`No Transaction History`)
+    expect(wrapper.find(`.tm-data-msg__title div`).text().trim()).toBe(
+      `No Transaction History`
+    )
   })
 
   it(`has a subtitle`, () => {
-    expect(
-      wrapper
-        .find(`.tm-data-msg__subtitle div`)
-        .text()
-        .trim()
-    ).toContain(`There are no transactions associated with this address yet.`)
+    expect(wrapper.find(`.tm-data-msg__subtitle div`).text().trim()).toContain(
+      `There are no transactions associated with this address yet.`
+    )
   })
 })

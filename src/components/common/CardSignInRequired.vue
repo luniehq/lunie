@@ -14,8 +14,8 @@
       <LiSession
         v-if="
           !isMobileApp &&
-            !isExtension &&
-            currentNetwork.network_type !== `polkadot`
+          !isExtension &&
+          currentNetwork.network_type !== `polkadot`
         "
         id="use-ledger-nano"
         icon="vpn_key"
@@ -71,7 +71,7 @@ export default {
   components: { LiSession },
   data: () => ({
     isMobileApp: config.mobileApp,
-    isExtension: config.isExtension
+    isExtension: config.isExtension,
   }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
@@ -83,11 +83,11 @@ export default {
       return this.isMobileApp || this.session.insecureMode
         ? `/select-network/create`
         : `/create`
-    }
+    },
   },
   created() {
     this.$store.dispatch("loadAccounts")
-  }
+  },
 }
 </script>
 <style scoped>

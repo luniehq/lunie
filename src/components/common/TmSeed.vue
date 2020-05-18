@@ -56,16 +56,16 @@ export default {
   props: {
     value: {
       type: String,
-      default: ``
-    }
+      default: ``,
+    },
   },
   data: () => ({
-    copySuccess: false
+    copySuccess: false,
   }),
   computed: {
-    splitSeed: function() {
+    splitSeed: function () {
       return this.value.split(` `)
-    }
+    },
   },
   methods: {
     onCopy() {
@@ -73,8 +73,8 @@ export default {
       setTimeout(() => {
         this.copySuccess = false
       }, 2500)
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

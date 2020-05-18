@@ -2,9 +2,9 @@ import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import TmSessionSignUp from "common/TmSessionSignUp"
 jest.mock("@lunie/cosmos-keys", () => ({
-  getWalletIndex: function() {
+  getWalletIndex: function () {
     return [{ name: `Happy Lunie User`, address: `xyz123` }]
-  }
+  },
 }))
 
 describe(`TmSessionSignUp`, () => {
@@ -19,17 +19,17 @@ describe(`TmSessionSignUp`, () => {
       state: {
         session: { insecureMode: true },
         signup: {
-          signUpName: ""
-        }
+          signUpName: "",
+        },
       },
       commit: jest.fn(),
       dispatch: jest.fn(),
       mutations: {
-        updateField: jest.fn()
+        updateField: jest.fn(),
       },
       getters: {
-        network: `cosmos-hub-mainnet`
-      }
+        network: `cosmos-hub-mainnet`,
+      },
     }
 
     wrapper = shallowMount(TmSessionSignUp, {
@@ -37,10 +37,10 @@ describe(`TmSessionSignUp`, () => {
       mocks: {
         $store,
         $router: {
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
@@ -52,7 +52,7 @@ describe(`TmSessionSignUp`, () => {
     wrapper.setData({ fieldName: `HappyLunieUser` })
     expect(wrapper.vm.$store.commit).toHaveBeenCalledWith(`updateField`, {
       field: `signUpName`,
-      value: `HappyLunieUser`
+      value: `HappyLunieUser`,
     })
   })
 
@@ -96,9 +96,9 @@ describe(`TmSessionSignUp`, () => {
       networks: [
         {
           id: `cosmos-hub-mainnet`,
-          testnet: false
-        }
-      ]
+          testnet: false,
+        },
+      ],
     }
     const isTesnet = TmSessionSignUp.computed.isTestnet.call(self)
     expect(isTesnet).toBe(false)

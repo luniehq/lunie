@@ -17,13 +17,13 @@ describe(`PageProposal`, () => {
 
   const state = {
     session: {
-      address: `cosmos1xxxx`
-    }
+      address: `cosmos1xxxx`,
+    },
   }
 
   const getters = {
     connected: true,
-    address: `cosmos1xxxx`
+    address: `cosmos1xxxx`,
   }
   let args
 
@@ -32,44 +32,44 @@ describe(`PageProposal`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters,
-      state
+      state,
     }
 
     const $apollo = {
       queries: {
         proposals: {
           loading: false,
-          error: undefined
+          error: undefined,
         },
         proposal: {
           loading: false,
-          error: undefined
+          error: undefined,
         },
         parameters: {
           loading: false,
-          error: undefined
+          error: undefined,
         },
         vote: {
           loading: false,
-          error: undefined
-        }
-      }
+          error: undefined,
+        },
+      },
     }
     args = {
       localVue,
       propsData: {
-        proposalId: `33`
+        proposalId: `33`,
       },
       mocks: {
         $store,
-        $apollo
+        $apollo,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     }
     wrapper = shallowMount(PageProposal, args)
     wrapper.setData({
       proposal: proposals[2],
-      found: true
+      found: true,
     })
   })
 
@@ -81,7 +81,7 @@ describe(`PageProposal`, () => {
   it(`shows an error if the proposal couldn't be found`, () => {
     wrapper = shallowMount(PageProposal, {
       ...args,
-      propsData: { proposalId: `666` }
+      propsData: { proposalId: `666` },
     })
     wrapper.setData({ error: { message: "Error" } })
     expect(wrapper.element).toMatchSnapshot()
@@ -89,14 +89,14 @@ describe(`PageProposal`, () => {
 
   it(`should shows Unknown proposer if proposer is unknown`, () => {
     wrapper.setData({
-      proposal: proposals[0]
+      proposal: proposals[0],
     })
     expect(wrapper.html()).toContain("Unknown proposer")
   })
 
   it(`should show proposer`, () => {
     wrapper.setData({
-      proposal: proposals[1]
+      proposal: proposals[1],
     })
     expect(wrapper.html()).toContain(
       "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
@@ -105,7 +105,7 @@ describe(`PageProposal`, () => {
 
   it(`should show moniker if proposer address is a validator address`, () => {
     wrapper.setData({
-      proposal: proposals[2]
+      proposal: proposals[2],
     })
     expect(wrapper.html()).toContain(
       "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
@@ -115,7 +115,7 @@ describe(`PageProposal`, () => {
 
   it(`should return the index within the array of a proposal`, () => {
     wrapper.setData({
-      proposals: proposals
+      proposals: proposals,
     })
     expect(wrapper.vm.getProposalIndex(1)).toEqual(32)
   })
@@ -132,7 +132,7 @@ describe(`PageProposal`, () => {
       wrapper.vm.proposal.status = `Passed`
       expect(wrapper.vm.status).toMatchObject({
         badge: `Passed`,
-        color: `green`
+        color: `green`,
       })
     })
 
@@ -140,7 +140,7 @@ describe(`PageProposal`, () => {
       wrapper.vm.proposal.status = `Rejected`
       expect(wrapper.vm.status).toMatchObject({
         badge: `Rejected`,
-        color: `red`
+        color: `red`,
       })
     })
 
@@ -148,7 +148,7 @@ describe(`PageProposal`, () => {
       wrapper.vm.proposal.status = `DepositPeriod`
       expect(wrapper.vm.status).toMatchObject({
         badge: `Deposit Period`,
-        color: `orange`
+        color: `orange`,
       })
     })
 
@@ -156,7 +156,7 @@ describe(`PageProposal`, () => {
       wrapper.vm.proposal.status = `VotingPeriod`
       expect(wrapper.vm.status).toMatchObject({
         badge: `Voting Period`,
-        color: `pink`
+        color: `pink`,
       })
     })
 
@@ -164,7 +164,7 @@ describe(`PageProposal`, () => {
       wrapper.vm.proposal.status = ``
       expect(wrapper.vm.status).toMatchObject({
         badge: `Error`,
-        color: `grey`
+        color: `grey`,
       })
     })
   })
@@ -178,8 +178,8 @@ describe(`PageProposal`, () => {
       wrapper.setData({
         proposal: {
           ...wrapper.vm.proposal,
-          status: "VotingPeriod"
-        }
+          status: "VotingPeriod",
+        },
       })
       expect(wrapper.html()).toMatchSnapshot()
       wrapper.find("#vote-btn").trigger("click")
@@ -201,7 +201,7 @@ describe(`PageProposal`, () => {
   describe(`Modal onDeposit`, () => {
     it(`opens deposit modal`, async () => {
       const self = {
-        $refs: { modalDeposit: { open: jest.fn() } }
+        $refs: { modalDeposit: { open: jest.fn() } },
       }
 
       await PageProposal.methods.onDeposit.call(self)

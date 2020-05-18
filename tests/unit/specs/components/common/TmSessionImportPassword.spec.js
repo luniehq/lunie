@@ -16,7 +16,7 @@ describe(`TmSessionImportPassword`, () => {
     getters = {
       network: "lunie-net",
       networkSlug: "lunie",
-      isExtension: false
+      isExtension: false,
     }
     $store = {
       state: {
@@ -25,25 +25,25 @@ describe(`TmSessionImportPassword`, () => {
           seed: ``,
           password: ``,
           passwordConfirm: ``,
-          warning: false
-        }
+          warning: false,
+        },
       },
       getters,
       commit: jest.fn(),
       dispatch: jest.fn(),
       mutations: {
-        updateField: jest.fn()
-      }
+        updateField: jest.fn(),
+      },
     }
     wrapper = shallowMount(TmSessionImportPassword, {
       localVue,
       mocks: {
         $store,
         $router: {
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
@@ -71,7 +71,7 @@ describe(`TmSessionImportPassword`, () => {
     wrapper.setData({ password: `1234567890` })
     expect($store.commit).toHaveBeenCalledWith(`updateField`, {
       field: `password`,
-      value: `1234567890`
+      value: `1234567890`,
     })
   })
 
@@ -79,7 +79,7 @@ describe(`TmSessionImportPassword`, () => {
     wrapper.setData({ passwordConfirm: `1234567890` })
     expect($store.commit).toHaveBeenCalledWith(`updateField`, {
       field: `passwordConfirm`,
-      value: `1234567890`
+      value: `1234567890`,
     })
   })
 
@@ -91,7 +91,7 @@ describe(`TmSessionImportPassword`, () => {
       name: ``,
       password: `1234567890`,
       network: "lunie-net",
-      seedPhrase: ``
+      seedPhrase: ``,
     })
   })
 
@@ -101,7 +101,7 @@ describe(`TmSessionImportPassword`, () => {
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
       name: "portfolio",
-      params: { networkId: "lunie" }
+      params: { networkId: "lunie" },
     })
   })
 
@@ -109,7 +109,7 @@ describe(`TmSessionImportPassword`, () => {
     wrapper.vm.$store.state.recover.password = `1234567890`
     wrapper.vm.$store.state.recover.passwordConfirm = `1234567890`
     wrapper.vm.$store.dispatch = {
-      createKey: jest.fn().mockRejectedValue(new Error())
+      createKey: jest.fn().mockRejectedValue(new Error()),
     }
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.error).toBe(true)

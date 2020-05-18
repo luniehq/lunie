@@ -1,27 +1,13 @@
 <template>
   <div class="table-container">
     <template v-if="session.addressRole">
-      <TmDataMsg
-        v-if="session.addressRole === `controller`"
-        icon="sentiment_dissatisfied"
-      >
-        <div slot="title">
-          This is a controller account
-        </div>
-        <div slot="subtitle">
-          Staking actions are disabled. You can still send tokens.
-        </div>
+      <TmDataMsg v-if="session.addressRole === `controller`" icon="sentiment_dissatisfied">
+        <div slot="title">This is a controller account</div>
+        <div slot="subtitle">Staking actions are disabled. You can still send tokens.</div>
       </TmDataMsg>
-      <TmDataMsg
-        v-else-if="session.addressRole === `stash`"
-        icon="sentiment_dissatisfied"
-      >
-        <div slot="title">
-          This is a stash account
-        </div>
-        <div slot="subtitle">
-          Staking actions are disabled. You can still send tokens.
-        </div>
+      <TmDataMsg v-else-if="session.addressRole === `stash`" icon="sentiment_dissatisfied">
+        <div slot="title">This is a stash account</div>
+        <div slot="subtitle">Staking actions are disabled. You can still send tokens.</div>
       </TmDataMsg>
     </template>
     <div
@@ -47,22 +33,20 @@
       v-else-if="delegations.length === 0 && !$apollo.loading"
       icon="sentiment_dissatisfied"
     >
-      <div slot="title">
-        No validators in your portfolio
-      </div>
+      <div slot="title">No validators in your portfolio</div>
       <div slot="subtitle">
         Head over to the
-        <a @click="goToValidators()"> validator list</a>&nbsp;to get staking!
+        <a @click="goToValidators()">validator list</a>&nbsp;to get staking!
       </div>
     </TmDataMsg>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex"
-import TmDataMsg from "common/TmDataMsg"
-import TableValidators from "staking/TableValidators"
-import { DelegationsForDelegator, UserTransactionAdded } from "src/gql"
+import { mapGetters, mapState } from 'vuex'
+import TmDataMsg from 'common/TmDataMsg'
+import TableValidators from 'staking/TableValidators'
+import { DelegationsForDelegator, UserTransactionAdded } from 'src/gql'
 
 export default {
   name: `delegations-overview`,
@@ -81,7 +65,7 @@ export default {
   methods: {
     goToValidators() {
       this.$router.push({
-        name: "Validators",
+        name: 'Validators',
         params: {
           networkId: this.networks.find(network => network.id === this.network)
             .slug

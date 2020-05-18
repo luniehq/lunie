@@ -14,25 +14,25 @@ describe(`SendTxDetails`, () => {
     fees: [
       {
         denom: "ATOM",
-        amount: "0.00045"
-      }
+        amount: "0.00045",
+      },
     ],
     details: {
       from: ["cosmosvaloper123"],
       to: ["cosmosvaloper456"],
       amount: {
         denom: "ATOM",
-        amount: "10"
-      }
-    }
+        amount: "10",
+      },
+    },
   }
 
   it(`renders a sent transaction message`, () => {
     wrapper = shallowMount(SendTxDetails, {
       propsData: {
         transaction: tx,
-        sessionAddress: "cosmosvaloper123"
-      }
+        sessionAddress: "cosmosvaloper123",
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -41,8 +41,8 @@ describe(`SendTxDetails`, () => {
     wrapper = shallowMount(SendTxDetails, {
       propsData: {
         transaction: tx,
-        sessionAddress: "cosmosvaloper456"
-      }
+        sessionAddress: "cosmosvaloper456",
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
   })

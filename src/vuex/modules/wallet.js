@@ -1,6 +1,6 @@
 // creates a cosmos addres for the network desired
 function getCosmosAddressCreator(bech32Prefix) {
-  return async seedPhrase => {
+  return async (seedPhrase) => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
     return getNewWalletFromSeed(seedPhrase, bech32Prefix)
   }
@@ -16,19 +16,19 @@ async function createPolkadotAddress(seedPhrase, addressPrefix) {
     import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
       // Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
       await cryptoWaitReady()
-    })
+    }),
   ])
 
   const keyring = new Keyring({
     ss58Format: Number(addressPrefix),
-    type: "sr25519"
+    type: "sr25519",
   })
   const newPair = keyring.addFromUri(seedPhrase)
 
   return {
     cosmosAddress: newPair.address,
     publicKey: newPair.publicKey,
-    seedPhrase
+    seedPhrase,
   }
 }
 

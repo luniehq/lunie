@@ -3,7 +3,7 @@
 const LUNIE_EXT_TYPE = "FROM_LUNIE_EXTENSION"
 const LUNIE_WEBSITE_TYPE = "FROM_LUNIE_IO"
 
-const unWrapMessageFromContentScript = data => data.message
+const unWrapMessageFromContentScript = (data) => data.message
 
 // ---- Incoming messages -----
 
@@ -23,7 +23,7 @@ const processMessage = (store, type, payload) => {
   }
 }
 
-const filterExtensionMessage = callback => message => {
+const filterExtensionMessage = (callback) => (message) => {
   if (message.source !== window) return
   const { data } = message
   if (data.type && data.type === LUNIE_EXT_TYPE) {
@@ -32,14 +32,14 @@ const filterExtensionMessage = callback => message => {
 }
 
 // exported for easier testing
-export const processLunieExtensionMessages = store =>
-  filterExtensionMessage(data => {
+export const processLunieExtensionMessages = (store) =>
+  filterExtensionMessage((data) => {
     const message = unWrapMessageFromContentScript(data)
     processMessage(store, message.type, message.payload)
   })
 
 // listen to incoming events
-export const listenToExtensionMessages = store => {
+export const listenToExtensionMessages = (store) => {
   const handler = processLunieExtensionMessages(store)
   window.addEventListener("message", handler)
 }
@@ -52,9 +52,9 @@ const sendMessageToContentScript = (payload, skipResponse = false) => {
 
 // react to certain response type
 function waitForResponse(type, antifreeze = false) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     let timeout = antifreeze && setTimeout(() => resolve({}), 500) // hacky fix to prevent freezing
-    const handler = filterExtensionMessage(data => {
+    const handler = filterExtensionMessage((data) => {
       const message = unWrapMessageFromContentScript(data)
       if (message.type === type) {
         antifreeze && clearTimeout(timeout)
@@ -91,7 +91,7 @@ export const getSignQueue = async () => {
   const { amount } = await sendAsyncMessageToContentScript(
     {
       type: "LUNIE_GET_SIGN_QUEUE",
-      payload: {}
+      payload: {},
     },
     true
   )
@@ -113,8 +113,8 @@ export const signWithExtension = async (
       message,
       transactionData,
       senderAddress,
-      network: network.id
-    }
+      network: network.id,
+    },
   })
 
   return signedContext
@@ -125,8 +125,8 @@ export const cancelSignWithExtension = async (senderAddress, network) => {
     type: "LUNIE_SIGN_REQUEST_CANCEL",
     payload: {
       senderAddress,
-      network: network.id
-    }
+      network: network.id,
+    },
   })
 
   return true

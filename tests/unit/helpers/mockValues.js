@@ -8,40 +8,40 @@ const botAddress = `cosmos1p6zajjw6xged056andyhn62lm7axwzyspkzjq0`
 const addresses = [
   `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
   `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`,
-  botAddress
+  botAddress,
 ]
 const validators = [
   `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
   `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
-  `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`
+  `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n`,
 ]
 const state = {
   keys: [
     {
       name: `default`,
       password: `1234567890`,
-      address: addresses[0]
-    }
+      address: addresses[0],
+    },
   ],
   accounts: {
     [addresses[0]]: {
       coins: [
         {
           denom: `mycoin`,
-          amount: `10000000000`
+          amount: `10000000000`,
         },
         {
           denom: `fermion`,
-          amount: `23000000000`
+          amount: `23000000000`,
         },
         {
           denom: `STAKE`,
-          amount: `10000000000`
-        }
+          amount: `10000000000`,
+        },
       ],
       sequence: `1`,
-      account_number: `1`
-    }
+      account_number: `1`,
+    },
   },
   nonces: { [addresses[0]]: 0 },
   txs: [
@@ -54,14 +54,14 @@ const state = {
               value: {
                 from_address: addresses[1],
                 to_address: addresses[0],
-                amount: [{ denom: `jbcoins`, amount: `12340000000` }]
-              }
-            }
-          ]
-        }
+                amount: [{ denom: `jbcoins`, amount: `12340000000` }],
+              },
+            },
+          ],
+        },
       },
       hash: `999ADECC2DE8C3AC2FD4F45E5E1081747BBE504A`,
-      height: 1
+      height: 1,
     },
     {
       tx: {
@@ -72,14 +72,14 @@ const state = {
               value: {
                 from_address: addresses[0],
                 to_address: addresses[1],
-                amount: [{ denom: `fabocoins`, amount: `12340000000` }]
-              }
-            }
-          ]
-        }
+                amount: [{ denom: `fabocoins`, amount: `12340000000` }],
+              },
+            },
+          ],
+        },
       },
       hash: `A7C6DE5CA923AF08E6088F1348047F16BABB9F48`,
-      height: 150
+      height: 150,
     },
     {
       hash: `QSDFGE5CA923AF08E6088F1348047F16BAHH8K31`,
@@ -98,14 +98,14 @@ const state = {
                 initial_deposit: [
                   {
                     denom: `STAKE`,
-                    amount: `1000000000`
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
+                    amount: `1000000000`,
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
     },
     {
       hash: `QASDE5CA923AF08EEE38F1348047F16BAHH8K31`,
@@ -122,14 +122,14 @@ const state = {
                 amount: [
                   {
                     denom: `STAKE`,
-                    amount: `1000000000`
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
+                    amount: `1000000000`,
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
     },
     {
       tx: {
@@ -142,15 +142,15 @@ const state = {
                 delegator_address: addresses[0],
                 delegation: {
                   amount: `240000000`,
-                  denom: `STAKE`
-                }
-              }
-            }
-          ]
-        }
+                  denom: `STAKE`,
+                },
+              },
+            },
+          ],
+        },
       },
       hash: `A7C6DE5CB923AF08E6088F1348047F16BABB9F48`,
-      height: 160
+      height: 160,
     },
     {
       tx: {
@@ -161,15 +161,15 @@ const state = {
               value: {
                 validator_address: validators[0],
                 delegator_address: addresses[0],
-                shares: `500000000`
-              }
-            }
-          ]
-        }
+                shares: `500000000`,
+              },
+            },
+          ],
+        },
       },
       hash: `A7C6FDE5CA923AF08E6088F1348047F16BABB9F48`,
-      height: 170
-    }
+      height: 170,
+    },
   ],
   stake: {
     [addresses[0]]: {
@@ -178,12 +178,12 @@ const state = {
           delegator_address: addresses[0],
           validator_address: validators[0],
           shares: `14`,
-          height: 123
-        }
+          height: 123,
+        },
       ],
       unbonding_delegations: [],
-      redelegations: []
-    }
+      redelegations: [],
+    },
   },
   candidates: [
     {
@@ -196,7 +196,7 @@ const state = {
         website: `www.monty.ca`,
         details: `Mr Mounty`,
         moniker: `mr_mounty`,
-        country: `Canada`
+        country: `Canada`,
       },
       status: 2,
       jailed: false,
@@ -208,9 +208,9 @@ const state = {
         rate: `0`,
         max_rate: `0`,
         max_change_rate: `0`,
-        update_time: `1970-01-01T00:00:00Z`
+        update_time: `1970-01-01T00:00:00Z`,
       },
-      prev_bonded_shares: `0`
+      prev_bonded_shares: `0`,
     },
     {
       operator_address: validators[1],
@@ -222,7 +222,7 @@ const state = {
         website: `www.greg.com`,
         details: `Good Guy Greg`,
         moniker: `good_greg`,
-        country: `USA`
+        country: `USA`,
       },
       status: 2,
       jailed: false,
@@ -234,9 +234,9 @@ const state = {
         rate: `0`,
         max_rate: `0`,
         max_change_rate: `0`,
-        update_time: new Date(Date.now()).toISOString()
+        update_time: new Date(Date.now()).toISOString(),
       },
-      prev_bonded_shares: `0`
+      prev_bonded_shares: `0`,
     },
     {
       operator_address: validators[2],
@@ -247,7 +247,7 @@ const state = {
         details: `Herr Schmidt`,
         website: `www.schmidt.de`,
         moniker: `herr_schmidt_revoked`,
-        country: `DE`
+        country: `DE`,
       },
       revoked: true,
       status: 2,
@@ -260,9 +260,9 @@ const state = {
         rate: `0`,
         max_rate: `0`,
         max_change_rate: `0`,
-        update_time: new Date(Date.now()).toISOString()
+        update_time: new Date(Date.now()).toISOString(),
       },
-      prev_bonded_shares: `0`
+      prev_bonded_shares: `0`,
     },
     {
       operator_address: validators[3],
@@ -273,7 +273,7 @@ const state = {
         details: `Jailed validator`,
         website: `www.awesomewebsite.io`,
         moniker: `sad_to_be_jailed`,
-        country: `ES`
+        country: `ES`,
       },
       status: 0,
       jailed: true,
@@ -285,9 +285,9 @@ const state = {
         rate: `0`,
         max_rate: `0`,
         max_change_rate: `0`,
-        update_time: new Date(Date.now()).toISOString()
+        update_time: new Date(Date.now()).toISOString(),
       },
-      prev_bonded_shares: `0`
+      prev_bonded_shares: `0`,
     },
     {
       operator_address: validators[4],
@@ -298,7 +298,7 @@ const state = {
         details: `Tombstoned validator`,
         website: `www.anotherawesomewebsite.io`,
         moniker: `sad_to_be_tombstoned`,
-        country: `ES`
+        country: `ES`,
       },
       status: 0,
       jailed: false,
@@ -310,47 +310,47 @@ const state = {
         rate: `0`,
         max_rate: `0`,
         max_change_rate: `0`,
-        update_time: new Date(Date.now()).toISOString()
+        update_time: new Date(Date.now()).toISOString(),
       },
-      prev_bonded_shares: `0`
-    }
+      prev_bonded_shares: `0`,
+    },
   ],
   pool: {
     loose_tokens: `1000000000.00000000000`,
-    bonded_tokens: `500000000.00000000000`
+    bonded_tokens: `500000000.00000000000`,
   },
   stakingParameters: {
     parameters: {
       unbonding_time: `2592000000000000`,
       max_validators: 100,
-      bond_denom: `STAKE`
-    }
+      bond_denom: `STAKE`,
+    },
   },
   governanceParameters: {
     deposit: {
       min_deposit: [
         {
           denom: `STAKE`,
-          amount: `100000000.00000000000`
-        }
+          amount: `100000000.00000000000`,
+        },
       ],
-      max_deposit_period: `86400000000000`
+      max_deposit_period: `86400000000000`,
     },
     tallying: {
       threshold: `0.50000000000`,
       veto: `0.33400000000`,
-      quorum: `0.33400000000`
+      quorum: `0.33400000000`,
     },
     voting: {
-      voting_period: `86400000000000`
-    }
+      voting_period: `86400000000000`,
+    },
   },
   sendHeight: 2,
   signing_info: {
     start_height: 2,
     index_offset: 1,
     jailed_until: new Date(Date.now()).toISOString(),
-    missed_blocks_counter: 1
+    missed_blocks_counter: 1,
   },
   proposals: {
     1: {
@@ -361,14 +361,14 @@ const state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `1000000000`
-        }
+          amount: `1000000000`,
+        },
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `1000000000`
-        }
+          amount: `1000000000`,
+        },
       ],
       submit_time: new Date(Date.now()).toISOString(),
       deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
@@ -379,8 +379,8 @@ const state = {
         yes: `5000000000`,
         no: `250000000`,
         no_with_veto: `100000000`,
-        abstain: `560000000`
-      }
+        abstain: `560000000`,
+      },
     },
     2: {
       proposal_id: `2`,
@@ -390,14 +390,14 @@ const state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `2000000000`
-        }
+          amount: `2000000000`,
+        },
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `2000000000`
-        }
+          amount: `2000000000`,
+        },
       ],
       submit_time: new Date(Date.now()).toISOString(),
       deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
@@ -408,8 +408,8 @@ const state = {
         yes: `0`,
         no: `0`,
         no_with_veto: `0`,
-        abstain: `0`
-      }
+        abstain: `0`,
+      },
     },
     5: {
       proposal_id: `5`,
@@ -419,14 +419,14 @@ const state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `200000000`
-        }
+          amount: `200000000`,
+        },
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `1700000000`
-        }
+          amount: `1700000000`,
+        },
       ],
       submit_time: new Date(Date.now()).toISOString(),
       deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
@@ -437,8 +437,8 @@ const state = {
         yes: `0`,
         no: `0`,
         no_with_veto: `0`,
-        abstain: `0`
-      }
+        abstain: `0`,
+      },
     },
     6: {
       proposal_id: `6`,
@@ -448,14 +448,14 @@ const state = {
       initial_deposit: [
         {
           denom: `STAKE`,
-          amount: `1000000000`
-        }
+          amount: `1000000000`,
+        },
       ],
       total_deposit: [
         {
           denom: `STAKE`,
-          amount: `1000000000`
-        }
+          amount: `1000000000`,
+        },
       ],
       submit_time: new Date(Date.now()).toISOString(),
       deposit_end_time: new Date(Date.now() + day * 2).toISOString(),
@@ -466,74 +466,74 @@ const state = {
         yes: `100000000`,
         no: `300000000`,
         no_with_veto: `1000000000`,
-        abstain: `200000000`
-      }
-    }
+        abstain: `200000000`,
+      },
+    },
   },
   tallies: {
     1: {
       yes: `5000000000`,
       no: `250000000`,
       no_with_veto: `100000000`,
-      abstain: `560000000`
+      abstain: `560000000`,
     },
     2: {
       yes: `0`,
       no: `0`,
       no_with_veto: `0`,
-      abstain: `0`
+      abstain: `0`,
     },
     5: {
       yes: `0`,
       no: `0`,
       no_with_veto: `0`,
-      abstain: `0`
+      abstain: `0`,
     },
     6: {
       yes: `100000000`,
       no: `300000000`,
       no_with_veto: `1000000000`,
-      abstain: `200000000`
-    }
+      abstain: `200000000`,
+    },
   },
   votes: {
     1: [
       {
         proposal_id: `1`,
         voter: validators[0],
-        option: `Yes`
+        option: `Yes`,
       },
       {
         proposal_id: `1`,
         voter: validators[1],
-        option: `NoWithVeto`
-      }
+        option: `NoWithVeto`,
+      },
     ],
     2: [],
     5: [
       {
         proposal_id: `5`,
         voter: validators[0],
-        option: `No`
+        option: `No`,
       },
       {
         proposal_id: `5`,
         voter: validators[1],
-        option: `Abstain`
-      }
+        option: `Abstain`,
+      },
     ],
     6: [
       {
         proposal_id: `6`,
         voter: validators[0],
-        option: `No`
+        option: `No`,
       },
       {
         proposal_id: `6`,
         voter: validators[1],
-        option: `NoWithVeto`
-      }
-    ]
+        option: `NoWithVeto`,
+      },
+    ],
   },
   deposits: {
     1: [
@@ -543,13 +543,13 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `150000000`
+            amount: `150000000`,
           },
           {
             denom: `STAKE`,
-            amount: `50000000`
-          }
-        ]
+            amount: `50000000`,
+          },
+        ],
       },
       {
         proposal_id: `1`,
@@ -557,10 +557,10 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `50000000`
-          }
-        ]
-      }
+            amount: `50000000`,
+          },
+        ],
+      },
     ],
     2: [
       {
@@ -569,10 +569,10 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `2000000000`
-          }
-        ]
-      }
+            amount: `2000000000`,
+          },
+        ],
+      },
     ],
     5: [
       {
@@ -581,9 +581,9 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `200000000`
-          }
-        ]
+            amount: `200000000`,
+          },
+        ],
       },
       {
         proposal_id: `5`,
@@ -591,10 +591,10 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `1500000000`
-          }
-        ]
-      }
+            amount: `1500000000`,
+          },
+        ],
+      },
     ],
     6: [
       {
@@ -603,17 +603,17 @@ const state = {
         amount: [
           {
             denom: `STAKE`,
-            amount: `1000000000`
-          }
-        ]
-      }
-    ]
-  }
+            amount: `1000000000`,
+          },
+        ],
+      },
+    ],
+  },
 }
 
 module.exports = {
   ...state,
   state, // for backwards compatibility
   addresses,
-  validators
+  validators,
 }

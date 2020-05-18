@@ -1,5 +1,5 @@
 module.exports = {
-  "Validators search": async function(browser) {
+  "Validators search": async function (browser) {
     // move to according page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
 
@@ -57,13 +57,13 @@ module.exports = {
         )
       }
     }
-  }
+  },
 }
 
 function isSameArray(array1, array2) {
   var is_same =
     array1.length == array2.length &&
-    array1.every(function(element, index) {
+    array1.every(function (element, index) {
       return element === array2[index]
     })
   return is_same
@@ -71,9 +71,9 @@ function isSameArray(array1, array2) {
 
 async function getValidators(browser) {
   const { value } = await browser.execute(
-    function() {
+    function () {
       const validatorLIs = document.getElementsByClassName("li-validator")
-      return Array.from(validatorLIs).map(item =>
+      return Array.from(validatorLIs).map((item) =>
         item.getAttribute("data-name")
       )
     },
@@ -84,5 +84,5 @@ async function getValidators(browser) {
 }
 
 async function sleep() {
-  await new Promise(resolve => setTimeout(resolve, 2000))
+  await new Promise((resolve) => setTimeout(resolve, 2000))
 }

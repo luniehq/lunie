@@ -19,14 +19,14 @@ export default {
   props: {
     tabs: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data() {
     return {
-      tabIndex: 1
+      tabIndex: 1,
     }
-  }
+  },
 }
 </script>
 <style scoped>

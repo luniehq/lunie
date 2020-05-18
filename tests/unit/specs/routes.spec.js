@@ -10,28 +10,28 @@ describe("Routes", () => {
         networks: [
           {
             id: `cosmos-hub-mainnet`,
-            slug: `cosmos-hub`
+            slug: `cosmos-hub`,
           },
           {
             id: `keine-ahnungnet`,
-            slug: `keineahnung`
+            slug: `keineahnung`,
           },
           {
             id: `la-red-feliz`,
-            slug: `redfeliz`
-          }
-        ]
-      }
+            slug: `redfeliz`,
+          },
+        ],
+      },
     }
     await extensionSignIn(
       {
         to: {
           params: {
             network: "cosmos-hub-mainnet",
-            address: "cosmos1234"
-          }
+            address: "cosmos1234",
+          },
         },
-        next
+        next,
       },
       store
     )
@@ -39,7 +39,7 @@ describe("Routes", () => {
     expect(store.dispatch).toHaveBeenCalledWith("signIn", {
       address: "cosmos1234",
       networkId: "cosmos-hub-mainnet",
-      sessionType: `extension`
+      sessionType: `extension`,
     })
     expect(next).toHaveBeenCalledWith(`/cosmos-hub/portfolio`)
   })
@@ -49,9 +49,9 @@ describe("Routes", () => {
     const next = jest.fn()
     const to = {
       params: {
-        networkId: "terra"
+        networkId: "terra",
       },
-      path: "/terra/blocks/12345"
+      path: "/terra/blocks/12345",
     }
     const store = {
       dispatch: jest.fn(() => {
@@ -59,24 +59,24 @@ describe("Routes", () => {
       }),
       state: {
         connection: {
-          networkSlug: "cosmos-hub"
-        }
+          networkSlug: "cosmos-hub",
+        },
       },
       getters: {
         networks: [
           {
             id: `terra-testnet`,
-            slug: `terra`
-          }
-        ]
-      }
+            slug: `terra`,
+          },
+        ],
+      },
     }
 
     await setNetwork({ to, next }, store)
 
     expect(store.dispatch).toHaveBeenCalledWith("setNetwork", {
       id: `terra-testnet`,
-      slug: `terra`
+      slug: `terra`,
     })
     expect(next).toHaveBeenCalledWith(`/terra/blocks/12345`)
   })

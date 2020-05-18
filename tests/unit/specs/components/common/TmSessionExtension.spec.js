@@ -8,13 +8,13 @@ describe(`TmSessionExtension`, () => {
     {
       address: "cosmos1234",
       network: "cosmos-hub-mainnet",
-      slug: "cosmos-hub"
+      slug: "cosmos-hub",
     },
     {
       address: "cosmos15678",
       network: "gaia-testnet",
-      slug: "cosmos-hub-testnet"
-    }
+      slug: "cosmos-hub-testnet",
+    },
   ]
 
   const networks = [
@@ -24,7 +24,7 @@ describe(`TmSessionExtension`, () => {
       logo_url: "cosmos-logo.png",
       testnet: true,
       title: "Cosmos Hub Test",
-      slug: "gaia"
+      slug: "gaia",
     },
     {
       id: "cosmos-hub-mainnet",
@@ -32,35 +32,35 @@ describe(`TmSessionExtension`, () => {
       logo_url: "cosmos-logo.png",
       testnet: false,
       title: "Cosmos Hub",
-      slug: "cosmos-hub"
-    }
+      slug: "cosmos-hub",
+    },
   ]
 
   beforeEach(() => {
     const state = {
       extension: {
         enabled: true,
-        accounts
-      }
+        accounts,
+      },
     }
 
     $store = {
       getters: {
         networkSlug: "cosmos-hub",
-        networks
+        networks,
       },
       commit: jest.fn(),
       dispatch: jest.fn(),
-      state
+      state,
     }
     $router = {
-      push: jest.fn()
+      push: jest.fn(),
     }
     wrapper = shallowMount(TmSessionExtension, {
       mocks: {
         $store,
-        $router
-      }
+        $router,
+      },
     })
   })
 
@@ -68,17 +68,17 @@ describe(`TmSessionExtension`, () => {
     $store.dispatch = jest.fn(() => Promise.resolve(networks[1]))
     await wrapper.vm.signInAndRedirect({
       network: "cosmos-hub-mainnet",
-      address: "cosmos1"
+      address: "cosmos1",
     })
 
     expect($router.push).toHaveBeenCalledWith({
       name: "portfolio",
-      params: { networkId: "cosmos-hub" }
+      params: { networkId: "cosmos-hub" },
     })
     expect($store.dispatch).toHaveBeenCalledWith("signIn", {
       sessionType: `extension`,
       address: "cosmos1",
-      networkId: "cosmos-hub-mainnet"
+      networkId: "cosmos-hub-mainnet",
     })
   })
 

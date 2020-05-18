@@ -12,7 +12,7 @@ const nightwatch_config = {
     port: 9515,
     default_path_prefix: "",
     server_path: chromedriver.path,
-    cli_args: ["--verbose", "--no-sandbox"]
+    cli_args: ["--verbose", "--no-sandbox"],
   },
   desiredCapabilities: {
     browserName: "chrome",
@@ -21,7 +21,7 @@ const nightwatch_config = {
     loggingPrefs: {
       driver: "INFO",
       server: "OFF",
-      browser: "INFO"
+      browser: "INFO",
     },
     chromeOptions: {
       args: [
@@ -29,29 +29,29 @@ const nightwatch_config = {
         "ignore-certificate-errors",
         "no-sandbox",
         // "headless", // headless is not possible as it doesn't allow to fix the internationalization
-        "window-size=1920,1080"
+        "window-size=1920,1080",
       ],
       prefs: {
-        "intl.accept_languages": "en-US,en"
-      }
-    }
+        "intl.accept_languages": "en-US,en",
+      },
+    },
   },
   screenshots: {
     enabled: true,
     on_failure: true,
     on_error: true,
-    path: "screenshots"
+    path: "screenshots",
   },
   request_timeout_options: {
     timeout: 60000,
-    retry_attempts: 5
+    retry_attempts: 5,
   },
   test_settings: {
     default: {
       silent: true,
-      filter: ["*.spec.js"]
-    }
-  }
+      filter: ["*.spec.js"],
+    },
+  },
 }
 
 module.exports = nightwatch_config

@@ -8,14 +8,14 @@ let messaging
 
 const initializeFirebase = async () => {
   navigator.serviceWorker.register("/firebase-messaging-sw.js", {
-    scope: "/"
+    scope: "/",
   })
 
   firebase.initializeApp({
     apiKey: "AIzaSyCrA4mq9v926h3aX9mfkLlzUSRbjFude14",
     projectId: "lunie-push-notifications",
     messagingSenderId: "783884833065",
-    appId: "1:783884833065:web:ea02768959989b9218a738"
+    appId: "1:783884833065:web:ea02768959989b9218a738",
   })
 
   messaging = firebase.messaging()
@@ -23,7 +23,7 @@ const initializeFirebase = async () => {
 
   await navigator.serviceWorker.ready
 
-  messaging.onMessage(payload => {
+  messaging.onMessage((payload) => {
     console.log("Message received. ", payload) // TODO: Do something with message when window is open such as a toast
   })
 }
@@ -70,7 +70,7 @@ const askPermissionAndRegister = async (activeNetworks, apollo) => {
         const token = await messaging.getToken()
         await registerDevice(token, activeNetworks, apollo)
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.code === "messaging/permission-blocked") {
           localStorage.setItem("registration-push-notifications", "blocked")
         } else {
@@ -99,8 +99,8 @@ const registerDevice = async (token, activeNetworks, apollo) => {
     `,
     variables: {
       token,
-      activeNetworks: JSON.stringify(activeNetworks)
-    }
+      activeNetworks: JSON.stringify(activeNetworks),
+    },
   })
 
   localStorage.setItem("registration-push-notifications", "allowed")
@@ -110,5 +110,5 @@ const registerDevice = async (token, activeNetworks, apollo) => {
 export default {
   initializeFirebase,
   askPermissionAndRegister,
-  registerDevice
+  registerDevice,
 }

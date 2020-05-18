@@ -14,26 +14,26 @@ describe(`RestakeTxDetails`, () => {
     fees: [
       {
         denom: "ATOM",
-        amount: "0.00045"
-      }
+        amount: "0.00045",
+      },
     ],
     details: {
       from: ["cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"],
       to: ["cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"],
       amount: {
         denom: "ATOM",
-        amount: "10"
-      }
-    }
+        amount: "10",
+      },
+    },
   }
 
   it(`renders a restake transaction message`, () => {
     wrapper = shallowMount(RestakeTxDetails, {
       propsData: {
         transaction: tx,
-        validators: {}
+        validators: {},
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     expect(wrapper.element).toMatchSnapshot()
   })

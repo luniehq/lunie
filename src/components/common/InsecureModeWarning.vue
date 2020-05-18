@@ -4,7 +4,7 @@
     <p
       v-if="
         connection.network === 'cosmos-hub-mainnet' ||
-          connection.network === 'cosmos-hub-testnet'
+        connection.network === 'cosmos-hub-testnet'
       "
     >
       We'd recommend starting with our guide:
@@ -43,8 +43,8 @@
     <ModalTutorial
       v-if="
         showTutorial &&
-          (connection.network === 'cosmos-hub-mainnet' ||
-            connection.network === 'cosmos-hub-testnet')
+        (connection.network === 'cosmos-hub-mainnet' ||
+          connection.network === 'cosmos-hub-testnet')
       "
       :steps="cosmosKeysTutorial.steps"
       :fullguide="cosmosKeysTutorial.fullguide"
@@ -61,7 +61,7 @@ import ModalTutorial from "common/ModalTutorial"
 export default {
   name: `insecure-mode-warning`,
   components: {
-    ModalTutorial
+    ModalTutorial,
   },
   data: () => ({
     showTutorial: false,
@@ -73,44 +73,44 @@ export default {
           title: "Managing your keys",
           // Each content array item will be enclosed in a span (newline)
           content: [
-            "When you create an address, we're also creating a public and private key-pair for you in the background. Your address can be public but your backup code should remain private."
-          ]
+            "When you create an address, we're also creating a public and private key-pair for you in the background. Your address can be public but your backup code should remain private.",
+          ],
         },
         {
           title: "The backup code",
           content: [
-            "The backup code (aka. seed phrase) needs to be treated with great care. Using your backup key, it's possible to determine your private key and access your tokens."
-          ]
+            "The backup code (aka. seed phrase) needs to be treated with great care. Using your backup key, it's possible to determine your private key and access your tokens.",
+          ],
         },
         {
           title: "Several copies, stored safely",
           content: [
-            "Keep a physical copy of your backup code written down somewhere. We'd recommend storing it in different places both physically on paper and encrypted digitally."
-          ]
+            "Keep a physical copy of your backup code written down somewhere. We'd recommend storing it in different places both physically on paper and encrypted digitally.",
+          ],
         },
         {
           title: "The 'private' key",
           content: [
-            "Never reveal your backup code or private key to anyone. This backup code should always remain private."
-          ]
+            "Never reveal your backup code or private key to anyone. This backup code should always remain private.",
+          ],
         },
         {
           title: "Use a hardware wallet",
           content: [
-            "Our browser extension and mobile apps will keep your keys safe, but nothing has the same guarantees as a hardware wallet."
-          ]
+            "Our browser extension and mobile apps will keep your keys safe, but nothing has the same guarantees as a hardware wallet.",
+          ],
         },
         {
           title: "Have more questions?",
           content: [
-            "Check out our full guide for an in depth explanation of how to manage your keys!"
-          ]
-        }
-      ]
-    }
+            "Check out our full guide for an in depth explanation of how to manage your keys!",
+          ],
+        },
+      ],
+    },
   }),
   computed: {
-    ...mapState([`connection`])
+    ...mapState([`connection`]),
   },
   methods: {
     openTutorial() {
@@ -118,8 +118,8 @@ export default {
     },
     hideTutorial() {
       this.showTutorial = false
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

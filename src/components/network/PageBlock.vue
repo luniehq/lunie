@@ -143,18 +143,18 @@ export default {
   components: {
     TmDataMsg,
     TmPage,
-    TransactionList
+    TransactionList,
   },
   filters: {
     date,
-    prettyInt
+    prettyInt,
   },
   data: () => ({
     block: {
-      transactions: []
+      transactions: [],
     },
     validators: [],
-    error: undefined
+    error: undefined,
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -163,7 +163,7 @@ export default {
     },
     validatorsAddressMap() {
       const names = {}
-      this.validators.forEach(item => {
+      this.validators.forEach((item) => {
         names[item.operatorAddress] = item
       })
       return names
@@ -171,7 +171,7 @@ export default {
     unknownTxs() {
       if (this.block && this.block.transactions) {
         return this.block.transactions.filter(
-          transaction => transaction.type === `UnknownTx`
+          (transaction) => transaction.type === `UnknownTx`
         )
       }
       return []
@@ -179,12 +179,12 @@ export default {
     filteredTransactions() {
       if (this.block && this.block.transactions) {
         return this.block.transactions.filter(
-          transaction => transaction.type !== `UnknownTx`
+          (transaction) => transaction.type !== `UnknownTx`
         )
       } else {
         return {}
       }
-    }
+    },
   },
   apollo: {
     validators: {
@@ -199,13 +199,13 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.network
+          networkId: this.network,
         }
       },
       /* istanbul ignore next */
-      update: function(result) {
+      update: function (result) {
         return result.validators
-      }
+      },
     },
     block: {
       query: gql`
@@ -227,20 +227,20 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          height: Number(this.height)
+          height: Number(this.height),
         }
       },
       /* istanbul ignore next */
-      update: function(result) {
+      update: function (result) {
         return result.blockV2
       },
       /* istanbul ignore next */
       result({ error }) {
         // TODO move logic of 404 into API
         this.error = error
-      }
-    }
-  }
+      },
+    },
+  },
 }
 </script>
 <style scoped>

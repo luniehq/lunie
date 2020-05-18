@@ -6,8 +6,8 @@ describe(`FeatureNotAvailable`, () => {
   beforeEach(() => {
     wrapper = mount(FeatureNotAvailable, {
       propsData: {
-        feature: "Spacetravel"
-      }
+        feature: "Spacetravel",
+      },
     })
   })
 
