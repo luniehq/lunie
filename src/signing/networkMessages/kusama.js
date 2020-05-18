@@ -18,23 +18,32 @@ export async function StakeTx(senderAddress, { to, amount, addressRole }, networ
   // stake with all existing plus the selected
   const api = await getAPI()
   const transactions = []
-  const chainAmount = toChainAmount(amount, network.coinLookup)
-  const payee = 0
-  if (addressRole === `stash/controller` && amount > 0) {
-    transactions.push(await api.tx.staking.bondExtra(chainAmount))
-  } else if (addressRole === `stash`) {
-    transactions.push(await api.tx.staking.bondExtra(chainAmount))
-  } else if (addressRole === `none`) {
-    transactions.push(
-      await api.tx.staking.bond(senderAddress, chainAmount, payee)
-    )
+
+  if (amount > 0) {
+    const chainAmount = toChainAmount(amount, network.coinLookup)
+    const payee = 0
+
+    if (addressRole === `stash/controller` || addressRole === `stash`) {
+      transactions.push(await api.tx.staking.bondExtra(chainAmount))
+    }
+    if (addressRole === `none`) {
+      // bonds the stash address as a controller of this account
+      // there has to be a controller set for staking actions
+      transactions.push(
+        await api.tx.staking.bond(senderAddress, chainAmount, payee)
+      )
+    }
+    // controllers can't bond stake
   }
 
-  if (addressRole && addressRole !== `stash`) {
-    const response = await api.query.staking.nominators(senderAddress)
-    const { targets: delegatedValidators = [] } = response.toJSON() || {}
-    const validatorAddresses = uniqBy(delegatedValidators.concat(to[0]), x => x)
-    transactions.push(await api.tx.staking.nominate(validatorAddresses))
+  if (to.length > 0) {
+    // only controller addresses can nominate (for not set controllers, we set the controller above)
+    if (['controller', 'stash/controller', 'none'].includes(addressRole)) {
+      const response = await api.query.staking.nominators(senderAddress)
+      const { targets: delegatedValidators = [] } = response.toJSON() || {}
+      const validatorAddresses = uniqBy(delegatedValidators.concat(to[0]), x => x)
+      transactions.push(await api.tx.staking.nominate(validatorAddresses))
+    }
   }
 
   if (transactions.length === 0) {
