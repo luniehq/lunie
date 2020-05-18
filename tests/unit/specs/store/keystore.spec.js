@@ -5,35 +5,35 @@ const networks = [
     id: "cosmos-hub-testnet",
     network_type: "cosmos",
     address_prefix: "cosmos",
-    testnet: true
+    testnet: true,
   },
   {
     id: "cosmos-hub-mainnet",
     network_type: "cosmos",
     address_prefix: "cosmos",
-    testnet: false
+    testnet: false,
   },
   {
     id: "kusama",
     address_prefix: "2",
     testnet: false,
-    network_type: "polkadot"
-  }
+    network_type: "polkadot",
+  },
 ]
 
 const mockKeysLib = {
   testPassword: () => true,
   getSeed: () => `xxx`,
   getNewWalletFromSeed: () => ({
-    cosmosAddress: "cosmos1234"
+    cosmosAddress: "cosmos1234",
   }),
   getWalletIndex: () => [
     {
       name: `def`,
-      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-    }
+      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+    },
   ],
-  storeWallet: () => {}
+  storeWallet: () => {},
 }
 jest.mock("@lunie/cosmos-keys", () => mockKeysLib)
 
@@ -42,8 +42,8 @@ describe(`Module: Keystore`, () => {
   const accounts = [
     {
       address: `tb1zg69v7yszg69v7yszg69v7yszg69v7ysd8ep6q`,
-      name: `ACTIVE_ACCOUNT`
-    }
+      name: `ACTIVE_ACCOUNT`,
+    },
   ]
 
   beforeEach(() => {
@@ -52,10 +52,10 @@ describe(`Module: Keystore`, () => {
         data: {
           network: {
             network_type: "cosmos",
-            address_prefix: "cosmos"
-          }
-        }
-      }))
+            address_prefix: "cosmos",
+          },
+        },
+      })),
     }
     module = keystoreModule({ apollo })
     state = module.state
@@ -63,7 +63,7 @@ describe(`Module: Keystore`, () => {
     mutations = module.mutations
 
     state.externals = {
-      track: jest.fn()
+      track: jest.fn(),
     }
   })
 
@@ -81,21 +81,21 @@ describe(`Module: Keystore`, () => {
     expect(commit).toHaveBeenCalledWith(`setAccounts`, [
       {
         name: `def`,
-        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-      }
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+      },
     ])
   })
 
   it(`should test if the login works`, async () => {
     jest.doMock("@lunie/cosmos-keys", () => ({
       ...mockKeysLib,
-      testPassword: () => {}
+      testPassword: () => {},
     }))
     let output = await actions.testLogin(
       { state },
       {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-        password: `1234567890`
+        password: `1234567890`,
       }
     )
     expect(output).toBe(true)
@@ -105,13 +105,13 @@ describe(`Module: Keystore`, () => {
       ...mockKeysLib,
       testPassword: () => {
         throw new Error("Expected")
-      }
+      },
     }))
     output = await actions.testLogin(
       { state },
       {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-        password: `1234567890`
+        password: `1234567890`,
       }
     )
     expect(output).toBe(false)
@@ -130,14 +130,14 @@ describe(`Module: Keystore`, () => {
             id: "cosmos-hub-testnet",
             network_type: "cosmos",
             address_prefix: "cosmos",
-            testnet: true
-          }
-        ]
-      }
+            testnet: true,
+          },
+        ],
+      },
     }
     const address = await actions.getAddressFromSeed(store, {
       seedPhrase: `xxx`,
-      network: `cosmos-hub-testnet`
+      network: `cosmos-hub-testnet`,
     })
     expect(address).toBe(`cosmos1234`)
   })
@@ -151,15 +151,15 @@ describe(`Module: Keystore`, () => {
             id: "kusama",
             address_prefix: "2",
             testnet: false,
-            network_type: "polkadot"
-          }
-        ]
-      }
+            network_type: "polkadot",
+          },
+        ],
+      },
     }
 
     const address = await actions.getAddressFromSeed(store, {
       seedPhrase: `lunch primary know smoke track sustain parrot enact shock final rookie banana`,
-      network: "kusama"
+      network: "kusama",
     })
     expect(address).toBe(`DcjhGvTmsVvJHzqFR1SQVHs77cFTQTJrm59WPM4FRgbGFoR`)
   })
@@ -173,15 +173,15 @@ describe(`Module: Keystore`, () => {
             id: "kusama",
             address_prefix: "2",
             testnet: false,
-            network_type: "polkadot"
-          }
-        ]
-      }
+            network_type: "polkadot",
+          },
+        ],
+      },
     }
 
     const address = await actions.getAddressFromSeed(store, {
       seedPhrase: `spirit ride warm like ribbon axis minimum number myth wrestle minute amount subway whip system axis cross box actual rifle control profit town advice`,
-      network: `kusama`
+      network: `kusama`,
     })
     expect(address).toBe(`DGTPCmSeaMKKkno6GMLteH6JUBjjRf6PEtvLgmKQS4SV3Tc`)
   })
@@ -195,15 +195,15 @@ describe(`Module: Keystore`, () => {
             id: "kusama",
             address_prefix: "2",
             testnet: false,
-            network_type: "polkadot"
-          }
-        ]
-      }
+            network_type: "polkadot",
+          },
+        ],
+      },
     }
 
     const address = await actions.getAddressFromSeed(store, {
       seedPhrase: `0x2fbaa6dc94a4bc904cc913de9151b890c5c1de1beb08ec01c96b66b355a7b9ca`,
-      network: `kusama`
+      network: `kusama`,
     })
     expect(address).toBe(`EkpVDgUgARxa96strjK5oCiEdLTokcTqw4uUMqEGBTmibLe`)
   })
@@ -218,19 +218,19 @@ describe(`Module: Keystore`, () => {
         dispatch,
         state,
         getters: {
-          networks
-        }
+          networks,
+        },
       },
       {
         seedPhrase,
         password,
         name,
-        network: "cosmos-hub-mainnet"
+        network: "cosmos-hub-mainnet",
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       address: "cosmos1234",
-      sessionType: "local"
+      sessionType: "local",
     })
     expect(state.externals.track).toHaveBeenCalled()
   })
@@ -245,14 +245,14 @@ describe(`Module: Keystore`, () => {
         dispatch,
         state,
         getters: {
-          networks
-        }
+          networks,
+        },
       },
       {
         seedPhrase,
         password,
         name,
-        network: "cosmos-hub-mainnet"
+        network: "cosmos-hub-mainnet",
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
@@ -268,25 +268,25 @@ describe(`Module: Keystore`, () => {
         dispatch,
         state,
         getters: {
-          networks
-        }
+          networks,
+        },
       },
       {
         seedPhrase,
         password,
         name,
-        network: "cosmos-hub-mainnet"
+        network: "cosmos-hub-mainnet",
       }
     )
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       address,
-      sessionType: "local"
+      sessionType: "local",
     })
   })
 
   it("should handle networks not being supported for account creation (as a fallback)", async () => {
     apollo.query.mockImplementationOnce(() => ({
-      data: {}
+      data: {},
     }))
     const store = {
       dispatch: jest.fn(),
@@ -294,10 +294,10 @@ describe(`Module: Keystore`, () => {
         networks: [
           {
             id: "fabo-net",
-            network_type: "fabocolor"
-          }
-        ]
-      }
+            network_type: "fabocolor",
+          },
+        ],
+      },
     }
 
     const seedPhrase = `abc`
@@ -308,7 +308,7 @@ describe(`Module: Keystore`, () => {
         seedPhrase,
         password,
         name,
-        network: "fabo-net"
+        network: "fabo-net",
       })
     ).rejects.toThrowError(
       "Lunie doesn't support address creation for this network."

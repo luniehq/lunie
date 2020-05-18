@@ -16,7 +16,7 @@
               @click="
                 $router.push({
                   name: 'Proposal',
-                  params: { proposalId: String(getPrevProposalId) }
+                  params: { proposalId: String(getPrevProposalId) },
                 })
               "
             >
@@ -29,7 +29,7 @@
               @click="
                 $router.push({
                   name: 'Proposal',
-                  params: { proposalId: String(getNextProposalId) }
+                  params: { proposalId: String(getNextProposalId) },
                 })
               "
             >
@@ -218,20 +218,20 @@ export default {
     TmDataLoading,
     TmPage,
     TextBlock,
-    Address
+    Address,
   },
   filters: {
     prettyInt,
     percent,
     date,
     fromNow,
-    lowerCase: text => text.toLowerCase()
+    lowerCase: (text) => text.toLowerCase(),
   },
   props: {
     proposalId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     proposals: [],
@@ -240,14 +240,14 @@ export default {
       status: "",
       proposer: "",
       tally: {},
-      validator: {}
+      validator: {},
     },
     parameters: {
-      depositDenom: "TESTCOIN"
+      depositDenom: "TESTCOIN",
     },
     error: undefined,
     found: false,
-    loaded: false
+    loaded: false,
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -265,13 +265,13 @@ export default {
     getPrevProposalId() {
       let id = this.getProposalIndex(1)
       return id
-    }
+    },
   },
   watch: {
     // Needed to show data loading component when you are browsing from one proposal to another
-    $route: function() {
+    $route: function () {
       this.loaded = false
-    }
+    },
   },
   methods: {
     onVote() {
@@ -289,10 +289,10 @@ export default {
     getProposalIndex(num) {
       let proposalsObj = this.proposals
       let proposalsIdArr = Object.values(proposalsObj).map(
-        proposal => proposal.id
+        (proposal) => proposal.id
       )
       return proposalsIdArr[proposalsIdArr.indexOf(this.proposal.id) + num]
-    }
+    },
   },
   apollo: {
     proposals: {
@@ -310,7 +310,7 @@ export default {
       variables() {
         /* istanbul ignore next */
         return {
-          networkId: this.network
+          networkId: this.network,
         }
       },
       update(data) {
@@ -320,14 +320,14 @@ export default {
         /* istanbul ignore next */
         if (
           data.proposals.find(
-            proposal => proposal.id === parseInt(this.proposalId, 10)
+            (proposal) => proposal.id === parseInt(this.proposalId, 10)
           )
         ) {
           this.found = true
         }
         /* istanbul ignore next */
         return data.proposals
-      }
+      },
     },
     proposal: {
       query() {
@@ -343,7 +343,7 @@ export default {
       variables() {
         /* istanbul ignore next */
         return {
-          id: +this.proposalId
+          id: +this.proposalId,
         }
       },
       skip() {
@@ -353,7 +353,7 @@ export default {
       result(data) {
         /* istanbul ignore next */
         this.error = data.error
-      }
+      },
     },
     parameters: {
       query() {
@@ -371,7 +371,7 @@ export default {
       result(data) {
         /* istanbul ignore next */
         this.error = data.error
-      }
+      },
     },
     vote: {
       query() {
@@ -382,7 +382,7 @@ export default {
         /* istanbul ignore next */
         return {
           proposalId: +this.proposalId,
-          address: this.address
+          address: this.address,
         }
       },
       skip() {
@@ -396,14 +396,14 @@ export default {
       result(data) {
         /* istanbul ignore next */
         this.error = data.error
-      }
+      },
     },
     $subscribe: {
       blockAdded: {
         variables() {
           /* istanbul ignore next */
           return {
-            networkId: this.network
+            networkId: this.network,
           }
         },
         query() {
@@ -432,10 +432,10 @@ export default {
             this.$apollo.queries.parameters.refetch()
             this.$apollo.queries.vote.refetch()
           }
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 

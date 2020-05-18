@@ -9,16 +9,16 @@ describe(`DisconnectedBar`, () => {
       dispatch: jest.fn(),
       state: {
         connection: {
-          stopConnecting: true
-        }
-      }
+          stopConnecting: true,
+        },
+      },
     }
 
     wrapper = shallowMount(DisconnectedBar, {
       mocks: {
-        $store
+        $store,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
@@ -30,16 +30,16 @@ describe(`DisconnectedBar`, () => {
     $store = {
       state: {
         connection: {
-          stopConnecting: false
-        }
-      }
+          stopConnecting: false,
+        },
+      },
     }
 
     wrapper = shallowMount(DisconnectedBar, {
       mocks: {
-        $store
+        $store,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     expect(wrapper.html()).toBeUndefined()
   })

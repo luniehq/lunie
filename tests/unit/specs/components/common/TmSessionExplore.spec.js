@@ -11,43 +11,43 @@ describe(`TmSessionExplore`, () => {
     {
       id: "cosmos-hub-testnet",
       address_prefix: "cosmos",
-      testnet: true
+      testnet: true,
     },
     {
       id: "cosmos-hub-mainnet",
       address_prefix: "cosmos",
       testnet: false,
-      slug: "cosmos-hub"
+      slug: "cosmos-hub",
     },
     {
       id: "terra-testnet",
       address_prefix: "terra",
-      testnet: true
+      testnet: true,
     },
     {
       id: "kusama",
       address_prefix: "",
       testnet: false,
-      type: "polkadot"
-    }
+      type: "polkadot",
+    },
   ]
   const addresses = [
     {
       address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
-      type: `explore`
+      type: `explore`,
     },
     {
       address: `cosmos1unc788q8md2jymsns24eyhua58palg5kc7cstv`,
-      type: `ledger`
+      type: `ledger`,
     },
     {
       address: `cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8klc`,
-      type: `extension`
+      type: `extension`,
     },
     {
       address: `cosmos1epsszxwps8ayeusfh8ru995atagc05sslwesuy`,
-      type: `local`
-    }
+      type: `local`,
+    },
   ]
 
   beforeEach(() => {
@@ -56,24 +56,24 @@ describe(`TmSessionExplore`, () => {
       dispatch: jest.fn(() => true),
       getters: {
         network: "cosmos-hub-testnet",
-        networks
+        networks,
       },
       state: {
         session: {
           address: ``,
-          addresses
-        }
-      }
+          addresses,
+        },
+      },
     }
 
     wrapper = shallowMount(TmSessionExplore, {
       localVue,
       mocks: {
         $router: {
-          push: jest.fn()
+          push: jest.fn(),
         },
-        $store
-      }
+        $store,
+      },
     })
   })
 
@@ -83,28 +83,28 @@ describe(`TmSessionExplore`, () => {
 
   it(`should close the modal on successful login`, async () => {
     wrapper.setData({
-      address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`
+      address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`,
     })
     wrapper.vm.$emit = jest.fn()
     $store.dispatch = () =>
       Promise.resolve({
-        slug: "cosmos-hub"
+        slug: "cosmos-hub",
       })
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
       name: "portfolio",
-      params: { networkId: "cosmos-hub" }
+      params: { networkId: "cosmos-hub" },
     })
   })
 
   it(`should signal signedin state on successful login`, async () => {
     wrapper.setData({
-      address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`
+      address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`,
     })
     await wrapper.vm.onSubmit()
     expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
       address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`,
-      sessionType: `explore`
+      sessionType: `explore`,
     })
   })
 
@@ -113,8 +113,8 @@ describe(`TmSessionExplore`, () => {
     wrapper = shallowMount(TmSessionExplore, {
       localVue,
       mocks: {
-        $store
-      }
+        $store,
+      },
     })
     expect(wrapper.vm.address).toBe(`cosmos1xxx`)
   })
@@ -124,7 +124,7 @@ describe(`TmSessionExplore`, () => {
     await wrapper.vm.exploreWith(address)
     expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
       address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
-      sessionType: `explore`
+      sessionType: `explore`,
     })
   })
 

@@ -4,7 +4,7 @@ module.exports = {
     "^.+\\.vue$": "vue-jest",
     ".+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$":
       "jest-transform-stub",
-    "^.+\\.jsx?$": "babel-jest"
+    "^.+\\.jsx?$": "babel-jest",
   },
   transformIgnorePatterns: ["/node_modules/"],
   moduleNameMapper: {
@@ -19,22 +19,22 @@ module.exports = {
     "^scripts/(.*)$": `<rootDir>/src/scripts/$1`,
     "^modules/(.*)$": `<rootDir>/src/vuex/modules/$1`,
     "^tests/(.*)$": `<rootDir>/tests/$1`,
-    "^.+\\.(css)$": "<rootDir>/tests/unit/helpers/emptyModule.js"
+    "^.+\\.(css)$": "<rootDir>/tests/unit/helpers/emptyModule.js",
   },
   snapshotSerializers: ["jest-serializer-vue"],
   testMatch: [
-    "**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)"
+    "**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)",
   ],
   testURL: "http://localhost/",
   watchPlugins: [
     "jest-watch-typeahead/filename",
-    "jest-watch-typeahead/testname"
+    "jest-watch-typeahead/testname",
   ],
   setupFiles: [
     `./tests/unit/helpers/fixed_time.js`,
     `./tests/unit/helpers/window_mock.js`,
     `./tests/unit/helpers/console_error_throw.js`,
-    `jest-localstorage-mock`
+    `jest-localstorage-mock`,
   ],
-  cache: false
+  cache: false,
 }

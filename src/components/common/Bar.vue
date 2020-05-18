@@ -13,21 +13,21 @@ export default {
   props: {
     barType: {
       type: String,
-      default: "primary"
+      default: "primary",
     },
-    show: Boolean
+    show: Boolean,
   },
-  data: function() {
+  data: function () {
     return {
-      showMessage: this.show
+      showMessage: this.show,
     }
   },
   methods: {
     close() {
       this.showMessage = false
       this.$emit(`close`)
-    }
-  }
+    },
+  },
 }
 </script>
 

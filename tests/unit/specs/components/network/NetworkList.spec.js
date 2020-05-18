@@ -12,40 +12,40 @@ describe(`NetworkList`, () => {
       chain_id: "gaia-123",
       logo_url: "cosmos-logo.png",
       testnet: true,
-      title: "Cosmos Hub Test"
+      title: "Cosmos Hub Test",
     },
     {
       id: "cosmoshub",
       chain_id: "cosmoshub",
       logo_url: "cosmos-logo.png",
       testnet: false,
-      title: "Cosmos Hub"
-    }
+      title: "Cosmos Hub",
+    },
   ]
 
   beforeEach(() => {
     $store = {
       dispatch: jest.fn(),
       getters: {
-        network: `cosmoshub`
-      }
+        network: `cosmoshub`,
+      },
     }
     wrapper = shallowMount(NetworkList, {
       localVue,
       propsData: {
         networks,
-        sectionTitle: `section title`
+        sectionTitle: `section title`,
       },
       mocks: {
         $store,
         $route: {
-          name: `some-random-route`
+          name: `some-random-route`,
         },
         $router: {
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
@@ -70,7 +70,7 @@ describe(`NetworkList`, () => {
   it(`sets the network the user selects`, async () => {
     await wrapper.vm.selectNetworkHandler({ id: `emilys-chain` })
     expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
-      id: `emilys-chain`
+      id: `emilys-chain`,
     })
   })
 

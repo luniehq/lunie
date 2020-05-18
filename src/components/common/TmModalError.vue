@@ -33,25 +33,25 @@ export default {
   props: {
     title: {
       default: `Voyager ran into an error`,
-      type: String
+      type: String,
     },
     body: {
       default: `Voyager has encountered a critical error that blocks the app from running. Please create an issue and include a copy of the app logs.`,
-      type: String
+      type: String,
     },
     icon: {
       default: `error_outline`,
-      type: String
-    }
+      type: String,
+    },
   },
   data: () => ({
     logPath: ``,
-    issueUrl: `https://github.com/cosmos/voyager/issues`
+    issueUrl: `https://github.com/cosmos/voyager/issues`,
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`lastHeader`])
-  }
+    ...mapGetters([`lastHeader`]),
+  },
 }
 </script>
 

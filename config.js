@@ -26,6 +26,6 @@ export default {
     "BC_2HRHQW9erg_lOd-dFe_R2ISeiXi0qPNqNcL-jBDnsmMXkqnFcBpXqIklsJtkDPiBmSoOlAMDMOyZMt_Njugo",
 
   referralLinks: {
-    Coinbase: "https://coinbase-consumer.sjv.io/31vxX"
-  }
+    Coinbase: "https://coinbase-consumer.sjv.io/31vxX",
+  },
 }

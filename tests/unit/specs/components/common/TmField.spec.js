@@ -15,7 +15,7 @@ describe(`TmField`, () => {
     const wrapper = shallowMount(TmField)
     wrapper.vm.updateValue(`Hallo World`)
     expect(wrapper.emittedByOrder()).toEqual([
-      { args: [`Hallo World`], name: `input` }
+      { args: [`Hallo World`], name: `input` },
     ])
   })
 
@@ -26,15 +26,15 @@ describe(`TmField`, () => {
     wrapper.setProps({
       change,
       keyup,
-      keydown
+      keydown,
     })
     wrapper.find(`input`).trigger(`keyup`, {
       key: `1`,
-      code: `Digit1`
+      code: `Digit1`,
     })
     wrapper.find(`input`).trigger(`keydown`, {
       key: `2`,
-      code: `Digit2`
+      code: `Digit2`,
     })
     wrapper.find(`input`).trigger(`change`, {})
     expect(keyup).toHaveBeenCalledTimes(1)
@@ -45,11 +45,11 @@ describe(`TmField`, () => {
   it(`shouldn't crash if no callbacks defined`, () => {
     wrapper.find(`input`).trigger(`keyup`, {
       key: `1`,
-      code: `Digit1`
+      code: `Digit1`,
     })
     wrapper.find(`input`).trigger(`keydown`, {
       key: `2`,
-      code: `Digit2`
+      code: `Digit2`,
     })
     wrapper.find(`input`).trigger(`change`, {})
   })
@@ -57,25 +57,25 @@ describe(`TmField`, () => {
   it(`displays as a select`, () => {
     const wrapper = shallowMount(TmField, {
       propsData: {
-        type: `select`
-      }
+        type: `select`,
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
     wrapper.setProps({
       options: [
         {
           key: `1`,
-          value: `1`
+          value: `1`,
         },
         {
           key: `2`,
-          value: `2`
-        }
-      ]
+          value: `2`,
+        },
+      ],
     })
     expect(wrapper.element).toMatchSnapshot()
     wrapper.setProps({
-      placeholder: `Select a number...`
+      placeholder: `Select a number...`,
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -83,8 +83,8 @@ describe(`TmField`, () => {
   it(`displays a textarea`, () => {
     const wrapper = shallowMount(TmField, {
       propsData: {
-        type: `textarea`
-      }
+        type: `textarea`,
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -92,8 +92,8 @@ describe(`TmField`, () => {
   it(`displays a number input`, async () => {
     const wrapper = shallowMount(TmField, {
       propsData: {
-        type: `number`
-      }
+        type: `number`,
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -107,8 +107,8 @@ describe(`TmField`, () => {
   it(`displays a toggle`, () => {
     const wrapper = shallowMount(TmField, {
       propsData: {
-        type: `toggle`
-      }
+        type: `toggle`,
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
     // works with default option
@@ -116,8 +116,8 @@ describe(`TmField`, () => {
       value: false,
       options: {
         checked: `cool`,
-        unchecked: `bad`
-      }
+        unchecked: `bad`,
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
 
@@ -129,10 +129,10 @@ describe(`TmField`, () => {
 
     // allows for updates from the outside
     wrapper.setProps({
-      value: true
+      value: true,
     })
     wrapper.setProps({
-      value: false
+      value: false,
     })
     expect(wrapper.find(`.tm-toggle-wrapper > span`).text()).toBe(`bad`)
   })
@@ -145,9 +145,9 @@ describe(`TmField`, () => {
         value: false,
         options: {
           checked: `cool`,
-          unchecked: `bad`
-        }
-      }
+          unchecked: `bad`,
+        },
+      },
     })
 
     expect(wrapper.element).toMatchSnapshot()
@@ -162,8 +162,8 @@ describe(`TmField`, () => {
   it(`allows for style customization`, () => {
     const wrapper = shallowMount(TmField, {
       propsData: {
-        size: `lg`
-      }
+        size: `lg`,
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
   })

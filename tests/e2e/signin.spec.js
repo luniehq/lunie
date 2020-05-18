@@ -1,5 +1,5 @@
 module.exports = {
-  "Sign in with local account": async function(browser) {
+  "Sign in with local account": async function (browser) {
     await prepare(browser)
 
     await browser.waitForElementVisible("#sign-in-with-account", 10000, true)
@@ -15,7 +15,7 @@ module.exports = {
     openMenu(browser)
     await browser.waitForElementVisible("#sign-out", 10000, true)
   },
-  "Import local account": async function(browser) {
+  "Import local account": async function (browser) {
     await prepare(browser)
 
     browser.waitForElementVisible("#recover-with-backup", 10000, true)
@@ -28,7 +28,7 @@ module.exports = {
       10000,
       true,
       () => {
-        browser.execute(function() {
+        browser.execute(function () {
           document
             .querySelector(
               `.select-network-item[data-network=cosmos-hub-mainnet]`
@@ -66,12 +66,12 @@ module.exports = {
     browser.waitForElementNotPresent(".session", 10000, true)
     openMenu(browser)
     browser.waitForElementVisible("#sign-out", 10000, true)
-  }
+  },
 }
 
 async function next(browser) {
   browser.execute(
-    function(selector, scrollX, scrollY) {
+    function (selector, scrollX, scrollY) {
       var elem = document.querySelector(selector)
       elem.scrollLeft = scrollX
       elem.scrollTop = scrollY
@@ -113,14 +113,14 @@ async function prepare(browser) {
   browser.waitForElementVisible(`#app-content`, 10000, true)
 
   // add a standard account to be used for signing in to an existing account
-  await browser.execute(function() {
+  await browser.execute(function () {
     window.localStorage.setItem(
       "cosmos-wallets-index",
       JSON.stringify([
         {
           name: "demo",
-          address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"
-        }
+          address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
+        },
       ])
     )
     window.localStorage.setItem(
@@ -128,7 +128,7 @@ async function prepare(browser) {
       JSON.stringify({
         name: `rich_account`,
         address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
-        wallet: `ae1d20a49e1085cca29a71e270c6f64f8f86794cb67c6922caea6bcba0ed9e60g+nSTgP8/wHpWaomDkhW/7g2Xldvno3VRFggvdpWIDrRV+n4BJtpk3UpLKo0K3SDL5dRzxz3NmGFnSA8znggFmtesdqu6jWJYzSNqaQhM/gCPTVabF7t1UHaybze1NRlYcm/wl5oOyXRpki6ugOHxNhF7+4wlzhYxMilAB7ekDB4+VVHoPMUinU4dsUdtC4XwDUA0rbX1TTmrh+i1eBp6UTQ+nHGiZXL1TkhhR1mE0fR3bLRunz5XagYtjoST33pecQWzqeaZZQ/mgm9QXu/i+ymfbnPQkh8ivx+J6/d2RfZuAV4NnwFZDUr7CzPX4TU`
+        wallet: `ae1d20a49e1085cca29a71e270c6f64f8f86794cb67c6922caea6bcba0ed9e60g+nSTgP8/wHpWaomDkhW/7g2Xldvno3VRFggvdpWIDrRV+n4BJtpk3UpLKo0K3SDL5dRzxz3NmGFnSA8znggFmtesdqu6jWJYzSNqaQhM/gCPTVabF7t1UHaybze1NRlYcm/wl5oOyXRpki6ugOHxNhF7+4wlzhYxMilAB7ekDB4+VVHoPMUinU4dsUdtC4XwDUA0rbX1TTmrh+i1eBp6UTQ+nHGiZXL1TkhhR1mE0fR3bLRunz5XagYtjoST33pecQWzqeaZZQ/mgm9QXu/i+ymfbnPQkh8ivx+J6/d2RfZuAV4NnwFZDUr7CzPX4TU`,
       })
     )
     return true
@@ -147,12 +147,12 @@ async function prepare(browser) {
 }
 
 async function isSignedIn(browser) {
-  const { value } = await browser.execute(async function() {
+  const { value } = await browser.execute(async function () {
     let signOutElement
     for (let attempts = 3; attempts > 0; attempts--) {
       signOutElement = document.querySelector(".user-box-address #sign-out")
       if (!signOutElement) {
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        await new Promise((resolve) => setTimeout(resolve, 2000))
         continue
       }
     }

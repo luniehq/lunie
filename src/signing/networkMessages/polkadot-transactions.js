@@ -9,7 +9,7 @@ let api
 export async function getAPI() {
   if (!api) {
     api = new ApiPromise({
-      provider: new WsProvider("wss://kusama-rpc.polkadot.io/")
+      provider: new WsProvider("wss://kusama-rpc.polkadot.io/"),
     })
   }
   await api.isReady
@@ -57,9 +57,9 @@ export async function getSignMessage(senderAddress, transaction) {
     blockHash: signedBlock.block.header.hash,
     era: api.createType("ExtrinsicEra", {
       current: signedBlock.block.header.number,
-      period: 50
+      period: 50,
     }),
-    nonce
+    nonce,
   }
   blockNumber = signedBlock.block.header.number
 
@@ -70,7 +70,7 @@ export async function getSignMessage(senderAddress, transaction) {
     ...options,
     address: senderAddress,
     method: transaction.method,
-    blockNumber
+    blockNumber,
   })
 
   return { payload, transaction }
@@ -79,7 +79,7 @@ export async function getSignMessage(senderAddress, transaction) {
 // just for completeness in here
 const curvePrefixes = {
   ed25519: [0],
-  sr25519: [1]
+  sr25519: [1],
 }
 
 function formatSignature(rawSignature) {

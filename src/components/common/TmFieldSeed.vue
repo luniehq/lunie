@@ -16,16 +16,16 @@ export default {
   props: {
     value: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   watch: {
     value: {
-      handler: async function() {
+      handler: async function () {
         await this.$nextTick()
         autosize.update(this.$el)
-      }
-    }
+      },
+    },
   },
   mounted() {
     // adjust the textarea element height to match content
@@ -34,8 +34,8 @@ export default {
   methods: {
     update(value) {
       this.$emit(`input`, value)
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

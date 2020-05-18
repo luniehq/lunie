@@ -10,42 +10,42 @@ describe(`PageBlock`, () => {
   const validators = [
     {
       operatorAddress: "cosmosvaladdr12324536463",
-      status: "ACTIVE"
+      status: "ACTIVE",
     },
     {
       operatorAddress: "cosmosvaladdr1sdsdsd123123",
-      status: "ACTIVE"
+      status: "ACTIVE",
     },
     {
       operatorAddress: "cosmosvaladdr1kjisjsd862323",
       status: "INACTIVE",
-      statusDetailed: "temporally banned from the network"
+      statusDetailed: "temporally banned from the network",
     },
     {
       operatorAddress: "cosmosvaladdr1sd0f8mnbjb2",
       status: "INACTIVE",
-      statusDetailed: "banned from the network"
-    }
+      statusDetailed: "banned from the network",
+    },
   ]
 
   const getters = {
     connected: true,
-    address: `cosmos1`
+    address: `cosmos1`,
   }
 
   const state = {
-    session: { address: `` }
+    session: { address: `` },
   }
 
   const $apollo = {
     queries: {
       validators: {
-        loading: false
+        loading: false,
       },
       block: {
-        loading: false
-      }
-    }
+        loading: false,
+      },
+    },
   }
 
   const block = {
@@ -75,12 +75,12 @@ describe(`PageBlock`, () => {
         value: {
           from_address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
           to_address: "cosmos1j0clrcqrzca52lagpz27hwtq74wl2re5484awh",
-          amount: [{ denom: "muon", amount: "100000" }]
+          amount: [{ denom: "muon", amount: "100000" }],
         },
         amount: null,
-        __typename: "Transaction"
-      }
-    ]
+        __typename: "Transaction",
+      },
+    ],
   }
 
   beforeEach(async () => {
@@ -89,22 +89,22 @@ describe(`PageBlock`, () => {
       mocks: {
         $store: {
           getters,
-          state
+          state,
         },
         $route: {
-          params: { height: `100` }
+          params: { height: `100` },
         },
         $router: {
-          push: jest.fn()
+          push: jest.fn(),
         },
-        $apollo
+        $apollo,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
 
     wrapper.setData({
       block,
-      validators
+      validators,
     })
   })
 
@@ -116,8 +116,8 @@ describe(`PageBlock`, () => {
     wrapper.setData({
       block: {
         ...block,
-        transactions: []
-      }
+        transactions: [],
+      },
     })
 
     expect(wrapper.element).toMatchSnapshot()
@@ -130,9 +130,9 @@ describe(`PageBlock`, () => {
         transactions: [
           { type: "UnknownTx" },
           { type: "UnknownTx" },
-          { type: "SendTx" }
-        ]
-      }
+          { type: "SendTx" },
+        ],
+      },
     }
     const filteredTransactions = PageBlock.computed.filteredTransactions.call(
       self

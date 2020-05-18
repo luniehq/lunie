@@ -19,6 +19,6 @@
 
 <script>
 export default {
-  name: `tm-data-connecting`
+  name: `tm-data-connecting`,
 }
 </script>

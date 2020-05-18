@@ -18,7 +18,7 @@
       <router-link
         :to="{
           name: 'validator',
-          params: { validator: transaction.details.to[0] }
+          params: { validator: transaction.details.to[0] },
         }"
       >
         <img
@@ -48,25 +48,25 @@ export default {
   name: `restake-tx-details`,
   filters: {
     prettyLong,
-    resolveValidatorName
+    resolveValidatorName,
   },
   components: {
-    TransactionIcon
+    TransactionIcon,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
+      required: true,
     },
     validators: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => {
     return {
       type: `Restaked`,
-      caption: `Restaked`
+      caption: `Restaked`,
     }
   },
   computed: {
@@ -75,8 +75,8 @@ export default {
     },
     destinationValidator() {
       return this.validators[this.transaction.details.to[0]] || false
-    }
-  }
+    },
+  },
 }
 </script>
 <style>

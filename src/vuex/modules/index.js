@@ -1,6 +1,6 @@
 "use strict"
 
-export default opts => ({
+export default (opts) => ({
   connection: require(`./connection.js`).default(opts),
   notifications: require(`./notifications.js`).default(opts),
   session: require(`./session.js`).default(opts),
@@ -8,5 +8,5 @@ export default opts => ({
   extension: require(`./extension.js`).default(opts),
   signup: require(`./signup.js`).default(opts),
   recover: require(`./recover.js`).default(opts),
-  intercom: require(`./intercom.js`).default(opts)
+  intercom: require(`./intercom.js`).default(opts),
 })

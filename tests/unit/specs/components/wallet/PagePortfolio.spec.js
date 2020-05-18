@@ -5,18 +5,18 @@ describe(`PagePortfolio`, () => {
   let wrapper, $store
 
   const state = {
-    session: { experimentalMode: false }
+    session: { experimentalMode: false },
   }
 
   beforeEach(() => {
     $store = {
-      state
+      state,
     }
 
     wrapper = shallowMount(PagePortfolio, {
       mocks: {
-        $store
-      }
+        $store,
+      },
     })
   })
 

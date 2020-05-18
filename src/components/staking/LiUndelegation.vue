@@ -5,7 +5,7 @@
     @click="
       $router.push({
         name: 'validator',
-        params: { validator: validator.operatorAddress }
+        params: { validator: validator.operatorAddress },
       })
     "
   >
@@ -45,25 +45,25 @@ import Avatar from "common/Avatar"
 export default {
   name: `li-undelegation`,
   components: {
-    Avatar
+    Avatar,
   },
   filters: {
-    fromNow
+    fromNow,
   },
   props: {
     index: {
       type: Number,
-      required: true
+      required: true,
     },
     validator: {
       type: Object,
-      required: true
+      required: true,
     },
     undelegation: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 <style scoped>

@@ -3,26 +3,26 @@ import { cancelSign, signQueue } from "src/signing/signer"
 
 jest.mock("src/../config.js", () => ({
   default_gas_price: 2.5e-8,
-  graphqlHost: "http://localhost:4000"
+  graphqlHost: "http://localhost:4000",
 }))
 
 jest.mock("scripts/fingerprint", () => ({
-  getFingerprint: jest.fn(() => "iamafingerprint")
+  getFingerprint: jest.fn(() => "iamafingerprint"),
 }))
 
 jest.mock(`src/signing/signer.js`, () => ({
   getSigner: () => () => ({
     // demoing a Cosmos signedContext here
     signature: "abcd",
-    publicKey: Buffer.from("superpubkey")
+    publicKey: Buffer.from("superpubkey"),
   }),
   cancelSign: jest.fn(),
-  signQueue: jest.fn()
+  signQueue: jest.fn(),
 }))
 
 const mockFetch = jest.fn(() =>
   Promise.resolve({
-    json: () => ({ success: true, hash: "abcdsuperhash" })
+    json: () => ({ success: true, hash: "abcdsuperhash" }),
   })
 )
 
@@ -34,9 +34,9 @@ describe("Transaction Manager", () => {
     message: {
       amount: {
         amount: 2,
-        denom: "ATOM"
+        denom: "ATOM",
       },
-      to: ["cosmos12345"]
+      to: ["cosmos12345"],
     },
     transactionData: {
       accountNumber: 1,
@@ -46,10 +46,10 @@ describe("Transaction Manager", () => {
       gasPrices: [
         {
           amount: "10",
-          denom: "uatom"
-        }
+          denom: "uatom",
+        },
       ],
-      memo: "(Sent via Lunie)"
+      memo: "(Sent via Lunie)",
     },
     senderAddress: "cosmos12345",
     network: {
@@ -58,13 +58,13 @@ describe("Transaction Manager", () => {
         {
           viewDenom: "ATOM",
           chainToViewConversionFactor: 1000000,
-          chainDenom: "uatom"
-        }
+          chainDenom: "uatom",
+        },
       ],
-      network_type: "cosmos"
+      network_type: "cosmos",
     },
     signingType: "local",
-    password: "1234567890"
+    password: "1234567890",
   }
   beforeEach(async () => {
     global.fetch = mockFetch
@@ -77,13 +77,13 @@ describe("Transaction Manager", () => {
       await transactionManager.cancel(
         {
           userAddress: `testaddress`,
-          networkId: `testnetwork`
+          networkId: `testnetwork`,
         },
         `extension`
       )
       expect(cancelSign).toHaveBeenCalledWith(`extension`, {
         address: `testaddress`,
-        network: `testnetwork`
+        network: `testnetwork`,
       })
     })
     it("should retrun sign queue", async () => {
@@ -105,10 +105,10 @@ describe("Transaction Manager", () => {
           amount: [
             {
               amount: "2000000",
-              denom: "uatom"
-            }
+              denom: "uatom",
+            },
           ],
-          gas: "200000"
+          gas: "200000",
         },
         memo: "(Sent via Lunie)",
         msg: [
@@ -118,25 +118,25 @@ describe("Transaction Manager", () => {
               amount: [
                 {
                   amount: "0.000002",
-                  denom: "uatom"
-                }
+                  denom: "uatom",
+                },
               ],
               from_address: "cosmos12345",
-              to_address: "cosmos12345"
-            }
-          }
+              to_address: "cosmos12345",
+            },
+          },
         ],
         signatures: [
           {
             account_number: 1,
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
-              value: "c3VwZXJwdWJrZXk="
+              value: "c3VwZXJwdWJrZXk=",
             },
             sequence: 1,
-            signature: "q80="
-          }
-        ]
+            signature: "q80=",
+          },
+        ],
       }
 
       const expectArgs = {
@@ -144,14 +144,14 @@ describe("Transaction Manager", () => {
         message: {
           amount: {
             amount: 2,
-            denom: "ATOM"
+            denom: "ATOM",
           },
-          to: ["cosmos12345"]
+          to: ["cosmos12345"],
         },
         networkId: "cosmos-hub-testnet",
         senderAddress: "cosmos12345",
         signedMessage: broadcastableObject,
-        transaction: broadcastableObject
+        transaction: broadcastableObject,
       }
 
       expect(transactionManager.broadcastAPIRequest).toHaveBeenCalledWith(

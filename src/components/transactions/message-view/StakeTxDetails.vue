@@ -32,31 +32,31 @@ export default {
   name: `stake-tx-details`,
   filters: {
     prettyLong,
-    resolveValidatorName
+    resolveValidatorName,
   },
   components: {
-    TransactionIcon
+    TransactionIcon,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
+      required: true,
     },
     validators: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => {
     return {
       type: `Staked`,
-      caption: `Staked`
+      caption: `Staked`,
     }
   },
   computed: {
     validator() {
       return this.validators[this.transaction.details.to[0]] || false
-    }
-  }
+    },
+  },
 }
 </script>

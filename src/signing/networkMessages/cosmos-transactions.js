@@ -1,7 +1,7 @@
 // adds the signature object to the tx
 function createSignedTransactionObject(tx, signature) {
   return Object.assign({}, tx, {
-    signatures: [signature]
+    signatures: [signature],
   })
 }
 
@@ -10,17 +10,17 @@ function createStdTx({ gasEstimate, gasPrices, memo }, messages) {
   const fees = gasPrices
     .map(({ amount, denom }) => ({
       amount: String(Math.round(amount * gasEstimate)),
-      denom
+      denom,
     }))
     .filter(({ amount }) => amount > 0)
   return {
     msg: Array.isArray(messages) ? messages : [messages],
     fee: {
       amount: fees.length > 0 ? fees : null,
-      gas: gasEstimate
+      gas: gasEstimate,
     },
     signatures: null,
-    memo
+    memo,
   }
 }
 
@@ -40,7 +40,7 @@ function createSignMessage(jsonTx, { sequence, accountNumber, chainId }) {
   // sign bytes need amount to be an array
   const fee = {
     amount: jsonTx.fee.amount || [],
-    gas: jsonTx.fee.gas
+    gas: jsonTx.fee.gas,
   }
 
   return JSON.stringify(
@@ -50,7 +50,7 @@ function createSignMessage(jsonTx, { sequence, accountNumber, chainId }) {
       msgs: jsonTx.msg, // weird msg vs. msgs
       sequence,
       account_number: accountNumber,
-      chain_id: chainId
+      chain_id: chainId,
     })
   )
 }
@@ -62,8 +62,8 @@ function formatSignature(signature, sequence, accountNumber, publicKey) {
     sequence,
     pub_key: {
       type: `tendermint/PubKeySecp256k1`, // TODO: allow other keytypes
-      value: publicKey.toString(`base64`)
-    }
+      value: publicKey.toString(`base64`),
+    },
   }
 }
 
@@ -80,7 +80,7 @@ function removeEmptyProperties(jsonTx) {
   const sorted = {}
   Object.keys(jsonTx)
     .sort()
-    .forEach(key => {
+    .forEach((key) => {
       if (jsonTx[key] === undefined || jsonTx[key] === null) return
 
       sorted[key] = removeEmptyProperties(jsonTx[key])
@@ -97,7 +97,7 @@ export async function getSignableObject(
   const signMessage = createSignMessage(stdTx, {
     sequence,
     accountNumber,
-    chainId
+    chainId,
   })
 
   return signMessage

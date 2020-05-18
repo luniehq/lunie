@@ -2,7 +2,7 @@ import connectionModule from "src/vuex/modules/connection.js"
 
 jest.mock(`src/../config.js`, () => ({
   stargate: `https://voyager.lol`,
-  network: `keine-ahnungnet`
+  network: `keine-ahnungnet`,
 }))
 
 describe(`Module: Connection`, () => {
@@ -11,17 +11,17 @@ describe(`Module: Connection`, () => {
   const networks = [
     { id: `awesomenet`, slug: `awesome` },
     { id: `keine-ahnungnet`, slug: `ahnungnet` },
-    { id: `localnet`, slug: `local` }
+    { id: `localnet`, slug: `local` },
   ]
 
   let mockApollo = {
     async query() {
       return {
         data: {
-          networks
-        }
+          networks,
+        },
       }
-    }
+    },
   }
 
   beforeEach(() => {
@@ -49,7 +49,7 @@ describe(`Module: Connection`, () => {
 
   it("should persist the network", async () => {
     const network = {
-      id: `awesomenet`
+      id: `awesomenet`,
     }
     await actions.persistNetwork({}, network)
     expect(localStorage.getItem(`network`)).toEqual(
@@ -62,13 +62,13 @@ describe(`Module: Connection`, () => {
     const dispatch = jest.fn()
     localStorage.setItem(
       JSON.stringify({
-        network: `awesomenet`
+        network: `awesomenet`,
       })
     )
     await actions.checkForPersistedNetwork({ dispatch, commit })
     expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {
       id: `awesomenet`,
-      slug: `awesome`
+      slug: `awesome`,
     })
     localStorage.clear()
   })
@@ -80,7 +80,7 @@ describe(`Module: Connection`, () => {
     await actions.checkForPersistedNetwork({ dispatch, commit })
     expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {
       id: `keine-ahnungnet`,
-      slug: `ahnungnet`
+      slug: `ahnungnet`,
     })
     expect(commit).toHaveBeenCalledWith(`setNetworkSlug`, "ahnungnet")
     localStorage.clear()
@@ -94,14 +94,14 @@ describe(`Module: Connection`, () => {
       config: {
         stargate: `https://voyager.lol`,
         network: `strangenet`,
-        fallbackNetwork: `localnet`
-      }
+        fallbackNetwork: `localnet`,
+      },
     }
     state.networks = [networks[2]]
     await actions.checkForPersistedNetwork({ dispatch, commit })
     expect(dispatch).toHaveBeenCalledWith(`setNetwork`, {
       id: `localnet`,
-      slug: `local`
+      slug: `local`,
     })
   })
 
@@ -111,7 +111,7 @@ describe(`Module: Connection`, () => {
     await actions.setNetwork(
       { commit, dispatch },
       {
-        id: "awesomenet"
+        id: "awesomenet",
       }
     )
     expect(commit).toHaveBeenCalledWith("setNetworkId", "awesomenet")
@@ -123,30 +123,30 @@ describe(`Module: Connection`, () => {
         {
           id: "kusama",
           slug: "kusama",
-          network_type: "polkadot"
+          network_type: "polkadot",
         },
         {
           id: "cosmos-hub-mainnet",
           slug: "cosmos-hub",
           address_prefix: "cosmos",
           network_type: "cosmos",
-          testnet: false
+          testnet: false,
         },
         {
           id: "cosmos-hub-testnet",
           slug: "cosmos-hub-testnet",
           address_prefix: "cosmos",
           network_type: "cosmos",
-          testnet: true
+          testnet: true,
         },
         {
           id: "terra-testnet",
           slug: "terra-testnet",
           address_prefix: "terra",
           network_type: "cosmos",
-          testnet: true
-        }
-      ]
+          testnet: true,
+        },
+      ],
     }
 
     it(`identifies a Cosmos address`, () => {

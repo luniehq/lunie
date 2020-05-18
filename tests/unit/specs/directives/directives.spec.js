@@ -7,14 +7,14 @@ localVue.directive("focus-last", focusParentLast)
 
 const mountOptions = {
   localVue,
-  attachToDocument: true
+  attachToDocument: true,
 }
 
 describe("Focus element", () => {
   let wrapper
 
   const component = {
-    template: `<div tabindex="0" v-focus><input /></div>`
+    template: `<div tabindex="0" v-focus><input /></div>`,
   }
 
   it("will focus correct element", () => {
@@ -32,11 +32,11 @@ describe("Focus Parent Element", () => {
   let wrapper
 
   const componentInputFocused = {
-    template: `<div tabindex="0" v-focus-last><input v-focus/></div>`
+    template: `<div tabindex="0" v-focus-last><input v-focus/></div>`,
   }
 
   const componentParentFocused = {
-    template: `<div tabindex="0" v-focus-last><input /></div>`
+    template: `<div tabindex="0" v-focus-last><input /></div>`,
   }
 
   it("will not focus parent element", () => {

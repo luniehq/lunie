@@ -6,40 +6,40 @@ describe(`TransactionIcon`, () => {
 
   const transactions = [
     {
-      type: `Sent`
+      type: `Sent`,
     },
     {
-      type: `Received`
+      type: `Received`,
     },
     {
-      type: `Staked`
+      type: `Staked`,
     },
     {
-      type: `Restaked`
+      type: `Restaked`,
     },
     {
-      type: `Unstaked`
+      type: `Unstaked`,
     },
     {
-      type: `Claimed`
+      type: `Claimed`,
     },
     {
-      type: `Voted`
+      type: `Voted`,
     },
     {
-      type: `Deposit`
+      type: `Deposit`,
     },
     {
-      type: `Submitted`
-    }
+      type: `Submitted`,
+    },
   ]
 
   for (let i = 0; i < transactions.length; i++) {
     it(`renders a ${transactions[i].type} transaction icon`, () => {
       wrapper = shallowMount(TransactionIcon, {
         propsData: {
-          transactionType: transactions[i].type
-        }
+          transactionType: transactions[i].type,
+        },
       })
       expect(wrapper.element).toMatchSnapshot()
       expect(wrapper.find(".tx__icon img").attributes("src")).toEqual(

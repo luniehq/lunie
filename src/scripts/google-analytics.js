@@ -8,7 +8,7 @@ module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
 
   window.ga =
     window.ga ||
-    function() {
+    function () {
       ;(ga.q = ga.q || []).push(arguments)
     }
   ga.l = +new Date()
@@ -38,7 +38,7 @@ GA takes parameters like dimension1 or dimension2. This replaces the human reada
 function customToNum(custom) {
   const dimensions = {
     network: 1,
-    address: 2
+    address: 2,
   }
   if (typeof dimensions[custom] !== "undefined") {
     return "dimension" + dimensions[custom]
@@ -50,7 +50,7 @@ module.exports.sendEvent = function event(customObject, ...args) {
   if (window.ga) {
     let newKey
     // converting customObject to ga metrics ids
-    Object.keys(customObject).map(key => {
+    Object.keys(customObject).map((key) => {
       if ((newKey = customToNum(key))) {
         Object.defineProperty(
           customObject,

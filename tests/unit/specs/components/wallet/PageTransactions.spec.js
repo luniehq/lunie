@@ -7,13 +7,13 @@ describe(`PageTransactions`, () => {
 
   const addresses = [
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-    `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`
+    `cosmos1pxdf0lvq5jvl9uxznklgc5gxuwzpdy5ynem546`,
   ]
 
   const validators = [
     { name: "cosmos1a", operatorAddress: "cosmos1a" },
     { name: "cosmos1b", operatorAddress: "cosmos1b" },
-    { name: "cosmos1c", operatorAddress: "cosmos1c" }
+    { name: "cosmos1c", operatorAddress: "cosmos1c" },
   ]
 
   const transactions = [
@@ -22,7 +22,7 @@ describe(`PageTransactions`, () => {
       value: {
         delegator_address: "cosmos3",
         validator_address: "cosmos1e",
-        amount: { denom: "uatom", amount: "50000" }
+        amount: { denom: "uatom", amount: "50000" },
       },
       key:
         'cosmos-sdk/MsgUndelegate_2019-07-31T09:22:23.054Z_{"delegator_address":"cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e","validator_address":"cosmos1a","amount":{"denom":"uatom","amount":"50000"}}',
@@ -30,7 +30,7 @@ describe(`PageTransactions`, () => {
       timestamp: "2019-07-31T09:22:23.054Z",
       memo: "",
       fee: { amount: "4141", denom: "ATOM" },
-      group: "staking"
+      group: "staking",
     },
     {
       type: "cosmos-sdk/MsgSubmitProposal",
@@ -39,7 +39,7 @@ describe(`PageTransactions`, () => {
         proposal_type: "Text",
         title: "Test Proposal",
         description: "This is a test proposal",
-        initial_deposit: [{ denom: "STAKE", amount: "100" }]
+        initial_deposit: [{ denom: "STAKE", amount: "100" }],
       },
       key:
         'cosmos-sdk/MsgSubmitProposal_undefined_{"proposer":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","proposal_type":"Text","title":"Test Proposal","description":"This is a test proposal","initial_deposit":[{"denom":"STAKE","amount":"100"}]}',
@@ -47,14 +47,14 @@ describe(`PageTransactions`, () => {
       timestamp: null,
       fee: { amount: "0", denom: "ATOM" },
       group: "governance",
-      liquidDate: null
+      liquidDate: null,
     },
     {
       type: "cosmos-sdk/MsgDeposit",
       value: {
         depositor: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
         proposal_id: "1",
-        amount: [{ denom: "STAKE", amount: "100" }]
+        amount: [{ denom: "STAKE", amount: "100" }],
       },
       key:
         'cosmos-sdk/MsgDeposit_undefined_{"depositor":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","proposal_id":"1","amount":[{"denom":"STAKE","amount":"100"}]}',
@@ -62,22 +62,22 @@ describe(`PageTransactions`, () => {
       timestamp: null,
       fee: { amount: "0", denom: "ATOM" },
       group: "governance",
-      liquidDate: null
+      liquidDate: null,
     },
     {
       type: "cosmos-sdk/BeginUnbonding",
       value: {
         validator_address: "cosmos1a",
         delegator_address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-        shares: "5"
+        shares: "5",
       },
       key:
         'cosmos-sdk/BeginUnbonding_undefined_{"validator_address":"cosmos1a","delegator_address":"cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9","shares":"5"}',
       height: 170,
       timestamp: null,
       fee: { amount: "0", denom: "ATOM" },
-      liquidDate: null
-    }
+      liquidDate: null,
+    },
   ]
 
   let wrapper, $store, $apollo
@@ -85,27 +85,27 @@ describe(`PageTransactions`, () => {
   const state = {
     session: {
       address: addresses[0],
-      signedIn: true
+      signedIn: true,
     },
     connection: {
-      network: "awesomenet"
-    }
+      network: "awesomenet",
+    },
   }
 
   $apollo = {
     queries: {
       validators: {
-        loading: false
+        loading: false,
       },
       transactions: {
         loading: false,
         variables: jest.fn(),
         fetchMore: jest.fn(() => ({
           variables: jest.fn(),
-          updateQuery: jest.fn()
-        }))
-      }
-    }
+          updateQuery: jest.fn(),
+        })),
+      },
+    },
   }
 
   beforeEach(() => {
@@ -113,23 +113,23 @@ describe(`PageTransactions`, () => {
       state,
       getters: {
         address: "cosmos1",
-        network: "cosmos-hub-mainnet"
-      }
+        network: "cosmos-hub-mainnet",
+      },
     }
 
     wrapper = shallowMount(PageTransactions, {
       localVue,
       mocks: {
         $store,
-        $apollo
+        $apollo,
       },
       directives: {
-        infiniteScroll: () => {}
+        infiniteScroll: () => {},
       },
       propsData: {
         transactions,
-        validators
-      }
+        validators,
+      },
     })
     wrapper.setData({ transactions, validators })
   })
@@ -147,11 +147,11 @@ describe(`PageTransactions`, () => {
         localVue,
         mocks: {
           $store,
-          $apollo
+          $apollo,
         },
         directives: {
-          infiniteScroll: () => {}
-        }
+          infiniteScroll: () => {},
+        },
       })
       wrapper.setProps({ transactions, validators })
       expect(wrapper.element).toMatchSnapshot()
@@ -166,11 +166,11 @@ describe(`PageTransactions`, () => {
       localVue,
       mocks: {
         $store,
-        $apollo
+        $apollo,
       },
       directives: {
-        infiniteScroll: () => {}
-      }
+        infiniteScroll: () => {},
+      },
     })
     $store.state.session.signedIn = true
     $store.state.session.address = undefined
@@ -182,11 +182,11 @@ describe(`PageTransactions`, () => {
       localVue,
       mocks: {
         $store,
-        $apollo
+        $apollo,
       },
       directives: {
-        infiniteScroll: () => {}
-      }
+        infiniteScroll: () => {},
+      },
     })
     wrapper.setData({ showing: 2 })
     wrapper.vm.loadMore()
@@ -194,14 +194,14 @@ describe(`PageTransactions`, () => {
 
   it("transactions updated on subscription trigger", () => {
     const self = {
-      loadedTransactions: []
+      loadedTransactions: [],
     }
     let newTransaction = {
       type: "cosmos-sdk/MsgUndelegate",
       value: JSON.stringify({
         delegator_address: "cosmos2",
         validator_address: "cosmos4de",
-        amount: { denom: "uatom", amount: "10000" }
+        amount: { denom: "uatom", amount: "10000" },
       }),
       key:
         'cosmos-sdk/MsgUndelegate_2019-07-31T09:22:23.054Z_{"delegator_address":"cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e","validator_address":"cosmos1a","amount":{"denom":"uatom","amount":"50000"}}',
@@ -209,10 +209,10 @@ describe(`PageTransactions`, () => {
       timestamp: "2019-07-31T09:22:23.054Z",
       memo: "",
       fee: { amount: "4141", denom: "ATOM" },
-      group: "staking"
+      group: "staking",
     }
     let result = PageTransactions.apollo.transactions.update.call(self, {
-      transactionsV2: [newTransaction]
+      transactionsV2: [newTransaction],
     })
     // adjusting result
     newTransaction.value = JSON.parse(newTransaction.value)
@@ -225,7 +225,7 @@ describe(`PageTransactions`, () => {
     wrapper.setData({
       showing: 100,
       lastLoadedRecordsCount: 1,
-      dataLoaded: true
+      dataLoaded: true,
     })
     wrapper.vm.loadMore()
     // pageNumber should be updated
@@ -234,12 +234,12 @@ describe(`PageTransactions`, () => {
 
   it("transaction added on subscription trigger", () => {
     const self = {
-      transactions: []
+      transactions: [],
     }
     let result = PageTransactions.apollo.transactions.subscribeToMore.updateQuery.call(
       self,
       {
-        transactionsV2: []
+        transactionsV2: [],
       },
       {
         subscriptionData: {
@@ -249,15 +249,15 @@ describe(`PageTransactions`, () => {
               value: {
                 delegator_address: "cosmos2",
                 validator_address: "cosmos4de",
-                amount: { denom: "uatom", amount: "10000" }
+                amount: { denom: "uatom", amount: "10000" },
               },
               height: 1248479,
               timestamp: "2019-07-31T09:22:23.054Z",
               memo: "",
-              fee: { amount: "4141", denom: "ATOM" }
-            }
-          }
-        }
+              fee: { amount: "4141", denom: "ATOM" },
+            },
+          },
+        },
       }
     )
 
@@ -269,17 +269,17 @@ describe(`PageTransactions`, () => {
       localVue,
       mocks: {
         $store,
-        $apollo
+        $apollo,
       },
       directives: {
-        infiniteScroll: () => {}
-      }
+        infiniteScroll: () => {},
+      },
     })
     // setting showing to big number
     wrapper.setData({
       showing: 100,
       lastLoadedRecordsCount: 1,
-      dataLoaded: false
+      dataLoaded: false,
     })
     wrapper.vm.loadMore()
     // pageNumber should not have updated
@@ -291,25 +291,25 @@ describe(`PageTransactions`, () => {
       localVue,
       mocks: {
         $store,
-        $apollo
+        $apollo,
       },
       directives: {
-        infiniteScroll: () => {}
-      }
+        infiniteScroll: () => {},
+      },
     })
     wrapper.setData({ validators })
     expect(Object.keys(wrapper.vm.validatorsAddressMap)).toEqual([
       "cosmos1a",
       "cosmos1b",
-      "cosmos1c"
+      "cosmos1c",
     ])
   })
 
   it(`should trigger intercom opening`, () => {
     const self = {
       $store: {
-        dispatch: jest.fn()
-      }
+        dispatch: jest.fn(),
+      },
     }
     PageTransactions.methods.handleIntercom.call(self)
     expect(self.$store.dispatch).toHaveBeenCalledWith("displayMessenger")

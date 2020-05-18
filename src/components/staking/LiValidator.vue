@@ -5,7 +5,7 @@
     @click="
       $router.push({
         name: 'validator',
-        params: { validator: validator.operatorAddress }
+        params: { validator: validator.operatorAddress },
       })
     "
   >
@@ -45,7 +45,8 @@
           <h5
             v-if="
               rewards.find(
-                reward => reward.denom === stakingDenom && reward.amount > 0.001
+                (reward) =>
+                  reward.denom === stakingDenom && reward.amount > 0.001
               )
             "
           >
@@ -78,52 +79,52 @@ import Avatar from "common/Avatar"
 export default {
   name: `li-validator`,
   components: {
-    Avatar
+    Avatar,
   },
   filters: {
-    toLower: text => text.toLowerCase(),
+    toLower: (text) => text.toLowerCase(),
     bigFigureOrShortDecimals,
-    bigFigureOrPercent
+    bigFigureOrPercent,
   },
   props: {
     validator: {
       type: Object,
-      required: true
+      required: true,
     },
     /* istanbul ignore next */
     delegation: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     /* istanbul ignore next */
     rewards: {
       type: Array,
-      default: () => ({})
+      default: () => ({}),
     },
     index: {
       type: Number,
-      required: true
+      required: true,
     },
     /* istanbul ignore next */
     showOnMobile: {
       type: String,
-      default: () => "returns"
+      default: () => "returns",
     },
     stakingDenom: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   methods: {
     bigFigureOrPercent,
     bigFigureOrShortDecimals,
     filterStakingDenomReward() {
       const stakingDenomRewards = this.rewards.filter(
-        reward => reward.denom === this.stakingDenom
+        (reward) => reward.denom === this.stakingDenom
       )
       return stakingDenomRewards[0].amount
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

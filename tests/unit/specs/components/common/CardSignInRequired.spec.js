@@ -8,28 +8,28 @@ describe(`CardSignInRequired`, () => {
     const state = {
       session: {
         insecureMode: false,
-        browserWithLedgerSupport: null
+        browserWithLedgerSupport: null,
       },
       extension: {
-        enabled: true
+        enabled: true,
       },
       keystore: {
-        accounts: []
-      }
+        accounts: [],
+      },
     }
     $store = {
       state,
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters: {
-        currentNetwork: { id: `polka-mon`, network_type: `polkadot` }
-      }
+        currentNetwork: { id: `polka-mon`, network_type: `polkadot` },
+      },
     }
     wrapper = shallowMount(CardSignInRequired, {
       mocks: {
-        $store
+        $store,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 

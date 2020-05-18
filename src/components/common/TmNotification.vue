@@ -27,32 +27,32 @@ export default {
   props: {
     type: {
       type: String,
-      default: null
+      default: null,
     },
     layout: {
       type: String,
-      default: null
+      default: null,
     },
     icon: {
       type: String,
-      default: null
+      default: null,
     },
     time: {
       type: Number,
-      required: true
+      required: true,
     },
     title: {
       type: String,
-      default: null
+      default: null,
     },
     body: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     duration: 5000,
-    active: true
+    active: true,
   }),
   computed: {
     fromNow() {
@@ -62,7 +62,7 @@ export default {
       let value = `tm-notification`
       if (this.type) value += ` tm-notification-${this.type}`
       return value
-    }
+    },
   },
   mounted() {
     this.setDeactivation()
@@ -85,8 +85,8 @@ export default {
         // otherwise self destruct after duration
         setTimeout(() => this.deactivate(), activeDuration)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

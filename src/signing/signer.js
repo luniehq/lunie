@@ -1,7 +1,7 @@
 import {
   signWithExtension,
   cancelSignWithExtension,
-  getSignQueue
+  getSignQueue,
 } from "src/scripts/extension-utils"
 
 export async function cancelSign(submitType = "", { address, network }) {
@@ -41,7 +41,7 @@ export async function getSigner(
         return await getCosmosLedgerSigner(config)
     }
   } else if (signingType === `extension`) {
-    return signMessage => {
+    return (signMessage) => {
       return signWithExtension(
         signMessage,
         address,
@@ -59,7 +59,7 @@ export async function getSigner(
 async function getCosmosLocalSigner(wallet) {
   const { signWithPrivateKey } = await import("@lunie/cosmos-keys")
 
-  return signMessage => {
+  return (signMessage) => {
     const signature = signWithPrivateKey(
       signMessage,
       Buffer.from(wallet.privateKey, "hex")
@@ -81,7 +81,7 @@ async function getCosmosLedgerSigner(config) {
   // importing default here to be compatible with Jest
   const { default: Ledger } = await import("@lunie/cosmos-ledger")
 
-  return async signMessage => {
+  return async (signMessage) => {
     const ledger = new Ledger(config)
     let publicKey, signature
     try {
@@ -102,7 +102,7 @@ async function getCosmosLedgerSigner(config) {
 
     return {
       signature,
-      publicKey
+      publicKey,
     }
   }
 }

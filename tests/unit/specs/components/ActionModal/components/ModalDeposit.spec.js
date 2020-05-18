@@ -25,24 +25,24 @@ describe(`ModalDeposit`, () => {
           {
             id: "testnet",
             coinLookup: [
-              { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
-            ]
-          }
-        ]
-      }
+              { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 },
+            ],
+          },
+        ],
+      },
     }
 
     wrapper = shallowMount(ModalDeposit, {
       localVue,
       mocks: {
-        $store
+        $store,
       },
       propsData: {
         proposalId: `1`,
         proposalTitle: mockValues.state.proposals[`1`].title,
-        denom: `STAKE`
+        denom: `STAKE`,
       },
-      sync: false
+      sync: false,
     })
     wrapper.setData({ balance })
   })
@@ -60,7 +60,7 @@ describe(`ModalDeposit`, () => {
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },
-      amount: 10
+      amount: 10,
     }
 
     ModalDeposit.methods.clear.call(self)
@@ -70,7 +70,7 @@ describe(`ModalDeposit`, () => {
 
   it(`sends an event on success`, () => {
     const self = {
-      $emit: jest.fn()
+      $emit: jest.fn(),
     }
     ModalDeposit.methods.onSuccess.call(self)
     expect(self.$emit).toHaveBeenCalledWith(
@@ -111,32 +111,32 @@ describe(`ModalDeposit`, () => {
 
   it("should return transaction data in correct form", () => {
     wrapper.setData({
-      amount: 2
+      amount: 2,
     })
     expect(wrapper.vm.transactionData).toEqual({
       type: "DepositTx",
       proposalId: "1",
       amount: {
         amount: 2,
-        denom: "STAKE"
-      }
+        denom: "STAKE",
+      },
     })
   })
 
   it("should return empty transaction data if amount is NaN", () => {
     wrapper.setData({
-      amount: `NaN`
+      amount: `NaN`,
     })
     expect(wrapper.vm.transactionData).toEqual({})
   })
 
   it("should return notification message", () => {
     wrapper.setData({
-      amount: 2
+      amount: 2,
     })
     expect(wrapper.vm.notifyMessage).toEqual({
       title: `Successful deposit!`,
-      body: `You have successfully deposited your STAKEs on proposal #1`
+      body: `You have successfully deposited your STAKEs on proposal #1`,
     })
   })
 })

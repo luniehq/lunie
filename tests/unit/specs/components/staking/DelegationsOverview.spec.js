@@ -11,28 +11,28 @@ describe(`DelegationsOverview`, () => {
 
   const getters = {
     committedDelegations: {
-      [validators[0].operator_address]: validators[0]
+      [validators[0].operator_address]: validators[0],
     },
     address: "cosmos1",
-    network: "testnet"
+    network: "testnet",
   }
 
   delegations = [
     {
       validator: validators[0],
       delegatorAddress: `cosmos1`,
-      amount: 10
+      amount: 10,
     },
     {
       validator: validators[1],
       delegatorAddress: `cosmos1`,
-      amount: 12
+      amount: 12,
     },
     {
       validator: validators[2],
       delegatorAddress: `cosmos1`,
-      amount: 11
-    }
+      amount: 11,
+    },
   ]
 
   beforeEach(() => {
@@ -40,33 +40,33 @@ describe(`DelegationsOverview`, () => {
       getters,
       state: {
         connection: {
-          network: "testnet"
+          network: "testnet",
         },
-        delegations
+        delegations,
       },
       address: "cosmos1",
-      network: "testnet"
+      network: "testnet",
     }
 
     $apollo = {
       queries: {
         delegations: {
           loading: false,
-          error: false
-        }
-      }
+          error: false,
+        },
+      },
     }
 
     wrapper = shallowMount(DelegationsOverview, {
       mocks: {
         $store,
-        $apollo
+        $apollo,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
 
     wrapper.setData({
-      delegations
+      delegations,
     })
   })
 
