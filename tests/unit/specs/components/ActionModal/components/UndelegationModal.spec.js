@@ -6,6 +6,13 @@ import Vuelidate from "vuelidate"
 
 describe(`UndelegationModal`, () => {
   let wrapper, $store
+
+  const state = {
+    session: {
+      addressRole: undefined
+    }
+  }
+
   const validator = {
     operatorAddress: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
     // we don't need other props in this component
@@ -32,7 +39,8 @@ describe(`UndelegationModal`, () => {
         },
         stakingDenom: "STAKE",
         address: "cosmos12345"
-      }
+      },
+      state
     }
     wrapper = shallowMount(UndelegationModal, {
       localVue,
