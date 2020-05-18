@@ -37,7 +37,7 @@
       <div class="form-message notice">
         <span>
           This is a controller account, you can change your validators
-          but to increase the amount to stake you need to sign in with your
+          but to decrease the amount you stake you need to sign in with your
           stash account.
         </span>
       </div>
