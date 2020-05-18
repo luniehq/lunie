@@ -95,7 +95,7 @@ export default {
   }),
   computed: {
     ...mapState([`keystore`, `session`]),
-    ...mapGetters([`networks`]),
+    ...mapGetters([`networks`, `network`]),
     accounts() {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({
@@ -150,6 +150,7 @@ export default {
           password: this.signInPassword,
           address: this.signInAddress,
           sessionType: "local",
+          networkId: this.network
         })
         localStorage.setItem(`prevAccountKey`, this.signInAddress)
         this.$router.push({

@@ -83,6 +83,7 @@ describe(`TmSessionSignIn`, () => {
       },
       getters: {
         networks,
+        network: `cosmos-hub-mainnet`
       },
     }
 
@@ -124,6 +125,7 @@ describe(`TmSessionSignIn`, () => {
       password: `1234567890`,
       address: "cosmosdefault",
       sessionType: `local`,
+      networkId: `cosmos-hub-mainnet`
     })
   })
 
