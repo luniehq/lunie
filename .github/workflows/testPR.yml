@@ -71,14 +71,22 @@ jobs:
   test_e2e:
     name: testE2E
     runs-on: ubuntu-latest
+    container:
+      image: node:13.6
+      options: --network-alias testHost
+    env:
+      SELENIUM_HUB_HOST: hub
+      TEST_HOST: testHost
+    services:
+      hub:
+        image: selenium/hub:3.141.59-gold
+      chrome:
+        image: selenium/node-chrome
+        env:
+          HUB_HOST: hub
+          HUB_PORT: 4444
     steps:
       - uses: actions/checkout@v1
-      - name: Use Chromedriver
-        uses: nanasess/setup-chromedriver@master
-        with:
-          chromedriver-version: '79.0.3945.36'
-      - name: Use Node.js
-        uses: actions/setup-node@v1
       - name: Install dependencies
         run: yarn install
       - name: Run testE2E
