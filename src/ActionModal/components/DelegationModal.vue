@@ -51,8 +51,8 @@
         id="to"
         :value="
           session.addressRole === `stash`
-            ? ``
-            : targetValidator | validatorEntry
+            ? `--`
+            : (targetValidator | validatorEntry)
         "
         type="text"
         readonly
