@@ -157,7 +157,7 @@ export default ({ apollo }) => {
       if (currentNetwork.network_type === "polkadot") {
         await dispatch(`checkAddressRole`, {
           address,
-          currentNetwork
+          networkId
         })
       }
 
