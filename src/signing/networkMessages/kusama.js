@@ -73,7 +73,7 @@ export async function UnstakeTx(
   }
 
   // Disable adding possible nomination extrinsic if address is a stash account
-  if (from.length > 0 && addressRole !== `stash`) {
+  if (from.length > 0 && ["controller", "stash/controller", "none"].includes(addressRole)) {
     const response = await api.query.staking.nominators(senderAddress)
     const { targets: delegatedValidators = [] } = response.toJSON() || {}
     const validatorAddresses = delegatedValidators.filter(
