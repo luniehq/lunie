@@ -1,5 +1,4 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
-// import pushNotifications from "./pushNotifications.js"
 import config from "src/../config"
 import { AddressRole } from "../../gql"
 
@@ -161,10 +160,12 @@ export default ({ apollo }) => {
         })
       }
 
-      // Register device for push registrations
-      // const activeNetworks = getActiveNetworks(networks)
-      /* istanbul ignore next */
-      // await pushNotifications.askPermissionAndRegister(activeNetworks, apollo)
+      if (currentNetwork.network_type === "polkadot") {
+        await dispatch(`checkAddressRole`, {
+          address,
+          currentNetwork,
+        })
+      }
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
@@ -259,29 +260,6 @@ export default ({ apollo }) => {
     actions,
   }
 }
-
-/**
- * Retrieve active networks from localstorage via session keys
- */
-// const getActiveNetworks = networkObjects => {
-//   let activeNetworks = []
-//   networkObjects.forEach(network => {
-//     // Session object: { address: string, sessionType: string (e.g. ledger)}
-//     const networkObject = JSON.parse(
-//       localStorage.getItem(`session_${network.id}`)
-//     )
-
-//     // Only store network object if it has an associated address
-//     if (networkObject) {
-//       activeNetworks.push({
-//         address: networkObject.address,
-//         networkId: network.id
-//       })
-//     }
-//   })
-
-//   return activeNetworks
-// }
 
 function sessionKey(networkId) {
   return `session_${networkId}`

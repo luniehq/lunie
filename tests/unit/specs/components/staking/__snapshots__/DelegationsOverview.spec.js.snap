@@ -4,16 +4,12 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
 <div
   class="table-container"
 >
-  <!---->
-   
   <tmdatamsg-stub
     icon="sentiment_dissatisfied"
     iconcolor="var(--warning)"
   >
     <div>
-      
       No validators in your portfolio
-    
     </div>
      
     <div>
@@ -21,7 +17,7 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
       Head over to the
       
       <a>
-         validator list
+        validator list
       </a>
        to get staking!
     
@@ -34,8 +30,6 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
 <div
   class="table-container"
 >
-  <!---->
-   
   <div>
     <h1>
       Your Validators
