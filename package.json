@@ -86,7 +86,7 @@
     "@babel/core": "7.9.6",
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@capacitor/android": "2.1.0",
-    "@capacitor/cli": "2.0.0",
+    "@capacitor/cli": "2.1.0",
     "@capacitor/core": "2.0.0",
     "@capacitor/ios": "2.0.0",
     "@vue/cli-plugin-babel": "^3.10.0",
