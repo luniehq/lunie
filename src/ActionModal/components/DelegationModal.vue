@@ -275,7 +275,8 @@ export default {
           amount: {
             amount: this.amount,
             denom: this.stakingDenom
-          }
+          },
+          addressRole: this.session.addressRole
         }
       } else {
         return {
@@ -284,7 +285,8 @@ export default {
           amount: {
             amount: this.amount,
             denom: this.stakingDenom
-          }
+          },
+          addressRole: this.session.addressRole
         }
       }
     },

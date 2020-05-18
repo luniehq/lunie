@@ -14,28 +14,29 @@ export async function SendTx(senderAddress, { to, amount }, network) {
 }
 
 // Staking
-export async function StakeTx(senderAddress, { to, amount }, network) {
+export async function StakeTx(senderAddress, { to, amount, addressRole }, network) {
   // stake with all existing plus the selected
   const api = await getAPI()
   const transactions = []
-
-  // Check if controller is already set
-  const controller = await api.query.staking.bonded(senderAddress)
-
   const chainAmount = toChainAmount(amount, network.coinLookup)
-  if (controller.toString() === `` && amount > 0) {
-    const payee = 0
+  const payee = 0
+  if (addressRole === `stash/controller` && amount > 0) {
+    transactions.push(await api.tx.staking.bondExtra(chainAmount))
+  } else if (addressRole === `stash`) {
+    transactions.push(await api.tx.staking.bondExtra(chainAmount))
+  } else if (addressRole === `none`) {
     transactions.push(
       await api.tx.staking.bond(senderAddress, chainAmount, payee)
     )
-  } else {
-    transactions.push(await api.tx.staking.bondExtra(chainAmount))
   }
 
-  const response = await api.query.staking.nominators(senderAddress)
-  const { targets: delegatedValidators = [] } = response.toJSON() || {}
-  const validatorAddresses = uniqBy(delegatedValidators.concat(to[0]), x => x)
-  transactions.push(await api.tx.staking.nominate(validatorAddresses))
+  if (addressRole && addressRole !== `stash`) {
+    const response = await api.query.staking.nominators(senderAddress)
+    const { targets: delegatedValidators = [] } = response.toJSON() || {}
+    const validatorAddresses = uniqBy(delegatedValidators.concat(to[0]), x => x)
+    transactions.push(await api.tx.staking.nominate(validatorAddresses))
+  }
+
   if (transactions.length === 0) {
     throw new Error("You have to either bond stake or nominate a new validator")
   }
