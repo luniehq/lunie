@@ -239,6 +239,17 @@ export default () =>
       setPreferredCurrency({ state, dispatch }, currency) {
         state.preferredCurrency = currency
         dispatch(`storeLocalPreferences`)
+      },
+      getAllSessionsAddresses(store, { networkIds }) {
+        let allSessionAddresses = []
+        networkIds.forEach(networkId => {
+          allSessionAddresses.push({
+            networkId,
+            address: JSON.parse(localStorage.getItem(`session_${networkId}`))
+              .address
+          })
+        })
+        return allSessionAddresses
       }
     }
 
