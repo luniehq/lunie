@@ -12,7 +12,7 @@ const transactionTypesSet = new Set([
   'UnknownTx'
 ])
 
-const TERRA_TAX_RATE = 0.00675
+const TERRA_TAX_RATE = 0.007
 const TERRA_TAX_CAP = 1000000
 
 const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
@@ -93,7 +93,8 @@ const networkGasEstimatesDictionary = {
   'emoney-testnet': emoneyGasEstimates,
   'akash-testnet': akashGasEstimates,
   'kusama': polkadotGasEstimates,
-  'kava-mainnet': kavaGasEstimates
+  'kava-mainnet': kavaGasEstimates,
+  'kava-testnet': kavaGasEstimates
 }
 
 const cosmosGasPrices = [
@@ -193,6 +194,7 @@ const networkGasPricesDictionary = {
   'emoney-mainnet': emoneyGasPrices,
   'emoney-testnet': emoneyGasPrices,
   'kava-mainnet': kavaGasPrices,
+  'kava-testnet': kavaGasPrices,
   'akash-testnet': akashGasPrices,
   'kusama': polkadotGasPrices,
 }

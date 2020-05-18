@@ -22,6 +22,7 @@ module.exports = [
     stakingDenom: 'MUON',
     coinLookup: coinLookupDictionary[`cosmos-hub-testnet`],
     enabled: true,
+    experimental: false,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png',
     slug: 'cosmos-hub-testnet',
     powered: {
@@ -51,6 +52,7 @@ module.exports = [
     stakingDenom: 'ATOM',
     coinLookup: coinLookupDictionary[`cosmos-hub-mainnet`],
     enabled: true,
+    experimental: false,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png',
     slug: 'cosmos-hub',
     powered: {
@@ -80,6 +82,7 @@ module.exports = [
     stakingDenom: 'LUNA',
     coinLookup: coinLookupDictionary[`terra-mainnet`],
     enabled: true,
+    experimental: false,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/terra.png',
     slug: 'terra',
     lockUpPeriod: '21 days'
@@ -103,6 +106,7 @@ module.exports = [
     stakingDenom: 'LUNA',
     coinLookup: coinLookupDictionary[`terra-testnet`],
     enabled: true,
+    experimental: false,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/terra.png',
     slug: 'terra-testnet',
     lockUpPeriod: '21 days'
@@ -126,6 +130,7 @@ module.exports = [
     stakingDenom: 'NGM',
     coinLookup: coinLookupDictionary[`emoney-mainnet`],
     enabled: true,
+    experimental: false,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/emoney.png',
     slug: 'emoney',
     lockUpPeriod: '21 days'
@@ -149,6 +154,7 @@ module.exports = [
   //   stakingDenom: 'NGM',
   //   coinLookup: coinLookupDictionary[`emoney-testnet`],
   //   enabled: true,
+  //   experimental: false,
   //   icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/emoney.png',
   //   slug: 'emoney-testnet'
   // },
@@ -172,6 +178,7 @@ module.exports = [
     // https://wiki.polkadot.network/docs/en/learn-DOT
     coinLookup: coinLookupDictionary[`kusama`],
     enabled: true,
+    experimental: true,
     icon:
       'https://lunie.fra1.digitaloceanspaces.com/network-icons/polkadot.png',
     slug: 'kusama',
@@ -202,6 +209,7 @@ module.exports = [
     stakingDenom: 'KAVA',
     coinLookup: coinLookupDictionary[`kava-mainnet`],
     enabled: false,
+    experimental: false,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/kava.png',
     slug: 'kava',
     powered: {
@@ -211,6 +219,36 @@ module.exports = [
         'https://lunie.fra1.digitaloceanspaces.com/validator-pictures/forbole.jpeg'
     },
     lockUpPeriod: '21 days'
+  },
+  {
+    id: 'kava-testnet',
+    title: 'Kava Testnet',
+    chain_id: 'kava-testnet-5000',
+    api_url: 'http://lcd.kava-testnet.forbole.com:1317',
+    rpc_url: 'http://rpc.kava-testnet.forbole.com:26657',
+    bech32_prefix: 'kava',
+    address_prefix: 'kava',
+    address_creator: 'cosmos',
+    ledger_app: 'cosmos',
+    network_type: 'cosmos',
+    source_class_name: 'source/kavaV0-source',
+    block_listener_class_name: 'block-listeners/cosmos-node-subscription',
+    testnet: true,
+    ...getNetworkCapabilities[`kava-testnet`],
+    default: false,
+    stakingDenom: 'KAVA',
+    coinLookup: coinLookupDictionary[`kava-testnet`],
+    enabled: true,
+    experimental: false,
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/kava.png',
+    slug: 'kava',
+    powered: {
+      name: 'Forbole',
+      providerAddress: 'kavavaloper10tpyfe03nufsax5g038n287yzn9ldyqcgmk2d9',
+      picture:
+        'https://lunie.fra1.digitaloceanspaces.com/validator-pictures/forbole.jpeg'
+    },
+    lockUpPeriod: '60 minutes'
   }
   // {
   //   id: 'akash-testnet',
@@ -237,6 +275,7 @@ module.exports = [
   //     }
   //   ],
   //   enabled: false,
+  //   experimental: false,
   //   icon: 'https://app.lunie.io/img/networks/akash-testnet.png',
   //   slug: 'akash-testnet'
   // }

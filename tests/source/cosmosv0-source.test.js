@@ -1,13 +1,13 @@
 const CosmosV0API = require('../../lib/source/cosmosV0-source')
 const networks = require('../../data/networks')
 
-describe('Cosmos V0 API', function() {
-  describe('checkAddress()', function() {
+describe('Cosmos V0 API', function () {
+  describe('checkAddress()', function () {
     let api, cosmosNetworkConfig
 
     beforeEach(() => {
       cosmosNetworkConfig = networks.find(
-        network => network.id === 'cosmos-hub-testnet'
+        (network) => network.id === 'cosmos-hub-testnet'
       )
       api = new CosmosV0API(cosmosNetworkConfig, {})
     })
