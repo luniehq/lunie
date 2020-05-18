@@ -12,11 +12,11 @@ describe(`TmSeed`, () => {
     wrapper = shallowMount(TmSeed, {
       localVue,
       propsData: {
-        value: `two collect olive inside assault finger relief shallow lottery sugar universe fatigue knock current only absurd famous work path zone distance churn include flower`
+        value: `two collect olive inside assault finger relief shallow lottery sugar universe fatigue knock current only absurd famous work path zone distance churn include flower`,
       },
       data: () => ({
-        copySuccess: false
-      })
+        copySuccess: false,
+      }),
     })
   })
 
@@ -49,7 +49,7 @@ describe(`TmSeed`, () => {
       `distance`,
       `churn`,
       `include`,
-      `flower`
+      `flower`,
     ]
     expect(wrapper.vm.splitSeed).toEqual(seedWords)
   })
@@ -68,27 +68,12 @@ describe(`TmSeed`, () => {
   // TODO: not sure how to test the v-clipboard directive events
   xit(`clicking copy copies the address`, () => {
     jest.useFakeTimers()
-    expect(
-      wrapper
-        .find(`.copied`)
-        .classes()
-        .includes(`active`)
-    ).toBe(false)
+    expect(wrapper.find(`.copied`).classes().includes(`active`)).toBe(false)
 
     wrapper.find(`.address`).trigger(`click`)
-    expect(
-      wrapper
-        .find(`.copied`)
-        .classes()
-        .includes(`active`)
-    ).toBe(true)
+    expect(wrapper.find(`.copied`).classes().includes(`active`)).toBe(true)
 
     jest.runAllTimers()
-    expect(
-      wrapper
-        .find(`.copied`)
-        .classes()
-        .includes(`active`)
-    ).toBe(false)
+    expect(wrapper.find(`.copied`).classes().includes(`active`)).toBe(false)
   })
 })

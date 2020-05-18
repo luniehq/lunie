@@ -27,35 +27,35 @@ describe(`TmModal`, () => {
             content: [
               "Praesent vitae tristique erat.",
               "Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.",
-              "Nulla mollis tempus sem, a sollicitudin est facilisis ac."
-            ]
+              "Nulla mollis tempus sem, a sollicitudin est facilisis ac.",
+            ],
           },
           {
             title: "How to get tokens?",
             content: [
               "Praesent vitae tristique erat.",
               "Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.",
-              "Nulla mollis tempus sem, a sollicitudin est facilisis ac."
-            ]
+              "Nulla mollis tempus sem, a sollicitudin est facilisis ac.",
+            ],
           },
           {
             title: "How to get tokens?",
             content: [
               "Praesent vitae tristique erat.",
               "Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.",
-              "Nulla mollis tempus sem, a sollicitudin est facilisis ac."
-            ]
+              "Nulla mollis tempus sem, a sollicitudin est facilisis ac.",
+            ],
           },
           {
             title: "How to get tokens?",
             content: [
               "Praesent vitae tristique erat.",
               "Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.",
-              "Nulla mollis tempus sem, a sollicitudin est facilisis ac."
-            ]
-          }
-        ]
-      }
+              "Nulla mollis tempus sem, a sollicitudin est facilisis ac.",
+            ],
+          },
+        ],
+      },
     })
   })
 

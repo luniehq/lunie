@@ -10,21 +10,14 @@
   >
     <template v-if="validator.operatorAddress" slot="managed-body">
       <div class="button-container">
-        <button
-          class="back-button"
-          @click="
-            $router.push(
-              `/${$router.history.current.params.networkId}/validators`
-            )
-          "
-        >
+        <button class="back-button" @click="$router.go(-1)">
           <i class="material-icons notranslate arrow">arrow_back</i>
-          Back to Validators
+          Back
         </button>
         <button
           v-if="
             connection.network === 'cosmos-hub-mainnet' ||
-              connection.network === 'cosmos-hub-testnet'
+            connection.network === 'cosmos-hub-testnet'
           "
           class="tutorial-button"
           @click="openTutorial()"
@@ -191,8 +184,8 @@
     <ModalTutorial
       v-if="
         showTutorial &&
-          (connection.network === 'cosmos-hub-mainnet' ||
-            connection.network === 'cosmos-hub-testnet')
+        (connection.network === 'cosmos-hub-mainnet' ||
+          connection.network === 'cosmos-hub-testnet')
       "
       :steps="cosmosStakingTutorial.steps"
       :fullguide="cosmosStakingTutorial.fullguide"
@@ -237,21 +230,21 @@ export default {
     Avatar,
     TmBtn,
     TmPage,
-    ModalTutorial
+    ModalTutorial,
   },
   filters: {
     shortDecimals,
     fullDecimals,
     percent,
-    toLower: text => text.toLowerCase(),
+    toLower: (text) => text.toLowerCase(),
     noBlanks,
-    fromNow
+    fromNow,
   },
   props: {
     showOnMobile: {
       type: String,
-      default: () => "returns"
-    }
+      default: () => "returns",
+    },
   },
   data: () => ({
     validator: {},
@@ -270,41 +263,41 @@ export default {
           title: "Intro to staking",
           // Each content array item will be enclosed in a span (newline)
           content: [
-            "First things first, you'll need to have some staking tokens. On this network, they are called ATOMs."
-          ]
+            "First things first, you'll need to have some staking tokens. On this network, they are called ATOMs.",
+          ],
         },
         {
           title: "Validators",
           content: [
-            "Validators are network operators who collect a fee for maintaining the integrity of the blockchain."
-          ]
+            "Validators are network operators who collect a fee for maintaining the integrity of the blockchain.",
+          ],
         },
         {
           title: "Choosing a validator",
           content: [
-            "You can 'stake' your tokens with any validator you like. Choose by comparing their commission rate, their uptime history, and how they vote on proposals."
-          ]
+            "You can 'stake' your tokens with any validator you like. Choose by comparing their commission rate, their uptime history, and how they vote on proposals.",
+          ],
         },
         {
           title: "Earning rewards",
           content: [
-            "Once you 'stake' your tokens, you'll instantly start earning rewards. Look for the “Claim Rewards” button on your portfolio page to add your rewards to your wallet."
-          ]
+            "Once you 'stake' your tokens, you'll instantly start earning rewards. Look for the “Claim Rewards” button on your portfolio page to add your rewards to your wallet.",
+          ],
         },
         {
           title: "Lock-up period",
           content: [
-            "While your tokens are 'staked' you will not be able to transfer or spend them. It will take a number of days depending on the network for your tokens to be in your wallet after you 'unstake' them."
-          ]
+            "While your tokens are 'staked' you will not be able to transfer or spend them. It will take a number of days depending on the network for your tokens to be in your wallet after you 'unstake' them.",
+          ],
         },
         {
           title: "Have more questions?",
           content: [
-            "Check out our full staking guide for an in depth explanation of all things staking."
-          ]
-        }
-      ]
-    }
+            "Check out our full staking guide for an in depth explanation of all things staking.",
+          ],
+        },
+      ],
+    },
   }),
   computed: {
     ...mapState([`connection`]),
@@ -346,11 +339,11 @@ export default {
     filterStakingDenomReward() {
       if (this.rewards && this.rewards.length > 0) {
         const stakingDenomRewards = this.rewards.filter(
-          reward => reward.denom === this.stakingDenom
+          (reward) => reward.denom === this.stakingDenom
         )
         return stakingDenomRewards[0].amount
       }
-    }
+    },
   },
   apollo: {
     delegation: {
@@ -378,7 +371,7 @@ export default {
         return {
           networkId: this.network,
           delegatorAddress: this.userAddress,
-          operatorAddress: this.$route.params.validator
+          operatorAddress: this.$route.params.validator,
         }
       },
       /* istanbul ignore next */
@@ -392,9 +385,9 @@ export default {
         /* istanbul ignore next */
         return {
           ...result.delegation,
-          amount: Number(result.delegation.amount)
+          amount: Number(result.delegation.amount),
         }
-      }
+      },
     },
     rewards: {
       query: gql`
@@ -422,7 +415,7 @@ export default {
         return {
           networkId: this.network,
           delegatorAddress: this.userAddress,
-          operatorAddress: this.$route.params.validator
+          operatorAddress: this.$route.params.validator,
         }
       },
       /* istanbul ignore next */
@@ -430,7 +423,7 @@ export default {
         return result.rewards && result.rewards.length > 0
           ? result.rewards
           : { amount: 0 }
-      }
+      },
     },
     validator: {
       query: ValidatorProfile,
@@ -438,7 +431,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          operatorAddress: this.$route.params.validator
+          operatorAddress: this.$route.params.validator,
         }
       },
       /* istanbul ignore next */
@@ -448,16 +441,16 @@ export default {
         this.loaded = true
         return {
           ...result.validator,
-          statusDetailed: getStatusText(result.validator.statusDetailed)
+          statusDetailed: getStatusText(result.validator.statusDetailed),
         }
-      }
+      },
     },
     $subscribe: {
       blockAdded: {
         /* istanbul ignore next */
         variables() {
           return {
-            networkId: this.network
+            networkId: this.network,
           }
         },
         /* istanbul ignore next */
@@ -474,14 +467,14 @@ export default {
         /* istanbul ignore next */
         result() {
           this.$apollo.queries.rewards.refetch()
-        }
+        },
       },
       userTransactionAdded: {
         /* istanbul ignore next */
         variables() {
           return {
             networkId: this.network,
-            address: this.userAddress
+            address: this.userAddress,
           }
         },
         /* istanbul ignore next */
@@ -494,10 +487,10 @@ export default {
           if (data.userTransactionAddedV2.success) {
             this.$apollo.queries.delegation.refetch()
           }
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 <style scoped>

@@ -2,12 +2,12 @@ import config from "src/../config"
 import bech32 from "bech32"
 import { NetworksAll } from "../../gql"
 
-const isPolkadotAddress = address => {
+const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
 
-export default function({ apollo }) {
+export default function ({ apollo }) {
   const state = {
     stopConnecting: false,
     connected: true, // TODO do connection test
@@ -16,8 +16,8 @@ export default function({ apollo }) {
     networks: [],
     addressType: undefined,
     externals: {
-      config
-    }
+      config,
+    },
   }
 
   const mutations = {
@@ -32,7 +32,7 @@ export default function({ apollo }) {
     },
     setNetworks(state, networks) {
       state.networks = networks
-    }
+    },
   }
 
   const actions = {
@@ -40,13 +40,13 @@ export default function({ apollo }) {
       const persistedNetwork = JSON.parse(localStorage.getItem(`network`))
       // find stored network in networks array
       const storedNetwork = persistedNetwork
-        ? state.networks.find(network => network.id === persistedNetwork)
+        ? state.networks.find((network) => network.id === persistedNetwork)
         : false
       if (persistedNetwork && storedNetwork) {
         await dispatch(`setNetwork`, storedNetwork)
       } else {
         const defaultNetwork = state.networks.find(
-          network => network.id === state.externals.config.network
+          (network) => network.id === state.externals.config.network
         )
         if (defaultNetwork) {
           // remove additional execution of checkForPersistedNetwork
@@ -55,7 +55,7 @@ export default function({ apollo }) {
         } else {
           // otherwise we connect to a fallback network
           const fallbackNetwork = state.networks.find(
-            network => network.id == state.externals.config.fallbackNetwork
+            (network) => network.id == state.externals.config.fallbackNetwork
           )
           await dispatch("setNetwork", fallbackNetwork)
         }
@@ -97,7 +97,7 @@ export default function({ apollo }) {
       )
 
       const selectedNetwork = selectedNetworksArray.find(
-        network => network.testnet === testnet
+        (network) => network.testnet === testnet
       )
 
       if (!selectedNetwork) {
@@ -112,13 +112,13 @@ export default function({ apollo }) {
     async preloadNetworkCapabilities({
       commit,
       rootState: {
-        session: { experimentalMode }
-      }
+        session: { experimentalMode },
+      },
     }) {
       const { data } = await apollo.query({
         query: NetworksAll,
         variables: { experimental: experimentalMode },
-        fetchPolicy: "network-only"
+        fetchPolicy: "network-only",
       })
       commit("setNetworks", data.networks)
     },
@@ -132,12 +132,12 @@ export default function({ apollo }) {
       commit("setAddressType", network.address_creator)
       dispatch(`checkForPersistedSession`) // check for persisted session on that network
       console.info(`Connecting to: ${network.id}`)
-    }
+    },
   }
 
   return {
     state,
     mutations,
-    actions
+    actions,
   }
 }

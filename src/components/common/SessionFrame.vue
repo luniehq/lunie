@@ -36,14 +36,14 @@ export default {
   props: {
     hideBack: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
-    isExtension: config.isExtension
+    isExtension: config.isExtension,
   }),
   computed: {
-    ...mapGetters([`networkSlug`])
+    ...mapGetters([`networkSlug`]),
   },
   methods: {
     goBack() {
@@ -53,11 +53,11 @@ export default {
       this.$router.push({
         name: "portfolio",
         params: {
-          networkId: this.networkSlug
-        }
+          networkId: this.networkSlug,
+        },
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

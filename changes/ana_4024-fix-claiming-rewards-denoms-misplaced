@@ -1,0 +1,1 @@
+[Fixed] [#4024](https://github.com/cosmos/lunie/issues/4024) Fixes claim rewards denoms misplaces on ModalWithdrawRewards (multi-denom) @Bitcoinera

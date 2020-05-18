@@ -12,14 +12,18 @@ describe(`ModalWithdrawRewards`, () => {
       getters: {
         stakingDenom: "STAKE",
         network: "cosmos-hub-mainnet",
-        address: "cosmos1234"
-      }
+        address: "cosmos1234",
+        currentNetwork: {
+          id: "cosmos-hub-mainnet",
+          network_type: "cosmos",
+        },
+      },
     }
 
     wrapper = shallowMount(ModalWithdrawRewards, {
       mocks: {
-        $store
-      }
+        $store,
+      },
     })
     wrapper.setData({
       rewards: [
@@ -27,17 +31,17 @@ describe(`ModalWithdrawRewards`, () => {
           denom: `NOTSTAKE`,
           amount: 2,
           validator: {
-            operatorAddress: `cosmosvaloper13`
-          }
+            operatorAddress: `cosmosvaloper13`,
+          },
         },
         {
           denom: `STAKE`,
           amount: 3,
           validator: {
-            operatorAddress: `cosmosvaloper12`
-          }
-        }
-      ]
+            operatorAddress: `cosmosvaloper12`,
+          },
+        },
+      ],
     })
   })
 
@@ -60,37 +64,37 @@ describe(`ModalWithdrawRewards`, () => {
           denom: `STAKE`,
           amount: 1,
           validator: {
-            operatorAddress: `cosmosvaloper12`
-          }
+            operatorAddress: `cosmosvaloper12`,
+          },
         },
         {
           denom: `STAKE`,
           amount: 0.5,
           validator: {
-            operatorAddress: `cosmosvaloper13`
-          }
+            operatorAddress: `cosmosvaloper13`,
+          },
         },
         {
           denom: `NOTSTAKE`,
           amount: 2,
           validator: {
-            operatorAddress: `cosmosvaloper12`
-          }
+            operatorAddress: `cosmosvaloper12`,
+          },
         },
         {
           denom: `NOTSTAKE`,
           amount: 2,
           validator: {
-            operatorAddress: `cosmosvaloper13`
-          }
-        }
+            operatorAddress: `cosmosvaloper13`,
+          },
+        },
       ],
-      top5Validators: ["cosmosvaloper12", "cosmosvaloper13"]
+      top5Validators: ["cosmosvaloper12", "cosmosvaloper13"],
     }
     const totalRewards = ModalWithdrawRewards.computed.totalRewards.call(self)
     expect(totalRewards).toEqual([
       { amount: 4, denom: "NOTSTAKE" },
-      { amount: 1.5, denom: "STAKE" }
+      { amount: 1.5, denom: "STAKE" },
     ])
   })
 
@@ -103,9 +107,9 @@ describe(`ModalWithdrawRewards`, () => {
       balances: [
         {
           denom: "STAKE",
-          amount: 1
-        }
-      ]
+          amount: 1,
+        },
+      ],
     }
     const feeDenom = ModalWithdrawRewards.computed.feeDenom.call(self)
     expect(feeDenom).toEqual(`STAKE`)
@@ -116,17 +120,17 @@ describe(`ModalWithdrawRewards`, () => {
       balances: [
         {
           denom: "STAKE",
-          amount: 0
+          amount: 0,
         },
         {
           denom: "TOKEN",
-          amount: 0
+          amount: 0,
         },
         {
           denom: "TOKEN2",
-          amount: 1
-        }
-      ]
+          amount: 1,
+        },
+      ],
     }
     const feeDenom = ModalWithdrawRewards.computed.feeDenom.call(self)
     expect(feeDenom).toEqual(`TOKEN2`)
@@ -138,30 +142,30 @@ describe(`ModalWithdrawRewards`, () => {
         ModalWithdrawRewards.computed.transactionData.call({
           totalRewards: [
             { amount: 4, denom: "NOTSTAKE" },
-            { amount: 1.5, denom: "STAKE" }
+            { amount: 1.5, denom: "STAKE" },
           ],
-          top5Validators: ["cosmosvaloper12", "cosmosvaloper13"]
+          top5Validators: ["cosmosvaloper12", "cosmosvaloper13"],
         })
       ).toEqual({
         type: "ClaimRewardsTx",
         amounts: [
           {
             amount: 4,
-            denom: "NOTSTAKE"
+            denom: "NOTSTAKE",
           },
           {
             amount: 1.5,
-            denom: "STAKE"
-          }
+            denom: "STAKE",
+          },
         ],
-        from: ["cosmosvaloper12", "cosmosvaloper13"]
+        from: ["cosmosvaloper12", "cosmosvaloper13"],
       })
     })
 
     it("should return correct notification message for delegating", () => {
       expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successful withdrawal!`,
-        body: `You have successfully withdrawn your rewards.`
+        body: `You have successfully withdrawn your rewards.`,
       })
     })
   })

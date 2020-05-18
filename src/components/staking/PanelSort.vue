@@ -6,7 +6,7 @@
       :key="property.value"
       :class="{
         'sort-by': sort,
-        'hide-xs': hideXs(property)
+        'hide-xs': hideXs(property),
       }"
       class="panel-sort-table-header"
     >
@@ -30,16 +30,16 @@ export default {
   props: {
     sort: {
       type: Object,
-      default: null
+      default: null,
     },
     properties: {
       type: Array,
-      required: true
+      required: true,
     },
     showOnMobile: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     hideXs(property) {
@@ -49,8 +49,8 @@ export default {
     },
     orderBy(property) {
       const sortBys = this.$el.querySelectorAll(`.sort-by`)
-      sortBys.forEach(el => el.classList.remove(`active`, `desc`, `asc`))
-      const index = this.properties.findIndex(p => p.value === property)
+      sortBys.forEach((el) => el.classList.remove(`active`, `desc`, `asc`))
+      const index = this.properties.findIndex((p) => p.value === property)
       const el = sortBys[index]
 
       if (this.sort.property === property) {
@@ -68,8 +68,8 @@ export default {
         el.classList.add(`desc`)
       }
       el.classList.add(`active`)
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -20,21 +20,21 @@ export default {
   props: {
     icon: {
       type: String,
-      default: ``
+      default: ``,
     },
     img: {
       type: String,
-      default: ``
+      default: ``,
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     route: {
       type: String,
-      default: ``
-    }
-  }
+      default: ``,
+    },
+  },
 }
 </script>
 

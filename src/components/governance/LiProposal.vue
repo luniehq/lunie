@@ -4,7 +4,7 @@
     @click="
       $router.push({
         name: 'Proposal',
-        params: { proposalId: String(proposal.id) }
+        params: { proposalId: String(proposal.id) },
       })
     "
   >
@@ -31,23 +31,23 @@ import { getProposalStatus } from "scripts/proposal-status"
 export default {
   name: `li-proposal`,
   filters: {
-    trim: function(text, length) {
+    trim: function (text, length) {
       return text.length > length ? text.substring(0, length) + `…` : text
     },
-    lowerCase: text => text.toLowerCase()
+    lowerCase: (text) => text.toLowerCase(),
   },
   props: {
     proposal: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     ...mapState([`proposals`]),
     status() {
       return getProposalStatus(this.proposal)
-    }
-  }
+    },
+  },
 }
 </script>
 

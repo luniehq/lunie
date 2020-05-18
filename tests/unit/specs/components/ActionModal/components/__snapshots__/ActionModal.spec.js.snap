@@ -92,7 +92,7 @@ exports[`ActionModal back button renders and functions 1`] = `
 </div>
 `;
 
-exports[`ActionModal runs validation and changes step on sign step should dispaly warning when using an address not in the extension 1`] = `
+exports[`ActionModal runs validation and changes step on sign step should display warning when using an address not in the extension 1`] = `
 <div
   class="action-modal"
   name="slide-fade"
@@ -242,12 +242,11 @@ exports[`ActionModal should show the action modal on success 1`] = `
         <br />
          
         <br />
-        Block
-            
+         
         <router-link-stub
-          to="/lunie-net/blocks/undefined"
+          to="/lunie-net/transactions"
         >
-          #0
+          See your transaction
         </router-link-stub>
       </div>
     </tmdatamsg-stub>

@@ -3,12 +3,12 @@ import { getAccountsFromExtension } from "src/scripts/extension-utils"
 
 export default () => {
   const emptyState = {
-    enabled: false
+    enabled: false,
   }
   const state = {
     ...emptyState,
     accounts: [],
-    externals: { config, getAccountsFromExtension } // for testing
+    externals: { config, getAccountsFromExtension }, // for testing
   }
   const mutations = {
     setExtensionAvailable(state) {
@@ -16,21 +16,21 @@ export default () => {
     },
     setExtensionAccounts(state, accounts) {
       state.accounts = accounts
-    }
+    },
   }
 
   const actions = {
     async getAddressesFromExtension({
       state: {
-        externals: { getAccountsFromExtension }
-      }
+        externals: { getAccountsFromExtension },
+      },
     }) {
       getAccountsFromExtension()
-    }
+    },
   }
   return {
     state,
     mutations,
-    actions
+    actions,
   }
 }

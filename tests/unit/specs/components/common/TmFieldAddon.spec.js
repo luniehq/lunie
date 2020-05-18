@@ -6,7 +6,7 @@ describe(`TmFieldAddon`, () => {
 
   beforeEach(() => {
     wrapper = mount(TmFieldAddon, {
-      slots: { default: `<div class="fake-addon">ATOM</div>` }
+      slots: { default: `<div class="fake-addon">ATOM</div>` },
     })
   })
 

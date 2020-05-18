@@ -1377,8 +1377,8 @@ import TmPage from "common/TmPage"
 export default {
   name: `page-terms`,
   components: {
-    TmPage
-  }
+    TmPage,
+  },
 }
 </script>
 

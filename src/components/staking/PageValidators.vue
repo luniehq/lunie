@@ -61,22 +61,22 @@ export default {
     TableValidators,
     TmPage,
     TmField,
-    TmBtn
+    TmBtn,
   },
   data: () => ({
     searchTerm: "",
     activeOnly: true,
     validators: [],
-    loaded: false
+    loaded: false,
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
     validatorsPlus() {
-      return this.validators.map(validator => ({
+      return this.validators.map((validator) => ({
         ...validator,
-        smallName: validator.name ? validator.name.toLowerCase() : ""
+        smallName: validator.name ? validator.name.toLowerCase() : "",
       }))
-    }
+    },
   },
   apollo: {
     validators: {
@@ -106,13 +106,13 @@ export default {
         return {
           networkId: this.network,
           activeOnly: this.activeOnly,
-          searchTerm: this.searchTerm
+          searchTerm: this.searchTerm,
         }
       },
-      update: function(result) {
+      update: function (result) {
         this.loaded = true
         return Array.isArray(result.validators) ? result.validators : []
-      }
+      },
     },
     delegations: {
       query: gql`
@@ -134,15 +134,15 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.address
+          delegatorAddress: this.address,
         }
       },
       update(data) {
         /* istanbul ignore next */
         return data.delegations
-      }
-    }
-  }
+      },
+    },
+  },
 }
 </script>
 
@@ -162,6 +162,7 @@ export default {
   .toggles {
     margin-top: 0;
     margin-bottom: 1rem;
+    display: inline-flex;
   }
 
   label {

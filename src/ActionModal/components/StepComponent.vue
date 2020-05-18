@@ -12,13 +12,13 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     active: {
       type: Boolean,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

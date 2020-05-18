@@ -1,10 +1,7 @@
 import sessionModule from "src/vuex/modules/session.js"
-import pushNotifications from "src/vuex/modules/pushNotifications.js"
-
-jest.mock("src/vuex/modules/pushNotifications.js")
 
 describe(`Module: Session`, () => {
-  let module, state, actions, mutations, node, getters
+  let module, state, actions, mutations, node
 
   beforeEach(() => {
     node = {}
@@ -12,16 +9,6 @@ describe(`Module: Session`, () => {
     state = module.state
     actions = module.actions
     mutations = module.mutations
-    global.Notification = {
-      requestPermission: jest.fn()
-    }
-    getters = {
-      networks: [
-        {
-          id: "fabo-net"
-        }
-      ]
-    }
 
     state.externals = {
       track: jest.fn(),
@@ -31,8 +18,8 @@ describe(`Module: Session`, () => {
         development: false,
         google_analytics_uid: `UA-123`,
         version: `abcfdef`,
-        default_gas_price: 2.5e-8
-      }
+        default_gas_price: 2.5e-8,
+      },
     }
   })
 
@@ -88,7 +75,7 @@ describe(`Module: Session`, () => {
     it(`should add user address to previously used addresses array`, () => {
       let address = {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-        sessionType: `explore`
+        sessionType: `explore`,
       }
       mutations.setUserAddresses(state, address)
       expect(state.addresses).toEqual(address)
@@ -129,18 +116,20 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos",
+            },
+          },
           commit,
           dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
         },
         { address, sessionType, networkId: "not-fabo-net" }
       )
       expect(commit).toHaveBeenCalledWith(`setNetworkId`, `not-fabo-net`)
       expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
-        id: `not-fabo-net`
+        id: `not-fabo-net`,
       })
       expect(commit).toHaveBeenCalledWith(
         `setUserAddress`,
@@ -162,12 +151,14 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos",
+            },
+          },
           commit,
           dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
         },
         { sessionType: `ledger`, address }
       )
@@ -188,12 +179,14 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos",
+            },
+          },
           commit,
           dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
         },
         { sessionType: `explore`, address }
       )
@@ -207,7 +200,7 @@ describe(`Module: Session`, () => {
       )
     })
 
-    xit("should register device with correct addressObjects", async () => {
+    it("should register device with correct addressObjects", async () => {
       const commit = jest.fn()
       const dispatch = jest.fn()
       const sessionType = `local`
@@ -217,13 +210,13 @@ describe(`Module: Session`, () => {
         {
           address: `123`,
           type: `explore`,
-          networkId: "fabo-net"
+          networkId: "fabo-net",
         },
         {
           address: `456`,
           type: `ledger`,
-          networkId: "not-fabo-net"
-        }
+          networkId: "not-fabo-net",
+        },
       ]
       localStorage.setItem(
         "session_fabo-net",
@@ -232,23 +225,16 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos",
+            },
+          },
           commit,
           dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
         },
         { address, sessionType, networkId: "fabo-net" }
-      )
-      expect(pushNotifications.askPermissionAndRegister).toHaveBeenCalledWith(
-        [
-          {
-            address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-            networkId: "fabo-net"
-          }
-        ],
-        expect.objectContaining({}) // apollo
       )
       localStorage.removeItem("session_fabo-net")
     })
@@ -261,22 +247,24 @@ describe(`Module: Session`, () => {
       state.addresses = [
         {
           address: `123`,
-          type: `explore`
+          type: `explore`,
         },
         {
           address: `456`,
-          type: `ledger`
-        }
+          type: `ledger`,
+        },
       ]
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos",
+            },
+          },
           commit,
           dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
         },
         { sessionType: `explore`, address, networkId: "fabo-net" }
       )
@@ -284,23 +272,23 @@ describe(`Module: Session`, () => {
         addresses: [
           {
             address: `123`,
-            type: `explore`
+            type: `explore`,
           },
           {
             address: `456`,
-            type: `ledger`
-          }
-        ]
+            type: `ledger`,
+          },
+        ],
       })
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
         sessionType: `explore`,
-        networkId: "fabo-net"
+        networkId: "fabo-net",
       })
       expect(dispatch).toHaveBeenCalledWith(`rememberAddress`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
         sessionType: `explore`,
-        networkId: "fabo-net"
+        networkId: "fabo-net",
       })
     })
 
@@ -311,8 +299,8 @@ describe(`Module: Session`, () => {
       state.addresses = [
         {
           address: `123`,
-          type: `explore`
-        }
+          type: `explore`,
+        },
       ]
       await actions.rememberAddress(
         { state, commit },
@@ -321,12 +309,12 @@ describe(`Module: Session`, () => {
       expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
         {
           address: `123`,
-          type: `explore`
+          type: `explore`,
         },
         {
           address,
-          type: `explore`
-        }
+          type: `explore`,
+        },
       ])
     })
 
@@ -342,9 +330,38 @@ describe(`Module: Session`, () => {
         {
           type: `explore`,
           address,
-          networkId: "fabo-net"
-        }
+          networkId: "fabo-net",
+        },
       ])
+    })
+
+    // too costly to test
+    xdescribe("checkAddressRole", () => {
+      it("should set the role to a stash account", async () => {
+        jest.setTimeout(60000)
+        const nodeEnv = process.env.NODE_ENV
+        process.env.NODE_ENV = "production"
+
+        try {
+          const address = `F7uBbx4pbZ5u7eRGPExD6SKSA6TVqTsLf7daXYjAeEChcEY`
+          const commit = jest.fn()
+          await actions.checkAddressRole(
+            { commit },
+            {
+              address,
+              currentNetwork: {
+                id: "kusama",
+                network_type: "polkadot",
+              },
+            }
+          )
+          expect(commit).toHaveBeenCalledWith(`setUserAddressRole`, {
+            addressRole: `stash`,
+          })
+        } finally {
+          process.env.NODE_ENV = nodeEnv
+        }
+      })
     })
   })
 
@@ -359,14 +376,14 @@ describe(`Module: Session`, () => {
   })
 
   it(`should enable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
       {
         state,
         commit,
-        dispatch
+        dispatch,
       },
       true
     )
@@ -375,14 +392,14 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
       {
         state,
         commit,
-        dispatch
+        dispatch,
       },
       false
     )
@@ -391,14 +408,14 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable analytics collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
+    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setAnalyticsCollection(
       {
         state,
         commit,
-        dispatch
+        dispatch,
       },
       false
     )
@@ -412,7 +429,7 @@ describe(`Module: Session`, () => {
     const dispatch = jest.fn()
     actions.loadLocalPreferences({
       state,
-      dispatch
+      dispatch,
     })
     expect(state.cookiesAccepted).toBe(false)
 
@@ -421,7 +438,8 @@ describe(`Module: Session`, () => {
       JSON.stringify({
         cookiesAccepted: true,
         errorCollection: true,
-        analyticsCollection: true
+        analyticsCollection: true,
+        preferredCurrency: `USD`,
       })
     )
     state.errorCollection = false
@@ -429,7 +447,7 @@ describe(`Module: Session`, () => {
 
     actions.loadLocalPreferences({
       state,
-      dispatch
+      dispatch,
     })
     expect(state.cookiesAccepted).toBe(true)
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, true)
@@ -439,7 +457,8 @@ describe(`Module: Session`, () => {
       JSON.stringify({
         cookiesAccepted: false,
         errorCollection: false,
-        analyticsCollection: false
+        analyticsCollection: false,
+        preferredCurrency: `USD`,
       })
     )
     state.errorCollection = true
@@ -448,23 +467,25 @@ describe(`Module: Session`, () => {
     dispatch.mockClear()
     actions.loadLocalPreferences({
       state,
-      dispatch
+      dispatch,
     })
     expect(dispatch).toHaveBeenCalledWith(`setErrorCollection`, false)
     expect(dispatch).toHaveBeenCalledWith(`setAnalyticsCollection`, false)
+    expect(dispatch).toHaveBeenCalledWith(`setPreferredCurrency`, `USD`)
   })
 
   it(`should store the persisted user preferences`, () => {
     localStorage.setItem(`lunie_user_preferences`, ``)
     state.errorCollection = true
     state.analyticsCollection = true
+    state.preferredCurrency = "USD"
 
     actions.storeLocalPreferences({
-      state
+      state,
     })
 
     expect(localStorage.getItem(`lunie_user_preferences`)).toBe(
-      `{"cookiesAccepted":true,"errorCollection":true,"analyticsCollection":true}`
+      `{"cookiesAccepted":true,"errorCollection":true,"analyticsCollection":true,"preferredCurrency":"USD"}`
     )
   })
 
@@ -477,7 +498,7 @@ describe(`Module: Session`, () => {
       expect(localStorage.getItem(`session_fabo-net`)).toEqual(
         JSON.stringify({
           address: `xxx`,
-          sessionType: `local`
+          sessionType: `local`,
         })
       )
     })
@@ -487,44 +508,48 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos",
+            },
+          },
           commit: jest.fn(),
           dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
         },
         {
           address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-          sessionType: `local`
+          sessionType: `local`,
         }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         sessionType: `local`,
-        networkId: "fabo-net"
+        networkId: "fabo-net",
       })
 
       dispatch.mockClear()
       await actions.signIn(
         {
           state,
-          getters,
+          getters: {
+            currentNetwork: {
+              id: "fabo-net",
+              network_type: "cosmos",
+            },
+          },
           commit: jest.fn(),
           dispatch,
-          rootState: {
-            connection: { network: "fabo-net" }
-          }
         },
         {
           address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-          sessionType: `ledger`
+          sessionType: `ledger`,
         }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         sessionType: `ledger`,
-        networkId: "fabo-net"
+        networkId: "fabo-net",
       })
     })
 
@@ -536,19 +561,19 @@ describe(`Module: Session`, () => {
         JSON.stringify({
           address: `xxx`,
           networkId: `fabo-net`,
-          sessionType: `local`
+          sessionType: `local`,
         })
       )
       await actions.checkForPersistedSession({
         dispatch,
         rootState: {
-          connection: { network: "fabo-net" }
-        }
+          connection: { network: "fabo-net" },
+        },
       })
       expect(dispatch).toHaveBeenCalledWith(`signIn`, {
         address: `xxx`,
         networkId: `fabo-net`,
-        sessionType: `local`
+        sessionType: `local`,
       })
 
       dispatch.mockClear()
@@ -557,8 +582,8 @@ describe(`Module: Session`, () => {
         commit,
         dispatch,
         rootState: {
-          connection: { network: "fabo-net" }
-        }
+          connection: { network: "fabo-net" },
+        },
       })
       expect(dispatch).not.toHaveBeenCalled()
     })
@@ -571,15 +596,15 @@ describe(`Module: Session`, () => {
       `session_fabo-net`,
       JSON.stringify({
         address: `xxx`,
-        sessionType: `local`
+        sessionType: `local`,
       })
     )
     await actions.checkForPersistedSession({
       dispatch,
       commit,
       rootState: {
-        connection: { network: "red-feliz" }
-      }
+        connection: { network: "red-feliz" },
+      },
     })
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
   })
@@ -588,16 +613,16 @@ describe(`Module: Session`, () => {
     state.addresses = [
       {
         address: `123`,
-        type: `explore`
-      }
+        type: `explore`,
+      },
     ]
     await actions.persistAddresses({}, { addresses: state.addresses })
     expect(localStorage.getItem(`addresses`)).toEqual(
       JSON.stringify([
         {
           address: `123`,
-          type: `explore`
-        }
+          type: `explore`,
+        },
       ])
     )
   })
@@ -609,24 +634,24 @@ describe(`Module: Session`, () => {
       JSON.stringify([
         {
           address: `xxx`,
-          type: `explore`
+          type: `explore`,
         },
         {
           address: `yyy`,
-          type: `ledger`
-        }
+          type: `ledger`,
+        },
       ])
     )
     await actions.checkForPersistedAddresses({ commit })
     expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
       {
         address: `xxx`,
-        type: `explore`
+        type: `explore`,
       },
       {
         address: `yyy`,
-        type: `ledger`
-      }
+        type: `ledger`,
+      },
     ])
   })
 })

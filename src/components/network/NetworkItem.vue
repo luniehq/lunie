@@ -43,24 +43,24 @@ import PoweredBy from "./PoweredBy"
 export default {
   name: `network-item`,
   components: {
-    PoweredBy
+    PoweredBy,
   },
   props: {
     networkItem: {
       type: Object,
-      required: true
+      required: true,
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     ...mapGetters([`connected`, `network`]),
     isCurrentNetwork() {
       return this.networkItem.id === this.network
-    }
-  }
+    },
+  },
 }
 </script>
 

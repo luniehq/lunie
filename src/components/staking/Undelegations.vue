@@ -28,14 +28,14 @@ import gql from "graphql-tag"
 export default {
   name: `undelegations`,
   components: {
-    TableUndelegations
+    TableUndelegations,
   },
   data: () => ({
     undelegations: [],
-    undelegationsLoaded: false
+    undelegationsLoaded: false,
   }),
   computed: {
-    ...mapGetters([`address`, `network`])
+    ...mapGetters([`address`, `network`]),
   },
   apollo: {
     undelegations: {
@@ -58,14 +58,14 @@ export default {
         /* istanbul ignore next */
         return {
           networkId: this.network,
-          delegatorAddress: this.address
+          delegatorAddress: this.address,
         }
       },
       /* istanbul ignore next */
       update(data) {
         this.undelegationsLoaded = true
         return data.undelegations
-      }
+      },
     },
     $subscribe: {
       userTransactionAdded: {
@@ -73,7 +73,7 @@ export default {
           /* istanbul ignore next */
           return {
             networkId: this.network,
-            address: this.address
+            address: this.address,
           }
         },
         skip() {
@@ -86,10 +86,10 @@ export default {
           if (data.userTransactionAddedV2.success) {
             this.$apollo.queries.undelegations.refetch()
           }
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 <style scoped>

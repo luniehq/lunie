@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.199] - 2020-05-12
+
+### Changed
+
+- [#4008](https://github.com/cosmos/lunie/issues/4008) Send Polkadot/Kusama fees to extension @Bitcoinera
+- [#4018](https://github.com/cosmos/lunie/pull/4018) Adds kava-testnet to networkMessages @Bitcoinera
+- buttons now have an optional loading state @jbibla
+
+### Fixed
+
+- [#3750](https://github.com/cosmos/lunie/issues/3750) Fixes selected fiat currency not being persisted @Bitcoinera
+- [#4005](https://github.com/cosmos/lunie/issues/4005) Fixes Bad Proof error for Claiming Rewards in Kusama by claiming only rewards from era 718 onwards @Bitcoinera
+- [#4023](https://github.com/cosmos/lunie/pull/4023) Fixes Terra fees for sending alt-tokens after async gasEstimate @Bitcoinera
+
+### Security
+
+- [#4015](https://github.com/cosmos/lunie/pull/4015) Fixes all dependencies vulnerabilities (for now) @Bitcoinera
+- [#3992](https://github.com/cosmos/lunie/pull/3992) Change dynamic script tags to nonce instead of hash for CSP @michielmulders
+
+## [1.0.198] - 2020-05-10
+
+### Fixed
+
+- [#4007](https://github.com/cosmos/lunie/pull/4007) Fix Next button in ActionModal always enabled even without Polkadot fees @Bitcoinera
+- [#4013](https://github.com/cosmos/lunie/pull/4013) Remove firebase init as it breaks apps and doesn't work in Brave @faboweb
+
 ## [1.0.197] - 2020-05-08
 
 ### Changed

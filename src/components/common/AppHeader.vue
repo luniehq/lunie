@@ -73,13 +73,13 @@ export default {
   data: () => ({
     open: false,
     desktop: false,
-    isMobileApp: config.mobileApp
+    isMobileApp: config.mobileApp,
   }),
   computed: {
     ...mapState([`session`, "connection"]),
     networkSlug() {
       return this.connection.networkSlug
-    }
+    },
   },
   mounted() {
     this.watchWindowSize()
@@ -111,8 +111,8 @@ export default {
       } else {
         this.desktop = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

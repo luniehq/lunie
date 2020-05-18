@@ -11,15 +11,15 @@ describe("Message Creator", () => {
           {
             viewDenom: "STAKE",
             chainDenom: "ustake",
-            chainToViewConversionFactor: 100000
-          }
-        ]
+            chainToViewConversionFactor: 100000,
+          },
+        ],
       },
       "SendTx",
       "cosmos1234",
       {
         to: ["cosmos1456"],
-        amount: { denom: "STAKE", amount: 12345 }
+        amount: { denom: "STAKE", amount: 12345 },
       }
     )
 
@@ -30,7 +30,7 @@ describe("Message Creator", () => {
     await expect(
       getMessage({ id: "non-existant" }, "SendTx", "cosmos1234", {
         to: ["cosmos1456"],
-        amount: { denom: "STAKE", amount: 12345 }
+        amount: { denom: "STAKE", amount: 12345 },
       })
     ).rejects.toThrow()
   })

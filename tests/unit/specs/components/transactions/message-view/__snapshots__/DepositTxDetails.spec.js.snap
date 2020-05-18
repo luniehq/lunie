@@ -20,7 +20,7 @@ exports[`DepositTxDetails renders a deposit transaction message 1`] = `
     </span>
      
     <router-link-stub
-      to="/proposals/1"
+      to="[object Object]"
     >
       Proposal #1
     </router-link-stub>

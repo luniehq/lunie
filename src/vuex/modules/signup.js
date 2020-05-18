@@ -4,10 +4,10 @@ export default () => {
     signUpSeed: `Creating seed...`,
     signUpPassword: ``,
     signUpPasswordConfirm: ``,
-    signUpWarning: false
+    signUpWarning: false,
   }
   const state = {
-    ...emptyState
+    ...emptyState,
   }
   const mutations = {
     updateField(state, payload) {
@@ -15,16 +15,16 @@ export default () => {
     },
     resetSignUpData(state) {
       Object.assign(state, emptyState)
-    }
+    },
   }
   const actions = {
     resetSignUpData({ commit }) {
       commit(`resetSignUpData`)
-    }
+    },
   }
   return {
     state,
     mutations,
-    actions
+    actions,
   }
 }

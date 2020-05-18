@@ -41,6 +41,10 @@ export async function StakeTx(senderAddress, { to, amount }, network) {
     transactions.push(await api.tx.staking.nominate(validatorAddresses))
   }
 
+  const response = await api.query.staking.nominators(senderAddress)
+  const { targets: delegatedValidators = [] } = response.toJSON() || {}
+  const validatorAddresses = uniqBy(delegatedValidators.concat(to[0]), (x) => x)
+  transactions.push(await api.tx.staking.nominate(validatorAddresses))
   if (transactions.length === 0) {
     throw new Error("You have to either bond stake or nominate a new validator")
   }
@@ -75,12 +79,12 @@ export async function ClaimRewardsTx(senderAddress) {
   let allClaimingTxs = []
   const api = await getAPI()
   const stakerRewards = await api.derive.staking.stakerRewards(senderAddress)
-
-  if (stakerRewards.length === 0) {
+  const newStakerRewards = stakerRewards.filter(({ era }) => era.toJSON() > 718)
+  if (newStakerRewards.length === 0) {
     allClaimingTxs = []
   } else {
-    stakerRewards.forEach(reward => {
-      reward.nominating.forEach(nomination => {
+    newStakerRewards.forEach((reward) => {
+      reward.nominating.forEach((nomination) => {
         if (reward.isStakerPayout) {
           allClaimingTxs.push(
             api.tx.staking.payoutStakers(nomination.validatorId, reward.era)

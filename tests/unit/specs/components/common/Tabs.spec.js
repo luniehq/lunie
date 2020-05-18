@@ -12,14 +12,14 @@ describe(`Tabs`, () => {
   it(`should show links to other pages`, () => {
     wrapper = shallowMount(Tabs, {
       propsData: {
-        tabs: [{ pathName: `r1`, displayName: `one` }]
+        tabs: [{ pathName: `r1`, displayName: `one` }],
       },
       mocks: {
         $route: {
-          name: `r1`
-        }
+          name: `r1`,
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     expect(wrapper.findAll(`.tabs .tab`).length).toBe(1)
     expect(wrapper.element).toMatchSnapshot()

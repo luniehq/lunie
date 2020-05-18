@@ -7,13 +7,13 @@ import { signWithExtension } from "scripts/extension-utils"
 import gql from "graphql-tag"
 import BigNumber from "bignumber.js"
 
-const txFetchOptions = fingerprint => ({
+const txFetchOptions = (fingerprint) => ({
   method: "POST",
   headers: {
     "Content-Type": "application/json",
     fingerprint,
-    development: config.development
-  }
+    development: config.development,
+  },
 })
 
 export default class TransactionManager {
@@ -25,13 +25,14 @@ export default class TransactionManager {
     const fingerprint = await getFingerprint()
     const options = {
       ...txFetchOptions(fingerprint),
-      body: JSON.stringify({ payload })
+      body: JSON.stringify({ payload }),
     }
     const graphqlHost = getGraphqlHost()
 
-    return fetch(`${graphqlHost}/transaction/broadcast`, options).then(result =>
-      result.json()
-    )
+    return fetch(
+      `${graphqlHost}/transaction/broadcast`,
+      options
+    ).then((result) => result.json())
   }
 
   async getSignQueue(submitType) {
@@ -41,7 +42,7 @@ export default class TransactionManager {
   async cancel({ userAddress, networkId }, submitType) {
     return await cancelSign(submitType, {
       address: userAddress,
-      network: networkId
+      network: networkId,
     })
   }
 
@@ -50,7 +51,7 @@ export default class TransactionManager {
     gasEstimate,
     gasPrice,
     senderAddress,
-    network
+    network,
   }) {
     const response = await this.apollo.query({
       query: gql`
@@ -64,14 +65,14 @@ export default class TransactionManager {
         }
       `,
       variables: { networkId: network.id, senderAddress },
-      fetchPolicy: "network-only"
+      fetchPolicy: "network-only",
     })
     const {
       data: {
         overview: {
-          accountInformation: { accountNumber, sequence }
-        }
-      }
+          accountInformation: { accountNumber, sequence },
+        },
+      },
     } = response
     const { Coin } = await import("./networkMessages/cosmos-hub-mainnet")
 
@@ -81,7 +82,7 @@ export default class TransactionManager {
       chainId: network.chain_id,
       gasEstimate: String(gasEstimate),
       gasPrices: [Coin(gasPrice, network.coinLookup)],
-      memo
+      memo,
     }
   }
 
@@ -92,7 +93,7 @@ export default class TransactionManager {
     senderAddress,
     network,
     signingType,
-    password
+    password,
   }) {
     let broadcastableObject
     if (signingType === "extension") {
@@ -143,7 +144,7 @@ export default class TransactionManager {
       {
         address: senderAddress,
         password,
-        network
+        network,
       },
       config // only needed for Ledger
     )
@@ -175,7 +176,7 @@ export default class TransactionManager {
       networkId: network.id,
       senderAddress: senderAddress,
       signedMessage: broadcastableObject,
-      transaction: broadcastableObject // to change the naming in the API as well later
+      transaction: broadcastableObject, // to change the naming in the API as well later
     }
     const result = await this.broadcastAPIRequest(txPayload)
     if (result.success) {
@@ -212,7 +213,7 @@ export function getTop5RewardsValidators(rewards) {
       ...all,
       [reward.validator.operatorAddress]:
         Number(reward.amount) +
-        (Number(all[reward.validator.operatorAddress]) || 0)
+        (Number(all[reward.validator.operatorAddress]) || 0),
     }
   }, {})
   const rewardsPerValidatorAddresses = Object.keys(rewardsPerValidatorObject)
@@ -220,11 +221,11 @@ export function getTop5RewardsValidators(rewards) {
   rewardsPerValidatorAddresses.forEach((validatorAddress, index) => {
     rewardsPerValidatorArray.push({
       validator: validatorAddress,
-      totalRewardAmount: Object.values(rewardsPerValidatorObject)[index]
+      totalRewardAmount: Object.values(rewardsPerValidatorObject)[index],
     })
   })
   return rewardsPerValidatorArray
     .sort((a, b) => b.totalRewardAmount - a.totalRewardAmount)
     .slice(0, 5)
-    .map(rewardPerValidator => rewardPerValidator.validator)
+    .map((rewardPerValidator) => rewardPerValidator.validator)
 }

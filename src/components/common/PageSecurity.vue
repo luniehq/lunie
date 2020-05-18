@@ -106,8 +106,8 @@ import TmPage from "common/TmPage"
 export default {
   name: `page-security`,
   components: {
-    TmPage
-  }
+    TmPage,
+  },
 }
 </script>
 

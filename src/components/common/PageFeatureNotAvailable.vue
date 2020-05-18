@@ -12,13 +12,13 @@ export default {
   name: `page-not-available`,
   components: {
     TmPage,
-    FeatureNotAvailable
+    FeatureNotAvailable,
   },
   props: {
     feature: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>

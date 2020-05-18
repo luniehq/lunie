@@ -29,7 +29,7 @@
           <button
             v-if="
               connection.network === 'cosmos-hub-mainnet' ||
-                connection.network === 'cosmos-hub-testnet'
+              connection.network === 'cosmos-hub-testnet'
             "
             class="tutorial-button"
             @click="openTutorial()"
@@ -45,13 +45,13 @@
               class="currency-flag"
               :src="
                 '/img/icons/currencies/' +
-                  preferredCurrency.toLowerCase() +
-                  '.png'
+                preferredCurrency.toLowerCase() +
+                '.png'
               "
               :alt="`${preferredCurrency}` + ' currency'"
             />
             <select
-              v-model="selectedFiatCurrency"
+              v-model="preferredCurrency"
               @change="setPreferredCurrency()"
             >
               <option
@@ -86,8 +86,8 @@
             class="currency-flag"
             :src="
               '/img/icons/currencies/' +
-                stakingDenom.substring(1).toLowerCase() +
-                '.png'
+              stakingDenom.substring(1).toLowerCase() +
+              '.png'
             "
             :alt="`${stakingDenom}` + ' currency'"
           />
@@ -147,8 +147,8 @@
               class="currency-flag"
               :src="
                 '/img/icons/currencies/' +
-                  balance.denom.substring(1).toLowerCase() +
-                  '.png'
+                balance.denom.substring(1).toLowerCase() +
+                '.png'
               "
               :alt="`${balance.denom}` + ' currency'"
             />
@@ -198,8 +198,8 @@
       <ModalTutorial
         v-if="
           showTutorial &&
-            (connection.network === 'cosmos-hub-mainnet' ||
-              connection.network === 'cosmos-hub-testnet')
+          (connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet')
         "
         :steps="cosmosTokensTutorial.steps"
         :fullguide="cosmosTokensTutorial.fullguide"
@@ -227,11 +227,11 @@ export default {
     TmBtn,
     SendModal,
     ModalWithdrawRewards,
-    ModalTutorial
+    ModalTutorial,
   },
   filters: {
     bigFigureOrShortDecimals,
-    noBlanks
+    noBlanks,
   },
   data() {
     return {
@@ -241,8 +241,7 @@ export default {
       balances: [],
       showTutorial: false,
       rewards: [],
-      selectedFiatCurrency: "USD",
-      preferredCurrency: "",
+      preferredCurrency: "USD",
       cosmosTokensTutorial: {
         fullguide: `https://lunie.io/guides/how-to-get-tokens/`,
         background: `red`,
@@ -251,7 +250,7 @@ export default {
             title: "How to get tokens",
             // Each content array item will be enclosed in a span (newline)
             content: [
-              "The easiest way to get tokens is to find a reputable exchange, like Coinbase or Binance, to purchase your tokens from."
+              "The easiest way to get tokens is to find a reputable exchange, like Coinbase or Binance, to purchase your tokens from.",
             ],
             affiliate: [
               {
@@ -260,50 +259,50 @@ export default {
                 link: config.referralLinks["Coinbase"],
                 linkText: "Coinbase",
                 onClickFunction: this.sendAffiliateClickEvent,
-                onClickParam: "Coinbase"
-              }
-            ]
+                onClickParam: "Coinbase",
+              },
+            ],
           },
           {
             title: "Create your address",
             content: [
-              "You can create an address with Lunie using our browser extension, our mobile wallets or a Ledger Nano hardware wallet."
-            ]
+              "You can create an address with Lunie using our browser extension, our mobile wallets or a Ledger Nano hardware wallet.",
+            ],
           },
           {
             title: "Back it up!",
             content: [
-              "When you create an address, ensure your backup code is correct and in a secure place. We don't recommend using an address if you haven't backed it up appropriately."
-            ]
+              "When you create an address, ensure your backup code is correct and in a secure place. We don't recommend using an address if you haven't backed it up appropriately.",
+            ],
           },
           {
             title: "Send to your address",
             content: [
-              "The short version of your address will look something like this: cosmos...7yqp. Make sure to use the full version of your address to successfully receive tokens."
-            ]
+              "The short version of your address will look something like this: cosmos...7yqp. Make sure to use the full version of your address to successfully receive tokens.",
+            ],
           },
           {
             title: "Have more questions?",
             content: [
-              "Check out our full guide to getting tokens so you can start staking!"
-            ]
-          }
-        ]
-      }
+              "Check out our full guide to getting tokens so you can start staking!",
+            ],
+          },
+        ],
+      },
     }
   },
   computed: {
-    ...mapState([`connection`]),
+    ...mapState([`connection`, `session`]),
     ...mapGetters([`address`, `networks`, `network`, `stakingDenom`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
-      return Object.values(this.totalRewardsPerDenom).find(value => value > 0)
+      return Object.values(this.totalRewardsPerDenom).find((value) => value > 0)
     },
     filteredMultiDenomBalances() {
       const rewards = Object.entries(this.totalRewardsPerDenom)
       const filteredBalances = this.balances.filter(
-        balance => !balance.denom.includes(this.stakingDenom)
+        (balance) => !balance.denom.includes(this.stakingDenom)
       )
       // add all balances to the overview that you have rewards on
       const allBalancesWithRewards = filteredBalances.concat(
@@ -315,7 +314,7 @@ export default {
           )
           .map(([denom]) => ({
             denom,
-            amount: 0
+            amount: 0,
           }))
       )
       return allBalancesWithRewards
@@ -332,7 +331,7 @@ export default {
       return this.rewards.reduce((all, reward) => {
         return {
           ...all,
-          [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0)
+          [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0),
         }
       }, {})
     },
@@ -340,18 +339,22 @@ export default {
       return this.totalRewardsPerDenom[this.stakingDenom] || 0
     },
     isTestnet() {
-      return this.networks.find(network => network.id === this.network).testnet
-    }
+      return this.networks.find((network) => network.id === this.network)
+        .testnet
+    },
   },
   watch: {
     totalRewards(totalRewards) {
       if (this.rewards && !this.rewardsSentToGA) {
         this.sendRewards(totalRewards)
       }
-    }
+    },
   },
-  mounted() {
-    this.setPreferredCurrency()
+  mounted: function () {
+    const persistedPreferredCurrency = this.session.preferredCurrency
+    if (persistedPreferredCurrency) {
+      this.preferredCurrency = persistedPreferredCurrency
+    }
   },
   methods: {
     bigFigureOrShortDecimals,
@@ -368,15 +371,14 @@ export default {
       this.showTutorial = false
     },
     setPreferredCurrency() {
-      localStorage.setItem(`preferredCurrency`, this.selectedFiatCurrency)
-      this.preferredCurrency = this.selectedFiatCurrency
+      this.$store.dispatch(`setPreferredCurrency`, this.preferredCurrency)
     },
     sendRewards(totalRewards) {
       // sending to ga only once
       sendEvent(
         {
           network: this.network,
-          address: this.address
+          address: this.address,
         },
         "Portfolio",
         "Balance",
@@ -390,14 +392,14 @@ export default {
       sendEvent(
         {
           network: this.network,
-          address: this.address
+          address: this.address,
         },
         "Portfolio",
         "Tutorials",
         `linkTo${partner}`,
         "click"
       )
-    }
+    },
   },
   apollo: {
     overview: {
@@ -427,7 +429,7 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          fiatCurrency: this.preferredCurrency
+          fiatCurrency: this.preferredCurrency,
         }
       },
       /* istanbul ignore next */
@@ -437,7 +439,7 @@ export default {
           sendEvent(
             {
               network: this.network,
-              address: this.address
+              address: this.address,
             },
             "Portfolio",
             "Balance",
@@ -447,7 +449,7 @@ export default {
           sendEvent(
             {
               network: this.network,
-              address: this.address
+              address: this.address,
             },
             "Portfolio",
             "Balance",
@@ -461,7 +463,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
-      }
+      },
     },
     balances: {
       query: gql`
@@ -490,13 +492,13 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          fiatCurrency: this.selectedFiatCurrency || "EUR"
+          fiatCurrency: this.preferredCurrency,
         }
       },
       /* istanbul ignore next */
       skip() {
         return !this.address
-      }
+      },
     },
     rewards: {
       query: gql`
@@ -520,20 +522,20 @@ export default {
         return {
           networkId: this.network,
           delegatorAddress: this.address,
-          fiatCurrency: this.selectedFiatCurrency || "EUR"
+          fiatCurrency: this.preferredCurrency,
         }
       },
       /* istanbul ignore next */
       skip() {
         return !this.address
-      }
+      },
     },
     $subscribe: {
       blockAdded: {
         /* istanbul ignore next */
         variables() {
           return {
-            networkId: this.network
+            networkId: this.network,
           }
         },
         /* istanbul ignore next */
@@ -553,10 +555,10 @@ export default {
           this.$apollo.queries.overview.refetch()
           this.$apollo.queries.balances.refetch()
           this.$apollo.queries.rewards.refetch()
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 <style scoped>

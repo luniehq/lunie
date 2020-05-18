@@ -8,8 +8,8 @@ describe(`TextBlock`, () => {
     wrapper = mount(TextBlock, {
       propsData: {
         content: `Hello World`,
-        author: `faboweb`
-      }
+        author: `faboweb`,
+      },
     })
   })
 

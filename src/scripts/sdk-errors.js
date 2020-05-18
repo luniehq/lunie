@@ -19,7 +19,7 @@ export function getErrorMessage(code) {
       14: `insufficient fee`,
       15: `maximum number of signatures exceeded`,
       16: `amount of gas exceeded maximum allowed size`,
-      17: `no signatures supplied`
+      17: `no signatures supplied`,
     }[code] || `unknown error`
   )
 }

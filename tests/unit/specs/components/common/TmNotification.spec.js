@@ -5,39 +5,39 @@ describe(`TmNotification.vue`, () => {
   const notifications = [
     {
       time: Date.now() - 1,
-      body: `asdf`
+      body: `asdf`,
     },
     {
       title: `title`,
       time: Date.now() - 1,
-      body: `sadf`
+      body: `sadf`,
     },
     {
       icon: `search`,
       time: Date.now() - 1,
-      body: `sadf`
+      body: `sadf`,
     },
     {
       type: `warning`,
       time: Date.now() - 1,
-      body: `sadf`
+      body: `sadf`,
     },
     {
       type: `error`,
       time: Date.now() - 1,
-      body: `sadf`
+      body: `sadf`,
     },
     {
       layout: `alert`,
       time: Date.now() - 1,
-      body: `sadf`
-    }
+      body: `sadf`,
+    },
   ]
 
   it(`has the expected html structure`, () => {
-    notifications.forEach(notification => {
+    notifications.forEach((notification) => {
       const wrapper = mount(TmNotification, {
-        propsData: { ...notification }
+        propsData: { ...notification },
       })
       expect(wrapper.element).toMatchSnapshot()
     })
@@ -48,8 +48,8 @@ describe(`TmNotification.vue`, () => {
     const wrapper = mount(TmNotification, {
       propsData: {
         time: 44000,
-        body: `asdf`
-      }
+        body: `asdf`,
+      },
     })
     expect(wrapper.vm.active).toBe(true)
     jest.runAllTimers()
@@ -60,8 +60,8 @@ describe(`TmNotification.vue`, () => {
     const wrapper = mount(TmNotification, {
       propsData: {
         time: 100,
-        body: `asdf`
-      }
+        body: `asdf`,
+      },
     })
     expect(wrapper.vm.active).toBe(false)
   })

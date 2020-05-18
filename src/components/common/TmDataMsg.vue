@@ -29,34 +29,34 @@ export default {
   props: {
     title: {
       type: String,
-      default: null
+      default: null,
     },
     subtitle: {
       type: String,
-      default: null
+      default: null,
     },
     icon: {
       type: String,
-      default: null
+      default: null,
     },
     spin: {
       type: Boolean,
-      default: false
+      default: false,
     },
     success: {
       type: Boolean,
-      default: false
+      default: false,
     },
     iconColor: {
       type: String,
-      default: `var(--warning)`
-    }
+      default: `var(--warning)`,
+    },
   },
   computed: {
     spinnerClass({ spin } = this) {
       return spin ? `fa-spin` : ``
-    }
-  }
+    },
+  },
 }
 </script>
 

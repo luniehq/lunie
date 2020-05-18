@@ -14,25 +14,25 @@ describe(`UnstakeTxDetails`, () => {
     fees: [
       {
         denom: "ATOM",
-        amount: "0.00045"
-      }
+        amount: "0.00045",
+      },
     ],
     details: {
       from: ["cosmosvaloper18ymm350peujvq2xy9ymyqj4v34ekvnk3tsekuz"],
       amount: {
         denom: "ATOM",
-        amount: "10"
-      }
-    }
+        amount: "10",
+      },
+    },
   }
 
   it(`renders a unstake transaction message`, () => {
     wrapper = shallowMount(UnstakeTxDetails, {
       propsData: {
         transaction: tx,
-        validators: {}
+        validators: {},
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     expect(wrapper.element).toMatchSnapshot()
   })
