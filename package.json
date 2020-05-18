@@ -76,7 +76,7 @@
     "graphql": "14.4.2",
     "graphql-tag": "2.10.1",
     "handlebars": ">=4.7.6",
-    "moment": "^2.24.0",
+    "moment": "^2.25.3",
     "regenerator-runtime": "^0.13.2",
     "subscriptions-transport-ws": "0.9.16",
     "vue": "^2.6.10",
