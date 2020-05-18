@@ -246,7 +246,7 @@ export default ({ apollo }) => {
     async checkAddressRole({ commit }, { address, currentNetwork }) {
       const { data } = await apollo.query({
         query: AddressRole,
-        variables: { networkId: currentNetwork.id, address: address },
+        variables: { networkId, address },
         fetchPolicy: "network-only"
       })
       commit(`setUserAddressRole`, data.accountRole)
