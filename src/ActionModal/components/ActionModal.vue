@@ -773,6 +773,7 @@ export default {
               amount: this.polkadotFee,
               denom: this.getDenom,
             },
+            addressRole: this.session.addressRole,
           }
         }
 

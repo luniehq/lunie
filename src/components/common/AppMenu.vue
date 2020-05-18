@@ -3,22 +3,28 @@
     <div v-if="session.signedIn" class="user-box">
       <div class="user-box-address">
         <div>
-          <h3>Your Address</h3>
+          <h3
+            v-if="
+              session.addressRole && session.addressRole !== `stash/controller`
+            "
+          >
+            {{ capitalizeFirstLetter(session.addressRole) }} Address
+          </h3>
+          <h3 v-else>Your Address</h3>
           <Address class="menu-address" :address="address || ''" />
         </div>
         <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-          <i v-tooltip.top="'Sign Out'" class="material-icons notranslate">
-            exit_to_app
-          </i>
+          <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
+            >exit_to_app</i
+          >
         </a>
       </div>
       <a
         v-if="!session.isMobile && session.sessionType === 'ledger'"
         class="show-on-ledger"
         @click="showAddressOnLedger()"
+        >Show on Ledger</a
       >
-        Show on Ledger
-      </a>
       <TmFormMsg
         v-if="ledgerAddressError"
         :msg="ledgerAddressError"
@@ -42,9 +48,7 @@
         title="Portfolio"
         @click.native="handleClick()"
       >
-        <h2 class="app-menu-title">
-          Portfolio
-        </h2>
+        <h2 class="app-menu-title">Portfolio</h2>
         <i class="material-icons notranslate">chevron_right</i>
       </router-link>
       <router-link
@@ -53,9 +57,7 @@
         title="Validators"
         @click.native="handleClick()"
       >
-        <h2 class="app-menu-title">
-          Validators
-        </h2>
+        <h2 class="app-menu-title">Validators</h2>
         <i class="material-icons notranslate">chevron_right</i>
       </router-link>
 
@@ -65,9 +67,7 @@
         title="Proposals"
         @click.native="handleClick()"
       >
-        <h2 class="app-menu-title">
-          Proposals
-        </h2>
+        <h2 class="app-menu-title">Proposals</h2>
         <i class="material-icons notranslate">chevron_right</i>
       </router-link>
 
@@ -78,9 +78,7 @@
         title="Transactions"
         @click.native="handleClick()"
       >
-        <h2 class="app-menu-title">
-          Activity
-        </h2>
+        <h2 class="app-menu-title">Activity</h2>
         <i class="material-icons notranslate">chevron_right</i>
       </router-link>
 
@@ -91,9 +89,7 @@
         title="Networks"
         @click.native="handleClick()"
       >
-        <h2 class="app-menu-title">
-          Networks
-        </h2>
+        <h2 class="app-menu-title">Networks</h2>
         <i class="material-icons notranslate hide-xs">chevron_right</i>
       </router-link>
 
@@ -104,9 +100,7 @@
         title="About"
         @click.native="handleClick()"
       >
-        <h2 class="app-menu-title">
-          About
-        </h2>
+        <h2 class="app-menu-title">About</h2>
       </router-link>
 
       <router-link
@@ -116,9 +110,7 @@
         title="Careers"
         @click.native="handleClick()"
       >
-        <h2 class="app-menu-title">
-          Careers
-        </h2>
+        <h2 class="app-menu-title">Careers</h2>
       </router-link>
 
       <router-link
@@ -128,9 +120,7 @@
         title="Security"
         @click.native="handleClick()"
       >
-        <h2 class="app-menu-title">
-          Security
-        </h2>
+        <h2 class="app-menu-title">Security</h2>
       </router-link>
 
       <router-link
@@ -140,9 +130,7 @@
         title="Terms"
         @click.native="handleClick()"
       >
-        <h2 class="app-menu-title">
-          Terms of Service
-        </h2>
+        <h2 class="app-menu-title">Terms of Service</h2>
       </router-link>
 
       <router-link
@@ -152,9 +140,7 @@
         title="Privacy"
         @click.native="handleClick()"
       >
-        <h2 class="app-menu-title">
-          Privacy Policy
-        </h2>
+        <h2 class="app-menu-title">Privacy Policy</h2>
       </router-link>
     </div>
     <ConnectedNetwork @close-menu="handleClick" />
@@ -224,6 +210,9 @@ export default {
           8000
         )
       }
+    },
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
     },
   },
 }

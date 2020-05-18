@@ -14,6 +14,24 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
+    <TmFormGroup v-if="session.addressRole === `stash`" class="action-modal-form-group">
+      <div class="form-message notice">
+        <span>
+          This is a stash account, you can increase the amount to stake but you
+          need to sign in with your controller account to set or change your
+          validators.
+        </span>
+      </div>
+    </TmFormGroup>
+    <TmFormGroup v-if="session.addressRole === `controller`" class="action-modal-form-group">
+      <div class="form-message notice">
+        <span>
+          This is a controller account, you can set or change your validators
+          but to increase the amount to stake you need to sign in with your
+          stash account.
+        </span>
+      </div>
+    </TmFormGroup>
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
@@ -31,7 +49,11 @@
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField
         id="to"
-        :value="targetValidator | validatorEntry"
+        :value="
+          session.addressRole === `stash`
+            ? ``
+            : targetValidator | validatorEntry
+        "
         type="text"
         readonly
       />
@@ -49,17 +71,14 @@
       />
     </TmFormGroup>
 
-    <TmFormGroup
-      class="action-modal-form-group"
-      field-id="from"
-      field-label="From"
-    >
+    <TmFormGroup class="action-modal-form-group" field-id="from" field-label="From">
       <TmField
         id="from"
         v-model="fromSelectedIndex"
         :title="from"
         :options="fromOptions"
         type="select"
+        :is-disabled="session.addressRole === `stash`"
       />
     </TmFormGroup>
     <TmFormGroup
@@ -81,6 +100,7 @@
           placeholder="0"
           class="tm-field-addon"
           type="number"
+          :is-disabled="session.addressRole === `controller`"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
@@ -101,11 +121,7 @@
         name="Wallet"
         type="custom"
       />
-      <TmFormMsg
-        v-else-if="$v.amount.$error && !$v.amount.decimal"
-        name="Amount"
-        type="numeric"
-      />
+      <TmFormMsg v-else-if="$v.amount.$error && !$v.amount.decimal" name="Amount" type="numeric" />
       <TmFormMsg
         v-else-if="$v.amount.$error && (!$v.amount.required || amount === 0)"
         name="Amount"
@@ -138,19 +154,19 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
-import { decimal } from "vuelidate/lib/validators"
-import gql from "graphql-tag"
-import { SMALLEST } from "src/scripts/num"
-import TmField from "src/components/common/TmField"
-import TmFieldGroup from "src/components/common/TmFieldGroup"
-import TmBtn from "src/components/common/TmBtn"
-import TmFormGroup from "src/components/common/TmFormGroup"
-import TmFormMsg from "src/components/common/TmFormMsg"
-import ActionModal from "./ActionModal"
-import { messageType } from "../../components/transactions/messageTypes"
-import { formatAddress, validatorEntry } from "src/filters"
-import { UserTransactionAdded } from "src/gql"
+import { mapState, mapGetters } from 'vuex'
+import { decimal } from 'vuelidate/lib/validators'
+import gql from 'graphql-tag'
+import { SMALLEST } from 'src/scripts/num'
+import TmField from 'src/components/common/TmField'
+import TmFieldGroup from 'src/components/common/TmFieldGroup'
+import TmBtn from 'src/components/common/TmBtn'
+import TmFormGroup from 'src/components/common/TmFormGroup'
+import TmFormMsg from 'src/components/common/TmFormMsg'
+import ActionModal from './ActionModal'
+import { messageType } from '../../components/transactions/messageTypes'
+import { formatAddress, validatorEntry } from 'src/filters'
+import { UserTransactionAdded } from 'src/gql'
 
 export default {
   name: `delegation-modal`,
@@ -160,28 +176,28 @@ export default {
     TmBtn,
     TmFormGroup,
     TmFormMsg,
-    ActionModal,
+    ActionModal
   },
   filters: {
-    validatorEntry,
+    validatorEntry
   },
   props: {
     targetValidator: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   data: () => ({
-    amount: null,
+    amount: 0,
     fromSelectedIndex: 0,
     balance: {
       amount: null,
-      denom: ``,
+      denom: ``
     },
     validators: [],
     delegations: [],
     messageType,
-    smallestAmount: SMALLEST,
+    smallestAmount: SMALLEST
   }),
   computed: {
     ...mapState([`session`]),
@@ -189,17 +205,17 @@ export default {
     toOptions() {
       return this.validators
         .filter(
-          (validator) =>
+          validator =>
             validator.operatorAddress === this.targetValidator.operatorAddress
         )
-        .map((validator) => {
+        .map(validator => {
           return {
             address: validator.operatorAddress,
             key: `${validator.name} - ${formatAddress(
               validator.operatorAddress,
               20
             )}`,
-            value: 0,
+            value: 0
           }
         })
     },
@@ -210,14 +226,14 @@ export default {
           address: this.address,
           maximum: Number(this.balance.amount),
           key: `My Wallet - ${formatAddress(this.address, 20)}`,
-          value: 0,
-        },
+          value: 0
+        }
       ]
       options = options.concat(
         this.delegations
           // exclude target validator
           .filter(
-            (delegation) =>
+            delegation =>
               delegation.validator.operatorAddress !==
               this.targetValidator.operatorAddress
           )
@@ -226,7 +242,7 @@ export default {
               address: delegation.validator.operatorAddress,
               maximum: Number(delegation.amount),
               key: validatorEntry(delegation.validator),
-              value: index + 1,
+              value: index + 1
             }
           })
       )
@@ -248,8 +264,9 @@ export default {
           to: [this.targetValidator.operatorAddress],
           amount: {
             amount: this.amount,
-            denom: this.stakingDenom,
+            denom: this.stakingDenom
           },
+          addressRole: this.session.addressRole
         }
       } else {
         return {
@@ -257,8 +274,9 @@ export default {
           to: [this.targetValidator.operatorAddress],
           amount: {
             amount: this.amount,
-            denom: this.stakingDenom,
+            denom: this.stakingDenom
           },
+          addressRole: this.session.addressRole
         }
       }
     },
@@ -266,12 +284,12 @@ export default {
       if (this.isRedelegation) {
         return {
           title: `Successfully restaked!`,
-          body: `You have successfully restaked your ${this.stakingDenom}s`,
+          body: `You have successfully restaked your ${this.stakingDenom}s`
         }
       } else {
         return {
           title: `Successfully staked!`,
-          body: `You have successfully staked your ${this.stakingDenom}s`,
+          body: `You have successfully staked your ${this.stakingDenom}s`
         }
       }
     },
@@ -279,18 +297,18 @@ export default {
       return this.fromOptions[this.fromSelectedIndex].maximum
     },
     isRedelegation() {
-      return this.fromSelectedIndex !== 0 && this.fromSelectedIndex !== "0" // where are these 0 strings comming from?
+      return this.fromSelectedIndex !== 0 && this.fromSelectedIndex !== '0' // where are these 0 strings comming from?
     },
     undelegationPeriod() {
       // TODO: get this from API. Should be inside the network object
-      if (this.currentNetwork.network_type === "cosmos") {
-        return "21 days"
-      } else if (this.currentNetwork.network_type === "polkadot") {
-        return "7 days"
+      if (this.currentNetwork.network_type === 'cosmos') {
+        return '21 days'
+      } else if (this.currentNetwork.network_type === 'polkadot') {
+        return '7 days'
       } else {
         return `a certain number of time`
       }
-    },
+    }
   },
   methods: {
     open() {
@@ -318,25 +336,33 @@ export default {
     },
     onSuccess(event) {
       this.$emit(`success`, event)
-    },
+    }
   },
   validations() {
     return {
       amount: {
-        required: (x) =>
-          this.currentNetwork.network_type === "polkadot" &&
-          this.totalStaked > 0
-            ? true
-            : !!x && x !== `0`,
-        decimal,
-        max: (x) => Number(x) <= this.maxAmount,
-        min: (x) => Number(x) >= SMALLEST,
-        maxDecimals: (x) => {
-          return x.toString().split(".").length > 1
-            ? x.toString().split(".")[1].length <= 6
-            : true
+        required: x => {
+          if (
+            (this.currentNetwork.network_type === 'polkadot' &&
+              this.totalStaked > 0) ||
+            this.session.addressRole === `controller`
+          ) {
+            return true
+          } else {
+            return !!x && x !== `0`
+          }
         },
-      },
+        decimal,
+        max: x => Number(x) <= this.maxAmount,
+        min: x =>
+          this.currentNetwork.network_type === 'polkadot' ||
+          Number(x) >= SMALLEST,
+        maxDecimals: x => {
+          return x.toString().split('.').length > 1
+            ? x.toString().split('.')[1].length <= 6
+            : true
+        }
+      }
     }
   },
   apollo: {
@@ -352,7 +378,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.network,
+          networkId: this.network
         }
       },
       /* istanbul ignore next */
@@ -362,7 +388,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
-      },
+      }
     },
     delegations: {
       query: gql`
@@ -390,13 +416,13 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.address,
+          delegatorAddress: this.address
         }
       },
       /* istanbul ignore next */
       update(data) {
         return data.delegations
-      },
+      }
     },
     balance: {
       query: gql`
@@ -420,13 +446,13 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          denom: this.stakingDenom,
+          denom: this.stakingDenom
         }
       },
       /* istanbul ignore next */
       update(data) {
         return data.balance || { amount: 0 }
-      },
+      }
     },
     totalStaked: {
       query: gql`
@@ -443,21 +469,21 @@ export default {
           !this.address ||
           !this.network ||
           // only needed for polkadot to determine if user needs to set an amount
-          this.currentNetwork.network_type !== "polkadot"
+          this.currentNetwork.network_type !== 'polkadot'
         )
       },
       /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
-          address: this.address,
+          address: this.address
         }
       },
       /* istanbul ignore next */
       update({ overview: { totalStake, liquidStake } }) {
         return totalStake - liquidStake
-      },
-    },
+      }
+    }
   },
   $subscribe: {
     userTransactionAdded: {
@@ -465,7 +491,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.address,
+          address: this.address
         }
       },
       /* istanbul ignore next */
@@ -477,8 +503,8 @@ export default {
       result() {
         this.$apollo.queries.balance.refetch()
         this.$apollo.queries.delegations.refetch()
-      },
-    },
-  },
+      }
+    }
+  }
 }
 </script>

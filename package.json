@@ -139,7 +139,8 @@
     "minimist": ">=1.2.3",
     "yargs-parser": ">=18.1.2",
     "@vue/cli-service/**/yargs-parser": "^13.1.2",
-    "@hapi/hoek": ">=9.0.3"
+    "@hapi/hoek": ">=9.0.3",
+    "kind-of": ">=6.0.3"
   },
   "engines": {
     "node": ">=10.13.0"
