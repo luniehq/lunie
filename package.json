@@ -133,7 +133,7 @@
     "vue-jest": "^3.0.4",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.6.10",
-    "web-ext-types": "^2.1.0",
+    "web-ext-types": "^3.2.1",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.3.11",
     "webpack-extension-reloader": "^1.1.0"
