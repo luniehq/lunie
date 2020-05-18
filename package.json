@@ -117,7 +117,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^5.2.2",
     "file-loader": "^1.1.11",
-    "husky": "^2.4.0",
+    "husky": "^4.2.5",
     "jest": "^24.9.0",
     "lint-prepush": "^1.2.0",
     "live-server": "^1.2.1",
