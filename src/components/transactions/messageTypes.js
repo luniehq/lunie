@@ -7,7 +7,7 @@ const messageType = {
   DEPOSIT: "DepositTx",
   VOTE: "VoteTx",
   CLAIM_REWARDS: "ClaimRewardsTx",
-  UNKNOWN: "UnknownTx"
+  UNKNOWN: "UnknownTx",
 }
 const transactionGroup = {
   [messageType.SEND]: "banking",
@@ -22,10 +22,10 @@ const transactionGroup = {
   [messageType.DEPOSIT]: "governance",
   [messageType.VOTE]: "governance",
   [messageType.SET_WITHDRAW_ADDRESS]: "distribution",
-  [messageType.WITHDRAW_DELEGATION_REWARD]: "distribution"
+  [messageType.WITHDRAW_DELEGATION_REWARD]: "distribution",
 }
 
-const getTransactionGroup = group => {
+const getTransactionGroup = (group) => {
   if (typeof transactionGroup[group] === "undefined") {
     const groups = group.split("/")
     if (groups.length > 1) {

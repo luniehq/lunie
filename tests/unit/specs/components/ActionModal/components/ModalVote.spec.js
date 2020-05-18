@@ -16,8 +16,8 @@ describe(`ModalVote`, () => {
       localVue,
       propsData: {
         proposalId: `1`,
-        proposalTitle: mockValues.state.proposals[`1`].title
-      }
+        proposalTitle: mockValues.state.proposals[`1`].title,
+      },
     })
   })
 
@@ -34,7 +34,7 @@ describe(`ModalVote`, () => {
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },
-      vote: `Yes`
+      vote: `Yes`,
     }
 
     ModalVote.methods.clear.call(self)
@@ -44,7 +44,7 @@ describe(`ModalVote`, () => {
 
   it(`sends an event on success`, () => {
     const self = {
-      $emit: jest.fn()
+      $emit: jest.fn(),
     }
     ModalVote.methods.onSuccess.call(self)
     expect(self.$emit).toHaveBeenCalledWith(
@@ -96,22 +96,22 @@ describe(`ModalVote`, () => {
 
   it("should return transaction data in correct form", () => {
     wrapper.setData({
-      vote: "Yes"
+      vote: "Yes",
     })
     expect(wrapper.vm.transactionData).toEqual({
       type: "VoteTx",
       proposalId: "1",
-      voteOption: "Yes"
+      voteOption: "Yes",
     })
   })
 
   it("should return notification message", () => {
     wrapper.setData({
-      vote: "Yes"
+      vote: "Yes",
     })
     expect(wrapper.vm.notifyMessage).toEqual({
       title: `Successful vote!`,
-      body: `You have successfully voted Yes on proposal #1`
+      body: `You have successfully voted Yes on proposal #1`,
     })
   })
 })

@@ -6,7 +6,7 @@ describe(`TmFormStruct`, () => {
 
   const propsData = {
     width: `narrow`,
-    submit: function() {}
+    submit: function () {},
   }
 
   beforeEach(() => {
@@ -16,8 +16,8 @@ describe(`TmFormStruct`, () => {
         default: `<div class="fake-fields"></div>`,
         footer: `<div class="fake-footer">Fake Footer</div>`,
         title: `<div class="fake-title">Fake Title</div>`,
-        subtitle: `<div class="fake-subtitle">Fake Subtitle</div>`
-      }
+        subtitle: `<div class="fake-subtitle">Fake Subtitle</div>`,
+      },
     })
   })
 
@@ -38,29 +38,14 @@ describe(`TmFormStruct`, () => {
   })
 
   it(`has a footer slot`, () => {
-    expect(
-      wrapper
-        .find(`.fake-footer`)
-        .text()
-        .trim()
-    ).toBe(`Fake Footer`)
+    expect(wrapper.find(`.fake-footer`).text().trim()).toBe(`Fake Footer`)
   })
 
   it(`has a title slot`, () => {
-    expect(
-      wrapper
-        .find(`.fake-title`)
-        .text()
-        .trim()
-    ).toBe(`Fake Title`)
+    expect(wrapper.find(`.fake-title`).text().trim()).toBe(`Fake Title`)
   })
 
   it(`has a subtitle slot`, () => {
-    expect(
-      wrapper
-        .find(`.fake-subtitle`)
-        .text()
-        .trim()
-    ).toBe(`Fake Subtitle`)
+    expect(wrapper.find(`.fake-subtitle`).text().trim()).toBe(`Fake Subtitle`)
   })
 })

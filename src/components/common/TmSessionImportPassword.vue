@@ -80,11 +80,11 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
-    Steps
+    Steps,
   },
   data: () => ({
     error: false,
-    errorMessage: ``
+    errorMessage: ``,
   }),
   computed: {
     ...mapState([`recover`]),
@@ -95,7 +95,7 @@ export default {
       },
       set(value) {
         this.$store.commit(`updateField`, { field: `password`, value })
-      }
+      },
     },
     passwordConfirm: {
       get() {
@@ -103,10 +103,10 @@ export default {
       },
       set(value) {
         this.$store.commit(`updateField`, { field: `passwordConfirm`, value })
-      }
-    }
+      },
+    },
   },
-  beforeDestroy: function() {
+  beforeDestroy: function () {
     this.$store.dispatch(`resetRecoverData`)
   },
   methods: {
@@ -118,7 +118,7 @@ export default {
           seedPhrase: this.recover.seed,
           password: this.recover.password,
           name: this.recover.name,
-          network: this.network
+          network: this.network,
         })
         if (this.isExtension) {
           this.$router.push(`/`)
@@ -126,19 +126,19 @@ export default {
           this.$router.push({
             name: "portfolio",
             params: {
-              networkId: this.networkSlug
-            }
+              networkId: this.networkSlug,
+            },
           })
         }
       } catch (error) {
         this.error = true
         this.errorMessage = error.message
       }
-    }
+    },
   },
   validations: () => ({
     password: { required, minLength: minLength(10) },
-    passwordConfirm: { sameAsPassword: sameAs(`password`) }
-  })
+    passwordConfirm: { sameAsPassword: sameAs(`password`) },
+  }),
 }
 </script>

@@ -1,6 +1,6 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
-// import pushNotifications from "./pushNotifications.js"
 import config from "src/../config"
+import { getAPI } from "../../signing/networkMessages/polkadot-transactions"
 
 export default () =>
   // { apollo }
@@ -18,6 +18,7 @@ export default () =>
       history: [],
       address: null, // Current address
       addresses: [], // Array of previously used addresses
+      addressRole: undefined, // For Polkadot: stash, controller
       errorCollection: false,
       analyticsCollection: false,
       cookiesAccepted: undefined,
@@ -27,7 +28,7 @@ export default () =>
       currrentModalOpen: false,
       modals: {
         error: { active: false },
-        help: { active: false }
+        help: { active: false },
       },
       browserWithLedgerSupport:
         navigator.userAgent.includes(`Chrome`) ||
@@ -38,8 +39,8 @@ export default () =>
         config,
         track,
         anonymize,
-        deanonymize
-      }
+        deanonymize,
+      },
     }
 
     const mutations = {
@@ -64,7 +65,7 @@ export default () =>
       addHistory(state, path) {
         state.history.push(path)
         state.externals.track(`pageview`, {
-          dl: path
+          dl: path,
         })
       },
       popHistory(state) {
@@ -75,7 +76,10 @@ export default () =>
       },
       setCurrrentModalOpen(state, modal) {
         state.currrentModalOpen = modal
-      }
+      },
+      setUserAddressRole(state, addressRole) {
+        state.addressRole = addressRole
+      },
     }
 
     const actions = {
@@ -83,8 +87,8 @@ export default () =>
         dispatch,
         commit,
         rootState: {
-          connection: { network }
-        }
+          connection: { network },
+        },
       }) {
         const session = localStorage.getItem(sessionKey(network))
         if (session) {
@@ -115,34 +119,26 @@ export default () =>
       ) {
         // Check if signin address was previously used
         const sessionExist = state.addresses.find(
-          usedAddress => address === usedAddress.address
+          (usedAddress) => address === usedAddress.address
         )
         // Add signin address to addresses array if was not used previously
         if (!sessionExist) {
           state.addresses.push({
             address,
             type: sessionType,
-            networkId
+            networkId,
           })
           commit(`setUserAddresses`, state.addresses)
         }
       },
       async signIn(
-        {
-          state,
-          // getters: { networks },
-          commit,
-          dispatch,
-          rootState: {
-            connection: { network }
-          }
-        },
+        { state, getters: { currentNetwork }, commit, dispatch },
         { address, sessionType = `ledger`, networkId }
       ) {
-        if (networkId && network !== networkId) {
+        if (networkId && currentNetwork.id !== networkId) {
           await commit(`setNetworkId`, networkId)
           await dispatch(`persistNetwork`, { id: networkId })
-          network = networkId
+          currentNetwork.id = networkId
         }
         commit(`setSignIn`, true)
         commit(`setSessionType`, sessionType)
@@ -152,17 +148,19 @@ export default () =>
         dispatch(`persistSession`, {
           address,
           sessionType,
-          networkId: network
+          networkId: currentNetwork.id,
         })
         const addresses = state.addresses
         dispatch(`persistAddresses`, {
-          addresses
+          addresses,
         })
 
-        // Register device for push registrations
-        // const activeNetworks = getActiveNetworks(networks)
-        /* istanbul ignore next */
-        // await pushNotifications.askPermissionAndRegister(activeNetworks, apollo)
+        if (currentNetwork.network_type === "polkadot") {
+          await dispatch(`checkAddressRole`, {
+            address,
+            currentNetwork,
+          })
+        }
 
         state.externals.track(`event`, `session`, `sign-in`, sessionType)
       },
@@ -189,7 +187,7 @@ export default () =>
           cookiesAccepted,
           errorCollection,
           analyticsCollection,
-          preferredCurrency
+          preferredCurrency,
         } = JSON.parse(localPreferences)
 
         if (cookiesAccepted) {
@@ -210,7 +208,7 @@ export default () =>
             cookiesAccepted: state.cookiesAccepted,
             errorCollection: state.errorCollection,
             analyticsCollection: state.analyticsCollection,
-            preferredCurrency: state.preferredCurrency
+            preferredCurrency: state.preferredCurrency,
           })
         )
       },
@@ -239,38 +237,30 @@ export default () =>
       setPreferredCurrency({ state, dispatch }, currency) {
         state.preferredCurrency = currency
         dispatch(`storeLocalPreferences`)
-      }
+      },
+      /* istanbul ignore next */
+      async checkAddressRole({ commit }, { address }) {
+        const api = await getAPI()
+        const bonded = await api.query.staking.bonded(address)
+        if (!bonded) {
+          // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
+          commit(`setUserAddressRole`, {
+            addressRole: `controller`,
+          })
+          return
+        }
+        commit(`setUserAddressRole`, {
+          addressRole: `stash`,
+        })
+      },
     }
 
     return {
       state,
       mutations,
-      actions
+      actions,
     }
   }
-
-/**
- * Retrieve active networks from localstorage via session keys
- */
-// const getActiveNetworks = networkObjects => {
-//   let activeNetworks = []
-//   networkObjects.forEach(network => {
-//     // Session object: { address: string, sessionType: string (e.g. ledger)}
-//     const networkObject = JSON.parse(
-//       localStorage.getItem(`session_${network.id}`)
-//     )
-
-//     // Only store network object if it has an associated address
-//     if (networkObject) {
-//       activeNetworks.push({
-//         address: networkObject.address,
-//         networkId: network.id
-//       })
-//     }
-//   })
-
-//   return activeNetworks
-// }
 
 function sessionKey(networkId) {
   return `session_${networkId}`

@@ -24,54 +24,54 @@ import moment from "moment"
 const categories = [
   {
     title: "Today",
-    matcher: tx => {
+    matcher: (tx) => {
       return moment(tx.timestamp).isSame(moment(), "day")
-    }
+    },
   },
   {
     title: "Yesterday",
-    matcher: tx => {
+    matcher: (tx) => {
       return moment(tx.timestamp).isSame(moment().subtract(1, "days"), "day")
-    }
-  }
+    },
+  },
 ]
 
 export default {
   name: `transaction-list`,
   components: {
-    TransactionItem
+    TransactionItem,
   },
   props: {
     transactions: {
       type: Array,
-      required: true
+      required: true,
     },
     address: {
       type: String,
-      default: null
+      default: null,
     },
     validators: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     groupedTransactions() {
       return orderBy(
         groupBy(this.categorizedTransactions, "title"),
-        group => group[0].tx.timestamp,
+        (group) => group[0].tx.timestamp,
         "desc"
       )
     },
     categorizedTransactions() {
-      return this.transactions.map(tx => {
+      return this.transactions.map((tx) => {
         // check if the tx is in Today, Yesterday or Last Week
         const dateString = ` (` + moment(tx.timestamp).format("MMMM Do") + `)`
         const category = categories.find(({ matcher }) => matcher(tx))
         if (category) {
           return {
             title: category.title + dateString,
-            tx
+            tx,
           }
         }
 
@@ -81,23 +81,23 @@ export default {
         if (date.year() === today.year()) {
           return {
             title: date.format("MMMM Do"),
-            tx
+            tx,
           }
         }
 
         // tx is in a month another year
         return {
           title: date.format("MMMM Do, YYYY"),
-          tx
+          tx,
         }
       })
-    }
+    },
   },
   methods: {
     loadMore() {
       this.$emit("loadMore")
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

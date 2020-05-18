@@ -80,8 +80,8 @@ import TmPage from "common/TmPage"
 export default {
   name: `page-about`,
   components: {
-    TmPage
-  }
+    TmPage,
+  },
 }
 </script>
 <style scoped src="../../styles/content-page.css"></style>

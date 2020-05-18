@@ -21,7 +21,7 @@ if (config.sentryDSN) {
   Sentry.init({
     dsn: config.sentryDSN,
     integrations: [new Integrations.Vue({ Vue, attachProps: true })],
-    release: process.env.LUNIE_VERSION
+    release: process.env.LUNIE_VERSION,
   })
 }
 
@@ -55,6 +55,6 @@ init(urlParams).then(({ store, router, apolloProvider }) => {
         SplashScreen.hide()
         StatusBar.show()
       }
-    }
+    },
   }).$mount("#app")
 })

@@ -6,7 +6,7 @@ describe(`Module: Intercom`, () => {
 
   const intercom = {
     registerUnidentifiedUser: jest.fn(),
-    displayMessenger: jest.fn()
+    displayMessenger: jest.fn(),
   }
 
   const spydisplayMessenger = jest.spyOn(intercom, "displayMessenger")

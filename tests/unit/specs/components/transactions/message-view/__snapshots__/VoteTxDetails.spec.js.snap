@@ -26,7 +26,7 @@ exports[`VoteTxDetails renders a vote transaction message 1`] = `
     </span>
      
     <router-link-stub
-      to="/proposals/17"
+      to="[object Object]"
     >
       Proposal #17
     </router-link-stub>

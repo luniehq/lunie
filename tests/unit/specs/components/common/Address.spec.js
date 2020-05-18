@@ -16,8 +16,8 @@ describe(`Address Component`, () => {
       localVue,
       propsData: { address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e` },
       data: () => ({
-        copySuccess: false
-      })
+        copySuccess: false,
+      }),
     })
   })
 
@@ -32,7 +32,7 @@ describe(`Address Component`, () => {
 
   it(`should return a short address with everything before the 1`, () => {
     wrapper.setProps({
-      address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`
+      address: `cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2`,
     })
     expect(wrapper.find(".address").text()).toContain(`cosmosvaloper…9yf2`)
   })
@@ -51,27 +51,12 @@ describe(`Address Component`, () => {
   // TODO: not sure how to test the v-clipboard directive events
   xit(`clicking copy copies the address`, () => {
     jest.useFakeTimers()
-    expect(
-      wrapper
-        .find(`.copied`)
-        .classes()
-        .includes(`active`)
-    ).toBe(false)
+    expect(wrapper.find(`.copied`).classes().includes(`active`)).toBe(false)
 
     wrapper.find(`.address`).trigger(`click`)
-    expect(
-      wrapper
-        .find(`.copied`)
-        .classes()
-        .includes(`active`)
-    ).toBe(true)
+    expect(wrapper.find(`.copied`).classes().includes(`active`)).toBe(true)
 
     jest.runAllTimers()
-    expect(
-      wrapper
-        .find(`.copied`)
-        .classes()
-        .includes(`active`)
-    ).toBe(false)
+    expect(wrapper.find(`.copied`).classes().includes(`active`)).toBe(false)
   })
 })

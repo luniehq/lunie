@@ -33,22 +33,22 @@ import TransactionIcon from "../TransactionIcon"
 export default {
   name: `send-tx-details`,
   filters: {
-    prettyLong
+    prettyLong,
   },
   components: {
     Address,
-    TransactionIcon
+    TransactionIcon,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
+      required: true,
     },
     sessionAddress: {
       type: String,
       required: false,
-      default: null
-    }
+      default: null,
+    },
   },
   computed: {
     toYourself() {
@@ -63,7 +63,7 @@ export default {
       } else {
         return "Sent"
       }
-    }
-  }
+    },
+  },
 }
 </script>

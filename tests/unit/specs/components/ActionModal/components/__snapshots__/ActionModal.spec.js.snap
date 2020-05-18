@@ -242,12 +242,11 @@ exports[`ActionModal should show the action modal on success 1`] = `
         <br />
          
         <br />
-        Block
-            
+         
         <router-link-stub
-          to="/lunie-net/blocks/undefined"
+          to="/lunie-net/transactions"
         >
-          #0
+          See your transaction
         </router-link-stub>
       </div>
     </tmdatamsg-stub>

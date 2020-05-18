@@ -7,7 +7,11 @@
         ><i class="italic">{{ transaction.details.voteOption }}</i>
         &nbsp;on&nbsp;</span
       >
-      <router-link :to="`/proposals/${transaction.details.proposalId}`"
+      <router-link
+        :to="{
+          name: 'Proposal',
+          params: { proposalId: String(transaction.details.proposalId) },
+        }"
         >Proposal &#35;{{ transaction.details.proposalId }}</router-link
       >
     </div>
@@ -20,24 +24,24 @@ import TransactionIcon from "../TransactionIcon"
 export default {
   name: `vote-tx-details`,
   components: {
-    TransactionIcon
+    TransactionIcon,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
+      required: true,
     },
     validators: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => {
     return {
       type: `Voted`,
-      caption: `Voted`
+      caption: `Voted`,
     }
-  }
+  },
 }
 </script>
 <style scoped>

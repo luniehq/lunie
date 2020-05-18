@@ -5,14 +5,14 @@ export default () => {
     accounts: [],
     // import into state to be able to test easier
     externals: {
-      track
-    }
+      track,
+    },
   }
 
   const mutations = {
     setAccounts(state, accounts) {
       state.accounts = accounts
-    }
+    },
   }
 
   const actions = {
@@ -59,11 +59,11 @@ export default () => {
 
       await store.dispatch("signIn", {
         address: wallet.cosmosAddress,
-        sessionType: "local"
+        sessionType: "local",
       })
 
       return wallet.cosmosAddress
-    }
+    },
   }
 
   async function getNetworkInfo(networkId, store) {
@@ -73,6 +73,6 @@ export default () => {
   return {
     state,
     mutations,
-    actions
+    actions,
   }
 }

@@ -8,10 +8,10 @@ Vue.use(router)
 const networkCapabilityDictionary = {
   true: "ENABLED",
   false: "DISABLED",
-  null: "MISSING"
+  null: "MISSING",
 }
 
-export const routeGuard = store => async (to, from, next) => {
+export const routeGuard = (store) => async (to, from, next) => {
   // Set any open modal to false
   store.state.session.currrentModalOpen = false
 
@@ -46,11 +46,11 @@ export const routeGuard = store => async (to, from, next) => {
 }
 
 /* istanbul ignore next */
-const Router = store =>
+const Router = (store) =>
   new router({
     mode: process.env.VUE_APP_E2E ? undefined : "history",
     scrollBehavior: () => ({ y: 0 }),
-    routes: routes(store)
+    routes: routes(store),
   })
 
 export default Router

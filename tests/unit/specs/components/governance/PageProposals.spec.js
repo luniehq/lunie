@@ -11,31 +11,31 @@ describe(`PageProposals`, () => {
       dispatch: jest.fn(),
       state: {
         connection: {
-          network: "cosmos-hub-mainnet"
+          network: "cosmos-hub-mainnet",
         },
         session: {
-          experimentalMode: true
-        }
+          experimentalMode: true,
+        },
       },
-      getters: {}
+      getters: {},
     }
     $apollo = {
       queries: {
         proposals: {
           loading: false,
-          error: undefined
+          error: undefined,
         },
         parameters: {
           loading: false,
-          error: undefined
-        }
-      }
+          error: undefined,
+        },
+      },
     }
     const args = {
       mocks: {
         $store,
-        $apollo
-      }
+        $apollo,
+      },
     }
     wrapper = shallowMount(PageProposals, args)
   })
@@ -44,8 +44,8 @@ describe(`PageProposals`, () => {
     wrapper.setData({
       proposals,
       parameters: {
-        depositDenom: "lunies"
-      }
+        depositDenom: "lunies",
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -57,14 +57,14 @@ describe(`PageProposals`, () => {
 
   it(`shows a message if there is nothing to display`, async () => {
     wrapper.setData({
-      proposals: []
+      proposals: [],
     })
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`opens a create proposal modal`, () => {
     wrapper.setData({
-      loaded: true
+      loaded: true,
     })
     const $refs = { modalPropose: { open: jest.fn() } }
     wrapper.vm.$refs = $refs
@@ -80,7 +80,7 @@ describe(`PageProposals`, () => {
 
   it(`should show How Cosmos Governance Works tutorial`, () => {
     wrapper.setData({
-      showTutorial: false
+      showTutorial: false,
     })
     wrapper.vm.openTutorial()
     expect(wrapper.vm.showTutorial).toBe(true)
@@ -88,7 +88,7 @@ describe(`PageProposals`, () => {
 
   it(`should hide How Cosmos Governance Works tutorial`, () => {
     wrapper.setData({
-      showTutorial: true
+      showTutorial: true,
     })
     wrapper.vm.hideTutorial()
     expect(wrapper.vm.showTutorial).toBe(false)

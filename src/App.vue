@@ -34,16 +34,16 @@ export default {
     CookieBar,
     MaintenanceBar,
     DisconnectedBar,
-    MobileMenu
+    MobileMenu,
   },
   data: () => ({
-    isMobileApp: config.mobileApp
+    isMobileApp: config.mobileApp,
   }),
   computed: {
     ...mapState([`notifications`, `session`]),
-    ...mapGetters([`network`])
+    ...mapGetters([`network`]),
   },
-  store
+  store,
 }
 </script>
 

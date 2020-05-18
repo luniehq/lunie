@@ -6,7 +6,7 @@ describe(`TmBtn`, () => {
   beforeEach(async () => {
     const value = `button`
     wrapper = shallowMount(TmBtn, {
-      propsData: { value }
+      propsData: { value },
     })
   })
 
@@ -17,28 +17,28 @@ describe(`TmBtn`, () => {
   it(`displays as a link`, () => {
     wrapper.setProps({
       type: `link`,
-      to: `/stake`
+      to: `/stake`,
     })
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`displays as an external link`, () => {
     wrapper.setProps({
-      type: `anchor`
+      type: `anchor`,
     })
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`displays as an icon`, () => {
     wrapper.setProps({
-      icon: `search`
+      icon: `search`,
     })
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`displays as an img as an icon`, () => {
     wrapper.setProps({
-      img: `./icon.png`
+      img: `./icon.png`,
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -47,7 +47,7 @@ describe(`TmBtn`, () => {
     wrapper.setProps({
       iconPos: `right`,
       size: `sm`,
-      color: `danger`
+      color: `danger`,
     })
     expect(wrapper.element).toMatchSnapshot()
   })

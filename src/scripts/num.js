@@ -20,7 +20,7 @@ function setDecimalLength(value, length) {
     Math.round(value * Math.pow(10, length)) / Math.pow(10, length)
 
   return new Intl.NumberFormat(language, {
-    minimumFractionDigits: length > 3 ? length : 0
+    minimumFractionDigits: length > 3 ? length : 0,
   }).format(truncate(roundedValue, length))
 }
 export function shortDecimals(value) {
@@ -34,14 +34,14 @@ export function fullDecimals(value) {
 export function pretty(number = 0) {
   return new Intl.NumberFormat(language, {
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    maximumFractionDigits: 2,
   }).format(Math.round(number * 100) / 100)
 }
 
 export function prettyLong(number = 0) {
   return new Intl.NumberFormat(language, {
     maximumFractionDigits: 20,
-    useGrouping: true
+    useGrouping: true,
   }).format(number)
 }
 
@@ -49,7 +49,7 @@ export function prettyLong(number = 0) {
 export function prettyDecimals(number = 0) {
   let longDecimals = new Intl.NumberFormat(language, {
     minimumFractionDigits: 20,
-    maximumFractionDigits: 20
+    maximumFractionDigits: 20,
   }).format(number)
 
   // remove all trailing zeros
@@ -77,7 +77,7 @@ export function percent(number = 0) {
   return (
     new Intl.NumberFormat(language, {
       minimumFractionDigits: 2,
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     }).format(Math.round(number * 10000) / 100) + `%`
   )
 }
@@ -99,7 +99,7 @@ export function bigFigure(number = 0) {
   return (
     new Intl.NumberFormat(language, {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 1
+      maximumFractionDigits: 1,
     }).format(formatted) + ` ${suffix}`
   )
 }
@@ -129,7 +129,7 @@ export function bigFigureOrPercent(number) {
 // Used the following as a reference:
 // https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
 // Note: We pass an object, and want to keep the (key, value) association.
-export const roundObjectPercentages = dataMap => {
+export const roundObjectPercentages = (dataMap) => {
   // This algorithm workson integers and we want 2 decimal places.
   // So round up first.
   const scale = 100
@@ -153,19 +153,19 @@ export const roundObjectPercentages = dataMap => {
   // Here we distribute the leftOver as evenly as possible amongst the rounded values.
   // The values are sorted first.
   asArray.sort(cmpNumberValue)
-  const result = asArray.map(function(x, i) {
+  const result = asArray.map(function (x, i) {
     // Note: leftOver can be negative.
     const rounded = [
       x[0],
       (Math.round(x[1]) + (leftOver > i) - (i >= asArray.length + leftOver)) /
-        100.0
+        100.0,
     ]
     return rounded
   })
 
   // Turn the array back into the original data structure layout
   const resultObject = {}
-  result.forEach(x => {
+  result.forEach((x) => {
     resultObject[x[0]] = x[1]
   })
 
@@ -185,5 +185,5 @@ export default {
   roundObjectPercentages,
   bigFigure,
   bigFigureOrShortDecimals,
-  bigFigureOrPercent
+  bigFigureOrPercent,
 }

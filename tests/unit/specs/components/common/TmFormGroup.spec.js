@@ -7,13 +7,13 @@ describe(`TmFormGroup`, () => {
   const propsData = {
     error: true,
     fieldId: `sign-in-password`,
-    fieldLabel: `Sign In Password`
+    fieldLabel: `Sign In Password`,
   }
 
   beforeEach(() => {
     wrapper = mount(TmFormGroup, {
       propsData,
-      slots: { default: `<input class="fake-field" value="fake" />` }
+      slots: { default: `<input class="fake-field" value="fake" />` },
     })
   })
 
@@ -26,12 +26,9 @@ describe(`TmFormGroup`, () => {
   })
 
   it(`shows the label of the field`, () => {
-    expect(
-      wrapper
-        .find(`.tm-form-group__label`)
-        .text()
-        .trim()
-    ).toBe(`Sign In Password`)
+    expect(wrapper.find(`.tm-form-group__label`).text().trim()).toBe(
+      `Sign In Password`
+    )
   })
 
   it(`has a slot with a field`, () => {

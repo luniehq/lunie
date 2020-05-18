@@ -8,7 +8,7 @@ describe(`Module: Recover`, () => {
     seed: ``,
     password: ``,
     passwordConfirm: ``,
-    warning: false
+    warning: false,
   }
 
   beforeEach(() => {

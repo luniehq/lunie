@@ -13,9 +13,9 @@ describe(`MaintenanceBar`, () => {
         {
           message: "success test message",
           barType: "success",
-          show: true
-        }
-      ]
+          show: true,
+        },
+      ],
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -26,9 +26,9 @@ describe(`MaintenanceBar`, () => {
         {
           message: "success test message",
           barType: "success",
-          show: true
-        }
-      ]
+          show: true,
+        },
+      ],
     })
     expect(wrapper.text()).toBe("success test message")
   })
@@ -39,9 +39,9 @@ describe(`MaintenanceBar`, () => {
         {
           message: "warning test message",
           barType: "warning",
-          show: true
-        }
-      ]
+          show: true,
+        },
+      ],
     })
     expect(wrapper.text()).toBe("warning test message")
   })
@@ -52,9 +52,9 @@ describe(`MaintenanceBar`, () => {
         {
           message: "danger test message",
           barType: "danger",
-          show: true
-        }
-      ]
+          show: true,
+        },
+      ],
     })
     expect(wrapper.text()).toBe("danger test message")
   })

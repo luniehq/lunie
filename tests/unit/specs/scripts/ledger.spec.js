@@ -2,8 +2,8 @@ import { getAddressFromLedger, showAddressOnLedger } from "scripts/ledger.js"
 
 jest.mock("src/../config", () => ({
   bech32Prefixes: {
-    "cosmos-hub-mainnet": "cosmos"
-  }
+    "cosmos-hub-mainnet": "cosmos",
+  },
 }))
 
 jest.mock(
@@ -15,8 +15,8 @@ jest.mock(
         this.getCosmosAddress = () => "cosmos1"
         this.cosmosApp = {
           transport: {
-            close: jest.fn()
-          }
+            close: jest.fn(),
+          },
         }
       }
     }
@@ -29,25 +29,25 @@ describe(`Ledger Connector`, () => {
     {
       id: `cosmos-hub-mainnet`,
       address_prefix: "cosmos",
-      ledger_app: "cosmos"
+      ledger_app: "cosmos",
     },
     {
       id: `keine-ahnungnet`,
       address_prefix: "keineahnung",
-      ledger_app: "wunderland"
+      ledger_app: "wunderland",
     },
     {
       id: `la-red-feliz`,
       address_prefix: "redfeliz",
-      ledger_app: "wunderland"
-    }
+      ledger_app: "wunderland",
+    },
   ]
 
   beforeEach(() => {
     $store = {
       getters: {
-        networks
-      }
+        networks,
+      },
     }
   })
 
@@ -70,8 +70,8 @@ describe(`Ledger Connector`, () => {
               }
               this.cosmosApp = {
                 transport: {
-                  close: jest.fn()
-                }
+                  close: jest.fn(),
+                },
               }
             }
           }
@@ -100,8 +100,8 @@ describe(`Ledger Connector`, () => {
               }
               this.cosmosApp = {
                 transport: {
-                  close: jest.fn()
-                }
+                  close: jest.fn(),
+                },
               }
             }
           }

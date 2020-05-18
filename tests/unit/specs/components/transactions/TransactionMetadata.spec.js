@@ -9,17 +9,17 @@ describe(`TransactionMetadata`, () => {
       getters: {
         networks: [
           {
-            id: `cosmos-hub-mainnet`
+            id: `cosmos-hub-mainnet`,
           },
           {
-            id: `keine-ahnungnet`
+            id: `keine-ahnungnet`,
           },
           {
-            id: `la-red-feliz`
-          }
+            id: `la-red-feliz`,
+          },
         ],
-        network: `la-red-feliz`
-      }
+        network: `la-red-feliz`,
+      },
     }
     wrapper = shallowMount(TransactionMetadata, {
       propsData: {
@@ -37,15 +37,15 @@ describe(`TransactionMetadata`, () => {
             to: ["cosmos456"],
             amount: {
               denom: "ATOM",
-              amount: "1"
-            }
-          }
-        }
+              amount: "1",
+            },
+          },
+        },
       },
       mocks: {
-        $store
+        $store,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 

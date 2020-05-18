@@ -5,7 +5,7 @@ const wrongTransactionType = {
   value: {
     from_address: "cosmos1",
     to_address: "cosmos2",
-    amount: [{ denom: "fabocoins", amount: "1234" }]
+    amount: [{ denom: "fabocoins", amount: "1234" }],
   },
   key:
     'cosmos-sdk/MsgSend_undefined_{"from_address":"cosmos1","to_address":"cosmos2","amount":[{"denom":"fabocoins","amount":"1234"}]}',
@@ -13,7 +13,7 @@ const wrongTransactionType = {
   time: new Date("2018-07-01"),
   fees: { amount: "0", denom: "ATOM" },
   group: "banking",
-  liquidDate: null
+  liquidDate: null,
 }
 
 const unbondingTransaction = {
@@ -21,7 +21,7 @@ const unbondingTransaction = {
   value: {
     delegator_address: "cosmos3",
     validator_address: "cosmos4",
-    amount: { denom: "uatom", amount: "50000" }
+    amount: { denom: "uatom", amount: "50000" },
   },
   key:
     'cosmos-sdk/MsgUndelegate_2019-07-31T09:22:23.054Z_{"delegator_address":"cosmos1jq9mc3kp4nnxwryr09fpqjtrwya8q5q480zu0e","validator_address":"cosmosvaloper1vrg6ruw00lhszl4sjgwt5ldvl8z0f7pfp5va85","amount":{"denom":"uatom","amount":"50000"}}',
@@ -29,7 +29,7 @@ const unbondingTransaction = {
   time: "2019-07-31T09:22:23.054Z",
   memo: "",
   fees: { denom: "uatom", amount: "4141" },
-  group: "staking"
+  group: "staking",
 }
 
 const constantDate = new Date()
@@ -42,9 +42,9 @@ describe(`time helper`, () => {
           [`cosmosxyz`]: [
             {
               creation_height: `170`,
-              completion_time: new Date().toISOString()
-            }
-          ]
+              completion_time: new Date().toISOString(),
+            },
+          ],
         })
       ).toBe(null)
     })
@@ -55,9 +55,9 @@ describe(`time helper`, () => {
           [`cosmos4`]: [
             {
               creation_height: `171`,
-              completion_time: new Date().toISOString()
-            }
-          ]
+              completion_time: new Date().toISOString(),
+            },
+          ],
         })
       ).toBe(null)
     })
@@ -68,9 +68,9 @@ describe(`time helper`, () => {
           [`cosmos4`]: [
             {
               creation_height: `1248479`,
-              completion_time: constantDate
-            }
-          ]
+              completion_time: constantDate,
+            },
+          ],
         })
       ).toEqual(constantDate)
     })

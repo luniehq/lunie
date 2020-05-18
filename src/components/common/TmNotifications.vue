@@ -18,14 +18,14 @@ import TmNotification from "./TmNotification.vue"
 export default {
   name: `tm-notifications`,
   components: {
-    TmNotification
+    TmNotification,
   },
   props: {
     notifications: {
       type: Array,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

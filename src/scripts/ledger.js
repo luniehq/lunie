@@ -59,7 +59,7 @@ async function getLedgerConnector(networkId, store) {
       const HDPATH = [44, 118, 0, 0, 0]
       const ledger = new Ledger(
         {
-          testModeAllowed: config.testModeAllowed
+          testModeAllowed: config.testModeAllowed,
         },
         HDPATH,
         network.address_prefix

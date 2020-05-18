@@ -48,7 +48,7 @@
           <TmFormMsg
             v-if="
               $v.fieldPasswordConfirm.$error &&
-                !$v.fieldPasswordConfirm.sameAsPassword
+              !$v.fieldPasswordConfirm.sameAsPassword
             "
             name="Password confirmation"
             type="match"
@@ -82,7 +82,7 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
-    Steps
+    Steps,
   },
   computed: {
     ...mapState([`session`, `signup`]),
@@ -92,7 +92,7 @@ export default {
       },
       set(value) {
         this.$store.commit(`updateField`, { field: `signUpPassword`, value })
-      }
+      },
     },
     fieldPasswordConfirm: {
       get() {
@@ -101,21 +101,21 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, {
           field: `signUpPasswordConfirm`,
-          value
+          value,
         })
-      }
-    }
+      },
+    },
   },
   methods: {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
       this.$router.push(`/create/confirm`)
-    }
+    },
   },
   validations: () => ({
     fieldPassword: { required, minLength: minLength(10) },
-    fieldPasswordConfirm: { sameAsPassword: sameAs(`fieldPassword`) }
-  })
+    fieldPasswordConfirm: { sameAsPassword: sameAs(`fieldPassword`) },
+  }),
 }
 </script>
