@@ -63,28 +63,26 @@
         type="text"
         readonly
       />
-      <TmFormMsg
-        v-if="
-          targetValidator.status === 'INACTIVE' &&
-          !isRedelegation &&
-          session.addressRole &&
-          session.addressRole !== `stash`
-        "
-        :msg="`You are about to stake to an inactive validator (${targetValidator.statusDetailed})`"
-        type="custom"
-        class="tm-form-msg--desc"
-      />
-      <TmFormMsg
-        v-if="
-          targetValidator.status === 'INACTIVE' &&
-          isRedelegation &&
-          session.addressRole &&
-          session.addressRole !== `stash`
-        "
-        :msg="`You are about to restake to an inactive validator (${targetValidator.statusDetailed})`"
-        type="custom"
-        class="tm-form-msg--desc"
-      />
+      <template v-if="network.type !== `polkadot` || (addressRole && addressRole !== `stash`)">
+        <TmFormMsg
+          v-if="
+            targetValidator.status === 'INACTIVE' &&
+            !isRedelegation
+          "
+          :msg="`You are about to stake to an inactive validator (${targetValidator.statusDetailed})`"
+          type="custom"
+          class="tm-form-msg--desc"
+        />
+        <TmFormMsg
+          v-if="
+            targetValidator.status === 'INACTIVE' &&
+            isRedelegation
+          "
+          :msg="`You are about to restake to an inactive validator (${targetValidator.statusDetailed})`"
+          type="custom"
+          class="tm-form-msg--desc"
+        />
+      </template>
     </TmFormGroup>
 
     <TmFormGroup
