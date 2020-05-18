@@ -14,11 +14,21 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
-    <TmFormGroup v-if="session.addressRole && session.addressRole === `stash`" class="action-modal-form-group">
+    <TmFormGroup v-if="session.addressRole === `stash`" class="action-modal-form-group">
       <div class="form-message notice">
         <span>
-         For staking to validators you need to sign in with your controller 
-         account. You can still send tokens.
+          This is a stash account, you can increase the amount to
+          stake but you need to sign in with your controller account
+          to set or change your validators.
+        </span>
+      </div>
+    </TmFormGroup>
+    <TmFormGroup v-if="session.addressRole === `controller`" class="action-modal-form-group">
+      <div class="form-message notice">
+        <span>
+          This is a controller account, you can set or change your validators
+          but to increase the amount to stake you need to sign in with 
+          your stash account.
         </span>
       </div>
     </TmFormGroup>
@@ -188,7 +198,7 @@ export default {
     }
   },
   data: () => ({
-    amount: null,
+    amount: 0,
     fromSelectedIndex: 0,
     balance: {
       amount: null,
@@ -340,9 +350,7 @@ export default {
     return {
       amount: {
         required: x => {
-          if (this.session.addressRole === `controller`) {
-            return true
-          } else if (this.currentNetwork.network_type === "polkadot" && this.totalStaked > 0) {
+          if ((this.currentNetwork.network_type === "polkadot" && this.totalStaked > 0) || this.session.addressRole === `controller`) {
             return true
           } else {
             return !!x && x !== `0`
@@ -350,13 +358,7 @@ export default {
         },
         decimal,
         max: x => Number(x) <= this.maxAmount,
-        min: x => {
-          if (this.session.addressRole === `controller`) {
-            return true
-          } else {
-            return Number(x) >= SMALLEST
-          }
-        },
+        min: x => Number(x) >= SMALLEST,
         maxDecimals: x => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6
