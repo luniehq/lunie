@@ -5,7 +5,7 @@ const nightwatch_config = {
   launch_url: "http://127.0.0.1:9080",
 
   selenium: {
-    start_process: true,
+    start_process: false,
     host: "hub-cloud.browserstack.com",
     port: 80
   },
