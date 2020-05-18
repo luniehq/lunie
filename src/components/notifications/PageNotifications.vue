@@ -45,24 +45,18 @@ export default {
     TmDataMsg
   },
   data: () => ({
-    notifications: []
+    notifications: [],
+    allSessionAddresses: []
   }),
   computed: {
-    ...mapGetters([`networks`]),
-    networkIds() {
-      return this.networks.map(network => network.id)
-    },
-    allSessionAddresses() {
-      let allSessionAddresses = []
-      this.networkIds.forEach(networkId => {
-        allSessionAddresses.push({
-          networkId,
-          address: JSON.parse(localStorage.getItem(`session_${networkId}`))
-            .address
-        })
-      })
-      return allSessionAddresses
-    }
+    ...mapGetters([`networks`])
+  },
+  mounted: async function() {
+    const networkIds = this.networks.map(network => network.id)
+    this.allSessionAddresses = await this.$store.dispatch(
+      `getAllSessionsAddresses`,
+      { networkIds }
+    )
   },
   apollo: {
     notifications: {
