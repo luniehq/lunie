@@ -302,7 +302,7 @@ export default {
   computed: {
     ...mapState([`connection`]),
     ...mapGetters([`network`, `stakingDenom`, `currentNetwork`]),
-    ...mapGetters({ userAddress: `address` })
+    ...mapGetters({ userAddress: `address` }),
   },
   mounted() {
     this.$apollo.queries.rewards.refetch()
@@ -379,7 +379,7 @@ export default {
         if (!result.delegation) {
           return {
             amount: 0,
-            noDelegation: true
+            noDelegation: true,
           }
         }
         /* istanbul ignore next */

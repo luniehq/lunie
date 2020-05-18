@@ -149,7 +149,7 @@ export default {
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
         address: this.address,
-        networkId: this.network
+        networkId: this.network,
       })
 
       localStorage.setItem(`prevAddress`, this.address)
