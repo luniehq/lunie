@@ -249,7 +249,6 @@ export default ({ apollo }) => {
         variables: { networkId, address },
         fetchPolicy: "network-only"
       })
-      console.log(data)
       commit(`setUserAddressRole`, data.accountRole)
     }
   }
