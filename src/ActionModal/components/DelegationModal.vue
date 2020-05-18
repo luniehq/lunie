@@ -49,7 +49,7 @@
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField
         id="to"
-        :value="targetValidator | validatorEntry"
+        :value="session.addressRole === `stash` ? `` : targetValidator | validatorEntry"
         type="text"
         readonly
       />

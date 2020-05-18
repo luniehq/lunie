@@ -157,7 +157,7 @@ export default ({ apollo }) => {
       if (currentNetwork.network_type === "polkadot") {
         await dispatch(`checkAddressRole`, {
           address,
-          networkId
+          networkId: currentNetwork.id
         })
       }
 
@@ -249,6 +249,7 @@ export default ({ apollo }) => {
         variables: { networkId, address },
         fetchPolicy: "network-only"
       })
+      console.log(data)
       commit(`setUserAddressRole`, data.accountRole)
     }
   }
