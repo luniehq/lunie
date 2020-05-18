@@ -47,7 +47,7 @@ export async function StakeTx(
       const { targets: delegatedValidators = [] } = response.toJSON() || {}
       const validatorAddresses = uniqBy(
         delegatedValidators.concat(to[0]),
-        x => x
+        (x) => x
       )
       transactions.push(await api.tx.staking.nominate(validatorAddresses))
     }
@@ -73,11 +73,14 @@ export async function UnstakeTx(
   }
 
   // Disable adding possible nomination extrinsic if address is a stash account
-  if (from.length > 0 && ["controller", "stash/controller", "none"].includes(addressRole)) {
+  if (
+    from.length > 0 &&
+    ["controller", "stash/controller", "none"].includes(addressRole)
+  ) {
     const response = await api.query.staking.nominators(senderAddress)
     const { targets: delegatedValidators = [] } = response.toJSON() || {}
     const validatorAddresses = delegatedValidators.filter(
-      validator => !from.includes(validator)
+      (validator) => !from.includes(validator)
     )
     transactions.push(await api.tx.staking.nominate(validatorAddresses))
   }
@@ -96,8 +99,8 @@ export async function ClaimRewardsTx(senderAddress) {
   if (newStakerRewards.length === 0) {
     allClaimingTxs = []
   } else {
-    newStakerRewards.forEach(reward => {
-      reward.nominating.forEach(nomination => {
+    newStakerRewards.forEach((reward) => {
+      reward.nominating.forEach((nomination) => {
         if (reward.isStakerPayout) {
           allClaimingTxs.push(
             api.tx.staking.payoutStakers(nomination.validatorId, reward.era)

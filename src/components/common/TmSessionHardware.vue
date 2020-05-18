@@ -157,7 +157,7 @@ export default {
       await this.$store.dispatch(`signIn`, {
         sessionType: `ledger`,
         address: this.address,
-        networkId: this.networkId
+        networkId: this.networkId,
       })
     },
     onCopy() {
