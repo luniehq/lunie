@@ -10,7 +10,6 @@
         alt="geometric placeholder shapes"
       />
     </div>
-
     <div v-else-if="delegations.length > 0">
       <h1>Your Validators</h1>
       <TableValidators
@@ -19,24 +18,21 @@
         show-on-mobile="expectedReturns"
       />
     </div>
-
     <TmDataMsg
       v-else-if="delegations.length === 0 && !$apollo.loading"
       icon="sentiment_dissatisfied"
     >
-      <div slot="title">
-        No validators in your portfolio
-      </div>
+      <div slot="title">No validators in your portfolio</div>
       <div slot="subtitle">
         Head over to the
-        <a @click="goToValidators()"> validator list</a>&nbsp;to get staking!
+        <a @click="goToValidators()">validator list</a>&nbsp;to get staking!
       </div>
     </TmDataMsg>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
 import { DelegationsForDelegator, UserTransactionAdded } from "src/gql"
@@ -52,7 +48,8 @@ export default {
     delegationsLoaded: false,
   }),
   computed: {
-    ...mapGetters(["address", `network`, `networks`]),
+    ...mapState([`session`]),
+    ...mapGetters([`address`, `network`, `networks`]),
   },
   methods: {
     goToValidators() {
