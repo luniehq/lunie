@@ -18,30 +18,6 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
-    <TmFormGroup
-      v-if="session.addressRole === `stash`"
-      class="action-modal-form-group"
-    >
-      <div class="form-message notice">
-        <span>
-          This is a stash account, you can decrease the amount you stake but you
-          need to sign in with your controller account to change your
-          validators.
-        </span>
-      </div>
-    </TmFormGroup>
-    <TmFormGroup
-      v-if="session.addressRole === `controller`"
-      class="action-modal-form-group"
-    >
-      <div class="form-message notice">
-        <span>
-          This is a controller account, you can change your validators but to
-          decrease the amount you stake you need to sign in with your stash
-          account.
-        </span>
-      </div>
-    </TmFormGroup>
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
@@ -62,11 +38,7 @@
     >
       <TmField
         id="from"
-        :value="
-          session.addressRole === `stash`
-            ? `--`
-            : sourceValidator | validatorEntry
-        "
+        :value="sourceValidator | validatorEntry"
         type="text"
         readonly
       />
@@ -105,7 +77,6 @@
           class="tm-field-addon"
           placeholder="0"
           type="number"
-          :is-disabled="session.addressRole === `controller`"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
