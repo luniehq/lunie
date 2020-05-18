@@ -5,7 +5,7 @@ const localVue = createLocalVue()
 localVue.directive(`tooltip`, () => {})
 
 jest.mock(`src/../config.js`, () => ({
-  mobileApp: true
+  mobileApp: true,
 }))
 
 describe(`TmConnectedNetwork`, () => {
@@ -17,8 +17,8 @@ describe(`TmConnectedNetwork`, () => {
       commit: jest.fn(),
       state: {
         connection: {
-          network: "keine-ahnungnet"
-        }
+          network: "keine-ahnungnet",
+        },
       },
       dispatch,
       getters: {
@@ -27,26 +27,26 @@ describe(`TmConnectedNetwork`, () => {
           id: `awesomenet`,
           testnet: true,
           default: false,
-          powered: null
-        }
-      }
+          powered: null,
+        },
+      },
     }
 
     $apollo = {
       queries: {
         block: {
-          loading: false
-        }
-      }
+          loading: false,
+        },
+      },
     }
 
     wrapper = shallowMount(TmConnectedNetwork, {
       localVue,
       mocks: {
         $store,
-        $apollo
+        $apollo,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
@@ -54,8 +54,8 @@ describe(`TmConnectedNetwork`, () => {
     wrapper.setData({
       block: {
         chainId: "gaia-20k",
-        height: 6001
-      }
+        height: 6001,
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -65,10 +65,10 @@ describe(`TmConnectedNetwork`, () => {
       $store: {
         state: {
           connection: {
-            connected: false
-          }
-        }
-      }
+            connected: false,
+          },
+        },
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -77,8 +77,8 @@ describe(`TmConnectedNetwork`, () => {
     wrapper.setData({
       block: {
         chainId: "gaia-20k",
-        height: 6001
-      }
+        height: 6001,
+      },
     })
     expect(wrapper.find(`#tm-connected-network__string`).text()).toMatch(
       /gaia-20k/
@@ -91,10 +91,10 @@ describe(`TmConnectedNetwork`, () => {
   it(`handleClick should emit a close-menu event and scroll to 0,0`, () => {
     global.window = Object.create(window)
     Object.defineProperty(window, `scrollTo`, {
-      value: jest.fn()
+      value: jest.fn(),
     })
     const self = {
-      $emit: jest.fn()
+      $emit: jest.fn(),
     }
     TmConnectedNetwork.methods.handleClick.call(self)
     expect(self.$emit).toHaveBeenCalledWith("close-menu")

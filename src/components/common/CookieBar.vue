@@ -17,20 +17,20 @@ import Bar from "common/Bar"
 export default {
   name: `cookie-bar`,
   components: {
-    Bar
+    Bar,
   },
   data: () => ({
-    show: true
+    show: true,
   }),
   computed: {
-    ...mapState([`session`])
+    ...mapState([`session`]),
   },
   methods: {
-    onClose: function() {
+    onClose: function () {
       this.$store.dispatch(`setAnalyticsCollection`, true)
       this.$store.dispatch(`setErrorCollection`, true)
       this.$store.dispatch(`storeLocalPreferences`)
-    }
-  }
+    },
+  },
 }
 </script>

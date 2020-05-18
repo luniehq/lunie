@@ -72,7 +72,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
-const isPolkadotAddress = address => {
+const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
@@ -85,13 +85,13 @@ export default {
     TmFormGroup,
     TmFormMsg,
     SessionFrame,
-    TmFormStruct
+    TmFormStruct,
   },
   data: () => ({
     signInAddress: ``,
     signInPassword: ``,
     error: ``,
-    testnet: false
+    testnet: false,
   }),
   computed: {
     ...mapState([`keystore`, `session`]),
@@ -100,7 +100,7 @@ export default {
       let accounts = this.keystore.accounts
       return accounts.map(({ name, address }) => ({
         value: address,
-        key: name
+        key: name,
       }))
     },
     networkOfAddress() {
@@ -120,7 +120,7 @@ export default {
       )
 
       return selectedNetwork
-    }
+    },
   },
   created() {
     this.$store.dispatch("loadAccounts")
@@ -141,7 +141,7 @@ export default {
       }
       const sessionCorrect = await this.$store.dispatch(`testLogin`, {
         password: this.signInPassword,
-        address: this.signInAddress
+        address: this.signInAddress,
       })
       if (sessionCorrect) {
         this.selectNetworkByAddress(this.signInAddress)
@@ -149,14 +149,14 @@ export default {
         this.$store.dispatch(`signIn`, {
           password: this.signInPassword,
           address: this.signInAddress,
-          sessionType: "local"
+          sessionType: "local",
         })
         localStorage.setItem(`prevAccountKey`, this.signInAddress)
         this.$router.push({
           name: "portfolio",
           params: {
-            networkId: this.networkOfAddress.slug
-          }
+            networkId: this.networkOfAddress.slug,
+          },
         })
       } else {
         this.error = `The provided username or password is wrong.`
@@ -165,7 +165,7 @@ export default {
     setDefaultAccount() {
       const prevAccountKey = localStorage.getItem(`prevAccountKey`)
       const prevAccountExists = this.accounts.find(
-        a => a.value === prevAccountKey
+        (a) => a.value === prevAccountKey
       )
 
       if (this.accounts.length === 1) {
@@ -203,13 +203,13 @@ export default {
       }
 
       this.$store.dispatch(`setNetwork`, selectedNetwork)
-    }
+    },
   },
   validations() {
     return {
       signInAddress: { required },
-      signInPassword: { required, minLength: minLength(10) }
+      signInPassword: { required, minLength: minLength(10) },
     }
-  }
+  },
 }
 </script>

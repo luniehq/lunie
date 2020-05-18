@@ -14,7 +14,7 @@ describe(`ModalPropose`, () => {
   const inputs = {
     amount: 15,
     title: `A new text proposal for Cosmos`,
-    description: `a valid description for the proposal`
+    description: `a valid description for the proposal`,
   }
 
   const balance = { denom: `ATOM`, amount: `20` }
@@ -31,23 +31,23 @@ describe(`ModalPropose`, () => {
           {
             id: "testnet",
             coinLookup: [
-              { viewDenom: "ATOM", chainToViewConversionFactor: 0.000001 }
-            ]
-          }
+              { viewDenom: "ATOM", chainToViewConversionFactor: 0.000001 },
+            ],
+          },
         ],
-        stakingDenom: "ATOM"
+        stakingDenom: "ATOM",
       },
-      state: {}
+      state: {},
     }
     wrapper = shallowMount(ModalPropose, {
       localVue,
       mocks: {
-        $store
+        $store,
       },
       propsData: {
-        denom: `ATOM`
+        denom: `ATOM`,
       },
-      sync: false
+      sync: false,
     })
     wrapper.setData({ balance })
   })
@@ -67,7 +67,7 @@ describe(`ModalPropose`, () => {
       $v: { $reset: jest.fn() },
       title: `title`,
       description: `description`,
-      amount: 10
+      amount: 10,
     }
     ModalPropose.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
@@ -78,7 +78,7 @@ describe(`ModalPropose`, () => {
 
   it(`sends an event on success`, () => {
     const self = {
-      $emit: jest.fn()
+      $emit: jest.fn(),
     }
     ModalPropose.methods.onSuccess.call(self)
     expect(self.$emit).toHaveBeenCalledWith(
@@ -147,7 +147,7 @@ describe(`ModalPropose`, () => {
 
   it(`should submit when enterPressed is called`, async () => {
     const self = {
-      $refs: { actionModal: { validateChangeStep: jest.fn() } }
+      $refs: { actionModal: { validateChangeStep: jest.fn() } },
     }
     ModalPropose.methods.enterPressed.call(self)
     expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
@@ -155,7 +155,7 @@ describe(`ModalPropose`, () => {
 
   it(`should refocus on description when refocusOn is called`, async () => {
     const self = {
-      $refs: { description: { $el: { focus: jest.fn() } } }
+      $refs: { description: { $el: { focus: jest.fn() } } },
     }
     ModalPropose.methods.refocusOn.call(self)
     expect(self.$refs.description.$el.focus).toHaveBeenCalled()
@@ -167,7 +167,7 @@ describe(`ModalPropose`, () => {
         type: "Text",
         title: "The Title",
         description: "A long description…",
-        amount: 10
+        amount: 10,
       })
     })
 
@@ -178,15 +178,15 @@ describe(`ModalPropose`, () => {
         proposalTitle: "The Title",
         initialDeposit: {
           amount: 10,
-          denom: "ATOM"
+          denom: "ATOM",
         },
-        proposer: "cosmosguay"
+        proposer: "cosmosguay",
       })
     })
 
     it("should return empty transaction data if amount is NaN", () => {
       wrapper.setData({
-        amount: `NaN`
+        amount: `NaN`,
       })
       expect(wrapper.vm.transactionData).toEqual({})
     })
@@ -194,7 +194,7 @@ describe(`ModalPropose`, () => {
     it("should return correct notification message for delegating", () => {
       expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successful proposal submission!`,
-        body: `You have successfully submitted a new text proposal`
+        body: `You have successfully submitted a new text proposal`,
       })
     })
   })

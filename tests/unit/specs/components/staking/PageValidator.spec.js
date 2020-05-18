@@ -23,14 +23,14 @@ const validator = {
   statusDetailed: "active",
   delegations: null,
   selfStake: {
-    amount: 123
+    amount: 123,
   },
   expectedReturns: "123",
   picture: "picture.jpg",
   name: "",
   userShares: {
-    amount: 123
-  }
+    amount: 123,
+  },
 }
 
 describe(`PageValidator`, () => {
@@ -43,29 +43,29 @@ describe(`PageValidator`, () => {
       state: {
         session: {
           signedIn: true,
-          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         },
         connection: {
-          network: "networkId"
-        }
-      }
+          network: "networkId",
+        },
+      },
     }
     $apollo = {
       queries: {
         validator: {
           loading: false,
           error: false,
-          refetch: () => {}
+          refetch: () => {},
         },
         rewards: {
           loading: false,
           error: false,
-          refetch: () => {}
+          refetch: () => {},
         },
         delegation: {
-          refetch: () => {}
-        }
-      }
+          refetch: () => {},
+        },
+      },
     }
     wrapper = shallowMount(PageValidator, {
       localVue,
@@ -73,10 +73,10 @@ describe(`PageValidator`, () => {
         $store,
         $apollo,
         $route: {
-          params: { validator: validator.operator_address }
-        }
+          params: { validator: validator.operator_address },
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     wrapper.setProps({ validator })
   })
@@ -103,14 +103,14 @@ describe(`PageValidator`, () => {
   })
   it(`should show Staking tokens tutorial`, () => {
     wrapper.setData({
-      showTutorial: false
+      showTutorial: false,
     })
     wrapper.vm.openTutorial()
     expect(wrapper.vm.showTutorial).toBe(true)
   })
   it(`should hide Staking tokens tutorial`, () => {
     wrapper.setData({
-      showTutorial: true
+      showTutorial: true,
     })
     wrapper.vm.hideTutorial()
     expect(wrapper.vm.showTutorial).toBe(false)
@@ -118,8 +118,8 @@ describe(`PageValidator`, () => {
   it(`should trigger intercom opening`, () => {
     const self = {
       $store: {
-        dispatch: jest.fn()
-      }
+        dispatch: jest.fn(),
+      },
     }
     PageValidator.methods.handleIntercom.call(self)
     expect(self.$store.dispatch).toHaveBeenCalledWith("displayMessenger")
@@ -128,20 +128,20 @@ describe(`PageValidator`, () => {
     const rewards = [
       {
         amount: 1,
-        denom: `TOKEN1`
+        denom: `TOKEN1`,
       },
       {
         amount: 2,
-        denom: `TOKEN2`
+        denom: `TOKEN2`,
       },
       {
         amount: 3,
-        denom: `TOKEN3`
-      }
+        denom: `TOKEN3`,
+      },
     ]
     const self = {
       stakingDenom: `TOKEN1`,
-      rewards: rewards
+      rewards: rewards,
     }
     const stakingDenomReward = PageValidator.methods.filterStakingDenomReward.call(
       self

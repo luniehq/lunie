@@ -5,7 +5,7 @@ import TmSessionImport from "common/TmSessionImport"
 import {
   isPolkadotHexSeed,
   polkadotRawSeedValidate,
-  polkadotValidation
+  polkadotValidation,
 } from "common/TmSessionImport"
 jest.mock(`scripts/google-analytics.js`, () => () => {})
 const localVue = createLocalVue()
@@ -22,8 +22,8 @@ describe(`TmSessionImport`, () => {
       connected: () => true,
       currentNetwork: {
         id: "kusama",
-        network_type: "polkadot"
-      }
+        network_type: "polkadot",
+      },
     }
     $store = {
       state: {
@@ -32,25 +32,25 @@ describe(`TmSessionImport`, () => {
           seed: ``,
           password: ``,
           passwordConfirm: ``,
-          warning: false
-        }
+          warning: false,
+        },
       },
       getters,
       commit: jest.fn(),
       dispatch: jest.fn(async () => true),
       mutations: {
-        updateField: jest.fn()
-      }
+        updateField: jest.fn(),
+      },
     }
     wrapper = shallowMount(TmSessionImport, {
       localVue,
       mocks: {
         $store,
         $router: {
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
@@ -69,21 +69,21 @@ describe(`TmSessionImport`, () => {
       mocks: {
         $store: {
           state: {
-            recover: { seed: `` }
+            recover: { seed: `` },
           },
           getters: {
             network: "cosmos-hub-mainnet",
             currentNetwork: {
               id: "cosmos-hub-mainnet",
-              network_type: "cosmos"
-            }
-          }
+              network_type: "cosmos",
+            },
+          },
         },
         $router: {
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf`
     await wrapper.vm.onSubmit()
@@ -96,21 +96,21 @@ describe(`TmSessionImport`, () => {
       mocks: {
         $store: {
           state: {
-            recover: { seed: `` }
+            recover: { seed: `` },
           },
           getters: {
             network: "cosmos-hub-mainnet",
             currentNetwork: {
               id: "cosmos-hub-mainnet",
-              network_type: "cosmos"
-            }
-          }
+              network_type: "cosmos",
+            },
+          },
         },
         $router: {
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     await wrapper.vm.onSubmit()
@@ -124,7 +124,7 @@ describe(`TmSessionImport`, () => {
     wrapper.setData({ seed: `asdf asdf asdf asdf` })
     expect($store.commit).toHaveBeenCalledWith(`updateField`, {
       field: `seed`,
-      value: `asdf asdf asdf asdf`
+      value: `asdf asdf asdf asdf`,
     })
   })
 
@@ -134,21 +134,21 @@ describe(`TmSessionImport`, () => {
       mocks: {
         $store: {
           state: {
-            recover: { seed: `` }
+            recover: { seed: `` },
           },
           getters: {
             network: "cosmos-hub-mainnet",
             currentNetwork: {
               id: "cosmos-hub-mainnet",
-              network_type: "cosmos"
-            }
-          }
+              network_type: "cosmos",
+            },
+          },
         },
         $router: {
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     wrapper.vm.$store.state.recover.seed = `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`
     wrapper.vm.onSubmit()

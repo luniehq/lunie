@@ -16,14 +16,14 @@ describe(`TmSessionSignUpPassword`, () => {
         session: { insecureMode: true },
         signup: {
           signUpPassword: ``,
-          signUpPasswordConfirm: ``
-        }
+          signUpPasswordConfirm: ``,
+        },
       },
       commit: jest.fn(),
       dispatch: jest.fn(),
       mutations: {
-        updateField: jest.fn()
-      }
+        updateField: jest.fn(),
+      },
     }
 
     wrapper = shallowMount(TmSessionSignUpPassword, {
@@ -31,11 +31,11 @@ describe(`TmSessionSignUpPassword`, () => {
       mocks: {
         $store,
         $router: {
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
       stubs: [`router-link`],
-      sync: false
+      sync: false,
     })
   })
 
@@ -47,7 +47,7 @@ describe(`TmSessionSignUpPassword`, () => {
     wrapper.setData({ fieldPassword: `1234567890` })
     expect($store.commit).toHaveBeenCalledWith(`updateField`, {
       field: `signUpPassword`,
-      value: `1234567890`
+      value: `1234567890`,
     })
   })
 
@@ -55,7 +55,7 @@ describe(`TmSessionSignUpPassword`, () => {
     wrapper.setData({ fieldPasswordConfirm: `1234567890` })
     expect($store.commit).toHaveBeenCalledWith(`updateField`, {
       field: `signUpPasswordConfirm`,
-      value: `1234567890`
+      value: `1234567890`,
     })
   })
 

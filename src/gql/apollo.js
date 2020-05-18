@@ -7,7 +7,7 @@ import { createPersistedQueryLink } from "apollo-link-persisted-queries"
 import { WebSocketLink } from "apollo-link-ws"
 import {
   InMemoryCache,
-  IntrospectionFragmentMatcher
+  IntrospectionFragmentMatcher,
 } from "apollo-cache-inmemory"
 import { persistCache } from "apollo-cache-persist"
 import { split } from "apollo-link"
@@ -30,7 +30,7 @@ const makeHttpLink = () => {
   // if the server recognises the hash, it will reply with the full response.
   return createPersistedQueryLink().concat(
     new BatchHttpLink({
-      uri
+      uri,
     }),
     new RetryLink()
   )
@@ -50,23 +50,23 @@ const createApolloClient = async () => {
     operation.setContext({
       headers: {
         fingerprint,
-        development: config.development
-      }
+        development: config.development,
+      },
     })
     return forward(operation)
   })
   const link = ApolloLink.from([
     // suspending errors, preventing to fire them
     new ApolloLink((operation, forward) => {
-      return new LinkObservable(observer => {
+      return new LinkObservable((observer) => {
         let sub
         sub = forward(operation).subscribe({
-          next: result => {
+          next: (result) => {
             // check if we have errors
             if (!result.errors) {
               observer.next(result)
             } else {
-              result.errors.map(err => {
+              result.errors.map((err) => {
                 // if sentry is enabled pass all error directly to sentry
                 if (config.sentryDSN) {
                   // pass errors to sentry
@@ -77,7 +77,7 @@ const createApolloClient = async () => {
               })
             }
           },
-          error: err => {
+          error: (err) => {
             // pass errors to sentry
             if (config.sentryDSN) {
               Sentry.captureException(err)
@@ -85,7 +85,7 @@ const createApolloClient = async () => {
               throw err
             }
           },
-          complete: observer.complete.bind(observer)
+          complete: observer.complete.bind(observer),
         })
         return () => {
           if (sub) sub.unsubscribe()
@@ -102,11 +102,11 @@ const createApolloClient = async () => {
       },
       makeWebSocketLink(),
       makeHttpLink()
-    )
+    ),
   ])
 
   const fragmentMatcher = new IntrospectionFragmentMatcher({
-    introspectionQueryResultData
+    introspectionQueryResultData,
   })
 
   const cache = new InMemoryCache({ fragmentMatcher })
@@ -114,14 +114,14 @@ const createApolloClient = async () => {
   // await before instantiating ApolloClient, else queries might run before the cache is persisted
   await persistCache({
     cache,
-    storage: window.localStorage
+    storage: window.localStorage,
   })
 
   return new ApolloClient({
     link: concat(middleware, link),
     cache,
     connectToDevTools: true,
-    shouldBatch: true
+    shouldBatch: true,
   })
 }
 
@@ -131,8 +131,8 @@ export const createApolloProvider = async () => {
     defaultOptions: {
       // apollo options applied to all queries in components
       $query: {
-        fetchPolicy: "cache-and-network"
-      }
-    }
+        fetchPolicy: "cache-and-network",
+      },
+    },
   })
 }

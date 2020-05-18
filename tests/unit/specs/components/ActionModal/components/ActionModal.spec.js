@@ -12,13 +12,13 @@ localVue.directive("focus", () => {})
 
 let mockSend = jest.fn(() => ({
   included: () => Promise.resolve({ height: 42 }),
-  hash: "HASH1234HASH"
+  hash: "HASH1234HASH",
 }))
 let mockGetSignQueue = jest.fn(() => Promise.resolve({ queue: 1 }))
 
 jest.mock("src/../config.js", () => ({
   default_gas_price: 2.5e-8,
-  graphqlHost: "http://localhost:4000"
+  graphqlHost: "http://localhost:4000",
 }))
 
 jest.mock(`src/signing/transaction-manager.js`, () => {
@@ -26,14 +26,14 @@ jest.mock(`src/signing/transaction-manager.js`, () => {
     return {
       createSignBroadcast: mockSend,
       getCosmosTransactionData: () => {},
-      getSignQueue: mockGetSignQueue
+      getSignQueue: mockGetSignQueue,
     }
   })
 })
 
 // TODO move into global mock to not duplicate everywhere
 jest.mock("@sentry/browser", () => ({
-  withScope: () => {}
+  withScope: () => {},
 }))
 
 describe(`ActionModal`, () => {
@@ -42,20 +42,20 @@ describe(`ActionModal`, () => {
   const overview = {
     totalRewards: 100000,
     liquidStake: 1230.0,
-    totalStake: 1430000000
+    totalStake: 1430000000,
   }
 
   const balances = [
     {
       denom: "STAKE",
       amount: 1,
-      gasPrice: 0.001
+      gasPrice: 0.001,
     },
     {
       denom: "token2",
       amount: 2,
-      gasPrice: 0.002
-    }
+      gasPrice: 0.002,
+    },
   ]
 
   const network = {
@@ -63,7 +63,7 @@ describe(`ActionModal`, () => {
     stakingDenom: "STAKE",
     chain_id: "gaia-13006",
     api_url: "https://gaia-13006.lunie.io",
-    action_send: true // to enable the feature send, needs to match the title of the ActionModal
+    action_send: true, // to enable the feature send, needs to match the title of the ActionModal
   }
 
   const delegations = [
@@ -71,41 +71,41 @@ describe(`ActionModal`, () => {
       delegatorAddress: "cosmos1user",
       amount: "0.000000",
       validator: {
-        operatorAddress: "cosmosvalop1"
-      }
+        operatorAddress: "cosmosvalop1",
+      },
     },
     {
       delegatorAddress: "cosmos1user",
       amount: "1.000000",
       validator: {
-        operatorAddress: "cosmosvalop2"
-      }
+        operatorAddress: "cosmosvalop2",
+      },
     },
     {
       delegatorAddress: "cosmos1user",
       amount: "2.000000",
       validator: {
-        operatorAddress: "cosmosvalop3"
-      }
+        operatorAddress: "cosmosvalop3",
+      },
     },
     {
       delegatorAddress: "cosmos1user",
       amount: "3.000000",
       validator: {
-        operatorAddress: "cosmosvalop4"
-      }
-    }
+        operatorAddress: "cosmosvalop4",
+      },
+    },
   ]
 
   $apollo = {
     queries: {
       overview: {
-        refetch: jest.fn()
+        refetch: jest.fn(),
       },
       balances: {
-        refetch: jest.fn()
-      }
-    }
+        refetch: jest.fn(),
+      },
+    },
   }
 
   beforeEach(() => {
@@ -114,17 +114,17 @@ describe(`ActionModal`, () => {
       dispatch: jest.fn(),
       state: {
         extension: {
-          enabled: true
+          enabled: true,
         },
         session: {
           signedIn: true,
           sessionType: `local`,
           browserWithLedgerSupport: null,
-          currrentModalOpen: false
+          currrentModalOpen: false,
         },
         overview,
         balances,
-        delegations
+        delegations,
       },
       getters: {
         connected: true,
@@ -134,10 +134,10 @@ describe(`ActionModal`, () => {
         networks: [
           {
             id: "cosmos-hub-testnet",
-            action_send: true
-          }
-        ]
-      }
+            action_send: true,
+          },
+        ],
+      },
     }
 
     wrapper = shallowMount(ActionModal, {
@@ -150,8 +150,8 @@ describe(`ActionModal`, () => {
         transactionData: {
           type: "MsgSend",
           denom: "uatom",
-          validatorAddress: "cosmos12345"
-        }
+          validatorAddress: "cosmos12345",
+        },
       },
       mocks: {
         $store,
@@ -160,17 +160,17 @@ describe(`ActionModal`, () => {
           history: {
             current: {
               params: {
-                networkId: "lunie-net"
-              }
-            }
-          }
+                networkId: "lunie-net",
+              },
+            },
+          },
         },
-        $apollo
+        $apollo,
       },
-      stubs: ["router-link"]
+      stubs: ["router-link"],
     })
     wrapper.vm.transactionManager.getSignQueue = jest.fn(
-      () => new Promise(resolve => resolve(0))
+      () => new Promise((resolve) => resolve(0))
     )
     wrapper.setData({ network, balances })
     wrapper.vm.open()
@@ -187,12 +187,12 @@ describe(`ActionModal`, () => {
       gasPrice: "3e-8",
       networkId: "terra-mainnet",
       network: {
-        network_type: "cosmos"
+        network_type: "cosmos",
       },
       maxDecimals: ActionModal.methods.maxDecimals,
       updateTerraGasEstimate: jest.fn(),
       updateEmoneyGasEstimate: () => {},
-      chainAppliedFees: 0.00675
+      chainAppliedFees: 0.00675,
     }
     const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(self)
     expect(estimatedFee).toBe(0.00675)
@@ -204,10 +204,10 @@ describe(`ActionModal`, () => {
       gasEstimate: 300000,
       networkId: `terra-mainnet`,
       network: {
-        network_type: "cosmos"
+        network_type: "cosmos",
       },
       maxDecimals: ActionModal.methods.maxDecimals,
-      updateTerraGasEstimate: ActionModal.methods.updateTerraGasEstimate
+      updateTerraGasEstimate: ActionModal.methods.updateTerraGasEstimate,
     }
     const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(self)
     expect(estimatedFee).toBe(0.0045)
@@ -219,13 +219,13 @@ describe(`ActionModal`, () => {
       gasEstimate: 550000,
       networkId: `emoney-mainnet`,
       transactionData: {
-        type: `MsgWithdrawDelegationReward`
+        type: `MsgWithdrawDelegationReward`,
       },
       network: {
-        network_type: "cosmos"
+        network_type: "cosmos",
       },
       maxDecimals: ActionModal.methods.maxDecimals,
-      updateEmoneyGasEstimate: ActionModal.methods.updateEmoneyGasEstimate
+      updateEmoneyGasEstimate: ActionModal.methods.updateEmoneyGasEstimate,
     }
     await ActionModal.asyncComputed.estimatedFee.call(self)
     expect(self.gasEstimate).toBe(550000)
@@ -235,24 +235,24 @@ describe(`ActionModal`, () => {
     const self = {
       networkId: "polkadot-testnet",
       network: {
-        network_type: "polkadot"
+        network_type: "polkadot",
       },
       step: "fees",
       transactionData: {
         type: "SendTx",
         amount: {
           denom: "KSM",
-          amount: 1
+          amount: 1,
         },
-        to: ["cosmos12345"]
+        to: ["cosmos12345"],
       },
       transactionManager: {
-        getPolkadotFees: jest.fn(() => 0.01)
+        getPolkadotFees: jest.fn(() => 0.01),
       },
       session: {
         address: "LUNIE1234",
-        developmentMode: false
-      }
+        developmentMode: false,
+      },
     }
     const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(self)
     expect(estimatedFee).toBe(0.01)
@@ -261,14 +261,14 @@ describe(`ActionModal`, () => {
       message: {
         amount: {
           denom: "KSM",
-          amount: 1
+          amount: 1,
         },
-        to: ["cosmos12345"]
+        to: ["cosmos12345"],
       },
       senderAddress: "LUNIE1234",
       network: {
-        network_type: "polkadot"
-      }
+        network_type: "polkadot",
+      },
     })
   })
 
@@ -283,25 +283,25 @@ describe(`ActionModal`, () => {
       transactionData: {
         type: "TYPE",
         denom: "uatom",
-        validatorAddress: "cosmos12345"
+        validatorAddress: "cosmos12345",
       },
       network: {
         id: "cosmos-hub-testnet",
-        stakingDenom: "ATOM"
+        stakingDenom: "ATOM",
       },
       networkId: "cosmos-hub-testnet",
       session: {
-        address: "cosmos1234"
+        address: "cosmos1234",
       },
       transactionManager: {
         createSignBroadcast: failingSendMock,
-        getCosmosTransactionData: () => ({})
+        getCosmosTransactionData: () => ({}),
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
       sendEvent: jest.fn(),
       connectLedger: () => {},
-      onSendingFailed: jest.fn()
+      onSendingFailed: jest.fn(),
     }
     await ActionModal.methods.submit.call(self)
     expect(self.onSendingFailed).toHaveBeenCalledWith(
@@ -325,16 +325,16 @@ describe(`ActionModal`, () => {
       $apollo,
       transactionManager: {
         createSignBroadcast: failingSendMock,
-        getCosmosTransactionData: () => ({})
+        getCosmosTransactionData: () => ({}),
       },
       transactionData: {},
       network: {
-        stakingDenom: "ATOM"
+        stakingDenom: "ATOM",
       },
       submissionErrorPrefix: `PREFIX`,
       trackEvent: jest.fn(),
       connectLedger: () => {},
-      onSendingFailed: jest.fn()
+      onSendingFailed: jest.fn(),
     }
     await ActionModal.methods.submit.call(self)
     expect(self.onSendingFailed).toHaveBeenCalledWith(
@@ -366,26 +366,26 @@ describe(`ActionModal`, () => {
         transactionData: {
           type: "MsgSend",
           denom: "uatom",
-          validatorAddress: "cosmos12345"
-        }
+          validatorAddress: "cosmos12345",
+        },
       },
       mocks: {
         $store,
         $router: {
-          push: jest.fn()
+          push: jest.fn(),
         },
         $apollo: {
           queries: {
             overview: {
-              loading: true
+              loading: true,
             },
             balances: {
-              loading: true
-            }
-          }
-        }
+              loading: true,
+            },
+          },
+        },
       },
-      stubs: ["router-link"]
+      stubs: ["router-link"],
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -395,7 +395,7 @@ describe(`ActionModal`, () => {
     const closeModal = jest.fn()
     wrapper.vm.transactionManager.cancel = jest.fn()
     wrapper.vm.session.currrentModalOpen = {
-      close: closeModal
+      close: closeModal,
     }
     wrapper.vm.confirmModalOpen()
     expect(closeModal).toHaveBeenCalled()
@@ -415,7 +415,7 @@ describe(`ActionModal`, () => {
       $store,
       close: jest.fn(),
       $router: { push: jest.fn() },
-      $route: { name: `route` }
+      $route: { name: `route` },
     }
     ActionModal.methods.goToSession.call(self)
     expect(self.close).toHaveBeenCalled()
@@ -442,14 +442,14 @@ describe(`ActionModal`, () => {
       const steps = [
         ["on fees step", "fees", false],
         ["on sign step", "sign", false],
-        ["sending", "sign", true]
+        ["sending", "sign", true],
       ]
 
       beforeEach(() => {
         wrapper.vm.gasEstimateLoaded = true
       })
 
-      describe.each(signMethods)(`with %s`, signMethod => {
+      describe.each(signMethods)(`with %s`, (signMethod) => {
         it.each(steps)(`%s`, async (name, step, sending) => {
           wrapper.vm.session.sessionType = signMethod
           wrapper.vm.step = step
@@ -508,7 +508,7 @@ describe(`ActionModal`, () => {
 
     it(`should set the step to transaction details`, () => {
       wrapper.vm.transactionManager = {
-        cancel: jest.fn()
+        cancel: jest.fn(),
       }
       wrapper.vm.step = `sign`
       wrapper.vm.close()
@@ -530,7 +530,7 @@ describe(`ActionModal`, () => {
 
     it(`when validation function is present`, () => {
       const self = {
-        validate: jest.fn(() => true)
+        validate: jest.fn(() => true),
       }
       const isValid = ActionModal.computed.isValidChildForm.call(self)
       expect(isValid).toBe(true)
@@ -556,12 +556,12 @@ describe(`ActionModal`, () => {
           balances: [
             {
               denom: "STAKE",
-              amount: 1211
-            }
-          ]
+              amount: 1211,
+            },
+          ],
         })
         wrapper.setProps({
-          selectedDenom: "STAKE"
+          selectedDenom: "STAKE",
         })
         expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(true)
       })
@@ -599,12 +599,12 @@ describe(`ActionModal`, () => {
         balances: [
           {
             denom: "STAKE",
-            amount: 1211
-          }
-        ]
+            amount: 1211,
+          },
+        ],
       })
       wrapper.setProps({
-        selectedDenom: "STAKE"
+        selectedDenom: "STAKE",
       })
     })
 
@@ -629,7 +629,7 @@ describe(`ActionModal`, () => {
       selectedBalance: balances[0],
       subTotal: 0.999,
       gasEstimate: 100000,
-      chainAppliedFees: 0
+      chainAppliedFees: 0,
     }
     ActionModal.methods.adjustFeesToMaxPayable.call(self)
     expect(self.gasPrice).toBe(1.0000000000000008e-8) // a bit lower then gasEstimate. feels right
@@ -641,7 +641,7 @@ describe(`ActionModal`, () => {
       selectedBalance: balances[1],
       subTotal: 0.999,
       gasEstimate: 100000,
-      chainAppliedFees: 0.001
+      chainAppliedFees: 0.001,
     }
     ActionModal.methods.adjustFeesToMaxPayable.call(self)
     expect(self.gasPrice).toBe(0.00001)
@@ -655,15 +655,15 @@ describe(`ActionModal`, () => {
         amounts: [
           {
             amount: "10",
-            denom: "atoms"
-          }
+            denom: "atoms",
+          },
         ],
-        memo: "A memo"
+        memo: "A memo",
       }
       const data = {
         step: `sign`,
         gasEstimate: 12345,
-        submissionError: null
+        submissionError: null,
       }
 
       wrapper.setProps({ transactionProperties })
@@ -681,16 +681,16 @@ describe(`ActionModal`, () => {
         amounts: [
           {
             amount: "10",
-            denom: "atoms"
-          }
+            denom: "atoms",
+          },
         ],
-        memo: "A memo"
+        memo: "A memo",
       }
       const data = {
         step: `sign`,
         gasEstimate: 12345,
         submissionError: null,
-        balances
+        balances,
       }
 
       wrapper.setProps({ transactionProperties })
@@ -709,7 +709,7 @@ describe(`ActionModal`, () => {
       const data = {
         step: `fees`,
         gasEstimate: null,
-        submissionError: null
+        submissionError: null,
       }
 
       const transactionProperties = {
@@ -718,10 +718,10 @@ describe(`ActionModal`, () => {
         amounts: [
           {
             amount: "100000",
-            denom: "uatoms"
-          }
+            denom: "uatoms",
+          },
         ],
-        memo: "A memo"
+        memo: "A memo",
       }
 
       wrapper.setProps({ transactionProperties })
@@ -743,16 +743,16 @@ describe(`ActionModal`, () => {
         $store,
         $apollo,
         transactionManager: {
-          sendTxAPI: ActionManagerSend
+          sendTxAPI: ActionManagerSend,
         },
         transactionData: {},
         network: {
-          stakingDenom: "ATOM"
+          stakingDenom: "ATOM",
         },
         submissionErrorPrefix: `PREFIX`,
         trackEvent: jest.fn(),
         connectLedger: () => {},
-        onSendingFailed: jest.fn()
+        onSendingFailed: jest.fn(),
       }
       await ActionModal.methods.submit.call(self)
       expect(self.onSendingFailed).toHaveBeenCalledWith(
@@ -779,7 +779,7 @@ describe(`ActionModal`, () => {
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
         step: `details`,
-        validateChangeStep: jest.fn(() => {})
+        validateChangeStep: jest.fn(() => {}),
       }
     })
 
@@ -867,16 +867,16 @@ describe(`ActionModal`, () => {
       self = {
         ...getterValues,
         submit: jest.fn(
-          () => new Promise(resolve => setTimeout(resolve, 1000))
+          () => new Promise((resolve) => setTimeout(resolve, 1000))
         ),
         isValidChildForm: true,
         isValidInput: jest.fn(() => true),
         selectedSignMethod: `local`,
-        step: `details`
+        step: `details`,
       }
     })
 
-    it(`when signing with ledger`, done => {
+    it(`when signing with ledger`, (done) => {
       self.session.sessionType = `ledger`
       self.step = `sign`
       jest.useFakeTimers()
@@ -895,8 +895,8 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.signMethods).toEqual([
         {
           key: `Local Account (Unsafe)`,
-          value: `local`
-        }
+          value: `local`,
+        },
       ])
     })
 
@@ -906,8 +906,8 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.signMethods).toEqual([
         {
           key: `Ledger Nano`,
-          value: `ledger`
-        }
+          value: `ledger`,
+        },
       ])
     })
 
@@ -917,8 +917,8 @@ describe(`ActionModal`, () => {
       expect(wrapper.vm.signMethods).toEqual([
         {
           key: `Lunie Browser Extension`,
-          value: `extension`
-        }
+          value: `extension`,
+        },
       ])
     })
   })
@@ -927,9 +927,9 @@ describe(`ActionModal`, () => {
     wrapper.vm.$apollo = {
       query: () => ({
         data: {
-          networks: []
-        }
-      })
+          networks: [],
+        },
+      }),
     }
     await wrapper.vm.open()
     expect(wrapper.element).toMatchSnapshot()
@@ -940,15 +940,15 @@ describe(`ActionModal`, () => {
     const hash = "superhash"
     const self = {
       onTxIncluded: jest.fn(),
-      txHash: hash
+      txHash: hash,
     }
     ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
       data: {
         userTransactionAddedV2: {
           hash,
-          success: true
-        }
-      }
+          success: true,
+        },
+      },
     })
 
     expect(self.onTxIncluded).toHaveBeenCalled()
@@ -959,16 +959,16 @@ describe(`ActionModal`, () => {
     const self = {
       onTxIncluded: jest.fn(),
       onSendingFailed: jest.fn(),
-      txHash: hash
+      txHash: hash,
     }
     ActionModal.apollo.$subscribe.userTransactionAdded.result.call(self, {
       data: {
         userTransactionAddedV2: {
           hash,
           success: false,
-          log: "error"
-        }
-      }
+          log: "error",
+        },
+      },
     })
 
     expect(self.onSendingFailed).toHaveBeenCalledWith(new Error("error"))
@@ -980,16 +980,16 @@ describe(`ActionModal`, () => {
       trackEvent: jest.fn(),
       sendEvent: jest.fn(),
       network: {
-        id: "testnetwork"
+        id: "testnetwork",
       },
       session: {
-        address: "testaddress"
+        address: "testaddress",
       },
       $apollo: {
         queries: {
-          overview: { refetch: jest.fn() }
-        }
-      }
+          overview: { refetch: jest.fn() },
+        },
+      },
     }
     const spy = jest.spyOn(self, `sendEvent`)
     ActionModal.methods.onTxIncluded.call(self)

@@ -18,18 +18,18 @@ describe(`SubmitProposalTxDetails`, () => {
       proposalDescription: "Blah blah blah and blah blah blah ...",
       initialDeposit: {
         denom: "ATOM",
-        amount: "10"
-      }
-    }
+        amount: "10",
+      },
+    },
   }
 
   it(`renders a submit proposal transaction message`, () => {
     wrapper = shallowMount(SubmitProposalTxDetails, {
       propsData: {
         transaction: tx,
-        validators: {}
+        validators: {},
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     expect(wrapper.element).toMatchSnapshot()
   })

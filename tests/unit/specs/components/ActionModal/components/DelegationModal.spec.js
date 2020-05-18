@@ -7,22 +7,22 @@ import Vuelidate from "vuelidate"
 const validators = [
   {
     operatorAddress: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw",
-    status: "ACTIVE"
+    status: "ACTIVE",
   },
   {
     operatorAddress: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au",
-    status: "ACTIVE"
+    status: "ACTIVE",
   },
   {
     operatorAddress: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n",
     status: "INACTIVE",
-    statusDetailed: "temporally banned from the network"
+    statusDetailed: "temporally banned from the network",
   },
   {
     operatorAddress: "cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7m",
     status: "INACTIVE",
-    statusDetailed: "banned from the network"
-  }
+    statusDetailed: "banned from the network",
+  },
 ]
 
 describe(`DelegationModal`, () => {
@@ -33,8 +33,8 @@ describe(`DelegationModal`, () => {
 
   const state = {
     session: {
-      signedIn: true
-    }
+      signedIn: true,
+    },
   }
 
   const getters = {
@@ -42,11 +42,11 @@ describe(`DelegationModal`, () => {
     currentNetwork: {
       id: "testnet",
       coinLookup: [
-        { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
-      ]
+        { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 },
+      ],
     },
     address: "cosmos1234",
-    stakingDenom: "STAKE"
+    stakingDenom: "STAKE",
   }
 
   beforeEach(() => {
@@ -58,34 +58,34 @@ describe(`DelegationModal`, () => {
           queries: {
             balance: { refetch: () => {} },
             delegations: { refetch: () => {} },
-            validators: { refetch: () => {} }
-          }
-        }
+            validators: { refetch: () => {} },
+          },
+        },
       },
       propsData: {
-        targetValidator: validators[0]
-      }
+        targetValidator: validators[0],
+      },
     })
     wrapper.setData({
       delegations: [
         {
           validator: validators[0],
-          amount: 10
+          amount: 10,
         },
         {
           validator: validators[1],
-          amount: 124
+          amount: 124,
         },
         {
           validator: validators[2],
-          amount: 200
-        }
+          amount: 200,
+        },
       ],
       balance: {
         amount: 1000,
-        denom: "STAKE"
+        denom: "STAKE",
       },
-      validators: validators
+      validators: validators,
     })
   })
 
@@ -95,7 +95,7 @@ describe(`DelegationModal`, () => {
 
   it(`should submit when enterPressed is called`, async () => {
     const self = {
-      $refs: { actionModal: { validateChangeStep: jest.fn() } }
+      $refs: { actionModal: { validateChangeStep: jest.fn() } },
     }
     DelegationModal.methods.enterPressed.call(self)
     expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
@@ -112,7 +112,7 @@ describe(`DelegationModal`, () => {
     const self = {
       $v: { $reset: jest.fn() },
       fromSelectedIndex: 1,
-      amount: 10
+      amount: 10,
     }
     DelegationModal.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
@@ -150,11 +150,11 @@ describe(`DelegationModal`, () => {
   describe("Submission Data for Delegating", () => {
     beforeEach(() => {
       wrapper.setProps({
-        targetValidator: validators[1]
+        targetValidator: validators[1],
       })
       wrapper.setData({
         amount: 10,
-        fromSelectedIndex: 0
+        fromSelectedIndex: 0,
       })
     })
 
@@ -163,15 +163,15 @@ describe(`DelegationModal`, () => {
         type: "StakeTx",
         amount: {
           amount: 10,
-          denom: "STAKE"
+          denom: "STAKE",
         },
-        to: ["cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"]
+        to: ["cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"],
       })
     })
 
     it("should return empty transaction data if amount is NaN", () => {
       wrapper.setData({
-        amount: `NaN`
+        amount: `NaN`,
       })
       expect(wrapper.vm.transactionData).toEqual({})
     })
@@ -179,13 +179,13 @@ describe(`DelegationModal`, () => {
     it("should return correct notification message for delegating", () => {
       expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successfully staked!`,
-        body: `You have successfully staked your STAKEs`
+        body: `You have successfully staked your STAKEs`,
       })
     })
 
     it(`should send an event on success`, () => {
       const self = {
-        $emit: jest.fn()
+        $emit: jest.fn(),
       }
       DelegationModal.methods.onSuccess.call(self)
       expect(self.$emit).toHaveBeenCalledWith(
@@ -198,11 +198,11 @@ describe(`DelegationModal`, () => {
   describe("Submission Data for Redelegating", () => {
     beforeEach(() => {
       wrapper.setProps({
-        targetValidator: validators[2]
+        targetValidator: validators[2],
       })
       wrapper.setData({
         amount: 10,
-        fromSelectedIndex: 2
+        fromSelectedIndex: 2,
       })
     })
 
@@ -215,23 +215,23 @@ describe(`DelegationModal`, () => {
         type: "RestakeTx",
         amount: {
           amount: 10,
-          denom: "STAKE"
+          denom: "STAKE",
         },
         from: ["cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"],
-        to: ["cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"]
+        to: ["cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctgurrg7n"],
       })
     })
 
     it("should return correct notification message for delegating", () => {
       expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successfully restaked!`,
-        body: `You have successfully restaked your STAKEs`
+        body: `You have successfully restaked your STAKEs`,
       })
     })
 
     it(`should send an event on success`, () => {
       const self = {
-        $emit: jest.fn()
+        $emit: jest.fn(),
       }
       DelegationModal.methods.onSuccess.call(self)
       expect(self.$emit).toHaveBeenCalledWith(
@@ -245,7 +245,7 @@ describe(`DelegationModal`, () => {
     it(`amount has to be 1000 atom`, async () => {
       wrapper.setData({
         amount: 1,
-        fromSelectedIndex: `0`
+        fromSelectedIndex: `0`,
       })
       wrapper.vm.setMaxAmount()
       expect(wrapper.vm.amount).toBe(1000)
@@ -253,7 +253,7 @@ describe(`DelegationModal`, () => {
     it(`should show warning message`, async () => {
       wrapper.setData({
         amount: 1000,
-        fromSelectedIndex: `0`
+        fromSelectedIndex: `0`,
       })
       //await wrapper.vm.$nextTick()
       expect(wrapper.html()).toContain(
@@ -265,11 +265,11 @@ describe(`DelegationModal`, () => {
   describe(`if validator is jailed`, () => {
     it(`must show warn message about it`, async () => {
       wrapper.setProps({
-        targetValidator: validators[2] // Jailed validator
+        targetValidator: validators[2], // Jailed validator
       })
       wrapper.setData({
         amount: 1,
-        fromSelectedIndex: `0`
+        fromSelectedIndex: `0`,
       })
       expect(wrapper.html()).toContain(
         "You are about to stake to an inactive validator (temporally banned from the network)"
@@ -280,11 +280,11 @@ describe(`DelegationModal`, () => {
   describe(`if validator is tombstoned`, () => {
     it(`must show warn message about it`, async () => {
       wrapper.setProps({
-        targetValidator: validators[3] // Tombstoned validator
+        targetValidator: validators[3], // Tombstoned validator
       })
       wrapper.setData({
         amount: 1,
-        fromSelectedIndex: `0`
+        fromSelectedIndex: `0`,
       })
       expect(wrapper.html()).toContain(
         "You are about to stake to an inactive validator (banned from the network)"
@@ -297,7 +297,7 @@ describe(`DelegationModal`, () => {
       wrapper.setData({
         amount: 1,
         fromSelectedIndex: `0`,
-        targetValidator: validators[0] // Active validator
+        targetValidator: validators[0], // Active validator
       })
       expect(wrapper.html()).not.toContain(
         "You are about to stake to an inactive validator"

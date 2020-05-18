@@ -16,7 +16,7 @@ const validators = [
   { name: "cosmos1l", operatorAddress: "cosmos1l" },
   { name: "cosmos1m", operatorAddress: "cosmos1m" },
   { name: "cosmos1n", operatorAddress: "cosmos1n" },
-  { name: "cosmos1o", operatorAddress: "cosmos1o" }
+  { name: "cosmos1o", operatorAddress: "cosmos1o" },
 ]
 
 describe(`TableValidators`, () => {
@@ -27,29 +27,29 @@ describe(`TableValidators`, () => {
       rewards: {
         loading: false,
         error: false,
-        startPolling: jest.fn()
-      }
-    }
+        startPolling: jest.fn(),
+      },
+    },
   }
 
   beforeEach(() => {
     $store = {
       getters: {
         address: "cosmo1",
-        stakingDenom: "ATOM"
+        stakingDenom: "ATOM",
       },
-      state: {}
+      state: {},
     }
 
     wrapper = shallowMount(TableValidators, {
       propsData: { validators },
       directives: {
-        infiniteScroll: () => {}
+        infiniteScroll: () => {},
       },
       mocks: {
         $apollo,
-        $store
-      }
+        $store,
+      },
     })
   })
 
@@ -62,15 +62,15 @@ describe(`TableValidators`, () => {
     wrapper.vm.sort.order = `desc`
 
     expect(
-      wrapper.vm.sortedEnrichedValidators.map(x => x.operatorAddress)
-    ).toEqual(validators.map(x => x.operatorAddress).reverse())
+      wrapper.vm.sortedEnrichedValidators.map((x) => x.operatorAddress)
+    ).toEqual(validators.map((x) => x.operatorAddress).reverse())
 
     wrapper.vm.sort.property = `operatorAddress`
     wrapper.vm.sort.order = `asc`
 
     expect(
-      wrapper.vm.sortedEnrichedValidators.map(x => x.operatorAddress)
-    ).toEqual(validators.map(x => x.operatorAddress))
+      wrapper.vm.sortedEnrichedValidators.map((x) => x.operatorAddress)
+    ).toEqual(validators.map((x) => x.operatorAddress))
   })
 
   it(`should load more validators (infinite scrolling)`, async () => {

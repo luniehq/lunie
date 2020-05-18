@@ -12,8 +12,8 @@ describe(`TableInvoice`, () => {
       propsData: {
         amount: 17.2,
         estimatedFee: 0.030864,
-        bondDenom: `STAKE`
-      }
+        bondDenom: `STAKE`,
+      },
     })
   })
 

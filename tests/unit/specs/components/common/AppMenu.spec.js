@@ -12,42 +12,42 @@ describe(`AppMenu`, () => {
       commit: jest.fn(),
       state: {
         session: {
-          signedIn: true
+          signedIn: true,
         },
         connection: {
-          networkSlug: "lunie-net"
-        }
+          networkSlug: "lunie-net",
+        },
       },
       getters: {
-        address: `cosmos1`
-      }
+        address: `cosmos1`,
+      },
     }
 
     shallowMount(AppMenu, {
       localVue,
       mocks: {
-        $store
+        $store,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
   it(`goes to portfolio page to see sign in options`, () => {
     const $store = {
       commit: jest.fn(),
-      $emit: jest.fn()
+      $emit: jest.fn(),
     }
     const self = {
       networkSlug: `lunie-net`,
       $store,
       $router: { push: jest.fn() },
       $emit: jest.fn(),
-      $route: { name: `not-portfolio` }
+      $route: { name: `not-portfolio` },
     }
     AppMenu.methods.signIn.call(self)
     expect(self.$router.push).toHaveBeenCalledWith({
       name: `portfolio`,
-      params: { networkId: `lunie-net` }
+      params: { networkId: `lunie-net` },
     })
   })
 
@@ -57,7 +57,7 @@ describe(`AppMenu`, () => {
       network: `la-red-feliz`,
       $store,
       $router: { push: jest.fn() },
-      $emit: jest.fn()
+      $emit: jest.fn(),
     }
     AppMenu.methods.signOut.call(self)
     expect($store.dispatch).toHaveBeenCalledWith(`signOut`, `la-red-feliz`)
@@ -73,7 +73,7 @@ describe(`AppMenu`, () => {
   it(`should close menu and reset scroll on click`, () => {
     global.window = Object.create(window)
     Object.defineProperty(window, `scrollTo`, {
-      value: jest.fn()
+      value: jest.fn(),
     })
     const $store = { dispatch: jest.fn() }
     const self = { $store, $router: { push: jest.fn() }, $emit: jest.fn() }
@@ -86,7 +86,7 @@ describe(`AppMenu`, () => {
     const self = {
       showAddressOnLedgerFn: jest.fn(() =>
         Promise.reject(new Error("Expected Error"))
-      )
+      ),
     }
     await AppMenu.methods.showAddressOnLedger.call(self)
     expect(self.showAddressOnLedgerFn).toHaveBeenCalled()
@@ -98,7 +98,7 @@ describe(`AppMenu`, () => {
     const self = {
       showAddressOnLedgerFn: jest.fn(() =>
         Promise.reject(new Error("Expected Error"))
-      )
+      ),
     }
     await AppMenu.methods.showAddressOnLedger.call(self)
 
@@ -113,7 +113,7 @@ describe(`AppMenu`, () => {
     const self = {
       showAddressOnLedgerFn: jest.fn(() =>
         Promise.reject(new Error("Expected Error"))
-      )
+      ),
     }
     await AppMenu.methods.showAddressOnLedger.call(self)
     expect(self.messageTimeout).toBeDefined()

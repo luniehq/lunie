@@ -81,30 +81,30 @@ export default {
     ActionModal,
     TmField,
     TmFormGroup,
-    TmFormMsg
+    TmFormMsg,
   },
   props: {
     proposalId: {
       type: [Number, String],
-      required: true
+      required: true,
     },
     proposalTitle: {
       type: String,
-      required: true
+      required: true,
     },
     denom: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     amount: null,
     balance: {
       amount: null,
-      denom: ``
+      denom: ``,
     },
     messageType,
-    smallestAmount: SMALLEST
+    smallestAmount: SMALLEST,
   }),
   computed: {
     ...mapGetters([`network`, `networks`]),
@@ -118,25 +118,25 @@ export default {
         proposalId: this.proposalId,
         amount: {
           amount: this.amount,
-          denom: this.denom
-        }
+          denom: this.denom,
+        },
       }
     },
     notifyMessage() {
       return {
         title: `Successful deposit!`,
-        body: `You have successfully deposited your ${this.denom}s on proposal #${this.proposalId}`
+        body: `You have successfully deposited your ${this.denom}s on proposal #${this.proposalId}`,
       }
-    }
+    },
   },
   validations() {
     return {
       amount: {
-        required: x => !!x && x !== `0`,
+        required: (x) => !!x && x !== `0`,
         decimal,
-        max: x => Number(x) <= this.balance.amount,
-        min: x => Number(x) >= SMALLEST,
-        maxDecimals: x => {
+        max: (x) => Number(x) <= this.balance.amount,
+        min: (x) => Number(x) >= SMALLEST,
+        maxDecimals: (x) => {
           if (x) {
             return x.toString().split(".").length > 1
               ? x.toString().split(".")[1].length <= 6
@@ -144,8 +144,8 @@ export default {
           } else {
             return false
           }
-        }
-      }
+        },
+      },
     }
   },
   methods: {
@@ -164,7 +164,7 @@ export default {
     },
     onSuccess(event) {
       this.$emit(`success`, event)
-    }
+    },
   },
   apollo: {
     balance: {
@@ -189,14 +189,14 @@ export default {
         return {
           networkId: this.network,
           address: this.userAddress,
-          denom: this.denom
+          denom: this.denom,
         }
       },
       /* istanbul ignore next */
       update(data) {
         return data.balance || { amount: 0 }
-      }
-    }
-  }
+      },
+    },
+  },
 }
 </script>

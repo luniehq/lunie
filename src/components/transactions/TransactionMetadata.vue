@@ -53,13 +53,13 @@ import { prettyInt } from "scripts/num"
 export default {
   name: `transaction-metadata`,
   filters: {
-    prettyInt
+    prettyInt,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     ...mapGetters({ networkId: `network` }),
@@ -70,14 +70,14 @@ export default {
     date() {
       const momentTime = moment(this.transaction.timestamp)
       return momentTime.format(`HH:mm:ss`)
-    }
+    },
   },
   methods: {
     checkFeatureAvailable() {
       const feature = `feature_explorer`
       return this.network[feature] === `ENABLED`
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

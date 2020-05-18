@@ -5,7 +5,7 @@ describe(`Steps`, () => {
   let wrapper
   beforeEach(async () => {
     wrapper = mount(Steps, {
-      propsData: { steps: ["first", "second"], activeStep: "first" }
+      propsData: { steps: ["first", "second"], activeStep: "first" },
     })
   })
 

@@ -6,15 +6,15 @@ describe(`TmHardwareState`, () => {
 
   const propsData = {
     icon: `rotate_right`,
-    loading: true
+    loading: true,
   }
 
   beforeEach(() => {
     wrapper = shallowMount(TmHardwareState, {
       propsData,
       slots: {
-        default: `Detecting your Ledger Wallet`
-      }
+        default: `Detecting your Ledger Wallet`,
+      },
     })
   })
 
@@ -23,11 +23,8 @@ describe(`TmHardwareState`, () => {
   })
 
   it(`has a label`, () => {
-    expect(
-      wrapper
-        .find(`.tm-hardware-state__label`)
-        .text()
-        .trim()
-    ).toContain(`Detecting your Ledger Wallet`)
+    expect(wrapper.find(`.tm-hardware-state__label`).text().trim()).toContain(
+      `Detecting your Ledger Wallet`
+    )
   })
 })

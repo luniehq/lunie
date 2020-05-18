@@ -14,20 +14,20 @@ describe(`TmSessionSignUpSeed`, () => {
       getters: {
         network: "lunie-net",
         networkSlug: "lunie",
-        isExtension: false
+        isExtension: false,
       },
       state: {
         session: { insecureMode: true },
         signup: {
           signUpSeed: `asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf`,
-          signUpWarning: false
-        }
+          signUpWarning: false,
+        },
       },
       commit: jest.fn(),
       dispatch: jest.fn().mockResolvedValue(""),
       mutations: {
-        updateField: jest.fn()
-      }
+        updateField: jest.fn(),
+      },
     }
 
     wrapper = shallowMount(TmSessionSignUpSeed, {
@@ -35,10 +35,10 @@ describe(`TmSessionSignUpSeed`, () => {
       mocks: {
         $store,
         $router: {
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
@@ -57,7 +57,7 @@ describe(`TmSessionSignUpSeed`, () => {
     await wrapper.vm.onSubmit()
     expect($store.commit).toHaveBeenCalledWith(`updateField`, {
       field: `signUpWarning`,
-      value: true
+      value: true,
     })
   })
 
@@ -72,11 +72,11 @@ describe(`TmSessionSignUpSeed`, () => {
       password: "1234567890",
       network: "lunie-net",
       seedPhrase:
-        "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf"
+        "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf",
     })
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
       name: "portfolio",
-      params: { networkId: "lunie" }
+      params: { networkId: "lunie" },
     })
   })
 
@@ -91,7 +91,7 @@ describe(`TmSessionSignUpSeed`, () => {
     wrapper.vm.$store.state.signup.signUpName = `HappyLunieUser`
     wrapper.vm.$store.state.signup.signUpWarning = true
     wrapper.vm.$store.dispatch = {
-      createKey: jest.fn().mockRejectedValue(new Error())
+      createKey: jest.fn().mockRejectedValue(new Error()),
     }
     await wrapper.vm.onSubmit()
     expect(wrapper.vm.error).toBe(true)

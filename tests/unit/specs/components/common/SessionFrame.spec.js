@@ -9,7 +9,7 @@ describe(`SessionFrame`, () => {
   let wrapper
 
   const getters = {
-    networkSlug: "cosmos-hub"
+    networkSlug: "cosmos-hub",
   }
 
   beforeEach(() => {
@@ -19,10 +19,10 @@ describe(`SessionFrame`, () => {
         $store: { getters },
         $router: {
           go: jest.fn(),
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
@@ -40,8 +40,8 @@ describe(`SessionFrame`, () => {
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
       name: "portfolio",
       params: {
-        networkId: `cosmos-hub`
-      }
+        networkId: `cosmos-hub`,
+      },
     })
   })
 })

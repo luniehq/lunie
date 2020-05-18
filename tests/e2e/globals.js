@@ -8,7 +8,7 @@ const {
   getLastActivityItemHash,
   checkBrowserLogs,
   getAccountBalance,
-  fundMasterAccount
+  fundMasterAccount,
 } = require("./helpers.js")
 
 let initializedAccount = false
@@ -50,7 +50,7 @@ module.exports = {
    *
    * @param results
    */
-  reporter: function(results) {
+  reporter: function (results) {
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
       (typeof results.errors === `undefined` || results.errors === 0)
@@ -59,12 +59,12 @@ module.exports = {
     } else {
       process.exit(1)
     }
-  }
+  },
 }
 
 async function next(browser) {
   browser.execute(
-    function(selector, scrollX, scrollY) {
+    function (selector, scrollX, scrollY) {
       var elem = document.querySelector(selector)
       elem.scrollLeft = scrollX
       elem.scrollTop = scrollY
@@ -107,7 +107,7 @@ async function initialiseDefaults(browser) {
   let networkData = {}
   // parsing parameters
   // network
-  process.argv.map(arg => {
+  process.argv.map((arg) => {
     // selected network
     if (arg.indexOf("--network=") !== -1)
       network = arg.slice(arg.indexOf("=") + 1)
@@ -116,7 +116,7 @@ async function initialiseDefaults(browser) {
     // api uri
     if (arg.indexOf("--api=") !== -1) apiURI = arg.slice(arg.indexOf("=") + 1)
   })
-  networkData = networks.find(net => net.network == network)
+  networkData = networks.find((net) => net.network == network)
   if (!networkData) {
     throw new Error(`Initial data for "${network}" is not set`)
   }
@@ -147,7 +147,7 @@ async function initialiseDefaults(browser) {
     .url(browser.launch_url + browser.globals.slug + "/portfolio")
     .then(() => {
       browser.execute(
-        function(apiURI, network) {
+        function (apiURI, network) {
           // setting the api to localStorage
           window.localStorage.setItem("persistentapi", apiURI)
           // clear data from older tests
@@ -167,8 +167,8 @@ async function defineNeededValidators(browser, networkData) {
     browser.launch_url + browser.globals.slug + "/validators",
     async () => {
       const validators = await browser.execute(
-        function() {
-          return new Promise(resolve => {
+        function () {
+          return new Promise((resolve) => {
             let attempts = 5
             const f = () => {
               const validatorLIs = document.getElementsByClassName(
@@ -183,7 +183,7 @@ async function defineNeededValidators(browser, networkData) {
               }
               resolve({
                 first: validatorLIs[0].getAttribute("data-name"),
-                second: validatorLIs[1].getAttribute("data-name")
+                second: validatorLIs[1].getAttribute("data-name"),
               })
             }
             f()
@@ -202,7 +202,7 @@ async function storeAccountData(browser, networkData) {
   await browser.pause(500) // needed for localStorage variable setting
   return await browser.url(browser.launch_url, async () => {
     const tempAcc = await browser.execute(
-      function(networkData) {
+      function (networkData) {
         // saving account info from localStorage
         let session = window.localStorage.getItem(
           `session_${networkData.network}`
@@ -227,7 +227,7 @@ async function storeAccountData(browser, networkData) {
         }
         return {
           address: session.address,
-          wallet: wallet.wallet
+          wallet: wallet.wallet,
         }
       },
       [networkData]
@@ -295,7 +295,7 @@ async function createAccountAndFundIt(browser, done, networkData) {
   // changing network
   await browser.url(browser.launch_url)
   await browser.execute(
-    function(networkData) {
+    function (networkData) {
       window.localStorage.setItem(`network`, `"${networkData.network}"`)
       return true
     },
@@ -336,9 +336,9 @@ async function switchToAccount(
   // test if the test account was funded as we need the account to have funds in the tests
   return axios
     .post(browser.globals.apiURI, {
-      query: `{overview(networkId: "${network}", address: "${address}") {totalStake}}`
+      query: `{overview(networkId: "${network}", address: "${address}") {totalStake}}`,
     })
-    .then(async response => {
+    .then(async (response) => {
       if (response.data.errors) {
         throw new Error(JSON.stringify(response.data.errors))
       }
@@ -347,7 +347,7 @@ async function switchToAccount(
       }
       await browser.url(browser.launch_url)
       await browser.execute(
-        function({ address, network, wallet, name }) {
+        function ({ address, network, wallet, name }) {
           // setting network
           window.localStorage.setItem(`network`, `"${network}"`)
           // skip sign in
@@ -355,7 +355,7 @@ async function switchToAccount(
             `session_${network}`,
             JSON.stringify({
               address: address,
-              sessionType: "local"
+              sessionType: "local",
             })
           )
           // setting wallet
@@ -364,7 +364,7 @@ async function switchToAccount(
             JSON.stringify({
               name: name,
               wallet: wallet,
-              address: address
+              address: address,
             })
           )
           return true
@@ -393,7 +393,7 @@ async function apiUp(browser) {
     try {
       // test if the api can return networks list
       const response = await axios.post(browser.globals.apiURI, {
-        query: `{networks {id}}`
+        query: `{networks {id}}`,
       })
       if (response.data.errors) {
         throw new Error(JSON.stringify(response.data.errors))
@@ -405,7 +405,7 @@ async function apiUp(browser) {
     } catch (err) {
       console.log("Failed to check API", err)
       console.log("Waiting 1s for API to be up")
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
     }
   }
 }

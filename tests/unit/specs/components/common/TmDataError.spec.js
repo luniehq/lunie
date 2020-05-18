@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils"
 import TmDataError from "common/TmDataError"
 
 jest.mock(`src/../config.js`, () => ({
-  mobileApp: true
+  mobileApp: true,
 }))
 
 describe(`TmDataError`, () => {
@@ -17,29 +17,18 @@ describe(`TmDataError`, () => {
 
   it(`has an icon`, () => {
     expect(
-      wrapper
-        .find(`.tm-data-msg__icon i.material-icons`)
-        .text()
-        .trim()
+      wrapper.find(`.tm-data-msg__icon i.material-icons`).text().trim()
     ).toBe(`sentiment_very_dissatisfied`)
   })
 
   it(`has a title`, () => {
-    expect(
-      wrapper
-        .find(`.tm-data-msg__title div`)
-        .text()
-        .trim()
-    ).toBe(`Aw shucks!`)
+    expect(wrapper.find(`.tm-data-msg__title div`).text().trim()).toBe(
+      `Aw shucks!`
+    )
   })
 
   it(`has a subtitle`, () => {
-    expect(
-      wrapper
-        .find(`.tm-data-msg__subtitle div`)
-        .text()
-        .trim()
-    ).toContain(
+    expect(wrapper.find(`.tm-data-msg__subtitle div`).text().trim()).toContain(
       `Even though you're connected a full node, we can't display this data`
     )
   })
@@ -47,7 +36,7 @@ describe(`TmDataError`, () => {
   it(`handleIntercom should dispatch displayMessenger action`, () => {
     const $store = { dispatch: jest.fn() }
     const self = {
-      $store
+      $store,
     }
     TmDataError.methods.handleIntercom.call(self)
     expect($store.dispatch).toHaveBeenCalledWith(`displayMessenger`)

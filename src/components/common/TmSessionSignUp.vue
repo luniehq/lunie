@@ -72,9 +72,9 @@ import InsecureModeWarning from "common/InsecureModeWarning"
 import Steps from "../../ActionModal/components/Steps"
 import { getWalletIndex } from "@lunie/cosmos-keys"
 
-const nameExists = value => {
+const nameExists = (value) => {
   const walletIndex = getWalletIndex()
-  if (walletIndex.some(e => e.name === value)) {
+  if (walletIndex.some((e) => e.name === value)) {
     return false
   } else {
     return true
@@ -92,7 +92,7 @@ export default {
     TmFormStruct,
     DangerZoneWarning,
     InsecureModeWarning,
-    Steps
+    Steps,
   },
   computed: {
     ...mapState([`session`, `signup`]),
@@ -103,24 +103,24 @@ export default {
       },
       set(value) {
         this.$store.commit(`updateField`, { field: `signUpName`, value })
-      }
+      },
     },
     isTestnet() {
       const selectedNetwork = this.networks.find(
         ({ id }) => id === this.network
       )
       return selectedNetwork ? selectedNetwork.testnet : false
-    }
+    },
   },
   methods: {
     async onSubmit() {
       this.$v.$touch()
       if (this.$v.$error) return
       this.$router.push(`/create/password`)
-    }
+    },
   },
   validations: () => ({
-    fieldName: { required, minLength: minLength(3), nameExists }
-  })
+    fieldName: { required, minLength: minLength(3), nameExists },
+  }),
 }
 </script>

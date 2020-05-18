@@ -25,22 +25,22 @@ export default {
   name: `table-undelegations`,
   components: {
     LiUndelegation,
-    PanelSort
+    PanelSort,
   },
   props: {
     undelegations: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     query: ``,
     sort: {
       property: `endTime`,
-      order: `desc`
+      order: `desc`,
     },
     showing: 15,
-    rollingWindow: 10000 // param of slashing period
+    rollingWindow: 10000, // param of slashing period
   }),
   computed: {
     properties() {
@@ -48,31 +48,31 @@ export default {
         {
           title: `Name`,
           value: `smallName`,
-          tooltip: `The validator's name`
+          tooltip: `The validator's name`,
         },
         {
           title: `End Time`,
           value: `endTime`,
-          tooltip: `Time until the undelegation is re-added to your balance`
-        }
+          tooltip: `Time until the undelegation is re-added to your balance`,
+        },
       ]
-    }
+    },
   },
   watch: {
-    "sort.property": function() {
+    "sort.property": function () {
       /* istanbul ignore next */
       this.showing = 15
     },
-    "sort.order": function() {
+    "sort.order": function () {
       /* istanbul ignore next */
       this.showing = 15
-    }
+    },
   },
   methods: {
     loadMore() {
       this.showing += 10
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

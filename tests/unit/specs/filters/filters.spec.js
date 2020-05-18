@@ -1,7 +1,7 @@
 import {
   percentOrPending,
   formatAddress,
-  resolveValidatorName
+  resolveValidatorName,
 } from "src/filters"
 
 describe(`PercentOrPending Filter`, () => {
@@ -52,8 +52,8 @@ describe(`resolveValidatorName Filter`, () => {
   beforeEach(() => {
     validators = {
       cosmosvaloper1xyz: {
-        name: "Big Val"
-      }
+        name: "Big Val",
+      },
     }
   })
 

@@ -17,7 +17,7 @@ export default {
   components: {
     TmPage,
     Undelegations,
-    DelegationsOverview
-  }
+    DelegationsOverview,
+  },
 }
 </script>

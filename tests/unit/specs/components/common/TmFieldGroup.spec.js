@@ -6,7 +6,7 @@ describe(`TmFieldGroup`, () => {
 
   beforeEach(() => {
     wrapper = mount(TmFieldGroup, {
-      slots: { default: `<input class="fake-field" placeholder="Fake" />` }
+      slots: { default: `<input class="fake-field" placeholder="Fake" />` },
     })
   })
 

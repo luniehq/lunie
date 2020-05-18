@@ -17,17 +17,17 @@ describe(`SendModal`, () => {
       {
         id: "cosmos-hub-mainnet",
         coinLookup: [
-          { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
-        ]
+          { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 },
+        ],
       },
       {
         id: "terra-mainnet",
         coinLookup: [
-          { viewDenom: "LUNA", chainToViewConversionFactor: 0.000001 }
-        ]
-      }
+          { viewDenom: "LUNA", chainToViewConversionFactor: 0.000001 },
+        ],
+      },
     ],
-    stakingDenom: "STAKE"
+    stakingDenom: "STAKE",
   }
 
   const state = {}
@@ -37,7 +37,7 @@ describe(`SendModal`, () => {
       commit: jest.fn(),
       dispatch: jest.fn(),
       getters,
-      state
+      state,
     }
 
     wrapper = shallowMount(SendModal, {
@@ -47,30 +47,30 @@ describe(`SendModal`, () => {
         $apollo: {
           queries: {
             balances: {
-              refetch: () => {}
-            }
-          }
-        }
+              refetch: () => {},
+            },
+          },
+        },
       },
       propsData: {
-        denoms: ["STAKE"]
+        denoms: ["STAKE"],
       },
-      sync: false
+      sync: false,
     })
 
     wrapper.setData({
       balances: [
         {
           denom: `STAKE`,
-          amount: 10000
-        }
+          amount: 10000,
+        },
       ],
-      selectedToken: "STAKE"
+      selectedToken: "STAKE",
     })
 
     wrapper.vm.$refs.actionModal = {
-      submit: cb => cb(),
-      open: jest.fn()
+      submit: (cb) => cb(),
+      open: jest.fn(),
     }
     wrapper.vm.open("STAKE")
   })
@@ -83,7 +83,7 @@ describe(`SendModal`, () => {
     const self = {
       $v: { $reset: jest.fn() },
       address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`,
-      amount: 10
+      amount: 10,
     }
     SendModal.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
@@ -94,11 +94,11 @@ describe(`SendModal`, () => {
   describe(`validation`, () => {
     it(`should show address required error`, async () => {
       wrapper.setProps({
-        denom: `STAKE`
+        denom: `STAKE`,
       })
       wrapper.setData({
         address: ``,
-        amount: 2
+        amount: 2,
       })
       wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
@@ -108,11 +108,11 @@ describe(`SendModal`, () => {
 
     it(`should show bech32 error when address is not bech32`, async () => {
       wrapper.setProps({
-        denom: `STAKE`
+        denom: `STAKE`,
       })
       wrapper.setData({
         address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767`,
-        amount: 2
+        amount: 2,
       })
       const valid = wrapper.vm.validateForm()
       expect(valid).toBe(false)
@@ -122,11 +122,11 @@ describe(`SendModal`, () => {
 
     it(`should show an error if trying to send more then the max amount of tokens`, async () => {
       wrapper.setProps({
-        denom: `STAKE`
+        denom: `STAKE`,
       })
       wrapper.setData({
         address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767`,
-        amount: 1000
+        amount: 1000,
       })
       const valid = wrapper.vm.validateForm()
       expect(valid).toBe(false)
@@ -137,7 +137,7 @@ describe(`SendModal`, () => {
 
   it(`should submit when enterPressed is called`, async () => {
     const self = {
-      $refs: { actionModal: { validateChangeStep: jest.fn() } }
+      $refs: { actionModal: { validateChangeStep: jest.fn() } },
     }
     SendModal.methods.enterPressed.call(self)
     expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
@@ -145,7 +145,7 @@ describe(`SendModal`, () => {
 
   it(`should refocus on amount when focusOnAmount is called`, async () => {
     const self = {
-      $refs: { amount: { $el: { focus: jest.fn() } } }
+      $refs: { amount: { $el: { focus: jest.fn() } } },
     }
     SendModal.methods.refocusOnAmount.call(self)
     expect(self.$refs.amount.$el.focus).toHaveBeenCalled()
@@ -162,38 +162,38 @@ describe(`SendModal`, () => {
 
   it("should return transaction data in correct form", () => {
     wrapper.setProps({
-      denom: `STAKE`
+      denom: `STAKE`,
     })
     wrapper.setData({
       address: `cosmos12345`,
-      amount: 2
+      amount: 2,
     })
     expect(wrapper.vm.transactionData).toEqual({
       type: "SendTx",
       amount: {
         amount: 2,
-        denom: "STAKE"
+        denom: "STAKE",
       },
       memo: "(Sent via Lunie)",
       to: ["cosmos12345"],
-      from: ["cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx"]
+      from: ["cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx"],
     })
   })
 
   it("should return empty transaction data if amount is NaN", () => {
     wrapper.setProps({
-      denom: `STAKE`
+      denom: `STAKE`,
     })
     wrapper.setData({
       address: `cosmos12345`,
-      amount: `NaN`
+      amount: `NaN`,
     })
     expect(wrapper.vm.transactionData).toEqual({})
   })
 
   it(`sends an event on success`, () => {
     const self = {
-      $emit: jest.fn()
+      $emit: jest.fn(),
     }
     SendModal.methods.onSuccess.call(self)
     expect(self.$emit).toHaveBeenCalledWith(
@@ -204,35 +204,35 @@ describe(`SendModal`, () => {
 
   it("should return notification message", () => {
     wrapper.setProps({
-      denom: `STAKE`
+      denom: `STAKE`,
     })
     wrapper.setData({
       address: `cosmos12345`,
-      amount: 2
+      amount: 2,
     })
     expect(wrapper.vm.notifyMessage).toEqual({
       title: `Successful Send`,
-      body: `Successfully sent 2 STAKEs to cosm…2345`
+      body: `Successfully sent 2 STAKEs to cosm…2345`,
     })
   })
 
   describe(`if amount field max button clicked`, () => {
     it(`amount has to be 10000 atom`, async () => {
       wrapper.setProps({
-        denom: `STAKE`
+        denom: `STAKE`,
       })
       wrapper.setData({
-        address: `cosmos12345`
+        address: `cosmos12345`,
       })
       wrapper.vm.setMaxAmount()
       expect(wrapper.vm.amount).toBe(10000)
     })
     it(`should show warning message`, async () => {
       wrapper.setProps({
-        denom: `STAKE`
+        denom: `STAKE`,
       })
       wrapper.setData({
-        address: `cosmos12345`
+        address: `cosmos12345`,
       })
       wrapper.vm.setMaxAmount()
       await wrapper.vm.$nextTick()
@@ -245,9 +245,9 @@ describe(`SendModal`, () => {
         balances: [
           {
             amount: 0,
-            denom: "STAKE"
-          }
-        ]
+            denom: "STAKE",
+          },
+        ],
       })
       wrapper.vm.setMaxAmount()
       await wrapper.vm.$nextTick()
@@ -260,9 +260,9 @@ describe(`SendModal`, () => {
         balances: [
           {
             amount: 0,
-            denom: "STAKE"
-          }
-        ]
+            denom: "STAKE",
+          },
+        ],
       })
       wrapper.vm.setMaxAmount()
       await wrapper.vm.$nextTick()
@@ -275,14 +275,14 @@ describe(`SendModal`, () => {
         amount: 0.000001,
         selectedBalance: {
           amount: 1,
-          denom: "STAKE"
+          denom: "STAKE",
         },
         getTerraTax: SendModal.methods.getTerraTax,
         maxDecimals: SendModal.methods.maxDecimals,
         chainAppliedFees: {
           rate: 0.007,
-          cap: 1
-        }
+          cap: 1,
+        },
       }
       const maxAmount = SendModal.computed.maxAmount.call(self)
       expect(maxAmount).toBe(0.993)
@@ -300,13 +300,13 @@ describe(`SendModal`, () => {
         balances: [
           {
             amount: 1,
-            denom: "TOKEN1"
+            denom: "TOKEN1",
           },
           {
             amount: 2,
-            denom: "TOKEN2"
-          }
-        ]
+            denom: "TOKEN2",
+          },
+        ],
       })
       expect(wrapper.vm.selectedBalance.amount).toBe(1)
     })
@@ -317,15 +317,15 @@ describe(`SendModal`, () => {
         balances: [
           {
             amount: 1,
-            denom: "STAKE"
-          }
-        ]
+            denom: "STAKE",
+          },
+        ],
       })
       SendModal.watch.balances.call(wrapper.vm, [
         {
           amount: 1,
-          denom: "STAKE"
-        }
+          denom: "STAKE",
+        },
       ])
       expect(wrapper.vm.selectedBalance.amount).toBe(1)
     })

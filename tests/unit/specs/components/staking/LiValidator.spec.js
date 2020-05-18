@@ -31,7 +31,7 @@ describe(`LiValidator`, () => {
     statusDetailed: "active",
     delegations: null,
     selfStake: {
-      amount: 123
+      amount: 123,
     },
     expectedReturns: "123",
     customized: null,
@@ -44,8 +44,8 @@ describe(`LiValidator`, () => {
     picture: "picture.jpg",
     name: "",
     userShares: {
-      amount: 123
-    }
+      amount: 123,
+    },
   }
 
   const index = 1
@@ -55,10 +55,10 @@ describe(`LiValidator`, () => {
       state: {
         pool: {
           pool: {
-            bonded_tokens: 1000
-          }
-        }
-      }
+            bonded_tokens: 1000,
+          },
+        },
+      },
     }
 
     wrapper = shallowMount(LiValidator, {
@@ -68,16 +68,16 @@ describe(`LiValidator`, () => {
         rewards: [
           {
             amount: 1,
-            denom: `token1`
-          }
+            denom: `token1`,
+          },
         ],
         index,
-        showOnMobile: "returns"
+        showOnMobile: "returns",
       },
       mocks: {
-        $store
+        $store,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
@@ -93,8 +93,8 @@ describe(`LiValidator`, () => {
     wrapper.setProps({
       validator: {
         ...validator,
-        picture: ""
-      }
+        picture: "",
+      },
     })
     expect(wrapper.find("avatar-stub").exists())
   })
@@ -103,20 +103,20 @@ describe(`LiValidator`, () => {
     const rewards = [
       {
         amount: 1,
-        denom: `TOKEN1`
+        denom: `TOKEN1`,
       },
       {
         amount: 2,
-        denom: `TOKEN2`
+        denom: `TOKEN2`,
       },
       {
         amount: 3,
-        denom: `TOKEN3`
-      }
+        denom: `TOKEN3`,
+      },
     ]
     const self = {
       stakingDenom: `TOKEN1`,
-      rewards: rewards
+      rewards: rewards,
     }
     const stakingDenomReward = LiValidator.methods.filterStakingDenomReward.call(
       self

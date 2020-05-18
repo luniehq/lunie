@@ -22,28 +22,28 @@ export default {
   props: {
     error: {
       type: Boolean,
-      default: false
+      default: false,
     },
     fieldId: {
       type: String,
-      default: null
+      default: null,
     },
     fieldLabel: {
       type: String,
-      default: null
+      default: null,
     },
     subLabel: {
       type: String,
-      default: null
-    }
+      default: null,
+    },
   },
   computed: {
     cssClass() {
       let value = `tm-form-group`
       if (this.error) value += ` tm-form-group--error`
       return value
-    }
-  }
+    },
+  },
 }
 </script>
 
