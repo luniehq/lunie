@@ -23,7 +23,7 @@ export async function StakeTx(
   const api = await getAPI()
   const transactions = []
 
-  if (amount > 0) {
+  if (amount.amount > 0) {
     const chainAmount = toChainAmount(amount, network.coinLookup)
     const payee = 0
 
@@ -49,6 +49,7 @@ export async function StakeTx(
         delegatedValidators.concat(to[0]),
         x => x
       )
+      console.log(transactions)
       transactions.push(await api.tx.staking.nominate(validatorAddresses))
     }
   }
