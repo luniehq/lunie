@@ -97,14 +97,16 @@ describe(`TmSessionExplore`, () => {
     })
   })
 
-  it(`should signal signedin state on successful login`, async () => {
+  it(`should dispatch getNetworkByAccount on submit`, async () => {
     wrapper.setData({
       address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`,
     })
     await wrapper.vm.onSubmit()
-    expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
-      address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`,
-      sessionType: `explore`,
+    expect($store.dispatch).toHaveBeenCalledWith(`getNetworkByAccount`,  {
+      account: {
+        address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`,
+      },
+      testnet: true,
     })
   })
 
@@ -122,9 +124,11 @@ describe(`TmSessionExplore`, () => {
   it(`should explore with a previously used address`, async () => {
     let address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
     await wrapper.vm.exploreWith(address)
-    expect($store.dispatch).toHaveBeenCalledWith(`signIn`, {
-      address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
-      sessionType: `explore`,
+    expect($store.dispatch).toHaveBeenCalledWith(`getNetworkByAccount`,  {
+      account: {
+        address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
+      },
+      testnet: true,
     })
   })
 
