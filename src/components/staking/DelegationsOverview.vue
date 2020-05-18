@@ -1,29 +1,5 @@
 <template>
-  <div class="table-container">
-    <template v-if="session.addressRole">
-      <TmDataMsg
-        v-if="session.addressRole === `controller`"
-        icon="sentiment_dissatisfied"
-      >
-        <div slot="title">
-          This is a controller account
-        </div>
-        <div slot="subtitle">
-          Staking actions are disabled. You can still send tokens.
-        </div>
-      </TmDataMsg>
-      <TmDataMsg
-        v-else-if="session.addressRole === `stash`"
-        icon="sentiment_dissatisfied"
-      >
-        <div slot="title">
-          This is a stash account
-        </div>
-        <div slot="subtitle">
-          Staking actions are disabled. You can still send tokens.
-        </div>
-      </TmDataMsg>
-    </template>
+  <div class="table-container">    
     <div
       v-if="$apollo.queries.delegations.loading && !delegationsLoaded"
       class="loading-image-container"
