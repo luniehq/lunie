@@ -39,7 +39,7 @@
           class="block-number"
           :to="{
             name: `block`,
-            params: { height: block.height, networkId: networkSlug }
+            params: { height: block.height, networkId: networkSlug },
           }"
           @click.native="handleClick()"
         >
@@ -61,10 +61,7 @@
         alt="a small spinning circle to display loading"
       />
       <div
-        class="
-        tm-connected-network__string
-        tm-connected-network__string--connecting
-      "
+        class="tm-connected-network__string tm-connected-network__string--connecting"
       >
         Connecting…
       </div>
@@ -89,13 +86,13 @@ export default {
   name: `tm-connected-network`,
   components: {
     TmBtn,
-    PoweredBy
+    PoweredBy,
   },
   filters: {
-    prettyInt
+    prettyInt,
   },
   data: () => ({
-    block: {}
+    block: {},
   }),
   computed: {
     ...mapState([`intercom`, `connection`]),
@@ -105,7 +102,7 @@ export default {
     },
     networkTooltip() {
       return `You're connected to ${this.block.chainId}.`
-    }
+    },
   },
   methods: {
     handleClick() {
@@ -116,7 +113,7 @@ export default {
       if (config.mobileApp) {
         this.$store.dispatch(`displayMessenger`)
       }
-    }
+    },
   },
   apollo: {
     block: {
@@ -132,20 +129,20 @@ export default {
       variables() {
         /* istanbul ignore next */
         return {
-          networkId: this.network
+          networkId: this.network,
         }
       },
       /* istanbul ignore next */
-      update: function(result) {
+      update: function (result) {
         return result.blockV2
-      }
+      },
     },
     $subscribe: {
       blockAdded: {
         variables() {
           /* istanbul ignore next */
           return {
-            networkId: this.network
+            networkId: this.network,
           }
         },
         query() {
@@ -161,10 +158,10 @@ export default {
         result({ data }) {
           /* istanbul ignore next */
           this.block = data.blockAdded
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 

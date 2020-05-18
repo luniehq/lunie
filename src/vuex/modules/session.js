@@ -28,7 +28,7 @@ export default () =>
       currrentModalOpen: false,
       modals: {
         error: { active: false },
-        help: { active: false }
+        help: { active: false },
       },
       browserWithLedgerSupport:
         navigator.userAgent.includes(`Chrome`) ||
@@ -39,8 +39,8 @@ export default () =>
         config,
         track,
         anonymize,
-        deanonymize
-      }
+        deanonymize,
+      },
     }
 
     const mutations = {
@@ -65,7 +65,7 @@ export default () =>
       addHistory(state, path) {
         state.history.push(path)
         state.externals.track(`pageview`, {
-          dl: path
+          dl: path,
         })
       },
       popHistory(state) {
@@ -79,7 +79,7 @@ export default () =>
       },
       setUserAddressRole(state, addressRole) {
         state.addressRole = addressRole
-      }
+      },
     }
 
     const actions = {
@@ -87,8 +87,8 @@ export default () =>
         dispatch,
         commit,
         rootState: {
-          connection: { network }
-        }
+          connection: { network },
+        },
       }) {
         const session = localStorage.getItem(sessionKey(network))
         if (session) {
@@ -119,14 +119,14 @@ export default () =>
       ) {
         // Check if signin address was previously used
         const sessionExist = state.addresses.find(
-          usedAddress => address === usedAddress.address
+          (usedAddress) => address === usedAddress.address
         )
         // Add signin address to addresses array if was not used previously
         if (!sessionExist) {
           state.addresses.push({
             address,
             type: sessionType,
-            networkId
+            networkId,
           })
           commit(`setUserAddresses`, state.addresses)
         }
@@ -148,17 +148,17 @@ export default () =>
         dispatch(`persistSession`, {
           address,
           sessionType,
-          networkId: currentNetwork.id
+          networkId: currentNetwork.id,
         })
         const addresses = state.addresses
         dispatch(`persistAddresses`, {
-          addresses
+          addresses,
         })
 
         if (currentNetwork.network_type === "polkadot") {
           await dispatch(`checkAddressRole`, {
             address,
-            currentNetwork
+            currentNetwork,
           })
         }
 
@@ -187,7 +187,7 @@ export default () =>
           cookiesAccepted,
           errorCollection,
           analyticsCollection,
-          preferredCurrency
+          preferredCurrency,
         } = JSON.parse(localPreferences)
 
         if (cookiesAccepted) {
@@ -208,7 +208,7 @@ export default () =>
             cookiesAccepted: state.cookiesAccepted,
             errorCollection: state.errorCollection,
             analyticsCollection: state.analyticsCollection,
-            preferredCurrency: state.preferredCurrency
+            preferredCurrency: state.preferredCurrency,
           })
         )
       },
@@ -245,20 +245,20 @@ export default () =>
         if (!bonded) {
           // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
           commit(`setUserAddressRole`, {
-            addressRole: `controller`
+            addressRole: `controller`,
           })
           return
         }
         commit(`setUserAddressRole`, {
-          addressRole: `stash`
+          addressRole: `stash`,
         })
-      }
+      },
     }
 
     return {
       state,
       mutations,
-      actions
+      actions,
     }
   }
 

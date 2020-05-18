@@ -10,17 +10,17 @@ describe(`CookieBar`, () => {
       commit: jest.fn(),
       state: {
         session: {
-          cookiesAccepted: false
-        }
+          cookiesAccepted: false,
+        },
       },
-      dispatch
+      dispatch,
     }
 
     wrapper = shallowMount(CookieBar, {
       mocks: {
-        $store
+        $store,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 

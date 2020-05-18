@@ -14,17 +14,17 @@ describe(`VoteTxDetails`, () => {
     fees: [],
     details: {
       proposalId: 17,
-      voteOption: "Yes"
-    }
+      voteOption: "Yes",
+    },
   }
 
   it(`renders a vote transaction message`, () => {
     wrapper = shallowMount(VoteTxDetails, {
       propsData: {
         transaction: tx,
-        validators: {}
+        validators: {},
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     expect(wrapper.element).toMatchSnapshot()
   })

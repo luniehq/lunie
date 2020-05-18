@@ -23,14 +23,14 @@ export default {
   name: `tm-data-error`,
   components: { TmDataMsg },
   computed: {
-    ...mapState([`intercom`])
+    ...mapState([`intercom`]),
   },
   methods: {
     handleIntercom() {
       if (config.mobileApp) {
         this.$store.dispatch(`displayMessenger`)
       }
-    }
-  }
+    },
+  },
 }
 </script>

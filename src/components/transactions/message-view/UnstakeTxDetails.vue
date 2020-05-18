@@ -32,31 +32,31 @@ export default {
   name: `unstake-tx-details`,
   filters: {
     prettyLong,
-    resolveValidatorName
+    resolveValidatorName,
   },
   components: {
-    TransactionIcon
+    TransactionIcon,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
+      required: true,
     },
     validators: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => {
     return {
       type: `Unstaked`,
-      caption: `Unstaked`
+      caption: `Unstaked`,
     }
   },
   computed: {
     validator() {
       return this.validators[this.transaction.details.from[0]] || false
-    }
-  }
+    },
+  },
 }
 </script>

@@ -19,7 +19,7 @@
                 ? 'Must be your seed phrase or private key hash'
                 : 'Must be exactly 12 or 24 words'
             "
-            @input="val => (seed = val)"
+            @input="(val) => (seed = val)"
           />
           <TmFormMsg
             v-if="isPolkadot"
@@ -64,13 +64,13 @@ import Steps from "../../ActionModal/components/Steps"
 import { isHex } from "@polkadot/util"
 import { mnemonicValidate } from "@polkadot/util-crypto"
 
-const has12or24words = param => {
+const has12or24words = (param) => {
   return (
     param && (param.split(` `).length === 12 || param.split(` `).length === 24)
   )
 }
 
-const lowerCaseAndSpaces = param => {
+const lowerCaseAndSpaces = (param) => {
   const seedWordsAreLowerCaseAndSpaces = /^([a-z]+\s)*[a-z]+$/g
   if (param.match(seedWordsAreLowerCaseAndSpaces)) {
     return param === param.match(seedWordsAreLowerCaseAndSpaces)[0]
@@ -78,15 +78,15 @@ const lowerCaseAndSpaces = param => {
   return false
 }
 // exporting these for testing
-export const isPolkadotHexSeed = seed => {
+export const isPolkadotHexSeed = (seed) => {
   return isHex(seed) && seed.length === 66
 }
 
-export const polkadotRawSeedValidate = seed => {
+export const polkadotRawSeedValidate = (seed) => {
   return (seed.length > 0 && seed.length <= 32) || isPolkadotHexSeed(seed)
 }
 
-export const polkadotValidation = seed => {
+export const polkadotValidation = (seed) => {
   return mnemonicValidate(seed) || polkadotRawSeedValidate(seed)
 }
 
@@ -99,7 +99,7 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
-    Steps
+    Steps,
   },
   computed: {
     ...mapGetters([`recover`, `currentNetwork`]),
@@ -110,34 +110,34 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, {
           field: `seed`,
-          value: value.trim() // remove spaces from beginning and end of string
+          value: value.trim(), // remove spaces from beginning and end of string
         })
-      }
+      },
     },
     isPolkadot() {
       return this.currentNetwork.network_type === "polkadot"
-    }
+    },
   },
   methods: {
     onSubmit() {
       this.$v.$touch()
       if (this.$v.seed.$invalid || this.$v.seed.$invalid) return
       this.$router.push("/recover/name")
-    }
+    },
   },
   validations() {
     return {
       seed: {
         required,
-        seedIsLowerCaseAndSpaces: param =>
+        seedIsLowerCaseAndSpaces: (param) =>
           this.isPolkadot
             ? polkadotValidation(param)
             : lowerCaseAndSpaces(param),
-        seedHasCorrectLength: param =>
-          this.isPolkadot ? polkadotValidation(param) : has12or24words(param)
-      }
+        seedHasCorrectLength: (param) =>
+          this.isPolkadot ? polkadotValidation(param) : has12or24words(param),
+      },
     }
-  }
+  },
 }
 </script>
 <style scoped>

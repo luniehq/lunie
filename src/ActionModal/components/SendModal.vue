@@ -164,7 +164,7 @@ import { formatAddress } from "src/filters"
 
 const defaultMemo = "(Sent via Lunie)"
 
-const isPolkadotAddress = address => {
+const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
@@ -177,13 +177,13 @@ export default {
     TmFormGroup,
     TmFormMsg,
     ActionModal,
-    TmBtn
+    TmBtn,
   },
   props: {
     denoms: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     address: ``,
@@ -195,7 +195,7 @@ export default {
     selectedToken: undefined,
     balances: [],
     messageType,
-    smallestAmount: SMALLEST
+    smallestAmount: SMALLEST,
   }),
   computed: {
     ...mapGetters([`network`, `networks`, `stakingDenom`]),
@@ -203,7 +203,7 @@ export default {
     selectedBalance() {
       return (
         this.balances.find(({ denom }) => denom === this.selectedToken) || {
-          amount: 0
+          amount: 0,
         }
       )
     },
@@ -217,9 +217,9 @@ export default {
         from: [this.userAddress],
         amount: {
           amount: this.amount,
-          denom: this.selectedToken
+          denom: this.selectedToken,
         },
-        memo: this.memo
+        memo: this.memo,
       }
     },
     notifyMessage() {
@@ -227,12 +227,12 @@ export default {
         title: `Successful Send`,
         body: `Successfully sent ${this.amount} ${
           this.selectedToken
-        }s to ${formatAddress(this.address)}`
+        }s to ${formatAddress(this.address)}`,
       }
     },
     getDenoms() {
       return this.denoms
-        ? this.denoms.map(denom => (denom = { key: denom, value: denom }))
+        ? this.denoms.map((denom) => (denom = { key: denom, value: denom }))
         : []
     },
     sendingNgm() {
@@ -241,7 +241,7 @@ export default {
         "emoney147verqcxwdkgrn663x2qj66zyqc5mu479afw9n",
         "emoney14r5rva8qk5ee6rvk5sdtmxea40uf74k7uh4yjv",
         "emoney1s73cel9vxllx700eaeuqr70663w5f0twzcks3l",
-        "emoney1uae5c48qjdc9psfzkwvre0shm9z8wlsfnse2nz"
+        "emoney1uae5c48qjdc9psfzkwvre0shm9z8wlsfnse2nz",
       ]
       return (
         this.selectedToken === "NGM" &&
@@ -257,19 +257,19 @@ export default {
         this.selectedBalance.amount - this.getTerraTax(true),
         6
       )
-    }
+    },
   },
   watch: {
     // we set the amount in the input to zero every time the user selects another token so they
     // realize they are dealing with a different balance each time
-    selectedToken: function() {
+    selectedToken: function () {
       if (!this.isFirstLoad) {
         this.amount = 0
       } else {
         this.isFirstLoad = false
       }
     },
-    balances: function(balances) {
+    balances: function (balances) {
       // if there is already a token selected don't reset it
       if (this.selectedToken) return
 
@@ -279,7 +279,7 @@ export default {
       } else {
         this.selectedToken = balances[0].denom
       }
-    }
+    },
   },
   mounted() {
     this.$apollo.queries.balances.refetch()
@@ -361,31 +361,31 @@ export default {
       } else {
         return 0
       }
-    }
+    },
   },
   validations() {
     return {
       address: {
         required,
-        validAddress: address =>
-          this.bech32Validate(address) || isPolkadotAddress(address)
+        validAddress: (address) =>
+          this.bech32Validate(address) || isPolkadotAddress(address),
       },
       amount: {
-        required: x => !!x && x !== `0`,
+        required: (x) => !!x && x !== `0`,
         decimal,
-        max: x => Number(x) <= this.maxAmount,
-        min: x => Number(x) >= SMALLEST,
-        maxDecimals: x => {
+        max: (x) => Number(x) <= this.maxAmount,
+        min: (x) => Number(x) >= SMALLEST,
+        maxDecimals: (x) => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6
             : true
-        }
+        },
       },
       denoms: { required },
       selectedToken: { required },
       memo: {
-        maxLength: maxLength(this.max_memo_characters)
-      }
+        maxLength: maxLength(this.max_memo_characters),
+      },
     }
   },
   apollo: {
@@ -406,9 +406,9 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.userAddress
+          address: this.userAddress,
         }
-      }
+      },
     },
     chainAppliedFees: {
       query: gql`
@@ -428,7 +428,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          transactionType: "SendTx"
+          transactionType: "SendTx",
         }
       },
       /* istanbul ignore next */
@@ -440,7 +440,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.userAddress
-      }
+      },
     },
     $subscribe: {
       userTransactionAdded: {
@@ -448,7 +448,7 @@ export default {
         variables() {
           return {
             networkId: this.network,
-            address: this.userAddress
+            address: this.userAddress,
           }
         },
         /* istanbul ignore next */
@@ -459,10 +459,10 @@ export default {
         /* istanbul ignore next */
         result() {
           this.$apollo.queries.balances.refetch()
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 <style scoped>

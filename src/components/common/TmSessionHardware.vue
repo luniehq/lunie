@@ -99,7 +99,7 @@ export default {
   components: {
     TmBtn,
     SessionFrame,
-    HardwareState
+    HardwareState,
   },
   data: () => ({
     status: `connect`,
@@ -108,7 +108,7 @@ export default {
     copySuccess: false,
     hidFeatureLink: `chrome://flags/#enable-experimental-web-platform-features`,
     linuxLedgerConnectionLink: `https://support.ledger.com/hc/en-us/articles/360019301813-Fix-USB-issues`,
-    navigator: window.navigator
+    navigator: window.navigator,
   }),
   computed: {
     ...mapState([`session`]),
@@ -117,7 +117,7 @@ export default {
     submitCaption() {
       return {
         connect: "Sign In",
-        detect: "Waiting for Ledger"
+        detect: "Waiting for Ledger",
       }[this.status]
     },
     isWindows() {
@@ -132,7 +132,7 @@ export default {
     isChrome() {
       const ua = navigator.userAgent.toLowerCase()
       return /chrome|crios/.test(ua) && !/edge|opr\//.test(ua)
-    }
+    },
   },
   methods: {
     async signIn() {
@@ -144,8 +144,8 @@ export default {
         this.$router.push({
           name: "portfolio",
           params: {
-            networkId: this.networkSlug
-          }
+            networkId: this.networkSlug,
+          },
         })
       } catch (error) {
         this.status = `connect`
@@ -156,7 +156,7 @@ export default {
 
       await this.$store.dispatch(`signIn`, {
         sessionType: `ledger`,
-        address: this.address
+        address: this.address,
       })
     },
     onCopy() {
@@ -164,8 +164,8 @@ export default {
       setTimeout(() => {
         this.copySuccess = false
       }, 2500)
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

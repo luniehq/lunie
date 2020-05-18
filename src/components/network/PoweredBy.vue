@@ -5,7 +5,7 @@
     :class="{
       'powered-by-line': poweredByLine,
       'hide-on-mobile': hideOnMobile,
-      'on-menu': isMenu
+      'on-menu': isMenu,
     }"
   >
     <span class="powered-by-text">Powered by</span>
@@ -25,7 +25,7 @@
       class="validator-name"
       :class="{
         active: network.powered.providerAddress && isCurrentNetwork,
-        inactive: !network.powered.providerAddress
+        inactive: !network.powered.providerAddress,
       }"
       @click="
         isMenu
@@ -33,8 +33,8 @@
               name: 'validator',
               params: {
                 networkId: network.slug,
-                validator: network.powered.providerAddress
-              }
+                validator: network.powered.providerAddress,
+              },
             })
           : handleClick()
       "
@@ -48,36 +48,36 @@ import Avatar from "common/Avatar"
 export default {
   name: `powered-by`,
   components: {
-    Avatar
+    Avatar,
   },
   props: {
     network: {
       type: Object,
-      required: true
+      required: true,
     },
     isCurrentNetwork: {
       type: Boolean,
-      default: true
+      default: true,
     },
     poweredByLine: {
       type: Boolean,
-      default: false
+      default: false,
     },
     hideOnMobile: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isMenu: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
     handleClick() {
       this.$emit(`close-menu`)
       window.scrollTo(0, 0)
-    }
-  }
+    },
+  },
 }
 </script>
 

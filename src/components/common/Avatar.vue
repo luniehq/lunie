@@ -12,15 +12,15 @@ export default {
   props: {
     address: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     svg() {
       const options = {}
       const avatars = new Avatars(sprites(options))
       return avatars.create(this.address)
-    }
-  }
+    },
+  },
 }
 </script>

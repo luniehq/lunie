@@ -27,13 +27,13 @@ describe(`TransactionList`, () => {
         voteOption: "Yes",
         initialDeposit: {
           denom: "ATOM",
-          amount: "10"
+          amount: "10",
         },
         amount: {
           denom: "ATOM",
-          amount: "10"
-        }
-      }
+          amount: "10",
+        },
+      },
     })
   }
 
@@ -42,11 +42,11 @@ describe(`TransactionList`, () => {
       propsData: {
         transactions: txs,
         validators: {},
-        address: "cosmos1"
+        address: "cosmos1",
       },
       directives: {
-        infiniteScroll: () => jest.fn()
-      }
+        infiniteScroll: () => jest.fn(),
+      },
     })
   })
 

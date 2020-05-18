@@ -1050,8 +1050,8 @@ import TmPage from "common/TmPage"
 export default {
   name: `page-privacy`,
   components: {
-    TmPage
-  }
+    TmPage,
+  },
 }
 </script>
 

@@ -4,7 +4,7 @@ import {
   getAccountsFromExtension,
   getSignQueue,
   signWithExtension,
-  cancelSignWithExtension
+  cancelSignWithExtension,
 } from "scripts/extension-utils.js"
 
 describe(`Extension Utils`, () => {
@@ -13,16 +13,16 @@ describe(`Extension Utils`, () => {
     message: {
       amount: {
         denom: "STAKE",
-        amount: 5
+        amount: 5,
       },
       to: ["cosmos1234"],
-      from: ["cosmos1568"]
+      from: ["cosmos1568"],
     },
     transactionData: {},
     senderAddress: "cosmos1568",
     network: {
-      id: "cosmos-hub-testnet"
-    }
+      id: "cosmos-hub-testnet",
+    },
   }
 
   describe("listenToExtensionMessages", () => {
@@ -31,7 +31,7 @@ describe(`Extension Utils`, () => {
     beforeEach(() => {
       store = {
         commit: jest.fn(),
-        dispatch: jest.fn()
+        dispatch: jest.fn(),
       }
     })
 
@@ -47,9 +47,9 @@ describe(`Extension Utils`, () => {
         data: {
           type: "FROM_LUNIE_EXTENSION",
           message: {
-            type: "INIT_EXTENSION"
-          }
-        }
+            type: "INIT_EXTENSION",
+          },
+        },
       })
 
       expect(store.commit).toHaveBeenCalledWith("setExtensionAvailable")
@@ -62,9 +62,9 @@ describe(`Extension Utils`, () => {
         data: {
           type: "NOT_FROM_LUNIE_EXTENSION",
           message: {
-            type: "INIT_EXTENSION"
-          }
-        }
+            type: "INIT_EXTENSION",
+          },
+        },
       })
 
       expect(store.commit).not.toHaveBeenCalledWith("setExtensionAvailable")
@@ -80,18 +80,18 @@ describe(`Extension Utils`, () => {
             payload: [
               {
                 address: "cosmos1234",
-                name: "TEST_ADDRESS"
-              }
-            ]
-          }
-        }
+                name: "TEST_ADDRESS",
+              },
+            ],
+          },
+        },
       })
 
       expect(store.commit).toHaveBeenCalledWith("setExtensionAccounts", [
         {
           address: "cosmos1234",
-          name: "TEST_ADDRESS"
-        }
+          name: "TEST_ADDRESS",
+        },
       ])
     })
 
@@ -101,9 +101,9 @@ describe(`Extension Utils`, () => {
         data: {
           type: "FROM_LUNIE_EXTENSION",
           message: {
-            type: "IN CORRECT TYPE"
-          }
-        }
+            type: "IN CORRECT TYPE",
+          },
+        },
       })
 
       expect(result).toBeFalsy()
@@ -128,10 +128,10 @@ describe(`Extension Utils`, () => {
           {
             payload: { type: "GET_WALLETS" },
             skipResponse: false,
-            type: "FROM_LUNIE_IO"
+            type: "FROM_LUNIE_IO",
           },
-          "*"
-        ]
+          "*",
+        ],
       ])
     })
 
@@ -143,13 +143,13 @@ describe(`Extension Utils`, () => {
           {
             payload: {
               payload: {},
-              type: "LUNIE_GET_SIGN_QUEUE"
+              type: "LUNIE_GET_SIGN_QUEUE",
             },
             skipResponse: true,
-            type: "FROM_LUNIE_IO"
+            type: "FROM_LUNIE_IO",
           },
-          "*"
-        ]
+          "*",
+        ],
       ])
     })
 
@@ -171,15 +171,15 @@ describe(`Extension Utils`, () => {
               payload: {
                 payload: {
                   network: "cosmos-hub-testnet",
-                  senderAddress: "cosmos1568"
+                  senderAddress: "cosmos1568",
                 },
-                type: "LUNIE_SIGN_REQUEST_CANCEL"
+                type: "LUNIE_SIGN_REQUEST_CANCEL",
               },
               skipResponse: true,
-              type: "FROM_LUNIE_IO"
+              type: "FROM_LUNIE_IO",
             },
-            "*"
-          ]
+            "*",
+          ],
         ])
       })
 
@@ -199,23 +199,23 @@ describe(`Extension Utils`, () => {
                   message: {
                     amount: {
                       amount: 5,
-                      denom: "STAKE"
+                      denom: "STAKE",
                     },
                     from: ["cosmos1568"],
-                    to: ["cosmos1234"]
+                    to: ["cosmos1234"],
                   },
                   messageType: "SendTx",
                   network: "cosmos-hub-testnet",
                   senderAddress: "cosmos1568",
-                  transactionData: {}
+                  transactionData: {},
                 },
-                type: "LUNIE_SIGN_REQUEST"
+                type: "LUNIE_SIGN_REQUEST",
               },
               skipResponse: true,
-              type: "FROM_LUNIE_IO"
+              type: "FROM_LUNIE_IO",
             },
-            "*"
-          ]
+            "*",
+          ],
         ])
       })
 
@@ -226,12 +226,12 @@ describe(`Extension Utils`, () => {
             data: {
               message: {
                 payload: {
-                  rejected: true
+                  rejected: true,
                 },
-                type: "LUNIE_SIGN_REQUEST_RESPONSE"
+                type: "LUNIE_SIGN_REQUEST_RESPONSE",
               },
-              type: "FROM_LUNIE_EXTENSION"
-            }
+              type: "FROM_LUNIE_EXTENSION",
+            },
           })
         })
         expect(
@@ -252,12 +252,12 @@ describe(`Extension Utils`, () => {
             data: {
               message: {
                 payload: {
-                  error: "Expected"
+                  error: "Expected",
                 },
-                type: "LUNIE_SIGN_REQUEST_RESPONSE"
+                type: "LUNIE_SIGN_REQUEST_RESPONSE",
               },
-              type: "FROM_LUNIE_EXTENSION"
-            }
+              type: "FROM_LUNIE_EXTENSION",
+            },
           })
         })
         expect(
@@ -279,12 +279,12 @@ describe(`Extension Utils`, () => {
               message: {
                 payload: {
                   signature: "abcd",
-                  publicKey: "1234"
+                  publicKey: "1234",
                 },
-                type: "LUNIE_SIGN_REQUEST_RESPONSE"
+                type: "LUNIE_SIGN_REQUEST_RESPONSE",
               },
-              type: "FROM_LUNIE_EXTENSION"
-            }
+              type: "FROM_LUNIE_EXTENSION",
+            },
           })
         })
         const result = await signWithExtension(

@@ -14,18 +14,18 @@ import Step from "./StepComponent"
 export default {
   name: "Steps",
   components: {
-    Step
+    Step,
   },
   props: {
     steps: {
       type: Array,
-      required: true
+      required: true,
     },
     activeStep: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

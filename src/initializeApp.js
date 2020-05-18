@@ -4,7 +4,7 @@ import { listenToExtensionMessages } from "scripts/extension-utils"
 import { checkForNewLunieVersions } from "scripts/check-for-new-lunie-versions"
 import {
   enableGoogleAnalytics,
-  setGoogleAnalyticsPage
+  setGoogleAnalyticsPage,
 } from "scripts/google-analytics"
 import config from "src/../config"
 import Router, { routeGuard } from "./router"
@@ -13,7 +13,7 @@ import { createApolloProvider } from "src/gql/apollo.js"
 
 if (navigator && navigator.serviceWorker) {
   // remove any existing service worker
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+  navigator.serviceWorker.getRegistrations().then(function (registrations) {
     for (let registration of registrations) {
       registration.unregister()
     }
@@ -50,7 +50,7 @@ export default async function init(urlParams, env = process.env) {
   const router = Router(store)
   setGoogleAnalyticsPage(router.currentRoute.path)
   router.beforeEach(routeGuard(store))
-  router.afterEach(to => {
+  router.afterEach((to) => {
     /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
   })

@@ -13,18 +13,18 @@ describe(`TmPage`, () => {
 
   beforeEach(() => {
     getters = {
-      connected: () => true
+      connected: () => true,
     }
     actions = {
       actionClick: jest.fn(),
-      actionInput: jest.fn()
+      actionInput: jest.fn(),
     }
     store = new Vuex.Store({
       state: {
-        session: () => ({ address: `cosmos`, atoms: 1 })
+        session: () => ({ address: `cosmos`, atoms: 1 }),
       },
       actions,
-      getters
+      getters,
     })
   })
 
@@ -38,14 +38,14 @@ describe(`TmPage`, () => {
       store,
       localVue,
       propsData: {
-        dataEmpty: true
+        dataEmpty: true,
       },
       mocks: {
         $route: {
-          name: `r1`
-        }
+          name: `r1`,
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
 
     expect(wrapper.element).toMatchSnapshot()
@@ -54,8 +54,8 @@ describe(`TmPage`, () => {
   it(`scrolls back to the top on a route change`, () => {
     const self = {
       scrollContainer: {
-        scrollTop: 100
-      }
+        scrollTop: 100,
+      },
     }
     TmPage.watch.$route.call(self)
     expect(self.scrollContainer.scrollTop).toBe(0)

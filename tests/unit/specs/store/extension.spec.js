@@ -5,12 +5,12 @@ describe(`Module: Extension`, () => {
   const mockAccounts = [
     {
       address: "cosmos1234",
-      name: "TEST_ADDRESS"
+      name: "TEST_ADDRESS",
     },
     {
       address: "cosmos1567",
-      name: "TEST_ADDRESS_2"
-    }
+      name: "TEST_ADDRESS_2",
+    },
   ]
 
   beforeEach(() => {
@@ -45,9 +45,9 @@ describe(`Module: Extension`, () => {
       await actions.getAddressesFromExtension({
         state: {
           externals: {
-            getAccountsFromExtension
-          }
-        }
+            getAccountsFromExtension,
+          },
+        },
       })
 
       expect(getAccountsFromExtension).toHaveBeenCalled()

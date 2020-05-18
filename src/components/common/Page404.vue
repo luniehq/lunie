@@ -48,11 +48,11 @@ export default {
   name: `page-404`,
   components: {
     TmPage,
-    TmPart
+    TmPart,
   },
   computed: {
-    ...mapGetters([`networkSlug`])
-  }
+    ...mapGetters([`networkSlug`]),
+  },
 }
 </script>
 

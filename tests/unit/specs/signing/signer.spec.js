@@ -9,8 +9,8 @@ describe("pick signer", () => {
       signWithPrivateKey: () => Buffer.from("cool signature"),
       getStoredWallet: () => ({
         privateKey: "1234",
-        publicKey: "1234"
-      })
+        publicKey: "1234",
+      }),
     }))
 
     jest.doMock(
@@ -23,8 +23,8 @@ describe("pick signer", () => {
             this.sign = () => Buffer.alloc(0)
             this.cosmosApp = {
               transport: {
-                close: jest.fn()
-              }
+                close: jest.fn(),
+              },
             }
           }
         }
@@ -33,10 +33,10 @@ describe("pick signer", () => {
     jest.doMock(`scripts/extension-utils`, () => ({
       signWithExtension: jest.fn(() => ({
         signature: Buffer.alloc(0),
-        publicKey: Buffer.alloc(0)
+        publicKey: Buffer.alloc(0),
       })),
       cancelSignWithExtension: jest.fn(() => true),
-      getSignQueue: jest.fn(() => true)
+      getSignQueue: jest.fn(() => true),
     }))
 
     const signer = require("src/signing/signer.js")
@@ -53,7 +53,7 @@ describe("pick signer", () => {
     const { cancelSignWithExtension } = require(`scripts/extension-utils`)
     await cancelSign(`extension`, {
       address: "",
-      password: "1234567890"
+      password: "1234567890",
     })
     expect(cancelSignWithExtension).toHaveBeenCalled()
   })
@@ -61,7 +61,7 @@ describe("pick signer", () => {
     const { getSignQueue } = require(`scripts/extension-utils`)
     await signQueue(`extension`, {
       address: "",
-      password: "1234567890"
+      password: "1234567890",
     })
     expect(getSignQueue).toHaveBeenCalled()
   })
@@ -75,14 +75,14 @@ describe("pick signer", () => {
           id: "cosmos-hub-testnet",
           network_type: "cosmos",
           address_prefix: "cosmos",
-          testnet: true
-        }
+          testnet: true,
+        },
       },
       config
     )
     expect(signer("message")).toEqual({
       signature: "636f6f6c207369676e6174757265",
-      publicKey: "1234"
+      publicKey: "1234",
     })
   })
 
@@ -96,14 +96,14 @@ describe("pick signer", () => {
           id: "cosmos-hub-testnet",
           network_type: "cosmos",
           address_prefix: "cosmos",
-          testnet: true
-        }
+          testnet: true,
+        },
       },
       config
     )
     expect(await signer("message")).toEqual({
       signature: expect.any(Buffer),
-      publicKey: expect.any(Buffer)
+      publicKey: expect.any(Buffer),
     })
   })
 
@@ -121,8 +121,8 @@ describe("pick signer", () => {
             }
             this.cosmosApp = {
               transport: {
-                close: jest.fn()
-              }
+                close: jest.fn(),
+              },
             }
           }
         }
@@ -138,8 +138,8 @@ describe("pick signer", () => {
           id: "cosmos-hub-testnet",
           network_type: "cosmos",
           address_prefix: "cosmos",
-          testnet: true
-        }
+          testnet: true,
+        },
       },
       config
     )
@@ -155,15 +155,15 @@ describe("pick signer", () => {
           id: "cosmos-hub-testnet",
           network_type: "cosmos",
           address_prefix: "cosmos",
-          testnet: true
-        }
+          testnet: true,
+        },
       },
       config
     )
     const { signWithExtension } = require(`scripts/extension-utils`)
     expect(await signer("message")).toEqual({
       signature: expect.any(Buffer),
-      publicKey: expect.any(Buffer)
+      publicKey: expect.any(Buffer),
     })
     expect(signWithExtension).toHaveBeenCalled()
   })
@@ -182,20 +182,20 @@ describe("pick signer", () => {
           {
             viewDenom: "KSM",
             chainToViewConversionFactor: 1e-12,
-            chainDenom: "Planck"
-          }
-        ]
+            chainDenom: "Planck",
+          },
+        ],
       }
       const message = {
         to: ["DPpTYGsMbC1KELwDowaY2S1kEBpDjBAoaotPamfdXKdkYoG"],
         amount: {
           denom: "KSM",
-          amount: 0.00001
-        }
+          amount: 0.00001,
+        },
       }
       const signer = await getPolkadotLocalSigner(
         {
-          seedPhrase: `lunch primary know smoke track sustain parrot enact shock final rookie banana`
+          seedPhrase: `lunch primary know smoke track sustain parrot enact shock final rookie banana`,
         },
         network
       )

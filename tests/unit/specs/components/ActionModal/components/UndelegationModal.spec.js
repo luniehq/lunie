@@ -7,11 +7,11 @@ import Vuelidate from "vuelidate"
 describe(`UndelegationModal`, () => {
   let wrapper, $store
   const validator = {
-    operatorAddress: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`
+    operatorAddress: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au`,
     // we don't need other props in this component
   }
   const validator2 = {
-    operatorAddress: `cosmosvaladdr123`
+    operatorAddress: `cosmosvaladdr123`,
   }
 
   const localVue = createLocalVue()
@@ -27,35 +27,35 @@ describe(`UndelegationModal`, () => {
         currentNetwork: {
           id: "testnet",
           coinLookup: [
-            { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 }
-          ]
+            { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 },
+          ],
         },
         stakingDenom: "STAKE",
-        address: "cosmos12345"
-      }
+        address: "cosmos12345",
+      },
     }
     wrapper = shallowMount(UndelegationModal, {
       localVue,
       mocks: {
-        $store
+        $store,
       },
       propsData: {
         sourceValidator: validator,
-        targetValidator: validator2
-      }
+        targetValidator: validator2,
+      },
     })
     wrapper.setData({
       delegations: [
         {
           validator,
-          amount: 1000
+          amount: 1000,
         },
         {
           validator: validator2,
-          amount: 5000
-        }
+          amount: 5000,
+        },
       ],
-      validators: [validator, validator2]
+      validators: [validator, validator2],
     })
   })
 
@@ -73,7 +73,7 @@ describe(`UndelegationModal`, () => {
   it(`clears on close`, () => {
     const self = {
       $v: { $reset: jest.fn() },
-      amount: 10
+      amount: 10,
     }
     UndelegationModal.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
@@ -95,7 +95,7 @@ describe(`UndelegationModal`, () => {
 
   it(`should submit when enterPressed is called`, async () => {
     const self = {
-      $refs: { actionModal: { validateChangeStep: jest.fn() } }
+      $refs: { actionModal: { validateChangeStep: jest.fn() } },
     }
     UndelegationModal.methods.enterPressed.call(self)
     expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
@@ -110,7 +110,7 @@ describe(`UndelegationModal`, () => {
 
   it(`should send an event on success`, () => {
     const self = {
-      $emit: jest.fn()
+      $emit: jest.fn(),
     }
     UndelegationModal.methods.onSuccess.call(self)
     expect(self.$emit).toHaveBeenCalledWith(
@@ -122,7 +122,7 @@ describe(`UndelegationModal`, () => {
   describe("Undelegation Submission Data", () => {
     beforeEach(() => {
       wrapper.setData({
-        amount: 10
+        amount: 10,
       })
     })
 
@@ -131,15 +131,15 @@ describe(`UndelegationModal`, () => {
         type: "UnstakeTx",
         amount: {
           amount: 10,
-          denom: "STAKE"
+          denom: "STAKE",
         },
-        from: ["cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"]
+        from: ["cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"],
       })
     })
 
     it("should return empty transaction data if amount is NaN", () => {
       wrapper.setData({
-        amount: `NaN`
+        amount: `NaN`,
       })
       expect(wrapper.vm.transactionData).toEqual({})
     })
@@ -147,7 +147,7 @@ describe(`UndelegationModal`, () => {
     it("should return correct notification message", () => {
       expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successfully unstaked!`,
-        body: `You have successfully unstaked 10 STAKEs.`
+        body: `You have successfully unstaked 10 STAKEs.`,
       })
     })
   })
@@ -155,7 +155,7 @@ describe(`UndelegationModal`, () => {
   describe("Redelegation Submission Data", () => {
     beforeEach(() => {
       wrapper.setData({
-        amount: 10
+        amount: 10,
       })
       wrapper.vm.toSelectedIndex = `cosmosvaladdrXYZ`
     })
@@ -165,16 +165,16 @@ describe(`UndelegationModal`, () => {
         type: "RestakeTx",
         amount: {
           amount: 10,
-          denom: "STAKE"
+          denom: "STAKE",
         },
         from: ["cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"],
-        to: ["cosmosvaladdrXYZ"]
+        to: ["cosmosvaladdrXYZ"],
       })
     })
 
     it("should return empty transaction data if amount is NaN", () => {
       wrapper.setData({
-        amount: `NaN`
+        amount: `NaN`,
       })
       expect(wrapper.vm.transactionData).toEqual({})
     })
@@ -182,7 +182,7 @@ describe(`UndelegationModal`, () => {
     it("should return correct notification message", () => {
       expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successfully restaked!`,
-        body: `You have successfully restaked 10 STAKEs.`
+        body: `You have successfully restaked 10 STAKEs.`,
       })
     })
   })

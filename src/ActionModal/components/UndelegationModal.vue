@@ -52,9 +52,7 @@
       />
       <TmFormMsg
         v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
-        :msg="
-          `You are about to restake to an inactive validator (${targetValidator.statusDetailed})`
-        "
+        :msg="`You are about to restake to an inactive validator (${targetValidator.statusDetailed})`"
         type="custom"
         class="tm-form-msg--desc"
       />
@@ -145,16 +143,16 @@ export default {
     TmFieldGroup,
     TmBtn,
     TmFormGroup,
-    TmFormMsg
+    TmFormMsg,
   },
   filters: {
-    validatorEntry
+    validatorEntry,
   },
   props: {
     sourceValidator: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     amount: null,
@@ -163,10 +161,10 @@ export default {
     toSelectedIndex: `0`,
     balance: {
       amount: 0,
-      denom: ``
+      denom: ``,
     },
     messageType,
-    smallestAmount: SMALLEST
+    smallestAmount: SMALLEST,
   }),
   computed: {
     ...mapState([`session`]),
@@ -194,8 +192,8 @@ export default {
           to: [this.toSelectedIndex],
           amount: {
             amount: this.amount,
-            denom: this.stakingDenom
-          }
+            denom: this.stakingDenom,
+          },
         }
       } else {
         if (
@@ -210,8 +208,8 @@ export default {
           from: [this.sourceValidator.operatorAddress],
           amount: {
             amount: this.amount,
-            denom: this.stakingDenom
-          }
+            denom: this.stakingDenom,
+          },
         }
       }
     },
@@ -219,12 +217,12 @@ export default {
       if (this.isRedelegation) {
         return {
           title: `Successfully restaked!`,
-          body: `You have successfully restaked ${this.amount} ${this.stakingDenom}s.`
+          body: `You have successfully restaked ${this.amount} ${this.stakingDenom}s.`,
         }
       } else {
         return {
           title: `Successfully unstaked!`,
-          body: `You have successfully unstaked ${this.amount} ${this.stakingDenom}s.`
+          body: `You have successfully unstaked ${this.amount} ${this.stakingDenom}s.`,
         }
       }
     },
@@ -239,7 +237,7 @@ export default {
               delegation.validator.operatorAddress,
               20
             )}`,
-            value: index + 1
+            value: index + 1,
           }
         })
       )
@@ -252,21 +250,21 @@ export default {
           address: this.address,
           maximum: Number(this.balance.amount),
           key: `My Wallet - ${formatAddress(this.address, 20)}`,
-          value: 0
-        }
+          value: 0,
+        },
       ]
       options = options.concat(
         this.validators
           // exclude the validator we are redelegating from
           .filter(
-            validator =>
+            (validator) =>
               validator.operatorAddress !== this.sourceValidator.operatorAddress
           )
-          .map(validator => {
+          .map((validator) => {
             return {
               address: validator.operatorAddress,
               key: validatorEntry(validator),
-              value: validator.operatorAddress
+              value: validator.operatorAddress,
             }
           })
       )
@@ -275,7 +273,7 @@ export default {
     targetValidator() {
       return (
         this.validators.find(
-          validator => validator.operatorAddress === this.toSelectedIndex
+          (validator) => validator.operatorAddress === this.toSelectedIndex
         ) || { status: `` }
       )
     },
@@ -291,21 +289,21 @@ export default {
       } else {
         return `a certain number of time`
       }
-    }
+    },
   },
   validations() {
     return {
       amount: {
-        required: x => !!x && x !== `0`,
+        required: (x) => !!x && x !== `0`,
         decimal,
-        max: x => Number(x) <= this.maximum,
-        min: x => Number(x) >= SMALLEST,
-        maxDecimals: x => {
+        max: (x) => Number(x) <= this.maximum,
+        min: (x) => Number(x) >= SMALLEST,
+        maxDecimals: (x) => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6
             : true
-        }
-      }
+        },
+      },
     }
   },
   methods: {
@@ -331,7 +329,7 @@ export default {
     },
     onSuccess(event) {
       this.$emit(`success`, event)
-    }
+    },
   },
   apollo: {
     delegations: {
@@ -360,13 +358,13 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.address
+          delegatorAddress: this.address,
         }
       },
       /* istanbul ignore next */
       update(data) {
         return data.delegations
-      }
+      },
     },
     balance: {
       query: gql`
@@ -386,13 +384,13 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          denom: this.stakingDenom
+          denom: this.stakingDenom,
         }
       },
       /* istanbul ignore next */
       update(data) {
         return data.balance || { amount: 0 }
-      }
+      },
     },
     validators: {
       query: gql`
@@ -408,7 +406,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.network
+          networkId: this.network,
         }
       },
       /* istanbul ignore next */
@@ -418,7 +416,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
-      }
+      },
     },
 
     $subscribe: {
@@ -427,7 +425,7 @@ export default {
         variables() {
           return {
             networkId: this.network,
-            address: this.address
+            address: this.address,
           }
         },
         /* istanbul ignore next */
@@ -438,9 +436,9 @@ export default {
         /* istanbul ignore next */
         result() {
           this.$apollo.queries.delegations.refetch()
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>

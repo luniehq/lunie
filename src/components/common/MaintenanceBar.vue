@@ -14,10 +14,10 @@ import Bar from "common/Bar"
 export default {
   name: `maintenance-bar`,
   components: {
-    Bar
+    Bar,
   },
   data: () => ({
-    maintenance: []
+    maintenance: [],
   }),
   apollo: {
     maintenance: {
@@ -30,8 +30,8 @@ export default {
           }
         }
       `,
-      update: result => result.maintenance
-    }
-  }
+      update: (result) => result.maintenance,
+    },
+  },
 }
 </script>

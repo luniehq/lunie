@@ -14,25 +14,25 @@ describe(`DepositTxDetails`, () => {
     fees: [
       {
         denom: "ATOM",
-        amount: "0.00045"
-      }
+        amount: "0.00045",
+      },
     ],
     details: {
       proposalId: 1,
       amount: {
         denom: "ATOM",
-        amount: "10"
-      }
-    }
+        amount: "10",
+      },
+    },
   }
 
   it(`renders a deposit transaction message`, () => {
     wrapper = shallowMount(DepositTxDetails, {
       propsData: {
         transaction: tx,
-        validators: {}
+        validators: {},
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     expect(wrapper.element).toMatchSnapshot()
   })

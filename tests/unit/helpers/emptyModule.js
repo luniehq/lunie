@@ -3,5 +3,5 @@
 module.exports = {
   process() {
     return ""
-  }
+  },
 }

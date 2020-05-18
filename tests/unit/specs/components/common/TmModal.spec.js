@@ -14,8 +14,8 @@ describe(`TmModal`, () => {
     wrapper = shallowMount(TmModal, {
       localVue,
       propsData: {
-        close: mockCloseFn
-      }
+        close: mockCloseFn,
+      },
     })
   })
 
@@ -28,11 +28,11 @@ describe(`TmModal`, () => {
       localVue,
       slots: {
         title: `<div class="hello" />`,
-        footer: `<div class="world" />`
+        footer: `<div class="world" />`,
       },
       propsData: {
-        close: mockCloseFn
-      }
+        close: mockCloseFn,
+      },
     })
     expect(wrapper.find(`custom-title`)).toBeDefined()
     expect(wrapper.find(`custom-footer`)).toBeDefined()

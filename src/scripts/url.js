@@ -10,12 +10,12 @@ export function getURLParams(window) {
         `insecure`,
         `api`,
         `iwouldliketochangetheapipersistentlyandiknowwhatido`,
-        `network`
+        `network`,
       ].includes(name)
     ) {
       return {
         ...config,
-        [name]: value
+        [name]: value,
       }
     }
     return config
@@ -36,7 +36,7 @@ export const getGraphqlHost = () => {
 
 // persistent api
 // setting api url in localStorage
-const checkPersistentAPI = urlParams => {
+const checkPersistentAPI = (urlParams) => {
   if (
     typeof urlParams.iwouldliketochangetheapipersistentlyandiknowwhatido !==
     "undefined"

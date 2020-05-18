@@ -12,29 +12,29 @@ describe(`PageNetworks`, () => {
       chain_id: "gaia-123",
       logo_url: "cosmos-logo.png",
       testnet: true,
-      title: "Cosmos Hub Test"
+      title: "Cosmos Hub Test",
     },
     {
       id: "cosmoshub",
       chain_id: "cosmoshub",
       logo_url: "cosmos-logo.png",
       testnet: false,
-      title: "Cosmos Hub"
-    }
+      title: "Cosmos Hub",
+    },
   ]
 
   beforeEach(() => {
     $store = {
       dispatch: jest.fn(),
       getters: {
-        networks
-      }
+        networks,
+      },
     }
     wrapper = shallowMount(PageNetworks, {
       localVue,
       mocks: {
-        $store
-      }
+        $store,
+      },
     })
   })
 

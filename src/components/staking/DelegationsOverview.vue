@@ -45,25 +45,26 @@ export default {
   name: `delegations-overview`,
   components: {
     TableValidators,
-    TmDataMsg
+    TmDataMsg,
   },
   data: () => ({
     delegations: [],
-    delegationsLoaded: false
+    delegationsLoaded: false,
   }),
   computed: {
-    ...mapGetters(["address", `network`, `networks`])
+    ...mapGetters(["address", `network`, `networks`]),
   },
   methods: {
     goToValidators() {
       this.$router.push({
         name: "Validators",
         params: {
-          networkId: this.networks.find(network => network.id === this.network)
-            .slug
-        }
+          networkId: this.networks.find(
+            (network) => network.id === this.network
+          ).slug,
+        },
       })
-    }
+    },
   },
   apollo: {
     delegations: {
@@ -75,21 +76,21 @@ export default {
         /* istanbul ignore next */
         return {
           delegatorAddress: this.address,
-          networkId: this.network
+          networkId: this.network,
         }
       },
       /* istanbul ignore next */
       update(data) {
         this.delegationsLoaded = true
         return data.delegations || []
-      }
+      },
     },
     $subscribe: {
       userTransactionAdded: {
         variables() {
           return {
             networkId: this.network,
-            address: this.address
+            address: this.address,
           }
         },
         skip() {
@@ -101,10 +102,10 @@ export default {
           if (data.userTransactionAddedV2.success) {
             this.$apollo.queries.delegations.refetch()
           }
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 <style scoped>
