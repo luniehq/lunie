@@ -58,19 +58,29 @@
         :value="
           session.addressRole === `stash`
             ? `--`
-            : targetValidator | validatorEntry
+            : (targetValidator | validatorEntry)
         "
         type="text"
         readonly
       />
       <TmFormMsg
-        v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
+        v-if="
+          targetValidator.status === 'INACTIVE' &&
+          !isRedelegation &&
+          session.addressRole &&
+          session.addressRole !== `stash`
+        "
         :msg="`You are about to stake to an inactive validator (${targetValidator.statusDetailed})`"
         type="custom"
         class="tm-form-msg--desc"
       />
       <TmFormMsg
-        v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
+        v-if="
+          targetValidator.status === 'INACTIVE' &&
+          isRedelegation &&
+          session.addressRole &&
+          session.addressRole !== `stash`
+        "
         :msg="`You are about to restake to an inactive validator (${targetValidator.statusDetailed})`"
         type="custom"
         class="tm-form-msg--desc"
