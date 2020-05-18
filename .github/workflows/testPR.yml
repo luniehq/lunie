@@ -80,6 +80,8 @@ jobs:
         env:
           SENTRY_URL: ""
           SENTRY_TOKEN: ""
+          BROWSERSTACK_USERNAME: ${{ secrets.BrowserstackUsername }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BrowserstackAccessKey }}
         run: |
           PR_NUMBER="$(echo $CIRCLE_PULL_REQUEST | cut -d'/' -f 7)"
           FE_URL=https://deploy-preview-${PR_NUMBER}--lunieio.netlify.com
