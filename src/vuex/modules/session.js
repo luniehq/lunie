@@ -1,10 +1,8 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/../config"
-import { getAPI } from "../../signing/networkMessages/polkadot-transactions"
+import { AddressRole } from "../../gql"
 
-export default () =>
-// { apollo }
-{
+export default ({ apollo }) => 
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
   const state = {
@@ -18,7 +16,7 @@ export default () =>
     history: [],
     address: null, // Current address
     addresses: [], // Array of previously used addresses
-    addressRole: undefined, // For Polkadot: stash, controller
+    addressRole: undefined, // Polkadot: 'stash/controller', 'stash', 'controller' or 'none'
     errorCollection: false,
     analyticsCollection: false,
     cookiesAccepted: undefined,
@@ -158,7 +156,7 @@ export default () =>
       if (currentNetwork.network_type === "polkadot") {
         await dispatch(`checkAddressRole`, {
           address,
-          currentNetwork,
+          networkId: currentNetwork.id,
         })
       }
 
@@ -239,19 +237,13 @@ export default () =>
       dispatch(`storeLocalPreferences`)
     },
     /* istanbul ignore next */
-    async checkAddressRole({ commit }, { address }) {
-      const api = await getAPI()
-      const bonded = await api.query.staking.bonded(address)
-      if (!bonded) {
-        // Set address role (stash | controller), useful for Polkadot networks so we can limit actions based on it
-        commit(`setUserAddressRole`, {
-          addressRole: `controller`,
-        })
-        return
-      }
-      commit(`setUserAddressRole`, {
-        addressRole: `stash`,
+    async checkAddressRole({ commit }, { address, networkId }) {
+      const { data } = await apollo.query({
+        query: AddressRole,
+        variables: { networkId, address },
+        fetchPolicy: "network-only",
       })
+      commit(`setUserAddressRole`, data.accountRole)
     },
     getAllSessionsAddresses(store, { networkIds }) {
       let allSessionAddresses = []
