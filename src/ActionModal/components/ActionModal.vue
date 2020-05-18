@@ -10,7 +10,11 @@
         <i class="material-icons notranslate">arrow_back</i>
       </div>
       <div class="action-modal-header">
-        <div id="closeBtn" class="action-modal-icon action-modal-close" @click="close">
+        <div
+          id="closeBtn"
+          class="action-modal-icon action-modal-close"
+          @click="close"
+        >
           <i class="material-icons notranslate">close</i>
         </div>
         <span class="action-modal-title">{{ title }}</span>
@@ -39,7 +43,9 @@
       <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
-      <TmDataLoading v-else-if="$apollo.loading && (!balancesLoaded || gasEstimateLoaded)" />
+      <TmDataLoading
+        v-else-if="$apollo.loading && (!balancesLoaded || gasEstimateLoaded)"
+      />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
@@ -59,7 +65,13 @@
             field-label="Gas Price"
           >
             <span class="input-suffix">{{ getDenom }}</span>
-            <TmField id="gas-price" v-model="gasPrice" step="0.000000001" type="number" min="0" />
+            <TmField
+              id="gas-price"
+              v-model="gasPrice"
+              step="0.000000001"
+              type="number"
+              min="0"
+            />
             <TmFormMsg
               v-if="$v.gasPrice.$error && !$v.gasPrice.required"
               name="Gas price"
@@ -103,9 +115,9 @@
           >
             <div v-if="session.browserWithLedgerSupport">
               {{
-              sending
-              ? `Please verify and sign the transaction on your Ledger`
-              : `Please plug in your Ledger&nbsp;Nano and open
+                sending
+                  ? `Please verify and sign the transaction on your Ledger`
+                  : `Please plug in your Ledger&nbsp;Nano and open
               the Cosmos app`
               }}
             </div>
@@ -133,7 +145,8 @@
                 href="http://bit.ly/lunie-ext"
                 target="_blank"
                 rel="noopener norefferer"
-              >Chrome Web Store</a>.
+                >Chrome Web Store</a
+              >.
             </div>
           </HardwareState>
           <form
@@ -164,10 +177,15 @@
         <div v-else-if="step === inclusionStep" class="action-modal-form">
           <TmDataMsg icon="hourglass_empty" :spin="true">
             <div slot="title">Sent and confirming</div>
-            <div slot="subtitle">Waiting for confirmation from {{ networkId }}.</div>
+            <div slot="subtitle">
+              Waiting for confirmation from {{ networkId }}.
+            </div>
           </TmDataMsg>
         </div>
-        <div v-else-if="step === successStep" class="action-modal-form success-step">
+        <div
+          v-else-if="step === successStep"
+          class="action-modal-form success-step"
+        >
           <TmDataMsg icon="check" icon-color="var(--success)" :success="true">
             <div slot="title">{{ notifyMessage.title }}</div>
             <div slot="subtitle">
@@ -176,25 +194,35 @@
               <br />
               <router-link
                 :to="`/${$router.history.current.params.networkId}/transactions`"
-              >See your transaction</router-link>
+                >See your transaction</router-link
+              >
             </div>
           </TmDataMsg>
         </div>
         <p
           v-if="submissionError"
           class="tm-form-msg sm tm-form-msg--error submission-error"
-        >{{ submissionError }}</p>
+        >
+          {{ submissionError }}
+        </p>
         <p
           v-if="step === feeStep && !gasEstimateLoaded"
           class="waiting-fees-message"
-        >Fetching fees...</p>
+        >
+          Fetching fees...
+        </p>
         <div class="action-modal-footer">
           <slot name="action-modal-footer">
             <TmFormGroup
               v-if="[defaultStep, feeStep, signStep].includes(step)"
               class="action-modal-group"
             >
-              <TmBtn id="closeBtn" value="Cancel" type="secondary" @click.native="close" />
+              <TmBtn
+                id="closeBtn"
+                value="Cancel"
+                type="secondary"
+                @click.native="close"
+              />
               <TmBtn
                 v-if="requiresSignIn"
                 v-focus
@@ -246,27 +274,27 @@
 </template>
 
 <script>
-import gql from 'graphql-tag'
-import noScroll from 'no-scroll'
-import * as Sentry from '@sentry/browser'
-import BigNumber from 'bignumber.js'
-import { mapState, mapGetters } from 'vuex'
-import HardwareState from 'src/components/common/TmHardwareState'
-import TmBtn from 'src/components/common/TmBtn'
-import TmField from 'src/components/common/TmField'
-import TmFormGroup from 'src/components/common/TmFormGroup'
-import TmFormMsg from 'src/components/common/TmFormMsg'
-import TmDataLoading from 'src/components/common/TmDataLoading'
-import FeatureNotAvailable from 'src/components/common/FeatureNotAvailable'
-import TmDataMsg from 'common/TmDataMsg'
-import TableInvoice from './TableInvoice'
-import Steps from './Steps'
-import { prettyInt, SMALLEST } from 'src/scripts/num'
-import { requiredIf } from 'vuelidate/lib/validators'
-import { track, sendEvent } from 'scripts/google-analytics'
-import { UserTransactionAdded } from 'src/gql'
-import config from 'src/../config'
-import TransactionManager from '../../signing/transaction-manager'
+import gql from "graphql-tag"
+import noScroll from "no-scroll"
+import * as Sentry from "@sentry/browser"
+import BigNumber from "bignumber.js"
+import { mapState, mapGetters } from "vuex"
+import HardwareState from "src/components/common/TmHardwareState"
+import TmBtn from "src/components/common/TmBtn"
+import TmField from "src/components/common/TmField"
+import TmFormGroup from "src/components/common/TmFormGroup"
+import TmFormMsg from "src/components/common/TmFormMsg"
+import TmDataLoading from "src/components/common/TmDataLoading"
+import FeatureNotAvailable from "src/components/common/FeatureNotAvailable"
+import TmDataMsg from "common/TmDataMsg"
+import TableInvoice from "./TableInvoice"
+import Steps from "./Steps"
+import { prettyInt, SMALLEST } from "src/scripts/num"
+import { requiredIf } from "vuelidate/lib/validators"
+import { track, sendEvent } from "scripts/google-analytics"
+import { UserTransactionAdded } from "src/gql"
+import config from "src/../config"
+import TransactionManager from "../../signing/transaction-manager"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -277,35 +305,35 @@ const successStep = `success`
 const SIGN_METHODS = {
   LOCAL: `local`,
   LEDGER: `ledger`,
-  EXTENSION: `extension`
+  EXTENSION: `extension`,
 }
 
 const signMethodOptions = {
   LEDGER: {
     key: `Ledger Nano`,
-    value: SIGN_METHODS.LEDGER
+    value: SIGN_METHODS.LEDGER,
   },
   EXTENSION: {
     key: `Lunie Browser Extension`,
-    value: SIGN_METHODS.EXTENSION
+    value: SIGN_METHODS.EXTENSION,
   },
   LOCAL: {
     key: `Local Account (Unsafe)`,
-    value: SIGN_METHODS.LOCAL
-  }
+    value: SIGN_METHODS.LOCAL,
+  },
 }
 
 const sessionType = {
-  EXPLORE: 'explore',
+  EXPLORE: "explore",
   LOCAL: SIGN_METHODS.LOCAL,
   LEDGER: SIGN_METHODS.LEDGER,
-  EXTENSION: SIGN_METHODS.EXTENSION
+  EXTENSION: SIGN_METHODS.EXTENSION,
 }
 
 const networkCapabilityDictionary = {
-  true: 'ENABLED',
-  false: 'DISABLED',
-  null: 'MISSING'
+  true: "ENABLED",
+  false: "DISABLED",
+  null: "MISSING",
 }
 
 export default {
@@ -320,64 +348,64 @@ export default {
     TmDataLoading,
     TableInvoice,
     Steps,
-    FeatureNotAvailable
+    FeatureNotAvailable,
   },
   filters: {
-    prettyInt
+    prettyInt,
   },
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     validate: {
       type: Function,
-      default: undefined
+      default: undefined,
     },
     submissionErrorPrefix: {
       type: String,
-      default: `Transaction failed`
+      default: `Transaction failed`,
     },
     amount: {
       type: [String, Number],
-      default: `0`
+      default: `0`,
     },
     rewards: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     transactionData: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     notifyMessage: {
       type: Object,
       default: () => ({
         title: `Successful transaction`,
-        body: `You have successfully completed a transaction.`
-      })
+        body: `You have successfully completed a transaction.`,
+      }),
     },
     featureFlag: {
       type: String,
-      default: ``
+      default: ``,
     },
     // disable proceeding from the first page
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     selectedDenom: {
       type: String,
-      default: ``
+      default: ``,
     },
     chainAppliedFees: {
       type: Number,
-      default: 0
+      default: 0,
     },
     transactionType: {
       type: String,
-      default: 'UnknownTx'
-    }
+      default: "UnknownTx",
+    },
   },
   data: () => ({
     step: defaultStep,
@@ -404,11 +432,11 @@ export default {
     smallestAmount: SMALLEST,
     balancesLoaded: false,
     gasEstimateLoaded: false,
-    polkadotFee: 0
+    polkadotFee: 0,
   }),
   asyncComputed: {
     async estimatedFee() {
-      if (this.network.network_type === 'cosmos') {
+      if (this.network.network_type === "cosmos") {
         // terra uses a tax on all send txs
         if (this.chainAppliedFees > 0) {
           return this.chainAppliedFees
@@ -420,7 +448,7 @@ export default {
       }
 
       if (
-        this.network.network_type === 'polkadot' &&
+        this.network.network_type === "polkadot" &&
         this.step === feeStep &&
         !this.session.developmentMode
       ) {
@@ -429,7 +457,7 @@ export default {
           messageType: type,
           message,
           senderAddress: this.session.address,
-          network: this.network
+          network: this.network,
         })
         this.gasEstimateLoaded = true
         this.polkadotFee = fee
@@ -440,7 +468,7 @@ export default {
         this.gasEstimateLoaded = true
       }
       return 0
-    }
+    },
   },
   computed: {
     ...mapState([`extension`, `session`]),
@@ -448,7 +476,7 @@ export default {
       `connected`,
       `isExtensionAccount`,
       `networks`,
-      `currentNetwork`
+      `currentNetwork`,
     ]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
@@ -456,8 +484,8 @@ export default {
       // DEPRECATE to support the upgrade of the old Boolean value to the new ENUM capability model, we support here temporarily the upgrade from the Boolean model to the ENUM model
       return typeof this.network[action] === `boolean` ||
         this.network[action] === null
-        ? networkCapabilityDictionary[this.network[action]] === 'ENABLED'
-        : this.network[action] === 'ENABLED'
+        ? networkCapabilityDictionary[this.network[action]] === "ENABLED"
+        : this.network[action] === "ENABLED"
     },
     network() {
       return this.networks.find(({ id }) => id == this.networkId)
@@ -469,7 +497,7 @@ export default {
       )
     },
     subTotal() {
-      return this.featureFlag === 'undelegate' ? 0 : this.amount
+      return this.featureFlag === "undelegate" ? 0 : this.amount
     },
     invoiceTotal() {
       if (
@@ -477,8 +505,8 @@ export default {
         Number(this.subTotal) + this.estimatedFee >
           this.selectedBalance.amount &&
         // emoney-mainnet and kava-mainnet don't allow discounts on fees
-        this.networkId !== 'emoney-mainnet' &&
-        this.networkId !== 'kava-mainnet'
+        this.networkId !== "emoney-mainnet" &&
+        this.networkId !== "kava-mainnet"
       ) {
         this.adjustFeesToMaxPayable()
       }
@@ -509,12 +537,12 @@ export default {
     },
     submitButtonCaption() {
       switch (this.selectedSignMethod) {
-        case 'ledger':
+        case "ledger":
           return `Waiting for Ledger`
-        case 'extension':
+        case "extension":
           return `Waiting for Extension`
         default:
-          return 'Sending...'
+          return "Sending..."
       }
     },
     getDenom() {
@@ -523,7 +551,7 @@ export default {
     selectedBalance() {
       const defaultBalance = {
         amount: 0,
-        gasPrice: 4e-7 // the defaultBalance gas price should be the highest we know of to be sure that no transaction gets out of gas
+        gasPrice: 4e-7, // the defaultBalance gas price should be the highest we know of to be sure that no transaction gets out of gas
       }
       if (this.balances.length === 0 || !this.network) {
         return defaultBalance
@@ -537,7 +565,7 @@ export default {
       // some API responses don't have gasPrices set
       if (!balance.gasPrice) balance.gasPrice = defaultBalance.gasPrice
       return balance
-    }
+    },
   },
   watch: {
     // if there is only one sign method, preselect it
@@ -547,17 +575,17 @@ export default {
         if (signMethods.length === 1) {
           this.selectedSignMethod = signMethods[0].value
         }
-      }
+      },
     },
     selectedBalance: {
       handler(selectedBalance) {
         this.gasPrice = selectedBalance.gasPrice
-      }
-    }
+      },
+    },
   },
-  updated: function() {
+  updated: function () {
     if (
-      (this.title === 'Withdraw' || this.step === 'fees') &&
+      (this.title === "Withdraw" || this.step === "fees") &&
       this.$refs.next
     ) {
       this.$refs.next.$el.focus()
@@ -571,7 +599,7 @@ export default {
       let confirmResult = false
       if (this.session.currrentModalOpen || !this.queueEmpty) {
         confirmResult = window.confirm(
-          'You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?'
+          "You are in the middle of creating a transaction. Are you sure you want to cancel this action and start a new one?"
         )
         if (confirmResult) {
           if (this.queueEmpty) {
@@ -612,7 +640,7 @@ export default {
     },
     close() {
       noScroll.off()
-      if (this.step == 'sign') {
+      if (this.step == "sign") {
         // remove the request from any sign method to avoid orphaned transactions in the sign methods
         this.transactionManager.cancel(
           { userAddress: this.session.address, networkId: this.network.id },
@@ -645,7 +673,7 @@ export default {
 
       this.$store.dispatch(`signOut`, this.network)
       if (this.$route.name !== `portfolio`)
-        this.$router.push({ name: 'portfolio' })
+        this.$router.push({ name: "portfolio" })
     },
     isValidInput(property) {
       this.$v[property].$touch()
@@ -723,7 +751,7 @@ export default {
       try {
         let transactionData
         // Polkadot loads transaction data automatic
-        if (this.network.network_type === 'cosmos') {
+        if (this.network.network_type === "cosmos") {
           transactionData = await this.transactionManager.getCosmosTransactionData(
             {
               memo,
@@ -732,20 +760,20 @@ export default {
                 : this.gasEstimate, // 1e-9 is a hack to avoid Go unmarshal errors
               gasPrice: {
                 amount: this.chainAppliedFees ? 1e-9 : this.gasPrice,
-                denom: this.getDenom
+                denom: this.getDenom,
               },
               senderAddress: this.session.address,
-              network: this.network
+              network: this.network,
             }
           )
         }
-        if (this.network.network_type === 'polkadot') {
+        if (this.network.network_type === "polkadot") {
           transactionData = {
             fee: {
               amount: this.polkadotFee,
-              denom: this.getDenom
+              denom: this.getDenom,
             },
-            addressRole: this.session.addressRole
+            addressRole: this.session.addressRole,
           }
         }
 
@@ -756,7 +784,7 @@ export default {
           senderAddress: this.session.address,
           network: this.network,
           signingType: this.selectedSignMethod,
-          password: this.password
+          password: this.password,
         })
 
         const { hash } = hashResult
@@ -779,12 +807,12 @@ export default {
       this.sendEvent(
         {
           network: this.network.id,
-          address: this.session.address
+          address: this.session.address,
         },
-        'Action',
-        'Modal',
+        "Action",
+        "Modal",
         this.featureFlag,
-        this.featureFlag === 'claim_rewards' &&
+        this.featureFlag === "claim_rewards" &&
           this.rewards &&
           this.rewards.length > 0
           ? this.rewards[0].amount
@@ -793,11 +821,11 @@ export default {
     },
     onSendingFailed(error) {
       /* istanbul ignore next */
-      Sentry.withScope(scope => {
-        scope.setExtra('signMethod', this.selectedSignMethod)
-        scope.setExtra('transactionData', this.transactionData)
-        scope.setExtra('gasEstimate', this.gasEstimate)
-        scope.setExtra('gasPrice', this.gasPrice)
+      Sentry.withScope((scope) => {
+        scope.setExtra("signMethod", this.selectedSignMethod)
+        scope.setExtra("transactionData", this.transactionData)
+        scope.setExtra("gasEstimate", this.gasEstimate)
+        scope.setExtra("gasPrice", this.gasPrice)
         Sentry.captureException(error)
       })
       this.step = signStep
@@ -806,7 +834,7 @@ export default {
     },
     maxDecimals(value, decimals) {
       return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
-    }
+    },
   },
   validations() {
     return {
@@ -815,7 +843,7 @@ export default {
           () =>
             this.selectedSignMethod === SIGN_METHODS.LOCAL &&
             this.step === signStep
-        )
+        ),
       },
       gasPrice: {
         required: requiredIf(
@@ -823,11 +851,11 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        max: x => Number(x) <= this.selectedBalance.amount
+        max: (x) => Number(x) <= this.selectedBalance.amount,
       },
       invoiceTotal: {
-        max: x => Number(x) <= this.selectedBalance.amount
-      }
+        max: (x) => Number(x) <= this.selectedBalance.amount,
+      },
     }
   },
   apollo: {
@@ -845,7 +873,7 @@ export default {
       variables() {
         return {
           networkId: this.networkId,
-          address: this.session.address
+          address: this.session.address,
         }
       },
       /* istanbul ignore next */
@@ -856,7 +884,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.session.address
-      }
+      },
     },
     gasEstimate: {
       query: gql`
@@ -876,7 +904,7 @@ export default {
       variables() {
         return {
           networkId: this.networkId,
-          transactionType: this.transactionType
+          transactionType: this.transactionType,
         }
       },
       /* istanbul ignore next */
@@ -892,9 +920,9 @@ export default {
           !this.session.address ||
           !this.transactionData ||
           this.step !== feeStep ||
-          this.network.network_type !== 'cosmos'
+          this.network.network_type !== "cosmos"
         )
-      }
+      },
     },
     $subscribe: {
       userTransactionAdded: {
@@ -902,7 +930,7 @@ export default {
         variables() {
           return {
             networkId: this.networkId,
-            address: this.session.address
+            address: this.session.address,
           }
         },
         /* istanbul ignore next */
@@ -922,10 +950,10 @@ export default {
             }
           }
           this.txHash = null
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 

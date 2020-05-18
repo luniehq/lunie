@@ -27,7 +27,7 @@ export default ({ apollo }) => {
     currrentModalOpen: false,
     modals: {
       error: { active: false },
-      help: { active: false }
+      help: { active: false },
     },
     browserWithLedgerSupport:
       navigator.userAgent.includes(`Chrome`) ||
@@ -38,8 +38,8 @@ export default ({ apollo }) => {
       config,
       track,
       anonymize,
-      deanonymize
-    }
+      deanonymize,
+    },
   }
 
   const mutations = {
@@ -64,7 +64,7 @@ export default ({ apollo }) => {
     addHistory(state, path) {
       state.history.push(path)
       state.externals.track(`pageview`, {
-        dl: path
+        dl: path,
       })
     },
     popHistory(state) {
@@ -78,7 +78,7 @@ export default ({ apollo }) => {
     },
     setUserAddressRole(state, addressRole) {
       state.addressRole = addressRole
-    }
+    },
   }
 
   const actions = {
@@ -86,8 +86,8 @@ export default ({ apollo }) => {
       dispatch,
       commit,
       rootState: {
-        connection: { network }
-      }
+        connection: { network },
+      },
     }) {
       const session = localStorage.getItem(sessionKey(network))
       if (session) {
@@ -118,14 +118,14 @@ export default ({ apollo }) => {
     ) {
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
-        usedAddress => address === usedAddress.address
+        (usedAddress) => address === usedAddress.address
       )
       // Add signin address to addresses array if was not used previously
       if (!sessionExist) {
         state.addresses.push({
           address,
           type: sessionType,
-          networkId
+          networkId,
         })
         commit(`setUserAddresses`, state.addresses)
       }
@@ -147,17 +147,17 @@ export default ({ apollo }) => {
       dispatch(`persistSession`, {
         address,
         sessionType,
-        networkId: currentNetwork.id
+        networkId: currentNetwork.id,
       })
       const addresses = state.addresses
       dispatch(`persistAddresses`, {
-        addresses
+        addresses,
       })
 
       if (currentNetwork.network_type === "polkadot") {
         await dispatch(`checkAddressRole`, {
           address,
-          networkId
+          networkId: currentNetwork.id,
         })
       }
 
@@ -191,7 +191,7 @@ export default ({ apollo }) => {
         cookiesAccepted,
         errorCollection,
         analyticsCollection,
-        preferredCurrency
+        preferredCurrency,
       } = JSON.parse(localPreferences)
 
       if (cookiesAccepted) {
@@ -212,7 +212,7 @@ export default ({ apollo }) => {
           cookiesAccepted: state.cookiesAccepted,
           errorCollection: state.errorCollection,
           analyticsCollection: state.analyticsCollection,
-          preferredCurrency: state.preferredCurrency
+          preferredCurrency: state.preferredCurrency,
         })
       )
     },
@@ -247,16 +247,16 @@ export default ({ apollo }) => {
       const { data } = await apollo.query({
         query: AddressRole,
         variables: { networkId, address },
-        fetchPolicy: "network-only"
+        fetchPolicy: "network-only",
       })
       commit(`setUserAddressRole`, data.accountRole)
-    }
+    },
   }
 
   return {
     state,
     mutations,
-    actions
+    actions,
   }
 }
 

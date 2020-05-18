@@ -14,7 +14,11 @@ export async function SendTx(senderAddress, { to, amount }, network) {
 }
 
 // Staking
-export async function StakeTx(senderAddress, { to, amount, addressRole }, network) {
+export async function StakeTx(
+  senderAddress,
+  { to, amount, addressRole },
+  network
+) {
   // stake with all existing plus the selected
   const api = await getAPI()
   const transactions = []
@@ -38,10 +42,13 @@ export async function StakeTx(senderAddress, { to, amount, addressRole }, networ
 
   if (to.length > 0) {
     // only controller addresses can nominate (for not set controllers, we set the controller above)
-    if (['controller', 'stash/controller', 'none'].includes(addressRole)) {
+    if (["controller", "stash/controller", "none"].includes(addressRole)) {
       const response = await api.query.staking.nominators(senderAddress)
       const { targets: delegatedValidators = [] } = response.toJSON() || {}
-      const validatorAddresses = uniqBy(delegatedValidators.concat(to[0]), x => x)
+      const validatorAddresses = uniqBy(
+        delegatedValidators.concat(to[0]),
+        (x) => x
+      )
       transactions.push(await api.tx.staking.nominate(validatorAddresses))
     }
   }

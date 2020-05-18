@@ -71,11 +71,11 @@
     :placeholder="placeholder"
     :value="value"
     step="0.000001"
+    :disabled="isDisabled"
     @change="onChange"
     @keyup="onKeyup"
     @keydown="onKeydown"
     @input="updateValue($event.target.value)"
-    :disabled="isDisabled"
   />
 </template>
 

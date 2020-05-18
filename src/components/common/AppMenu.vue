@@ -7,20 +7,29 @@
             v-if="
               session.addressRole && session.addressRole !== `stash/controller`
             "
-          >{{ capitalizeFirstLetter(session.addressRole) }} Address</h3>
+          >
+            {{ capitalizeFirstLetter(session.addressRole) }} Address
+          </h3>
           <h3 v-else>Your Address</h3>
           <Address class="menu-address" :address="address || ''" />
         </div>
         <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-          <i v-tooltip.top="'Sign Out'" class="material-icons notranslate">exit_to_app</i>
+          <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
+            >exit_to_app</i
+          >
         </a>
       </div>
       <a
         v-if="!session.isMobile && session.sessionType === 'ledger'"
         class="show-on-ledger"
         @click="showAddressOnLedger()"
-      >Show on Ledger</a>
-      <TmFormMsg v-if="ledgerAddressError" :msg="ledgerAddressError" type="custom" />
+        >Show on Ledger</a
+      >
+      <TmFormMsg
+        v-if="ledgerAddressError"
+        :msg="ledgerAddressError"
+        type="custom"
+      />
     </div>
     <TmBtn
       v-else
@@ -139,34 +148,34 @@
 </template>
 
 <script>
-import Address from 'common/Address'
-import ConnectedNetwork from 'common/TmConnectedNetwork'
-import TmBtn from 'common/TmBtn'
-import TmFormMsg from 'common/TmFormMsg'
-import { mapGetters, mapState } from 'vuex'
-import { shortDecimals } from 'scripts/num.js'
-import { showAddressOnLedger } from 'scripts/ledger'
+import Address from "common/Address"
+import ConnectedNetwork from "common/TmConnectedNetwork"
+import TmBtn from "common/TmBtn"
+import TmFormMsg from "common/TmFormMsg"
+import { mapGetters, mapState } from "vuex"
+import { shortDecimals } from "scripts/num.js"
+import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `app-menu`,
   components: {
     Address,
     ConnectedNetwork,
     TmBtn,
-    TmFormMsg
+    TmFormMsg,
   },
   filters: {
-    shortDecimals
+    shortDecimals,
   },
   data: () => ({
     ledgerAddressError: undefined,
-    showAddressOnLedgerFn: showAddressOnLedger
+    showAddressOnLedgerFn: showAddressOnLedger,
   }),
   computed: {
-    ...mapState([`session`, 'connection']),
+    ...mapState([`session`, "connection"]),
     ...mapGetters([`address`, `network`]),
     networkSlug() {
       return this.connection.networkSlug
-    }
+    },
   },
   methods: {
     handleClick() {
@@ -181,7 +190,7 @@ export default {
       if (this.$route.name !== `portfolio`) {
         this.$router.push({
           name: `portfolio`,
-          params: { networkId: this.networkSlug }
+          params: { networkId: this.networkSlug },
         })
       }
       this.$emit(`close`)
@@ -204,8 +213,8 @@ export default {
     },
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
-    }
-  }
+    },
+  },
 }
 </script>
 
