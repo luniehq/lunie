@@ -72,10 +72,11 @@ jobs:
     name: testE2E
     runs-on: ubuntu-latest
     container:
-      image: circleci/node:10.15.3
       image: circleci/node:10.15.3-browsers
     steps:
       - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
       - name: Install dependencies
         run: yarn install
       - name: Run testE2E
