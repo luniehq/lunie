@@ -1078,23 +1078,23 @@ apollo-cache-control@^0.8.8:
     apollo-server-env "^2.4.3"
     graphql-extensions "^0.10.7"
 
-apollo-datasource-rest@^0.6.6:
-  version "0.6.9"
-  resolved "https://registry.yarnpkg.com/apollo-datasource-rest/-/apollo-datasource-rest-0.6.9.tgz#2a46d2972e97a83341ded7ca2d59d1a173a23cd6"
-  integrity sha512-57B1R/V1UrSglfJsQLeRmhIuCin4318mD9flz4u41ppz76maFfi0gMBNTKX9d7vwtpDz0g/ExBauawzoE+a6RQ==
+apollo-datasource-rest@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/apollo-datasource-rest/-/apollo-datasource-rest-0.9.0.tgz#20075ecee76c218930f9af5ba0e783023111b217"
+  integrity sha512-UeukRXbuamqhe1P6f0/vVE8iHE4VOWTUULJrDVBysJmw4kMH2kGdc8tlqJGFStmCUtazW0CgWmvpJIPv9Va4kg==
   dependencies:
-    apollo-datasource "^0.6.3"
-    apollo-server-caching "^0.5.0"
+    apollo-datasource "^0.7.0"
+    apollo-server-caching "^0.5.1"
     apollo-server-env "^2.4.3"
-    apollo-server-errors "^2.3.4"
+    apollo-server-errors "^2.4.1"
     http-cache-semantics "^4.0.0"
 
-apollo-datasource@^0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/apollo-datasource/-/apollo-datasource-0.6.3.tgz#b31e089e52adb92fabb536ab8501c502573ffe13"
-  integrity sha512-gRYyFVpJgHE2hhS+VxMeOerxXQ/QYxWG7T6QddfugJWYAG9DRCl65e2b7txcGq2NP3r+O1iCm4GNwhRBDJbd8A==
+apollo-datasource@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/apollo-datasource/-/apollo-datasource-0.7.0.tgz#2a6d82edb2eba21b4ddf21877009ba39ff821945"
+  integrity sha512-Yja12BgNQhzuFGG/5Nw2MQe0hkuQy2+9er09HxeEyAf2rUDIPnhPrn1MDoZTB8MU7UGfjwITC+1ofzKkkrZobA==
   dependencies:
-    apollo-server-caching "^0.5.0"
+    apollo-server-caching "^0.5.1"
     apollo-server-env "^2.4.3"
 
 apollo-datasource@^0.7.1-alpha.0:
@@ -1230,11 +1230,6 @@ apollo-server-env@^2.4.4-alpha.0:
   dependencies:
     node-fetch "^2.1.2"
     util.promisify "^1.0.0"
-
-apollo-server-errors@^2.3.4:
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/apollo-server-errors/-/apollo-server-errors-2.3.4.tgz#b70ef01322f616cbcd876f3e0168a1a86b82db34"
-  integrity sha512-Y0PKQvkrb2Kd18d1NPlHdSqmlr8TgqJ7JQcNIfhNDgdb45CnqZlxL1abuIRhr8tiw8OhVOcFxz2KyglBi8TKdA==
 
 apollo-server-errors@^2.4.1:
   version "2.4.1"
