@@ -45,21 +45,7 @@ export default {
     TmDataMsg
   },
   data: () => ({
-    notifications: [],
-    dbNotificationsAddressObjects: [
-      {
-        networkId: "cosmos-hub-testnet",
-        address: "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0"
-      },
-      {
-        networkId: "kava-testnet",
-        address: "kava1keh9ywk0h47l9zz9z7tjk0v4c94hxpkn4620vx"
-      },
-      {
-        networkId: "kusama",
-        address: "HRPW2yeG84Z7uGouPyCvDFR2W61CCe9dkABhrToxgjPQ97i"
-      }
-    ]
+    notifications: []
   }),
   computed: {
     ...mapGetters([`networks`]),
@@ -94,7 +80,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          addressObjects: this.dbNotificationsAddressObjects
+          addressObjects: this.allSessionAddresses
         }
       },
       /* istanbul ignore next */
