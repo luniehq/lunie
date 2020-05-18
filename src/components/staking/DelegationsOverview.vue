@@ -10,7 +10,6 @@
         alt="geometric placeholder shapes"
       />
     </div>
-
     <div v-else-if="delegations.length > 0">
       <h1>Your Validators</h1>
       <TableValidators
