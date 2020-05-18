@@ -14,6 +14,14 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
+    <TmFormGroup v-if="session.addressRole && session.addressRole === `stash`" class="action-modal-form-group">
+      <div class="form-message notice">
+        <span>
+         For staking to validators you need to sign in with your controller 
+         account. You can still send tokens.
+        </span>
+      </div>
+    </TmFormGroup>
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
@@ -64,6 +72,7 @@
         :title="from"
         :options="fromOptions"
         type="select"
+        :isDisabled="session.addressRole === `stash`"
       />
     </TmFormGroup>
     <TmFormGroup
@@ -88,6 +97,7 @@
           class="tm-field-addon"
           type="number"
           @keyup.enter.native="enterPressed"
+          :isDisabled="session.addressRole === `controller`"
         />
         <TmBtn
           type="button"
@@ -329,14 +339,24 @@ export default {
   validations() {
     return {
       amount: {
-        required: x =>
-          this.currentNetwork.network_type === "polkadot" &&
-          this.totalStaked > 0
-            ? true
-            : !!x && x !== `0`,
+        required: x => {
+          if (this.session.addressRole === `controller`) {
+            return true
+          } else if (this.currentNetwork.network_type === "polkadot" && this.totalStaked > 0) {
+            return true
+          } else {
+            return !!x && x !== `0`
+          }
+        },
         decimal,
         max: x => Number(x) <= this.maxAmount,
-        min: x => Number(x) >= SMALLEST,
+        min: x => {
+          if (this.session.addressRole === `controller`) {
+            return true
+          } else {
+            return Number(x) >= SMALLEST
+          }
+        },
         maxDecimals: x => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6

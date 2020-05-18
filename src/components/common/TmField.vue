@@ -75,6 +75,7 @@
     @keyup="onKeyup"
     @keydown="onKeydown"
     @input="updateValue($event.target.value)"
+    :disabled="isDisabled"
   />
 </template>
 
