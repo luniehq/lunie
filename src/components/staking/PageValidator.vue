@@ -79,7 +79,7 @@
         <TmBtn
           id="undelegation-btn"
           class="undelegation-btn"
-          :disabled="delegation.noDelegation"
+          :disabled="delegation.noDelegation || session.addressRole === `stash`"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
@@ -300,7 +300,7 @@ export default {
     },
   }),
   computed: {
-    ...mapState([`connection`]),
+    ...mapState([`connection`, `session`]),
     ...mapGetters([`network`, `stakingDenom`, `currentNetwork`]),
     ...mapGetters({ userAddress: `address` }),
   },
