@@ -16,7 +16,9 @@
               clip-rule="evenodd"
               d="M99.6566 52.2694C99.6566 77.127 80.4508 97.7109 55.7942 99.5268C52.6437 99.7588 49.9016 97.3929 49.6695 94.2423C49.4375 91.0918 51.8034 88.3497 54.954 88.1177C73.6452 86.7411 88.2166 71.1242 88.2166 52.2694C88.2166 33.4303 73.6686 17.8213 54.9959 16.4243C51.8456 16.1886 49.4829 13.4438 49.7185 10.2935C49.9542 7.14327 52.6991 4.78053 55.8493 5.01621C80.4816 6.859 99.6566 27.4324 99.6566 52.2694ZM33.8699 20.1512C37.758 20.1512 40.9099 16.9993 40.9099 13.1112C40.9099 9.22312 37.758 6.0712 33.8699 6.0712C29.9818 6.0712 26.8299 9.22312 26.8299 13.1112C26.8299 16.9993 29.9818 20.1512 33.8699 20.1512ZM22.3632 27.778C22.3632 31.666 19.2113 34.818 15.3232 34.818C11.4351 34.818 8.2832 31.666 8.2832 27.778C8.2832 23.8899 11.4351 20.738 15.3232 20.738C19.2113 20.738 22.3632 23.8899 22.3632 27.778ZM7.04 57.8707C10.9281 57.8707 14.08 54.7188 14.08 50.8307C14.08 46.9426 10.9281 43.7907 7.04 43.7907C3.15192 43.7907 0 46.9426 0 50.8307C0 54.7188 3.15192 57.8707 7.04 57.8707ZM22.3632 75.6579C22.3632 79.546 19.2113 82.6979 15.3232 82.6979C11.4351 82.6979 8.2832 79.546 8.2832 75.6579C8.2832 71.7698 11.4351 68.6179 15.3232 68.6179C19.2113 68.6179 22.3632 71.7698 22.3632 75.6579ZM40.9099 90.3246C40.9099 94.2126 37.758 97.3646 33.8699 97.3646C29.9818 97.3646 26.8299 94.2126 26.8299 90.3246C26.8299 86.4365 29.9818 83.2846 33.8699 83.2846C37.758 83.2846 40.9099 86.4365 40.9099 90.3246Z"
             />
-            <path d="M172.268 76.238V67.4155H147.158V27.8495H137.656V76.238H172.268Z" />
+            <path
+              d="M172.268 76.238V67.4155H147.158V27.8495H137.656V76.238H172.268Z"
+            />
             <path
               d="M205.772 76.238H213.713V37.2151H204.211V57.0998C204.211 64.2257 201.022 69.0442 194.846 69.0442C188.331 69.0442 186.159 64.8365 186.159 58.3893V37.2151H176.726V60.8324C176.726 70.8766 181.612 77.1203 191.453 77.1203C198.239 77.1203 202.786 73.7949 204.89 68.5692L205.772 76.238Z"
             />
@@ -46,14 +48,19 @@
         </router-link>
         <div class="header-menu-section">
           <template v-if="!desktop">
-            <router-link v-if="session.experimentalMode" :to="{ name: 'notifications' }">
+            <router-link
+              v-if="session.experimentalMode"
+              :to="{ name: 'notifications' }"
+            >
               <i class="material-icons">notifications</i>
             </router-link>
             <div v-if="open" class="close-menu" @click="close()">
               <i class="material-icons notranslate mobile-menu-action">close</i>
             </div>
             <div v-if="!open" class="open-menu" @click="show()">
-              <i class="material-icons notranslate mobile-menu-action">more_vert</i>
+              <i class="material-icons notranslate mobile-menu-action"
+                >more_vert</i
+              >
             </div>
           </template>
         </div>
@@ -64,10 +71,10 @@
 </template>
 
 <script>
-import config from 'src/../config'
-import { mapState } from 'vuex'
-import noScroll from 'no-scroll'
-import AppMenu from 'common/AppMenu'
+import config from "src/../config"
+import { mapState } from "vuex"
+import noScroll from "no-scroll"
+import AppMenu from "common/AppMenu"
 export default {
   name: `app-header`,
   components: { AppMenu },
@@ -77,7 +84,7 @@ export default {
     isMobileApp: config.mobileApp
   }),
   computed: {
-    ...mapState([`session`, 'connection']),
+    ...mapState([`session`, "connection"]),
     networkSlug() {
       return this.connection.networkSlug
     }

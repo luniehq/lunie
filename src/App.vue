@@ -16,15 +16,15 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import AppHeader from 'common/AppHeader'
-import MobileMenu from 'common/MobileMenu'
-import CookieBar from 'common/CookieBar'
-import MaintenanceBar from 'common/MaintenanceBar'
-import DisconnectedBar from 'common/DisconnectedBar'
-import TmNotifications from 'common/TmNotifications'
-import store from './vuex/store'
-import config from 'src/../config'
+import { mapState, mapGetters } from "vuex"
+import AppHeader from "common/AppHeader"
+import MobileMenu from "common/MobileMenu"
+import CookieBar from "common/CookieBar"
+import MaintenanceBar from "common/MaintenanceBar"
+import DisconnectedBar from "common/DisconnectedBar"
+import TmNotifications from "common/TmNotifications"
+import store from "./vuex/store"
+import config from "src/../config"
 
 export default {
   name: `app`,
