@@ -73,8 +73,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js and Headless Browser
-        uses: aquariuslt/node-browsers-github-actions@master
+      - name: Use Chromedriver
+        uses: nanasess/setup-chromedriver@master
+      - name: Use Node.js
+        uses: actions/setup-node@v1
       - name: Install dependencies
         run: yarn install
       - name: Run testE2E
