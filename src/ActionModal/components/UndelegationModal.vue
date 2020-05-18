@@ -24,7 +24,7 @@
     >
       <div class="form-message notice">
         <span>
-          This is a stash account, you can increase the amount to stake but you
+          This is a stash account, you can decrease the amount you stake but you
           need to sign in with your controller account to change your
           validators.
         </span>
