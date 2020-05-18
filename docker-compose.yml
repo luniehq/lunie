@@ -3,7 +3,7 @@ services:
   lunieapi:
     image: lunieapi:latest
     container_name: lunieapi
-    restart: on-failure
+    restart: unless-stopped
     secrets:
     - HASURA_ADMIN_KEY
     volumes:
@@ -20,8 +20,6 @@ services:
       resources:
         limits:
           memory: 2.5G
-      restart_policy:
-        condition: on-failure
     environment:
       - PORT=$PORT
       - HASURA_URL=$HASURA_URL
