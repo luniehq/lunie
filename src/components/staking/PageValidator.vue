@@ -79,7 +79,7 @@
         <TmBtn
           id="undelegation-btn"
           class="undelegation-btn"
-          :disabled="delegation.noDelegation || session.addressRole === `stash`"
+          :disabled="delegation.amount === 0"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
@@ -378,8 +378,7 @@ export default {
       update(result) {
         if (!result.delegation) {
           return {
-            amount: 0,
-            noDelegation: true,
+            amount: 0
           }
         }
         /* istanbul ignore next */
