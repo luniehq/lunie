@@ -140,7 +140,8 @@
     "yargs-parser": ">=18.1.2",
     "@vue/cli-service/**/yargs-parser": "^13.1.2",
     "@hapi/hoek": ">=9.0.3",
-    "kind-of": ">=6.0.3"
+    "kind-of": ">=6.0.3",
+    "http-proxy": ">=1.18.1"
   },
   "engines": {
     "node": ">=10.13.0"
