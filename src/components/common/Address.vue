@@ -94,6 +94,7 @@ export default {
 .copyable-address .icon-container i.success {
   color: var(--success);
 }
+
 .copyable-address .icon-container i.success {
   color: var(--success);
 }

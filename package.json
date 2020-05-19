@@ -8,7 +8,8 @@
     "buildsentry": "node tasks/create-version-file.js && vue-cli-service build --no-unsafe-inline --skip-plugins pwa && chmod 755 tasks/sentry.sh && ./tasks/sentry.sh",
     "build:mobile": "cross-env MOBILE_APP=true npm run build",
     "changelog": "simsala log --pending-path ./changes",
-    "lint": "vue-cli-service lint",
+    "lint": "yarn lint:style & yarn lint:js",
+    "lint:js": "vue-cli-service lint",
     "lint:style": "vue-cli-service lint:style",
     "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git checkout origin/release -B release && git pull && git merge origin/develop && git push",
     "serve": "kill-port 9080 && vue-cli-service serve --port 9080",
@@ -134,7 +135,6 @@
     }
   },
   "resolutions": {
-    "stylelint-webpack-plugin": "1.1.2",
     "acorn": "6.4.1",
     "minimist": ">=1.2.3",
     "yargs-parser": ">=18.1.2",

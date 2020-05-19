@@ -141,20 +141,24 @@ export default {
   padding-left: 1rem;
   text-overflow: ellipsis;
 }
+
 .li-validator h4,
 .li-validator h5 {
   font-size: var(--sm);
   display: inline-block;
 }
+
 .li-validator h5 {
   padding-left: 0.5rem;
   color: var(--success);
 }
+
 .li-validator:hover {
   cursor: pointer;
   background: var(--app-fg-hover);
   color: var(--bright);
 }
+
 .li-validator-name {
   font-size: 1rem;
   line-height: 18px;
@@ -166,6 +170,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .li-validator-image {
   border-radius: 0.25rem;
   height: 2.5rem;
@@ -174,6 +179,7 @@ export default {
   min-width: 2.5rem;
   border: 1px solid var(--bc-dim);
 }
+
 .validator-status {
   text-transform: uppercase;
   font-size: 10px;
@@ -182,14 +188,17 @@ export default {
   padding: 2px 4px;
   border-radius: 0.25rem;
 }
+
 .validator-status.inactive {
   color: var(--warning);
   border-color: var(--warning);
 }
+
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);
 }
+
 @media screen and (max-width: 768px) {
   .li-validator-name {
     max-width: 11rem;
