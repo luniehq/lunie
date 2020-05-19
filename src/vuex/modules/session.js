@@ -2,7 +2,7 @@ import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/../config"
 import { AddressRole } from "../../gql"
 
-export default ({ apollo }) => 
+export default ({ apollo }) => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
   const state = {
