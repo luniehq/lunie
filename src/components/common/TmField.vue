@@ -9,17 +9,16 @@
       @keyup="onKeyup"
       @keydown="onKeydown"
     >
-      <option value="" disabled="disabled" selected="selected" hidden="hidden">
-        {{ selectPlaceholder }}
-      </option>
+      <option value disabled="disabled" selected="selected" hidden="hidden">{{
+        selectPlaceholder
+      }}</option>
       <template>
         <option
           v-for="(option, index) in resolvedOptions"
           :key="index"
           :value="option.value"
+          >{{ option.key }}</option
         >
-          {{ option.key }}
-        </option>
       </template>
     </select>
     <div class="tm-field-select-addon">
@@ -60,40 +59,40 @@ export default {
   props: {
     type: {
       type: String,
-      default: `text`
+      default: `text`,
     },
     value: {
       type: [String, Number, Boolean],
-      default: null
+      default: null,
     },
     placeholder: {
       type: String,
-      default: null
+      default: null,
     },
     size: {
       type: String,
-      default: null
+      default: null,
     },
     options: {
       type: [Array, Object],
-      default: null
+      default: null,
     },
     change: {
       type: Function,
-      default: null
+      default: null,
     },
     keyup: {
       type: Function,
-      default: null
+      default: null,
     },
     keydown: {
       type: Function,
-      default: null
+      default: null,
     },
     isDisabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     css() {
@@ -108,12 +107,12 @@ export default {
       if (this.type === `select`) {
         return this.options || []
       }
-      return
+      return []
     },
     selectPlaceholder() {
       if (this.placeholder) return this.placeholder
       else return `Select option...`
-    }
+    },
   },
   methods: {
     updateValue(value) {
@@ -137,8 +136,8 @@ export default {
     },
     onKeydown(...args) {
       if (this.keydown) return this.keydown(...args)
-    }
-  }
+    },
+  },
 }
 </script>
 
