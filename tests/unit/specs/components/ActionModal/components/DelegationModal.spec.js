@@ -33,7 +33,7 @@ describe(`DelegationModal`, () => {
 
   const state = {
     session: {
-      signedIn: true
+      signedIn: true,
     },
   }
 

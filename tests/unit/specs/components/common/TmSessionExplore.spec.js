@@ -102,7 +102,7 @@ describe(`TmSessionExplore`, () => {
       address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`,
     })
     await wrapper.vm.onSubmit()
-    expect($store.dispatch).toHaveBeenCalledWith(`getNetworkByAccount`,  {
+    expect($store.dispatch).toHaveBeenCalledWith(`getNetworkByAccount`, {
       account: {
         address: `cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx`,
       },
@@ -124,7 +124,7 @@ describe(`TmSessionExplore`, () => {
   it(`should explore with a previously used address`, async () => {
     let address = `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`
     await wrapper.vm.exploreWith(address)
-    expect($store.dispatch).toHaveBeenCalledWith(`getNetworkByAccount`,  {
+    expect($store.dispatch).toHaveBeenCalledWith(`getNetworkByAccount`, {
       account: {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
       },

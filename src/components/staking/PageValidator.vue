@@ -378,7 +378,7 @@ export default {
       update(result) {
         if (!result.delegation) {
           return {
-            amount: 0
+            amount: 0,
           }
         }
         /* istanbul ignore next */
