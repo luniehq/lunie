@@ -1,6 +1,6 @@
 {
   "name": "lunie-api",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "GraphQL API for Lunie.io",
   "repository": {
     "type": "git",
@@ -42,7 +42,7 @@
     "bignumber.js": "^9.0.0",
     "coingecko-api": "^1.0.10",
     "dotenv": "^8.2.0",
-    "graphql": "^14.6.0",
+    "graphql": "^15.0.0",
     "graphql-redis-subscriptions": "^2.2.1",
     "lodash": "^4.17.15",
     "nock": "^12.0.3",
