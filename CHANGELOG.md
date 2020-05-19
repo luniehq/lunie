@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.13] - 2020-05-19
+
+### Changed
+
+- [#788](https://github.com/cosmos/lunie/pull/788) Fetch Terra tax rate dynamically @Bitcoinera
+
+## [1.0.12] - 2020-05-18
+
+### Added
+
+- [#730](https://github.com/cosmos/lunie/pull/730) Adds Kava testnet @Bitcoinera
+- [#764](https://github.com/cosmos/lunie/issues/764) Address role detection in polkadot @mariopino
+- Remove push and add notification service @michielmulders
+
+### Changed
+
+- [#738](https://github.com/cosmos/lunie/pull/738) Adds dependabot config to automatically open PRs on @polkadot/api releases @Bitcoinera
+- [#754](https://github.com/cosmos/lunie/pull/754) Adds experimental flag to the networks Object @Bitcoinera
+- [#730](https://github.com/cosmos/lunie/pull/730) Enables remaining actions and feats for kava-mainnet @Bitcoinera
+- Add docker secret for hasura key and remove port secret @michielmulders
+
+### Fixed
+
+- [#740](https://github.com/cosmos/lunie/issues/740) Fixes property 0 of undefined in depositDetailsReducer for kava-testnet @Bitcoinera
+- [#782](https://github.com/cosmos/lunie/issues/782) Fixes duplicate notifications @Bitcoinera
+- [#762](https://github.com/cosmos/lunie/pull/762) Fixes Kusama portfolio claimedRewards of undefined error @Bitcoinera
+- [#768](https://github.com/cosmos/lunie/issues/768) Detect transaction success in polkadot @mariopino
+
+### Code Improvements
+
+- Format according to new standards for updated linting libraries @faboweb
+
+### Repository
+
+- Restart the lunie-api docker container always to account for memory outage @faboweb
+
 ## [1.0.11] - 2020-05-12
 
 ### Changed

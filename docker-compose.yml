@@ -3,12 +3,11 @@ services:
   lunieapi:
     image: lunieapi:latest
     container_name: lunieapi
-    restart: on-failure
+    restart: unless-stopped
     secrets:
     - HASURA_ADMIN_KEY
     volumes:
     - /logs:/var/www/server/logs
-    - ./pushCredentials.json:/var/www/server/pushCredentials.json
     - caches:/var/www/server/caches
     networks:
        - general
@@ -21,8 +20,6 @@ services:
       resources:
         limits:
           memory: 2.5G
-      restart_policy:
-        condition: on-failure
     environment:
       - PORT=$PORT
       - HASURA_URL=$HASURA_URL
@@ -30,11 +27,6 @@ services:
       - NODE_ENV=staging
       - ENABLE_CACHE=true
       - REDIS_URL=http://redis:6379
-      - PUBLIC_VAPID_KEY=BJwy1mP8njRNKyo2uPfjnB73tq6_HHXYnozMPaafCSBpdmoxe9RLYjC2DvRpDfUWoxY3c0-7R3ki9exKJ6cfe5k
-      - PRIVATE_VAPID_KEY=$PRIVATE_VAPID_KEY
-      - PUSH_NOTIFICATIONS_DATABASE_URL=https://lunie-push-notifications.firebaseio.com
-      - GOOGLE_APPLICATION_CREDENTIALS=/var/www/server/pushCredentials.json
-      - PUSH_NOTIFICATIONS_FRONTEND_URL=https://app.lunie.io
       - EMONEY_EXCHANGE_API_RATES_ENDPOINT=https://api.exchangeratesapi.io/latest?
       - EMONEY_API_MAINNET=https://api.e-money.com/v1/
       - EMONEY_API_TESTNET=https://beta-api.e-money.com/v1/

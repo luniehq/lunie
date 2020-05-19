@@ -26,13 +26,13 @@ jest.mock('apollo-datasource-rest', () => {
   }
 })
 
-describe('Cosmos V2 API', function() {
-  describe('getRewards()', function() {
+describe('Cosmos V2 API', function () {
+  describe('getRewards()', function () {
     let api, cosmosNetworkConfig, store
 
     beforeEach(() => {
       cosmosNetworkConfig = networks.find(
-        network => network.id === 'cosmos-hub-testnet'
+        (network) => network.id === 'cosmos-hub-testnet'
       )
       store = {
         validators: mockValidatorsDictionary
