@@ -58,26 +58,25 @@
         :value="
           session.addressRole === `stash`
             ? `--`
-            : (targetValidator | validatorEntry)
+            : validatorEntry(targetValidator)
         "
         type="text"
         readonly
       />
-      <template v-if="network.type !== `polkadot` || (addressRole && addressRole !== `stash`)">
+      <template
+        v-if="
+          network.type !== `polkadot` ||
+          (addressRole && addressRole !== `stash`)
+        "
+      >
         <TmFormMsg
-          v-if="
-            targetValidator.status === 'INACTIVE' &&
-            !isRedelegation
-          "
+          v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
           :msg="`You are about to stake to an inactive validator (${targetValidator.statusDetailed})`"
           type="custom"
           class="tm-form-msg--desc"
         />
         <TmFormMsg
-          v-if="
-            targetValidator.status === 'INACTIVE' &&
-            isRedelegation
-          "
+          v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
           :msg="`You are about to restake to an inactive validator (${targetValidator.statusDetailed})`"
           type="custom"
           class="tm-form-msg--desc"
