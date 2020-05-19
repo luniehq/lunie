@@ -9,118 +9,118 @@ describe(`TmFormMsg`, () => {
       name: `Password`,
       min: 16,
       max: 255,
-      error: `Password must be between 16 and 255 characters`
+      error: `Password must be between 16 and 255 characters`,
     },
     {
       type: `words16`,
       name: `Seed`,
-      error: `Seed phrase must be 16 words`
+      error: `Seed phrase must be 16 words`,
     },
     {
       type: `words24`,
       name: `Seed`,
-      error: `Seed phrase must be 24 words`
+      error: `Seed phrase must be 24 words`,
     },
     {
       type: `words12or24`,
       name: `Seed`,
-      error: `Seed phrase must be 12 or 24 words`
+      error: `Seed phrase must be 12 or 24 words`,
     },
     {
       type: `lowercaseAndSpaces`,
       name: `Seed`,
-      error: `phrase words must be all lowercase and separated by spaces`
+      error: `phrase words must be all lowercase and separated by spaces`,
     },
     {
       type: `incorrectPolkadotSeed`,
       name: `Seed`,
-      error: `is not correct. Check spelling, spaces or hash length`
+      error: `is not correct. Check spelling, spaces or hash length`,
     },
     {
       type: `alphaNum`,
       name: `Asdf`,
-      error: `Asdf must contain only alphanumeric characters`
+      error: `Asdf must contain only alphanumeric characters`,
     },
     {
       type: `numeric`,
       name: `Asdf`,
-      error: `Asdf must contain only numerals`
+      error: `Asdf must contain only numerals`,
     },
     {
       type: `between`,
       name: `Asdf`,
       min: 16,
       max: 255,
-      error: `Asdf must be between 16 and 255`
+      error: `Asdf must be between 16 and 255`,
     },
     {
       type: `date`,
       name: `Asdf`,
-      error: `Asdf must be a valid date`
+      error: `Asdf must be a valid date`,
     },
     {
       type: `datetime`,
       name: `Asdf`,
-      error: `Asdf must be a valid date and time`
+      error: `Asdf must be a valid date and time`,
     },
     {
       type: `exactLength`,
       name: `Asdf`,
       length: 16,
-      error: `Asdf must be exactly 16 characters`
+      error: `Asdf must be exactly 16 characters`,
     },
     {
       type: `ipAddress`,
       name: `Asdf`,
-      error: `Asdf must be a valid IPv4 or IPv6 address`
+      error: `Asdf must be a valid IPv4 or IPv6 address`,
     },
     {
       type: `minLength`,
       name: `Asdf`,
       min: 2,
-      error: `Asdf must be equal or longer than 2 characters`
+      error: `Asdf must be equal or longer than 2 characters`,
     },
     {
       type: `maxLength`,
       name: `Asdf`,
       max: 255,
-      error: `Asdf must be equal or shorter than 255 characters`
+      error: `Asdf must be equal or shorter than 255 characters`,
     },
     {
       type: `match`,
       name: `Asdf`,
-      error: `Asdf must match`
+      error: `Asdf must match`,
     },
     {
       type: `required`,
       name: `Asdf`,
-      error: `Asdf is required`
+      error: `Asdf is required`,
     },
     {
       type: `url`,
       name: `Asdf`,
-      error: `Asdf must be a valid URL (http:// required)`
+      error: `Asdf must be a valid URL (http:// required)`,
     },
     {
       type: `default`,
       name: `Asdf`,
-      error: `Asdf must be valid`
+      error: `Asdf must be valid`,
     },
     {
       type: `bech32`,
       name: `Address`,
-      error: `Address is invalid bech32`
+      error: `Address is invalid bech32`,
     },
     {
       type: `integer`,
       name: `Number`,
-      error: `Number must be an integer`
+      error: `Number must be an integer`,
     },
     {
       type: `custom`,
       msg: `HALLO WORLD`,
-      error: `HALLO WORLD`
-    }
+      error: `HALLO WORLD`,
+    },
   ]
 
   beforeEach(() => {
@@ -139,12 +139,9 @@ describe(`TmFormMsg`, () => {
     it(`shows correct message for ` + propsData[i].type, () => {
       const { type, name, min, max, length, msg } = propsData[i]
       wrapper.setProps({ type, name, min, max, length, msg })
-      expect(
-        wrapper
-          .find(`.tm-form-msg`)
-          .text()
-          .trim()
-      ).toContain(propsData[i].error)
+      expect(wrapper.find(`.tm-form-msg`).text().trim()).toContain(
+        propsData[i].error
+      )
     })
   }
 })

@@ -10,5 +10,5 @@ module.exports = {
   encode(value, prefix = `cosmos1`, type = `hex`) {
     const words = bech32.toWords(Buffer.from(value, type))
     return bech32.encode(prefix, words)
-  }
+  },
 }

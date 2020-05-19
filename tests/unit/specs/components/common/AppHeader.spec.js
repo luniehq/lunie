@@ -9,26 +9,26 @@ describe(`AppHeader`, () => {
       state: {
         session: {
           experimentalMode: false,
-          insecureMode: true
-        }
-      }
+          insecureMode: true,
+        },
+      },
     }
 
     wrapper = shallowMount(AppHeader, {
       mocks: {
-        $store
+        $store,
       },
       methods: {
-        watchWindowSize: () => {} // overwriting to not cause side effects when setting the data in tests
+        watchWindowSize: () => {}, // overwriting to not cause side effects when setting the data in tests
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
   it(`should display the sidebar on desktop`, () => {
     wrapper.setData({
       desktop: true,
-      open: true
+      open: true,
     })
 
     expect(wrapper.element).toMatchSnapshot()
@@ -37,7 +37,7 @@ describe(`AppHeader`, () => {
   it(`should show the sidebar as a menu on mobile`, () => {
     wrapper.setData({
       desktop: false,
-      open: true
+      open: true,
     })
 
     expect(wrapper.element).toMatchSnapshot()
@@ -61,9 +61,9 @@ describe(`AppHeader`, () => {
     beforeEach(() => {
       wrapper = shallowMount(AppHeader, {
         mocks: {
-          $store
+          $store,
         },
-        stubs: [`router-link`]
+        stubs: [`router-link`],
       })
     })
 
@@ -85,7 +85,7 @@ describe(`AppHeader`, () => {
       const window = { onresize: undefined }
       const self = {
         watchWindowSize: jest.fn(),
-        window
+        window,
       }
       AppHeader.updated.call(self)
       expect(self.watchWindowSize).toHaveBeenCalled()

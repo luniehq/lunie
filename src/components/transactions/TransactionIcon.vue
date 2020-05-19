@@ -10,14 +10,14 @@ export default {
   props: {
     transactionType: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     icon() {
       return `/img/icons/activity/${this.transactionType}.svg`
-    }
-  }
+    },
+  },
 }
 </script>
 

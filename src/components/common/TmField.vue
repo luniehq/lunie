@@ -70,6 +70,8 @@
     :class="css"
     :placeholder="placeholder"
     :value="value"
+    step="0.000001"
+    :disabled="isDisabled"
     @change="onChange"
     @keyup="onKeyup"
     @keydown="onKeydown"
@@ -83,47 +85,47 @@ export default {
   props: {
     type: {
       type: String,
-      default: `text`
+      default: `text`,
     },
     value: {
       type: [String, Number, Boolean],
-      default: null
+      default: null,
     },
     placeholder: {
       type: String,
-      default: null
+      default: null,
     },
     size: {
       type: String,
-      default: null
+      default: null,
     },
     options: {
       type: [Array, Object],
-      default: null
+      default: null,
     },
     change: {
       type: Function,
-      default: null
+      default: null,
     },
     keyup: {
       type: Function,
-      default: null
+      default: null,
     },
     keydown: {
       type: Function,
-      default: null
+      default: null,
     },
     isDisabled: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     defaultToggleOptions: {
       checked: `on`,
-      unchecked: `off`
+      unchecked: `off`,
     },
-    currentToggleState: false
+    currentToggleState: false,
   }),
   computed: {
     css() {
@@ -147,12 +149,12 @@ export default {
     selectPlaceholder() {
       if (this.placeholder) return this.placeholder
       else return `Select option...`
-    }
+    },
   },
   watch: {
     value(newValue) {
       this.currentToggleState = !!newValue
-    }
+    },
   },
   mounted() {
     this.currentToggleState = !!this.value
@@ -185,8 +187,8 @@ export default {
     },
     onKeydown(...args) {
       if (this.keydown) return this.keydown(...args)
-    }
-  }
+    },
+  },
 }
 </script>
 

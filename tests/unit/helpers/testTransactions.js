@@ -11,8 +11,8 @@ export const testTransactions = [
       { key: "sender", value: "cosmos1abcdefghijkl" },
       {
         key: "recipient",
-        value: "cosmos1abcdefghijkl"
-      }
+        value: "cosmos1abcdefghijkl",
+      },
     ],
     tx: {
       type: "auth/StdTx",
@@ -23,26 +23,26 @@ export const testTransactions = [
             value: {
               from_address: "cosmos1abcdefghijkl",
               to_address: "cosmos1abcdefghijkl",
-              amount: [{ denom: "uatom", amount: "50000" }]
-            }
-          }
+              amount: [{ denom: "uatom", amount: "50000" }],
+            },
+          },
         ],
         fee: { amount: null, gas: "24352" },
         signatures: [
           {
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
-              value: "askjdhasd876as9dyasdbnmada"
+              value: "askjdhasd876as9dyasdbnmada",
             },
-            signature: "kahdakjhdasdhsa"
-          }
+            signature: "kahdakjhdasdhsa",
+          },
         ],
-        memo: "(Sent via Lunie)"
-      }
+        memo: "(Sent via Lunie)",
+      },
     },
     timestamp: "2019-05-17T07:44:10Z",
     type: "bank",
-    time: "2019-05-17T07:44:10.621Z"
+    time: "2019-05-17T07:44:10.621Z",
   },
   {
     height: "349113",
@@ -56,8 +56,8 @@ export const testTransactions = [
       { key: "sender", value: "cosmos1abcdefghijkl" },
       {
         key: "recipient",
-        value: "cosmos1abcdefghijkl"
-      }
+        value: "cosmos1abcdefghijkl",
+      },
     ],
     tx: {
       type: "auth/StdTx",
@@ -68,26 +68,26 @@ export const testTransactions = [
             value: {
               from_address: "cosmos1abcdefghijkl",
               to_address: "cosmos1abcdefghijkl",
-              amount: [{ denom: "uatom", amount: "200000" }]
-            }
-          }
+              amount: [{ denom: "uatom", amount: "200000" }],
+            },
+          },
         ],
         fee: { amount: null, gas: "24362" },
         signatures: [
           {
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
-              value: "askjdhasd876as9dyasdbnmada"
+              value: "askjdhasd876as9dyasdbnmada",
             },
-            signature: "kahdakjhdasdhsa"
-          }
+            signature: "kahdakjhdasdhsa",
+          },
         ],
-        memo: "(Sent via Lunie)"
-      }
+        memo: "(Sent via Lunie)",
+      },
     },
     timestamp: "2019-05-20T10:25:27Z",
     type: "bank",
-    time: "2019-05-20T10:25:27.240Z"
+    time: "2019-05-20T10:25:27.240Z",
   },
   {
     height: "403475",
@@ -101,8 +101,8 @@ export const testTransactions = [
       { key: "sender", value: "cosmos1abcdefghijkl" },
       {
         key: "recipient",
-        value: "cosmos1abcdefghijkl"
-      }
+        value: "cosmos1abcdefghijkl",
+      },
     ],
     tx: {
       type: "auth/StdTx",
@@ -113,26 +113,26 @@ export const testTransactions = [
             value: {
               from_address: "cosmos1abcdefghijkl",
               to_address: "cosmos1abcdefghijkl",
-              amount: [{ denom: "uatom", amount: "200000" }]
-            }
-          }
+              amount: [{ denom: "uatom", amount: "200000" }],
+            },
+          },
         ],
         fee: { amount: [{ denom: "uatom", amount: "29" }], gas: "29234" },
         signatures: [
           {
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
-              value: "askjdhasd876as9dyasdbnmada"
+              value: "askjdhasd876as9dyasdbnmada",
             },
-            signature: "kahdakjhdasdhsa"
-          }
+            signature: "kahdakjhdasdhsa",
+          },
         ],
-        memo: "(Sent via Lunie)"
-      }
+        memo: "(Sent via Lunie)",
+      },
     },
     timestamp: "2019-05-24T18:44:25Z",
     type: "bank",
-    time: "2019-05-24T18:44:25.271Z"
+    time: "2019-05-24T18:44:25.271Z",
   },
   {
     height: "437376",
@@ -146,8 +146,8 @@ export const testTransactions = [
       { key: "sender", value: "cosmos1abcdefghijkl" },
       {
         key: "recipient",
-        value: "cosmos1abcdefghijkl"
-      }
+        value: "cosmos1abcdefghijkl",
+      },
     ],
     tx: {
       type: "auth/StdTx",
@@ -158,26 +158,26 @@ export const testTransactions = [
             value: {
               from_address: "cosmos1abcdefghijkl",
               to_address: "cosmos1abcdefghijkl",
-              amount: [{ denom: "uatom", amount: "923" }]
-            }
-          }
+              amount: [{ denom: "uatom", amount: "923" }],
+            },
+          },
         ],
         fee: { amount: [{ denom: "uatom", amount: "29" }], gas: "28982" },
         signatures: [
           {
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
-              value: "askjdhasd876as9dyasdbnmada"
+              value: "askjdhasd876as9dyasdbnmada",
             },
-            signature: "kahdakjhdasdhsa"
-          }
+            signature: "kahdakjhdasdhsa",
+          },
         ],
-        memo: ""
-      }
+        memo: "",
+      },
     },
     timestamp: "2019-05-27T11:33:44Z",
     type: "bank",
-    time: "2019-05-27T11:33:44.895Z"
+    time: "2019-05-27T11:33:44.895Z",
   },
   {
     height: "462230",
@@ -191,8 +191,8 @@ export const testTransactions = [
       { key: "sender", value: "cosmos1abcdefghijkl" },
       {
         key: "recipient",
-        value: "cosmos1abcdefghijkl"
-      }
+        value: "cosmos1abcdefghijkl",
+      },
     ],
     tx: {
       type: "auth/StdTx",
@@ -203,26 +203,26 @@ export const testTransactions = [
             value: {
               from_address: "cosmos1abcdefghijkl",
               to_address: "cosmos1abcdefghijkl",
-              amount: [{ denom: "uatom", amount: "200000" }]
-            }
-          }
+              amount: [{ denom: "uatom", amount: "200000" }],
+            },
+          },
         ],
         fee: { amount: null, gas: "29234" },
         signatures: [
           {
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
-              value: "askjdhasd876as9dyasdbnmada"
+              value: "askjdhasd876as9dyasdbnmada",
             },
-            signature: "kahdakjhdasdhsa"
-          }
+            signature: "kahdakjhdasdhsa",
+          },
         ],
-        memo: "(Sent via Lunie)"
-      }
+        memo: "(Sent via Lunie)",
+      },
     },
     timestamp: "2019-05-29T11:22:14Z",
     type: "bank",
-    time: "2019-05-29T11:22:14.271Z"
+    time: "2019-05-29T11:22:14.271Z",
   },
   {
     height: "488727",
@@ -236,8 +236,8 @@ export const testTransactions = [
       { key: "sender", value: "cosmos1abcdefghijkl" },
       {
         key: "recipient",
-        value: "cosmos1abcdefghijkl"
-      }
+        value: "cosmos1abcdefghijkl",
+      },
     ],
     tx: {
       type: "auth/StdTx",
@@ -248,26 +248,26 @@ export const testTransactions = [
             value: {
               from_address: "cosmos1abcdefghijkl",
               to_address: "cosmos1abcdefghijkl",
-              amount: [{ denom: "uatom", amount: "200000" }]
-            }
-          }
+              amount: [{ denom: "uatom", amount: "200000" }],
+            },
+          },
         ],
         fee: { amount: null, gas: "36363" },
         signatures: [
           {
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
-              value: "askjdhasd876as9dyasdbnmada"
+              value: "askjdhasd876as9dyasdbnmada",
             },
-            signature: "kahdakjhdasdhsa"
-          }
+            signature: "kahdakjhdasdhsa",
+          },
         ],
-        memo: "woop"
-      }
+        memo: "woop",
+      },
     },
     timestamp: "2019-05-31T14:46:14Z",
     type: "bank",
-    time: "2019-05-31T14:46:14.571Z"
+    time: "2019-05-31T14:46:14.571Z",
   },
   {
     height: "573799",
@@ -281,8 +281,8 @@ export const testTransactions = [
       { key: "sender", value: "cosmos1abcdefghijkl" },
       {
         key: "recipient",
-        value: "cosmos1abcdefghijkl"
-      }
+        value: "cosmos1abcdefghijkl",
+      },
     ],
     tx: {
       type: "auth/StdTx",
@@ -293,26 +293,26 @@ export const testTransactions = [
             value: {
               from_address: "cosmos1abcdefghijkl",
               to_address: "cosmos1abcdefghijkl",
-              amount: [{ denom: "uatom", amount: "200000" }]
-            }
-          }
+              amount: [{ denom: "uatom", amount: "200000" }],
+            },
+          },
         ],
         fee: { amount: null, gas: "36543" },
         signatures: [
           {
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
-              value: "askjdhasd876as9dyasdbnmada"
+              value: "askjdhasd876as9dyasdbnmada",
             },
-            signature: "kahdakjhdasdhsa"
-          }
+            signature: "kahdakjhdasdhsa",
+          },
         ],
-        memo: "(Sent via Lunie)"
-      }
+        memo: "(Sent via Lunie)",
+      },
     },
     timestamp: "2019-06-07T09:34:52Z",
     type: "bank",
-    time: "2019-06-07T09:34:52.594Z"
+    time: "2019-06-07T09:34:52.594Z",
   },
   {
     height: "623297",
@@ -326,8 +326,8 @@ export const testTransactions = [
       { key: "sender", value: "cosmos1abcdefghijkl" },
       {
         key: "recipient",
-        value: "cosmos1abcdefghijkl"
-      }
+        value: "cosmos1abcdefghijkl",
+      },
     ],
     tx: {
       type: "auth/StdTx",
@@ -338,26 +338,26 @@ export const testTransactions = [
             value: {
               from_address: "cosmos1abcdefghijkl",
               to_address: "cosmos1abcdefghijkl",
-              amount: [{ denom: "uatom", amount: "200000" }]
-            }
-          }
+              amount: [{ denom: "uatom", amount: "200000" }],
+            },
+          },
         ],
         fee: { amount: null, gas: "36273" },
         signatures: [
           {
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
-              value: "askjdhasd876as9dyasdbnmada"
+              value: "askjdhasd876as9dyasdbnmada",
             },
-            signature: "kahdakjhdasdhsa"
-          }
+            signature: "kahdakjhdasdhsa",
+          },
         ],
-        memo: "(Sent via Lunie)"
-      }
+        memo: "(Sent via Lunie)",
+      },
     },
     timestamp: "2019-06-11T08:25:00Z",
     type: "bank",
-    time: "2019-06-11T08:25:00.293Z"
+    time: "2019-06-11T08:25:00.293Z",
   },
   {
     height: "625814",
@@ -371,8 +371,8 @@ export const testTransactions = [
       { key: "sender", value: "cosmos1abcdefghijkl" },
       {
         key: "recipient",
-        value: "cosmos1abcdefghijkl"
-      }
+        value: "cosmos1abcdefghijkl",
+      },
     ],
     tx: {
       type: "auth/StdTx",
@@ -383,26 +383,26 @@ export const testTransactions = [
             value: {
               from_address: "cosmos1abcdefghijkl",
               to_address: "cosmos1abcdefghijkl",
-              amount: [{ denom: "uatom", amount: "200000" }]
-            }
-          }
+              amount: [{ denom: "uatom", amount: "200000" }],
+            },
+          },
         ],
         fee: { amount: [{ denom: "uatom", amount: "37" }], gas: "36543" },
         signatures: [
           {
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
-              value: "askjdhasd876as9dyasdbnmada"
+              value: "askjdhasd876as9dyasdbnmada",
             },
-            signature: "kahdakjhdasdhsa"
-          }
+            signature: "kahdakjhdasdhsa",
+          },
         ],
-        memo: "(Sent via Lunie)"
-      }
+        memo: "(Sent via Lunie)",
+      },
     },
     timestamp: "2019-06-11T13:14:31Z",
     type: "bank",
-    time: "2019-06-11T13:14:31.017Z"
+    time: "2019-06-11T13:14:31.017Z",
   },
   {
     height: "630736",
@@ -416,8 +416,8 @@ export const testTransactions = [
       { key: "sender", value: "cosmos1abcdefghijkl" },
       {
         key: "recipient",
-        value: "cosmos1abcdefghijkl"
-      }
+        value: "cosmos1abcdefghijkl",
+      },
     ],
     tx: {
       type: "auth/StdTx",
@@ -428,25 +428,25 @@ export const testTransactions = [
             value: {
               from_address: "cosmos1abcdefghijkl",
               to_address: "cosmos1abcdefghijkl",
-              amount: [{ denom: "uatom", amount: "200000" }]
-            }
-          }
+              amount: [{ denom: "uatom", amount: "200000" }],
+            },
+          },
         ],
         fee: { amount: [{ denom: "uatom", amount: "37" }], gas: "36543" },
         signatures: [
           {
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
-              value: "askjdhasd876as9dyasdbnmada"
+              value: "askjdhasd876as9dyasdbnmada",
             },
-            signature: "kahdakjhdasdhsa"
-          }
+            signature: "kahdakjhdasdhsa",
+          },
         ],
-        memo: "(Sent via Lunie)"
-      }
+        memo: "(Sent via Lunie)",
+      },
     },
     timestamp: "2019-06-11T22:41:04Z",
     type: "bank",
-    time: "2019-06-11T22:41:04.794Z"
-  }
+    time: "2019-06-11T22:41:04.794Z",
+  },
 ]

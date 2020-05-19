@@ -26,16 +26,16 @@ export default {
   props: {
     title: {
       type: String,
-      default: null
+      default: null,
     },
     subtitle: {
       type: String,
-      default: null
+      default: null,
     },
     icon: {
       type: String,
-      default: `info_outline`
-    }
-  }
+      default: `info_outline`,
+    },
+  },
 }
 </script>

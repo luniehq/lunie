@@ -1,29 +1,29 @@
-export const getProposalStatus = proposal => {
+export const getProposalStatus = (proposal) => {
   switch (proposal.status) {
     case `Passed`:
       return {
         badge: `Passed`,
-        color: `green`
+        color: `green`,
       }
     case `Rejected`:
       return {
         badge: `Rejected`,
-        color: `red`
+        color: `red`,
       }
     case `DepositPeriod`:
       return {
         badge: `Deposit Period`,
-        color: `orange`
+        color: `orange`,
       }
     case `VotingPeriod`:
       return {
         badge: `Voting Period`,
-        color: `pink`
+        color: `pink`,
       }
     default:
       return {
         badge: `Error`,
-        color: `grey`
+        color: `grey`,
       }
   }
 }

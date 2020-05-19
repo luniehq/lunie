@@ -10,6 +10,7 @@
   --input-bg: transparent;
   --menu-bright: hsl(0, 0%, 100%);
   --menu-text: hsl(0, 0%, 90%);
+  --notification-title: hsl(227, 40%, 33%);
 
   --success: hsl(120, 72%, 31%);
   --warning: hsl(22, 86%, 56%);

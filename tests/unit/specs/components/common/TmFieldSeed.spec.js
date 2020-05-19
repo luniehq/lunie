@@ -5,7 +5,7 @@ describe(`TmFieldSeed`, () => {
   let wrapper
 
   const propsData = {
-    value: `one two three four five six seven eight nine ten eleven twelve`
+    value: `one two three four five six seven eight nine ten eleven twelve`,
   }
 
   beforeEach(() => {

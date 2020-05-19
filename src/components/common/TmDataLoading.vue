@@ -22,8 +22,8 @@ export default {
   props: {
     title: {
       type: String,
-      default: `Data is loading…`
-    }
-  }
+      default: `Data is loading…`,
+    },
+  },
 }
 </script>

@@ -10,24 +10,24 @@ describe(`PageValidators`, () => {
       queries: {
         validators: {
           loading: false,
-          error: false
-        }
-      }
+          error: false,
+        },
+      },
     }
 
     $store = {
       state: {
         connection: {
-          network: "awesomenet"
-        }
-      }
+          network: "awesomenet",
+        },
+      },
     }
 
     wrapper = shallowMount(PageValidators, {
       mocks: {
         $apollo,
-        $store
-      }
+        $store,
+      },
     })
 
     wrapper.setData({ validators })
@@ -44,11 +44,11 @@ describe(`PageValidators`, () => {
           queries: {
             validators: {
               loading: true,
-              error: false
-            }
-          }
-        }
-      }
+              error: false,
+            },
+          },
+        },
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -56,8 +56,8 @@ describe(`PageValidators`, () => {
   it(`shows a message if there is nothing to display`, async () => {
     wrapper = shallowMount(PageValidators, {
       mocks: {
-        $apollo
-      }
+        $apollo,
+      },
     })
     wrapper.setData({ validators: [] })
 
@@ -71,11 +71,11 @@ describe(`PageValidators`, () => {
           queries: {
             validators: {
               loading: false,
-              error: true
-            }
-          }
-        }
-      }
+              error: true,
+            },
+          },
+        },
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
   })

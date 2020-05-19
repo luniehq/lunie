@@ -20,7 +20,7 @@ export default (opts = {}) => {
   const store = new Vuex.Store({
     getters,
     // strict: true,
-    modules: modules(opts)
+    modules: modules(opts),
   })
 
   return store

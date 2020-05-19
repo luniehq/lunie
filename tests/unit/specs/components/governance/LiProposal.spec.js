@@ -14,16 +14,16 @@ describe(`LiProposal`, () => {
   beforeEach(() => {
     const $store = {
       commit: jest.fn(),
-      dispatch: jest.fn()
+      dispatch: jest.fn(),
     }
 
     wrapper = shallowMount(LiProposal, {
       localVue,
       mocks: {
-        $store
+        $store,
       },
       propsData: { proposal },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
@@ -35,12 +35,12 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        status: `Passed`
-      }
+        status: `Passed`,
+      },
     })
     expect(wrapper.vm.status).toEqual({
       badge: `Passed`,
-      color: `green`
+      color: `green`,
     })
   })
 
@@ -48,12 +48,12 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        status: `Rejected`
-      }
+        status: `Rejected`,
+      },
     })
     expect(wrapper.vm.status).toEqual({
       badge: `Rejected`,
-      color: `red`
+      color: `red`,
     })
   })
 
@@ -61,12 +61,12 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        status: `VotingPeriod`
-      }
+        status: `VotingPeriod`,
+      },
     })
     expect(wrapper.vm.status).toEqual({
       badge: `Voting Period`,
-      color: `pink`
+      color: `pink`,
     })
   })
 
@@ -74,12 +74,12 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        status: `DepositPeriod`
-      }
+        status: `DepositPeriod`,
+      },
     })
     expect(wrapper.vm.status).toEqual({
       badge: `Deposit Period`,
-      color: `orange`
+      color: `orange`,
     })
   })
 
@@ -87,12 +87,12 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        status: `Unknown`
-      }
+        status: `Unknown`,
+      },
     })
     expect(wrapper.vm.status).toEqual({
       badge: `Error`,
-      color: `grey`
+      color: `grey`,
     })
   })
 
@@ -100,8 +100,8 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        description: `Proposal description`
-      }
+        description: `Proposal description`,
+      },
     })
     expect(wrapper.html()).toContain(`Proposal description`)
   })
@@ -110,8 +110,8 @@ describe(`LiProposal`, () => {
     wrapper.setProps({
       proposal: {
         ...proposal,
-        description: `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation.`
-      }
+        description: `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation.`,
+      },
     })
     expect(wrapper.html()).toContain(
       `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal trun…`
@@ -124,18 +124,18 @@ describe(`LiProposal`, () => {
       dispatch: jest.fn(),
       state: {
         proposals: {
-          tallies: {}
-        }
-      }
+          tallies: {},
+        },
+      },
     }
 
     wrapper = shallowMount(LiProposal, {
       localVue,
       mocks: {
-        $store
+        $store,
       },
       propsData: { proposal },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
 
     expect(wrapper.element).toMatchSnapshot()

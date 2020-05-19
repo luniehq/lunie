@@ -8,16 +8,16 @@ describe(`InsecureModeWarning`, () => {
     $store = {
       state: {
         connection: {
-          network: "cosmos-hub-mainnet"
-        }
-      }
+          network: "cosmos-hub-mainnet",
+        },
+      },
     }
 
     wrapper = shallowMount(InsecureModeWarning, {
       mocks: {
-        $store
+        $store,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
   it(`has the expected html structure`, async () => {
@@ -25,14 +25,14 @@ describe(`InsecureModeWarning`, () => {
   })
   it(`should show How to Manage Your Keys tutorial`, () => {
     wrapper.setData({
-      showTutorial: false
+      showTutorial: false,
     })
     wrapper.vm.openTutorial()
     expect(wrapper.vm.showTutorial).toBe(true)
   })
   it(`should hide How to Manage Your Keys tutorial`, () => {
     wrapper.setData({
-      showTutorial: true
+      showTutorial: true,
     })
     wrapper.vm.hideTutorial()
     expect(wrapper.vm.showTutorial).toBe(false)

@@ -20,14 +20,14 @@ export default {
   components: { TmDataMsg },
   data: () => ({
     networks: [],
-    guideLink: `https://intercom.help/lunie/en/articles/3824836-lunie-staking-guide-the-e-money-network`
+    guideLink: `https://intercom.help/lunie/en/articles/3824836-lunie-staking-guide-the-e-money-network`,
   }),
   computed: {
     // ...mapGetters({networkId: }),
     ...mapGetters([`stakingDenom`, `network`]),
     featureNotPresentMessage() {
       return `The ${this.networks.title} network does not currently have any existing governance framework for ${this.stakingDenom} token holders. To learn more about this, click`
-    }
+    },
   },
   apollo: {
     networks: {
@@ -37,8 +37,8 @@ export default {
           data.networks.find(({ id }) => id === this.network) || { amount: 0 }
         )
       },
-      fetchPolicy: "cache-first"
-    }
-  }
+      fetchPolicy: "cache-first",
+    },
+  },
 }
 </script>

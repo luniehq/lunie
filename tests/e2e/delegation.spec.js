@@ -2,12 +2,12 @@ const {
   actionModalCheckout,
   waitForText,
   getAccountBalance,
-  getLastActivityItemHash
+  getLastActivityItemHash,
 } = require("./helpers.js")
 
 async function setSelect(browser, selector, option) {
   await browser.execute(
-    function(selector, option) {
+    function (selector, option) {
       const select = document.querySelector(selector)
       select.value = option
 
@@ -22,7 +22,7 @@ async function setSelect(browser, selector, option) {
 }
 
 module.exports = {
-  "Delegate Action": async function(browser) {
+  "Delegate Action": async function (browser) {
     await browser.url(
       browser.launch_url + browser.globals.slug + "/transactions"
     )
@@ -68,7 +68,7 @@ module.exports = {
       throw new Error(`Hash didn't changed!`)
     }
   },
-  "Redelegate Action": async function(browser) {
+  "Redelegate Action": async function (browser) {
     await browser.url(
       browser.launch_url + browser.globals.slug + "/transactions"
     )
@@ -116,7 +116,7 @@ module.exports = {
       throw new Error(`Hash didn't changed!`)
     }
   },
-  "Undelegate Action": async function(browser) {
+  "Undelegate Action": async function (browser) {
     await browser.url(
       browser.launch_url + browser.globals.slug + "/transactions"
     )
@@ -167,5 +167,5 @@ module.exports = {
     if (hash == browser.globals.lastHash) {
       throw new Error(`Hash didn't changed!`)
     }
-  }
+  },
 }

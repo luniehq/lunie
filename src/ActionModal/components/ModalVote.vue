@@ -71,7 +71,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 
 import { messageType } from "../../components/transactions/messageTypes"
 
-const isValid = option =>
+const isValid = (option) =>
   option === `Yes` ||
   option === `No` ||
   option === `NoWithVeto` ||
@@ -82,47 +82,47 @@ export default {
   components: {
     ActionModal,
     TmBtn,
-    TmFormMsg
+    TmFormMsg,
   },
   props: {
     proposalId: {
       type: [Number, String],
-      required: true
+      required: true,
     },
     proposalTitle: {
       type: String,
-      required: true
+      required: true,
     },
     lastVoteOption: {
       default: undefined,
-      type: String
-    }
+      type: String,
+    },
   },
   data: () => ({
     vote: null,
-    messageType
+    messageType,
   }),
   computed: {
     transactionData() {
       return {
         type: messageType.VOTE,
         proposalId: this.proposalId,
-        voteOption: this.vote
+        voteOption: this.vote,
       }
     },
     notifyMessage() {
       return {
         title: `Successful vote!`,
-        body: `You have successfully voted ${this.vote} on proposal #${this.proposalId}`
+        body: `You have successfully voted ${this.vote} on proposal #${this.proposalId}`,
       }
-    }
+    },
   },
   validations() {
     return {
       vote: {
         required,
-        isValid
-      }
+        isValid,
+      },
     }
   },
   methods: {
@@ -141,8 +141,8 @@ export default {
     },
     onSuccess(event) {
       this.$emit(`success`, event)
-    }
-  }
+    },
+  },
 }
 </script>
 

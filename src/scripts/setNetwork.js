@@ -4,7 +4,7 @@ import * as Sentry from "@sentry/browser"
 export const setNetwork = async ({ to, next }, store) => {
   // networks are loaded async so we may need to wait for them
   while (store.getters.networks.length === 0) {
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise((resolve) => setTimeout(resolve, 100))
   }
 
   try {
@@ -44,7 +44,7 @@ export const setNetwork = async ({ to, next }, store) => {
     ) {
       // setting new network
       network = networkChecker(
-        networks.find(network => network.slug === to.params.networkId),
+        networks.find((network) => network.slug === to.params.networkId),
         networks
       )
       /* istanbul ignore next */
@@ -58,12 +58,12 @@ export const setNetwork = async ({ to, next }, store) => {
       if (store.state.connection.networkSlug) {
         network = networkChecker(
           networks.find(
-            network => network.slug === store.state.connection.networkSlug
+            (network) => network.slug === store.state.connection.networkSlug
           ),
           networks
         )
       } else {
-        network = networks.find(network => network.default === true)
+        network = networks.find((network) => network.default === true)
       }
       /* istanbul ignore next */
       await store.dispatch(`setNetwork`, network)
@@ -76,5 +76,7 @@ export const setNetwork = async ({ to, next }, store) => {
 }
 
 function networkChecker(network, networks) {
-  return network ? network : networks.find(network => network.default === true)
+  return network
+    ? network
+    : networks.find((network) => network.default === true)
 }

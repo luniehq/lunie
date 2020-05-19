@@ -8,7 +8,7 @@ describe(`TmDataMsg`, () => {
     title: `sOmEtHiNg Is HaPpEnIng!!!`,
     subtitle: `Oh my! What could it be?`,
     icon: `help`,
-    spin: false
+    spin: false,
   }
 
   beforeEach(() => {

@@ -65,9 +65,9 @@ import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 import { getWalletIndex } from "@lunie/cosmos-keys"
 
-const nameExists = value => {
+const nameExists = (value) => {
   const walletIndex = getWalletIndex()
-  if (walletIndex.some(e => e.name === value)) {
+  if (walletIndex.some((e) => e.name === value)) {
     return false
   } else {
     return true
@@ -83,10 +83,10 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
-    Steps
+    Steps,
   },
   data: () => ({
-    importedAddress: undefined
+    importedAddress: undefined,
   }),
   computed: {
     ...mapGetters([`connected`, `recover`]),
@@ -97,13 +97,13 @@ export default {
       },
       set(value) {
         this.$store.commit(`updateField`, { field: `name`, value })
-      }
-    }
+      },
+    },
   },
   async created() {
     this.importedAddress = await this.$store.dispatch(`getAddressFromSeed`, {
       seedPhrase: this.$store.state.recover.seed,
-      network: this.network
+      network: this.network,
     })
   },
   methods: {
@@ -111,11 +111,11 @@ export default {
       this.$v.$touch()
       if (this.$v.name.$invalid) return
       this.$router.push("/recover/password")
-    }
+    },
   },
   validations: () => ({
-    name: { required, minLength: minLength(3), nameExists }
-  })
+    name: { required, minLength: minLength(3), nameExists },
+  }),
 }
 </script>
 <style scoped>

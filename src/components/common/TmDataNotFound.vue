@@ -13,6 +13,6 @@
 import TmDataMsg from "common/TmDataMsg"
 export default {
   name: `tm-data-not-found`,
-  components: { TmDataMsg }
+  components: { TmDataMsg },
 }
 </script>

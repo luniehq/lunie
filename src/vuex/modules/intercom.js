@@ -11,7 +11,7 @@ export default () => {
   return {
     state: {
       intercom,
-      mobileApp: config.mobileApp
+      mobileApp: config.mobileApp,
     },
     actions: {
       displayMessenger({ state }) {
@@ -20,7 +20,7 @@ export default () => {
           state.intercom.registerUnidentifiedUser()
           state.intercom.displayMessenger()
         }
-      }
-    }
+      },
+    },
   }
 }

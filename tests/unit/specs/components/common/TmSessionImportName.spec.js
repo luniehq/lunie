@@ -4,9 +4,9 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import TmSessionImportName from "common/TmSessionImportName"
 jest.mock(`scripts/google-analytics.js`, () => () => {})
 jest.mock("@lunie/cosmos-keys", () => ({
-  getWalletIndex: function() {
+  getWalletIndex: function () {
     return [{ name: `Happy Lunie User`, address: `xyz123` }]
-  }
+  },
 }))
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -20,7 +20,7 @@ describe(`TmSessionImportName`, () => {
   beforeEach(() => {
     getters = {
       connected: () => true,
-      network: "cosmos-hub-mainnet"
+      network: "cosmos-hub-mainnet",
     }
     $store = {
       state: {
@@ -29,25 +29,25 @@ describe(`TmSessionImportName`, () => {
           seed: ``,
           password: ``,
           passwordConfirm: ``,
-          warning: false
-        }
+          warning: false,
+        },
       },
       getters,
       commit: jest.fn(),
       dispatch: jest.fn(async () => `cosmos1234`),
       mutations: {
-        updateField: jest.fn()
-      }
+        updateField: jest.fn(),
+      },
     }
     wrapper = shallowMount(TmSessionImportName, {
       localVue,
       mocks: {
         $store,
         $router: {
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 
@@ -82,7 +82,7 @@ describe(`TmSessionImportName`, () => {
     wrapper.setData({ name: `Happy Lunie User` })
     expect($store.commit).toHaveBeenCalledWith(`updateField`, {
       field: `name`,
-      value: `Happy Lunie User`
+      value: `Happy Lunie User`,
     })
   })
 

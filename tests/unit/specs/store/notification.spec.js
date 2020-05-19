@@ -17,7 +17,7 @@ describe(`Module: Notification`, () => {
   it(`should add a notification object to the store`, () => {
     store.commit(`notify`, {
       title: `TitleA`,
-      body: `BodyB`
+      body: `BodyB`,
     })
     expect(store.state.notifications.length).toBe(1)
     expect(store.state.notifications[0]).toMatchSnapshot()
@@ -26,7 +26,7 @@ describe(`Module: Notification`, () => {
   it(`should add a warning object to the store`, () => {
     store.commit(`notifyWarn`, {
       title: `TitleA`,
-      body: `BodyB`
+      body: `BodyB`,
     })
     expect(store.state.notifications.length).toBe(1)
     expect(store.state.notifications[0]).toMatchSnapshot()

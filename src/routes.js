@@ -7,78 +7,88 @@ import { setNetwork } from "./scripts/setNetwork"
 /**
  * Routes are all defined here
  */
-export default store => {
+export default (store) => {
   return [
     {
       path: `/`,
-      beforeEnter: (to, from, next) => setNetwork({ to, from, next }, store)
+      beforeEnter: (to, from, next) => setNetwork({ to, from, next }, store),
     },
     {
       path: `/networks`,
       name: `networks`,
       component: () => import(`./components/network/PageNetworks`),
       meta: {
-        requiresAuth: false
-      }
+        requiresAuth: false,
+      },
+    },
+    {
+      path: `/notifications`,
+      name: `notifications`,
+      components: {
+        session: () => import(`./components/notifications/PageNotifications`),
+      },
+      // meta: {
+      //   feature: "Notifications"
+      // }
     },
     {
       path: `/login`,
       name: `login`,
       components: {
-        session: () => import(`./components/common/TmSessionSignIn`)
+        session: () => import(`./components/common/TmSessionSignIn`),
       },
       meta: {
-        feature: "Session"
-      }
+        feature: "Session",
+      },
     },
     {
       path: `/select-network`,
       name: `select-network`,
       components: {
-        session: () => import(`./components/common/TmSelectNetwork`)
+        session: () => import(`./components/common/TmSelectNetwork`),
       },
       meta: {
-        feature: "Session"
-      }
+        feature: "Session",
+      },
     },
     {
       path: `/select-network/recover`,
       name: `select-network-recover`,
       components: {
-        session: () => import(`./components/common/TmSelectNetwork`)
+        session: () => import(`./components/common/TmSelectNetwork`),
       },
       meta: {
-        feature: "Session"
-      }
+        feature: "Session",
+      },
     },
     {
       path: `/select-network/create`,
       name: `select-network-create`,
       components: {
-        session: () => import(`./components/common/TmSelectNetwork`)
+        session: () => import(`./components/common/TmSelectNetwork`),
       },
       meta: {
-        feature: "Session"
-      }
+        feature: "Session",
+      },
     },
     {
       path: `/create`,
       name: `create`,
       components: {
-        session: () => import(`./components/common/TmSessionSignUp`)
+        session: () => import(`./components/common/TmSessionSignUp`),
       },
       meta: {
-        feature: "Session"
-      }
+        feature: "Session",
+      },
     },
     {
       path: `/create/password`,
       name: `create-password`,
       components: {
-        session: () => import(`./components/common/TmSessionSignUpPassword`)
+        session: () => import(`./components/common/TmSessionSignUpPassword`),
       },
       meta: {
-        feature: "Session"
+        feature: "Session",
       },
       beforeEnter: (to, from, next) => {
         if (from.name === `create`) {
@@ -86,16 +96,16 @@ export default store => {
         } else {
           next({ path: `/create` })
         }
-      }
+      },
     },
     {
       path: `/create/confirm`,
       name: `create-confirm`,
       components: {
-        session: () => import(`./components/common/TmSessionSignUpSeed`)
+        session: () => import(`./components/common/TmSessionSignUpSeed`),
       },
       meta: {
-        feature: "Session"
+        feature: "Session",
       },
       beforeEnter: (to, from, next) => {
         if (from.name === `create-password`) {
@@ -103,26 +113,26 @@ export default store => {
         } else {
           next({ path: `/create` })
         }
-      }
+      },
     },
     {
       path: `/recover`,
       name: `recover`,
       components: {
-        session: () => import(`./components/common/TmSessionImport`)
+        session: () => import(`./components/common/TmSessionImport`),
       },
       meta: {
-        feature: "Session"
-      }
+        feature: "Session",
+      },
     },
     {
       path: `/recover/name`,
       name: `recover-name`,
       components: {
-        session: () => import(`./components/common/TmSessionImportName`)
+        session: () => import(`./components/common/TmSessionImportName`),
       },
       meta: {
-        feature: "Session"
+        feature: "Session",
       },
       beforeEnter: (to, from, next) => {
         if (from.name === `recover`) {
@@ -130,16 +140,16 @@ export default store => {
         } else {
           next({ path: `/recover` })
         }
-      }
+      },
     },
     {
       path: `/recover/password`,
       name: `recover-password`,
       components: {
-        session: () => import(`./components/common/TmSessionImportPassword`)
+        session: () => import(`./components/common/TmSessionImportPassword`),
       },
       meta: {
-        feature: "Session"
+        feature: "Session",
       },
       beforeEnter: (to, from, next) => {
         if (from.name === `recover-name`) {
@@ -147,75 +157,75 @@ export default store => {
         } else {
           next({ path: `/recover` })
         }
-      }
+      },
     },
     {
       path: `/explore`,
       name: `explore`,
       components: {
-        session: () => import(`./components/common/TmSessionExplore`)
+        session: () => import(`./components/common/TmSessionExplore`),
       },
       meta: {
-        feature: "Session"
-      }
+        feature: "Session",
+      },
     },
     {
       path: `/ledger`,
       name: `ledger`,
       components: {
-        session: () => import(`./components/common/TmSessionHardware`)
+        session: () => import(`./components/common/TmSessionHardware`),
       },
       meta: {
-        feature: "Session"
-      }
+        feature: "Session",
+      },
     },
     {
       path: `/extension/:address/:network`,
       name: `extension-signin`,
-      beforeEnter: function(to, from, next) {
+      beforeEnter: function (to, from, next) {
         /* istanbul ignore next */
         return extensionSignIn({ to, from, next }, store)
-      }
+      },
     },
     {
       path: `/extension`,
       name: `extension`,
       components: {
-        session: () => import(`./components/common/TmSessionExtension`)
+        session: () => import(`./components/common/TmSessionExtension`),
       },
       meta: {
-        feature: "Session"
-      }
+        feature: "Session",
+      },
     },
     { path: `/404`, component: () => import(`./components/common/Page404`) },
     {
       path: `/privacy`,
-      component: () => import(`./components/common/PagePrivacy`)
+      component: () => import(`./components/common/PagePrivacy`),
     },
     {
       path: `/terms`,
-      component: () => import(`./components/common/PageTerms`)
+      component: () => import(`./components/common/PageTerms`),
     },
     {
       path: `/security`,
-      component: () => import(`./components/common/PageSecurity`)
+      component: () => import(`./components/common/PageSecurity`),
     },
     {
       path: `/about`,
-      component: () => import(`./components/common/PageAbout`)
+      component: () => import(`./components/common/PageAbout`),
     },
     {
       path: `/careers`,
-      component: () => import(`./components/common/PageCareers`)
+      component: () => import(`./components/common/PageCareers`),
     },
     {
       path: `/feature-not-available/:feature`,
       component: () => import(`./components/common/PageFeatureNotAvailable`),
-      props: true
+      props: true,
     },
     {
       path: `/feature-not-present/:feature`,
-      component: () => import(`./components/common/FeatureNotPresent`)
+      component: () => import(`./components/common/FeatureNotPresent`),
     },
     {
       path: `/:networkId`,
@@ -227,53 +237,53 @@ export default store => {
           path: `proposals`,
           name: `Proposals`,
           meta: {
-            feature: "Proposals"
+            feature: "Proposals",
           },
-          component: () => import(`./components/governance/PageProposals`)
+          component: () => import(`./components/governance/PageProposals`),
         },
         // for depredecated routes
         {
           path: `governance/proposals`,
-          redirect: `/proposals`
+          redirect: `/proposals`,
         },
         {
           path: `proposals/:proposalId`,
           name: `Proposal`,
           meta: {
-            feature: "Proposals"
+            feature: "Proposals",
           },
           component: () => import(`./components/governance/PageProposal`),
-          props: true
+          props: true,
         },
         // for depredecated routes
         {
           path: `governance/proposals/:proposalId`,
-          redirect: `/proposals/:proposalId`
+          redirect: `/proposals/:proposalId`,
         },
         {
           path: `validators`,
           name: `Validators`,
           meta: {
-            feature: "Validators"
+            feature: "Validators",
           },
-          component: () => import(`./components/staking/PageValidators`)
+          component: () => import(`./components/staking/PageValidators`),
         },
         // for depredecated routes
         {
           path: `staking/validators`,
-          redirect: `/validators`
+          redirect: `/validators`,
         },
         {
           path: `validators/:validator`,
           name: `validator`,
           meta: {
-            feature: "Validators"
+            feature: "Validators",
           },
-          component: () => import(`./components/staking/PageValidator`)
+          component: () => import(`./components/staking/PageValidator`),
         },
         {
           path: `staking/validators/:validator`,
-          redirect: `/validators/:validator`
+          redirect: `/validators/:validator`,
         },
         {
           path: `portfolio`,
@@ -281,8 +291,8 @@ export default store => {
           component: () => import(`./components/wallet/PagePortfolio`),
           meta: {
             requiresAuth: true,
-            feature: "Portfolio"
-          }
+            feature: "Portfolio",
+          },
         },
         {
           path: `transactions`,
@@ -290,20 +300,20 @@ export default store => {
           component: () => import(`./components/wallet/PageTransactions`),
           meta: {
             requiresAuth: true,
-            feature: "Activity"
-          }
+            feature: "Activity",
+          },
         },
         {
           path: `blocks/:height`,
           name: `block`,
           component: () => import(`./components/network/PageBlock`),
           meta: {
-            feature: "Explorer"
-          }
+            feature: "Explorer",
+          },
         },
-        { path: `*`, component: () => import(`./components/common/Page404`) }
-      ]
-    }
+        { path: `*`, component: () => import(`./components/common/Page404`) },
+      ],
+    },
   ]
 }
 
@@ -316,7 +326,7 @@ export async function extensionSignIn({ to, next }, store) {
   await store.dispatch(`signIn`, {
     sessionType: `extension`,
     address: to.params.address,
-    networkId: to.params.network
+    networkId: to.params.network,
   })
   next(`/${network.slug}/portfolio`)
 }

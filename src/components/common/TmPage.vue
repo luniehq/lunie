@@ -57,66 +57,66 @@ export default {
     TmDataLoading,
     TmDataError,
     TmDataConnecting,
-    CardSignInRequired
+    CardSignInRequired,
   },
   props: {
     hideHeader: {
       type: Boolean,
-      default: false
+      default: false,
     },
     title: {
       type: String,
-      default: ``
+      default: ``,
     },
     subtitle: {
       type: String,
-      default: ``
+      default: ``,
     },
     managed: {
       type: Boolean,
-      default: false
+      default: false,
     },
     error: {
       type: Boolean,
-      default: undefined
+      default: undefined,
     },
     tabs: {
       type: Array,
-      default: undefined
+      default: undefined,
     },
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     loaded: {
       type: Boolean,
-      default: undefined
+      default: undefined,
     },
     dataEmpty: {
       type: Boolean,
-      default: undefined
+      default: undefined,
     },
     signInRequired: {
       type: Boolean,
-      default: false
+      default: false,
     },
     darkBackground: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`connected`])
+    ...mapGetters([`connected`]),
   },
   watch: {
     $route() {
       this.scrollContainer.scrollTop = 0
-    }
+    },
   },
   mounted() {
     this.scrollContainer = this.$el.querySelector(`.tm-page-main`)
-  }
+  },
 }
 </script>
 

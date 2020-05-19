@@ -22,13 +22,13 @@ export default {
   props: {
     icon: {
       type: String,
-      default: ``
+      default: ``,
     },
     loading: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 }
 </script>
 

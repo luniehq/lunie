@@ -17,19 +17,19 @@ import LiProposal from "governance/LiProposal"
 export default {
   name: `table-proposals`,
   components: {
-    LiProposal
+    LiProposal,
   },
   props: {
     proposals: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     sort: {
       property: `id`,
-      order: `desc`
-    }
-  })
+      order: `desc`,
+    },
+  }),
 }
 </script>

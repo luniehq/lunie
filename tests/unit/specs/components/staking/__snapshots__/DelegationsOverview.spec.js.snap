@@ -9,9 +9,7 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
     iconcolor="var(--warning)"
   >
     <div>
-      
       No validators in your portfolio
-    
     </div>
      
     <div>
@@ -19,7 +17,7 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
       Head over to the
       
       <a>
-         validator list
+        validator list
       </a>
        to get staking!
     

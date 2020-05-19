@@ -6,9 +6,9 @@ describe(`PageFeatureNotAvailable`, () => {
   beforeEach(() => {
     wrapper = mount(PageFeatureNotAvailable, {
       propsData: {
-        feature: "Spacetravel"
+        feature: "Spacetravel",
       },
-      stubs: ["router-link"]
+      stubs: ["router-link"],
     })
   })
 

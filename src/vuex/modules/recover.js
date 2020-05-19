@@ -3,13 +3,13 @@ const emptyState = {
   seed: ``,
   password: ``,
   passwordConfirm: ``,
-  warning: false
+  warning: false,
 }
 
 export default () => {
   return {
     state: {
-      ...emptyState
+      ...emptyState,
     },
     mutations: {
       updateField(state, payload) {
@@ -17,12 +17,12 @@ export default () => {
       },
       resetRecoverData(state) {
         Object.assign(state, emptyState)
-      }
+      },
     },
     actions: {
       resetRecoverData({ commit }) {
         commit(`resetRecoverData`)
-      }
-    }
+      },
+    },
   }
 }

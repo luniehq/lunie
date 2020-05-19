@@ -26,8 +26,8 @@ export default {
   name: `tm-session-loading`,
   data: () => ({
     config,
-    message: ``
-  })
+    message: ``,
+  }),
 }
 </script>
 <style>

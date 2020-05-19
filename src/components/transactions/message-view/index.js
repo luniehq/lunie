@@ -17,5 +17,5 @@ export {
   SubmitProposalTxDetails,
   DepositTxDetails,
   VoteTxDetails,
-  UnknownTxDetails
+  UnknownTxDetails,
 }

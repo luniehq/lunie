@@ -6,8 +6,8 @@ describe(`Bar`, () => {
     let wrapper = shallowMount(Bar, {
       propsData: {
         barType: "primary",
-        show: true
-      }
+        show: true,
+      },
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -16,8 +16,8 @@ describe(`Bar`, () => {
     let wrapper = shallowMount(Bar, {
       propsData: {
         barType: "primary",
-        show: true
-      }
+        show: true,
+      },
     })
     wrapper.vm.close()
     expect(wrapper.text()).toBe("")
@@ -25,7 +25,7 @@ describe(`Bar`, () => {
 
   it(`should emit a close event when we click on close link`, () => {
     const self = {
-      $emit: jest.fn()
+      $emit: jest.fn(),
     }
     Bar.methods.close.call(self)
     expect(self.$emit).toHaveBeenCalledWith("close")
