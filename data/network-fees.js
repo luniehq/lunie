@@ -1,4 +1,6 @@
 const { UserInputError } = require('apollo-server')
+const fetch = require('node-fetch')
+const Sentry = require('@sentry/node')
 
 const transactionTypesSet = new Set([
   'SendTx',
@@ -12,8 +14,29 @@ const transactionTypesSet = new Set([
   'UnknownTx'
 ])
 
-const TERRA_TAX_RATE = 0.007
+const TERRA_POLLING_INTERVAL = 3600000 // 1h
 const TERRA_TAX_CAP = 1000000
+const TERRA_TAX_RATE_ENDPOINT = `https://lcd.terra.dev/treasury/tax_rate`
+
+let terraTaxRate
+
+const pollForNewTerraTaxRate = async () => {
+  const terraTaxRateResponse = await fetch(TERRA_TAX_RATE_ENDPOINT)
+  .then((r) => r.json())
+  .catch((err) => {
+    Sentry.withScope(function (scope) {
+      scope.setExtra('terra tax rate endpoint', TERRA_TAX_RATE_ENDPOINT)
+      Sentry.captureException(err)
+    })
+  })
+  terraTaxRate = Number(Number(terraTaxRateResponse.result).toFixed(6))
+  setTimeout(async () => {
+    pollForNewTerraTaxRate()
+  }, TERRA_POLLING_INTERVAL)
+}
+
+// run on API launch
+pollForNewTerraTaxRate()
 
 const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
   if (transactionType && !transactionTypesSet.has(transactionType)) {
@@ -43,7 +66,7 @@ const getNetworkGasPrices = (networkId) => {
 const getNetworkTransactionChainAppliedFees = (networkId, transactionType) => {
   if (networkId.startsWith('terra') && transactionType === 'SendTx') {
     return {
-      rate: TERRA_TAX_RATE,
+      rate: terraTaxRate,
       cap: TERRA_TAX_CAP
     }
   } else {
