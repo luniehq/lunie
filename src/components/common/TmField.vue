@@ -85,47 +85,47 @@ export default {
   props: {
     type: {
       type: String,
-      default: `text`,
+      default: `text`
     },
     value: {
       type: [String, Number, Boolean],
-      default: null,
+      default: null
     },
     placeholder: {
       type: String,
-      default: null,
+      default: null
     },
     size: {
       type: String,
-      default: null,
+      default: null
     },
     options: {
       type: [Array, Object],
-      default: null,
+      default: null
     },
     change: {
       type: Function,
-      default: null,
+      default: null
     },
     keyup: {
       type: Function,
-      default: null,
+      default: null
     },
     keydown: {
       type: Function,
-      default: null,
+      default: null
     },
     isDisabled: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data: () => ({
     defaultToggleOptions: {
       checked: `on`,
-      unchecked: `off`,
+      unchecked: `off`
     },
-    currentToggleState: false,
+    currentToggleState: false
   }),
   computed: {
     css() {
@@ -149,12 +149,12 @@ export default {
     selectPlaceholder() {
       if (this.placeholder) return this.placeholder
       else return `Select option...`
-    },
+    }
   },
   watch: {
     value(newValue) {
       this.currentToggleState = !!newValue
-    },
+    }
   },
   mounted() {
     this.currentToggleState = !!this.value
@@ -187,8 +187,8 @@ export default {
     },
     onKeydown(...args) {
       if (this.keydown) return this.keydown(...args)
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -202,7 +202,7 @@ input[type="checkbox"] {
   background: var(--input-bg);
   border: 2px solid var(--input-bc);
   border-radius: 0;
-  color: var(--txt, #333);
+  color: var(--txt);
   display: block;
   font-size: 14px;
   min-width: 0;
@@ -286,13 +286,13 @@ textarea.tm-field {
 .tm-toggle .tm-toggle-wrapper::before {
   background: var(--success);
   border-radius: 1em 0 0 1em;
-  left: calc((-1.625rem / 2));
+  left: calc(-1.625rem / 2);
 }
 
 .tm-toggle .tm-toggle-wrapper::after {
   background: var(--danger);
   border-radius: 0 1em 1em 0;
-  right: calc((-1.625rem / 2));
+  right: calc(-1.625rem / 2);
 }
 
 .tm-toggle .tm-toggle-wrapper .toggle-option-checked,
@@ -334,7 +334,7 @@ textarea.tm-field {
   height: 1.625rem;
   left: auto;
   position: absolute;
-  right: calc((-1.65rem / 2));
+  right: calc(-1.65rem / 2);
   top: 2px;
   transition: right 500ms ease, left 500ms ease;
   width: 1.625rem;

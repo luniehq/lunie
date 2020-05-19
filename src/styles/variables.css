@@ -11,7 +11,6 @@
   --menu-bright: hsl(0, 0%, 100%);
   --menu-text: hsl(0, 0%, 90%);
   --notification-title: hsl(227, 40%, 33%);
-
   --success: hsl(120, 72%, 31%);
   --warning: hsl(22, 86%, 56%);
   --danger: hsl(0, 100%, 55%);
@@ -20,7 +19,6 @@
   --faded-blue: hsl(226, 30%, 60%);
   --dark-grey-blue: hsl(227, 40%, 33%);
   --x: 16px;
-  --px: 0.0625rem;
   --sans:
     -apple-system,
     BlinkMacSystemFont,

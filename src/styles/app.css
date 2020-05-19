@@ -132,9 +132,6 @@ input.tm-field {
   margin: 0 auto;
   width: 100%;
   overflow: hidden;
-}
-
-.loading-image-container {
   animation: fade 1.5s infinite;
 }
 
