@@ -38,11 +38,6 @@ export default {
         icon: "/img/networks/tezos-mainnet.png",
       },
       {
-        id: "dawnchain-testnet",
-        title: "Dawn",
-        icon: "/img/networks/dawnchain-testnet.png",
-      },
-      {
         id: "akash-testnet",
         title: "Akash",
         icon: "/img/networks/akash-testnet.png",
