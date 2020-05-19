@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="network">
+  <div id="app" :class="theme">
     <AppHeader />
     <div id="app-content">
       <div id="bar-container">
@@ -38,10 +38,16 @@ export default {
   },
   data: () => ({
     isMobileApp: config.mobileApp,
+    networksThemes: ["cosmos", "terra", "emoney", "kava", "kusama"],
   }),
   computed: {
     ...mapState([`notifications`, `session`]),
     ...mapGetters([`network`]),
+    theme() {
+      return this.networksThemes.find((theme) => this.network.startsWith(theme))
+        ? this.network
+        : "lunie-dark"
+    },
   },
   store,
 }
