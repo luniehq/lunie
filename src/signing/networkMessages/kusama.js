@@ -49,7 +49,6 @@ export async function StakeTx(
         delegatedValidators.concat(to[0]),
         (x) => x
       )
-      console.log(transactions)
       transactions.push(await api.tx.staking.nominate(validatorAddresses))
     }
   }
