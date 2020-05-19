@@ -96,12 +96,14 @@ export default {
 .tm-page {
   padding: 0 2rem;
 }
+
 .header {
   display: flex;
   justify-content: center;
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
+
 .notification {
   background-color: white;
   margin: 0.5rem 0 0.5rem;
@@ -113,17 +115,20 @@ export default {
   justify-content: space-between;
   cursor: pointer;
 }
+
 img {
   flex-shrink: 0;
   width: 2rem;
   height: 2rem;
   margin-right: 1rem;
 }
+
 .content {
   flex-direction: row;
   display: flex;
   align-items: center;
 }
+
 .title {
   color: var(--notification-title);
   font-weight: 400;
