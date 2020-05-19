@@ -21,16 +21,16 @@ import { formatAddress } from "src/filters"
 export default {
   name: `lunie-address`,
   filters: {
-    formatAddress
+    formatAddress,
   },
   props: {
     address: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
-    copySuccess: false
+    copySuccess: false,
   }),
   methods: {
     onCopy() {
@@ -38,8 +38,8 @@ export default {
       setTimeout(() => {
         this.copySuccess = false
       }, 2500)
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

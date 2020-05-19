@@ -108,6 +108,7 @@ export default {
       if (this.type === `select`) {
         return this.options || []
       }
+      return
     },
     selectPlaceholder() {
       if (this.placeholder) return this.placeholder

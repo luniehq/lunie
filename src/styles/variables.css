@@ -21,7 +21,7 @@
   --x: 16px;
   --sans:
     -apple-system,
-    BlinkMacSystemFont,
+    blinkmacsystemfont,
     "Segoe UI",
     "Roboto",
     "Oxygen",
@@ -31,7 +31,7 @@
     "Droid Sans",
     "Helvetica Neue",
     sans-serif;
-  --mono: Consolas, Monaco, monospace;
+  --mono: consolas, monaco, monospace;
   --xxl: calc(var(--x) * 1.75);
   --xl: calc(var(--x) * 1.5);
   --lg: calc(var(--x) * 1.25);

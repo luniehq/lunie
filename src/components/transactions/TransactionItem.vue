@@ -36,7 +36,7 @@ import {
   SubmitProposalTxDetails,
   DepositTxDetails,
   VoteTxDetails,
-  UnknownTxDetails
+  UnknownTxDetails,
 } from "./message-view"
 
 export default {
@@ -51,32 +51,32 @@ export default {
     SubmitProposalTxDetails,
     DepositTxDetails,
     VoteTxDetails,
-    UnknownTxDetails
+    UnknownTxDetails,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
+      required: true,
     },
     validators: {
       type: Object,
-      required: true
+      required: true,
     },
     address: {
       type: String,
-      default: null
+      default: null,
     },
     showMetaData: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({
-    show: false
+    show: false,
   }),
   computed: {
     ...mapGetters([`isExtension`]),
-    messageTypeComponent: function() {
+    messageTypeComponent: function () {
       switch (this.transaction.type) {
         case messageType.SEND:
           return `send-tx-details`
@@ -100,15 +100,15 @@ export default {
         default:
           return ``
       }
-    }
+    },
   },
   methods: {
     toggleDetail(event) {
       if (event.target.className !== `address`) {
         this.show = !this.show
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

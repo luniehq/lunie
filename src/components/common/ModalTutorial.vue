@@ -81,32 +81,32 @@ export default {
   props: {
     close: {
       type: Function,
-      required: true
+      required: true,
     },
     fullguide: {
       type: String,
-      required: true
+      required: true,
     },
     steps: {
       type: Array,
-      required: true
+      required: true,
     },
     // Possible values: red, green, yellow, blue and lightblue
     background: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  data: function() {
+  data: function () {
     return {
-      currentStep: 1
+      currentStep: 1,
     }
   },
   computed: {
     ...mapGetters([`address`, `network`]),
     finalStep() {
       return this.currentStep === this.steps.length
-    }
+    },
   },
   methods: {
     nextLink() {
@@ -120,8 +120,8 @@ export default {
       if (this.currentStep > 1) {
         this.currentStep--
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
