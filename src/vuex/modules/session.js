@@ -160,13 +160,6 @@ export default ({ apollo }) => {
         })
       }
 
-      if (currentNetwork.network_type === "polkadot") {
-        await dispatch(`checkAddressRole`, {
-          address,
-          currentNetwork,
-        })
-      }
-
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
     signOut({ state, commit, dispatch }, networkId) {
@@ -251,6 +244,17 @@ export default ({ apollo }) => {
         fetchPolicy: "network-only",
       })
       commit(`setUserAddressRole`, data.accountRole)
+    },
+    getAllSessionsAddresses(store, { networkIds }) {
+      let allSessionAddresses = []
+      networkIds.forEach((networkId) => {
+        allSessionAddresses.push({
+          networkId,
+          address: JSON.parse(localStorage.getItem(`session_${networkId}`))
+            .address,
+        })
+      })
+      return allSessionAddresses
     },
   }
 
