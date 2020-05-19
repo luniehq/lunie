@@ -35,9 +35,7 @@ exports[`TmField displays as a select 1`] = `
       selected="selected"
       value=""
     >
-      
       Select option...
-    
     </option>
      
   </select>
@@ -67,24 +65,18 @@ exports[`TmField displays as a select 2`] = `
       selected="selected"
       value=""
     >
-      
       Select option...
-    
     </option>
      
     <option
       value="1"
     >
-      
-        1
-      
+      1
     </option>
     <option
       value="2"
     >
-      
-        2
-      
+      2
     </option>
   </select>
    
@@ -113,24 +105,18 @@ exports[`TmField displays as a select 3`] = `
       selected="selected"
       value=""
     >
-      
       Select a number...
-    
     </option>
      
     <option
       value="1"
     >
-      
-        1
-      
+      1
     </option>
     <option
       value="2"
     >
-      
-        2
-      
+      2
     </option>
   </select>
    
