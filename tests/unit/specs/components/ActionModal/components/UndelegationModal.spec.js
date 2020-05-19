@@ -16,9 +16,9 @@ describe(`UndelegationModal`, () => {
 
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => {})
+  localVue.directive("focus", () => { })
 
-  beforeEach(() => {
+  beforeEach(async () => {
     $store = {
       commit: jest.fn(),
       dispatch: jest.fn(),
@@ -44,7 +44,7 @@ describe(`UndelegationModal`, () => {
         targetValidator: validator2,
       },
     })
-    wrapper.setData({
+    await wrapper.setData({
       delegations: [
         {
           validator,
@@ -86,8 +86,8 @@ describe(`UndelegationModal`, () => {
         expect(wrapper.vm.validateForm()).toBe(false)
       })
 
-      it(`to true if the amount is positive and the user has enough liquid atoms`, () => {
-        wrapper.setData({ amount: 50 })
+      it(`to true if the amount is positive and the user has enough liquid atoms`, async () => {
+        await wrapper.setData({ amount: 50 })
         expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
@@ -120,8 +120,8 @@ describe(`UndelegationModal`, () => {
   })
 
   describe("Undelegation Submission Data", () => {
-    beforeEach(() => {
-      wrapper.setData({
+    beforeEach(async () => {
+      await wrapper.setData({
         amount: 10,
       })
     })
@@ -137,8 +137,8 @@ describe(`UndelegationModal`, () => {
       })
     })
 
-    it("should return empty transaction data if amount is NaN", () => {
-      wrapper.setData({
+    it("should return empty transaction data if amount is NaN", async () => {
+      await wrapper.setData({
         amount: `NaN`,
       })
       expect(wrapper.vm.transactionData).toEqual({})
@@ -153,8 +153,8 @@ describe(`UndelegationModal`, () => {
   })
 
   describe("Redelegation Submission Data", () => {
-    beforeEach(() => {
-      wrapper.setData({
+    beforeEach(async () => {
+      await wrapper.setData({
         amount: 10,
       })
       wrapper.vm.toSelectedIndex = `cosmosvaladdrXYZ`
@@ -172,8 +172,8 @@ describe(`UndelegationModal`, () => {
       })
     })
 
-    it("should return empty transaction data if amount is NaN", () => {
-      wrapper.setData({
+    it("should return empty transaction data if amount is NaN", async () => {
+      await wrapper.setData({
         amount: `NaN`,
       })
       expect(wrapper.vm.transactionData).toEqual({})

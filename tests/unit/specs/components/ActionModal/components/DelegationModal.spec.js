@@ -29,7 +29,7 @@ describe(`DelegationModal`, () => {
   let wrapper
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
-  localVue.directive("focus", () => {})
+  localVue.directive("focus", () => { })
 
   const state = {
     session: {
@@ -49,16 +49,16 @@ describe(`DelegationModal`, () => {
     stakingDenom: "STAKE",
   }
 
-  beforeEach(() => {
+  beforeEach(async () => {
     wrapper = shallowMount(DelegationModal, {
       localVue,
       mocks: {
         $store: { getters, state },
         $apollo: {
           queries: {
-            balance: { refetch: () => {} },
-            delegations: { refetch: () => {} },
-            validators: { refetch: () => {} },
+            balance: { refetch: () => { } },
+            delegations: { refetch: () => { } },
+            validators: { refetch: () => { } },
           },
         },
       },
@@ -66,7 +66,7 @@ describe(`DelegationModal`, () => {
         targetValidator: validators[0],
       },
     })
-    wrapper.setData({
+    await wrapper.setData({
       delegations: [
         {
           validator: validators[0],
@@ -133,26 +133,26 @@ describe(`DelegationModal`, () => {
         expect(wrapper.vm.validateForm()).toBe(false)
       })
 
-      it(`if the user manually inputs a number greater than the balance`, () => {
-        wrapper.setData({ amount: 1420 })
+      it(`if the user manually inputs a number greater than the balance`, async () => {
+        await wrapper.setData({ amount: 1420 })
         expect(wrapper.vm.validateForm()).toBe(false)
       })
     })
 
     describe(`succeeds`, () => {
-      it(`if the amount is positive and the user has enough balance`, () => {
-        wrapper.setData({ amount: 50 })
+      it(`if the amount is positive and the user has enough balance`, async () => {
+        await wrapper.setData({ amount: 50 })
         expect(wrapper.vm.validateForm()).toBe(true)
       })
     })
   })
 
-  describe("Submission Data for Delegating", () => {
-    beforeEach(() => {
+  describe("Submission Data for Delegating", async () => {
+    beforeEach(async () => {
       wrapper.setProps({
         targetValidator: validators[1],
       })
-      wrapper.setData({
+      await wrapper.setData({
         amount: 10,
         fromSelectedIndex: 0,
       })
@@ -169,8 +169,8 @@ describe(`DelegationModal`, () => {
       })
     })
 
-    it("should return empty transaction data if amount is NaN", () => {
-      wrapper.setData({
+    it("should return empty transaction data if amount is NaN", async () => {
+      await wrapper.setData({
         amount: `NaN`,
       })
       expect(wrapper.vm.transactionData).toEqual({})
@@ -196,11 +196,11 @@ describe(`DelegationModal`, () => {
   })
 
   describe("Submission Data for Redelegating", () => {
-    beforeEach(() => {
-      wrapper.setProps({
+    beforeEach(async () => {
+      await wrapper.setProps({
         targetValidator: validators[2],
       })
-      wrapper.setData({
+      await wrapper.setData({
         amount: 10,
         fromSelectedIndex: 2,
       })
@@ -243,7 +243,7 @@ describe(`DelegationModal`, () => {
 
   describe(`if amount field max button clicked`, () => {
     it(`amount has to be 1000 atom`, async () => {
-      wrapper.setData({
+      await wrapper.setData({
         amount: 1,
         fromSelectedIndex: `0`,
       })
@@ -251,7 +251,7 @@ describe(`DelegationModal`, () => {
       expect(wrapper.vm.amount).toBe(1000)
     })
     it(`should show warning message`, async () => {
-      wrapper.setData({
+      await wrapper.setData({
         amount: 1000,
         fromSelectedIndex: `0`,
       })
@@ -264,10 +264,10 @@ describe(`DelegationModal`, () => {
 
   describe(`if validator is jailed`, () => {
     it(`must show warn message about it`, async () => {
-      wrapper.setProps({
+      await wrapper.setProps({
         targetValidator: validators[2], // Jailed validator
       })
-      wrapper.setData({
+      await wrapper.setData({
         amount: 1,
         fromSelectedIndex: `0`,
       })
@@ -279,10 +279,10 @@ describe(`DelegationModal`, () => {
 
   describe(`if validator is tombstoned`, () => {
     it(`must show warn message about it`, async () => {
-      wrapper.setProps({
+      await wrapper.setProps({
         targetValidator: validators[3], // Tombstoned validator
       })
-      wrapper.setData({
+      await wrapper.setData({
         amount: 1,
         fromSelectedIndex: `0`,
       })
@@ -294,7 +294,7 @@ describe(`DelegationModal`, () => {
 
   describe(`if validator is active`, () => {
     it(`must not show warn message`, async () => {
-      wrapper.setData({
+      await wrapper.setData({
         amount: 1,
         fromSelectedIndex: `0`,
         targetValidator: validators[0], // Active validator

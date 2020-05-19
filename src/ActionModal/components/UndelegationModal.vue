@@ -155,7 +155,7 @@ export default {
     },
   },
   data: () => ({
-    amount: null,
+    amount: 0,
     delegations: [],
     validators: [],
     toSelectedIndex: `0`,
