@@ -57,6 +57,7 @@
   border-radius: 0.25rem;
   border: 1px solid var(--bc-dim);
   cursor: pointer;
+
   /* assumes all rows are clickable */
 }
 
@@ -116,7 +117,6 @@
 }
 
 @media screen and (max-width: 667px) {
-
   .data-table th,
   .data-table td {
     padding: 0.5rem 1rem;
