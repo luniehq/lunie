@@ -52,7 +52,11 @@ exports[`AppHeader should display the sidebar on desktop 1`] = `
       
       </a>
        
-      <!---->
+      <div
+        class="header-menu-section"
+      >
+        <!---->
+      </div>
     </div>
      
     <appmenu-stub />
@@ -113,16 +117,22 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
       </a>
        
       <div
-        class="close-menu"
+        class="header-menu-section"
       >
-        <i
-          class="material-icons notranslate mobile-menu-action"
+        <!---->
+         
+        <div
+          class="close-menu"
         >
-          close
-        </i>
+          <i
+            class="material-icons notranslate mobile-menu-action"
+          >
+            close
+          </i>
+        </div>
+         
+        <!---->
       </div>
-       
-      <!---->
     </div>
      
     <appmenu-stub />

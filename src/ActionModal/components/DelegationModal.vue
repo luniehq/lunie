@@ -14,6 +14,30 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
+    <TmFormGroup
+      v-if="session.addressRole === `stash`"
+      class="action-modal-form-group"
+    >
+      <div class="form-message notice">
+        <span>
+          This is a stash account, you can increase the amount to stake but you
+          need to sign in with your controller account to set or change your
+          validators.
+        </span>
+      </div>
+    </TmFormGroup>
+    <TmFormGroup
+      v-if="session.addressRole === `controller`"
+      class="action-modal-form-group"
+    >
+      <div class="form-message notice">
+        <span>
+          This is a controller account, you can set or change your validators
+          but to increase the amount to stake you need to sign in with your
+          stash account.
+        </span>
+      </div>
+    </TmFormGroup>
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
@@ -31,7 +55,11 @@
     <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
       <TmField
         id="to"
-        :value="targetValidator | validatorEntry"
+        :value="
+          session.addressRole === `stash`
+            ? ``
+            : targetValidator | validatorEntry
+        "
         type="text"
         readonly
       />
@@ -60,6 +88,7 @@
         :title="from"
         :options="fromOptions"
         type="select"
+        :is-disabled="session.addressRole === `stash`"
       />
     </TmFormGroup>
     <TmFormGroup
@@ -81,6 +110,7 @@
           placeholder="0"
           class="tm-field-addon"
           type="number"
+          :is-disabled="session.addressRole === `controller`"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
@@ -88,6 +118,7 @@
           class="secondary addon-max"
           value="Set Max"
           @click.native="setMaxAmount()"
+          :disabled="session.addressRole === `controller`"
         />
       </TmFieldGroup>
       <span class="form-message">
@@ -172,7 +203,7 @@ export default {
     },
   },
   data: () => ({
-    amount: null,
+    amount: 0,
     fromSelectedIndex: 0,
     balance: {
       amount: null,
@@ -250,6 +281,7 @@ export default {
             amount: this.amount,
             denom: this.stakingDenom,
           },
+          addressRole: this.session.addressRole,
         }
       } else {
         return {
@@ -259,6 +291,7 @@ export default {
             amount: this.amount,
             denom: this.stakingDenom,
           },
+          addressRole: this.session.addressRole,
         }
       }
     },
@@ -323,14 +356,22 @@ export default {
   validations() {
     return {
       amount: {
-        required: (x) =>
-          this.currentNetwork.network_type === "polkadot" &&
-          this.totalStaked > 0
-            ? true
-            : !!x && x !== `0`,
+        required: (x) => {
+          if (
+            (this.currentNetwork.network_type === "polkadot" &&
+              this.totalStaked > 0) ||
+            this.session.addressRole === `controller`
+          ) {
+            return true
+          } else {
+            return !!x && x !== `0`
+          }
+        },
         decimal,
         max: (x) => Number(x) <= this.maxAmount,
-        min: (x) => Number(x) >= SMALLEST,
+        min: (x) =>
+          this.currentNetwork.network_type === "polkadot" ||
+          Number(x) >= SMALLEST,
         maxDecimals: (x) => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6

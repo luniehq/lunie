@@ -43,6 +43,9 @@ describe(`DelegationsOverview`, () => {
           network: "testnet",
         },
         delegations,
+        session: {
+          addressRole: undefined,
+        },
       },
       address: "cosmos1",
       network: "testnet",
