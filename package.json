@@ -25,8 +25,8 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
-    "@dicebear/avatars": "3.1.4",
-    "@dicebear/avatars-jdenticon-sprites": "1.1.4",
+    "@dicebear/avatars": "4.1.1",
+    "@dicebear/avatars-jdenticon-sprites": "4.1.1",
     "@lunie/cosmos-keys": "0.2.0",
     "@lunie/cosmos-ledger": "0.1.7",
     "@polkadot/api": "1.13.1",
