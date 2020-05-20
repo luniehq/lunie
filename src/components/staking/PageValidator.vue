@@ -79,7 +79,7 @@
         <TmBtn
           id="undelegation-btn"
           class="undelegation-btn"
-          :disabled="delegation.amount === 0"
+          :disabled="delegation.amount === 0 && !isInactiveValidator"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
@@ -207,7 +207,11 @@ import Avatar from "common/Avatar"
 import Address from "common/Address"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
-import { ValidatorProfile, UserTransactionAdded } from "src/gql"
+import {
+  ValidatorProfile,
+  DelegationsForDelegator,
+  UserTransactionAdded,
+} from "src/gql"
 import ModalTutorial from "common/ModalTutorial"
 
 function getStatusText(statusDetailed) {
@@ -255,6 +259,7 @@ export default {
     showTutorial: false,
     isMostRelevantRewardSelected: false,
     mostRelevantReward: ``,
+    delegations: [],
     cosmosStakingTutorial: {
       fullguide: `https://lunie.io/guides/how-cosmos-staking-works/`,
       background: `blue`,
@@ -303,6 +308,14 @@ export default {
     ...mapState([`connection`, `session`]),
     ...mapGetters([`network`, `stakingDenom`, `currentNetwork`]),
     ...mapGetters({ userAddress: `address` }),
+    isInactiveValidator() {
+      const inactiveDelegation = this.delegations.find(
+        (delegation) =>
+          delegation.validator.operatorAddress ===
+            this.validator.operatorAddress && delegation.amount === "0"
+      )
+      return inactiveDelegation ? true : false
+    },
   },
   mounted() {
     this.$apollo.queries.rewards.refetch()
@@ -442,6 +455,23 @@ export default {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed),
         }
+      },
+    },
+    delegations: {
+      query() {
+        /* istanbul ignore next */
+        return DelegationsForDelegator(this.network)
+      },
+      variables() {
+        /* istanbul ignore next */
+        return {
+          delegatorAddress: this.userAddress,
+          networkId: this.network,
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        return data.delegations || []
       },
     },
     $subscribe: {
