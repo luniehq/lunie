@@ -14,13 +14,16 @@ const transactionTypesSet = new Set([
   'UnknownTx'
 ])
 
-const TERRA_POLLING_INTERVAL = 3600000 // 1h
+const FEES_POLLING_INTERVAL = 3600000 // 1h
 const TERRA_TAX_CAP = 1000000
 const TERRA_TAX_RATE_ENDPOINT = `https://lcd.terra.dev/treasury/tax_rate`
+// TODO: add also endpoint for new testnet when it is released
+const EMONEY_GAS_PRICES_ENDPOINT = `http://emoney.validator.network/light/authority/gasprices`
 
 let terraTaxRate
+let emoneyGasPrices
 
-const pollForNewTerraTaxRate = async () => {
+const pollForNewFees = async () => {
   const terraTaxRateResponse = await fetch(TERRA_TAX_RATE_ENDPOINT)
   .then((r) => r.json())
   .catch((err) => {
@@ -29,14 +32,23 @@ const pollForNewTerraTaxRate = async () => {
       Sentry.captureException(err)
     })
   })
+  const emoneyGasPricesResponse = await fetch(EMONEY_GAS_PRICES_ENDPOINT)
+  .then((r) => r.json())
+  .catch((err) => {
+    Sentry.withScope(function (scope) {
+      scope.setExtra('emoney gas prices endpoint', EMONEY_GAS_PRICES_ENDPOINT)
+      Sentry.captureException(err)
+    })
+  })
   terraTaxRate = Number(Number(terraTaxRateResponse.result).toFixed(6))
+  emoneyGasPrices = emoneyGasPricesResponse.result.min_gas_prices.map(gasPrice => gasPrice = {denom: gasPrice.denom, price: gasPrice.amount})
   setTimeout(async () => {
-    pollForNewTerraTaxRate()
-  }, TERRA_POLLING_INTERVAL)
+    pollForNewFees()
+  }, FEES_POLLING_INTERVAL)
 }
 
 // run on API launch
-pollForNewTerraTaxRate()
+pollForNewFees()
 
 const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
   if (transactionType && !transactionTypesSet.has(transactionType)) {
@@ -60,6 +72,8 @@ const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
 }
 
 const getNetworkGasPrices = (networkId) => {
+  // update emoneyGasPrices
+  networkGasPricesDictionary['emoney-mainnet'] = emoneyGasPrices
   return networkGasPricesDictionary[networkId]
 }
 
@@ -154,41 +168,6 @@ const terraGasPrices = [
   }
 ]
 
-const emoneyGasPrices = [
-  {
-    denom: 'echf',
-    price: '0.530'
-  },
-  {
-    denom: 'eeur',
-    price: '0.500'
-  },
-  {
-    denom: 'ejpy',
-    price: '48.800'
-  },
-  {
-    denom: 'eusd',
-    price: '0.440'
-  },
-  {
-    denom: 'ungm',
-    price: '1'
-  },
-  {
-    denom: 'esek',
-    price: '5.500'
-  },
-  {
-    denom: 'enok',
-    price: '6.100'
-  },
-  {
-    denom: 'edkk',
-    price: '3.700'
-  }
-]
-
 const kavaGasPrices = [
   {
     denom: 'ukava',
@@ -205,7 +184,7 @@ const akashGasPrices = [
 
 const polkadotGasPrices = []
 
-const networkGasPricesDictionary = {
+let networkGasPricesDictionary = {
   'cosmos-hub-mainnet': cosmosGasPrices,
   'cosmos-hub-testnet': cosmosGasPrices,
   'terra-mainnet': terraGasPrices,
