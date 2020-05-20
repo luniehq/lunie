@@ -24,9 +24,9 @@
     >
       <div class="form-message notice">
         <span>
-          This is a stash account, you can decrease the amount you stake but you
-          need to sign in with your controller account to change your
-          validators.
+          This is a stash account, you cannot perform any unstake related
+          action. To decrease the amount your stake and change your validators
+          you need to sign in with your controller account
         </span>
       </div>
     </TmFormGroup>
@@ -91,6 +91,7 @@
           class="tm-field-addon"
           placeholder="0"
           type="number"
+          :is-disabled="session.addressRole === `stash`"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
