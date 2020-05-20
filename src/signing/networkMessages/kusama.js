@@ -82,7 +82,10 @@ export async function UnstakeTx(
     const validatorAddresses = delegatedValidators.filter(
       (validator) => !from.includes(validator)
     )
-    transactions.push(await api.tx.staking.nominate(validatorAddresses))
+    // transaction will fail if targets are empty
+    if (validatorAddresses.length > 0) {
+      transactions.push(await api.tx.staking.nominate(validatorAddresses))
+    }
   }
 
   if (transactions.length === 0) {
