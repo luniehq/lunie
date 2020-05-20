@@ -223,7 +223,7 @@ module.exports = [
   {
     id: 'kava-testnet',
     title: 'Kava Testnet',
-    chain_id: 'kava-testnet-5000',
+    chain_id: 'kava-testnet-6000',
     api_url: 'http://lcd.kava-testnet.forbole.com:1317',
     rpc_url: 'http://rpc.kava-testnet.forbole.com:26657',
     bech32_prefix: 'kava',
