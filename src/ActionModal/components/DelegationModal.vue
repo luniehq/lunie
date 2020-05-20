@@ -56,9 +56,10 @@
       <TmField
         id="to"
         :value="
+          // prettier-ignore
           session.addressRole === `stash`
             ? `--`
-            : validatorEntry(targetValidator)
+            : (targetValidator | validatorEntry)
         "
         type="text"
         readonly

@@ -34,6 +34,7 @@ describe(`DelegationModal`, () => {
   const state = {
     session: {
       signedIn: true,
+      addressRole: undefined,
     },
   }
 
