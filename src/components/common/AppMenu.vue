@@ -83,17 +83,6 @@
       </router-link>
 
       <router-link
-        class="app-menu-item hide-xs"
-        to="/networks"
-        exact="exact"
-        title="Networks"
-        @click.native="handleClick()"
-      >
-        <h2 class="app-menu-title">Networks</h2>
-        <i class="material-icons notranslate hide-xs">chevron_right</i>
-      </router-link>
-
-      <router-link
         v-if="session.experimentalMode"
         class="app-menu-item hide-xs"
         to="/notifications"
@@ -104,6 +93,17 @@
         <h2 class="app-menu-title">
           Notifications
         </h2>
+        <i class="material-icons notranslate hide-xs">chevron_right</i>
+      </router-link>
+
+      <router-link
+        class="app-menu-item hide-xs"
+        to="/networks"
+        exact="exact"
+        title="Networks"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Networks</h2>
         <i class="material-icons notranslate hide-xs">chevron_right</i>
       </router-link>
 
