@@ -16,10 +16,15 @@
       <div slot="subtitle">Don't worry, they are on their way!</div>
     </TmDataMsg>
 
-    <div
+    <router-link
       v-for="notification in notifications"
       :key="notification.id"
       class="notification"
+      title="Transactions"
+      :to="{
+        name: 'transactions',
+        params: { networkId: notification.link.split('/')[1] },
+      }"
     >
       <div class="content">
         <img :src="notification.icon" />
@@ -28,7 +33,7 @@
         </div>
       </div>
       <i class="material-icons notranslate">chevron_right</i>
-    </div>
+    </router-link>
   </TmPage>
 </template>
 
