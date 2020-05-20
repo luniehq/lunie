@@ -51,10 +51,7 @@
       <TmField
         id="from"
         :value="
-          // prettier-ignore
-          session.addressRole === `stash`
-            ? `--`
-            : (sourceValidator | validatorEntry)
+          session.addressRole === `stash` ? `--` : enhancedSourceValidator
         "
         type="text"
         readonly
@@ -313,6 +310,9 @@ export default {
       } else {
         return `a certain number of time`
       }
+    },
+    enhancedSourceValidator() {
+      return validatorEntry(this.sourceValidator)
     },
   },
   validations() {
