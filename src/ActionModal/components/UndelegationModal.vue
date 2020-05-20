@@ -18,6 +18,18 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
+    <TmFormGroup
+      v-if="session.addressRole === `stash`"
+      class="action-modal-form-group"
+    >
+      <div class="form-message notice">
+        <span>
+          This is a stash account, you can decrease the amount you stake but you
+          need to sign in with your controller account to change your
+          validators.
+        </span>
+      </div>
+    </TmFormGroup>
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
@@ -38,7 +50,12 @@
     >
       <TmField
         id="from"
-        :value="sourceValidator | validatorEntry"
+        :value="
+          // prettier-ignore
+          session.addressRole === `stash`
+            ? `--`
+            : (sourceValidator | validatorEntry)
+        "
         type="text"
         readonly
       />
