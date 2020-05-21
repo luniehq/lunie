@@ -248,9 +248,12 @@ export default ({ apollo }) => {
     getAllSessionsAddresses(store, { networkIds }) {
       let allSessionAddresses = []
       networkIds.forEach((networkId) => {
+        const sessionEntry = localStorage.getItem(`session_${networkId}`)
+        if (!sessionEntry) return
+
         allSessionAddresses.push({
           networkId,
-          address: JSON.parse(localStorage.getItem(`session_${networkId}`))
+          address: JSON.parse(sessionEntry)
             .address,
         })
       })
