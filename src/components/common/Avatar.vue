@@ -19,7 +19,7 @@ export default {
     svg() {
       const options = {}
       const avatars = new Avatars(sprites, options)
-      return avatars.create(this.address)
+      return avatars.create(this.address, options)
     },
   },
 }
