@@ -208,7 +208,7 @@ module.exports = [
     default: false,
     stakingDenom: 'KAVA',
     coinLookup: coinLookupDictionary[`kava-mainnet`],
-    enabled: false,
+    enabled: true,
     experimental: false,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/kava.png',
     slug: 'kava',
@@ -223,7 +223,7 @@ module.exports = [
   {
     id: 'kava-testnet',
     title: 'Kava Testnet',
-    chain_id: 'kava-testnet-5000',
+    chain_id: 'kava-testnet-6000',
     api_url: 'http://lcd.kava-testnet.forbole.com:1317',
     rpc_url: 'http://rpc.kava-testnet.forbole.com:26657',
     bech32_prefix: 'kava',
@@ -249,36 +249,31 @@ module.exports = [
         'https://lunie.fra1.digitaloceanspaces.com/validator-pictures/forbole.jpeg'
     },
     lockUpPeriod: '60 minutes'
+  },
+  {
+    id: 'akash-testnet',
+    title: 'Akash Testnet',
+    chain_id: 'centauri',
+    api_url: 'http://akash-lcd.vitwit.com/',
+    rpc_url: 'wss://akash-rpc.vitwit.com/websocket',
+    bech32_prefix: 'akash',
+    address_prefix: 'akash',
+    address_creator: 'cosmos',
+    ledger_app: 'cosmos',
+    network_type: 'cosmos',
+    source_class_name: 'source/akashV0-source',
+    block_listener_class_name: 'block-listeners/cosmos-node-subscription',
+    testnet: true,
+    ...getNetworkCapabilities[`akash-testnet`],
+    default: false,
+    stakingDenom: 'AKT',
+    coinLookup: coinLookupDictionary[`akash-testnet`],
+    enabled: false,
+    experimental: true,
+    icon: 'https://app.lunie.io/img/networks/akash-testnet.png',
+    slug: 'akash-testnet',
+    lockUpPeriod: '21 days'
   }
-  // {
-  //   id: 'akash-testnet',
-  //   title: 'Akash Testnet',
-  //   chain_id: 'devnet',
-  //   api_url: 'http://95.179.133.80:8080',
-  //   rpc_url: 'wss://95.179.133.80:26657/websocket',
-  //   bech32_prefix: 'akash',
-  //   address_prefix: 'akash',
-  //   address_creator: 'cosmos',
-  //   ledger_app: 'cosmos',
-  //   network_type: 'cosmos',
-  //   source_class_name: 'source/akashV0-source',
-  //   block_listener_class_name: 'block-listeners/cosmos-node-subscription',
-  //   testnet: true,
-  //   ...getNetworkCapabilities[`akash-testnet`],
-  //   default: false,
-  //   stakingDenom: 'STAKE', // this is only in my private testnet
-  //   coinLookup: [
-  //     {
-  //       chainDenom: 'uakt',
-  //       viewDenom: 'AKT',
-  //       chainToViewConversionFactor: 1e-6
-  //     }
-  //   ],
-  //   enabled: false,
-  //   experimental: false,
-  //   icon: 'https://app.lunie.io/img/networks/akash-testnet.png',
-  //   slug: 'akash-testnet'
-  // }
   // {
   //   id: 'livepeer-mainnet',
   //   title: 'Livepeer',
