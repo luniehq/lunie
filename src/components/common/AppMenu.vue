@@ -94,7 +94,7 @@
       </router-link>
 
       <router-link
-        v-if="session.developmentMode"
+        v-if="session.experimentalMode"
         class="app-menu-item hide-xs"
         to="/notifications"
         exact="exact"
