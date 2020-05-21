@@ -23,12 +23,4 @@ export default { name: `tm-field-addon` }
 .tm-field-addon + .tm-btn {
   margin-left: 1rem;
 }
-
-.tm-field-addon + .tm-field-addon,
-.tm-field + .tm-field-addon,
-.tm-field-addon + .tm-field {
-  margin-left: calc(-1 * var(--px));
-  position: relative;
-  z-index: var(--z-default);
-}
 </style>

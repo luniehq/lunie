@@ -11,21 +11,17 @@
   --menu-bright: hsl(0, 0%, 100%);
   --menu-text: hsl(0, 0%, 90%);
   --notification-title: hsl(227, 40%, 33%);
-
   --success: hsl(120, 72%, 31%);
   --warning: hsl(22, 86%, 56%);
   --danger: hsl(0, 100%, 55%);
   --info: hsl(332, 47%, 23%);
-
   --sky-blue: hsl(217, 100%, 70%);
   --faded-blue: hsl(226, 30%, 60%);
   --dark-grey-blue: hsl(227, 40%, 33%);
-
   --x: 16px;
-  --px: 0.0625rem;
   --sans:
     -apple-system,
-    BlinkMacSystemFont,
+    blinkmacsystemfont,
     "Segoe UI",
     "Roboto",
     "Oxygen",
@@ -35,7 +31,7 @@
     "Droid Sans",
     "Helvetica Neue",
     sans-serif;
-  --mono: Consolas, Monaco, monospace;
+  --mono: consolas, monaco, monospace;
   --xxl: calc(var(--x) * 1.75);
   --xl: calc(var(--x) * 1.5);
   --lg: calc(var(--x) * 1.25);
@@ -48,9 +44,7 @@
   --h4: 1.125rem;
   --h5: 1rem;
   --h6: 0.75rem;
-
   --width-side: 14rem;
-
   --z-modalError: 1002;
   --z-modal: 1000;
   --z-appHeader: 100;

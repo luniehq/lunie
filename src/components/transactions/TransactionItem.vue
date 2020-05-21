@@ -129,6 +129,19 @@ export default {
   display: inline-block;
 }
 
+.validator-image {
+  margin: 0.25rem;
+  border-radius: 100%;
+  height: 1.25rem;
+  width: 1.25rem;
+  vertical-align: middle;
+  transition: transform 0.2s ease-in-out;
+}
+
+.validator-image svg {
+  border-radius: 100%;
+}
+
 .tx a:hover .validator-image {
   transform: scale(1.1);
 }
@@ -210,19 +223,6 @@ export default {
 
 .toggle-icon {
   font-size: 16px;
-}
-
-.validator-image {
-  margin: 0.25rem;
-  border-radius: 100%;
-  height: 1.25rem;
-  width: 1.25rem;
-  vertical-align: middle;
-  transition: transform 0.2s ease-in-out;
-}
-
-.validator-image svg {
-  border-radius: 100%;
 }
 
 .tx .copied {

@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.200] - 2020-05-19
+
+### Added
+
+- [#4017](https://github.com/cosmos/lunie/issues/4017) Detect polkadot address role and store in session @mariopino
+- [#4017](https://github.com/cosmos/lunie/issues/4017) Allow actions based on the account role in Polkadot @mariopino
+- [#4041](https://github.com/cosmos/lunie/pull/4041) Adds the notifications page @Team
+
+### Changed
+
+- [#4028](https://github.com/cosmos/lunie/pull/4028) Aims to fix numeric keyboard on some mobile devices lacking of decimal point @Bitcoinera
+- [#3997](https://github.com/cosmos/lunie/pull/3997) Now the Success step in ActionModal shows a link to Activity page @Bitcoinera
+- [#4034](https://github.com/cosmos/lunie/pull/4034) Makes the Back to Validators Button "smart" @Bitcoinera
+- [#4070](https://github.com/cosmos/lunie/pull/4070) Remove Dawn network from coming soon @Bitcoinera
+
+### Fixed
+
+- [#3965](https://github.com/cosmos/lunie/issues/3965) Fixes getting insufficient fees error in e-Money and Kava mainnet by not applying adjustFeesToMaxPayable in those @Bitcoinera
+- [#4024](https://github.com/cosmos/lunie/issues/4024) Fixes claim rewards denoms misplaces on ModalWithdrawRewards (multi-denom) @Bitcoinera
+- [#4031](https://github.com/cosmos/lunie/issues/4031) Fixes Activity proposals links in Vote and Deposit details @Bitcoinera
+- [#4032](https://github.com/cosmos/lunie/pull/4032) Fixes the Page404 links @Bitcoinera
+- toggle buttons were broken @jbibla
+- [#4067](https://github.com/cosmos/lunie/issues/4067) Disable "Set Max" button in stake for controller accounts in polkadot @mariopino
+
+### Security
+
+- Resolve security warning with http-proxy dependency @faboweb
+
+### Code Improvements
+
+- Applied linting due to package updates @faboweb
+- Remove push notifications firebase @michielmulders
+
+### Repository
+
+- Fix a missing snap @faboweb
+
 ## [1.0.199] - 2020-05-12
 
 ### Changed

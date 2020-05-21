@@ -56,25 +56,33 @@
       <TmField
         id="to"
         :value="
+          // prettier-ignore
           session.addressRole === `stash`
-            ? ``
-            : targetValidator | validatorEntry
+            ? `--`
+            : enhancedTargetValidator
         "
         type="text"
         readonly
       />
-      <TmFormMsg
-        v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
-        :msg="`You are about to stake to an inactive validator (${targetValidator.statusDetailed})`"
-        type="custom"
-        class="tm-form-msg--desc"
-      />
-      <TmFormMsg
-        v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
-        :msg="`You are about to restake to an inactive validator (${targetValidator.statusDetailed})`"
-        type="custom"
-        class="tm-form-msg--desc"
-      />
+      <template
+        v-if="
+          network.type !== `polkadot` ||
+          (addressRole && addressRole !== `stash`)
+        "
+      >
+        <TmFormMsg
+          v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
+          :msg="`You are about to stake to an inactive validator (${targetValidator.statusDetailed})`"
+          type="custom"
+          class="tm-form-msg--desc"
+        />
+        <TmFormMsg
+          v-if="targetValidator.status === 'INACTIVE' && isRedelegation"
+          :msg="`You are about to restake to an inactive validator (${targetValidator.statusDetailed})`"
+          type="custom"
+          class="tm-form-msg--desc"
+        />
+      </template>
     </TmFormGroup>
 
     <TmFormGroup
@@ -117,8 +125,8 @@
           type="button"
           class="secondary addon-max"
           value="Set Max"
-          @click.native="setMaxAmount()"
           :disabled="session.addressRole === `controller`"
+          @click.native="setMaxAmount()"
         />
       </TmFieldGroup>
       <span class="form-message">
@@ -324,6 +332,9 @@ export default {
         return `a certain number of time`
       }
     },
+    enhancedTargetValidator() {
+      return validatorEntry(this.targetValidator)
+    },
   },
   methods: {
     open() {
@@ -338,7 +349,7 @@ export default {
     clear() {
       this.$v.$reset()
       this.fromSelectedIndex = 0
-      this.amount = null
+      this.amount = 0
     },
     setMaxAmount() {
       this.amount = this.maxAmount

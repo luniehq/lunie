@@ -176,6 +176,7 @@ export default {
 .header-menu-section {
   display: flex;
 }
+
 .header-menu-section > * {
   padding: 0 0.5rem;
 }

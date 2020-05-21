@@ -469,19 +469,24 @@ export default {
 .tm-field-addon {
   border-right: 0;
 }
+
 .tm-field-addon:focus {
   border-color: var(--input-bc);
 }
+
 .tm-field-token-selector {
   width: 80px;
 }
+
 .tm-field-token-selector >>> .tm-field-select {
   border-left: 0;
   border-radius: 0 !important;
 }
+
 .tm-field-token-selector >>> .tm-field-select:focus {
   border-color: var(--input-bc);
 }
+
 .tm-field-token-selector >>> .tm-field-select-addon {
   border: 0;
 }
