@@ -77,7 +77,9 @@ export async function UnstakeTx(
     from.length > 0 &&
     ["controller", "stash/controller"].includes(addressRole)
   ) {
-    const response = await api.query.staking.nominators(senderAddress)
+    const stakingLedger = await api.query.staking.ledger(senderAddress)
+    const stashId = stakingLedger.toJSON().stash
+    const response = await api.query.staking.nominators(stashId)
     const { targets: delegatedValidators = [] } = response.toJSON() || {}
     const validatorAddresses = delegatedValidators.filter(
       (validator) => !from.includes(validator)
