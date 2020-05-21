@@ -56,10 +56,10 @@ const Router = (store) =>
 export default Router
 
 // check if feature is allowed and redirect if not
-async function featureAvailable(store, networkId, feature) {
+async function featureAvailable(store, networkSlug, feature) {
   const networks = store.state.connection.networks
   // we get the current network object
-  const currentNetwork = networks.find(({ id }) => id === networkId)
+  const currentNetwork = networks.find(({ slug }) => slug === networkSlug)
   const featureSelector = `feature_${feature.toLowerCase()}`
   return typeof currentNetwork[featureSelector] === "string"
     ? currentNetwork[featureSelector]
