@@ -59,7 +59,7 @@
           // prettier-ignore
           session.addressRole === `stash`
             ? `--`
-            : (targetValidator | validatorEntry)
+            : enhancedTargetValidator
         "
         type="text"
         readonly
@@ -331,6 +331,9 @@ export default {
       } else {
         return `a certain number of time`
       }
+    },
+    enhancedTargetValidator() {
+      return validatorEntry(this.targetValidator)
     },
   },
   methods: {

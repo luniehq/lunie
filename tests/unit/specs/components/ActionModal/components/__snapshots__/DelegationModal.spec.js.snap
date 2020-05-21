@@ -12,7 +12,7 @@ exports[`DelegationModal Submission Data for Redelegating should set the subtota
       </span></div>
   </tmformgroup-stub>
   <tmformgroup-stub fieldid="to" fieldlabel="To" class="action-modal-form-group">
-    <tmfield-stub type="text" value="0" id="to" readonly=""></tmfield-stub>
+    <tmfield-stub type="text" value="undefined - cosmosvaladdr…3p4mqpjyrm5ctgurrg7n" id="to" readonly=""></tmfield-stub>
     <!---->
     <tmformmsg-stub type="custom" name="" msg="You are about to restake to an inactive validator (temporally banned from the network)" class="tm-form-msg--desc"></tmformmsg-stub>
   </tmformgroup-stub>
@@ -78,7 +78,7 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
       id="to"
       readonly=""
       type="text"
-      value="0"
+      value="undefined - cosmosvaladdr…3p4mqpjyrm5ctqzh8yqw"
     />
      
     <!---->
