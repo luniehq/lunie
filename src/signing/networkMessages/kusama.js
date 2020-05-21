@@ -43,7 +43,9 @@ export async function StakeTx(
   if (to.length > 0) {
     // only controller addresses can nominate (for not set controllers, we set the controller above)
     if (["controller", "stash/controller", "none"].includes(addressRole)) {
-      const response = await api.query.staking.nominators(senderAddress)
+      const stakingLedger = await api.query.staking.ledger(senderAddress)
+      const stashId = stakingLedger.toJSON().stash
+      const response = await api.query.staking.nominators(stashId)
       const { targets: delegatedValidators = [] } = response.toJSON() || {}
       const validatorAddresses = uniqBy(
         delegatedValidators.concat(to[0]),
