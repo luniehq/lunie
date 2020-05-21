@@ -242,6 +242,17 @@ export default ({ apollo }) => {
       })
       commit(`setUserAddressRole`, data.accountRole)
     },
+    getAllSessionsAddresses(store, { networkIds }) {
+      let allSessionAddresses = []
+      networkIds.forEach((networkId) => {
+        allSessionAddresses.push({
+          networkId,
+          address: JSON.parse(localStorage.getItem(`session_${networkId}`))
+            .address,
+        })
+      })
+      return allSessionAddresses
+    },
   }
 
   return {

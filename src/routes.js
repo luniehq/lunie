@@ -22,6 +22,16 @@ export default (store) => {
       },
     },
     {
+      path: `/notifications`,
+      name: `notifications`,
+      components: {
+        session: () => import(`./components/notifications/PageNotifications`),
+      },
+      // meta: {
+      //   feature: "Notifications"
+      // }
+    },
+    {
       path: `/login`,
       name: `login`,
       components: {

@@ -547,6 +547,11 @@ export default {
   font-size: 1rem;
 }
 
+span {
+  font-size: 12px;
+  line-height: normal;
+}
+
 .tutorial-button span {
   font-size: 14px;
 }
@@ -606,11 +611,6 @@ export default {
 .li-validator .li-validator-name-row {
   display: flex;
   align-items: center;
-}
-
-span {
-  font-size: 12px;
-  line-height: normal;
 }
 
 .button-container {

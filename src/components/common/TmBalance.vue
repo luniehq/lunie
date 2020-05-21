@@ -691,7 +691,6 @@ select option {
 
 .table-cell {
   flex-grow: 1;
-  width: 100%;
   padding: 0.5rem 0.5rem 0.5rem 0;
   overflow: hidden;
   display: flex;

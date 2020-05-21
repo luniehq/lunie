@@ -46,16 +46,24 @@
             alt="Lunie sharing circle - dots on the left outline of the cirle, line on the right side"
           />
         </router-link>
-        <template v-if="!desktop">
-          <div v-if="open" class="close-menu" @click="close()">
-            <i class="material-icons notranslate mobile-menu-action">close</i>
-          </div>
-          <div v-if="!open" class="open-menu" @click="show()">
-            <i class="material-icons notranslate mobile-menu-action">
-              more_vert
-            </i>
-          </div>
-        </template>
+        <div class="header-menu-section">
+          <template v-if="!desktop">
+            <router-link
+              v-if="session.experimentalMode"
+              :to="{ name: 'notifications' }"
+            >
+              <i class="material-icons">notifications</i>
+            </router-link>
+            <div v-if="open" class="close-menu" @click="close()">
+              <i class="material-icons notranslate mobile-menu-action">close</i>
+            </div>
+            <div v-if="!open" class="open-menu" @click="show()">
+              <i class="material-icons notranslate mobile-menu-action"
+                >more_vert</i
+              >
+            </div>
+          </template>
+        </div>
       </div>
       <AppMenu v-if="open || desktop" @close="close" />
     </div>
@@ -163,6 +171,14 @@ export default {
   height: 2rem;
   width: 6.5rem;
   fill: var(--menu-bright);
+}
+
+.header-menu-section {
+  display: flex;
+}
+
+.header-menu-section > * {
+  padding: 0 0.5rem;
 }
 
 @media screen and (max-width: 1023px) {

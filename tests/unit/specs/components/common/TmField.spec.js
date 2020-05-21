@@ -104,61 +104,6 @@ describe(`TmField`, () => {
     expect(wrapper.emittedByOrder()).toEqual([{ args: [`42`], name: `input` }])
   })
 
-  it(`displays a toggle`, () => {
-    const wrapper = shallowMount(TmField, {
-      propsData: {
-        type: `toggle`,
-      },
-    })
-    expect(wrapper.element).toMatchSnapshot()
-    // works with default option
-    wrapper.setProps({
-      value: false,
-      options: {
-        checked: `cool`,
-        unchecked: `bad`,
-      },
-    })
-    expect(wrapper.element).toMatchSnapshot()
-
-    // triggers
-    expect(wrapper.find(`.tm-toggle-wrapper > span`).text()).toBe(`bad`)
-    wrapper.find(`.tm-toggle-wrapper`).trigger(`click`)
-    expect(wrapper.find(`.tm-toggle-wrapper > span`).text()).toBe(`cool`)
-    expect(wrapper.element).toMatchSnapshot()
-
-    // allows for updates from the outside
-    wrapper.setProps({
-      value: true,
-    })
-    wrapper.setProps({
-      value: false,
-    })
-    expect(wrapper.find(`.tm-toggle-wrapper > span`).text()).toBe(`bad`)
-  })
-
-  it(`displays a disabled toggle`, () => {
-    const wrapper = shallowMount(TmField, {
-      propsData: {
-        type: `toggle`,
-        isDisabled: true,
-        value: false,
-        options: {
-          checked: `cool`,
-          unchecked: `bad`,
-        },
-      },
-    })
-
-    expect(wrapper.element).toMatchSnapshot()
-
-    // disable triggers
-    expect(wrapper.find(`.tm-toggle-wrapper > span`).text()).toBe(`bad`)
-    wrapper.find(`.tm-toggle-wrapper`).trigger(`click`)
-    expect(wrapper.find(`.tm-toggle-wrapper > span`).text()).not.toBe(`cool`)
-    expect(wrapper.element).toMatchSnapshot()
-  })
-
   it(`allows for style customization`, () => {
     const wrapper = shallowMount(TmField, {
       propsData: {

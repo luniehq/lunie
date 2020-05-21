@@ -1033,6 +1033,10 @@ export default {
   width: 100%;
 }
 
+.tm-form-group__field {
+  position: relative;
+}
+
 .action-modal-footer .tm-form-group .tm-form-group__field button {
   width: 100%;
 }
@@ -1082,10 +1086,6 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(2rem);
   opacity: 0;
-}
-
-.tm-form-group__field {
-  position: relative;
 }
 
 #send-modal .tm-data-msg {
