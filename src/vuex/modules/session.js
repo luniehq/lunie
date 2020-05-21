@@ -154,10 +154,7 @@ export default ({ apollo }) => {
       })
 
       if (currentNetwork.network_type === "polkadot") {
-        await dispatch(`checkAddressRole`, {
-          address,
-          networkId: currentNetwork.id,
-        })
+        await dispatch(`checkAddressRole`, { address, networkId })
       }
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)

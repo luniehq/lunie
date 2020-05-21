@@ -34,9 +34,8 @@
           <span
             v-if="validator.statusDetailed"
             class="validator-status-detailed"
+            >{{ validator.statusDetailed }}</span
           >
-            {{ validator.statusDetailed }}
-          </span>
         </div>
       </div>
       <tr class="li-validator">
@@ -55,9 +54,7 @@
               class="li-validator-image"
             />
             <div class="validator-info">
-              <h3 class="li-validator-name">
-                {{ validator.name }}
-              </h3>
+              <h3 class="li-validator-name">{{ validator.name }}</h3>
               <div v-if="delegation.amount">
                 <h4>{{ delegation.amount | fullDecimals }}</h4>
                 <h5 v-if="rewards && rewards.length > 0">
@@ -82,7 +79,7 @@
         <TmBtn
           id="undelegation-btn"
           class="undelegation-btn"
-          :disabled="delegation.amount === 0"
+          :disabled="delegation.amount === 0 && !isInactiveValidator"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
@@ -92,9 +89,7 @@
       <ul class="row">
         <li class="column">
           <h4>Description</h4>
-          <span>
-            {{ validator.details | noBlanks }}
-          </span>
+          <span>{{ validator.details | noBlanks }}</span>
         </li>
         <li class="column">
           <h4>Website</h4>
@@ -182,8 +177,8 @@
       <div slot="title">Validator Not Found</div>
       <div slot="subtitle">
         Please visit the
-        <router-link to="/validators/"> Validators </router-link>page to view
-        all validators
+        <router-link to="/validators/">Validators</router-link>page to view all
+        validators
       </div>
     </template>
     <ModalTutorial
@@ -212,7 +207,11 @@ import Avatar from "common/Avatar"
 import Address from "common/Address"
 import TmPage from "common/TmPage"
 import gql from "graphql-tag"
-import { ValidatorProfile, UserTransactionAdded } from "src/gql"
+import {
+  ValidatorProfile,
+  DelegationsForDelegator,
+  UserTransactionAdded,
+} from "src/gql"
 import ModalTutorial from "common/ModalTutorial"
 
 function getStatusText(statusDetailed) {
@@ -260,6 +259,7 @@ export default {
     showTutorial: false,
     isMostRelevantRewardSelected: false,
     mostRelevantReward: ``,
+    delegations: [],
     cosmosStakingTutorial: {
       fullguide: `https://lunie.io/guides/how-cosmos-staking-works/`,
       background: `blue`,
@@ -305,9 +305,17 @@ export default {
     },
   }),
   computed: {
-    ...mapState([`connection`]),
-    ...mapGetters([`network`, `stakingDenom`]),
+    ...mapState([`connection`, `session`]),
+    ...mapGetters([`network`, `stakingDenom`, `currentNetwork`]),
     ...mapGetters({ userAddress: `address` }),
+    isInactiveValidator() {
+      const inactiveDelegation = this.delegations.find(
+        (delegation) =>
+          delegation.validator.operatorAddress ===
+            this.validator.operatorAddress && delegation.amount === "0"
+      )
+      return inactiveDelegation ? true : false
+    },
   },
   mounted() {
     this.$apollo.queries.rewards.refetch()
@@ -447,6 +455,23 @@ export default {
           ...result.validator,
           statusDetailed: getStatusText(result.validator.statusDetailed),
         }
+      },
+    },
+    delegations: {
+      query() {
+        /* istanbul ignore next */
+        return DelegationsForDelegator(this.network)
+      },
+      variables() {
+        /* istanbul ignore next */
+        return {
+          delegatorAddress: this.userAddress,
+          networkId: this.network,
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        return data.delegations || []
       },
     },
     $subscribe: {
