@@ -34,6 +34,7 @@ describe(`DelegationModal`, () => {
   const state = {
     session: {
       signedIn: true,
+      addressRole: undefined,
     },
   }
 
@@ -117,7 +118,7 @@ describe(`DelegationModal`, () => {
     DelegationModal.methods.clear.call(self)
     expect(self.$v.$reset).toHaveBeenCalled()
     expect(self.fromSelectedIndex).toBe(0)
-    expect(self.amount).toBe(null)
+    expect(self.amount).toBe(0)
   })
 
   describe(`if amount field max button clicked`, () => {

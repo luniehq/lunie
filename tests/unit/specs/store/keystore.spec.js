@@ -230,6 +230,7 @@ describe(`Module: Keystore`, () => {
     )
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       address: "cosmos1234",
+      networkId: "cosmos-hub-mainnet",
       sessionType: "local",
     })
     expect(state.externals.track).toHaveBeenCalled()
@@ -280,6 +281,7 @@ describe(`Module: Keystore`, () => {
     )
     expect(dispatch).toHaveBeenCalledWith(`signIn`, {
       address,
+      networkId: "cosmos-hub-mainnet",
       sessionType: "local",
     })
   })

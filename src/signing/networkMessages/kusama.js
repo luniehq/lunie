@@ -23,7 +23,7 @@ export async function StakeTx(
   const api = await getAPI()
   const transactions = []
 
-  if (amount > 0) {
+  if (amount.amount > 0) {
     const chainAmount = toChainAmount(amount, network.coinLookup)
     const payee = 0
 
@@ -43,7 +43,9 @@ export async function StakeTx(
   if (to.length > 0) {
     // only controller addresses can nominate (for not set controllers, we set the controller above)
     if (["controller", "stash/controller", "none"].includes(addressRole)) {
-      const response = await api.query.staking.nominators(senderAddress)
+      const stakingLedger = await api.query.staking.ledger(senderAddress)
+      const stashId = stakingLedger.toJSON().stash
+      const response = await api.query.staking.nominators(stashId)
       const { targets: delegatedValidators = [] } = response.toJSON() || {}
       const validatorAddresses = uniqBy(
         delegatedValidators.concat(to[0]),
@@ -55,6 +57,40 @@ export async function StakeTx(
 
   if (transactions.length === 0) {
     throw new Error("You have to either bond stake or nominate a new validator")
+  }
+  return await getSignMessage(senderAddress, transactions)
+}
+export async function UnstakeTx(
+  senderAddress,
+  { from, amount, addressRole },
+  network
+) {
+  // stake with all existing plus the selected
+  const api = await getAPI()
+  const transactions = []
+
+  if (amount.amount > 0) {
+    const chainAmount = toChainAmount(amount, network.coinLookup)
+    transactions.push(await api.tx.staking.unbond(chainAmount))
+  }
+
+  // Disable if address is a controller account
+  if (
+    from.length > 0 &&
+    ["controller", "stash/controller"].includes(addressRole)
+  ) {
+    const stakingLedger = await api.query.staking.ledger(senderAddress)
+    const stashId = stakingLedger.toJSON().stash
+    const response = await api.query.staking.nominators(stashId)
+    const { targets: delegatedValidators = [] } = response.toJSON() || {}
+    const validatorAddresses = delegatedValidators.filter(
+      (validator) => !from.includes(validator)
+    )
+    if (validatorAddresses.length > 0) {
+      transactions.push(await api.tx.staking.nominate(validatorAddresses))
+    } else {
+      transactions.push(await api.tx.staking.chill())
+    }
   }
   return await getSignMessage(senderAddress, transactions)
 }

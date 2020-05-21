@@ -18,6 +18,18 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
+    <TmFormGroup
+      v-if="session.addressRole === `stash`"
+      class="action-modal-form-group"
+    >
+      <div class="form-message notice">
+        <span>
+          This is a stash account, you cannot perform any unstake related
+          action. To decrease the amount your stake and change your validators
+          you need to sign in with your controller account
+        </span>
+      </div>
+    </TmFormGroup>
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
         <span v-if="!isRedelegation">
@@ -38,12 +50,19 @@
     >
       <TmField
         id="from"
-        :value="sourceValidator | validatorEntry"
+        :value="
+          session.addressRole === `stash` ? `--` : enhancedSourceValidator
+        "
         type="text"
         readonly
       />
     </TmFormGroup>
-    <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
+    <TmFormGroup
+      v-if="currentNetwork.network_type !== 'polkadot'"
+      class="action-modal-form-group"
+      field-id="to"
+      field-label="To"
+    >
       <TmField
         id="to"
         v-model="toSelectedIndex"
@@ -72,6 +91,7 @@
           class="tm-field-addon"
           placeholder="0"
           type="number"
+          :is-disabled="session.addressRole === `stash`"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
@@ -85,7 +105,7 @@
         Currently staked: {{ maximum }} {{ stakingDenom }}s
       </span>
       <TmFormMsg
-        v-if="maximum === 0"
+        v-if="currentNetwork.network_type === 'cosmos' && maximum === 0"
         :msg="`don't have any ${stakingDenom}s delegated to this validator`"
         name="You"
         type="custom"
@@ -155,7 +175,7 @@ export default {
     },
   },
   data: () => ({
-    amount: null,
+    amount: 0,
     delegations: [],
     validators: [],
     toSelectedIndex: `0`,
@@ -194,6 +214,7 @@ export default {
             amount: this.amount,
             denom: this.stakingDenom,
           },
+          addressRole: this.session.addressRole,
         }
       } else {
         if (
@@ -210,6 +231,7 @@ export default {
             amount: this.amount,
             denom: this.stakingDenom,
           },
+          addressRole: this.session.addressRole,
         }
       }
     },
@@ -290,14 +312,22 @@ export default {
         return `a certain number of time`
       }
     },
+    enhancedSourceValidator() {
+      return validatorEntry(this.sourceValidator)
+    },
   },
   validations() {
     return {
       amount: {
-        required: (x) => !!x && x !== `0`,
+        required: (x) =>
+          this.currentNetwork.network_type === "polkadot" || (!!x && x !== `0`),
         decimal,
-        max: (x) => Number(x) <= this.maximum,
-        min: (x) => Number(x) >= SMALLEST,
+        max: (x) =>
+          this.currentNetwork.network_type === "polkadot" ||
+          Number(x) <= this.maximum,
+        min: (x) =>
+          this.currentNetwork.network_type === "polkadot" ||
+          Number(x) >= SMALLEST,
         maxDecimals: (x) => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6
@@ -319,7 +349,7 @@ export default {
     clear() {
       this.$v.$reset()
 
-      this.amount = null
+      this.amount = 0
     },
     setMaxAmount() {
       this.amount = this.maximum
