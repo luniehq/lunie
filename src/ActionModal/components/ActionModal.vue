@@ -205,12 +205,6 @@
         >
           {{ submissionError }}
         </p>
-        <p
-          v-if="step === feeStep && !gasEstimateLoaded"
-          class="waiting-fees-message"
-        >
-          Fetching fees...
-        </p>
         <div class="action-modal-footer">
           <slot name="action-modal-footer">
             <TmFormGroup
@@ -248,6 +242,7 @@
                 ref="next"
                 type="primary"
                 value="Next"
+                :loading="step === feeStep && !gasEstimateLoaded"
                 :disabled="
                   disabled ||
                   (step === feeStep && $v.invoiceTotal.$invalid) ||
@@ -1053,14 +1048,6 @@ export default {
 
 .action-modal-footer .tm-form-group {
   padding: 0;
-}
-
-.waiting-fees-message {
-  color: var(--warning);
-  font-size: var(--sm);
-  font-style: italic;
-  margin-bottom: 0;
-  padding-top: 1rem;
 }
 
 .submission-error {
