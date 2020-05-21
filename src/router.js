@@ -59,7 +59,9 @@ export default Router
 async function featureAvailable(store, networkSlug, feature) {
   const networks = store.state.connection.networks
   // we get the current network object
-  const currentNetwork = networks.find(({ slug }) => slug === networkSlug)
+  const currentNetworkId = store.state.connection.network
+  // we get the current network object
+  const currentNetwork = networks.find(({ slug, id }) => networkSlug ? slug === networkSlug : id === currentNetworkId)
   const featureSelector = `feature_${feature.toLowerCase()}`
   return typeof currentNetwork[featureSelector] === "string"
     ? currentNetwork[featureSelector]
