@@ -205,9 +205,11 @@ export default {
 .form-message.withdraw-limit {
   white-space: normal;
 }
+
 .tm-field-addon {
   margin-bottom: 0.25rem;
 }
+
 .rewards-list-item {
   position: relative;
 }
