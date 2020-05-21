@@ -208,7 +208,7 @@ module.exports = [
     default: false,
     stakingDenom: 'KAVA',
     coinLookup: coinLookupDictionary[`kava-mainnet`],
-    enabled: false,
+    enabled: true,
     experimental: false,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/kava.png',
     slug: 'kava',
