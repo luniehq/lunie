@@ -84,14 +84,11 @@ export async function UnstakeTx(
     const validatorAddresses = delegatedValidators.filter(
       (validator) => !from.includes(validator)
     )
-    // transaction will fail if targets are empty
     if (validatorAddresses.length > 0) {
       transactions.push(await api.tx.staking.nominate(validatorAddresses))
+    } else {
+      transactions.push(await api.tx.staking.chill())
     }
-  }
-
-  if (transactions.length === 0) {
-    throw new Error("You have to either unbond stake or unnominate a validator")
   }
   return await getSignMessage(senderAddress, transactions)
 }
