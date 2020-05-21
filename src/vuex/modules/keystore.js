@@ -60,6 +60,7 @@ export default () => {
       await store.dispatch("signIn", {
         address: wallet.cosmosAddress,
         sessionType: "local",
+        networkId: network,
       })
 
       return wallet.cosmosAddress
