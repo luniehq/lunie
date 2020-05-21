@@ -60,7 +60,7 @@
               </h3>
               <div v-if="delegation.amount">
                 <h4>{{ delegation.amount | fullDecimals }}</h4>
-                <h5 v-if="rewards">
+                <h5 v-if="rewards && rewards.length > 0">
                   +{{ filterStakingDenomReward() | noBlanks }}
                 </h5>
               </div>
