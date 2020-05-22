@@ -155,7 +155,7 @@ export default ({ apollo }) => {
 
       // In Polkadot there are different account types for staking. To be able to signal allowed interactions
       // for the user in Lunie we need to query for the type of the account.
-      if (currentNetwork.network_type === 'polkadot') {
+      if (currentNetwork.network_type === "polkadot") {
         await dispatch(`checkAddressRole`, {
           address,
           networkId: currentNetwork.id,
@@ -257,8 +257,7 @@ export default ({ apollo }) => {
 
         allSessionAddresses.push({
           networkId,
-          address: JSON.parse(sessionEntry)
-            .address,
+          address: JSON.parse(sessionEntry).address,
         })
       })
       return allSessionAddresses

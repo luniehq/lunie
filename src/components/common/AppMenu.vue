@@ -7,7 +7,7 @@
             <h3
               v-if="
                 session.addressRole &&
-                  session.addressRole !== `stash/controller`
+                session.addressRole !== `stash/controller`
               "
             >
               {{ capitalizeFirstLetter(session.addressRole) }} Address
@@ -102,21 +102,21 @@ export default {
   components: {
     Address,
     ConnectedNetwork,
-    TmFormMsg
+    TmFormMsg,
   },
   filters: {
-    shortDecimals
+    shortDecimals,
   },
   data: () => ({
     ledgerAddressError: undefined,
-    showAddressOnLedgerFn: showAddressOnLedger
+    showAddressOnLedgerFn: showAddressOnLedger,
   }),
   computed: {
     ...mapState([`session`, `connection`]),
     ...mapGetters([`address`, `network`]),
     networkSlug() {
       return this.connection.networkSlug
-    }
+    },
   },
   methods: {
     handleClick() {
@@ -131,7 +131,7 @@ export default {
       if (this.$route.name !== `portfolio`) {
         this.$router.push({
           name: `portfolio`,
-          params: { networkId: this.networkSlug }
+          params: { networkId: this.networkSlug },
         })
       }
       this.$emit(`close`)
@@ -154,8 +154,8 @@ export default {
     },
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
-    }
-  }
+    },
+  },
 }
 </script>
 

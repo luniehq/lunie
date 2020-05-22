@@ -15,8 +15,8 @@
     </div>
     <div class="network-item">
       <i
-        class="all-networks material-icons notranslate"
         v-tooltip.right="{ content: `All Networks`, offset: 8 }"
+        class="all-networks material-icons notranslate"
         @click="
           $route.name !== `networks` ? $router.push({ name: `networks` }) : null
         "
@@ -37,11 +37,11 @@ export default {
     ...mapGetters([`networks`]),
     ...mapGetters({ networkId: `network` }),
     mainnets() {
-      return this.networks.filter(network => network.testnet === false)
+      return this.networks.filter((network) => network.testnet === false)
     },
     networkSlug() {
       return this.connection.networkSlug
-    }
+    },
   },
   methods: {
     async selectNetworkHandler(network) {
@@ -50,12 +50,12 @@ export default {
         this.$router.push({
           name: "portfolio",
           params: {
-            networkId: this.networkSlug
-          }
+            networkId: this.networkSlug,
+          },
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -106,10 +106,6 @@ export default {
   opacity: 1;
 }
 
-.selected img {
-  border: 2px solid var(--highlight);
-}
-
 img {
   display: block;
   position: relative;
@@ -120,6 +116,10 @@ img {
   margin: 0 auto;
   padding: 2px;
   border: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.selected img {
+  border: 2px solid var(--highlight);
 }
 
 .all-networks {
