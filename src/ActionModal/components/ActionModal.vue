@@ -44,7 +44,7 @@
         <FeatureNotAvailable :feature="title" />
       </template>
       <TmDataLoading
-        v-else-if="$apollo.loading && (!balancesLoaded || gasEstimateLoaded)"
+        v-else-if="$apollo.loading && (!balancesLoaded || networkFeesLoaded)"
       />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
@@ -242,11 +242,11 @@
                 ref="next"
                 type="primary"
                 value="Next"
-                :loading="step === feeStep && !gasEstimateLoaded"
+                :loading="step === feeStep && !networkFeesLoaded"
                 :disabled="
                   disabled ||
                   (step === feeStep && $v.invoiceTotal.$invalid) ||
-                  (step === feeStep && !gasEstimateLoaded)
+                  (step === feeStep && !networkFeesLoaded)
                 "
                 @click.native="validateChangeStep"
               />
@@ -426,17 +426,17 @@ export default {
     includedHeight: undefined,
     smallestAmount: SMALLEST,
     balancesLoaded: false,
-    gasEstimateLoaded: false,
+    networkFeesLoaded: false,
   }),
   asyncComputed: {
     async estimatedFee() {
-      if (this.network.network_type === "cosmos") {
+      if (this.network.network_type === "cosmos" && this.networkFeesLoaded) {
         // terra uses a tax on all send txs
         if (this.chainAppliedFees > 0) {
           return this.chainAppliedFees
         }
         return this.maxDecimals(
-          Number(this.gasPrice) * Number(this.gasEstimate),
+          Number(this.gasPrice) * Number(this.networkFees.gasEstimate),
           6
         )
       }
@@ -444,17 +444,14 @@ export default {
       if (
         this.network.network_type === "polkadot" &&
         this.step === feeStep &&
-        !this.session.developmentMode
+        this.networkFeesLoaded
       ) {
-        const fee = this.polkadotFee
-        this.gasEstimateLoaded = true
-        this.polkadotFee = fee
-        return fee
+        return Number(this.networkFees.polkadotFee)
       }
       // in development we don't need to worry about fees. Next button won't be disabled
-      if (this.session.developmentMode) {
-        this.gasEstimateLoaded = true
-      }
+      // if (this.session.developmentMode) {
+      //   this.networkFeesLoaded = true
+      // }
       return 0
     },
   },
@@ -478,12 +475,6 @@ export default {
     network() {
       return this.networks.find(({ id }) => id == this.networkId)
     },
-    gasEstimate() {
-      return this.networkFees ? this.networkFees.gasEstimate : 0
-    },
-    polkadotFee() {
-      return this.networkFees ? this.networkFees.polkadotFee : 0
-    },
     polkadotFeeInput() {
       const { type, ...message } = this.transactionData
       return {
@@ -503,7 +494,8 @@ export default {
     },
     invoiceTotal() {
       if (
-        this.gasEstimate &&
+        this.networkFeesLoaded &&
+        this.networkFees.gasEstimate &&
         Number(this.subTotal) + this.estimatedFee >
           this.selectedBalance.amount &&
         // emoney-mainnet and kava-mainnet don't allow discounts on fees
@@ -732,7 +724,8 @@ export default {
       payable += this.chainAppliedFees
 
       this.gasPrice =
-        (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
+        (Number(this.selectedBalance.amount) - payable) /
+        this.networkFees.gasEstimate
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
       this.gasPrice = this.gasPrice >= 0 ? this.gasPrice : 0
     },
@@ -759,7 +752,7 @@ export default {
               memo,
               gasEstimate: this.chainAppliedFees
                 ? this.chainAppliedFees * 1e9
-                : this.gasEstimate, // 1e-9 is a hack to avoid Go unmarshal errors
+                : this.networkFees.gasEstimate, // 1e-9 is a hack to avoid Go unmarshal errors
               gasPrice: {
                 amount: this.chainAppliedFees ? 1e-9 : this.gasPrice,
                 denom: this.getDenom,
@@ -772,7 +765,7 @@ export default {
         if (this.network.network_type === "polkadot") {
           transactionData = {
             fee: {
-              amount: this.polkadotFee,
+              amount: this.networkFees.polkadotFee,
               denom: this.getDenom,
             },
             addressRole: this.session.addressRole,
@@ -826,7 +819,7 @@ export default {
       Sentry.withScope((scope) => {
         scope.setExtra("signMethod", this.selectedSignMethod)
         scope.setExtra("transactionData", this.transactionData)
-        scope.setExtra("gasEstimate", this.gasEstimate)
+        scope.setExtra("gasEstimate", this.networkFees.gasEstimate)
         scope.setExtra("gasPrice", this.gasPrice)
         Sentry.captureException(error)
       })
@@ -890,7 +883,7 @@ export default {
     },
     networkFees: {
       query: gql`
-        query NetworkGasEstimates(
+        query NetworkFees(
           $networkId: String!
           $transactionType: String
           $polkadotFee: PolkadotFee
@@ -898,8 +891,10 @@ export default {
           networkFees(
             networkId: $networkId
             transactionType: $transactionType
+            polkadotFee: $polkadotFee
           ) {
             gasEstimate
+            polkadotFee
           }
         }
       `,
@@ -914,7 +909,7 @@ export default {
       /* istanbul ignore next */
       update(data) {
         if (data.networkFees) {
-          this.gasEstimateLoaded = true
+          this.networkFeesLoaded = true
           return data.networkFees
         }
       },
@@ -923,8 +918,7 @@ export default {
         return (
           !this.session.address ||
           !this.transactionData ||
-          this.step !== feeStep ||
-          this.network.network_type !== "cosmos"
+          this.step !== feeStep
         )
       },
     },
