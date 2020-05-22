@@ -14,14 +14,13 @@
       />
     </div>
     <div class="network-item">
-      <i
-        v-tooltip.right="{ content: `All Networks`, offset: 8 }"
-        class="all-networks material-icons notranslate"
-        @click="
-          $route.name !== `networks` ? $router.push({ name: `networks` }) : null
-        "
-        >add</i
-      >
+      <router-link to="/networks" exact="exact" title="Networks">
+        <i
+          v-tooltip.right="{ content: `All Networks`, offset: 8 }"
+          class="all-networks material-icons notranslate"
+          >add</i
+        >
+      </router-link>
     </div>
   </div>
 </template>
@@ -37,11 +36,11 @@ export default {
     ...mapGetters([`networks`]),
     ...mapGetters({ networkId: `network` }),
     mainnets() {
-      return this.networks.filter((network) => network.testnet === false)
+      return this.networks.filter(network => network.testnet === false)
     },
     networkSlug() {
       return this.connection.networkSlug
-    },
+    }
   },
   methods: {
     async selectNetworkHandler(network) {
@@ -50,12 +49,12 @@ export default {
         this.$router.push({
           name: "portfolio",
           params: {
-            networkId: this.networkSlug,
-          },
+            networkId: this.networkSlug
+          }
         })
       }
-    },
-  },
+    }
+  }
 }
 </script>
 
