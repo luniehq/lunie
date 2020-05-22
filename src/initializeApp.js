@@ -46,6 +46,7 @@ export default async function init(urlParams, env = process.env) {
   const apolloClient = apolloProvider.clients.defaultClient
 
   const store = Store({ apollo: apolloClient })
+  await store.dispatch(`preloadNetworkCapabilities`)
 
   const router = Router(store)
   setGoogleAnalyticsPage(router.currentRoute.path)
@@ -57,7 +58,6 @@ export default async function init(urlParams, env = process.env) {
 
   setOptions(urlParams, store)
 
-  await store.dispatch(`preloadNetworkCapabilities`)
   store.dispatch(`loadLocalPreferences`)
   await store.dispatch(`checkForPersistedNetwork`) // wait until signin
   store.dispatch(`checkForPersistedAddresses`)
