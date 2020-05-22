@@ -123,7 +123,7 @@
     "live-server": "^1.2.1",
     "mini-css-extract-plugin": "^0.4.4",
     "nightwatch": "^1.1.13",
-    "node-sass": "^4.9.3",
+    "node-sass": "^4.14.1",
     "prettier": "^1.17.1",
     "sass-loader": "^7.1.0",
     "selenium-server": "^3.141.59",
