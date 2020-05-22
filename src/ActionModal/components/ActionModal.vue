@@ -87,7 +87,7 @@
             :amount="Number(subTotal)"
             :estimated-fee="alternativeEstimatedFee || estimatedFee"
             :bond-denom="getDenom"
-            :fee-denom="alternativeFeeDenom || getDenom"
+            :fee-denom="alternativeFeeDenom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.max"
@@ -845,10 +845,18 @@ export default {
       return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
     },
     alternativeFeeSelector() {
-      const alternativeFeeBalance = this.balances.find(
-        ({ denom }) =>
-          denom !== this.getDenom && this.amount >= this.estimatedFee
-      )
+      const alternativeFeeBalance = this.balances.find((balance) => {
+        let newEstimatedFee
+        if (balance.denom !== this.getDenom) {
+          newEstimatedFee = this.maxDecimals(
+            Number(balance.gasPrice) * Number(this.gasEstimate),
+            6
+          )
+        }
+        return newEstimatedFee && balance.amount >= newEstimatedFee
+          ? balance
+          : null
+      })
       if (alternativeFeeBalance) {
         this.alternativeFeeDenom = alternativeFeeBalance.denom
         this.gasPrice = alternativeFeeBalance.gasPrice

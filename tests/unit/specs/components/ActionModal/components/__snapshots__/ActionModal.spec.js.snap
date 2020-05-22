@@ -591,7 +591,7 @@ exports[`ActionModal should show the action modal when user has logged in with e
       amount="0"
       bonddenom="STAKE"
       estimatedfee="0"
-      feedenom="STAKE"
+      feedenom=""
     />
      
     <!---->
@@ -859,7 +859,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       amount="0"
       bonddenom="STAKE"
       estimatedfee="0"
-      feedenom="STAKE"
+      feedenom=""
     />
      
     <!---->
@@ -1105,7 +1105,7 @@ exports[`ActionModal should show the action modal when user has logged in with l
       amount="0"
       bonddenom="STAKE"
       estimatedfee="0"
-      feedenom="STAKE"
+      feedenom=""
     />
      
     <!---->

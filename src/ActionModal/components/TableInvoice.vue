@@ -14,7 +14,12 @@
       </li>
       <li class="total-row">
         <span>Total</span>
-        <span> {{ total | fullDecimals }} {{ bondDenom }} </span>
+        <div class="total-column">
+          <p>{{ total | fullDecimals }} {{ bondDenom }}</p>
+          <p v-if="feeDenom">
+            {{ estimatedFee | fullDecimals }} {{ feeDenom }}
+          </p>
+        </div>
       </li>
     </ul>
   </div>
@@ -53,7 +58,9 @@ export default {
       return this.amount
     },
     total() {
-      return this.estimatedFee + this.subTotal
+      // if there is a feeDenom, it means that subTotal and estimatedFee are different currencies and
+      // cannot be therefore added up together
+      return this.feeDenom ? this.subTotal : this.estimatedFee + this.subTotal
     },
   },
 }
@@ -87,5 +94,10 @@ export default {
   border-top: 2px solid var(--bc);
   margin-top: 0.5rem;
   padding-top: 0.25rem;
+}
+
+.total-column {
+  display: flex;
+  flex-direction: column;
 }
 </style>
