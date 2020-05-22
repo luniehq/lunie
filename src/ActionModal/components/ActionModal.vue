@@ -447,7 +447,7 @@ export default {
         this.step === feeStep &&
         this.networkFeesLoaded
       ) {
-        return Number(this.networkFees.polkadotFee)
+        return Number(this.networkFees.fee.amount)
       }
       // in development we don't need to worry about fees. Next button won't be disabled
       // if (this.session.developmentMode) {
@@ -476,8 +476,16 @@ export default {
     network() {
       return this.networks.find(({ id }) => id == this.networkId)
     },
-    polkadotFeeInput() {
-      const { type, ...message } = this.transactionData
+    feeInput() {
+      let { type, ...message } = this.transactionData
+      // Make sure amount is String to query for fee
+      message = {
+        ...message,
+        amount: {
+          denom: message.amount.denom,
+          amount: String(message.amount.amount),
+        },
+      }
       return {
         messageType: type,
         message,
@@ -765,7 +773,7 @@ export default {
         if (this.network.network_type === "polkadot") {
           transactionData = {
             fee: {
-              amount: this.networkFees.polkadotFee,
+              amount: this.networkFees.fee.amount,
               denom: this.getDenom,
             },
             addressRole: this.session.addressRole,
@@ -886,15 +894,18 @@ export default {
         query NetworkFees(
           $networkId: String!
           $transactionType: String
-          $polkadotFee: PolkadotFee
+          $fee: Fee
         ) {
           networkFees(
             networkId: $networkId
             transactionType: $transactionType
-            polkadotFee: $polkadotFee
+            fee: $fee
           ) {
             gasEstimate
-            polkadotFee
+            fee {
+              denom
+              amount
+            }
           }
         }
       `,
@@ -903,7 +914,7 @@ export default {
         return {
           networkId: this.networkId,
           transactionType: this.transactionType,
-          polkadotFee: this.polkadotFeeInput,
+          fee: this.feeInput,
         }
       },
       /* istanbul ignore next */
