@@ -22,6 +22,15 @@
           </a>
         </div>
       </div>
+      <TmBtn
+        v-else
+        id="sign-in"
+        class="session-link sidebar"
+        value="Sign In / Sign Up"
+        type="secondary"
+        size="small"
+        @click.native="signIn()"
+      />
       <div>
         <a
           v-if="!session.isMobile && session.sessionType === 'ledger'"
@@ -147,6 +156,7 @@
 <script>
 import Address from "common/Address"
 import ConnectedNetwork from "common/TmConnectedNetwork"
+import TmBtn from "common/TmBtn"
 import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { shortDecimals } from "scripts/num.js"
@@ -156,6 +166,7 @@ export default {
   components: {
     Address,
     ConnectedNetwork,
+    TmBtn,
     TmFormMsg
   },
   filters: {
@@ -254,6 +265,11 @@ export default {
 
 .show-on-ledger:hover {
   cursor: pointer;
+}
+
+.button.small.sidebar {
+  display: flex;
+  width: -webkit-fill-available;
 }
 
 .button.small {
