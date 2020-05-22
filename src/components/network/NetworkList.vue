@@ -2,16 +2,15 @@
   <section>
     <h3>{{ sectionTitle }}</h3>
     <ul class="network-list">
-      <router-link
+      <li
         v-for="network in networks"
-        :to="{ params: { networkId: network.slug }, name: 'portfolio' }"
+        @click="network.chain_id ? selectNetworkHandler(network) : false"
         :key="network.id"
         class="select-network-item"
         :data-network="network.id"
-        tag="li"
       >
         <NetworkItem :network-item="network" :disabled="disabled" />
-      </router-link>
+      </li>
     </ul>
   </section>
 </template>
@@ -49,6 +48,15 @@ export default {
       } else {
         return ``
       }
+    }
+  },
+  methods: {
+    async selectNetworkHandler(network) {
+      if (this.networkId !== network.id) {
+        this.$store.dispatch(`setNetwork`, network)
+      }
+
+      if (this.$route.name !== "networks") this.$router.push(this.whichFlow)
     }
   }
 }
