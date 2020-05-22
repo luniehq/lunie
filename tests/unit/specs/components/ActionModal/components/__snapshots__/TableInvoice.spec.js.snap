@@ -39,7 +39,7 @@ exports[`TableInvoice should render correctly 1`] = `
         class="total-column"
       >
         <p>
-           17.230864 STAKE 
+          17.230864 STAKE
         </p>
          
         <!---->
