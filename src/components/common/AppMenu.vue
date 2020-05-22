@@ -7,7 +7,7 @@
             <h3
               v-if="
                 session.addressRole &&
-                session.addressRole !== `stash/controller`
+                  session.addressRole !== `stash/controller`
               "
             >
               {{ capitalizeFirstLetter(session.addressRole) }} Address
@@ -34,9 +34,63 @@
           :msg="ledgerAddressError"
           type="custom"
         />
+        <router-link
+          class="app-menu-item hide-s"
+          :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
+          exact="exact"
+          title="Portfolio"
+          @click.native="handleClick()"
+        >
+          <h2 class="app-menu-title">Portfolio</h2>
+          <i class="material-icons notranslate">chevron_right</i>
+        </router-link>
+        <router-link
+          class="app-menu-item hide-s"
+          :to="{ name: 'Validators', params: { networkId: networkSlug } }"
+          title="Validators"
+          @click.native="handleClick()"
+        >
+          <h2 class="app-menu-title">Validators</h2>
+          <i class="material-icons notranslate">chevron_right</i>
+        </router-link>
 
         <router-link
-          class="app-menu-item"
+          class="app-menu-item hide-s"
+          :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
+          title="Proposals"
+          @click.native="handleClick()"
+        >
+          <h2 class="app-menu-title">Proposals</h2>
+          <i class="material-icons notranslate">chevron_right</i>
+        </router-link>
+
+        <router-link
+          class="app-menu-item hide-s"
+          :to="{ name: 'transactions', params: { networkId: networkSlug } }"
+          exact="exact"
+          title="Transactions"
+          @click.native="handleClick()"
+        >
+          <h2 class="app-menu-title">Transactions</h2>
+          <i class="material-icons notranslate">chevron_right</i>
+        </router-link>
+
+        <router-link
+          v-if="session.experimentalMode"
+          class="app-menu-item hide-s"
+          to="/notifications"
+          exact="exact"
+          title="Notifications"
+          @click.native="handleClick()"
+        >
+          <h2 class="app-menu-title">
+            Notifications
+          </h2>
+          <i class="material-icons notranslate hide-s">chevron_right</i>
+        </router-link>
+
+        <router-link
+          class="app-menu-item hide-m"
           to="/about"
           exact="exact"
           title="About"
@@ -46,7 +100,7 @@
         </router-link>
 
         <router-link
-          class="app-menu-item"
+          class="app-menu-item hide-m"
           to="/careers"
           exact="exact"
           title="Careers"
@@ -56,7 +110,7 @@
         </router-link>
 
         <router-link
-          class="app-menu-item"
+          class="app-menu-item hide-m"
           to="/security"
           exact="exact"
           title="Security"
@@ -66,7 +120,7 @@
         </router-link>
 
         <router-link
-          class="app-menu-item"
+          class="app-menu-item hide-m"
           to="/terms"
           exact="exact"
           title="Terms"
@@ -76,7 +130,7 @@
         </router-link>
 
         <router-link
-          class="app-menu-item"
+          class="app-menu-item hide-m"
           to="/privacy"
           exact="exact"
           title="Privacy"
@@ -102,21 +156,21 @@ export default {
   components: {
     Address,
     ConnectedNetwork,
-    TmFormMsg,
+    TmFormMsg
   },
   filters: {
-    shortDecimals,
+    shortDecimals
   },
   data: () => ({
     ledgerAddressError: undefined,
-    showAddressOnLedgerFn: showAddressOnLedger,
+    showAddressOnLedgerFn: showAddressOnLedger
   }),
   computed: {
     ...mapState([`session`, `connection`]),
     ...mapGetters([`address`, `network`]),
     networkSlug() {
       return this.connection.networkSlug
-    },
+    }
   },
   methods: {
     handleClick() {
@@ -131,7 +185,7 @@ export default {
       if (this.$route.name !== `portfolio`) {
         this.$router.push({
           name: `portfolio`,
-          params: { networkId: this.networkSlug },
+          params: { networkId: this.networkSlug }
         })
       }
       this.$emit(`close`)
@@ -154,8 +208,8 @@ export default {
     },
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -253,6 +307,18 @@ export default {
 .app-menu .app-menu-item.router-link-active h2 {
   color: var(--menu-bright);
   font-weight: 500;
+}
+
+@media screen and (min-width: 1024px) {
+  .hide-m {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .hide-s {
+    display: none !important;
+  }
 }
 
 @media screen and (max-width: 1023px) {
