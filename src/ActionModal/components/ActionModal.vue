@@ -408,6 +408,7 @@ export default {
     password: null,
     sending: false,
     networkFees: null,
+    gasEstimate: 0,
     gasPrice: 0,
     submissionError: null,
     show: false,
@@ -436,7 +437,7 @@ export default {
           return this.chainAppliedFees
         }
         return this.maxDecimals(
-          Number(this.gasPrice) * Number(this.networkFees.gasEstimate),
+          Number(this.gasPrice) * Number(this.gasEstimate),
           6
         )
       }
@@ -495,7 +496,7 @@ export default {
     invoiceTotal() {
       if (
         this.networkFeesLoaded &&
-        this.networkFees.gasEstimate &&
+        this.gasEstimate &&
         Number(this.subTotal) + this.estimatedFee >
           this.selectedBalance.amount &&
         // emoney-mainnet and kava-mainnet don't allow discounts on fees
@@ -724,8 +725,7 @@ export default {
       payable += this.chainAppliedFees
 
       this.gasPrice =
-        (Number(this.selectedBalance.amount) - payable) /
-        this.networkFees.gasEstimate
+        (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
       this.gasPrice = this.gasPrice >= 0 ? this.gasPrice : 0
     },
@@ -752,7 +752,7 @@ export default {
               memo,
               gasEstimate: this.chainAppliedFees
                 ? this.chainAppliedFees * 1e9
-                : this.networkFees.gasEstimate, // 1e-9 is a hack to avoid Go unmarshal errors
+                : this.gasEstimate, // 1e-9 is a hack to avoid Go unmarshal errors
               gasPrice: {
                 amount: this.chainAppliedFees ? 1e-9 : this.gasPrice,
                 denom: this.getDenom,
@@ -819,7 +819,7 @@ export default {
       Sentry.withScope((scope) => {
         scope.setExtra("signMethod", this.selectedSignMethod)
         scope.setExtra("transactionData", this.transactionData)
-        scope.setExtra("gasEstimate", this.networkFees.gasEstimate)
+        scope.setExtra("gasEstimate", this.gasEstimate)
         scope.setExtra("gasPrice", this.gasPrice)
         Sentry.captureException(error)
       })
@@ -910,6 +910,7 @@ export default {
       update(data) {
         if (data.networkFees) {
           this.networkFeesLoaded = true
+          this.gasEstimate = data.networkFees.gasEstimate
           return data.networkFees
         }
       },
