@@ -31,7 +31,7 @@
     "Droid Sans",
     "Helvetica Neue",
     sans-serif;
-  --mono: consolas, monaco, monospace;
+  --mono: Consolas, Monaco, monospace;
   --xxl: calc(var(--x) * 1.75);
   --xl: calc(var(--x) * 1.5);
   --lg: calc(var(--x) * 1.25);
@@ -44,7 +44,8 @@
   --h4: 1.125rem;
   --h5: 1rem;
   --h6: 0.75rem;
-  --width-side: 14rem;
+  --sidebar-width: 14rem;
+  --sidebar-plus-width: 18rem;
   --z-modalError: 1002;
   --z-modal: 1000;
   --z-appHeader: 100;

@@ -107,7 +107,7 @@ export default {
 }
 
 .selected img {
-  border: 2px solid white;
+  border: 2px solid var(--highlight);
 }
 
 img {
@@ -119,7 +119,7 @@ img {
   border-radius: 50%;
   margin: 0 auto;
   padding: 2px;
-  border: 2px solid transparent;
+  border: 2px solid rgba(255, 255, 255, 0.15);
 }
 
 .all-networks {
@@ -131,17 +131,14 @@ img {
   border-radius: 50%;
   margin: 0 auto;
   background: var(--menu-border);
-  font-size: 16px;
+  font-size: var(--sm);
   font-weight: 700;
+  color: var(--menu-bright);
 }
 
-@media screen and (max-width: 1025px) {
+@media screen and (max-width: 1023px) {
   .network-selector {
-    display: flex;
-    width: 100%;
-    height: 4rem;
-    padding: 0 1rem;
-    top: 4rem;
+    display: none;
   }
 }
 </style>

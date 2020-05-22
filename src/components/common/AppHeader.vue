@@ -81,13 +81,13 @@ export default {
   data: () => ({
     open: false,
     desktop: false,
-    isMobileApp: config.mobileApp,
+    isMobileApp: config.mobileApp
   }),
   computed: {
     ...mapState([`session`, "connection"]),
     networkSlug() {
       return this.connection.networkSlug
-    },
+    }
   },
   mounted() {
     this.watchWindowSize()
@@ -119,8 +119,8 @@ export default {
       } else {
         this.desktop = false
       }
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -214,18 +214,13 @@ export default {
   }
 }
 
-@media screen and (min-width: 667px) {
-  .app-header > .container {
-    left: 4rem;
-  }
-}
-
 @media screen and (min-width: 1024px) {
   .app-header > .container {
     position: fixed;
     height: 100%;
     overflow: auto;
     background: var(--app-nav);
+    left: 4rem;
   }
 }
 

@@ -1,10 +1,10 @@
 <template>
   <TmPage data-title="My alerts" hide-header>
-    <div class="header">
-      <h1>Notifications</h1>
-    </div>
-
-    <TmDataMsg v-if="notifications.length === 0" icon="error" icon-color="var(--dark-grey-blue)">
+    <TmDataMsg
+      v-if="notifications.length === 0"
+      icon="error"
+      icon-color="var(--dark-grey-blue)"
+    >
       <div>
         <i class="material-icons nontranslate">error</i>
       </div>
@@ -30,13 +30,13 @@
 </template>
 
 <script>
-import TmPage from '../common/TmPage'
-import TmDataMsg from 'common/TmDataMsg'
-import { mapGetters } from 'vuex'
-import gql from 'graphql-tag'
+import TmPage from "../common/TmPage"
+import TmDataMsg from "common/TmDataMsg"
+import { mapGetters } from "vuex"
+import gql from "graphql-tag"
 
 export default {
-  name: 'PageNotifications',
+  name: "PageNotifications",
   components: {
     TmPage,
     TmDataMsg
@@ -102,15 +102,19 @@ export default {
 }
 
 .notification {
-  background-color: white;
+  background: var(--app-fg);
   margin: 0.5rem 0 0.5rem;
   border-radius: 0.25rem;
   display: flex;
-  color: darkgray;
+  color: var(--txt);
   align-items: center;
   padding: 1rem;
   justify-content: space-between;
   cursor: pointer;
+}
+
+.notification:hover {
+  background: var(--app-fg-hover);
 }
 
 img {
@@ -127,7 +131,6 @@ img {
 }
 
 .title {
-  color: var(--notification-title);
   font-weight: 400;
   overflow-wrap: anywhere; /** Important. Otherwise awful style bug */
 }
