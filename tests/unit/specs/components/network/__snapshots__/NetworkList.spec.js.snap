@@ -9,22 +9,26 @@ exports[`NetworkList shows a list of networks 1`] = `
   <ul
     class="network-list"
   >
-    <li
+    <router-link-stub
       class="select-network-item"
       data-network="gaia-testnet"
+      tag="li"
+      to="[object Object]"
     >
       <networkitem-stub
         networkitem="[object Object]"
       />
-    </li>
-    <li
+    </router-link-stub>
+    <router-link-stub
       class="select-network-item"
       data-network="cosmoshub"
+      tag="li"
+      to="[object Object]"
     >
       <networkitem-stub
         networkitem="[object Object]"
       />
-    </li>
+    </router-link-stub>
   </ul>
 </section>
 `;
