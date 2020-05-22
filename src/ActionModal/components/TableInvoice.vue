@@ -9,7 +9,7 @@
         <span>Network Fee</span>
         <span>
           {{ estimatedFee | fullDecimals }}
-          {{ bondDenom }}
+          {{ feeDenom || bondDenom }}
         </span>
       </li>
       <li class="total-row">
@@ -39,6 +39,10 @@ export default {
     bondDenom: {
       type: String,
       required: true,
+    },
+    feeDenom: {
+      type: String,
+      default: "",
     },
   },
   data: () => ({

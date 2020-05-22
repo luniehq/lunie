@@ -85,8 +85,9 @@
           </TmFormGroup>
           <TableInvoice
             :amount="Number(subTotal)"
-            :estimated-fee="estimatedFee"
+            :estimated-fee="alternativeEstimatedFee || estimatedFee"
             :bond-denom="getDenom"
+            :fee-denom="alternativeFeeDenom || getDenom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.max"
@@ -428,6 +429,8 @@ export default {
     balancesLoaded: false,
     gasEstimateLoaded: false,
     polkadotFee: 0,
+    alternativeFeeDenom: "",
+    alternativeEstimatedFee: 0,
   }),
   asyncComputed: {
     async estimatedFee() {
@@ -498,14 +501,25 @@ export default {
       if (
         this.gasEstimate &&
         Number(this.subTotal) + this.estimatedFee >
-          this.selectedBalance.amount &&
+          Number(this.selectedBalance.amount) &&
         // emoney-mainnet and kava-mainnet don't allow discounts on fees
         this.networkId !== "emoney-mainnet" &&
         this.networkId !== "kava-mainnet"
       ) {
         this.adjustFeesToMaxPayable()
       }
-      return Number(this.subTotal) + this.estimatedFee
+
+      if (
+        this.gasEstimate &&
+        Number(this.subTotal) + this.estimatedFee >=
+          Number(this.selectedBalance.amount) &&
+        this.networkId === "emoney-mainnet"
+      ) {
+        this.alternativeFeeSelector()
+      }
+      return this.alternativeEstimatedFee
+        ? Number(this.subTotal) + this.alternativeEstimatedFee
+        : Number(this.subTotal) + this.estimatedFee
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -755,7 +769,7 @@ export default {
                 : this.gasEstimate, // 1e-9 is a hack to avoid Go unmarshal errors
               gasPrice: {
                 amount: this.chainAppliedFees ? 1e-9 : this.gasPrice,
-                denom: this.getDenom,
+                denom: this.alternativeFeeDenom || this.getDenom,
               },
               senderAddress: this.session.address,
               network: this.network,
@@ -830,6 +844,20 @@ export default {
     maxDecimals(value, decimals) {
       return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
     },
+    alternativeFeeSelector() {
+      const alternativeFeeBalance = this.balances.find(
+        ({ denom }) =>
+          denom !== this.getDenom && this.amount >= this.estimatedFee
+      )
+      if (alternativeFeeBalance) {
+        this.alternativeFeeDenom = alternativeFeeBalance.denom
+        this.gasPrice = alternativeFeeBalance.gasPrice
+        this.alternativeEstimatedFee = this.maxDecimals(
+          Number(this.gasPrice) * Number(this.gasEstimate),
+          6
+        )
+      }
+    },
   },
   validations() {
     return {
@@ -849,7 +877,10 @@ export default {
         max: (x) => Number(x) <= this.selectedBalance.amount,
       },
       invoiceTotal: {
-        max: (x) => Number(x) <= this.selectedBalance.amount,
+        max: (x) =>
+          this.alternativeEstimatedFee
+            ? true
+            : Number(x) <= this.selectedBalance.amount,
       },
     }
   },
