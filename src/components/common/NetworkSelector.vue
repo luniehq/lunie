@@ -1,18 +1,18 @@
 <template>
   <div class="network-selector">
-    <div
+    <router-link
       v-for="network in mainnets"
       :key="network.chain_id"
       class="network-item"
       :class="{ selected: networkId === network.id }"
-      @click="network.chain_id ? selectNetworkHandler(network) : false"
+      :to="{ params: { networkId: network.slug } , name: 'portfolio' }"
     >
       <img
         v-tooltip.right="{ content: network.title, offset: 8 }"
         :src="`${network.icon}`"
         :alt="`logo for network ${network.title}`"
       />
-    </div>
+    </router-link>
     <div class="network-item">
       <router-link to="/networks" exact="exact" title="Networks">
         <i
@@ -26,33 +26,14 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex"
+import { mapGetters } from "vuex"
 
 export default {
   name: `network-selector`,
-  data: () => ({}),
   computed: {
-    ...mapState([`connection`]),
     ...mapGetters([`networks`]),
-    ...mapGetters({ networkId: `network` }),
     mainnets() {
       return this.networks.filter(network => network.testnet === false)
-    },
-    networkSlug() {
-      return this.connection.networkSlug
-    }
-  },
-  methods: {
-    async selectNetworkHandler(network) {
-      if (this.networkId !== network.id) {
-        this.$store.dispatch(`setNetwork`, network)
-        this.$router.push({
-          name: "portfolio",
-          params: {
-            networkId: this.networkSlug
-          }
-        })
-      }
     }
   }
 }

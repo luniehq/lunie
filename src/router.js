@@ -1,6 +1,7 @@
 import router from "vue-router"
 import routes from "./routes"
 import Vue from "vue"
+import { setNetwork } from "./scripts/setNetwork"
 
 /* istanbul ignore next */
 Vue.use(router)
@@ -46,7 +47,7 @@ export const routeGuard = (store) => async (to, from, next) => {
     store.commit(`addHistory`, from.fullPath)
   }
 
-  next()
+  await setNetwork({ to, from, next }, store)
 }
 
 /* istanbul ignore next */
