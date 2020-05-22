@@ -407,7 +407,7 @@ export default {
     selectedSignMethod: null,
     password: null,
     sending: false,
-    gasEstimate: null,
+    networkFees: null,
     gasPrice: 0,
     submissionError: null,
     show: false,
@@ -427,7 +427,6 @@ export default {
     smallestAmount: SMALLEST,
     balancesLoaded: false,
     gasEstimateLoaded: false,
-    polkadotFee: 0,
   }),
   asyncComputed: {
     async estimatedFee() {
@@ -447,13 +446,7 @@ export default {
         this.step === feeStep &&
         !this.session.developmentMode
       ) {
-        const { type, ...message } = this.transactionData
-        const fee = await this.transactionManager.getPolkadotFees({
-          messageType: type,
-          message,
-          senderAddress: this.session.address,
-          network: this.network,
-        })
+        const fee = this.polkadotFee
         this.gasEstimateLoaded = true
         this.polkadotFee = fee
         return fee
@@ -484,6 +477,20 @@ export default {
     },
     network() {
       return this.networks.find(({ id }) => id == this.networkId)
+    },
+    gasEstimate() {
+      return this.networkFees ? this.networkFees.gasEstimate : 0
+    },
+    polkadotFee() {
+      return this.networkFees ? this.networkFees.polkadotFee : 0
+    },
+    polkadotFeeInput() {
+      const { type, ...message } = this.transactionData
+      return {
+        messageType: type,
+        message,
+        senderAddress: this.session.address,
+      }
     },
     requiresSignIn() {
       return (
@@ -881,11 +888,12 @@ export default {
         return !this.session.address
       },
     },
-    gasEstimate: {
+    networkFees: {
       query: gql`
         query NetworkGasEstimates(
           $networkId: String!
           $transactionType: String
+          $polkadotFee: PolkadotFee
         ) {
           networkFees(
             networkId: $networkId
@@ -900,13 +908,14 @@ export default {
         return {
           networkId: this.networkId,
           transactionType: this.transactionType,
+          polkadotFee: this.polkadotFeeInput,
         }
       },
       /* istanbul ignore next */
       update(data) {
         if (data.networkFees) {
           this.gasEstimateLoaded = true
-          return data.networkFees.gasEstimate
+          return data.networkFees
         }
       },
       /* istanbul ignore next */
