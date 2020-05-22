@@ -5,7 +5,7 @@
       :key="network.chain_id"
       class="network-item"
       :class="{ selected: networkId === network.id }"
-      :to="{ params: { networkId: network.slug } , name: 'portfolio' }"
+      :to="{ params: { networkId: network.slug }, name: 'portfolio' }"
     >
       <img
         v-tooltip.right="{ content: network.title, offset: 8 }"
@@ -32,6 +32,7 @@ export default {
   name: `network-selector`,
   computed: {
     ...mapGetters([`networks`]),
+    ...mapGetters({ networkId: `network` }),
     mainnets() {
       return this.networks.filter(network => network.testnet === false)
     }
@@ -54,6 +55,7 @@ export default {
 
 .network-item {
   position: relative;
+  display: inline-block;
   transition: opacity 0.2s ease-in-out;
   opacity: 0.8;
   padding: 0.25rem;

@@ -2,15 +2,16 @@
   <section>
     <h3>{{ sectionTitle }}</h3>
     <ul class="network-list">
-      <li
+      <router-link
         v-for="network in networks"
+        :to="{ params: { networkId: network.slug }, name: 'portfolio' }"
         :key="network.id"
         class="select-network-item"
         :data-network="network.id"
-        @click="network.chain_id ? selectNetworkHandler(network) : false"
+        tag="li"
       >
         <NetworkItem :network-item="network" :disabled="disabled" />
-      </li>
+      </router-link>
     </ul>
   </section>
 </template>
@@ -22,21 +23,21 @@ import NetworkItem from "./NetworkItem"
 export default {
   name: `network-list`,
   components: {
-    NetworkItem,
+    NetworkItem
   },
   props: {
     networks: {
       type: Array,
-      required: true,
+      required: true
     },
     disabled: {
       type: Boolean,
-      required: false,
+      required: false
     },
     sectionTitle: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     ...mapGetters({ networkId: `network` }),
@@ -48,17 +49,8 @@ export default {
       } else {
         return ``
       }
-    },
-  },
-  methods: {
-    async selectNetworkHandler(network) {
-      if (this.networkId !== network.id) {
-        this.$store.dispatch(`setNetwork`, network)
-      }
-
-      if (this.$route.name !== "networks") this.$router.push(this.whichFlow)
-    },
-  },
+    }
+  }
 }
 </script>
 <style scoped>
