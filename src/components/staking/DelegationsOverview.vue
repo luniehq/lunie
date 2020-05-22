@@ -10,7 +10,6 @@
         alt="geometric placeholder shapes"
       />
     </div>
-
     <div v-else-if="delegations.length > 0">
       <h1>Your Validators</h1>
       <TableValidators
@@ -19,24 +18,21 @@
         show-on-mobile="expectedReturns"
       />
     </div>
-
     <TmDataMsg
       v-else-if="delegations.length === 0 && !$apollo.loading"
       icon="sentiment_dissatisfied"
     >
-      <div slot="title">
-        No validators in your portfolio
-      </div>
+      <div slot="title">No validators in your portfolio</div>
       <div slot="subtitle">
         Head over to the
-        <a @click="goToValidators()"> validator list</a>&nbsp;to get staking!
+        <a @click="goToValidators()">validator list</a>&nbsp;to get staking!
       </div>
     </TmDataMsg>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
 import { DelegationsForDelegator, UserTransactionAdded } from "src/gql"
@@ -45,25 +41,27 @@ export default {
   name: `delegations-overview`,
   components: {
     TableValidators,
-    TmDataMsg
+    TmDataMsg,
   },
   data: () => ({
     delegations: [],
-    delegationsLoaded: false
+    delegationsLoaded: false,
   }),
   computed: {
-    ...mapGetters(["address", `network`, `networks`])
+    ...mapState([`session`]),
+    ...mapGetters([`address`, `network`, `networks`]),
   },
   methods: {
     goToValidators() {
       this.$router.push({
         name: "Validators",
         params: {
-          networkId: this.networks.find(network => network.id === this.network)
-            .slug
-        }
+          networkId: this.networks.find(
+            (network) => network.id === this.network
+          ).slug,
+        },
       })
-    }
+    },
   },
   apollo: {
     delegations: {
@@ -75,21 +73,21 @@ export default {
         /* istanbul ignore next */
         return {
           delegatorAddress: this.address,
-          networkId: this.network
+          networkId: this.network,
         }
       },
       /* istanbul ignore next */
       update(data) {
         this.delegationsLoaded = true
         return data.delegations || []
-      }
+      },
     },
     $subscribe: {
       userTransactionAdded: {
         variables() {
           return {
             networkId: this.network,
-            address: this.address
+            address: this.address,
           }
         },
         skip() {
@@ -101,10 +99,10 @@ export default {
           if (data.userTransactionAddedV2.success) {
             this.$apollo.queries.delegations.refetch()
           }
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 <style scoped>

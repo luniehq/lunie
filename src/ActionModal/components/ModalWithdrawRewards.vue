@@ -20,19 +20,21 @@
     <TmFormGroup
       class="action-modal-form-group"
       field-id="amount"
-      :field-label="
-        `Rewards from ${top5Validators.length} ${
-          top5Validators.length > 1 ? `validators` : `validator`
-        }`
-      "
+      :field-label="`Rewards from ${top5Validators.length} ${
+        top5Validators.length > 1 ? `validators` : `validator`
+      }`"
     >
-      <div v-for="reward in totalRewards" :key="JSON.stringify(reward.denom)">
-        <span class="input-suffix">{{ reward.denom }}</span>
+      <div
+        v-for="reward in totalRewards"
+        :key="reward.denom"
+        class="rewards-list-item"
+      >
         <input
           class="tm-field-addon"
           disabled="disabled"
           :value="reward.amount | fullDecimals"
         />
+        <span class="input-suffix">{{ reward.denom }}</span>
       </div>
       <TmFormMsg
         v-if="currentNetwork.network_type === 'polkadot'"
@@ -58,7 +60,7 @@ function rewardsToDictionary(rewards) {
   return rewards.reduce((all, reward) => {
     return {
       ...all,
-      [reward.denom]: Number(reward.amount) + (all[reward.denom] || 0)
+      [reward.denom]: Number(reward.amount) + (all[reward.denom] || 0),
     }
   }, {})
 }
@@ -68,16 +70,16 @@ export default {
   components: {
     ActionModal,
     TmFormGroup,
-    TmFormMsg
+    TmFormMsg,
   },
   filters: {
-    fullDecimals
+    fullDecimals,
   },
   data: () => ({
     rewards: [],
     balances: [],
     getTop5RewardsValidators,
-    messageType
+    messageType,
   }),
   computed: {
     ...mapGetters([`address`, `network`, `stakingDenom`, `currentNetwork`]),
@@ -87,7 +89,7 @@ export default {
       return {
         type: messageType.CLAIM_REWARDS,
         amounts: this.totalRewards,
-        from: this.top5Validators
+        from: this.top5Validators,
       }
     },
     top5Validators() {
@@ -101,7 +103,7 @@ export default {
     notifyMessage() {
       return {
         title: `Successful withdrawal!`,
-        body: `You have successfully withdrawn your rewards.`
+        body: `You have successfully withdrawn your rewards.`,
       }
     },
     validatorsWithRewards() {
@@ -138,12 +140,12 @@ export default {
       return rewardsDenomArray
         .map(([denom, amount]) => ({ denom, amount }))
         .sort((a, b) => b.amount - a.amount)
-    }
+    },
   },
   methods: {
     open() {
       this.$refs.actionModal.open()
-    }
+    },
   },
   apollo: {
     rewards: {
@@ -162,7 +164,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.address
+          delegatorAddress: this.address,
         }
       },
       /* istanbul ignore next */
@@ -172,7 +174,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
-      }
+      },
     },
     balances: {
       query: gql`
@@ -191,11 +193,11 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.userAddress
+          address: this.userAddress,
         }
-      }
-    }
-  }
+      },
+    },
+  },
 }
 </script>
 
@@ -203,7 +205,12 @@ export default {
 .form-message.withdraw-limit {
   white-space: normal;
 }
+
 .tm-field-addon {
   margin-bottom: 0.25rem;
+}
+
+.rewards-list-item {
+  position: relative;
 }
 </style>

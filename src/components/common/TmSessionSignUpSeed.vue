@@ -65,11 +65,11 @@ export default {
     TmFormMsg,
     TmFormStruct,
     Steps,
-    TmSeed
+    TmSeed,
   },
   data: () => ({
     error: false,
-    errorMessage: ``
+    errorMessage: ``,
   }),
   computed: {
     ...mapState([`session`, `signup`]),
@@ -77,7 +77,7 @@ export default {
     fieldSeed: {
       get() {
         return this.$store.state.signup.signUpSeed
-      }
+      },
     },
     fieldWarning: {
       get() {
@@ -85,18 +85,18 @@ export default {
       },
       set(value) {
         this.$store.commit(`updateField`, { field: `signUpWarning`, value })
-      }
-    }
+      },
+    },
   },
   mounted() {
-    this.$store.dispatch(`createSeed`).then(seedPhrase => {
+    this.$store.dispatch(`createSeed`).then((seedPhrase) => {
       this.$store.commit(`updateField`, {
         field: `signUpSeed`,
-        value: seedPhrase
+        value: seedPhrase,
       })
     })
   },
-  beforeDestroy: function() {
+  beforeDestroy: function () {
     this.$store.dispatch(`resetSignUpData`)
   },
   methods: {
@@ -108,7 +108,7 @@ export default {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
-          network: this.network
+          network: this.network,
         })
         if (this.isExtension) {
           this.$router.push(`/`)
@@ -116,18 +116,18 @@ export default {
           this.$router.push({
             name: "portfolio",
             params: {
-              networkId: this.networkSlug
-            }
+              networkId: this.networkSlug,
+            },
           })
         }
       } catch (error) {
         this.error = true
         this.errorMessage = error.message
       }
-    }
+    },
   },
   validations: () => ({
-    fieldWarning: { required: sameAs(() => true) }
-  })
+    fieldWarning: { required: sameAs(() => true) },
+  }),
 }
 </script>

@@ -64,8 +64,8 @@ export default {
     ...mapState(["connection"]),
     networkSlug() {
       return this.connection.networkSlug
-    }
-  }
+    },
+  },
 }
 </script>
 

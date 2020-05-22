@@ -36,7 +36,7 @@ import {
   SubmitProposalTxDetails,
   DepositTxDetails,
   VoteTxDetails,
-  UnknownTxDetails
+  UnknownTxDetails,
 } from "./message-view"
 
 export default {
@@ -51,32 +51,32 @@ export default {
     SubmitProposalTxDetails,
     DepositTxDetails,
     VoteTxDetails,
-    UnknownTxDetails
+    UnknownTxDetails,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
+      required: true,
     },
     validators: {
       type: Object,
-      required: true
+      required: true,
     },
     address: {
       type: String,
-      default: null
+      default: null,
     },
     showMetaData: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data: () => ({
-    show: false
+    show: false,
   }),
   computed: {
     ...mapGetters([`isExtension`]),
-    messageTypeComponent: function() {
+    messageTypeComponent: function () {
       switch (this.transaction.type) {
         case messageType.SEND:
           return `send-tx-details`
@@ -100,15 +100,15 @@ export default {
         default:
           return ``
       }
-    }
+    },
   },
   methods: {
     toggleDetail(event) {
       if (event.target.className !== `address`) {
         this.show = !this.show
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -127,6 +127,19 @@ export default {
 
 .tx a {
   display: inline-block;
+}
+
+.validator-image {
+  margin: 0.25rem;
+  border-radius: 100%;
+  height: 1.25rem;
+  width: 1.25rem;
+  vertical-align: middle;
+  transition: transform 0.2s ease-in-out;
+}
+
+.validator-image svg {
+  border-radius: 100%;
 }
 
 .tx a:hover .validator-image {
@@ -210,19 +223,6 @@ export default {
 
 .toggle-icon {
   font-size: 16px;
-}
-
-.validator-image {
-  margin: 0.25rem;
-  border-radius: 100%;
-  height: 1.25rem;
-  width: 1.25rem;
-  vertical-align: middle;
-  transition: transform 0.2s ease-in-out;
-}
-
-.validator-image svg {
-  border-radius: 100%;
 }
 
 .tx .copied {

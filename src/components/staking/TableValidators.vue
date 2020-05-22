@@ -39,37 +39,37 @@ export default {
   name: `table-validators`,
   components: {
     LiValidator,
-    PanelSort
+    PanelSort,
   },
   props: {
     validators: {
       type: Array,
-      required: true
+      required: true,
     },
     delegations: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     showOnMobile: {
       type: String,
-      default: () => "returns"
-    }
+      default: () => "returns",
+    },
   },
   data: () => ({
     rewards: [],
     sort: {
       property: `expectedReturns`,
-      order: `desc`
+      order: `desc`,
     },
-    showing: 15
+    showing: 15,
   }),
   computed: {
     ...mapGetters([`address`, `network`, `stakingDenom`]),
     sortedEnrichedValidators() {
       return orderBy(
-        this.validators.map(validator => ({
+        this.validators.map((validator) => ({
           ...validator,
-          smallName: validator.name ? validator.name.toLowerCase() : ""
+          smallName: validator.name ? validator.name.toLowerCase() : "",
         })),
         [this.sort.property],
         [this.sort.order]
@@ -83,31 +83,31 @@ export default {
         {
           title: `Status`,
           value: `status`,
-          tooltip: `Validation status of the validator`
+          tooltip: `Validation status of the validator`,
         },
         {
           title: `Name`,
           value: `smallName`,
-          tooltip: `The validator's name`
+          tooltip: `The validator's name`,
         },
         {
           title: `Rewards`,
           value: `expectedReturns`,
-          tooltip: `Approximate annualized reward`
+          tooltip: `Approximate annualized reward`,
         },
         {
           title: `Voting Power`,
           value: `votingPower`,
-          tooltip: `Percentage of voting shares`
-        }
+          tooltip: `Percentage of voting shares`,
+        },
       ]
-    }
+    },
   },
   watch: {
-    "sort.property": function() {
+    "sort.property": function () {
       this.showing = 15
     },
-    "sort.order": function() {
+    "sort.order": function () {
       this.showing = 15
     },
     address: {
@@ -115,8 +115,8 @@ export default {
         if (!this.address) {
           this.rewards = []
         }
-      }
-    }
+      },
+    },
   },
   mounted() {
     this.$apollo.queries.rewards.startPolling(1000 * 60 * 5)
@@ -140,7 +140,7 @@ export default {
             )
         )
       }
-    }
+    },
   },
   apollo: {
     rewards: {
@@ -163,20 +163,20 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          delegatorAddress: this.address
+          delegatorAddress: this.address,
         }
       },
       /* istanbul ignore next */
-      update: result => {
+      update: (result) => {
         return result.rewards || []
-      }
+      },
     },
     $subscribe: {
       blockAdded: {
         /* istanbul ignore next */
         variables() {
           return {
-            networkId: this.network
+            networkId: this.network,
           }
         },
         /* istanbul ignore next */
@@ -193,10 +193,10 @@ export default {
         /* istanbul ignore next */
         result() {
           this.$apollo.queries.rewards.refetch()
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 <style scoped>

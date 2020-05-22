@@ -15,12 +15,12 @@ export const proposals = [
       abstain: "6.48765",
       total: "6.48765",
       totalVotedPercentage: 205620144261943840,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
     proposer: "unknown",
     validator: undefined,
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 34,
@@ -38,11 +38,11 @@ export const proposals = [
       abstain: "5.48765",
       total: "5.48765",
       totalVotedPercentage: 243089761358869470,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
     proposer: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 33,
@@ -60,15 +60,15 @@ export const proposals = [
       abstain: "0",
       total: "0",
       totalVotedPercentage: 0,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
     proposer: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
     validator: {
       name: "Big Daddy Validator",
-      __typename: "Validator"
+      __typename: "Validator",
     },
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 32,
@@ -87,10 +87,10 @@ export const proposals = [
       abstain: "0",
       total: "0",
       totalVotedPercentage: 0,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 31,
@@ -108,10 +108,10 @@ export const proposals = [
       abstain: "322.359133",
       total: "8286.738562",
       totalVotedPercentage: 160979077467003.12,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 28,
@@ -129,10 +129,10 @@ export const proposals = [
       abstain: "119336.05",
       total: "119336.05",
       totalVotedPercentage: 11178445481654.537,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 27,
@@ -150,10 +150,10 @@ export const proposals = [
       abstain: "0",
       total: "119336.05",
       totalVotedPercentage: 11178445481654.537,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 24,
@@ -171,10 +171,10 @@ export const proposals = [
       abstain: "349.999999",
       total: "114000.049999",
       totalVotedPercentage: 11701674946043.459,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 23,
@@ -192,10 +192,10 @@ export const proposals = [
       abstain: "111845.05",
       total: "111845.05",
       totalVotedPercentage: 11927139635781.824,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 22,
@@ -213,10 +213,10 @@ export const proposals = [
       abstain: "0",
       total: "111845.05",
       totalVotedPercentage: 11927139635781.824,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 21,
@@ -234,10 +234,10 @@ export const proposals = [
       abstain: "0",
       total: "111845.05",
       totalVotedPercentage: 11927139635781.824,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 20,
@@ -255,10 +255,10 @@ export const proposals = [
       abstain: "0",
       total: "2.779999",
       totalVotedPercentage: 479853240566273600,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 17,
@@ -276,10 +276,10 @@ export const proposals = [
       abstain: "0",
       total: "111534.95",
       totalVotedPercentage: 11960300595651.855,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 15,
@@ -297,10 +297,10 @@ export const proposals = [
       abstain: "22",
       total: "111260.85477",
       totalVotedPercentage: 11989765238444.79,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 14,
@@ -318,10 +318,10 @@ export const proposals = [
       abstain: "0",
       total: "0",
       totalVotedPercentage: 0,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 13,
@@ -339,10 +339,10 @@ export const proposals = [
       abstain: "0",
       total: "0",
       totalVotedPercentage: 0,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
+    __typename: "Proposal",
   },
   {
     id: 12,
@@ -360,9 +360,9 @@ export const proposals = [
       abstain: "0",
       total: "0",
       totalVotedPercentage: 0,
-      __typename: "Tally"
+      __typename: "Tally",
     },
     deposit: "0",
-    __typename: "Proposal"
-  }
+    __typename: "Proposal",
+  },
 ]

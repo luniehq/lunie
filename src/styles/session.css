@@ -193,7 +193,7 @@
     width: 100%;
   }
 
-  .form-main>div {
+  .form-main > div {
     display: flex;
     flex-direction: column;
     align-items: space-between;

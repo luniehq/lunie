@@ -8,10 +8,10 @@ Vue.use(router)
 const networkCapabilityDictionary = {
   true: "ENABLED",
   false: "DISABLED",
-  null: "MISSING"
+  null: "MISSING",
 }
 
-export const routeGuard = store => async (to, from, next) => {
+export const routeGuard = (store) => async (to, from, next) => {
   // Set any open modal to false
   store.state.session.currrentModalOpen = false
 
@@ -22,7 +22,7 @@ export const routeGuard = store => async (to, from, next) => {
     return
   }
   if (to.meta.feature) {
-    const featureAvalability = await featureAvailable(store, to.meta.feature)
+    const featureAvalability = await featureAvailable(store, to.params.networkId, to.meta.feature)
     switch (featureAvalability) {
       case "DISABLED": {
         next(`/feature-not-available/${to.meta.feature}`)
@@ -46,24 +46,25 @@ export const routeGuard = store => async (to, from, next) => {
 }
 
 /* istanbul ignore next */
-const Router = store =>
+const Router = (store) =>
   new router({
     mode: process.env.VUE_APP_E2E ? undefined : "history",
     scrollBehavior: () => ({ y: 0 }),
-    routes: routes(store)
+    routes: routes(store),
   })
 
 export default Router
 
 // check if feature is allowed and redirect if not
-async function featureAvailable(store, feature) {
+async function featureAvailable(store, networkSlug, feature) {
   const networks = store.state.connection.networks
+  // we get the current network object
   const currentNetworkId = store.state.connection.network
   // we get the current network object
-  const currentNetwork = networks.find(({ id }) => id === currentNetworkId)
+  const currentNetwork = networks.find(({ slug, id }) => networkSlug ? slug === networkSlug : id === currentNetworkId)
   const featureSelector = `feature_${feature.toLowerCase()}`
   return typeof currentNetwork[featureSelector] === "string"
     ? currentNetwork[featureSelector]
     : // DEPRECATE fallback for old API response
-      networkCapabilityDictionary[currentNetwork[featureSelector]]
+    networkCapabilityDictionary[currentNetwork[featureSelector]]
 }

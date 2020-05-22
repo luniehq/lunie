@@ -7,7 +7,7 @@ const nightwatch_config = {
   selenium: {
     start_process: false,
     host: "hub-cloud.browserstack.com",
-    port: 80
+    port: 80,
   },
 
   test_settings: {
@@ -26,32 +26,32 @@ const nightwatch_config = {
         loggingPrefs: {
           driver: "INFO",
           server: "OFF",
-          browser: "INFO"
+          browser: "INFO",
         },
         chromeOptions: {
           args: [
             "disable-web-security",
             "ignore-certificate-errors",
-            "disable-application-cache"
+            "disable-application-cache",
           ],
           prefs: {
-            "intl.accept_languages": "en-US,en"
-          }
-        }
-      }
+            "intl.accept_languages": "en-US,en",
+          },
+        },
+      },
     },
     windows: {
       desiredCapabilities: {
         os: "Windows",
-        os_version: "10"
-      }
+        os_version: "10",
+      },
     },
     osx: {
       os: "OS X",
       os_version: "Mojave",
-      browserName: "Safari"
-    }
-  }
+      browserName: "Safari",
+    },
+  },
 }
 
 // Code to copy seleniumhost/port into test settings

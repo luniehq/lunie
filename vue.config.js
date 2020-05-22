@@ -8,7 +8,7 @@ function resolve(dir) {
 
 const config = {
   publicPath: `/`,
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     config.plugins.delete(`prefetch`)
   },
   configureWebpack: () => {
@@ -25,9 +25,9 @@ const config = {
           staking: resolve(`src/components/staking`),
           transactions: resolve(`src/components/transactions`),
           wallet: resolve(`src/components/wallet`),
-          test: resolve(`test`)
+          test: resolve(`test`),
         },
-        extensions: [`.js`, `.vue`, `.css`]
+        extensions: [`.js`, `.vue`, `.css`],
       },
       plugins: [
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
@@ -40,16 +40,16 @@ const config = {
             GOOGLE_ANALYTICS_UID: JSON.stringify(
               process.env.GOOGLE_ANALYTICS_UID
             ),
-            MOBILE_APP: JSON.stringify(process.env.MOBILE_APP)
-          }
-        })
+            MOBILE_APP: JSON.stringify(process.env.MOBILE_APP),
+          },
+        }),
       ],
       optimization: {
         splitChunks: {
-          chunks: "all"
-        }
+          chunks: "all",
+        },
       },
-      devtool: "eval-source-map"
+      devtool: "eval-source-map",
     }
 
     return config
@@ -57,14 +57,14 @@ const config = {
 
   pluginOptions: {
     lintStyleOnBuild: false,
-    stylelint: {}
-  }
+    stylelint: {},
+  },
 }
 
 // css config breaks hot reloading
 if (process.env.NODE_ENV === `production`) {
   config.css = {
-    extract: { ignoreOrder: true }
+    extract: { ignoreOrder: true },
   }
 }
 

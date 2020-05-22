@@ -12,20 +12,14 @@ describe(`TmDataLoading`, () => {
   })
 
   it(`has a title`, () => {
-    expect(
-      wrapper
-        .find(`.tm-data-msg__title`)
-        .text()
-        .trim()
-    ).toBe(`Data is loading…`)
+    expect(wrapper.find(`.tm-data-msg__title`).text().trim()).toBe(
+      `Data is loading…`
+    )
   })
 
   it(`has a subtitle`, () => {
-    expect(
-      wrapper
-        .find(`.tm-data-msg__subtitle`)
-        .text()
-        .trim()
-    ).toBe(`Please wait a moment.`)
+    expect(wrapper.find(`.tm-data-msg__subtitle`).text().trim()).toBe(
+      `Please wait a moment.`
+    )
   })
 })

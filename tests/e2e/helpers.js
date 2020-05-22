@@ -2,7 +2,7 @@ const numeral = require("numeral")
 const { expect } = require("chai")
 
 async function getBalance(browser) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     browser.expect.element(`.total`).to.be.visible.before(10000)
     browser.getText(".total", ({ value }) => {
       resolve(numeral(value).value())
@@ -10,7 +10,7 @@ async function getBalance(browser) {
   })
 }
 async function getAvailableTokens(browser) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     browser.expect.element(`.available-amount`).to.be.visible.before(10000)
     browser.getText(".available-amount", ({ value }) => {
       resolve(numeral(value).value())
@@ -30,7 +30,7 @@ async function waitFor(check, iterations = 10, timeout = 1000) {
       return
     } catch (err) {
       console.error(err.message)
-      await new Promise(resolve => setTimeout(resolve, timeout))
+      await new Promise((resolve) => setTimeout(resolve, timeout))
     }
   }
 
@@ -68,7 +68,7 @@ async function waitForText(
   timeout = 300
 ) {
   return await browser.execute(
-    function(selector, expectedCaption, timeout, iterations) {
+    function (selector, expectedCaption, timeout, iterations) {
       return new Promise((resolve, reject) => {
         // async await doesn't work in execute
         const iteration = () => {
@@ -91,9 +91,9 @@ async function waitForText(
 }
 
 async function getLastActivityItemHash(browser) {
-  return await browser.execute(function() {
+  return await browser.execute(function () {
     // async await doesn't work in execute
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       let attempts = 5
       let step = 1
       const f = () => {
@@ -129,8 +129,8 @@ async function getLastActivityItemHash(browser) {
 
 // fetching errors from console
 async function checkBrowserLogs(browser) {
-  browser.getLog("browser", function(logEntriesArray) {
-    logEntriesArray.forEach(function(log) {
+  browser.getLog("browser", function (logEntriesArray) {
+    logEntriesArray.forEach(function (log) {
       if (log.level == "ERROR") {
         throw new Error(log.message)
       }
@@ -149,7 +149,7 @@ async function actionModalCheckout(
 ) {
   // deacivate intercom
   // can't be inserted before each as it would be removed on a refresh
-  await browser.execute(function() {
+  await browser.execute(function () {
     var sheet = window.document.styleSheets[0]
     sheet.insertRule(
       "#intercom-container { display: none !important; }",
@@ -190,7 +190,7 @@ async function actionModalCheckout(
   )
 
   // remember fees
-  const fees = await new Promise(resolve =>
+  const fees = await new Promise((resolve) =>
     browser.getText(
       ".table-invoice li:nth-child(2) span:last-child",
       ({ value }) => resolve(numeral(value).value())
@@ -262,7 +262,7 @@ async function getAccountBalance(browser) {
     async () => {
       // waiting till balance loaded
       await browser.waitForElementVisible(".total", 5000, false)
-      await browser.getText(".total", result => {
+      await browser.getText(".total", (result) => {
         let total = result.value.split(" ")
         browser.globals.denom = total[1]
         browser.globals.totalAtoms = total[0]
@@ -270,7 +270,7 @@ async function getAccountBalance(browser) {
       /*await browser.getText(".total-atoms h2", result => {
         browser.globals.totalAtoms = result.value.replace(",", "")
       })*/
-      await browser.getText(".available-amount", result => {
+      await browser.getText(".available-amount", (result) => {
         let availableAtoms = result.value.split(" ")
         browser.globals.availableAtoms = availableAtoms[0]
       })
@@ -284,7 +284,7 @@ async function nextBlock(browser) {
   browser.expect
     .element(`#tm-connected-network__block`)
     .to.be.visible.before(10000)
-  const lastHeight = await new Promise(resolve =>
+  const lastHeight = await new Promise((resolve) =>
     browser.getText("#tm-connected-network__block", ({ value }) =>
       resolve(value)
     )
@@ -306,5 +306,5 @@ module.exports = {
   nextBlock,
   getAccountBalance,
   checkBrowserLogs,
-  fundMasterAccount
+  fundMasterAccount,
 }

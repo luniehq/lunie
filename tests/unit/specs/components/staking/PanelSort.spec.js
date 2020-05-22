@@ -12,20 +12,20 @@ describe(`PanelSort`, () => {
       localVue,
       propsData: {
         sort: {
-          order: `asc`
+          order: `asc`,
         },
         properties: [
           {
             value: `id`,
-            title: `ID`
+            title: `ID`,
           },
           {
             value: `amount`,
-            title: `AMOUNT`
-          }
+            title: `AMOUNT`,
+          },
         ],
-        showOnMobile: "amount"
-      }
+        showOnMobile: "amount",
+      },
     })
   })
 
@@ -67,31 +67,32 @@ describe(`PanelSort`, () => {
         propsData: {
           sort: {
             property: `block_number`,
-            order: `asc`
+            order: `asc`,
           },
           properties: [
             {
               value: `block_number`,
-              title: `Block Number`
+              title: `Block Number`,
             },
             {
               value: `amount`,
-              title: `Amount`
+              title: `Amount`,
             },
             {
               value: `other`,
-              title: `Other`
-            }
+              title: `Other`,
+            },
           ],
-          showOnMobile: "amount"
-        }
+          showOnMobile: "amount",
+        },
       })
     })
 
     it(`should show mobile field correctly`, () => {
       wrapper.setProps({ showOnMobile: "amount" })
-      const numHidden = wrapper.findAll("th").filter(w => w.classes("hide-xs"))
-        .length
+      const numHidden = wrapper
+        .findAll("th")
+        .filter((w) => w.classes("hide-xs")).length
       expect(numHidden).toBe(1)
     })
   })

@@ -11,7 +11,7 @@
   --app-fg: hsl(0, 0%, 97%);
   --app-fg-hover: hsl(0, 0%, 92%);
   --app-bg: hsl(0, 0%, 100%);
-  
+
   /* menu styles */
   --app-nav: var(--primary);
   --app-nav-hover: var(--primary-hover);
@@ -26,6 +26,5 @@
   --bc: hsl(0, 0%, 80%);
   --bc-dim: hsl(0, 0%, 85%);
   --input-bc: hsl(0, 0%, 75%);
-
-  --available: var(--txt)
+  --available: var(--txt);
 }

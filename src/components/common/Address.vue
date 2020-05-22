@@ -21,16 +21,16 @@ import { formatAddress } from "src/filters"
 export default {
   name: `lunie-address`,
   filters: {
-    formatAddress
+    formatAddress,
   },
   props: {
     address: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
-    copySuccess: false
+    copySuccess: false,
   }),
   methods: {
     onCopy() {
@@ -38,8 +38,8 @@ export default {
       setTimeout(() => {
         this.copySuccess = false
       }, 2500)
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>
@@ -59,12 +59,12 @@ export default {
   color: var(--link);
 }
 
-.copyable-address .address:hover {
-  color: var(--link-hover);
-}
-
 .menu-address .address {
   color: var(--menu-link);
+}
+
+.copyable-address .address:hover {
+  color: var(--link-hover);
 }
 
 .menu-address .address:hover {
@@ -91,9 +91,6 @@ export default {
   padding-left: 0.25rem;
 }
 
-.copyable-address .icon-container i.success {
-  color: var(--success);
-}
 .copyable-address .icon-container i.success {
   color: var(--success);
 }

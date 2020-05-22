@@ -20,8 +20,8 @@ export default {
   props: {
     feature: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>

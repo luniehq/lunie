@@ -90,16 +90,16 @@ export default {
     TmField,
     TmFormGroup,
     TmFormMsg,
-    TmFormStruct
+    TmFormStruct,
   },
   filters: {
-    formatAddress
+    formatAddress,
   },
   data: () => ({
     address: ``,
     error: ``,
     addressError: undefined,
-    testnet: false
+    testnet: false,
   }),
   computed: {
     ...mapState([`session`]),
@@ -112,17 +112,17 @@ export default {
       if (!selectedNetwork) return []
 
       return this.session.addresses
-        .filter(address =>
+        .filter((address) =>
           address.address.startsWith(selectedNetwork.address_prefix)
         )
         .slice(-3)
-    }
+    },
   },
   mounted() {
     this.address = localStorage.getItem(`prevAddress`)
     // Check testnet checkbox if current network is a testnet
     this.testnet = this.networks.find(
-      network => network.id === this.network
+      (network) => network.id === this.network
     ).testnet
   },
   methods: {
@@ -135,9 +135,9 @@ export default {
       try {
         networkOfAddress = await this.$store.dispatch("getNetworkByAccount", {
           account: {
-            address: this.address
+            address: this.address,
           },
-          testnet: this.testnet
+          testnet: this.testnet,
         })
       } catch (error) {
         this.error = error.message
@@ -148,15 +148,16 @@ export default {
       await this.selectNetworkByAddress(networkOfAddress)
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
-        address: this.address
+        address: this.address,
+        networkId: this.network,
       })
 
       localStorage.setItem(`prevAddress`, this.address)
       this.$router.push({
         name: "portfolio",
         params: {
-          networkId: networkOfAddress.slug
-        }
+          networkId: networkOfAddress.slug,
+        },
       })
     },
     async selectNetworkByAddress(network) {
@@ -182,25 +183,25 @@ export default {
       try {
         await this.$store.dispatch("getNetworkByAccount", {
           account: {
-            address
+            address,
           },
-          testnet: this.testnet
+          testnet: this.testnet,
         })
         return true
       } catch (error) {
         this.addressError = error.message
         return false
       }
-    }
+    },
   },
   validations() {
     return {
       address: {
         required,
-        addressValidate: this.addressValidate
-      }
+        addressValidate: this.addressValidate,
+      },
     }
-  }
+  },
 }
 </script>
 <style scoped>

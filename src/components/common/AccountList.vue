@@ -23,22 +23,22 @@ export default {
   name: `account-list`,
   components: {
     Address,
-    TmBtn
+    TmBtn,
   },
   props: {
     accounts: {
       type: Array,
-      required: true
+      required: true,
     },
     buttonAction: {
       type: Function,
-      required: true
+      required: true,
     },
     buttonText: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 <style scoped>

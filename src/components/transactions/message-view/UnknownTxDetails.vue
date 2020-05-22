@@ -13,24 +13,24 @@ import TransactionIcon from "../TransactionIcon"
 export default {
   name: `unknown-tx-details`,
   components: {
-    TransactionIcon
+    TransactionIcon,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
+      required: true,
     },
     validators: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => {
     return {
       type: `Submitted`,
-      caption: `Unknown`
+      caption: `Unknown`,
     }
-  }
+  },
 }
 </script>
 <style scoped>

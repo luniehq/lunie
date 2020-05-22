@@ -17,10 +17,10 @@ describe(`ClaimRewardsTxDetails`, () => {
       amounts: [
         {
           denom: "ATOM",
-          amount: "10"
-        }
-      ]
-    }
+          amount: "10",
+        },
+      ],
+    },
   }
 
   const multiTx = {
@@ -36,10 +36,10 @@ describe(`ClaimRewardsTxDetails`, () => {
       amounts: [
         {
           denom: "ATOM",
-          amount: "3"
-        }
-      ]
-    }
+          amount: "3",
+        },
+      ],
+    },
   }
 
   const validators = {
@@ -47,20 +47,20 @@ describe(`ClaimRewardsTxDetails`, () => {
       name: `SuperValidator`,
       operatorAddress: `cosmosvaloper123`,
       picture: "",
-      __typename: `Validator`
+      __typename: `Validator`,
     },
     cosmosvaloper456: {
       name: `AwesomeValidator`,
       operatorAddress: `cosmosvaloper456`,
       picture: "",
-      __typename: `Validator`
+      __typename: `Validator`,
     },
     cosmosvaloper789: {
       name: `GiveMeYourMoney`,
       operatorAddress: `cosmosvaloper789`,
       picture: "",
-      __typename: `Validator`
-    }
+      __typename: `Validator`,
+    },
   }
 
   it(`renders a claim rewards transaction message`, () => {
@@ -68,9 +68,9 @@ describe(`ClaimRewardsTxDetails`, () => {
       propsData: {
         transaction: tx,
         validators: validators,
-        show: false
+        show: false,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -80,23 +80,23 @@ describe(`ClaimRewardsTxDetails`, () => {
       propsData: {
         transaction: multiTx,
         validators: validators,
-        show: false
+        show: false,
       },
       mocks: {
         $store: {
           getters: {
-            isExtension: false
-          }
-        }
+            isExtension: false,
+          },
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     expect(wrapper.element).toMatchSnapshot()
   })
 
   it(`returns an empty array if validators haven't been loaded yet`, () => {
     const self = {
-      validators: {}
+      validators: {},
     }
     const getValidatorsResponse = ClaimRewardsTxDetails.computed.getValidators.call(
       self

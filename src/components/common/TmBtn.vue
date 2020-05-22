@@ -6,7 +6,7 @@
       small: size === `small`,
       active: type === `active`,
       sidebar: type === `sidebar`,
-      loading: loading
+      loading: loading,
     }"
     :disabled="disabled"
   >
@@ -46,25 +46,25 @@ export default {
   props: {
     value: {
       type: String,
-      default: null
+      default: null,
     },
     type: {
       type: String,
-      default: null
+      default: null,
     },
     size: {
       type: String,
-      default: null
+      default: null,
     },
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     disabled: {
       type: Boolean,
-      default: false
-    }
-  }
+      default: false,
+    },
+  },
 }
 </script>
 

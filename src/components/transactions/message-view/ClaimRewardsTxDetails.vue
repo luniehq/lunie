@@ -57,48 +57,47 @@ export default {
   name: `claim-rewards-tx-details`,
   filters: {
     prettyLong,
-    resolveValidatorName
+    resolveValidatorName,
   },
   components: {
     TransactionIcon,
-    Avatar
+    Avatar,
   },
   props: {
     transaction: {
       type: Object,
-      required: true
+      required: true,
     },
     validators: {
       type: Object,
-      required: true
+      required: true,
     },
     show: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => {
     return {
-      type: `Claimed`
+      type: `Claimed`,
     }
   },
   computed: {
     ...mapGetters([`isExtension`]),
     getValidators() {
       if (this.validators && Object.keys(this.validators).length > 0) {
-        return this.transaction.details.from.map(validatorAddress => {
+        return this.transaction.details.from.map((validatorAddress) => {
           return this.validators[validatorAddress] || {}
         })
       } else {
         return []
       }
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>
 .claim-rewards-wrapper {
-  display: block;
   width: 100%;
   display: flex;
   align-items: center;

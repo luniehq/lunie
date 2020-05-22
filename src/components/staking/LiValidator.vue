@@ -5,7 +5,7 @@
     @click="
       $router.push({
         name: 'validator',
-        params: { validator: validator.operatorAddress }
+        params: { validator: validator.operatorAddress },
       })
     "
   >
@@ -45,7 +45,8 @@
           <h5
             v-if="
               rewards.find(
-                reward => reward.denom === stakingDenom && reward.amount > 0.001
+                (reward) =>
+                  reward.denom === stakingDenom && reward.amount > 0.001
               )
             "
           >
@@ -78,52 +79,52 @@ import Avatar from "common/Avatar"
 export default {
   name: `li-validator`,
   components: {
-    Avatar
+    Avatar,
   },
   filters: {
-    toLower: text => text.toLowerCase(),
+    toLower: (text) => text.toLowerCase(),
     bigFigureOrShortDecimals,
-    bigFigureOrPercent
+    bigFigureOrPercent,
   },
   props: {
     validator: {
       type: Object,
-      required: true
+      required: true,
     },
     /* istanbul ignore next */
     delegation: {
       type: Object,
-      default: () => ({})
+      default: () => ({}),
     },
     /* istanbul ignore next */
     rewards: {
       type: Array,
-      default: () => ({})
+      default: () => ({}),
     },
     index: {
       type: Number,
-      required: true
+      required: true,
     },
     /* istanbul ignore next */
     showOnMobile: {
       type: String,
-      default: () => "returns"
+      default: () => "returns",
     },
     stakingDenom: {
       type: String,
-      default: ""
-    }
+      default: "",
+    },
   },
   methods: {
     bigFigureOrPercent,
     bigFigureOrShortDecimals,
     filterStakingDenomReward() {
       const stakingDenomRewards = this.rewards.filter(
-        reward => reward.denom === this.stakingDenom
+        (reward) => reward.denom === this.stakingDenom
       )
       return stakingDenomRewards[0].amount
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>
@@ -140,20 +141,24 @@ export default {
   padding-left: 1rem;
   text-overflow: ellipsis;
 }
+
 .li-validator h4,
 .li-validator h5 {
   font-size: var(--sm);
   display: inline-block;
 }
+
 .li-validator h5 {
   padding-left: 0.5rem;
   color: var(--success);
 }
+
 .li-validator:hover {
   cursor: pointer;
   background: var(--app-fg-hover);
   color: var(--bright);
 }
+
 .li-validator-name {
   font-size: 1rem;
   line-height: 18px;
@@ -165,6 +170,7 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .li-validator-image {
   border-radius: 0.25rem;
   height: 2.5rem;
@@ -173,6 +179,7 @@ export default {
   min-width: 2.5rem;
   border: 1px solid var(--bc-dim);
 }
+
 .validator-status {
   text-transform: uppercase;
   font-size: 10px;
@@ -181,14 +188,17 @@ export default {
   padding: 2px 4px;
   border-radius: 0.25rem;
 }
+
 .validator-status.inactive {
   color: var(--warning);
   border-color: var(--warning);
 }
+
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);
 }
+
 @media screen and (max-width: 768px) {
   .li-validator-name {
     max-width: 11rem;

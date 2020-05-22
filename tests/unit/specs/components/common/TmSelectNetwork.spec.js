@@ -8,28 +8,28 @@ describe(`TmSelectNetwork`, () => {
     {
       id: `awesomenet`,
       testnet: true,
-      default: false
+      default: false,
     },
     {
       id: `keine-ahnungnet`,
       testnet: true,
-      default: false
+      default: false,
     },
     {
       id: `la-red-feliz`,
       testnet: false,
-      default: true
+      default: true,
     },
     {
       id: `localnet`,
       testnet: true,
-      default: false
+      default: false,
     },
     {
       id: `emilys-chain`,
       testnet: false,
-      default: false
-    }
+      default: false,
+    },
   ]
 
   beforeEach(async () => {
@@ -37,19 +37,19 @@ describe(`TmSelectNetwork`, () => {
       dispatch: jest.fn(),
       getters: {
         network: `localnet`,
-        networks
-      }
+        networks,
+      },
     }
     wrapper = shallowMount(TmSelectNetwork, {
       mocks: {
         $router: {
-          push: jest.fn()
+          push: jest.fn(),
         },
         $route: {
-          params: {}
+          params: {},
         },
-        $store
-      }
+        $store,
+      },
     })
     self.networkId = `localnet`
   })

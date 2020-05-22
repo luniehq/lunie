@@ -13,18 +13,18 @@ import Bar from "common/Bar"
 export default {
   name: `disconnected-bar`,
   components: {
-    Bar
+    Bar,
   },
   computed: {
     ...mapState({
-      stopConnecting: state => state.connection.stopConnecting
-    })
+      stopConnecting: (state) => state.connection.stopConnecting,
+    }),
   },
   methods: {
     reconnect() {
       console.log("reconnect")
       this.$store.dispatch("reconnect")
-    }
-  }
+    },
+  },
 }
 </script>

@@ -48,18 +48,18 @@ export default {
   name: `session-extension`,
   components: {
     AccountList,
-    SessionFrame
+    SessionFrame,
   },
   data: () => ({
     connectionError: null,
-    address: null
+    address: null,
   }),
   computed: {
     ...mapState([`extension`]),
     ...mapGetters([`networks`]),
     accounts() {
       return this.extension.accounts
-    }
+    },
   },
   mounted() {
     this.getAddressesFromExtension()
@@ -72,21 +72,21 @@ export default {
       this.$store.dispatch(`signIn`, {
         sessionType: `extension`,
         address: account.address,
-        networkId: account.network ? account.network : "cosmos-hub-mainnet" // defaulting to cosmos-hub-mainnet
+        networkId: account.network ? account.network : "cosmos-hub-mainnet", // defaulting to cosmos-hub-mainnet
       })
     },
     async signInAndRedirect(account) {
       const accountNetwork = await this.$store.dispatch("getNetworkByAccount", {
-        account
+        account,
       })
       await this.signIn(account)
       this.$router.push({
         name: "portfolio",
         params: {
-          networkId: accountNetwork.slug
-        }
+          networkId: accountNetwork.slug,
+        },
       })
-    }
-  }
+    },
+  },
 }
 </script>

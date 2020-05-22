@@ -9,17 +9,16 @@
       @keyup="onKeyup"
       @keydown="onKeydown"
     >
-      <option value="" disabled="disabled" selected="selected" hidden="hidden">
-        {{ selectPlaceholder }}
-      </option>
+      <option value disabled="disabled" selected="selected" hidden="hidden">{{
+        selectPlaceholder
+      }}</option>
       <template>
         <option
           v-for="(option, index) in resolvedOptions"
           :key="index"
           :value="option.value"
+          >{{ option.key }}</option
         >
-          {{ option.key }}
-        </option>
       </template>
     </select>
     <div class="tm-field-select-addon">
@@ -38,31 +37,6 @@
     @input="updateValue($event.target.value)"
   />
 
-  <label v-else-if="type === 'toggle'" :class="toggleClass" class="tm-toggle">
-    <div class="tm-toggle-wrapper" @click.prevent="toggle">
-      <span>
-        {{
-          currentToggleState
-            ? resolvedOptions.checked
-            : resolvedOptions.unchecked
-        }}
-      </span>
-      <div class="toggle-option-checked">
-        <div>{{ resolvedOptions.checked }}</div>
-      </div>
-      <div class="toggle-option-unchecked">
-        <div>{{ resolvedOptions.unchecked }}</div>
-      </div>
-      <div class="toggle-handle" />
-      <input
-        :disabled="isDisabled"
-        :value="currentToggleState"
-        type="checkbox"
-        @change="onChange"
-      />
-    </div>
-  </label>
-
   <input
     v-else
     ref="numTextInput"
@@ -70,6 +44,8 @@
     :class="css"
     :placeholder="placeholder"
     :value="value"
+    step="0.000001"
+    :disabled="isDisabled"
     @change="onChange"
     @keyup="onKeyup"
     @keydown="onKeydown"
@@ -83,48 +59,41 @@ export default {
   props: {
     type: {
       type: String,
-      default: `text`
+      default: `text`,
     },
     value: {
       type: [String, Number, Boolean],
-      default: null
+      default: null,
     },
     placeholder: {
       type: String,
-      default: null
+      default: null,
     },
     size: {
       type: String,
-      default: null
+      default: null,
     },
     options: {
       type: [Array, Object],
-      default: null
+      default: null,
     },
     change: {
       type: Function,
-      default: null
+      default: null,
     },
     keyup: {
       type: Function,
-      default: null
+      default: null,
     },
     keydown: {
       type: Function,
-      default: null
+      default: null,
     },
     isDisabled: {
       type: Boolean,
-      default: false
-    }
-  },
-  data: () => ({
-    defaultToggleOptions: {
-      checked: `on`,
-      unchecked: `off`
+      default: false,
     },
-    currentToggleState: false
-  }),
+  },
   computed: {
     css() {
       let value = `tm-field`
@@ -134,36 +103,18 @@ export default {
       if (this.size) value += ` tm-field-size-${this.size}`
       return value
     },
-    toggleClass() {
-      return !this.currentToggleState ? `unchecked` : undefined
-    },
     resolvedOptions() {
       if (this.type === `select`) {
         return this.options || []
       }
-      // else is always `toggle`
-      return this.options || this.defaultToggleOptions
+      return []
     },
     selectPlaceholder() {
       if (this.placeholder) return this.placeholder
       else return `Select option...`
-    }
-  },
-  watch: {
-    value(newValue) {
-      this.currentToggleState = !!newValue
-    }
-  },
-  mounted() {
-    this.currentToggleState = !!this.value
+    },
   },
   methods: {
-    toggle() {
-      if (!this.isDisabled) {
-        this.currentToggleState = !this.currentToggleState
-        this.onChange(this.currentToggleState)
-      }
-    },
     updateValue(value) {
       let formattedValue = value
 
@@ -185,8 +136,8 @@ export default {
     },
     onKeydown(...args) {
       if (this.keydown) return this.keydown(...args)
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -200,7 +151,7 @@ input[type="checkbox"] {
   background: var(--input-bg);
   border: 2px solid var(--input-bc);
   border-radius: 0;
-  color: var(--txt, #333);
+  color: var(--txt);
   display: block;
   font-size: 14px;
   min-width: 0;
@@ -251,108 +202,6 @@ input.tm-field {
 textarea.tm-field {
   height: 4rem;
   resize: vertical;
-}
-
-.tm-toggle {
-  border: 2px solid var(--input-bc);
-  border-radius: 1rem;
-  height: 2rem;
-  padding: 0 2px;
-}
-
-.tm-toggle * {
-  cursor: pointer;
-}
-
-.tm-toggle .tm-toggle-wrapper {
-  margin-left: calc((1.625rem / 2));
-  margin-right: calc((1.625rem / 2));
-  padding: 0 1.25rem;
-  transform: rotate(0deg);
-}
-
-.tm-toggle .tm-toggle-wrapper::before,
-.tm-toggle .tm-toggle-wrapper::after {
-  content: "";
-  height: 1.625rem;
-  position: absolute;
-  top: 2px;
-  width: 1.625rem;
-  z-index: 0;
-}
-
-.tm-toggle .tm-toggle-wrapper::before {
-  background: var(--success);
-  border-radius: 1em 0 0 1em;
-  left: calc((-1.625rem / 2));
-}
-
-.tm-toggle .tm-toggle-wrapper::after {
-  background: var(--danger);
-  border-radius: 0 1em 1em 0;
-  right: calc((-1.625rem / 2));
-}
-
-.tm-toggle .tm-toggle-wrapper .toggle-option-checked,
-.tm-toggle .tm-toggle-wrapper .toggle-option-unchecked {
-  clip: rect(0, auto, auto, 0);
-  height: 1.625rem;
-  overflow: hidden;
-  position: absolute;
-  top: 2px;
-  transition: width 500ms ease;
-  z-index: 1;
-}
-
-.tm-toggle .tm-toggle-wrapper .toggle-option-checked > div,
-.tm-toggle .tm-toggle-wrapper .toggle-option-unchecked > div {
-  left: 0;
-  position: fixed;
-  text-align: center;
-  top: 2px;
-  width: 100%;
-}
-
-.tm-toggle .tm-toggle-wrapper .toggle-option-checked {
-  background: var(--success);
-  left: 0;
-  width: 100%;
-}
-
-.tm-toggle .tm-toggle-wrapper .toggle-option-unchecked {
-  background: var(--danger);
-  right: 0;
-  width: 0%;
-}
-
-.tm-toggle .tm-toggle-wrapper .toggle-handle::after {
-  background: var(--bc-dim);
-  border-radius: 1rem;
-  content: "";
-  height: 1.625rem;
-  left: auto;
-  position: absolute;
-  right: calc((-1.65rem / 2));
-  top: 2px;
-  transition: right 500ms ease, left 500ms ease;
-  width: 1.625rem;
-  z-index: var(--z-listItem);
-}
-
-.tm-toggle .tm-toggle-wrapper input[type="checkbox"] {
-  display: none;
-}
-
-.tm-toggle.unchecked .toggle-option-checked {
-  width: 0;
-}
-
-.tm-toggle.unchecked .toggle-option-unchecked {
-  width: 100%;
-}
-
-.tm-toggle.unchecked .toggle-handle::after {
-  right: calc(100% - 0.75rem);
 }
 
 .tm-select {

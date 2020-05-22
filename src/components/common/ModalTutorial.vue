@@ -81,32 +81,32 @@ export default {
   props: {
     close: {
       type: Function,
-      required: true
+      required: true,
     },
     fullguide: {
       type: String,
-      required: true
+      required: true,
     },
     steps: {
       type: Array,
-      required: true
+      required: true,
     },
     // Possible values: red, green, yellow, blue and lightblue
     background: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  data: function() {
+  data: function () {
     return {
-      currentStep: 1
+      currentStep: 1,
     }
   },
   computed: {
     ...mapGetters([`address`, `network`]),
     finalStep() {
       return this.currentStep === this.steps.length
-    }
+    },
   },
   methods: {
     nextLink() {
@@ -120,12 +120,40 @@ export default {
       if (this.currentStep > 1) {
         this.currentStep--
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
+.button {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 16px;
+  background-color: rgba(122, 136, 184, 0.1);
+  color: var(--faded-blue);
+  margin: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 0;
+  transition: all 0.5s ease;
+  white-space: nowrap;
+  outline: none;
+  text-align: left;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.button:hover {
+  background-color: rgba(122, 136, 184, 0.25);
+}
+
+.button i.arrow_forward {
+  font-size: 1rem;
+}
+
 .modal-tutorial {
   position: fixed;
   bottom: 1rem;
@@ -231,34 +259,6 @@ export default {
   color: var(--faded-blue);
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-}
-
-.button {
-  font-size: 13px;
-  font-weight: 500;
-  padding: 16px;
-  background-color: rgba(122, 136, 184, 0.1);
-  color: var(--faded-blue);
-  margin: 0;
-  border-radius: 4px;
-  cursor: pointer;
-  border: 0;
-  transition: all 0.5s ease;
-  white-space: nowrap;
-  outline: none;
-  text-align: left;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.button:hover {
-  background-color: rgba(122, 136, 184, 0.25);
-}
-
-.button i.arrow_forward {
-  font-size: 1rem;
 }
 
 .modal-tutorial .steps-container {

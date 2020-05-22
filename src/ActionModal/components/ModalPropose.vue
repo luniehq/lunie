@@ -121,7 +121,7 @@ import {
   minLength,
   maxLength,
   required,
-  decimal
+  decimal,
 } from "vuelidate/lib/validators"
 import { SMALLEST } from "scripts/num"
 import isEmpty from "lodash.isempty"
@@ -132,10 +132,10 @@ import TmFormMsg from "common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import { messageType } from "../../components/transactions/messageTypes"
 
-const isValid = type =>
+const isValid = (type) =>
   type === `Text` || type === `ParameterChange` || type === `SoftwareUpgrade`
 
-const notBlank = text => !isEmpty(trim(text))
+const notBlank = (text) => !isEmpty(trim(text))
 
 export default {
   name: `modal-propose`,
@@ -143,13 +143,13 @@ export default {
     ActionModal,
     TmField,
     TmFormGroup,
-    TmFormMsg
+    TmFormMsg,
   },
   props: {
     denom: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
     titleMaxLength: 64,
@@ -160,10 +160,10 @@ export default {
     amount: null,
     balance: {
       amount: null,
-      denom: ``
+      denom: ``,
     },
     messageType,
-    smallestAmount: SMALLEST
+    smallestAmount: SMALLEST,
   }),
   computed: {
     ...mapGetters([`network`, `networks`, `stakingDenom`]),
@@ -184,17 +184,17 @@ export default {
         proposalDescription: this.description,
         initialDeposit: {
           amount: this.amount,
-          denom: this.denom
+          denom: this.denom,
         },
-        proposer: this.userAddress
+        proposer: this.userAddress,
       }
     },
     notifyMessage() {
       return {
         title: `Successful proposal submission!`,
-        body: `You have successfully submitted a new ${this.type.toLowerCase()} proposal`
+        body: `You have successfully submitted a new ${this.type.toLowerCase()} proposal`,
       }
-    }
+    },
   },
   validations() {
     return {
@@ -202,23 +202,23 @@ export default {
         required,
         minLength: minLength(1),
         maxLength: maxLength(this.titleMaxLength),
-        notBlank
+        notBlank,
       },
       description: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(this.descriptionMaxLength),
-        notBlank
+        notBlank,
       },
       type: {
-        isValid
+        isValid,
       },
       amount: {
-        required: x => !!x && x !== `0`,
+        required: (x) => !!x && x !== `0`,
         decimal,
-        max: x => Number(x) <= this.balance.amount,
-        min: x => Number(x) >= SMALLEST,
-        maxDecimals: x => {
+        max: (x) => Number(x) <= this.balance.amount,
+        min: (x) => Number(x) >= SMALLEST,
+        maxDecimals: (x) => {
           if (x) {
             return x.toString().split(".").length > 1
               ? x.toString().split(".")[1].length <= 6
@@ -226,8 +226,8 @@ export default {
           } else {
             return false
           }
-        }
-      }
+        },
+      },
     }
   },
   methods: {
@@ -254,7 +254,7 @@ export default {
     },
     onSuccess(event) {
       this.$emit(`success`, event)
-    }
+    },
   },
   apollo: {
     balance: {
@@ -277,14 +277,14 @@ export default {
         return {
           networkId: this.network,
           address: this.userAddress,
-          denom: this.denom
+          denom: this.denom,
         }
       },
       update(data) {
         return data.balance || { amount: 0 }
-      }
-    }
-  }
+      },
+    },
+  },
 }
 </script>
 <style>

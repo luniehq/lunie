@@ -21,8 +21,8 @@
         <Steps
           v-if="
             [defaultStep, feeStep, signStep].includes(step) &&
-              checkFeatureAvailable &&
-              !isMobileApp
+            checkFeatureAvailable &&
+            !isMobileApp
           "
           :steps="['Details', 'Fees', 'Sign']"
           :active-step="step"
@@ -30,9 +30,9 @@
         <p
           v-if="
             extension.enabled &&
-              !isExtensionAccount &&
-              step === signStep &&
-              selectedSignMethod === SIGN_METHODS.EXTENSION
+            !isExtensionAccount &&
+            step === signStep &&
+            selectedSignMethod === SIGN_METHODS.EXTENSION
           "
           class="form-message notice extension-address"
         >
@@ -191,12 +191,10 @@
             <div slot="subtitle">
               {{ notifyMessage.body }}
               <br />
-              <br />Block
+              <br />
               <router-link
-                :to="
-                  `/${$router.history.current.params.networkId}/blocks/${includedHeight}`
-                "
-                >#{{ includedHeight | prettyInt }}</router-link
+                :to="`/${$router.history.current.params.networkId}/transactions`"
+                >See your transaction</router-link
               >
             </div>
           </TmDataMsg>
@@ -206,12 +204,6 @@
           class="tm-form-msg sm tm-form-msg--error submission-error"
         >
           {{ submissionError }}
-        </p>
-        <p
-          v-if="step === feeStep && !gasEstimateLoaded"
-          class="waiting-fees-message"
-        >
-          Fetching fees...
         </p>
         <div class="action-modal-footer">
           <slot name="action-modal-footer">
@@ -250,10 +242,11 @@
                 ref="next"
                 type="primary"
                 value="Next"
+                :loading="step === feeStep && !gasEstimateLoaded"
                 :disabled="
                   disabled ||
-                    (step === feeStep && $v.invoiceTotal.$invalid) ||
-                    (step === feeStep && !gasEstimateLoaded)
+                  (step === feeStep && $v.invoiceTotal.$invalid) ||
+                  (step === feeStep && !gasEstimateLoaded)
                 "
                 @click.native="validateChangeStep"
               />
@@ -263,7 +256,7 @@
                 value="Send"
                 :disabled="
                   !selectedSignMethod ||
-                    (!extension.enabled && selectedSignMethod === 'extension')
+                  (!extension.enabled && selectedSignMethod === 'extension')
                 "
                 @click.native="validateChangeStep"
               />
@@ -307,35 +300,35 @@ const successStep = `success`
 const SIGN_METHODS = {
   LOCAL: `local`,
   LEDGER: `ledger`,
-  EXTENSION: `extension`
+  EXTENSION: `extension`,
 }
 
 const signMethodOptions = {
   LEDGER: {
     key: `Ledger Nano`,
-    value: SIGN_METHODS.LEDGER
+    value: SIGN_METHODS.LEDGER,
   },
   EXTENSION: {
     key: `Lunie Browser Extension`,
-    value: SIGN_METHODS.EXTENSION
+    value: SIGN_METHODS.EXTENSION,
   },
   LOCAL: {
     key: `Local Account (Unsafe)`,
-    value: SIGN_METHODS.LOCAL
-  }
+    value: SIGN_METHODS.LOCAL,
+  },
 }
 
 const sessionType = {
   EXPLORE: "explore",
   LOCAL: SIGN_METHODS.LOCAL,
   LEDGER: SIGN_METHODS.LEDGER,
-  EXTENSION: SIGN_METHODS.EXTENSION
+  EXTENSION: SIGN_METHODS.EXTENSION,
 }
 
 const networkCapabilityDictionary = {
   true: "ENABLED",
   false: "DISABLED",
-  null: "MISSING"
+  null: "MISSING",
 }
 
 export default {
@@ -350,64 +343,64 @@ export default {
     TmDataLoading,
     TableInvoice,
     Steps,
-    FeatureNotAvailable
+    FeatureNotAvailable,
   },
   filters: {
-    prettyInt
+    prettyInt,
   },
   props: {
     title: {
       type: String,
-      required: true
+      required: true,
     },
     validate: {
       type: Function,
-      default: undefined
+      default: undefined,
     },
     submissionErrorPrefix: {
       type: String,
-      default: `Transaction failed`
+      default: `Transaction failed`,
     },
     amount: {
       type: [String, Number],
-      default: `0`
+      default: `0`,
     },
     rewards: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     transactionData: {
       type: Object,
-      default: () => {}
+      default: () => {},
     },
     notifyMessage: {
       type: Object,
       default: () => ({
         title: `Successful transaction`,
-        body: `You have successfully completed a transaction.`
-      })
+        body: `You have successfully completed a transaction.`,
+      }),
     },
     featureFlag: {
       type: String,
-      default: ``
+      default: ``,
     },
     // disable proceeding from the first page
     disabled: {
       type: Boolean,
-      default: false
+      default: false,
     },
     selectedDenom: {
       type: String,
-      default: ``
+      default: ``,
     },
     chainAppliedFees: {
       type: Number,
-      default: 0
+      default: 0,
     },
     transactionType: {
       type: String,
-      default: "UnknownTx"
-    }
+      default: "UnknownTx",
+    },
   },
   data: () => ({
     step: defaultStep,
@@ -434,7 +427,7 @@ export default {
     smallestAmount: SMALLEST,
     balancesLoaded: false,
     gasEstimateLoaded: false,
-    polkadotFee: 0
+    polkadotFee: 0,
   }),
   asyncComputed: {
     async estimatedFee() {
@@ -459,7 +452,7 @@ export default {
           messageType: type,
           message,
           senderAddress: this.session.address,
-          network: this.network
+          network: this.network,
         })
         this.gasEstimateLoaded = true
         this.polkadotFee = fee
@@ -470,7 +463,7 @@ export default {
         this.gasEstimateLoaded = true
       }
       return 0
-    }
+    },
   },
   computed: {
     ...mapState([`extension`, `session`]),
@@ -478,7 +471,7 @@ export default {
       `connected`,
       `isExtensionAccount`,
       `networks`,
-      `currentNetwork`
+      `currentNetwork`,
     ]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
@@ -503,8 +496,12 @@ export default {
     },
     invoiceTotal() {
       if (
+        this.gasEstimate &&
         Number(this.subTotal) + this.estimatedFee >
-        this.selectedBalance.amount
+          this.selectedBalance.amount &&
+        // emoney-mainnet and kava-mainnet don't allow discounts on fees
+        this.networkId !== "emoney-mainnet" &&
+        this.networkId !== "kava-mainnet"
       ) {
         this.adjustFeesToMaxPayable()
       }
@@ -549,7 +546,7 @@ export default {
     selectedBalance() {
       const defaultBalance = {
         amount: 0,
-        gasPrice: 4e-7 // the defaultBalance gas price should be the highest we know of to be sure that no transaction gets out of gas
+        gasPrice: 4e-7, // the defaultBalance gas price should be the highest we know of to be sure that no transaction gets out of gas
       }
       if (this.balances.length === 0 || !this.network) {
         return defaultBalance
@@ -563,7 +560,7 @@ export default {
       // some API responses don't have gasPrices set
       if (!balance.gasPrice) balance.gasPrice = defaultBalance.gasPrice
       return balance
-    }
+    },
   },
   watch: {
     // if there is only one sign method, preselect it
@@ -573,15 +570,15 @@ export default {
         if (signMethods.length === 1) {
           this.selectedSignMethod = signMethods[0].value
         }
-      }
+      },
     },
     selectedBalance: {
       handler(selectedBalance) {
         this.gasPrice = selectedBalance.gasPrice
-      }
-    }
+      },
+    },
   },
-  updated: function() {
+  updated: function () {
     if (
       (this.title === "Withdraw" || this.step === "fees") &&
       this.$refs.next
@@ -724,11 +721,9 @@ export default {
     // limit fees to the maximum the user has
     adjustFeesToMaxPayable() {
       let payable = Number(this.subTotal)
-      // in terra we also have to pay the tax
-      // TODO refactor using a `fixedFee` property
-      if (this.chainAppliedFees) {
-        payable += this.chainAppliedFees
-      }
+      // chainAppliedFees defaults to 0 so we can just add it
+      payable += this.chainAppliedFees
+
       this.gasPrice =
         (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
       // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
@@ -760,10 +755,10 @@ export default {
                 : this.gasEstimate, // 1e-9 is a hack to avoid Go unmarshal errors
               gasPrice: {
                 amount: this.chainAppliedFees ? 1e-9 : this.gasPrice,
-                denom: this.getDenom
+                denom: this.getDenom,
               },
               senderAddress: this.session.address,
-              network: this.network
+              network: this.network,
             }
           )
         }
@@ -771,8 +766,9 @@ export default {
           transactionData = {
             fee: {
               amount: this.polkadotFee,
-              denom: this.getDenom
-            }
+              denom: this.getDenom,
+            },
+            addressRole: this.session.addressRole,
           }
         }
 
@@ -783,7 +779,7 @@ export default {
           senderAddress: this.session.address,
           network: this.network,
           signingType: this.selectedSignMethod,
-          password: this.password
+          password: this.password,
         })
 
         const { hash } = hashResult
@@ -806,7 +802,7 @@ export default {
       this.sendEvent(
         {
           network: this.network.id,
-          address: this.session.address
+          address: this.session.address,
         },
         "Action",
         "Modal",
@@ -820,7 +816,7 @@ export default {
     },
     onSendingFailed(error) {
       /* istanbul ignore next */
-      Sentry.withScope(scope => {
+      Sentry.withScope((scope) => {
         scope.setExtra("signMethod", this.selectedSignMethod)
         scope.setExtra("transactionData", this.transactionData)
         scope.setExtra("gasEstimate", this.gasEstimate)
@@ -833,7 +829,7 @@ export default {
     },
     maxDecimals(value, decimals) {
       return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
-    }
+    },
   },
   validations() {
     return {
@@ -842,7 +838,7 @@ export default {
           () =>
             this.selectedSignMethod === SIGN_METHODS.LOCAL &&
             this.step === signStep
-        )
+        ),
       },
       gasPrice: {
         required: requiredIf(
@@ -850,11 +846,11 @@ export default {
         ),
         // we don't use SMALLEST as min gas price because it can be a fraction of uatom
         // min is 0 because we support sending 0 fees
-        max: x => Number(x) <= this.selectedBalance.amount
+        max: (x) => Number(x) <= this.selectedBalance.amount,
       },
       invoiceTotal: {
-        max: x => Number(x) <= this.selectedBalance.amount
-      }
+        max: (x) => Number(x) <= this.selectedBalance.amount,
+      },
     }
   },
   apollo: {
@@ -872,7 +868,7 @@ export default {
       variables() {
         return {
           networkId: this.networkId,
-          address: this.session.address
+          address: this.session.address,
         }
       },
       /* istanbul ignore next */
@@ -883,7 +879,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.session.address
-      }
+      },
     },
     gasEstimate: {
       query: gql`
@@ -903,7 +899,7 @@ export default {
       variables() {
         return {
           networkId: this.networkId,
-          transactionType: this.transactionType
+          transactionType: this.transactionType,
         }
       },
       /* istanbul ignore next */
@@ -921,7 +917,7 @@ export default {
           this.step !== feeStep ||
           this.network.network_type !== "cosmos"
         )
-      }
+      },
     },
     $subscribe: {
       userTransactionAdded: {
@@ -929,7 +925,7 @@ export default {
         variables() {
           return {
             networkId: this.networkId,
-            address: this.session.address
+            address: this.session.address,
           }
         },
         /* istanbul ignore next */
@@ -949,10 +945,10 @@ export default {
             }
           }
           this.txHash = null
-        }
-      }
-    }
-  }
+        },
+      },
+    },
+  },
 }
 </script>
 
@@ -1032,6 +1028,10 @@ export default {
   width: 100%;
 }
 
+.tm-form-group__field {
+  position: relative;
+}
+
 .action-modal-footer .tm-form-group .tm-form-group__field button {
   width: 100%;
 }
@@ -1048,14 +1048,6 @@ export default {
 
 .action-modal-footer .tm-form-group {
   padding: 0;
-}
-
-.waiting-fees-message {
-  color: var(--warning);
-  font-size: var(--sm);
-  font-style: italic;
-  margin-bottom: 0;
-  padding-top: 1rem;
 }
 
 .submission-error {
@@ -1081,10 +1073,6 @@ export default {
 .slide-fade-leave-to {
   transform: translateX(2rem);
   opacity: 0;
-}
-
-.tm-form-group__field {
-  position: relative;
 }
 
 #send-modal .tm-data-msg {

@@ -13,7 +13,7 @@ localVue.directive("focus-last", focusParentLast)
 localVue.directive("clipboard", () => {})
 
 jest.mock("scripts/ledger", () => ({
-  getAddressFromLedger: () => "cosmos1234"
+  getAddressFromLedger: () => "cosmos1234",
 }))
 
 describe(`TmSessionHardware`, () => {
@@ -22,8 +22,8 @@ describe(`TmSessionHardware`, () => {
   beforeEach(() => {
     store = new Vuex.Store({
       state: {
-        session: { browserWithLedgerSupport: true }
-      }
+        session: { browserWithLedgerSupport: true },
+      },
     })
 
     wrapper = mount(TmSessionHardware, {
@@ -31,10 +31,10 @@ describe(`TmSessionHardware`, () => {
       store,
       mocks: {
         router: {
-          push: jest.fn()
-        }
+          push: jest.fn(),
+        },
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
     store.commit = jest.fn()
   })
@@ -65,10 +65,10 @@ describe(`TmSessionHardware`, () => {
   describe(`sign in`, () => {
     it(`signs in if Ledger is connected and app is open and address is confirmed`, async () => {
       const $store = {
-        dispatch: jest.fn(() => "cosmos1234")
+        dispatch: jest.fn(() => "cosmos1234"),
       }
       const $router = {
-        push: jest.fn()
+        push: jest.fn(),
       }
       const self = {
         $store,
@@ -76,26 +76,27 @@ describe(`TmSessionHardware`, () => {
         status: `connect`,
         connectionError: null,
         setStatus: jest.fn(),
-        setConnectionError: jest.fn(error => (self.connectionError = error)),
-        confirmAddress: jest.fn(() => true)
+        setConnectionError: jest.fn((error) => (self.connectionError = error)),
+        confirmAddress: jest.fn(() => true),
       }
       await TmSessionHardware.methods.signIn.call(self)
       expect(self.connectionError).toBeNull()
       expect(self.$store.dispatch).toHaveBeenCalledWith(`signIn`, {
         sessionType: `ledger`,
-        address: "cosmos1234"
+        address: "cosmos1234",
       })
     })
 
     it(`doesn't sign in if ledger not connected`, async () => {
       jest.resetModules()
       jest.doMock("scripts/ledger", () => ({
-        getAddressFromLedger: () => Promise.reject(new Error(`No Ledger found`))
+        getAddressFromLedger: () =>
+          Promise.reject(new Error(`No Ledger found`)),
       }))
       const TmSessionHardware = require("common/TmSessionHardware").default
 
       const $store = {
-        dispatch: jest.fn(() => "cosmos1234")
+        dispatch: jest.fn(() => "cosmos1234"),
       }
 
       const self = {
@@ -103,7 +104,7 @@ describe(`TmSessionHardware`, () => {
         status: `connect`,
         connectionError: null,
         setStatus: jest.fn(),
-        setConnectionError: jest.fn(error => (self.connectionError = error))
+        setConnectionError: jest.fn((error) => (self.connectionError = error)),
       }
       await TmSessionHardware.methods.signIn.call(self)
       expect(self.connectionError).toBe(`No Ledger found`)
@@ -118,8 +119,8 @@ describe(`TmSessionHardware`, () => {
         navigator: {
           hid: undefined,
           platform: "Win64",
-          userAgent: "Chrome"
-        }
+          userAgent: "Chrome",
+        },
       })
 
       expect(wrapper.html()).toMatchSnapshot()
@@ -132,8 +133,8 @@ describe(`TmSessionHardware`, () => {
       wrapper.setData({
         navigator: {
           platform: "Linux i686",
-          userAgent: "Chrome"
-        }
+          userAgent: "Chrome",
+        },
       })
 
       expect(wrapper.html()).toMatchSnapshot()

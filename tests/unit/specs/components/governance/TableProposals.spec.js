@@ -11,16 +11,16 @@ describe(`TableProposals`, () => {
   beforeEach(() => {
     $store = {
       commit: jest.fn(),
-      dispatch: jest.fn()
+      dispatch: jest.fn(),
     }
 
     wrapper = mount(TableProposals, {
       localVue,
       propsData: { proposals },
       mocks: {
-        $store
+        $store,
       },
-      stubs: [`router-link`]
+      stubs: [`router-link`],
     })
   })
 

@@ -27,12 +27,12 @@ export default {
   props: {
     width: {
       type: String,
-      default: ``
+      default: ``,
     },
     submit: {
       type: Function,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
     hasHeader() {
@@ -40,8 +40,8 @@ export default {
     },
     hasFooter() {
       return this.$slots[`footer`]
-    }
-  }
+    },
+  },
 }
 </script>
 
