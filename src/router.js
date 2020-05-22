@@ -47,7 +47,11 @@ export const routeGuard = (store) => async (to, from, next) => {
     store.commit(`addHistory`, from.fullPath)
   }
 
-  await setNetwork({ to, from, next }, store)
+  if (to.params.networkId) {
+    await setNetwork({ to, from, next }, store)
+  } else {
+    next()
+  }
 }
 
 /* istanbul ignore next */
