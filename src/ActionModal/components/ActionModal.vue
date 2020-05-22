@@ -85,7 +85,7 @@
           </TmFormGroup>
           <TableInvoice
             :amount="Number(subTotal)"
-            :estimated-fee="alternativeEstimatedFee || estimatedFee"
+            :estimated-fee="payableFee"
             :bond-denom="getDenom"
             :fee-denom="alternativeFeeDenom"
           />
@@ -477,6 +477,9 @@ export default {
       `currentNetwork`,
     ]),
     ...mapGetters({ networkId: `network` }),
+    payableFee() {
+      return this.alternativeEstimatedFee || this.estimatedFee
+    },
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
       // DEPRECATE to support the upgrade of the old Boolean value to the new ENUM capability model, we support here temporarily the upgrade from the Boolean model to the ENUM model
@@ -517,9 +520,7 @@ export default {
       ) {
         this.alternativeFeeSelector()
       }
-      return this.alternativeEstimatedFee
-        ? Number(this.subTotal) + this.alternativeEstimatedFee
-        : Number(this.subTotal) + this.estimatedFee
+      return Number(this.subTotal) + this.payableFee
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
