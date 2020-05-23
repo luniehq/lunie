@@ -62,7 +62,7 @@ async function waitForText(
   timeout = 300
 ) {
   await browser.waitForElementVisible(selector, 10000)
-  while(iterations--) {
+  while (iterations--) {
     const { value: text } = await browser.getText(selector)
     if (text && text.trim() === expectedCaption) return
     await browser.pause(timeout)
@@ -73,7 +73,9 @@ async function waitForText(
 async function getLastActivityItemHash(browser) {
   await browser.waitForElementVisible(".tx-container .tx", 10000)
   await browser.click(".tx-container .tx")
-  const {value: hash} = await browser.getText(".tx-container:nth-of-type(1) .hash")
+  const { value: hash } = await browser.getText(
+    ".tx-container:nth-of-type(1) .hash"
+  )
   return hash
 }
 
@@ -141,7 +143,7 @@ async function actionModalCheckout(
 
   // remember fees
   const { value } = await browser.getText(
-    ".table-invoice li:nth-child(2) span:last-child",
+    ".table-invoice li:nth-child(2) span:last-child"
   )
   const fees = numeral(value).value()
 
@@ -156,9 +158,7 @@ async function actionModalCheckout(
 
   await browser.expect.element(".success-step").to.be.present.before(30 * 1000)
   // wait for success-step modal
-  await browser.expect
-    .element("#closeBtn")
-    .to.be.present.before(30 * 1000)
+  await browser.expect.element("#closeBtn").to.be.present.before(30 * 1000)
   await browser.click("#closeBtn")
   // go to portfolio to remember balances
   await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
@@ -212,7 +212,9 @@ async function getAccountBalance(browser) {
       browser.globals.denom = total.split(" ")[1]
       browser.globals.totalAtoms = total.split(" ")[0]
 
-      const { value: availableAtoms } = await browser.getText(".available-amount")
+      const { value: availableAtoms } = await browser.getText(
+        ".available-amount"
+      )
       browser.globals.availableAtoms = availableAtoms.split(" ")[0]
     }
   )
@@ -224,7 +226,9 @@ async function nextBlock(browser) {
   browser.expect
     .element(`#tm-connected-network__block`)
     .to.be.visible.before(10000)
-  const { value: lastHeight } = await browser.getText("#tm-connected-network__block")
+  const { value: lastHeight } = await browser.getText(
+    "#tm-connected-network__block"
+  )
   browser.expect
     .element("#tm-connected-network__block")
     .text.not.to.equal(lastHeight)
