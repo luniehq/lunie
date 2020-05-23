@@ -896,13 +896,18 @@ export default {
       variables() {
         let { type, ...message } = this.transactionData
         delete message.memo
-        // Make sure amount is String to query for fee
-        message = {
-          ...message,
-          amount: {
-            denom: message.amount.denom,
+        // make sure the amounts are strings when sending
+        if (message.amount) {
+          message.amount = {
             amount: String(message.amount.amount),
-          },
+            denom: message.amount.denom
+          }
+        }
+        if (message.amounts) {
+          message.amounts = message.amounts.map(({amount, denom}) => ({
+            amount: String(amount),
+            denom
+          }))
         }
         return {
           networkId: this.networkId,

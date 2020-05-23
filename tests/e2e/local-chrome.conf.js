@@ -3,10 +3,9 @@ const chromedriver = require("chromedriver")
 const nightwatch_config = {
   src_folders: ["./tests/e2e/"],
   output_folder: "./output",
-  globals_path: "./globals.js",
+  globals_path: "./nightwatchGlobals.js",
   disable_colors: false,
   test_workers: false,
-  launch_url: "http://localhost:9080",
   webdriver: {
     start_process: true,
     port: 9515,
@@ -48,6 +47,7 @@ const nightwatch_config = {
   },
   test_settings: {
     default: {
+      launch_url: "http://localhost:9080",
       silent: true,
       filter: ["*.spec.js"],
     },

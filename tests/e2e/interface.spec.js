@@ -2,21 +2,8 @@ module.exports = {
   "Validators search": async function (browser) {
     // move to according page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
-
-    // wait until validators list load
-    let validatorNames
-    for (let attempts = 5; attempts > 0; attempts--) {
-      validatorNames = await getValidators(browser)
-
-      // checking validators
-      if (validatorNames.length === 0) {
-        await sleep()
-        continue
-      }
-    }
-    if (validatorNames.length < 2) {
-      throw new Error(`Not enough validators to check`)
-    }
+    await browser.waitForElementVisible(".li-validator", 10000)
+    const validatorNames = await getValidators(browser)
 
     const searchTestStrings = ["validator", "stake", "~~"]
     for (let index = 0; index < searchTestStrings.length; index++) {
@@ -70,15 +57,12 @@ function isSameArray(array1, array2) {
 }
 
 async function getValidators(browser) {
-  const { value } = await browser.execute(
-    function () {
-      const validatorLIs = document.getElementsByClassName("li-validator")
-      return Array.from(validatorLIs).map((item) =>
-        item.getAttribute("data-name")
-      )
-    },
-    [browser]
-  )
+  const { value } = await browser.execute(function () {
+    const validatorLIs = document.getElementsByClassName("li-validator")
+    return Array.from(validatorLIs).map((item) =>
+      item.getAttribute("data-name")
+    )
+  })
 
   return value
 }
