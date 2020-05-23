@@ -47,7 +47,6 @@
     "axios": "^0.19.2",
     "bech32": "^1.1.4",
     "bignumber.js": "^9.0.0",
-    "camelcase": "^5.3.0",
     "capacitor-intercom": "0.2.3",
     "core-js": "^2.6.5",
     "cosmos-apiV0": "npm:@lunie/cosmos-api@0.1.x",
