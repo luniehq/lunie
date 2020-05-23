@@ -657,6 +657,7 @@ export default {
       this.show = false
       this.sending = false
       this.includedHeight = undefined
+      this.networkFeesLoaded = false
 
       // reset form
       // in some cases $v is not yet set
@@ -893,13 +894,15 @@ export default {
       query: gql`
         query NetworkFees(
           $networkId: String!
-          $transactionType: String
-          $fee: Fee
+          $messageType: String!
+          $message: TransactionDetailsInput!
+          $senderAddress: String!
         ) {
           networkFees(
             networkId: $networkId
-            transactionType: $transactionType
-            fee: $fee
+            messageType: $messageType
+            message: $message
+            senderAddress: $senderAddress
           ) {
             gasEstimate
             fee {
@@ -911,10 +914,21 @@ export default {
       `,
       /* istanbul ignore next */
       variables() {
+        let { type, ...message } = this.transactionData
+        delete message.memo
+        // Make sure amount is String to query for fee
+        message = {
+          ...message,
+          amount: {
+            denom: message.amount.denom,
+            amount: String(message.amount.amount),
+          },
+        }
         return {
           networkId: this.networkId,
-          transactionType: this.transactionType,
-          fee: this.feeInput,
+          messageType: type,
+          message,
+          senderAddress: this.session.address,
         }
       },
       /* istanbul ignore next */
