@@ -63,7 +63,7 @@ module.exports = {
 }
 
 async function next(browser) {
-  browser.execute(
+  await browser.execute(
     function (selector, scrollX, scrollY) {
       var elem = document.querySelector(selector)
       elem.scrollLeft = scrollX
@@ -143,111 +143,88 @@ async function initialiseDefaults(browser) {
     }
   }
   // open default page
-  await browser
-    .url(browser.launch_url + browser.globals.slug + "/portfolio")
-    .then(() => {
-      browser.execute(
-        function (apiURI, network) {
-          // setting the api to localStorage
-          window.localStorage.setItem("persistentapi", apiURI)
-          // clear data from older tests
-          window.localStorage.removeItem(`cosmos-wallets-index`)
-          window.localStorage.setItem(`network`, `"${network}"`)
-          window.localStorage.setItem(`isE2eTest`, `"true"`)
-        },
-        [apiURI, network]
-      )
-    })
+  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+  await browser.execute(
+    function (apiURI, network) {
+      // setting the api to localStorage
+      window.localStorage.setItem("persistentapi", apiURI)
+      // clear data from older tests
+      window.localStorage.removeItem(`cosmos-wallets-index`)
+      window.localStorage.setItem(`network`, `"${network}"`)
+      window.localStorage.setItem(`isE2eTest`, `"true"`)
+    },
+    [apiURI, network]
+  )
   return networkData
 }
 
 async function defineNeededValidators(browser, networkData) {
   // need to store validators, cause they can shuffle during the test
-  await browser.url(
-    browser.launch_url + browser.globals.slug + "/validators",
-    async () => {
-      const validators = await browser.execute(
-        function () {
-          return new Promise((resolve) => {
-            let attempts = 5
-            const f = () => {
-              const validatorLIs = document.getElementsByClassName(
-                "li-validator"
-              )
-              if (validatorLIs.length < 2 && attempts-- > 0) {
-                setTimeout(f, 2000)
-                return false
-              }
-              if (validatorLIs.length < 2) {
-                throw new Error(`No enough validators to check`)
-              }
-              resolve({
-                first: validatorLIs[0].getAttribute("data-name"),
-                second: validatorLIs[1].getAttribute("data-name"),
-              })
-            }
-            f()
-          })
-        },
-        [browser, networkData]
-      )
-      browser.globals.validatorOneName = validators.value.first
-      browser.globals.validatorTwoName = validators.value.second
-    }
+  await browser.url(browser.launch_url + browser.globals.slug + "/validators")
+  await browser.waitForElementVisible(".li-validator")
+  const validators = await browser.execute(
+    function () {
+      const validatorLIs = document.getElementsByClassName("li-validator")
+      if (validatorLIs.length < 2) {
+        throw new Error(`No enough validators to check`)
+      }
+      return {
+        first: validatorLIs[0].getAttribute("data-name"),
+        second: validatorLIs[1].getAttribute("data-name"),
+      }
+    },
+    [browser, networkData]
   )
+  browser.globals.validatorOneName = validators.value.first
+  browser.globals.validatorTwoName = validators.value.second
 }
 
 async function storeAccountData(browser, networkData) {
   // refreshing and saving all needed info of a newly created account
   await browser.pause(500) // needed for localStorage variable setting
-  return await browser.url(browser.launch_url, async () => {
-    const tempAcc = await browser.execute(
-      function (networkData) {
-        // saving account info from localStorage
-        let session = window.localStorage.getItem(
-          `session_${networkData.network}`
+  await browser.url(browser.launch_url)
+  const tempAcc = await browser.execute(
+    function (networkData) {
+      // saving account info from localStorage
+      let session = window.localStorage.getItem(
+        `session_${networkData.network}`
+      )
+      let wallet
+      if (session) {
+        session = JSON.parse(session)
+        wallet = window.localStorage.getItem(
+          `cosmos-wallets-${session.address}`
         )
-        let wallet
-        if (session) {
-          session = JSON.parse(session)
-          wallet = window.localStorage.getItem(
-            `cosmos-wallets-${session.address}`
-          )
-          if (wallet) {
-            wallet = JSON.parse(wallet)
-          } else {
-            throw new Error(
-              `No wallet info for newly created account in ${networkData.network}`
-            )
-          }
+        if (wallet) {
+          wallet = JSON.parse(wallet)
         } else {
           throw new Error(
-            `No session info for newly created account in ${networkData.network}`
+            `No wallet info for newly created account in ${networkData.network}`
           )
         }
-        return {
-          address: session.address,
-          wallet: wallet.wallet,
-        }
-      },
-      [networkData]
-    )
-    // wallet info
-    browser.globals.wallet = tempAcc.value.wallet
-    // address
-    browser.globals.address = tempAcc.value.address
-    return true
-  })
+      } else {
+        throw new Error(
+          `No session info for newly created account in ${networkData.network}`
+        )
+      }
+      return {
+        address: session.address,
+        wallet: wallet.wallet,
+      }
+    },
+    [networkData]
+  )
+  // wallet info
+  browser.globals.wallet = tempAcc.value.wallet
+  // address
+  browser.globals.address = tempAcc.value.address
+  return true
 }
 
 async function fundingTempAccount(browser, networkData) {
   // remember the hash of the last transaction
-  await browser.url(
-    browser.launch_url + browser.globals.slug + "/transactions",
-    async () => {
-      browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
-    }
-  )
+  await browser.url(browser.launch_url + browser.globals.slug + "/transactions")
+  browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
   return browser.url(
     browser.launch_url + browser.globals.slug + "/portfolio",
     async () => {
@@ -334,51 +311,48 @@ async function switchToAccount(
   browser.globals.stakeAmount = stakeAmount
   browser.globals.restakeAmount = restakeAmount
   // test if the test account was funded as we need the account to have funds in the tests
-  return axios
-    .post(browser.globals.apiURI, {
-      query: `{overview(networkId: "${network}", address: "${address}") {totalStake}}`,
-    })
-    .then(async (response) => {
-      if (response.data.errors) {
-        throw new Error(JSON.stringify(response.data.errors))
-      }
-      if (Number(response.data.data.overview.totalStake) === 0) {
-        throw new Error(`Account ${address} in ${network} has no funds`)
-      }
-      await browser.url(browser.launch_url)
-      await browser.execute(
-        function ({ address, network, wallet, name }) {
-          // setting network
-          window.localStorage.setItem(`network`, `"${network}"`)
-          // skip sign in
-          window.localStorage.setItem(
-            `session_${network}`,
-            JSON.stringify({
-              address: address,
-              sessionType: "local",
-            })
-          )
-          // setting wallet
-          window.localStorage.setItem(
-            `cosmos-wallets-${address}`,
-            JSON.stringify({
-              name: name,
-              wallet: wallet,
-              address: address,
-            })
-          )
-          return true
-        },
-        [{ address, network, wallet, name }]
+  const response = await axios.post(browser.globals.apiURI, {
+    query: `{overview(networkId: "${network}", address: "${address}") {totalStake}}`,
+  })
+  if (response.data.errors) {
+    throw new Error(JSON.stringify(response.data.errors))
+  }
+  if (Number(response.data.data.overview.totalStake) === 0) {
+    throw new Error(`Account ${address} in ${network} has no funds`)
+  }
+  await browser.url(browser.launch_url)
+  await browser.execute(
+    function ({ address, network, wallet, name }) {
+      // setting network
+      window.localStorage.setItem(`network`, `"${network}"`)
+      // skip sign in
+      window.localStorage.setItem(
+        `session_${network}`,
+        JSON.stringify({
+          address: address,
+          sessionType: "local",
+        })
       )
-      browser.refresh()
-      await getAccountBalance(browser)
-      // wait until on portfolio page to make sure future tests have the same state
-      browser.expect.element(".balance-header").to.be.visible.before(10000)
-      // switching to homepage
-      await browser.url(browser.launch_url)
+      // setting wallet
+      window.localStorage.setItem(
+        `cosmos-wallets-${address}`,
+        JSON.stringify({
+          name: name,
+          wallet: wallet,
+          address: address,
+        })
+      )
       return true
-    })
+    },
+    [{ address, network, wallet, name }]
+  )
+  browser.refresh()
+  await getAccountBalance(browser)
+  // wait until on portfolio page to make sure future tests have the same state
+  browser.expect.element(".balance-header").to.be.visible.before(10000)
+  // switching to homepage
+  await browser.url(browser.launch_url)
+  return true
 }
 
 async function apiUp(browser) {

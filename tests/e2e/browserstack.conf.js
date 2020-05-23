@@ -3,10 +3,10 @@ const nightwatch_config = {
   globals_path: "./nightwatchGlobals.js",
   output_folder: "./output",
   launch_url: "http://127.0.0.1:9080",
-  "selenium_host": "hub-cloud.browserstack.com",
-  "selenium_port": 80,
+  selenium_host: "hub-cloud.browserstack.com",
+  selenium_port: 80,
   webdriver: {
-    default_path_prefix: '/wd/hub'
+    default_path_prefix: "/wd/hub",
   },
 
   test_settings: {

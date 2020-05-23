@@ -20,23 +20,19 @@ module.exports = {
 
     browser.waitForElementVisible("#recover-with-backup", 10000, true)
     // scroll to bottom
-    browser.execute("window.scrollTo(0,document.body.scrollHeight);")
+    await browser.execute("window.scrollTo(0,document.body.scrollHeight);")
     browser.click("#recover-with-backup")
 
     await browser.waitForElementVisible(
       `.select-network-item[data-network=cosmos-hub-mainnet]`,
       10000,
-      true,
-      () => {
-        browser.execute(function () {
-          document
-            .querySelector(
-              `.select-network-item[data-network=cosmos-hub-mainnet]`
-            )
-            .click()
-        }, [])
-      }
+      true
     )
+    await browser.execute(function () {
+      document
+        .querySelector(`.select-network-item[data-network=cosmos-hub-mainnet]`)
+        .click()
+    }, [])
 
     browser.waitForElementVisible("#import-seed", 10000, true)
     await next(browser)
@@ -70,7 +66,7 @@ module.exports = {
 }
 
 async function next(browser) {
-  browser.execute(
+  await browser.execute(
     function (selector, scrollX, scrollY) {
       var elem = document.querySelector(selector)
       elem.scrollLeft = scrollX
