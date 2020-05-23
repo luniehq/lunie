@@ -164,37 +164,35 @@ async function initialiseDefaults(browser) {
 async function defineNeededValidators(browser, networkData) {
   // need to store validators, cause they can shuffle during the test
   await browser.url(
-    browser.launch_url + browser.globals.slug + "/validators",
-    async () => {
-      const validators = await browser.execute(
-        function () {
-          return new Promise((resolve) => {
-            let attempts = 5
-            const f = () => {
-              const validatorLIs = document.getElementsByClassName(
-                "li-validator"
-              )
-              if (validatorLIs.length < 2 && attempts-- > 0) {
-                setTimeout(f, 2000)
-                return false
-              }
-              if (validatorLIs.length < 2) {
-                throw new Error(`No enough validators to check`)
-              }
-              resolve({
-                first: validatorLIs[0].getAttribute("data-name"),
-                second: validatorLIs[1].getAttribute("data-name"),
-              })
-            }
-            f()
+    browser.launch_url + browser.globals.slug + "/validators")
+  await browser.waitForElementVisible(`.li-validator`, 10000, true)
+  const validators = await browser.execute(
+    function () {
+      return new Promise((resolve) => {
+        let attempts = 5
+        const f = () => {
+          const validatorLIs = document.getElementsByClassName(
+            "li-validator"
+          )
+          if (validatorLIs.length < 2 && attempts-- > 0) {
+            setTimeout(f, 2000)
+            return false
+          }
+          if (validatorLIs.length < 2) {
+            throw new Error(`No enough validators to check`)
+          }
+          resolve({
+            first: validatorLIs[0].getAttribute("data-name"),
+            second: validatorLIs[1].getAttribute("data-name"),
           })
-        },
-        [browser, networkData]
-      )
-      browser.globals.validatorOneName = validators.value.first
-      browser.globals.validatorTwoName = validators.value.second
-    }
+        }
+        f()
+      })
+    },
+    [browser, networkData]
   )
+  browser.globals.validatorOneName = validators.value.first
+  browser.globals.validatorTwoName = validators.value.second
 }
 
 async function storeAccountData(browser, networkData) {
