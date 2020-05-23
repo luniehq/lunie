@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Nightwatch",
+            "program": "${workspaceRoot}/node_modules/nightwatch/bin/runner.js",
+            "stopOnEntry": false,
+            "args": [
+                       "--config",
+                       "./tests/e2e/local-chrome.conf.js",
+                       "--fe=https://app.lunie.io",
+                       "--api=https://staging-api.lunie.io"
+                    ],           
+             "runtimeExecutable": null,
+             "sourceMaps": false,
+             "runtimeArgs": [
+                 "--inspect"
+             ],
+             "env": {
+                "PASSWORD": "1234567890"
+             }
+        }
+    ]
+}
