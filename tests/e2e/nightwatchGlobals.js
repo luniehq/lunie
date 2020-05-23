@@ -22,7 +22,7 @@ module.exports = {
     // standardize window format
     browser.resizeWindow(1350, 1080)
 
-    browser.launch_url = browser.globals.feURI
+    // browser.launch_url = browser.globals.feURI
     // default settings
     let networkData = await initialiseDefaults(browser)
     networkData.password = process.env.PASSWORD
