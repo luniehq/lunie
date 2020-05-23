@@ -6,6 +6,7 @@ const {
   actionModalCheckout,
   waitForText,
   getLastActivityItemHash,
+  waitForHashUpdate,
   checkBrowserLogs,
   getAccountBalance,
   fundMasterAccount,
@@ -210,7 +211,7 @@ async function storeAccountData(browser, networkData) {
 async function fundingTempAccount(browser, networkData) {
   // remember the hash of the last transaction
   await browser.url(browser.launch_url + browser.globals.slug + "/transactions")
-  browser.globals.lastHash = await getLastActivityItemHash(browser)
+  const lastHash = await getLastActivityItemHash(browser)
   await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
   await actionModalCheckout(
     browser,
@@ -239,15 +240,8 @@ async function fundingTempAccount(browser, networkData) {
     ".tx:nth-of-type(1) .tx__content .tx__content__right",
     `${networkData.fundingAmount} ${browser.globals.denom}`
   )
-  let iterations = 20
-  while (iterations--) {
-    let hash = await getLastActivityItemHash(browser)
-    if (hash !== browser.globals.lastHash) {
-      return
-    }
-    await browser.pause(300)
-  }
-  throw new Error(`Hash didn't changed!`)
+
+  await waitForHashUpdate(browser, lastHash)
 }
 
 async function createAccountAndFundIt(browser, done, networkData) {

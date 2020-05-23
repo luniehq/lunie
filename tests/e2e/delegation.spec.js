@@ -3,6 +3,7 @@ const {
   waitForText,
   getAccountBalance,
   getLastActivityItemHash,
+  waitForHashUpdate
 } = require("./helpers.js")
 
 async function setSelect(browser, selector, option) {
@@ -26,7 +27,7 @@ module.exports = {
     await browser.url(
       browser.launch_url + browser.globals.slug + "/transactions"
     )
-    browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
+    const lastHash = await getLastActivityItemHash(browser)
 
     // move to according page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
@@ -63,16 +64,14 @@ module.exports = {
       ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
       `${value} ${browser.globals.denom}`
     )
-    let hash = (await getLastActivityItemHash(browser)).value
-    if (hash == browser.globals.lastHash) {
-      throw new Error(`Hash didn't changed!`)
-    }
+    
+    await waitForHashUpdate(browser, lastHash)
   },
   "Redelegate Action": async function (browser) {
     await browser.url(
       browser.launch_url + browser.globals.slug + "/transactions"
     )
-    browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
+    const lastHash = await getLastActivityItemHash(browser)
 
     // move to validator page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
@@ -111,16 +110,14 @@ module.exports = {
       ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
       `${value} ${browser.globals.denom}`
     )
-    let hash = (await getLastActivityItemHash(browser)).value
-    if (hash == browser.globals.lastHash) {
-      throw new Error(`Hash didn't changed!`)
-    }
+    
+    await waitForHashUpdate(browser, lastHash)
   },
   "Undelegate Action": async function (browser) {
     await browser.url(
       browser.launch_url + browser.globals.slug + "/transactions"
     )
-    browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
+    const lastHash = await getLastActivityItemHash(browser)
 
     // be sure that the balance has updated, if we don't wait, the baseline (balance) shifts
     //await nextBlock(browser)
@@ -163,9 +160,7 @@ module.exports = {
       ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
       `${value} ${browser.globals.denom}`
     )
-    let hash = (await getLastActivityItemHash(browser)).value
-    if (hash == browser.globals.lastHash) {
-      throw new Error(`Hash didn't changed!`)
-    }
+    
+    await waitForHashUpdate(browser, lastHash)
   },
 }

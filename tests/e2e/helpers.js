@@ -79,6 +79,18 @@ async function getLastActivityItemHash(browser) {
   return hash
 }
 
+async function waitForHashUpdate(browser, lastHash) {
+  let iterations = 20
+  while (iterations--) {
+    let hash = await getLastActivityItemHash(browser)
+    if (hash !== lastHash) {
+      return
+    }
+    await browser.pause(300)
+  }
+  throw new Error(`Hash didn't changed!`)
+}
+
 // fetching errors from console
 async function checkBrowserLogs(browser) {
   browser.getLog("browser", function (logEntriesArray) {
@@ -243,6 +255,7 @@ module.exports = {
   waitForText,
   actionModalCheckout,
   getLastActivityItemHash,
+  waitForHashUpdate,
   nextBlock,
   getAccountBalance,
   checkBrowserLogs,
