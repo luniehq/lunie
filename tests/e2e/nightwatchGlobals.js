@@ -217,7 +217,7 @@ async function fundingTempAccount(browser, networkData) {
     browser,
     ".circle-send-button",
     // actions to do on details page
-    () => {
+    async () => {
       await browser.setValue("#send-address", browser.globals.address)
       await browser.clearValue("#amount")
       await browser.setValue("#amount", networkData.fundingAmount)
