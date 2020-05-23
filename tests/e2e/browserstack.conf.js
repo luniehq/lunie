@@ -48,9 +48,11 @@ const nightwatch_config = {
       },
     },
     osx: {
-      os: "OS X",
-      os_version: "Mojave",
-      browserName: "Safari",
+      desiredCapabilities: {
+        os: "OS X",
+        os_version: "Mojave",
+        browserName: "Safari",
+      }
     },
   },
 }
