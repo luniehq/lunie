@@ -151,9 +151,7 @@ module.exports = {
     await waitForText(
       browser,
       ".tx:nth-of-type(1) .tx__content .tx__content__left",
-      `Unstaked`,
-      10,
-      2000
+      `Unstaked`
     )
     await waitForText(
       browser,
