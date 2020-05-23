@@ -210,7 +210,7 @@ async function storeAccountData(browser, networkData) {
 async function fundingTempAccount(browser, networkData) {
   // remember the hash of the last transaction
   await browser.url(browser.launch_url + browser.globals.slug + "/transactions")
-  browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
+  browser.globals.lastHash = await getLastActivityItemHash(browser)
   await browser.url(
     browser.launch_url + browser.globals.slug + "/portfolio")
   await actionModalCheckout(
@@ -243,7 +243,7 @@ async function fundingTempAccount(browser, networkData) {
     )
     let iterations = 20
     while (iterations--) {
-      let hash = (await getLastActivityItemHash(browser)).value
+      let hash = await getLastActivityItemHash(browser)
       if (hash !== browser.globals.lastHash) {
         return
       }
