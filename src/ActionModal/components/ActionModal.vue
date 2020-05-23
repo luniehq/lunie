@@ -449,10 +449,6 @@ export default {
       ) {
         return Number(this.networkFees.fee.amount)
       }
-      // in development we don't need to worry about fees. Next button won't be disabled
-      // if (this.session.developmentMode) {
-      //   this.networkFeesLoaded = true
-      // }
       return 0
     },
   },
