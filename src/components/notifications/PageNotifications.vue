@@ -1,9 +1,5 @@
 <template>
   <TmPage data-title="My alerts" hide-header>
-    <div class="header">
-      <h1>Notifications</h1>
-    </div>
-
     <TmDataMsg
       v-if="notifications.length === 0"
       icon="error"
@@ -16,10 +12,11 @@
       <div slot="subtitle">Don't worry, they are on their way!</div>
     </TmDataMsg>
 
-    <div
+    <router-link
       v-for="notification in notifications"
       :key="notification.id"
       class="notification"
+      :to="notification.link"
     >
       <div class="content">
         <img :src="notification.icon" />
@@ -28,7 +25,7 @@
         </div>
       </div>
       <i class="material-icons notranslate">chevron_right</i>
-    </div>
+    </router-link>
   </TmPage>
 </template>
 
@@ -105,15 +102,19 @@ export default {
 }
 
 .notification {
-  background-color: white;
+  background: var(--app-fg);
   margin: 0.5rem 0 0.5rem;
   border-radius: 0.25rem;
   display: flex;
-  color: darkgray;
+  color: var(--txt);
   align-items: center;
   padding: 1rem;
   justify-content: space-between;
   cursor: pointer;
+}
+
+.notification:hover {
+  background: var(--app-fg-hover);
 }
 
 img {
@@ -130,7 +131,6 @@ img {
 }
 
 .title {
-  color: var(--notification-title);
   font-weight: 400;
   overflow-wrap: anywhere; /** Important. Otherwise awful style bug */
 }

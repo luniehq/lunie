@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.201] - 2020-05-21
+
+### Added
+
+- [#3996](https://github.com/cosmos/lunie/issues/3996) Add Polkadot unstaking @faboweb
+
+### Changed
+
+- [#4081](https://github.com/cosmos/lunie/pull/4081) Adds a default Lunie theme (lunie-dark) @Bitcoinera
+- [#4102](https://github.com/cosmos/lunie/pull/4102) Hide zero rewards on PageValidator @Bitcoinera
+
+### Fixed
+
+- [#4094](https://github.com/cosmos/lunie/issues/4094) Fixes account role detection on switching networks @Bitcoinera
+- [#4103](https://github.com/cosmos/lunie/pull/4103) Fixes Kusama nominations replacing each other @Bitcoinera
+
+### Code Improvements
+
+- Updated avatar library @faboweb
+- updated linting and removed unused tm-toggle component @jbibla
+
 ## [1.0.200] - 2020-05-19
 
 ### Added
