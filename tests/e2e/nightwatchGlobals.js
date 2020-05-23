@@ -211,8 +211,7 @@ async function fundingTempAccount(browser, networkData) {
   // remember the hash of the last transaction
   await browser.url(browser.launch_url + browser.globals.slug + "/transactions")
   browser.globals.lastHash = await getLastActivityItemHash(browser)
-  await browser.url(
-    browser.launch_url + browser.globals.slug + "/portfolio")
+  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
   await actionModalCheckout(
     browser,
     ".circle-send-button",
@@ -228,28 +227,27 @@ async function fundingTempAccount(browser, networkData) {
     networkData.fundingAmount
   )
   // check if the hash is changed
-  await browser.url(
-    browser.launch_url + browser.globals.slug + "/transactions")
-            // check if tx shows
-      await waitForText(
-        browser,
-        ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
-        "Sent"
-      )
-      await waitForText(
-        browser,
-        ".tx:nth-of-type(1) .tx__content .tx__content__right",
-        `${networkData.fundingAmount} ${browser.globals.denom}`
-    )
-    let iterations = 20
-    while (iterations--) {
-      let hash = await getLastActivityItemHash(browser)
-      if (hash !== browser.globals.lastHash) {
-        return
-      }
-      await browser.pause(300)
+  await browser.url(browser.launch_url + browser.globals.slug + "/transactions")
+  // check if tx shows
+  await waitForText(
+    browser,
+    ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
+    "Sent"
+  )
+  await waitForText(
+    browser,
+    ".tx:nth-of-type(1) .tx__content .tx__content__right",
+    `${networkData.fundingAmount} ${browser.globals.denom}`
+  )
+  let iterations = 20
+  while (iterations--) {
+    let hash = await getLastActivityItemHash(browser)
+    if (hash !== browser.globals.lastHash) {
+      return
     }
-    throw new Error(`Hash didn't changed!`)
+    await browser.pause(300)
+  }
+  throw new Error(`Hash didn't changed!`)
 }
 
 async function createAccountAndFundIt(browser, done, networkData) {
