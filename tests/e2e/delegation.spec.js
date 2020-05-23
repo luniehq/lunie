@@ -77,7 +77,7 @@ module.exports = {
     // move to validator page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(
+    await browser.click(
       `.li-validator[data-name="${browser.globals.validatorTwoName}"]`
     )
     const value = browser.globals.restakeAmount
@@ -126,11 +126,11 @@ module.exports = {
     //await nextBlock(browser)
 
     // move to according page
-    browser.url(browser.launch_url + browser.globals.slug + "/validators")
+    await browser.url(browser.launch_url + browser.globals.slug + "/validators")
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(10000)
-    browser.click(
+    await browser.click(
       `.li-validator[data-name="${browser.globals.validatorOneName}"]`
     )
 
@@ -139,8 +139,8 @@ module.exports = {
       browser,
       "#undelegation-btn",
       // actions to do on details page
-      () => {
-        browser.setValue("#amount", value)
+      async () => {
+        await browser.setValue("#amount", value)
       },
       // expected subtotal
       "0"
