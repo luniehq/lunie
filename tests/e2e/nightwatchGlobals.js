@@ -67,28 +67,26 @@ async function next(browser) {
 }
 
 async function createNewAccount(browser, networkData) {
-  return browser.url(browser.launch_url + "/create", async () => {
-    await browser.waitForElementVisible(`body`, 10000, true)
-    await browser.waitForElementVisible("#sign-up-name", 10000, true)
-    browser.setValue("#sign-up-name", "demo-account")
-    await next(browser)
-    browser.waitForElementVisible("#sign-up-password", 10000, true)
-    await next(browser)
-    browser.setValue("#sign-up-password", networkData.password)
-    browser.setValue("#sign-up-password-confirm", networkData.password)
-    await next(browser)
-    browser.waitForElementVisible(".seed-table", 10000, true)
-    browser.expect
-      .element(".seed-table")
-      .text.to.match(/(\d+\s+\w+\s+){23}\d+\s+\w+/)
-      .before(10000)
-    await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
-    browser.click("#sign-up-warning")
-    await next(browser)
-    browser.waitForElementVisible(".balance-header", 20000, true) // wait until signup is completed
-    return true
-  })
+  await browser.url(browser.launch_url + "/create")
+  await browser.waitForElementVisible(`body`, 10000, true)
+  await browser.waitForElementVisible("#sign-up-name", 10000, true)
+  browser.setValue("#sign-up-name", "demo-account")
+  await next(browser)
+  browser.waitForElementVisible("#sign-up-password", 10000, true)
+  await next(browser)
+  browser.setValue("#sign-up-password", networkData.password)
+  browser.setValue("#sign-up-password-confirm", networkData.password)
+  await next(browser)
+  browser.waitForElementVisible(".seed-table", 10000, true)
+  browser.expect
+    .element(".seed-table")
+    .text.to.match(/(\d+\s+\w+\s+){23}\d+\s+\w+/)
+    .before(10000)
+  await next(browser)
+  browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+  browser.click("#sign-up-warning")
+  await next(browser)
+  browser.waitForElementVisible(".balance-header", 20000, true) // wait until signup is completed
 }
 
 async function initialiseDefaults(browser) {
@@ -213,47 +211,45 @@ async function fundingTempAccount(browser, networkData) {
   // remember the hash of the last transaction
   await browser.url(browser.launch_url + browser.globals.slug + "/transactions")
   browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
-  return browser.url(
-    browser.launch_url + browser.globals.slug + "/portfolio",
-    async () => {
-      //browser.click(".modal-tutorial .close")
-      await actionModalCheckout(
-        browser,
-        ".circle-send-button",
-        // actions to do on details page
-        () => {
-          browser.setValue("#send-address", browser.globals.address)
-          browser.clearValue("#amount")
-          browser.setValue("#amount", networkData.fundingAmount)
-        },
-        // expected subtotal
-        networkData.fundingAmount,
-        networkData.fundingAmount,
-        networkData.fundingAmount
-      )
-      // check if the hash is changed
-      await browser.url(
-        browser.launch_url + browser.globals.slug + "/transactions",
-        async () => {
-          // check if tx shows
-          await waitForText(
-            browser,
-            ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
-            "Sent"
-          )
-          await waitForText(
-            browser,
-            ".tx:nth-of-type(1) .tx__content .tx__content__right",
-            `${networkData.fundingAmount} ${browser.globals.denom}`
-          )
-          let hash = (await getLastActivityItemHash(browser)).value
-          if (hash == browser.globals.lastHash) {
-            throw new Error(`Hash didn't changed!`)
-          }
-        }
-      )
-    }
+  await browser.url(
+    browser.launch_url + browser.globals.slug + "/portfolio")
+  await actionModalCheckout(
+    browser,
+    ".circle-send-button",
+    // actions to do on details page
+    () => {
+      browser.setValue("#send-address", browser.globals.address)
+      browser.clearValue("#amount")
+      browser.setValue("#amount", networkData.fundingAmount)
+    },
+    // expected subtotal
+    networkData.fundingAmount,
+    networkData.fundingAmount,
+    networkData.fundingAmount
   )
+  // check if the hash is changed
+  await browser.url(
+    browser.launch_url + browser.globals.slug + "/transactions")
+            // check if tx shows
+      await waitForText(
+        browser,
+        ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
+        "Sent"
+      )
+      await waitForText(
+        browser,
+        ".tx:nth-of-type(1) .tx__content .tx__content__right",
+        `${networkData.fundingAmount} ${browser.globals.denom}`
+    )
+    let iterations = 20
+    while (iterations--) {
+      let hash = (await getLastActivityItemHash(browser)).value
+      if (hash !== browser.globals.lastHash) {
+        return
+      }
+      await browser.pause(300)
+    }
+    throw new Error(`Hash didn't changed!`)
 }
 
 async function createAccountAndFundIt(browser, done, networkData) {
@@ -334,7 +330,7 @@ async function switchToAccount(
     },
     [{ address, network, wallet, name }]
   )
-  browser.refresh()
+  await browser.refresh()
   await getAccountBalance(browser)
   // wait until on portfolio page to make sure future tests have the same state
   browser.expect.element(".balance-header").to.be.visible.before(10000)
