@@ -149,22 +149,20 @@ async function initialiseDefaults(browser) {
   return networkData
 }
 
-async function defineNeededValidators(browser, networkData) {
+async function defineNeededValidators(browser) {
   // need to store validators, cause they can shuffle during the test
   await browser.url(browser.launch_url + browser.globals.slug + "/validators")
   await browser.waitForElementVisible(".li-validator", 10000)
-  const validators = await browser.execute(
-    function () {
-      const validatorLIs = document.getElementsByClassName("li-validator")
-      if (validatorLIs.length < 2) {
-        throw new Error(`No enough validators to check`)
-      }
-      return {
-        first: validatorLIs[0].getAttribute("data-name"),
-        second: validatorLIs[1].getAttribute("data-name"),
-      }
+  const validators = await browser.execute(function () {
+    const validatorLIs = document.getElementsByClassName("li-validator")
+    if (validatorLIs.length < 2) {
+      throw new Error(`No enough validators to check`)
     }
-  )
+    return {
+      first: validatorLIs[0].getAttribute("data-name"),
+      second: validatorLIs[1].getAttribute("data-name"),
+    }
+  })
   browser.globals.validatorOneName = validators.value.first
   browser.globals.validatorTwoName = validators.value.second
 }

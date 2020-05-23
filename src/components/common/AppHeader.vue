@@ -165,15 +165,6 @@ export default {
   }
 }
 
-.app-header .header-item {
-  padding: 1.75rem;
-  font-size: 0;
-}
-
-.app-header .header-item a {
-  display: inline-block;
-}
-
 .header-item-logo {
   height: 2rem;
   width: 6.5rem;
@@ -184,13 +175,22 @@ export default {
   display: flex;
 }
 
+.header-menu-section > * {
+  padding: 0 0.5rem;
+}
+
 .mobile-menu-action,
 .header-menu-section a {
   color: var(--menu-bright);
 }
 
-.header-menu-section > * {
-  padding: 0 0.5rem;
+.app-header .header-item {
+  padding: 1.75rem;
+  font-size: 0;
+}
+
+.app-header .header-item a {
+  display: inline-block;
 }
 
 @media screen and (max-width: 1023px) {

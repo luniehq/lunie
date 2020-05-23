@@ -70,14 +70,12 @@ function isSameArray(array1, array2) {
 }
 
 async function getValidators(browser) {
-  const { value } = await browser.execute(
-    function () {
-      const validatorLIs = document.getElementsByClassName("li-validator")
-      return Array.from(validatorLIs).map((item) =>
-        item.getAttribute("data-name")
-      )
-    }
-  )
+  const { value } = await browser.execute(function () {
+    const validatorLIs = document.getElementsByClassName("li-validator")
+    return Array.from(validatorLIs).map((item) =>
+      item.getAttribute("data-name")
+    )
+  })
 
   return value
 }
