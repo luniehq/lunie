@@ -1,6 +1,7 @@
 import router from "vue-router"
 import routes from "./routes"
 import Vue from "vue"
+import { setNetwork } from "./scripts/setNetwork"
 
 /* istanbul ignore next */
 Vue.use(router)
@@ -22,7 +23,11 @@ export const routeGuard = (store) => async (to, from, next) => {
     return
   }
   if (to.meta.feature) {
-    const featureAvalability = await featureAvailable(store, to.params.networkId, to.meta.feature)
+    const featureAvalability = await featureAvailable(
+      store,
+      to.params.networkId,
+      to.meta.feature
+    )
     switch (featureAvalability) {
       case "DISABLED": {
         next(`/feature-not-available/${to.meta.feature}`)
@@ -42,7 +47,11 @@ export const routeGuard = (store) => async (to, from, next) => {
     store.commit(`addHistory`, from.fullPath)
   }
 
-  next()
+  if (to.params.networkId) {
+    await setNetwork({ to, from, next }, store)
+  } else {
+    next()
+  }
 }
 
 /* istanbul ignore next */
@@ -61,10 +70,12 @@ async function featureAvailable(store, networkSlug, feature) {
   // we get the current network object
   const currentNetworkId = store.state.connection.network
   // we get the current network object
-  const currentNetwork = networks.find(({ slug, id }) => networkSlug ? slug === networkSlug : id === currentNetworkId)
+  const currentNetwork = networks.find(({ slug, id }) =>
+    networkSlug ? slug === networkSlug : id === currentNetworkId
+  )
   const featureSelector = `feature_${feature.toLowerCase()}`
   return typeof currentNetwork[featureSelector] === "string"
     ? currentNetwork[featureSelector]
     : // DEPRECATE fallback for old API response
-    networkCapabilityDictionary[currentNetwork[featureSelector]]
+      networkCapabilityDictionary[currentNetwork[featureSelector]]
 }

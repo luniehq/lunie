@@ -1,5 +1,6 @@
 <template>
   <div id="app" :class="network">
+    <NetworkSelector />
     <AppHeader />
     <div id="app-content">
       <div id="bar-container">
@@ -18,10 +19,11 @@
 <script>
 import { mapState, mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
-import MobileMenu from "common/MobileMenu"
 import CookieBar from "common/CookieBar"
-import MaintenanceBar from "common/MaintenanceBar"
 import DisconnectedBar from "common/DisconnectedBar"
+import MaintenanceBar from "common/MaintenanceBar"
+import MobileMenu from "common/MobileMenu"
+import NetworkSelector from "common/NetworkSelector"
 import TmNotifications from "common/TmNotifications"
 import store from "./vuex/store"
 import config from "src/../config"
@@ -30,11 +32,12 @@ export default {
   name: `app`,
   components: {
     AppHeader,
-    TmNotifications,
     CookieBar,
-    MaintenanceBar,
     DisconnectedBar,
+    MaintenanceBar,
     MobileMenu,
+    NetworkSelector,
+    TmNotifications,
   },
   data: () => ({
     isMobileApp: config.mobileApp,
