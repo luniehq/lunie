@@ -476,22 +476,6 @@ export default {
     network() {
       return this.networks.find(({ id }) => id == this.networkId)
     },
-    feeInput() {
-      let { type, ...message } = this.transactionData
-      // Make sure amount is String to query for fee
-      message = {
-        ...message,
-        amount: {
-          denom: message.amount.denom,
-          amount: String(message.amount.amount),
-        },
-      }
-      return {
-        messageType: type,
-        message,
-        senderAddress: this.session.address,
-      }
-    },
     requiresSignIn() {
       return (
         !this.session.signedIn ||
