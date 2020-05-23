@@ -9,6 +9,10 @@
 export default (store) => {
   return [
     {
+      path: `/`,
+      redirect: `/cosmos-hub/portfolio`,
+    },
+    {
       path: `/networks`,
       name: `networks`,
       component: () => import(`./components/network/PageNetworks`),
