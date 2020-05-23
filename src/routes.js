@@ -1,3 +1,5 @@
+import { setNetwork } from "./scripts/setNetwork"
+
 /**
  * In this module we took care of the definition of our routes, with parameters, children and component related to them
  * @module routes
@@ -8,6 +10,10 @@
  */
 export default (store) => {
   return [
+    {
+      path: `/`,
+      beforeEnter: (to, from, next) => setNetwork({ to, from, next }, store),
+    },
     {
       path: `/networks`,
       name: `networks`,
