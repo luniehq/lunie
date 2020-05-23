@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.16] - 2020-05-23
+
+### Added
+
+- [#809](https://github.com/cosmos/lunie/pull/809) Adds fetching Polkadot fees within the networkFees query @Bitcoinera
+
+### Changed
+
+- Add validator event types @michielmulders
+
 ## [1.0.15] - 2020-05-21
 
 ### Added
