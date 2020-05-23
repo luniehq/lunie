@@ -71,6 +71,7 @@ async function waitForText(
     await browser.waitForElementVisible(selector, 10000)
     const text = await browser.getText(selector)
     if (text && text === expectedCaption) return
+    await browser.pause(timeout)
   }
   throw new Error("Timed out waiting for element and caption")
 }
