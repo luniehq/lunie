@@ -1,6 +1,7 @@
 const { UserInputError } = require('apollo-server')
 const fetch = require('node-fetch')
 const Sentry = require('@sentry/node')
+const BigNumber = require('bignumber.js')
 
 const transactionTypesSet = new Set([
   'SendTx',
@@ -88,6 +89,36 @@ const getNetworkTransactionChainAppliedFees = (networkId, transactionType) => {
       rate: 0,
       cap: 0
     }
+  }
+}
+
+const getPolkadotMessage = async (messageType, senderAddress, message, network) => {
+  const polkadotMessages = require(`../lib/messageCreators/polkadot-transactions`)
+  const messageFormatter = polkadotMessages[messageType]
+  return messageFormatter && network ? await messageFormatter(senderAddress, message, network) : null
+}
+
+const getPolkadotFee = async ({ messageType, message, senderAddress, network }) => {
+  if (!messageType) return null
+
+  const chainMessage = await getPolkadotMessage(
+    messageType,
+    senderAddress,
+    message,
+    network
+  )
+
+  const { partialFee } = await chainMessage.transaction.paymentInfo(
+    senderAddress
+  )
+  const chainFees = partialFee.toJSON()
+  const viewFees = BigNumber(chainFees)
+    .times(network.coinLookup[0].chainToViewConversionFactor)
+    .toNumber()
+  const { amount } = message 
+  return {
+    denom: amount.denom || network.stakingDenom,
+    amount: viewFees
   }
 }
 
@@ -197,4 +228,4 @@ let networkGasPricesDictionary = {
   'kusama': polkadotGasPrices,
 }
 
-module.exports = { getNetworkTransactionGasEstimates, getNetworkTransactionChainAppliedFees, getNetworkGasPrices }
+module.exports = { getNetworkTransactionGasEstimates, getNetworkTransactionChainAppliedFees, getNetworkGasPrices, getPolkadotFee, getPolkadotMessage }
