@@ -63,15 +63,6 @@ module.exports = {
 }
 
 async function next(browser) {
-  await browser.execute(
-    function (selector, scrollX, scrollY) {
-      var elem = document.querySelector(selector)
-      elem.scrollLeft = scrollX
-      elem.scrollTop = scrollY
-    },
-    [".session", 0, 500]
-  )
-  await browser.pause(200)
   return await browser.click(".session-footer .button")
 }
 

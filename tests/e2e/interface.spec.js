@@ -76,8 +76,7 @@ async function getValidators(browser) {
       return Array.from(validatorLIs).map((item) =>
         item.getAttribute("data-name")
       )
-    },
-    [browser]
+    }
   )
 
   return value
