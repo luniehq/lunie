@@ -169,11 +169,6 @@ export default {
 .sidebar-bottom {
   margin: 0.5rem;
   padding: 0.5rem;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  max-width: 208px; /* sidebar width minus margin */
   background: var(--app-nav);
 }
 

@@ -44,7 +44,7 @@
         <FeatureNotAvailable :feature="title" />
       </template>
       <TmDataLoading
-        v-else-if="$apollo.loading && (!balancesLoaded || gasEstimateLoaded)"
+        v-else-if="$apollo.loading && (!balancesLoaded || networkFeesLoaded)"
       />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
@@ -242,11 +242,11 @@
                 ref="next"
                 type="primary"
                 value="Next"
-                :loading="step === feeStep && !gasEstimateLoaded"
+                :loading="step === feeStep && !networkFeesLoaded"
                 :disabled="
                   disabled ||
                   (step === feeStep && $v.invoiceTotal.$invalid) ||
-                  (step === feeStep && !gasEstimateLoaded)
+                  (step === feeStep && !networkFeesLoaded)
                 "
                 @click.native="validateChangeStep"
               />
@@ -407,7 +407,8 @@ export default {
     selectedSignMethod: null,
     password: null,
     sending: false,
-    gasEstimate: null,
+    networkFees: null,
+    gasEstimate: 0,
     gasPrice: 0,
     submissionError: null,
     show: false,
@@ -426,12 +427,11 @@ export default {
     includedHeight: undefined,
     smallestAmount: SMALLEST,
     balancesLoaded: false,
-    gasEstimateLoaded: false,
-    polkadotFee: 0,
+    networkFeesLoaded: false,
   }),
   asyncComputed: {
     async estimatedFee() {
-      if (this.network.network_type === "cosmos") {
+      if (this.network.network_type === "cosmos" && this.networkFeesLoaded) {
         // terra uses a tax on all send txs
         if (this.chainAppliedFees > 0) {
           return this.chainAppliedFees
@@ -445,22 +445,9 @@ export default {
       if (
         this.network.network_type === "polkadot" &&
         this.step === feeStep &&
-        !this.session.developmentMode
+        this.networkFeesLoaded
       ) {
-        const { type, ...message } = this.transactionData
-        const fee = await this.transactionManager.getPolkadotFees({
-          messageType: type,
-          message,
-          senderAddress: this.session.address,
-          network: this.network,
-        })
-        this.gasEstimateLoaded = true
-        this.polkadotFee = fee
-        return fee
-      }
-      // in development we don't need to worry about fees. Next button won't be disabled
-      if (this.session.developmentMode) {
-        this.gasEstimateLoaded = true
+        return Number(this.networkFees.fee.amount)
       }
       return 0
     },
@@ -496,6 +483,7 @@ export default {
     },
     invoiceTotal() {
       if (
+        this.networkFeesLoaded &&
         this.gasEstimate &&
         Number(this.subTotal) + this.estimatedFee >
           this.selectedBalance.amount &&
@@ -649,6 +637,7 @@ export default {
       this.show = false
       this.sending = false
       this.includedHeight = undefined
+      this.networkFeesLoaded = false
 
       // reset form
       // in some cases $v is not yet set
@@ -765,7 +754,7 @@ export default {
         if (this.network.network_type === "polkadot") {
           transactionData = {
             fee: {
-              amount: this.polkadotFee,
+              amount: this.networkFees.fee.amount,
               denom: this.getDenom,
             },
             addressRole: this.session.addressRole,
@@ -881,32 +870,53 @@ export default {
         return !this.session.address
       },
     },
-    gasEstimate: {
+    networkFees: {
       query: gql`
-        query NetworkGasEstimates(
+        query NetworkFees(
           $networkId: String!
-          $transactionType: String
+          $messageType: String!
+          $message: TransactionDetailsInput!
+          $senderAddress: String!
         ) {
           networkFees(
             networkId: $networkId
-            transactionType: $transactionType
+            messageType: $messageType
+            message: $message
+            senderAddress: $senderAddress
           ) {
             gasEstimate
+            fee {
+              denom
+              amount
+            }
           }
         }
       `,
       /* istanbul ignore next */
       variables() {
+        let { type, ...message } = this.transactionData
+        delete message.memo
+        // Make sure amount is String to query for fee
+        message = {
+          ...message,
+          amount: {
+            denom: message.amount.denom,
+            amount: String(message.amount.amount),
+          },
+        }
         return {
           networkId: this.networkId,
-          transactionType: this.transactionType,
+          messageType: type,
+          message,
+          senderAddress: this.session.address,
         }
       },
       /* istanbul ignore next */
       update(data) {
         if (data.networkFees) {
-          this.gasEstimateLoaded = true
-          return data.networkFees.gasEstimate
+          this.networkFeesLoaded = true
+          this.gasEstimate = data.networkFees.gasEstimate
+          return data.networkFees
         }
       },
       /* istanbul ignore next */
@@ -914,8 +924,7 @@ export default {
         return (
           !this.session.address ||
           !this.transactionData ||
-          this.step !== feeStep ||
-          this.network.network_type !== "cosmos"
+          this.step !== feeStep
         )
       },
     },

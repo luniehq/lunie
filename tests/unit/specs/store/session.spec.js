@@ -654,4 +654,27 @@ describe(`Module: Session`, () => {
       },
     ])
   })
+
+  it("getAllSessionsAddresses", () => {
+    localStorage.setItem(
+      "session_fabo-net",
+      JSON.stringify({
+        address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        networkId: "not-fabo-net",
+      })
+    )
+    localStorage.setItem(
+      "session_lunie-net",
+      JSON.stringify({
+        address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn1",
+        networkId: "not-fabo-net",
+      })
+    )
+
+    const addresses = actions.getAllSessionsAddresses(
+      {},
+      { networkIds: ["session_fabo-net", "session_lunie-net"] }
+    )
+    expect(addresses).toEqual([])
+  })
 })

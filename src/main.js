@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import Vue from "vue"
-import Tooltip from "vue-directive-tooltip"
+import VTooltip from "v-tooltip"
 import Vuelidate from "vuelidate"
 import InfiniteScroll from "vue-infinite-scroll"
 import VueClipboard from "vue-clipboard2"
@@ -27,11 +27,7 @@ if (config.sentryDSN) {
 
 Vue.config.productionTip = false
 
-let tooltipOptions = { delay: 1 }
-if (config.mobileApp) {
-  tooltipOptions = { class: `hide` }
-}
-Vue.use(Tooltip, tooltipOptions)
+Vue.use(VTooltip)
 
 Vue.use(Vuelidate)
 Vue.use(VueClipboard)
