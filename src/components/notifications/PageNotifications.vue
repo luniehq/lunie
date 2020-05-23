@@ -4,7 +4,11 @@
       <h1>Notifications</h1>
     </div>
 
-    <TmDataMsg v-if="notifications.length === 0" icon="error" icon-color="var(--dark-grey-blue)">
+    <TmDataMsg
+      v-if="notifications.length === 0"
+      icon="error"
+      icon-color="var(--dark-grey-blue)"
+    >
       <div>
         <i class="material-icons nontranslate">error</i>
       </div>
@@ -30,26 +34,26 @@
 </template>
 
 <script>
-import TmPage from '../common/TmPage'
-import TmDataMsg from 'common/TmDataMsg'
-import { mapGetters } from 'vuex'
-import gql from 'graphql-tag'
+import TmPage from "../common/TmPage"
+import TmDataMsg from "common/TmDataMsg"
+import { mapGetters } from "vuex"
+import gql from "graphql-tag"
 
 export default {
-  name: 'PageNotifications',
+  name: "PageNotifications",
   components: {
     TmPage,
-    TmDataMsg
+    TmDataMsg,
   },
   data: () => ({
     notifications: [],
-    allSessionAddresses: []
+    allSessionAddresses: [],
   }),
   computed: {
-    ...mapGetters([`networks`])
+    ...mapGetters([`networks`]),
   },
-  mounted: async function() {
-    const networkIds = this.networks.map(network => network.id)
+  mounted: async function () {
+    const networkIds = this.networks.map((network) => network.id)
     this.allSessionAddresses = await this.$store.dispatch(
       `getAllSessionsAddresses`,
       { networkIds }
@@ -71,7 +75,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          addressObjects: this.allSessionAddresses
+          addressObjects: this.allSessionAddresses,
         }
       },
       /* istanbul ignore next */
@@ -83,9 +87,9 @@ export default {
         return (
           !this.allSessionAddresses || this.allSessionAddresses.length === 0
         )
-      }
-    }
-  }
+      },
+    },
+  },
 }
 </script>
 

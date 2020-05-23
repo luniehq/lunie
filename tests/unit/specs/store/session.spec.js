@@ -376,7 +376,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should enable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -392,7 +392,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable error collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setErrorCollection(
@@ -408,7 +408,7 @@ describe(`Module: Session`, () => {
   })
 
   it(`should disable analytics collection`, async () => {
-    jest.spyOn(console, `log`).mockImplementationOnce(() => { })
+    jest.spyOn(console, `log`).mockImplementationOnce(() => {})
     const commit = jest.fn()
     const dispatch = jest.fn()
     await actions.setAnalyticsCollection(
@@ -655,17 +655,26 @@ describe(`Module: Session`, () => {
     ])
   })
 
-  it('getAllSessionsAddresses', () => {
+  it("getAllSessionsAddresses", () => {
     localStorage.setItem(
       "session_fabo-net",
-      JSON.stringify({ address: 'cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9', networkId: "not-fabo-net" })
+      JSON.stringify({
+        address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+        networkId: "not-fabo-net",
+      })
     )
     localStorage.setItem(
       "session_lunie-net",
-      JSON.stringify({ address: 'cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn1', networkId: "not-fabo-net" })
+      JSON.stringify({
+        address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn1",
+        networkId: "not-fabo-net",
+      })
     )
 
-    const addresses = actions.getAllSessionsAddresses({}, { networkIds: ["session_fabo-net", "session_lunie-net"] })
+    const addresses = actions.getAllSessionsAddresses(
+      {},
+      { networkIds: ["session_fabo-net", "session_lunie-net"] }
+    )
     expect(addresses).toEqual([])
   })
 })
