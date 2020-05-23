@@ -28,11 +28,7 @@ module.exports = {
       10000,
       true
     )
-    await browser.execute(function () {
-      document
-        .querySelector(`.select-network-item[data-network=cosmos-hub-mainnet]`)
-        .click()
-    }, [])
+    await browser.click(`.select-network-item[data-network=cosmos-hub-mainnet]`)
 
     browser.waitForElementVisible("#import-seed", 10000, true)
     await next(browser)
@@ -59,9 +55,9 @@ module.exports = {
     await next(browser)
 
     // check if signed in
-    browser.waitForElementNotPresent(".session", 10000, true)
-    openMenu(browser)
-    browser.waitForElementVisible("#sign-out", 10000, true)
+    await browser.waitForElementNotPresent(".session", 10000, true)
+    await openMenu(browser)
+    await browser.waitForElementVisible("#sign-out", 10000, true)
   },
 }
 
@@ -74,7 +70,7 @@ async function next(browser) {
     },
     [".session", 0, 500]
   )
-  browser.pause(200)
+  await browser.pause(200)
   return browser.click(".session-footer .button")
 }
 
@@ -91,14 +87,12 @@ async function closeMenu(browser) {
 async function signOut(browser) {
   await openMenu(browser)
   await browser.waitForElementVisible("#sign-out", 10000, true)
-  // browser click doesn't always work
-  await browser.execute("document.getElementById('sign-out').click()")
+  await browser.click("#sign-out")
 }
 
 async function signIn(browser) {
   await openMenu(browser)
   await browser.waitForElementVisible("#sign-in", 10000, true)
-  // browser click doesn't always work
   await browser.click("#sign-in")
 }
 
