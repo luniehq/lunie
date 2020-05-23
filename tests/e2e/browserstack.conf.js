@@ -1,12 +1,13 @@
 const nightwatch_config = {
   src_folders: ["tests/e2e"],
-  globals_path: "./nightwatchGlobals.js",
+  globals_path: "./globals.js",
   output_folder: "./output",
   launch_url: "http://127.0.0.1:9080",
-  selenium_host: "hub-cloud.browserstack.com",
-  selenium_port: 80,
-  webdriver: {
-    default_path_prefix: "/wd/hub",
+
+  selenium: {
+    start_process: false,
+    host: "hub-cloud.browserstack.com",
+    port: 80,
   },
 
   test_settings: {
