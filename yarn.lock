@@ -725,7 +725,7 @@
     core-js "^2.6.5"
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.5.4", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.4", "@babel/runtime@^7.9.2", "@babel/runtime@^7.9.6":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.6.3", "@babel/runtime@^7.7.4", "@babel/runtime@^7.9.2", "@babel/runtime@^7.9.6":
   version "7.9.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.9.6.tgz#a9102eb5cadedf3f31d08a9ecf294af7827ea29f"
   integrity sha512-64AF1xY3OAkFHqOb9s4jpgk1Mm5vDZ4L3acHvAml+53nO1XbXLuDodsVpO4OIUsmemlUHMxNdYMNJmsvOwLrvQ==
@@ -2693,7 +2693,7 @@ axios@^0.18.0:
     follow-redirects "1.5.10"
     is-buffer "^2.0.2"
 
-axios@^0.19.0, axios@^0.19.2:
+axios@^0.19.2:
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
   integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
@@ -4227,22 +4227,6 @@ cosmiconfig@^6.0.0:
     parse-json "^5.0.0"
     path-type "^4.0.0"
     yaml "^1.7.2"
-
-"cosmos-apiV0@npm:@lunie/cosmos-api@0.1.x":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.1.4.tgz#30c75450ff25765292c5024bef5b032b41f38371"
-  integrity sha512-/Wsg4JUnZ63qWDU1Y6ifknmcUxvfrlsHS28H6DaWrcRjFMxVTlEVASPfX/be8NLLaGXyLd9eU8V8VF3SvKo4lw==
-  dependencies:
-    "@babel/runtime" "^7.5.4"
-    axios "^0.19.0"
-
-"cosmos-apiV2@npm:@lunie/cosmos-api@0.2.x":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.2.5.tgz#77bf93a14a9a68eabffa99d07f9e6c297a26fd19"
-  integrity sha512-4p2lNr1ByYeVGGQwKkp+BdK8fI5yZwOYNoDfFSOpJ80ybQeOF8ox5jTRZrWOetEP47fqBZA0Gv5jt5tTtJWW2A==
-  dependencies:
-    "@babel/runtime" "^7.5.4"
-    axios "^0.19.0"
 
 create-ecdh@^4.0.0:
   version "4.0.3"
