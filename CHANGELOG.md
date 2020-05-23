@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.202] - 2020-05-23
+
+### Added
+
+- added new network selector @jbibla
+
+### Changed
+
+- [#4106](https://github.com/cosmos/lunie/pull/4106) Adds Dependabot config to check only weekly for updates @Bitcoinera
+- [#4091](https://github.com/cosmos/lunie/pull/4091) Add missing links to notifications in PageNotifications @Bitcoinera
+- [#4115](https://github.com/cosmos/lunie/pull/4115) Polkadot fee is now fetched from API in ActionModal @Bitcoinera
+
+### Fixed
+
+- Make sure networks are loaded before router @faboweb
+
+### Code Improvements
+
+- Remove not needed dep @faboweb
+- Updated ledger library @faboweb
+
 ## [1.0.201] - 2020-05-21
 
 ### Added
