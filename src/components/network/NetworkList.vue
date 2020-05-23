@@ -4,10 +4,10 @@
     <ul class="network-list">
       <li
         v-for="network in networks"
+        @click="network.chain_id ? selectNetworkHandler(network) : false"
         :key="network.id"
         class="select-network-item"
         :data-network="network.id"
-        @click="network.chain_id ? selectNetworkHandler(network) : false"
       >
         <NetworkItem :network-item="network" :disabled="disabled" />
       </li>
@@ -22,21 +22,21 @@ import NetworkItem from "./NetworkItem"
 export default {
   name: `network-list`,
   components: {
-    NetworkItem,
+    NetworkItem
   },
   props: {
     networks: {
       type: Array,
-      required: true,
+      required: true
     },
     disabled: {
       type: Boolean,
-      required: false,
+      required: false
     },
     sectionTitle: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   computed: {
     ...mapGetters({ networkId: `network` }),
@@ -48,7 +48,7 @@ export default {
       } else {
         return ``
       }
-    },
+    }
   },
   methods: {
     async selectNetworkHandler(network) {
@@ -57,8 +57,8 @@ export default {
       }
 
       if (this.$route.name !== "networks") this.$router.push(this.whichFlow)
-    },
-  },
+    }
+  }
 }
 </script>
 <style scoped>

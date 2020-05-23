@@ -66,23 +66,4 @@ describe(`NetworkList`, () => {
     wrapper.setData({ $route: { name: `select-network-recover` } })
     expect(wrapper.vm.whichFlow).toBe("/recover")
   })
-
-  it(`sets the network the user selects`, async () => {
-    await wrapper.vm.selectNetworkHandler({ id: `emilys-chain` })
-    expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
-      id: `emilys-chain`,
-    })
-  })
-
-  it(`does not change network when the network is already selected`, async () => {
-    console.log(wrapper.vm.$store.getters.networkId)
-    await wrapper.vm.selectNetworkHandler({ id: `cosmoshub` })
-    expect($store.dispatch).not.toHaveBeenCalled()
-  })
-
-  it(`does not change routes on the networks page`, async () => {
-    wrapper.setData({ $route: { name: `networks` } })
-    await wrapper.vm.selectNetworkHandler({ id: `emilys-chain` })
-    expect(wrapper.vm.$router.push).not.toHaveBeenCalled()
-  })
 })

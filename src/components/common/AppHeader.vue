@@ -81,13 +81,13 @@ export default {
   data: () => ({
     open: false,
     desktop: false,
-    isMobileApp: config.mobileApp,
+    isMobileApp: config.mobileApp
   }),
   computed: {
     ...mapState([`session`, "connection"]),
     networkSlug() {
       return this.connection.networkSlug
-    },
+    }
   },
   mounted() {
     this.watchWindowSize()
@@ -119,8 +119,8 @@ export default {
       } else {
         this.desktop = false
       }
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -128,7 +128,14 @@ export default {
 .app-header {
   z-index: var(--z-appHeader);
   position: relative;
-  width: var(--width-side);
+  width: var(--sidebar-plus-width);
+  display: flex;
+  flex-direction: row;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
 }
 
 .app-header .header-item.open {
@@ -177,6 +184,11 @@ export default {
   display: flex;
 }
 
+.mobile-menu-action,
+.header-menu-section a {
+  color: var(--menu-bright);
+}
+
 .header-menu-section > * {
   padding: 0 0.5rem;
 }
@@ -213,6 +225,7 @@ export default {
     height: 100%;
     overflow: auto;
     background: var(--app-nav);
+    left: 4rem;
   }
 }
 

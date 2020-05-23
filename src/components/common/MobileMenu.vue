@@ -108,7 +108,7 @@ menu a h2 {
   font-weight: 500;
 }
 
-@media screen and (min-width: 668px) {
+@media screen and (min-width: 1024px) {
   menu {
     display: none;
   }
