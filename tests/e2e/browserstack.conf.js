@@ -1,6 +1,6 @@
 const nightwatch_config = {
   src_folders: ["tests/e2e"],
-  globals_path: "./globals.js",
+  globals_path: "./nightwatchGlobals.js",
   output_folder: "./output",
   launch_url: "http://127.0.0.1:9080",
 
