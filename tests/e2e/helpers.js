@@ -146,7 +146,7 @@ async function actionModalCheckout(
   expectedSubtotal,
   expectedTotalChange = 0,
   expectedAvailableTokensChange = 0,
-  skipChecks = false
+  checkUIUpdates = true
 ) {
   // deacivate intercom
   // can't be inserted before each as it would be removed on a refresh
@@ -173,7 +173,7 @@ async function actionModalCheckout(
   browser.click(".action-modal-footer .button:nth-of-type(2)")
   browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
 
-  if (!skipChecks) {
+  if (checkUIUpdates) {
     // check invoice
     if (expectedSubtotal === "0") {
       // doesn't show sub total
@@ -193,7 +193,7 @@ async function actionModalCheckout(
   )
 
   let fees
-  if (!skipChecks) {
+  if (checkUIUpdates) {
     // remember fees
     const { value } = await browser.getText(
       ".table-invoice .fees span:last-child"
@@ -216,7 +216,7 @@ async function actionModalCheckout(
   await browser.expect.element("#closeBtn").to.be.present.before(30 * 1000)
   await browser.click("#closeBtn")
 
-  if (!skipChecks) {
+  if (checkUIUpdates) {
     // go to portfolio to remember balances
     await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
   

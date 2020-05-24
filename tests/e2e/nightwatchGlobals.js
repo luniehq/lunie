@@ -224,7 +224,7 @@ async function fundingTempAccount(browser, networkData) {
     networkData.fundingAmount,
     networkData.fundingAmount,
     networkData.fundingAmount,
-    true // ignore checks to speed up and to prevent issues with race conditions
+    false // ignore checks to speed up and to prevent issues with race conditions
   )
 }
 
