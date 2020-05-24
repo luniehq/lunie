@@ -2,20 +2,14 @@ const numeral = require("numeral")
 const { expect } = require("chai")
 
 async function getBalance(browser) {
-  return new Promise((resolve) => {
-    browser.expect.element(`.total`).to.be.visible.before(10000)
-    browser.getText(".total", ({ value }) => {
-      resolve(numeral(value).value())
-    })
-  })
+  browser.expect.element(`.total`).to.be.visible.before(10000)
+  const { value } = await browser.getText(".total")
+  return numeral(value).value()
 }
 async function getAvailableTokens(browser) {
-  return new Promise((resolve) => {
-    browser.expect.element(`.available-amount`).to.be.visible.before(10000)
-    browser.getText(".available-amount", ({ value }) => {
-      resolve(numeral(value).value())
-    })
-  })
+  browser.expect.element(`.available-amount`).to.be.visible.before(10000)
+  const { value } = await browser.getText(".available-amount")
+  return numeral(value).value()
 }
 async function awaitBalance(browser, balance) {
   await waitFor(async () => {
@@ -67,64 +61,39 @@ async function waitForText(
   iterations = 20,
   timeout = 300
 ) {
-  return await browser.execute(
-    function (selector, expectedCaption, timeout, iterations) {
-      return new Promise((resolve, reject) => {
-        // async await doesn't work in execute
-        const iteration = () => {
-          if (!iterations--) {
-            reject("Timed out waiting for element and caption")
-            return
-          }
-          const element = document.querySelector(selector)
-          if (!element || element.innerText.indexOf(expectedCaption) === -1) {
-            setTimeout(iteration, timeout)
-            return
-          }
-          resolve()
-        }
-        iteration()
-      })
-    },
-    [selector, expectedCaption, timeout, iterations]
-  )
+  await browser.waitForElementVisible(selector, 10000)
+  while (iterations--) {
+    try {
+      const { value: text } = await browser.getText(selector)
+      console.log(text.replace(/ /g, '_'))
+      if (text && text.trim() === expectedCaption) return
+    } catch (error) {
+      console.error(error)
+    }
+    await browser.pause(timeout)
+  }
+  throw new Error("Timed out waiting for element and caption")
 }
 
 async function getLastActivityItemHash(browser) {
-  return await browser.execute(function () {
-    // async await doesn't work in execute
-    return new Promise((resolve) => {
-      let attempts = 5
-      let step = 1
-      const f = () => {
-        if (step == 1) {
-          const container = document.querySelector(".tx-container .tx")
-          if (!container && attempts-- > 0) {
-            setTimeout(f, 2000)
-            return false
-          }
-          if (container) {
-            container.click()
-            step = 2
-            attempts = 5
-            f()
-          } else {
-            resolve()
-          }
-        } else if (step == 2) {
-          const hash = document.querySelector(
-            ".tx-container:nth-of-type(1) .hash"
-          )
-          if (!hash && attempts-- > 0) {
-            setTimeout(f, 2000)
-            return false
-          }
-          resolve(hash ? hash.textContent : false)
-        }
-      }
-      f()
-    })
-  })
+  await browser.waitForElementVisible(".tx-container .tx", 10000)
+  await browser.click(".tx-container .tx")
+  const { value: hash } = await browser.getText(
+    ".tx-container:nth-of-type(1) .hash"
+  )
+  return hash
+}
+
+async function waitForHashUpdate(browser, lastHash) {
+  let iterations = 20
+  while (iterations--) {
+    let hash = await getLastActivityItemHash(browser)
+    if (hash !== lastHash) {
+      return
+    }
+    await browser.pause(300)
+  }
+  throw new Error(`Hash didn't changed!`)
 }
 
 // fetching errors from console
@@ -165,11 +134,11 @@ async function actionModalCheckout(
   await detailsActionFn()
 
   // proceed to invoice step
-  browser.waitForElementVisible(
+  await browser.waitForElementVisible(
     ".action-modal-footer .button:nth-of-type(2):enabled",
     10000
   )
-  browser.click(".action-modal-footer .button:nth-of-type(2)")
+  await browser.click(".action-modal-footer .button:nth-of-type(2)")
   browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
 
   // check invoice
@@ -190,32 +159,26 @@ async function actionModalCheckout(
   )
 
   // remember fees
-  const fees = await new Promise((resolve) =>
-    browser.getText(
-      ".table-invoice li:nth-child(2) span:last-child",
-      ({ value }) => resolve(numeral(value).value())
-    )
+  const { value } = await browser.getText(
+    ".table-invoice li:nth-child(2) span:last-child"
   )
+  const fees = numeral(value).value()
 
   // await next block to be sure about the sequence number
   // TODO needs to be fixed and put into cosmos-api
   // await nextBlock(browser)
 
   // submit
-  browser.click(".action-modal-footer .button:nth-of-type(2)")
-  browser.setValue("#password", browser.globals.password)
-  browser.click(".action-modal-footer .button:nth-of-type(2)")
-  browser.pause(5000)
+  await browser.click(".action-modal-footer .button:nth-of-type(2)")
+  await browser.setValue("#password", browser.globals.password)
+  await browser.click(".action-modal-footer .button:nth-of-type(2)")
 
   await browser.expect.element(".success-step").to.be.present.before(30 * 1000)
   // wait for success-step modal
-  await browser.expect
-    .element("#closeBtn")
-    .to.be.present.before(30 * 1000, () => {
-      browser.click("#closeBtn")
-    })
+  await browser.expect.element("#closeBtn").to.be.present.before(30 * 1000)
+  await browser.click("#closeBtn")
   // go to portfolio to remember balances
-  browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
 
   // check if balance header updates as expected
   // TODO find a way to know the rewards on an undelegation to know the final balance 100%
@@ -262,18 +225,14 @@ async function getAccountBalance(browser) {
     async () => {
       // waiting till balance loaded
       await browser.waitForElementVisible(".total", 5000, false)
-      await browser.getText(".total", (result) => {
-        let total = result.value.split(" ")
-        browser.globals.denom = total[1]
-        browser.globals.totalAtoms = total[0]
-      })
-      /*await browser.getText(".total-atoms h2", result => {
-        browser.globals.totalAtoms = result.value.replace(",", "")
-      })*/
-      await browser.getText(".available-amount", (result) => {
-        let availableAtoms = result.value.split(" ")
-        browser.globals.availableAtoms = availableAtoms[0]
-      })
+      const { value: total } = await browser.getText(".total")
+      browser.globals.denom = total.split(" ")[1]
+      browser.globals.totalAtoms = total.split(" ")[0]
+
+      const { value: availableAtoms } = await browser.getText(
+        ".available-amount"
+      )
+      browser.globals.availableAtoms = availableAtoms.split(" ")[0]
     }
   )
 }
@@ -284,10 +243,8 @@ async function nextBlock(browser) {
   browser.expect
     .element(`#tm-connected-network__block`)
     .to.be.visible.before(10000)
-  const lastHeight = await new Promise((resolve) =>
-    browser.getText("#tm-connected-network__block", ({ value }) =>
-      resolve(value)
-    )
+  const { value: lastHeight } = await browser.getText(
+    "#tm-connected-network__block"
   )
   browser.expect
     .element("#tm-connected-network__block")
@@ -303,6 +260,7 @@ module.exports = {
   waitForText,
   actionModalCheckout,
   getLastActivityItemHash,
+  waitForHashUpdate,
   nextBlock,
   getAccountBalance,
   checkBrowserLogs,

@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.204] - 2020-05-23
+
+### Fixed
+
+- Readd handling of root route to forward to network @faboweb
+
+## [1.0.203] - 2020-05-23
+
+### Fixed
+
+- Fix claiming not getting fees @faboweb
+
+### Repository
+
+- Updated Nightwatch to 1.3 @faboweb
+
 ## [1.0.202] - 2020-05-23
 
 ### Added
