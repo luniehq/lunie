@@ -33,6 +33,8 @@ module.exports = {
       // creating testing account and funding it with the master account
       await createAccountAndFundIt(browser, done, networkData)
       initializedAccount = true
+    } else {
+      await switchToAccount(browser, networkData)
     }
 
     checkBrowserLogs(browser)
