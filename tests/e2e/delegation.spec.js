@@ -56,7 +56,7 @@ module.exports = {
     // check if tx shows
     await waitForText(
       browser,
-      ".tx:nth-of-type(1) .tx__content .tx__content__left",
+      ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
       `Staked`
     )
     await waitForText(
@@ -102,7 +102,7 @@ module.exports = {
     )
     await waitForText(
       browser,
-      ".tx:nth-of-type(1) .tx__content .tx__content__left",
+      ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
       `Restaked`
     )
     await waitForText(
@@ -150,7 +150,7 @@ module.exports = {
     )
     await waitForText(
       browser,
-      ".tx:nth-of-type(1) .tx__content .tx__content__left",
+      ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
       `Unstaked`
     )
     await waitForText(
