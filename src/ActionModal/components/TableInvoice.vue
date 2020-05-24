@@ -1,11 +1,11 @@
 <template>
   <div>
     <ul class="table-invoice">
-      <li v-if="subTotal > 0">
+      <li v-if="subTotal > 0" class="sub-total">
         <span>Subtotal</span>
         <span> {{ subTotal | fullDecimals }} {{ bondDenom }} </span>
       </li>
-      <li>
+      <li class="fees">
         <span>Network Fee</span>
         <span>
           {{ estimatedFee | fullDecimals }}
