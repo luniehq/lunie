@@ -52,7 +52,7 @@ const nightwatch_config = {
         os: "OS X",
         os_version: "Mojave",
         browserName: "Safari",
-      }
+      },
     },
   },
 }

@@ -219,7 +219,7 @@ async function actionModalCheckout(
   if (checkUIUpdates) {
     // go to portfolio to remember balances
     await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
-  
+
     // check if balance header updates as expected
     // TODO find a way to know the rewards on an undelegation to know the final balance 100%
     console.log(
