@@ -63,8 +63,13 @@ async function waitForText(
 ) {
   await browser.waitForElementVisible(selector, 10000)
   while (iterations--) {
-    const { value: text } = await browser.getText(selector)
-    if (text && text.trim() === expectedCaption) return
+    try {
+      const { value: text } = await browser.getText(selector)
+      console.log(text.replace(/ /g, '_'))
+      if (text && text.trim() === expectedCaption) return
+    } catch (error) {
+      console.error(error)
+    }
     await browser.pause(timeout)
   }
   throw new Error("Timed out waiting for element and caption")
