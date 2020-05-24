@@ -4,8 +4,6 @@ chai.use(require("chai-string"))
 const networks = require("./networks.json")
 const {
   actionModalCheckout,
-  waitForText,
-  getLastActivityItemHash,
   checkBrowserLogs,
   getAccountBalance,
   fundMasterAccount,
