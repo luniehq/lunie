@@ -210,49 +210,21 @@ async function storeAccountData(browser, networkData) {
 }
 
 async function fundingTempAccount(browser, networkData) {
-  // remember the hash of the last transaction
-  await browser.url(browser.launch_url + browser.globals.slug + "/transactions")
-  browser.globals.lastHash = (await getLastActivityItemHash(browser)).value
-  return browser.url(
-    browser.launch_url + browser.globals.slug + "/portfolio",
+  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+  await actionModalCheckout(
+    browser,
+    ".circle-send-button",
+    // actions to do on details page
     async () => {
-      //browser.click(".modal-tutorial .close")
-      await actionModalCheckout(
-        browser,
-        ".circle-send-button",
-        // actions to do on details page
-        () => {
-          browser.setValue("#send-address", browser.globals.address)
-          browser.clearValue("#amount")
-          browser.setValue("#amount", networkData.fundingAmount)
-        },
-        // expected subtotal
-        networkData.fundingAmount,
-        networkData.fundingAmount,
-        networkData.fundingAmount
-      )
-      // check if the hash is changed
-      await browser.url(
-        browser.launch_url + browser.globals.slug + "/transactions",
-        async () => {
-          // check if tx shows
-          await waitForText(
-            browser,
-            ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
-            "Sent"
-          )
-          await waitForText(
-            browser,
-            ".tx:nth-of-type(1) .tx__content .tx__content__right",
-            `${networkData.fundingAmount} ${browser.globals.denom}`
-          )
-          let hash = (await getLastActivityItemHash(browser)).value
-          if (hash == browser.globals.lastHash) {
-            throw new Error(`Hash didn't changed!`)
-          }
-        }
-      )
-    }
+      await browser.setValue("#send-address", browser.globals.address)
+      await browser.clearValue("#amount")
+      await browser.setValue("#amount", networkData.fundingAmount)
+    },
+    // expected subtotal
+    networkData.fundingAmount,
+    networkData.fundingAmount,
+    networkData.fundingAmount,
+    true // ignore checks to speed up and to prevent issues with race conditions
   )
 }
 
