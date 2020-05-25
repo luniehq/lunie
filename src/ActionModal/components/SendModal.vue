@@ -286,7 +286,8 @@ export default {
   },
   methods: {
     open(denom = undefined) {
-      this.selectedToken = denom || this.selectedToken
+      this.selectedToken =
+        denom || this.balances.find(({ denom }) => denom).denom
       this.$refs.actionModal.open()
     },
     onSuccess(event) {
