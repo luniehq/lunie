@@ -21,6 +21,7 @@ export default ({ apollo }) => {
     analyticsCollection: false,
     cookiesAccepted: undefined,
     preferredCurrency: undefined,
+    notificationCounter: undefined,
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
     currrentModalOpen: false,
@@ -152,6 +153,7 @@ export default ({ apollo }) => {
       dispatch(`persistAddresses`, {
         addresses,
       })
+      dispatch(`checkForPersistedNotificationCounter`)
 
       // In Polkadot there are different account types for staking. To be able to signal allowed interactions
       // for the user in Lunie we need to query for the type of the account.
@@ -261,6 +263,16 @@ export default ({ apollo }) => {
         })
       })
       return allSessionAddresses
+    },
+    persistNotificationCounter(store, { notificationCounter }) {
+      localStorage.setItem(`notificationCounter`, notificationCounter)
+      state.notificationCounter = notificationCounter
+    },
+    checkForPersistedNotificationCounter() {
+      const notificationCounter = localStorage.getItem(`notificationCounter`)
+      if (notificationCounter) {
+        state.notificationCounter = notificationCounter
+      }
     },
   }
 

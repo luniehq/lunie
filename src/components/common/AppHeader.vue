@@ -87,7 +87,7 @@ export default {
     desktop: false,
     isMobileApp: config.mobileApp,
     allSessionAddresses: [],
-    notificationCounter: 0, // needs to be fetched from store
+    notificationCounter: 0,
   }),
   computed: {
     ...mapState([`session`, "connection"]),
@@ -104,6 +104,10 @@ export default {
       `getAllSessionsAddresses`,
       { networkIds }
     )
+    const persistedNotificationCounter = localStorage.getItem('notificationCounter')
+    if (persistedNotificationCounter) {
+      this.notificationCounter = persistedNotificationCounter
+    }
   },
   updated() {
     this.watchWindowSize()
@@ -132,8 +136,11 @@ export default {
         this.desktop = false
       }
     },
-    updateNewNotificationsCounter() {
+    updatNotificationsCounter() {
       this.notificationCounter++
+      this.$store.dispatch(`persistNotificationCounter`, {
+        notificationCounter: this.notificationCounter,
+      })
     },
   },
   apollo: {
@@ -155,7 +162,7 @@ export default {
         result({ data }) {
           /* istanbul ignore next */
           if (data.notificationAdded) {
-            this.updateNewNotificationsCounter()
+            this.updatNotificationsCounter()
           }
         },
       },
