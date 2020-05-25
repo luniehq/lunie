@@ -32,7 +32,7 @@
     "@polkadot/api": "1.13.1",
     "@polkadot/util-crypto": "2.10.1",
     "@sentry/browser": "5.15.5",
-    "@sentry/integrations": "5.7.1",
+    "@sentry/integrations": "5.15.5",
     "apollo-boost": "^0.4.9",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-cache-persist": "0.1.1",
