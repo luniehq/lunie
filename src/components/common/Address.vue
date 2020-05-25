@@ -61,6 +61,7 @@ export default {
 
 .menu-address .address {
   color: var(--menu-link);
+  font-weight: 400;
 }
 
 .copyable-address .address:hover {
