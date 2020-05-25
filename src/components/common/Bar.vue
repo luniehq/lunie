@@ -2,8 +2,14 @@
   <div v-if="showMessage" :class="`bar ${barType}`">
     <p>
       <slot />
+      <span v-if="link" class="link" @click="goToLink(link)">{{ link }}</span>
     </p>
-    <i class="material-icons notranslate close-icon" @click="close()">close</i>
+    <div class="right">
+      <button v-if="link" class="button" @click="goToLink(link)">Go</button>
+      <i class="material-icons notranslate close-icon" @click="close()"
+        >close</i
+      >
+    </div>
   </div>
 </template>
 
@@ -16,6 +22,10 @@ export default {
       default: "primary",
     },
     show: Boolean,
+    link: {
+      type: String,
+      default: "",
+    },
   },
   data: function () {
     return {
@@ -26,6 +36,12 @@ export default {
     close() {
       this.showMessage = false
       this.$emit(`close`)
+    },
+    goToLink(link) {
+      if (link) {
+        // make safe and independent from API
+        window.location = link
+      }
     },
   },
 }
@@ -69,8 +85,21 @@ export default {
 
 .bar .link {
   text-decoration: underline;
-  color: var(--menu-bright);
+  color: var(--link);
   cursor: pointer;
+}
+
+.bar .button {
+  background-color: transparent;
+  color: var(--txt);
+  border-radius: 5px;
+  padding: 0.1rem 0.5rem;
+  cursor: pointer;
+}
+
+.bar .right {
+  display: flex;
+  align-items: center;
 }
 
 .close-icon {
