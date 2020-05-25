@@ -60,20 +60,18 @@ export default Router
 
 // check if feature is allowed and redirect if not
 async function featureAvailable(store, networkSlug, feature) {
-  const networks = store.state.connection.networks
+  let networks = store.state.connection.networks
+  if (networks.length === 0) {
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    featureAvailable(store, networkSlug, feature)
+  }
   // we get the current network object
   const currentNetworkId = store.state.connection.network
   // we get the current network object
   const currentNetwork = networks.find(({ slug, id }) =>
     networkSlug ? slug === networkSlug : id === currentNetworkId
   )
-  if (currentNetwork) {
-    const featureSelector = `feature_${feature.toLowerCase()}`
-    return currentNetwork[featureSelector]
-  } else {
-    setTimeout(
-      async () => await featureAvailable(store, networkSlug, feature),
-      100
-    )
-  }
+
+  const featureSelector = `feature_${feature.toLowerCase()}`
+  return currentNetwork[featureSelector]
 }
