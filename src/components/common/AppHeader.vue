@@ -87,7 +87,6 @@ export default {
     desktop: false,
     isMobileApp: config.mobileApp,
     allSessionAddresses: [],
-    notificationCounter: 0,
   }),
   computed: {
     ...mapState([`session`, `connection`]),
@@ -95,12 +94,13 @@ export default {
     networkSlug() {
       return this.connection.networkSlug
     },
-    notificationCounterWatcher() {
-      return this.notificationCounter
+    notificationCounter() {
+      const storeNotificationCounter = this.session.notificationCounter
+      return storeNotificationCounter || 0
     },
   },
   watch: {
-    notificationCounterWatcher(newCounter) {
+    notificationCounter(newCounter) {
       console.log("New notificationCounter is", newCounter)
     },
   },
@@ -112,12 +112,6 @@ export default {
       `getAllSessionsAddresses`,
       { networkIds }
     )
-    const persistedNotificationCounter = localStorage.getItem(
-      "notificationCounter"
-    )
-    if (persistedNotificationCounter) {
-      this.notificationCounter = persistedNotificationCounter
-    }
   },
   updated() {
     this.watchWindowSize()
@@ -147,9 +141,8 @@ export default {
       }
     },
     updatNotificationsCounter() {
-      this.notificationCounter = Number(this.notificationCounter) + 1
       this.$store.dispatch(`persistNotificationCounter`, {
-        notificationCounter: this.notificationCounter,
+        notificationCounter: Number(this.notificationCounter) + 1,
       })
     },
   },
