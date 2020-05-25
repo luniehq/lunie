@@ -71,6 +71,9 @@ async function featureAvailable(store, networkSlug, feature) {
     const featureSelector = `feature_${feature.toLowerCase()}`
     return currentNetwork[featureSelector]
   } else {
-    return "DISABLED"
+    setTimeout(
+      async () => await featureAvailable(store, networkSlug, feature),
+      100
+    )
   }
 }
