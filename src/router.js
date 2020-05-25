@@ -63,7 +63,7 @@ async function featureAvailable(store, networkSlug, feature) {
   let networks = store.state.connection.networks
   if (networks.length === 0) {
     await new Promise((resolve) => setTimeout(resolve, 100))
-    featureAvailable(store, networkSlug, feature)
+    return featureAvailable(store, networkSlug, feature)
   }
   // we get the current network object
   const currentNetworkId = store.state.connection.network
