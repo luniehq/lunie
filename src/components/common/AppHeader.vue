@@ -54,6 +54,9 @@
             >
               <i class="material-icons">notifications</i>
             </router-link>
+            <div v-if="notificationCounter > 0" id="notification-counter">
+              {{ notificationCounter }}
+            </div>
             <div v-if="open" class="close-menu" @click="close()">
               <i class="material-icons notranslate mobile-menu-action">close</i>
             </div>
@@ -72,9 +75,10 @@
 
 <script>
 import config from "src/../config"
-import { mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
+import { NotificationAdded } from "src/gql"
 export default {
   name: `app-header`,
   components: { AppMenu },
@@ -82,16 +86,24 @@ export default {
     open: false,
     desktop: false,
     isMobileApp: config.mobileApp,
+    allSessionAddresses: [],
+    notificationCounter: 0, // needs to be fetched from store
   }),
   computed: {
     ...mapState([`session`, "connection"]),
+    ...mapGetters([`networks`]),
     networkSlug() {
       return this.connection.networkSlug
     },
   },
-  mounted() {
+  mounted: async function () {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize
+    const networkIds = this.networks.map((network) => network.id)
+    this.allSessionAddresses = await this.$store.dispatch(
+      `getAllSessionsAddresses`,
+      { networkIds }
+    )
   },
   updated() {
     this.watchWindowSize()
@@ -119,6 +131,34 @@ export default {
       } else {
         this.desktop = false
       }
+    },
+    updateNewNotificationsCounter() {
+      this.notificationCounter++
+    },
+  },
+  apollo: {
+    $subscribe: {
+      notificationAdded: {
+        query: NotificationAdded,
+        variables() {
+          /* istanbul ignore next */
+          return {
+            addressObjects: this.allSessionAddresses,
+          }
+        },
+        skip() {
+          /* istanbul ignore next */
+          return (
+            !this.allSessionAddresses || this.allSessionAddresses.length === 0
+          )
+        },
+        result({ data }) {
+          /* istanbul ignore next */
+          if (data.notificationAdded) {
+            this.updateNewNotificationsCounter()
+          }
+        },
+      },
     },
   },
 }
@@ -151,6 +191,21 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   padding-top: 1.4rem;
+}
+
+#notification-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 3rem;
+  top: 2.75rem;
+  max-width: 1rem;
+  max-height: 1rem;
+  border-radius: 100%;
+  background-color: red;
+  color: var(--txt);
+  font-size: small;
 }
 
 @media screen and (max-width: 1023px) {

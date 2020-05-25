@@ -6,11 +6,19 @@ describe(`AppHeader`, () => {
 
   beforeEach(() => {
     $store = {
+      dispatch: jest.fn(),
       state: {
         session: {
           experimentalMode: false,
           insecureMode: true,
         },
+      },
+      getters: {
+        networks: [
+          {
+            id: `cosmos-hub-mainnet`,
+          },
+        ],
       },
     }
 

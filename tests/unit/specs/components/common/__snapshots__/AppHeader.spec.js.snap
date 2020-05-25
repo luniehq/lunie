@@ -121,6 +121,8 @@ exports[`AppHeader should show the sidebar as a menu on mobile 1`] = `
       >
         <!---->
          
+        <!---->
+         
         <div
           class="close-menu"
         >
