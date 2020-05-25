@@ -220,6 +220,18 @@ export const UserTransactionAdded = gql`
   }
 `
 
+export const NotificationAdded = gql`
+  subscription($addressObjects: [NotificationInput]!) {
+    notificationAdded(addressObjects: $addressObjects) {
+      networkId
+      timestamp
+      title
+      link
+      icon
+    }
+  }
+`
+
 export const AddressRole = gql`
   query($networkId: String!, $address: String!) {
     accountRole(networkId: $networkId, address: $address)
