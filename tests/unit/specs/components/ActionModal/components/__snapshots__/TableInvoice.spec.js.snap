@@ -5,7 +5,9 @@ exports[`TableInvoice should render correctly 1`] = `
   <ul
     class="table-invoice"
   >
-    <li>
+    <li
+      class="sub-total"
+    >
       <span>
         Subtotal
       </span>
@@ -15,7 +17,9 @@ exports[`TableInvoice should render correctly 1`] = `
       </span>
     </li>
      
-    <li>
+    <li
+      class="fees"
+    >
       <span>
         Network Fee
       </span>
