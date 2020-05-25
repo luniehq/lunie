@@ -85,7 +85,7 @@
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@capacitor/android": "2.1.0",
     "@capacitor/cli": "2.1.0",
-    "@capacitor/core": "2.0.0",
+    "@capacitor/core": "2.0.2",
     "@capacitor/ios": "2.0.0",
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
