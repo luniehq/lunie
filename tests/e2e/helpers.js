@@ -147,7 +147,7 @@ async function actionModalCheckout(
     browser.expect.elements(".table-invoice li").count.to.equal(2)
   } else {
     browser.assert.containsText(
-      ".table-invoice li:first-child span:last-child",
+      ".table-invoice .sub-total span:last-child",
       expectedSubtotal
     )
   }
@@ -160,7 +160,7 @@ async function actionModalCheckout(
 
   // remember fees
   const { value } = await browser.getText(
-    ".table-invoice li:nth-child(2) span:last-child"
+    ".table-invoice .fees span:last-child"
   )
   const fees = numeral(value).value()
 
