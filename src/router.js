@@ -6,12 +6,6 @@ import { setNetwork } from "./scripts/setNetwork"
 /* istanbul ignore next */
 Vue.use(router)
 
-const networkCapabilityDictionary = {
-  true: "ENABLED",
-  false: "DISABLED",
-  null: "MISSING",
-}
-
 export const routeGuard = (store) => async (to, from, next) => {
   // Set any open modal to false
   store.state.session.currrentModalOpen = false
@@ -73,9 +67,10 @@ async function featureAvailable(store, networkSlug, feature) {
   const currentNetwork = networks.find(({ slug, id }) =>
     networkSlug ? slug === networkSlug : id === currentNetworkId
   )
-  const featureSelector = `feature_${feature.toLowerCase()}`
-  return typeof currentNetwork[featureSelector] === "string"
-    ? currentNetwork[featureSelector]
-    : // DEPRECATE fallback for old API response
-      networkCapabilityDictionary[currentNetwork[featureSelector]]
+  if (currentNetwork) {
+    const featureSelector = `feature_${feature.toLowerCase()}`
+    return currentNetwork[featureSelector]
+  } else {
+    return "DISABLED"
+  }
 }
