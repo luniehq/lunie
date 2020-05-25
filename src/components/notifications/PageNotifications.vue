@@ -32,7 +32,7 @@
 <script>
 import TmPage from "../common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import gql from "graphql-tag"
 
 export default {
@@ -46,6 +46,7 @@ export default {
     allSessionAddresses: [],
   }),
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`networks`]),
   },
   mounted: async function () {
@@ -54,6 +55,8 @@ export default {
       `getAllSessionsAddresses`,
       { networkIds }
     )
+    // set notificationCounter for new notifications to 0
+    this.$store.dispatch(`persistNotificationCounter`, { notificationCounter: 0 })
   },
   apollo: {
     notifications: {

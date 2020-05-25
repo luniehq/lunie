@@ -90,7 +90,7 @@ export default {
     notificationCounter: 0,
   }),
   computed: {
-    ...mapState([`session`, "connection"]),
+    ...mapState([`session`, `connection`]),
     ...mapGetters([`networks`]),
     networkSlug() {
       return this.connection.networkSlug
@@ -137,7 +137,7 @@ export default {
       }
     },
     updatNotificationsCounter() {
-      this.notificationCounter++
+      this.notificationCounter = Number(this.notificationCounter) + 1
       this.$store.dispatch(`persistNotificationCounter`, {
         notificationCounter: this.notificationCounter,
       })
