@@ -54,9 +54,7 @@
             >
               <i class="material-icons">notifications</i>
             </router-link>
-            <div v-if="notificationCounter > 0" id="notification-counter">
-              {{ notificationCounter }}
-            </div>
+            <div v-if="isNotificationAvailable" id="notification-available"></div>
             <div v-if="open" class="close-menu" @click="close()">
               <i class="material-icons notranslate mobile-menu-action">close</i>
             </div>
@@ -94,14 +92,14 @@ export default {
     networkSlug() {
       return this.connection.networkSlug
     },
-    notificationCounter() {
-      const storeNotificationCounter = this.session.notificationCounter
-      return storeNotificationCounter || 0
+    isNotificationAvailable() {
+      const storeNotificationAvailable = this.session.notificationAvailable
+      return Boolean(storeNotificationAvailable)
     },
   },
   watch: {
-    notificationCounter(newCounter) {
-      console.log("New notificationCounter is", newCounter)
+    isNotificationAvailable(bool) {
+      console.log("isNotificationAvailable is", bool)
     },
   },
   mounted: async function () {
@@ -140,9 +138,9 @@ export default {
         this.desktop = false
       }
     },
-    updatNotificationsCounter() {
-      this.$store.dispatch(`persistNotificationCounter`, {
-        notificationCounter: Number(this.notificationCounter) + 1,
+    updateNotificationsAvailable() {
+      this.$store.dispatch(`persistNotificationAvailable`, {
+        notificationAvailable: !this.isNotificationAvailable,
       })
     },
   },
@@ -165,7 +163,7 @@ export default {
         result({ data }) {
           /* istanbul ignore next */
           if (data.notificationAdded) {
-            this.updatNotificationsCounter()
+            this.updateNotificationsAvailable()
           }
         },
       },
@@ -203,19 +201,14 @@ export default {
   padding-top: 1.4rem;
 }
 
-#notification-counter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  right: 3rem;
-  top: 2.75rem;
-  max-width: 1rem;
-  max-height: 1rem;
-  border-radius: 100%;
+#notification-available {
+  position: inherit;
+  right: 1rem;
+  top: 0.75rem;
+  height: 2vh;
+  width: 2vw;
+  border-radius: 50%;
   background-color: red;
-  color: var(--txt);
-  font-size: small;
 }
 
 @media screen and (max-width: 1023px) {
@@ -238,6 +231,7 @@ export default {
 
 .header-menu-section {
   display: flex;
+  position: relative;
 }
 
 .header-menu-section > * {
