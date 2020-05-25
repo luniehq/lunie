@@ -95,6 +95,14 @@ export default {
     networkSlug() {
       return this.connection.networkSlug
     },
+    notificationCounterWatcher() {
+      return this.notificationCounter
+    },
+  },
+  watch: {
+    notificationCounterWatcher(newCounter) {
+      console.log("New notificationCounter is", newCounter)
+    },
   },
   mounted: async function () {
     this.watchWindowSize()
@@ -104,7 +112,9 @@ export default {
       `getAllSessionsAddresses`,
       { networkIds }
     )
-    const persistedNotificationCounter = localStorage.getItem('notificationCounter')
+    const persistedNotificationCounter = localStorage.getItem(
+      "notificationCounter"
+    )
     if (persistedNotificationCounter) {
       this.notificationCounter = persistedNotificationCounter
     }

@@ -56,7 +56,9 @@ export default {
       { networkIds }
     )
     // set notificationCounter for new notifications to 0
-    this.$store.dispatch(`persistNotificationCounter`, { notificationCounter: 0 })
+    this.$store.dispatch(`persistNotificationCounter`, {
+      notificationCounter: 0,
+    })
   },
   apollo: {
     notifications: {
