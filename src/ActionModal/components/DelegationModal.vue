@@ -81,6 +81,7 @@
     </TmFormGroup>
 
     <TmFormGroup
+      v-if="!(session.addressRole === `stash`)"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -91,7 +92,6 @@
         :title="from"
         :options="fromOptions"
         type="select"
-        :is-disabled="session.addressRole === `stash`"
       />
     </TmFormGroup>
     <TmFormGroup
