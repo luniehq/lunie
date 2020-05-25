@@ -54,7 +54,10 @@
             >
               <i class="material-icons">notifications</i>
             </router-link>
-            <div v-if="isNotificationAvailable" id="notification-available"></div>
+            <div
+              v-if="isNotificationAvailable"
+              id="notification-available"
+            ></div>
             <div v-if="open" class="close-menu" @click="close()">
               <i class="material-icons notranslate mobile-menu-action">close</i>
             </div>

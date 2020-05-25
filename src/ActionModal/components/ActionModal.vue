@@ -900,13 +900,13 @@ export default {
         if (message.amount) {
           message.amount = {
             amount: String(message.amount.amount),
-            denom: message.amount.denom
+            denom: message.amount.denom,
           }
         }
         if (message.amounts) {
-          message.amounts = message.amounts.map(({amount, denom}) => ({
+          message.amounts = message.amounts.map(({ amount, denom }) => ({
             amount: String(amount),
-            denom
+            denom,
           }))
         }
         return {
