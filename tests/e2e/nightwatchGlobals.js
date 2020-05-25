@@ -224,13 +224,6 @@ async function fundingTempAccount(browser, networkData) {
     networkData.fundingAmount,
     false // ignore checks to speed up and to prevent issues with race conditions
   )
-  await waitForText(
-    browser,
-    ".tx:nth-of-type(1) .tx__content .tx__content__right",
-    `${networkData.fundingAmount} ${browser.globals.denom}`
-  )
-
-  await waitForHashUpdate(browser, lastHash)
 }
 
 async function createAccountAndFundIt(browser, done, networkData) {
