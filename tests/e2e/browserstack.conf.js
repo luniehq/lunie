@@ -26,11 +26,7 @@ const nightwatch_config = {
       browser: "INFO",
     },
     chromeOptions: {
-      args: [
-        "disable-web-security",
-        "ignore-certificate-errors",
-        "disable-application-cache",
-      ],
+      args: ["disable-web-security", "ignore-certificate-errors"],
       prefs: {
         "intl.accept_languages": "en-US,en",
       },
@@ -48,9 +44,11 @@ const nightwatch_config = {
       },
     },
     osx: {
-      os: "OS X",
-      os_version: "Mojave",
-      browserName: "Safari",
+      desiredCapabilities: {
+        os: "OS X",
+        os_version: "Mojave",
+        browserName: "Safari",
+      },
     },
   },
 }

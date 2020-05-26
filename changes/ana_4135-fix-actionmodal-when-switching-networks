@@ -1,0 +1,3 @@
+[Fixed] [#4135](https://github.com/cosmos/lunie/issues/4135) Fixes ActionModal having balances from previous network when switching networks @Bitcoinera
+[Changed] [#4135](https://github.com/cosmos/lunie/issues/4135) ActionModal does not overlap anymore AppMenu @Bitcoinera
+[Deprecated] [#4136](https://github.com/cosmos/lunie/pull/4136) Deletes TmNotification and TmNotifications components @Bitcoinera

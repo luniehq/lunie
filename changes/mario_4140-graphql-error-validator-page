@@ -1,0 +1,1 @@
+[Fixed] [#4140](https://github.com/cosmos/lunie/issues/4140) Fix graphql error in validator page when user has not signed in yet @mariopino
