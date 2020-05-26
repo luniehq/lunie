@@ -15,9 +15,9 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="undelegate"
+    :disabled="session.addressRole === `stash`"
     @close="clear"
     @txIncluded="onSuccess"
-    :disabled="session.addressRole === `stash`"
   >
     <TmFormGroup
       v-if="session.addressRole === `stash`"
