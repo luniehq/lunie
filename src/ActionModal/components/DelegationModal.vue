@@ -53,7 +53,7 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
-      v-if="!(session.addressRole === `stash`)"
+      v-if="session.addressRole !== `stash`"
       class="action-modal-form-group"
       field-id="to"
       field-label="To"
@@ -81,7 +81,7 @@
     </TmFormGroup>
 
     <TmFormGroup
-      v-if="!(session.addressRole === `stash`)"
+      v-if="session.addressRole !== `stash`"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -95,14 +95,14 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="!(session.addressRole === `controller`)"
+      v-if="session.addressRole !== `controller`"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       :field-label="`Amount${
         currentNetwork.network_type === 'polkadot' &&
         totalStaked > 0 &&
-        !(session.addressRole === `stash`)
+        session.addressRole !== `stash`
           ? ' (Optional)'
           : ''
       }`"

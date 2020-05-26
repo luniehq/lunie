@@ -31,7 +31,7 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
-      v-if="!(session.addressRole === `stash`)"
+      v-if="session.addressRole !== `stash`"
       class="action-modal-form-group"
     >
       <div class="form-message notice">
@@ -47,7 +47,7 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
-      v-if="!(session.addressRole === `stash`)"
+      v-if="session.addressRole !== `stash`"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -79,7 +79,7 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="!(session.addressRole === `stash`)"
+      v-if="session.addressRole !== `stash`"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
