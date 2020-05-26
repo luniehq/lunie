@@ -85,8 +85,9 @@
           </TmFormGroup>
           <TableInvoice
             :amount="Number(subTotal)"
-            :estimated-fee="estimatedFee"
+            :estimated-fee="payableFee"
             :bond-denom="getDenom"
+            :fee-denom="alternativeFeeDenom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.max"
@@ -427,6 +428,9 @@ export default {
     includedHeight: undefined,
     smallestAmount: SMALLEST,
     balancesLoaded: false,
+    polkadotFee: 0,
+    alternativeFeeDenom: "",
+    alternativeEstimatedFee: 0,
     networkFeesLoaded: false,
   }),
   asyncComputed: {
@@ -461,6 +465,9 @@ export default {
       `currentNetwork`,
     ]),
     ...mapGetters({ networkId: `network` }),
+    payableFee() {
+      return this.alternativeEstimatedFee || this.estimatedFee
+    },
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
       // DEPRECATE to support the upgrade of the old Boolean value to the new ENUM capability model, we support here temporarily the upgrade from the Boolean model to the ENUM model
@@ -486,14 +493,23 @@ export default {
         this.networkFeesLoaded &&
         this.gasEstimate &&
         Number(this.subTotal) + this.estimatedFee >
-          this.selectedBalance.amount &&
+          Number(this.selectedBalance.amount) &&
         // emoney-mainnet and kava-mainnet don't allow discounts on fees
         this.networkId !== "emoney-mainnet" &&
         this.networkId !== "kava-mainnet"
       ) {
         this.adjustFeesToMaxPayable()
       }
-      return Number(this.subTotal) + this.estimatedFee
+
+      if (
+        this.gasEstimate &&
+        Number(this.subTotal) + this.estimatedFee >=
+          Number(this.selectedBalance.amount) &&
+        this.networkId === "emoney-mainnet"
+      ) {
+        this.alternativeFeeSelector()
+      }
+      return Number(this.subTotal) + this.payableFee
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -744,7 +760,7 @@ export default {
                 : this.gasEstimate, // 1e-9 is a hack to avoid Go unmarshal errors
               gasPrice: {
                 amount: this.chainAppliedFees ? 1e-9 : this.gasPrice,
-                denom: this.getDenom,
+                denom: this.alternativeFeeDenom || this.getDenom,
               },
               senderAddress: this.session.address,
               network: this.network,
@@ -819,6 +835,28 @@ export default {
     maxDecimals(value, decimals) {
       return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
     },
+    alternativeFeeSelector() {
+      const alternativeFeeBalance = this.balances.find((balance) => {
+        let newEstimatedFee
+        if (balance.denom !== this.getDenom) {
+          newEstimatedFee = this.maxDecimals(
+            Number(balance.gasPrice) * Number(this.gasEstimate),
+            6
+          )
+        }
+        return newEstimatedFee && balance.amount >= newEstimatedFee
+          ? balance
+          : null
+      })
+      if (alternativeFeeBalance) {
+        this.alternativeFeeDenom = alternativeFeeBalance.denom
+        this.gasPrice = alternativeFeeBalance.gasPrice
+        this.alternativeEstimatedFee = this.maxDecimals(
+          Number(this.gasPrice) * Number(this.gasEstimate),
+          6
+        )
+      }
+    },
   },
   validations() {
     return {
@@ -838,7 +876,10 @@ export default {
         max: (x) => Number(x) <= this.selectedBalance.amount,
       },
       invoiceTotal: {
-        max: (x) => Number(x) <= this.selectedBalance.amount,
+        max: (x) =>
+          this.alternativeEstimatedFee
+            ? true
+            : Number(x) <= this.selectedBalance.amount,
       },
     }
   },
@@ -1088,7 +1129,7 @@ export default {
   transform: translateX(2rem);
   opacity: 0;
 }
-
+/* stylelint-disable */
 #send-modal .tm-data-msg {
   margin: 2rem 0 2rem 0;
 }
