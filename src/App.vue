@@ -12,7 +12,6 @@
       <router-view />
     </div>
     <MobileMenu />
-    <TmNotifications :notifications="notifications" />
   </div>
 </template>
 
@@ -24,7 +23,6 @@ import DisconnectedBar from "common/DisconnectedBar"
 import MaintenanceBar from "common/MaintenanceBar"
 import MobileMenu from "common/MobileMenu"
 import NetworkSelector from "common/NetworkSelector"
-import TmNotifications from "common/TmNotifications"
 import store from "./vuex/store"
 import config from "src/../config"
 
@@ -37,7 +35,6 @@ export default {
     MaintenanceBar,
     MobileMenu,
     NetworkSelector,
-    TmNotifications,
   },
   data: () => ({
     isMobileApp: config.mobileApp,

@@ -581,6 +581,11 @@ export default {
         this.gasPrice = selectedBalance.gasPrice
       },
     },
+    currentNetwork: {
+      handler() {
+        this.close()
+      },
+    },
   },
   updated: function () {
     if (
