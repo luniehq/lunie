@@ -964,7 +964,6 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        console.log(data)
         if (data.networkFees) {
           this.networkFeesLoaded = true
           this.gasEstimate = data.networkFees.gasEstimate
