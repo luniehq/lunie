@@ -3,8 +3,7 @@
     <div v-for="message in maintenance" :key="message.id">
       <Bar :bar-type="message.type" :show="message.show" :link="message.link"
         >{{ message.message }}
-        <span v-if="message.link">Visit:&nbsp;</span></Bar
-      >
+      </Bar>
     </div>
   </div>
 </template>

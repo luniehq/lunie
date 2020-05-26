@@ -2,10 +2,12 @@
   <div v-if="showMessage" :class="`bar ${barType}`">
     <p>
       <slot />
-      <span v-if="link" class="link" @click="goToLink(link)">{{ link }}</span>
+      <span
+        >Come visit
+        <span v-if="link" class="link" @click="goToLink(link)">us!</span>
+      </span>
     </p>
     <div class="right">
-      <button v-if="link" class="button" @click="goToLink(link)">Go</button>
       <i class="material-icons notranslate close-icon" @click="close()"
         >close</i
       >
@@ -40,7 +42,7 @@ export default {
     goToLink(link) {
       if (link) {
         // make safe and independent from API
-        window.location = link
+        window.open(link, "_blank")
       }
     },
   },
@@ -85,7 +87,6 @@ export default {
 
 .bar .link {
   text-decoration: underline;
-  color: var(--link);
   cursor: pointer;
 }
 
