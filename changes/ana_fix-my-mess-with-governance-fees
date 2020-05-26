@@ -1,1 +1,0 @@
-[Fixed] [#822](https://github.com/cosmos/lunie/pull/822) Fix governance transaction fees by including governance tx specific fields in the networkFees schema @Bitcoinera

@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.18] - 2020-05-26
+
+### Added
+
+- [#819](https://github.com/cosmos/lunie/pull/819) Add validator name and picture to notification @michielmulders
+- [#817](https://github.com/cosmos/lunie/pull/817) Persist validator data from store to disk @michielmulders
+
+### Changed
+
+- [#734](https://github.com/cosmos/lunie/issues/734) Adds a link field to the maintenance bar to display it in FE @Bitcoinera
+
+### Fixed
+
+- [#822](https://github.com/cosmos/lunie/pull/822) Fix governance transaction fees by including governance tx specific fields in the networkFees schema @Bitcoinera
+- [#4142](https://github.com/cosmos/lunie/issues/4142) Fix TransactionDetailsInput in schema @mariopino
+- [#823](https://github.com/cosmos/lunie/pull/823) Fix double notification and kusama undefined eventType @michielmulders
+
 ## [1.0.17] - 2020-05-23
 
 ### Fixed
