@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.17] - 2020-05-23
+
+### Fixed
+
+- Fix claiming not querying fees correctly @faboweb
+
 ## [1.0.16] - 2020-05-23
 
 ### Added

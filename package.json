@@ -1,6 +1,6 @@
 {
   "name": "lunie-api",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "GraphQL API for Lunie.io",
   "repository": {
     "type": "git",
@@ -25,14 +25,14 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "caches/eras.json"
+      "caches/*"
     ]
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "@polkadot/api": "^1.14.1",
+    "@polkadot/api": "^1.15.1",
     "@sentry/node": "^5.15.5",
     "apollo-datasource-rest": "^0.9.0",
     "apollo-server": "^2.13.1",
