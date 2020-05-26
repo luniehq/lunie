@@ -942,7 +942,6 @@ export default {
       variables() {
         let { type, ...message } = this.transactionData
         delete message.memo
-        delete message.addressRole
         // make sure the amounts are strings when sending
         if (message.amount) {
           message.amount = {
@@ -965,6 +964,7 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        console.log(data)
         if (data.networkFees) {
           this.networkFeesLoaded = true
           this.gasEstimate = data.networkFees.gasEstimate
