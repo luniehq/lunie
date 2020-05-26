@@ -5,8 +5,14 @@ const { ApiPromise, WsProvider } = require('@polkadot/api')
 const _ = require('lodash')
 const BN = require('bignumber.js')
 const fs = require('fs')
+const path = require('path')
 
-const eraCachePath = './caches/eras.json'
+const eraCachePath = path.join(
+  __dirname,
+  '..',
+  'caches',
+  `eras.json`
+)
 
 async function initPolkadotRPC(network, store) {
   const api = new ApiPromise({
