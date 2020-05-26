@@ -938,6 +938,7 @@ export default {
           }
         }
       `,
+      
       /* istanbul ignore next */
       variables() {
         let { type, ...message } = this.transactionData
