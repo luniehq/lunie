@@ -6,10 +6,14 @@ describe(`AppHeader`, () => {
 
   beforeEach(() => {
     $store = {
+      commit: jest.fn(),
       state: {
         session: {
           experimentalMode: false,
           insecureMode: true,
+          currrentModalOpen: {
+            close: jest.fn(),
+          },
         },
       },
     }

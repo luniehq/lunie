@@ -103,6 +103,8 @@ export default {
       noScroll.off()
     },
     show() {
+      this.session.currrentModalOpen.close()
+      this.$store.commit(`setCurrrentModalOpen`, false)
       this.open = true
       noScroll.on()
     },
