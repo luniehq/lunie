@@ -31,7 +31,10 @@
         </span>
       </div>
     </TmFormGroup>
-    <TmFormGroup class="action-modal-form-group">
+    <TmFormGroup
+      v-if="session.addressRole !== `stash`"
+      class="action-modal-form-group"
+    >
       <div class="form-message notice">
         <span v-if="!isRedelegation">
           Unstaking takes {{ undelegationPeriod }} to complete and cannot be
@@ -45,15 +48,14 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
+      v-if="session.addressRole !== `stash`"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
     >
       <TmField
         id="from"
-        :value="
-          session.addressRole === `stash` ? `--` : enhancedSourceValidator
-        "
+        :value="enhancedSourceValidator"
         type="text"
         readonly
       />
@@ -78,6 +80,7 @@
       />
     </TmFormGroup>
     <TmFormGroup
+      v-if="session.addressRole !== `stash`"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
@@ -92,7 +95,6 @@
           class="tm-field-addon"
           placeholder="0"
           type="number"
-          :is-disabled="session.addressRole === `stash`"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
@@ -257,8 +259,7 @@ export default {
             address: delegation.validator.operatorAddress,
             maximum: Number(delegation.amount),
             key: `${delegation.validator.name} - ${formatAddress(
-              delegation.validator.operatorAddress,
-              20
+              delegation.validator.operatorAddress
             )}`,
             value: index + 1,
           }
@@ -272,7 +273,7 @@ export default {
         {
           address: this.address,
           maximum: Number(this.balance.amount),
-          key: `My Wallet - ${formatAddress(this.address, 20)}`,
+          key: `My Wallet - ${formatAddress(this.address)}`,
           value: 0,
         },
       ]

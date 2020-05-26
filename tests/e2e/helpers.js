@@ -65,7 +65,7 @@ async function waitForText(
   while (iterations--) {
     try {
       const { value: text } = await browser.getText(selector)
-      console.log(text.replace(/ /g, '_'))
+      console.log(text.replace(/ /g, "_"))
       if (text && text.trim() === expectedCaption) return
     } catch (error) {
       console.error(error)
