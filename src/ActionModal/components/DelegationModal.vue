@@ -71,13 +71,21 @@
         "
       >
         <TmFormMsg
-          v-if="targetValidator.status === 'INACTIVE' && !isRedelegation && !(addressRole && addressRole !== `stash`)"
+          v-if="
+            targetValidator.status === 'INACTIVE' &&
+            !isRedelegation &&
+            addressRole !== `stash`
+          "
           :msg="`You are about to stake to an inactive validator (${targetValidator.statusDetailed})`"
           type="custom"
           class="tm-form-msg--desc"
         />
         <TmFormMsg
-          v-if="targetValidator.status === 'INACTIVE' && isRedelegation && !(addressRole && addressRole !== `stash`)"
+          v-if="
+            targetValidator.status === 'INACTIVE' &&
+            isRedelegation &&
+            addressRole !== `stash`
+          "
           :msg="`You are about to restake to an inactive validator (${targetValidator.statusDetailed})`"
           type="custom"
           class="tm-form-msg--desc"
