@@ -59,12 +59,7 @@
       field-label="To"
     >
       <TmField id="to" :value="enhancedTargetValidator" type="text" readonly />
-      <template
-        v-if="
-          network.type !== `polkadot` ||
-          (addressRole && addressRole !== `stash`)
-        "
-      >
+      <template>
         <TmFormMsg
           v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
           :msg="`You are about to stake to an inactive validator (${targetValidator.statusDetailed})`"
