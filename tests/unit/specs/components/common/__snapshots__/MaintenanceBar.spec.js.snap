@@ -9,8 +9,7 @@ exports[`MaintenanceBar has the expected html structure 1`] = `
       show="true"
     >
       success test message
-      
-      <!---->
+    
     </bar-stub>
   </div>
 </div>
