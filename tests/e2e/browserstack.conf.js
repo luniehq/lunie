@@ -26,10 +26,7 @@ const nightwatch_config = {
       browser: "INFO",
     },
     chromeOptions: {
-      args: [
-        "disable-web-security",
-        "ignore-certificate-errors"
-      ],
+      args: ["disable-web-security", "ignore-certificate-errors"],
       prefs: {
         "intl.accept_languages": "en-US,en",
       },

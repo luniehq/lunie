@@ -3,7 +3,7 @@ const {
   waitForText,
   getAccountBalance,
   getLastActivityItemHash,
-  waitForHashUpdate
+  waitForHashUpdate,
 } = require("./helpers.js")
 
 async function setSelect(browser, selector, option) {
@@ -64,7 +64,7 @@ module.exports = {
       ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
       `${value} ${browser.globals.denom}`
     )
-    
+
     await waitForHashUpdate(browser, lastHash)
   },
   "Redelegate Action": async function (browser) {
@@ -110,7 +110,7 @@ module.exports = {
       ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
       `${value} ${browser.globals.denom}`
     )
-    
+
     await waitForHashUpdate(browser, lastHash)
   },
   "Undelegate Action": async function (browser) {
@@ -158,7 +158,7 @@ module.exports = {
       ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
       `${value} ${browser.globals.denom}`
     )
-    
+
     await waitForHashUpdate(browser, lastHash)
   },
 }

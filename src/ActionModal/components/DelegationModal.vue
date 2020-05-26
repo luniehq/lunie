@@ -52,24 +52,14 @@
         </span>
       </div>
     </TmFormGroup>
-    <TmFormGroup class="action-modal-form-group" field-id="to" field-label="To">
-      <TmField
-        id="to"
-        :value="
-          // prettier-ignore
-          session.addressRole === `stash`
-            ? `--`
-            : enhancedTargetValidator
-        "
-        type="text"
-        readonly
-      />
-      <template
-        v-if="
-          network.type !== `polkadot` ||
-          (addressRole && addressRole !== `stash`)
-        "
-      >
+    <TmFormGroup
+      v-if="session.addressRole !== `stash`"
+      class="action-modal-form-group"
+      field-id="to"
+      field-label="To"
+    >
+      <TmField id="to" :value="enhancedTargetValidator" type="text" readonly />
+      <template>
         <TmFormMsg
           v-if="targetValidator.status === 'INACTIVE' && !isRedelegation"
           :msg="`You are about to stake to an inactive validator (${targetValidator.statusDetailed})`"
@@ -86,6 +76,7 @@
     </TmFormGroup>
 
     <TmFormGroup
+      v-if="session.addressRole !== `stash`"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -96,15 +87,17 @@
         :title="from"
         :options="fromOptions"
         type="select"
-        :is-disabled="session.addressRole === `stash`"
       />
     </TmFormGroup>
     <TmFormGroup
+      v-if="session.addressRole !== `controller`"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       :field-label="`Amount${
-        currentNetwork.network_type === 'polkadot' && totalStaked > 0
+        currentNetwork.network_type === 'polkadot' &&
+        totalStaked > 0 &&
+        session.addressRole !== `stash`
           ? ' (Optional)'
           : ''
       }`"
@@ -118,7 +111,6 @@
           placeholder="0"
           class="tm-field-addon"
           type="number"
-          :is-disabled="session.addressRole === `controller`"
           @keyup.enter.native="enterPressed"
         />
         <TmBtn
@@ -235,8 +227,7 @@ export default {
           return {
             address: validator.operatorAddress,
             key: `${validator.name} - ${formatAddress(
-              validator.operatorAddress,
-              20
+              validator.operatorAddress
             )}`,
             value: 0,
           }
@@ -248,7 +239,7 @@ export default {
         {
           address: this.address,
           maximum: Number(this.balance.amount),
-          key: `My Wallet - ${formatAddress(this.address, 20)}`,
+          key: `My Wallet - ${formatAddress(this.address)}`,
           value: 0,
         },
       ]
