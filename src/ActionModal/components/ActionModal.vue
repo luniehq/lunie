@@ -937,6 +937,7 @@ export default {
       variables() {
         let { type, ...message } = this.transactionData
         delete message.memo
+        delete message.addressRole
         // make sure the amounts are strings when sending
         if (message.amount) {
           message.amount = {
