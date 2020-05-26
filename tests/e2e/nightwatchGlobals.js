@@ -4,9 +4,6 @@ chai.use(require("chai-string"))
 const networks = require("./networks.json")
 const {
   actionModalCheckout,
-  waitForText,
-  getLastActivityItemHash,
-  waitForHashUpdate,
   checkBrowserLogs,
   getAccountBalance,
   fundMasterAccount,
@@ -211,9 +208,6 @@ async function storeAccountData(browser, networkData) {
 }
 
 async function fundingTempAccount(browser, networkData) {
-  // remember the hash of the last transaction
-  await browser.url(browser.launch_url + browser.globals.slug + "/transactions")
-  const lastHash = await getLastActivityItemHash(browser)
   await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
   await actionModalCheckout(
     browser,
@@ -227,23 +221,9 @@ async function fundingTempAccount(browser, networkData) {
     // expected subtotal
     networkData.fundingAmount,
     networkData.fundingAmount,
-    networkData.fundingAmount
+    networkData.fundingAmount,
+    false // ignore checks to speed up and to prevent issues with race conditions
   )
-  // check if the hash is changed
-  await browser.url(browser.launch_url + browser.globals.slug + "/transactions")
-  // check if tx shows
-  await waitForText(
-    browser,
-    ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
-    "Sent"
-  )
-  await waitForText(
-    browser,
-    ".tx:nth-of-type(1) .tx__content .tx__content__right",
-    `${networkData.fundingAmount} ${browser.globals.denom}`
-  )
-
-  await waitForHashUpdate(browser, lastHash)
 }
 
 async function createAccountAndFundIt(browser, done, networkData) {
