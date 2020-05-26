@@ -1129,7 +1129,7 @@ export default {
   transform: translateX(2rem);
   opacity: 0;
 }
-
+/* stylelint-disable */
 #send-modal .tm-data-msg {
   margin: 2rem 0 2rem 0;
 }

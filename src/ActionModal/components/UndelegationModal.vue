@@ -17,6 +17,7 @@
     feature-flag="undelegate"
     @close="clear"
     @txIncluded="onSuccess"
+    :disabled="session.addressRole === `stash`"
   >
     <TmFormGroup
       v-if="session.addressRole === `stash`"
