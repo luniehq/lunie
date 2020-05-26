@@ -31,7 +31,6 @@
   </div>
 </template>
 
-
 <script>
 import { mapGetters, mapState } from "vuex"
 import TmDataMsg from "common/TmDataMsg"
