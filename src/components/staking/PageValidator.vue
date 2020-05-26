@@ -470,6 +470,10 @@ export default {
         }
       },
       /* istanbul ignore next */
+      skip() {
+        return !this.userAddress
+      },
+      /* istanbul ignore next */
       update(data) {
         return data.delegations || []
       },
