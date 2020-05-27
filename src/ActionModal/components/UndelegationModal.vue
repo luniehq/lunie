@@ -329,7 +329,20 @@ export default {
   validations() {
     return {
       amount: {
-        required: (x) => !!x && x !== `0`,
+        required: (amount) => {
+          // In Polkadot we don't need to unbond tokens, the user may just want to unnominate a validator
+          // stash accounts can't do anything else but unbond so we make it required
+          // none accounts can't access this modal
+          if (
+            this.currentNetwork.network_type === "polkadot" &&
+            ["controller", "stash/controller"].includes(
+              this.session.addressRole
+            )
+          ) {
+            return true
+          }
+          return !!amount && amount !== `0`
+        },
         decimal,
         max: (x) => Number(x) <= this.maximum,
         min: (x) => Number(x) >= SMALLEST,
