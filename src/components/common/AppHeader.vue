@@ -207,8 +207,7 @@ export default {
   position: inherit;
   right: 1rem;
   top: 0.75rem;
-  height: 2vh;
-  width: 2vw;
+  height: 1rem;
   border-radius: 50%;
   background-color: red;
 }
