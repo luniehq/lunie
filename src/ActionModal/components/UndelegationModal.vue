@@ -345,7 +345,18 @@ export default {
         },
         decimal,
         max: (x) => Number(x) <= this.maximum,
-        min: (x) => Number(x) >= SMALLEST,
+        min: (x) => {
+          // see required
+          if (
+            this.currentNetwork.network_type === "polkadot" &&
+            ["controller", "stash/controller"].includes(
+              this.session.addressRole
+            )
+          ) {
+            return true
+          }
+          return Number(x) >= SMALLEST
+        },
         maxDecimals: (x) => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6
