@@ -107,7 +107,6 @@ exports[`PageValidator if uptimePercentage is blank 1`] = `
        
       <tmbtn-stub
         class="undelegation-btn"
-        disabled="true"
         id="undelegation-btn"
         type="secondary"
         value="Unstake"
@@ -390,7 +389,6 @@ exports[`PageValidator if user has signed in - status text banned 1`] = `
        
       <tmbtn-stub
         class="undelegation-btn"
-        disabled="true"
         id="undelegation-btn"
         type="secondary"
         value="Unstake"
@@ -673,7 +671,6 @@ exports[`PageValidator if user has signed in - status text inactive 1`] = `
        
       <tmbtn-stub
         class="undelegation-btn"
-        disabled="true"
         id="undelegation-btn"
         type="secondary"
         value="Unstake"
@@ -956,7 +953,6 @@ exports[`PageValidator if user has signed in 1`] = `
        
       <tmbtn-stub
         class="undelegation-btn"
-        disabled="true"
         id="undelegation-btn"
         type="secondary"
         value="Unstake"
@@ -1239,7 +1235,6 @@ exports[`PageValidator if user hasn't signed in 1`] = `
        
       <tmbtn-stub
         class="undelegation-btn"
-        disabled="true"
         id="undelegation-btn"
         type="secondary"
         value="Unstake"

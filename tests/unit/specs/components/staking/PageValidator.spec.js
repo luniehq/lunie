@@ -83,7 +83,15 @@ describe(`PageValidator`, () => {
         status: "ACTIVE",
         operatorAddress: "cosmosvaloper1abcdefghijklmnop",
         statusDetailed: "active"
-      }
+      },
+      delegations: [
+        {
+          validator: {
+            operatorAddress: "cosmosvaloper1abcdefghijklmnop"
+          },
+          amount: 1
+        }
+      ]
     })
   })
 
