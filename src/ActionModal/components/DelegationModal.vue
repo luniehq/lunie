@@ -358,7 +358,8 @@ export default {
   validations() {
     return {
       amount: {
-        required: (x) => (!!x && x !== `0`) || this.session.addressRole === `controller`,
+        required: (x) =>
+          (!!x && x !== `0`) || this.session.addressRole === `controller`,
         decimal,
         max: (x) => Number(x) <= this.maxAmount,
         min: (x) =>
