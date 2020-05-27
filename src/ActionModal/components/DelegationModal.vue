@@ -358,17 +358,7 @@ export default {
   validations() {
     return {
       amount: {
-        required: (x) => {
-          if (
-            (this.currentNetwork.network_type === "polkadot" &&
-              this.totalStaked > 0) ||
-            this.session.addressRole === `controller`
-          ) {
-            return true
-          } else {
-            return !!x && x !== `0`
-          }
-        },
+        required: (x) => (!!x && x !== `0`) || this.session.addressRole === `controller`,
         decimal,
         max: (x) => Number(x) <= this.maxAmount,
         min: (x) =>
