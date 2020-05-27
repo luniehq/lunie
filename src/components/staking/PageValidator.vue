@@ -358,6 +358,7 @@ export default {
   },
   apollo: {
     delegation: {
+      /* istanbul ignore next */
       query: gql`
         query delegation(
           $networkId: String!
@@ -400,6 +401,7 @@ export default {
       },
     },
     rewards: {
+      /* istanbul ignore next */
       query: gql`
         query RewardsPageValidator(
           $networkId: String!
@@ -436,6 +438,7 @@ export default {
       },
     },
     validator: {
+      /* istanbul ignore next */
       query: ValidatorProfile,
       /* istanbul ignore next */
       variables() {
@@ -456,12 +459,12 @@ export default {
       },
     },
     delegations: {
+      /* istanbul ignore next */
       query() {
-        /* istanbul ignore next */
         return DelegationsForDelegator(this.network)
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           delegatorAddress: this.userAddress,
           networkId: this.network,
@@ -512,6 +515,7 @@ export default {
         skip() {
           return !this.userAddress
         },
+        /* istanbul ignore next */
         query: UserTransactionAdded,
         /* istanbul ignore next */
         result({ data }) {
