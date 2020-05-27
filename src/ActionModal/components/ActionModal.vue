@@ -511,7 +511,9 @@ export default {
       const feeDenom = this.selectedDenom || this.network.stakingDenom
       let balance = this.balances.find(({ denom }) => denom === feeDenom)
       if (!balance) {
-        balance = defaultBalance
+        // HACK for now. If not balance we hard reload 
+        // Old balances from other networks keep popping up. Needs to be fixed
+        location.reload(true)
       }
       // some API responses don't have gasPrices set
       if (!balance.gasPrice) balance.gasPrice = defaultBalance.gasPrice
@@ -796,7 +798,8 @@ export default {
       },
       invoiceTotal: {
         max: (x) =>
-          this.alternativeEstimatedFee
+          this.networkFeesLoaded && 
+          this.networkFees.transactionFee.denom !== this.selectedDenom
             ? true
             : Number(x) <= this.selectedBalance.amount,
       },
