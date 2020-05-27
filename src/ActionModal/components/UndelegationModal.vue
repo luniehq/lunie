@@ -194,7 +194,11 @@ export default {
     ...mapGetters([`network`, `address`, `stakingDenom`, `currentNetwork`]),
     maximum() {
       if (this.currentNetwork.network_type === `polkadot`) {
-        return this.totalStaked || 0
+        const totalStaked = this.delegations.reduce(
+          (accum, delegation) =>
+            accum += parseFloat(delegation.amount)
+        , 0)
+        return totalStaked.toFixed(3) || 0
       } else {
         const delegation = this.delegations.find(
           ({ validator }) =>
@@ -447,35 +451,6 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
-      },
-    },
-    totalStaked: {
-      query: gql`
-        query overview($networkId: String!, $address: String!) {
-          overview(networkId: $networkId, address: $address) {
-            totalStake
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      skip() {
-        return (
-          !this.address ||
-          !this.network ||
-          // only needed for polkadot to determine if user needs to set an amount
-          this.currentNetwork.network_type !== "polkadot"
-        )
-      },
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.address,
-        }
-      },
-      /* istanbul ignore next */
-      update({ overview: { totalStake } }) {
-        return totalStake
       },
     },
     $subscribe: {
