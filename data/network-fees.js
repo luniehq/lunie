@@ -312,15 +312,15 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
     network.id,
     messageType
   )
+  const transactionAmount = getTransactionAmount(message, feeDenom)
   let estimatedFee = {
     amount: String(
       chainAppliedFees && chainAppliedFees.rate > 0
-        ? chainAppliedFees.rate
+        ? BigNumber(transactionAmount).times(chainAppliedFees.rate).toNumber()
         : gasEstimate * gasPrice
     ),
     denom: feeDenom
   }
-  const transactionAmount = getTransactionAmount(message, feeDenom)
   const selectedBalance = balances.find(({denom}) => denom === feeDenom)
   if (
     Number(transactionAmount) + Number(estimatedFee.amount) >
