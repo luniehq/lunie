@@ -198,7 +198,7 @@ export default {
           (accum, delegation) =>
             accum += parseFloat(delegation.amount)
         , 0)
-        return totalStaked.toFixed(3) || 0
+        return totalStaked.toFixed(6) || 0
       } else {
         const delegation = this.delegations.find(
           ({ validator }) =>
