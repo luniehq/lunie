@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.207] - 2020-05-27
+
+### Fixed
+
+- [#4145](https://github.com/cosmos/lunie/issues/4145) Fix bugs in unstake using controller address in polkadot @mariopino
+
 ## [1.0.206] - 2020-05-27
 
 ### Changed
