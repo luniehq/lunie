@@ -306,4 +306,27 @@ describe(`DelegationModal`, () => {
       expect(wrapper.find("#to .tm-form-msg--desc").exists()).toBe(false)
     })
   })
+
+  describe(`if network is polkadot`, () => {
+    it(`amount should be required if address is stash`, async () => {
+      wrapper.vm.$store.state.session.addressRole = `stash`
+      wrapper.vm.$store.getters.currentNetwork.network_type = "polkadot"
+      wrapper.setData({
+        amount: 0,
+        fromSelectedIndex: `0`,
+        targetValidator: validators[0], // Active validator
+      })
+      expect(wrapper.vm.validateForm()).toBe(false)
+    })
+    it(`amount should not be required if address is controller`, async () => {
+      wrapper.vm.$store.state.session.addressRole = `controller`
+      wrapper.vm.$store.getters.currentNetwork.network_type = "polkadot"
+      wrapper.setData({
+        amount: 0,
+        fromSelectedIndex: `0`,
+        targetValidator: validators[0], // Active validator
+      })
+      expect(wrapper.vm.validateForm()).toBe(true)
+    })
+  })
 })
