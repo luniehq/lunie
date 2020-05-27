@@ -1,0 +1,1 @@
+[Fixed] [#847](https://github.com/cosmos/lunie/pull/847) Fix for linebreaks in proposals that cause notification creation to fail @michielmulders
