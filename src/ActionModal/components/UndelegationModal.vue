@@ -195,9 +195,9 @@ export default {
     maximum() {
       if (this.currentNetwork.network_type === `polkadot`) {
         const totalStaked = this.delegations.reduce(
-          (accum, delegation) =>
-            accum += parseFloat(delegation.amount)
-        , 0)
+          (accum, delegation) => (accum += parseFloat(delegation.amount)),
+          0
+        )
         return totalStaked.toFixed(6) || 0
       } else {
         const delegation = this.delegations.find(
