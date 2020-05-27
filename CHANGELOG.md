@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.19] - 2020-05-27
+
+### Fixed
+
+- [#832](https://github.com/cosmos/lunie/issues/832) Fixes issues with Kava duplicte message types by adding getMessageType to Kava reducers @Bitcoinera
+- Update polkadot library @faboweb
+- [#803](https://github.com/cosmos/lunie/issues/803) Handle polkadot sub-identities @mariopino
+- [#821](https://github.com/cosmos/lunie/issues/821) Fix validator expected returns order in polkadot @mariopino
+- [#843](https://github.com/cosmos/lunie/issues/843) Fix getting fees in polkadot for new accounts in staking @mariopino
+
 ## [1.0.18] - 2020-05-26
 
 ### Added
