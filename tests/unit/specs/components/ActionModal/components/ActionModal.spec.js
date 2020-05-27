@@ -215,24 +215,6 @@ describe(`ActionModal`, () => {
     expect(estimatedFee).toBe(0.0045)
   })
 
-  it(`should not update the gas estimate for emoney when it is a claim rewards transaction`, async () => {
-    const self = {
-      gasPrice: "1.5e-8",
-      gasEstimate: 550000,
-      networkId: `emoney-mainnet`,
-      transactionData: {
-        type: `MsgWithdrawDelegationReward`,
-      },
-      network: {
-        network_type: "cosmos",
-      },
-      maxDecimals: ActionModal.methods.maxDecimals,
-      updateEmoneyGasEstimate: ActionModal.methods.updateEmoneyGasEstimate,
-    }
-    await ActionModal.asyncComputed.estimatedFee.call(self)
-    expect(self.gasEstimate).toBe(550000)
-  })
-
   it(`should set the submissionError if the submission is rejected`, async () => {
     const failingSendMock = jest
       .fn()
