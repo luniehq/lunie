@@ -96,8 +96,7 @@ export default {
       return this.connection.networkSlug
     },
     isNotificationAvailable() {
-      const storeNotificationAvailable = this.session.notificationAvailable
-      return Boolean(storeNotificationAvailable)
+      return Boolean(this.session.notificationAvailable)
     },
   },
   watch: {
@@ -142,8 +141,8 @@ export default {
       }
     },
     updateNotificationsAvailable() {
-      this.$store.dispatch(`persistNotificationAvailable`, {
-        notificationAvailable: !this.isNotificationAvailable,
+      this.$store.dispatch(`setNotificationAvailable`, {
+        notificationAvailable: true,
       })
     },
   },

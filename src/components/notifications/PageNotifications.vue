@@ -55,9 +55,9 @@ export default {
       `getAllSessionsAddresses`,
       { networkIds }
     )
-    // set notificationCounter for new notifications to 0
-    this.$store.dispatch(`persistNotificationAvailable`, {
-      notificationCounter: false,
+    // set notificationAvailable to false
+    this.$store.dispatch(`setNotificationAvailable`, {
+      notificationAvailable: false,
     })
   },
   apollo: {

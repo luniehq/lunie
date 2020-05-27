@@ -153,7 +153,6 @@ export default ({ apollo }) => {
       dispatch(`persistAddresses`, {
         addresses,
       })
-      dispatch(`checkForPersistedNotificationAvailable`)
 
       // In Polkadot there are different account types for staking. To be able to signal allowed interactions
       // for the user in Lunie we need to query for the type of the account.
@@ -264,17 +263,8 @@ export default ({ apollo }) => {
       })
       return allSessionAddresses
     },
-    persistNotificationAvailable(store, { notificationAvailable }) {
-      localStorage.setItem(`notificationAvailable`, notificationAvailable)
+    setNotificationAvailable(store, { notificationAvailable }) {
       state.notificationAvailable = notificationAvailable
-    },
-    checkForPersistedNotificationAvailable() {
-      const notificationAvailable = localStorage.getItem(
-        `notificationAvailable`
-      )
-      if (notificationAvailable) {
-        state.notificationAvailable = notificationAvailable
-      }
     },
   }
 
