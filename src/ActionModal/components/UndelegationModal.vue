@@ -321,14 +321,11 @@ export default {
   validations() {
     return {
       amount: {
-        required: (x) =>
-          this.currentNetwork.network_type === "polkadot" || (!!x && x !== `0`),
+        required: (x) => (!!x && x !== `0`),
         decimal,
         max: (x) =>
-          this.currentNetwork.network_type === "polkadot" ||
           Number(x) <= this.maximum,
         min: (x) =>
-          this.currentNetwork.network_type === "polkadot" ||
           Number(x) >= SMALLEST,
         maxDecimals: (x) => {
           return x.toString().split(".").length > 1
