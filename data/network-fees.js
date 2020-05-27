@@ -42,7 +42,10 @@ const pollForNewFees = async () => {
     })
   })
   terraTaxRate = Number(Number(terraTaxRateResponse.result).toFixed(6))
-  emoneyGasPrices = emoneyGasPricesResponse.result.min_gas_prices.map(gasPrice => gasPrice = {denom: gasPrice.denom, price: gasPrice.amount})
+  emoneyGasPrices = emoneyGasPricesResponse.result.min_gas_prices.map(gasPrice => gasPrice = {
+    denom: gasPrice.denom, 
+    price: gasPrice.amount
+  })
   setTimeout(async () => {
     pollForNewFees()
   }, FEES_POLLING_INTERVAL)
@@ -85,40 +88,7 @@ const getNetworkTransactionChainAppliedFees = (networkId, transactionType) => {
       cap: TERRA_TAX_CAP
     }
   } else {
-    return {
-      rate: 0,
-      cap: 0
-    }
-  }
-}
-
-const getPolkadotMessage = async (messageType, senderAddress, message, network) => {
-  const polkadotMessages = require(`../lib/messageCreators/polkadot-transactions`)
-  const messageFormatter = polkadotMessages[messageType]
-  return messageFormatter && network ? await messageFormatter(senderAddress, message, network) : null
-}
-
-const getPolkadotFee = async ({ messageType, message, senderAddress, network }) => {
-  if (!messageType) return null
-
-  const chainMessage = await getPolkadotMessage(
-    messageType,
-    senderAddress,
-    message,
-    network
-  )
-
-  const { partialFee } = await chainMessage.transaction.paymentInfo(
-    senderAddress
-  )
-  const chainFees = partialFee.toJSON()
-  const viewFees = BigNumber(chainFees)
-    .times(network.coinLookup[0].chainToViewConversionFactor)
-    .toNumber()
-  const { amount } = message 
-  return {
-    denom: amount.denom || network.stakingDenom,
-    amount: viewFees
+    return null
   }
 }
 
@@ -202,7 +172,7 @@ const terraGasPrices = [
 const kavaGasPrices = [
   {
     denom: 'ukava',
-    price: '0.1' // TODO: remind Kava team they have gas price set too high
+    price: '0.1'
   }
 ]
 
@@ -228,4 +198,160 @@ let networkGasPricesDictionary = {
   'kusama': polkadotGasPrices,
 }
 
-module.exports = { getNetworkTransactionGasEstimates, getNetworkTransactionChainAppliedFees, getNetworkGasPrices, getPolkadotFee, getPolkadotMessage }
+const getPolkadotMessage = async (messageType, senderAddress, message, network) => {
+  const polkadotMessages = require(`../lib/messageCreators/polkadot-transactions`)
+  const messageFormatter = polkadotMessages[messageType]
+  return messageFormatter && network ? await messageFormatter(senderAddress, message, network) : null
+}
+
+const getPolkadotFee = async ({ messageType, message, senderAddress, network }) => {
+  if (!messageType) return null
+
+  const chainMessage = await getPolkadotMessage(
+    messageType,
+    senderAddress,
+    message,
+    network
+  )
+
+  const { partialFee } = await chainMessage.transaction.paymentInfo(
+    senderAddress
+  )
+  const chainFees = partialFee.toJSON()
+  const viewFees = BigNumber(chainFees)
+    .times(network.coinLookup[0].chainToViewConversionFactor)
+    .toNumber()
+  const { amount } = message 
+  return {
+    denom: amount.denom || network.stakingDenom,
+    amount: viewFees
+  }
+}
+
+const maxDecimals = (value, decimals) => {
+  return Number(BigNumber(value).toFixed(decimals))
+}
+
+const getFeeDenomFromMessage = (message, network) => {
+  // check if there is a fee field (polkadot)
+  if (message.fee) {
+    return message.fee.denom
+  }
+  // check if there is an amounts field. Assumption: in this case we pay with the stakingDenom gasPrice
+  if (message.amounts) {
+    return network.stakingDenom
+  }
+  // check if there is an amount field
+  if (message.amount) {
+    return message.amount.denom
+  }
+  return ''
+}
+
+const getTransactionAmount = (message, feeDenom) => {
+  // check if there is an amount field
+  if (message.amount) {
+    return message.amount.amount
+  }
+  // check if there is an amounts field
+  if (message.amounts) {
+    return message.amounts.find(({denom}) => denom === feeDenom).amount
+  }
+  return 0
+}
+
+const adjustFeesToMaxPayable = (selectedBalance, estimatedFee, gasEstimate) => {
+  let gasPrice = (Number(selectedBalance.amount) - estimatedFee) / gasEstimate
+  // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
+  gasPrice = gasPrice >= 0 ? gasPrice : 0
+  return {
+    amount: maxDecimals(gasPrice * gasEstimate, 6),
+    denom: selectedBalance.denom
+  }
+}
+
+const selectAlternativeFee = (balances, feeDenom, gasEstimate) => {
+  let newEstimatedFee
+  const alternativeFeeBalance = balances.find((balance) => {
+    if (balance.denom !== feeDenom) {
+      newEstimatedFee = maxDecimals(
+        Number(balance.gasPrice) * Number(gasEstimate),
+        6
+      )
+    }
+    return newEstimatedFee && balance.amount >= newEstimatedFee
+      ? balance : null
+  })
+  if (alternativeFeeBalance) {
+    return {
+      denom: alternativeFeeBalance.denom,
+      amount: newEstimatedFee,
+    }
+  }
+  return null
+}
+
+const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, message, gasEstimate) => {
+  // query for this address balances
+  const balances = await cosmosSource.getBalancesFromAddress(senderAddress)
+  const feeDenom = getFeeDenomFromMessage(message, network)
+  const gasPrice = BigNumber(
+    getNetworkGasPrices(network.id).find(({ denom }) => {
+      const coinLookup = network.coinLookup.find(
+        ({ chainDenom }) => chainDenom === denom
+      )
+      return coinLookup ? coinLookup.viewDenom === feeDenom : false
+    }).price
+  )
+    .times(
+      network.coinLookup.find(({ viewDenom }) => viewDenom === feeDenom)
+        .chainToViewConversionFactor
+    )
+    .toNumber(6)
+  const chainAppliedFees = getNetworkTransactionChainAppliedFees(
+    network.id,
+    messageType
+  )
+  let estimatedFee = {
+    amount: String(
+      chainAppliedFees && chainAppliedFees.rate > 0
+        ? chainAppliedFees.rate
+        : gasEstimate * gasPrice
+    ),
+    denom: feeDenom
+  }
+  const transactionAmount = getTransactionAmount(message, feeDenom)
+  const selectedBalance = balances.find(({denom}) => denom === feeDenom)
+  if (
+    Number(transactionAmount) + Number(estimatedFee.amount) >
+    Number(selectedBalance.amount) &&
+    // emoney-mainnet and kava-mainnet don't allow discounts on fees
+    network.id !== "emoney-mainnet" &&
+    network.id !== "kava-mainnet"
+  ) {
+    // this one returns a new gasPrice
+    estimatedFee = adjustFeesToMaxPayable(selectedBalance, estimatedFee, gasEstimate)
+  }
+  if (
+    Number(transactionAmount) + Number(estimatedFee.amount) >
+    Number(selectedBalance.amount) &&
+    network.id === "emoney-mainnet"
+  ) {
+    // this one returns a completely new transactionFee (selecting it from balances)
+    estimatedFee = selectAlternativeFee(balances, feeDenom, gasEstimate) || estimatedFee
+  }
+  return {
+    transactionFee: estimatedFee,
+    chainAppliedFees: chainAppliedFees
+  }
+}
+
+module.exports = { 
+  getNetworkTransactionGasEstimates, 
+  getNetworkTransactionChainAppliedFees, 
+  getNetworkGasPrices, 
+  getPolkadotFee, 
+  getPolkadotMessage, 
+  getFeeDenomFromMessage, 
+  getCosmosFee,
+}
