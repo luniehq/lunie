@@ -458,7 +458,7 @@ export default {
           )
           this.sentToGA = true
         }
-        return data.overview
+        return data.overview || {}
       },
       /* istanbul ignore next */
       skip() {
@@ -499,6 +499,10 @@ export default {
       skip() {
         return !this.address
       },
+      /* istanbul ignore next */
+      update(data) {
+        return data.balances || []
+      },
     },
     rewards: {
       query: gql`
@@ -528,6 +532,10 @@ export default {
       /* istanbul ignore next */
       skip() {
         return !this.address
+      },
+      /* istanbul ignore next */
+      update(data) {
+        return data.rewards || []
       },
     },
     $subscribe: {
