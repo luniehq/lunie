@@ -358,13 +358,33 @@ export default {
   validations() {
     return {
       amount: {
-        required: (x) =>
-          (!!x && x !== `0`) || this.session.addressRole === `controller`,
+        required: (amount) => {
+          // In Polkadot we don't need to bond extra, the user may just want to nominate a new validator
+          // stash accounts or new accounts that haven't bonded tokens yet, need to specify an amount to bond
+          if (
+            this.currentNetwork.network_type === "polkadot" &&
+            ["controller", "stash/controller"].includes(
+              this.session.addressRole
+            )
+          ) {
+            return true
+          }
+          return !!amount && amount !== `0`
+        },
         decimal,
         max: (x) => Number(x) <= this.maxAmount,
-        min: (x) =>
-          this.currentNetwork.network_type === "polkadot" ||
-          Number(x) >= SMALLEST,
+        min: (x) => {
+          // see required
+          if (
+            this.currentNetwork.network_type === "polkadot" &&
+            ["controller", "stash/controller"].includes(
+              this.session.addressRole
+            )
+          ) {
+            return true
+          }
+          return Number(x) >= SMALLEST
+        },
         maxDecimals: (x) => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6
