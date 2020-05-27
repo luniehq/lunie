@@ -49,7 +49,7 @@ export default class TransactionManager {
   async getCosmosTransactionData({
     memo,
     gasEstimate,
-    gasPrice,
+    fee,
     senderAddress,
     network,
   }) {
@@ -74,14 +74,13 @@ export default class TransactionManager {
         },
       },
     } = response
-    const { Coin } = await import("./networkMessages/cosmos-hub-mainnet")
 
     return {
       accountNumber,
       sequence,
       chainId: network.chain_id,
       gasEstimate: String(gasEstimate),
-      gasPrices: [Coin(gasPrice, network.coinLookup)],
+      fee,
       memo,
     }
   }

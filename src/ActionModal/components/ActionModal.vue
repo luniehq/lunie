@@ -84,10 +84,10 @@
             />
           </TmFormGroup>
           <TableInvoice
+            v-if="networkFeesLoaded"
             :amount="Number(subTotal)"
-            :estimated-fee="payableFee"
-            :bond-denom="getDenom"
-            :fee-denom="alternativeFeeDenom"
+            :fee="networkFees.transactionFee"
+            :transaction-denom="getDenom"
           />
           <TmFormMsg
             v-if="$v.invoiceTotal.$invalid && !$v.invoiceTotal.max"
@@ -394,10 +394,6 @@ export default {
       type: String,
       default: ``,
     },
-    chainAppliedFees: {
-      type: Number,
-      default: 0,
-    },
     transactionType: {
       type: String,
       default: "UnknownTx",
@@ -410,7 +406,6 @@ export default {
     sending: false,
     networkFees: null,
     gasEstimate: 0,
-    gasPrice: 0,
     submissionError: null,
     show: false,
     loaded: false,
@@ -428,34 +423,8 @@ export default {
     includedHeight: undefined,
     smallestAmount: SMALLEST,
     balancesLoaded: false,
-    polkadotFee: 0,
-    alternativeFeeDenom: "",
-    alternativeEstimatedFee: 0,
     networkFeesLoaded: false,
   }),
-  asyncComputed: {
-    async estimatedFee() {
-      if (this.network.network_type === "cosmos" && this.networkFeesLoaded) {
-        // terra uses a tax on all send txs
-        if (this.chainAppliedFees > 0) {
-          return this.chainAppliedFees
-        }
-        return this.maxDecimals(
-          Number(this.gasPrice) * Number(this.gasEstimate),
-          6
-        )
-      }
-
-      if (
-        this.network.network_type === "polkadot" &&
-        this.step === feeStep &&
-        this.networkFeesLoaded
-      ) {
-        return Number(this.networkFees.fee.amount)
-      }
-      return 0
-    },
-  },
   computed: {
     ...mapState([`extension`, `session`]),
     ...mapGetters([
@@ -465,9 +434,6 @@ export default {
       `currentNetwork`,
     ]),
     ...mapGetters({ networkId: `network` }),
-    payableFee() {
-      return this.alternativeEstimatedFee || this.estimatedFee
-    },
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag
       // DEPRECATE to support the upgrade of the old Boolean value to the new ENUM capability model, we support here temporarily the upgrade from the Boolean model to the ENUM model
@@ -489,27 +455,13 @@ export default {
       return this.featureFlag === "undelegate" ? 0 : this.amount
     },
     invoiceTotal() {
-      if (
-        this.networkFeesLoaded &&
-        this.gasEstimate &&
-        Number(this.subTotal) + this.estimatedFee >
-          Number(this.selectedBalance.amount) &&
-        // emoney-mainnet and kava-mainnet don't allow discounts on fees
-        this.networkId !== "emoney-mainnet" &&
-        this.networkId !== "kava-mainnet"
-      ) {
-        this.adjustFeesToMaxPayable()
+      if (this.networkFeesLoaded) {
+        return (
+          Number(this.subTotal) + Number(this.networkFees.transactionFee.amount)
+        )
+      } else {
+        return 0
       }
-
-      if (
-        this.gasEstimate &&
-        Number(this.subTotal) + this.estimatedFee >=
-          Number(this.selectedBalance.amount) &&
-        this.networkId === "emoney-mainnet"
-      ) {
-        this.alternativeFeeSelector()
-      }
-      return Number(this.subTotal) + this.payableFee
     },
     isValidChildForm() {
       // here we trigger the validation of the child form
@@ -728,17 +680,6 @@ export default {
           return
       }
     },
-    // limit fees to the maximum the user has
-    adjustFeesToMaxPayable() {
-      let payable = Number(this.subTotal)
-      // chainAppliedFees defaults to 0 so we can just add it
-      payable += this.chainAppliedFees
-
-      this.gasPrice =
-        (Number(this.selectedBalance.amount) - payable) / this.gasEstimate
-      // BACKUP HACK, the gasPrice can never be negative, this should not happen :shrug:
-      this.gasPrice = this.gasPrice >= 0 ? this.gasPrice : 0
-    },
     async submit() {
       this.submissionError = null
       if (
@@ -760,13 +701,8 @@ export default {
           transactionData = await this.transactionManager.getCosmosTransactionData(
             {
               memo,
-              gasEstimate: this.chainAppliedFees
-                ? this.chainAppliedFees * 1e9
-                : this.gasEstimate, // 1e-9 is a hack to avoid Go unmarshal errors
-              gasPrice: {
-                amount: this.chainAppliedFees ? 1e-9 : this.gasPrice,
-                denom: this.alternativeFeeDenom || this.getDenom,
-              },
+              gasEstimate: this.networkFees.gasEstimate,
+              fee: [this.networkFees.transactionFee],
               senderAddress: this.session.address,
               network: this.network,
             }
@@ -829,7 +765,7 @@ export default {
       Sentry.withScope((scope) => {
         scope.setExtra("signMethod", this.selectedSignMethod)
         scope.setExtra("transactionData", this.transactionData)
-        scope.setExtra("gasEstimate", this.gasEstimate)
+        scope.setExtra("gasEstimate", this.networkFees.gasEstimate)
         scope.setExtra("gasPrice", this.gasPrice)
         Sentry.captureException(error)
       })
@@ -839,28 +775,6 @@ export default {
     },
     maxDecimals(value, decimals) {
       return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
-    },
-    alternativeFeeSelector() {
-      const alternativeFeeBalance = this.balances.find((balance) => {
-        let newEstimatedFee
-        if (balance.denom !== this.getDenom) {
-          newEstimatedFee = this.maxDecimals(
-            Number(balance.gasPrice) * Number(this.gasEstimate),
-            6
-          )
-        }
-        return newEstimatedFee && balance.amount >= newEstimatedFee
-          ? balance
-          : null
-      })
-      if (alternativeFeeBalance) {
-        this.alternativeFeeDenom = alternativeFeeBalance.denom
-        this.gasPrice = alternativeFeeBalance.gasPrice
-        this.alternativeEstimatedFee = this.maxDecimals(
-          Number(this.gasPrice) * Number(this.gasEstimate),
-          6
-        )
-      }
     },
   },
   validations() {
@@ -931,7 +845,7 @@ export default {
             senderAddress: $senderAddress
           ) {
             gasEstimate
-            fee {
+            transactionFee {
               denom
               amount
             }
@@ -966,7 +880,6 @@ export default {
       update(data) {
         if (data.networkFees) {
           this.networkFeesLoaded = true
-          this.gasEstimate = data.networkFees.gasEstimate
           return data.networkFees
         }
       },

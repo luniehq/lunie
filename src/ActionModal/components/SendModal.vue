@@ -12,7 +12,6 @@
     :notify-message="notifyMessage"
     feature-flag="send"
     :disabled="sendingNgm"
-    :chain-applied-fees="getTerraTax(false)"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -187,7 +186,6 @@ export default {
   },
   data: () => ({
     address: ``,
-    chainAppliedFees: {},
     amount: config.development ? 0.000001 : null, // dev life, hard life > make simple
     memo: defaultMemo,
     max_memo_characters: 256,
@@ -252,11 +250,9 @@ export default {
         )
       )
     },
+    // TODO: maxAmount should be handled from ActionModal
     maxAmount() {
-      return this.maxDecimals(
-        this.selectedBalance.amount - this.getTerraTax(true),
-        6
-      )
+      return this.maxDecimals(this.selectedBalance.amount, 6)
     },
   },
   watch: {
@@ -341,28 +337,6 @@ export default {
     maxDecimals(value, decimals) {
       return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
     },
-    getTerraTax(setMaxAmount = false) {
-      // hack for setMaxAmount
-      const amountToTax = setMaxAmount
-        ? this.selectedBalance.amount
-        : this.amount
-      if (
-        this.network.startsWith(`terra`) &&
-        this.selectedBalance.denom !== `LUNA` &&
-        this.chainAppliedFees &&
-        this.chainAppliedFees.rate
-      ) {
-        return this.maxDecimals(
-          Math.min(
-            Number(amountToTax) * this.chainAppliedFees.rate,
-            this.chainAppliedFees.cap
-          ),
-          6
-        )
-      } else {
-        return 0
-      }
-    },
   },
   validations() {
     return {
@@ -412,38 +386,6 @@ export default {
       },
       update(data) {
         return data.balances || []
-      },
-    },
-    chainAppliedFees: {
-      query: gql`
-        query NetworkFees($networkId: String!, $transactionType: String) {
-          networkFees(
-            networkId: $networkId
-            transactionType: $transactionType
-          ) {
-            chainAppliedFees {
-              rate
-              cap
-            }
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          transactionType: "SendTx",
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        if (data.networkFees) {
-          return data.networkFees.chainAppliedFees
-        }
-      },
-      /* istanbul ignore next */
-      skip() {
-        return !this.userAddress
       },
     },
     $subscribe: {
