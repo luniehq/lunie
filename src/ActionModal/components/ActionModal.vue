@@ -511,7 +511,7 @@ export default {
       const feeDenom = this.selectedDenom || this.network.stakingDenom
       let balance = this.balances.find(({ denom }) => denom === feeDenom)
       if (!balance) {
-        // HACK for now. If not balance we hard reload 
+        // HACK for now. If not balance we hard reload
         // Old balances from other networks keep popping up. Needs to be fixed
         location.reload(true)
       }
@@ -700,11 +700,23 @@ export default {
         let transactionData
         // Polkadot loads transaction data automatic
         if (this.network.network_type === "cosmos") {
+          const coinLookup = this.currentNetwork.coinLookup.find(
+            ({ viewDenom }) =>
+              viewDenom === this.networkFees.transactionFee.denom
+          )
           transactionData = await this.transactionManager.getCosmosTransactionData(
             {
               memo,
               gasEstimate: this.networkFees.gasEstimate,
-              fee: [this.networkFees.transactionFee],
+              // convert fee to chain values
+              fee: [
+                {
+                  amount: BigNumber(this.networkFees.transactionFee.amount)
+                    .div(coinLookup.chainToViewConversionFactor)
+                    .toNumber(),
+                  denom: coinLookup.chainDenom,
+                },
+              ],
               senderAddress: this.session.address,
               network: this.network,
             }
@@ -798,7 +810,7 @@ export default {
       },
       invoiceTotal: {
         max: (x) =>
-          this.networkFeesLoaded && 
+          this.networkFeesLoaded &&
           this.networkFees.transactionFee.denom !== this.selectedDenom
             ? true
             : Number(x) <= this.selectedBalance.amount,
