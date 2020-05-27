@@ -43,7 +43,11 @@ exports[`PageValidator if uptimePercentage is blank 1`] = `
         
         </span>
          
-        <!---->
+        <span
+          class="validator-status-detailed"
+        >
+          active
+        </span>
       </div>
     </div>
      
@@ -322,7 +326,11 @@ exports[`PageValidator if user has signed in - status text banned 1`] = `
         
         </span>
          
-        <!---->
+        <span
+          class="validator-status-detailed"
+        >
+          active
+        </span>
       </div>
     </div>
      
@@ -601,7 +609,11 @@ exports[`PageValidator if user has signed in - status text inactive 1`] = `
         
         </span>
          
-        <!---->
+        <span
+          class="validator-status-detailed"
+        >
+          active
+        </span>
       </div>
     </div>
      
@@ -880,7 +892,11 @@ exports[`PageValidator if user has signed in 1`] = `
         
         </span>
          
-        <!---->
+        <span
+          class="validator-status-detailed"
+        >
+          active
+        </span>
       </div>
     </div>
      
@@ -1159,7 +1175,11 @@ exports[`PageValidator if user hasn't signed in 1`] = `
         
         </span>
          
-        <!---->
+        <span
+          class="validator-status-detailed"
+        >
+          active
+        </span>
       </div>
     </div>
      

@@ -82,6 +82,7 @@ describe(`PageValidator`, () => {
       validator: {
         status: "ACTIVE",
         operatorAddress: "cosmosvaloper1abcdefghijklmnop",
+        statusDetailed: "active"
       }
     })
   })
