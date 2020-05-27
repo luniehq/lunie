@@ -78,7 +78,12 @@ describe(`PageValidator`, () => {
       },
       stubs: [`router-link`],
     })
-    wrapper.setProps({ validator })
+    wrapper.setData({
+      validator: {
+        status: "ACTIVE",
+        operatorAddress: "cosmosvaloper1abcdefghijklmnop",
+      }
+    })
   })
 
   // describe(`shows a validator profile information`, () => {
