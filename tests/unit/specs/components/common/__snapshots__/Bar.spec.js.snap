@@ -4,10 +4,7 @@ exports[`Bar shows a primary bar 1`] = `
 <div
   class="bar primary"
 >
-  <p>
-     
-    <!---->
-  </p>
+  <p />
    
   <div
     class="right"

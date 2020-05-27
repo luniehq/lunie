@@ -2,13 +2,10 @@
   <div v-if="showMessage" :class="`bar ${barType}`">
     <p>
       <slot />
-      <span v-if="link" class="link" @click="goToLink(link)">{{
-        linkCaption
-      }}</span>
     </p>
     <div class="right">
       <button v-if="link" class="button" @click="goToLink(link)">
-        {{ finalButtonCaption }}
+        {{ linkCaption }}
       </button>
       <i class="material-icons notranslate close-icon" @click="close()"
         >close</i
@@ -34,25 +31,11 @@ export default {
       type: String,
       default: "",
     },
-    buttonCaption: {
-      type: String,
-      default: "",
-    },
   },
   data: function () {
     return {
       showMessage: this.show,
     }
-  },
-  computed: {
-    finalButtonCaption() {
-      // HACK: empty String is not triggering defaults neither in DB nor here in props
-      if (this.buttonCaption === "") {
-        return "Learn more"
-      } else {
-        return this.buttonCaption
-      }
-    },
   },
   methods: {
     close() {
@@ -64,9 +47,8 @@ export default {
       if (link && link.startsWith(`http`)) {
         // make safe and independent from API
         window.open(link, "_blank")
-      }
-      // it is an internal link
-      if (link) {
+      } else if (link) {
+        // it is an internal link
         this.$router.push(link)
       }
     },
@@ -117,7 +99,7 @@ export default {
 
 .bar .button {
   background-color: transparent;
-  color: var(--txt);
+  color: var(--menu-bright);
   border-radius: 5px;
   padding: 0.1rem 0.5rem;
   cursor: pointer;

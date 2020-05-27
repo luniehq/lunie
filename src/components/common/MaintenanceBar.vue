@@ -6,7 +6,6 @@
         :show="message.show"
         :link="message.link"
         :link-caption="message.linkCaption"
-        :button-caption="message.buttonCaption"
         >{{ message.message }}
       </Bar>
     </div>
@@ -32,7 +31,6 @@ export default {
             message
             link
             linkCaption
-            buttonCaption
             type
             show
           }
