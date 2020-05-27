@@ -311,11 +311,7 @@ export default {
     hasDelegation() {
       return !!this.delegations.find(
         (delegation) =>
-          delegation.validator.operatorAddress ===
-            this.validator.operatorAddress &&
-          (this.currentNetwork.network_type === "polkadot" ||
-            (this.currentNetwork.network_type === "cosmos" &&
-              delegation.amount > 0))
+          delegation.validator.operatorAddress === this.validator.operatorAddress
       )
     },
   },
