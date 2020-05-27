@@ -5,7 +5,9 @@ exports[`MaintenanceBar has the expected html structure 1`] = `
   <div>
     <bar-stub
       bartype="primary"
+      buttoncaption=""
       link=""
+      linkcaption=""
       show="true"
     >
       success test message

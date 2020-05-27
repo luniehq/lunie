@@ -1,7 +1,12 @@
 <template>
   <div>
     <div v-for="message in maintenance" :key="message.id">
-      <Bar :bar-type="message.type" :show="message.show" :link="message.link"
+      <Bar
+        :bar-type="message.type"
+        :show="message.show"
+        :link="message.link"
+        :link-caption="message.linkCaption"
+        :button-caption="message.buttonCaption"
         >{{ message.message }}
       </Bar>
     </div>
@@ -26,6 +31,8 @@ export default {
           maintenance {
             message
             link
+            linkCaption
+            buttonCaption
             type
             show
           }
