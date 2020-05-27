@@ -193,11 +193,15 @@ export default {
     ...mapState([`session`]),
     ...mapGetters([`network`, `address`, `stakingDenom`, `currentNetwork`]),
     maximum() {
-      const delegation = this.delegations.find(
-        ({ validator }) =>
-          validator.operatorAddress === this.sourceValidator.operatorAddress
-      )
-      return delegation ? Number(delegation.amount) : 0
+      if (this.currentNetwork.network_type === `polkadot`) {
+        return this.totalStaked || 0
+      } else {
+        const delegation = this.delegations.find(
+          ({ validator }) =>
+            validator.operatorAddress === this.sourceValidator.operatorAddress
+        )
+        return delegation ? Number(delegation.amount) : 0
+      }
     },
     transactionData() {
       if (this.isRedelegation) {
@@ -321,12 +325,10 @@ export default {
   validations() {
     return {
       amount: {
-        required: (x) => (!!x && x !== `0`),
+        required: (x) => !!x && x !== `0`,
         decimal,
-        max: (x) =>
-          Number(x) <= this.maximum,
-        min: (x) =>
-          Number(x) >= SMALLEST,
+        max: (x) => Number(x) <= this.maximum,
+        min: (x) => Number(x) >= SMALLEST,
         maxDecimals: (x) => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6
@@ -447,7 +449,35 @@ export default {
         return !this.address
       },
     },
-
+    totalStaked: {
+      query: gql`
+        query overview($networkId: String!, $address: String!) {
+          overview(networkId: $networkId, address: $address) {
+            totalStake
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      skip() {
+        return (
+          !this.address ||
+          !this.network ||
+          // only needed for polkadot to determine if user needs to set an amount
+          this.currentNetwork.network_type !== "polkadot"
+        )
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address,
+        }
+      },
+      /* istanbul ignore next */
+      update({ overview: { totalStake } }) {
+        return totalStake
+      },
+    },
     $subscribe: {
       userTransactionAdded: {
         /* istanbul ignore next */

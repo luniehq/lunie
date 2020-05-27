@@ -79,7 +79,11 @@
         <TmBtn
           id="undelegation-btn"
           class="undelegation-btn"
-          :disabled="delegation.amount === 0 && !isInactiveValidator"
+          :disabled="
+            delegation.amount === 0 &&
+            !isInactiveValidator &&
+            currentNetwork.network_type !== `polkadot`
+          "
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
