@@ -100,17 +100,6 @@ describe(`PageValidator`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  // TO IMPROVE: these two are not currently testing anything
-
-  // it(`if user has signed in - status text banned`, () => {
-  //   wrapper.setProps({ validator: { statusDetailed: "banned" } })
-  //   expect(wrapper.element).toMatchSnapshot()
-  // })
-  // it(`if user has signed in - status text inactive`, () => {
-  //   wrapper.setProps({ validator: { statusDetailed: "inactive" } })
-  //   expect(wrapper.element).toMatchSnapshot()
-  // })
-
   it(`if user hasn't signed in`, () => {
     $store.state.session.signedIn = false
     expect(wrapper.element).toMatchSnapshot()
