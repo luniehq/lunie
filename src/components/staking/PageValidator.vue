@@ -79,11 +79,7 @@
         <TmBtn
           id="undelegation-btn"
           class="undelegation-btn"
-          :disabled="
-            delegation.amount === 0 &&
-            !isInactiveValidator &&
-            currentNetwork.network_type !== `polkadot`
-          "
+          :disabled="!hasDelegation"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
@@ -312,13 +308,15 @@ export default {
     ...mapState([`connection`, `session`]),
     ...mapGetters([`network`, `stakingDenom`, `currentNetwork`]),
     ...mapGetters({ userAddress: `address` }),
-    isInactiveValidator() {
-      const inactiveDelegation = this.delegations.find(
+    hasDelegation() {
+      return !!this.delegations.find(
         (delegation) =>
           delegation.validator.operatorAddress ===
-            this.validator.operatorAddress && delegation.amount === "0"
+            this.validator.operatorAddress &&
+          (this.currentNetwork.network_type === "polkadot" ||
+            (this.currentNetwork.network_type === "cosmos" &&
+              delegation.amount > 0))
       )
-      return inactiveDelegation ? true : false
     },
   },
   mounted() {
