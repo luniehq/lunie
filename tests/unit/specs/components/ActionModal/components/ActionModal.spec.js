@@ -102,6 +102,9 @@ describe(`ActionModal`, () => {
       overview: {
         refetch: jest.fn(),
       },
+      balances: {
+        refetch: jest.fn(),
+      },
     },
   }
 
@@ -144,7 +147,6 @@ describe(`ActionModal`, () => {
         validate: jest.fn(),
         featureFlag: `send`,
         queueNotEmpty: false,
-        balances,
         transactionData: {
           type: "MsgSend",
           denom: "uatom",
@@ -470,6 +472,12 @@ describe(`ActionModal`, () => {
       wrapper.setData({
         gasEstimate: 2,
         networkFeesLoaded: true,
+        balances: [
+          {
+            denom: "STAKE",
+            amount: 1211,
+          },
+        ],
         networkFees: {
           transactionFee: {
             denom: "STAKE",
@@ -478,12 +486,6 @@ describe(`ActionModal`, () => {
         },
       })
       wrapper.setProps({
-        balances: [
-          {
-            denom: "STAKE",
-            amount: 1211,
-          },
-        ],
         selectedDenom: "STAKE",
       })
     })

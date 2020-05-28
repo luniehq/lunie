@@ -10,7 +10,6 @@
     :transaction-data="transactionData"
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"
-    :balances="balances"
     feature-flag="send"
     :disabled="sendingNgm"
     @close="clear"
