@@ -1,1 +1,0 @@
-[Fixed] [#854](https://github.com/cosmos/lunie/pull/854) Fix getPolkadotFee by renaming transactionFees to transactionFee @Bitcoinera

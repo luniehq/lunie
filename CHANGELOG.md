@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.21] - 2020-05-28
+
+### Fixed
+
+- [#859](https://github.com/cosmos/lunie/pull/859) Fixes calculating fees for governance transactions in Tendermint @Bitcoinera
+- [#854](https://github.com/cosmos/lunie/pull/854) Fix getPolkadotFee by renaming transactionFees to transactionFee @Bitcoinera
+
 ## [1.0.20] - 2020-05-27
 
 ### Added
