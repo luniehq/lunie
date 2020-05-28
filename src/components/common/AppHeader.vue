@@ -52,12 +52,19 @@
               v-if="session.experimentalMode"
               :to="{ name: 'notifications' }"
             >
-              <i class="material-icons">notifications</i>
+              <img
+                v-if="isNotificationAvailable"
+                class="notification-bell"
+                src="/img/icons/notifications/bell-icon-alert.png"
+                alt="bell icon"
+              />
+              <img
+                v-else
+                class="notification-bell"
+                src="/img/icons/notifications/bell-icon.png"
+                alt="bell icon"
+              />
             </router-link>
-            <div
-              v-if="isNotificationAvailable"
-              id="notification-available"
-            ></div>
             <div v-if="open" class="close-menu" @click="close()">
               <i class="material-icons notranslate mobile-menu-action">close</i>
             </div>
@@ -203,13 +210,8 @@ export default {
   padding-top: 1.4rem;
 }
 
-#notification-available {
-  position: inherit;
-  right: 1rem;
-  top: 0.75rem;
-  height: 1rem;
-  border-radius: 50%;
-  background-color: red;
+.notification-bell {
+  width: 1rem;
 }
 
 @media screen and (max-width: 1023px) {
@@ -232,7 +234,7 @@ export default {
 
 .header-menu-section {
   display: flex;
-  position: relative;
+  align-items: center;
 }
 
 .header-menu-section > * {
