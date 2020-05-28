@@ -195,6 +195,7 @@ export default {
     balances: [],
     messageType,
     smallestAmount: SMALLEST,
+    networkFeesLoaded: false,
   }),
   computed: {
     ...mapGetters([`network`, `networks`, `stakingDenom`]),
@@ -253,7 +254,14 @@ export default {
     },
     // TODO: maxAmount should be handled from ActionModal
     maxAmount() {
-      return this.maxDecimals(this.selectedBalance.amount, 6)
+      if (this.networkFeesLoaded) {
+        return this.maxDecimals(
+          this.selectedBalance.amount - this.networkFees.transactionFee.amount,
+          6
+        )
+      } else {
+        return this.maxDecimals(this.selectedBalance.amount, 6)
+      }
     },
   },
   watch: {
@@ -387,6 +395,63 @@ export default {
       },
       update(data) {
         return data.balances || []
+      },
+    },
+    networkFees: {
+      query: gql`
+        query NetworkFees(
+          $networkId: String!
+          $messageType: String!
+          $message: TransactionDetailsInput!
+          $senderAddress: String!
+        ) {
+          networkFees(
+            networkId: $networkId
+            messageType: $messageType
+            message: $message
+            senderAddress: $senderAddress
+          ) {
+            transactionFee {
+              denom
+              amount
+            }
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        let { type, ...message } = this.transactionData
+        delete message.memo
+        // make sure the amounts are strings when sending
+        if (message.amount) {
+          message.amount = {
+            amount: String(message.amount.amount),
+            denom: message.amount.denom,
+          }
+        }
+        if (message.amounts) {
+          message.amounts = message.amounts.map(({ amount, denom }) => ({
+            amount: String(amount),
+            denom,
+          }))
+        }
+        return {
+          networkId: this.network,
+          messageType: type,
+          message,
+          senderAddress: this.userAddress,
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        if (data.networkFees) {
+          this.networkFeesLoaded = true
+          return data.networkFees
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.userAddress || !this.transactionData
       },
     },
     $subscribe: {
