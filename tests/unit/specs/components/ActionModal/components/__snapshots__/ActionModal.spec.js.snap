@@ -588,8 +588,6 @@ exports[`ActionModal should show the action modal when user has logged in with e
     <!---->
      
     <!---->
-     
-    <!---->
   </div>
    
   <!---->
@@ -853,8 +851,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
     <!---->
      
     <!---->
-     
-    <!---->
   </div>
    
   <!---->
@@ -1093,8 +1089,6 @@ exports[`ActionModal should show the action modal when user has logged in with l
   <div
     class="action-modal-form"
   >
-    <!---->
-     
     <!---->
      
     <!---->

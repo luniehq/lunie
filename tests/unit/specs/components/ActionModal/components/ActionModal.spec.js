@@ -455,25 +455,6 @@ describe(`ActionModal`, () => {
         wrapper.setData({ password: `1234567890` })
         expect(wrapper.vm.isValidInput(`password`)).toBe(true)
       })
-
-      it(`when gas price is set on dev mode session`, () => {
-        wrapper.vm.step = `fees`
-        wrapper.vm.session.experimentalMode = true
-        wrapper.setData({
-          gasPrice: 2.5e-8,
-          gasEstimate: 2,
-          balances: [
-            {
-              denom: "STAKE",
-              amount: 1211,
-            },
-          ],
-        })
-        wrapper.setProps({
-          selectedDenom: "STAKE",
-        })
-        expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(true)
-      })
     })
 
     describe(`fails`, () => {
@@ -483,27 +464,12 @@ describe(`ActionModal`, () => {
         wrapper.setData({ password: undefined })
         expect(wrapper.vm.isValidInput(`password`)).toBe(false)
       })
-
-      it(`if gas price is out of range`, () => {
-        wrapper.vm.step = `fees`
-        wrapper.vm.session.experimentalMode = true
-        wrapper.setData({ gasPrice: 150003456700 })
-        expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(false)
-      })
-
-      it(`if gas price is undefined`, () => {
-        wrapper.vm.step = `fees`
-        wrapper.vm.session.experimentalMode = true
-        wrapper.setData({ gasPrice: undefined })
-        expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(false)
-      })
     })
   })
 
   describe(`validates total price does not exceed available atoms`, () => {
     beforeEach(() => {
       wrapper.setData({
-        gasPrice: 10,
         gasEstimate: 2,
         networkFeesLoaded: true,
         networkFees: {

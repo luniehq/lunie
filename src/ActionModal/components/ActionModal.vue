@@ -57,32 +57,6 @@
           <slot />
         </div>
         <div v-else-if="step === feeStep" class="action-modal-form">
-          <TmFormGroup
-            v-if="session.experimentalMode"
-            :error="$v.gasPrice.$error && $v.gasPrice.$invalid"
-            class="action-modal-group"
-            field-id="gasPrice"
-            field-label="Gas Price"
-          >
-            <span class="input-suffix">{{ getDenom }}</span>
-            <TmField
-              id="gas-price"
-              v-model="gasPrice"
-              step="0.000000001"
-              type="number"
-              min="0"
-            />
-            <TmFormMsg
-              v-if="$v.gasPrice.$error && !$v.gasPrice.required"
-              name="Gas price"
-              type="required"
-            />
-            <TmFormMsg
-              v-if="$v.gasPrice.$error && !$v.gasPrice.max"
-              type="custom"
-              :msg="`You don't have enough ${selectedDenom}s to proceed.`"
-            />
-          </TmFormGroup>
           <TableInvoice
             v-if="networkFeesLoaded"
             :amount="Number(subTotal)"
@@ -502,7 +476,6 @@ export default {
     selectedBalance() {
       const defaultBalance = {
         amount: 0,
-        gasPrice: 4e-7, // the defaultBalance gas price should be the highest we know of to be sure that no transaction gets out of gas
       }
       if (this.balances.length === 0 || !this.network) {
         return defaultBalance
@@ -515,8 +488,6 @@ export default {
         // Old balances from other networks keep popping up. Needs to be fixed
         location.reload(true)
       }
-      // some API responses don't have gasPrices set
-      if (!balance.gasPrice) balance.gasPrice = defaultBalance.gasPrice
       return balance
     },
   },
@@ -528,11 +499,6 @@ export default {
         if (signMethods.length === 1) {
           this.selectedSignMethod = signMethods[0].value
         }
-      },
-    },
-    selectedBalance: {
-      handler(selectedBalance) {
-        this.gasPrice = selectedBalance.gasPrice
       },
     },
     currentNetwork: {
@@ -661,9 +627,6 @@ export default {
           this.step = feeStep
           return
         case feeStep:
-          if (!this.isValidInput(`gasPrice`)) {
-            return
-          }
           if (!this.isValidInput(`invoiceTotal`)) {
             return
           }
@@ -700,23 +663,12 @@ export default {
         let transactionData
         // Polkadot loads transaction data automatic
         if (this.network.network_type === "cosmos") {
-          const coinLookup = this.currentNetwork.coinLookup.find(
-            ({ viewDenom }) =>
-              viewDenom === this.networkFees.transactionFee.denom
-          )
           transactionData = await this.transactionManager.getCosmosTransactionData(
             {
               memo,
               gasEstimate: this.networkFees.gasEstimate,
               // convert fee to chain values
-              fee: [
-                {
-                  amount: BigNumber(this.networkFees.transactionFee.amount)
-                    .div(coinLookup.chainToViewConversionFactor)
-                    .toNumber(),
-                  denom: coinLookup.chainDenom,
-                },
-              ],
+              fee: [this.networkFees.transactionFee],
               senderAddress: this.session.address,
               network: this.network,
             }
@@ -780,7 +732,6 @@ export default {
         scope.setExtra("signMethod", this.selectedSignMethod)
         scope.setExtra("transactionData", this.transactionData)
         scope.setExtra("gasEstimate", this.networkFees.gasEstimate)
-        scope.setExtra("gasPrice", this.gasPrice)
         Sentry.captureException(error)
       })
       this.step = signStep
@@ -799,14 +750,6 @@ export default {
             this.selectedSignMethod === SIGN_METHODS.LOCAL &&
             this.step === signStep
         ),
-      },
-      gasPrice: {
-        required: requiredIf(
-          () => this.step === feeStep && this.session.experimentalMode
-        ),
-        // we don't use SMALLEST as min gas price because it can be a fraction of uatom
-        // min is 0 because we support sending 0 fees
-        max: (x) => Number(x) <= this.selectedBalance.amount,
       },
       invoiceTotal: {
         max: (x) =>
