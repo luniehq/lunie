@@ -22,7 +22,7 @@ export async function StakeTx(
   // stake with all existing plus the selected
   const api = await getAPI()
   const transactions = []
-
+  // delegation amount
   if (amount.amount > 0) {
     const chainAmount = toChainAmount(amount, network.coinLookup)
     const payee = 0
@@ -39,10 +39,12 @@ export async function StakeTx(
     }
     // controllers can't bond stake
   }
-
+  // validator you are delegating to
   if (to.length > 0) {
-    // only controller addresses can nominate (for not set controllers, we set the controller above)
-    if (["controller", "stash/controller", "none"].includes(addressRole)) {
+    if (addressRole === "none") {
+      transactions.push(await api.tx.staking.nominate(to))
+      // only controller addresses can nominate (for not set controllers, we set the controller above)
+    } else if (["controller", "stash/controller"].includes(addressRole)) {
       const stakingLedger = await api.query.staking.ledger(senderAddress)
       const stashId = stakingLedger.toJSON().stash
       const response = await api.query.staking.nominators(stashId)
@@ -68,12 +70,12 @@ export async function UnstakeTx(
   // stake with all existing plus the selected
   const api = await getAPI()
   const transactions = []
-
+  // undelegation amount
   if (amount.amount > 0) {
     const chainAmount = toChainAmount(amount, network.coinLookup)
     transactions.push(await api.tx.staking.unbond(chainAmount))
   }
-
+  // validator you are undelegating from
   // Disable if address is a controller account
   if (
     from.length > 0 &&
