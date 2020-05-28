@@ -817,6 +817,7 @@ export default {
         return (
           !this.session.address ||
           !this.transactionData ||
+          Object.keys(this.transactionData).length === 0 ||
           this.step !== feeStep
         )
       },

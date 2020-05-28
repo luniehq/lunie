@@ -451,7 +451,11 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.userAddress || !this.transactionData
+        return (
+          !this.userAddress ||
+          !this.transactionData ||
+          Object.keys(this.transactionData).length === 0
+        )
       },
     },
     $subscribe: {
