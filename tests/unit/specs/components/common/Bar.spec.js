@@ -30,4 +30,20 @@ describe(`Bar`, () => {
     Bar.methods.close.call(self)
     expect(self.$emit).toHaveBeenCalledWith("close")
   })
+
+  it(`should navigate to the given link`, () => {
+    const self = {
+      $router: {
+        push: jest.fn(),
+      },
+    }
+    let link = "validators"
+    Bar.methods.goToLink.call(self, link)
+    expect(self.$router.push).toHaveBeenCalledWith("validators")
+    link = "https://lunie.io"
+    // eslint-disable-next-line no-global-assign
+    window = { open: jest.fn() }
+    Bar.methods.goToLink.call(self, link)
+    expect(window.open).toHaveBeenCalledWith("https://lunie.io", "_blank")
+  })
 })
