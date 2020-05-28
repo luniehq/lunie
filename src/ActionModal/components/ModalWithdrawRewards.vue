@@ -11,6 +11,7 @@
     feature-flag="claim_rewards"
     :transaction-type="messageType.CLAIM_REWARDS"
     :rewards="rewards"
+    :balances="balances"
     :disable="validatorsWithRewards"
   >
     <span class="form-message notice withdraw-limit">
