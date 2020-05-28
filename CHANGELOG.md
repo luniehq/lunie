@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.20] - 2020-05-27
+
+### Added
+
+- [#812](https://github.com/cosmos/lunie/issues/812) Moves the whole fee calculation logic to API @Bitcoinera
+
+### Changed
+
+- [#840](https://github.com/cosmos/lunie/pull/840) Adds buttonCaption and linkCaption as fields for Maintenance @Bitcoinera
+
+### Fixed
+
+- [#848](https://github.com/cosmos/lunie/pull/848) Fixes Terra fees by multiplying the Terra tax by amount being transacted @Bitcoinera
+- [#847](https://github.com/cosmos/lunie/pull/847) Fix for linebreaks in proposals that cause notification creation to fail @michielmulders
+- [#846](https://github.com/cosmos/lunie/pull/846) Validator not found in validator store @michielmulders
+
 ## [1.0.19] - 2020-05-27
 
 ### Fixed

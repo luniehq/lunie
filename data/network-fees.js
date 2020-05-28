@@ -245,7 +245,11 @@ const getFeeDenomFromMessage = (message, network) => {
   if (message.amount) {
     return message.amount.denom
   }
-  return ''
+  if (message.initialDeposit) {
+    return message.initialDeposit.denom
+  }
+  // this happens for example in Vote transactions
+  return network.stakingDenom
 }
 
 const getTransactionAmount = (message, feeDenom) => {
