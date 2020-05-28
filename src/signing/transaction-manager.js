@@ -90,7 +90,7 @@ export default class TransactionManager {
       sequence,
       chainId: network.chain_id,
       gasEstimate: String(gasEstimate),
-      convertedFee,
+      fee: convertedFee,
       memo,
     }
   }
