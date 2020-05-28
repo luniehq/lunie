@@ -2,6 +2,7 @@
 
 exports[`ModalDeposit should display deposit modal form 1`] = `
 <actionmodal-stub
+  balances=""
   class="modal-deposit"
   featureflag="deposit"
   id="modal-deposit"

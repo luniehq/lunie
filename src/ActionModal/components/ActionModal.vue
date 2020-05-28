@@ -43,9 +43,7 @@
       <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
-      <TmDataLoading
-        v-else-if="$apollo.loading && (!balancesLoaded || networkFeesLoaded)"
-      />
+      <TmDataLoading v-else-if="$apollo.loading && !networkFeesLoaded" />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
@@ -372,6 +370,10 @@ export default {
       type: String,
       default: "UnknownTx",
     },
+    balances: {
+      type: Array,
+      default: () => [],
+    },
   },
   data: () => ({
     step: defaultStep,
@@ -392,11 +394,9 @@ export default {
     SIGN_METHODS,
     featureAvailable: true,
     isMobileApp: config.mobileApp,
-    balances: [],
     queueEmpty: true,
     includedHeight: undefined,
     smallestAmount: SMALLEST,
-    balancesLoaded: false,
     networkFeesLoaded: false,
   }),
   computed: {
@@ -484,9 +484,7 @@ export default {
       const feeDenom = this.selectedDenom || this.network.stakingDenom
       let balance = this.balances.find(({ denom }) => denom === feeDenom)
       if (!balance) {
-        // HACK for now. If not balance we hard reload
-        // Old balances from other networks keep popping up. Needs to be fixed
-        location.reload(true)
+        balance = defaultBalance
       }
       return balance
     },
@@ -761,33 +759,6 @@ export default {
     }
   },
   apollo: {
-    balances: {
-      query: gql`
-        query balances($networkId: String!, $address: String!) {
-          balances(networkId: $networkId, address: $address) {
-            denom
-            amount
-            gasPrice
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.networkId,
-          address: this.session.address,
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        this.balancesLoaded = true
-        return data.balances || []
-      },
-      /* istanbul ignore next */
-      skip() {
-        return !this.session.address
-      },
-    },
     networkFees: {
       query: gql`
         query NetworkFees(
