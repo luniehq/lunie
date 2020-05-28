@@ -181,58 +181,6 @@ describe(`ActionModal`, () => {
     expect(maxDecimalsNumber).toBe(9.8964)
   })
 
-  it(`should return the chain applied fees (in this case the Terra tax you need to payfor sending alt-tokens)`, async () => {
-    const self = {
-      gasEstimate: 200000,
-      gasPrice: "3e-8",
-      networkId: "terra-mainnet",
-      network: {
-        network_type: "cosmos",
-      },
-      networkFeesLoaded: true,
-      maxDecimals: ActionModal.methods.maxDecimals,
-      updateTerraGasEstimate: jest.fn(),
-      updateEmoneyGasEstimate: () => {},
-      chainAppliedFees: 0.00675,
-    }
-    const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(self)
-    expect(estimatedFee).toBe(0.00675)
-  })
-
-  it(`should return the normal estimated fee (gas price * gas estimate) when chainAppliedFees equal 0`, async () => {
-    const self = {
-      gasPrice: "1.5e-8",
-      gasEstimate: 300000,
-      networkId: `terra-mainnet`,
-      network: {
-        network_type: "cosmos",
-      },
-      networkFeesLoaded: true,
-      maxDecimals: ActionModal.methods.maxDecimals,
-      updateTerraGasEstimate: ActionModal.methods.updateTerraGasEstimate,
-    }
-    const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(self)
-    expect(estimatedFee).toBe(0.0045)
-  })
-
-  it(`should not update the gas estimate for emoney when it is a claim rewards transaction`, async () => {
-    const self = {
-      gasPrice: "1.5e-8",
-      gasEstimate: 550000,
-      networkId: `emoney-mainnet`,
-      transactionData: {
-        type: `MsgWithdrawDelegationReward`,
-      },
-      network: {
-        network_type: "cosmos",
-      },
-      maxDecimals: ActionModal.methods.maxDecimals,
-      updateEmoneyGasEstimate: ActionModal.methods.updateEmoneyGasEstimate,
-    }
-    await ActionModal.asyncComputed.estimatedFee.call(self)
-    expect(self.gasEstimate).toBe(550000)
-  })
-
   it(`should set the submissionError if the submission is rejected`, async () => {
     const failingSendMock = jest
       .fn()
@@ -507,25 +455,6 @@ describe(`ActionModal`, () => {
         wrapper.setData({ password: `1234567890` })
         expect(wrapper.vm.isValidInput(`password`)).toBe(true)
       })
-
-      it(`when gas price is set on dev mode session`, () => {
-        wrapper.vm.step = `fees`
-        wrapper.vm.session.experimentalMode = true
-        wrapper.setData({
-          gasPrice: 2.5e-8,
-          gasEstimate: 2,
-          balances: [
-            {
-              denom: "STAKE",
-              amount: 1211,
-            },
-          ],
-        })
-        wrapper.setProps({
-          selectedDenom: "STAKE",
-        })
-        expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(true)
-      })
     })
 
     describe(`fails`, () => {
@@ -535,34 +464,26 @@ describe(`ActionModal`, () => {
         wrapper.setData({ password: undefined })
         expect(wrapper.vm.isValidInput(`password`)).toBe(false)
       })
-
-      it(`if gas price is out of range`, () => {
-        wrapper.vm.step = `fees`
-        wrapper.vm.session.experimentalMode = true
-        wrapper.setData({ gasPrice: 150003456700 })
-        expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(false)
-      })
-
-      it(`if gas price is undefined`, () => {
-        wrapper.vm.step = `fees`
-        wrapper.vm.session.experimentalMode = true
-        wrapper.setData({ gasPrice: undefined })
-        expect(wrapper.vm.isValidInput(`gasPrice`)).toBe(false)
-      })
     })
   })
 
   describe(`validates total price does not exceed available atoms`, () => {
     beforeEach(() => {
       wrapper.setData({
-        gasPrice: 10,
         gasEstimate: 2,
+        networkFeesLoaded: true,
         balances: [
           {
             denom: "STAKE",
             amount: 1211,
           },
         ],
+        networkFees: {
+          transactionFee: {
+            denom: "STAKE",
+            amount: 0.01,
+          },
+        },
       })
       wrapper.setProps({
         selectedDenom: "STAKE",
@@ -582,30 +503,6 @@ describe(`ActionModal`, () => {
         expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(false)
       })
     })
-  })
-
-  it(`should max fees to the available amount`, async () => {
-    const self = {
-      invoiceTotal: 1.001,
-      selectedBalance: balances[0],
-      subTotal: 0.999,
-      gasEstimate: 100000,
-      chainAppliedFees: 0,
-    }
-    ActionModal.methods.adjustFeesToMaxPayable.call(self)
-    expect(self.gasPrice).toBe(1.0000000000000008e-8) // a bit lower then gasEstimate. feels right
-  })
-
-  it(`should take chain applied fees into account when adjusting fees for max amount`, async () => {
-    const self = {
-      invoiceTotal: 1.001,
-      selectedBalance: balances[1],
-      subTotal: 0.999,
-      gasEstimate: 100000,
-      chainAppliedFees: 0.001,
-    }
-    ActionModal.methods.adjustFeesToMaxPayable.call(self)
-    expect(self.gasPrice).toBe(0.00001)
   })
 
   describe(`submit`, () => {

@@ -49,7 +49,7 @@ export default class TransactionManager {
   async getCosmosTransactionData({
     memo,
     gasEstimate,
-    gasPrice,
+    fee,
     senderAddress,
     network,
   }) {
@@ -74,14 +74,23 @@ export default class TransactionManager {
         },
       },
     } = response
-    const { Coin } = await import("./networkMessages/cosmos-hub-mainnet")
-
+    const coinLookup = network.coinLookup.find(
+      ({ viewDenom }) => viewDenom === fee.find(({ denom }) => denom).denom
+    )
+    const convertedFee = [
+      {
+        amount: BigNumber(fee.find(({ amount }) => amount).amount)
+          .div(coinLookup.chainToViewConversionFactor)
+          .toNumber(),
+        denom: coinLookup.chainDenom,
+      },
+    ]
     return {
       accountNumber,
       sequence,
       chainId: network.chain_id,
       gasEstimate: String(gasEstimate),
-      gasPrices: [Coin(gasPrice, network.coinLookup)],
+      fee: convertedFee,
       memo,
     }
   }

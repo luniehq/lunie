@@ -2,7 +2,6 @@
 
 exports[`ModalPropose should display proposal modal form 1`] = `
 <actionmodal-stub
-  chainappliedfees="0"
   featureflag="proposal"
   id="modal-propose"
   notifymessage="[object Object]"

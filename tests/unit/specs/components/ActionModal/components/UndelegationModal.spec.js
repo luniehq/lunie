@@ -200,12 +200,9 @@ describe(`UndelegationModal`, () => {
       wrapper.vm.$store.state.session.addressRole = `controller`
       wrapper.vm.$store.getters.currentNetwork.network_type = "polkadot"
       wrapper.setData({
-        amount: 0
+        amount: 0,
       })
       expect(wrapper.vm.validateForm()).toBe(true)
     })
   })
-
 })
-
-
