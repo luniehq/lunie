@@ -14,7 +14,7 @@ let initializedAccount = false
 module.exports = {
   // controls the timeout time for async hooks. Expects the done() callback to be invoked within this time
   // or an error is thrown
-  asyncHookTimeout: 200000,
+  asyncHookTimeout: 300000,
 
   async beforeEach(browser, done) {
     // standardize window format
@@ -68,25 +68,25 @@ async function next(browser) {
 
 async function createNewAccount(browser, networkData) {
   await browser.url(browser.launch_url + "/create")
-  await browser.waitForElementVisible(`body`, 10000, true)
-  await browser.waitForElementVisible("#sign-up-name", 10000, true)
+  await browser.waitForElementVisible(`body`, 30000, true)
+  await browser.waitForElementVisible("#sign-up-name", 30000, true)
   browser.setValue("#sign-up-name", "demo-account")
   await next(browser)
-  browser.waitForElementVisible("#sign-up-password", 10000, true)
+  browser.waitForElementVisible("#sign-up-password", 30000, true)
   await next(browser)
   browser.setValue("#sign-up-password", networkData.password)
   browser.setValue("#sign-up-password-confirm", networkData.password)
   await next(browser)
-  browser.waitForElementVisible(".seed-table", 10000, true)
+  browser.waitForElementVisible(".seed-table", 30000, true)
   browser.expect
     .element(".seed-table")
     .text.to.match(/(\d+\s+\w+\s+){23}\d+\s+\w+/)
-    .before(10000)
+    .before(30000)
   await next(browser)
   browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
   browser.click("#sign-up-warning")
   await next(browser)
-  browser.waitForElementVisible(".balance-header", 20000, true) // wait until signup is completed
+  browser.waitForElementVisible(".balance-header", 30000, true) // wait until signup is completed
 }
 
 async function initialiseDefaults(browser) {
@@ -150,7 +150,7 @@ async function initialiseDefaults(browser) {
 async function defineNeededValidators(browser) {
   // need to store validators, cause they can shuffle during the test
   await browser.url(browser.launch_url + browser.globals.slug + "/validators")
-  await browser.waitForElementVisible(".li-validator", 10000)
+  await browser.waitForElementVisible(".li-validator", 30000)
   const validators = await browser.execute(function () {
     const validatorLIs = document.getElementsByClassName("li-validator")
     if (validatorLIs.length < 2) {
@@ -307,7 +307,7 @@ async function switchToAccount(
   await browser.refresh()
   await getAccountBalance(browser)
   // wait until on portfolio page to make sure future tests have the same state
-  browser.expect.element(".balance-header").to.be.visible.before(10000)
+  browser.expect.element(".balance-header").to.be.visible.before(30000)
   // switching to homepage
   await browser.url(browser.launch_url)
   return true

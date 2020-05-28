@@ -2,35 +2,35 @@ module.exports = {
   "Sign in with local account": async function (browser) {
     await prepare(browser)
 
-    await browser.waitForElementVisible("#sign-in-with-account", 10000, true)
+    await browser.waitForElementVisible("#sign-in-with-account", 30000, true)
     await browser.click("#sign-in-with-account")
-    await browser.waitForElementVisible("#sign-in-name", 10000, true)
+    await browser.waitForElementVisible("#sign-in-name", 30000, true)
     await browser.click(
       "#sign-in-name option[value=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e]"
     )
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
     // check if signed in
-    await browser.waitForElementNotPresent(".session", 10000, true)
+    await browser.waitForElementNotPresent(".session", 30000, true)
     openMenu(browser)
-    await browser.waitForElementVisible("#sign-out", 10000, true)
+    await browser.waitForElementVisible("#sign-out", 30000, true)
   },
   "Import local account": async function (browser) {
     await prepare(browser)
 
-    browser.waitForElementVisible("#recover-with-backup", 10000, true)
+    browser.waitForElementVisible("#recover-with-backup", 30000, true)
     // scroll to bottom
     await browser.execute("window.scrollTo(0,document.body.scrollHeight);")
     browser.click("#recover-with-backup")
 
     await browser.waitForElementVisible(
       `.select-network-item[data-network=cosmos-hub-mainnet]`,
-      10000,
+      30000,
       true
     )
     await browser.click(`.select-network-item[data-network=cosmos-hub-mainnet]`)
 
-    browser.waitForElementVisible("#import-seed", 10000, true)
+    browser.waitForElementVisible("#import-seed", 30000, true)
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
     browser.setValue(
@@ -39,13 +39,13 @@ module.exports = {
     )
     await next(browser)
 
-    browser.waitForElementVisible("#import-name", 10000, true)
+    browser.waitForElementVisible("#import-name", 30000, true)
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
     browser.setValue("#import-name", "demo-account-imported")
     await next(browser)
 
-    browser.waitForElementVisible("#import-password", 10000, true)
+    browser.waitForElementVisible("#import-password", 30000, true)
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
     browser.setValue("#import-password", "1234567890")
@@ -55,9 +55,9 @@ module.exports = {
     await next(browser)
 
     // check if signed in
-    await browser.waitForElementNotPresent(".session", 10000, true)
+    await browser.waitForElementNotPresent(".session", 30000, true)
     await openMenu(browser)
-    await browser.waitForElementVisible("#sign-out", 10000, true)
+    await browser.waitForElementVisible("#sign-out", 30000, true)
   },
 }
 
@@ -75,32 +75,32 @@ async function next(browser) {
 }
 
 async function openMenu(browser) {
-  await browser.waitForElementVisible(".open-menu", 10000, true)
+  await browser.waitForElementVisible(".open-menu", 30000, true)
   await browser.click(".open-menu")
 }
 
 async function closeMenu(browser) {
-  await browser.waitForElementVisible(".close-menu", 10000, true)
+  await browser.waitForElementVisible(".close-menu", 30000, true)
   await browser.click(".close-menu")
 }
 
 async function signOut(browser) {
   await openMenu(browser)
-  await browser.waitForElementVisible("#sign-out", 10000, true)
+  await browser.waitForElementVisible("#sign-out", 30000, true)
   await browser.click("#sign-out")
 }
 
 async function signIn(browser) {
   await openMenu(browser)
-  await browser.waitForElementVisible("#sign-in", 10000, true)
+  await browser.waitForElementVisible("#sign-in", 30000, true)
   await browser.click("#sign-in")
 }
 
 async function prepare(browser) {
   browser.resizeWindow(400, 1024) // force mobile screen to be able to click some out of screen buttons
   await browser.url(browser.launch_url + "?insecure=true")
-  browser.waitForElementVisible(`body`, 10000, true)
-  browser.waitForElementVisible(`#app-content`, 10000, true)
+  browser.waitForElementVisible(`body`, 30000, true)
+  browser.waitForElementVisible(`#app-content`, 30000, true)
 
   // add a standard account to be used for signing in to an existing account
   await browser.execute(function () {

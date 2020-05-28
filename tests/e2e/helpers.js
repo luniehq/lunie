@@ -2,12 +2,12 @@ const numeral = require("numeral")
 const { expect } = require("chai")
 
 async function getBalance(browser) {
-  browser.expect.element(`.total`).to.be.visible.before(10000)
+  browser.expect.element(`.total`).to.be.visible.before(30000)
   const { value } = await browser.getText(".total")
   return numeral(value).value()
 }
 async function getAvailableTokens(browser) {
-  browser.expect.element(`.available-amount`).to.be.visible.before(10000)
+  browser.expect.element(`.available-amount`).to.be.visible.before(30000)
   const { value } = await browser.getText(".available-amount")
   return numeral(value).value()
 }
@@ -61,7 +61,7 @@ async function waitForText(
   iterations = 20,
   timeout = 300
 ) {
-  await browser.waitForElementVisible(selector, 10000)
+  await browser.waitForElementVisible(selector, 30000)
   while (iterations--) {
     try {
       const { value: text } = await browser.getText(selector)
@@ -76,7 +76,7 @@ async function waitForText(
 }
 
 async function getLastActivityItemHash(browser) {
-  await browser.waitForElementVisible(".tx-container .tx", 10000)
+  await browser.waitForElementVisible(".tx-container .tx", 30000)
   await browser.click(".tx-container .tx")
   const { value: hash } = await browser.getText(
     ".tx-container:nth-of-type(1) .hash"
@@ -126,9 +126,9 @@ async function actionModalCheckout(
       sheet.cssRules.length
     )
   })
-  await browser.expect.element(btnSelector).to.be.visible.before(10000)
+  await browser.expect.element(btnSelector).to.be.visible.before(30000)
   await browser.click(btnSelector)
-  browser.expect.element(".action-modal").to.be.visible.before(10000)
+  browser.expect.element(".action-modal").to.be.visible.before(30000)
 
   await browser.pause(500)
 
@@ -137,10 +137,10 @@ async function actionModalCheckout(
   // proceed to invoice step
   await browser.waitForElementVisible(
     ".action-modal-footer .button:nth-of-type(2):enabled",
-    10000
+    30000
   )
   await browser.click(".action-modal-footer .button:nth-of-type(2)")
-  browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
+  browser.expect.element(`.table-invoice`).to.be.visible.before(30000)
 
   if (checkUIUpdates) {
     // check invoice
@@ -158,7 +158,7 @@ async function actionModalCheckout(
   // wait until fees have been loaded
   browser.waitForElementVisible(
     ".action-modal-footer .button:nth-of-type(2):enabled",
-    10000
+    30000
   )
 
   let fees
@@ -249,7 +249,7 @@ async function nextBlock(browser) {
   browser
   browser.expect
     .element(`#tm-connected-network__block`)
-    .to.be.visible.before(10000)
+    .to.be.visible.before(30000)
   const { value: lastHeight } = await browser.getText(
     "#tm-connected-network__block"
   )

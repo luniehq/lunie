@@ -2,7 +2,7 @@ module.exports = {
   "Validators search": async function (browser) {
     // move to according page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
-    await browser.waitForElementVisible(".li-validator", 10000)
+    await browser.waitForElementVisible(".li-validator", 30000)
     const validatorNames = await getValidators(browser)
 
     const searchTestStrings = ["validator", "stake", "~~"]

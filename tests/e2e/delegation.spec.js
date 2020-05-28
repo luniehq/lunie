@@ -32,7 +32,7 @@ module.exports = {
     // move to according page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
     // move to validator page
-    await browser.expect.element(".li-validator").to.be.visible.before(10000)
+    await browser.expect.element(".li-validator").to.be.visible.before(30000)
     await browser.click(
       `.li-validator[data-name="${browser.globals.validatorOneName}"]`
     )
@@ -75,7 +75,7 @@ module.exports = {
 
     // move to validator page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
-    browser.expect.element(".li-validator").to.be.visible.before(10000)
+    browser.expect.element(".li-validator").to.be.visible.before(30000)
     await browser.click(
       `.li-validator[data-name="${browser.globals.validatorTwoName}"]`
     )
@@ -126,7 +126,7 @@ module.exports = {
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
 
     // move to validator page
-    browser.expect.element(".li-validator").to.be.visible.before(10000)
+    browser.expect.element(".li-validator").to.be.visible.before(30000)
     await browser.click(
       `.li-validator[data-name="${browser.globals.validatorOneName}"]`
     )
