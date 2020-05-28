@@ -114,7 +114,8 @@ async function actionModalCheckout(
   detailsActionFn,
   expectedSubtotal,
   expectedTotalChange = 0,
-  expectedAvailableTokensChange = 0
+  expectedAvailableTokensChange = 0,
+  checkUIUpdates = true
 ) {
   // deacivate intercom
   // can't be inserted before each as it would be removed on a refresh
@@ -141,15 +142,17 @@ async function actionModalCheckout(
   await browser.click(".action-modal-footer .button:nth-of-type(2)")
   browser.expect.element(`.table-invoice`).to.be.visible.before(10000)
 
-  // check invoice
-  if (expectedSubtotal === "0") {
-    // doesn't show sub total
-    browser.expect.elements(".table-invoice li").count.to.equal(2)
-  } else {
-    browser.assert.containsText(
-      ".table-invoice li:first-child span:last-child",
-      expectedSubtotal
-    )
+  if (checkUIUpdates) {
+    // check invoice
+    if (expectedSubtotal === "0") {
+      // doesn't show sub total
+      browser.expect.elements(".table-invoice li").count.to.equal(2)
+    } else {
+      browser.assert.containsText(
+        ".table-invoice .sub-total span:last-child",
+        expectedSubtotal
+      )
+    }
   }
 
   // wait until fees have been loaded
@@ -158,11 +161,14 @@ async function actionModalCheckout(
     10000
   )
 
-  // remember fees
-  const { value } = await browser.getText(
-    ".table-invoice li:nth-child(2) span:last-child"
-  )
-  const fees = numeral(value).value()
+  let fees
+  if (checkUIUpdates) {
+    // remember fees
+    const { value } = await browser.getText(
+      ".table-invoice .fees span:last-child"
+    )
+    fees = numeral(value).value()
+  }
 
   // await next block to be sure about the sequence number
   // TODO needs to be fixed and put into cosmos-api
@@ -177,45 +183,46 @@ async function actionModalCheckout(
   // wait for success-step modal
   await browser.expect.element("#closeBtn").to.be.present.before(30 * 1000)
   await browser.click("#closeBtn")
-  // go to portfolio to remember balances
-  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
 
-  // check if balance header updates as expected
-  // TODO find a way to know the rewards on an undelegation to know the final balance 100%
-  console.log(
-    "Wait for total balance to update",
-    browser.globals.totalAtoms,
-    expectedTotalChange,
-    fees
-  )
-  await waitFor(
-    async () => {
-      const approximatedBalanceAfter =
-        browser.globals.totalAtoms - expectedTotalChange - fees
-      expect(
-        Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
-      ).to.be.lessThan(browser.globals.expectedDiff) // acounting for rewards being withdrawn on an undelegation
-    },
-    10,
-    2000
-  )
-  console.log("Wait for liquid balance to update")
-  await waitFor(
-    async () => {
-      const approximatedAvailableBalanceAfter =
-        browser.globals.availableAtoms - expectedAvailableTokensChange - fees
-      expect(
-        Math.abs(
-          approximatedAvailableBalanceAfter -
-            (await getAvailableTokens(browser))
-        )
-      ).to.be.lessThan(browser.globals.expectedDiff) // acounting for rewards being withdrawn on an undelegation
-    },
-    10,
-    2000
-  )
-  //})
-  //browser.expect.element(".success-step").to.be.present.before(20 * 1000)
+  if (checkUIUpdates) {
+    // go to portfolio to remember balances
+    await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+
+    // check if balance header updates as expected
+    // TODO find a way to know the rewards on an undelegation to know the final balance 100%
+    console.log(
+      "Wait for total balance to update",
+      browser.globals.totalAtoms,
+      expectedTotalChange,
+      fees
+    )
+    await waitFor(
+      async () => {
+        const approximatedBalanceAfter =
+          browser.globals.totalAtoms - expectedTotalChange - fees
+        expect(
+          Math.abs(approximatedBalanceAfter - (await getBalance(browser)))
+        ).to.be.lessThan(browser.globals.expectedDiff) // acounting for rewards being withdrawn on an undelegation
+      },
+      10,
+      2000
+    )
+    console.log("Wait for liquid balance to update")
+    await waitFor(
+      async () => {
+        const approximatedAvailableBalanceAfter =
+          browser.globals.availableAtoms - expectedAvailableTokensChange - fees
+        expect(
+          Math.abs(
+            approximatedAvailableBalanceAfter -
+              (await getAvailableTokens(browser))
+          )
+        ).to.be.lessThan(browser.globals.expectedDiff) // acounting for rewards being withdrawn on an undelegation
+      },
+      10,
+      2000
+    )
+  }
 }
 
 async function getAccountBalance(browser) {

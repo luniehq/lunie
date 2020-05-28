@@ -79,7 +79,7 @@
         <TmBtn
           id="undelegation-btn"
           class="undelegation-btn"
-          :disabled="delegation.amount === 0 && !isInactiveValidator"
+          :disabled="!hasDelegation"
           value="Unstake"
           type="secondary"
           @click.native="onUndelegation"
@@ -308,13 +308,11 @@ export default {
     ...mapState([`connection`, `session`]),
     ...mapGetters([`network`, `stakingDenom`, `currentNetwork`]),
     ...mapGetters({ userAddress: `address` }),
-    isInactiveValidator() {
-      const inactiveDelegation = this.delegations.find(
+    hasDelegation() {
+      return !!this.delegations.find(
         (delegation) =>
-          delegation.validator.operatorAddress ===
-            this.validator.operatorAddress && delegation.amount === "0"
+          delegation.validator.operatorAddress === this.validator.operatorAddress
       )
-      return inactiveDelegation ? true : false
     },
   },
   mounted() {
@@ -360,6 +358,7 @@ export default {
   },
   apollo: {
     delegation: {
+      /* istanbul ignore next */
       query: gql`
         query delegation(
           $networkId: String!
@@ -402,6 +401,7 @@ export default {
       },
     },
     rewards: {
+      /* istanbul ignore next */
       query: gql`
         query RewardsPageValidator(
           $networkId: String!
@@ -438,6 +438,7 @@ export default {
       },
     },
     validator: {
+      /* istanbul ignore next */
       query: ValidatorProfile,
       /* istanbul ignore next */
       variables() {
@@ -458,16 +459,20 @@ export default {
       },
     },
     delegations: {
+      /* istanbul ignore next */
       query() {
-        /* istanbul ignore next */
         return DelegationsForDelegator(this.network)
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           delegatorAddress: this.userAddress,
           networkId: this.network,
         }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.userAddress
       },
       /* istanbul ignore next */
       update(data) {
@@ -510,6 +515,7 @@ export default {
         skip() {
           return !this.userAddress
         },
+        /* istanbul ignore next */
         query: UserTransactionAdded,
         /* istanbul ignore next */
         result({ data }) {

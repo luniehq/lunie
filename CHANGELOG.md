@@ -7,6 +7,47 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.207] - 2020-05-27
+
+### Fixed
+
+- [#4145](https://github.com/cosmos/lunie/issues/4145) Fix bugs in unstake using controller address in polkadot @mariopino
+
+## [1.0.206] - 2020-05-27
+
+### Changed
+
+- [#4146](https://github.com/cosmos/lunie/pull/4146) Fixes ActionModal z-index and closes it every time the AppMenu gets opened @Bitcoinera
+
+### Fixed
+
+- [#4142](https://github.com/cosmos/lunie/issues/4142) Fix bug in stake using stash address in polkadot @mariopino
+
+## [1.0.205] - 2020-05-26
+
+### Changed
+
+- [#4050](https://github.com/cosmos/lunie/issues/4050) Adds an alternative fee logic for e-Money @Bitcoinera
+- [#4110](https://github.com/cosmos/lunie/issues/4110) Apply Jordan's UX improvements to Kusama @Bitcoinera
+- [#4135](https://github.com/cosmos/lunie/issues/4135) ActionModal does not overlap anymore AppMenu @Bitcoinera
+
+### Fixed
+
+- [#4125](https://github.com/cosmos/lunie/pull/4125) Fixes "Show address on ledger" link styles @Bitcoinera
+- [#4127](https://github.com/cosmos/lunie/issues/4127) Fixes network not available in router featureAvailable @Bitcoinera
+- [#4135](https://github.com/cosmos/lunie/issues/4135) Fixes ActionModal having balances from previous network when switching networks @Bitcoinera
+- Improve E2E tests further @faboweb
+- [#4109](https://github.com/cosmos/lunie/issues/4109) Disable next button in Unstake using a stash account in polkadot @mariopino
+- [#4140](https://github.com/cosmos/lunie/issues/4140) Fix graphql error in validator page when user has not signed in yet @mariopino
+
+### Deprecated
+
+- [#4136](https://github.com/cosmos/lunie/pull/4136) Deletes TmNotification and TmNotifications components @Bitcoinera
+
+### Repository
+
+- [#4124](https://github.com/cosmos/lunie/pull/4124) Handle e2e temporary account funding race condition @faboweb
+
 ## [1.0.204] - 2020-05-23
 
 ### Fixed

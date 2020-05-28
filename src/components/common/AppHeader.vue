@@ -130,6 +130,9 @@ export default {
       noScroll.off()
     },
     show() {
+      if (this.session.currrentModalOpen) {
+        this.session.currrentModalOpen.close()
+      }
       this.open = true
       noScroll.on()
     },

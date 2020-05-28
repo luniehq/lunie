@@ -11,6 +11,9 @@ describe(`AppHeader`, () => {
         session: {
           experimentalMode: false,
           insecureMode: true,
+          currrentModalOpen: {
+            close: jest.fn(),
+          },
         },
       },
       getters: {

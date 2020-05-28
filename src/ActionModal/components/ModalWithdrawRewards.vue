@@ -196,6 +196,9 @@ export default {
           address: this.userAddress,
         }
       },
+      update(data) {
+        return data.balances || []
+      },
     },
   },
 }
