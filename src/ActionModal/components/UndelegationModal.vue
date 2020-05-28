@@ -193,11 +193,19 @@ export default {
     ...mapState([`session`]),
     ...mapGetters([`network`, `address`, `stakingDenom`, `currentNetwork`]),
     maximum() {
-      const delegation = this.delegations.find(
-        ({ validator }) =>
-          validator.operatorAddress === this.sourceValidator.operatorAddress
-      )
-      return delegation ? Number(delegation.amount) : 0
+      if (this.currentNetwork.network_type === `polkadot`) {
+        const totalStaked = this.delegations.reduce(
+          (accum, delegation) => (accum += parseFloat(delegation.amount)),
+          0
+        )
+        return totalStaked.toFixed(6) || 0
+      } else {
+        const delegation = this.delegations.find(
+          ({ validator }) =>
+            validator.operatorAddress === this.sourceValidator.operatorAddress
+        )
+        return delegation ? Number(delegation.amount) : 0
+      }
     },
     transactionData() {
       if (this.isRedelegation) {
@@ -321,15 +329,34 @@ export default {
   validations() {
     return {
       amount: {
-        required: (x) =>
-          this.currentNetwork.network_type === "polkadot" || (!!x && x !== `0`),
+        required: (amount) => {
+          // In Polkadot we don't need to unbond tokens, the user may just want to unnominate a validator
+          // stash accounts can't do anything else but unbond so we make it required
+          // none accounts can't access this modal
+          if (
+            this.currentNetwork.network_type === "polkadot" &&
+            ["controller", "stash/controller"].includes(
+              this.session.addressRole
+            )
+          ) {
+            return true
+          }
+          return !!amount && amount !== `0`
+        },
         decimal,
-        max: (x) =>
-          this.currentNetwork.network_type === "polkadot" ||
-          Number(x) <= this.maximum,
-        min: (x) =>
-          this.currentNetwork.network_type === "polkadot" ||
-          Number(x) >= SMALLEST,
+        max: (x) => Number(x) <= this.maximum,
+        min: (x) => {
+          // see required
+          if (
+            this.currentNetwork.network_type === "polkadot" &&
+            ["controller", "stash/controller"].includes(
+              this.session.addressRole
+            )
+          ) {
+            return true
+          }
+          return Number(x) >= SMALLEST
+        },
         maxDecimals: (x) => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6
@@ -450,7 +477,6 @@ export default {
         return !this.address
       },
     },
-
     $subscribe: {
       userTransactionAdded: {
         /* istanbul ignore next */
