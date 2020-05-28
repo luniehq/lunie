@@ -311,7 +311,8 @@ export default {
     hasDelegation() {
       return !!this.delegations.find(
         (delegation) =>
-          delegation.validator.operatorAddress === this.validator.operatorAddress
+          delegation.validator.operatorAddress ===
+          this.validator.operatorAddress
       )
     },
   },
