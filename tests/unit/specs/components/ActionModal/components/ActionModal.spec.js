@@ -45,19 +45,6 @@ describe(`ActionModal`, () => {
     totalStake: 1430000000,
   }
 
-  const balances = [
-    {
-      denom: "STAKE",
-      amount: 1,
-      gasPrice: 0.001,
-    },
-    {
-      denom: "token2",
-      amount: 2,
-      gasPrice: 0.002,
-    },
-  ]
-
   const network = {
     id: "cosmos-hub-testnet",
     stakingDenom: "STAKE",
@@ -102,10 +89,19 @@ describe(`ActionModal`, () => {
       overview: {
         refetch: jest.fn(),
       },
-      balances: {
-        refetch: jest.fn(),
-      },
     },
+    query: () => {
+      return {
+          data: {
+            balances: [
+            {
+              denom: "STAKE",
+              amount: 1211,
+            },
+          ]
+        }
+      }
+    }
   }
 
   beforeEach(() => {
@@ -123,7 +119,6 @@ describe(`ActionModal`, () => {
           currrentModalOpen: false,
         },
         overview,
-        balances,
         delegations,
       },
       getters: {
@@ -172,7 +167,7 @@ describe(`ActionModal`, () => {
     wrapper.vm.transactionManager.getSignQueue = jest.fn(
       () => new Promise((resolve) => resolve(0))
     )
-    wrapper.setData({ network, balances })
+    wrapper.setData({ network })
     wrapper.vm.open()
   })
 
@@ -286,9 +281,6 @@ describe(`ActionModal`, () => {
         $apollo: {
           queries: {
             overview: {
-              loading: true,
-            },
-            balances: {
               loading: true,
             },
           },
@@ -472,28 +464,29 @@ describe(`ActionModal`, () => {
       wrapper.setData({
         gasEstimate: 2,
         networkFeesLoaded: true,
-        balances: [
-          {
-            denom: "STAKE",
-            amount: 1211,
-          },
-        ],
         networkFees: {
           transactionFee: {
             denom: "STAKE",
             amount: 0.01,
           },
         },
+        $apollo: {
+          query: () => {
+            return {
+                data: {
+                  balances: [
+                  {
+                    denom: "STAKE",
+                    amount: 1211,
+                  },
+                ]
+              }
+            }
+          }
+        }
       })
       wrapper.setProps({
         selectedDenom: "STAKE",
-      })
-    })
-
-    describe(`success`, () => {
-      it(`when the total invoice amount is less than the balance`, () => {
-        wrapper.setProps({ amount: 1210 })
-        expect(wrapper.vm.isValidInput(`invoiceTotal`)).toBe(true)
       })
     })
 
@@ -548,7 +541,6 @@ describe(`ActionModal`, () => {
         step: `sign`,
         gasEstimate: 12345,
         submissionError: null,
-        balances,
       }
 
       wrapper.setProps({ transactionProperties })
