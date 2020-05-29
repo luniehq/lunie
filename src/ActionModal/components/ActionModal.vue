@@ -395,7 +395,6 @@ export default {
     queueEmpty: true,
     includedHeight: undefined,
     smallestAmount: SMALLEST,
-    balances: [],
     balancesLoaded: false,
     networkFeesLoaded: false,
   }),
