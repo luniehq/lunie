@@ -283,6 +283,17 @@ export default {
           addressRole: this.session.addressRole,
         }
       } else {
+        console.log(
+          {
+            type: messageType.STAKE,
+            to: [this.targetValidator.operatorAddress],
+            amount: {
+              amount: this.amount,
+              denom: this.stakingDenom,
+            },
+            addressRole: this.session.addressRole,
+          }
+        )
         return {
           type: messageType.STAKE,
           to: [this.targetValidator.operatorAddress],

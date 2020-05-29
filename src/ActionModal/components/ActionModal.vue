@@ -675,7 +675,7 @@ export default {
         if (this.network.network_type === "polkadot") {
           transactionData = {
             fee: {
-              amount: this.networkFees.fee.amount,
+              amount: this.networkFees.transactionFee.amount,
               denom: this.getDenom,
             },
             addressRole: this.session.addressRole,

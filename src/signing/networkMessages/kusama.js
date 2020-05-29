@@ -23,21 +23,24 @@ export async function StakeTx(
   const api = await getAPI()
   const transactions = []
   // delegation amount
-  if (amount.amount > 0) {
-    const chainAmount = toChainAmount(amount, network.coinLookup)
-    const payee = 0
+  console.log(amount)
+  if (amount) {
+    if (amount.amount > 0) {
+      const chainAmount = toChainAmount(amount, network.coinLookup)
+      const payee = 0
 
-    if (addressRole === `stash/controller` || addressRole === `stash`) {
-      transactions.push(await api.tx.staking.bondExtra(chainAmount))
+      if (addressRole === `stash/controller` || addressRole === `stash`) {
+        transactions.push(await api.tx.staking.bondExtra(chainAmount))
+      }
+      if (addressRole === `none`) {
+        // bonds the stash address as a controller of this account
+        // there has to be a controller set for staking actions
+        transactions.push(
+          await api.tx.staking.bond(senderAddress, chainAmount, payee)
+        )
+      }
+      // controllers can't bond stake
     }
-    if (addressRole === `none`) {
-      // bonds the stash address as a controller of this account
-      // there has to be a controller set for staking actions
-      transactions.push(
-        await api.tx.staking.bond(senderAddress, chainAmount, payee)
-      )
-    }
-    // controllers can't bond stake
   }
   // validator you are delegating to
   if (to.length > 0) {
