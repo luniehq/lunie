@@ -14,7 +14,7 @@
     :disable="validatorsWithRewards"
   >
     <span
-      v-if="currentNetwork.network_type !== 'polkadot'"
+      v-if="currentNetwork.network_type === 'cosmos'"
       class="form-message notice withdraw-limit"
     >
       Lunie will only withdraw rewards from 5 validators at a time because of a
