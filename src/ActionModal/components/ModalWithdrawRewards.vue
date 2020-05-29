@@ -13,7 +13,10 @@
     :rewards="rewards"
     :disable="validatorsWithRewards"
   >
-    <span class="form-message notice withdraw-limit">
+    <span
+      v-if="currentNetwork.network_type !== 'polkadot'"
+      class="form-message notice withdraw-limit"
+    >
       Lunie will only withdraw rewards from 5 validators at a time because of a
       limitation with the Ledger Nano&nbsp;S.
     </span>
@@ -36,12 +39,6 @@
         />
         <span class="input-suffix">{{ reward.denom }}</span>
       </div>
-      <TmFormMsg
-        v-if="currentNetwork.network_type === 'polkadot'"
-        type="custom"
-        class="tm-form-msg--desc"
-        msg="Currently only rewards from era 718 onwards are claimable"
-      />
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -51,7 +48,6 @@ import { mapGetters } from "vuex"
 import { fullDecimals } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
-import TmFormMsg from "common/TmFormMsg"
 import { getTop5RewardsValidators } from "../../signing/transaction-manager"
 import gql from "graphql-tag"
 import { messageType } from "../../components/transactions/messageTypes"
@@ -70,7 +66,6 @@ export default {
   components: {
     ActionModal,
     TmFormGroup,
-    TmFormMsg,
   },
   filters: {
     fullDecimals,
