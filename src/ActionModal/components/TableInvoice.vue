@@ -3,21 +3,21 @@
     <ul class="table-invoice">
       <li v-if="subTotal > 0" class="sub-total">
         <span>Subtotal</span>
-        <span> {{ subTotal | fullDecimals }} {{ bondDenom }} </span>
+        <span> {{ subTotal | fullDecimals }} {{ transactionDenom }} </span>
       </li>
       <li class="fees">
         <span>Network Fee</span>
         <span>
-          {{ estimatedFee | fullDecimals }}
-          {{ feeDenom || bondDenom }}
+          {{ fee.amount | fullDecimals }}
+          {{ fee.denom !== transactionDenom ? fee.denom : transactionDenom }}
         </span>
       </li>
       <li class="total-row">
         <span>Total</span>
         <div class="total-column">
-          <p>{{ total | fullDecimals }} {{ bondDenom }}</p>
-          <p v-if="feeDenom && feeDenom !== bondDenom">
-            {{ estimatedFee | fullDecimals }} {{ feeDenom }}
+          <p>{{ total | fullDecimals }} {{ transactionDenom }}</p>
+          <p v-if="fee.denom !== transactionDenom">
+            {{ fee.amount | fullDecimals }} {{ fee.denom }}
           </p>
         </div>
       </li>
@@ -37,17 +37,13 @@ export default {
       type: Number,
       required: true,
     },
-    estimatedFee: {
-      type: Number,
+    fee: {
+      type: Object,
       required: true,
     },
-    bondDenom: {
+    transactionDenom: {
       type: String,
       required: true,
-    },
-    feeDenom: {
-      type: String,
-      default: "",
     },
   },
   data: () => ({
@@ -60,9 +56,9 @@ export default {
     total() {
       // if there is a feeDenom, it means that subTotal and estimatedFee are different currencies and
       // cannot be therefore added up together
-      return this.feeDenom && this.feeDenom !== this.bondDenom
+      return this.fee.denom !== this.transactionDenom
         ? this.subTotal
-        : this.estimatedFee + this.subTotal
+        : Number(this.fee.amount) + this.subTotal
     },
   },
 }
