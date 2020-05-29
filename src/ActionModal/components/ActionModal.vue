@@ -778,7 +778,7 @@ export default {
       /* istanbul ignore next */
       update(data) {
         this.balancesLoaded = true
-        return JSON.parse(JSON.stringify(data.balances)) || []
+        return data.balances || []
       },
       /* istanbul ignore next */
       skip() {
