@@ -9,7 +9,7 @@
         class="button small"
         :value="linkCaption"
         type="button"
-        @click="goToLink(link)"
+        @click.native="goToLink(link)"
       />
       <i class="material-icons notranslate close-icon" @click="close()"
         >close</i
