@@ -290,8 +290,7 @@ export default {
   },
   methods: {
     open(denom = undefined) {
-      this.selectedToken =
-        denom || this.balances.find(({ denom }) => denom).denom
+      this.selectedToken = denom
       this.$refs.actionModal.open()
     },
     onSuccess(event) {
@@ -393,6 +392,10 @@ export default {
         }
       },
       update(data) {
+        // if no token preselected, pick first token available
+        if (!this.selectedToken) {
+          data.balances.find(({ denom }) => denom).denom
+        }
         return data.balances || []
       },
     },
