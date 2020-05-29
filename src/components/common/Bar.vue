@@ -4,9 +4,13 @@
       <slot />
     </p>
     <div class="right">
-      <button v-if="link" class="button" @click="goToLink(link)">
-        {{ linkCaption }}
-      </button>
+      <TmBtn
+        v-if="link && !session.developmentMode"
+        class="button small"
+        :value="linkCaption"
+        type="button"
+        @click="goToLink(link)"
+      />
       <i class="material-icons notranslate close-icon" @click="close()"
         >close</i
       >
@@ -15,8 +19,14 @@
 </template>
 
 <script>
+import TmBtn from "src/components/common/TmBtn"
+import { mapState } from "vuex"
+
 export default {
   name: `bar`,
+  components: {
+    TmBtn,
+  },
   props: {
     barType: {
       type: String,
@@ -36,6 +46,9 @@ export default {
     return {
       showMessage: this.show,
     }
+  },
+  computed: {
+    ...mapState([`session`]),
   },
   methods: {
     close() {
@@ -94,6 +107,7 @@ export default {
 
 .bar .link {
   text-decoration: underline;
+  color: var(--menu-bright);
   cursor: pointer;
 }
 
