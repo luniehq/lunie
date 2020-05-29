@@ -392,7 +392,6 @@ export default {
     SIGN_METHODS,
     featureAvailable: true,
     isMobileApp: config.mobileApp,
-    balances: [],
     queueEmpty: true,
     includedHeight: undefined,
     smallestAmount: SMALLEST,
@@ -779,7 +778,7 @@ export default {
       /* istanbul ignore next */
       update(data) {
         this.balancesLoaded = true
-        return data.balances || []
+        return JSON.parse(JSON.stringify(data.balances)) || []
       },
       /* istanbul ignore next */
       skip() {
