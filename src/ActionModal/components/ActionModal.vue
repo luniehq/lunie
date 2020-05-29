@@ -782,7 +782,7 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.session.address
+        return !this.session.address || !this.show
       },
     },
     networkFees: {
