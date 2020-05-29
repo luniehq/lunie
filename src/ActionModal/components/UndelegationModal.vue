@@ -411,7 +411,7 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.address
+        return !this.address || !this.$refs.actionModal.show
       },
       /* istanbul ignore next */
       variables() {
@@ -436,7 +436,7 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.address
+        return !this.address || !this.$refs.actionModal.show
       },
       /* istanbul ignore next */
       variables() {
@@ -474,7 +474,7 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.address
+        return !this.address || !this.$refs.actionModal.show
       },
     },
     $subscribe: {
@@ -488,7 +488,7 @@ export default {
         },
         /* istanbul ignore next */
         skip() {
-          return !this.address
+          return !this.address || !this.$refs.actionModal.show
         },
         query: UserTransactionAdded,
         /* istanbul ignore next */
