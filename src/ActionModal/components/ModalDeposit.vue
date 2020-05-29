@@ -182,7 +182,7 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.userAddress || !this.$refs.actionModal.show
+        return !this.userAddress || !this.$refs.actionModal || !this.$refs.actionModal.show
       },
       /* istanbul ignore next */
       variables() {

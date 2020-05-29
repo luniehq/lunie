@@ -383,7 +383,7 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.userAddress || !this.$refs.actionModal.show
+        return !this.userAddress || !this.$refs.actionModal || !this.$refs.actionModal.show
       },
       /* istanbul ignore next */
       variables() {
@@ -452,6 +452,7 @@ export default {
       skip() {
         return (
           !this.userAddress ||
+          !this.$refs.actionModal || 
           !this.$refs.actionModal.show ||
           !this.transactionData ||
           Object.keys(this.transactionData).length === 0
