@@ -3,7 +3,7 @@
   /* theme colors */
   --primary: hsl(2, 100%, 50%);
   --primary-hover: hsl(2, 100%, 45%);
-  --highlight: var(--primary);
+  --highlight: hsl(288, 100%, 77%);
   --link: var(--primary);
   --link-hover: var(--primary-hover);
 
