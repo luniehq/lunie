@@ -5,7 +5,7 @@
     </p>
     <div class="right">
       <TmBtn
-        v-if="link && !session.developmentMode"
+        v-if="link"
         class="button small"
         :value="linkCaption"
         type="button"
@@ -20,7 +20,6 @@
 
 <script>
 import TmBtn from "src/components/common/TmBtn"
-import { mapState } from "vuex"
 
 export default {
   name: `bar`,
@@ -46,9 +45,6 @@ export default {
     return {
       showMessage: this.show,
     }
-  },
-  computed: {
-    ...mapState([`session`]),
   },
   methods: {
     close() {
