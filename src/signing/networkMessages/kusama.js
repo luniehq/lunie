@@ -112,9 +112,9 @@ export async function RestakeTx(senderAddress, { to, from, addressRole }) {
     const stashId = stakingLedger.toJSON().stash
     const response = await api.query.staking.nominators(stashId)
     const { targets: delegatedValidators = [] } = response.toJSON() || {}
-    const validatorAddresses = delegatedValidators.filter(
-      (validator) => !from.includes(validator)
-    )
+    const validatorAddresses = delegatedValidators
+      .filter((validator) => !from.includes(validator))
+      .concat(to[0])
     transactions.push(await api.tx.staking.nominate(validatorAddresses))
   }
   return await getSignMessage(senderAddress, transactions)
