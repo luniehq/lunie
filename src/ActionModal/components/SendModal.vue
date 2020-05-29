@@ -12,7 +12,6 @@
     :notify-message="notifyMessage"
     feature-flag="send"
     :disabled="sendingNgm"
-    :chain-applied-fees="getTerraTax(false)"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -187,7 +186,6 @@ export default {
   },
   data: () => ({
     address: ``,
-    chainAppliedFees: {},
     amount: config.development ? 0.000001 : null, // dev life, hard life > make simple
     memo: defaultMemo,
     max_memo_characters: 256,
@@ -196,6 +194,7 @@ export default {
     balances: [],
     messageType,
     smallestAmount: SMALLEST,
+    networkFeesLoaded: false,
   }),
   computed: {
     ...mapGetters([`network`, `networks`, `stakingDenom`]),
@@ -252,11 +251,16 @@ export default {
         )
       )
     },
+    // TODO: maxAmount should be handled from ActionModal
     maxAmount() {
-      return this.maxDecimals(
-        this.selectedBalance.amount - this.getTerraTax(true),
-        6
-      )
+      if (this.networkFeesLoaded) {
+        return this.maxDecimals(
+          this.selectedBalance.amount - this.networkFees.transactionFee.amount,
+          6
+        )
+      } else {
+        return this.maxDecimals(this.selectedBalance.amount, 6)
+      }
     },
   },
   watch: {
@@ -341,28 +345,6 @@ export default {
     maxDecimals(value, decimals) {
       return Number(BigNumber(value).toFixed(decimals)) // TODO only use bignumber
     },
-    getTerraTax(setMaxAmount = false) {
-      // hack for setMaxAmount
-      const amountToTax = setMaxAmount
-        ? this.selectedBalance.amount
-        : this.amount
-      if (
-        this.network.startsWith(`terra`) &&
-        this.selectedBalance.denom !== `LUNA` &&
-        this.chainAppliedFees &&
-        this.chainAppliedFees.rate
-      ) {
-        return this.maxDecimals(
-          Math.min(
-            Number(amountToTax) * this.chainAppliedFees.rate,
-            this.chainAppliedFees.cap
-          ),
-          6
-        )
-      } else {
-        return 0
-      }
-    },
   },
   validations() {
     return {
@@ -414,36 +396,65 @@ export default {
         return data.balances || []
       },
     },
-    chainAppliedFees: {
+    networkFees: {
       query: gql`
-        query NetworkFees($networkId: String!, $transactionType: String) {
+        query NetworkFees(
+          $networkId: String!
+          $messageType: String!
+          $message: TransactionDetailsInput!
+          $senderAddress: String!
+        ) {
           networkFees(
             networkId: $networkId
-            transactionType: $transactionType
+            messageType: $messageType
+            message: $message
+            senderAddress: $senderAddress
           ) {
-            chainAppliedFees {
-              rate
-              cap
+            transactionFee {
+              denom
+              amount
             }
           }
         }
       `,
       /* istanbul ignore next */
       variables() {
+        let { type, ...message } = this.transactionData
+        delete message.memo
+        // make sure the amounts are strings when sending
+        if (message.amount) {
+          message.amount = {
+            amount: String(message.amount.amount),
+            denom: message.amount.denom,
+          }
+        }
+        if (message.amounts) {
+          message.amounts = message.amounts.map(({ amount, denom }) => ({
+            amount: String(amount),
+            denom,
+          }))
+        }
         return {
           networkId: this.network,
-          transactionType: "SendTx",
+          messageType: type,
+          message,
+          senderAddress: this.userAddress,
         }
       },
       /* istanbul ignore next */
       update(data) {
         if (data.networkFees) {
-          return data.networkFees.chainAppliedFees
+          this.networkFeesLoaded = true
+          return data.networkFees
         }
       },
       /* istanbul ignore next */
       skip() {
-        return !this.userAddress
+        return (
+          !this.userAddress ||
+          !this.transactionData ||
+          Object.keys(this.transactionData).length === 0
+        )
       },
     },
     $subscribe: {
