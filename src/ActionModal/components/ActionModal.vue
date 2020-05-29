@@ -43,9 +43,7 @@
       <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
-      <TmDataLoading
-        v-else-if="$apollo.loading && (!balancesLoaded || !networkFeesLoaded)"
-      />
+      <TmDataLoading v-else-if="$apollo.loading && !networkFeesLoaded" />
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
@@ -392,11 +390,9 @@ export default {
     SIGN_METHODS,
     featureAvailable: true,
     isMobileApp: config.mobileApp,
-    balances: [],
     queueEmpty: true,
     includedHeight: undefined,
     smallestAmount: SMALLEST,
-    balancesLoaded: false,
     networkFeesLoaded: false,
   }),
   computed: {
@@ -473,21 +469,6 @@ export default {
     getDenom() {
       return this.selectedDenom || this.network.stakingDenom
     },
-    selectedBalance() {
-      const defaultBalance = {
-        amount: 0,
-      }
-      if (this.balances.length === 0 || !this.network) {
-        return defaultBalance
-      }
-      // default to the staking denom for fees
-      const feeDenom = this.selectedDenom || this.network.stakingDenom
-      let balance = this.balances.find(({ denom }) => denom === feeDenom)
-      if (!balance) {
-        balance = defaultBalance
-      }
-      return balance
-    },
   },
   watch: {
     // if there is only one sign method, preselect it
@@ -536,6 +517,19 @@ export default {
           this.queueEmpty = true
         }
       }
+    },
+    selectedBalanceAmount(balances) {
+      const defaultAmount = 0
+      if (balances.length === 0 || !this.network) {
+        return defaultAmount
+      }
+      // default to the staking denom for fees
+      const feeDenom = this.selectedDenom || this.network.stakingDenom
+      let balance = balances.find(({ denom }) => denom === feeDenom)
+      if (!balance) {
+        return defaultAmount
+      }
+      return balance.amount
     },
     async open() {
       if (!this.address) {
@@ -750,42 +744,31 @@ export default {
         ),
       },
       invoiceTotal: {
-        max: (x) =>
-          this.networkFeesLoaded &&
-          this.networkFees.transactionFee.denom !== this.selectedDenom
+        max: async (x) => {
+          const { data } = await this.$apollo.query({
+            query: gql`
+              query balances($networkId: String!, $address: String!) {
+                balances(networkId: $networkId, address: $address) {
+                  denom
+                  amount
+                  gasPrice
+                }
+              }
+            `,
+            variables: {
+              networkId: this.networkId,
+              address: this.session.address,
+            },
+          })
+          return this.networkFeesLoaded &&
+            this.networkFees.transactionFee.denom !== this.selectedDenom
             ? true
-            : Number(x) <= this.selectedBalance.amount,
+            : Number(x) <= this.selectedBalanceAmount(data.balances)
+        },
       },
     }
   },
   apollo: {
-    balances: {
-      query: gql`
-        query balances($networkId: String!, $address: String!) {
-          balances(networkId: $networkId, address: $address) {
-            denom
-            amount
-            gasPrice
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.networkId,
-          address: this.session.address,
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        this.balancesLoaded = true
-        return data.balances || []
-      },
-      /* istanbul ignore next */
-      skip() {
-        return !this.session.address
-      },
-    },
     networkFees: {
       query: gql`
         query NetworkFees(
