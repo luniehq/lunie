@@ -22,7 +22,7 @@ describe(`SessionApprove`, () => {
           to: ['cosmos1324vt5j3wzx0xsc32mjhkrvy5gn5ef2hrwcg29']
         },
         transactionData: {
-          gasPrices: [
+          fee: [
             {
               amount: 1e-6,
               denom: 'ustake'

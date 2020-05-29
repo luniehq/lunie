@@ -20,8 +20,8 @@
         v-if="tx"
         class="approval-table"
         :amount="amount"
-        :estimated-fee="fees"
-        :bond-denom="invoiceDenom"
+        :fee="fees"
+        :transaction-denom="invoiceDenom"
       />
       <TmFormGroup
         :error="$v.password.$error && $v.password.$invalid"
@@ -132,7 +132,7 @@ export default {
       return this.signRequest ? this.signRequest.network : null
     },
     fees() {
-      return this.tx && this.tx.fees[0] ? Number(this.tx.fees[0].amount) : 0
+      return this.tx && this.tx.fees[0] ? this.tx.fees[0] : {}
     },
     senderAddress() {
       return this.signRequest ? this.signRequest.senderAddress : null
