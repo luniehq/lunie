@@ -74,6 +74,7 @@
     "vue-async-computed": "3.8.2",
     "vue-clipboard2": "0.3.1",
     "vue-infinite-scroll": "2.0.2",
+    "vue-reactive-refs": "0.0.2",
     "vue-router": "3.1.6",
     "vuelidate": "0.7.5",
     "vuex": "3.3.0",
