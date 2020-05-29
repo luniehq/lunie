@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.21] - 2020-05-29
+
+### Added
+
+- [#266](https://github.com/cosmos/lunie/pull/266) Adds Dependabot config for weekly updates only @Bitcoinera
+
+### Changed
+
+- [#215](https://github.com/cosmos/lunie/pull/215) Adds loader to SessionApprove @Bitcoinera
+
+### Fixed
+
+- [#177](https://github.com/cosmos/lunie/issues/177) Fixes denom in fees for ClaimRewards not appearing @Bitcoinera
+- Fix claim transaction not displaying @faboweb
+- Fix publishing to master @faboweb
+
+### Security
+
+- [#219](https://github.com/cosmos/lunie/pull/219) Resolves all dependencies vulnerabilities alerts @Bitcoinera
+
+### Code Improvements
+
+- [#264](https://github.com/cosmos/lunie/pull/264) Refactor using the fees that come straight from the API @Bitcoinera
+
 ## [1.0.20] - 2020-05-11
 
 ### Changed
