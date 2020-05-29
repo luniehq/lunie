@@ -188,13 +188,13 @@ function getRewardsForDelegator(
 async function loadEraData(missingEras, api) {
   let [eraPoints, eraPreferences, eraRewards] = await Promise.all([
     api.derive.staking
-      ._erasPoints(missingEras)
+      .erasPoints(missingEras)
       .then(result => _.keyBy(result, 'era')),
     api.derive.staking
-      ._erasPrefs(missingEras)
+      .erasPrefs(missingEras)
       .then(result => _.keyBy(result, 'era')),
     api.derive.staking
-      ._erasRewards(missingEras)
+      .erasRewards(missingEras)
       .then(result => _.keyBy(result, 'era'))
   ])
   // load one exposure after another as this is very costly and might time out the API
