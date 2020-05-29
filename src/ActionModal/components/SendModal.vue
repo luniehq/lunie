@@ -422,7 +422,6 @@ export default {
         let { type, ...message } = this.transactionData
         delete message.memo
         // make sure the amounts are strings when sending
-        console.log(`message.amount:`, message.amount)
         if (message.amount) {
           message.amount = {
             amount: String(message.amount.amount),
