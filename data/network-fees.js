@@ -221,9 +221,13 @@ const getPolkadotFee = async ({ messageType, message, senderAddress, network }) 
   const viewFees = BigNumber(chainFees)
     .times(network.coinLookup[0].chainToViewConversionFactor)
     .toNumber()
-  const { amount } = message 
+  let { amount } = message
+  if (message.amounts) {
+    const { amounts } = message
+    amount = amounts[0]
+  }  
   return {
-    denom: amount.denom || network.stakingDenom,
+    denom: (amount && amount.denom) || network.stakingDenom,
     amount: viewFees
   }
 }
