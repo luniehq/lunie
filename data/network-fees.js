@@ -198,20 +198,23 @@ let networkGasPricesDictionary = {
   'kusama': polkadotGasPrices,
 }
 
-const getPolkadotMessage = async (messageType, senderAddress, message, network) => {
+const getPolkadotMessage = async (messageType, senderAddress, message, network, networkSource) => {
   const polkadotMessages = require(`../lib/messageCreators/polkadot-transactions`)
   const messageFormatter = polkadotMessages[messageType]
-  return messageFormatter && network ? await messageFormatter(senderAddress, message, network) : null
+  const api = networkSource.store.polkadotRPC
+  await api.isReady
+  return messageFormatter && network ? await messageFormatter(senderAddress, message, network, api) : null
 }
 
-const getPolkadotFee = async ({ messageType, message, senderAddress, network }) => {
+const getPolkadotFee = async ({ messageType, message, senderAddress, network, networkSource }) => {
   if (!messageType) return null
 
   const chainMessage = await getPolkadotMessage(
     messageType,
     senderAddress,
     message,
-    network
+    network,
+    networkSource
   )
 
   const { partialFee } = await chainMessage.transaction.paymentInfo(

@@ -1,0 +1,1 @@
+[Fixed] Fix memory leaks in Polkadot API by reconnecting every hour @faboweb
