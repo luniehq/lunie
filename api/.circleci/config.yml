@@ -1,0 +1,113 @@
+version: 2.1
+
+# Here we define all the paths and versions of images we want to play with
+aliases:
+  # Define paths and never think about them again
+  - &WORKSPACE /tmp/voyager
+  # Pick docker versions here only, then use the aliases in the executors definition
+  - &docker-node circleci/node:10.15.3
+
+# a reusable executor
+executors:
+  node:
+    docker:
+      - image: *docker-node
+    working_directory: *WORKSPACE
+
+# reusable commands
+commands:
+  yarn-install:
+    description: "[YARN] update and install"
+    steps:
+      - restore_cache:
+          keys:
+            - v6-dependencies-root-{{ checksum "yarn.lock" }}
+            - v6-dependencies-root-
+
+      - run: yarn install
+      - save_cache:
+          paths:
+            - yarn.lock
+            - node_modules
+          key: v6-dependencies-root-{{ checksum "yarn.lock" }}
+
+jobs:
+  prep:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - checkout
+      - yarn-install
+      - persist_to_workspace:
+          root: *WORKSPACE
+          paths:
+            - "*"
+
+  lint:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - run:
+          name: Lint
+          command: yarn lint
+
+  build:
+    docker:
+      - image: node:10-alpine
+    environment:
+      TESTNET: "true"
+      TESTNET_RPC_URL: "ws://localhost:26657/websocket"
+      TESTNET_API_URL: "http://localhost:9071"
+    steps:
+      - checkout
+
+  test:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - run:
+          name: Test
+          command: yarn test
+          
+  publish:
+    executor: node
+    steps:
+      - checkout
+      - run:
+          command: bash ./scripts/publish.sh
+
+workflows:  
+  publish:
+    jobs:
+      - publish:
+          filters:
+            branches:
+              only: develop
+
+  testing:
+    jobs:
+      - prep
+
+      - lint:
+          requires:
+            - prep
+          filters:
+            branches:
+              ignore: release
+
+      - build:
+          requires:
+            - prep
+          filters:
+            branches:
+              ignore: release
+
+      - test:
+          requires:
+            - prep
+          filters:
+            branches:
+              ignore: release
