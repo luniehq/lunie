@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UndelegationModal should display undelegation modal form 1`] = `
+<actionmodal-stub
+  amount="0"
+  class="undelegation-modal"
+  featureflag="undelegate"
+  id="undelegation-modal"
+  notifymessage="[object Object]"
+  rewards=""
+  selecteddenom=""
+  submissionerrorprefix="Unstaking failed"
+  targetvalidator="[object Object]"
+  title="Unstake"
+  transactiondata="[object Object]"
+  transactiontype="UnknownTx"
+  validate="function () { [native code] }"
+>
+  <!---->
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+  >
+    <div
+      class="form-message notice"
+    >
+      <span>
+        
+        Unstaking takes a certain number of time to complete and cannot be
+        undone. Please make sure you understand the rules of staking.
+      
+      </span>
+    </div>
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="from"
+    fieldlabel="From"
+  >
+    <tmfield-stub
+      id="from"
+      readonly=""
+      type="text"
+      value="undefined - cosmosvaladdr…3p4mqpjyrm5ctplpn3au"
+    />
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="to"
+    fieldlabel="To"
+  >
+    <tmfield-stub
+      id="to"
+      options="[object Object],[object Object]"
+      type="select"
+      value="0"
+    />
+     
+    <!---->
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+  >
+    <span
+      class="input-suffix max-button"
+    >
+      STAKE
+    </span>
+     
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="0"
+        type="number"
+        value="0"
+      />
+       
+      <tmbtn-stub
+        class="secondary addon-max"
+        type="button"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
+     
+    <span
+      class="form-message"
+    >
+      
+      Currently staked: 1000 STAKEs
+    
+    </span>
+     
+    <!---->
+  </tmformgroup-stub>
+</actionmodal-stub>
+`;

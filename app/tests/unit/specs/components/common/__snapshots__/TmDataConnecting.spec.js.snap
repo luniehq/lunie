@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmDataConnecting has the expected html structure 1`] = `
+<div
+  class="tm-data-msg"
+>
+  <img
+    alt="a small spinning circle to display loading"
+    class="tm-data-msg__icon"
+    src="~assets/images/loader.svg"
+  />
+   
+  <div
+    class="tm-data-msg__text"
+  >
+    <div
+      class="tm-data-msg__title"
+      slot="title"
+    >
+      
+      Finding connection
+    
+    </div>
+     
+    <div
+      class="tm-data-msg__subtitle"
+      slot="subtitle"
+    >
+      
+      You are currently not connected to a node. We will load this information
+      when a connection is established.
+    
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmHardwareState has the expected html structure 1`] = `
+<div
+  class="tm-hardware-state"
+>
+  <div
+    class="tm-hardware-state-content"
+  >
+    <img
+      alt="a small spinning circle to display loading"
+      class="tm-hardware-state__icon"
+      src="~assets/images/loader.svg"
+    />
+     
+    <div
+      class="tm-hardware-state__label"
+    >
+      Detecting your Ledger Wallet
+    </div>
+  </div>
+</div>
+`;

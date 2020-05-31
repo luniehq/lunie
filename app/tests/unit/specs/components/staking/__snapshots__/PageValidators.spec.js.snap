@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageValidators shows a list of validators 1`] = `
+<tmpage-stub
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="filterOptions"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio secondary"
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio secondary"
+          type="active"
+          value="Active"
+        />
+      </div>
+    </div>
+     
+    <tablevalidators-stub
+      delegations=""
+      showonmobile="expectedReturns"
+      validators="[object Object],[object Object],[object Object],[object Object],[object Object]"
+    />
+     
+    <!---->
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidators shows a message if still loading 1`] = `
+<tmpage-stub
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <div
+    class="loading-image-container"
+  >
+    <img
+      alt="geometric placeholder shapes"
+      class="loading-image"
+      src="/img/validator-list-loading.svg"
+    />
+  </div>
+</tmpage-stub>
+`;
+
+exports[`PageValidators shows a message if there is an error to display 1`] = `
+<tmpage-stub
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="filterOptions"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio secondary"
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio secondary"
+          type="active"
+          value="Active"
+        />
+      </div>
+    </div>
+     
+    <tablevalidators-stub
+      delegations=""
+      showonmobile="expectedReturns"
+      validators=""
+    />
+     
+    <!---->
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidators shows a message if there is nothing to display 1`] = `
+<tmpage-stub
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="filterOptions"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio secondary"
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio secondary"
+          type="active"
+          value="Active"
+        />
+      </div>
+    </div>
+     
+    <tablevalidators-stub
+      delegations=""
+      showonmobile="expectedReturns"
+      validators=""
+    />
+     
+    <!---->
+  </template>
+</tmpage-stub>
+`;

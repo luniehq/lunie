@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TransactionIcon renders a Claimed transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Claimed"
+    src="/img/icons/activity/Claimed.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Deposit transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Deposit"
+    src="/img/icons/activity/Deposit.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Received transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Received"
+    src="/img/icons/activity/Received.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Restaked transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Restaked"
+    src="/img/icons/activity/Restaked.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Sent transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Sent"
+    src="/img/icons/activity/Sent.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Staked transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Staked"
+    src="/img/icons/activity/Staked.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Submitted transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Submitted"
+    src="/img/icons/activity/Submitted.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Unstaked transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Unstaked"
+    src="/img/icons/activity/Unstaked.svg"
+  />
+</div>
+`;
+
+exports[`TransactionIcon renders a Voted transaction icon 1`] = `
+<div
+  class="tx__icon"
+>
+  <img
+    alt="Voted"
+    src="/img/icons/activity/Voted.svg"
+  />
+</div>
+`;

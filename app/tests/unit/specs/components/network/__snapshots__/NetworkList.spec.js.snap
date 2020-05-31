@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NetworkList shows a list of networks 1`] = `
+<section>
+  <h3>
+    section title
+  </h3>
+   
+  <ul
+    class="network-list"
+  >
+    <li
+      class="select-network-item"
+      data-network="gaia-testnet"
+    >
+      <networkitem-stub
+        networkitem="[object Object]"
+      />
+    </li>
+    <li
+      class="select-network-item"
+      data-network="cosmoshub"
+    >
+      <networkitem-stub
+        networkitem="[object Object]"
+      />
+    </li>
+  </ul>
+</section>
+`;

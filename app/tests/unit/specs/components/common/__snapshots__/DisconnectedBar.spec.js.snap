@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DisconnectedBar shows the disconnected bar 1`] = `
+<div>
+  <bar-stub
+    bartype="info"
+    link=""
+    linkcaption=""
+    show="true"
+  >
+    
+    You are currently not connected.
+    
+    <a
+      class="link"
+    >
+      Try Reconnecting
+    </a>
+    ?
+  
+  </bar-stub>
+</div>
+`;

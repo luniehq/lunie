@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmModal has the expected html structure 1`] = `
+<div
+  class="tm-modal"
+  tabindex="0"
+>
+  <main
+    class="tm-modal-main"
+  />
+   
+  <footer
+    class="tm-modal-footer"
+  />
+</div>
+`;

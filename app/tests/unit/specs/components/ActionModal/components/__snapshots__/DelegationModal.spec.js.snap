@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DelegationModal Submission Data for Redelegating should set the subtotal to 0 on a restake 1`] = `
+<actionmodal-stub title="Restake" validate="function () { [native code] }" submissionerrorprefix="Staking failed" amount="0" rewards="" transactiondata="[object Object]" notifymessage="[object Object]" featureflag="delegate" selecteddenom="" transactiontype="RestakeTx" id="delegation-modal" class="delegation-modal">
+  <!---->
+  <!---->
+  <tmformgroup-stub class="action-modal-form-group">
+    <div class="form-message notice"><span>
+        Voting power and rewards will change instantly upon restaking — but
+        your tokens will still be subject to the risks associated with the
+        original stake for the duration of the unstaking period.
+      </span></div>
+  </tmformgroup-stub>
+  <tmformgroup-stub fieldid="to" fieldlabel="To" class="action-modal-form-group">
+    <tmfield-stub type="text" value="undefined - cosmosvaladdr…3p4mqpjyrm5ctgurrg7n" id="to" readonly=""></tmfield-stub>
+    <!---->
+    <tmformmsg-stub type="custom" name="" msg="You are about to restake to an inactive validator (temporally banned from the network)" class="tm-form-msg--desc"></tmformmsg-stub>
+  </tmformgroup-stub>
+  <tmformgroup-stub fieldid="from" fieldlabel="From" class="action-modal-form-group">
+    <tmfield-stub type="select" value="2" options="[object Object],[object Object],[object Object]" id="from" title="cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctplpn3au"></tmfield-stub>
+  </tmformgroup-stub>
+  <tmformgroup-stub fieldid="amount" fieldlabel="Amount" class="action-modal-form-group"><span class="input-suffix max-button">STAKE</span>
+    <tmfieldgroup-stub>
+      <tmfield-stub type="number" value="10" placeholder="0" id="amount" class="tm-field-addon"></tmfield-stub>
+      <tmbtn-stub value="Set Max" type="button" class="secondary addon-max"></tmbtn-stub>
+    </tmfieldgroup-stub> <span class="form-message">
+      Available to stake:
+      124
+      STAKEs
+    </span>
+    <!---->
+  </tmformgroup-stub>
+</actionmodal-stub>
+`;
+
+exports[`DelegationModal should display the delegation modal form 1`] = `
+<actionmodal-stub
+  amount="0"
+  class="delegation-modal"
+  featureflag="delegate"
+  id="delegation-modal"
+  notifymessage="[object Object]"
+  rewards=""
+  selecteddenom=""
+  submissionerrorprefix="Staking failed"
+  title="Stake"
+  transactiondata="[object Object]"
+  transactiontype="StakeTx"
+  validate="function () { [native code] }"
+>
+  <!---->
+   
+  <!---->
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+  >
+    <div
+      class="form-message notice"
+    >
+      <span>
+        
+        It will take a certain number of time to unlock your tokens after they
+        are staked. There is a risk that some tokens will be lost depending on
+        the behaviour of the validator you choose.
+      
+      </span>
+    </div>
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="to"
+    fieldlabel="To"
+  >
+    <tmfield-stub
+      id="to"
+      readonly=""
+      type="text"
+      value="undefined - cosmosvaladdr…3p4mqpjyrm5ctqzh8yqw"
+    />
+     
+    <!---->
+     
+    <!---->
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="from"
+    fieldlabel="From"
+  >
+    <tmfield-stub
+      id="from"
+      options="[object Object],[object Object],[object Object]"
+      title="cosmos1234"
+      type="select"
+      value="0"
+    />
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+  >
+    <span
+      class="input-suffix max-button"
+    >
+      STAKE
+    </span>
+     
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="0"
+        type="number"
+        value="0"
+      />
+       
+      <tmbtn-stub
+        class="secondary addon-max"
+        type="button"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
+     
+    <span
+      class="form-message"
+    >
+      
+      Available to stake:
+      1000
+      STAKEs
+    
+    </span>
+     
+    <!---->
+  </tmformgroup-stub>
+</actionmodal-stub>
+`;

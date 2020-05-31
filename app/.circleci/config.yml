@@ -1,0 +1,247 @@
+version: 2.1
+
+# Here we define all the paths and versions of images we want to play with
+aliases:
+  # Define paths and never think about them again
+  - &WORKSPACE /tmp/voyager
+  # Pick docker versions here only, then use the aliases in the executors definition
+  - &docker-node circleci/node:10.15.3
+  - &docker-browsers circleci/node:10.15.3-browsers
+
+# reusable commands
+commands:
+  yarn-install:
+    description: "[YARN] update and install"
+    steps:
+      - restore_cache:
+          keys:
+            - v6-dependencies-root-{{ checksum "yarn.lock" }}
+            - v6-dependencies-root-
+
+      - run: yarn install
+      - save_cache:
+          paths:
+            - yarn.lock
+            - node_modules
+          key: v6-dependencies-root-{{ checksum "yarn.lock" }}
+
+  # use npm as the extension install happens in the mashine image which doesn't have yarn
+  npm-install-extension:
+    description: "[YARN] update and install"
+    steps:
+      - restore_cache:
+          keys:
+            - v2-dependencies-extension-{{ checksum "yarn.lock" }}
+            - v2-dependencies-extension-
+
+      - run: npm install
+      - save_cache:
+          paths:
+            - package-lock.json
+            - yarn.lock
+            - node_modules
+          key: v2-dependencies-extension-{{ checksum "yarn.lock" }}
+
+# a reusable executor
+executors:
+  web:
+    docker:
+      - image: *docker-browsers
+    working_directory: *WORKSPACE
+
+  node:
+    docker:
+      - image: *docker-node
+    working_directory: *WORKSPACE
+
+jobs:
+  prep:
+    executor: web
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - checkout
+      - yarn-install
+      - persist_to_workspace:
+          root: *WORKSPACE
+          paths:
+            - "*"
+
+  lint:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - run: yarn run lint --max-warnings 0
+
+  testUnit:
+    executor: web
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - run:
+          name: Test
+          command: |
+            yarn run test:unit --coverage --maxWorkers=2
+            bash <(curl -s https://codecov.io/bash)
+          no_output_timeout: 180
+
+  security:
+    executor: web
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - run:
+          name: Audit
+          command: |
+            set +e
+            yarn audit
+            SUMMARY="$(yarn audit | grep Severity)"
+            VULNERABILITIES=".*(High|Critical).*"
+            if [[ $SUMMARY =~ $VULNERABILITIES ]]; then
+              echo "Unsafe dependencies found: $SUMMARY" >&2
+              exit 1
+            fi
+            echo "Your dependencies are secure enough: $SUMMARY"
+            exit 0
+  testE2e:
+    executor: node
+    steps:
+      - attach_workspace:
+          at: *WORKSPACE
+      - run:
+          # needs to be done in CI to be sure it is build once we start the tests
+          name: Run tests
+          command: |
+            PR_NUMBER="$(echo $CIRCLE_PULL_REQUEST | cut -d'/' -f 7)"
+            FE_URL=https://deploy-preview-${PR_NUMBER}--lunieio.netlify.com
+
+            attempt_counter=0
+            max_attempts=10
+
+            until $(curl --output /dev/null --silent --head --fail ${FE_URL}); do
+                if [ ${attempt_counter} -eq ${max_attempts} ];then
+                  echo "Max attempts reached"
+                  exit 1
+                fi
+
+                printf '.'
+                attempt_counter=$(($attempt_counter+1))
+                sleep 30
+            done
+
+            PASSWORD=${NETWORK_PASSWORD} CHT_PWD=${ACCOUNT_PASSWORD} yarn test:e2e:browserstack --fe=${FE_URL} --api=https://production-api.lunie.io
+          environment:
+            SENTRY_URL: ""
+            SENTRY_TOKEN: ""
+
+  testExtension:
+    machine: true
+    working_directory: *WORKSPACE
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "65:5f:43:fd:be:48:c8:45:d5:39:ef:86:14:d6:e1:12"
+      - run:
+          name: Add GitHub to known hosts
+          command: |
+            mkdir -p ~/.ssh
+            touch ~/.ssh/known_hosts
+            ssh-keygen -R github.com
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run:
+          name: checkout extension
+          command: |
+            git clone git@github.com:luniehq/lunie-browser-extension.git .
+            git checkout origin/develop
+      - npm-install-extension
+      - run:
+          name: checkout backend
+          command: |
+            git clone git@github.com:luniehq/lunie-backend.git
+            cd lunie-backend
+            git checkout origin/develop
+      - attach_workspace:
+          at: /tmp/voyager/lunie
+      - run: 
+          name: Use NVM
+          command: |
+            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - run:
+          name: Install node version
+          command: |
+            nvm install v10.13.0
+            nvm alias default v10.13.0
+      - run:
+          name: Install Chrome
+          command: |
+            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+            sudo apt-get update
+            sudo apt-get -y install google-chrome-stable
+      - run:
+          name: Run testnet
+          command: |
+            cd lunie-backend
+            docker-compose up --build -d
+      - run:
+          name: Build Extension
+          command: npm run test:e2e:build
+      - run:
+          name: Test
+          command: npm run test:e2e:start-lunie & npm run test:e2e
+          no_output_timeout: 120
+      - store_artifacts:
+          path: ./screenshots
+          when: on_fail
+      
+  # Push tagged versions on develop to master
+  publish:
+    executor: node
+    steps:
+      - checkout
+      - run:
+          command: bash ./tasks/publish.sh
+          
+workflows:
+  version: 2
+  test:
+    jobs:
+      - prep
+
+      - security:
+          requires:
+            - prep
+          filters:
+            branches:
+              ignore: release
+
+      - lint:
+          requires:
+            - prep
+          filters:
+            branches:
+              ignore: release
+
+      - testUnit:
+          requires:
+            - prep
+          filters:
+            branches:
+              ignore: release
+
+      - testE2e:
+          requires:
+            - prep
+
+      # - testExtension:
+      #     requires:
+      #       - e2eBuild
+
+  publish:
+    jobs:
+      - publish:
+          filters:
+            branches:
+              only: develop

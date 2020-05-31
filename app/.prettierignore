@@ -1,0 +1,7 @@
+/dist/
+/package.json
+/test/unit/coverage/
+/test/unit/tmp/
+/docs/cosmos-voyager/
+/**/builds/*
+/.vscode/*

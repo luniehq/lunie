@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="890px" height="135px" viewBox="0 0 890 135" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>balance-header-loading</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="balance-header-loading" fill-rule="nonzero">
+            <rect id="Rectangle" fill="#7A88B8" opacity="0.6" transform="translate(30.000000, 13.000000) scale(-1, 1) rotate(-180.000000) translate(-30.000000, -13.000000) " x="0" y="8" width="60" height="10" rx="2"></rect>
+            <rect id="Rectangle-Copy-2" fill="#7A88B8" opacity="0.6" transform="translate(22.500000, 30.000000) scale(-1, 1) rotate(-180.000000) translate(-22.500000, -30.000000) " x="0" y="26" width="45" height="8" rx="2"></rect>
+            <rect id="Rectangle" fill="#7A88B8" opacity="0.26" x="652" y="0" width="108" height="37" rx="8"></rect>
+            <rect id="Rectangle" fill="#7A88B8" opacity="0.55" x="770" y="0" width="120" height="37" rx="8"></rect>
+            <g id="li-validator-copy-4" transform="translate(0.000000, 97.000000)">
+                <rect id="Rectangle-Copy-11" fill="#7A88B8" opacity="0.55" transform="translate(81.000000, 19.000000) scale(-1, 1) rotate(-180.000000) translate(-81.000000, -19.000000) " x="51" y="10" width="60" height="18" rx="2"></rect>
+                <rect id="Rectangle-Copy-12" fill="#7A88B8" opacity="0.26" transform="translate(19.000000, 19.000000) scale(-1, 1) rotate(-180.000000) translate(-19.000000, -19.000000) " x="0" y="0" width="38" height="38" rx="19"></rect>
+                <rect id="Rectangle-Copy-14" fill="#CFF5DF" opacity="0.55" transform="translate(682.000000, 19.000000) scale(-1, 1) rotate(-180.000000) translate(-682.000000, -19.000000) " x="652" y="9" width="60" height="20" rx="2"></rect>
+                <rect id="Rectangle-Copy-17" fill="#FFE681" opacity="0.55" transform="translate(859.000000, 19.000000) scale(-1, 1) rotate(-180.000000) translate(-859.000000, -19.000000) " x="829" y="9" width="60" height="20" rx="2"></rect>
+            </g>
+            <g id="headings-copy" transform="translate(0.000000, 62.000000)" fill="#7A88B8" opacity="0.26">
+                <rect id="Rectangle" transform="translate(50.000000, 5.000000) scale(-1, 1) rotate(-180.000000) translate(-50.000000, -5.000000) " x="0" y="0" width="100" height="10" rx="2"></rect>
+                <rect id="Rectangle" transform="translate(672.000000, 5.000000) scale(-1, 1) rotate(-180.000000) translate(-672.000000, -5.000000) " x="652" y="0" width="40" height="10" rx="2"></rect>
+                <rect id="Rectangle" transform="translate(849.000000, 5.000000) scale(-1, 1) rotate(-180.000000) translate(-849.000000, -5.000000) " x="829" y="0" width="40" height="10" rx="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

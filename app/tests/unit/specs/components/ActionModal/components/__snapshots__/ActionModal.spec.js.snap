@@ -1,0 +1,1429 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionModal back button renders and functions 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Send"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal runs validation and changes step on sign step should display warning when using an address not in the extension 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <p
+      class="form-message notice extension-address"
+    >
+      
+        The address you are trying to send with is not available in the
+        extension.
+      
+    </p>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+    >
+      <div>
+        
+            Please send the transaction to be signed in the Lunie Browser
+            Extension.
+          
+      </div>
+       
+      <!---->
+       
+      <!---->
+    </hardwarestate-stub>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Send"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal on success 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <!---->
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <!---->
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form success-step"
+  >
+    <tmdatamsg-stub
+      icon="check"
+      iconcolor="var(--success)"
+      success="true"
+    >
+      <div>
+        Successful transaction
+      </div>
+       
+      <div>
+        
+            You have successfully completed a transaction.
+            
+        <br />
+         
+        <br />
+         
+        <router-link-stub
+          to="/lunie-net/transactions"
+        >
+          See your transaction
+        </router-link-stub>
+      </div>
+    </tmdatamsg-stub>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal waiting on inclusion 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <!---->
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <!---->
+     
+    <!---->
+  </div>
+   
+  <!---->
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with explore on fees step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="fees"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <p
+      class="form-message notice"
+    >
+      
+          You're using Lunie in explore mode. Sign in or create an account to
+          get started.
+        
+    </p>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Sign In"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with explore on sign step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <p
+      class="form-message notice"
+    >
+      
+          You're using Lunie in explore mode. Sign in or create an account to
+          get started.
+        
+    </p>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Sign In"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with explore sending 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <!---->
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <p
+      class="form-message notice"
+    >
+      
+          You're using Lunie in explore mode. Sign in or create an account to
+          get started.
+        
+    </p>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Sign In"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with extension on fees step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="fees"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        loading="true"
+        type="primary"
+        value="Next"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with extension on sign step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <p
+      class="form-message notice extension-address"
+    >
+      
+        The address you are trying to send with is not available in the
+        extension.
+      
+    </p>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+    >
+      <div>
+        
+            Please send the transaction to be signed in the Lunie Browser
+            Extension.
+          
+      </div>
+       
+      <!---->
+       
+      <!---->
+    </hardwarestate-stub>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Send"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with extension sending 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <!---->
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <p
+      class="form-message notice extension-address"
+    >
+      
+        The address you are trying to send with is not available in the
+        extension.
+      
+    </p>
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+      loading="true"
+    >
+      <!---->
+       
+      <div>
+        
+            Please open the Lunie Browser Extension, review the details, and
+            approve the transaction.
+          
+      </div>
+       
+      <!---->
+    </hardwarestate-stub>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        type="primary"
+        value="Waiting for Extension"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with ledger on fees step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="fees"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        loading="true"
+        type="primary"
+        value="Next"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with ledger on sign step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+    >
+      <div>
+        
+            Please use Chrome or Brave. Ledger is not supported in this
+            browser.
+          
+      </div>
+    </hardwarestate-stub>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Send"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with ledger sending 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <!---->
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <hardwarestate-stub
+      icon="info"
+      loading="true"
+    >
+      <div>
+        
+            Please use Chrome or Brave. Ledger is not supported in this
+            browser.
+          
+      </div>
+    </hardwarestate-stub>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        type="primary"
+        value="Waiting for Ledger"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with local on fees step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="fees"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <!---->
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        loading="true"
+        type="primary"
+        value="Next"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with local on sign step 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <div
+    class="action-modal-icon action-modal-prev"
+    id="prevBtn"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      arrow_back
+    </i>
+  </div>
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Send"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user has logged in with local sending 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <!---->
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="sign"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <!---->
+     
+    <form>
+      <tmformgroup-stub
+        class="action-modal-group"
+        fieldid="password"
+        fieldlabel="Password"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </form>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        disabled="true"
+        type="primary"
+        value="Sending..."
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal should show the action modal when user hasn't logged in 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <!---->
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="details"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  >
+    <p
+      class="form-message notice"
+    >
+      
+          You're using Lunie in explore mode. Sign in or create an account to
+          get started.
+        
+    </p>
+  </div>
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Sign In"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal shows a feature unavailable message 1`] = `
+<div
+  class="action-modal"
+  name="slide-fade"
+  tabindex="0"
+>
+  <!---->
+   
+  <div
+    class="action-modal-header"
+  >
+    <div
+      class="action-modal-icon action-modal-close"
+      id="closeBtn"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        close
+      </i>
+    </div>
+     
+    <span
+      class="action-modal-title"
+    >
+      Send
+    </span>
+     
+    <steps-stub
+      activestep="details"
+      steps="Details,Fees,Sign"
+    />
+     
+    <!---->
+  </div>
+   
+  <div
+    class="action-modal-form"
+  />
+   
+  <!---->
+   
+  <div
+    class="action-modal-footer"
+  >
+    <tmformgroup-stub
+      class="action-modal-group"
+    >
+      <tmbtn-stub
+        id="closeBtn"
+        type="secondary"
+        value="Cancel"
+      />
+       
+      <tmbtn-stub
+        type="primary"
+        value="Next"
+      />
+    </tmformgroup-stub>
+  </div>
+</div>
+`;
+
+exports[`ActionModal shows loading when there is still data to be loaded 1`] = `<!---->`;

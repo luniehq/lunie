@@ -1,0 +1,30 @@
+.terra-testnet,
+.terra-mainnet {
+  /* theme colors */
+  --primary: hsl(221, 85%, 31%);
+  --primary-hover: hsl(221, 85%, 26%);
+  --highlight: hsl(22, 86%, 56%);
+  --link: hsl(221, 85%, 50%);
+  --link-hover: hsl(221, 85%, 45%);
+
+  /* background-colors */
+  --app-fg: hsl(0, 0%, 97%);
+  --app-fg-hover: hsl(0, 0%, 92%);
+  --app-bg: hsl(0, 0%, 100%);
+
+  /* menu styles */
+  --app-nav: var(--primary);
+  --app-nav-hover: var(--primary-hover);
+  --menu-link: hsl(217, 91%, 81%);
+  --menu-link-hover: hsl(217, 91%, 76%);
+  --menu-border: hsl(221, 85%, 40%);
+
+  /* light-theme typography */
+  --bright: hsl(0, 0%, 0%);
+  --txt: hsl(0, 0%, 10%);
+  --dim: hsl(0, 0%, 20%);
+  --bc: hsl(0, 0%, 80%);
+  --bc-dim: hsl(0, 0%, 85%);
+  --input-bc: hsl(0, 0%, 75%);
+  --available: var(--txt);
+}
