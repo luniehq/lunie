@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RestakeTxDetails renders a restake transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiontype="Restaked"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Restaked
+    </h3>
+     
+    <span>
+      From 
+    </span>
+     
+    <router-link-stub
+      to="/staking/validators/cosmosvaloper1qecshyc40kshszkwrtscgmsdd8tz3n4hrj9yf2"
+    >
+      <!---->
+      
+      cosmosvaloper…9yf2 
+    </router-link-stub>
+    <i
+      class="material-icons notranslate arrow"
+    >
+      arrow_right_alt
+    </i>
+     
+    <router-link-stub
+      to="[object Object]"
+    >
+      <!---->
+      
+      cosmosvaloper…ekuz
+    
+    </router-link-stub>
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      10 
+      ATOM
+    
+    </p>
+  </div>
+</div>
+`;

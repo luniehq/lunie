@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmModal has the expected html structure 1`] = `
+<div
+  class="modal-tutorial"
+  tabindex="0"
+>
+  <main
+    class="modal-tutorial-main"
+  >
+    <div
+      class="modal-tutorial-header"
+    >
+      <div
+        class="modal-tutorial-button-container"
+      >
+        <div>
+          <a
+            href="#"
+          >
+            <i
+              class="material-icons notranslate chevron_left"
+            />
+          </a>
+           
+          <a
+            href="#"
+          >
+            <i
+              class="material-icons notranslate chevron_right"
+            />
+          </a>
+        </div>
+         
+        <a
+          href="#"
+        >
+          <i
+            class="material-icons notranslate close"
+          />
+        </a>
+      </div>
+       
+      <div
+        class="top-bg red"
+      />
+    </div>
+     
+    <div
+      class="content"
+    >
+      <div
+        class="steps"
+      >
+        <span
+          class="current-step"
+        >
+          STEP 1
+        </span>
+         
+        <div
+          class="steps-container"
+        >
+          <span
+            class="step completed"
+          />
+          <span
+            class="step"
+          />
+          <span
+            class="step"
+          />
+          <span
+            class="step"
+          />
+        </div>
+      </div>
+       
+      <h2>
+        How to get tokens?
+      </h2>
+       
+      <p>
+        <span
+          class="content-item"
+        >
+          
+              Praesent vitae tristique erat.
+            
+        </span>
+        <span
+          class="content-item"
+        >
+          
+              Integer ullamcorper ligula vel dolor sagittis nec fermentum risus pharetra.
+            
+        </span>
+        <span
+          class="content-item"
+        >
+          
+              Nulla mollis tempus sem, a sollicitudin est facilisis ac.
+            
+        </span>
+         
+      </p>
+       
+      <button
+        class="button primary"
+      >
+        
+            Next step
+            
+        <i
+          class="material-icons notranslate arrow_forward"
+        />
+      </button>
+      <!---->
+      <!---->
+      <!---->
+    </div>
+  </main>
+</div>
+`;

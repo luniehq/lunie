@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalWithdrawRewards should show the withdraw rewards modal 1`] = `
+<actionmodal-stub
+  amount="0"
+  chainappliedfees="0"
+  class="modal-withdraw-rewards"
+  disable="true"
+  featureflag="claim_rewards"
+  id="modal-withdraw-rewards"
+  notifymessage="[object Object]"
+  rewards="[object Object],[object Object]"
+  selecteddenom="STAKE"
+  submissionerrorprefix="Withdrawal failed"
+  title="Claim Rewards"
+  transactiondata="[object Object]"
+  transactiontype="ClaimRewardsTx"
+>
+  <span
+    class="form-message notice withdraw-limit"
+  >
+    
+    Lunie will only withdraw rewards from 5 validators at a time because of a
+    limitation with the Ledger Nano S.
+  
+  </span>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Rewards from 2 validators"
+  >
+    <div>
+      <span
+        class="input-suffix-reward"
+      >
+        NOTSTAKE
+      </span>
+       
+      <input
+        class="tm-field-addon"
+        disabled="disabled"
+      />
+    </div>
+  </tmformgroup-stub>
+</actionmodal-stub>
+`;

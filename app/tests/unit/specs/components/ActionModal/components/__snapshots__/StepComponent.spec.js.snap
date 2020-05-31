@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Steps shows steps 1`] = `
+<div
+  class="step--container"
+>
+  <div
+    class="stepItem active"
+  >
+    <span
+      class="text--default"
+    >
+      
+    first
+  
+    </span>
+  </div>
+  <div
+    class="stepItem"
+  >
+    <span
+      class="text--default"
+    >
+      
+    second
+  
+    </span>
+  </div>
+</div>
+`;

@@ -1,0 +1,56 @@
+[
+  {
+    "address": "70705055A9FA5901735D0C3F0954501DDE667327",
+    "pub_key": {
+      "type": "ed25519",
+      "data": "88564A32500A120AA72CEFBCF5462E078E5DDB70B6431F59F778A8DC4DA719A4"
+    },
+    "voting_power": 14,
+    "accum": 585
+  },
+  {
+    "address": "760ACDE75EFC3DD0E4B2A6A3B96D91C05349EA31",
+    "pub_key": {
+      "type": "ed25519",
+      "data": "7A9D783CE542B23FA23DC7F101460879861205772606B4C3FAEAFBEDFB00E7BD"
+    },
+    "voting_power": 32,
+    "accum": -1107
+  },
+  {
+    "address": "77C26DF82654C5A5DDE5C6B7B27F3F06E9C223C0",
+    "pub_key": {
+      "type": "ed25519",
+      "data": "651E7B12B3C7234FB82B4417C59DCE30E4EA28F06AD0ACAEDFF05F013E463F10"
+    },
+    "voting_power": 19,
+    "accum": 539
+  },
+  {
+    "address": "A130023895C57972021B7130FB0B25FB9BAD1557",
+    "pub_key": {
+      "type": "ed25519",
+      "data": "2BA51EDE20AFC1EB462F22C10623A24A9C7E1B50282A5FB1E86A2E9B4FF19C47"
+    },
+    "voting_power": 1000,
+    "accum": 943
+  },
+  {
+    "address": "D5B410389F606D5AA34BED52E143DDC40EF97C43",
+    "pub_key": {
+      "type": "ed25519",
+      "data": "B3D42DEB413DA2BAE6CB1A9162B820783BD2905A90840795D2B11640344908C7"
+    },
+    "voting_power": 1000,
+    "accum": -1940
+  },
+  {
+    "address": "F173B5D14E4D9289E5654E4DCCCA3A3FF0D43799",
+    "pub_key": {
+      "type": "ed25519",
+      "data": "C9B26A21B62EF839523D2040C0C4C046D86574CB6DFF92F3C0AF58DF209846FD"
+    },
+    "voting_power": 1000,
+    "accum": 980
+  }
+]

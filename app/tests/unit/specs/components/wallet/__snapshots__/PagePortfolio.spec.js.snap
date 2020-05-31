@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PagePortfolio should display the portfolio page 1`] = `
+<tmpage-stub
+  darkbackground="true"
+  managed="true"
+  signinrequired="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <delegationsoverview-stub />
+     
+    <undelegations-stub />
+  </template>
+</tmpage-stub>
+`;

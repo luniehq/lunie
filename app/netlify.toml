@@ -1,0 +1,43 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    cache-control = '''
+      max-age=0,
+      no-cache,
+      no-store,
+      must-revalidate
+    '''
+    Content-Security-Policy = '''
+      default-src 'self' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://monitoring.lunie.io:9000 https://js.intercomcdn.com;
+      connect-src 'self' https://api-iam.intercom.io https://widget.intercom.io wss://*.intercom.io wss://production-api.lunie.io/graphql https://production-api.lunie.io wss://staging-api.lunie.io/graphql https://staging-api.lunie.io https://monitoring.lunie.io:9000 wss://kusama-rpc.polkadot.io/;
+      img-src 'self' data: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://s3.amazonaws.com https://lunie.fra1.digitaloceanspaces.com;
+      script-src 'self' 'unsafe-eval' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://api-iam.intercom.io https://js.intercomcdn.com https://widget.intercom.io https://www.gstatic.com 'nonce-4AEemGbGTJptoIGFP3Nd' 'nonce-HYjB4SnB0b0lHRlAzTmQ' 'nonce-YW5hbHl0aWNzLWx1bmll';
+      style-src 'self' 'unsafe-inline' https://*.lunie.io https://*.netlify.app;
+      media-src 'self' https://*.lunie.io https://*.netlify.app blob:;
+      object-src 'self' data: blob: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com;
+      manifest-src 'self' https://*.lunie.io https://*.netlify.app;
+      worker-src 'self';
+      frame-src 'self' https://api-iam.intercom.io https://widget.intercom.io;
+      frame-ancestors 'self';
+      base-uri 'self';
+      form-action 'self';
+      font-src 'self' data: https://js.intercomcdn.com;
+    '''
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "same-origin"
+
+[context.production]
+  command = "yarn buildsentry"
+
+[context.deploy-preview]
+  command = "yarn build --mode development"
+
+[context.deploy-preview.environment]
+  SENTRY_DSN = ""
+  SENTRY_URL = ""
+  SENTRY_TOKEN = ""
+
+[context.deploy-preview.processing]
+  skip_processing = true

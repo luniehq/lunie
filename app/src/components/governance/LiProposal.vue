@@ -1,0 +1,98 @@
+<template>
+  <tr
+    class="li-proposal"
+    @click="
+      $router.push({
+        name: 'Proposal',
+        params: { proposalId: String(proposal.id) },
+      })
+    "
+  >
+    <td>
+      <span :class="proposal.status | lowerCase" class="proposal-status">
+        {{ status.badge }}
+      </span>
+      <h3 class="li-proposal-title">
+        {{ proposal.title }}
+      </h3>
+      <p class="li-proposal-description">
+        {{ proposal.description | trim(200) }}
+      </p>
+      <router-link :to="`/proposals/` + proposal.id" class="read-more-link"
+        >Read the full proposal...</router-link
+      >
+    </td>
+  </tr>
+</template>
+
+<script>
+import { mapState } from "vuex"
+import { getProposalStatus } from "scripts/proposal-status"
+export default {
+  name: `li-proposal`,
+  filters: {
+    trim: function (text, length) {
+      return text.length > length ? text.substring(0, length) + `…` : text
+    },
+    lowerCase: (text) => text.toLowerCase(),
+  },
+  props: {
+    proposal: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    ...mapState([`proposals`]),
+    status() {
+      return getProposalStatus(this.proposal)
+    },
+  },
+}
+</script>
+
+<style scoped>
+@import "../../styles/proposal-status.css";
+
+.li-proposal {
+  margin: 1rem 0;
+  padding: 1rem 0;
+  display: block;
+  cursor: pointer;
+  max-width: 680px;
+  background: var(--app-fg);
+  border-radius: 0.25rem;
+}
+
+.li-proposal:hover {
+  cursor: pointer;
+  background: var(--app-fg-hover);
+}
+
+.li-proposal-title {
+  font-size: var(--xl);
+  line-height: 32px;
+  color: var(--bright);
+  font-weight: 500;
+  display: block;
+  padding: 1rem 0 0.5rem 0;
+}
+
+.li-proposal-description {
+  word-break: break-word;
+  color: var(--txt);
+  font-size: 14px;
+}
+
+.read-more-link {
+  padding-top: 1rem;
+  font-size: 14px;
+  display: inline-block;
+}
+
+@media screen and (min-width: 667px) {
+  .li-proposal {
+    margin: 1rem auto;
+  }
+}
+</style>

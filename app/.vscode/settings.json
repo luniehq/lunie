@@ -1,0 +1,17 @@
+{
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    {
+      "language": "vue",
+      "autoFix": false
+    }
+  ],
+  "vetur.format.defaultFormatter.html": "prettier",
+  "css.lint.emptyRules": "error",
+  "css.lint.idSelector": "warning",
+  "css.lint.important": "warning",
+  "css.lint.universalSelector": "warning",
+  "css.lint.unknownVendorSpecificProperties": "warning",
+  "css.lint.zeroUnits": "warning"
+}

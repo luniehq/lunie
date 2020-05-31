@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeatureNotAvailable shows a warning about a feature not being available 1`] = `
+<div
+  class="tm-data-msg"
+>
+  <div
+    class="tm-data-msg__icon"
+  >
+    <i
+      class="material-icons notranslate"
+    >
+      timeline
+    </i>
+  </div>
+   
+  <div
+    class="tm-data-msg__text"
+  >
+    <h2
+      class="tm-data-msg__title"
+    >
+      <div>
+        Feature not available
+      </div>
+    </h2>
+     
+    <h3
+      class="tm-data-msg__subtitle"
+    >
+      <div>
+        
+    This feature hasn't been implemented on this network yet.
+    
+        <br />
+         
+        <br />
+         
+        <a
+          class="intercom-button"
+          href="#"
+        >
+          Reach out if you'd like us to enable this feature.
+        </a>
+      </div>
+    </h3>
+  </div>
+</div>
+`;
