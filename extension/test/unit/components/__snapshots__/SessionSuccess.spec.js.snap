@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionSuccess renders correctly 1`] = `
+<div
+  class="session session-success"
+>
+  <h2>
+    Transaction Complete
+  </h2>
+   
+  <div>
+    <p>
+      🎉 Your transaction was successfully signed!
+    </p>
+  </div>
+   
+  <div
+    class="session-footer"
+  >
+    <a>
+      Back to my account list
+    </a>
+  </div>
+</div>
+`;
