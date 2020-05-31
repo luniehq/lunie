@@ -98,6 +98,9 @@ async function balanceReducer(
     fiatCurrency
   )
   // hack. We convert the balance into an Array to make it an Iterable
+  if (balance == 0) {
+    return []
+  }
   return [
     {
       amount: lunieCoin.amount,
