@@ -15,7 +15,7 @@
     "lint-fix": "yarn lint --fix",
     "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git checkout origin/release -B release && git pull && git merge origin/develop && git push",
     "start": "node index.js ",
-    "test": "cross-env TEST=true jest",
+    "test:unit": "cross-env TEST=true jest",
     "changelog": "simsala log --pending-path ./changes"
   },
   "husky": {

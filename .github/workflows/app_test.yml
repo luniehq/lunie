@@ -5,7 +5,7 @@ on:
     branches:
       - "*"
     paths:
-      - 'api/**'
+      - 'app/**'
 jobs:
   prep: 
     name: prep
@@ -15,7 +15,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v1
     - name: go to subdirectory
-      run: cd api
+      run: cd app
     - name: Install dependencies
       run: yarn install
   test:
@@ -39,6 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: prep
     steps:
+    needs: prep
     - name: Add simsala
       run: npm install simsala
     - name: Check if changlog was updated
