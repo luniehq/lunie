@@ -1,1 +1,2 @@
 [Added] [#4184](https://github.com/cosmos/lunie/pull/4184) Adds optional chaining using the babel plugin for it @Bitcoinera
+[Fixed] [#4184](https://github.com/cosmos/lunie/pull/4184) Fixes show of undefined in UndelegationModal refactoring with optional chaining @Bitcoinera
