@@ -63,7 +63,7 @@
     "lodash.uniqby": "^4.7.0",
     "lodash.uniqwith": "4.5.0",
     "material-design-icons-iconfont": "5.0.1",
-    "moment": "^2.25.3",
+    "moment": "^2.26.0",
     "no-scroll": "^2.1.1",
     "serialize-javascript": ">=2.1.1",
     "subscriptions-transport-ws": "0.9.16",
