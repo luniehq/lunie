@@ -6,6 +6,8 @@ on:
       - develop
     paths:
       - 'api/changes/**'
+env:
+  WORKING_DIRECTORY: ./api
 jobs:
   test:
     name: Compile
@@ -14,17 +16,24 @@ jobs:
     - uses: actions/checkout@v1
     - name: Use Node.js
       uses: actions/setup-node@v1
-    - name: npm install
-      run: npm install
+    - uses: bahmutov/npm-install@v1
+      with:
+        working-directory: ${{env.WORKING_DIRECTORY}}
     - name: Build image
       run: docker build -t lunieapi . 
+      working-directory: ${{env.WORKING_DIRECTORY}}
     - name: Save file
       run: docker save lunieapi | gzip > lunieapi.tgz
+      working-directory: ${{env.WORKING_DIRECTORY}}
     - name: prepare to push to Digital Ocean
       run: mkdir -p ~/.ssh && echo "${{ secrets.DO_PRIVATE_KEY }}"  | tr -d '\r' > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa && eval "$(ssh-agent -s)" && ssh-add ~/.ssh/id_rsa && ssh-keyscan -H 157.245.121.175 >> ~/.ssh/known_hosts
+      working-directory: ${{env.WORKING_DIRECTORY}}
     - name: push to Digital Ocean
       run:  rsync -4 lunieapi.tgz root@157.245.121.175:~/ && rsync -4 docker-compose.yml root@157.245.121.175:~/ && rsync -4 Caddyfile root@157.245.121.175:~/
+      working-directory: ${{env.WORKING_DIRECTORY}}
     - name: Installing Docker Compose
       run: ssh root@157.245.121.175 "sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose; sudo chmod +x /usr/local/bin/docker-compose"
+      working-directory: ${{env.WORKING_DIRECTORY}}
     - name: Run on Digital Ocean
       run: ssh root@157.245.121.175 "docker image prune -a -f; docker load < lunieapi.tgz;export HASURA_URL="https://staging-db.lunie.io/v1/graphql"; export HASURA_ADMIN_KEY="${{ secrets.LUNIE_STAGING_DB_KEY }}"; export SENTRY_DSN="${{ secrets.SENTRY_DSN }}"; docker stack deploy -c docker-compose.yml lunieapi; docker service update --image lunieapi:latest --force lunieapi_lunieapi"
+      working-directory: ${{env.WORKING_DIRECTORY}}
