@@ -1306,18 +1306,18 @@
     memoizee "^0.4.14"
     rxjs "^6.5.5"
 
-"@polkadot/util-crypto@2.10.1", "@polkadot/util-crypto@^2.9.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.10.1.tgz#10c00a0b63d3f4005583e6aab5e9baee5234437c"
-  integrity sha512-sxJZwi5CWfOrytVGtvMT5gn7+rrdgCECtmiG94AouyzdCIWqr9DC+BbX95q7Rja8+kLwkm08FWAsI5pwN9oizQ==
+"@polkadot/util-crypto@2.12.1", "@polkadot/util-crypto@^2.9.1":
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-2.12.1.tgz#fe6a52cc87314ff56c9f367b9f04711ccbf46608"
+  integrity sha512-+5rHv+CGEaZ4I+gsJEsZqs756Z2no3VfYS0Hq5sWWRGwI2cYeuX//WPltERSmvBn2Cs2Ir7hP2xtdOqEmuvE/g==
   dependencies:
     "@babel/runtime" "^7.9.6"
-    "@polkadot/util" "2.10.1"
+    "@polkadot/util" "2.12.1"
     "@polkadot/wasm-crypto" "^1.2.1"
     base-x "^3.0.8"
     bip39 "^3.0.2"
     blakejs "^1.1.0"
-    bn.js "^5.1.1"
+    bn.js "^5.1.2"
     bs58 "^4.0.1"
     elliptic "^6.5.2"
     js-sha3 "^0.8.0"
@@ -1344,14 +1344,14 @@
     tweetnacl "^1.0.3"
     xxhashjs "^0.2.2"
 
-"@polkadot/util@2.10.1", "@polkadot/util@^2.9.1":
-  version "2.10.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-2.10.1.tgz#981e19327b49532c8b8d2f2d18e23c3548cbe969"
-  integrity sha512-DaIvvx3zphDlf3ZywLnlrRTngcjGIl7Dn3lbwsgHlMSyENz07TG6YG+ztr0ztUrb9BqFKAeH6XGNtGPBp0LxwA==
+"@polkadot/util@2.12.1", "@polkadot/util@^2.9.1":
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-2.12.1.tgz#d98e8df85a8958b7493fb110322184b7076b09e9"
+  integrity sha512-hJcwSWlZkiTMc+J/cxUine9SpH2kb0PSio4F6mFV06KmCEvVt8XV9pp2/FeIrU57i5Gp++Q5qoFAZBQS9MLz8w==
   dependencies:
     "@babel/runtime" "^7.9.6"
     "@types/bn.js" "^4.11.6"
-    bn.js "^5.1.1"
+    bn.js "^5.1.2"
     camelcase "^5.3.1"
     chalk "^4.0.0"
     ip-regex "^4.1.0"
@@ -3100,10 +3100,10 @@ bn.js@4.11.8, bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.11.6, bn.js@^4.
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.8.tgz#2cde09eb5ee341f484746bb0309b3253b1b1442f"
   integrity sha512-ItfYfPLkWHUjckQCk8xC+LwxgK8NYcXywGigJgSwOP8Y2iyWT4f2vsZnoOXTTbo+o5yXmIUJ4gn5538SO5S3gA==
 
-bn.js@^5.1.1:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-5.1.1.tgz#48efc4031a9c4041b9c99c6941d903463ab62eb5"
-  integrity sha512-IUTD/REb78Z2eodka1QZyyEk66pciRcP6Sroka0aI3tG/iwIdYLrBD62RsubR7vqdt3WyX8p4jxeatzmRSphtA==
+bn.js@^5.1.1, bn.js@^5.1.2:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-5.1.2.tgz#c9686902d3c9a27729f43ab10f9d79c2004da7b0"
+  integrity sha512-40rZaf3bUNKTVYu9sIeeEGOg7g14Yvnj9kH7b50EiwX0Q7A6umbvfI5tvHaOERH0XigqKkfLkFQxzb4e6CIXnA==
 
 body-parser@1.19.0:
   version "1.19.0"
