@@ -120,7 +120,7 @@
     "file-loader": "^1.1.11",
     "husky": "^4.2.5",
     "jest": "^24.9.0",
-    "lint-prepush": "^1.2.0",
+    "lint-prepush": "^2.0.1",
     "live-server": "^1.2.1",
     "mini-css-extract-plugin": "^0.4.4",
     "nightwatch": "^1.1.13",
