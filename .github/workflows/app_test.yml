@@ -22,6 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: prep
     steps:
+      - name: go to subdirectory
+        run: cd app
       - name: Test
         run: |
           yarn test:unit --coverage
@@ -31,6 +33,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: prep
     steps:
+      - name: go to subdirectory
+        run: cd app
       - name: Lint
         run: yarn lint 
   checkChangelog:
