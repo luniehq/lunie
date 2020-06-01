@@ -8,6 +8,7 @@ on:
       - 'app/**'
 jobs:
   prep: 
+    name: app_prep
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -18,7 +19,7 @@ jobs:
     - name: Install dependencies
       run: yarn install
   test:
-    name: test
+    name: app_test
     runs-on: ubuntu-latest
     needs: prep
     steps:
@@ -29,7 +30,7 @@ jobs:
           yarn test:unit --coverage
           bash <(curl -s https://codecov.io/bash)
   lint:
-    name: lint
+    name: app_lint
     runs-on: ubuntu-latest
     needs: prep
     steps:
@@ -38,7 +39,7 @@ jobs:
       - name: Lint
         run: yarn lint 
   checkChangelog:
-    name: checkChangelog
+    name: app_checkChangelog
     runs-on: ubuntu-latest
     needs: prep
     steps:
