@@ -11,13 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: bahmutov/npm-install@v1
     - name: Use Node.js
       uses: actions/setup-node@v1
-    - name: go to subdirectory
-      run: cd app
-    - name: Install dependencies
-      run: yarn --frozen-lockfile
+    - uses: bahmutov/npm-install@v1
+      with:
+        working-directory: app
   test:
     name: test
     runs-on: ubuntu-latest
