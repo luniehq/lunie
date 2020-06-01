@@ -1,4 +1,4 @@
-name: PR testing
+name: App testing
 
 on:
   pull_request:
@@ -6,40 +6,44 @@ on:
       - "*"
     paths:
       - 'api/**'
+env:
+  WORKING_DIRECTORY: ./api
 jobs:
-  prep: 
-    name: prep
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-    - name: go to subdirectory
-      run: cd api
-    - name: Install dependencies
-      run: yarn install
   test:
     name: test
     runs-on: ubuntu-latest
-    needs: prep
     steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Test
         run: |
           yarn test:unit --coverage
           bash <(curl -s https://codecov.io/bash)
+        working-directory: ${{env.WORKING_DIRECTORY}}
   lint:
     name: lint
     runs-on: ubuntu-latest
-    needs: prep
     steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Lint
         run: yarn lint 
+        working-directory: ${{env.WORKING_DIRECTORY}}
   checkChangelog:
     name: checkChangelog
     runs-on: ubuntu-latest
-    needs: prep
     steps:
-    - name: Add simsala
-      run: npm install simsala
-    - name: Check if changlog was updated
-      run: node node_modules/simsala/src/cli.js check --pending-path ./changes
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - name: Check if changlog was updated
+        run: npx simsala check --pending-path ./changes
+        working-directory: ${{env.WORKING_DIRECTORY}}
