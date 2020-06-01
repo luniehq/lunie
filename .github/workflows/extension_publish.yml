@@ -1,4 +1,4 @@
-name: PR testing
+name: Extension publishing
 
 on:
   pull_request:
