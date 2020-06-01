@@ -67,8 +67,8 @@ module.exports = [
     id: 'terra-mainnet',
     title: 'Terra',
     chain_id: 'columbus-3',
-    api_url: 'https://fcd.terra.dev/',
-    rpc_url: 'ws://52.78.43.42:26657/websocket',
+    api_url: 'https://lcd-terra.p2p.org',
+    rpc_url: 'ws://rpc-terra.p2p.org/websocket',
     bech32_prefix: 'terra',
     address_prefix: 'terra',
     address_creator: 'cosmos',
@@ -85,6 +85,12 @@ module.exports = [
     experimental: false,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/terra.png',
     slug: 'terra',
+    powered: {
+      name: 'P2P Validator',
+      providerAddress: 'terravaloper144l7c3uph5a7h62xd8u5et3rqvj3dqtvvka2fu',
+      picture:
+        'https://s3.amazonaws.com/keybase_processed_uploads/0e54d989cbe0b1eed716e222bf2cdd05_360_360.jpg'
+    },
     lockUpPeriod: '21 days'
   },
   {
