@@ -78,6 +78,7 @@
     "handlebars": ">=4.7.6",
     "moment": "^2.25.3",
     "regenerator-runtime": "^0.13.2",
+    "serialize-javascript": ">=2.1.1",
     "subscriptions-transport-ws": "0.9.16",
     "vue": "^2.6.10",
     "vue-analytics": "^5.17.0",
