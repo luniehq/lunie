@@ -7,36 +7,26 @@ on:
     paths:
       - 'extension/CHANGELOG.md'
 jobs:
-  prep: 
-    name: prep
+  publish:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-    - name: go to subdirectory
-      run: cd extension
-    - name: Install dependencies
-      run: yarn install
-  test:
-    name: test
-    runs-on: ubuntu-latest
-    needs: prep
-    steps:
-      - name: Test
-        run: |
-          yarn test:unit --coverage
-          bash <(curl -s https://codecov.io/bash)
-  checkChangelog:
-    name: checkChangelog
-    runs-on: ubuntu-latest
-    needs: prep
-    steps:
-    - name: Init submodule # DEPRECATE
-      run: npm run initiate-submodule
-    - name: Build
-      run: LUNIE_API=${{ secrets.LUNIE_API }} npm run build
-    - name: Zip
-      run: npm run build-zip
-    - name: Deploy
-      run: sh ./scripts/deploy.sh ./dist-zip/lunie-browser-extension.zip
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ${{env.WORKING_DIRECTORY}}
+      - name: Init submodule # DEPRECATE
+        run: npm run initiate-submodule
+      - uses: bahmutov/npm-install@v1 # DEPRECATE
+        with:
+          working-directory: ${{env.WORKING_DIRECTORY}}/lunie
+      - name: Build
+        run: LUNIE_API=${{ secrets.LUNIE_API }} yarn build
+        working-directory: ${{env.WORKING_DIRECTORY}}
+      - name: Zip
+        run: yarn build-zip
+        working-directory: ${{env.WORKING_DIRECTORY}}
+      - name: Deploy
+        run: sh ./scripts/deploy.sh ./dist-zip/lunie-browser-extension.zip
+        working-directory: ${{env.WORKING_DIRECTORY}}
