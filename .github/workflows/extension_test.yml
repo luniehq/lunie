@@ -1,4 +1,4 @@
-name: App testing
+name: Extension testing
 
 on:
   pull_request:
