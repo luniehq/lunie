@@ -6,6 +6,8 @@ on:
       - "*"
     paths:
       - 'app/**'
+env:
+  WORKING_DIRECTORY: ./app
 jobs:
   test:
     name: test
@@ -20,7 +22,7 @@ jobs:
         run: |
           yarn test:unit --coverage
           bash <(curl -s https://codecov.io/bash)
-        working-directory: app
+        working-directory: ${{env.WORKING_DIRECTORY}}
   lint:
     name: lint
     runs-on: ubuntu-latest
@@ -29,10 +31,10 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
       - uses: bahmutov/npm-install@v1
-        working-directory: app
+        working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Lint
         run: yarn lint 
-        working-directory: app
+        working-directory: ${{env.WORKING_DIRECTORY}}
   checkChangelog:
     name: checkChangelog
     runs-on: ubuntu-latest
@@ -42,4 +44,4 @@ jobs:
         uses: actions/setup-node@v1
       - name: Check if changlog was updated
         run: npx simsala check --pending-path ./changes
-        working-directory: app
+        working-directory: ${{env.WORKING_DIRECTORY}}
