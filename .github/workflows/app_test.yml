@@ -17,7 +17,8 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
       - uses: bahmutov/npm-install@v1
-        working-directory: app
+        with:
+          working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Test
         run: |
           yarn test:unit --coverage
@@ -31,7 +32,8 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
       - uses: bahmutov/npm-install@v1
-        working-directory: ${{env.WORKING_DIRECTORY}}
+        with:
+          working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Lint
         run: yarn lint 
         working-directory: ${{env.WORKING_DIRECTORY}}
