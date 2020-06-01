@@ -82,7 +82,7 @@
     "subscriptions-transport-ws": "0.9.16",
     "vue": "^2.6.10",
     "vue-analytics": "^5.17.0",
-    "vue-apollo": "3.0.2",
+    "vue-apollo": "3.0.3",
     "vue-clipboard2": "^0.3.0",
     "vue-directive-tooltip": "1.6.3",
     "vue-router": "^3.0.1",
