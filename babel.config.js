@@ -1,12 +1,14 @@
 module.exports = {
   presets: [
-    '@vue/cli-plugin-babel',
     [
-      "@vue/app",
+      "@vue/cli-plugin-babel/preset",
       {
         useBuiltIns: "entry",
       },
     ],
   ],
-  plugins: ["@babel/transform-runtime", '@babel/plugin-proposal-optional-chaining'],
+  plugins: [
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/transform-runtime",
+  ],
 }
