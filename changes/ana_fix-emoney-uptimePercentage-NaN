@@ -1,0 +1,1 @@
+[Fixed] [#870](https://github.com/cosmos/lunie/pull/870) Fixes validators uptimePercentage being NaN in e-Money @Bitcoinera
