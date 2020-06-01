@@ -56,7 +56,7 @@
                 v-if="isNotificationAvailable"
                 class="notification-bell"
                 src="/img/icons/notifications/bell-icon-alert.png"
-                alt="bell icon"
+                alt="bell icon alert"
               />
               <img
                 v-else
