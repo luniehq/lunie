@@ -8,7 +8,6 @@ on:
       - 'app/**'
 jobs:
   prep: 
-    name: prep
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -39,7 +38,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: prep
     steps:
-    needs: prep
     - name: Add simsala
       run: npm install simsala
     - name: Check if changlog was updated
