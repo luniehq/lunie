@@ -1,9 +1,9 @@
 .kava-testnet,
 .kava-mainnet {
   /* theme colors */
-  --primary: hsl(2, 100%, 50%);
-  --primary-hover: hsl(2, 100%, 45%);
-  --highlight: hsl(288, 100%, 77%);
+  --primary: hsl(2, 100%, 65%);
+  --primary-hover: hsl(2, 100%, 55%);
+  --highlight: hsl(2, 100%, 75%);
   --link: var(--primary);
   --link-hover: var(--primary-hover);
 
