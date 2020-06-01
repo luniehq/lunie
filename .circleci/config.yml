@@ -7,33 +7,33 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v4-dependencies-root-{{ checksum "yarn.lock" }}
-            - v4-dependencies-root-
+            - v5-dependencies-root-{{ checksum "yarn.lock" }}
+            - v5-dependencies-root-
 
       - run: yarn install
       - save_cache:
           paths:
             - yarn.lock
             - node_modules
-          key: v4-dependencies-root-{{ checksum "yarn.lock" }}
+          key: v5-dependencies-root-{{ checksum "yarn.lock" }}
   npm-install-app:
     description: '[NPM] update and install'
     steps:
       - restore_cache:
           keys:
-            - v1-dependencies-app-root-{{ checksum "lunie/yarn.lock" }}
-            - v1-dependencies-app-root-
+            - v2-dependencies-app-root-{{ checksum "lunie/yarn.lock" }}
+            - v2-dependencies-app-root-
 
       - run: cd lunie && npm install
       - save_cache:
           paths:
             - lunie/node_modules
-          key: v1-dependencies-app-root-{{ checksum "lunie/yarn.lock" }}
+          key: v2-dependencies-app-root-{{ checksum "lunie/yarn.lock" }}
 
 jobs:
   pendingUpdated:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:12.17.0
     steps:
       - checkout
       - run: yarn add simsala
@@ -41,7 +41,7 @@ jobs:
 
   lint:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:12.17.0
     steps:
       - checkout
       - yarn-install
@@ -49,7 +49,7 @@ jobs:
 
   testUnit:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:12.17.0
     steps:
       - checkout
       - yarn-install
@@ -73,7 +73,7 @@ jobs:
 
   security:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:12.17.0
     steps:
       - checkout
       - run:
@@ -163,7 +163,7 @@ jobs:
   # Create release.
   release:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:12.17.0
     steps:
       - checkout
       - run: |
@@ -174,7 +174,7 @@ jobs:
             
   publish:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:12.17.0
     steps:
       - checkout
       - run:
@@ -183,7 +183,7 @@ jobs:
   # deploy to the Chrome Web Store
   deploy:
     docker:
-      - image: circleci/node:10.15.3
+      - image: circleci/node:12.17.0
     steps:
       - checkout
       - yarn-install
