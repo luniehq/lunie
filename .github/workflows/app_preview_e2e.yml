@@ -1,8 +1,6 @@
 name: Publish on Netlify
 on:
   pull_request:
-    branches:
-      - "*"
     branches-ignore:
       - "master"
     paths:
