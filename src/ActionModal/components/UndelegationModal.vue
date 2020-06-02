@@ -411,7 +411,11 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.address ||  !this.$refs.actionModal || !this.$refs.actionModal.show
+        return (
+          !this.address ||
+          !this.$refs.actionModal ||
+          !this.$refs.actionModal.show
+        )
       },
       /* istanbul ignore next */
       variables() {
@@ -436,7 +440,11 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.address || !this.$refs.actionModal || !this.$refs.actionModal.show
+        return (
+          !this.address ||
+          !this.$refs.actionModal ||
+          !this.$refs.actionModal.show
+        )
       },
       /* istanbul ignore next */
       variables() {
@@ -474,7 +482,11 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.address ||  !this.$refs.actionModal || !this.$refs.actionModal.show
+        return (
+          !this.address ||
+          !this.$refs.actionModal ||
+          !this.$refs.actionModal.show
+        )
       },
     },
     $subscribe: {

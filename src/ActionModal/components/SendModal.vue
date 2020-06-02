@@ -290,7 +290,14 @@ export default {
   },
   methods: {
     open(denom = undefined) {
-      this.selectedToken = denom
+      if (denom) {
+        this.selectedToken = denom
+      } else {
+        this.selectedToken =
+          this.balances && this.balances.length > 0
+            ? this.balances[0].denom
+            : this.stakingDenom
+      }
       this.$refs.actionModal.open()
     },
     onSuccess(event) {
@@ -382,7 +389,11 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.userAddress || !this.$refs.actionModal || !this.$refs.actionModal.show
+        return (
+          !this.userAddress ||
+          !this.$refs.actionModal ||
+          !this.$refs.actionModal.show
+        )
       },
       /* istanbul ignore next */
       variables() {
@@ -455,7 +466,7 @@ export default {
       skip() {
         return (
           !this.userAddress ||
-          !this.$refs.actionModal || 
+          !this.$refs.actionModal ||
           !this.$refs.actionModal.show ||
           !this.transactionData ||
           Object.keys(this.transactionData).length === 0
@@ -473,7 +484,11 @@ export default {
         },
         /* istanbul ignore next */
         skip() {
-          return !this.userAddress || !this.$refs.actionModal || !this.$refs.actionModal.show
+          return (
+            !this.userAddress ||
+            !this.$refs.actionModal ||
+            !this.$refs.actionModal.show
+          )
         },
         query: UserTransactionAdded,
         /* istanbul ignore next */

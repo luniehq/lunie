@@ -1,0 +1,1 @@
+[Fixed] [#4183](https://github.com/cosmos/lunie/pull/4183) Fixes selectedToken being undefined in SendModal in second load @Bitcoinera
