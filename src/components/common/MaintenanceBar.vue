@@ -1,9 +1,13 @@
 <template>
   <div>
     <div v-for="message in maintenance" :key="message.id">
-      <Bar :bar-type="message.type" :show="message.show">{{
-        message.message
-      }}</Bar>
+      <Bar
+        :bar-type="message.type"
+        :show="message.show"
+        :link="message.link"
+        :link-caption="message.linkCaption"
+        >{{ message.message }}
+      </Bar>
     </div>
   </div>
 </template>
@@ -25,6 +29,8 @@ export default {
         query Maintenance {
           maintenance {
             message
+            link
+            linkCaption
             type
             show
           }
