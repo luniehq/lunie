@@ -413,7 +413,6 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        console.log(`delegation modal => updating validators data`)
         return data.validators
       },
       /* istanbul ignore next */
@@ -455,7 +454,6 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        console.log(`delegation modal => updating delegations data`)
         return data.delegations
       },
     },
@@ -478,7 +476,6 @@ export default {
       },
       /* istanbul ignore next */
       variables() {
-        console.log(`delegation modal => updating balance data`)
         return {
           networkId: this.network,
           address: this.address,
@@ -518,7 +515,6 @@ export default {
       },
       /* istanbul ignore next */
       update({ overview: { totalStake, liquidStake } }) {
-        console.log(`delegation modal => updating totalStaked data`)
         return totalStake - liquidStake
       },
     },

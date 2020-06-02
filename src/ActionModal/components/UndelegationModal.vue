@@ -427,7 +427,6 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        console.log(`updating delegations data`)
         return data.delegations
       },
     },
@@ -442,7 +441,6 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        console.log(`updating balance data`)
         return (
           !this.address ||
           !this.show
@@ -480,7 +478,6 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
-        console.log(`updating validators data`)
         return data.validators || []
       },
       /* istanbul ignore next */
