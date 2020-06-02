@@ -422,7 +422,7 @@ export default {
     requiresSignIn() {
       return (
         !this.session.signedIn ||
-        this.session.sessionType === sessionType.EXPLORE
+        (this.session.sessionType === sessionType.EXPLORE && !config.development)
       )
     },
     subTotal() {
@@ -446,7 +446,9 @@ export default {
     },
     signMethods() {
       let signMethods = []
-      if (this.isMobileApp && this.session.sessionType === sessionType.LOCAL) {
+      if (config.development && this.session.sessionType === sessionType.EXPLORE) {
+        signMethods.push(signMethodOptions.LOCAL)
+      } else if (this.isMobileApp && this.session.sessionType === sessionType.LOCAL) {
         signMethods.push(signMethodOptions.LOCAL)
       } else if (this.session.sessionType === sessionType.EXPLORE) {
         signMethods.push(signMethodOptions.LEDGER)
