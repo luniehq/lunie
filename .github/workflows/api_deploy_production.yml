@@ -35,5 +35,5 @@ jobs:
       run: ssh root@167.71.107.214 "sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose; sudo chmod +x /usr/local/bin/docker-compose"
       working-directory: ${{env.WORKING_DIRECTORY}}
     - name: Run on Digital Ocean
-      run: ssh root@167.71.107.214 "docker image prune -a -f; docker load < lunieapi.tgz;export HASURA_URL="https://production-db.lunie.io/v1/graphql"; export HASURA_ADMIN_KEY="${{ secrets.LUNIE_PRODUCTION_DB_KEY }}"; export SENTRY_DSN="${{ secrets.SENTRY_DSN_PRODUCTION }}"; export FIGMENT_COSMOS_HUB_API_KEY="${{ secrets.FIGMENT_COSMOS_HUB_API_KEY }}"; export FIGMENT_GAIA_13007_API_KEY="${{ secrets.FIGMENT_GAIA_13007_API_KEY }}"; docker stack deploy -c docker-compose.yml lunieapi; docker service update --image lunieapi:latest --force lunieapi_lunieapi"
+      run: ssh root@167.71.107.214 "docker image prune -a -f; docker load < lunieapi.tgz;export HASURA_URL="https://production-db.lunie.io/v1/graphql"; export HASURA_ADMIN_KEY="${{ secrets.LUNIE_PRODUCTION_DB_KEY }}"; export SENTRY_DSN="${{ secrets.SENTRY_DSN_API_production }}"; docker stack deploy -c docker-compose.yml lunieapi; docker service update --image lunieapi:latest --force lunieapi_lunieapi"
       working-directory: ${{env.WORKING_DIRECTORY}}

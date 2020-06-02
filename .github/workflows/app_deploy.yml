@@ -21,6 +21,8 @@ jobs:
           working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Build
         run: yarn build
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN_APP }}
         working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Deploy to Netlify
         uses: netlify/actions/cli@master
