@@ -271,7 +271,7 @@ export default {
         }
       `,
       skip() {
-        return !this.userAddress
+        return !this.userAddress || !this.$refs.actionModal || !this.$refs.actionModal.show
       },
       variables() {
         return {

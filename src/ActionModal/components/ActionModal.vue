@@ -392,10 +392,10 @@ export default {
     SIGN_METHODS,
     featureAvailable: true,
     isMobileApp: config.mobileApp,
-    balances: [],
     queueEmpty: true,
     includedHeight: undefined,
     smallestAmount: SMALLEST,
+    balances: [],
     balancesLoaded: false,
     networkFeesLoaded: false,
   }),
@@ -785,7 +785,7 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.session.address
+        return !this.session.address || !this.show
       },
     },
     networkFees: {

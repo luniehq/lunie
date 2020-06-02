@@ -4,6 +4,8 @@ exports[`DisconnectedBar shows the disconnected bar 1`] = `
 <div>
   <bar-stub
     bartype="info"
+    link=""
+    linkcaption=""
     show="true"
   >
     

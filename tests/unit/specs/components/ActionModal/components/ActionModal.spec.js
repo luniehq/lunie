@@ -1,12 +1,14 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import AsyncComputed from "vue-async-computed"
+import { DynamicReactiveRefs } from 'vue-reactive-refs'
 import ActionModal from "src/ActionModal/components/ActionModal"
 import { focusParentLast } from "src/directives"
 
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
 localVue.use(AsyncComputed)
+localVue.use(DynamicReactiveRefs)
 localVue.directive("focus-last", focusParentLast)
 localVue.directive("focus", () => {})
 
@@ -853,50 +855,5 @@ describe(`ActionModal`, () => {
     ActionModal.methods.onTxIncluded.call(self)
     expect(spy).toHaveBeenCalled()
     self.sendEvent.mockClear()
-  })
-
-  xdescribe(`Polkadot fee calculation`, () => {
-    it("should calculate fees for Polkadot transactions", async () => {
-      const self = {
-        networkId: "polkadot-testnet",
-        network: {
-          network_type: "polkadot",
-        },
-        step: "fees",
-        transactionData: {
-          type: "SendTx",
-          amount: {
-            denom: "KSM",
-            amount: 1,
-          },
-          to: ["cosmos12345"],
-        },
-        transactionManager: {
-          getPolkadotFees: jest.fn(() => 0.01),
-        },
-        session: {
-          address: "LUNIE1234",
-          developmentMode: false,
-        },
-      }
-      const estimatedFee = await ActionModal.asyncComputed.estimatedFee.call(
-        self
-      )
-      expect(estimatedFee).toBe(0.01)
-      expect(self.transactionManager.getPolkadotFees).toHaveBeenCalledWith({
-        messageType: "SendTx",
-        message: {
-          amount: {
-            denom: "KSM",
-            amount: 1,
-          },
-          to: ["cosmos12345"],
-        },
-        senderAddress: "LUNIE1234",
-        network: {
-          network_type: "polkadot",
-        },
-      })
-    })
   })
 })

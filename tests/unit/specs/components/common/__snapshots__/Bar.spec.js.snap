@@ -6,10 +6,16 @@ exports[`Bar shows a primary bar 1`] = `
 >
   <p />
    
-  <i
-    class="material-icons notranslate close-icon"
+  <div
+    class="right"
   >
-    close
-  </i>
+    <!---->
+     
+    <i
+      class="material-icons notranslate close-icon"
+    >
+      close
+    </i>
+  </div>
 </div>
 `;
