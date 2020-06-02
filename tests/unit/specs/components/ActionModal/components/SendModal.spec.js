@@ -143,6 +143,20 @@ describe(`SendModal`, () => {
     expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
   })
 
+  it(`should set selectedToken to the first balance denom in balances`, () => {
+    wrapper.setData({
+      balances: [
+        {
+          denom: `STAKE`,
+          amount: 10000,
+        },
+      ],
+      selectedToken: undefined,
+    })
+    wrapper.vm.open()
+    expect(wrapper.vm.selectedToken).toBe("STAKE")
+  })
+
   it(`should refocus on amount when focusOnAmount is called`, async () => {
     const self = {
       $refs: { amount: { $el: { focus: jest.fn() } } },
