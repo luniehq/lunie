@@ -5,7 +5,7 @@ import VTooltip from "v-tooltip"
 import Vuelidate from "vuelidate"
 import InfiniteScroll from "vue-infinite-scroll"
 import VueClipboard from "vue-clipboard2"
-import { DynamicReactiveRefs } from 'vue-reactive-refs'
+import { DynamicReactiveRefs } from "vue-reactive-refs"
 import { focusElement, focusParentLast } from "src/directives"
 import App from "./App.vue"
 import init from "./initializeApp"

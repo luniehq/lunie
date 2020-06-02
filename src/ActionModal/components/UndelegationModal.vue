@@ -188,6 +188,7 @@ export default {
     },
     messageType,
     smallestAmount: SMALLEST,
+    show: false
   }),
   computed: {
     ...mapState([`session`]),
@@ -367,6 +368,7 @@ export default {
   },
   methods: {
     open() {
+      this.show = true
       this.$refs.actionModal.open()
       this.$apollo.queries.delegations.refetch()
     },
@@ -411,7 +413,10 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.address ||  !this.$refs.actionModal || !this.$refs.actionModal.show
+        return (
+          !this.address ||
+          !this.show
+        )
       },
       /* istanbul ignore next */
       variables() {
@@ -422,6 +427,7 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        console.log(`updating delegations data`)
         return data.delegations
       },
     },
@@ -436,7 +442,11 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.address || !this.$refs.actionModal || !this.$refs.actionModal.show
+        console.log(`updating balance data`)
+        return (
+          !this.address ||
+          !this.show
+        )
       },
       /* istanbul ignore next */
       variables() {
@@ -470,11 +480,15 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        console.log(`updating validators data`)
         return data.validators || []
       },
       /* istanbul ignore next */
       skip() {
-        return !this.address ||  !this.$refs.actionModal || !this.$refs.actionModal.show
+        return (
+          !this.address ||
+          !this.show
+        )
       },
     },
     $subscribe: {
@@ -488,7 +502,7 @@ export default {
         },
         /* istanbul ignore next */
         skip() {
-          return !this.address || !this.$refs.actionModal.show
+          return !this.address || !this.show
         },
         query: UserTransactionAdded,
         /* istanbul ignore next */

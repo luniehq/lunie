@@ -213,6 +213,7 @@ export default {
     delegations: [],
     messageType,
     smallestAmount: SMALLEST,
+    show: false
   }),
   computed: {
     ...mapState([`session`]),
@@ -329,6 +330,7 @@ export default {
   },
   methods: {
     open() {
+      this.show = true
       this.$refs.actionModal.open()
       this.$apollo.queries.balance.refetch()
       this.$apollo.queries.delegations.refetch()
@@ -411,11 +413,15 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        console.log(`delegation modal => updating validators data`)
         return data.validators
       },
       /* istanbul ignore next */
       skip() {
-        return !this.address || !this.$refs.actionModal || !this.$refs.actionModal.show
+        return (
+          !this.address ||
+          !this.show
+        )
       },
     },
     delegations: {
@@ -438,7 +444,7 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.address
+        return !this.address || !this.show
       },
       /* istanbul ignore next */
       variables() {
@@ -449,6 +455,7 @@ export default {
       },
       /* istanbul ignore next */
       update(data) {
+        console.log(`delegation modal => updating delegations data`)
         return data.delegations
       },
     },
@@ -467,10 +474,11 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.address || !this.stakingDenom
+        return !this.address || !this.stakingDenom || !this.show
       },
       /* istanbul ignore next */
       variables() {
+        console.log(`delegation modal => updating balance data`)
         return {
           networkId: this.network,
           address: this.address,
@@ -496,6 +504,7 @@ export default {
         return (
           !this.address ||
           !this.network ||
+          !this.show ||
           // only needed for polkadot to determine if user needs to set an amount
           this.currentNetwork.network_type !== "polkadot"
         )
@@ -509,6 +518,7 @@ export default {
       },
       /* istanbul ignore next */
       update({ overview: { totalStake, liquidStake } }) {
+        console.log(`delegation modal => updating totalStaked data`)
         return totalStake - liquidStake
       },
     },
@@ -524,7 +534,7 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.address
+        return !this.address || !this.show
       },
       query: UserTransactionAdded,
       /* istanbul ignore next */

@@ -1,7 +1,7 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import AsyncComputed from "vue-async-computed"
-import { DynamicReactiveRefs } from 'vue-reactive-refs'
+import { DynamicReactiveRefs } from "vue-reactive-refs"
 import ActionModal from "src/ActionModal/components/ActionModal"
 import { focusParentLast } from "src/directives"
 
