@@ -332,7 +332,7 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
     ),
     denom: feeDenom
   }
-  const selectedBalance = balances.find(({denom}) => denom === feeDenom)
+  const selectedBalance = balances.find(({denom}) => denom === feeDenom) || { amount: 0, denom: feeDenom }
   if (
     Number(transactionAmount) + Number(estimatedFee.amount) >
     Number(selectedBalance.amount) &&
