@@ -1,5 +1,5 @@
 <template>
-  <TmDataLoading v-if="loading" />
+  <TmDataLoading v-if="!loaded" />
   <div v-else class="card-sign-in">
     <h2>Welcome to Lunie 👋</h2>
     <h3>How would you like to get started?</h3>
