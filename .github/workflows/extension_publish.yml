@@ -6,6 +6,8 @@ on:
       - "master"
     paths:
       - 'extension/CHANGELOG.md'
+env:
+  WORKING_DIRECTORY: ./extension
 jobs:
   publish:
     runs-on: ubuntu-latest
