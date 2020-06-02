@@ -72,6 +72,8 @@ async function featureAvailable(store, networkSlug, feature) {
     networkSlug ? slug === networkSlug : id === currentNetworkId
   )
 
+  if (!currentNetwork) return "" // HACK route is not actually a network
+
   const featureSelector = `feature_${feature.toLowerCase()}`
   return currentNetwork[featureSelector]
 }

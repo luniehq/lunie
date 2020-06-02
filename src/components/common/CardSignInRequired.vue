@@ -1,5 +1,6 @@
 <template>
-  <div class="card-sign-in">
+  <TmDataLoading v-if="loading" />
+  <div v-else class="card-sign-in">
     <h2>Welcome to Lunie 👋</h2>
     <h3>How would you like to get started?</h3>
 
@@ -65,13 +66,15 @@
 import config from "src/../config"
 import { mapState, mapGetters } from "vuex"
 import LiSession from "common/TmLiSession"
+import TmDataLoading from "src/components/common/TmDataLoading"
 
 export default {
   name: `card-sign-in-required`,
-  components: { LiSession },
+  components: { LiSession, TmDataLoading },
   data: () => ({
     isMobileApp: config.mobileApp,
     isExtension: config.isExtension,
+    loaded: false
   }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
@@ -87,6 +90,9 @@ export default {
   },
   created() {
     this.$store.dispatch("loadAccounts")
+    .then(() => {
+      this.loaded = true
+    })
   },
 }
 </script>
