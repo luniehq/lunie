@@ -20,7 +20,7 @@ describe(`CardSignInRequired`, () => {
     $store = {
       state,
       commit: jest.fn(),
-      dispatch: jest.fn(),
+      dispatch: jest.fn(() => Promise.resolve()),
       getters: {
         currentNetwork: { id: `polka-mon`, network_type: `polkadot` },
       },
