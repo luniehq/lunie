@@ -1,0 +1,15 @@
+{
+  "name": "lunie",
+  "version": "2.0.0",
+  "description": "Lunie Staking Platform Mono Repository",
+  "main": "index.js",
+  "repository": "https://github.com/luniehq/lunie.git",
+  "author": "hello@lunie.io",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "app",
+    "api",
+    "extension"
+  ]
+}
