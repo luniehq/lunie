@@ -1,0 +1,48 @@
+name: Publish on Netlify
+on:
+  pull_request:
+    branches:
+      - "*"
+    paths:
+      - 'app/**'
+
+env:
+  WORKING_DIRECTORY: ./app
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      deploy:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v1
+          - name: Use Node.js
+            uses: actions/setup-node@v1
+          - uses: bahmutov/npm-install@v1
+            with:
+              working-directory: ${{env.WORKING_DIRECTORY}}
+          - name: Build
+            run: yarn build
+            working-directory: ${{env.WORKING_DIRECTORY}}
+          - name: Deploy to Netlify
+            uses: netlify/actions/cli@master
+            with:
+              args: deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --dir=./dist
+            working-directory: ${{env.WORKING_DIRECTORY}}
+            env:
+                CD: true
+      e2e:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v1
+          - name: Use Node.js
+            uses: actions/setup-node@v1
+          - uses: bahmutov/npm-install@v1
+            with:
+              working-directory: ${{env.WORKING_DIRECTORY}}
+          - name: Run E2E tests
+            run: yarn test:e2e:browserstack --fe=https://deploy-preview-${{github.event.client_payload.pull_request.number}}--lunieio.netlify.app --api=https://production-api.lunie.io
+            working-directory: ${{env.WORKING_DIRECTORY}}
+            env:
+              PASSWORD: ${{secrets.GAIA_PASSWORD}}
