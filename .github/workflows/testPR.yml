@@ -8,6 +8,8 @@ jobs:
   check_changelog:
     name: checkChangelog
     runs-on: ubuntu-latest
+    timeout-minutes: 5
+
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js
@@ -21,6 +23,8 @@ jobs:
   test_pr:
     name: testPR
     runs-on: ubuntu-latest
+    timeout-minutes: 8
+
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js
