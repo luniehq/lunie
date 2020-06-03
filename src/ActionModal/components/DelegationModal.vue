@@ -442,7 +442,11 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.address
+        return (
+          !this.address ||
+          !this.$refs.actionModal ||
+          !this.$refs.actionModal.show
+        )
       },
       /* istanbul ignore next */
       variables() {
@@ -471,7 +475,12 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.address || !this.stakingDenom
+        return  (
+          !this.address ||
+          !this.stakingDenom ||
+          !this.$refs.actionModal ||
+          !this.$refs.actionModal.show
+        )
       },
       /* istanbul ignore next */
       variables() {
@@ -501,7 +510,9 @@ export default {
           !this.address ||
           !this.network ||
           // only needed for polkadot to determine if user needs to set an amount
-          this.currentNetwork.network_type !== "polkadot"
+          this.currentNetwork.network_type !== "polkadot" ||
+          !this.$refs.actionModal ||
+          !this.$refs.actionModal.show
         )
       },
       /* istanbul ignore next */
@@ -528,7 +539,11 @@ export default {
       },
       /* istanbul ignore next */
       skip() {
-        return !this.address
+        return (
+          !this.address ||
+          !this.$refs.actionModal ||
+          !this.$refs.actionModal.show
+        )
       },
       query: UserTransactionAdded,
       /* istanbul ignore next */

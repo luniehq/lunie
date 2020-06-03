@@ -500,7 +500,11 @@ export default {
         },
         /* istanbul ignore next */
         skip() {
-          return !this.address || !this.$refs.actionModal.show
+          return (
+            !this.address ||
+            !this.$refs.actionModal ||
+            !this.$refs.actionModal.show
+          )
         },
         query: UserTransactionAdded,
         /* istanbul ignore next */
