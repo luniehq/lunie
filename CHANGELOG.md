@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.211] - 2020-06-03
+
+### Fixed
+
+- Fix balances showing in other denom (network id would change internally) @faboweb
+- Fix show is undefined on validator page @faboweb
+
 ## [1.0.210] - 2020-06-02
 
 ### Added
