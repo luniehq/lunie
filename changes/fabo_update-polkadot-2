@@ -1,2 +1,0 @@
-[Fixed] Update Polkadot dependency @faboweb
-[Changed] Reconnect Polkadot API right away to prevent race condition @faboweb
