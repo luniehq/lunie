@@ -192,7 +192,6 @@ export default {
             console.error(error)
             return
           })
-        this.isTransactionBroadcasting = false
         this.$router.push(`/success`)
       }
     },
