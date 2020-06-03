@@ -28,8 +28,8 @@
           />
           <button
             v-if="
-              currentNetwork.id === 'cosmos-hub-mainnet' ||
-              currentNetwork.id === 'cosmos-hub-testnet'
+              connection.network === 'cosmos-hub-mainnet' ||
+              connection.network === 'cosmos-hub-testnet'
             "
             class="tutorial-button"
             @click="openTutorial()"
@@ -198,8 +198,8 @@
       <ModalTutorial
         v-if="
           showTutorial &&
-          (currentNetwork.id === 'cosmos-hub-mainnet' ||
-            currentNetwork.id === 'cosmos-hub-testnet')
+          (connection.network === 'cosmos-hub-mainnet' ||
+            connection.network === 'cosmos-hub-testnet')
         "
         :steps="cosmosTokensTutorial.steps"
         :fullguide="cosmosTokensTutorial.fullguide"
@@ -292,15 +292,12 @@ export default {
     }
   },
   computed: {
-    ...mapState([`session`]),
-    ...mapGetters([`address`, `currentNetwork`]),
+    ...mapState([`connection`, `session`]),
+    ...mapGetters([`address`, `networks`, `network`, `stakingDenom`]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return Object.values(this.totalRewardsPerDenom).find((value) => value > 0)
-    },
-    stakingDenom() {
-      return this.currentNetwork && this.currentNetwork.stakingDenom
     },
     filteredMultiDenomBalances() {
       const rewards = Object.entries(this.totalRewardsPerDenom)
@@ -342,7 +339,8 @@ export default {
       return this.totalRewardsPerDenom[this.stakingDenom] || 0
     },
     isTestnet() {
-      return this.currentNetwork && this.currentNetwork.testnet
+      return this.networks.find((network) => network.id === this.network)
+        .testnet
     },
   },
   watch: {
@@ -379,7 +377,7 @@ export default {
       // sending to ga only once
       sendEvent(
         {
-          network: this.currentNetwork.id,
+          network: this.network,
           address: this.address,
         },
         "Portfolio",
@@ -429,7 +427,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.currentNetwork.id,
+          networkId: this.network,
           address: this.address,
           fiatCurrency: this.preferredCurrency,
         }
@@ -492,7 +490,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.currentNetwork.id,
+          networkId: this.network,
           address: this.address,
           fiatCurrency: this.preferredCurrency,
         }
@@ -522,7 +520,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.currentNetwork.id,
+          networkId: this.network,
           delegatorAddress: this.address,
           fiatCurrency: this.preferredCurrency,
         }
@@ -537,7 +535,7 @@ export default {
         /* istanbul ignore next */
         variables() {
           return {
-            networkId: this.currentNetwork.id,
+            networkId: this.network,
           }
         },
         /* istanbul ignore next */

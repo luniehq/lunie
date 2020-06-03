@@ -12,8 +12,11 @@ export const isExtension = () => config.isExtension
 export const networks = (state) => state.connection.networks
 export const currentNetwork = (state) =>
   state.connection.networks.find(({ id }) => id === state.connection.network)
-export const stakingDenom = (state, getters) => {
-  return getters.currentNetwork ? getters.currentNetwork.stakingDenom : ``
+export const stakingDenom = (state) => {
+  let filteredNetwork = state.connection.networks.find(
+    ({ id }) => id === state.connection.network
+  )
+  return filteredNetwork ? filteredNetwork.stakingDenom : ``
 }
 
 export const isExtensionAccount = (state) =>
