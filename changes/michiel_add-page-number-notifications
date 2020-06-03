@@ -1,0 +1,2 @@
+[Changed] [#876](https://github.com/cosmos/lunie/pull/876) Add offset to getNotifications query @michielmulders
+[Deprecated] [#876](https://github.com/cosmos/lunie/pull/876) Remove /transaction/estimate endpoint @michielmulders

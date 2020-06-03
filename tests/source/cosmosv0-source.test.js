@@ -1,6 +1,8 @@
 const CosmosV0API = require('../../lib/source/cosmosV0-source')
 const networks = require('../../data/networks')
 
+jest.useFakeTimers()
+
 describe('Cosmos V0 API', function () {
   describe('checkAddress()', function () {
     let api, cosmosNetworkConfig

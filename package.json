@@ -47,10 +47,8 @@
     "graphql-redis-subscriptions": "^2.2.1",
     "lodash": "^4.17.15",
     "ndjson": "^1.5.0",
-    "nock": "^12.0.3",
     "pumpify": "^2.0.1",
     "should": "^13.2.3",
-    "supertest": "^4.0.2",
     "url": "^0.11.0",
     "websocket-stream": "^5.5.2"
   },

@@ -6,6 +6,7 @@ const {
   delegatorRewards
 } = require('./mock_data/delegators')
 
+jest.useFakeTimers()
 let mockDelegatorRewards = { ...delegatorRewards }
 jest.mock('apollo-datasource-rest', () => {
   class MockRESTDataSource {
