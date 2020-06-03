@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.23] - 2020-06-03
+
+### Changed
+
+- [#876](https://github.com/cosmos/lunie/pull/876) Add offset to getNotifications query @michielmulders
+
+### Fixed
+
+- Disable Polkadot reconnection logic as not working properly @faboweb
+
+### Deprecated
+
+- [#876](https://github.com/cosmos/lunie/pull/876) Remove /transaction/estimate endpoint @michielmulders
+
 ## [1.0.22] - 2020-06-03
 
 ### Added
