@@ -43,7 +43,7 @@
             </div>
           </TmDataMsg>
 
-          <EventList :events="filteredTransactions" @loadMore="loadMore" >
+          <EventList :events="filteredTransactions" :more-available="false">
             <TransactionItem
               :key="event.key"
               :transaction="event"
