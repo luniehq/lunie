@@ -86,7 +86,6 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `connection`]),
-    ...mapGetters([`networks`]),
     networkSlug() {
       return this.connection.networkSlug
     }
