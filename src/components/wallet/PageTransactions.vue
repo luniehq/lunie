@@ -12,7 +12,7 @@
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
       <div>
-        <EventList :events="showingTransactions" @loadMore="loadMore" >
+        <EventList :events="transactions" :more-available="moreAvailable" @loadMore="loadMore" >
           <template scope="event">
             <TransactionItem
               :key="event.key"
@@ -143,9 +143,8 @@ export default {
     pageNumber: 0,
     validators: [],
     transactions: [],
-    loadedTransactions: [],
-    lastLoadedRecordsCount: 0,
     dataLoaded: false,
+    moreAvailable: true
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -158,10 +157,7 @@ export default {
     },
     dataEmpty() {
       return this.transactions.length === 0
-    },
-    showingTransactions() {
-      return this.transactions.slice(0, this.showing)
-    },
+    }
   },
   methods: {
     loadMore() {
@@ -185,8 +181,6 @@ export default {
             },
             // Transform the previous result with new data
             updateQuery: (previousResult, { fetchMoreResult }) => {
-              this.lastLoadedRecordsCount =
-                fetchMoreResult.transactionsV2.length
               return {
                 transactionsV2: [
                   ...previousResult.transactionsV2,
@@ -223,7 +217,7 @@ export default {
       },
       update(result) {
         this.dataLoaded = true
-        this.lastLoadedRecordsCount = result.transactionsV2.length
+        this.moreAvailable = result.transactionsV2.length > 0
         return result.transactionsV2
       },
       subscribeToMore: {

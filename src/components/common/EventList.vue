@@ -33,13 +33,23 @@ const categories = [
 
 export default {
   name: `transaction-list`,
+  data: () => ({
+    showing: 15
+  }),
   props: {
     events: {
       type: Array,
       required: true,
+    },
+    moreAvailable: {
+      type: Boolean,
+      required: true
     }
   },
   computed: {
+    showingEvents() {
+      return this.events.slice(0, this.showing)
+    },
     groupedEvents() {
       return orderBy(
         groupBy(this.categorizedEvents, "title"),
@@ -48,7 +58,7 @@ export default {
       )
     },
     categorizedEvents() {
-      return this.events.map((event) => {
+      return this.showingEvents.map((event) => {
         // check if the tx is in Today, Yesterday or Last Week
         const dateString = ` (` + moment(event.timestamp).format("MMMM Do") + `)`
         const category = categories.find(({ matcher }) => matcher(event))
@@ -79,7 +89,16 @@ export default {
   },
   methods: {
     loadMore() {
-      this.$emit("loadMore")
+      if (this.moreAvailable) {
+        this.showing += 50
+        // preload next transactions before scroll end and check if last loading loads new records
+        if (
+          this.showing > this.events.length - 100 &&
+          this.moreAvailable
+        ) {
+          this.$emit("loadMore")
+        }
+      }
     },
   },
 }
