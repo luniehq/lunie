@@ -1,11 +1,26 @@
 import sessionModule from "src/vuex/modules/session.js"
 
 describe(`Module: Session`, () => {
-  let module, state, actions, mutations, node
+  let module, state, actions, mutations
+
+  const networks = [
+    { id: `awesomenet`, slug: `awesome` },
+    { id: `keine-ahnungnet`, slug: `ahnungnet` },
+    { id: `fabo-net`, slug: `fabo` },
+  ]
+
+  let mockApollo = {
+    async query() {
+      return {
+        data: {
+          networks,
+        },
+      }
+    },
+  }
 
   beforeEach(() => {
-    node = {}
-    module = sessionModule({ node })
+    module = sessionModule({ apollo: mockApollo })
     state = module.state
     actions = module.actions
     mutations = module.mutations
@@ -655,12 +670,12 @@ describe(`Module: Session`, () => {
     ])
   })
 
-  it("getAllSessionsAddresses", () => {
+  it("getAllSessionAddresses", async () => {
     localStorage.setItem(
       "session_fabo-net",
       JSON.stringify({
         address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
-        networkId: "not-fabo-net",
+        networkId: "fabo-net",
       })
     )
     localStorage.setItem(
@@ -671,10 +686,14 @@ describe(`Module: Session`, () => {
       })
     )
 
-    const addresses = actions.getAllSessionsAddresses(
-      {},
-      { networkIds: ["session_fabo-net", "session_lunie-net"] }
-    )
-    expect(addresses).toEqual([])
+    const addresses = await actions.getAllSessionAddresses({
+      rootState: { session: { experimentalMode: true } },
+    })
+    expect(addresses).toEqual([
+      {
+        networkId: "fabo-net",
+        address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      },
+    ])
   })
 })

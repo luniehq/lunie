@@ -72,7 +72,7 @@
 
 <script>
 import config from "src/../config"
-import { mapState, mapGetters } from "vuex"
+import { mapState } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
 import NotificationIcon from "common/NotificationIcon"
@@ -82,13 +82,13 @@ export default {
   data: () => ({
     open: false,
     desktop: false,
-    isMobileApp: config.mobileApp
+    isMobileApp: config.mobileApp,
   }),
   computed: {
     ...mapState([`session`, `connection`]),
     networkSlug() {
       return this.connection.networkSlug
-    }
+    },
   },
   mounted: async function () {
     this.watchWindowSize()
@@ -123,8 +123,8 @@ export default {
       } else {
         this.desktop = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
