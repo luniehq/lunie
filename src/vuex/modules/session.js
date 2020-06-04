@@ -1,6 +1,6 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/../config"
-import { AddressRole, NetworksAll } from "../../gql"
+import { AddressRole } from "../../gql"
 
 export default ({ apollo }) => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
@@ -262,17 +262,11 @@ export default ({ apollo }) => {
     },
     async getAllSessionAddresses({
       rootState: {
-        session: { experimentalMode },
         connection: { networks },
       },
     }) {
-      const { data } = await apollo.query({
-        query: NetworksAll,
-        variables: { experimental: experimentalMode },
-        fetchPolicy: "network-only",
-      })
       let allSessionAddresses = []
-      const networkIds = data.networks.map((network) => network.id)
+      const networkIds = networks.map((network) => network.id)
       networkIds.forEach((networkId) => {
         const sessionEntry = localStorage.getItem(`session_${networkId}`)
         console.log("sessionEntry", sessionEntry)
