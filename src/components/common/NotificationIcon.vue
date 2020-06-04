@@ -1,16 +1,16 @@
 <template>
-    <img
-        v-if="session.notificationAvailable"
-        class="notification-bell"
-        src="/img/icons/notifications/bell-icon-alert.png"
-        alt="bell icon alert"
-    />
-    <img
-        v-else
-        class="notification-bell"
-        src="/img/icons/notifications/bell-icon.png"
-        alt="bell icon"
-    />
+  <img
+    v-if="session.notificationAvailable"
+    class="notification-bell"
+    src="/img/icons/notifications/bell-icon-alert.png"
+    alt="bell icon alert"
+  />
+  <img
+    v-else
+    class="notification-bell"
+    src="/img/icons/notifications/bell-icon.png"
+    alt="bell icon"
+  />
 </template>
 
 <script>
@@ -18,7 +18,7 @@ import { mapState } from "vuex"
 import { NotificationAdded } from "src/gql"
 
 export default {
-  name: "notification-icon", 
+  name: "NotificationIcon",
   computed: {
     ...mapState([`session`]),
   },
@@ -42,7 +42,8 @@ export default {
         skip() {
           /* istanbul ignore next */
           return (
-            !this.session.allSessionAddresses || this.session.allSessionAddresses.length === 0
+            !this.session.allSessionAddresses ||
+            this.session.allSessionAddresses.length === 0
           )
         },
         result({ data }) {

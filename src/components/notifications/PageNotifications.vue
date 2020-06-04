@@ -42,7 +42,7 @@ export default {
     TmDataMsg,
   },
   data: () => ({
-    notifications: []
+    notifications: [],
   }),
   computed: {
     ...mapState([`session`]),
@@ -80,7 +80,8 @@ export default {
       /* istanbul ignore next */
       skip() {
         return (
-          !this.session.allSessionAddresses || this.session.allSessionAddresses.length === 0
+          !this.session.allSessionAddresses ||
+          this.session.allSessionAddresses.length === 0
         )
       },
     },
