@@ -182,15 +182,15 @@ const getNetworkCapabilities = {
     feature_validators: capabilityEnum.ENABLED,
     feature_proposals: capabilityEnum.ENABLED,
     feature_activity: capabilityEnum.ENABLED,
-    feature_explorer: capabilityEnum.DISABLED,
-    action_send: capabilityEnum.DISABLED,
-    action_claim_rewards: capabilityEnum.DISABLED,
-    action_delegate: capabilityEnum.DISABLED,
-    action_redelegate: capabilityEnum.DISABLED,
-    action_undelegate: capabilityEnum.DISABLED,
-    action_deposit: capabilityEnum.DISABLED,
-    action_vote: capabilityEnum.DISABLED,
-    action_proposal: capabilityEnum.DISABLED
+    feature_explorer: capabilityEnum.ENABLED,
+    action_send: capabilityEnum.ENABLED,
+    action_claim_rewards: capabilityEnum.ENABLED,
+    action_delegate: capabilityEnum.ENABLED,
+    action_redelegate: capabilityEnum.ENABLED,
+    action_undelegate: capabilityEnum.ENABLED,
+    action_deposit: capabilityEnum.ENABLED,
+    action_vote: capabilityEnum.ENABLED,
+    action_proposal: capabilityEnum.ENABLED
   }
 }
 

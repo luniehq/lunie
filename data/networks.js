@@ -259,8 +259,8 @@ module.exports = [
   {
     id: 'akash-testnet',
     title: 'Akash Testnet',
-    chain_id: 'centauri',
-    api_url: 'http://akash-lcd.vitwit.com/',
+    chain_id: 'centauri-2',
+    api_url: 'http://akash-lcd.vitwit.com',
     rpc_url: 'ws://akash-rpc.vitwit.com:26657/websocket',
     bech32_prefix: 'akash',
     address_prefix: 'akash',
