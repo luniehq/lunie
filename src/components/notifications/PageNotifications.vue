@@ -121,6 +121,35 @@ export default {
           !this.allSessionAddresses || this.allSessionAddresses.length === 0
         )
       },
+      subscribeToMore: {
+        document: gql`
+          subscription($addressObjects: [NotificationInput]!) {
+            notificationAdded(addressObjects: $addressObjects) {
+              networkId
+              timestamp
+              title
+              link
+              icon
+            }
+          }
+        `,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          if (previousResult && subscriptionData.data.notificationAdded) {
+            return {
+              notifications: [
+                subscriptionData.data.notificationAdded,
+                ...previousResult.notifications,
+              ],
+            }
+          }
+        },
+        /* istanbul ignore next */
+        variables() {
+          return {
+            addressObjects: this.allSessionAddresses,
+          }
+        },
+      },
     },
   },
 }
