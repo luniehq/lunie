@@ -1,4 +1,4 @@
-<template>
+ <template>
   <TmPage
     :managed="true"
     :loading="$apollo.queries.transactions.loading && dataEmpty"
@@ -12,12 +12,16 @@
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
       <div>
-        <TransactionList
-          :transactions="showingTransactions"
-          :address="address"
-          :validators="validatorsAddressMap"
-          @loadMore="loadMore"
-        />
+        <EventList :events="showingTransactions" @loadMore="loadMore" >
+          <template scope="event">
+            <TransactionItem
+              :key="event.key"
+              :transaction="event"
+              :validators="validatorsAddressMap"
+              :address="address"
+            />
+          </template>
+        </EventList>
       </div>
       <br />
       <TmDataMsg icon="calendar_today">
@@ -48,12 +52,14 @@ import { mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
-import TransactionList from "transactions/TransactionList"
+import EventList from "common/EventList"
+import TransactionItem from "transactions/TransactionItem"
 import gql from "graphql-tag"
 
 const txFields = `
   type
   hash
+  key
   height
   timestamp
   memo
@@ -126,7 +132,8 @@ const txFields = `
 export default {
   name: `page-transactions`,
   components: {
-    TransactionList,
+    TransactionItem,
+    EventList,
     DataEmptyTx,
     TmDataMsg,
     TmPage,

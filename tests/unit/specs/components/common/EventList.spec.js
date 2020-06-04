@@ -1,8 +1,8 @@
 import { shallowMount } from "@vue/test-utils"
-import TransactionList from "src/components/transactions/TransactionList"
+import EventList from "src/components/common/EventList"
 import { messageType } from "src/components/transactions/messageTypes"
 
-describe(`TransactionList`, () => {
+describe(`EventList`, () => {
   let wrapper
 
   let txs = []
@@ -13,7 +13,7 @@ describe(`TransactionList`, () => {
       type: messageType[type],
       hash: "A0DEB29E97A4DF38289D55D63C5724588985E1D35B26518CB66EAF96CFEF2E04",
       height,
-      timestamp: new Date(Date.now()).toISOString(),
+      timestamp: new Date(Date.now() + txs.length * 1000 * 60 * 60 * 24).toISOString(),
       memo: "(Sent via Lunie)",
       success: true,
       fees: [],
@@ -38,25 +38,26 @@ describe(`TransactionList`, () => {
   }
 
   beforeEach(() => {
-    wrapper = shallowMount(TransactionList, {
+    wrapper = shallowMount(EventList, {
       propsData: {
-        transactions: txs,
-        validators: {},
-        address: "cosmos1",
+        events: txs
       },
       directives: {
         infiniteScroll: () => jest.fn(),
       },
+      slots: {
+        default: `<div />`
+      }
     })
   })
 
   it(`calls loadMore script on scroll`, () => {
     const self = { $emit: jest.fn() }
-    TransactionList.methods.loadMore.call(self)
+    EventList.methods.loadMore.call(self)
     expect(self.$emit).toHaveBeenCalledWith(`loadMore`)
   })
 
-  it(`renders a list of TransactionItems`, () => {
+  it(`renders a list of event items`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })
