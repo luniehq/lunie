@@ -75,7 +75,7 @@ import config from "src/../config"
 import { mapState } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
-import NotificationIcon from "common/NotificationIcon"
+import NotificationIcon from "../../components/notifications/NotificationIcon"
 export default {
   name: `app-header`,
   components: { AppMenu, NotificationIcon },
