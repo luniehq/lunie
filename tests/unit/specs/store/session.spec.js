@@ -1,7 +1,7 @@
 import sessionModule from "src/vuex/modules/session.js"
 
 describe(`Module: Session`, () => {
-  let module, state, actions, mutations, node
+  let module, state, actions, mutations
 
   const networks = [
     { id: `awesomenet`, slug: `awesome` },
@@ -9,9 +9,18 @@ describe(`Module: Session`, () => {
     { id: `fabo-net`, slug: `fabo` },
   ]
 
+  let mockApollo = {
+    async query() {
+      return {
+        data: {
+          networks,
+        },
+      }
+    },
+  }
+
   beforeEach(() => {
-    node = {}
-    module = sessionModule({ node })
+    module = sessionModule({ apollo: mockApollo })
     state = module.state
     actions = module.actions
     mutations = module.mutations
