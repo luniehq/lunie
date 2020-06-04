@@ -269,7 +269,6 @@ export default ({ apollo }) => {
       const networkIds = networks.map((network) => network.id)
       networkIds.forEach((networkId) => {
         const sessionEntry = localStorage.getItem(`session_${networkId}`)
-        console.log("sessionEntry", sessionEntry)
         if (!sessionEntry) return []
 
         allSessionAddresses.push({
