@@ -73,6 +73,7 @@ export default {
           // New variables
           variables: {
             addressObjects: this.allSessionAddresses,
+            // get notifications that are older then the last one
             timestamp: this.notifications[this.notifications.length - 1]
               .timestamp,
           },
