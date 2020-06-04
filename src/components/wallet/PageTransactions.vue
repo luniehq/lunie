@@ -214,7 +214,7 @@ export default {
       },
       update(result) {
         this.dataLoaded = true
-        this.moreAvailable = result.transactionsV2.length > 0
+        this.moreAvailable = (result.transactionsV2.length > 0)
         return result.transactionsV2
       },
       subscribeToMore: {
