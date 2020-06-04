@@ -85,6 +85,7 @@
     "@babel/core": "7.9.6",
     "@babel/plugin-proposal-optional-chaining": "7.10.1",
     "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "7.10.2",
     "@capacitor/android": "2.1.0",
     "@capacitor/cli": "2.1.0",
     "@capacitor/core": "2.0.2",
