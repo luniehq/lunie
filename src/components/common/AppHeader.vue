@@ -53,7 +53,7 @@
               :to="{ name: 'notifications' }"
             >
               <img
-                v-if="isNotificationAvailable"
+                v-if="session.notificationAvailable"
                 class="notification-bell"
                 src="/img/icons/notifications/bell-icon-alert.png"
                 alt="bell icon alert"
@@ -93,32 +93,18 @@ export default {
   data: () => ({
     open: false,
     desktop: false,
-    isMobileApp: config.mobileApp,
-    allSessionAddresses: [],
+    isMobileApp: config.mobileApp
   }),
   computed: {
     ...mapState([`session`, `connection`]),
     ...mapGetters([`networks`]),
     networkSlug() {
       return this.connection.networkSlug
-    },
-    isNotificationAvailable() {
-      return Boolean(this.session.notificationAvailable)
-    },
-  },
-  watch: {
-    isNotificationAvailable(bool) {
-      console.log("isNotificationAvailable is", bool)
-    },
+    }
   },
   mounted: async function () {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize
-    const networkIds = this.networks.map((network) => network.id)
-    this.allSessionAddresses = await this.$store.dispatch(
-      `getAllSessionsAddresses`,
-      { networkIds }
-    )
   },
   updated() {
     this.watchWindowSize()
@@ -163,13 +149,13 @@ export default {
         variables() {
           /* istanbul ignore next */
           return {
-            addressObjects: this.allSessionAddresses,
+            addressObjects: this.session.allSessionAddresses,
           }
         },
         skip() {
           /* istanbul ignore next */
           return (
-            !this.allSessionAddresses || this.allSessionAddresses.length === 0
+            !this.session.allSessionAddresses || this.session.allSessionAddresses.length === 0
           )
         },
         result({ data }) {

@@ -42,19 +42,13 @@ export default {
     TmDataMsg,
   },
   data: () => ({
-    notifications: [],
-    allSessionAddresses: [],
+    notifications: []
   }),
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`networks`]),
   },
   mounted: async function () {
-    const networkIds = this.networks.map((network) => network.id)
-    this.allSessionAddresses = await this.$store.dispatch(
-      `getAllSessionsAddresses`,
-      { networkIds }
-    )
     // set notificationAvailable to false
     this.$store.dispatch(`setNotificationAvailable`, {
       notificationAvailable: false,
@@ -76,7 +70,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          addressObjects: this.allSessionAddresses,
+          addressObjects: this.session.allSessionAddresses,
         }
       },
       /* istanbul ignore next */
@@ -86,7 +80,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         return (
-          !this.allSessionAddresses || this.allSessionAddresses.length === 0
+          !this.session.allSessionAddresses || this.session.allSessionAddresses.length === 0
         )
       },
     },

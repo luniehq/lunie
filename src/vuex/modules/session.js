@@ -55,6 +55,9 @@ export default ({ apollo }) => {
     setUserAddresses(state, addresses) {
       state.addresses = addresses
     },
+    setAllSessionAddresses(state, addresses) {
+      state.allSessionAddresses = addresses
+    },
     setExperimentalMode(state) {
       state.experimentalMode = true
     },
@@ -165,6 +168,10 @@ export default ({ apollo }) => {
         commit(`setUserAddressRole`, undefined)
       }
 
+      // update session addresses
+      const allSessionAddresses = await dispatch("getAllSessionAddresses")
+      commit("setAllSessionAddresses", allSessionAddresses)
+
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
     signOut({ state, commit, dispatch }, networkId) {
@@ -172,6 +179,10 @@ export default ({ apollo }) => {
 
       dispatch(`resetSessionData`, networkId)
       commit(`setSignIn`, false)
+
+      // update session addresses
+      const allSessionAddresses = await dispatch("getAllSessionAddresses")
+      commit("setAllSessionAddresses", allSessionAddresses)
     },
     resetSessionData({ commit, state }, networkId) {
       state.history = ["/"]
