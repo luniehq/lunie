@@ -60,6 +60,7 @@ describe(`PageBlock`, () => {
         type: "cosmos-sdk/MsgSend",
         hash:
           "01735A10A9B701A76A67BF92DCFBC0A4B61DB9D202D60587C902E0F197FD6A71",
+        key: "01735A10A9B701A76A67BF92DCFBC0A4B61DB9D202D60587C902E0F197FD6A71_0",
         height: 524084,
         group: "banking",
         timestamp:

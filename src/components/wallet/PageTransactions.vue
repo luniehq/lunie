@@ -144,7 +144,7 @@ export default {
   },
   data: () => ({
     pageNumber: 0,
-    validators: [],
+    validators: {},
     transactions: [],
     dataLoaded: false,
     moreAvailable: true,
