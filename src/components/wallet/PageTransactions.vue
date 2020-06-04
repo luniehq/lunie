@@ -1,4 +1,4 @@
- <template>
+<template>
   <TmPage
     :managed="true"
     :loading="$apollo.queries.transactions.loading && dataEmpty"
@@ -12,7 +12,11 @@
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
       <div>
-        <EventList :events="transactions" :more-available="moreAvailable" @loadMore="loadMore" >
+        <EventList
+          :events="transactions"
+          :more-available="moreAvailable"
+          @loadMore="loadMore"
+        >
           <template scope="event">
             <TransactionItem
               :key="event.key"
@@ -139,12 +143,11 @@ export default {
     TmPage,
   },
   data: () => ({
-    showing: 15,
     pageNumber: 0,
     validators: [],
     transactions: [],
     dataLoaded: false,
-    moreAvailable: true
+    moreAvailable: true,
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -157,39 +160,33 @@ export default {
     },
     dataEmpty() {
       return this.transactions.length === 0
-    }
+    },
   },
   methods: {
     loadMore() {
-      this.showing += 50
       // preload next transactions before scroll end and check if last loading loads new records
-      if (
-        this.showing > this.transactions.length - 100 &&
-        this.lastLoadedRecordsCount
-      ) {
-        // to prevent multiple requests
-        if (this.dataLoaded === true) {
-          // loads new portion
-          this.pageNumber++
-          this.dataLoaded = false
-          this.$apollo.queries.transactions.fetchMore({
-            // New variables
-            variables: {
-              networkId: this.network,
-              address: this.address,
-              pageNumber: this.pageNumber,
-            },
-            // Transform the previous result with new data
-            updateQuery: (previousResult, { fetchMoreResult }) => {
-              return {
-                transactionsV2: [
-                  ...previousResult.transactionsV2,
-                  ...fetchMoreResult.transactionsV2,
-                ],
-              }
-            },
-          })
-        }
+      // to prevent multiple requests
+      if (this.dataLoaded === true) {
+        // loads new portion
+        this.pageNumber++
+        this.dataLoaded = false
+        this.$apollo.queries.transactions.fetchMore({
+          // New variables
+          variables: {
+            networkId: this.network,
+            address: this.address,
+            pageNumber: this.pageNumber,
+          },
+          // Transform the previous result with new data
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            return {
+              transactionsV2: [
+                ...previousResult.transactionsV2,
+                ...fetchMoreResult.transactionsV2,
+              ],
+            }
+          },
+        })
       }
     },
     handleIntercom() {

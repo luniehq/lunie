@@ -13,7 +13,9 @@ describe(`EventList`, () => {
       type: messageType[type],
       hash: "A0DEB29E97A4DF38289D55D63C5724588985E1D35B26518CB66EAF96CFEF2E04",
       height,
-      timestamp: new Date(Date.now() + txs.length * 1000 * 60 * 60 * 24).toISOString(),
+      timestamp: new Date(
+        Date.now() + txs.length * 1000 * 60 * 60 * 24
+      ).toISOString(),
       memo: "(Sent via Lunie)",
       success: true,
       fees: [],
@@ -40,21 +42,34 @@ describe(`EventList`, () => {
   beforeEach(() => {
     wrapper = shallowMount(EventList, {
       propsData: {
-        events: txs
+        events: txs,
+        moreAvailable: true
       },
       directives: {
         infiniteScroll: () => jest.fn(),
       },
       slots: {
-        default: `<div />`
-      }
+        default: `<div />`,
+      },
     })
   })
 
   it(`calls loadMore script on scroll`, () => {
-    const self = { $emit: jest.fn() }
+    const self = { $emit: jest.fn(), events: txs, moreAvailable: true, maxReached: false, showing: 1 }
     EventList.methods.loadMore.call(self)
     expect(self.$emit).toHaveBeenCalledWith(`loadMore`)
+  })
+
+  it(`doesn't call loadMore if not more available`, () => {
+    const self = { $emit: jest.fn(), events: txs, moreAvailable: false, maxReached: false }
+    EventList.methods.loadMore.call(self)
+    expect(self.$emit).not.toHaveBeenCalledWith(`loadMore`)
+  })
+
+  it(`doesn't call loadMore if already having enough`, () => {
+    const self = { $emit: jest.fn(), moreAvailable: false, maxReached: false, events: new Array(20), showing: 20 }
+    EventList.methods.loadMore.call(self)
+    expect(self.$emit).not.toHaveBeenCalledWith(`loadMore`)
   })
 
   it(`renders a list of event items`, () => {

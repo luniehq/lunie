@@ -176,22 +176,6 @@ describe(`PageTransactions`, () => {
     $store.state.session.address = undefined
   })
 
-  // it doesn't work, actually
-  it(`should load more transactions (infinite scrolling)`, async () => {
-    wrapper = shallowMount(PageTransactions, {
-      localVue,
-      mocks: {
-        $store,
-        $apollo,
-      },
-      directives: {
-        infiniteScroll: () => {},
-      },
-    })
-    wrapper.setData({ showing: 2 })
-    wrapper.vm.loadMore()
-  })
-
   it("transactions updated on subscription trigger", () => {
     const self = {
       loadedTransactions: [],
@@ -221,10 +205,7 @@ describe(`PageTransactions`, () => {
   })
 
   it(`should load more transactions on loadMore action`, async () => {
-    // setting showing to big number
     wrapper.setData({
-      showing: 100,
-      lastLoadedRecordsCount: 1,
       dataLoaded: true,
     })
     wrapper.vm.loadMore()
@@ -275,10 +256,7 @@ describe(`PageTransactions`, () => {
         infiniteScroll: () => {},
       },
     })
-    // setting showing to big number
     wrapper.setData({
-      showing: 100,
-      lastLoadedRecordsCount: 1,
       dataLoaded: false,
     })
     wrapper.vm.loadMore()

@@ -3,7 +3,7 @@
     <template v-for="group in groupedEvents">
       <div :key="group[0].title">
         <h3>{{ group[0].title }}</h3>
-        <template v-for="(item) in group"  >
+        <template v-for="item in group">
           <slot v-bind="item.event" />
         </template>
       </div>
@@ -33,9 +33,6 @@ const categories = [
 
 export default {
   name: `transaction-list`,
-  data: () => ({
-    showing: 15
-  }),
   props: {
     events: {
       type: Array,
@@ -43,9 +40,13 @@ export default {
     },
     moreAvailable: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
+  data: () => ({
+    showing: 15,
+    maxReached: false,
+  }),
   computed: {
     showingEvents() {
       return this.events.slice(0, this.showing)
@@ -60,7 +61,8 @@ export default {
     categorizedEvents() {
       return this.showingEvents.map((event) => {
         // check if the tx is in Today, Yesterday or Last Week
-        const dateString = ` (` + moment(event.timestamp).format("MMMM Do") + `)`
+        const dateString =
+          ` (` + moment(event.timestamp).format("MMMM Do") + `)`
         const category = categories.find(({ matcher }) => matcher(event))
         if (category) {
           return {
@@ -89,13 +91,15 @@ export default {
   },
   methods: {
     loadMore() {
-      if (this.moreAvailable) {
+      if (!this.maxReached) {
         this.showing += 50
+
+        if (this.showing > this.events.length - 100 && !this.moreAvailable) {
+          this.maxReached = true
+        }
+
         // preload next transactions before scroll end and check if last loading loads new records
-        if (
-          this.showing > this.events.length - 100 &&
-          this.moreAvailable
-        ) {
+        if (this.showing > this.events.length - 100 && this.moreAvailable) {
           this.$emit("loadMore")
         }
       }
