@@ -42,10 +42,20 @@
           type="required"
         />
         <TmFormMsg
-          v-if="$v.password.$error && !$v.password.passwordCorrect"
+          v-if="
+            $v.password.$error &&
+              !$v.password.passwordCorrect &&
+              errorOnApproval === 'Incorrect password'
+          "
           name="Password"
           type="custom"
           msg="is incorrect"
+        />
+        <TmFormMsg
+          v-if="errorOnApproval && errorOnApproval !== 'Incorrect password'"
+          name=""
+          type="custom"
+          :msg="errorOnApproval"
         />
       </TmFormGroup>
 
@@ -99,8 +109,9 @@ export default {
   data: () => ({
     validators: [],
     password: null,
+    isTransactionBroadcasting: false,
     passwordError: false,
-    isTransactionBroadcasting: false
+    errorOnApproval: null
   }),
   computed: {
     ...mapGetters(['signRequest', 'networks']),
@@ -178,6 +189,7 @@ export default {
       return !this.$v[property].$invalid
     },
     async approve() {
+      this.errorOnApproval = null
       if (this.isValidInput('password')) {
         this.isTransactionBroadcasting = true
         await this.$store
@@ -186,13 +198,16 @@ export default {
             password: this.password
           })
           .catch(error => {
-            if (error === 'Incorrect password') {
-              this.passwordError = true
-            }
+            this.errorOnApproval = error
+            this.passwordError =
+              this.errorOnApproval === 'Incorrect password' ? true : false
             console.error(error)
             return
           })
-        this.$router.push(`/success`)
+        this.isTransactionBroadcasting = false
+        if (!this.errorOnApproval) {
+          this.$router.push(`/success`)
+        }
       }
     },
     async reject() {
@@ -200,17 +215,13 @@ export default {
         ...this.signRequest
       })
       window.close()
-    },
-    correctPassword() {
-      return !this.passwordError
     }
   },
   validations() {
-    const passwordCorrect = this.correctPassword
     return {
       password: {
         required,
-        passwordCorrect
+        passwordCorrect: () => !this.passwordError
       }
     }
   }
