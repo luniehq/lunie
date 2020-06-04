@@ -1,5 +1,5 @@
 <template>
-  <TmDataLoading v-if="loading" />
+  <TmDataLoading v-if="!loaded" />
   <div v-else class="card-sign-in">
     <h2>Welcome to Lunie 👋</h2>
     <h3>How would you like to get started?</h3>
@@ -74,7 +74,7 @@ export default {
   data: () => ({
     isMobileApp: config.mobileApp,
     isExtension: config.isExtension,
-    loaded: false
+    loaded: false,
   }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
@@ -89,8 +89,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("loadAccounts")
-    .then(() => {
+    this.$store.dispatch("loadAccounts").then(() => {
       this.loaded = true
     })
   },

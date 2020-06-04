@@ -136,7 +136,6 @@ export default ({ apollo }) => {
       if (networkId && currentNetwork.id !== networkId) {
         await commit(`setNetworkId`, networkId)
         await dispatch(`persistNetwork`, { id: networkId })
-        currentNetwork.id = networkId
       }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
