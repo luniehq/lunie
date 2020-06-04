@@ -2,7 +2,6 @@
 
 exports[`SendModal should display send modal form 1`] = `
 <actionmodal-stub
-  chainappliedfees="0"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -85,7 +84,6 @@ exports[`SendModal should display send modal form 1`] = `
 exports[`SendModal validation should show address required error 1`] = `
 <actionmodal-stub
   amount="2"
-  chainappliedfees="0"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -174,7 +172,6 @@ exports[`SendModal validation should show address required error 1`] = `
 exports[`SendModal validation should show an error if trying to send more then the max amount of tokens 1`] = `
 <actionmodal-stub
   amount="1000"
-  chainappliedfees="0"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -263,7 +260,6 @@ exports[`SendModal validation should show an error if trying to send more then t
 exports[`SendModal validation should show bech32 error when address is not bech32 1`] = `
 <actionmodal-stub
   amount="2"
-  chainappliedfees="0"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"

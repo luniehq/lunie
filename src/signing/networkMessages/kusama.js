@@ -97,6 +97,29 @@ export async function UnstakeTx(
   return await getSignMessage(senderAddress, transactions)
 }
 
+export async function RestakeTx(senderAddress, { to, from, addressRole }) {
+  // stake with all existing plus the selected
+  const api = await getAPI()
+  const transactions = []
+  // validators you continue nominating
+  if (
+    to.length > 0 &&
+    from.length > 0 &&
+    ["controller", "stash/controller"].includes(addressRole)
+  ) {
+    // only controller addresses can nominate (for not set controllers, we set the controller above)
+    const stakingLedger = await api.query.staking.ledger(senderAddress)
+    const stashId = stakingLedger.toJSON().stash
+    const response = await api.query.staking.nominators(stashId)
+    const { targets: delegatedValidators = [] } = response.toJSON() || {}
+    const validatorAddresses = delegatedValidators
+      .filter((validator) => !from.includes(validator))
+      .concat(to[0])
+    transactions.push(await api.tx.staking.nominate(validatorAddresses))
+  }
+  return await getSignMessage(senderAddress, transactions)
+}
+
 export async function ClaimRewardsTx(senderAddress) {
   let allClaimingTxs = []
   const api = await getAPI()

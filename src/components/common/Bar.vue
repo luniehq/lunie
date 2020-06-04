@@ -3,19 +3,43 @@
     <p>
       <slot />
     </p>
-    <i class="material-icons notranslate close-icon" @click="close()">close</i>
+    <div class="right">
+      <TmBtn
+        v-if="link"
+        class="button small"
+        :value="linkCaption"
+        type="button"
+        @click.native="goToLink(link)"
+      />
+      <i class="material-icons notranslate close-icon" @click="close()"
+        >close</i
+      >
+    </div>
   </div>
 </template>
 
 <script>
+import TmBtn from "src/components/common/TmBtn"
+
 export default {
   name: `bar`,
+  components: {
+    TmBtn,
+  },
   props: {
     barType: {
       type: String,
       default: "primary",
     },
     show: Boolean,
+    link: {
+      type: String,
+      default: "",
+    },
+    linkCaption: {
+      type: String,
+      default: "",
+    },
   },
   data: function () {
     return {
@@ -26,6 +50,16 @@ export default {
     close() {
       this.showMessage = false
       this.$emit(`close`)
+    },
+    goToLink(link) {
+      // first check if link is internal or external
+      if (link && link.startsWith(`http`)) {
+        // make safe and independent from API
+        window.open(link, "_blank")
+      } else if (link) {
+        // it is an internal link
+        this.$router.push(link)
+      }
     },
   },
 }
@@ -71,6 +105,19 @@ export default {
   text-decoration: underline;
   color: var(--menu-bright);
   cursor: pointer;
+}
+
+.bar .button {
+  background-color: transparent;
+  color: var(--menu-bright);
+  border-radius: 5px;
+  padding: 0.1rem 0.5rem;
+  cursor: pointer;
+}
+
+.bar .right {
+  display: flex;
+  align-items: center;
 }
 
 .close-icon {

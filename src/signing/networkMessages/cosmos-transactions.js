@@ -6,10 +6,10 @@ function createSignedTransactionObject(tx, signature) {
 }
 
 // attaches the request meta data to the message
-function createStdTx({ gasEstimate, gasPrices, memo }, messages) {
-  const fees = gasPrices
+function createStdTx({ gasEstimate, fee, memo }, messages) {
+  const fees = fee
     .map(({ amount, denom }) => ({
-      amount: String(Math.round(amount * gasEstimate)),
+      amount: String(Math.round(amount)),
       denom,
     }))
     .filter(({ amount }) => amount > 0)
@@ -90,10 +90,10 @@ function removeEmptyProperties(jsonTx) {
 
 export async function getSignableObject(
   chainMessages,
-  { gasEstimate, gasPrices, memo = ``, chainId, accountNumber, sequence }
+  { gasEstimate, fee, memo = ``, chainId, accountNumber, sequence }
 ) {
   // sign transaction
-  const stdTx = createStdTx({ gasEstimate, gasPrices, memo }, chainMessages)
+  const stdTx = createStdTx({ gasEstimate, fee, memo }, chainMessages)
   const signMessage = createSignMessage(stdTx, {
     sequence,
     accountNumber,
@@ -105,10 +105,10 @@ export async function getSignableObject(
 
 export async function getBroadcastableObject(
   chainMessages,
-  { sequence, accountNumber, gasEstimate, gasPrices, memo },
+  { sequence, accountNumber, gasEstimate, fee, memo },
   { signature, publicKey }
 ) {
-  const stdTx = createStdTx({ gasEstimate, gasPrices, memo }, chainMessages)
+  const stdTx = createStdTx({ gasEstimate, fee, memo }, chainMessages)
   const signatureObject = formatSignature(
     Buffer.from(signature, "hex"),
     sequence,

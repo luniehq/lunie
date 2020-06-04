@@ -143,6 +143,20 @@ describe(`SendModal`, () => {
     expect(self.$refs.actionModal.validateChangeStep).toHaveBeenCalled()
   })
 
+  it(`should set selectedToken to the first balance denom in balances`, () => {
+    wrapper.setData({
+      balances: [
+        {
+          denom: `STAKE`,
+          amount: 10000,
+        },
+      ],
+      selectedToken: undefined,
+    })
+    wrapper.vm.open()
+    expect(wrapper.vm.selectedToken).toBe("STAKE")
+  })
+
   it(`should refocus on amount when focusOnAmount is called`, async () => {
     const self = {
       $refs: { amount: { $el: { focus: jest.fn() } } },
@@ -279,16 +293,19 @@ describe(`SendModal`, () => {
         },
         getTerraTax: SendModal.methods.getTerraTax,
         maxDecimals: SendModal.methods.maxDecimals,
-        chainAppliedFees: {
-          rate: 0.007,
-          cap: 1,
+        networkFeesLoaded: true,
+        networkFees: {
+          transactionFee: {
+            amount: 0.0075,
+            denom: "STAKE",
+          },
         },
       }
       const maxAmount = SendModal.computed.maxAmount.call(self)
-      expect(maxAmount).toBe(0.993)
+      expect(maxAmount).toBe(0.9925)
       self.maxAmount = maxAmount
       SendModal.methods.setMaxAmount.call(self)
-      expect(self.amount).toBe(0.993)
+      expect(self.amount).toBe(0.9925)
     })
   })
 

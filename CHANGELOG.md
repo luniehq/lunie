@@ -7,6 +7,52 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.211] - 2020-06-03
+
+### Fixed
+
+- Fix balances showing in other denom (network id would change internally) @faboweb
+- Fix show is undefined on validator page @faboweb
+
+## [1.0.210] - 2020-06-02
+
+### Added
+
+- [#4134](https://github.com/cosmos/lunie/pull/4134) Now maintenance bar can display links and a button to visit that link @Bitcoinera
+- Allow testing fees in development for any address @faboweb
+
+### Changed
+
+- [#4190](https://github.com/cosmos/lunie/pull/4190) Adds module @vue/babel-preset-app to fix unit tests @Bitcoinera
+- [#4175](https://github.com/cosmos/lunie/pull/4175) Removes the 718 era warning and the Ledger limitation message on ModalWithdrawRewards for Polkadot @Bitcoinera
+
+### Fixed
+
+- [#4169](https://github.com/cosmos/lunie/issues/4169) Fixes Kava voting modal not having the right styles to highlight the selection @Bitcoinera
+- [#4183](https://github.com/cosmos/lunie/pull/4183) Fixes selectedToken being undefined in SendModal in second load @Bitcoinera
+- Fix balances not updating in ActionModal when switching networks @faboweb
+- [#4188](https://github.com/cosmos/lunie/issues/4188) Some routes would cause an error as we would detect features on non network routes @faboweb
+
+## [1.0.209] - 2020-05-29
+
+### Added
+
+- [#4071](https://github.com/cosmos/lunie/issues/4071) Adds RestakeTx for Kusama @Bitcoinera
+
+### Changed
+
+- [#4154](https://github.com/cosmos/lunie/pull/4154) Fees in ActionModal are now fetched from API @Bitcoinera
+
+### Fixed
+
+- [#4168](https://github.com/cosmos/lunie/issues/4168) Fix error in staking using controller address in Polkadot @mariopino
+
+## [1.0.208] - 2020-05-28
+
+### Fixed
+
+- [#4160](https://github.com/cosmos/lunie/issues/4160) Fixes staking for 'none' accounts in Polkadot @Bitcoinera
+
 ## [1.0.207] - 2020-05-27
 
 ### Fixed

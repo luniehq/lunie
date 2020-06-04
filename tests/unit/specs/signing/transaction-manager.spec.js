@@ -43,7 +43,7 @@ describe("Transaction Manager", () => {
       sequence: 1,
       chainId: "lunie-net",
       gasEstimate: "200000",
-      gasPrices: [
+      fee: [
         {
           amount: "10",
           denom: "uatom",
@@ -104,7 +104,7 @@ describe("Transaction Manager", () => {
         fee: {
           amount: [
             {
-              amount: "2000000",
+              amount: "10",
               denom: "uatom",
             },
           ],
