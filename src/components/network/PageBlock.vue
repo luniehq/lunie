@@ -43,13 +43,15 @@
             </div>
           </TmDataMsg>
 
-          <EventList :events="filteredTransactions" :more-available="false">
-            <TransactionItem
-              :key="event.key"
-              :transaction="event"
-              :validators="validatorsAddressMap"
-              :address="address"
-            />
+          <EventList v-else :events="filteredTransactions" :more-available="false">
+            <template scope="event">
+              <TransactionItem
+                :key="event.key"
+                :transaction="event"
+                :validators="validatorsAddressMap"
+                :address="address"
+              />
+            </template>
           </EventList>
 
           <br />
@@ -188,7 +190,7 @@ export default {
           (transaction) => transaction.type !== `UnknownTx`
         )
       } else {
-        return {}
+        return []
       }
     },
   },

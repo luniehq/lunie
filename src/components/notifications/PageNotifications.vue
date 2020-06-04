@@ -73,6 +73,7 @@ export default {
           // New variables
           variables: {
             addressObjects: this.allSessionAddresses,
+            // get notifications that are older then the last one
             timestamp: this.notifications[this.notifications.length - 1]
               .timestamp,
           },
@@ -112,7 +113,7 @@ export default {
       update(result) {
         this.dataLoaded = true
         // assume that when the full page got loaded, that there is more
-        this.moreAvailable = result.notifications.length % 20 === 0
+        this.moreAvailable = (result.notifications.length % 20 === 0)
         return result.notifications
       },
       /* istanbul ignore next */

@@ -123,9 +123,6 @@ describe(`PageTransactions`, () => {
         $store,
         $apollo,
       },
-      directives: {
-        infiniteScroll: () => {},
-      },
       propsData: {
         transactions,
         validators,
