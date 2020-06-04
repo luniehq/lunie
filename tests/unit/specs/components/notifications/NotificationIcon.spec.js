@@ -11,11 +11,11 @@ describe(`NotificationIcon`, () => {
           },
         },
       },
-    wrapper = shallowMount(NotificationIcon, {
+      wrapper = shallowMount(NotificationIcon, {
         mocks: {
-            $store,
+          $store,
         },
-    })
+      })
     wrapper.vm.updateNotificationsAvailable()
     expect($store.dispatch).toHaveBeenCalledWith(`setNotificationAvailable`, {
       notificationAvailable: true,
