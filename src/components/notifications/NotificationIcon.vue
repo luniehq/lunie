@@ -33,21 +33,21 @@ export default {
     $subscribe: {
       notificationAdded: {
         query: NotificationAdded,
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             addressObjects: this.session.allSessionAddresses,
           }
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return (
             !this.session.allSessionAddresses ||
             this.session.allSessionAddresses.length === 0
           )
         },
+        /* istanbul ignore next */
         result({ data }) {
-          /* istanbul ignore next */
           if (data.notificationAdded) {
             this.updateNotificationsAvailable()
           }
