@@ -475,7 +475,7 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return  (
+        return (
           !this.address ||
           !this.stakingDenom ||
           !this.$refs.actionModal ||
