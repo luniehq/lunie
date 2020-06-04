@@ -263,6 +263,7 @@ export default ({ apollo }) => {
     async getAllSessionAddresses({
       rootState: {
         session: { experimentalMode },
+        connection: { networks },
       },
     }) {
       const { data } = await apollo.query({
