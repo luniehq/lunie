@@ -146,8 +146,6 @@ export default ({ apollo }) => {
   const approveSignRequest = (
     { commit, getters },
     {
-      signMessage, // DEPRECATE
-
       senderAddress,
       password,
       id,
@@ -162,9 +160,6 @@ export default ({ apollo }) => {
         {
           type: 'SIGN',
           payload: {
-            // DEPRECATE
-            signMessage,
-
             messageType,
             message,
             transactionData,

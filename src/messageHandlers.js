@@ -1,7 +1,5 @@
 const {
   getWalletIndex,
-  getStoredWallet,
-  signWithPrivateKey,
   testPassword,
   removeWallet
 } = require('@lunie/cosmos-keys')
@@ -61,8 +59,6 @@ export async function signMessageHandler(
     }
     case 'SIGN': {
       const {
-        signMessage, // DEPRECATE
-
         messageType,
         message,
         transactionData,
@@ -72,23 +68,8 @@ export async function signMessageHandler(
         id
       } = event.payload
 
-      const { tabID } = signRequestQueue.unqueueSignRequest(id)
-      if (signMessage) {
-        const wallet = getStoredWallet(senderAddress, password)
-        const signature = signWithPrivateKey(
-          signMessage,
-          Buffer.from(wallet.privateKey, 'hex')
-        )
-
-        sendAsyncResponseToLunie(tabID, {
-          type: 'LUNIE_SIGN_REQUEST_RESPONSE',
-          payload: {
-            signature: signature.toString('hex'),
-            publicKey: wallet.publicKey
-          }
-        })
-      } else {
-        const transactionManager = new TransactionManager()
+      const transactionManager = new TransactionManager()
+      try {
         const broadcastableObject = await transactionManager.createAndSignLocally(
           messageType,
           message,
@@ -98,14 +79,17 @@ export async function signMessageHandler(
           'local',
           password
         )
-
+        const { tabID } = signRequestQueue.unqueueSignRequest(id)
         sendAsyncResponseToLunie(tabID, {
           type: 'LUNIE_SIGN_REQUEST_RESPONSE',
           payload: broadcastableObject
         })
+
+        sendResponse() // to popup
+      } catch (error) {
+        sendResponse({ error: error.message }) // to popup
       }
 
-      sendResponse() // to popup
       break
     }
     case 'GET_SIGN_REQUEST': {

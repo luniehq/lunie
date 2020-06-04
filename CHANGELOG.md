@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.22] - 2020-06-03
+
+### Fixed
+
+- [#268](https://github.com/cosmos/lunie/pull/268) Fixes the publish script (I hope) @Bitcoinera
+- Fixed balances not upating in ActionModal @faboweb
+- Cache bust dependencies in CircleCI config @faboweb
+- Fees where not displaying correctly for Polkadot @faboweb
+- Upgrade dependencies to fix build @faboweb
+
 ## [1.0.21] - 2020-05-29
 
 ### Added
