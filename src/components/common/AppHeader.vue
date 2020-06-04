@@ -52,18 +52,7 @@
               v-if="session.experimentalMode"
               :to="{ name: 'notifications' }"
             >
-              <img
-                v-if="session.notificationAvailable"
-                class="notification-bell"
-                src="/img/icons/notifications/bell-icon-alert.png"
-                alt="bell icon alert"
-              />
-              <img
-                v-else
-                class="notification-bell"
-                src="/img/icons/notifications/bell-icon.png"
-                alt="bell icon"
-              />
+              <NotificationIcon />
             </router-link>
             <div v-if="open" class="close-menu" @click="close()">
               <i class="material-icons notranslate mobile-menu-action">close</i>
@@ -86,10 +75,10 @@ import config from "src/../config"
 import { mapState, mapGetters } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
-import { NotificationAdded } from "src/gql"
+import NotificationIcon from "common/NotificationIcon"
 export default {
   name: `app-header`,
-  components: { AppMenu },
+  components: { AppMenu, NotificationIcon },
   data: () => ({
     open: false,
     desktop: false,
@@ -135,38 +124,8 @@ export default {
       } else {
         this.desktop = false
       }
-    },
-    updateNotificationsAvailable() {
-      this.$store.dispatch(`setNotificationAvailable`, {
-        notificationAvailable: true,
-      })
-    },
-  },
-  apollo: {
-    $subscribe: {
-      notificationAdded: {
-        query: NotificationAdded,
-        variables() {
-          /* istanbul ignore next */
-          return {
-            addressObjects: this.session.allSessionAddresses,
-          }
-        },
-        skip() {
-          /* istanbul ignore next */
-          return (
-            !this.session.allSessionAddresses || this.session.allSessionAddresses.length === 0
-          )
-        },
-        result({ data }) {
-          /* istanbul ignore next */
-          if (data.notificationAdded) {
-            this.updateNotificationsAvailable()
-          }
-        },
-      },
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -197,10 +156,6 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   padding-top: 1.4rem;
-}
-
-.notification-bell {
-  width: 1rem;
 }
 
 @media screen and (max-width: 1023px) {
