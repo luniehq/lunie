@@ -52,7 +52,7 @@
               v-if="session.experimentalMode"
               :to="{ name: 'notifications' }"
             >
-              <i class="material-icons">notifications</i>
+              <NotificationIcon />
             </router-link>
             <div v-if="open" class="close-menu" @click="close()">
               <i class="material-icons notranslate mobile-menu-action">close</i>
@@ -75,21 +75,22 @@ import config from "src/../config"
 import { mapState } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
+import NotificationIcon from "../../components/notifications/NotificationIcon"
 export default {
   name: `app-header`,
-  components: { AppMenu },
+  components: { AppMenu, NotificationIcon },
   data: () => ({
     open: false,
     desktop: false,
     isMobileApp: config.mobileApp,
   }),
   computed: {
-    ...mapState([`session`, "connection"]),
+    ...mapState([`session`, `connection`]),
     networkSlug() {
       return this.connection.networkSlug
     },
   },
-  mounted() {
+  mounted: async function () {
     this.watchWindowSize()
     window.onresize = this.watchWindowSize
   },
@@ -176,6 +177,7 @@ export default {
 
 .header-menu-section {
   display: flex;
+  align-items: center;
 }
 
 .header-menu-section > * {

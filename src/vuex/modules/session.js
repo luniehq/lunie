@@ -21,6 +21,7 @@ export default ({ apollo }) => {
     analyticsCollection: false,
     cookiesAccepted: undefined,
     preferredCurrency: undefined,
+    notificationAvailable: false,
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
     currrentModalOpen: false,
@@ -53,6 +54,9 @@ export default ({ apollo }) => {
     },
     setUserAddresses(state, addresses) {
       state.addresses = addresses
+    },
+    setAllSessionAddresses(state, addresses) {
+      state.allSessionAddresses = addresses
     },
     setExperimentalMode(state) {
       state.experimentalMode = true
@@ -136,7 +140,6 @@ export default ({ apollo }) => {
       if (networkId && currentNetwork.id !== networkId) {
         await commit(`setNetworkId`, networkId)
         await dispatch(`persistNetwork`, { id: networkId })
-        currentNetwork.id = networkId
       }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
@@ -164,13 +167,21 @@ export default ({ apollo }) => {
         commit(`setUserAddressRole`, undefined)
       }
 
+      // update session addresses
+      const allSessionAddresses = await dispatch("getAllSessionAddresses")
+      commit("setAllSessionAddresses", allSessionAddresses)
+
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
-    signOut({ state, commit, dispatch }, networkId) {
+    async signOut({ state, commit, dispatch }, networkId) {
       state.externals.track(`event`, `session`, `sign-out`)
 
       dispatch(`resetSessionData`, networkId)
       commit(`setSignIn`, false)
+
+      // update session addresses
+      const allSessionAddresses = await dispatch("getAllSessionAddresses")
+      commit("setAllSessionAddresses", allSessionAddresses)
     },
     resetSessionData({ commit, state }, networkId) {
       state.history = ["/"]
@@ -249,11 +260,16 @@ export default ({ apollo }) => {
       })
       commit(`setUserAddressRole`, data.accountRole)
     },
-    getAllSessionsAddresses(store, { networkIds }) {
+    async getAllSessionAddresses({
+      rootState: {
+        connection: { networks },
+      },
+    }) {
       let allSessionAddresses = []
+      const networkIds = networks.map((network) => network.id)
       networkIds.forEach((networkId) => {
         const sessionEntry = localStorage.getItem(`session_${networkId}`)
-        if (!sessionEntry) return
+        if (!sessionEntry) return []
 
         allSessionAddresses.push({
           networkId,
@@ -261,6 +277,9 @@ export default ({ apollo }) => {
         })
       })
       return allSessionAddresses
+    },
+    setNotificationAvailable(store, { notificationAvailable }) {
+      state.notificationAvailable = notificationAvailable
     },
   }
 

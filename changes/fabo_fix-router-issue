@@ -1,1 +1,0 @@
-[Fixed] [#4188](https://github.com/cosmos/lunie/issues/4188) Some routes would cause an error as we would detect features on non network routes @faboweb

@@ -59,6 +59,7 @@ import TmPage from "common/TmPage"
 import EventList from "common/EventList"
 import TransactionItem from "transactions/TransactionItem"
 import gql from "graphql-tag"
+import uniqBy from "lodash.uniqby"
 
 const txFields = `
   type
@@ -180,10 +181,11 @@ export default {
           // Transform the previous result with new data
           updateQuery: (previousResult, { fetchMoreResult }) => {
             return {
-              transactionsV2: [
+              // DEPRECATE uniqBy, should be resolved via API
+              transactionsV2: uniqBy([
                 ...previousResult.transactionsV2,
                 ...fetchMoreResult.transactionsV2,
-              ],
+              ], "key"),
             }
           },
         })
