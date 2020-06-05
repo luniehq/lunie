@@ -825,7 +825,7 @@ describe(`ActionModal`, () => {
       data: {
         userTransactionAddedV2: {
           hash,
-          success: false,
+          code: 12,
           log: "error",
         },
       },
