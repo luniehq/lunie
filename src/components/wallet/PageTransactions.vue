@@ -59,7 +59,7 @@ import TmPage from "common/TmPage"
 import EventList from "common/EventList"
 import TransactionItem from "transactions/TransactionItem"
 import gql from "graphql-tag"
-import uniqBy from "lodash.uniqBy"
+import uniqBy from "lodash.uniqby"
 
 const txFields = `
   type
