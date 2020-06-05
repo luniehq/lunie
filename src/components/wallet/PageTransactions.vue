@@ -12,12 +12,20 @@
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">
       <div>
-        <TransactionList
-          :transactions="showingTransactions"
-          :address="address"
-          :validators="validatorsAddressMap"
+        <EventList
+          :events="transactions"
+          :more-available="moreAvailable"
           @loadMore="loadMore"
-        />
+        >
+          <template scope="event">
+            <TransactionItem
+              :key="event.key"
+              :transaction="event"
+              :validators="validatorsAddressMap"
+              :address="address"
+            />
+          </template>
+        </EventList>
       </div>
       <br />
       <TmDataMsg icon="calendar_today">
@@ -48,12 +56,15 @@ import { mapGetters } from "vuex"
 import DataEmptyTx from "common/TmDataEmptyTx"
 import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
-import TransactionList from "transactions/TransactionList"
+import EventList from "common/EventList"
+import TransactionItem from "transactions/TransactionItem"
 import gql from "graphql-tag"
+import uniqBy from "lodash.uniqby"
 
 const txFields = `
   type
   hash
+  key
   height
   timestamp
   memo
@@ -126,19 +137,18 @@ const txFields = `
 export default {
   name: `page-transactions`,
   components: {
-    TransactionList,
+    TransactionItem,
+    EventList,
     DataEmptyTx,
     TmDataMsg,
     TmPage,
   },
   data: () => ({
-    showing: 15,
     pageNumber: 0,
-    validators: [],
+    validators: {},
     transactions: [],
-    loadedTransactions: [],
-    lastLoadedRecordsCount: 0,
     dataLoaded: false,
+    moreAvailable: true,
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -152,43 +162,33 @@ export default {
     dataEmpty() {
       return this.transactions.length === 0
     },
-    showingTransactions() {
-      return this.transactions.slice(0, this.showing)
-    },
   },
   methods: {
     loadMore() {
-      this.showing += 50
       // preload next transactions before scroll end and check if last loading loads new records
-      if (
-        this.showing > this.transactions.length - 100 &&
-        this.lastLoadedRecordsCount
-      ) {
-        // to prevent multiple requests
-        if (this.dataLoaded === true) {
-          // loads new portion
-          this.pageNumber++
-          this.dataLoaded = false
-          this.$apollo.queries.transactions.fetchMore({
-            // New variables
-            variables: {
-              networkId: this.network,
-              address: this.address,
-              pageNumber: this.pageNumber,
-            },
-            // Transform the previous result with new data
-            updateQuery: (previousResult, { fetchMoreResult }) => {
-              this.lastLoadedRecordsCount =
-                fetchMoreResult.transactionsV2.length
-              return {
-                transactionsV2: [
-                  ...previousResult.transactionsV2,
-                  ...fetchMoreResult.transactionsV2,
-                ],
-              }
-            },
-          })
-        }
+      // to prevent multiple requests
+      if (this.dataLoaded === true) {
+        // loads new portion
+        this.pageNumber++
+        this.dataLoaded = false
+        this.$apollo.queries.transactions.fetchMore({
+          // New variables
+          variables: {
+            networkId: this.network,
+            address: this.address,
+            pageNumber: this.pageNumber,
+          },
+          // Transform the previous result with new data
+          updateQuery: (previousResult, { fetchMoreResult }) => {
+            return {
+              // DEPRECATE uniqBy, should be resolved via API
+              transactionsV2: uniqBy([
+                ...previousResult.transactionsV2,
+                ...fetchMoreResult.transactionsV2,
+              ], "key"),
+            }
+          },
+        })
       }
     },
     handleIntercom() {
@@ -216,7 +216,7 @@ export default {
       },
       update(result) {
         this.dataLoaded = true
-        this.lastLoadedRecordsCount = result.transactionsV2.length
+        this.moreAvailable = result.transactionsV2.length > 0
         return result.transactionsV2
       },
       subscribeToMore: {
