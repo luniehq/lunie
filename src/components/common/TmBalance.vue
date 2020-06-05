@@ -1,7 +1,7 @@
 <template>
   <div class="balance-header">
     <div
-      v-if="$apollo.queries.overview.loading && !overview.totalStake"
+      v-if="$apollo.queries.balances.loading"
       class="loading-image-container"
     >
       <img
@@ -80,67 +80,7 @@
         <div class="table-cell title available">Available</div>
         <div class="table-cell title actions"></div>
 
-        <div class="table-cell big">
-          <img
-            v-if="stakingDenom.length > 3"
-            class="currency-flag"
-            :src="
-              '/img/icons/currencies/' +
-              stakingDenom.substring(1).toLowerCase() +
-              '.png'
-            "
-            :alt="`${stakingDenom}` + ' currency'"
-          />
-          <img
-            v-else
-            class="currency-flag"
-            :src="
-              '/img/icons/currencies/' + stakingDenom.toLowerCase() + '.png'
-            "
-            :alt="`${stakingDenom}` + ' currency'"
-          />
-          <div class="total-and-fiat">
-            <span class="total">
-              {{ overview.totalStake | bigFigureOrShortDecimals | noBlanks }}
-              {{ stakingDenom }}
-            </span>
-            <template v-if="overview.totalStakeFiatValue && !isTestnet">
-              <span class="fiat">
-                {{
-                  bigFigureOrShortDecimals(overview.totalStakeFiatValue.amount)
-                }}
-                {{ preferredCurrency }}
-              </span>
-            </template>
-          </div>
-        </div>
-
-        <div class="table-cell rewards">
-          <h2>
-            +{{ totalRewards | bigFigureOrShortDecimals }}
-            {{ stakingDenom }}
-          </h2>
-        </div>
-
-        <div class="table-cell available">
-          <span class="available-amount">
-            {{ overview.liquidStake | bigFigureOrShortDecimals }}
-            {{ stakingDenom }}
-          </span>
-        </div>
-
-        <div class="table-cell actions">
-          <div class="icon-button-container">
-            <button
-              class="icon-button circle-send-button"
-              @click="onSend(stakingDenom)"
-            >
-              <i class="material-icons">send</i></button
-            ><span>Send</span>
-          </div>
-        </div>
-
-        <template v-for="balance in filteredMultiDenomBalances">
+        <template v-for="balance in balances">
           <div :key="balance.denom" class="table-cell big">
             <img
               v-if="balance.denom.length > 3"
@@ -162,7 +102,7 @@
             />
             <div class="total-and-fiat">
               <span class="total">
-                {{ balance.amount | bigFigureOrShortDecimals }}
+                {{ balance.total | bigFigureOrShortDecimals }}
                 {{ balance.denom }}
               </span>
               <span v-if="balance.fiatValue && !isTestnet" class="fiat">
@@ -172,7 +112,7 @@
             </div>
           </div>
 
-          <div :key="balance.denom + 1" class="table-cell rewards">
+          <div :key="balance.denom + '_rewards'" class="table-cell rewards">
             <h2 v-if="totalRewardsPerDenom[balance.denom] > 0.001">
               +{{
                 totalRewardsPerDenom[balance.denom] | bigFigureOrShortDecimals
@@ -181,9 +121,13 @@
             </h2>
           </div>
 
-          <div :key="balance.denom + 2" class="table-cell available"></div>
+          <div :key="balance.denom + '_available'" class="table-cell available">
+            <template v-if="balance.type === 'STAKE'">
+              {{ balance.available | bigFigureOrShortDecimals}}
+            </template>
+          </div>
 
-          <div :key="balance.denom + 3" class="table-cell actions">
+          <div :key="balance.denom + '_actions'" class="table-cell actions">
             <div class="icon-button-container">
               <button class="icon-button" @click="onSend(balance.denom)">
                 <i class="material-icons">send</i></button
@@ -235,7 +179,6 @@ export default {
   },
   data() {
     return {
-      overview: {},
       sentToGA: false,
       rewardsSentToGA: false,
       balances: [],
@@ -298,26 +241,6 @@ export default {
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
       return Object.values(this.totalRewardsPerDenom).find((value) => value > 0)
-    },
-    filteredMultiDenomBalances() {
-      const rewards = Object.entries(this.totalRewardsPerDenom)
-      const filteredBalances = this.balances.filter(
-        (balance) => !balance.denom.includes(this.stakingDenom)
-      )
-      // add all balances to the overview that you have rewards on
-      const allBalancesWithRewards = filteredBalances.concat(
-        rewards
-          .filter(
-            ([rewardDenom]) =>
-              !filteredBalances.find(({ denom }) => rewardDenom === denom) &&
-              rewardDenom !== this.stakingDenom
-          )
-          .map(([denom]) => ({
-            denom,
-            amount: 0,
-          }))
-      )
-      return allBalancesWithRewards
     },
     getAllDenoms() {
       if (this.balances.length > 0) {
@@ -402,88 +325,23 @@ export default {
     },
   },
   apollo: {
-    overview: {
-      query: gql`
-        query overview(
-          $networkId: String!
-          $address: String!
-          $fiatCurrency: String!
-        ) {
-          overview(
-            networkId: $networkId
-            address: $address
-            fiatCurrency: $fiatCurrency
-          ) {
-            liquidStake
-            totalStake
-            totalStakeFiatValue {
-              amount
-              denom
-              symbol
-            }
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.address,
-          fiatCurrency: this.preferredCurrency,
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        if (!this.sentToGA) {
-          // sending to ga only once
-          sendEvent(
-            {
-              network: this.network,
-              address: this.address,
-            },
-            "Portfolio",
-            "Balance",
-            "liquidStake",
-            data.overview.liquidStake
-          )
-          sendEvent(
-            {
-              network: this.network,
-              address: this.address,
-            },
-            "Portfolio",
-            "Balance",
-            "totalStake",
-            data.overview.totalStake
-          )
-          this.sentToGA = true
-        }
-        return data.overview
-      },
-      /* istanbul ignore next */
-      skip() {
-        return !this.address
-      },
-    },
     balances: {
       query: gql`
-        query balances(
+        query (
           $networkId: String!
           $address: String!
           $fiatCurrency: String
         ) {
-          balances(
+          balancesV2(
             networkId: $networkId
             address: $address
             fiatCurrency: $fiatCurrency
           ) {
+            type
             denom
-            amount
-            fiatValue {
-              amount
-              symbol
-              denom
-            }
+            available
+            total
+            fiatValue {amount denom symbol}
           }
         }
       `,
@@ -499,6 +357,9 @@ export default {
       skip() {
         return !this.address
       },
+      update(result) {
+        return result.balancesV2
+      }
     },
     rewards: {
       query: gql`
@@ -552,7 +413,6 @@ export default {
         /* istanbul ignore next */
         result() {
           /* istanbul ignore next */
-          this.$apollo.queries.overview.refetch()
           this.$apollo.queries.balances.refetch()
           this.$apollo.queries.rewards.refetch()
         },
