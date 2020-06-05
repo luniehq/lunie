@@ -83,17 +83,6 @@
         <template v-for="balance in balances">
           <div :key="balance.denom" class="table-cell big">
             <img
-              v-if="balance.denom.length > 3"
-              class="currency-flag"
-              :src="
-                '/img/icons/currencies/' +
-                balance.denom.substring(1).toLowerCase() +
-                '.png'
-              "
-              :alt="`${balance.denom}` + ' currency'"
-            />
-            <img
-              v-else
               class="currency-flag"
               :src="
                 '/img/icons/currencies/' + balance.denom.toLowerCase() + '.png'
