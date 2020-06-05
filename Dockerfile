@@ -2,6 +2,8 @@ FROM node:lts-alpine3.11
 
 WORKDIR /var/www/server
 
+COPY ./common ./common
+
 COPY ./lib ./lib
 
 COPY ./data ./data
