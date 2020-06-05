@@ -181,6 +181,7 @@ export default {
           // Transform the previous result with new data
           updateQuery: (previousResult, { fetchMoreResult }) => {
             return {
+              // DEPRECATE uniqBy, should be resolved via API
               transactionsV2: uniqBy([
                 ...previousResult.transactionsV2,
                 ...fetchMoreResult.transactionsV2,
