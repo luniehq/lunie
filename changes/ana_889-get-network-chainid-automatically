@@ -1,0 +1,1 @@
+[Changed] [#889](https://github.com/cosmos/lunie/issues/889) Overwrites Tendermint networks chain-id with the blockchain one in cosmos-node-subscription @Bitcoinera
