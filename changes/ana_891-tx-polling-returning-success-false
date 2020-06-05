@@ -1,0 +1,1 @@
+[Changed] [#4203](https://github.com/cosmos/lunie/pull/4203) Uses code in userTransactionAddedV2 to determine if a transaction failed or not @Bitcoinera
