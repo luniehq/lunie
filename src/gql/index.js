@@ -215,6 +215,7 @@ export const UserTransactionAdded = gql`
       hash
       height
       success
+      code
       log
     }
   }

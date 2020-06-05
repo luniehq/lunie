@@ -874,13 +874,13 @@ export default {
         query: UserTransactionAdded,
         /* istanbul ignore next */
         result({ data }) {
-          const { hash, height, success, log } = data.userTransactionAddedV2
+          const { hash, height, code, log } = data.userTransactionAddedV2
           if (hash === this.txHash) {
             this.includedHeight = height
-            if (success) {
-              this.onTxIncluded()
-            } else {
+            if (code) {
               this.onSendingFailed(new Error(log))
+            } else {
+              this.onTxIncluded()
             }
           }
           this.txHash = null
