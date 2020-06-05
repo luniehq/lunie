@@ -135,7 +135,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
         <img
           alt="MUON currency"
           class="currency-flag"
-          src="/img/icons/currencies/uon.png"
+          src="/img/icons/currencies/muon.png"
         />
          
         <div
@@ -347,7 +347,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
         <img
           alt="MUON currency"
           class="currency-flag"
-          src="/img/icons/currencies/uon.png"
+          src="/img/icons/currencies/muon.png"
         />
          
         <div
@@ -417,7 +417,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
         <img
           alt="MUON_2 currency"
           class="currency-flag"
-          src="/img/icons/currencies/uon_2.png"
+          src="/img/icons/currencies/muon_2.png"
         />
          
         <div
