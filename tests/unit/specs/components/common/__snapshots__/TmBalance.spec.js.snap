@@ -133,79 +133,9 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
         class="table-cell big"
       >
         <img
-          alt="ATOM currency"
+          alt="MUON currency"
           class="currency-flag"
-          src="/img/icons/currencies/tom.png"
-        />
-         
-        <div
-          class="total-and-fiat"
-        >
-          <span
-            class="total"
-          >
-            
-            0
-            ATOM
-          
-          </span>
-           
-          <!---->
-        </div>
-      </div>
-       
-      <div
-        class="table-cell rewards"
-      >
-        <h2>
-          
-          +5
-          ATOM
-        
-        </h2>
-      </div>
-       
-      <div
-        class="table-cell available"
-      >
-        <span
-          class="available-amount"
-        >
-          
-          0
-          ATOM
-        
-        </span>
-      </div>
-       
-      <div
-        class="table-cell actions"
-      >
-        <div
-          class="icon-button-container"
-        >
-          <button
-            class="icon-button circle-send-button"
-          >
-            <i
-              class="material-icons"
-            >
-              send
-            </i>
-          </button>
-          <span>
-            Send
-          </span>
-        </div>
-      </div>
-       
-      <div
-        class="table-cell big"
-      >
-        <img
-          alt="TOKEN1 currency"
-          class="currency-flag"
-          src="/img/icons/currencies/oken1.png"
+          src="/img/icons/currencies/uon.png"
         />
          
         <div
@@ -216,11 +146,17 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
           >
             
               0
-              TOKEN1
+              MUON
             
           </span>
            
-          <!---->
+          <span
+            class="fiat"
+          >
+            
+              0
+              USD
+          </span>
         </div>
       </div>
        
@@ -229,15 +165,19 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       >
         <h2>
           
-            +4.5
-            TOKEN1
+            +5
+            MUON
           
         </h2>
       </div>
        
       <div
         class="table-cell available"
-      />
+      >
+        
+            0
+          
+      </div>
        
       <div
         class="table-cell actions"
@@ -262,7 +202,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     </div>
      
     <sendmodal-stub
-      denoms="ATOM"
+      denoms="MUON"
     />
      
     <modalwithdrawrewards-stub />
@@ -405,9 +345,9 @@ exports[`TmBalance show the balance header when signed in 1`] = `
         class="table-cell big"
       >
         <img
-          alt="ATOM currency"
+          alt="MUON currency"
           class="currency-flag"
-          src="/img/icons/currencies/tom.png"
+          src="/img/icons/currencies/uon.png"
         />
          
         <div
@@ -417,12 +357,18 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             class="total"
           >
             
-            3,210
-            ATOM
-          
+              100.78
+              MUON
+            
           </span>
            
-          <!---->
+          <span
+            class="fiat"
+          >
+            
+              10
+              USD
+          </span>
         </div>
       </div>
        
@@ -431,23 +377,18 @@ exports[`TmBalance show the balance header when signed in 1`] = `
       >
         <h2>
           
-          +5
-          ATOM
-        
+            +5
+            MUON
+          
         </h2>
       </div>
        
       <div
         class="table-cell available"
       >
-        <span
-          class="available-amount"
-        >
-          
-          1,230
-          ATOM
         
-        </span>
+            80.78
+          
       </div>
        
       <div
@@ -457,7 +398,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
           class="icon-button-container"
         >
           <button
-            class="icon-button circle-send-button"
+            class="icon-button"
           >
             <i
               class="material-icons"
@@ -470,14 +411,13 @@ exports[`TmBalance show the balance header when signed in 1`] = `
           </span>
         </div>
       </div>
-       
       <div
         class="table-cell big"
       >
         <img
-          alt="TOKEN1 currency"
+          alt="MUON_2 currency"
           class="currency-flag"
-          src="/img/icons/currencies/oken1.png"
+          src="/img/icons/currencies/uon_2.png"
         />
          
         <div
@@ -487,29 +427,32 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             class="total"
           >
             
-              0
-              TOKEN1
+              20.78
+              MUON_2
             
           </span>
            
-          <!---->
+          <span
+            class="fiat"
+          >
+            
+              40
+              USD
+          </span>
         </div>
       </div>
        
       <div
         class="table-cell rewards"
       >
-        <h2>
-          
-            +4.5
-            TOKEN1
-          
-        </h2>
+        <!---->
       </div>
        
       <div
         class="table-cell available"
-      />
+      >
+        <!---->
+      </div>
        
       <div
         class="table-cell actions"
@@ -534,7 +477,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     </div>
      
     <sendmodal-stub
-      denoms="ATOM"
+      denoms="MUON,MUON_2"
     />
      
     <modalwithdrawrewards-stub />
