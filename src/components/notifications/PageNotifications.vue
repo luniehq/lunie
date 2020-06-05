@@ -37,7 +37,7 @@
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
 import EventList from "common/EventList"
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 
 export default {
@@ -49,19 +49,18 @@ export default {
   },
   data: () => ({
     notifications: [],
-    allSessionAddresses: [],
     moreAvailable: true,
     dataLoaded: false,
   }),
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`networks`]),
   },
   mounted: async function () {
-    const networkIds = this.networks.map((network) => network.id)
-    this.allSessionAddresses = await this.$store.dispatch(
-      `getAllSessionsAddresses`,
-      { networkIds }
-    )
+    // set notificationAvailable to false
+    this.$store.dispatch(`setNotificationAvailable`, {
+      notificationAvailable: false,
+    })
   },
   methods: {
     loadMore() {
@@ -72,7 +71,7 @@ export default {
         this.$apollo.queries.notifications.fetchMore({
           // New variables
           variables: {
-            addressObjects: this.allSessionAddresses,
+            addressObjects: this.session.allSessionAddresses,
             // get notifications that are older then the last one
             timestamp: this.notifications[this.notifications.length - 1]
               .timestamp,
@@ -106,7 +105,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          addressObjects: this.allSessionAddresses,
+          addressObjects: this.session.allSessionAddresses,
         }
       },
       /* istanbul ignore next */
@@ -119,7 +118,8 @@ export default {
       /* istanbul ignore next */
       skip() {
         return (
-          !this.allSessionAddresses || this.allSessionAddresses.length === 0
+          !this.session.allSessionAddresses ||
+          this.session.allSessionAddresses.length === 0
         )
       },
     },

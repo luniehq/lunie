@@ -6,7 +6,7 @@ describe(`AppHeader`, () => {
 
   beforeEach(() => {
     $store = {
-      commit: jest.fn(),
+      dispatch: jest.fn(),
       state: {
         session: {
           experimentalMode: false,
@@ -15,6 +15,13 @@ describe(`AppHeader`, () => {
             close: jest.fn(),
           },
         },
+      },
+      getters: {
+        networks: [
+          {
+            id: `cosmos-hub-mainnet`,
+          },
+        ],
       },
     }
 
