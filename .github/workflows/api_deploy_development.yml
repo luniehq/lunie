@@ -2,8 +2,8 @@ name: Update existing droplet in Digital Ocean
 
 on:
   push:
-    branches:
-      - develop
+    # branches:
+    #   - develop
     paths:
       - 'api/**'
 env:
