@@ -99,6 +99,7 @@ export default {
             statusDetailed
             picture
             expectedReturns
+            popularity
           }
         }
       `,
