@@ -40,7 +40,7 @@ jobs:
         with:
           working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Run E2E tests
-        run: yarn test:e2e:browserstack --fe=https://${{ github.head_ref }}--lunieio.netlify.app --api=https://production-api.lunie.io
+        run: yarn test:e2e:browserstack --fe=https://${{github.head_ref | sed "s/\//-/"}}--lunieio.netlify.app --api=https://production-api.lunie.io
         working-directory: ${{env.WORKING_DIRECTORY}}
         env:
           PASSWORD: ${{secrets.GAIA_PASSWORD}}
