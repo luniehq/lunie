@@ -68,13 +68,15 @@ export default {
       if (this.dataLoaded === true) {
         // loads new portion
         this.dataLoaded = false
+        const lastTimestamp = this.notifications[this.notifications.length - 1]
+          .timestamp
+        const dateLastTimestamp = new Date(lastTimestamp)
         this.$apollo.queries.notifications.fetchMore({
           // New variables
           variables: {
-            addressObjects: this.session.allSessionAddresses,
             // get notifications that are older then the last one
-            timestamp: this.notifications[this.notifications.length - 1]
-              .timestamp,
+            timestamp: dateLastTimestamp.toISOString(),
+            addressObjects: this.session.allSessionAddresses,
           },
           // Transform the previous result with new data
           updateQuery: function (previousResult, { fetchMoreResult }) {
@@ -92,8 +94,14 @@ export default {
   apollo: {
     notifications: {
       query: gql`
-        query notifications($addressObjects: [NotificationInput]!) {
-          notifications(addressObjects: $addressObjects) {
+        query notifications(
+          $timestamp: String
+          $addressObjects: [NotificationInput]!
+        ) {
+          notifications(
+            timestamp: $timestamp
+            addressObjects: $addressObjects
+          ) {
             networkId
             timestamp
             title
@@ -105,6 +113,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
+          timestamp: "",
           addressObjects: this.session.allSessionAddresses,
         }
       },
