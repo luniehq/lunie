@@ -270,9 +270,15 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
-        return !this.userAddress || !this.$refs.actionModal || !this.$refs.actionModal.show
+        return (
+          !this.userAddress ||
+          !this.$refs.actionModal ||
+          !this.$refs.actionModal.show
+        )
       },
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
@@ -280,6 +286,7 @@ export default {
           denom: this.denom,
         }
       },
+      /* istanbul ignore next */
       update(data) {
         return data.balance || { amount: 0 }
       },

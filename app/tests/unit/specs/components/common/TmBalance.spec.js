@@ -10,7 +10,7 @@ describe(`TmBalance`, () => {
       getters: {
         address: "cosmos1address",
         network: "test-network",
-        stakingDenom: "ATOM",
+        stakingDenom: "MUON",
         networks: [
           {
             id: "test-network",
@@ -30,7 +30,7 @@ describe(`TmBalance`, () => {
 
     $apollo = {
       queries: {
-        overview: {
+        balances: {
           loading: false,
           error: false,
         },
@@ -48,10 +48,27 @@ describe(`TmBalance`, () => {
       },
     })
     wrapper.setData({
-      overview: {
-        totalStake: 3210,
-        liquidStake: 1230,
-      },
+      balances: [{
+        "type": "STAKE",
+        "denom": "MUON",
+        "available": "80.780405",
+        "total": "100.780405",
+        "fiatValue": {
+          "amount": "10",
+          "denom": "USD",
+          "symbol": "$"
+        }
+      },{
+        "type": "CURRENCY",
+        "denom": "MUON_2",
+        "available": "17.780405",
+        "total": "20.780405",
+        "fiatValue": {
+          "amount": "40",
+          "denom": "USD",
+          "symbol": "$"
+        }
+      }],
       rewards: [
         {
           amount: 1,
@@ -67,7 +84,7 @@ describe(`TmBalance`, () => {
         },
         {
           amount: 5,
-          denom: `ATOM`,
+          denom: `MUON`,
         },
       ],
     })
@@ -78,14 +95,18 @@ describe(`TmBalance`, () => {
   })
 
   it(`do not show available atoms when the user has none in the first place`, () => {
-    // This *should* set overview to an empty Object, but the call is ignored?
-    // Setting it to false has the desired effect.
     wrapper.setData({
-      overview: {
-        totalStake: 0,
-        liquidStake: 0,
-        totalRewards: 0,
-      },
+      balances: [{
+        "type": "STAKE",
+        "denom": "MUON",
+        "available": "0",
+        "total": "0",
+        "fiatValue": {
+          "amount": "0",
+          "denom": "USD",
+          "symbol": "$"
+        }
+      }]
     })
     expect(wrapper.element).toMatchSnapshot()
     expect(wrapper.text()).toContain("Token")
@@ -100,7 +121,7 @@ describe(`TmBalance`, () => {
       },
     }
     wrapper.vm.$refs = $refs
-    wrapper.find(".circle-send-button").trigger("click")
+    wrapper.find(".table-cell.actions button").trigger("click")
     expect($refs.SendModal.open).toHaveBeenCalled()
   })
 
@@ -133,7 +154,7 @@ describe(`TmBalance`, () => {
     wrapper.setData({
       balances: [],
     })
-    expect(wrapper.vm.getAllDenoms).toEqual(["ATOM"])
+    expect(wrapper.vm.getAllDenoms).toEqual(["MUON"])
   })
 
   it(`should show How To Get Tokens tutorial`, () => {
@@ -165,7 +186,7 @@ describe(`TmBalance`, () => {
   })
 
   it(`should calculate the total rewards amount for each denom when rewards contain multiple denoms`, () => {
-    const totalDenomRewards = wrapper.vm.totalRewardsPerDenom[`TOKEN1`]
-    expect(totalDenomRewards).toBe(4.5)
+    const totalDenomRewards = wrapper.vm.totalRewardsPerDenom[`MUON`]
+    expect(totalDenomRewards).toBe(5)
   })
 })

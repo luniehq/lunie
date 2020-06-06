@@ -14,10 +14,9 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
    
   <template>
     <div>
-      <transactionlist-stub
-        address="cosmos1"
-        transactions=""
-        validators="[object Object]"
+      <eventlist-stub
+        events=""
+        moreavailable="true"
       />
     </div>
      
@@ -74,10 +73,9 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
    
   <template>
     <div>
-      <transactionlist-stub
-        address="cosmos1"
-        transactions="[object Object],[object Object],[object Object],[object Object]"
-        validators="[object Object]"
+      <eventlist-stub
+        events="[object Object],[object Object],[object Object],[object Object]"
+        moreavailable="true"
       />
     </div>
      

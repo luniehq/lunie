@@ -43,11 +43,20 @@
             </div>
           </TmDataMsg>
 
-          <TransactionList
-            :transactions="filteredTransactions"
-            :address="address"
-            :validators="validatorsAddressMap"
-          />
+          <EventList
+            v-else
+            :events="filteredTransactions"
+            :more-available="false"
+          >
+            <template slot-scope="event">
+              <TransactionItem
+                :key="event.key"
+                :transaction="event"
+                :validators="validatorsAddressMap"
+                :address="address"
+              />
+            </template>
+          </EventList>
 
           <br />
         </div>
@@ -63,12 +72,14 @@ import { prettyInt } from "scripts/num"
 import gql from "graphql-tag"
 
 import TmPage from "common/TmPage"
-import TransactionList from "transactions/TransactionList"
+import TransactionItem from "transactions/TransactionItem"
 import TmDataMsg from "common/TmDataMsg"
+import EventList from "common/EventList"
 
 const transactionV2Fields = `
   type
   hash
+  key
   height
   timestamp
   memo
@@ -143,7 +154,8 @@ export default {
   components: {
     TmDataMsg,
     TmPage,
-    TransactionList,
+    TransactionItem,
+    EventList,
   },
   filters: {
     date,
@@ -182,7 +194,7 @@ export default {
           (transaction) => transaction.type !== `UnknownTx`
         )
       } else {
-        return {}
+        return []
       }
     },
   },

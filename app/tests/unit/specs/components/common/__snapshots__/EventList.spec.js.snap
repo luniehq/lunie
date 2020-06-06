@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventList renders a list of event items 1`] = `
+<div
+  infinite-scroll-distance="80"
+>
+  <div>
+    <h3>
+      January 9th
+    </h3>
+     
+    <div />
+  </div>
+  <div>
+    <h3>
+      January 8th
+    </h3>
+     
+    <div />
+  </div>
+  <div>
+    <h3>
+      January 7th
+    </h3>
+     
+    <div />
+  </div>
+  <div>
+    <h3>
+      January 6th
+    </h3>
+     
+    <div />
+  </div>
+  <div>
+    <h3>
+      January 5th
+    </h3>
+     
+    <div />
+  </div>
+  <div>
+    <h3>
+      January 4th
+    </h3>
+     
+    <div />
+  </div>
+  <div>
+    <h3>
+      January 3rd
+    </h3>
+     
+    <div />
+  </div>
+  <div>
+    <h3>
+      January 2nd
+    </h3>
+     
+    <div />
+  </div>
+  <div>
+    <h3>
+      Today (January 1st)
+    </h3>
+     
+    <div />
+  </div>
+</div>
+`;

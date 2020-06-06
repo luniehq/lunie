@@ -62,12 +62,8 @@ exports[`PageBlock shows a page with information about a certain block 1`] = `
           <!---->
         </h3>
          
-        <!---->
-         
-        <transactionlist-stub
-          address="cosmos1"
-          transactions="[object Object]"
-          validators="[object Object]"
+        <eventlist-stub
+          events="[object Object]"
         />
          
         <br />
@@ -155,12 +151,6 @@ exports[`PageBlock shows the block page with no txs 1`] = `
           
           </div>
         </tmdatamsg-stub>
-         
-        <transactionlist-stub
-          address="cosmos1"
-          transactions=""
-          validators="[object Object]"
-        />
          
         <br />
       </div>
