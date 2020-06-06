@@ -20,6 +20,7 @@ const categories = [
   {
     section: "Today",
     matcher: (event) => {
+      // tests if the timestamp has the same day as today
       return moment(event.timestamp).isSame(moment(), "day")
     },
   },

@@ -37,7 +37,7 @@
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
 import EventList from "common/EventList"
-import { mapGetters, mapState } from "vuex"
+import { mapState, mapGetters } from "vuex"
 import gql from "graphql-tag"
 
 export default {
@@ -121,7 +121,7 @@ export default {
       update(result) {
         this.dataLoaded = true
         // assume that when the full page got loaded, that there is more
-        this.moreAvailable = result.notifications.length % 20 === 0
+        this.moreAvailable = (result.notifications.length % 20 === 0)
         return result.notifications
       },
       /* istanbul ignore next */
@@ -130,6 +130,35 @@ export default {
           !this.session.allSessionAddresses ||
           this.session.allSessionAddresses.length === 0
         )
+      },
+      subscribeToMore: {
+        document: gql`
+          subscription($addressObjects: [NotificationInput]!) {
+            notificationAdded(addressObjects: $addressObjects) {
+              networkId
+              timestamp
+              title
+              link
+              icon
+            }
+          }
+        `,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          if (previousResult && subscriptionData.data.notificationAdded) {
+            return {
+              notifications: [
+                subscriptionData.data.notificationAdded,
+                ...previousResult.notifications,
+              ],
+            }
+          }
+        },
+        /* istanbul ignore next */
+        variables() {
+          return {
+            addressObjects: this.session.allSessionAddresses,
+          }
+        },
       },
     },
   },
