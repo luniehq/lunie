@@ -21,7 +21,8 @@ jobs:
           working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Build
         run: yarn build
-        working-directory: ${{e      - name: Deploy to Netlify
+        working-directory: ${{env.WORKING_DIRECTORY}}  
+      - name: Deploy to Netlify
         uses: netlify/actions/cli@master
         with:
           args: deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --dir=./${{env.WORKING_DIRECTORY}}/dist
