@@ -20,7 +20,7 @@ jobs:
         with:
           working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Build
-        run: yarn build
+        run: yarn buildsentry
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_APP }}
         working-directory: ${{env.WORKING_DIRECTORY}}
