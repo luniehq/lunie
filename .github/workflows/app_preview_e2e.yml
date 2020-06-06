@@ -22,12 +22,10 @@ jobs:
       - name: Build
         run: yarn build
         working-directory: ${{env.WORKING_DIRECTORY}}
-      - name: Deploy to Netlify
-        uses: netlify/actions/cli@master
+      - uses: jsmrcaga/action-netlify-deploy@master
         with:
-          args: deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --dir=./${{env.WORKING_DIRECTORY}}/dist
-        env:
-            CD: true
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
   e2e:
     runs-on: ubuntu-latest
     steps:
