@@ -3,7 +3,7 @@ name: Update existing droplet in Digital Ocean
 on:
   push:
     branches:
-      - '*''
+      - '*'
     paths:
       - 'api/**'
 env:
