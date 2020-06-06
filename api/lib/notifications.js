@@ -1,3 +1,4 @@
+const { UserInputError } = require('apollo-server')
 const {
   eventSubscription,
   publishNotificationAdded
@@ -93,10 +94,13 @@ function getMessageTitle(notification) {
       return `Validator ${data.nextValidator.name} updated its website to: ${data.nextValidator.website}`
     case eventTypes.VALIDATOR_ADDED:
       return `New validator ${
-        data.name
+        data.nextValidator.name
       } entered the validator list on ${findNetworkTitle(
         notification.networkId
       )}`
+
+    case eventTypes.LUNIE_UPDATE:
+      return data.title
     default:
       return 'Check it out! 👋'
   }
@@ -135,6 +139,10 @@ function getPushLink({ resourceType, eventType, networkId, resourceId, data }) {
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
     case eventTypes.VALIDATOR_ADDED:
       return `/${findNetworkSlug(networkId)}/validators/${resourceId}`
+
+    // ResourceId field contains link property
+    case resourceTypes.LUNIE:
+      return resourceId || `/`
     default:
       return `/`
   }
@@ -168,6 +176,8 @@ function getIcon({ eventType, data }) {
         notificationData.nextValidator.picture ||
         `/img/icons/currencies/lunie.png`
       }`
+    case eventTypes.LUNIE_UPDATE:
+      return `/img/icons/currencies/lunie.png`
     default:
       return `/img/icons/currencies/lunie.png`
   }
@@ -177,6 +187,9 @@ function getIcon({ eventType, data }) {
 // i.e. block_cosmos-hub-mainnet or cosmos1aswiocxzoqoidio_transaction_cosmos-hub-mainnet
 function getTopic({ resourceType, networkId, eventType, resourceId }) {
   let data = [resourceId, eventType, networkId]
+
+  if (eventType === eventTypes.LUNIE_UPDATE) return eventType
+
   if (
     resourceType === resourceTypes.PROPOSAL ||
     eventType === eventTypes.VALIDATOR_ADDED
@@ -187,39 +200,51 @@ function getTopic({ resourceType, networkId, eventType, resourceId }) {
 }
 
 const startNotificationService = () => {
-  // listens on the graphQL subscription for events
-  eventSubscription(async (event) => {
-    if (event.properties.type === 'UnknownTx') return
+  // Disable for development mode
+  // (only activate for staging/production to avoid duplicate notifications)
+  if (config.env !== 'development') {
+    // listens on the graphQL subscription for events
+    eventSubscription(async (event) => {
+      if (event.properties.type === 'UnknownTx') return
 
-    const topic = getTopic(event)
-    const response = await database(config)('').storeNotification({
-      topic,
-      eventType: event.eventType,
-      resourceType: event.resourceType,
-      resourceId: event.resourceId,
-      networkId: event.networkId,
-      data: JSON.stringify(event.properties)
+      const topic = getTopic(event)
+      const response = await database(config)('').storeNotification({
+        topic,
+        eventType: event.eventType,
+        resourceType: event.resourceType,
+        resourceId: event.resourceId,
+        networkId: event.networkId,
+        data: JSON.stringify(event.properties)
+      })
+
+      const notificationResponse =
+        response.data.insert_notifications.returning[0]
+      const notification = {
+        networkId: event.networkId,
+        timestamp: notificationResponse.created_at,
+        title: getMessageTitle(notificationResponse),
+        link: getPushLink(notificationResponse),
+        icon: getIcon(notificationResponse)
+      }
+
+      publishNotificationAdded(notification, topic)
     })
-
-    const notificationResponse = response.data.insert_notifications.returning[0]
-    const notification = {
-      networkId: event.networkId,
-      timestamp: notificationResponse.created_at,
-      title: getMessageTitle(notificationResponse),
-      link: getPushLink(notificationResponse),
-      icon: getIcon(notificationResponse)
-    }
-
-    publishNotificationAdded(notification, topic)
-  })
+  }
 }
 
 // Resolver for retrieving notifications
 const getNotifications = async (
   _,
-  { numberOfNotifications = 10, addressObjects },
+  { timestamp = '', addressObjects },
   { dataSources }
 ) => {
+  if (timestamp === '') timestamp = new Date().toISOString()
+
+  if (!isISODate(timestamp))
+    throw new UserInputError(
+      `Timestamp ${timestamp} does not match ISO8601 format`
+    )
+
   if (addressObjects.length === 0) return { notifications: [] }
 
   const defaultSubscriptions = await getDefaultSubscriptions(
@@ -228,7 +253,7 @@ const getNotifications = async (
   )
   const relevantNotifications = await database(config)('').getNotifications(
     defaultSubscriptions,
-    numberOfNotifications
+    timestamp
   )
 
   const notifications = relevantNotifications.map((notification) => ({
@@ -240,6 +265,13 @@ const getNotifications = async (
   }))
 
   return notifications
+}
+
+const isISODate = (dateString) => {
+  if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/.test(dateString))
+    return false
+  const date = new Date(dateString)
+  return date.toISOString() === dateString
 }
 
 module.exports = {

@@ -2,6 +2,7 @@ const { UserInputError } = require('apollo-server')
 const fetch = require('node-fetch')
 const Sentry = require('@sentry/node')
 const BigNumber = require('bignumber.js')
+const { fixDecimalsAndRoundUp } = require('../common/numbers.js')
 
 const transactionTypesSet = new Set([
   'SendTx',
@@ -111,7 +112,7 @@ const emoneyGasEstimates = {
 }
 
 const akashGasEstimates = {
-  default: 200000
+  default: 550000
 }
 
 const polkadotGasEstimates = {
@@ -179,7 +180,7 @@ const kavaGasPrices = [
 const akashGasPrices = [
   {
     denom: 'uakt',
-    price: '0.01'
+    price: '0.25'
   }
 ]
 
@@ -327,12 +328,12 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
   let estimatedFee = {
     amount: String(
       chainAppliedFees && chainAppliedFees.rate > 0
-        ? BigNumber(transactionAmount).times(chainAppliedFees.rate).toNumber()
-        : gasEstimate * gasPrice
+        ? fixDecimalsAndRoundUp(BigNumber(transactionAmount).times(chainAppliedFees.rate).toNumber(), 6)
+        : fixDecimalsAndRoundUp(gasEstimate * gasPrice, 6)
     ),
     denom: feeDenom
   }
-  const selectedBalance = balances.find(({denom}) => denom === feeDenom)
+  const selectedBalance = balances.find(({denom}) => denom === feeDenom) || { amount: 0, denom: feeDenom }
   if (
     Number(transactionAmount) + Number(estimatedFee.amount) >
     Number(selectedBalance.amount) &&

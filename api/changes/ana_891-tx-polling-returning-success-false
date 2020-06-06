@@ -1,0 +1,2 @@
+[Changed] [#891](https://github.com/cosmos/lunie/issues/891) Set transaction success for Akash and Kava testnet checking if code field is present @Bitcoinera
+[Code Improvements] [#895](https://github.com/cosmos/lunie/pull/895) Adds KavaV1 files for kava-testnet @Bitcoinera

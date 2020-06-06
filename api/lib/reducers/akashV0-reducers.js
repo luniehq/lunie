@@ -12,6 +12,10 @@ function blockReducer(networkId, block, transactions) {
   }
 }
 
+function setTransactionSuccess(transaction) {
+  return transaction.code ? false : true
+}
+
 function delegationReducer(delegation, validator) {
   const delegationCoin = terraV3Reducers.coinReducer(delegation.balance)
   return {
@@ -25,5 +29,6 @@ function delegationReducer(delegation, validator) {
 module.exports = {
   ...terraV3Reducers,
   blockReducer,
-  delegationReducer
+  delegationReducer,
+  setTransactionSuccess
 }

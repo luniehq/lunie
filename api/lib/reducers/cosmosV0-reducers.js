@@ -1,5 +1,5 @@
 const BigNumber = require('bignumber.js')
-
+const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
 /**
  * Modify the following reducers with care as they are used for ./cosmosV2-reducer.js as well
  * [proposalBeginTime, proposalEndTime, getDeposit, tallyReducer, atoms, getValidatorStatus, coinReducer]
@@ -297,13 +297,6 @@ function gasPriceReducer(gasPrice) {
   }
 }
 
-function fixDecimalsAndRoundUp(number, decimalsNumber) {
-  return (
-    (number.toFixed(decimalsNumber) * 10 ** decimalsNumber) /
-    10 ** decimalsNumber
-  )
-}
-
 // delegations rewards in Tendermint are located in events as strings with this form:
 // amount: {"15000umuon"}, or in multidenom networks they look like this:
 // amount: {"15000ungm,100000uchf,110000ueur,2000000ujpy"}
@@ -337,7 +330,6 @@ async function balanceReducer(coin, gasPrices, fiatValue) {
 async function balanceV2Reducer(
   lunieCoin,
   stakingDenom,
-  gasPrices,
   delegations,
   fiatValueAPI,
   fiatCurrency
@@ -369,14 +361,7 @@ async function balanceV2Reducer(
     denom: lunieCoin.denom,
     fiatValue: fiatValue[stakingDenom],
     available: lunieCoin.amount,
-    availableFiatValue: availableFiatValue[stakingDenom],
-    gasPrice: gasPrices
-      ? gasPriceReducer(
-          gasPrices.find(
-            (gasPrice) => denomLookup(gasPrice.denom) === lunieCoin.denom
-          )
-        ).price
-      : null
+    availableFiatValue: availableFiatValue[stakingDenom]
   }
 }
 
@@ -421,7 +406,7 @@ async function reduceFormattedRewards(
         : undefined
       multiDenomRewardsArray.push({
         denom: lunieCoin.denom,
-        amount: reducers.fixDecimalsAndRoundUp(lunieCoin.amount, 6).toString(), // TODO: refactor using a decimals number from coinLookup
+        amount: fixDecimalsAndRoundUp(lunieCoin.amount, 6).toString(), // TODO: refactor using a decimals number from coinLookup
         fiatValue,
         validator
       })
@@ -559,6 +544,5 @@ module.exports = {
   getValidatorStatus,
   expectedRewardsPerToken,
   denomLookup,
-  extractInvolvedAddresses,
-  fixDecimalsAndRoundUp
+  extractInvolvedAddresses
 }

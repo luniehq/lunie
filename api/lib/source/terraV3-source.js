@@ -22,7 +22,7 @@ class TerraV3API extends CosmosV2API {
       ]).then((validatorGroups) => [].concat(...validatorGroups)),
       this.getAllValidatorSets(height),
       this.getSignedBlockWindow(),
-      this.query(`v1/staking`, 'validators')
+      this.query(`https://fcd.terra.dev/v1/staking`, 'validators')
     ])
 
     // create a dictionary to reduce array lookups

@@ -7,6 +7,50 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.23] - 2020-06-03
+
+### Changed
+
+- [#876](https://github.com/cosmos/lunie/pull/876) Add offset to getNotifications query @michielmulders
+
+### Fixed
+
+- Disable Polkadot reconnection logic as not working properly @faboweb
+
+### Deprecated
+
+- [#876](https://github.com/cosmos/lunie/pull/876) Remove /transaction/estimate endpoint @michielmulders
+
+## [1.0.22] - 2020-06-03
+
+### Added
+
+- Track new validators - notification type @michielmulders
+- [#855](https://github.com/cosmos/lunie/pull/855) Add websocket mechanism for listening to slashing events @michielmulders
+
+### Changed
+
+- [#861](https://github.com/cosmos/lunie/pull/861) Adds RestakeTx to polkadot-transactions to calculate RestakeTx fees @Bitcoinera
+- [#868](https://github.com/cosmos/lunie/pull/868) Use P2P Validator endpoints for terra-mainnet @Bitcoinera
+- Reconnect Polkadot API right away to prevent race condition @faboweb
+- Add timeout to Github Actions workflows @michielmulders
+- Only run slahsing monitor for cosmos based networks @michielmulders
+
+### Fixed
+
+- [#872](https://github.com/cosmos/lunie/pull/872) Fixes Kava ClaimRewards transaction appearing as Unknown @Bitcoinera
+- [#870](https://github.com/cosmos/lunie/pull/870) Fixes validators uptimePercentage being NaN in e-Money @Bitcoinera
+- [#866](https://github.com/cosmos/lunie/pull/866) Fixes Polkadot ClaimRewards fee @Bitcoinera
+- Handle fees if user has 0 balance in that token @faboweb
+- Fix memory leaks in Polkadot API by reconnecting every hour @faboweb
+- Update Polkadot dependency @faboweb
+- [#4161](https://github.com/cosmos/lunie/issues/4161) Fix wrong status detailed in kusama validators  @mariopino
+- [#857](https://github.com/cosmos/lunie/issues/857) Fix getOldPolkadotRewardEras.js script @mariopino
+
+### Repository
+
+- Fix merge to master script (publishing) @faboweb
+
 ## [1.0.21] - 2020-05-28
 
 ### Fixed

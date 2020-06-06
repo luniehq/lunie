@@ -38,25 +38,8 @@ function getMessageType(type) {
   }
 }
 
-// TODO: probably unify when new mainnet
-function blockReducer(networkId, block, transactions) {
-  return {
-    networkId,
-    height: block.block.header.height,
-    chainId: block.block.header.chain_id,
-    hash:
-      networkId === 'kava-testnet'
-        ? block.block_id.hash
-        : block.block_meta.block_id.hash,
-    time: block.block.header.time,
-    transactions,
-    proposer_address: block.block.header.proposer_address
-  }
-}
-
 module.exports = {
   ...cosmosV2Reducers,
   delegationReducer,
-  getMessageType,
-  blockReducer
+  getMessageType
 }

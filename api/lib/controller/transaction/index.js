@@ -2,9 +2,9 @@
 const { networkMap } = require('../../networks')
 const Sentry = require('@sentry/node')
 const { publishUserTransactionAddedV2 } = require('../../subscriptions')
-const reducers = require('../../reducers/cosmosV2-reducers') // TODO the whole transaction service only works for cosmos rn
 const { storeTransactions } = require('../../statistics')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
+const networks = require('../../../data/networks')
 
 global.fetch = require('node-fetch')
 
@@ -23,33 +23,6 @@ initPolkadotAPI()
 async function getPolkadotAPI() {
   await api.isReady
   return api
-}
-
-async function estimate() {
-  // const context = {
-  //   userAddress: tx.address,
-  //   networkId: tx.networkId,
-  //   url: networkMap[tx.networkId].api_url,
-  //   chainId: networkMap[tx.networkId].chain_id
-  // }
-
-  // const message = getMessage(tx.messageType, tx.txProperties, context)
-
-  try {
-    // const gasEstimate = await message.simulate({ memo: tx.memo }) + 100000
-    // HACK: fixed to this value for now. too high gas can lead to transactions never being included. too low gas can lead to rejected txs and cost the user money.
-    const gasEstimate = 550000
-
-    return {
-      gasEstimate,
-      success: true
-    }
-  } catch (e) {
-    return {
-      error: e.message,
-      success: false
-    }
-  }
 }
 
 async function broadcastWithCosmos(tx, fingerprint, development) {
@@ -106,7 +79,6 @@ async function broadcast(tx, fingerprint, development) {
 }
 
 module.exports = {
-  estimate,
   broadcast
 }
 
@@ -181,7 +153,9 @@ function assertOk(res) {
 
   // Sometimes we get back failed transactions, which shows only by them having a `code` property
   if (res.code) {
-    const message = JSON.parse(res.raw_log).message
+    const message = res.raw_log.message
+      ? JSON.parse(res.raw_log).message
+      : res.raw_log
     throw new Error(message)
   }
 
@@ -208,6 +182,10 @@ async function pollTransactionSuccess(
   development,
   iteration = 0
 ) {
+  const network = networks.find(({ id }) => id === networkId)
+  const NetworkApiClass = require('../../' + network.source_class_name)
+  const store = {}
+  const NetworkApi = new NetworkApiClass(network, store)
   let res
   console.error('Polling tx ', hash)
   try {
@@ -251,7 +229,11 @@ async function pollTransactionSuccess(
     // publishUserTransactionAdded is also done in the block subscription
     // but also here as a fallback
     // TODO the client might now update twice as it receives the success twice, could be fine though
-    const transactions = reducers.transactionReducerV2(res, reducers)
+    const transactions = NetworkApi.reducers.transactionReducerV2(
+      networkId,
+      res,
+      NetworkApi.reducers
+    )
     // store in db (will not happen if transaction is not successful)
     if (!development) {
       storeTransactions(transactions, networkId, senderAddress, fingerprint)
@@ -265,7 +247,10 @@ async function pollTransactionSuccess(
 
     let transactions
     if (res.tx) {
-      transactions = reducers.transactionReducerV2(res, reducers)
+      transactions = NetworkApi.reducers.transactionReducerV2(
+        res,
+        NetworkApi.reducers
+      )
     } else {
       // on timeout we don't get a transactionV2 back
       transactions = [

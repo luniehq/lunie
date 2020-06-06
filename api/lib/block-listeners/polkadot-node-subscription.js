@@ -16,7 +16,7 @@ const { spawn } = require('child_process')
 
 const POLLING_INTERVAL = 1000
 // const NEW_BLOCK_DELAY = 2000
-const DISCONNECTION_INTERVAL = 1000 * 60 * 60 // used to disconnect from API to free memory
+// const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // used to disconnect from API to free memory
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
@@ -64,16 +64,16 @@ class PolkadotNodeSubscription {
       }
 
       // refresh the api to prevent memory leaks
-      if (Date.now() - this.store.polkadotRPCOpened > DISCONNECTION_INTERVAL) {
-        console.log(
-          'Disconnecting Polkadot for network',
-          this.network.id,
-          'to avoid memory leaks'
-        )
-        this.api.disconnect()
-        this.api = undefined
-        this.subscribeForNewBlock()
-      }
+      // if (Date.now() - this.store.polkadotRPCOpened > DISCONNECTION_INTERVAL) {
+      //   console.log(
+      //     'Disconnecting Polkadot for network',
+      //     this.network.id,
+      //     'to avoid memory leaks'
+      //   )
+      //   this.api.disconnect()
+      //   this.api = undefined
+      //   await this.initPolkadotRPC()
+      // }
     })
   }
 

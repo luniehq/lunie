@@ -188,6 +188,25 @@ class polkadotAPI {
     )
   }
 
+  async getBalancesV2FromAddress(address, fiatCurrency) {
+    const api = await this.getAPI()
+    const account = await api.query.system.account(address)
+    const totalBalance = account.data.free
+    const freeBalance = BigNumber(totalBalance.toString()).minus(
+      account.data.miscFrozen.toString()
+    )
+    const fiatValueAPI = this.fiatValuesAPI
+    return [
+      this.reducers.balanceV2Reducer(
+        this.network,
+        freeBalance.toString(),
+        totalBalance.toString(),
+        fiatValueAPI,
+        fiatCurrency
+      )
+    ]
+  }
+
   async getExpectedReturns(validator) {
     return validator.expectedReturns
   }

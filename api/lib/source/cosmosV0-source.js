@@ -97,6 +97,7 @@ class CosmosV0API extends RESTDataSource {
     const txs = await this.loadPaginatedTxs(`txs?tx.height=${height}`)
     return Array.isArray(txs)
       ? this.reducers.transactionsReducerV2(
+          this.networkId,
           txs,
           this.reducers,
           this.network.stakingDenom
@@ -363,7 +364,6 @@ class CosmosV0API extends RESTDataSource {
       return this.reducers.balanceV2Reducer(
         coin,
         this.network.stakingDenom,
-        this.gasPrices,
         delegations,
         fiatValueAPI,
         fiatCurrency

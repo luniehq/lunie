@@ -8,7 +8,7 @@ then
     git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie-api.git
     git checkout master
     git pull
-    git merge origin/develop
+    git merge --no-edit origin/develop
     git push
 else
     echo "No release detected, so not publishing"

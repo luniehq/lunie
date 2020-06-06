@@ -1,5 +1,40 @@
 const { read, insert } = require('./helpers')
 
+const incrementValidatorViews = ({
+  hasura_url,
+  hasura_admin_key
+}) => () => async (validatorId, networkId) => {
+  const validatorPopularity = await read({
+    hasura_url,
+    hasura_admin_key
+  })('')(
+    `validatorPopularity`,
+    `validatorPopularity`,
+    ['requests'],
+    `where: {operator_address: {_eq: "${validatorId}"}, networkId: {_eq: "${networkId}"}}`
+  )
+
+  let requests = 1
+  if (validatorPopularity.length > 0) {
+    // the read query only returns one validator, so we can safely pick the first validator of the list
+    requests = validatorPopularity[0].requests + 1
+  }
+
+  await insert(
+    {
+      hasura_url,
+      hasura_admin_key
+    },
+    true
+  )('')(`validatorPopularity`, [
+    {
+      operator_address: validatorId,
+      requests,
+      networkId
+    }
+  ])
+}
+
 const getValidatorsInfo = ({ hasura_url, hasura_admin_key }) => (
   schema
 ) => async (validatorId) => {
@@ -16,7 +51,8 @@ const getValidatorsInfo = ({ hasura_url, hasura_admin_key }) => (
 
 const getNotifications = ({ hasura_url, hasura_admin_key }) => (
   schema
-) => async (topics, limit = 10) => {
+) => async (topics, timestamp) => {
+  const limit = 20
   return await read({
     hasura_url,
     hasura_admin_key
@@ -33,9 +69,10 @@ const getNotifications = ({ hasura_url, hasura_admin_key }) => (
       'id',
       'created_at'
     ],
-    `where: { topic: {_in: [${topics.map(
-      (topic) => `"${topic}"`
-    )}]}} limit: ${limit}, order_by: {created_at: desc}`
+    `where: { 
+      topic: {_in: [${topics.map((topic) => `"${topic}"`)}]},
+      created_at: {_lt: "${timestamp}"}
+    } limit: ${limit}, order_by: {created_at: desc}`
   )
 }
 
@@ -83,6 +120,7 @@ const getMaintenance = ({ hasura_url, hasura_admin_key }) => (
 }
 
 module.exports = {
+  incrementValidatorViews,
   getValidatorsInfo,
   getMaintenance,
   storeStatistics,

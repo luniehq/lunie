@@ -51,7 +51,6 @@ const typeDefs = gql`
     fiatValue: FiatValue
     available: String
     availableFiatValue: FiatValue
-    gasPrice: String
   }
 
   type Proposal {
@@ -189,7 +188,7 @@ const typeDefs = gql`
     timestamp: String!
     gasUsed: Int
     gasWanted: Int
-    success: Boolean
+    success: Boolean!
     log: String
     memo: String
     fee: Coin
@@ -380,7 +379,7 @@ const typeDefs = gql`
   }
 
   type Notification {
-    networkId: String!
+    networkId: String
     timestamp: String!
     title: String!
     link: String!
@@ -464,7 +463,7 @@ const typeDefs = gql`
     ): TransactionMetadata
     estimate: EstimateResult!
     notifications(
-      numberOfNotifications: Int
+      timestamp: String
       addressObjects: [NotificationInput]!
     ): [Notification]!
     accountRole(networkId: String!, address: String!): String

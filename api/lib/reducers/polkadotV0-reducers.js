@@ -1,16 +1,9 @@
 const _ = require('lodash')
 const BigNumber = require('bignumber.js')
-
+const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
 const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
-
-function fixDecimalsAndRoundUp(number, decimalsNumber) {
-  return (
-    (number.toFixed(decimalsNumber) * 10 ** decimalsNumber) /
-    10 ** decimalsNumber
-  )
-}
 
 function blockReducer(
   networkId,
@@ -55,7 +48,7 @@ function validatorReducer(network, validator) {
     maxCommission: undefined,
     maxChangeCommission: undefined,
     status: validator.status,
-    statusDetailed: ``,
+    statusDetailed: validator.status.toLowerCase(),
     delegatorShares: undefined,
     selfStake:
       (
@@ -89,7 +82,7 @@ async function balanceReducer(
   fiatValueAPI,
   fiatCurrency
 ) {
-  if (balance == 0) {
+  if (total === '0') {
     return []
   }
   const lunieCoin = coinReducer(network, balance, 6)
@@ -97,10 +90,6 @@ async function balanceReducer(
     [lunieCoin],
     fiatCurrency
   )
-  // hack. We convert the balance into an Array to make it an Iterable
-  if (balance == 0) {
-    return []
-  }
   return [
     {
       amount: lunieCoin.amount,
@@ -114,6 +103,35 @@ async function balanceReducer(
       fiatValue: fiatValues[lunieCoin.denom]
     }
   ]
+}
+
+async function balanceV2Reducer(
+  network,
+  balance,
+  total,
+  fiatValueAPI,
+  fiatCurrency
+) {
+  if (total === '0') {
+    return []
+  }
+  const availableLunieCoin = coinReducer(network, balance, 6)
+  const totalLunieCoin = coinReducer(network, total, 6)
+  const availableFiatValue = (
+    await fiatValueAPI.calculateFiatValues([availableLunieCoin], fiatCurrency)
+  )[availableLunieCoin.denom]
+  const totalFiatValue = (
+    await fiatValueAPI.calculateFiatValues([totalLunieCoin], fiatCurrency)
+  )[totalLunieCoin.denom]
+
+  return {
+    type: 'STAKE', // just a staking denom on Kusama for now
+    available: availableLunieCoin.amount,
+    total: totalLunieCoin.amount,
+    denom: availableLunieCoin.denom,
+    availableFiatValue,
+    fiatValue: totalFiatValue
+  }
 }
 
 function delegationReducer(network, delegation, validator, active) {
@@ -429,6 +447,7 @@ module.exports = {
   blockReducer,
   validatorReducer,
   balanceReducer,
+  balanceV2Reducer,
   delegationReducer,
   extractInvolvedAddresses,
   transactionsReducerV2,
