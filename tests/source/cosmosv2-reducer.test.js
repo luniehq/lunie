@@ -3,6 +3,7 @@ const CosmosV2Reducer = require('../../lib/reducers/cosmosV2-reducers')
 describe('Cosmos V2 Reducer', function () {
   describe('transactionReducerV2', function () {
     it('on partially failed txs', () => {
+      const networkId = `cosmos-hub-mainnet`
       //Arrange
       const transaction = {
         height: '1546139',
@@ -123,6 +124,7 @@ describe('Cosmos V2 Reducer', function () {
 
       //Act
       const result = CosmosV2Reducer.transactionReducerV2(
+        networkId,
         transaction,
         CosmosV2Reducer
       )

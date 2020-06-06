@@ -237,7 +237,7 @@ module.exports = [
     address_creator: 'cosmos',
     ledger_app: 'cosmos',
     network_type: 'cosmos',
-    source_class_name: 'source/kavaV0-source',
+    source_class_name: 'source/kavaV1-source',
     block_listener_class_name: 'block-listeners/cosmos-node-subscription',
     testnet: true,
     ...getNetworkCapabilities[`kava-testnet`],
