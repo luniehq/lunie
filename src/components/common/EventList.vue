@@ -1,8 +1,8 @@
 <template>
   <div v-infinite-scroll="loadMore" infinite-scroll-distance="80">
     <template v-for="group in groupedEvents">
-      <div :key="group[0].title">
-        <h3>{{ group[0].title }}</h3>
+      <div :key="group[0].section">
+        <h3>{{ group[0].section }}</h3>
         <template v-for="item in group">
           <slot v-bind="item.event" />
         </template>
@@ -18,14 +18,14 @@ import moment from "moment"
 
 const categories = [
   {
-    title: "Today",
+    section: "Today",
     matcher: (event) => {
       // tests if the timestamp has the same day as today
       return moment(event.timestamp).isSame(moment(), "day")
     },
   },
   {
-    title: "Yesterday",
+    section: "Yesterday",
     matcher: (event) => {
       return moment(event.timestamp).isSame(moment().subtract(1, "days"), "day")
     },
@@ -54,7 +54,7 @@ export default {
     },
     groupedEvents() {
       return orderBy(
-        groupBy(this.categorizedEvents, "title"),
+        groupBy(this.categorizedEvents, "section"),
         (group) => group[0].event.timestamp,
         "desc"
       )
@@ -67,7 +67,7 @@ export default {
         const category = categories.find(({ matcher }) => matcher(event))
         if (category) {
           return {
-            title: category.title + dateString,
+            section: category.section + dateString,
             event,
           }
         }
@@ -77,14 +77,14 @@ export default {
         const today = moment()
         if (date.year() === today.year()) {
           return {
-            title: date.format("MMMM Do"),
+            section: date.format("MMMM Do"),
             event,
           }
         }
 
         // tx is in a month another year
         return {
-          title: date.format("MMMM Do, YYYY"),
+          section: date.format("MMMM Do, YYYY"),
           event,
         }
       })

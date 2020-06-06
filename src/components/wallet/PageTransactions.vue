@@ -17,7 +17,7 @@
           :more-available="moreAvailable"
           @loadMore="loadMore"
         >
-          <template scope="event">
+          <template slot-scope="event">
             <TransactionItem
               :key="event.key"
               :transaction="event"
@@ -182,10 +182,13 @@ export default {
           updateQuery: (previousResult, { fetchMoreResult }) => {
             return {
               // DEPRECATE uniqBy, should be resolved via API
-              transactionsV2: uniqBy([
-                ...previousResult.transactionsV2,
-                ...fetchMoreResult.transactionsV2,
-              ], "key"),
+              transactionsV2: uniqBy(
+                [
+                  ...previousResult.transactionsV2,
+                  ...fetchMoreResult.transactionsV2,
+                ],
+                "key"
+              ),
             }
           },
         })
