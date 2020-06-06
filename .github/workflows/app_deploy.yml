@@ -1,0 +1,32 @@
+name: Publish on Netlify
+on:
+  push:
+    branches:
+      - "master"
+    paths:
+      - 'app/CHANGELOG.md'
+
+env:
+  WORKING_DIRECTORY: ./app
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - uses: bahmutov/npm-install@v1
+        with:
+          working-directory: ${{env.WORKING_DIRECTORY}}
+      - name: Build
+        run: yarn buildsentry
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN_APP }}
+        working-directory: ${{env.WORKING_DIRECTORY}}
+      - name: Deploy to Netlify
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --dir=./${{env.WORKING_DIRECTORY}}/dist --prod
+        env:
+            CD: true
