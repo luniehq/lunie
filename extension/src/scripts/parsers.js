@@ -30,7 +30,7 @@ export function getDisplayTransaction(
     transactionData &&
     !!transactionData.fee
   ) {
-    fees = transactionData.fee
+    fees = [transactionData.fee]
   }
   return {
     type: messageType,

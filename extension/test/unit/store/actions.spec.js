@@ -117,9 +117,15 @@ describe('actions', () => {
 
   it('Approve Sign Request', async () => {
     const signRequest = {
-      signMessage: '',
       id: 12345,
+      message: '',
+      messageType: 'SendTx',
       senderAddress: 'cosmos1234',
+      transactionData: {
+        message: '',
+        senderAddress: 'cosmos1234',
+        fee: []
+      },
       tabId: 123
     }
     const getters = {
@@ -133,7 +139,7 @@ describe('actions', () => {
     }
     const commit = jest.fn()
     window.chrome.runtime.sendMessage.mockImplementationOnce((args, callback) =>
-      callback()
+      callback('hi')
     )
     await approveSignRequest(
       { commit, getters },
@@ -143,7 +149,13 @@ describe('actions', () => {
       {
         type: 'SIGN',
         payload: {
-          signMessage: '',
+          message: '',
+          messageType: 'SendTx',
+          transactionData: {
+            message: '',
+            senderAddress: 'cosmos1234',
+            fee: []
+          },
           senderAddress: 'cosmos1234',
           password: '1234567890',
           id: 12345
