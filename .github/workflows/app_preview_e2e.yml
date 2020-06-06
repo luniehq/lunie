@@ -25,8 +25,7 @@ jobs:
       - name: Deploy to Netlify
         uses: netlify/actions/cli@master
         with:
-          args: deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --dir=./dist
-        working-directory: ${{env.WORKING_DIRECTORY}}
+          args: deploy --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --dir=./${{env.WORKING_DIRECTORY}}/dist
         env:
             CD: true
   e2e:
