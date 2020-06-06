@@ -211,7 +211,7 @@ async function fundingTempAccount(browser, networkData) {
   await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
   await actionModalCheckout(
     browser,
-    ".circle-send-button",
+    ".table-cell.actions button",
     // actions to do on details page
     async () => {
       await browser.setValue("#send-address", browser.globals.address)

@@ -16,7 +16,7 @@ module.exports = {
     const amount = 0.01
     await actionModalCheckout(
       browser,
-      ".circle-send-button",
+      ".table-cell.actions button",
       // actions to do on details page
       async () => {
         await browser.setValue("#send-address", browser.globals.address)
