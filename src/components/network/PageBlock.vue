@@ -43,8 +43,12 @@
             </div>
           </TmDataMsg>
 
-          <EventList v-else :events="filteredTransactions" :more-available="false">
-            <template scope="event">
+          <EventList
+            v-else
+            :events="filteredTransactions"
+            :more-available="false"
+          >
+            <template slot-scope="event">
               <TransactionItem
                 :key="event.key"
                 :transaction="event"

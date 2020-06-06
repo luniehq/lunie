@@ -18,7 +18,7 @@
       :more-available="moreAvailable"
       @loadMore="loadMore"
     >
-      <template scope="event">
+      <template slot-scope="event">
         <router-link :key="event.id" class="notification" :to="event.link">
           <div class="content">
             <img :src="event.icon" />
@@ -112,7 +112,7 @@ export default {
       update(result) {
         this.dataLoaded = true
         // assume that when the full page got loaded, that there is more
-        this.moreAvailable = (result.notifications.length % 20 === 0)
+        this.moreAvailable = result.notifications.length % 20 === 0
         return result.notifications
       },
       /* istanbul ignore next */
