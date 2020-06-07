@@ -44,7 +44,8 @@ jobs:
           script: |
             sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose
             sudo chmod +x /usr/local/bin/docker-compose
-            docker image prune -a -f; docker load < lunieapi.tgz
+            docker image prune -a -f
+            docker load < lunieapi.tgz
             export HASURA_URL="https://staging-db.lunie.io/v1/graphql"
             export HASURA_ADMIN_KEY="${{ secrets.LUNIE_STAGING_DB_KEY }}"
             export SENTRY_DSN="${{ secrets.SENTRY_DSN_API_STAGING }}"
