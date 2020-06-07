@@ -32,7 +32,8 @@ jobs:
         target: "/root/"
         host: ${{ secrets.HOST_STAGING }}
         username: root
-        key: ${{ secrets.DO_PRIVATE_KEY }}
+        # key: ${{ secrets.DO_PRIVATE_KEY }}
+        password: ${{ secrets.STAGING_PASSWORD }}
     # - name: prepare to push to Digital Ocean
     #   uses: appleboy/ssh-action@master
     #   env:
