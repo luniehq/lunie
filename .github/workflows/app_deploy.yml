@@ -24,10 +24,17 @@ jobs:
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_APP }}
         working-directory: ${{env.WORKING_DIRECTORY}}
-      - name: Publish
-        uses: netlify/actions/cli@master
+      - uses: nwtgck/actions-netlify@v1.1.1
+        id: deploy
         with:
-          args: deploy --dir=app/dist --branch=${{ github.head_ref }}
+          production-branch: master
+          publish-dir: './app/dist'
+          github-token: ${{ secrets.GIT_BOT_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+          netlify-config-path: ./app/netlify.toml
         env:
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
