@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: yarn build
         working-directory: ${{env.WORKING_DIRECTORY}}
-      - uses: nwtgck/actions-netlify@latest
+      - uses: nwtgck/actions-netlify@v1.1.1
         with:
           publish-dir: './app/dist'
           github-token: ${{ secrets.GIT_BOT_TOKEN }}
@@ -30,6 +30,7 @@ jobs:
           enable-pull-request-comment: false
           enable-commit-comment: true
           overwrites-pull-request-comment: true
+          netlify-config-path: ./app/netlify.toml
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
@@ -44,7 +45,7 @@ jobs:
         with:
           working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Run E2E tests
-        run: yarn test:e2e:browserstack --fe=https://$(echo "${{github.head_ref}}" | sed "s/\//-/")--lunieio.netlify.app --api=https://production-api.lunie.io
+        run: yarn test:e2e:browserstack --fe=${{steps.deploy.outputs.deploy-url}} --api=https://production-api.lunie.io
         working-directory: ${{env.WORKING_DIRECTORY}}
         env:
           PASSWORD: ${{secrets.GAIA_PASSWORD}}
