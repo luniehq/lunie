@@ -28,7 +28,7 @@ jobs:
     - name: Copy file via scp
       uses: appleboy/scp-action@master
       with:
-        source: "lunieapi.tgz,docker-compose.yml,Caddyfile"
+        source: "api/lunieapi.tgz,api/docker-compose.yml,api/Caddyfile"
         target: "/root/"
         host: ${{ secrets.HOST_STAGING }}
         username: root
