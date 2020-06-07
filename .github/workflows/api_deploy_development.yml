@@ -8,6 +8,9 @@ on:
       - 'api/**'
 env:
   WORKING_DIRECTORY: ./api
+  HASURA_URL: "https://staging-db.lunie.io/v1/graphql"
+  HASURA_ADMIN_KEY: ${{ secrets.LUNIE_STAGING_DB_KEY }}
+  SENTRY_DSN: ${{ secrets.SENTRY_DSN_API_STAGING }}
 jobs:
   test:
     name: Compile
@@ -46,8 +49,6 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
           docker image prune -a -f
           docker load < lunieapi.tgz
-          export HASURA_URL="https://staging-db.lunie.io/v1/graphql"
-          export HASURA_ADMIN_KEY="${{ secrets.LUNIE_STAGING_DB_KEY }}"
-          export SENTRY_DSN="${{ secrets.SENTRY_DSN_API_STAGING }}"
           docker stack deploy -c docker-compose.yml lunieapi
           docker service update --image lunieapi:latest --force lunieapi_lunieapi
+        envs: HASURA_URL,HASURA_ADMIN_KEY,SENTRY_DSN
