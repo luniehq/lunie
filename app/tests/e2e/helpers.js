@@ -7,8 +7,8 @@ async function getBalance(browser) {
   return numeral(value).value()
 }
 async function getAvailableTokens(browser) {
-  browser.expect.element(`.table-cell.available`).to.be.visible.before(10000)
-  const { value } = await browser.getText(".table-cell.available")
+  browser.expect.element(`.available-amount`).to.be.visible.before(10000)
+  const { value } = await browser.getText(".available-amount")
   return numeral(value).value()
 }
 async function awaitBalance(browser, balance) {
@@ -237,7 +237,7 @@ async function getAccountBalance(browser) {
       browser.globals.totalAtoms = total.split(" ")[0]
 
       const { value: availableAtoms } = await browser.getText(
-        ".available"
+        ".available-amount"
       )
       browser.globals.availableAtoms = availableAtoms.split(" ")[0]
     }
