@@ -25,15 +25,14 @@ jobs:
     - name: Save file
       run: docker save lunieapi | gzip > lunieapi.tgz
       working-directory: ${{env.WORKING_DIRECTORY}}
-      - name: Copy file via scp
-        uses: appleboy/scp-action@master
-        env:
-          host: ${{ secrets.HOST_STAGING }}
-          username: root
-          key: ${{ secrets.DO_PRIVATE_KEY }}
-        with:
-          source: "lunieapi.tgz,docker-compose.yml,Caddyfile"
-          target: "/root/"
+    - name: Copy file via scp
+      uses: appleboy/scp-action@master
+      with:
+        source: "lunieapi.tgz,docker-compose.yml,Caddyfile"
+        target: "/root/"
+        host: ${{ secrets.HOST_STAGING }}
+        username: root
+        key: ${{ secrets.DO_PRIVATE_KEY }}
     # - name: prepare to push to Digital Ocean
     #   uses: appleboy/ssh-action@master
     #   env:
