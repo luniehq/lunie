@@ -8,6 +8,12 @@ on:
 
 env:
   WORKING_DIRECTORY: ./app
+  GOOGLE_ANALYTICS_UID: ${{ secrets.GOOGLE_ANALYTICS_UID_FE }}
+  SENTRY_DSN: ${{ secrets.SENTRY_DSN_APP }}
+  SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+  SENTRY_URL: ${{ secrets.SENTRY_URL }}
+  VUE_APP_GRAPHQL_URL: ${{ secrets.LUNIE_API }}
+  VUE_APP_INTERCOM_ID: ${{ secrets.INTERCOM_ID_FE }}
 jobs:
   publish:
     runs-on: ubuntu-latest

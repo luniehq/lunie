@@ -8,6 +8,7 @@ on:
 
 env:
   WORKING_DIRECTORY: ./app
+  VUE_APP_GRAPHQL_URL: ${{ secrets.LUNIE_API }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
