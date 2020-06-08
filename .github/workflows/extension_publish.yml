@@ -18,11 +18,6 @@ jobs:
       - uses: bahmutov/npm-install@v1
         with:
           working-directory: ${{env.WORKING_DIRECTORY}}
-      - name: Init submodule # DEPRECATE
-        run: npm run initiate-submodule
-      - uses: bahmutov/npm-install@v1 # DEPRECATE
-        with:
-          working-directory: ${{env.WORKING_DIRECTORY}}/lunie
       - name: Build
         run: LUNIE_API=${{ secrets.LUNIE_API }} yarn build
         working-directory: ${{env.WORKING_DIRECTORY}}
