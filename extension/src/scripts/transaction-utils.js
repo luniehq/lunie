@@ -25,7 +25,7 @@ const makeTxObject = (tx, fees, memo, time, height, hash, msgIndex) => {
   }
 }
 
-export const addTransactionTypeData = state => tx => {
+export const addTransactionTypeData = (state) => (tx) => {
   return {
     ...tx,
     liquidDate: getUnbondTimeFromTX(tx, state.delegation.unbondingDelegations)
@@ -48,10 +48,10 @@ export const flattenTransactionMsgs = (acc, curTx) => {
   return acc.concat(newVals)
 }
 
-export const isPendingUndelegation = tx =>
+export const isPendingUndelegation = (tx) =>
   !isNaN(tx.liquidDate) && tx.type === messageType.UNDELEGATE
 
-export const getCoin = transaction => {
+export const getCoin = (transaction) => {
   let coin
   if (Array.isArray(transaction.value.amount)) {
     coin = transaction.value.amount[0]
@@ -74,7 +74,7 @@ export const getMultiSendCoin = (transaction, sessionAddress) => {
   } else {
     // Received transaction
     let coins
-    transaction.value.outputs.map(output => {
+    transaction.value.outputs.map((output) => {
       if (output.address === sessionAddress) {
         coins = output.coins[0]
       }
