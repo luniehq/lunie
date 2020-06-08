@@ -237,7 +237,7 @@ async function getAccountBalance(browser) {
       browser.globals.totalAtoms = total.split(" ")[0]
 
       const { value: availableAtoms } = await browser.getText(
-        ".available"
+        ".available-amount"
       )
       browser.globals.availableAtoms = availableAtoms.split(" ")[0]
     }

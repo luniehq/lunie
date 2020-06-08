@@ -11,5 +11,10 @@
     "app",
     "api",
     "extension"
-  ]
+  ],
+  "scripts": {
+    "changelog:api": "cd api && yarn changelog",
+    "changelog:app": "cd app && yarn changelog",
+    "changelog:extension": "cd extension && yarn changelog"
+  }
 }
