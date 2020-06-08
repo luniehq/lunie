@@ -5,11 +5,6 @@ jest.mock(`src/../config.js`, () => ({
   network: `keine-ahnungnet`,
 }))
 
-jest.mock(`@polkadot/util-crypto`)
-import { checkAddress } from "@polkadot/util-crypto"
-
-checkAddress.mockReturnValue([true, 'The address is valid'])
-
 describe(`Module: Connection`, () => {
   let module, state, actions, mutations
 
@@ -173,7 +168,7 @@ describe(`Module: Connection`, () => {
     })
 
     it(`identifies a Polkadot Kusama address`, () => {
-      const polkadotAddress = `13BZFbAJSSv4CcobLHAWJL9JS3gUMTPvA9ch9VHgXxAXsDpo`
+      const polkadotAddress = `EksmaF7D2fWWjcX9LvZ48g9j1y4TpexY2ixNraHTfMWRton`
       const network = actions.getNetworkByAccount(
         { state },
         { account: { address: polkadotAddress }, testnet: true }

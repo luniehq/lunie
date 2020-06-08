@@ -79,6 +79,7 @@ export default function ({ apollo }) {
         // just by checking if address is valid for a known prefix
         const addressPrefix = 2 // Kusama
         const isValid = isValidPolkadotAddress(address, addressPrefix)
+        console.log(`isValid:`,isValid)
         if (isValid[0]) {
           return state.networks.find(
             ({ network_type }) => network_type === "polkadot"
