@@ -8,7 +8,7 @@ jest.mock(`src/../config.js`, () => ({
 jest.mock(`@polkadot/util-crypto`)
 import { checkAddress } from "@polkadot/util-crypto"
 
-checkAddress.mockReturnValueOnce([true, 'The address is valid'])
+checkAddress.mockReturnValue([true, 'The address is valid'])
 
 describe(`Module: Connection`, () => {
   let module, state, actions, mutations
