@@ -62,5 +62,5 @@ new Vue({
   store,
   router,
   apolloProvider,
-  render: (h) => h(App)
+  render: h => h(App)
 })

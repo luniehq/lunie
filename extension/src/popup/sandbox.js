@@ -2,7 +2,7 @@
 
 import { getWallet } from '../../lunie/src/vuex/modules/wallet'
 
-window.addEventListener('message', async function (event) {
+window.addEventListener('message', async function(event) {
   var type = event.data.type
   var seedPhrase = event.data.seedPhrase
   var networkObject = event.data.networkObject
