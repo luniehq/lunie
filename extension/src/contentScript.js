@@ -24,7 +24,7 @@ export function enableExtension() {
 }
 
 // handles syncronous responses from extension
-const responseHandler = type => response => {
+const responseHandler = (type) => (response) => {
   const data = { responseType: `${type}_RESPONSE`, payload: response }
   const wrappedMessage = wrapMessageForLunie(data.responseType, data.payload)
 
@@ -33,7 +33,7 @@ const responseHandler = type => response => {
 }
 
 // We only accept messages from ourselves
-const filterMessages = callback => event => {
+const filterMessages = (callback) => (event) => {
   if (event.source !== window) return
   if (event.data.type && event.data.type === LUNIE_WEBSITE_TYPE) {
     callback(event.data)
@@ -64,12 +64,12 @@ export function listenToExtensionMessages() {
 export function listenToWebsiteMessages() {
   window.addEventListener(
     'message',
-    event => filterMessages(executeRequestToExtension)(event),
+    (event) => filterMessages(executeRequestToExtension)(event),
     false
   )
 }
 // initial listener
-let listener = event => {
+let listener = (event) => {
   // waiting for website response
   if (event.data.type == LUNIE_WEBSITE_TYPE) {
     initExtensionMessageReceived = true
