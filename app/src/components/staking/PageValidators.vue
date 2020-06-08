@@ -41,6 +41,7 @@
       <TableValidators
         :validators="validators"
         :delegations="delegations"
+        :popular-sort="popularSort"
         show-on-mobile="expectedReturns"
       />
       <div

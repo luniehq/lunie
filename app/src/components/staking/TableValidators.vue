@@ -54,6 +54,10 @@ export default {
       type: String,
       default: () => "returns",
     },
+    popularSort: {
+      type: Boolean,
+      default: true,
+    }
   },
   data: () => ({
     rewards: [],
@@ -66,7 +70,7 @@ export default {
   computed: {
     ...mapGetters([`address`, `network`, `stakingDenom`]),
     sortedEnrichedValidators() {
-      return orderBy(
+      const orderedValidators = orderBy(
         this.validators.map((validator) => ({
           ...validator,
           smallName: validator.name ? validator.name.toLowerCase() : "",
@@ -74,6 +78,10 @@ export default {
         [this.sort.property],
         [this.sort.order]
       )
+      if (this.popularSort) {
+        return orderBy(orderedValidators, [`popularity`], [`desc`])
+      }
+      return orderedValidators
     },
     showingValidators() {
       return this.sortedEnrichedValidators.slice(0, this.showing)
