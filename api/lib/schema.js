@@ -94,6 +94,7 @@ const typeDefs = gql`
     expectedReturns: String
     name: String
     picture: String
+    popularity: Int
   }
 
   type BlockV2 @cacheControl(maxAge: 10) {

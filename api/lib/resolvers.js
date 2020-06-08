@@ -75,6 +75,15 @@ async function validators(
 ) {
   await localStore(dataSources, networkId).dataReady
   let validators = Object.values(localStore(dataSources, networkId).validators)
+  validators.forEach(async (validator) => {
+    // popularity is actually the number of views of a validator on their page
+    const popularity = await localStore(
+      dataSources,
+      networkId
+    ).db.getValidatorViews(validator.operatorAddress, networkId)
+    // we add the popularity field to the validator
+    validator.popularity = popularity
+  })
   if (activeOnly) {
     validators = validators.filter(({ status }) => status === 'ACTIVE')
   }
