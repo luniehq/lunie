@@ -44,8 +44,8 @@
         <TmFormMsg
           v-if="
             $v.password.$error &&
-              !$v.password.passwordCorrect &&
-              errorOnApproval === 'Incorrect password'
+            !$v.password.passwordCorrect &&
+            errorOnApproval === 'Incorrect password'
           "
           name="Password"
           type="custom"
@@ -165,17 +165,17 @@ export default {
     },
     validatorsAddressMap() {
       const names = {}
-      this.validators.forEach(item => {
+      this.validators.forEach((item) => {
         names[item.operatorAddress] = item
       })
       return names
     }
   },
   watch: {
-    password: function() {
+    password: function () {
       this.passwordError = false
     },
-    tx: async function(tx) {
+    tx: async function (tx) {
       if (tx) {
         const validatorsObject = await getValidatorsData(tx, this.network)
         this.validators = validatorsObject
@@ -197,7 +197,7 @@ export default {
             ...this.signRequest,
             password: this.password
           })
-          .catch(error => {
+          .catch((error) => {
             this.errorOnApproval = error
             this.passwordError =
               this.errorOnApproval === 'Incorrect password' ? true : false

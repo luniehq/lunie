@@ -44,7 +44,6 @@ $ yarn install
 You need to provide 2 environment variables for the extension to work as expected. 
 
 - Provide an endpoint for the Lunie API: `LUNIE_API`
-- And set `EXTENSION` to true
 
 ## Develop (with hot reload)
 

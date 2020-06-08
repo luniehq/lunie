@@ -5,7 +5,7 @@ const {
 } = require('@lunie/cosmos-keys')
 const {
   default: TransactionManager
-} = require('../lunie/src/signing/transaction-manager')
+} = require('app/src/signing/transaction-manager')
 
 export async function signMessageHandler(
   signRequestQueue,
