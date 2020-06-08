@@ -81,11 +81,6 @@ export default {
     properties() {
       return [
         {
-          title: `Popularity`,
-          value: `popularity`,
-          tooltip: `Number of views of the validator profile`,
-        },
-        {
           title: `Status`,
           value: `status`,
           tooltip: `Validation status of the validator`,
@@ -225,13 +220,13 @@ export default {
   font-size: var(--sm);
 }
 
-.data-table >>> th:nth-child(3) {
+.data-table >>> th:nth-child(2) {
   width: 10%;
   color: var(--dim);
   font-size: var(--sm);
 }
 
-.data-table >>> th:nth-child(4) {
+.data-table >>> th:nth-child(3) {
   width: 50%;
 }
 </style>

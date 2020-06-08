@@ -11,11 +11,6 @@
   >
     <td>{{ index + 1 }}</td>
     <td class="hide-xs">
-      <div class="popularity-container">
-        <i class="material-icons notranslate">star</i>
-      </div>
-    </td>
-    <td class="hide-xs">
       <div class="status-container">
         <span
           :class="validator.status | toLower"
@@ -202,11 +197,6 @@ export default {
 .validator-status.active {
   color: var(--success);
   border-color: var(--success);
-}
-
-.popularity-container {
-  display: flex;
-  color: yellow;
 }
 
 @media screen and (max-width: 768px) {

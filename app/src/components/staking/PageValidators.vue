@@ -19,6 +19,12 @@
         />
         <div class="toggles">
           <TmBtn
+            value="Popular"
+            class="btn-radio secondary"
+            :type="!activeOnly ? `active` : `secondary`"
+            @click.native="popularSort = false"
+          />
+          <TmBtn
             value="All"
             class="btn-radio secondary"
             :type="!activeOnly ? `active` : `secondary`"
@@ -66,6 +72,7 @@ export default {
   data: () => ({
     searchTerm: "",
     activeOnly: true,
+    popularSort: true,
     validators: [],
     loaded: false,
   }),
@@ -85,11 +92,13 @@ export default {
           $networkId: String!
           $searchTerm: String
           $activeOnly: Boolean
+          $popularSort: Boolean
         ) {
           validators(
             networkId: $networkId
             searchTerm: $searchTerm
             activeOnly: $activeOnly
+            popularSort: $popularSort
           ) {
             name
             operatorAddress
@@ -108,6 +117,7 @@ export default {
           networkId: this.network,
           activeOnly: this.activeOnly,
           searchTerm: this.searchTerm,
+          popularSort: this.popularSort
         }
       },
       update: function (result) {
