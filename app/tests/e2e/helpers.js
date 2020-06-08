@@ -7,8 +7,8 @@ async function getBalance(browser) {
   return numeral(value).value()
 }
 async function getAvailableTokens(browser) {
-  browser.expect.element(`.available-amount`).to.be.visible.before(10000)
-  const { value } = await browser.getText(".available-amount")
+  browser.expect.element(`.table-cell.available`).to.be.visible.before(10000)
+  const { value } = await browser.getText(".table-cell.available")
   return numeral(value).value()
 }
 async function awaitBalance(browser, balance) {

@@ -8,7 +8,7 @@ module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
 
   window.ga =
     window.ga ||
-    function() {
+    function () {
       ;(ga.q = ga.q || []).push(arguments)
     }
   ga.l = +new Date()
