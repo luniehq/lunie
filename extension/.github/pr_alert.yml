@@ -1,0 +1,39 @@
+name: AlertOnPR
+
+on: 
+  pull_request:
+    types: [opened]
+jobs:
+  test:
+    name: Compile
+    runs-on: ubuntu-latest
+    steps:
+    - name: curl message
+      run: |
+        curl -X POST ${{ secrets.SLACK_WEBHOOK }} \
+        -H 'Content-Type: application/json; charset=utf-8' \
+        --data-binary "
+        {
+          \"channel\": \"#pr_alerts\", 
+          \"username\": \"pr_alert\", 
+          \"icon_url\": \"https://emoji.slack-edge.com/TH6F97TDF/lunie/4ac63c1d435c04dc.png\",
+          \"attachments\": [
+                {
+                  \"fallback\": \"Required plain-text summary of the attachment.\",
+                  \"color\": \"#36a64f\",
+                  \"author_name\": \"${{github.event.pull_request.user.login}}\",
+                  \"author_link\": \"${{github.event.pull_request.user.url}}\",
+                  \"author_icon\": \"${{github.event.pull_request.user.avatar_url}}\",
+                  \"title\": \"${{github.event.pull_request.title}}\",
+                  \"title_link\": \"${{github.event.pull_request.html_url}}\",
+                  \"text\": \"${{github.event.pull_request.body}}\",
+                  \"fields\": [
+                    {
+                      \"title\": \"Repo\",
+                      \"value\": \"${{github.event.repository.full_name}}\",
+                      \"short\": false
+                    }
+                  ]
+                }
+              ]
+        }"
