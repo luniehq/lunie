@@ -21,7 +21,7 @@
           <TmBtn
             value="Popular"
             class="btn-radio secondary"
-            :type="!activeOnly ? `active` : `secondary`"
+            :type="popularSort ? `active` : `secondary`"
             @click.native="popularSort = !popularSort"
           />
           <TmBtn
