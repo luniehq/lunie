@@ -71,7 +71,7 @@ function rewardCoinReducer(reward, stakingDenom) {
   const stringBit = reward.match(/[a-z]+/gi)
   const multiDenomRewardsArray = reward.split(`,`)
   if (multiDenomRewardsArray.length > 1) {
-    const mappedMultiDenomRewardsArray = multiDenomRewardsArray.map((reward) =>
+    const mappedMultiDenomRewardsArray = multiDenomRewardsArray.map(reward =>
       rewardCoinReducer(reward)
     )
     let stakingDenomRewards = mappedMultiDenomRewardsArray.find(
@@ -158,7 +158,9 @@ function coinReducer(coin) {
   const denom = denomLookup(coin.denom)
   return {
     denom: denom,
-    amount: BigNumber(coin.amount).div(1000000).toNumber() // Danger: this might not be the case for all future tokens
+    amount: BigNumber(coin.amount)
+      .div(1000000)
+      .toNumber() // Danger: this might not be the case for all future tokens
   }
 }
 
@@ -274,7 +276,7 @@ function transactionDetailsReducer(
 function claimRewardsMessagesAggregator(claimMessages) {
   // reduce all withdraw messages to one one collecting the validators from all the messages
   const onlyValidatorsAddressesArray = claimMessages.map(
-    (msg) => msg.value.validator_address
+    msg => msg.value.validator_address
   )
   return {
     type: `type/MsgWithdrawDelegationReward`,

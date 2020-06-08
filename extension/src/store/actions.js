@@ -24,11 +24,11 @@ export default ({ apollo }) => {
   }
 
   const getWalletFromSandbox = async (seedPhrase, networkObject) => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       var iframe = document.getElementById('sandboxFrame')
       window.addEventListener(
         'message',
-        function (event) {
+        function(event) {
           resolve(event.data)
         },
         { once: true }
@@ -59,20 +59,20 @@ export default ({ apollo }) => {
       {
         type: 'GET_WALLETS'
       },
-      function (response) {
+      function(response) {
         commit('setAccounts', response || [])
       }
     )
   }
 
   const testLogin = (store, { address, password }) => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       chrome.runtime.sendMessage(
         {
           type: 'TEST_PASSWORD',
           payload: { address, password }
         },
-        function (response) {
+        function(response) {
           resolve(response)
         }
       )
@@ -80,12 +80,12 @@ export default ({ apollo }) => {
   }
 
   const getSignRequest = ({ commit }) => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       chrome.runtime.sendMessage(
         {
           type: 'GET_SIGN_REQUEST'
         },
-        function (response) {
+        function(response) {
           commit('setSignRequest', response)
           resolve(response)
         }
@@ -109,7 +109,7 @@ export default ({ apollo }) => {
       validators.push(...lunieTx.details.from)
     }
     return await Promise.all(
-      validators.map(async (validatorAddress) => {
+      validators.map(async validatorAddress => {
         const { name: validatorToMoniker, picture } = await fetchValidatorData(
           validatorAddress,
           network
@@ -131,14 +131,14 @@ export default ({ apollo }) => {
       },
       body: `{"query": "query{validator(operatorAddress: \\"${validatorAddress}\\", networkId: \\"${network}\\"){ name picture }}"}`
     })
-      .then(async function (response) {
+      .then(async function(response) {
         const validatorObject = await response.json()
         return {
           name: validatorObject.data.validator.name,
           picture: validatorObject.data.validator.picture
         }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log('Error: ', error)
       })
   }
@@ -169,7 +169,7 @@ export default ({ apollo }) => {
             network: getters.networks.find(({ id }) => id === network)
           }
         },
-        function (response) {
+        function(response) {
           if (response && response.error) {
             return reject(response.error)
           }
@@ -194,20 +194,20 @@ export default ({ apollo }) => {
       fetchPolicy: 'cache-first'
     })
     const network = data.networks
-      .filter((network) => address.indexOf(network.address_prefix) == 0)
-      .sort((a) => a.testnet)
+      .filter(network => address.indexOf(network.address_prefix) == 0)
+      .sort(a => a.testnet)
       .shift()
     return network ? network.id : ''
   }
 
   const rejectSignRequest = ({ commit }, signRequest) => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       chrome.runtime.sendMessage(
         {
           type: 'REJECT_SIGN_REQUEST',
           payload: signRequest
         },
-        function (_response) {
+        function(_response) {
           resolve()
           commit('setSignRequest', null)
         }

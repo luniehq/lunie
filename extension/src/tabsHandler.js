@@ -2,11 +2,11 @@
 // if a tab is killed or it's url changes the request is not useful anymore
 export function bindRequestsToTabs(signRequestQueue, whitelistedChecker) {
   // check if tab got removed
-  chrome.tabs.onRemoved.addListener(function (tabID) {
+  chrome.tabs.onRemoved.addListener(function(tabID) {
     signRequestQueue.unqueueSignRequestForTab(tabID)
   })
   // check if url changed
-  chrome.tabs.onUpdated.addListener(function (tabID, changeInfo) {
+  chrome.tabs.onUpdated.addListener(function(tabID, changeInfo) {
     // if the url doesn't change, ignore the update
     if (!changeInfo.url) {
       return

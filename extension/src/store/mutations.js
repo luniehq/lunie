@@ -52,7 +52,7 @@ export const updateField = (state, payload) => {
   }
 }
 
-export const resetSignUpData = (state) => {
+export const resetSignUpData = state => {
   state.signup = {
     signUpName: ``,
     signUpPassword: ``,
@@ -62,7 +62,7 @@ export const resetSignUpData = (state) => {
   }
 }
 
-export const resetRecoverData = (state) => {
+export const resetRecoverData = state => {
   state.recover = {
     seed: ``,
     name: ``,

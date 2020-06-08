@@ -48,30 +48,27 @@ describe(`TmBalance`, () => {
       },
     })
     wrapper.setData({
-      balances: [
-        {
-          type: "STAKE",
-          denom: "MUON",
-          available: "80.780405",
-          total: "100.780405",
-          fiatValue: {
-            amount: "10",
-            denom: "USD",
-            symbol: "$",
-          },
-        },
-        {
-          type: "CURRENCY",
-          denom: "MUON_2",
-          available: "17.780405",
-          total: "20.780405",
-          fiatValue: {
-            amount: "40",
-            denom: "USD",
-            symbol: "$",
-          },
-        },
-      ],
+      balances: [{
+        "type": "STAKE",
+        "denom": "MUON",
+        "available": "80.780405",
+        "total": "100.780405",
+        "fiatValue": {
+          "amount": "10",
+          "denom": "USD",
+          "symbol": "$"
+        }
+      },{
+        "type": "CURRENCY",
+        "denom": "MUON_2",
+        "available": "17.780405",
+        "total": "20.780405",
+        "fiatValue": {
+          "amount": "40",
+          "denom": "USD",
+          "symbol": "$"
+        }
+      }],
       rewards: [
         {
           amount: 1,
@@ -99,19 +96,17 @@ describe(`TmBalance`, () => {
 
   it(`do not show available atoms when the user has none in the first place`, () => {
     wrapper.setData({
-      balances: [
-        {
-          type: "STAKE",
-          denom: "MUON",
-          available: "0",
-          total: "0",
-          fiatValue: {
-            amount: "0",
-            denom: "USD",
-            symbol: "$",
-          },
-        },
-      ],
+      balances: [{
+        "type": "STAKE",
+        "denom": "MUON",
+        "available": "0",
+        "total": "0",
+        "fiatValue": {
+          "amount": "0",
+          "denom": "USD",
+          "symbol": "$"
+        }
+      }]
     })
     expect(wrapper.element).toMatchSnapshot()
     expect(wrapper.text()).toContain("Token")
