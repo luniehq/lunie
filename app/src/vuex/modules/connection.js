@@ -1,10 +1,15 @@
 import config from "src/../config"
 import bech32 from "bech32"
 import { NetworksAll } from "../../gql"
+import { checkAddress } from "@polkadot/util-crypto"
 
 const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
+}
+
+const isValidPolkadotAddress = (address, addressPrefix) => {
+  return checkAddress(address, addressPrefix)
 }
 
 export default function ({ apollo }) {
@@ -70,9 +75,19 @@ export default function ({ apollo }) {
       }
       // HACK as polkadot addresses don't have a prefix
       if (isPolkadotAddress(address)) {
-        return state.networks.find(
-          ({ network_type }) => network_type === "polkadot"
-        )
+        // TO IMPROVE: We can get the proper substrate network
+        // just by checking if address is valid for a known prefix
+        const addressPrefix = 2 // Kusama
+        const isValid = isValidPolkadotAddress(address, addressPrefix)
+        if (isValid[0]) {
+          return state.networks.find(
+            ({ network_type }) => network_type === "polkadot"
+          )
+        } else {
+          throw new Error(
+            "Address is not in a valid polkadot format. Did you mistype?"
+          )
+        }
       }
 
       const selectedNetworksArray = state.networks.filter(
