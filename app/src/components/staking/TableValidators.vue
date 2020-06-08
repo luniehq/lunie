@@ -79,7 +79,9 @@ export default {
         [this.sort.order]
       )
       if (this.popularSort) {
-        return orderBy(orderedValidators, [`popularity`], [`desc`])
+        return orderBy(orderedValidators, [`popularity`], [`desc`]).filter(
+          ({ picture }) => picture !== null
+        )
       }
       return orderedValidators
     },
