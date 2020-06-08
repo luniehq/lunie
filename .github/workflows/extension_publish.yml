@@ -1,11 +1,11 @@
 name: Extension publishing
 
 on:
-  push:
+  pull_request:
     branches:
-      - "master"
+      - "*"
     paths:
-      - 'extension/CHANGELOG.md'
+      - 'extension/**'
 env:
   WORKING_DIRECTORY: ./extension
 jobs:
