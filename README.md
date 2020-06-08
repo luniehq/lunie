@@ -38,12 +38,12 @@ $ yarn workspace extension --dev vue-jest
 
 - API:
 ```bash
-$ yarn workspace api dev
+$ yarn workspace api start
 ```
 
 - App:
 ```bash
-$ yarn workspace app serve:win
+$ yarn workspace app serve
 ```
 
 ## To build:
