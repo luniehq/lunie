@@ -10,7 +10,7 @@
     "
   >
     <td>{{ index + 1 }}</td>
-    <td>
+    <td class="hide-xs">
       <div class="popularity-container">
         <i class="material-icons notranslate">star</i>
       </div>
