@@ -400,7 +400,6 @@ const typeDefs = gql`
       networkId: String!
       searchTerm: String
       activeOnly: Boolean
-      popularSort: Boolean
     ): [Validator]
     allDelegators(networkId: String!): [String]
     vote(networkId: String!, proposalId: Int!, address: String!): Vote

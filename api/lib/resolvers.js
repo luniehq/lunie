@@ -87,7 +87,7 @@ async function addPopularityToValidators(validators, dataSources, networkId) {
 
 async function validators(
   _,
-  { networkId, searchTerm, activeOnly, popularSort},
+  { networkId, searchTerm, activeOnly},
   { dataSources }
 ) {
   await localStore(dataSources, networkId).dataReady
@@ -97,18 +97,6 @@ async function validators(
     dataSources,
     networkId
   )
-  function compare(a, b) {
-    let comparison = 0
-    if (a.popularity < b.popularity) {
-      comparison = 1
-    } else if (a.popularity > b.popularity) {
-      comparison = -1
-    }
-    return comparison
-  }
-  if (popularSort) {
-    validators.sort(compare)
-  }
   if (activeOnly) {
     validators = validators.filter(({ status }) => status === 'ACTIVE')
   }
