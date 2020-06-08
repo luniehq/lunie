@@ -174,9 +174,14 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       <div
         class="table-cell available"
       >
-        
-            0
+        <span
+          class="available-amount"
+        >
           
+            0
+            MUON
+          
+        </span>
       </div>
        
       <div
@@ -386,9 +391,14 @@ exports[`TmBalance show the balance header when signed in 1`] = `
       <div
         class="table-cell available"
       >
-        
-            80.78
+        <span
+          class="available-amount"
+        >
           
+            80.78
+            MUON
+          
+        </span>
       </div>
        
       <div
