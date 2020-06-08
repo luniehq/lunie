@@ -123,7 +123,7 @@ const config = {
       {
         from: 'manifest.json',
         to: 'manifest.json',
-        transform: content => {
+        transform: (content) => {
           const jsonContent = JSON.parse(content)
           jsonContent.version = version
 
