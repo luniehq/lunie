@@ -76,7 +76,7 @@ async function waitForText(
 }
 
 async function getLastActivityItemHash(browser) {
-  await browser.waitForElementVisible(".tx-container .tx", 10000)
+  await browser.waitForElementVisible(".tx-container .tx", 50000)
   await browser.click(".tx-container .tx")
   const { value: hash } = await browser.getText(
     ".tx-container:nth-of-type(1) .hash"
