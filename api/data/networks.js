@@ -274,8 +274,8 @@ module.exports = [
     default: false,
     stakingDenom: 'AKT',
     coinLookup: coinLookupDictionary[`akash-testnet`],
-    enabled: false,
-    experimental: true,
+    enabled: true,
+    experimental: false,
     icon: 'https://app.lunie.io/img/networks/akash-testnet.png',
     slug: 'akash-testnet',
     lockUpPeriod: '21 days'
