@@ -3,9 +3,9 @@ name: Extension publishing
 on:
   pull_request:
     branches:
-      - "*"
+      - "master"
     paths:
-      - 'extension/**'
+      - 'extension/CHANGELOG.md'
 env:
   WORKING_DIRECTORY: ./extension
 jobs:
