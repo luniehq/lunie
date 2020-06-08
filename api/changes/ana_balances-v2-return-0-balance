@@ -1,0 +1,1 @@
+[Fixed] [#4217](https://github.com/cosmos/lunie/pull/4217) Fixes empty Portfolio when querying balances with balancesV2 @Bitcoinera
