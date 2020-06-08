@@ -45,5 +45,4 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
       - name: Check if changelog was updated
-        run: npx simsala check --pending-path ./changes
-        working-directory: ${{env.WORKING_DIRECTORY}}
+        run: npx simsala check --pending-path ./app/changes
