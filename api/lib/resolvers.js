@@ -87,7 +87,7 @@ async function addPopularityToValidators(validators, dataSources, networkId) {
 
 async function validators(
   _,
-  { networkId, searchTerm, activeOnly},
+  { networkId, searchTerm, activeOnly },
   { dataSources }
 ) {
   await localStore(dataSources, networkId).dataReady

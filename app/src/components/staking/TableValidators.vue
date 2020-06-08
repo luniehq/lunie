@@ -57,7 +57,7 @@ export default {
     popularSort: {
       type: Boolean,
       default: true,
-    }
+    },
   },
   data: () => ({
     rewards: [],
