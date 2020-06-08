@@ -52,11 +52,9 @@ jobs:
         run: |
           yarn test:e2e:browserstack --fe=${{needs.deploy.outputs.deploy-url}} --api=https://production-api.lunie.io > e2e_tests.log
           echo "$(cat e2e_tests.log)"
+          grep -F "✖" e2e_tests.log; [ $? -eq 0 ] && exit 1 || exit 0
         working-directory: ${{env.WORKING_DIRECTORY}}
         env:
           PASSWORD: ${{secrets.GAIA_PASSWORD}}
           BROWSERSTACK_USERNAME: ${{secrets.BROWSERSTACK_USERNAME}}
           BROWSERSTACK_ACCESS_KEY: ${{secrets.BROWSERSTACK_ACCESS_KEY}}
-      - name: Check E2E test success
-        run: grep -F "✖" ./e2e_tests.log; [ $? -eq 0 ] && exit 1 || exit 0
-        working-directory: ${{env.WORKING_DIRECTORY}}
