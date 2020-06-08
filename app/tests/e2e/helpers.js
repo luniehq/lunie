@@ -227,21 +227,17 @@ async function actionModalCheckout(
 
 async function getAccountBalance(browser) {
   // save denom
-  return await browser.url(
-    browser.launch_url + browser.globals.slug + "/portfolio",
-    async () => {
-      // waiting till balance loaded
-      await browser.waitForElementVisible(".total", 5000, false)
-      const { value: total } = await browser.getText(".total")
-      browser.globals.denom = total.split(" ")[1]
-      browser.globals.totalAtoms = total.split(" ")[0]
+  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+  // waiting till balance loaded
+  await browser.waitForElementVisible(".total", 5000, false)
+  const { value: total } = await browser.getText(".total")
+  browser.globals.denom = total.split(" ")[1]
+  browser.globals.totalAtoms = total.split(" ")[0]
 
-      const { value: availableAtoms } = await browser.getText(
-        ".available-amount"
-      )
-      browser.globals.availableAtoms = availableAtoms.split(" ")[0]
-    }
+  const { value: availableAtoms } = await browser.getText(
+    ".available-amount"
   )
+  browser.globals.availableAtoms = availableAtoms.split(" ")[0]
 }
 
 async function nextBlock(browser) {
