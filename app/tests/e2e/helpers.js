@@ -61,7 +61,7 @@ async function waitForText(
   iterations = 20,
   timeout = 300
 ) {
-  await browser.waitForElementVisible(selector, 10000)
+  await browser.waitForElementVisible(selector, 50000)
   while (iterations--) {
     try {
       const { value: text } = await browser.getText(selector)
