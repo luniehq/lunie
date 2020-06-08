@@ -43,7 +43,7 @@ describe(`EventList`, () => {
     wrapper = shallowMount(EventList, {
       propsData: {
         events: txs,
-        moreAvailable: true
+        moreAvailable: true,
       },
       directives: {
         infiniteScroll: () => jest.fn(),
@@ -55,19 +55,36 @@ describe(`EventList`, () => {
   })
 
   it(`calls loadMore script on scroll`, () => {
-    const self = { $emit: jest.fn(), events: txs, moreAvailable: true, maxReached: false, showing: 1 }
+    const self = {
+      $emit: jest.fn(),
+      events: txs,
+      moreAvailable: true,
+      maxReached: false,
+      showing: 1,
+    }
     EventList.methods.loadMore.call(self)
     expect(self.$emit).toHaveBeenCalledWith(`loadMore`)
   })
 
   it(`doesn't call loadMore if not more available`, () => {
-    const self = { $emit: jest.fn(), events: txs, moreAvailable: false, maxReached: false }
+    const self = {
+      $emit: jest.fn(),
+      events: txs,
+      moreAvailable: false,
+      maxReached: false,
+    }
     EventList.methods.loadMore.call(self)
     expect(self.$emit).not.toHaveBeenCalledWith(`loadMore`)
   })
 
   it(`doesn't call loadMore if already having enough`, () => {
-    const self = { $emit: jest.fn(), moreAvailable: false, maxReached: false, events: new Array(20), showing: 20 }
+    const self = {
+      $emit: jest.fn(),
+      moreAvailable: false,
+      maxReached: false,
+      events: new Array(20),
+      showing: 20,
+    }
     EventList.methods.loadMore.call(self)
     expect(self.$emit).not.toHaveBeenCalledWith(`loadMore`)
   })
