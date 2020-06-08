@@ -1,6 +1,6 @@
 // actions that need a looser CSP like WASM operations
 
-import { getWallet } from '../../lunie/src/vuex/modules/wallet'
+import { getWallet } from 'app/src/vuex/modules/wallet'
 
 window.addEventListener('message', async function (event) {
   var type = event.data.type

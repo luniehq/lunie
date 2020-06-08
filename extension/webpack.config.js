@@ -28,15 +28,17 @@ const config = {
   },
   resolve: {
     alias: {
-      assets: resolve('lunie/src/assets'),
+      assets: resolve('../app/src/assets'),
       'common/Avatar': resolve('./src/components/BlankAvatar'),
-      common: resolve('lunie/src/components/common'),
-      network: resolve('lunie/src/components/network'),
-      transactions: resolve('lunie/src/components/transactions'),
-      modules: resolve('lunie/src/vuex/modules'),
+      common: resolve('../app/src/components/common'),
+      network: resolve('../app/src/components/network'),
+      transactions: resolve('../app/src/components/transactions'),
+      modules: resolve('../app/src/vuex/modules'),
       config: resolve('config.js'),
-      src: resolve('lunie/src'),
-      scripts: resolve('lunie/src/scripts')
+      src: resolve('../app/src'),
+      lunie: resolve('../app'),
+      app: resolve('../app'),
+      scripts: resolve('../app/src/scripts')
     },
     extensions: ['.js', '.vue', '.css']
   },
