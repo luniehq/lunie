@@ -112,7 +112,7 @@
 
           <div :key="balance.denom + '_available'" class="table-cell available">
             <template v-if="balance.type === 'STAKE'">
-              {{ balance.available | bigFigureOrShortDecimals}}
+              {{ balance.available | bigFigureOrShortDecimals }}
             </template>
           </div>
 
@@ -316,11 +316,7 @@ export default {
   apollo: {
     balances: {
       query: gql`
-        query (
-          $networkId: String!
-          $address: String!
-          $fiatCurrency: String
-        ) {
+        query($networkId: String!, $address: String!, $fiatCurrency: String) {
           balancesV2(
             networkId: $networkId
             address: $address
@@ -330,7 +326,11 @@ export default {
             denom
             available
             total
-            fiatValue {amount denom symbol}
+            fiatValue {
+              amount
+              denom
+              symbol
+            }
           }
         }
       `,
@@ -348,7 +348,7 @@ export default {
       },
       update(result) {
         return result.balancesV2
-      }
+      },
     },
     rewards: {
       query: gql`
