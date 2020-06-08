@@ -5,6 +5,11 @@ jest.mock(`src/../config.js`, () => ({
   network: `keine-ahnungnet`,
 }))
 
+jest.mock(`@polkadot/util-crypto`)
+import { checkAddress } from "@polkadot/util-crypto"
+
+checkAddress.mockReturnValueOnce([true, 'The address is valid'])
+
 describe(`Module: Connection`, () => {
   let module, state, actions, mutations
 
