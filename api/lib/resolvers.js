@@ -68,22 +68,47 @@ function enrichValidator(validatorInfo, validator) {
   }
 }
 
+async function addPopularityToValidators(validators, dataSources, networkId) {
+  return Promise.all(
+    validators.map(async (validator) => {
+      // popularity is actually the number of views of a validator on their page
+      const popularity = await localStore(
+        dataSources,
+        networkId
+      ).db.getValidatorViews(validator.operatorAddress, networkId)
+      // we add the popularity field to the validator
+      return {
+        ...validator,
+        popularity: popularity || 0
+      }
+    })
+  )
+}
+
 async function validators(
   _,
-  { networkId, searchTerm, activeOnly },
+  { networkId, searchTerm, activeOnly, popularSort = true },
   { dataSources }
 ) {
   await localStore(dataSources, networkId).dataReady
   let validators = Object.values(localStore(dataSources, networkId).validators)
-  validators.forEach(async (validator) => {
-    // popularity is actually the number of views of a validator on their page
-    const popularity = await localStore(
-      dataSources,
-      networkId
-    ).db.getValidatorViews(validator.operatorAddress, networkId)
-    // we add the popularity field to the validator
-    validator.popularity = popularity
-  })
+  validators = await addPopularityToValidators(
+    validators,
+    dataSources,
+    networkId
+  )
+  function compare(a, b) {
+    let comparison = 0
+    if (a.popularity < b.popularity) {
+      comparison = 1
+    } else if (a.popularity > b.popularity) {
+      comparison = -1
+    }
+    return comparison
+  }
+  if (popularSort) {
+    validators.sort(compare)
+  }
   if (activeOnly) {
     validators = validators.filter(({ status }) => status === 'ACTIVE')
   }
