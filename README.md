@@ -57,5 +57,6 @@ $ yarn workspace extension build
 ### To build extension enabling localhost connection
 
 ```bash
-$ yarn run build:dev
+$ export LUNIE_API=https://staging-api.lunie.io
+$ yarn workspace extension build:dev
 ```
