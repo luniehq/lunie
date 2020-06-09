@@ -1,0 +1,22 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/api/index.js",
+            "env": {
+                "NODE_ENV": "development",
+                "_TESTNET": "true",
+                "HASURA_URL": "https://staging-db.lunie.io/v1/graphql",
+                "HASURA_ADMIN_KEY": "lunie1234",
+                "GOOGLE_APPLICATION_CREDENTIALS": "/Users/usuario/lunie/lunie-api/pushCredentials.json"
+            }
+        }
+    ]
+}
