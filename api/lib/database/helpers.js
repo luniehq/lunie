@@ -94,6 +94,45 @@ const insert = ({ hasura_url, hasura_admin_key }, upsert = false) => (
   return graphQLQuery({ hasura_url, hasura_admin_key })(query)
 }
 
+const insertWithoutPrefix = (
+  { hasura_url, hasura_admin_key },
+  upsert = false
+) => () => async (table, rows, height, chainId, returnKeys) => {
+  if ((Array.isArray(rows) && rows.length === 0) || !rows) {
+    return
+  }
+
+  returnKeys = Array.isArray(returnKeys) ? returnKeys : []
+
+  const query = `
+        mutation {
+            insert_${table} (
+                objects: ${stringifyForGraphQL(rows, height, chainId)}${
+    upsert
+      ? `,
+                            on_conflict: {
+                                constraint: ${table}_pkey,
+                                update_columns: [${getColumns(rows)}]
+                            }
+                            `
+      : ''
+  }
+            )
+            {
+                affected_rows
+                ${
+                  returnKeys.length !== 0
+                    ? `returning {
+                      ${returnKeys.join('\n')}
+                    }`
+                    : ''
+                }
+            }
+    }
+    `
+  return graphQLQuery({ hasura_url, hasura_admin_key })(query)
+}
+
 const read = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   table,
   queryName,
@@ -118,6 +157,7 @@ const read = ({ hasura_url, hasura_admin_key }) => (schema) => async (
 
 module.exports = {
   insert,
+  insertWithoutPrefix,
   read,
   query: graphQLQuery
 }

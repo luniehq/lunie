@@ -1,7 +1,8 @@
-const { insert, read, query } = require('./helpers')
+const { insert, insertWithoutPrefix, read, query } = require('./helpers')
 const {
   getValidatorsInfo,
   getMaintenance,
+  storeNetwork,
   storeStatistics,
   storeNotification,
   getNotifications,
@@ -12,6 +13,10 @@ function database({ hasura_url, hasura_admin_key }) {
   return (schema) => {
     const methods = {
       insert: insert({ hasura_url, hasura_admin_key })(schema),
+      insertWithoutPrefix: insertWithoutPrefix({
+        hasura_url,
+        hasura_admin_key
+      })(schema),
       upsert: insert({ hasura_url, hasura_admin_key }, true)(schema),
       read: read({ hasura_url, hasura_admin_key })(schema),
       query: query({ hasura_url, hasura_admin_key }),
@@ -31,6 +36,7 @@ function database({ hasura_url, hasura_admin_key }) {
       storeStatistics: storeStatistics({ hasura_url, hasura_admin_key })(
         schema
       ),
+      storeNetwork: storeNetwork({ hasura_url, hasura_admin_key })(schema),
       storeNotification: storeNotification({ hasura_url, hasura_admin_key })(
         schema
       ),
