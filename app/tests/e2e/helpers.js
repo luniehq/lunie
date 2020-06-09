@@ -11,7 +11,7 @@ async function getDenom(browser) {
   browser.expect.element(`.total`).to.be.visible.before(10000)
   const { value } = await browser.getText(".total")
   // the string is "123 ATOMs"
-  return numeral(value.split(" ")[1]).value()
+  return value.split(" ")[1]
 }
 async function getAvailableTokens(browser) {
   browser.expect.element(`.available-amount`).to.be.visible.before(10000)
@@ -67,7 +67,9 @@ async function waitForText(
   while (iterations--) {
     try {
       const { value: text } = await browser.getText(selector)
-      console.log(text.replace(/ /g, "_"))
+      console.log(
+        `${selector} has text "${text}" expecting "${expectedCaption}"`
+      )
       if (text && text.trim() === expectedCaption) return
     } catch (error) {
       console.error(error)
@@ -96,17 +98,6 @@ async function waitForHashUpdate(browser, lastHash) {
     await browser.pause(300)
   }
   throw new Error(`Hash didn't changed!`)
-}
-
-// fetching errors from console
-async function checkBrowserLogs(browser) {
-  browser.getLog("browser", function (logEntriesArray) {
-    logEntriesArray.forEach(function (log) {
-      if (log.level == "ERROR") {
-        throw new Error(log.message)
-      }
-    })
-  })
 }
 
 // performs some details actions and handles checking of the invoice step + signing
@@ -266,6 +257,5 @@ module.exports = {
   waitForHashUpdate,
   nextBlock,
   getAccountBalance,
-  checkBrowserLogs,
   fundMasterAccount,
 }

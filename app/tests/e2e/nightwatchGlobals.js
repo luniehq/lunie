@@ -2,12 +2,7 @@ const axios = require("axios")
 const chai = require("chai")
 chai.use(require("chai-string"))
 const networks = require("./networks.json")
-const {
-  actionModalCheckout,
-  checkBrowserLogs,
-  getAccountBalance,
-  fundMasterAccount,
-} = require("./helpers.js")
+const { actionModalCheckout, getAccountBalance } = require("./helpers.js")
 
 let initializedAccount = false
 
@@ -34,12 +29,6 @@ module.exports = {
       await switchToAccount(browser, networkData)
     }
 
-    checkBrowserLogs(browser)
-    done()
-  },
-
-  async afterEach(browser, done) {
-    checkBrowserLogs(browser)
     done()
   },
 
@@ -111,10 +100,6 @@ async function initialiseDefaults(browser) {
   browser.globals.apiURI = apiURI
   browser.globals.slug = "/" + networkData.slug
   browser.globals.expectedDiff = networkData.expectedDiff
-  // checking the API for a localhost API
-  if (apiURI.indexOf("//localhost:") !== -1) {
-    await apiUp(browser)
-  }
   // checking if network is local, the API should be local too
   if (network.indexOf("local-") === 0) {
     if (apiURI.indexOf("//localhost:") === -1) {
@@ -126,16 +111,16 @@ async function initialiseDefaults(browser) {
   // open default page
   await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
   await browser.execute(
-    function (apiURI, network) {
+    function (apiURI) {
       // setting the api to localStorage
       window.localStorage.setItem("persistentapi", apiURI)
       // clear data from older tests
       window.localStorage.removeItem(`cosmos-wallets-index`)
-      window.localStorage.setItem(`network`, `"${network}"`)
       window.localStorage.setItem(`isE2eTest`, `"true"`)
     },
-    [apiURI, network]
+    [apiURI]
   )
+  await browser.refresh()
   return networkData
 }
 
@@ -220,17 +205,10 @@ async function fundingTempAccount(browser, networkData) {
 
 async function createAccountAndFundIt(browser, done, networkData) {
   // changing network
-  await browser.url(browser.launch_url)
-  await browser.execute(
-    function (networkData) {
-      window.localStorage.setItem(`network`, `"${networkData.network}"`)
-      return true
-    },
-    [networkData]
-  )
+  await browser.url(browser.launch_url + browser.globals.slug)
+
   // define two first validators
   await defineNeededValidators(browser, networkData)
-  await browser.refresh()
   // creating account
   await createNewAccount(browser, networkData)
   await storeAccountData(browser, networkData)
@@ -238,7 +216,8 @@ async function createAccountAndFundIt(browser, done, networkData) {
   await switchToAccount(browser, networkData)
   // funding main account
   if (browser.globals.availableAtoms * 1 < 25) {
-    await fundMasterAccount(browser, networkData.network, networkData.address)
+    throw new Error("Master Account is out of funds. Fund it!")
+    // await fundMasterAccount(browser, networkData.network, networkData.address)
   }
   // funding temp account
   await fundingTempAccount(browser, networkData)
@@ -273,8 +252,6 @@ async function switchToAccount(
   await browser.url(browser.launch_url)
   await browser.execute(
     function ({ address, network, wallet, name }) {
-      // setting network
-      window.localStorage.setItem(`network`, `"${network}"`)
       // skip sign in
       window.localStorage.setItem(
         `session_${network}`,
@@ -296,40 +273,7 @@ async function switchToAccount(
     },
     [{ address, network, wallet, name }]
   )
-  await browser.refresh()
+  // await browser.refresh() // not needed as getAccountBalance moves to portfolio
   await getAccountBalance(browser)
-  // wait until on portfolio page to make sure future tests have the same state
-  browser.expect.element(".balance-header").to.be.visible.before(10000)
-  // switching to homepage
-  await browser.url(browser.launch_url)
   return true
-}
-
-async function apiUp(browser) {
-  console.log("Testing if API is up")
-  const start = new Date().getTime()
-  // we need to wait until the testnet is up and the account has money
-  let apiUp = false
-  while (!apiUp) {
-    if (new Date().getTime() - start > 90000) {
-      throw new Error("Timed out waiting for API to be up.")
-    }
-    try {
-      // test if the api can return networks list
-      const response = await axios.post(browser.globals.apiURI, {
-        query: `{networks {id}}`,
-      })
-      if (response.data.errors) {
-        throw new Error(JSON.stringify(response.data.errors))
-      }
-      if (Number(response.data.data.networks.length) === 0) {
-        continue
-      }
-      apiUp = true
-    } catch (err) {
-      console.log("Failed to check API", err)
-      console.log("Waiting 1s for API to be up")
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-    }
-  }
 }
