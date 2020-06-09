@@ -1,4 +1,9 @@
-const { read, insert, insertWithoutPrefix } = require('./helpers')
+const {
+  read,
+  insert,
+  insertWithoutPrefix,
+  readWithoutPrefix
+} = require('./helpers')
 
 const incrementValidatorViews = ({
   hasura_url,
@@ -76,13 +81,20 @@ const getNotifications = ({ hasura_url, hasura_admin_key }) => (
   )
 }
 
-const storeStatistics = ({ hasura_url, hasura_admin_key }) => (
-  schema
-) => async (payload) => {
-  return await insert({
+const getNetworkId = ({ hasura_url, hasura_admin_key }) => (schema) => async (
+  id
+) => {
+  return await readWithoutPrefix({
     hasura_url,
     hasura_admin_key
-  })(schema)(`statistics`, payload)
+  })(schema)(
+    `networks`,
+    `networks`,
+    ['id'],
+    `where: { 
+      id: {_eq: ${id}}
+    } limit: ${1}, order_by: {created_at: desc}`
+  )
 }
 
 const storeNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
@@ -92,6 +104,15 @@ const storeNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
     hasura_url,
     hasura_admin_key
   })(schema)(`networks`, payload)
+}
+
+const storeStatistics = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (payload) => {
+  return await insert({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(`statistics`, payload)
 }
 
 const storeNotification = ({ hasura_url, hasura_admin_key }) => (
@@ -135,5 +156,6 @@ module.exports = {
   storeStatistics,
   storeNotification,
   getNotifications,
-  storeNetwork
+  storeNetwork,
+  getNetworkId
 }

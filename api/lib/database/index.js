@@ -3,6 +3,7 @@ const {
   getValidatorsInfo,
   getMaintenance,
   storeNetwork,
+  getNetworkId,
   storeStatistics,
   storeNotification,
   getNotifications,
@@ -33,10 +34,11 @@ function database({ hasura_url, hasura_admin_key }) {
         })(schema)(validatorId)
         return validatorInfo[0]
       },
+      getNetworkId: getNetworkId({ hasura_url, hasura_admin_key })(schema),
+      storeNetwork: storeNetwork({ hasura_url, hasura_admin_key })(schema),
       storeStatistics: storeStatistics({ hasura_url, hasura_admin_key })(
         schema
       ),
-      storeNetwork: storeNetwork({ hasura_url, hasura_admin_key })(schema),
       storeNotification: storeNotification({ hasura_url, hasura_admin_key })(
         schema
       ),

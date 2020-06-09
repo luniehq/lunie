@@ -155,9 +155,31 @@ const read = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   return res.data[`${schema_prefix}${table}`]
 }
 
+const readWithoutPrefix = ({ hasura_url, hasura_admin_key }) => () => async (
+  table,
+  queryName,
+  keys,
+  filter
+) => {
+  keys = Array.isArray(keys) ? keys : [keys]
+  // schema could be set or not
+
+  const query = `
+        query ${queryName} {
+            ${table}${filter ? `(${filter})` : ''} {
+                ${keys.join('\n')}
+            }
+        }
+    `
+
+  const res = await graphQLQuery({ hasura_url, hasura_admin_key })(query)
+  return res.data[`${table}`]
+}
+
 module.exports = {
   insert,
   insertWithoutPrefix,
   read,
+  readWithoutPrefix,
   query: graphQLQuery
 }
