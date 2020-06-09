@@ -41,7 +41,6 @@
       <TableValidators
         :validators="validators"
         :delegations="delegations"
-        :popular-sort="popularSort"
         show-on-mobile="expectedReturns"
       />
       <div
@@ -93,11 +92,13 @@ export default {
           $networkId: String!
           $searchTerm: String
           $activeOnly: Boolean
+          $popularSort: Boolean
         ) {
           validators(
             networkId: $networkId
             searchTerm: $searchTerm
             activeOnly: $activeOnly
+            popularSort: $popularSort
           ) {
             name
             operatorAddress
@@ -116,6 +117,7 @@ export default {
           networkId: this.network,
           activeOnly: this.activeOnly,
           searchTerm: this.searchTerm,
+          popularSort: this.popularSort,
         }
       },
       update: function (result) {

@@ -54,15 +54,11 @@ export default {
       type: String,
       default: () => "returns",
     },
-    popularSort: {
-      type: Boolean,
-      default: true,
-    },
   },
   data: () => ({
     rewards: [],
     sort: {
-      property: `expectedReturns`,
+      property: ``,
       order: `desc`,
     },
     showing: 15,
@@ -78,11 +74,6 @@ export default {
         [this.sort.property],
         [this.sort.order]
       )
-      if (this.popularSort) {
-        return orderBy(orderedValidators, [`popularity`], [`desc`]).filter(
-          ({ picture }) => picture !== null
-        )
-      }
       return orderedValidators
     },
     showingValidators() {

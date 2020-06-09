@@ -87,7 +87,7 @@ async function addPopularityToValidators(validators, dataSources, networkId) {
 
 async function validators(
   _,
-  { networkId, searchTerm, activeOnly },
+  { networkId, searchTerm, activeOnly, popularSort },
   { dataSources }
 ) {
   await localStore(dataSources, networkId).dataReady
@@ -97,6 +97,17 @@ async function validators(
     dataSources,
     networkId
   )
+  function compare(a, b) {
+    let comparison = 0
+    if (a.popularity < b.popularity) {
+      comparison = 1
+    } else if (a.popularity > b.popularity) {
+      comparison = -1
+    }
+    return comparison
+  }
+  // we always sort validators by popularity
+  validators.sort(compare)
   if (activeOnly) {
     validators = validators.filter(({ status }) => status === 'ACTIVE')
   }
@@ -114,6 +125,10 @@ async function validators(
         operatorAddress.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
       )
     })
+  }
+  // if popularSort is true then we filter out validators with no picture
+  if (popularSort) {
+    return validators.filter(({ picture }) => picture)
   }
   return validators
 }
