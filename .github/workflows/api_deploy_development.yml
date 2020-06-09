@@ -1,9 +1,9 @@
 name: Update existing droplet in Digital Ocean
 
 on:
-  push:
+  pull_request:
     branches:
-      - 'develop'
+      - '*'
     paths:
       - 'api/**'
 env:
@@ -34,8 +34,8 @@ jobs:
         target: "/root/"
         host: ${{ secrets.HOST_STAGING }}
         username: root
-        # key: ${{ secrets.DO_PRIVATE_KEY }}
-        password: ${{ secrets.STAGING_PASSWORD }}
+        key: ${{ secrets.SSH_KEY_STAGING }}
+        # password: ${{ secrets.STAGING_PASSWORD }}
     - name: Install on instance
       uses: appleboy/ssh-action@master
       with:
