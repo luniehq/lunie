@@ -1,0 +1,54 @@
+name: Publish on Netlify
+on:
+  pull_request:
+    branches-ignore:
+      - "master"
+    paths:
+      - 'app/**'
+
+env:
+  WORKING_DIRECTORY: ./app
+  VUE_APP_GRAPHQL_URL: ${{ secrets.LUNIE_API }}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    outputs:
+      deploy-url: ${{ steps.deploy.outputs.deploy-url }}
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - uses: bahmutov/npm-install@v1
+      - name: Build
+        run: yarn build
+        working-directory: ${{env.WORKING_DIRECTORY}}
+      - uses: nwtgck/actions-netlify@v1.1.1
+        id: deploy
+        with:
+          publish-dir: './app/dist'
+          github-token: ${{ secrets.GIT_BOT_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+          netlify-config-path: ./app/netlify.toml
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+  e2e:
+    runs-on: ubuntu-latest
+    needs: deploy
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - uses: bahmutov/npm-install@v1
+      - name: Run E2E tests
+        run: |
+          yarn test:e2e:browserstack --fe=${{needs.deploy.outputs.deploy-url}} --api=https://production-api.lunie.io
+        working-directory: ${{env.WORKING_DIRECTORY}}
+        env:
+          PASSWORD: ${{secrets.GAIA_PASSWORD}}
+          BROWSERSTACK_USERNAME: ${{secrets.BROWSERSTACK_USERNAME}}
+          BROWSERSTACK_ACCESS_KEY: ${{secrets.BROWSERSTACK_ACCESS_KEY}}

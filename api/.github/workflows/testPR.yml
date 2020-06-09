@@ -1,0 +1,37 @@
+name: PR testing
+
+on:
+  pull_request:
+    branches:
+      - "*"
+jobs:
+  check_changelog:
+    name: checkChangelog
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      # What you should use
+      - name: Add simsala
+        run: npm install simsala
+      - name: Check if changlog was updated
+        run: node node_modules/simsala/src/cli.js check --pending-path ./changes
+
+  test_pr:
+    name: testPR
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - name: Install dependencies
+        run: yarn install
+      - name: Lint
+        run: yarn lint 
+      - name: Test
+        run: yarn test

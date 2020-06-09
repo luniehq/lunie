@@ -1,0 +1,46 @@
+{
+  "name": "Lunie Browser Extension",
+  "description": "A browser extension for Lunie.io",
+  "version": null,
+  "manifest_version": 2,
+  "icons": {
+    "128": "icons/128x128.png"
+  },
+  "browser_action": {
+    "default_title": "Lunie Browser Extension",
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "sandbox": {
+    "pages": [
+      "popup/sandbox.html"
+    ]
+  },
+  "web_accessible_resources": [
+    "fonts/*.woff2"
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/analytics.js; object-src 'self'; connect-src 'self' wss://production-api.lunie.io/graphql https://production-api.lunie.io wss://staging-api.lunie.io/graphql https://staging-api.lunie.io https://monitoring.lunie.io:9000 wss://kusama-rpc.polkadot.io/",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://localhost/*",
+        "https://localhost/*",
+        "https://lunie.io/*",
+        "https://app.lunie.io/*",
+        "https://www.lunie.io/*",
+        "https://*.netlify.com/*",
+        "https://*.netlify.app/*"
+      ],
+      "js": [
+        "contentScript.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "tabs"
+  ]
+}

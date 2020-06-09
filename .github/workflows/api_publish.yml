@@ -1,0 +1,23 @@
+name: Publish to master
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'api/CHANGELOG.md'
+
+env:
+    WORKING_DIRECTORY: ./api
+jobs:
+    publish:
+        name: publish
+        runs-on: ubuntu-latest
+        timeout-minutes: 3
+        steps:
+        - uses: actions/checkout@v1
+        - name: Use Node.js
+          uses: actions/setup-node@v1
+        - name: publish to master
+          run: bash ./tasks/publish.sh
+          working-directory: ${{env.WORKING_DIRECTORY}}
