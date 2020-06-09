@@ -3,19 +3,22 @@
 ## Packages:
 
 - API: an API to interact with many different PoS blockchains
+    ([README](https://github.com/luniehq/lunie/blob/develop/api/README.md))
 
 - App: Lunie Core (webapp)
+    ([README](https://github.com/luniehq/lunie/blob/develop/app/README.md))
 
 - Extension: Lunie browser extension.
+    ([README](https://github.com/luniehq/lunie/blob/develop/extension/README.md))
 
 ## Preparation:
 
 To install the required modules for all packages run:
 
 ```bash
-$ yarn workspace api
-$ yarn workspace app
-$ yarn workspace extension
+$ yarn workspace api install
+$ yarn workspace app install
+$ yarn workspace extension install
 ```
 
 Or just work on the directory you are interested in and simply run `yarn`
@@ -25,13 +28,13 @@ Or just work on the directory you are interested in and simply run `yarn`
 Should follow this syntax:
 
 ```bash
-$ yarn workspace <workspace-name> --dev <package-name>
+$ yarn workspace <workspace-name> <package-name>
 ```
 
 As an example:
 
 ```bash
-$ yarn workspace extension --dev vue-jest
+$ yarn workspace extension vue-jest
 ```
 
 ## To run:
@@ -46,14 +49,14 @@ $ yarn workspace api start
 $ yarn workspace app serve
 ```
 
-## To build:
+### To build extension:
 
-- Extension:
 ```bash
+$ export LUNIE_API=https://production-api.lunie.io
 $ yarn workspace extension build
 ```
 
-## To build enabling localhost connection
+### To build extension enabling localhost connection
 
 ```bash
 $ yarn run build:dev
