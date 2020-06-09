@@ -34,14 +34,13 @@ jobs:
         target: "/root/"
         host: ${{ secrets.HOST_PRODUCTION }}
         username: root
-        # key: ${{ secrets.DO_PRIVATE_KEY }}
-        password: ${{ secrets.PRODUCTION_PASSWORD }}
+        key: ${{ secrets.SSH_KEY_PRODUCTION }}
     - name: Install on instance
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST_PRODUCTION }}
         username: root
-        password: ${{ secrets.PRODUCTION_PASSWORD }}
+        key: ${{ secrets.SSH_KEY_PRODUCTION }}
         script: |
           sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
