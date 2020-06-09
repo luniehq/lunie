@@ -102,12 +102,16 @@ class CosmosNodeSubscription {
     }
     // overwrite chain_id with the network's one, making sure it is correct
     this.store.network.chain_id = block.chainId
-    const isNetworkStored = await this.db.getNetworkId(this.store.network.id)
-    if (!isNetworkStored) {
+    const storedNetwork = await this.db.getNetwork(this.store.network.id)
+    if (!storedNetwork) {
       // store networks in DB under public/networks except enabled, which we will fetch from DB
       const networkWithouthEnabled = this.store.network
       delete networkWithouthEnabled.enabled
       this.db.storeNetwork(networkWithouthEnabled)
+    }
+    if (storedNetwork) {
+      // getNetwork only returns one network, so it is safe to do storedNetwork[0]
+      this.store.network.enabled = storedNetwork[0].enabled
     }
     if (block && this.height !== block.height) {
       // apparently the cosmos db takes a while to serve the content after a block has been updated

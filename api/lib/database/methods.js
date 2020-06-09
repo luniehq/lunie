@@ -81,7 +81,7 @@ const getNotifications = ({ hasura_url, hasura_admin_key }) => (
   )
 }
 
-const getNetworkId = ({ hasura_url, hasura_admin_key }) => (schema) => async (
+const getNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   id
 ) => {
   return await readWithoutPrefix({
@@ -90,7 +90,7 @@ const getNetworkId = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   })(schema)(
     `networks`,
     `networks`,
-    ['id'],
+    ['id', 'enabled'],
     `where: { 
       id: {_eq: "${id}"}
     }`
@@ -157,5 +157,5 @@ module.exports = {
   storeNotification,
   getNotifications,
   storeNetwork,
-  getNetworkId
+  getNetwork
 }
