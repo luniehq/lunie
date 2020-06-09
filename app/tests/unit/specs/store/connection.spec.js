@@ -124,6 +124,7 @@ describe(`Module: Connection`, () => {
           id: "kusama",
           slug: "kusama",
           network_type: "polkadot",
+          address_prefix: '2'
         },
         {
           id: "cosmos-hub-mainnet",

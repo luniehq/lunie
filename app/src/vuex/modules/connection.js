@@ -80,7 +80,6 @@ export default function ({ apollo }) {
           .filter(({ network_type }) => network_type === `polkadot`)
           .forEach(network => {
             const isValid = isValidPolkadotAddress(address, parseInt(network.address_prefix))
-            console.log(`address ${address} prefix ${network.address_prefix} is ${isValid[0]}`)
             if (isValid[0]) {
               selectedNetwork = network
             }
