@@ -23,6 +23,12 @@ exports[`PageValidators shows a list of validators 1`] = `
       >
         <tmbtn-stub
           class="btn-radio secondary"
+          type="active"
+          value="Popular"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio secondary"
           type="secondary"
           value="All"
         />
@@ -88,6 +94,12 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
       >
         <tmbtn-stub
           class="btn-radio secondary"
+          type="active"
+          value="Popular"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio secondary"
           type="secondary"
           value="All"
         />
@@ -132,6 +144,12 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
       <div
         class="toggles"
       >
+        <tmbtn-stub
+          class="btn-radio secondary"
+          type="active"
+          value="Popular"
+        />
+         
         <tmbtn-stub
           class="btn-radio secondary"
           type="secondary"
