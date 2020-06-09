@@ -50,7 +50,7 @@ $ yarn workspace app serve
 ### To build extension:
 
 ```bash
-$ export LUNIE_API=https://production-api.lunie.io
+$ export LUNIE_API=https://staging-api.lunie.io
 $ yarn workspace extension build
 ```
 
