@@ -110,6 +110,7 @@ export default {
     loaded: false,
     email: "",
     password: "",
+    errorOnAuthentication: false,
   }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
@@ -129,10 +130,11 @@ export default {
     })
   },
   methods: {
-    authenticate() {
-      this.$store.dispatch(`userSignedIn`, {
+    async authenticate() {
+      const error = await this.$store.dispatch(`userSignedIn`, {
         user: { email: this.email, password: this.password },
       })
+      if (error) this.errorOnAuthentication = true
     },
   },
 }

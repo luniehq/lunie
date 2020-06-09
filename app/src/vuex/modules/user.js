@@ -35,6 +35,7 @@ export default () => {
         .catch((error) => {
           console.error(error)
           Sentry.captureException(error)
+          return error
         })
     },
     userSignedIn({ commit }, { user }) {
@@ -50,6 +51,7 @@ export default () => {
           }
           console.error(error)
           Sentry.captureException(error)
+          return error
         })
     },
     userSignedOut({ commit }) {
@@ -61,6 +63,7 @@ export default () => {
         .catch((error) => {
           console.error(error)
           Sentry.captureException(error)
+          return error
         })
     },
     signInUser() {
