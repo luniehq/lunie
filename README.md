@@ -34,7 +34,7 @@ $ yarn workspace <workspace-name> <package-name>
 As an example:
 
 ```bash
-$ yarn workspace extension vue-jest
+$ yarn workspace extension add vue-jest
 ```
 
 ## To run:
