@@ -113,7 +113,6 @@ async function balanceV2Reducer(
   fiatValueAPI,
   fiatCurrency
 ) {
-  
   const availableLunieCoin = coinReducer(network, balance, 6)
   const totalLunieCoin = coinReducer(network, total, 6)
   const availableFiatValue = (
