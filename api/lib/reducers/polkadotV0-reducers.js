@@ -7,6 +7,7 @@ const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
 function blockReducer(
   networkId,
+  chainId,
   blockHeight,
   blockHash,
   sessionIndex,
@@ -16,7 +17,7 @@ function blockReducer(
   return {
     networkId,
     height: blockHeight,
-    chainId: `kusama-cc3`,
+    chainId,
     hash: blockHash,
     sessionIndex,
     time: new Date().toISOString(), // TODO: Get from blockchain state

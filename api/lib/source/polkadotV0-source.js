@@ -62,6 +62,7 @@ class polkadotAPI {
 
     return this.reducers.blockReducer(
       this.network.id,
+      this.network.chain_id,
       blockHeight,
       blockHash,
       sessionIndex.toNumber(),
