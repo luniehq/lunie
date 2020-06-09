@@ -4,18 +4,20 @@ const { expect } = require("chai")
 async function getBalance(browser) {
   browser.expect.element(`.total`).to.be.visible.before(10000)
   const { value } = await browser.getText(".total")
-  return numeral(value).value()
+  // the string is "123 ATOMs"
+  return numeral(value.split(" ")[0]).value()
+}
+async function getDenom(browser) {
+  browser.expect.element(`.total`).to.be.visible.before(10000)
+  const { value } = await browser.getText(".total")
+  // the string is "123 ATOMs"
+  return numeral(value.split(" ")[1]).value()
 }
 async function getAvailableTokens(browser) {
-  browser.expect.element(`.table-cell.available`).to.be.visible.before(10000)
-  const { value } = await browser.getText(".table-cell.available")
-  return numeral(value).value()
-}
-async function awaitBalance(browser, balance) {
-  await waitFor(async () => {
-    expect(String(balance)).to.startsWith(String(await getBalance(browser)))
-  })
-  console.log(`√ Balance is ${balance}`)
+  browser.expect.element(`.available-amount`).to.be.visible.before(10000)
+  const { value } = await browser.getText(".available-amount")
+  // the string is "123 ATOMs"
+  return numeral(value.split(" ")[0]).value()
 }
 async function waitFor(check, iterations = 10, timeout = 1000) {
   while (--iterations) {
@@ -228,16 +230,14 @@ async function actionModalCheckout(
 async function getAccountBalance(browser) {
   // save denom
   await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
-  // waiting till balance loaded
-  await browser.waitForElementVisible(".total", 5000, false)
-  const { value: total } = await browser.getText(".total")
-  browser.globals.denom = total.split(" ")[1]
-  browser.globals.totalAtoms = total.split(" ")[0]
+  const denom = await getDenom(browser)
+  browser.globals.denom = denom
 
-  const { value: availableAtoms } = await browser.getText(
-    ".available-amount"
-  )
-  browser.globals.availableAtoms = availableAtoms.split(" ")[0]
+  const total = await getBalance(browser)
+  browser.globals.totalAtoms = total
+
+  const availableAtoms = await getAvailableTokens(browser)
+  browser.globals.availableAtoms = availableAtoms
 }
 
 async function nextBlock(browser) {
@@ -258,7 +258,7 @@ async function nextBlock(browser) {
 module.exports = {
   getBalance,
   getAvailableTokens,
-  awaitBalance,
+  getDenom,
   waitFor,
   waitForText,
   actionModalCheckout,
