@@ -8,7 +8,7 @@ export default () => {
   const state = {
     userSignedIn: false,
     user: {
-      name: "",
+      email: "",
     },
     externals: {
       config,
@@ -25,6 +25,18 @@ export default () => {
   }
 
   const actions = {
+    userSignUp({ commit }, { user }) {
+      Auth.createUserWithEmailAndPassword(user.email, user.password)
+        .then(() => {
+          commit(`userSignedIn`, true)
+          commit(`setUserInformation`, user)
+          console.log("User has now created their account!")
+        })
+        .catch((error) => {
+          console.error(error)
+          Sentry.captureException(error)
+        })
+    },
     userSignedIn({ commit }, { user }) {
       Auth.signInWithEmailAndPassword(user.email, user.password)
         .then(() => {
@@ -33,6 +45,9 @@ export default () => {
           console.log("User is now signed in!")
         })
         .catch((error) => {
+          if (error.code === `auth/user-not-found`) {
+            actions.userSignUp()
+          }
           console.error(error)
           Sentry.captureException(error)
         })
@@ -48,10 +63,10 @@ export default () => {
           Sentry.captureException(error)
         })
     },
-    async signInUser() {
+    signInUser() {
       console.log("Display magic link to authentication via firebase")
     },
-    async signOutUser({ commit }) {
+    signOutUser({ commit }) {
       commit(`setUserInformation`, {})
       console.log("Triggers Firebase sign out and removes the set user")
     },

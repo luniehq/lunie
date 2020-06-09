@@ -1,8 +1,27 @@
 <template>
   <TmDataLoading v-if="!loaded" />
   <div v-else class="card-sign-in">
-    <div>
+    <div v-if="session.developmentMode">
       <h2>Authenticate</h2>
+      <div>
+        <TmFormGroup
+          field-id="sign-in-credentials"
+          field-label="Signing Method"
+        >
+          <TmField
+            id="email"
+            v-model="email"
+            type="input"
+            placeholder="Email"
+          />
+          <TmField
+            id="password"
+            v-model="password"
+            type="password"
+            placeholder="Password"
+          />
+        </TmFormGroup>
+      </div>
       <router-link
         class="app-menu-item hide-m"
         to="/email-authentication"
@@ -76,17 +95,21 @@
 <script>
 import config from "src/../config"
 import { mapState, mapGetters } from "vuex"
+import TmField from "src/components/common/TmField"
+import TmFormGroup from "src/components/common/TmFormGroup"
 import LiSession from "common/TmLiSession"
 import TmBtn from "common/TmBtn"
 import TmDataLoading from "src/components/common/TmDataLoading"
 
 export default {
   name: `card-sign-in-required`,
-  components: { LiSession, TmDataLoading, TmBtn },
+  components: { LiSession, TmDataLoading, TmBtn, TmField, TmFormGroup },
   data: () => ({
     isMobileApp: config.mobileApp,
     isExtension: config.isExtension,
     loaded: false,
+    email: "",
+    password: "",
   }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
@@ -108,7 +131,7 @@ export default {
   methods: {
     authenticate() {
       this.$store.dispatch(`userSignedIn`, {
-        user: { name: `Bitcoinera`, email: `bitcoinera@gmail.com` },
+        user: { email: this.email, password: this.password },
       })
     },
   },
