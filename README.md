@@ -26,7 +26,7 @@ Or just work on the directory you are interested in and simply run `yarn`
 Should follow this syntax:
 
 ```bash
-$ yarn workspace <workspace-name> <package-name>
+$ yarn workspace <workspace-name> add <package-name>
 ```
 
 As an example:
