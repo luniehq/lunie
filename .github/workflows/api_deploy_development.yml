@@ -36,17 +36,17 @@ jobs:
         username: root
         key: ${{ secrets.SSH_KEY_STAGING }}
         # password: ${{ secrets.STAGING_PASSWORD }}
-    - name: Install on instance
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST_STAGING }}
-        username: root
-        password: ${{ secrets.STAGING_PASSWORD }}
-        script: |
-          sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-          docker image prune -a -f
-          docker load < lunieapi.tgz
-          docker stack deploy -c docker-compose.yml lunieapi
-          docker service update --image lunieapi:latest --force lunieapi_lunieapi
-        envs: HASURA_URL,HASURA_ADMIN_KEY,SENTRY_DSN
+    # - name: Install on instance
+    #   uses: appleboy/ssh-action@master
+    #   with:
+    #     host: ${{ secrets.HOST_STAGING }}
+    #     username: root
+    #     password: ${{ secrets.STAGING_PASSWORD }}
+    #     script: |
+    #       sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose
+    #       sudo chmod +x /usr/local/bin/docker-compose
+    #       docker image prune -a -f
+    #       docker load < lunieapi.tgz
+    #       docker stack deploy -c docker-compose.yml lunieapi
+    #       docker service update --image lunieapi:latest --force lunieapi_lunieapi
+    #     envs: HASURA_URL,HASURA_ADMIN_KEY,SENTRY_DSN
