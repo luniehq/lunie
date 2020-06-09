@@ -145,7 +145,7 @@ export default {
   },
   data: () => ({
     pageNumber: 0,
-    validators: {},
+    validators: [],
     transactions: [],
     dataLoaded: false,
     moreAvailable: true,
@@ -219,7 +219,7 @@ export default {
       },
       update(result) {
         this.dataLoaded = true
-        this.moreAvailable = (result.transactionsV2.length > 0)
+        this.moreAvailable = result.transactionsV2.length > 0
         return result.transactionsV2
       },
       subscribeToMore: {

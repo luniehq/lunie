@@ -9,12 +9,10 @@
     }
   ],
   "scripts": {
-    "lint": "npm run lint:js && npm run lint:css",
+    "lint": "yarn lint:css && yarn lint:js",
     "lint:fix": "eslint --ext .js,.vue src --fix && stylelint \"src/**/*.{css,vue}\" --fix",
     "lint:js": "eslint --ext .js,.vue src",
     "lint:css": "stylelint \"src/**/*.{css,vue}\"",
-    "prettier": "prettier \"src/**/*.{js,vue}\"",
-    "prettier:write": "npm run prettier -- --write",
     "build": "node ./scripts/check-env-variables.js && cross-env NODE_ENV=production webpack --hide-modules && node ./scripts/remove-localhost.js",
     "build:dev": "node ./scripts/check-env-variables.js && cross-env NODE_ENV=development webpack --hide-modules",
     "build-zip": "node scripts/build-zip.js",
@@ -29,7 +27,7 @@
     "test:e2e:start-lunie": "cd ./lunie && npm run serve:dist",
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:coverage": "live-server test/unit/coverage/lcov-report",
-    "changelog": "simsala log",
+    "changelog": "simsala log --pending-path ./changes",
     "release": "git checkout develop & git pull & git push origin develop:release"
   },
   "husky": {
@@ -125,7 +123,6 @@
     "mini-css-extract-plugin": "^0.4.4",
     "nightwatch": "^1.1.13",
     "node-sass": "^4.14.1",
-    "prettier": "^1.17.1",
     "sass-loader": "^7.1.0",
     "selenium-server": "^3.141.59",
     "simsala": "^0.0.21",

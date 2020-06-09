@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import routes from './routes'
 
 export const focusParentLast = {
-  inserted: el => {
+  inserted: (el) => {
     if (!el.contains(document.activeElement)) {
       el.focus()
     }
@@ -13,7 +13,7 @@ export const focusParentLast = {
 Vue.use(VueRouter)
 Vue.directive(`focus-last`, focusParentLast)
 
-export default store => {
+export default (store) => {
   return new VueRouter({
     routes: routes(store)
   })

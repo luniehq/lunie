@@ -48,8 +48,8 @@ function senderAllowed(sender) {
   return true
 }
 
-const whitelistedChecker = url => {
-  return !!whitelisted.find(whitelistedUrl => {
+const whitelistedChecker = (url) => {
+  return !!whitelisted.find((whitelistedUrl) => {
     // check regexps
     if (whitelistedUrl instanceof RegExp) {
       whitelistedUrl.exec(url)

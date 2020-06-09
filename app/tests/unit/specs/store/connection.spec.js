@@ -167,8 +167,8 @@ describe(`Module: Connection`, () => {
       expect(network.id).toBe("cosmos-hub-testnet")
     })
 
-    it(`identifies a Polkadot address`, () => {
-      const polkadotAddress = `5DwjF3fmXzkJhJdyP6hMPU4nNhxeDpDtCz4RdaX3V3ALJhpH`
+    it(`identifies a Polkadot Kusama address`, () => {
+      const polkadotAddress = `EksmaF7D2fWWjcX9LvZ48g9j1y4TpexY2ixNraHTfMWRton`
       const network = actions.getNetworkByAccount(
         { state },
         { account: { address: polkadotAddress }, testnet: true }
