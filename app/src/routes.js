@@ -309,6 +309,14 @@ export default (store) => {
             feature: "Explorer",
           },
         },
+        {
+          path: `email-authentication`,
+          name: `email-authentication`,
+          component: () => import(`./components/user/EmailAuthentication`),
+          meta: {
+            feature: "Explorer",
+          },
+        },
         { path: `*`, component: () => import(`./components/common/Page404`) },
       ],
     },
