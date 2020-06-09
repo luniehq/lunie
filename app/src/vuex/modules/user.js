@@ -1,3 +1,4 @@
+import config from "src/../config"
 // import App from "../../firebase/app"
 
 export default () => {
