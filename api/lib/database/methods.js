@@ -92,8 +92,8 @@ const getNetworkId = ({ hasura_url, hasura_admin_key }) => (schema) => async (
     `networks`,
     ['id'],
     `where: { 
-      id: {_eq: ${id}}
-    } limit: ${1}, order_by: {created_at: desc}`
+      id: {_eq: "${id}"}
+    }`
   )
 }
 
