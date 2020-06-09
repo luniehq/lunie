@@ -16,8 +16,8 @@ async function getDenom(browser) {
 async function getAvailableTokens(browser) {
   browser.expect.element(`.available-amount`).to.be.visible.before(10000)
   const { value } = await browser.getText(".available-amount")
-  // the string is "123 ATOMs"
-  return numeral(value.split(" ")[0]).value()
+  // the string is "123"
+  return numeral(value).value()
 }
 async function waitFor(check, iterations = 10, timeout = 1000) {
   while (--iterations) {

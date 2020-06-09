@@ -179,7 +179,6 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
         >
           
             0
-            MUON
           
         </span>
       </div>
@@ -396,7 +395,6 @@ exports[`TmBalance show the balance header when signed in 1`] = `
         >
           
             80.78
-            MUON
           
         </span>
       </div>
