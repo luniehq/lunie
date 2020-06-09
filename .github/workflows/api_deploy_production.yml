@@ -30,6 +30,7 @@ jobs:
       uses: appleboy/scp-action@master
       with:
         source: "api/lunieapi.tgz,api/docker-compose.yml,api/Caddyfile"
+        strip_components: 1 # remove the api folder
         target: "/root/"
         host: ${{ secrets.HOST_PRODUCTION }}
         username: root
