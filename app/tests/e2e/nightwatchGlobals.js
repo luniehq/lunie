@@ -40,7 +40,6 @@ module.exports = {
    * @param results
    */
   reporter: function (results) {
-    console.log(JSON.stringify(results, null, 2))
     if (
       (typeof results.failed === `undefined` || results.failed === 0) &&
       (typeof results.errors === `undefined` || results.errors === 0)

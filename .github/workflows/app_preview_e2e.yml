@@ -50,9 +50,7 @@ jobs:
           working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Run E2E tests
         run: |
-          yarn test:e2e:browserstack --fe=${{needs.deploy.outputs.deploy-url}} --api=https://production-api.lunie.io > e2e_tests.log
-          echo "$(cat e2e_tests.log)"
-          grep -F "✖" e2e_tests.log; [ $? -eq 0 ] && exit 1 || exit 0
+          yarn test:e2e:browserstack --fe=${{needs.deploy.outputs.deploy-url}} --api=https://production-api.lunie.io
         working-directory: ${{env.WORKING_DIRECTORY}}
         env:
           PASSWORD: ${{secrets.GAIA_PASSWORD}}
