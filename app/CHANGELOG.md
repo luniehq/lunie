@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.212] - 2020-06-09
+
+### Added
+
+- [#771](https://github.com/cosmos/lunie/issues/771) Adds a bubble on the notifications icon counting every new notification until user visits PageNotification @Bitcoinera
+- Add pagination to page notifications  @faboweb
+- Add subscription for new notifications to page notifications @faboweb
+- Improve polkadot address validation, fix 'Cannot use GraphQLSchema' error in frontend @mariopino
+
+### Fixed
+
+- Fix naming of currency icons @faboweb
+- Update Polkadot library @faboweb
+
+### Code Improvements
+
+- Use BalancesV2 enpoint in TmBalance @faboweb
+- Refactor list logic into own component @faboweb
+
+### Repository
+
+- [#4211](https://github.com/cosmos/lunie/pull/4211) Adjusted GitHub Actions for app @faboweb
+- Fix e2e @faboweb
+
 ## [1.0.211] - 2020-06-03
 
 ### Fixed
