@@ -218,7 +218,7 @@ module.exports = [
     enabled: true,
     experimental: true,
     icon:
-      'https://lunie.fra1.digitaloceanspaces.com/network-icons/polkadot.png',
+      '/img/networks/polkadot-mainnet.png',
     slug: 'polkadot',
     lockUpPeriod: '28 days'
   },
