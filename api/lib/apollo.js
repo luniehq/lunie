@@ -57,6 +57,12 @@ function createApolloServer(httpServer) {
         }
       }
       if (req) {
+        if (process.env.WHITELIST_ORIGIN) {
+          const origin = req.get('origin')
+          if (!process.env.WHITELIST_ORIGIN.split(',').includes(origin)) {
+            throw new Error("Access Forbidden")
+          }
+        }
         return {
           fingerprint: req.headers.fingerprint,
           development: req.headers.development
