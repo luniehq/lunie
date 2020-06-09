@@ -16,9 +16,7 @@
 To install the required modules for all packages run:
 
 ```bash
-$ yarn workspace api install
-$ yarn workspace app install
-$ yarn workspace extension install
+$ yarn
 ```
 
 Or just work on the directory you are interested in and simply run `yarn`
