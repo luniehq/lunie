@@ -227,6 +227,11 @@ export default (store) => {
       component: () => import(`./components/common/FeatureNotPresent`),
     },
     {
+      path: `/email-authentication`,
+      name: `email-authentication`,
+      component: () => import(`./components/user/EmailAuthentication`),
+    },
+    {
       path: `/:networkId`,
       component: () => import(`./components/common/NetworkSetter`),
       redirect: `/:networkId/portfolio`,
@@ -305,14 +310,6 @@ export default (store) => {
           path: `blocks/:height`,
           name: `block`,
           component: () => import(`./components/network/PageBlock`),
-          meta: {
-            feature: "Explorer",
-          },
-        },
-        {
-          path: `email-authentication`,
-          name: `email-authentication`,
-          component: () => import(`./components/user/EmailAuthentication`),
           meta: {
             feature: "Explorer",
           },

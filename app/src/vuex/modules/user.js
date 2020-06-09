@@ -1,5 +1,8 @@
 import config from "src/../config"
-// import App from "../../firebase/app"
+import firebase from "../../firebase"
+import * as Sentry from "@sentry/browser"
+
+const Auth = firebase.auth()
 
 export default () => {
   const state = {
@@ -23,13 +26,27 @@ export default () => {
 
   const actions = {
     userSignedIn({ commit }, { user }) {
-      commit(`userSignedIn`, true)
-      commit(`setUserInformation`, user)
-      console.log("User is now signed in!")
+      Auth.signInWithEmailAndPassword(user.email, user.password)
+        .then(() => {
+          commit(`userSignedIn`, true)
+          commit(`setUserInformation`, user)
+          console.log("User is now signed in!")
+        })
+        .catch((error) => {
+          console.error(error)
+          Sentry.captureException(error)
+        })
     },
     userSignedOut({ commit }) {
-      commit(`userSignedIn`, false)
-      console.log("User is now signed in!")
+      Auth.signOut()
+        .then(() => {
+          commit(`userSignedIn`, false)
+          console.log("User is now signed in!")
+        })
+        .catch((error) => {
+          console.error(error)
+          Sentry.captureException(error)
+        })
     },
     async signInUser() {
       console.log("Display magic link to authentication via firebase")

@@ -1,6 +1,17 @@
 <template>
   <TmDataLoading v-if="!loaded" />
   <div v-else class="card-sign-in">
+    <div>
+      <h2>Authenticate</h2>
+      <router-link
+        class="app-menu-item hide-m"
+        to="/email-authentication"
+        exact="exact"
+        @click.native="authenticate()"
+      >
+        <TmBtn class="send-button" value="Authenticate" type="secondary" />
+      </router-link>
+    </div>
     <h2>Welcome to Lunie 👋</h2>
     <h3>How would you like to get started?</h3>
 
@@ -66,11 +77,12 @@
 import config from "src/../config"
 import { mapState, mapGetters } from "vuex"
 import LiSession from "common/TmLiSession"
+import TmBtn from "common/TmBtn"
 import TmDataLoading from "src/components/common/TmDataLoading"
 
 export default {
   name: `card-sign-in-required`,
-  components: { LiSession, TmDataLoading },
+  components: { LiSession, TmDataLoading, TmBtn },
   data: () => ({
     isMobileApp: config.mobileApp,
     isExtension: config.isExtension,
@@ -92,6 +104,13 @@ export default {
     this.$store.dispatch("loadAccounts").then(() => {
       this.loaded = true
     })
+  },
+  methods: {
+    authenticate() {
+      this.$store.dispatch(`userSignedIn`, {
+        user: { name: `Bitcoinera`, email: `bitcoinera@gmail.com` },
+      })
+    },
   },
 }
 </script>
