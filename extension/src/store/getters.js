@@ -1,4 +1,4 @@
-import config from '../../lunie/config'
+import config from 'app/config'
 
 export const route = (state) => state.route
 export const signRequest = (state) => state.signRequest
