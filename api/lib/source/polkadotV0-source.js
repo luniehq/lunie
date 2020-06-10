@@ -62,6 +62,7 @@ class polkadotAPI {
 
     return this.reducers.blockReducer(
       this.network.id,
+      this.network.chain_id,
       blockHeight,
       blockHash,
       sessionIndex.toNumber(),
@@ -150,7 +151,8 @@ class polkadotAPI {
       validator.identity = JSON.parse(JSON.stringify(identity.identity))
       if (validator.exposure) {
         const validatorStake = new BigNumber(validator.exposure.total)
-        validator.votingPower = validatorStake.div(networkTotalStake).toNumber()
+        validator.votingPower =
+          validatorStake.div(networkTotalStake).toNumber() || 0
         validator.tokens =
           validatorStake *
           this.network.coinLookup[0].chainToViewConversionFactor

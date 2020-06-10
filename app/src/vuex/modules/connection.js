@@ -75,14 +75,18 @@ export default function ({ apollo }) {
       }
       // HACK as polkadot addresses don't have a prefix
       if (isPolkadotAddress(address)) {
-        // TO IMPROVE: We can get the proper substrate network
-        // just by checking if address is valid for a known prefix
-        const addressPrefix = 2 // Kusama
-        const isValid = isValidPolkadotAddress(address, addressPrefix)
-        if (isValid[0]) {
-          return state.networks.find(
-            ({ network_type }) => network_type === "polkadot"
+        const selectedNetwork = state.networks
+          .filter(({ network_type }) => network_type === `polkadot`)
+          .find(
+            (network) =>
+              isValidPolkadotAddress(
+                address,
+                parseInt(network.address_prefix)
+              )[0]
           )
+
+        if (selectedNetwork) {
+          return selectedNetwork
         } else {
           throw new Error(
             "Address is not in a valid polkadot format. Did you mistype?"

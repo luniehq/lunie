@@ -33,7 +33,7 @@ class PolkadotNodeSubscription {
     this.currentSessionIndex = 0
     this.currentEra = 0
     this.blockQueue = []
-    this.chainId = `kusama-cc3` // TODO make dynamic
+    this.chainId = this.network.chain_id
     this.subscribeForNewBlock()
   }
 
