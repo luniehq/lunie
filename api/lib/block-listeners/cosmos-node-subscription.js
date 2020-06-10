@@ -195,31 +195,31 @@ class CosmosNodeSubscription {
   }
 
   // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
-  async updateDBValidatorProfiles(validators) {
+  async updateDBValidatorProfiles(currentValidators) {
     // filter only new validators
-    let newValidators = validators.filter(
-      (validator) =>
+    let updatedValidators = currentValidators.filter(
+      ({operatorAddress: currentAddress, name: currentName}) =>
         !this.validators.find(
-          (v) =>
-            v.address == validator.operatorAddress && v.name == validator.name // in case if validator name was changed
+          ({operatorAddress, name}) =>
+          currentAddress === operatorAddress && currentName === name // in case if validator name was changed
         )
     )
     // save all new validators to an array
     this.validators = [
       ...this.validators.filter(
         ({ operatorAddress }) =>
-          !newValidators.find(
+          !updatedValidators.find(
             ({ operatorAddress: newValidatorOperatorAddress }) =>
               newValidatorOperatorAddress === operatorAddress
           )
       ),
-      ...newValidators.map((v) => ({
-        address: v.operatorAddress,
-        name: v.name
+      ...updatedValidators.map(({operatorAddress, name}) => ({
+        operatorAddress,
+        name
       }))
     ]
     // update only new onces
-    const validatorRows = newValidators.map(({ operatorAddress, name }) => ({
+    const validatorRows = updatedValidators.map(({ operatorAddress, name }) => ({
       operator_address: operatorAddress,
       name
     }))
