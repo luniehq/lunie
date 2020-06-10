@@ -46,6 +46,8 @@ export default async function init(urlParams, env = process.env) {
   const apolloClient = apolloProvider.clients.defaultClient
 
   const store = Store({ apollo: apolloClient })
+  // we need to set url params before querying for networks because of experimental flag
+  setOptions(urlParams, store)
   await store.dispatch(`preloadNetworkCapabilities`)
 
   const router = Router(store)
@@ -55,8 +57,6 @@ export default async function init(urlParams, env = process.env) {
     /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
   })
-
-  setOptions(urlParams, store)
 
   store.dispatch(`loadLocalPreferences`)
   await store.dispatch(`checkForPersistedNetwork`) // wait until signin

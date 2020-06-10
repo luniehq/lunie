@@ -4,18 +4,20 @@ const { expect } = require("chai")
 async function getBalance(browser) {
   browser.expect.element(`.total`).to.be.visible.before(10000)
   const { value } = await browser.getText(".total")
-  return numeral(value).value()
+  // the string is "123 ATOMs"
+  return numeral(value.split(" ")[0]).value()
+}
+async function getDenom(browser) {
+  browser.expect.element(`.total`).to.be.visible.before(10000)
+  const { value } = await browser.getText(".total")
+  // the string is "123 ATOMs"
+  return value.split(" ")[1]
 }
 async function getAvailableTokens(browser) {
-  browser.expect.element(`.table-cell.available`).to.be.visible.before(10000)
-  const { value } = await browser.getText(".table-cell.available")
+  browser.expect.element(`.available-amount`).to.be.visible.before(10000)
+  const { value } = await browser.getText(".available-amount")
+  // the string is "123"
   return numeral(value).value()
-}
-async function awaitBalance(browser, balance) {
-  await waitFor(async () => {
-    expect(String(balance)).to.startsWith(String(await getBalance(browser)))
-  })
-  console.log(`√ Balance is ${balance}`)
 }
 async function waitFor(check, iterations = 10, timeout = 1000) {
   while (--iterations) {
@@ -61,11 +63,13 @@ async function waitForText(
   iterations = 20,
   timeout = 300
 ) {
-  await browser.waitForElementVisible(selector, 10000)
+  await browser.waitForElementVisible(selector, 50000)
   while (iterations--) {
     try {
       const { value: text } = await browser.getText(selector)
-      console.log(text.replace(/ /g, "_"))
+      console.log(
+        `${selector} has text "${text}" expecting "${expectedCaption}"`
+      )
       if (text && text.trim() === expectedCaption) return
     } catch (error) {
       console.error(error)
@@ -76,7 +80,7 @@ async function waitForText(
 }
 
 async function getLastActivityItemHash(browser) {
-  await browser.waitForElementVisible(".tx-container .tx", 10000)
+  await browser.waitForElementVisible(".tx-container .tx", 50000)
   await browser.click(".tx-container .tx")
   const { value: hash } = await browser.getText(
     ".tx-container:nth-of-type(1) .hash"
@@ -94,17 +98,6 @@ async function waitForHashUpdate(browser, lastHash) {
     await browser.pause(300)
   }
   throw new Error(`Hash didn't changed!`)
-}
-
-// fetching errors from console
-async function checkBrowserLogs(browser) {
-  browser.getLog("browser", function (logEntriesArray) {
-    logEntriesArray.forEach(function (log) {
-      if (log.level == "ERROR") {
-        throw new Error(log.message)
-      }
-    })
-  })
 }
 
 // performs some details actions and handles checking of the invoice step + signing
@@ -227,21 +220,15 @@ async function actionModalCheckout(
 
 async function getAccountBalance(browser) {
   // save denom
-  return await browser.url(
-    browser.launch_url + browser.globals.slug + "/portfolio",
-    async () => {
-      // waiting till balance loaded
-      await browser.waitForElementVisible(".total", 5000, false)
-      const { value: total } = await browser.getText(".total")
-      browser.globals.denom = total.split(" ")[1]
-      browser.globals.totalAtoms = total.split(" ")[0]
+  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+  const denom = await getDenom(browser)
+  browser.globals.denom = denom
 
-      const { value: availableAtoms } = await browser.getText(
-        ".available-amount"
-      )
-      browser.globals.availableAtoms = availableAtoms.split(" ")[0]
-    }
-  )
+  const total = await getBalance(browser)
+  browser.globals.totalAtoms = total
+
+  const availableAtoms = await getAvailableTokens(browser)
+  browser.globals.availableAtoms = availableAtoms
 }
 
 async function nextBlock(browser) {
@@ -262,7 +249,7 @@ async function nextBlock(browser) {
 module.exports = {
   getBalance,
   getAvailableTokens,
-  awaitBalance,
+  getDenom,
   waitFor,
   waitForText,
   actionModalCheckout,
@@ -270,6 +257,5 @@ module.exports = {
   waitForHashUpdate,
   nextBlock,
   getAccountBalance,
-  checkBrowserLogs,
   fundMasterAccount,
 }
