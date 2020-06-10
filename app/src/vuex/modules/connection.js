@@ -83,7 +83,7 @@ export default function ({ apollo }) {
                 address,
                 parseInt(network.address_prefix)
               )[0]
-            )
+          )
 
         if (selectedNetwork) {
           return selectedNetwork
