@@ -40,5 +40,5 @@ jobs:
       - uses: actions/checkout@v1
       - name: Use Node.js
         uses: actions/setup-node@v1
-      - name: Check if changlog was updated
+      - name: Check if changelog was updated
         run: npx simsala check --pending-path ./app/changes

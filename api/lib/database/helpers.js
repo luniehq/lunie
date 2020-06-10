@@ -15,7 +15,7 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
 
   if (data.errors || data.error) {
     console.error('Query failed:', query)
-    console.error('GraphQL query failed:', data.error || data.errors)
+    console.error('GraphQL query failed:', JSON.stringify(data.error || data.errors, undefined, 2))
     throw new Error('GraphQL query failed')
   }
 

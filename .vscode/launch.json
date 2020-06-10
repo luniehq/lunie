@@ -12,6 +12,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/api/index.js",
+            "envFile": "${workspaceFolder}/api/.env",
             "env": {
                 "WHITELIST_ORIGIN": "http://localhost:4000",
                 // "RUN_ONLY_NETWORK": "cosmos-hub-testnet"
@@ -25,6 +26,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/api/scripts/getOldPolkadotRewardEras.js",
+            "envFile": "${workspaceFolder}/api/.env",
             "env": {
                 "RUN_ONLY_NETWORK": "polkadot-testnet"
             }
