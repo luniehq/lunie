@@ -111,9 +111,9 @@
           </div>
 
           <div :key="balance.denom + '_available'" class="table-cell available">
-            <template v-if="balance.type === 'STAKE'">
-              {{ balance.available | bigFigureOrShortDecimals }}
-            </template>
+            <span class="available-amount" v-if="balance.type === 'STAKE'">
+              {{ balance.available | bigFigureOrShortDecimals}}
+            </span>
           </div>
 
           <div :key="balance.denom + '_actions'" class="table-cell actions">

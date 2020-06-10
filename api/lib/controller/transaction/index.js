@@ -1,4 +1,3 @@
-// const { getMessage } = require('./messageConstructor')
 const { networkMap } = require('../../networks')
 const Sentry = require('@sentry/node')
 const { publishUserTransactionAddedV2 } = require('../../subscriptions')
