@@ -10,6 +10,7 @@ export default () => {
     user: {
       email: "",
     },
+    signInError: null,
     externals: {
       config,
     },
@@ -22,56 +23,46 @@ export default () => {
     setUserInformation(state, user) {
       state.user = user
     },
+    setSignInError(state, error) {
+      state.signInError = error
+    },
   }
 
   const actions = {
-    userSignUp({ commit }, { user }) {
-      Auth.createUserWithEmailAndPassword(user.email, user.password)
+    signInUser({ commit }, { user }) {
+      commit(`userSignedIn`, true)
+      commit(`setUserInformation`, user)
+      console.log("User is now signed in!")
+    },
+    sendUserMagicLink({ commit }, { user }) {
+      const actionCodeSettings = {
+        url: `http://localhost:9080/email-authentication`,
+        handleCodeInApp: true,
+      }
+      Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
         .then(() => {
-          commit(`userSignedIn`, true)
           commit(`setUserInformation`, user)
-          console.log("User has now created their account!")
+          localStorage.setItem("user", user)
+          console.log("Magic link sent to your email!")
         })
         .catch((error) => {
           console.error(error)
+          commit(`setSignInError`, error)
           Sentry.captureException(error)
-          return error
         })
     },
-    userSignedIn({ commit }, { user }) {
-      Auth.signInWithEmailAndPassword(user.email, user.password)
-        .then(() => {
-          commit(`userSignedIn`, true)
-          commit(`setUserInformation`, user)
-          console.log("User is now signed in!")
-        })
-        .catch((error) => {
-          if (error.code === `auth/user-not-found`) {
-            actions.userSignUp()
-          }
-          console.error(error)
-          Sentry.captureException(error)
-          return error
-        })
-    },
-    userSignedOut({ commit }) {
+    signOutUser({ commit }) {
       Auth.signOut()
         .then(() => {
           commit(`userSignedIn`, false)
-          console.log("User is now signed in!")
+          commit(`setUserInformation`, {})
+          console.log("User is now signed out!")
         })
         .catch((error) => {
           console.error(error)
+          commit(`setSignInError`, error)
           Sentry.captureException(error)
-          return error
         })
-    },
-    signInUser() {
-      console.log("Display magic link to authentication via firebase")
-    },
-    signOutUser({ commit }) {
-      commit(`setUserInformation`, {})
-      console.log("Triggers Firebase sign out and removes the set user")
     },
   }
 

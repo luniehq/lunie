@@ -8,12 +8,21 @@
 
 <script>
 import TmPage from "common/TmPage"
+import { mapState } from "vuex"
 import TmPart from "common/TmPart"
 export default {
   name: `email-authentication`,
   components: {
     TmPage,
     TmPart,
+  },
+  computed: {
+    ...mapState([`user`]),
+  },
+  mounted() {
+    if (!this.user.signInError) {
+      this.$store.dispatch(`signInUser`, this.user.user)
+    }
   },
 }
 </script>

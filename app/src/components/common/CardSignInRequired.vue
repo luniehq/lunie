@@ -4,32 +4,21 @@
     <div v-if="session.developmentMode">
       <h2>Authenticate</h2>
       <div>
-        <TmFormGroup
-          field-id="sign-in-credentials"
-          field-label="Signing Method"
-        >
+        <TmFormGroup field-id="sign-in-credentials" field-label="Signin">
           <TmField
             id="email"
             v-model="email"
             type="input"
             placeholder="Email"
           />
-          <TmField
-            id="password"
-            v-model="password"
-            type="password"
-            placeholder="Password"
-          />
         </TmFormGroup>
       </div>
-      <router-link
-        class="app-menu-item hide-m"
-        to="/email-authentication"
-        exact="exact"
+      <TmBtn
+        class="send-button"
+        value="Authenticate"
+        type="secondary"
         @click.native="authenticate()"
-      >
-        <TmBtn class="send-button" value="Authenticate" type="secondary" />
-      </router-link>
+      />
     </div>
     <h2>Welcome to Lunie 👋</h2>
     <h3>How would you like to get started?</h3>
@@ -131,10 +120,9 @@ export default {
   },
   methods: {
     async authenticate() {
-      const error = await this.$store.dispatch(`userSignedIn`, {
-        user: { email: this.email, password: this.password },
+      await this.$store.dispatch(`sendUserMagicLink`, {
+        user: { email: this.email },
       })
-      if (error) this.errorOnAuthentication = true
     },
   },
 }
