@@ -96,7 +96,6 @@ export default {
     isExtension: config.isExtension,
     loaded: false,
     email: "",
-    password: "",
     errorOnAuthentication: false,
   }),
   computed: {
