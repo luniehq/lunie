@@ -13,12 +13,10 @@
           />
         </TmFormGroup>
       </div>
-      <TmBtn
-        class="send-button"
-        value="Authenticate"
-        type="secondary"
-        @click.native="authenticate()"
-      />
+      <TmBtn value="Sign In" type="secondary" @click.native="sendMagicLink()" />
+      <span id="magic-link-message"
+        >Magic link to sign in sent to your e-mail</span
+      >
     </div>
     <h2>Welcome to Lunie 👋</h2>
     <h3>How would you like to get started?</h3>
@@ -102,7 +100,7 @@ export default {
     errorOnAuthentication: false,
   }),
   computed: {
-    ...mapState([`session`, `keystore`, `extension`]),
+    ...mapState([`session`, `user`, `keystore`, `extension`]),
     ...mapGetters([`currentNetwork`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
@@ -119,10 +117,13 @@ export default {
     })
   },
   methods: {
-    async authenticate() {
+    async sendMagicLink() {
       await this.$store.dispatch(`sendUserMagicLink`, {
         user: { email: this.email },
       })
+      if (!this.user.signInError) {
+        this.$el.querySelector(`#magic-link-message`).style.display = `inline`
+      }
     },
   },
 }
@@ -155,6 +156,10 @@ h3 {
 .session-list {
   width: 100%;
   padding: 2rem 0;
+}
+
+#magic-link-message {
+  display: none;
 }
 
 @media screen and (max-width: 667px) {

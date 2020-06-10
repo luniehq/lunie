@@ -7,9 +7,7 @@ const Auth = firebase.auth()
 export default () => {
   const state = {
     userSignedIn: false,
-    user: {
-      email: "",
-    },
+    user: null,
     signInError: null,
     externals: {
       config,
@@ -18,7 +16,7 @@ export default () => {
 
   const mutations = {
     userSignedIn(state, hasSignedIn) {
-      state.signedIn = hasSignedIn
+      state.userSignedIn = hasSignedIn
     },
     setUserInformation(state, user) {
       state.user = user
@@ -55,7 +53,7 @@ export default () => {
       Auth.signOut()
         .then(() => {
           commit(`userSignedIn`, false)
-          commit(`setUserInformation`, {})
+          commit(`setUserInformation`, null)
           console.log("User is now signed out!")
         })
         .catch((error) => {
