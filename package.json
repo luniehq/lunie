@@ -15,6 +15,7 @@
   "scripts": {
     "changelog:api": "cd api && yarn changelog",
     "changelog:app": "cd app && yarn changelog",
-    "changelog:extension": "cd extension && yarn changelog"
+    "changelog:extension": "cd extension && yarn changelog",
+    "lint:global": "cd api && yarn lint --fix && cd .. && cd app && yarn lint --fix && cd .. && cd extension && yarn lint:fix && cd .."
   }
 }
