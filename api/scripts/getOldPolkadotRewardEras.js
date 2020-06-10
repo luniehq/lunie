@@ -332,9 +332,9 @@ async function main() {
   console.timeEnd('parsing lunie rewards')
 
   // store
-  const storableRewards = lunieRewards
+  const storableRewards = _.uniqWith(lunieRewards
     ? lunieRewards.filter(({ amount }) => amount > 0)
-    : []
+    : [], _.property([`height`, `chain_id`, `validator`, `address`, `denom`])) // HACK somehow we get some rewards twice which causes the insert to fail 
   console.log(
     `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
   )
