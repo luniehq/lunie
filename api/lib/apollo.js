@@ -60,7 +60,7 @@ function createApolloServer(httpServer) {
         if (process.env.WHITELIST_ORIGIN) {
           const origin = req.get('origin')
           if (!process.env.WHITELIST_ORIGIN.split(',').includes(origin)) {
-            throw new Error("Access Forbidden")
+            throw new Error(`Access Forbidden`)
           }
         }
         return {
