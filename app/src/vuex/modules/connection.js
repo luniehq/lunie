@@ -78,8 +78,11 @@ export default function ({ apollo }) {
         let selectedNetwork = undefined
         state.networks
           .filter(({ network_type }) => network_type === `polkadot`)
-          .forEach(network => {
-            const isValid = isValidPolkadotAddress(address, parseInt(network.address_prefix))
+          .forEach((network) => {
+            const isValid = isValidPolkadotAddress(
+              address,
+              parseInt(network.address_prefix)
+            )
             if (isValid[0]) {
               selectedNetwork = network
             }
@@ -90,7 +93,7 @@ export default function ({ apollo }) {
           throw new Error(
             "Address is not in a valid polkadot format. Did you mistype?"
           )
-        }        
+        }
       }
 
       const selectedNetworksArray = state.networks.filter(
