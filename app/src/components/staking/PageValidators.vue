@@ -88,20 +88,18 @@ export default {
   },
   methods: {
     defaultSelectorsController(selector) {
-      if (selector === `popularSort`) {
-        this.popularSort = !this.popularSort
+        this.popularSort = false
         this.allValidators = false
         this.activeOnly = false
+
+      if (selector === `popularSort`) {
+        this.popularSort = true
       }
       if (selector === `allValidators`) {
-        this.allValidators = !this.allValidators
-        this.popularSort = false
-        this.activeOnly = false
+        this.allValidators = true
       }
       if (selector === `activeOnly`) {
-        this.activeOnly = !this.activeOnly
-        this.popularSort = false
-        this.allValidators = false
+        this.activeOnly = true
       }
     },
   },
