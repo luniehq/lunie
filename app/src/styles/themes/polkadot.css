@@ -1,5 +1,4 @@
-.polkadot-testnet,
-.polkadot-mainnet {
+.polkadot {
   /* theme colors */
   --primary: hsl(325, 96%, 44%);
   --primary-hover: hsl(325, 67%, 39%);
@@ -8,9 +7,9 @@
   --link-hover: hsl(325, 67%, 49%);
 
   /* background-colors */
-  --app-fg: hsl(0, 0%, 10%);
-  --app-fg-hover: hsl(0, 0%, 17%);
-  --app-bg: hsl(0, 0%, 15%);
+  --app-fg: hsl(0, 0%, 97%);
+  --app-fg-hover: hsl(0, 0%, 92%);
+  --app-bg: hsl(0, 0%, 100%);
 
   /* menu styles */
   --app-nav: hsl(0, 0%, 0%);
@@ -19,12 +18,12 @@
   --menu-link-hover: var(--link-hover);
   --menu-border: hsl(0, 0%, 15%);
 
-  /* dark-theme typography */
-  --bright: hsl(0, 0%, 100%);
-  --txt: hsl(0, 0%, 90%);
-  --dim: hsl(0, 0%, 80%);
-  --bc: hsla(233, 24%, 75%, 0.175);
-  --bc-dim: hsla(233, 24%, 75%, 0.0875);
-  --input-bc: var(--dim);
-  --success: hsl(120, 72%, 47%);
+  /* light-theme typography */
+  --bright: hsl(0, 0%, 0%);
+  --txt: hsl(0, 0%, 10%);
+  --dim: hsl(0, 0%, 20%);
+  --bc: hsl(0, 0%, 90%);
+  --bc-dim: hsl(0, 0%, 95%);
+  --input-bc: hsl(0, 0%, 75%);
 }
+
