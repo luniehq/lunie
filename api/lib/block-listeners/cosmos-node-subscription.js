@@ -198,10 +198,10 @@ class CosmosNodeSubscription {
   async updateDBValidatorProfiles(currentValidators) {
     // filter only new validators
     let updatedValidators = currentValidators.filter(
-      ({operatorAddress: currentAddress, name: currentName}) =>
+      ({ operatorAddress: currentAddress, name: currentName }) =>
         !this.validators.find(
-          ({operatorAddress, name}) =>
-          currentAddress === operatorAddress && currentName === name // in case if validator name was changed
+          ({ operatorAddress, name }) =>
+            currentAddress === operatorAddress && currentName === name // in case if validator name was changed
         )
     )
     // save all new validators to an array
@@ -213,16 +213,18 @@ class CosmosNodeSubscription {
               newValidatorOperatorAddress === operatorAddress
           )
       ),
-      ...updatedValidators.map(({operatorAddress, name}) => ({
+      ...updatedValidators.map(({ operatorAddress, name }) => ({
         operatorAddress,
         name
       }))
     ]
     // update only new onces
-    const validatorRows = updatedValidators.map(({ operatorAddress, name }) => ({
-      operator_address: operatorAddress,
-      name
-    }))
+    const validatorRows = updatedValidators.map(
+      ({ operatorAddress, name }) => ({
+        operator_address: operatorAddress,
+        name
+      })
+    )
     return this.db.upsert('validatorprofiles', validatorRows)
   }
 }
