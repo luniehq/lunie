@@ -333,7 +333,7 @@ async function main() {
 
   // store
   const storableRewards = lunieRewards
-    ? lunieRewards.filter(({ amount }) => "amount" > 0)
+    ? lunieRewards.filter(({ amount }) => amount > 0)
     : []
   console.log(
     `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
