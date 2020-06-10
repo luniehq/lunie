@@ -110,8 +110,17 @@ export default {
         }
       },
       update: function (result) {
+        if (!Array.isArray(result.validators)) {
+          return []
+        }
+
         this.loaded = true
-        return Array.isArray(result.validators) ? result.validators : []
+
+        return this.activeOnly
+          ? result.validators.filter(
+              ({ name, operatorAddress }) => name !== operatorAddress
+            )
+          : result.validators
       },
     },
     delegations: {
