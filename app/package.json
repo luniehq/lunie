@@ -112,7 +112,7 @@
     "inquirer": "7.0.0",
     "jest-localstorage-mock": "^2.4.2",
     "kill-port": "^1.5.1",
-    "lint-staged": "10.1.2",
+    "lint-staged": "10.2.9",
     "live-server": "^1.2.1",
     "live-server-https": "^0.0.2",
     "nightwatch": "1.3.5",
