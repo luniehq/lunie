@@ -22,19 +22,19 @@
             value="Popular"
             class="btn-radio secondary"
             :type="popularSort ? `active` : `secondary`"
-            @click.native="popularSort = !popularSort"
+            @click.native="defaultSelectorsController(`popularSort`)"
           />
           <TmBtn
             value="All"
             class="btn-radio secondary"
-            :type="!activeOnly ? `active` : `secondary`"
-            @click.native="activeOnly = false"
+            :type="allValidators ? `active` : `secondary`"
+            @click.native="defaultSelectorsController(`allValidators`)"
           />
           <TmBtn
             value="Active"
             class="btn-radio secondary"
             :type="activeOnly ? `active` : `secondary`"
-            @click.native="activeOnly = true"
+            @click.native="defaultSelectorsController(`activeOnly`)"
           />
         </div>
       </div>
@@ -71,7 +71,8 @@ export default {
   },
   data: () => ({
     searchTerm: "",
-    activeOnly: true,
+    activeOnly: false,
+    allValidators: false,
     popularSort: true,
     validators: [],
     loaded: false,
@@ -83,6 +84,25 @@ export default {
         ...validator,
         smallName: validator.name ? validator.name.toLowerCase() : "",
       }))
+    },
+  },
+  methods: {
+    defaultSelectorsController(selector) {
+      if (selector === `popularSort`) {
+        this.popularSort = !this.popularSort
+        this.allValidators = false
+        this.activeOnly = false
+      }
+      if (selector === `allValidators`) {
+        this.allValidators = !this.allValidators
+        this.popularSort = false
+        this.activeOnly = false
+      }
+      if (selector === `activeOnly`) {
+        this.activeOnly = !this.activeOnly
+        this.popularSort = false
+        this.allValidators = false
+      }
     },
   },
   apollo: {
