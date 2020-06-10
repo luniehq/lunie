@@ -47,7 +47,7 @@
     "axios": "^0.19.2",
     "bech32": "^1.1.4",
     "bignumber.js": "^9.0.0",
-    "capacitor-intercom": "0.2.3",
+    "capacitor-intercom": "2.1.0",
     "core-js": "^2.6.5",
     "cross-spawn": "7.0.1",
     "crypto-js": "^3.1.9-1",

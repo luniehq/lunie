@@ -4810,10 +4810,10 @@ canvas-renderer@~2.1.1:
   resolved "https://registry.yarnpkg.com/canvas-renderer/-/canvas-renderer-2.1.1.tgz#d91fe9511ab48056ff9fa8a04514bede76535f55"
   integrity sha512-/V0XetN7s1Mk3NO7x2wxPZYv0pLMQtGAhecuOuKR88beiYCUle1AbCcFZNLu+4NVzi9RVHS0rXtIgzPEaKidLw==
 
-capacitor-intercom@0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/capacitor-intercom/-/capacitor-intercom-0.2.3.tgz#0d34c8f98277dde41bc69fa4b1651665b2fc39b0"
-  integrity sha512-1A1r8oIHBsJTcKnn6yZKKH1Zr58L3KznvZ6sps61XGqbidXcjCBuN7YNUxYLPVlv7FpghY2bMSBjCt0v51QGFg==
+capacitor-intercom@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/capacitor-intercom/-/capacitor-intercom-2.1.0.tgz#51886369795b378c19d6742983a86903741b8099"
+  integrity sha512-v/6QhpOCARNGWy+lE1hl4XMMPHr3DJAz0HADt45I4RtEu1HisDt3vm54KQpUHie+DjOKSt+VGfLCXvnftDr25Q==
   dependencies:
     "@capacitor/core" latest
 
