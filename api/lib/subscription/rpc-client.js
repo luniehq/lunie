@@ -113,7 +113,7 @@ class Client extends EventEmitter {
       this.on(id + `#event`, (err, res) => {
         if (err) {
           console.error('Connection problem for websocket', err)
-          this.connectWs(attempt + 1)
+          this.connectWs(1)
         }
         listener(res.data.value)
       })
