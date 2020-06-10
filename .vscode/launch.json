@@ -4,18 +4,29 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch API",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
             "program": "${workspaceFolder}/api/index.js",
             "env": {
-                "NODE_ENV": "development",
-                "_TESTNET": "true",
-                "HASURA_URL": "https://staging-db.lunie.io/v1/graphql",
-                "HASURA_ADMIN_KEY": "lunie1234",
-                "GOOGLE_APPLICATION_CREDENTIALS": "/Users/usuario/lunie/lunie-api/pushCredentials.json"
+                "WHITELIST_ORIGIN": "http://localhost:4000",
+                // "RUN_ONLY_NETWORK": "cosmos-hub-testnet"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Polkadot Rewards Script",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/api/scripts/getOldPolkadotRewardEras.js",
+            "env": {
+                "RUN_ONLY_NETWORK": "polkadot-testnet"
             }
         }
     ]

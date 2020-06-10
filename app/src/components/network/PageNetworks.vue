@@ -28,11 +28,6 @@ export default {
   data: () => ({
     comingSoon: [
       {
-        id: "polkadot-mainnet",
-        title: "Polkadot",
-        icon: "/img/networks/polkadot-mainnet.png",
-      },
-      {
         id: "tezos-mainnet",
         title: "Tezos",
         icon: "/img/networks/tezos-mainnet.png",

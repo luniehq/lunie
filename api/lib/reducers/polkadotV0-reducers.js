@@ -7,6 +7,7 @@ const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
 function blockReducer(
   networkId,
+  chainId,
   blockHeight,
   blockHash,
   sessionIndex,
@@ -16,7 +17,7 @@ function blockReducer(
   return {
     networkId,
     height: blockHeight,
-    chainId: `kusama-cc3`,
+    chainId,
     hash: blockHash,
     sessionIndex,
     time: new Date().toISOString(), // TODO: Get from blockchain state
@@ -113,9 +114,6 @@ async function balanceV2Reducer(
   fiatValueAPI,
   fiatCurrency
 ) {
-  if (total === '0') {
-    return []
-  }
   const availableLunieCoin = coinReducer(network, balance, 6)
   const totalLunieCoin = coinReducer(network, total, 6)
   const availableFiatValue = (
@@ -124,6 +122,17 @@ async function balanceV2Reducer(
   const totalFiatValue = (
     await fiatValueAPI.calculateFiatValues([totalLunieCoin], fiatCurrency)
   )[totalLunieCoin.denom]
+
+  if (total === '0') {
+    return {
+      type: 'STAKE',
+      available: 0,
+      total: 0,
+      denom: availableLunieCoin.denom,
+      availableFiatValue,
+      fiatValue: totalFiatValue
+    }
+  }
 
   return {
     type: 'STAKE', // just a staking denom on Kusama for now
