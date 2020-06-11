@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
 ## [1.0.24] - 2020-06-11
-
+ 
 ### Added
 
 - [#890](https://github.com/cosmos/lunie/pull/890) Enables all Akash testnet actions @Bitcoinera
