@@ -33,9 +33,11 @@ export default () => {
         try {
           await Auth.signInWithEmailLink(user.email, window.location.href)
           await Auth.onAuthStateChanged((user) => {
-            commit(`userSignedIn`, true)
-            commit(`setUserInformation`, user)
-            console.log("User is now signed in!")
+            if (user) {
+              commit(`userSignedIn`, true)
+              commit(`setUserInformation`, user)
+              console.log("User is now signed in!")
+            }
           })
         } catch (error) {
           console.error(error)
