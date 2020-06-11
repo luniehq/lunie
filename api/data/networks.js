@@ -226,7 +226,7 @@ module.exports = [
     id: 'westend',
     title: 'Polkadot Testnet',
     chain_id: 'westend',
-    api_url: '',
+    api_url: 'https://api-01.polkascan.io/polkadot/api/v1/',
     rpc_url: process.env.LOCAL_WESTEND_API || 'wss://westend-rpc.polkadot.io',
     bech32_prefix: ' ',
     address_prefix: '42', // used in Polkadot as well to generate display addresses (https://wiki.polkadot.network/docs/en/learn-accounts)
