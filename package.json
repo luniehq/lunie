@@ -16,6 +16,7 @@
     "changelog:api": "cd api && yarn changelog",
     "changelog:app": "cd app && yarn changelog",
     "changelog:extension": "cd extension && yarn changelog",
-    "lint:global": "cd api && yarn lint --fix && cd .. && cd app && yarn lint --fix && cd .. && cd extension && yarn lint:fix && cd .."
+    "lint:global": "cd api && yarn lint --fix && cd .. && cd app && yarn lint --fix && cd .. && cd extension && yarn lint:fix && cd ..",
+    "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git checkout origin/release -B release && git pull && git merge origin/develop && git push"
   }
 }
