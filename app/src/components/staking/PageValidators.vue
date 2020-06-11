@@ -19,16 +19,22 @@
         />
         <div class="toggles">
           <TmBtn
+            value="Popular"
+            class="btn-radio secondary"
+            :type="popularSort ? `active` : `secondary`"
+            @click.native="defaultSelectorsController(`popularSort`)"
+          />
+          <TmBtn
             value="All"
             class="btn-radio secondary"
-            :type="!activeOnly ? `active` : `secondary`"
-            @click.native="activeOnly = false"
+            :type="allValidators ? `active` : `secondary`"
+            @click.native="defaultSelectorsController(`allValidators`)"
           />
           <TmBtn
             value="Active"
             class="btn-radio secondary"
             :type="activeOnly ? `active` : `secondary`"
-            @click.native="activeOnly = true"
+            @click.native="defaultSelectorsController(`activeOnly`)"
           />
         </div>
       </div>
@@ -65,7 +71,9 @@ export default {
   },
   data: () => ({
     searchTerm: "",
-    activeOnly: true,
+    activeOnly: false,
+    allValidators: false,
+    popularSort: true,
     validators: [],
     loaded: false,
   }),
@@ -78,6 +86,23 @@ export default {
       }))
     },
   },
+  methods: {
+    defaultSelectorsController(selector) {
+        this.popularSort = false
+        this.allValidators = false
+        this.activeOnly = false
+
+      if (selector === `popularSort`) {
+        this.popularSort = true
+      }
+      if (selector === `allValidators`) {
+        this.allValidators = true
+      }
+      if (selector === `activeOnly`) {
+        this.activeOnly = true
+      }
+    },
+  },
   apollo: {
     validators: {
       query: gql`
@@ -85,11 +110,13 @@ export default {
           $networkId: String!
           $searchTerm: String
           $activeOnly: Boolean
+          $popularSort: Boolean
         ) {
           validators(
             networkId: $networkId
             searchTerm: $searchTerm
             activeOnly: $activeOnly
+            popularSort: $popularSort
           ) {
             name
             operatorAddress
@@ -99,6 +126,7 @@ export default {
             statusDetailed
             picture
             expectedReturns
+            popularity
           }
         }
       `,
@@ -107,6 +135,7 @@ export default {
           networkId: this.network,
           activeOnly: this.activeOnly,
           searchTerm: this.searchTerm,
+          popularSort: this.popularSort,
         }
       },
       update: function (result) {
