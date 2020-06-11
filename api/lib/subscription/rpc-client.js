@@ -111,7 +111,10 @@ class Client extends EventEmitter {
 
       // events get passed to listener
       this.on(id + `#event`, (err, res) => {
-        if (err) return self.emit(`error`, err)
+        if (err) {
+          console.error('Connection problem for websocket', err)
+          this.connectWs(1)
+        }
         listener(res.data.value)
       })
 
