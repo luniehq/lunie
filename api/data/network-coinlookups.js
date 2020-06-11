@@ -95,6 +95,11 @@ const coinLookupDictionary = {
       viewDenom: 'KSM',
       chainToViewConversionFactor: 1e-12
   }],
+  "polkadot": [{
+      chainDenom: 'Planck',
+      viewDenom: 'DOT',
+      chainToViewConversionFactor: 1e-12
+  }],
   "kava-mainnet": [{
     chainDenom: 'ukava',
     viewDenom: 'KAVA',

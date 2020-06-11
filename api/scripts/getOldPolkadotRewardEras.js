@@ -249,8 +249,8 @@ async function getMissingEras(lastStoredEra, currentEra) {
 
 async function main() {
   const currentEraArg = require('minimist')(process.argv.slice(2))
-  const currentEra = currentEraArg['currentEra']
-  console.log(currentEra)
+  let currentEra = currentEraArg['currentEra']
+
   // get previously stored data
   let {
     storedEraPoints,
@@ -259,10 +259,13 @@ async function main() {
     storedExposures,
     lastStoredEra
   } = loadStoredEraData()
-  if (currentEra <= lastStoredEra) {
+
+  if (currentEra && currentEra <= lastStoredEra) {
     console.log('Rewards for this era are already stored')
     process.exit(0)
   }
+
+  console.log("Getting rewards from era:", currentEra || 'latest')
 
   const networks = require('../data/networks')
   const network = networks.find(({ id }) => id === 'kusama')
@@ -271,6 +274,14 @@ async function main() {
   await initPolkadotRPC(network, store)
   let api = store.polkadotRPC
   const polkadotAPI = new PolkadotApiClass(network, store)
+
+  if (!currentEra) {
+    const activeEra = parseInt(
+      JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
+    )
+    const lastEra = activeEra - 1
+    currentEra = lastEra
+  }
 
   const validators = await polkadotAPI.getAllValidators()
   store.validators = _.keyBy(validators, 'operatorAddress')
@@ -319,11 +330,11 @@ async function main() {
     polkadotAPI.reducers
   )
   console.timeEnd('parsing lunie rewards')
-
+  
   // store
-  const storableRewards = lunieRewards
+  const storableRewards = _.uniqBy(lunieRewards
     ? lunieRewards.filter(({ amount }) => amount > 0)
-    : []
+    : [], reward => `${reward.address}_${reward.validator}_${reward.height}_${reward.chain_id}`) // HACK somehow we get some rewards twice which causes the insert to fail 
   console.log(
     `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
   )
