@@ -57,7 +57,8 @@ function validatorReducer(network, validator) {
         network.coinLookup[0].chainToViewConversionFactor
       ).toFixed(6) || 0,
     expectedReturns: validator.expectedReturns,
-    nominations: validator.nominations
+    nominations: validator.nominations,
+    popularity: validator.popularity
   }
 }
 
