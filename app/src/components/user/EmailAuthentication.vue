@@ -24,10 +24,7 @@ export default {
     ...mapState([`user`]),
   },
   mounted() {
-    console.log(this.user)
-    if (!this.user.signInError) {
-      this.$store.dispatch(`signInUser`, { user: this.user.user })
-    }
+    this.$store.dispatch(`signInUser`)
   },
   methods: {
     signOut() {

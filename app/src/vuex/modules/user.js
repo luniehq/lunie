@@ -27,10 +27,22 @@ export default () => {
   }
 
   const actions = {
-    signInUser({ commit }, { user }) {
-      commit(`userSignedIn`, true)
-      commit(`setUserInformation`, user)
-      console.log("User is now signed in!")
+    async signInUser({ commit }) {
+      if (Auth.isSignInWithEmailLink(window.location.href)) {
+        const user = JSON.parse(localStorage.getItem(`user`))
+        try {
+          await Auth.signInWithEmailLink(user.email, window.location.href)
+          await Auth.onAuthStateChanged((user) => {
+            commit(`userSignedIn`, true)
+            commit(`setUserInformation`, user)
+            console.log("User is now signed in!")
+          })
+        } catch (error) {
+          console.error(error)
+          commit(`setSignInError`, error)
+          Sentry.captureException(error)
+        }
+      }
     },
     async sendUserMagicLink({ commit }, { user }) {
       const actionCodeSettings = {
@@ -40,9 +52,9 @@ export default () => {
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
         commit(`setUserInformation`, user)
-        localStorage.setItem("user", user)
+        localStorage.setItem("user", JSON.stringify(user))
         console.log("Magic link sent to your email!")
-      } catch(error) {
+      } catch (error) {
         console.error(error)
         commit(`setSignInError`, error)
         Sentry.captureException(error)
@@ -51,10 +63,14 @@ export default () => {
     async signOutUser({ commit }) {
       try {
         await Auth.signOut()
-        commit(`userSignedIn`, false)
-        commit(`setUserInformation`, null)
-        console.log("User is now signed out!")
-      } catch(error) {
+        await Auth.onAuthStateChanged((user) => {
+          if (!user) {
+            commit(`userSignedIn`, false)
+            commit(`setUserInformation`, null)
+            console.log("User is now signed out!")
+          }
+        })
+      } catch (error) {
         console.error(error)
         commit(`setSignInError`, error)
         Sentry.captureException(error)
