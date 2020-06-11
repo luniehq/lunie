@@ -54,7 +54,7 @@ export default () => {
     },
     async sendUserMagicLink({ commit }, { user }) {
       const actionCodeSettings = {
-        url: `http://localhost:9080/email-authentication`,
+        url: `${window.location.protocol}//${window.location.host}/email-authentication`,
         handleCodeInApp: true,
       }
       try {
