@@ -10,7 +10,6 @@ import config from "src/../config"
 import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
-import firebase from "./firebase"
 
 if (navigator && navigator.serviceWorker) {
   // remove any existing service worker
@@ -52,13 +51,7 @@ export default async function init(urlParams, env = process.env) {
   await store.dispatch(`preloadNetworkCapabilities`)
 
   // check if user is signed in
-  const user = firebase.auth().currentUser
-
-  if (user) {
-    console.log(`User is signed in`)
-  } else {
-    console.log(`No user is signed in`)
-  }
+  store.dispatch(`listenToAuthChanges`)
 
   const router = Router(store)
   setGoogleAnalyticsPage(router.currentRoute.path)
