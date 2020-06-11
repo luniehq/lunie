@@ -32,35 +32,33 @@ export default () => {
       commit(`setUserInformation`, user)
       console.log("User is now signed in!")
     },
-    sendUserMagicLink({ commit }, { user }) {
+    async sendUserMagicLink({ commit }, { user }) {
       const actionCodeSettings = {
         url: `http://localhost:9080/email-authentication`,
         handleCodeInApp: true,
       }
-      Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
-        .then(() => {
-          commit(`setUserInformation`, user)
-          localStorage.setItem("user", user)
-          console.log("Magic link sent to your email!")
-        })
-        .catch((error) => {
-          console.error(error)
-          commit(`setSignInError`, error)
-          Sentry.captureException(error)
-        })
+      try {
+        await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
+        commit(`setUserInformation`, user)
+        localStorage.setItem("user", user)
+        console.log("Magic link sent to your email!")
+      } catch(error) {
+        console.error(error)
+        commit(`setSignInError`, error)
+        Sentry.captureException(error)
+      }
     },
-    signOutUser({ commit }) {
-      Auth.signOut()
-        .then(() => {
-          commit(`userSignedIn`, false)
-          commit(`setUserInformation`, null)
-          console.log("User is now signed out!")
-        })
-        .catch((error) => {
-          console.error(error)
-          commit(`setSignInError`, error)
-          Sentry.captureException(error)
-        })
+    async signOutUser({ commit }) {
+      try {
+        await Auth.signOut()
+        commit(`userSignedIn`, false)
+        commit(`setUserInformation`, null)
+        console.log("User is now signed out!")
+      } catch(error) {
+        console.error(error)
+        commit(`setSignInError`, error)
+        Sentry.captureException(error)
+      }
     },
   }
 
