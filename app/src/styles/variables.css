@@ -4,6 +4,7 @@
 @import "themes/kava";
 @import "themes/polkadot";
 @import "themes/kusama";
+@import "themes/westend";
 @import "themes/lunie-dark";
 
 :root {

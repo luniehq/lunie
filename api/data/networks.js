@@ -223,6 +223,32 @@ module.exports = [
     lockUpPeriod: '28 days'
   },
   {
+    id: 'westend',
+    title: 'Polkadot Testnet',
+    chain_id: 'westend',
+    api_url: '',
+    rpc_url: process.env.LOCAL_WESTEND_API || 'wss://westend-rpc.polkadot.io',
+    bech32_prefix: ' ',
+    address_prefix: '42', // used in Polkadot as well to generate display addresses (https://wiki.polkadot.network/docs/en/learn-accounts)
+    ledger_app: 'polkadot',
+    address_creator: 'polkadot',
+    network_type: 'polkadot',
+    source_class_name: 'source/polkadotV0-source',
+    block_listener_class_name: 'block-listeners/polkadot-node-subscription',
+    testnet: true,
+    ...getNetworkCapabilities[`westend`],
+    default: false,
+    stakingDenom: 'WND',
+    // https://wiki.polkadot.network/docs/en/learn-DOT
+    coinLookup: coinLookupDictionary[`westend`],
+    enabled: true,
+    experimental: true,
+    icon:
+      '/img/networks/westend.png',
+    slug: 'westend',
+    lockUpPeriod: '28 days'
+  },
+  {
     id: 'kava-mainnet',
     title: 'Kava',
     chain_id: 'kava-2',

@@ -100,6 +100,11 @@ const coinLookupDictionary = {
       viewDenom: 'DOT',
       chainToViewConversionFactor: 1e-12
   }],
+  "westend": [{
+    chainDenom: 'Planck',
+    viewDenom: 'WND',
+    chainToViewConversionFactor: 1e-12
+  }],
   "kava-mainnet": [{
     chainDenom: 'ukava',
     viewDenom: 'KAVA',
