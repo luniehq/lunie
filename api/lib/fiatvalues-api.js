@@ -10,6 +10,7 @@ const { fixDecimalsAndRoundUp } = require('../common/numbers.js')
 const allFiatCurrencies = [
   'usd',
   'eur',
+  'cad',
   'gbp',
   'jpy',
   'chf',
@@ -21,6 +22,7 @@ const allFiatCurrencies = [
 const allFiatCurrenciesSet = new Set([
   'EUR',
   'USD',
+  'CAD',
   'GBP',
   'CHF',
   'JPY',
@@ -50,6 +52,7 @@ const geckoIDToDenomDictionary = {
 const fiatCurrenciesSymbolsDictionary = {
   USD: '$',
   EUR: '€',
+  CAD: 'CA$',
   GBP: '£',
   CHF: 'Fr',
   JPY: '¥',

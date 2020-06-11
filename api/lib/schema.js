@@ -94,6 +94,7 @@ const typeDefs = gql`
     expectedReturns: String
     name: String
     picture: String
+    popularity: Int
   }
 
   type BlockV2 @cacheControl(maxAge: 10) {
@@ -399,6 +400,7 @@ const typeDefs = gql`
       networkId: String!
       searchTerm: String
       activeOnly: Boolean
+      popularSort: Boolean
     ): [Validator]
     allDelegators(networkId: String!): [String]
     vote(networkId: String!, proposalId: Int!, address: String!): Vote
