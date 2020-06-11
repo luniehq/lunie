@@ -1,6 +1,6 @@
 {
   "name": "lunie",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Lunie Staking Platform Mono Repository",
   "main": "index.js",
   "repository": "https://github.com/luniehq/lunie.git",
