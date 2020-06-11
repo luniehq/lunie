@@ -330,11 +330,11 @@ async function main() {
     polkadotAPI.reducers
   )
   console.timeEnd('parsing lunie rewards')
-
+  
   // store
   const storableRewards = _.uniqWith(lunieRewards
     ? lunieRewards.filter(({ amount }) => amount > 0)
-    : [], _.property([`height`, `chain_id`, `validator`, `address`, `denom`])) // HACK somehow we get some rewards twice which causes the insert to fail 
+    : [], r => `${r.address}_${r.validator}_${r.height}_${r.chain_id}`) // HACK somehow we get some rewards twice which causes the insert to fail 
   console.log(
     `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
   )
