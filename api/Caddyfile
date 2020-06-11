@@ -5,7 +5,3 @@ staging-api.lunie.io {
         websocket
     }
 }
-:9100 {
-    basicauth / admin lunie1234
-    proxy / lunieapi_node-exporter:9100
-}
