@@ -12,16 +12,36 @@
         color="primary"
         @click.native="buttonAction(account)"
       />
+      <div class="account-dropdown-toggle">
+        <i class="material-icons notranslate" @click="openAccountDropDown()">more_vert</i>   
+      </div>
     </li>
+    <TmFormGroup
+      v-if="accountDropDownToggle"
+      class="action-modal-form-group"
+      field-id="account-dropdown"
+      field-label="Select"
+    >
+      <TmField
+        id="account-dropdown-option"
+        title="Select"
+        :options="[`Show Seed`, `Export Account`]"
+        type="select"
+      />
+    </TmFormGroup>
   </ul>
 </template>
 
 <script>
+import TmFormGroup from "src/components/common/TmFormGroup"
+import TmField from "src/components/common/TmField"
 import Address from "common/Address"
 import TmBtn from "common/TmBtn"
 export default {
   name: `account-list`,
   components: {
+    TmFormGroup,
+    TmField,
     Address,
     TmBtn,
   },
@@ -39,6 +59,14 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    accountDropDownToggle: false,
+  }),
+  methods: {
+    openAccountDropDown() {
+      this.accountDropDownToggle = !this.accountDropDownToggle
+    }
+  }
 }
 </script>
 <style scoped>
@@ -69,5 +97,9 @@ export default {
 
 .account-button {
   padding: 0.25rem 0.5rem;
+}
+
+.account-dropdown-toggle {
+  cursor: pointer;
 }
 </style>
