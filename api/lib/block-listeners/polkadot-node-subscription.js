@@ -226,7 +226,7 @@ class PolkadotNodeSubscription {
   }
 
   // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
-  async updateDBValidatorProfiles(validators) {
+  async updateDBValidatorProfiles(currentValidators) {
     // filter only new validators
     let updatedValidators = currentValidators.filter(
       ({ operatorAddress: currentAddress, name: currentName }) =>
