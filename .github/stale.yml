@@ -1,0 +1,21 @@
+# Configuration for probot-stale - https://github.com/probot/stale
+
+# Set to true to ignore issues in a project (defaults to false)
+exemptProjects: false
+
+# Set to true to ignore issues in a milestone (defaults to false)
+exemptMilestones: false
+
+# Set to true to ignore issues with an assignee (defaults to false)
+exemptAssignees: false
+
+# Label to use when marking as stale
+staleLabel: stale
+
+pulls:
+  daysUntilStale: 6
+  daysUntilClose: 3
+
+issues:
+  daysUntilStale: 28
+  daysUntilClose: 3
