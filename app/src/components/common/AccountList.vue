@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AccountMenu v-if="accountMenuToggle" />
+    <AccountMenu v-if="accountMenuToggle" :address="accountAddress" />
     <ul class="account-list">
       <li v-for="account in accounts" :key="account.name" class="account">
         <div class="account-info">
@@ -15,7 +15,9 @@
           @click.native="buttonAction(account)"
         />
         <div class="account-menu-toggle">
-          <i class="material-icons notranslate" @click="openAccountMenu()"
+          <i
+            class="material-icons notranslate"
+            @click="openAccountMenu(account.address)"
             >more_vert</i
           >
         </div>
@@ -51,9 +53,11 @@ export default {
   },
   data: () => ({
     accountMenuToggle: false,
+    accountAddress: "",
   }),
   methods: {
-    openAccountMenu() {
+    openAccountMenu(address) {
+      this.accountAddress = address
       this.accountMenuToggle = !this.accountMenuToggle
     },
   },

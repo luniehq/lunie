@@ -1,7 +1,9 @@
 <template>
   <div class="account-menu">
     <div>
-      Balance
+      <span>{{ accountBalance.amount }}</span>
+      &nbsp;
+      <span>{{ accountBalance.denom }}</span>
     </div>
     <div class="account-menu-buttons">
       <div
@@ -25,17 +27,75 @@
         >
       </div>
     </div>
+    <RevealSeedModal v-if="displayRevealSeed" :address="address" />
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex"
+import RevealSeedModal from "common/RevealSeedModal"
+import gql from "graphql-tag"
+
 export default {
   name: `account-menu`,
+  components: {
+    RevealSeedModal,
+  },
+  props: {
+    address: {
+      type: String,
+      required: true,
+    },
+  },
+  data: () => {
+    return {
+      seed: "",
+      displayRevealSeed: false,
+      balances: [],
+    }
+  },
+  computed: {
+    ...mapGetters([`network`, `stakingDenom`]),
+    accountBalance() {
+      if (this.balances && this.balances.length > 0) {
+        return this.balances.find(({ denom }) => denom === this.stakingDenom)
+      } else {
+        return { amount: 0, denom: this.stakingDenom }
+      }
+    },
+  },
   methods: {
     accountMenuController(command) {
       if (command === `show-seed`) {
-        this.$store.dispatch(`getEncryptedWallet`)
+        this.displayRevealSeed = true
       }
+    },
+  },
+  apollo: {
+    balances: {
+      query: gql`
+        query Balances($networkId: String!, $address: String!) {
+          balances(networkId: $networkId, address: $address) {
+            amount
+            denom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address,
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        return data.balances || []
+      },
     },
   },
 }
@@ -51,6 +111,7 @@ export default {
 }
 
 .account-menu-button {
+  margin-right: 1em;
   cursor: pointer;
   border-radius: 50%;
   padding: 0.5em;
