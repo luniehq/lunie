@@ -8,9 +8,6 @@ on:
       - 'app/**'
 env:
   WORKING_DIRECTORY: ./app
-  VUE_APP_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY_FE }}
-  VUE_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN_FE }}
-  VUE_APP_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID_FE }}
 jobs:
   test:
     name: test

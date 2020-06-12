@@ -1,6 +1,7 @@
 import store from "src/vuex/store"
 import { Store } from "vuex"
 jest.mock(`capacitor-intercom`, () => ({}))
+jest.mock(`../../firebase`, () => ({}))
 
 describe(`Store`, () => {
   it(`check defaults`, () => {

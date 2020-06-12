@@ -1,4 +1,5 @@
 jest.mock(`capacitor-intercom`, () => ({}))
+jest.mock(`../../firebase`, () => ({}))
 const Modules = require(`src/vuex/modules`).default
 
 describe(`Module Index`, () => {
