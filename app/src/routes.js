@@ -229,7 +229,7 @@ export default (store) => {
     {
       path: `/email-authentication`,
       name: `email-authentication`,
-      component: () => import(`./components/user/EmailAuthentication`),
+      component: () => import(`./components/account/EmailAuthentication`),
     },
     {
       path: `/:networkId`,
