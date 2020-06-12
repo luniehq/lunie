@@ -9,6 +9,7 @@ on:
 
 env:
     WORKING_DIRECTORY: ./api
+    GIT_BOT_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}
 jobs:
     publish:
         name: publish
@@ -20,4 +21,4 @@ jobs:
           uses: actions/setup-node@v1
         - name: publish to master
           run: bash ./scripts/publish.sh
-          working-directory: ${{env.WORKING_DIRECTORY}}
+          working-directory: ${{ env.WORKING_DIRECTORY }}            
