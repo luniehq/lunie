@@ -1,5 +1,5 @@
 import config from "src/../config"
-import firebase from "../../firebase"
+import firebase from "../../firebase.js"
 import * as Sentry from "@sentry/browser"
 
 const Auth = firebase.auth()
