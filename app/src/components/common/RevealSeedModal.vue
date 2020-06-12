@@ -42,9 +42,14 @@ export default {
       required: true,
     },
   },
+  data: () => {
+      return {
+          password: '',
+      }
+  },
   methods: {
-    revealSeedPhrase() {
-      const seed = this.$store.dispatch(`getWalletSeed`, {
+    async revealSeedPhrase() {
+      const seed = await this.$store.dispatch(`getWalletSeed`, {
         address: this.address,
         password: this.password,
       })

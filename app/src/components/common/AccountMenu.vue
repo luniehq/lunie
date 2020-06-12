@@ -10,7 +10,7 @@
         class="account-menu-button account-menu-edit"
         @click="accountMenuController(`edit`)"
       >
-        <i class="material-icons notranslate">create</i>
+        <i class="material-icons notranslate" style="color: #62D08E">create</i>
       </div>
       <div
         class="account-menu-button account-menu-delete"
@@ -120,7 +120,7 @@ export default {
 }
 
 .account-menu-button.account-menu-edit {
-  background: #62d08e;
+  background: #DBF7E6;
 }
 
 .account-menu-button.account-menu-delete {
