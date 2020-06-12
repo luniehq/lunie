@@ -16,6 +16,11 @@ export default () => {
   }
 
   const actions = {
+    async getWalletSeed(store, { address, password }) {
+      const { getStoredWalletSeed } = await import("@lunie/cosmos-keys")
+      const seed = getStoredWalletSeed(address, password)
+      return seed
+    },
     async loadAccounts({ commit }) {
       const { getWalletIndex } = await import("@lunie/cosmos-keys")
       const keys = getWalletIndex()

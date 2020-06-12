@@ -65,6 +65,17 @@ export default ({ apollo }) => {
     )
   }
 
+  const getWalletSeed = () => {
+    chrome.runtime.sendMessage(
+      {
+        type: 'GET_WALLET_SEED'
+      },
+      function (seed) {
+        return seed
+      }
+    )
+  }
+
   const testLogin = (store, { address, password }) => {
     return new Promise((resolve) => {
       chrome.runtime.sendMessage(
@@ -242,6 +253,7 @@ export default ({ apollo }) => {
     createSeed,
     createKey,
     loadAccounts,
+    getWalletSeed,
     getNetworkByAddress,
     testLogin,
     getSignRequest,

@@ -1,5 +1,6 @@
 const {
   getWalletIndex,
+  getStoredWalletSeed,
   testPassword,
   removeWallet
 } = require('@lunie/cosmos-keys')
@@ -128,6 +129,10 @@ export function walletMessageHandler(message, sender, sendResponse) {
       } catch (error) {
         sendResponse(false)
       }
+      break
+    }
+    case 'GET_WALLET_SEED': {
+      sendResponse(getStoredWalletSeed())
       break
     }
   }
