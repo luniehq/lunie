@@ -1,9 +1,10 @@
 <template>
   <div class="account-menu">
-    <div>
-      <span>{{ accountBalance.amount }}</span>
-      &nbsp;
-      <span>{{ accountBalance.denom }}</span>
+    <div class="account-balance">
+      <div>{{ `${accountBalance.amount} ${accountBalance.denom}` }}</div>
+      <div @click="close()">
+        <i class="material-icons notranslate circle back">close</i>
+      </div>
     </div>
     <div class="account-menu-buttons">
       <div
@@ -27,19 +28,22 @@
         >
       </div>
     </div>
-    <RevealSeedModal v-if="displayRevealSeed" :address="address" />
+    <RevealSeedModal v-if="command === `show-seed`" :address="address" />
+    <AccountModal v-else-if="command !== '' && command !== `show-seed`" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import RevealSeedModal from "common/RevealSeedModal"
+import AccountModal from "common/AccountModal"
 import gql from "graphql-tag"
 
 export default {
   name: `account-menu`,
   components: {
     RevealSeedModal,
+    AccountModal,
   },
   props: {
     address: {
@@ -49,8 +53,8 @@ export default {
   },
   data: () => {
     return {
-      seed: "",
-      displayRevealSeed: false,
+      seed: '',
+      command: '',
       balances: [],
     }
   },
@@ -66,10 +70,11 @@ export default {
   },
   methods: {
     accountMenuController(command) {
-      if (command === `show-seed`) {
-        this.displayRevealSeed = true
-      }
+      this.command = command
     },
+    close() {
+      console.log('I should make this component disappear')
+    }
   },
   apollo: {
     balances: {
@@ -104,6 +109,18 @@ export default {
 .account-menu {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.account-balance {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 60%;
+  padding: 1rem;
+  background: var(--app-fg);
+  border-radius: 0.6rem;
+  border: 2px solid var(--bc-dim);
 }
 
 .account-menu-buttons {
