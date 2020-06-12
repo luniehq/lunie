@@ -8,6 +8,7 @@
         <MaintenanceBar />
         <DisconnectedBar />
       </div>
+      <UserMenu></UserMenu>
       <router-view name="session" />
       <router-view />
     </div>
@@ -20,6 +21,7 @@ import { mapState, mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import CookieBar from "common/CookieBar"
 import DisconnectedBar from "common/DisconnectedBar"
+import UserMenu from "common/UserMenu"
 import MaintenanceBar from "common/MaintenanceBar"
 import MobileMenu from "common/MobileMenu"
 import NetworkSelector from "common/NetworkSelector"
@@ -32,18 +34,19 @@ export default {
     AppHeader,
     CookieBar,
     DisconnectedBar,
+    UserMenu,
     MaintenanceBar,
     MobileMenu,
-    NetworkSelector,
+    NetworkSelector
   },
   data: () => ({
-    isMobileApp: config.mobileApp,
+    isMobileApp: config.mobileApp
   }),
   computed: {
     ...mapState([`notifications`, `session`]),
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`])
   },
-  store,
+  store
 }
 </script>
 

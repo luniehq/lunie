@@ -1,16 +1,15 @@
 <template>
-  <div class="copyable-address">
+  <div class="copyable-address" v-tooltip="tooltipText">
     <div
-      v-tooltip="`Click to copy`"
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
       class="address"
     >
-      {{ address | formatAddress }}
+      <span>{{ address | formatAddress }}</span>
+      <div :class="{ active: copySuccess }" class="icon-container">
+        <i class="material-icons notranslate success">check</i>
+      </div>
       <i class="material-icons notranslate copy">content_copy</i>
-    </div>
-    <div :class="{ active: copySuccess }" class="icon-container">
-      <i class="material-icons notranslate success">check</i>
     </div>
   </div>
 </template>
@@ -21,16 +20,20 @@ import { formatAddress } from "src/filters"
 export default {
   name: `lunie-address`,
   filters: {
-    formatAddress,
+    formatAddress
   },
   props: {
     address: {
       type: String,
-      required: true,
+      required: true
     },
+    tooltipText: {
+      type: String,
+      required: true
+    }
   },
   data: () => ({
-    copySuccess: false,
+    copySuccess: false
   }),
   methods: {
     onCopy() {
@@ -38,17 +41,20 @@ export default {
       setTimeout(() => {
         this.copySuccess = false
       }, 2500)
-    },
-  },
+    }
+  }
 }
 </script>
 <style scoped>
 .copyable-address {
-  font-size: 12px;
+  font-size: 14px;
   display: inline-flex;
   align-items: center;
-  padding: 0;
+  height: 2rem;
+  padding: 0 1rem;
+  border-radius: 1rem;
   margin: 0;
+  background: var(--app-fg);
 }
 
 .copyable-address .address {
@@ -87,7 +93,7 @@ export default {
 }
 
 .copyable-address i {
-  font-size: 12px;
+  font-size: 14px;
   padding-left: 0.25rem;
 }
 
@@ -96,6 +102,6 @@ export default {
 }
 
 .material-icons {
-  font-size: 12px;
+  font-size: 14px;
 }
 </style>
