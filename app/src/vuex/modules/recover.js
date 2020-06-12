@@ -23,6 +23,9 @@ export default () => {
       resetRecoverData({ commit }) {
         commit(`resetRecoverData`)
       },
+      getEncryptedWallet(store, { address }) {
+        console.log("Feature coming soon")
+      },
     },
   }
 }
