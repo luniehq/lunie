@@ -96,7 +96,7 @@ export default {
     errorOnAuthentication: false,
   }),
   computed: {
-    ...mapState([`session`, `user`, `keystore`, `extension`]),
+    ...mapState([`session`, `keystore`, `extension`]),
     ...mapGetters([`currentNetwork`]),
     accountExists() {
       return this.keystore && this.keystore.accounts.length > 0
