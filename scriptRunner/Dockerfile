@@ -1,25 +1,25 @@
 FROM node:lts-alpine3.11
 
-WORKDIR /var/www/server
+WORKDIR /
 
-COPY ../api/common ./api/common
+COPY ./api/common ./api/common
 
-COPY ../api/lib ./api/lib
+COPY ./api/lib ./api/lib
 
-COPY ../api/data ./api/data
+COPY ./api/data ./api/data
 
-COPY ../api/scripts ./api/scripts
+COPY ./api/scripts ./api/scripts
 
-COPY ../api/package.json ./api
+COPY ./api/package.json ./api
 
-COPY ../api/config.js ./api
+COPY ./api/config.js ./api
 
-COPY ../api/secrets.js .
+COPY ./api/secrets.js .
 
-COPY . .
+COPY ./scriptRunner ./scriptRunner
 
-RUN npm install
+RUN cd scriptRunner && npm install
 
-CMD npm run start
+CMD cd scriptRunner && npm run start
 
-EXPOSE 4200
+EXPOSE 9000 

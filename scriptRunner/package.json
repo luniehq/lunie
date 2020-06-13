@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node scriptRunner/"
+    "start": "node src/index.js",
+    "build": "docker build --file ./Dockerfile ../ --tag lunie-script-runner"
   },
   "author": "",
   "license": "ISC",
