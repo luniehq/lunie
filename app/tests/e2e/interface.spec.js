@@ -5,6 +5,8 @@ module.exports = {
     await browser.waitForElementVisible(".li-validator", 10000)
     const validatorNames = await getValidators(browser)
 
+    await browser.click(".toggles .btn-radio:nth-child(3)")
+
     const searchTestStrings = ["validator", "stake", "~~"]
     for (let index = 0; index < searchTestStrings.length; index++) {
       const searchTestString = searchTestStrings[index]
