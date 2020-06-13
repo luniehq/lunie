@@ -1,0 +1,36 @@
+version: '3.6'
+services:
+  lunieapi:
+    image: lunie-script-runner:latest
+    container_name: lunie-script-runner
+    restart: unless-stopped
+    secrets:
+    - HASURA_ADMIN_KEY
+    volumes:
+    - /logs:/var/www/server/logs
+    - caches:/var/www/server/caches
+    networks:
+       - general
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://admin:${LOKI_PASSWORD}@monitoring.lunie.io:3100/loki/api/v1/push"
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 2.5G
+    environment:
+      - HASURA_URL=$HASURA_URL
+      - SENTRY_DSN=$SENTRY_DSN
+      - AUTHENTICATION_TOKEN=$AUTHENTICATION_TOKEN
+    ports:
+    - "9000:9000"
+secrets:
+  HASURA_ADMIN_KEY:
+    external: true
+volumes:  
+  caches:
+networks:
+  general:
+

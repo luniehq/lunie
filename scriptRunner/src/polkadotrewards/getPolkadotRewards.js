@@ -5,7 +5,7 @@ module.exports.loadPolkadotRewards = async function loadPolkadotRewards({era}) {
         const rewardsScript = spawn(
             'node',
             [
-                './api/scripts/getOldPolkadotRewardEras.js', // TODO path won't work in product
+                '../api/scripts/getOldPolkadotRewardEras.js', // TODO path won't work in product
                 `--currentEra=${era}`
             ],
             {

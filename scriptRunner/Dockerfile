@@ -1,6 +1,8 @@
-FROM node:lts-alpine3.11
+FROM node:14
 
 WORKDIR /
+
+ENV NODE_ENV docker
 
 COPY ./api/common ./api/common
 
@@ -14,11 +16,15 @@ COPY ./api/package.json ./api
 
 COPY ./api/config.js ./api
 
-COPY ./api/secrets.js .
+COPY ./api/package.json ./api/package.json
+
+COPY ./package.json ./package.json
+
+COPY ./api/secrets.js ./api
 
 COPY ./scriptRunner ./scriptRunner
 
-RUN cd scriptRunner && npm install
+RUN yarn
 
 CMD cd scriptRunner && npm run start
 

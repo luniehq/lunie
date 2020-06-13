@@ -5,6 +5,10 @@ var morgan = require('morgan')
 var app = express()
 require('dotenv').config()
 
+// Constants
+const PORT = process.env.PORT || 9000;
+const HOST = process.env.NODE_ENV = "docker" ? '0.0.0.0' : 'localhost';
+
 const polkadotrewards = require("./polkadotrewards")
 
 app.use(bodyParser.json())
@@ -24,4 +28,4 @@ app.use(function (req, res, next) {
 
 app.post('/polkadotrewards', polkadotrewards)
 
-app.listen(9000, () => console.log(`Script server running on http://localhost:9000`))
+app.listen(PORT, HOST, () => console.log(`Script server running on http://localhost:${PORT}`))
