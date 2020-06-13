@@ -5,8 +5,8 @@ on:
     branches:
       - 'develop'
     paths:
-      - '*'
-      # - 'scriptRunner/**'
+      - 'scriptRunner/**'
+      - 'api/**'
 env:
   WORKING_DIRECTORY: ./scriptRunner
 jobs:
@@ -40,8 +40,6 @@ jobs:
         username: root
         key: ${{ secrets.SSH_KEY_SCRIPT_RUNNER }}
         script: |
-          sudo curl -L \"https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
           docker image prune -a -f
           docker load < lunie-script-runner.tgz
           docker stack deploy -c docker-compose.yml lunie-script-runner
