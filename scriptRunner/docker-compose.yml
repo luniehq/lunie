@@ -22,6 +22,7 @@ services:
           memory: 2.5G
     environment:
       - HASURA_URL=$HASURA_URL
+      - HASURA_ADMIN_KEY=$HASURA_ADMIN_KEY
       - SENTRY_DSN=$SENTRY_DSN
       - AUTHENTICATION_TOKEN=$AUTHENTICATION_TOKEN
     ports:
