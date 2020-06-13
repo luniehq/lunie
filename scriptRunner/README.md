@@ -6,7 +6,7 @@ To avoid having CPU intense tasks run on our API instance we run them on a diffe
 
 ```
 $ yarn build
-$ AUTHENTICATION_TOKEN=password docker-compose up
+$ HASURA_URL=http://hasura AUTHENTICATION_TOKEN=password docker-compose up
 ```
 
 ## Run Scripts
@@ -14,6 +14,8 @@ $ AUTHENTICATION_TOKEN=password docker-compose up
 Do a POST with the data against the endpoints:
 
 POST http://localhost:9000/polkadotrewards { era: 907 }
+
+Scripts are scheduled to run after another
 
 ### Authentication
 
