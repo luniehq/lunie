@@ -19,8 +19,7 @@ jobs:
       uses: actions/setup-node@v1
     - uses: bahmutov/npm-install@v1
     - name: Build image
-      run: yarn build 
-      working-directory: ${{env.WORKING_DIRECTORY}}
+      run: cd ${{env.WORKING_DIRECTORY}} && yarn build 
     - name: Save file
       run: docker save lunie-script-runner | gzip > lunie-script-runner.tgz
       working-directory: ${{env.WORKING_DIRECTORY}}
