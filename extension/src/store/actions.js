@@ -75,7 +75,7 @@ export default ({ apollo }) => {
         },
         function (wallet) {
           if (!wallet) return reject("Could not get wallet")
-          return resolve(wallet.seedPhrase)
+          return resolve(wallet)
         }
       )
     })

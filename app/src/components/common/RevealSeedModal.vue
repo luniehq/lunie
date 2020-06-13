@@ -1,6 +1,6 @@
 <template>
     <SessionFrame ref="sessionFrame">
-        <div class="session-container">
+        <div v-if="!wallet" class="session-container">
             <h2 class="session-title">
                 You are about to reveal your seed phrase
             </h2>
@@ -25,6 +25,14 @@
             </div>
             </TmFormGroup>
         </div>
+        <div v-else class="session-container">
+            <h2 class="session-title">
+                Account: {{wallet.name}}
+            </h2>
+            <p v-if="wallet.seedPhrase">Seed Phrase: {{wallet.seedPhrase}}</p>
+            <p>Private Key: {{wallet.privateKey}}</p>
+            <p>Public Key: {{wallet.publicKey}}</p>
+        </div>
     </SessionFrame>
 </template>
 
@@ -45,14 +53,15 @@ export default {
   data: () => ({
     password: '',
     isExtension: config.isExtension,
+    wallet: undefined
   }),
   methods: {
     async revealSeedPhrase() {
-      const seed = await this.$store.dispatch(`getWalletSeed`, {
+      const wallet = await this.$store.dispatch(`getWalletSeed`, {
         address: this.address,
         password: this.password,
       })
-      console.log("Your seed is", seed)
+      this.wallet = wallet
     },
     close() {
         // TODO: handle extension case
@@ -68,5 +77,8 @@ export default {
 <style scoped>
 .reveal-seed-buttons {
   display: flex;
+}
+p {
+  color: var(--menu-bright);
 }
 </style>
