@@ -4,6 +4,13 @@ To avoid having CPU intense tasks run on our API instance we run them on a diffe
 
 ## Run
 
+Set secrets for db connection:
+
+```
+echo "password" | docker secret create HASURA_ADMIN_KEY -
+```
+
+Build and run
 ```
 $ yarn build
 $ HASURA_URL=http://hasura AUTHENTICATION_TOKEN=password docker-compose up
