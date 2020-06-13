@@ -1,6 +1,6 @@
 const {
   getWalletIndex,
-  getStoredWalletSeed,
+  getStoredWallet,
   testPassword,
   removeWallet
 } = require('@lunie/cosmos-keys')
@@ -109,7 +109,7 @@ export async function signMessageHandler(
     }
   }
 }
-export function walletMessageHandler(message, sender, sendResponse) {
+export async function walletMessageHandler(message, sender, sendResponse) {
   switch (message.type) {
     case 'GET_WALLETS': {
       sendResponse(getWalletIndex())
@@ -131,8 +131,14 @@ export function walletMessageHandler(message, sender, sendResponse) {
       }
       break
     }
-    case 'GET_WALLET_SEED': {
-      sendResponse(getStoredWalletSeed())
+    case 'GET_WALLET': {
+      const { address, password } = message.payload
+      try {
+        const wallet = await getStoredWallet(address, password)
+        sendResponse(wallet)
+      } catch (error) {
+        sendResponse()
+      }
       break
     }
   }

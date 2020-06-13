@@ -42,18 +42,10 @@ export default {
     TmField,
     TmBtn,
   },
-  props: {
-    address: {
-      type: String,
-      required: true,
-    },
-  },
-  data: () => {
-      return {
-            password: '',
-            isExtension: config.isExtension,
-      }
-  },
+  data: () => ({
+    password: '',
+    isExtension: config.isExtension,
+  }),
   methods: {
     async revealSeedPhrase() {
       const seed = await this.$store.dispatch(`getWalletSeed`, {
@@ -67,6 +59,9 @@ export default {
         this.$refs.sessionFrame.goToPortfolio()
     }
   },
+  mounted() {
+    this.address = this.$route.params.address
+  }
 }
 </script>
 

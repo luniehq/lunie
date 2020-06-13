@@ -1,25 +1,33 @@
 <template>
   <div>
-    <AccountMenu v-if="accountMenuToggle" :address="accountAddress" />
     <ul class="account-list">
-      <li v-for="account in accounts" :key="account.name" class="account">
-        <div class="account-info">
-          <h3>{{ account.name }}</h3>
-          <Address :address="account.address" />
-        </div>
-        <TmBtn
-          v-if="buttonAction"
-          class="account-button"
-          :value="buttonText"
-          color="primary"
-          @click.native="buttonAction(account)"
-        />
-        <div class="account-menu-toggle">
-          <i
-            class="material-icons notranslate"
-            @click="openAccountMenu(account.address)"
-            >more_vert</i
-          >
+      <li v-for="account in accounts" :key="account.name">
+        <AccountMenu :address="account.address" />
+
+        <div class="account" :class="{ open: openAccount && openAccount.name === account.name }">
+          <div class="account-info">
+            <h3>{{ account.name }}</h3>
+            <Address :address="account.address" />
+          </div>
+          <TmBtn
+            v-if="buttonAction"
+            class="account-button"
+            :value="buttonText"
+            color="primary"
+            @click.native="buttonAction(account)"
+          />
+          <div class="account-menu-toggle">
+            <i v-if="!openAccount"
+              class="material-icons notranslate"
+              @click="openAccount = account"
+              >more_vert</i
+            >
+            <i v-else
+              class="material-icons notranslate"
+              @click="openAccount = undefined"
+              >close</i
+            >
+          </div>
         </div>
       </li>
     </ul>
@@ -52,20 +60,17 @@ export default {
     },
   },
   data: () => ({
-    accountMenuToggle: false,
-    accountAddress: "",
-  }),
-  methods: {
-    openAccountMenu(address) {
-      this.accountAddress = address
-      this.accountMenuToggle = !this.accountMenuToggle
-    },
-  },
+    openAccount: undefined
+  })
 }
 </script>
 <style scoped>
 .account-list {
   padding: 2rem 0;
+}
+
+.account-list li {
+  position: relative;
 }
 
 .account {
@@ -76,6 +81,12 @@ export default {
   background: var(--app-fg);
   border-radius: 0.25rem;
   border: 2px solid var(--bc-dim);
+  position: absolute;
+  width: 100%;
+  transition: 0.6s;
+}
+.account.open {
+  translate: -5rem;
 }
 
 .account h3 {
@@ -95,5 +106,6 @@ export default {
 
 .account-menu-toggle {
   cursor: pointer;
+  color: #B0BADE;
 }
 </style>

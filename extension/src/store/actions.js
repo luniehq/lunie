@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import { NetworksAll } from '../popup/gql'
 import { lunieMessageTypes, parseTx } from '../scripts/parsers'
 import { storeWallet } from '@lunie/cosmos-keys'
+import { resolve } from 'core-js/fn/promise'
 
 export default ({ apollo }) => {
   const createSeed = async () => {
@@ -65,15 +66,19 @@ export default ({ apollo }) => {
     )
   }
 
-  const getWalletSeed = () => {
-    chrome.runtime.sendMessage(
-      {
-        type: 'GET_WALLET_SEED'
-      },
-      function (seed) {
-        return seed
-      }
-    )
+  const getWalletSeed = (store, {address, password}) => {
+    return new Promise((resolve, reject) => {
+      chrome.runtime.sendMessage(
+        {
+          type: 'GET_WALLET',
+          payload: { address, password }
+        },
+        function (wallet) {
+          if (!wallet) return reject("Could not get wallet")
+          return resolve(wallet.seedPhrase)
+        }
+      )
+    })
   }
 
   const testLogin = (store, { address, password }) => {

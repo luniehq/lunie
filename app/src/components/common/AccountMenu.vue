@@ -1,35 +1,17 @@
 <template>
   <div class="account-menu">
-    <div class="account-balance">
-      <div>{{ `${accountBalance.amount} ${accountBalance.denom}` }}</div>
-      <div @click="close()">
-        <i class="material-icons notranslate circle back">close</i>
-      </div>
-    </div>
     <div class="account-menu-buttons">
-      <div
-        class="account-menu-button account-menu-edit"
-        @click="accountMenuController(`edit`)"
-      >
-        <i class="material-icons notranslate" style="color: #62D08E">create</i>
-      </div>
-      <div
-        class="account-menu-button account-menu-delete"
-        @click="accountMenuController(`delete`)"
-      >
-        <i class="material-icons notranslate" style="color: #f67f70;">delete</i>
-      </div>
-      <div
+      <router-link
         class="account-menu-button account-menu-show-seed"
-        @click="accountMenuController(`show-seed`)"
+        :to="{ name: 'reveal', params: { address } }"
       >
         <i class="material-icons notranslate" style="color: #3d728e;"
           >visibility</i
         >
-      </div>
+      </router-link>
     </div>
-    <RevealSeedModal v-if="command === `show-seed`" :address="address" />
-    <AccountModal v-else-if="command !== '' && command !== `show-seed`" />
+    <!-- <RevealSeedModal v-if="command === `show-seed`" :address="address" />
+    <AccountModal v-else-if="command !== '' && command !== `show-seed`" /> -->
   </div>
 </template>
 
@@ -55,18 +37,7 @@ export default {
     return {
       seed: '',
       command: '',
-      balances: [],
     }
-  },
-  computed: {
-    ...mapGetters([`network`, `stakingDenom`]),
-    accountBalance() {
-      if (this.balances && this.balances.length > 0) {
-        return this.balances.find(({ denom }) => denom === this.stakingDenom)
-      } else {
-        return { amount: 0, denom: this.stakingDenom }
-      }
-    },
   },
   methods: {
     accountMenuController(command) {
@@ -75,34 +46,7 @@ export default {
     close() {
       console.log('I should make this component disappear')
     }
-  },
-  apollo: {
-    balances: {
-      query: gql`
-        query Balances($networkId: String!, $address: String!) {
-          balances(networkId: $networkId, address: $address) {
-            amount
-            denom
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      skip() {
-        return !this.address
-      },
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.address,
-        }
-      },
-      /* istanbul ignore next */
-      update(data) {
-        return data.balances || []
-      },
-    },
-  },
+  }
 }
 </script>
 <style scoped>
@@ -110,6 +54,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: absolute;
+  right: 0;
+  top: 16px;
 }
 
 .account-balance {
