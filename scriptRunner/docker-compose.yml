@@ -6,6 +6,7 @@ services:
     restart: unless-stopped
     secrets:
     - HASURA_ADMIN_KEY
+    - AUTHENTICATION_TOKEN
     volumes:
     - /logs:/logs
     - caches:/api/caches
@@ -44,6 +45,8 @@ services:
     - caddy_certs:/root/.caddy
 secrets:
   HASURA_ADMIN_KEY:
+    external: true
+  AUTHENTICATION_TOKEN:
     external: true
 volumes:  
   caddy_certs:
