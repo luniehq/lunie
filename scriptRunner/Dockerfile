@@ -18,7 +18,11 @@ COPY ./api/config.js ./api
 
 COPY ./api/package.json ./api/package.json
 
+RUN true
+
 COPY ./package.json ./package.json
+
+RUN true
 
 COPY ./api/secrets.js ./api
 
