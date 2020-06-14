@@ -14,32 +14,3 @@ module.exports = async function (req, res) {
     return
   }
 }
-exports.handler = async function(event, context, callback) {
-    const authenticationToken = event.headers.Authentication
-    if (authenticationToken !== process.env.AUTHENTICATION_TOKEN) {
-        return callback(null, {
-          statusCode: 403
-        });
-    }
-
-    if(event.httpMethod === 'POST'  && event.path === '/polkadotrewards') {
-        const {era} = JSON.parse(event.body);
-        try {
-            await scheduleJob("polkadotRewards", {era})
-            return callback(null, {
-              statusCode: 200
-            });
-        } catch (error) {
-          return callback(null, {
-            statusCode: 500,
-            body: JSON.stringify({
-                error: error.message
-            })
-          });
-        }
-    }
-    
-    return callback(null, {
-      statusCode: 400
-    });
-  }

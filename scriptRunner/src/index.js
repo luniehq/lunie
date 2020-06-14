@@ -4,6 +4,7 @@ var timeout = require('connect-timeout');
 var morgan = require('morgan')
 var app = express()
 require('dotenv').config()
+const config = require('../config')
 
 // Constants
 const PORT = process.env.PORT || 9000;
@@ -16,7 +17,7 @@ app.use(timeout(120000))
 app.use(morgan('combined'))
 app.use(function (req, res, next) {
     const authenticationToken = req.header("Authorization")
-    if (authenticationToken !== process.env.AUTHENTICATION_TOKEN) {
+    if (authenticationToken !== config.authenticationToken) {
         res
             .status(403)
             .send()
