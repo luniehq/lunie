@@ -27,11 +27,26 @@ services:
       - AUTHENTICATION_TOKEN=$AUTHENTICATION_TOKEN
     ports:
     - "9000:9000"
+  caddy:
+    image: abiosoft/caddy:1.0.3-no-stats
+    depends_on:
+    - "lunie-script-runner"
+    restart: on-failure
+    container_name: caddy
+    networks:
+        - general
+    deploy:
+      replicas: 1
+    ports:
+    - "443:443"
+    volumes:
+    - ./Caddyfile:/etc/Caddyfile
+    - caddy_certs:/root/.caddy
 secrets:
   HASURA_ADMIN_KEY:
     external: true
 volumes:  
+  caddy_certs:
   caches:
 networks:
   general:
-
