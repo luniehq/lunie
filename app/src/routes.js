@@ -227,6 +227,11 @@ export default (store) => {
       component: () => import(`./components/common/FeatureNotPresent`),
     },
     {
+      path: `/reveal/:address`,
+      name: `reveal`,
+      component: require("common/RevealSeedModal").default,
+    },
+    {
       path: `/:networkId`,
       component: () => import(`./components/common/NetworkSetter`),
       redirect: `/:networkId/portfolio`,

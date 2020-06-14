@@ -20,31 +20,36 @@
             </div>
           </div>
           <slot>
-                <h1 class="session-title">Feature Not Available</h1>
-                <p>(But coming soon)</p>
-                <!-- common form for account modals -->
-                <!-- TODO: hide for now -->
-                <TmFormGroup
-                    class="account-modal-form-group"
-                    field-id="password"
-                    style="display: none;"
-                >
-                    <TmField id="password" v-model="password" type="password" placeholder="Password" />
-                    <div class="account-modal-buttons">
-                        <TmBtn
-                            value="Dismiss"
-                            type="secondary"
-                            @click.native="close"
-                            @click.enter.native="close"
-                        />
-                        <TmBtn
-                            value="Reveal"
-                            type="primary"
-                            @click.native="revealSeedPhrase"
-                            @click.enter.native="revealSeedPhrase"
-                        />
-                    </div>
-                </TmFormGroup>
+            <h1 class="session-title">Feature Not Available</h1>
+            <p>(But coming soon)</p>
+            <!-- common form for account modals -->
+            <!-- TODO: hide for now -->
+            <TmFormGroup
+              class="account-modal-form-group"
+              field-id="password"
+              style="display: none;"
+            >
+              <TmField
+                id="password"
+                v-model="password"
+                type="password"
+                placeholder="Password"
+              />
+              <div class="account-modal-buttons">
+                <TmBtn
+                  value="Dismiss"
+                  type="secondary"
+                  @click.native="close"
+                  @click.enter.native="close"
+                />
+                <TmBtn
+                  value="Reveal"
+                  type="primary"
+                  @click.native="revealSeedPhrase"
+                  @click.enter.native="revealSeedPhrase"
+                />
+              </div>
+            </TmFormGroup>
           </slot>
         </div>
       </div>
@@ -60,29 +65,29 @@ import { mapGetters } from "vuex"
 export default {
   name: `account-modal`,
   components: {
-      TmFormGroup,
-      TmField,
-      TmBtn,
+    TmFormGroup,
+    TmField,
+    TmBtn,
   },
-    data: () => {
-        return {
-            password: '',
-            isExtension: config.isExtension,
-        }
-    },
+  data: () => {
+    return {
+      password: "",
+      isExtension: config.isExtension,
+    }
+  },
   computed: {
     ...mapGetters([`networkSlug`]),
   },
   methods: {
-      close() {
-        this.$router.push({
-            name: "portfolio",
-            params: {
-            networkId: this.networkSlug,
-            },
-        })      
-      }
-  }
+    close() {
+      this.$router.push({
+        name: "portfolio",
+        params: {
+          networkId: this.networkSlug,
+        },
+      })
+    },
+  },
 }
 </script>
 <style>
@@ -105,6 +110,6 @@ export default {
 }
 
 .session-main p {
-    text-align: center;
+  text-align: center;
 }
 </style>

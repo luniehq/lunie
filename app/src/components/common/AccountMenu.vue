@@ -1,14 +1,15 @@
 <template>
   <div class="account-menu">
     <div class="account-menu-buttons">
-      <router-link
-        class="account-menu-button account-menu-show-seed"
-        :to="{ name: 'reveal', params: { address } }"
-      >
-        <i class="material-icons notranslate" style="color: #3d728e;"
-          >visibility</i
+      <div class="account-menu-button-container">
+        <router-link
+          class="account-menu-button account-menu-show-seed"
+          :to="{ name: 'reveal', params: { address } }"
         >
-      </router-link>
+          <i class="material-icons notranslate">visibility</i>
+        </router-link>
+        <span class="account-menu-button-span">Show Seed</span>
+      </div>
     </div>
     <!-- <RevealSeedModal v-if="command === `show-seed`" :address="address" />
     <AccountModal v-else-if="command !== '' && command !== `show-seed`" /> -->
@@ -17,16 +18,10 @@
 
 <script>
 import { mapGetters } from "vuex"
-import RevealSeedModal from "common/RevealSeedModal"
-import AccountModal from "common/AccountModal"
 import gql from "graphql-tag"
 
 export default {
   name: `account-menu`,
-  components: {
-    RevealSeedModal,
-    AccountModal,
-  },
   props: {
     address: {
       type: String,
@@ -35,8 +30,8 @@ export default {
   },
   data: () => {
     return {
-      seed: '',
-      command: '',
+      seed: "",
+      command: "",
     }
   },
   methods: {
@@ -44,19 +39,18 @@ export default {
       this.command = command
     },
     close() {
-      console.log('I should make this component disappear')
-    }
-  }
+      console.log("I should make this component disappear")
+    },
+  },
 }
 </script>
 <style scoped>
 .account-menu {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   position: absolute;
   right: 0;
-  top: 16px;
+  top: 0.75rem;
 }
 
 .account-balance {
@@ -75,7 +69,6 @@ export default {
 }
 
 .account-menu-button {
-  margin-right: 1em;
   cursor: pointer;
   border-radius: 50%;
   padding: 0.5em;
@@ -83,8 +76,20 @@ export default {
   width: 2.5em;
 }
 
+.account-menu-button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.account-menu-button-span {
+  margin-top: 0.5em;
+  font-size: 0.75em;
+  color: var(--faded-blue);
+}
+
 .account-menu-button.account-menu-edit {
-  background: #DBF7E6;
+  background: #dbf7e6;
 }
 
 .account-menu-button.account-menu-delete {
@@ -93,5 +98,6 @@ export default {
 
 .account-menu-button.account-menu-show-seed {
   background: #b0d1e3;
+  color: #3d728e;
 }
 </style>
