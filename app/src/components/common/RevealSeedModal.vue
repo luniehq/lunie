@@ -15,10 +15,15 @@
       <TmFormGroup class="reveal-seed-form-group" field-id="password">
         <TmField
           id="password"
+          ref="passwordInput"
+          :key="passwordInputKey"
           v-model="password"
-          type="password"
+          :type="passwordInputType"
           placeholder="Password"
         />
+        <div class="reveal-seed-show-password" @click="showPassword">
+          <i class="material-icons notranslate">visibility</i>
+        </div>
         <div class="reveal-seed-buttons">
           <TmBtn
             value="Dismiss"
@@ -64,6 +69,8 @@ export default {
     password: "",
     isExtension: config.isExtension,
     wallet: undefined,
+    passwordInputType: `password`,
+    passwordInputKey: 0,
   }),
   mounted() {
     this.address = this.$route.params.address
@@ -77,8 +84,16 @@ export default {
       this.wallet = wallet
     },
     close() {
-      // TODO: handle extension case
-      this.$refs.sessionFrame.goToPortfolio()
+      // this.$refs.sessionFrame.goToPortfolio()
+      this.$router.go(`-1`)
+    },
+    showPassword() {
+      if (this.passwordInputType === `text`) {
+        this.passwordInputType = `password`
+      } else {
+        this.passwordInputType = `text`
+      }
+      this.passwordInputKey += 1
     },
   },
 }
@@ -113,5 +128,16 @@ p {
   background: var(--app-fg);
   border-radius: 0.6rem;
   border: 2px solid var(--bc-dim);
+}
+
+.reveal-seed-show-password {
+  cursor: pointer;
+  border-radius: 50%;
+  height: 2.5em;
+  width: 2.5em;
+  margin: 0.3em 0 0.25em;
+  position: absolute;
+  top: 0;
+  right: 0.5em;
 }
 </style>
