@@ -1,6 +1,6 @@
 version: '3.6'
 services:
-  lunieapi:
+  lunie-script-runner:
     image: lunie-script-runner:latest
     container_name: lunie-script-runner
     restart: unless-stopped
@@ -11,10 +11,10 @@ services:
     - caches:/api/caches
     networks:
        - general
-    # logging:
-    #   driver: loki
-    #   options:
-    #     loki-url: "http://admin:${LOKI_PASSWORD}@monitoring.lunie.io:3100/loki/api/v1/push"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://admin:${LOKI_PASSWORD}@monitoring.lunie.io:3100/loki/api/v1/push"
     deploy:
       replicas: 1
       resources:
