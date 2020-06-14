@@ -4,14 +4,6 @@
       <h2 class="session-title">
         You are about to reveal your seed phrase or private key
       </h2>
-      <!-- will be displayed once the user enters password and clicks "Reveal" -->
-      <div v-if="wallet">
-        <!-- TODO: toggle between "seed" or "private key" depending on what the function returned  -->
-        <h4>Your secret key is:</h4>
-        <div class="reveal-seed-secret-key-container">
-          {{ wallet.mnemonic }}
-        </div>
-      </div>
       <TmFormGroup class="reveal-seed-form-group" field-id="password">
         <TmField
           id="password"
@@ -77,11 +69,10 @@ export default {
   },
   methods: {
     async revealSeedPhrase() {
-      const wallet = await this.$store.dispatch(`getWalletSeed`, {
+      this.wallet = await this.$store.dispatch(`getWallet`, {
         address: this.address,
         password: this.password,
       })
-      this.wallet = wallet
     },
     close() {
       // this.$refs.sessionFrame.goToPortfolio()
@@ -101,7 +92,23 @@ export default {
 
 <style scoped>
 p {
+  overflow-wrap: anywhere;
+  margin-top: 1em;
   color: var(--menu-bright);
+}
+
+/* Somehow this is not being detected in extension. Needs to be here */
+.material-icons {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
 }
 
 .reveal-seed-buttons {
@@ -119,25 +126,14 @@ p {
   margin-right: 1em;
 }
 
-.reveal-seed-secret-key-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 60%;
-  padding: 1rem;
-  background: var(--app-fg);
-  border-radius: 0.6rem;
-  border: 2px solid var(--bc-dim);
-}
-
 .reveal-seed-show-password {
+  color: var(--txt);
   cursor: pointer;
   border-radius: 50%;
   height: 2.5em;
   width: 2.5em;
-  margin: 0.3em 0 0.25em;
   position: absolute;
-  top: 0;
-  right: 0.5em;
+  top: 1em;
+  right: 0.75em;
 }
 </style>

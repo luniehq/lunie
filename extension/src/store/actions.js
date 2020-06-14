@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { NetworksAll } from '../popup/gql'
 import { lunieMessageTypes, parseTx } from '../scripts/parsers'
 import { storeWallet } from '@lunie/cosmos-keys'
-import { resolve } from 'core-js/fn/promise'
+// import { resolve } from 'core-js/fn/promise'
 
 export default ({ apollo }) => {
   const createSeed = async () => {
@@ -66,7 +66,7 @@ export default ({ apollo }) => {
     )
   }
 
-  const getWalletSeed = (store, {address, password}) => {
+  const getWallet = (store, { address, password }) => {
     return new Promise((resolve, reject) => {
       chrome.runtime.sendMessage(
         {
@@ -74,7 +74,7 @@ export default ({ apollo }) => {
           payload: { address, password }
         },
         function (wallet) {
-          if (!wallet) return reject("Could not get wallet")
+          if (!wallet) return reject('Could not get wallet')
           return resolve(wallet)
         }
       )
@@ -258,7 +258,7 @@ export default ({ apollo }) => {
     createSeed,
     createKey,
     loadAccounts,
-    getWalletSeed,
+    getWallet,
     getNetworkByAddress,
     testLogin,
     getSignRequest,

@@ -45,6 +45,20 @@ export default {
 }
 </script>
 <style scoped>
+/* Somehow this is not being detected in extension. Needs to be here */
+.material-icons {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+}
+
 .account-menu {
   display: flex;
   align-items: center;
