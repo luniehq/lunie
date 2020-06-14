@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import AccountMenu from "common/AccountMenu"
+import AccountMenu from "account/AccountMenu"
 import Address from "common/Address"
 import TmBtn from "common/TmBtn"
 export default {

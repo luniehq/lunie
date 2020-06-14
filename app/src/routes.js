@@ -229,7 +229,7 @@ export default (store) => {
     {
       path: `/reveal/:address`,
       name: `reveal`,
-      component: require("common/RevealSeedModal").default,
+      component: require("account/RevealSeedModal").default,
     },
     {
       path: `/:networkId`,

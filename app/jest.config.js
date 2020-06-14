@@ -11,6 +11,7 @@ module.exports = {
     "^src/(.*)$": `<rootDir>/src/$1`,
     "^assets/(.*)$": `<rootDir>/src/assets/$1`,
     "^common/(.*)$": `<rootDir>/src/components/common/$1`,
+    "^account/(.*)$": `<rootDir>/src/components/account/$1`,
     "^governance/(.*)$": `<rootDir>/src/components/governance/$1`,
     "^network/(.*)$": `<rootDir>/src/components/network/$1`,
     "^staking/(.*)$": `<rootDir>/src/components/staking/$1`,
