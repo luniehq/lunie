@@ -16,6 +16,11 @@
         <div class="reveal-seed-show-password" @click="showPassword">
           <i class="material-icons notranslate">visibility</i>
         </div>
+        <TmFormMsg
+          v-if="revealSeedPhraseError"
+          type="custom"
+          :msg="revealSeedPhraseError"
+        />
         <div class="reveal-seed-buttons">
           <TmBtn
             value="Dismiss"
@@ -47,6 +52,7 @@
 import SessionFrame from "common/SessionFrame"
 import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
+import TmFormMsg from "common/TmFormMsg"
 import TmBtn from "common/TmBtn"
 import config from "src/../config"
 export default {
@@ -54,6 +60,7 @@ export default {
   components: {
     SessionFrame,
     TmFormGroup,
+    TmFormMsg,
     TmField,
     TmBtn,
   },
@@ -63,16 +70,22 @@ export default {
     wallet: undefined,
     passwordInputType: `password`,
     passwordInputKey: 0,
+    revealSeedPhraseError: undefined,
   }),
   mounted() {
     this.address = this.$route.params.address
   },
   methods: {
     async revealSeedPhrase() {
-      this.wallet = await this.$store.dispatch(`getWallet`, {
+      const wallet = await this.$store.dispatch(`getWallet`, {
         address: this.address,
         password: this.password,
       })
+      if (wallet.message) {
+        this.revealSeedPhraseError = wallet.message
+      } else {
+        this.wallet = wallet
+      }
     },
     close() {
       // this.$refs.sessionFrame.goToPortfolio()

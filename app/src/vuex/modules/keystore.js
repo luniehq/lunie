@@ -18,8 +18,12 @@ export default () => {
   const actions = {
     async getWallet(store, { address, password }) {
       const { getStoredWallet } = await import("@lunie/cosmos-keys")
-      const wallet = getStoredWallet(address, password)
-      return wallet
+      try {
+        const wallet = getStoredWallet(address, password)
+        return wallet
+      } catch (error) {
+        return error
+      }
     },
     async loadAccounts({ commit }) {
       const { getWalletIndex } = await import("@lunie/cosmos-keys")
