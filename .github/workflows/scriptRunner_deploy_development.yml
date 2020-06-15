@@ -44,6 +44,6 @@ jobs:
         script: |
           docker image prune -a -f
           docker load < lunie-script-runner.tgz
-          docker stack deploy -c docker-compose.yml lunie-script-runner
+          LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} docker stack deploy -c docker-compose.yml lunie-script-runner
           LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} docker service update --image lunie-script-runner:latest --force lunie-script-runner_lunie-script-runner
         envs: HASURA_URL,HASURA_ADMIN_KEY,SENTRY_DSN
