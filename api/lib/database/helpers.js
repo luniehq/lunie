@@ -65,11 +65,11 @@ const insert = (
   }
 
   returnKeys = Array.isArray(returnKeys) ? returnKeys : []
-  let schema_prefix = schema ? schema + '_' : ''
+  let schema_prefix = schema && usePrefix ? schema + '_' : ''
 
   const query = `
         mutation {
-            insert_${usePrefix ? schema_prefix : ''}${table} (
+            insert_${schema_prefix}${table} (
                 objects: ${stringifyForGraphQL(rows, height, chainId)}${
     upsert
       ? `,
@@ -96,15 +96,12 @@ const insert = (
   return graphQLQuery({ hasura_url, hasura_admin_key })(query)
 }
 
-const read = ({ hasura_url, hasura_admin_key }) => (schema) => async (
-  table,
-  queryName,
-  keys,
-  filter
-) => {
+const read = ({ hasura_url, hasura_admin_key }, usePrefix = true) => (
+  schema
+) => async (table, queryName, keys, filter) => {
   keys = Array.isArray(keys) ? keys : [keys]
   // schema could be set or not
-  let schema_prefix = schema ? schema + '_' : ''
+  let schema_prefix = schema && usePrefix ? schema + '_' : ''
 
   const query = `
         query ${schema_prefix}${queryName} {
@@ -118,30 +115,8 @@ const read = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   return res.data[`${schema_prefix}${table}`]
 }
 
-const readWithoutPrefix = ({ hasura_url, hasura_admin_key }) => () => async (
-  table,
-  queryName,
-  keys,
-  filter
-) => {
-  keys = Array.isArray(keys) ? keys : [keys]
-  // schema could be set or not
-
-  const query = `
-        query ${queryName} {
-            ${table}${filter ? `(${filter})` : ''} {
-                ${keys.join('\n')}
-            }
-        }
-    `
-
-  const res = await graphQLQuery({ hasura_url, hasura_admin_key })(query)
-  return res.data[`${table}`]
-}
-
 module.exports = {
   insert,
   read,
-  readWithoutPrefix,
   query: graphQLQuery
 }
