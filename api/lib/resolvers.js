@@ -68,23 +68,6 @@ function enrichValidator(validatorInfo, validator) {
   }
 }
 
-async function addPopularityToValidators(validators, dataSources, networkId) {
-  return Promise.all(
-    validators.map(async (validator) => {
-      // popularity is actually the number of views of a validator on their page
-      const popularity = await localStore(
-        dataSources,
-        networkId
-      ).db.getValidatorViews(validator.operatorAddress, networkId)
-      // we add the popularity field to the validator
-      return {
-        ...validator,
-        popularity: popularity || 0
-      }
-    })
-  )
-}
-
 async function validators(
   _,
   { networkId, searchTerm, activeOnly, popularSort },
@@ -92,11 +75,6 @@ async function validators(
 ) {
   await localStore(dataSources, networkId).dataReady
   let validators = Object.values(localStore(dataSources, networkId).validators)
-  validators = await addPopularityToValidators(
-    validators,
-    dataSources,
-    networkId
-  )
   function compare(a, b) {
     let comparison = 0
     if (a.popularity < b.popularity) {
@@ -117,7 +95,10 @@ async function validators(
   validators = validators.map((validator) =>
     enrichValidator(validatorInfoMap[validator.operatorAddress], validator)
   )
-
+  // if popularSort is true then we filter out validators with no picture
+  if (popularSort) {
+    validators = validators.filter(({ picture }) => picture)
+  }
   if (searchTerm) {
     validators = validators.filter(({ name, operatorAddress }) => {
       return (
@@ -125,10 +106,6 @@ async function validators(
         operatorAddress.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
       )
     })
-  }
-  // if popularSort is true then we filter out validators with no picture
-  if (popularSort) {
-    return validators.filter(({ picture }) => picture)
   }
   return validators
 }

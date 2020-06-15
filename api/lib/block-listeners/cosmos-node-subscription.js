@@ -149,7 +149,8 @@ class CosmosNodeSubscription {
         await cosmosAPI.newBlockHandler(block, this.store)
       }
 
-      const validators = await cosmosAPI.getAllValidators(block.height)
+      let validators = await cosmosAPI.getAllValidators(block.height)
+      validators = await this.addPopularityToValidators(validators, this.network.id)
       const validatorMap = await this.getValidatorMap(validators)
       this.updateDBValidatorProfiles(validators)
       this.store.update({
@@ -187,6 +188,20 @@ class CosmosNodeSubscription {
       console.error('newBlockHandler failed', error)
       Sentry.captureException(error)
     }
+  }
+
+  async addPopularityToValidators(validators, networkId) {
+    return Promise.all(
+      validators.map(async (validator) => {
+        // popularity is actually the number of views of a validator on their page
+        const popularity = await this.db.getValidatorViews(validator.operatorAddress, networkId)
+        // we add the popularity field to the validator
+        return {
+          ...validator,
+          popularity: popularity || 0
+        }
+      })
+    )
   }
 
   async getValidatorMap(validators) {
