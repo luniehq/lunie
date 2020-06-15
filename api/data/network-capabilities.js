@@ -124,6 +124,23 @@ const getNetworkCapabilities = {
     action_vote: capabilityEnum.DISABLED,
     action_proposal: capabilityEnum.DISABLED
   },
+  'polkadot': {
+    feature_session: capabilityEnum.ENABLED,
+    feature_explore: capabilityEnum.ENABLED,
+    feature_portfolio: capabilityEnum.ENABLED,
+    feature_validators: capabilityEnum.ENABLED,
+    feature_proposals: capabilityEnum.DISABLED,
+    feature_activity: capabilityEnum.DISABLED,
+    feature_explorer: capabilityEnum.DISABLED,
+    action_send: capabilityEnum.DISABLED,
+    action_claim_rewards: capabilityEnum.DISABLED,
+    action_delegate: capabilityEnum.DISABLED,
+    action_redelegate: capabilityEnum.DISABLED,
+    action_undelegate: capabilityEnum.DISABLED,
+    action_deposit: capabilityEnum.DISABLED,
+    action_vote: capabilityEnum.DISABLED,
+    action_proposal: capabilityEnum.DISABLED
+  },
   'kava-mainnet': {
     feature_session: capabilityEnum.ENABLED,
     feature_explore: capabilityEnum.ENABLED,

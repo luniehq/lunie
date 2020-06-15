@@ -226,7 +226,8 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
     maxChangeCommission: validator.commission.max_change_rate,
     status: statusInfo.status,
     statusDetailed: statusInfo.status_detailed,
-    delegatorShares: validator.delegator_shares // needed to calculate delegation token amounts from shares
+    delegatorShares: validator.delegator_shares, // needed to calculate delegation token amounts from shares
+    popularity: validator.popularity
   }
 }
 

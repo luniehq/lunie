@@ -9,7 +9,8 @@ function blockReducer(networkId, block, transactions) {
     networkId,
     height: block.block.header.height,
     chainId: block.block.header.chain_id,
-    hash: block.block_id.hash,
+    // fix for now. This is actually last block's hash
+    hash: block.block.header.last_block_id.hash,
     time: block.block.header.time,
     transactions,
     proposer_address: block.block.header.proposer_address

@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.212] - 2020-06-11
+
+### Added
+
+- [#771](https://github.com/cosmos/lunie/issues/771) Adds a bubble on the notifications icon counting every new notification until user visits PageNotification @Bitcoinera
+- [#4207](https://github.com/cosmos/lunie/pull/4207) Adds the popularity selector to TableValidators @Bitcoinera
+- Add pagination to page notifications  @faboweb
+- Add subscription for new notifications to page notifications @faboweb
+- [#4230](https://github.com/cosmos/lunie/issues/4230) Add Polkadot CC1 network @mariopino
+- Improve polkadot address validation, fix 'Cannot use GraphQLSchema' error in frontend @mariopino
+
+### Changed
+
+- [#4250](https://github.com/cosmos/lunie/pull/4250) Adds CAD as a fiat currency @Bitcoinera
+
+### Fixed
+
+- [#4236](https://github.com/cosmos/lunie/pull/4236) Fixes experimental flag not working @Bitcoinera
+- Fix naming of currency icons @faboweb
+- Update Polkadot library @faboweb
+
+### Code Improvements
+
+- [#4216](https://github.com/cosmos/lunie/pull/4216) Move dependabot config to root folder of monorepo @Bitcoinera
+- Use BalancesV2 enpoint in TmBalance @faboweb
+- Refactor list logic into own component @faboweb
+
+### Repository
+
+- [#4211](https://github.com/cosmos/lunie/pull/4211) Adjusted GitHub Actions for app @faboweb
+- Fix e2e @faboweb
+
 ## [1.0.211] - 2020-06-03
 
 ### Fixed

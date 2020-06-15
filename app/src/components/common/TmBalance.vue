@@ -63,6 +63,7 @@
               >
               <option value="USD">USD</option>
               <option value="EUR">EUR</option>
+              <option value="CAD">CAD</option>
               <option value="GBP">GBP</option>
               <option value="JPY">JPY</option>
               <option value="CHF">CHF</option>
@@ -111,9 +112,9 @@
           </div>
 
           <div :key="balance.denom + '_available'" class="table-cell available">
-            <template v-if="balance.type === 'STAKE'">
+            <span v-if="balance.type === 'STAKE'" class="available-amount">
               {{ balance.available | bigFigureOrShortDecimals }}
-            </template>
+            </span>
           </div>
 
           <div :key="balance.denom + '_actions'" class="table-cell actions">

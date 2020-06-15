@@ -1,11 +1,22 @@
 # Changelog
-
+ 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.23] - 2020-06-09
+
+### Fixed
+
+- [#263](https://github.com/cosmos/lunie/issues/263) Handles incorrect password correctly @Bitcoinera
+
+### Repository
+
+- Adjust GitHub Actions for extension @faboweb
+- Remove lock files to avoid dependency issues @faboweb
 
 ## [1.0.22] - 2020-06-03
 

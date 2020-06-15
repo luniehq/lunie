@@ -1,6 +1,6 @@
 {
   "name": "extension",
-  "version": "1.0.22",
+  "version": "1.0.23",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
   "licenses": [
@@ -27,8 +27,7 @@
     "test:e2e:start-lunie": "cd ./lunie && npm run serve:dist",
     "test:e2e": "nightwatch --config ./test/e2e/nightwatch.conf.js",
     "test:coverage": "live-server test/unit/coverage/lcov-report",
-    "changelog": "simsala log --pending-path ./changes",
-    "release": "git checkout develop & git pull & git push origin develop:release"
+    "changelog": "simsala log --pending-path ./changes"
   },
   "husky": {
     "hooks": {
@@ -54,7 +53,7 @@
     "@babel/runtime-corejs3": "^7.4.0",
     "@lunie/cosmos-api": "^0.0.23",
     "@lunie/cosmos-keys": "^0.2.2",
-    "@polkadot/api": "^1.14.1",
+    "@polkadot/api": "^1.18.1",
     "@sentry/browser": "^5.15.5",
     "@sentry/integrations": "^5.15.5",
     "apollo-boost": "^0.4.9",
@@ -86,7 +85,7 @@
     "vue-router": "^3.0.1",
     "vuelidate": "^0.7.4",
     "vuex": "^3.4.0",
-    "webextension-polyfill": "^0.3.1"
+    "webextension-polyfill": "^0.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -120,7 +119,7 @@
     "jest": "^26.0.1",
     "lint-prepush": "^2.0.1",
     "live-server": "^1.2.1",
-    "mini-css-extract-plugin": "^0.4.4",
+    "mini-css-extract-plugin": "^0.9.0",
     "nightwatch": "^1.1.13",
     "node-sass": "^4.14.1",
     "sass-loader": "^7.1.0",
