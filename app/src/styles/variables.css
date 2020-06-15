@@ -2,9 +2,9 @@
 @import "themes/e-money";
 @import "themes/terra";
 @import "themes/kava";
-@import "themes/polkadot";
 @import "themes/kusama";
-@import "themes/westend";
+@import "themes/polkadot";
+@import "themes/polkadot-testnet";
 @import "themes/lunie-dark";
 
 :root {

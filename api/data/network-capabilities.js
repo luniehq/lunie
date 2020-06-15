@@ -141,7 +141,7 @@ const getNetworkCapabilities = {
     action_vote: capabilityEnum.DISABLED,
     action_proposal: capabilityEnum.DISABLED
   },
-  'westend': {
+  'polkadot-testnet': {
     feature_session: capabilityEnum.ENABLED,
     feature_explore: capabilityEnum.ENABLED,
     feature_portfolio: capabilityEnum.ENABLED,

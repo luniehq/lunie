@@ -1,4 +1,4 @@
-import { getSignMessage, getAPI } from "./polkadot-transactions"
+import { getSignMessage, getAPI } from "./polkadot-testnet-transactions"
 import uniqBy from "lodash.uniqby"
 import BigNumber from "bignumber.js"
 

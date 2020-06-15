@@ -133,7 +133,7 @@ const networkGasEstimatesDictionary = {
   'akash-testnet': akashGasEstimates,
   'kusama': polkadotGasEstimates,
   'polkadot': polkadotGasEstimates,
-  'westend': polkadotGasEstimates,
+  'polkadot-testnet': polkadotGasEstimates,
   'kava-mainnet': kavaGasEstimates,
   'kava-testnet': kavaGasEstimates
 }
@@ -200,7 +200,7 @@ let networkGasPricesDictionary = {
   'akash-testnet': akashGasPrices,
   'kusama': polkadotGasPrices,
   'polkadot': polkadotGasPrices,
-  'westend': polkadotGasPrices,
+  'polkadot-testnet': polkadotGasPrices,
 }
 
 const getPolkadotMessage = async (messageType, senderAddress, message, network, networkSource) => {

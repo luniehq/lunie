@@ -7,21 +7,54 @@ const networks = require('../../../data/networks')
 
 global.fetch = require('node-fetch')
 
-let api
-async function initPolkadotAPI() {
+let kusamaAPI, polkadotAPI, polkadotTestnetAPI
+
+async function initKusamaAPI() {
   // ignore polkadot in tests for now
   if (process.env.TEST || !networkMap['kusama']) return
 
-  api = new ApiPromise({
+  kusamaAPI = new ApiPromise({
     provider: new WsProvider(networkMap['kusama'].rpc_url)
   })
-  await api.isReady
+  await kusamaAPI.isReady
 }
+
+async function initPolkadotAPI() {
+  // ignore polkadot in tests for now
+  if (process.env.TEST || !networkMap['polkadot']) return
+
+  polkadotAPI = new ApiPromise({
+    provider: new WsProvider(networkMap['polkadot'].rpc_url)
+  })
+  await polkadotAPI.isReady
+}
+
+async function initPolkadotTestnetAPI() {
+  // ignore polkadot in tests for now
+  if (process.env.TEST || !networkMap['polkadot-testnet']) return
+  polkadotTestnetAPI = new ApiPromise({
+    provider: new WsProvider(networkMap['polkadot-testnet'].rpc_url)
+  })
+  await polkadotTestnetAPI.isReady
+}
+
+initKusamaAPI()
 initPolkadotAPI()
+initPolkadotTestnetAPI()
+
+async function getKusamaAPI() {
+  await kusamaAPI.isReady
+  return kusamaAPI
+}
 
 async function getPolkadotAPI() {
-  await api.isReady
-  return api
+  await polkadotAPI.isReady
+  return polkadotAPI
+}
+
+async function getPolkadotTestnetAPI() {
+  await polkadotTestnetAPI.isReady
+  return polkadotTestnetAPI
 }
 
 async function broadcastWithCosmos(tx, fingerprint, development) {
@@ -39,16 +72,31 @@ async function broadcastWithCosmos(tx, fingerprint, development) {
   }
 }
 
-async function broadcastWithPolkadot(
-  tx
-  // fingerprint
-) {
-  const api = await getPolkadotAPI()
-
+async function broadcastWithKusama(tx) {
+  const api = await getKusamaAPI()
   const result = await api.rpc.author.submitExtrinsic(tx.signedMessage)
-
   const hash = result.toJSON()
+  return {
+    hash,
+    success: true
+  }
+}
 
+async function broadcastWithPolkadot(tx) {
+  const api = await getPolkadotAPI()
+  const result = await api.rpc.author.submitExtrinsic(tx.signedMessage)
+  const hash = result.toJSON()
+  return {
+    hash,
+    success: true
+  }
+}
+
+async function broadcastWithPolkadotTestnet(tx) {
+  const api = await getPolkadotTestnetAPI()
+  const result = await api.rpc.author.submitExtrinsic(tx.signedMessage)
+  console.log(api, result)
+  const hash = result.toJSON()
   return {
     hash,
     success: true
@@ -58,11 +106,14 @@ async function broadcastWithPolkadot(
 async function broadcast(tx, fingerprint, development) {
   console.log(`Received broadcast: ${JSON.stringify(tx)}`)
   try {
-    switch (networkMap[tx.networkId].network_type) {
-      case 'cosmos':
-        return await broadcastWithCosmos(tx, fingerprint, development)
-      case 'polkadot':
-        return await broadcastWithPolkadot(tx, fingerprint, development)
+    if (networkMap[tx.networkId].network_type === `cosmos`) {
+      return await broadcastWithCosmos(tx, fingerprint, development)
+    } else if (tx.networkId === `kusama`) {
+      return await broadcastWithKusama(tx, fingerprint, development)
+    } else if (tx.networkId === `polkadot`) {
+      return await broadcastWithPolkadot(tx, fingerprint, development)
+    } else if (tx.networkId === `polkadot-testnet`) {
+      return await broadcastWithPolkadotTestnet(tx, fingerprint, development)
     }
   } catch (e) {
     Sentry.withScope(function (scope) {

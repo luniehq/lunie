@@ -223,7 +223,7 @@ module.exports = [
     lockUpPeriod: '28 days'
   },
   {
-    id: 'westend',
+    id: 'polkadot-testnet',
     title: 'Polkadot Testnet',
     chain_id: 'westend',
     api_url: 'https://api-01.polkascan.io/polkadot/api/v1/',
@@ -236,16 +236,16 @@ module.exports = [
     source_class_name: 'source/polkadotV0-source',
     block_listener_class_name: 'block-listeners/polkadot-node-subscription',
     testnet: true,
-    ...getNetworkCapabilities[`westend`],
+    ...getNetworkCapabilities[`polkadot-testnet`],
     default: false,
     stakingDenom: 'WND',
     // https://wiki.polkadot.network/docs/en/learn-DOT
-    coinLookup: coinLookupDictionary[`westend`],
+    coinLookup: coinLookupDictionary[`polkadot-testnet`],
     enabled: true,
     experimental: true,
     icon:
       '/img/networks/westend.png',
-    slug: 'westend',
+    slug: 'polkadot-testnet',
     lockUpPeriod: '28 days'
   },
   {
