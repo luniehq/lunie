@@ -17,6 +17,7 @@ const EXPECTED_MAX_BLOCK_WINDOW = 120000
 // if we don't do this, we run into errors as the data is not yet available
 const COSMOS_DB_DELAY = 2000
 const PROPOSAL_POLLING_INTERVAL = 600000 // 10min
+const UPDATE_VALIDATORS_INTERVAL = 600000 // 10min
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
@@ -30,9 +31,10 @@ class CosmosNodeSubscription {
     this.db = new database(config)(networkSchemaName)
     this.chainHangup = undefined
     this.height = undefined
+    this.block = undefined
 
     if (network.feature_proposals === 'ENABLED') this.pollForProposalChanges()
-
+    if (network.feature_validators === 'ENABLED') this.updateValidators()
     this.pollForNewBlock()
   }
 
@@ -49,6 +51,25 @@ class CosmosNodeSubscription {
 
       this.pollForProposalChanges()
     }, PROPOSAL_POLLING_INTERVAL)
+  }
+
+  async updateValidators() {
+    const cosmosAPI = new this.CosmosApiClass(this.network, this.store)
+    let validators = await cosmosAPI.getAllValidators(this.height)
+    validators = await this.addPopularityToValidators(
+      validators,
+      this.network.id
+    )
+    const validatorMap = await this.getValidatorMap(validators)
+    this.updateDBValidatorProfiles(validators)
+    this.store.update({
+      height: this.height,
+      block: this.block,
+      validators: validatorMap
+    })
+    this.updateValidatorsTimeout = setTimeout(async () => {
+      this.updateValidators()
+    }, UPDATE_VALIDATORS_INTERVAL)
   }
 
   async checkProposals(cosmosAPI) {
@@ -102,6 +123,7 @@ class CosmosNodeSubscription {
     }
     // overwrite chain_id with the network's one, making sure it is correct
     this.store.network.chain_id = block.chainId
+    this.block = block
     if (block && this.height !== block.height) {
       // apparently the cosmos db takes a while to serve the content after a block has been updated
       // if we don't do this, we run into errors as the data is not yet available
@@ -149,15 +171,6 @@ class CosmosNodeSubscription {
         await cosmosAPI.newBlockHandler(block, this.store)
       }
 
-      let validators = await cosmosAPI.getAllValidators(block.height)
-      validators = await this.addPopularityToValidators(validators, this.network.id)
-      const validatorMap = await this.getValidatorMap(validators)
-      this.updateDBValidatorProfiles(validators)
-      this.store.update({
-        height: block.height,
-        block,
-        validators: validatorMap
-      })
       publishBlockAdded(this.network.id, block)
 
       // For each transaction listed in a block we extract the relevant addresses. This is published to the network.
@@ -194,7 +207,10 @@ class CosmosNodeSubscription {
     return Promise.all(
       validators.map(async (validator) => {
         // popularity is actually the number of views of a validator on their page
-        const popularity = await this.db.getValidatorViews(validator.operatorAddress, networkId)
+        const popularity = await this.db.getValidatorViews(
+          validator.operatorAddress,
+          networkId
+        )
         // we add the popularity field to the validator
         return {
           ...validator,
