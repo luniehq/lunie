@@ -12,7 +12,6 @@ const { eventTypes, resourceTypes } = require('../notifications-types')
 const Sentry = require('@sentry/node')
 const database = require('../database')
 const config = require('../../config.js')
-const { spawn } = require('child_process')
 
 const POLLING_INTERVAL = 1000
 // const NEW_BLOCK_DELAY = 2000
@@ -157,27 +156,21 @@ class PolkadotNodeSubscription {
           )
           this.currentEra = era
 
-          const rewardsScript = spawn(
-            'node',
-            [
-              'scripts/getOldPolkadotRewardEras.js',
-              `--currentEra=${this.currentEra}`
-            ],
-            {
-              stdio: 'inherit' //feed all child process logging into parent process
-            }
-          )
-          rewardsScript.on('close', function (code) {
-            process.stdout.write(
-              'rewardsScript finished with code ' + code + '\n'
-            )
-
-            if (code !== 0) {
-              Sentry.captureException(
-                new Error('getOldPolkadotRewardEras script failed')
-              )
-            }
-          })
+          try {
+            console.log("Starting Polkadot rewards script on", config.scriptRunnerEndpoint)
+            fetch(`${config.scriptRunnerEndpoint}/polkadotrewards`, {
+              method: "POST",
+              headers: {
+                Authorization: config.scriptRunnerAuthenticationToken
+              },
+              body: JSON.stringify({
+                era
+              })
+            })
+          } catch (error) {
+            console.error("Failed running Polkadot rewards script", error)
+            Sentry.captureException(error)
+          }
         }
       }
 
