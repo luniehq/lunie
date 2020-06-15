@@ -104,10 +104,10 @@ class CosmosNodeSubscription {
     this.store.network.chain_id = block.chainId
     const storedNetwork = await this.db.getNetwork(this.store.network.id)
     if (storedNetwork.length === 0) {
-      // store networks in DB under public/networks except enabled, which we will fetch from DB
-      const networkWithouthEnabled = this.store.network
-      delete networkWithouthEnabled.enabled
-      this.db.storeNetwork(networkWithouthEnabled)
+      // prepare network with the format we are going to store it in public/networks
+      const dbNetwork = this.formatNetworkForDB(this.store.network)
+      // store network in DB under public/networks
+      this.db.storeNetwork(dbNetwork)
     } else {
       // getNetwork only returns one network, so it is safe to do storedNetwork[0]
       this.store.network.enabled = storedNetwork[0].enabled
@@ -236,6 +236,55 @@ class CosmosNodeSubscription {
       })
     )
     return this.db.upsert('validatorprofiles', validatorRows)
+  }
+
+  formatNetworkForDB(network) {
+    // removed enabled
+    return {
+      network: {
+        id: network.id,
+        title: network.title,
+        chain_id: network.chain_id,
+        rpc_url: network.rpc_url,
+        api_url: network.api_url,
+        bech32_prefix: network.bech32_prefix,
+        testnet: network.testnet,
+        feature_session: network.feature_session,
+        feature_portfolio: network.feature_portfolio,
+        feature_validators: network.feature_validators,
+        feature_proposals: network.feature_proposals,
+        feature_activity: network.feature_activity,
+        feature_explorer: network.feature_explorer,
+        feature_explore: network.feature_explore,
+        action_send: network.action_send,
+        action_claim_rewards: network.action_claim_rewards,
+        action_delegate: network.action_delegate,
+        action_redelegate: network.action_delegate,
+        action_undelegate: network.action_delegate,
+        action_deposit: network.action_delegate,
+        action_vote: network.action_delegate,
+        action_proposal: network.action_delegate,
+        default: network.default,
+        stakingDenom: network.stakingDenom,
+        address_prefix: network.address_prefix,
+        address_creator: network.address_creator,
+        ledger_app: network.ledger_app,
+        network_type: network.network_type,
+        source_class_name: network.source_class_name,
+        block_listener_class_name: network.block_listener_class_name,
+        experimental: network.experimental,
+        icon: network.icon,
+        slug: network.slug,
+        lockUpPeriod: network.lockUpPeriod,
+        powered: network.powered
+      },
+      coinLookups: network.coinLookup.map((coinLookup) => ({
+        networkId: network.id,
+        viewDenom: coinLookup.viewDenom,
+        chainDenom: coinLookup.chainDenom,
+        chainToViewConversionFactor: coinLookup.chainToViewConversionFactor
+      }))
+    }
   }
 }
 

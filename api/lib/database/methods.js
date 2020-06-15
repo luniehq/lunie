@@ -97,16 +97,14 @@ const getNotifications = ({ hasura_url, hasura_admin_key }) => (
   )
 }
 
-const getNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
-  id
-) => {
+const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
   return await read(
     {
       hasura_url,
       hasura_admin_key
     },
     false
-  )(schema)(
+  )(`public`)(
     `networks`,
     `networks`,
     ['id', 'enabled'],
@@ -116,17 +114,45 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   )
 }
 
+const storeCoinLookups = (
+  hasura_url,
+  hasura_admin_key,
+  schema,
+  coinLookups
+) => {
+  return Promise.all(
+    coinLookups.map((coinLookup) => {
+      return insert(
+        {
+          hasura_url,
+          hasura_admin_key
+        },
+        true,
+        false
+      )(schema)(`coinLookups`, coinLookup)
+    })
+  )
+}
+
 const storeNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   payload
 ) => {
-  return await insert(
-    {
+  return Promise.all(
+    insert(
+      {
+        hasura_url,
+        hasura_admin_key
+      },
+      true,
+      false
+    )(schema)(`networks`, payload[`network`]),
+    storeCoinLookups(
       hasura_url,
-      hasura_admin_key
-    },
-    true,
-    false
-  )(schema)(`networks`, payload)
+      hasura_admin_key,
+      schema,
+      payload[`coinLookups`]
+    )
+  )
 }
 
 const storeStatistics = ({ hasura_url, hasura_admin_key }) => (
