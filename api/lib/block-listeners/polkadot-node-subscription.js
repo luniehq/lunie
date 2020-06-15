@@ -17,6 +17,7 @@ const { spawn } = require('child_process')
 const POLLING_INTERVAL = 1000
 // const NEW_BLOCK_DELAY = 2000
 // const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // used to disconnect from API to free memory
+const UPDATE_VALIDATORS_INTERVAL = 600000 // 10min
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
@@ -30,6 +31,7 @@ class PolkadotNodeSubscription {
     const networkSchemaName = this.network.id.replace(/-/g, '_')
     this.db = new database(config)(networkSchemaName)
     this.height = 0
+    this.block = undefined
     this.currentSessionIndex = 0
     this.currentEra = 0
     this.blockQueue = []
@@ -47,6 +49,28 @@ class PolkadotNodeSubscription {
     this.store.polkadotRPCOpened = Date.now()
     await this.api.isReady
     console.log('Polkadot initialized')
+  }
+
+  async updateValidators() {
+    // const cosmosAPI = new this.CosmosApiClass(this.network, this.store)
+    // let validators = await cosmosAPI.getAllValidators(this.height)
+    const validators = await this.addPopularityToValidators(
+      this.sessionValidators,
+      this.network.id
+    )
+    // const validatorMap = await this.getValidatorMap(validators)
+    this.updateDBValidatorProfiles(validators)
+    this.store.update({
+      height: this.height,
+      block: this.block,
+      validators: this.getValidatorMap(validators),
+      data: {
+        era: this.currentEra
+      }
+    })
+    this.updateValidatorsTimeout = setTimeout(async () => {
+      this.updateValidators()
+    }, UPDATE_VALIDATORS_INTERVAL)
   }
 
   async subscribeForNewBlock() {
@@ -131,6 +155,7 @@ class PolkadotNodeSubscription {
       })
 
       const block = await this.polkadotAPI.getBlockByHeightV2(blockHeight)
+      this.block = block
       this.enqueueAndPublishBlockAdded(block)
 
       // We dont need to fetch validators on every new block.
@@ -150,6 +175,9 @@ class PolkadotNodeSubscription {
           })
         ])
         this.sessionValidators = sessionValidators
+        // here we start the validators loop
+        if (this.network.feature_validators === 'ENABLED')
+          this.updateValidators()
 
         if (this.currentEra < era || this.currentEra === 0) {
           console.log(
@@ -181,16 +209,6 @@ class PolkadotNodeSubscription {
         }
       }
 
-      this.updateDBValidatorProfiles(this.sessionValidators)
-      this.store.update({
-        height: blockHeight,
-        block,
-        validators: this.getValidatorMap(this.sessionValidators),
-        data: {
-          era: this.currentEra
-        }
-      })
-
       // For each transaction listed in a block we extract the relevant addresses. This is published to the network.
       // A GraphQL resolver is listening for these messages and sends the
       // transaction to each subscribed user.
@@ -218,6 +236,23 @@ class PolkadotNodeSubscription {
       console.error(`newBlockHandler failed`, error.message)
       Sentry.captureException(error)
     }
+  }
+
+  async addPopularityToValidators(validators, networkId) {
+    return Promise.all(
+      validators.map(async (validator) => {
+        // popularity is actually the number of views of a validator on their page
+        const popularity = await this.db.getValidatorViews(
+          validator.operatorAddress,
+          networkId
+        )
+        // we add the popularity field to the validator
+        return {
+          ...validator,
+          popularity: popularity || 0
+        }
+      })
+    )
   }
 
   getValidatorMap(validators) {
