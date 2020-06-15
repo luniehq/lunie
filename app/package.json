@@ -88,6 +88,7 @@
     "@capacitor/cli": "2.1.0",
     "@capacitor/core": "2.0.2",
     "@capacitor/ios": "2.0.0",
+    "@clipboardhealth/capacitor-firebase-dynamic-links": "0.0.1",
     "@vue/babel-preset-app": "4.4.1",
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
