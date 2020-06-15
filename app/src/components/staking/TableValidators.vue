@@ -58,7 +58,7 @@ export default {
   data: () => ({
     rewards: [],
     sort: {
-      property: `expectedReturns`,
+      property: ``,
       order: `desc`,
     },
     showing: 15,
@@ -66,7 +66,7 @@ export default {
   computed: {
     ...mapGetters([`address`, `network`, `stakingDenom`]),
     sortedEnrichedValidators() {
-      return orderBy(
+      const orderedValidators = orderBy(
         this.validators.map((validator) => ({
           ...validator,
           smallName: validator.name ? validator.name.toLowerCase() : "",
@@ -74,6 +74,7 @@ export default {
         [this.sort.property],
         [this.sort.order]
       )
+      return orderedValidators
     },
     showingValidators() {
       return this.sortedEnrichedValidators.slice(0, this.showing)

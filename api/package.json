@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "1.0.23",
+  "version": "1.0.25",
   "description": "GraphQL API for Lunie.io",
   "repository": {
     "type": "git",
@@ -13,7 +13,6 @@
     "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
     "lint": "eslint index.js config.js lib tests",
     "lint-fix": "yarn lint --fix",
-    "release": "git fetch --all && git checkout origin/develop -B develop && git pull && git checkout origin/release -B release && git pull && git merge origin/develop && git push",
     "start": "node index.js ",
     "test:unit": "cross-env TEST=true jest",
     "changelog": "simsala log --pending-path ./changes"

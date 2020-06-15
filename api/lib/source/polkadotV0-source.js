@@ -1,5 +1,5 @@
 const BigNumber = require('bignumber.js')
-const { uniqWith } = require('lodash')
+const { uniqWith, uniq } = require('lodash')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 const ERAS_PER_DAY = 4 // Kusama, 3 eras per day for Polkadot
@@ -62,6 +62,7 @@ class polkadotAPI {
 
     return this.reducers.blockReducer(
       this.network.id,
+      this.network.chain_id,
       blockHeight,
       blockHash,
       sessionIndex.toNumber(),
@@ -150,7 +151,8 @@ class polkadotAPI {
       validator.identity = JSON.parse(JSON.stringify(identity.identity))
       if (validator.exposure) {
         const validatorStake = new BigNumber(validator.exposure.total)
-        validator.votingPower = validatorStake.div(networkTotalStake).toNumber()
+        validator.votingPower =
+          validatorStake.div(networkTotalStake).toNumber() || 0
         validator.tokens =
           validatorStake *
           this.network.coinLookup[0].chainToViewConversionFactor
@@ -377,11 +379,12 @@ class polkadotAPI {
     const allStashAddresses = JSON.parse(
       JSON.stringify(await api.derive.staking.stashes())
     )
-    return allBondedKeys
+    const allDelegators = allBondedKeys
       .map((address) => {
         return address.toHuman()[0]
       })
       .filter((address) => !allStashAddresses.includes(address)) // Filter validators and intentions
+    return uniq(allDelegators)
   }
 
   async getOverview(delegatorAddress, validatorsDictionary, fiatCurrency) {

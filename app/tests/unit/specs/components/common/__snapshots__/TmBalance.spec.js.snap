@@ -65,6 +65,12 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
             </option>
              
             <option
+              value="CAD"
+            >
+              CAD
+            </option>
+             
+            <option
               value="GBP"
             >
               GBP
@@ -278,6 +284,12 @@ exports[`TmBalance show the balance header when signed in 1`] = `
               value="EUR"
             >
               EUR
+            </option>
+             
+            <option
+              value="CAD"
+            >
+              CAD
             </option>
              
             <option
