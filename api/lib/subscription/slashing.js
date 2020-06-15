@@ -7,31 +7,6 @@ class SlashingMonitor {
 
   initialize() {
     this.client.subscribe(
-      {
-        query: "tm.event='ValidatorSetUpdates' AND slash.reason='double_sign'"
-      },
-      (response) => {
-        console.log(
-          'Slashing event double sign (with tm.event)',
-          JSON.stringify(response, null, 2)
-        )
-      }
-    )
-
-    this.client.subscribe(
-      {
-        query:
-          "tm.event='ValidatorSetUpdates' AND slash.reason='missing_signature'"
-      },
-      (response) => {
-        console.log(
-          'Slashing event missing signature (with tm.event)',
-          JSON.stringify(response, null, 2)
-        )
-      }
-    )
-
-    this.client.subscribe(
       { query: "slash.reason='double_sign'" },
       (response) => {
         console.log(
@@ -54,7 +29,11 @@ class SlashingMonitor {
     this.client.subscribe(
       { query: 'liveness.missed_blocks >= 1' },
       (response) => {
-        console.log('Missed block', JSON.stringify(response, null, 2))
+        const missedBlocks = response.events["liveness.address"].map((address, index) => ({
+          validator: address,
+          missedBlocks: response.events["liveness.missed_blocks"][index]
+        }))
+        console.log('Missed block', missedBlocks)
       }
     )
   }
