@@ -88,9 +88,9 @@ export default {
   },
   methods: {
     defaultSelectorsController(selector) {
-        this.popularSort = false
-        this.allValidators = false
-        this.activeOnly = false
+      this.popularSort = false
+      this.allValidators = false
+      this.activeOnly = false
 
       if (selector === `popularSort`) {
         this.popularSort = true
