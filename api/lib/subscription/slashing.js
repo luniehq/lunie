@@ -1,13 +1,12 @@
-const Client = require('./rpc-client')
+const Tendermint = require('./tendermint')
 
 class SlashingMonitor {
   constructor(networkId, rpcEndpoint) {
-    this.client = new Client(networkId, rpcEndpoint)
+    this.client = new Tendermint(networkId, rpcEndpoint)
   }
 
   initialize() {
-    this.client.call(
-      'subscribe',
+    this.client.subscribe(
       {
         query: "tm.event='ValidatorSetUpdates' AND slash.reason='double_sign'"
       },
@@ -19,8 +18,7 @@ class SlashingMonitor {
       }
     )
 
-    this.client.call(
-      'subscribe',
+    this.client.subscribe(
       {
         query:
           "tm.event='ValidatorSetUpdates' AND slash.reason='missing_signature'"
@@ -33,8 +31,7 @@ class SlashingMonitor {
       }
     )
 
-    this.client.call(
-      'subscribe',
+    this.client.subscribe(
       { query: "slash.reason='double_sign'" },
       (response) => {
         console.log(
@@ -44,8 +41,7 @@ class SlashingMonitor {
       }
     )
 
-    this.client.call(
-      'subscribe',
+    this.client.subscribe(
       { query: "slash.reason='missing_signature'" },
       (response) => {
         console.log(
@@ -55,8 +51,7 @@ class SlashingMonitor {
       }
     )
 
-    this.client.call(
-      'subscribe',
+    this.client.subscribe(
       { query: 'liveness.missed_blocks >= 1' },
       (response) => {
         console.log('Missed block', JSON.stringify(response, null, 2))
