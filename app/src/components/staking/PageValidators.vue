@@ -38,6 +38,20 @@
           />
         </div>
       </div>
+      <ul class="sortingOptions">
+        <li>
+         <i class="sorting-icon material-icons notranslate">star_rate</i> Popular on Lunie
+         <i class="sorting-check material-icons notranslate">check</i>
+        </li>
+        <li>
+          <i class="sorting-icon material-icons notranslate">flash_on</i> Voting Power
+          <i class="sorting-check material-icons notranslate">check</i>
+        </li>
+        <li>
+          <i class="sorting-icon material-icons notranslate">emoji_events</i> Most Rewards
+          <i class="sorting-check material-icons notranslate">check</i>
+        </li>
+      </ul>
       <TableValidators
         :validators="validators"
         :delegations="delegations"
@@ -224,6 +238,11 @@ export default {
 .filterOptions .btn-radio:first-child {
   border-radius: 0.5rem 0 0 0.5rem;
   margin-right: -1px;
+}
+
+.sortingOptions .material-icons {
+  font-size: 18px;
+  width: 4rem;
 }
 
 @media screen and (min-width: 768px) {
