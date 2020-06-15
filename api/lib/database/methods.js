@@ -1,9 +1,4 @@
-const {
-  read,
-  insert,
-  insertWithoutPrefix,
-  readWithoutPrefix
-} = require('./helpers')
+const { read, insert, readWithoutPrefix } = require('./helpers')
 
 const incrementValidatorViews = ({
   hasura_url,
@@ -100,10 +95,14 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
 const storeNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   payload
 ) => {
-  return await insertWithoutPrefix({
-    hasura_url,
-    hasura_admin_key
-  })(schema)(`networks`, payload)
+  return await insert(
+    {
+      hasura_url,
+      hasura_admin_key
+    },
+    true,
+    false
+  )(schema)(`networks`, payload)
 }
 
 const storeStatistics = ({ hasura_url, hasura_admin_key }) => (

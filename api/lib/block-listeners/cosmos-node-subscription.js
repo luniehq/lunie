@@ -103,13 +103,12 @@ class CosmosNodeSubscription {
     // overwrite chain_id with the network's one, making sure it is correct
     this.store.network.chain_id = block.chainId
     const storedNetwork = await this.db.getNetwork(this.store.network.id)
-    if (!storedNetwork) {
+    if (storedNetwork.length === 0) {
       // store networks in DB under public/networks except enabled, which we will fetch from DB
       const networkWithouthEnabled = this.store.network
       delete networkWithouthEnabled.enabled
       this.db.storeNetwork(networkWithouthEnabled)
-    }
-    if (storedNetwork) {
+    } else {
       // getNetwork only returns one network, so it is safe to do storedNetwork[0]
       this.store.network.enabled = storedNetwork[0].enabled
     }
