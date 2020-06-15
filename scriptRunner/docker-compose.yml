@@ -21,6 +21,7 @@ services:
       resources:
         limits:
           memory: 2.5G
+          cpus: '0.9'
     environment:
       - HASURA_URL=$HASURA_URL
       - HASURA_ADMIN_KEY=$HASURA_ADMIN_KEY
