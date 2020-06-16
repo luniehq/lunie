@@ -93,7 +93,7 @@ describe(`PageValidators`, () => {
         },
       },
     })
-    wrapper.setData({ showMobileSorting: true })
+    wrapper.vm.toggleMobileSorting()
     expect(wrapper.element).toMatchSnapshot()
   })
 })
