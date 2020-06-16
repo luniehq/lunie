@@ -4,7 +4,11 @@
       <h2 class="session-title">
         You are about to reveal your seed phrase or private key
       </h2>
-      <TmFormGroup class="reveal-seed-form-group" field-id="password">
+      <TmFormGroup
+        :error="$v.password.$error && $v.password.$invalid"
+        class="reveal-seed-form-group"
+        field-id="password"
+      >
         <TmField
           id="password"
           ref="passwordInput"
@@ -16,6 +20,11 @@
         <div class="reveal-seed-show-password" @click="showPassword">
           <i class="material-icons notranslate">visibility</i>
         </div>
+        <TmFormMsg
+          v-if="$v.password.$error"
+          name="Password"
+          type="required"
+        />
         <TmFormMsg
           v-if="revealSeedPhraseError"
           type="custom"
@@ -55,6 +64,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmBtn from "common/TmBtn"
 import config from "src/../config"
+import { required } from 'vuelidate/lib/validators'
 export default {
   name: `reveal-seed`,
   components: {
@@ -77,6 +87,12 @@ export default {
   },
   methods: {
     async revealSeedPhrase() {
+      this.$v.$touch()
+      if (this.$v.$invalid) {
+        console.log(`validation error: ${this.$v.$error}`)
+        return
+      }
+
       const wallet = await this.$store.dispatch(`getWallet`, {
         address: this.address,
         password: this.password,
@@ -99,6 +115,13 @@ export default {
       }
       this.passwordInputKey += 1
     },
+  },
+  validations() {
+    return {
+      password: {
+        required,
+      },
+    }
   },
 }
 </script>
