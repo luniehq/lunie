@@ -5,7 +5,9 @@
         You are about to reveal your seed phrase or private key
       </h2>
       <TmFormGroup
-        :error="($v.password.$error && $v.password.$invalid) || wrongPasswordError"
+        :error="
+          ($v.password.$error && $v.password.$invalid) || wrongPasswordError
+        "
         class="reveal-seed-form-group"
         field-id="password"
       >
