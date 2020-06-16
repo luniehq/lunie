@@ -74,6 +74,19 @@ export default () => {
 
       return wallet.cosmosAddress
     },
+    async recoverFromPrivatekey(store, { privateKey, network }) {
+      const { derivePublicFromPrivateKey } = await import("@lunie/cosmos-keys")
+      // convert privateKey to buffer
+      const privateKeyBuffer = Buffer.from(privateKey, `hex`)
+
+      // get current network
+      const networkObject = await getNetworkInfo(network, store)
+      const recoveredAddress = derivePublicFromPrivateKey(
+        privateKeyBuffer,
+        networkObject.bech32_prefix
+      )
+      return recoveredAddress
+    },
   }
 
   async function getNetworkInfo(networkId, store) {

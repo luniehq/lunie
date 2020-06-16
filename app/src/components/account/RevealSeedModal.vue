@@ -20,11 +20,7 @@
         <div class="reveal-seed-show-password" @click="showPassword">
           <i class="material-icons notranslate">visibility</i>
         </div>
-        <TmFormMsg
-          v-if="$v.password.$error"
-          name="Password"
-          type="required"
-        />
+        <TmFormMsg v-if="$v.password.$error" name="Password" type="required" />
         <TmFormMsg
           v-if="wrongPasswordError"
           type="custom"
@@ -73,7 +69,7 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmBtn from "common/TmBtn"
 import config from "src/../config"
-import { required } from 'vuelidate/lib/validators'
+import { required } from "vuelidate/lib/validators"
 export default {
   name: `reveal-seed`,
   components: {
