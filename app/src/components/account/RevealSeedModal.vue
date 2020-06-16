@@ -5,7 +5,7 @@
         You are about to reveal your seed phrase or private key
       </h2>
       <TmFormGroup
-        :error="$v.password.$error && $v.password.$invalid"
+        :error="($v.password.$error && $v.password.$invalid) || wrongPasswordError"
         class="reveal-seed-form-group"
         field-id="password"
       >
@@ -26,9 +26,9 @@
           type="required"
         />
         <TmFormMsg
-          v-if="revealSeedPhraseError"
+          v-if="wrongPasswordError"
           type="custom"
-          :msg="revealSeedPhraseError"
+          msg="Wrong password"
         />
         <div class="reveal-seed-buttons">
           <TmBtn
@@ -49,10 +49,19 @@
       </TmFormGroup>
     </div>
     <div v-else class="session-container">
-      <h2 class="session-title">Account: {{ wallet.name }}</h2>
-      <p v-if="wallet.seedPhrase">Seed Phrase: {{ wallet.seedPhrase }}</p>
-      <p>Private Key: {{ wallet.privateKey }}</p>
-      <p>Public Key: {{ wallet.publicKey }}</p>
+      <h2 class="session-title">Your account</h2>
+      <div v-if="wallet.seedPhrase">
+        <h3 class="subtitle">Seed phrase</h3>
+        <p>{{ wallet.seedPhrase }}</p>
+      </div>
+      <div v-if="wallet.privateKey">
+        <h3 class="subtitle">Private key</h3>
+        <p>{{ wallet.privateKey }}</p>
+      </div>
+      <div v-if="wallet.publicKey">
+        <h3 class="subtitle">Public key</h3>
+        <p>{{ wallet.publicKey }}</p>
+      </div>
     </div>
   </SessionFrame>
 </template>
@@ -80,7 +89,7 @@ export default {
     wallet: undefined,
     passwordInputType: `password`,
     passwordInputKey: 0,
-    revealSeedPhraseError: undefined,
+    wrongPasswordError: false,
   }),
   mounted() {
     this.address = this.$route.params.address
@@ -89,22 +98,21 @@ export default {
     async revealSeedPhrase() {
       this.$v.$touch()
       if (this.$v.$invalid) {
-        console.log(`validation error: ${this.$v.$error}`)
         return
       }
-
-      const wallet = await this.$store.dispatch(`getWallet`, {
-        address: this.address,
-        password: this.password,
-      })
-      if (wallet.message) {
-        this.revealSeedPhraseError = wallet.message
-      } else {
-        this.wallet = wallet
+      let wallet
+      try {
+        wallet = await this.$store.dispatch(`getWallet`, {
+          address: this.address,
+          password: this.password,
+        })
+      } catch (error) {
+        this.wrongPasswordError = true
+        return
       }
+      this.wallet = wallet
     },
     close() {
-      // this.$refs.sessionFrame.goToPortfolio()
       this.$router.go(`-1`)
     },
     showPassword() {
@@ -171,5 +179,13 @@ p {
   position: absolute;
   top: 1em;
   right: 0.75em;
+}
+
+.subtitle {
+  font-size: var(--h3);
+  color: var(--bright);
+  font-weight: 500;
+  padding: 1rem 0 0.5rem 0;
+  text-align: center;
 }
 </style>
