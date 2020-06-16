@@ -123,7 +123,7 @@ export default {
     validators: {
       query: gql`
         query validators(
-          $networkId: String!
+          $networkId: String! 
           $searchTerm: String
           $activeOnly: Boolean
           $popularSort: Boolean
@@ -267,9 +267,9 @@ export default {
   margin: 0.5rem 1rem;
 }
 
-  .filter-toggle {
-    margin: 0 0 1rem 2rem;
-  }
+.filter-toggle {
+  margin: 0 0 1rem 1rem;
+}
 
 @media screen and (min-width: 768px) {
   .filterContainer {
