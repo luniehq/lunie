@@ -216,3 +216,70 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
   </template>
 </tmpage-stub>
 `;
+
+exports[`PageValidators shows the mobile sorting 1`] = `
+<tmpage-stub
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="filterContainer"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="filterOptions"
+      >
+        <div
+          class="toggles"
+        >
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="active"
+            value="Popular"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="secondary"
+            value="All"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="secondary"
+            value="Active"
+          />
+        </div>
+         
+        <div
+          class="show-mobile-sorting"
+        >
+          <i
+            class="filter-toggle material-icons notranslate active"
+          >
+            filter_list
+          </i>
+        </div>
+      </div>
+    </div>
+     
+    <tablevalidators-stub
+      delegations=""
+      showmobilesorting="true"
+      showonmobile="expectedReturns"
+      validators=""
+    />
+     
+    <!---->
+  </template>
+</tmpage-stub>
+`;
