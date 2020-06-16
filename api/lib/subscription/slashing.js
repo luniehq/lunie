@@ -29,10 +29,12 @@ class SlashingMonitor {
     this.client.subscribe(
       { query: 'liveness.missed_blocks >= 1' },
       (response) => {
-        const missedBlocks = response.events["liveness.address"].map((address, index) => ({
-          validator: address,
-          missedBlocks: response.events["liveness.missed_blocks"][index]
-        }))
+        const missedBlocks = response.events['liveness.address'].map(
+          (address, index) => ({
+            validator: address,
+            missedBlocks: response.events['liveness.missed_blocks'][index]
+          })
+        )
         console.log('Missed block', missedBlocks)
       }
     )

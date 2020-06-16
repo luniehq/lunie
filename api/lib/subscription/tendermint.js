@@ -50,27 +50,28 @@ class Client {
         })
       }
     }
-    
+
     this.ws.onerror = (error) => {
       console.error(
-        `\x1b[36mwebsocket connection lost for network ${this.networkId}\x1b[0m`, error
+        `\x1b[36mwebsocket connection lost for network ${this.networkId}\x1b[0m`,
+        error
       )
 
       // only log to Sentry if retry fails 5 times in a row
       if (attempt === 5) Sentry.captureException(error)
     }
-    
+
     this.ws.onmessage = (result) => {
       const data = JSON.parse(result.data)
       if (!data.id || Object.keys(data.result).length === 0) return
 
-      const subscription = this.subscriptions.find(({id}) => id === data.id)
+      const subscription = this.subscriptions.find(({ id }) => id === data.id)
       if (!subscription) return
       subscription.resolve(data.result)
       subscription.listener(data.result)
     }
 
-    this.ws.onerror = error => {
+    this.ws.onerror = (error) => {
       // Disconnect happens after an error which is handled by the error event and logged with Sentry
 
       if (this.closed || attempt >= 5) {
@@ -101,14 +102,16 @@ class Client {
       })
 
       if (this.closed) return
-      
+
       const params = convertWsArgs(args)
 
       if (typeof listener !== `function`) {
         throw Error(`Must provide listener function`)
       }
 
-      this.ws.send(JSON.stringify({ jsonrpc: `2.0`, id, method: 'subscribe', params }))
+      this.ws.send(
+        JSON.stringify({ jsonrpc: `2.0`, id, method: 'subscribe', params })
+      )
     })
   }
 
