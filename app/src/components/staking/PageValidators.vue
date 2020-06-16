@@ -37,24 +37,17 @@
             @click.native="defaultSelectorsController(`activeOnly`)"
           />
         </div>
+        <div class="show-mobile-sorting">
+          <a @click.prevent="toggleMobileSorting">
+            <i class="sorting-check material-icons notranslate">filter_list</i>
+          </a>
+        </div>
       </div>
-      <ul class="sortingOptions">
-        <li>
-         <i class="sorting-icon material-icons notranslate">star_rate</i> Popular on Lunie
-         <i class="sorting-check material-icons notranslate">check</i>
-        </li>
-        <li>
-          <i class="sorting-icon material-icons notranslate">flash_on</i> Voting Power
-          <i class="sorting-check material-icons notranslate">check</i>
-        </li>
-        <li>
-          <i class="sorting-icon material-icons notranslate">emoji_events</i> Most Rewards
-          <i class="sorting-check material-icons notranslate">check</i>
-        </li>
-      </ul>
+      
       <TableValidators
         :validators="validators"
         :delegations="delegations"
+        :showMobileSorting="showMobileSorting"
         show-on-mobile="expectedReturns"
       />
       <div
@@ -90,6 +83,7 @@ export default {
     popularSort: true,
     validators: [],
     loaded: false,
+    showMobileSorting: false,
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
@@ -116,6 +110,9 @@ export default {
         this.activeOnly = true
       }
     },
+    toggleMobileSorting() {
+      this.showMobileSorting = !this.showMobileSorting
+    }
   },
   apollo: {
     validators: {
@@ -158,6 +155,8 @@ export default {
         }
 
         this.loaded = true
+
+        console.log(`validators:`, result.validators)
 
         return this.activeOnly
           ? result.validators.filter(
@@ -238,11 +237,6 @@ export default {
 .filterOptions .btn-radio:first-child {
   border-radius: 0.5rem 0 0 0.5rem;
   margin-right: -1px;
-}
-
-.sortingOptions .material-icons {
-  font-size: 18px;
-  width: 4rem;
 }
 
 @media screen and (min-width: 768px) {
