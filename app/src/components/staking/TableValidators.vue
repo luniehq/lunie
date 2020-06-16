@@ -30,7 +30,7 @@
       </li>
     </ul>
     <table class="data-table">
-      <thead>
+      <thead v-if="!showMobileSorting">
         <PanelSort
           :sort="sort"
           :properties="properties"
