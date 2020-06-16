@@ -1,4 +1,10 @@
 const { keyBy } = require('lodash')
+const Sentry = require('@sentry/node')
+const firebaseAdmin = require('firebase-admin')
+firebaseAdmin.initializeApp({
+  credential: process.env.GOOGLE_APPLICATION_CREDENTIALS
+})
+
 const {
   blockAdded,
   notificationAdded,
@@ -294,6 +300,20 @@ const transactionMetadata = async (
   }
 }
 
+const storeUser = async (_, { user }, { dataSources }) => {
+  try {
+    const decodedToken = await firebaseAdmin.auth().verifyIdToken(user.idToken)
+    user.uid = decodedToken.uid
+    localStore(dataSources).db.storeUser(user)
+  } catch (error) {
+    console.error(`In storeUser`, error)
+    Sentry.withScope(function (scope) {
+      scope.setExtra('storeUser resolver', user)
+      Sentry.captureException(error)
+    })
+  }
+}
+
 const resolvers = {
   Overview: {
     accountInformation: (account, _, { dataSources }) =>
@@ -543,7 +563,8 @@ const resolvers = {
       if (!remoteFetch(dataSources, networkId).getAddressRole) return undefined
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
-    }
+    },
+    storeUser: storeUser
   },
   Subscription: {
     blockAdded: {
