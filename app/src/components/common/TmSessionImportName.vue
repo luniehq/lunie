@@ -101,16 +101,29 @@ export default {
     },
   },
   async created() {
-    this.importedAddress = await this.$store.dispatch(`getAddressFromSeed`, {
-      seedPhrase: this.$store.state.recover.seed,
-      network: this.network,
-    })
+    if (this.isSeedOrPrivateKey(this.$store.state.recover.seed)) {
+      this.importedAddress = await this.$store.dispatch(
+        `recoverFromPrivatekey`,
+        {
+          privateKey: this.$store.state.recover.seed,
+          network: this.network,
+        }
+      )
+    } else {
+      this.importedAddress = await this.$store.dispatch(`getAddressFromSeed`, {
+        seedPhrase: this.$store.state.recover.seed,
+        network: this.network,
+      })
+    }
   },
   methods: {
     onSubmit() {
       this.$v.$touch()
       if (this.$v.name.$invalid) return
       this.$router.push("/recover/password")
+    },
+    isPrivateKey(seed) {
+      return seed && seed.length === 64 && seed.split(` `).length === 1
     },
   },
   validations: () => ({

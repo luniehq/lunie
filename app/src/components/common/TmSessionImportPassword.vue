@@ -114,12 +114,19 @@ export default {
       this.$v.$touch()
       if (this.$v.$error) return
       try {
-        await this.$store.dispatch(`createKey`, {
-          seedPhrase: this.recover.seed,
-          password: this.recover.password,
-          name: this.recover.name,
-          network: this.network,
-        })
+        if (this.isPrivateKey(this.recover.seed)) {
+          await this.$store.dispatch(`recoverFromPrivatekey`, {
+            privateKey: this.recover.seed,
+            network: this.network,
+          })
+        } else {
+          await this.$store.dispatch(`createKey`, {
+            seedPhrase: this.recover.seed,
+            password: this.recover.password,
+            name: this.recover.name,
+            network: this.network,
+          })
+        }
         if (this.isExtension) {
           this.$router.push(`/`)
         } else {
@@ -134,6 +141,9 @@ export default {
         this.error = true
         this.errorMessage = error.message
       }
+    },
+    isPrivateKey(seed) {
+      return seed && seed.length === 64 && seed.split(` `).length === 1
     },
   },
   validations: () => ({
