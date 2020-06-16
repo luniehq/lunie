@@ -1,5 +1,6 @@
 const { publishEvent: publishEvent } = require('../subscriptions')
 const { eventTypes, resourceTypes } = require('../notifications-types')
+const { keyBy } = require('lodash')
 const fs = require('fs')
 const path = require('path')
 
@@ -31,12 +32,24 @@ class BlockStore {
     this.db = database
   }
 
-  update({
+  async update({
     height,
     block = this.block,
     validators = this.validators,
     data = this.data // multi purpose block to be used for any chain specific data
   }) {
+    if (Array.isArray(validators)) {
+      // add popularity field
+      validators = await this.addPopularityToValidators(
+        validators,
+        this.network.id
+      )
+      // convert to map
+      validators = this.getValidatorMap(validators)
+    } else {
+      console.error(`Validators should be passed to store as an Array`)
+    }
+
     // write file sync
     this.storeValidatorData(validators)
     if (Object.keys(this.validators).length !== 0) {
@@ -196,6 +209,28 @@ class BlockStore {
     })
 
     return Promise.all(notificationPromises)
+  }
+
+  async addPopularityToValidators(validators, networkId) {
+    // popularity is actually the number of views of a validator on their page
+    const validatorPopularity = await this.db.getValidatorsViews(networkId)
+    return validators.map((validator) => {
+      const thisValidatorPopularity = validatorPopularity.find(
+        ({ operator_address }) => operator_address === validator.operatorAddress
+      )
+      // we add the popularity field to the validator
+      return {
+        ...validator,
+        popularity: thisValidatorPopularity
+          ? thisValidatorPopularity.requests
+          : 0
+      }
+    })
+  }
+
+  getValidatorMap(validators) {
+    const validatorMap = keyBy(validators, 'operatorAddress')
+    return validatorMap
   }
 }
 

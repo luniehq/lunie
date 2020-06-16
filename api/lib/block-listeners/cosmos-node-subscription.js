@@ -5,7 +5,7 @@ const {
 } = require('../subscriptions')
 const Sentry = require('@sentry/node')
 const database = require('../database')
-const { orderBy, keyBy } = require('lodash')
+const { orderBy } = require('lodash')
 const config = require('../../config.js')
 const {
   lunieMessageTypes: { SEND }
@@ -31,10 +31,9 @@ class CosmosNodeSubscription {
     this.db = new database(config)(networkSchemaName)
     this.chainHangup = undefined
     this.height = undefined
-    this.block = undefined
 
     if (network.feature_proposals === 'ENABLED') this.pollForProposalChanges()
-    if (network.feature_validators === 'ENABLED') this.updateValidators()
+    if (network.feature_validators === 'ENABLED') this.updateDBValidators()
     this.pollForNewBlock()
   }
 
@@ -53,22 +52,13 @@ class CosmosNodeSubscription {
     }, PROPOSAL_POLLING_INTERVAL)
   }
 
-  async updateValidators() {
+  async updateDBValidators() {
     const cosmosAPI = new this.CosmosApiClass(this.network, this.store)
     let validators = await cosmosAPI.getAllValidators(this.height)
-    validators = await this.addPopularityToValidators(
-      validators,
-      this.network.id
-    )
-    const validatorMap = await this.getValidatorMap(validators)
     this.updateDBValidatorProfiles(validators)
-    this.store.update({
-      height: this.height,
-      block: this.block,
-      validators: validatorMap
-    })
-    this.updateValidatorsTimeout = setTimeout(async () => {
-      this.updateValidators()
+
+    this.updateDBValidatorsTimeout = setTimeout(async () => {
+      this.updateDBValidators()
     }, UPDATE_VALIDATORS_INTERVAL)
   }
 
@@ -123,7 +113,6 @@ class CosmosNodeSubscription {
     }
     // overwrite chain_id with the network's one, making sure it is correct
     this.store.network.chain_id = block.chainId
-    this.block = block
     if (block && this.height !== block.height) {
       // apparently the cosmos db takes a while to serve the content after a block has been updated
       // if we don't do this, we run into errors as the data is not yet available
@@ -171,6 +160,12 @@ class CosmosNodeSubscription {
         await cosmosAPI.newBlockHandler(block, this.store)
       }
 
+      const validators = await cosmosAPI.getAllValidators(block.height)
+      await this.store.update({
+        height: block.height,
+        block,
+        validators: validators
+      })
       publishBlockAdded(this.network.id, block)
 
       // For each transaction listed in a block we extract the relevant addresses. This is published to the network.
@@ -201,28 +196,6 @@ class CosmosNodeSubscription {
       console.error('newBlockHandler failed', error)
       Sentry.captureException(error)
     }
-  }
-
-  async addPopularityToValidators(validators, networkId) {
-    // popularity is actually the number of views of a validator on their page
-    const validatorPopularity = await this.db.getValidatorsViews(networkId)
-    return validators.map((validator) => {
-      const thisValidatorPopularity = validatorPopularity.find(
-        ({ operator_address }) => operator_address === validator.operatorAddress
-      )
-      // we add the popularity field to the validator
-      return {
-        ...validator,
-        popularity: thisValidatorPopularity
-          ? thisValidatorPopularity.requests
-          : 0
-      }
-    })
-  }
-
-  async getValidatorMap(validators) {
-    const validatorMap = keyBy(validators, 'operatorAddress')
-    return validatorMap
   }
 
   // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
