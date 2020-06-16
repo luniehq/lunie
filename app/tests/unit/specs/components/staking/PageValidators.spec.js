@@ -79,4 +79,21 @@ describe(`PageValidators`, () => {
     })
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  it(`shows the mobile sorting`, async () => {
+    wrapper = shallowMount(PageValidators, {
+      mocks: {
+        $apollo: {
+          queries: {
+            validators: {
+              loading: false,
+              error: true,
+            },
+          },
+        },
+      },
+    })
+    wrapper.setData({ showMobileSorting: true })
+    expect(wrapper.element).toMatchSnapshot()
+  })
 })
