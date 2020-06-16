@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.26] - 2020-06-16
+
+### Fixed
+
+- [#4276](https://github.com/cosmos/lunie/pull/4276) Fixes the API release flow by adding the missing GIT_BOT_TOKEN env variable @Bitcoinera
+- Fix Tendermint connections @faboweb
+
 ## [1.0.25] - 2020-06-11
 
 ### Changed
