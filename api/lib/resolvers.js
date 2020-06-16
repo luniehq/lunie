@@ -2,7 +2,7 @@ const { keyBy } = require('lodash')
 const Sentry = require('@sentry/node')
 const firebaseAdmin = require('firebase-admin')
 firebaseAdmin.initializeApp({
-  credential: process.env.GOOGLE_APPLICATION_CREDENTIALS
+  credential: firebaseAdmin.credential.applicationDefault()
 })
 
 const {
@@ -300,15 +300,14 @@ const transactionMetadata = async (
   }
 }
 
-const storeUser = async (_, { user }, { dataSources }) => {
+const storeUser = async (_, { idToken }, { dataSources }) => {
   try {
-    const decodedToken = await firebaseAdmin.auth().verifyIdToken(user.idToken)
-    user.uid = decodedToken.uid
-    localStore(dataSources).db.storeUser(user)
+    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
+    localStore(dataSources).db.storeUser(decodedToken)
   } catch (error) {
     console.error(`In storeUser`, error)
     Sentry.withScope(function (scope) {
-      scope.setExtra('storeUser resolver', user)
+      scope.setExtra('storeUser resolver')
       Sentry.captureException(error)
     })
   }

@@ -469,6 +469,7 @@ const typeDefs = gql`
       addressObjects: [NotificationInput]!
     ): [Notification]!
     accountRole(networkId: String!, address: String!): String
+    storeUser(idToken: String!): Boolean
   }
 `
 
