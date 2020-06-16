@@ -300,10 +300,17 @@ const transactionMetadata = async (
   }
 }
 
-const storeUser = async (_, { idToken }, { dataSources }) => {
+const storeUser = async (_, { idToken }) => {
   try {
     const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
-    localStore(dataSources).db.storeUser(decodedToken)
+    const user = {
+      uid: decodedToken.uid,
+      email: decodedToken.email,
+      premium: decodedToken.premium || false, // TODO
+      createdAt: new Date(decodedToken.auth_time).toISOString(),
+      lastActive: new Date(Date.now()).toISOString()
+    }
+    database(config)('').storeUser(user)
   } catch (error) {
     console.error(`In storeUser`, error)
     Sentry.withScope(function (scope) {
