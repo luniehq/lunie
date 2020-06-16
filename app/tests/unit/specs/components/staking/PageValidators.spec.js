@@ -97,7 +97,7 @@ describe(`PageValidators`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`Should show popular validators`, async () => {
+  it(`Should toggle between popular / active / all validators`, async () => {
     wrapper = shallowMount(PageValidators, {
       mocks: {
         $apollo: {
@@ -111,6 +111,10 @@ describe(`PageValidators`, () => {
       },
     })
     wrapper.vm.defaultSelectorsController(`popularSort`)
+    expect(wrapper.element).toMatchSnapshot()
+    wrapper.vm.defaultSelectorsController(`activeOnly`)
+    expect(wrapper.element).toMatchSnapshot()
+    wrapper.vm.defaultSelectorsController(`allValidators`)
     expect(wrapper.element).toMatchSnapshot()
   })
 })
