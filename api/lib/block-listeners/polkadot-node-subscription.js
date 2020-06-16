@@ -239,20 +239,20 @@ class PolkadotNodeSubscription {
   }
 
   async addPopularityToValidators(validators, networkId) {
-    return Promise.all(
-      validators.map(async (validator) => {
-        // popularity is actually the number of views of a validator on their page
-        const popularity = await this.db.getValidatorViews(
-          validator.operatorAddress,
-          networkId
-        )
-        // we add the popularity field to the validator
-        return {
-          ...validator,
-          popularity: popularity || 0
-        }
-      })
-    )
+    // popularity is actually the number of views of a validator on their page
+    const validatorPopularity = await this.db.getValidatorsViews(networkId)
+    return validators.map((validator) => {
+      const thisValidatorPopularity = validatorPopularity.find(
+        ({ operator_address }) => operator_address === validator.operatorAddress
+      )
+      // we add the popularity field to the validator
+      return {
+        ...validator,
+        popularity: thisValidatorPopularity
+          ? thisValidatorPopularity.requests
+          : 0
+      }
+    })
   }
 
   getValidatorMap(validators) {
