@@ -11,39 +11,41 @@
       />
     </div>
     <template v-else slot="managed-body">
-      <div class="filterOptions">
+      <div class="filterContainer">
         <TmField
           v-model="searchTerm"
           class="searchField"
           placeholder="Search"
         />
-        <div class="toggles">
-          <TmBtn
-            value="Popular"
-            class="btn-radio secondary"
-            :type="popularSort ? `active` : `secondary`"
-            @click.native="defaultSelectorsController(`popularSort`)"
-          />
-          <TmBtn
-            value="All"
-            class="btn-radio secondary"
-            :type="allValidators ? `active` : `secondary`"
-            @click.native="defaultSelectorsController(`allValidators`)"
-          />
-          <TmBtn
-            value="Active"
-            class="btn-radio secondary"
-            :type="activeOnly ? `active` : `secondary`"
-            @click.native="defaultSelectorsController(`activeOnly`)"
-          />
-        </div>
-        <div class="show-mobile-sorting">
-          <i
-            :class="{ active: showMobileSorting }"
-            class="sorting-check material-icons notranslate"
-            @click="toggleMobileSorting"
-            >filter_list</i
-          >
+        <div class="filterOptions">
+          <div class="toggles">
+            <TmBtn
+              value="Popular"
+              class="btn-radio secondary"
+              :type="popularSort ? `active` : `secondary`"
+              @click.native="defaultSelectorsController(`popularSort`)"
+            />
+            <TmBtn
+              value="All"
+              class="btn-radio secondary"
+              :type="allValidators ? `active` : `secondary`"
+              @click.native="defaultSelectorsController(`allValidators`)"
+            />
+            <TmBtn
+              value="Active"
+              class="btn-radio secondary"
+              :type="activeOnly ? `active` : `secondary`"
+              @click.native="defaultSelectorsController(`activeOnly`)"
+            />
+          </div>
+          <div class="show-mobile-sorting">
+            <i
+              :class="{ active: showMobileSorting }"
+              class="filter-toggle material-icons notranslate"
+              @click="toggleMobileSorting"
+              >filter_list</i
+            >
+          </div>
         </div>
       </div>
 
@@ -203,7 +205,7 @@ export default {
   padding: 2rem;
 }
 
-.filterOptions {
+.filterContainer {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -226,16 +228,16 @@ export default {
   }
 }
 
-.filterOptions .btn-radio {
+.filterContainer .btn-radio {
   border-radius: 0;
 }
 
-.filterOptions .btn-radio:last-child {
+.filterContainer .btn-radio:last-child {
   border-radius: 0 0.5rem 0.5rem 0;
   margin-left: -1px;
 }
 
-.filterOptions .btn-radio:first-child {
+.filterContainer .btn-radio:first-child {
   border-radius: 0.5rem 0 0 0.5rem;
   margin-right: -1px;
 }
@@ -248,8 +250,29 @@ export default {
   color: var(--highlight);
 }
 
+.filterOptions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0.5rem 1rem;
+}
+
+  .filter-toggle {
+    margin: 0 0 1rem 2rem;
+  }
+
 @media screen and (min-width: 768px) {
-  .filterOptions {
+  .filterContainer {
     justify-content: space-between;
     flex-direction: row;
     margin: 0.5rem 2rem 1rem;
@@ -261,6 +284,9 @@ export default {
     input {
       max-width: 300px;
     }
+  }
+  .filter-toggle {
+    margin: 0 0 0 2rem;
   }
 }
 
