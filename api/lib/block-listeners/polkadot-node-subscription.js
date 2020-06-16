@@ -56,30 +56,35 @@ class PolkadotNodeSubscription {
     }
 
     // Subscribe to new block headers
-    const unsubscribe = await this.api.rpc.chain.subscribeNewHeads(async (blockHeader) => {
-      const blockHeight = blockHeader.number.toNumber()
-      if (this.height < blockHeight) {
-        this.height = blockHeight
-        this.newBlockHandler(blockHeight) // do not await as this can take some seconds
-      }
+    const unsubscribe = await this.api.rpc.chain.subscribeNewHeads(
+      async (blockHeader) => {
+        const blockHeight = blockHeader.number.toNumber()
+        if (this.height < blockHeight) {
+          this.height = blockHeight
+          this.newBlockHandler(blockHeight) // do not await as this can take some seconds
+        }
 
-      // refresh the api to prevent memory leaks
-      // right after a new block so we don't miss any block
-      if (Date.now() - this.store.polkadotRPCOpened > DISCONNECTION_INTERVAL) {
-        console.log(
-          'Disconnecting Polkadot for network',
-          this.network.id,
-          'to avoid memory leaks'
-        )
-        // we keep the active connection alive so queries can finish
-        const oldApi = this.api
-        setTimeout(() => oldApi.disconnect(), 1000 * 60 * 5)
-        this.api = undefined
-        unsubscribe() // unsubscribe to not react to the same block twice
-        this.subscribeForNewBlock()
-        return
+        // refresh the api to prevent memory leaks
+        // right after a new block so we don't miss any block
+        if (
+          Date.now() - this.store.polkadotRPCOpened >
+          DISCONNECTION_INTERVAL
+        ) {
+          console.log(
+            'Disconnecting Polkadot for network',
+            this.network.id,
+            'to avoid memory leaks'
+          )
+          // we keep the active connection alive so queries can finish
+          const oldApi = this.api
+          setTimeout(() => oldApi.disconnect(), 1000 * 60 * 5)
+          this.api = undefined
+          unsubscribe() // unsubscribe to not react to the same block twice
+          this.subscribeForNewBlock()
+          return
+        }
       }
-    })
+    )
   }
 
   // Sometimes blocks get published unordered so we need to enqueue
