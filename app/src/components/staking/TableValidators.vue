@@ -8,7 +8,7 @@
         <i class="sorting-icon material-icons notranslate">star_rate</i> Popular
         on Lunie
         <i
-          v-if="isSortedBy(`popularity`)"
+          :class="{ active: isSortedBy(`popularity`), inactive: !isSortedBy(`popularity`) }"
           class="sorting-check material-icons notranslate"
           >check</i
         >
@@ -20,7 +20,7 @@
         <i class="sorting-icon material-icons notranslate">flash_on</i> Voting
         Power
         <i
-          v-if="isSortedBy(`votingPower`)"
+          :class="{ active: isSortedBy(`votingPower`), inactive: !isSortedBy(`votingPower`) }"
           class="sorting-check material-icons notranslate"
           >check</i
         >
@@ -32,7 +32,7 @@
         <i class="sorting-icon material-icons notranslate">emoji_events</i> Most
         Rewards
         <i
-          v-if="isSortedBy(`expectedReturns`)"
+          :class="{ active: isSortedBy(`expectedReturns`), inactive: !isSortedBy(`expectedReturns`) }"
           class="sorting-check material-icons notranslate"
           >check</i
         >
@@ -290,6 +290,16 @@ export default {
 .sortingOptions li {
   padding: 1rem 0.5rem;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sorting-check {
+  justify-content: space-between;
+}
+
+.sorting-check.inactive {
+  color: var(--app-bg);
 }
 
 .sortingOptions .material-icons {
