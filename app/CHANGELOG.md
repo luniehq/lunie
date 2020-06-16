@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.213] - 2020-06-16
+
+### Security
+
+- Update node-addon-api because of a security issue @faboweb
+
 ## [1.0.212] - 2020-06-11
 
 ### Added
