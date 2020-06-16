@@ -198,23 +198,6 @@ class CosmosNodeSubscription {
     }
   }
 
-  async addPopularityToValidators(validators, networkId) {
-    // popularity is actually the number of views of a validator on their page
-    const validatorPopularity = await this.db.getValidatorsViews(networkId)
-    return validators.map((validator) => {
-      const thisValidatorPopularity = validatorPopularity.find(
-        ({ operator_address }) => operator_address === validator.operatorAddress
-      )
-      // we add the popularity field to the validator
-      return {
-        ...validator,
-        popularity: thisValidatorPopularity
-          ? thisValidatorPopularity.requests
-          : 0
-      }
-    })
-  }
-
   async getValidatorMap(validators) {
     const validatorMap = keyBy(validators, 'operatorAddress')
     return validatorMap

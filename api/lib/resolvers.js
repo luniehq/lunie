@@ -68,6 +68,27 @@ function enrichValidator(validatorInfo, validator) {
   }
 }
 
+async function addPopularityToValidators(validators, dataSources, networkId) {
+  // popularity is actually the number of views of a validator on their page
+  const validatorPopularity = await localStore(
+    dataSources,
+    networkId
+  ).db.getValidatorsViews(networkId)
+  const validatorPopularityDictionary = keyBy(
+    validatorPopularity,
+    'operator_address'
+  )
+  return validators.map((validator) => {
+    const thisValidatorPopularity =
+      validatorPopularityDictionary[validator.operatorAddress]
+    // we add the popularity field to the validator
+    return {
+      ...validator,
+      popularity: thisValidatorPopularity ? thisValidatorPopularity.requests : 0
+    }
+  })
+}
+
 async function validators(
   _,
   { networkId, searchTerm, activeOnly, popularSort },
@@ -75,6 +96,11 @@ async function validators(
 ) {
   await localStore(dataSources, networkId).dataReady
   let validators = Object.values(localStore(dataSources, networkId).validators)
+  validators = await addPopularityToValidators(
+    validators,
+    dataSources,
+    networkId
+  )
   function compare(a, b) {
     let comparison = 0
     if (a.popularity < b.popularity) {
