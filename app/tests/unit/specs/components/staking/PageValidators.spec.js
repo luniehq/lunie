@@ -96,4 +96,21 @@ describe(`PageValidators`, () => {
     wrapper.vm.toggleMobileSorting()
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  it(`Should show popular validators`, async () => {
+    wrapper = shallowMount(PageValidators, {
+      mocks: {
+        $apollo: {
+          queries: {
+            validators: {
+              loading: false,
+              error: true,
+            },
+          },
+        },
+      },
+    })
+    wrapper.vm.defaultSelectorsController(`popularSort`)
+    expect(wrapper.element).toMatchSnapshot()
+  })
 })

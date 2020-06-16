@@ -92,12 +92,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
-    validatorsPlus() {
-      return this.validators.map((validator) => ({
-        ...validator,
-        smallName: validator.name ? validator.name.toLowerCase() : "",
-      }))
-    },
   },
   methods: {
     defaultSelectorsController(selector) {
