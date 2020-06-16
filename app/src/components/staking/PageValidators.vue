@@ -38,9 +38,7 @@
           />
         </div>
         <div class="show-mobile-sorting">
-          <a @click.prevent="toggleMobileSorting">
-            <i class="sorting-check material-icons notranslate">filter_list</i>
-          </a>
+          <i @click="toggleMobileSorting" :class="{ active: showMobileSorting }" class="sorting-check material-icons notranslate">filter_list</i>
         </div>
       </div>
 
@@ -156,8 +154,6 @@ export default {
 
         this.loaded = true
 
-        console.log(`validators:`, result.validators)
-
         return this.activeOnly
           ? result.validators.filter(
               ({ name, operatorAddress }) => name !== operatorAddress
@@ -237,6 +233,14 @@ export default {
 .filterOptions .btn-radio:first-child {
   border-radius: 0.5rem 0 0 0.5rem;
   margin-right: -1px;
+}
+
+.show-mobile-sorting {
+  cursor: pointer;
+}
+
+.show-mobile-sorting.active {
+  color: var(--highlight);
 }
 
 @media screen and (min-width: 768px) {

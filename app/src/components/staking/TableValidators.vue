@@ -1,29 +1,38 @@
 <template>
   <div>
     <ul v-if="showMobileSorting" class="sortingOptions">
-      <li @click="sort.property = `popularity`">
+      <li
+        :class="{ active: isSortedBy(`popularity`) }"
+        @click="sortBy(`popularity`)"
+      >
         <i class="sorting-icon material-icons notranslate">star_rate</i> Popular
         on Lunie
         <i
-          v-if="sort.property === `popularity`"
+          v-if="isSortedBy(`popularity`)"
           class="sorting-check material-icons notranslate"
           >check</i
         >
       </li>
-      <li @click="sort.property = `votingPower`">
+      <li
+        :class="{ active: isSortedBy(`votingPower`) }"
+        @click="sortBy(`votingPower`)"
+      >
         <i class="sorting-icon material-icons notranslate">flash_on</i> Voting
         Power
         <i
-          v-if="sort.property === `votingPower`"
+          v-if="isSortedBy(`votingPower`)"
           class="sorting-check material-icons notranslate"
           >check</i
         >
       </li>
-      <li @click="sort.property = `expectedReturns`">
+      <li
+        :class="{ active: isSortedBy(`expectedReturns`) }"
+        @click="sortBy(`expectedReturns`)"
+      >
         <i class="sorting-icon material-icons notranslate">emoji_events</i> Most
         Rewards
         <i
-          v-if="sort.property === `expectedReturns`"
+          v-if="isSortedBy(`expectedReturns`)"
           class="sorting-check material-icons notranslate"
           >check</i
         >
@@ -107,7 +116,6 @@ export default {
         [this.sort.property],
         [this.sort.order]
       )
-      console.log(`orderedValidators:`, orderedValidators)
       return orderedValidators
     },
     showingValidators() {
@@ -175,6 +183,12 @@ export default {
             )
         )
       }
+    },
+    sortBy(property) {
+      this.sort.property = property
+    },
+    isSortedBy(property) {
+      return this.sort.property === property
     },
   },
   apollo: {
@@ -269,14 +283,19 @@ export default {
   margin: 0.5rem 1rem;
 }
 
+.sortingOptions li.active {
+  color: var(--highlight);
+}
+
 .sortingOptions li {
   padding: 0.5rem;
   cursor: pointer;
 }
 
 .sortingOptions .material-icons {
-  font-size: 18px;
+  font-size: 22px;
   width: 2rem;
+  vertical-align: text-bottom;
 }
 
 .shrinked .panel-sort-container {
