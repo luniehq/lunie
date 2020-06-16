@@ -31,7 +31,6 @@ class PolkadotNodeSubscription {
     const networkSchemaName = this.network.id.replace(/-/g, '_')
     this.db = new database(config)(networkSchemaName)
     this.height = 0
-    this.block = undefined
     this.currentSessionIndex = 0
     this.currentEra = 0
     this.blockQueue = []
@@ -51,25 +50,11 @@ class PolkadotNodeSubscription {
     console.log('Polkadot initialized')
   }
 
-  async updateValidators() {
-    // const cosmosAPI = new this.CosmosApiClass(this.network, this.store)
-    // let validators = await cosmosAPI.getAllValidators(this.height)
-    const validators = await this.addPopularityToValidators(
-      this.sessionValidators,
-      this.network.id
-    )
-    // const validatorMap = await this.getValidatorMap(validators)
-    this.updateDBValidatorProfiles(validators)
-    this.store.update({
-      height: this.height,
-      block: this.block,
-      validators: this.getValidatorMap(validators),
-      data: {
-        era: this.currentEra
-      }
-    })
-    this.updateValidatorsTimeout = setTimeout(async () => {
-      this.updateValidators()
+  async updateDBValidators() {
+    this.updateDBValidatorProfiles(this.sessionValidators)
+
+    this.updateDBValidatorsTimeout = setTimeout(async () => {
+      this.updateDBValidators()
     }, UPDATE_VALIDATORS_INTERVAL)
   }
 
@@ -155,7 +140,6 @@ class PolkadotNodeSubscription {
       })
 
       const block = await this.polkadotAPI.getBlockByHeightV2(blockHeight)
-      this.block = block
       this.enqueueAndPublishBlockAdded(block)
 
       // We dont need to fetch validators on every new block.
@@ -176,8 +160,9 @@ class PolkadotNodeSubscription {
         ])
         this.sessionValidators = sessionValidators
         // here we start the validators loop
-        if (this.network.feature_validators === 'ENABLED')
-          this.updateValidators()
+        if (this.network.feature_validators === 'ENABLED') {
+          this.updateDBValidators()
+        }
 
         if (this.currentEra < era || this.currentEra === 0) {
           console.log(
@@ -208,6 +193,15 @@ class PolkadotNodeSubscription {
           })
         }
       }
+
+      this.store.update({
+        height: blockHeight,
+        block,
+        validators: this.getValidatorMap(this.sessionValidators),
+        data: {
+          era: this.currentEra
+        }
+      })
 
       // For each transaction listed in a block we extract the relevant addresses. This is published to the network.
       // A GraphQL resolver is listening for these messages and sends the
