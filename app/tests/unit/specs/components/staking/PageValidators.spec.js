@@ -97,3 +97,4 @@ describe(`PageValidators`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })
+
