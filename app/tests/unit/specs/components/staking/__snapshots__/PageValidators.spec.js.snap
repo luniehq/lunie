@@ -9,7 +9,7 @@ exports[`PageValidators shows a list of validators 1`] = `
 >
   <template>
     <div
-      class="filterOptions"
+      class="filterContainer"
     >
       <tmfield-stub
         class="searchField"
@@ -19,35 +19,39 @@ exports[`PageValidators shows a list of validators 1`] = `
       />
        
       <div
-        class="toggles"
+        class="filterOptions"
       >
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="active"
-          value="Popular"
-        />
-         
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="All"
-        />
-         
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="Active"
-        />
-      </div>
-       
-      <div
-        class="show-mobile-sorting"
-      >
-        <i
-          class="sorting-check material-icons notranslate"
+        <div
+          class="toggles"
         >
-          filter_list
-        </i>
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="active"
+            value="Popular"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="secondary"
+            value="All"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="secondary"
+            value="Active"
+          />
+        </div>
+         
+        <div
+          class="show-mobile-sorting"
+        >
+          <i
+            class="filter-toggle material-icons notranslate"
+          >
+            filter_list
+          </i>
+        </div>
       </div>
     </div>
      
@@ -90,7 +94,7 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
 >
   <template>
     <div
-      class="filterOptions"
+      class="filterContainer"
     >
       <tmfield-stub
         class="searchField"
@@ -100,35 +104,39 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
       />
        
       <div
-        class="toggles"
+        class="filterOptions"
       >
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="active"
-          value="Popular"
-        />
-         
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="All"
-        />
-         
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="Active"
-        />
-      </div>
-       
-      <div
-        class="show-mobile-sorting"
-      >
-        <i
-          class="sorting-check material-icons notranslate"
+        <div
+          class="toggles"
         >
-          filter_list
-        </i>
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="active"
+            value="Popular"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="secondary"
+            value="All"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="secondary"
+            value="Active"
+          />
+        </div>
+         
+        <div
+          class="show-mobile-sorting"
+        >
+          <i
+            class="filter-toggle material-icons notranslate"
+          >
+            filter_list
+          </i>
+        </div>
       </div>
     </div>
      
@@ -152,7 +160,7 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
 >
   <template>
     <div
-      class="filterOptions"
+      class="filterContainer"
     >
       <tmfield-stub
         class="searchField"
@@ -162,35 +170,39 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
       />
        
       <div
-        class="toggles"
+        class="filterOptions"
       >
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="active"
-          value="Popular"
-        />
-         
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="All"
-        />
-         
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="Active"
-        />
-      </div>
-       
-      <div
-        class="show-mobile-sorting"
-      >
-        <i
-          class="sorting-check material-icons notranslate"
+        <div
+          class="toggles"
         >
-          filter_list
-        </i>
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="active"
+            value="Popular"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="secondary"
+            value="All"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio secondary"
+            type="secondary"
+            value="Active"
+          />
+        </div>
+         
+        <div
+          class="show-mobile-sorting"
+        >
+          <i
+            class="filter-toggle material-icons notranslate"
+          >
+            filter_list
+          </i>
+        </div>
       </div>
     </div>
      

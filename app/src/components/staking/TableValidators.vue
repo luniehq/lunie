@@ -1,43 +1,45 @@
 <template>
   <div>
-    <ul v-if="showMobileSorting" class="sortingOptions">
-      <li
-        :class="{ active: isSortedBy(`popularity`) }"
-        @click="sortBy(`popularity`)"
-      >
-        <i class="sorting-icon material-icons notranslate">star_rate</i> Popular
-        on Lunie
-        <i
-          :class="{ active: isSortedBy(`popularity`), inactive: !isSortedBy(`popularity`) }"
-          class="sorting-check material-icons notranslate"
-          >check</i
+    <transition name="fade">
+      <ul v-if="showMobileSorting" class="sortingOptions">
+        <li
+          :class="{ active: isSortedBy(`popularity`) }"
+          @click="sortBy(`popularity`)"
         >
-      </li>
-      <li
-        :class="{ active: isSortedBy(`votingPower`) }"
-        @click="sortBy(`votingPower`)"
-      >
-        <i class="sorting-icon material-icons notranslate">flash_on</i> Voting
-        Power
-        <i
-          :class="{ active: isSortedBy(`votingPower`), inactive: !isSortedBy(`votingPower`) }"
-          class="sorting-check material-icons notranslate"
-          >check</i
+          <i class="sorting-icon material-icons notranslate">star_rate</i> Popular
+          on Lunie
+          <i
+            :class="{ inactive: !isSortedBy(`popularity`) }"
+            class="sorting-check material-icons notranslate"
+            >check</i
+          >
+        </li>
+        <li
+          :class="{ active: isSortedBy(`votingPower`) }"
+          @click="sortBy(`votingPower`)"
         >
-      </li>
-      <li
-        :class="{ active: isSortedBy(`expectedReturns`) }"
-        @click="sortBy(`expectedReturns`)"
-      >
-        <i class="sorting-icon material-icons notranslate">emoji_events</i> Most
-        Rewards
-        <i
-          :class="{ active: isSortedBy(`expectedReturns`), inactive: !isSortedBy(`expectedReturns`) }"
-          class="sorting-check material-icons notranslate"
-          >check</i
+          <i class="sorting-icon material-icons notranslate">flash_on</i> Voting
+          Power
+          <i
+            :class="{ inactive: !isSortedBy(`votingPower`) }"
+            class="sorting-check material-icons notranslate"
+            >check</i
+          >
+        </li>
+        <li
+          :class="{ active: isSortedBy(`expectedReturns`) }"
+          @click="sortBy(`expectedReturns`)"
         >
-      </li>
-    </ul>
+          <i class="sorting-icon material-icons notranslate">emoji_events</i> Most
+          Rewards
+          <i
+            :class="{ inactive: !isSortedBy(`expectedReturns`) }"
+            class="sorting-check material-icons notranslate"
+            >check</i
+          >
+        </li>
+      </ul>
+    </transition>
     <table class="data-table">
       <thead :class="{ shrinked: showMobileSorting }">
         <PanelSort
@@ -310,5 +312,12 @@ export default {
 
 .shrinked .panel-sort-container {
   visibility: collapse;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

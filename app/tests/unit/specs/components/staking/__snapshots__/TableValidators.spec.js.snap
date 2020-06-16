@@ -4,6 +4,7 @@ exports[`TableValidators shows a validator table 1`] = `
 <div>
   <ul
     class="sortingOptions"
+    name="fade"
   >
     <li
       class=""
@@ -14,9 +15,13 @@ exports[`TableValidators shows a validator table 1`] = `
         star_rate
       </i>
        Popular
-      on Lunie
-      
-      <!---->
+        on Lunie
+        
+      <i
+        class="sorting-check material-icons notranslate inactive"
+      >
+        check
+      </i>
     </li>
      
     <li
@@ -28,9 +33,13 @@ exports[`TableValidators shows a validator table 1`] = `
         flash_on
       </i>
        Voting
-      Power
-      
-      <!---->
+        Power
+        
+      <i
+        class="sorting-check material-icons notranslate inactive"
+      >
+        check
+      </i>
     </li>
      
     <li
@@ -42,9 +51,13 @@ exports[`TableValidators shows a validator table 1`] = `
         emoji_events
       </i>
        Most
-      Rewards
-      
-      <!---->
+        Rewards
+        
+      <i
+        class="sorting-check material-icons notranslate inactive"
+      >
+        check
+      </i>
     </li>
   </ul>
    
