@@ -1,9 +1,9 @@
 const {scheduleJob} = require('../executor')
 
 module.exports = async function (req, res) {
-  const {era} = req.body;
+  const {era, networkId} = req.body;
   try {
-      scheduleJob("polkadotRewards", {era})
+      scheduleJob("polkadotRewards", {era, networkId})
       // we don't wait for the job to end because of timeouts
       res.status(200)
       res.send()
