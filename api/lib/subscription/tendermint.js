@@ -71,14 +71,13 @@ class Client {
       subscription.listener(data.result)
     }
 
-    this.ws.onerror = (error) => {
+    this.ws.onerror = () => {
       // Disconnect happens after an error which is handled by the error event and logged with Sentry
 
       if (this.closed || attempt >= 5) {
         // Accept disconnection and don't retry connection again
         console.log(
-          `\x1b[31mwebsocket disconnected for network ${this.networkId}\x1b[0m`,
-          error
+          `\x1b[31mwebsocket disconnected for network ${this.networkId}\x1b[0m`
         )
         return
       }
