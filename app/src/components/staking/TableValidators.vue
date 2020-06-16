@@ -30,7 +30,7 @@
       </li>
     </ul>
     <table class="data-table">
-      <thead v-if="!showMobileSorting">
+      <thead :class="{ shrinked: showMobileSorting }">
         <PanelSort
           :sort="sort"
           :properties="properties"
@@ -271,10 +271,15 @@ export default {
 
 .sortingOptions li {
   padding: 0.5rem;
+  cursor: pointer;
 }
 
 .sortingOptions .material-icons {
   font-size: 18px;
   width: 2rem;
+}
+
+.shrinked .panel-sort-container {
+  visibility: collapse;
 }
 </style>
