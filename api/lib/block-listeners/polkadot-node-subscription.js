@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
+const fetch = require('node-fetch')
 const {
   publishBlockAdded,
   publishUserTransactionAddedV2,
@@ -14,8 +15,6 @@ const database = require('../database')
 const config = require('../../config.js')
 
 const POLLING_INTERVAL = 1000
-// const NEW_BLOCK_DELAY = 2000
-// const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // used to disconnect from API to free memory
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
@@ -157,9 +156,12 @@ class PolkadotNodeSubscription {
           this.currentEra = era
 
           try {
-            console.log("Starting Polkadot rewards script on", config.scriptRunnerEndpoint)
+            console.log(
+              'Starting Polkadot rewards script on',
+              config.scriptRunnerEndpoint
+            )
             fetch(`${config.scriptRunnerEndpoint}/polkadotrewards`, {
-              method: "POST",
+              method: 'POST',
               headers: {
                 Authorization: config.scriptRunnerAuthenticationToken
               },
@@ -168,7 +170,7 @@ class PolkadotNodeSubscription {
               })
             })
           } catch (error) {
-            console.error("Failed running Polkadot rewards script", error)
+            console.error('Failed running Polkadot rewards script', error)
             Sentry.captureException(error)
           }
         }
