@@ -38,7 +38,12 @@
           />
         </div>
         <div class="show-mobile-sorting">
-          <i @click="toggleMobileSorting" :class="{ active: showMobileSorting }" class="sorting-check material-icons notranslate">filter_list</i>
+          <i
+            :class="{ active: showMobileSorting }"
+            class="sorting-check material-icons notranslate"
+            @click="toggleMobileSorting"
+            >filter_list</i
+          >
         </div>
       </div>
 

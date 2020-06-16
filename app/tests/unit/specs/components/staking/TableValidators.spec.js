@@ -42,7 +42,10 @@ describe(`TableValidators`, () => {
     }
 
     wrapper = shallowMount(TableValidators, {
-      propsData: { validators },
+      propsData: {
+        validators,
+        showMobileSorting: true,
+      },
       directives: {
         infiniteScroll: () => {},
       },

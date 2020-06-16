@@ -39,6 +39,16 @@ exports[`PageValidators shows a list of validators 1`] = `
           value="Active"
         />
       </div>
+       
+      <div
+        class="show-mobile-sorting"
+      >
+        <i
+          class="sorting-check material-icons notranslate"
+        >
+          filter_list
+        </i>
+      </div>
     </div>
      
     <tablevalidators-stub
@@ -110,6 +120,16 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
           value="Active"
         />
       </div>
+       
+      <div
+        class="show-mobile-sorting"
+      >
+        <i
+          class="sorting-check material-icons notranslate"
+        >
+          filter_list
+        </i>
+      </div>
     </div>
      
     <tablevalidators-stub
@@ -161,6 +181,16 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
           type="secondary"
           value="Active"
         />
+      </div>
+       
+      <div
+        class="show-mobile-sorting"
+      >
+        <i
+          class="sorting-check material-icons notranslate"
+        >
+          filter_list
+        </i>
       </div>
     </div>
      

@@ -94,7 +94,7 @@ export default {
     },
     showMobileSorting: {
       type: Boolean,
-      required: true,
+      default: () => false,
     },
   },
   data: () => ({
@@ -288,7 +288,7 @@ export default {
 }
 
 .sortingOptions li {
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
   cursor: pointer;
 }
 

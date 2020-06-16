@@ -2,10 +2,58 @@
 
 exports[`TableValidators shows a validator table 1`] = `
 <div>
+  <ul
+    class="sortingOptions"
+  >
+    <li
+      class=""
+    >
+      <i
+        class="sorting-icon material-icons notranslate"
+      >
+        star_rate
+      </i>
+       Popular
+      on Lunie
+      
+      <!---->
+    </li>
+     
+    <li
+      class=""
+    >
+      <i
+        class="sorting-icon material-icons notranslate"
+      >
+        flash_on
+      </i>
+       Voting
+      Power
+      
+      <!---->
+    </li>
+     
+    <li
+      class=""
+    >
+      <i
+        class="sorting-icon material-icons notranslate"
+      >
+        emoji_events
+      </i>
+       Most
+      Rewards
+      
+      <!---->
+    </li>
+  </ul>
+   
   <table
     class="data-table"
   >
-    <thead>
+    <thead
+      class="shrinked"
+    >
       <panelsort-stub
         properties="[object Object],[object Object],[object Object],[object Object]"
         showonmobile="returns"
