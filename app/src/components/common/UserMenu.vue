@@ -46,21 +46,37 @@
       <!-- This will be the content of the popover -->
       <template slot="popover">
         <div
-          v-for="address in session.addresses"
+          v-for="address in addresses"
           :key="address.address"
-          class="address-list"
+          class="menu-list-item address-list"
+          :class="{ selected: address.address === selectedAddress }"
         >
           <div>
             <span v-if="address.type">{{ address.type }}</span>
-            <span>{{ address.address | formatAddress }}</span>
+            <span class="address-name">{{ address.name }}</span>
+            <span class="address">{{ address.address | formatAddress }}</span>
           </div>
-          <div>
-            <i class="material-icons">check</i>
-          </div>
+
+          <i v-if="address.address === selectedAddress" class="material-icons"
+            >check</i
+          >
         </div>
-        <div>Create New Seed</div>
-        <div>Currency</div>
-        <button>Sign up for premium!</button>
+        <div class="menu-list-item dark">
+          <span>Create New Account</span>
+          <i class="material-icons">add_circle</i>
+        </div>
+        <div class="menu-list-item">
+          <span>Settings</span>
+          <i class="material-icons">settings</i>
+        </div>
+        <div class="menu-list-item">
+          <span>Manage Subscription</span>
+          <i class="material-icons">payment</i>
+        </div>
+        <div class="menu-list-item outline">
+          <span>Logout</span>
+          <i class="material-icons">exit_to_app</i>
+        </div>
       </template>
     </v-popover>
   </div>
@@ -85,7 +101,22 @@ export default {
   },
   data: () => ({
     ledgerAddressError: undefined,
-    showAddressOnLedgerFn: showAddressOnLedger
+    showAddressOnLedgerFn: showAddressOnLedger,
+    addresses: [
+      {
+        name: 'seed 1',
+        address: 'cosmos1...abcd'
+      }, 
+      {
+        name: 'seed 2',
+        address: 'akash1...efgh'
+      }, 
+      {
+        name: 'seed 3',
+        address: 'polka1...ijkl'
+      }, 
+    ],
+    selectedAddress: 'cosmos1...abcd'
   }),
   computed: {
     ...mapState([`session`, `connection`]),
@@ -173,13 +204,57 @@ h3 {
   justify-content: space-between;
 }
 
-.address-list span {
-  display: block;
-  padding-right: 2rem;
+.menu-list-item {
+  padding: 0.75rem;
+  margin: 0.25rem 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  min-width: 200px;
+  align-items: center;
+  border-radius: 0.25rem;
+  color: #324175;
 }
 
-.address-list:hover {
-  background: var(--bg-hover);
+.menu-list-item:hover {
+  cursor: pointer;
+  background: #eeeeee;
+}
+
+.menu-list-item.dark {
+  margin-top: 0.5rem;
+  background: hsl(226, 30%, 90%);
+}
+
+.menu-list-item.outline {
+  border: 1px solid #eeeeee;
+}
+
+.menu-list-item.selected {
+  background: #e6fae6;
+}
+
+.menu-list-item.dark:hover {
+  background: hsl(226, 30%, 85%);
+}
+
+.address-list .material-icons {
+  font-weight: 700;
+  color: #00c700;
+}
+
+.address-list span {
+  display: block;
+}
+
+.address {
+  color: hsl(0, 0%, 40%);
+  font-weight: 400;
+}
+
+.address-name {
+  padding-bottom: 0.25rem;
+  font-weight: 500;
 }
 
 .avatar {
@@ -195,9 +270,9 @@ h3 {
   height: 2rem;
   width: 2rem;
 }
-</style>
-<style>
-.user-menu-popover .popover-inner {
-  padding: 0.5rem;
+
+.material-icons {
+  font-size: 18px;
+  font-weight: 500;
 }
 </style>
