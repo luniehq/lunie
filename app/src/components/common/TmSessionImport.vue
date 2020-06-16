@@ -124,24 +124,17 @@ export default {
       if (this.$v.seed.$invalid || this.$v.seed.$invalid) return
       this.$router.push("/recover/name")
     },
-    isPrivateKey(seed) {
-      return seed && seed.length === 64 && seed.split(` `).length === 1
-    },
   },
   validations() {
     return {
       seed: {
         required,
-        seedIsLowerCaseAndSpaces: (param) => {
-          if (this.isPolkadot) return polkadotValidation(param)
-          if (this.isPrivateKey(param)) return true
-          return lowerCaseAndSpaces(param)
-        },
-        seedHasCorrectLength: (param) => {
-          if (this.isPolkadot) return polkadotValidation(param)
-          if (this.isPrivateKey(param)) return true
-          return has12or24words(param)
-        },
+        seedIsLowerCaseAndSpaces: (param) =>
+          this.isPolkadot
+            ? polkadotValidation(param)
+            : lowerCaseAndSpaces(param),
+        seedHasCorrectLength: (param) =>
+          this.isPolkadot ? polkadotValidation(param) : has12or24words(param),
       },
     }
   },
