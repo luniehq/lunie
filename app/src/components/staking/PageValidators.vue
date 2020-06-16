@@ -121,6 +121,7 @@ export default {
   },
   apollo: {
     validators: {
+      /* istanbul ignore next */
       query: gql`
         query validators(
           $networkId: String! 
@@ -146,6 +147,7 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
@@ -154,6 +156,7 @@ export default {
           popularSort: this.popularSort,
         }
       },
+      /* istanbul ignore next */
       update: function (result) {
         if (!Array.isArray(result.validators)) {
           return []
@@ -169,6 +172,7 @@ export default {
       },
     },
     delegations: {
+      /* istanbul ignore next */
       query: gql`
         query Delegations($networkId: String!, $delegatorAddress: String!) {
           delegations(
@@ -182,17 +186,19 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
         return !this.address
       },
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
           delegatorAddress: this.address,
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.delegations
       },
     },
