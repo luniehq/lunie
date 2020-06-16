@@ -2,16 +2,31 @@
   <div>
     <ul v-if="showMobileSorting" class="sortingOptions">
       <li @click="sort.property = `popularity`">
-       <i class="sorting-icon material-icons notranslate">star_rate</i> Popular on Lunie
-       <i v-if="sort.property === `popularity`" class="sorting-check material-icons notranslate">check</i>
+        <i class="sorting-icon material-icons notranslate">star_rate</i> Popular
+        on Lunie
+        <i
+          v-if="sort.property === `popularity`"
+          class="sorting-check material-icons notranslate"
+          >check</i
+        >
       </li>
-      <li @click="sort.property = `votingPower`" >
-        <i class="sorting-icon material-icons notranslate">flash_on</i> Voting Power
-        <i v-if="sort.property === `votingPower`" class="sorting-check material-icons notranslate">check</i>
+      <li @click="sort.property = `votingPower`">
+        <i class="sorting-icon material-icons notranslate">flash_on</i> Voting
+        Power
+        <i
+          v-if="sort.property === `votingPower`"
+          class="sorting-check material-icons notranslate"
+          >check</i
+        >
       </li>
-      <li @click="sort.property = `expectedReturns`" >
-        <i class="sorting-icon material-icons notranslate">emoji_events</i> Most Rewards
-        <i v-if="sort.property === `expectedReturns`" class="sorting-check material-icons notranslate">check</i>
+      <li @click="sort.property = `expectedReturns`">
+        <i class="sorting-icon material-icons notranslate">emoji_events</i> Most
+        Rewards
+        <i
+          v-if="sort.property === `expectedReturns`"
+          class="sorting-check material-icons notranslate"
+          >check</i
+        >
       </li>
     </ul>
     <table class="data-table">

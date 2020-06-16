@@ -43,11 +43,11 @@
           </a>
         </div>
       </div>
-      
+
       <TableValidators
         :validators="validators"
         :delegations="delegations"
-        :showMobileSorting="showMobileSorting"
+        :show-mobile-sorting="showMobileSorting"
         show-on-mobile="expectedReturns"
       />
       <div
@@ -112,7 +112,7 @@ export default {
     },
     toggleMobileSorting() {
       this.showMobileSorting = !this.showMobileSorting
-    }
+    },
   },
   apollo: {
     validators: {
