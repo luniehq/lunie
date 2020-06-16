@@ -89,6 +89,26 @@ async function addPopularityToValidators(validators, dataSources, networkId) {
   })
 }
 
+function compareOperatorAddress(a, b) {
+  let comparison = 0
+  if (b.operatorAddress < a.operatorAddress) {
+    comparison = 1
+  } else if (b.operatorAddress > a.operatorAddress) {
+    comparison = -1
+  }
+  return comparison
+}
+
+function comparePopularity(a, b) {
+  let comparison = 0
+  if (a.popularity < b.popularity) {
+    comparison = 1
+  } else if (a.popularity > b.popularity) {
+    comparison = -1
+  }
+  return comparison
+}
+
 async function validators(
   _,
   { networkId, searchTerm, activeOnly, popularSort },
@@ -96,22 +116,6 @@ async function validators(
 ) {
   await localStore(dataSources, networkId).dataReady
   let validators = Object.values(localStore(dataSources, networkId).validators)
-  validators = await addPopularityToValidators(
-    validators,
-    dataSources,
-    networkId
-  )
-  function compare(a, b) {
-    let comparison = 0
-    if (a.popularity < b.popularity) {
-      comparison = 1
-    } else if (a.popularity > b.popularity) {
-      comparison = -1
-    }
-    return comparison
-  }
-  // we always sort validators by popularity
-  validators.sort(compare)
   if (activeOnly) {
     validators = validators.filter(({ status }) => status === 'ACTIVE')
   }
@@ -121,8 +125,17 @@ async function validators(
   validators = validators.map((validator) =>
     enrichValidator(validatorInfoMap[validator.operatorAddress], validator)
   )
-  // if popularSort is true then we filter out validators with no picture
+  // by default we order validator alphabetically according to their operatorAddress
+  validators.sort(compareOperatorAddress)
+  // if popularSort is true then we filter out validators with no picture and order validator by popularity
   if (popularSort) {
+    validators = await addPopularityToValidators(
+      validators,
+      dataSources,
+      networkId
+    )
+    validators.sort(comparePopularity)
+    // we filter out validators without picture
     validators = validators.filter(({ picture }) => picture)
   }
   if (searchTerm) {
