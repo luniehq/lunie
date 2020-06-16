@@ -16,7 +16,7 @@ const { spawn } = require('child_process')
 
 const POLLING_INTERVAL = 1000
 // const NEW_BLOCK_DELAY = 2000
-const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // used to disconnect from API to free memory
+const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // 6h. Used to disconnect from API to free memory
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
