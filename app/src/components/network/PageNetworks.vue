@@ -32,11 +32,6 @@ export default {
         title: "Tezos",
         icon: "/img/networks/tezos-mainnet.png",
       },
-      {
-        id: "akash-testnet",
-        title: "Akash",
-        icon: "/img/networks/akash-testnet.png",
-      },
     ],
   }),
   computed: {
