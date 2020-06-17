@@ -1,6 +1,20 @@
 <template>
   <TmDataLoading v-if="!loaded" />
   <div v-else class="card-sign-in">
+    <div v-if="session.developmentMode">
+      <h2>Authenticate</h2>
+      <div>
+        <TmFormGroup field-id="sign-in-credentials" field-label="Signin">
+          <TmField
+            id="email"
+            v-model="email"
+            type="input"
+            placeholder="Email"
+          />
+        </TmFormGroup>
+      </div>
+      <TmBtn value="Sign In" type="secondary" @click.native="sendMagicLink()" />
+    </div>
     <h2>Welcome to Lunie 👋</h2>
     <h3>How would you like to get started?</h3>
 
@@ -65,16 +79,21 @@
 <script>
 import config from "src/../config"
 import { mapState, mapGetters } from "vuex"
+import TmField from "src/components/common/TmField"
+import TmFormGroup from "src/components/common/TmFormGroup"
 import LiSession from "common/TmLiSession"
+import TmBtn from "common/TmBtn"
 import TmDataLoading from "src/components/common/TmDataLoading"
 
 export default {
   name: `card-sign-in-required`,
-  components: { LiSession, TmDataLoading },
+  components: { LiSession, TmDataLoading, TmBtn, TmField, TmFormGroup },
   data: () => ({
     isMobileApp: config.mobileApp,
     isExtension: config.isExtension,
     loaded: false,
+    email: "",
+    errorOnAuthentication: false,
   }),
   computed: {
     ...mapState([`session`, `keystore`, `extension`]),
@@ -92,6 +111,13 @@ export default {
     this.$store.dispatch("loadAccounts").then(() => {
       this.loaded = true
     })
+  },
+  methods: {
+    async sendMagicLink() {
+      await this.$store.dispatch(`sendUserMagicLink`, {
+        user: { email: this.email },
+      })
+    },
   },
 }
 </script>

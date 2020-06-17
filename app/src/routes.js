@@ -227,6 +227,11 @@ export default (store) => {
       component: () => import(`./components/common/FeatureNotPresent`),
     },
     {
+      path: `/email-authentication`,
+      name: `email-authentication`,
+      component: () => import(`./components/account/EmailAuthentication`),
+    },
+    {
       path: `/:networkId`,
       component: () => import(`./components/common/NetworkSetter`),
       redirect: `/:networkId/portfolio`,
