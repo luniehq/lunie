@@ -1,8 +1,9 @@
 const { keyBy } = require('lodash')
 const Sentry = require('@sentry/node')
 const firebaseAdmin = require('firebase-admin')
+const firebaseServiceAccount = require('../firebaseCredentials.json');
 firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.applicationDefault()
+  credential: firebaseAdmin.credential.cert(firebaseServiceAccount),
 })
 
 const {
@@ -300,28 +301,16 @@ const transactionMetadata = async (
   }
 }
 
-const storeUser = async (_, { idToken, premium }) => {
+const registerUser = async (_, { idToken }) => {
   try {
     const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
-    // get user creation date
-    const userRecord = await firebaseAdmin.auth().getUser(decodedToken.uid)
     // check if user already exists in DB
     const storedUser = await database(config)('').getUser(decodedToken.uid)
-    // check if user already has premium as a custom claim
-    if (!userRecord.customClaims) {
-      // set premium field
-      await firebaseAdmin
-        .auth()
-        .setCustomUserClaims(decodedToken.uid, { premium: premium || false })
-    }
-    const user = {
-      uid: decodedToken.uid,
-      email: decodedToken.email,
-      premium: premium || false,
-      createdAt: userRecord.metadata.creationTime,
-      lastActive: userRecord.metadata.lastSignInTime
-    }
     if (!storedUser) {
+      const user = {
+        uid: decodedToken.uid,
+        premium:  false
+      }
       database(config)('').storeUser(user)
     } else {
       database(config)('').upsert(`users`, user)
@@ -584,8 +573,10 @@ const resolvers = {
       if (!remoteFetch(dataSources, networkId).getAddressRole) return undefined
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
-    },
-    storeUser: storeUser
+    }
+  },
+  Mutation: {
+    registerUser: registerUser
   },
   Subscription: {
     blockAdded: {

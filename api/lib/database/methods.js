@@ -148,10 +148,6 @@ const storeUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
     hasura_admin_key
   })(schema)(`users`, payload, undefined, undefined, [
     'uid',
-    'email',
-    'premium',
-    'createdAt',
-    'lastActive'
   ])
 }
 

@@ -348,6 +348,10 @@ const typeDefs = gql`
     event(networkId: String!, eventType: String!, resourceId: String): Event
   }
 
+  type Mutation {
+    registerUser(idToken: String!): Boolean
+  }
+
   type ChainAppliedFees {
     rate: String!
     cap: String!
@@ -469,7 +473,6 @@ const typeDefs = gql`
       addressObjects: [NotificationInput]!
     ): [Notification]!
     accountRole(networkId: String!, address: String!): String
-    storeUser(idToken: String!, premium: Boolean): Boolean
   }
 `
 
