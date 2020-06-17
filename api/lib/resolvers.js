@@ -303,14 +303,29 @@ const transactionMetadata = async (
 const storeUser = async (_, { idToken }) => {
   try {
     const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
-    const user = {
-      uid: decodedToken.uid,
-      email: decodedToken.email,
-      premium: decodedToken.premium || false, // TODO
-      createdAt: new Date(decodedToken.auth_time).toISOString(),
-      lastActive: new Date(Date.now()).toISOString()
+    // get user creation date
+    const userRecord = await firebaseAdmin.auth().getUser(decodedToken.uid)
+    // check if user already exists in DB
+    const storedUser = await database(config)('').getUser(decodedToken.uid)
+    // check if user already has premium as a custom claim
+    if (!userRecord.customClaims) {
+      // set premium field
+      await firebaseAdmin
+        .auth()
+        .setCustomUserClaims(decodedToken.uid, { premium: false }) // default
     }
-    database(config)('').storeUser(user)
+    if (!storedUser) {
+      const user = {
+        uid: decodedToken.uid,
+        email: decodedToken.email,
+        premium: false, // default
+        createdAt: userRecord.metadata.creationTime,
+        lastActive: userRecord.metadata.lastSignInTime
+      }
+      database(config)('').storeUser(user)
+    } else {
+      console.info(`User has already been stored`)
+    }
   } catch (error) {
     console.error(`In storeUser`, error)
     Sentry.withScope(function (scope) {

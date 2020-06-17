@@ -155,6 +155,20 @@ const storeUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   ])
 }
 
+const getUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
+  uid
+) => {
+  return await read({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(
+    `users`,
+    `users`,
+    ['uid', 'email', 'premium', 'createdAt', 'lastActive'],
+    `where: { uid: {_eq: "${uid}"} }`
+  )
+}
+
 module.exports = {
   incrementValidatorViews,
   getValidatorViews,
@@ -163,5 +177,6 @@ module.exports = {
   storeStatistics,
   storeNotification,
   getNotifications,
-  storeUser
+  storeUser,
+  getUser
 }
