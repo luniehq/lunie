@@ -139,6 +139,12 @@ export const NetworksAll = gql`
   }
 `
 
+export const storeUser = gql`
+  query StoreUser($idToken: String!) {
+    storeUser(idToken: $idToken)
+  }
+`
+
 export const NetworksResult = (data) => data.networks
 
 const ProposalFragment = `

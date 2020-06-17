@@ -5,6 +5,7 @@
       <h2 v-else>Good bye, see you soon!</h2>
     </TmPart>
     <TmBtn value="Sign Out" type="secondary" @click.native="signOut()" />
+    <TmBtn value="Store User" type="secondary" @click.native="storeUser()" />
   </TmPage>
 </template>
 
@@ -29,6 +30,10 @@ export default {
   methods: {
     signOut() {
       this.$store.dispatch(`signOutUser`)
+    },
+
+    storeUser() {
+      this.$store.dispatch(`storeUser`)
     },
   },
 }

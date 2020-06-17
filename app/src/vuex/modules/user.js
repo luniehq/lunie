@@ -1,10 +1,11 @@
 import config from "src/../config"
 import firebase from "../../firebase.js"
 import * as Sentry from "@sentry/browser"
+import { storeUser } from "../../gql"
 
 const Auth = firebase.auth()
 
-export default () => {
+export default ({ apollo }) => {
   const state = {
     userSignedIn: false,
     user: null,
@@ -81,6 +82,21 @@ export default () => {
       } catch (error) {
         console.error(error)
         commit(`setSignInError`, error)
+        Sentry.captureException(error)
+      }
+    },
+    async storeUser() {
+      try {
+        const idToken = await firebase.auth().currentUser.getIdToken(true)
+        const { data } = await apollo.query({
+          query: storeUser,
+          variables: {
+            idToken,
+          },
+        })
+        return data.success
+      } catch (error) {
+        console.error(error)
         Sentry.captureException(error)
       }
     },
