@@ -85,13 +85,14 @@ export default ({ apollo }) => {
         Sentry.captureException(error)
       }
     },
-    async storeUser() {
+    async storeUser(store, { premium }) {
       try {
         const idToken = await firebase.auth().currentUser.getIdToken(true)
         const { data } = await apollo.query({
           query: storeUser,
           variables: {
             idToken,
+            premium,
           },
         })
         return data.success

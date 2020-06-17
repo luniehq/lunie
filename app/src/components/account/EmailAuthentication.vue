@@ -5,6 +5,12 @@
       <h2 v-else>Good bye, see you soon!</h2>
     </TmPart>
     <TmBtn value="Sign Out" type="secondary" @click.native="signOut()" />
+    <TmPart>
+      <label class="field-checkbox-label" for="check-premium">
+        <input id="check-premium" v-model="premium" type="checkbox" />
+        Premium
+      </label>
+    </TmPart>
     <TmBtn value="Store User" type="secondary" @click.native="storeUser()" />
   </TmPage>
 </template>
@@ -21,6 +27,9 @@ export default {
     TmPart,
     TmBtn,
   },
+  data: () => ({
+    premium: false,
+  }),
   computed: {
     ...mapState([`user`]),
   },
@@ -33,7 +42,7 @@ export default {
     },
 
     storeUser() {
-      this.$store.dispatch(`storeUser`)
+      this.$store.dispatch(`storeUser`, { premium: this.premium })
     },
   },
 }

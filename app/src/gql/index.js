@@ -140,8 +140,8 @@ export const NetworksAll = gql`
 `
 
 export const storeUser = gql`
-  query StoreUser($idToken: String!) {
-    storeUser(idToken: $idToken)
+  query StoreUser($idToken: String!, $premium: Boolean) {
+    storeUser(idToken: $idToken, premium: $premium)
   }
 `
 
