@@ -580,9 +580,9 @@ export default {
         }
       },
       /* istanbul ignore next */
-      skip() {
-        return this.currentNetwork.network_type !== "polkadot"
-      },
+      // skip() {
+      //   return this.currentNetwork.network_type !== "polkadot"
+      // },
       /* istanbul ignore next */
       result({ data }) {
         /* istanbul ignore next */
