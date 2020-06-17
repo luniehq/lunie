@@ -56,14 +56,6 @@ export default () => {
       const actionCodeSettings = {
         url: `${window.location.protocol}//${window.location.host}/email-authentication`,
         handleCodeInApp: true,
-        // android: {
-        //   packageName: `org.lunie.lunie`, // no clue?
-        //   installApp: false,
-        //   minimunVersion: null
-        // },
-        // iOS: {
-        //   bundleId: `org.lunie.lunie`, // no clue?
-        // }
       }
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
