@@ -534,7 +534,6 @@ export default {
       },
       /* istanbul ignore next */
       update({ overview: { totalStake, liquidStake } }) {
-        console.log(totalStake, liquidStake)
         return totalStake - liquidStake
       },
     },
@@ -565,20 +564,22 @@ export default {
     },
     blockAdded: {
       /* istanbul ignore next */
+      variables() {
+        console.log(this.network)
+        return {
+          networkId: this.network,
+        }
+      },
+      /* istanbul ignore next */
       query() {
         return gql`
           subscription($networkId: String!) {
             blockAdded(networkId: $networkId) {
+              height
               data
             }
           }
         `
-      },
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-        }
       },
       /* istanbul ignore next */
       // skip() {
