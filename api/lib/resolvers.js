@@ -194,11 +194,11 @@ const registerUser = async (_, { idToken }) => {
     const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
     // check if user already exists in DB
     const storedUser = await database(config)('').getUser(decodedToken.uid)
+    const user = {
+      uid: decodedToken.uid,
+      premium:  false
+    }
     if (!storedUser) {
-      const user = {
-        uid: decodedToken.uid,
-        premium:  false
-      }
       database(config)('').storeUser(user)
     } else {
       database(config)('').upsert(`users`, user)
