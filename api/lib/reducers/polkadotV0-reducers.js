@@ -12,7 +12,8 @@ function blockReducer(
   blockHash,
   sessionIndex,
   blockAuthor,
-  transactions
+  transactions,
+  data
 ) {
   return {
     networkId,
@@ -22,7 +23,8 @@ function blockReducer(
     sessionIndex,
     time: new Date().toISOString(), // TODO: Get from blockchain state
     transactions,
-    proposer_address: blockAuthor
+    proposer_address: blockAuthor,
+    data: JSON.stringify(data)
   }
 }
 
