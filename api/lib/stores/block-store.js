@@ -1,8 +1,10 @@
-const { publishEvent: publishEvent } = require('../subscriptions')
-const { eventTypes, resourceTypes } = require('../notifications-types')
 const { keyBy } = require('lodash')
 const fs = require('fs')
 const path = require('path')
+const _ = require('lodash')
+const Sentry = require('@sentry/node')
+const { publishEvent: publishEvent } = require('../subscriptions')
+const { eventTypes, resourceTypes } = require('../notifications-types')
 
 class BlockStore {
   constructor(network, database) {
@@ -30,39 +32,48 @@ class BlockStore {
       this.resolveReady = resolve
     })
     this.db = database
+
+    this.loadStoredValidatorData()
   }
 
   async update({
     height,
     block = this.block,
-    validators = this.validators,
+    validators,
     data = this.data // multi purpose block to be used for any chain specific data
   }) {
-    if (Array.isArray(validators)) {
+    if (validators) {
+      // convert to map
+      validators = this.getValidatorMap(validators)
+
+      // TODO get pictures and popularity in parallel
+      // add picture
+      validators = await this.addValidatorPictures(validators)
+
       // add popularity field
       validators = await this.addPopularityToValidators(
         validators,
         this.network.id
       )
-      // convert to map
-      validators = this.getValidatorMap(validators)
-    } else {
-      console.error(`Validators should be passed to store as an Array`)
-    }
 
-    // write file sync
-    this.storeValidatorData(validators)
-    if (Object.keys(this.validators).length !== 0) {
-      this.checkValidatorUpdates(validators)
+      // write file async
+      this.storeValidatorData(validators) // not used rn
+
+      if (Object.keys(this.validators).length !== 0) {
+        this.checkValidatorUpdates(validators)
+      }
+
+      this.validators = validators
     }
 
     this.latestHeight = Number(height)
     this.block = block
-    this.validators = validators
     this.data = data
 
     // when the data is available signal readyness so the resolver stop blocking the requests
-    this.resolveReady()
+    if (this.validators) {
+      this.resolveReady()
+    }
   }
 
   /**
@@ -73,7 +84,9 @@ class BlockStore {
     if (!fs.existsSync(this.validatorCachePath)) {
       fs.openSync(this.validatorCachePath, 'w')
     }
-    fs.writeFileSync(this.validatorCachePath, JSON.stringify(validators))
+    fs.writeFile(this.validatorCachePath, JSON.stringify(validators), (err) => {
+      if (err) Sentry.captureException(err)
+    })
   }
 
   /**
@@ -93,7 +106,7 @@ class BlockStore {
 
     // Set validator store equal to validatorMap from file storage
     this.validators = validatorMap
-    return validatorMap
+    this.resolveReady()
   }
 
   checkValidatorUpdates(validators) {
@@ -214,23 +227,39 @@ class BlockStore {
   async addPopularityToValidators(validators, networkId) {
     // popularity is actually the number of views of a validator on their page
     const validatorPopularity = await this.db.getValidatorsViews(networkId)
-    return validators.map((validator) => {
-      const thisValidatorPopularity = validatorPopularity.find(
-        ({ operator_address }) => operator_address === validator.operatorAddress
-      )
-      // we add the popularity field to the validator
-      return {
-        ...validator,
-        popularity: thisValidatorPopularity
-          ? thisValidatorPopularity.requests
-          : 0
+    validatorPopularity.forEach(({operator_address, requests}) => {
+      if(validators[operator_address]) {
+        validators[operator_address].popularity = requests
       }
     })
+    return validators
   }
 
   getValidatorMap(validators) {
     const validatorMap = keyBy(validators, 'operatorAddress')
     return validatorMap
+  }
+
+  async addValidatorPictures(validators) {
+    const validatorInfo = await this.db.getValidatorsInfo()
+    const validatorInfoMap = keyBy(validatorInfo, 'operator_address')
+    return _.keyBy(Object.entries(validators).map(([operatorAddress, validator]) =>
+      enrichValidator(validatorInfoMap[operatorAddress], validator)
+    ), 'operatorAddress')
+  }
+}
+
+function enrichValidator(validatorInfo, validator) {
+  const picture = validatorInfo ? validatorInfo.picture : undefined
+  const name =
+    validatorInfo && validatorInfo.name
+      ? validatorInfo.name
+      : validator.name || formatBech32Reducer(validator.operatorAddress)
+
+  return {
+    ...validator,
+    name,
+    picture: picture === 'null' || picture === 'undefined' ? undefined : picture
   }
 }
 
