@@ -534,6 +534,7 @@ export default {
       },
       /* istanbul ignore next */
       update({ overview: { totalStake, liquidStake } }) {
+        console.log(totalStake, liquidStake)
         return totalStake - liquidStake
       },
     },
