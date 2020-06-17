@@ -8,7 +8,7 @@
         <MaintenanceBar />
         <DisconnectedBar />
       </div>
-      <UserMenu></UserMenu>
+      <UserMenu v-if="!isMobileApp && isDevelopmentMode"/>
       <router-view name="session" />
       <router-view />
     </div>
@@ -21,7 +21,7 @@ import { mapState, mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import CookieBar from "common/CookieBar"
 import DisconnectedBar from "common/DisconnectedBar"
-import UserMenu from "common/UserMenu"
+import UserMenu from "account/UserMenu"
 import MaintenanceBar from "common/MaintenanceBar"
 import MobileMenu from "common/MobileMenu"
 import NetworkSelector from "common/NetworkSelector"
@@ -40,7 +40,8 @@ export default {
     NetworkSelector
   },
   data: () => ({
-    isMobileApp: config.mobileApp
+    isMobileApp: config.mobileApp,
+    isDevelopmentMode: config.development,
   }),
   computed: {
     ...mapState([`notifications`, `session`]),

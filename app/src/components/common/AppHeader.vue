@@ -48,7 +48,7 @@
         </router-link>
         <div class="header-menu-section">
           <template v-if="!desktop">
-            <UserMenu />
+            <UserMenu v-if="isMobileApp && isDevelopmentMode" />
             <div v-if="open" class="close-menu" @click="close()">
               <i class="material-icons notranslate mobile-menu-action">close</i>
             </div>
@@ -70,14 +70,15 @@ import config from "src/../config"
 import { mapState } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
-import UserMenu from "common/UserMenu"
+import UserMenu from "account/UserMenu"
 export default {
   name: `app-header`,
   components: { AppMenu, UserMenu },
   data: () => ({
     open: false,
     desktop: false,
-    isMobileApp: config.mobileApp
+    isMobileApp: config.mobileApp,
+    isDevelopmentMode: config.development,
   }),
   computed: {
     ...mapState([`session`, `connection`]),

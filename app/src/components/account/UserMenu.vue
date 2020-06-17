@@ -41,7 +41,7 @@
     </router-link>
     <v-popover open-class="user-menu-popover">
       <!-- This will be the popover target (for the events and position) -->
-      <Avatar class="avatar tooltip-target" :address="address" />
+      <Avatar class="avatar tooltip-target" :address="addresses[0].address" />
 
       <!-- This will be the content of the popover -->
       <template slot="popover">
@@ -155,6 +155,10 @@ export default {
     },
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
+    },
+    signIn() {
+      console.log(`Feature coming soon`)
+      // this.$store.dispatch(`signInUser`)
     }
   }
 }
@@ -269,6 +273,7 @@ h3 {
 .v-popover {
   height: 2rem;
   width: 2rem;
+  cursor: pointer;
 }
 
 .material-icons {
