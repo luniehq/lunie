@@ -585,11 +585,11 @@ export default {
       //   return this.currentNetwork.network_type !== "polkadot"
       // },
       /* istanbul ignore next */
-      result({ data }) {
+      result(response) {
         /* istanbul ignore next */
         // this.isInElection = data.blockAdded.data.isInElection
         // console.log(`election status: ${this.isInElection}`)
-        console.log(data)
+        console.log(response)
       },
     },
   },
