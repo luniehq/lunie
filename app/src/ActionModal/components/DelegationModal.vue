@@ -537,61 +537,64 @@ export default {
         return totalStake - liquidStake
       },
     },
-      $subscribe: {
-    userTransactionAdded: {
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.address,
-        }
-      },
-      /* istanbul ignore next */
-      skip() {
-        return (
-          !this.address ||
-          !this.$refs.actionModal ||
-          !this.$refs.actionModal.show
-        )
-      },
-      query: UserTransactionAdded,
-      /* istanbul ignore next */
-      result() {
-        console.log(`userTransactionAdded`)
-        this.$apollo.queries.balance.refetch()
-        this.$apollo.queries.delegations.refetch()
-      },
-    },
-    blockAdded: {
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-        }
-      },
-      /* istanbul ignore next */
-      query() {
-        return gql`
-          subscription blockAdded($networkId: String!) {
-            blockAdded(networkId: $networkId) {
-              height
-            }
+    $subscribe: {
+      userTransactionAdded: {
+        /* istanbul ignore next */
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.address,
           }
-        `
+        },
+        /* istanbul ignore next */
+        skip() {
+          return (
+            !this.address ||
+            !this.$refs.actionModal ||
+            !this.$refs.actionModal.show
+          )
+        },
+        query: UserTransactionAdded,
+        /* istanbul ignore next */
+        result() {
+          console.log(`userTransactionAdded`)
+          this.$apollo.queries.balance.refetch()
+          this.$apollo.queries.delegations.refetch()
+        },
       },
-      /* istanbul ignore next */
-      skip() {
-        return this.currentNetwork.network_type !== "polkadot"
-      },
-      /* istanbul ignore next */
-      result({data}) {
-        if (data.blockAdded.data && data.blockAdded.data.isInElection) {
-          this.isInElection = data.blockAdded.data.isInElection
-          console.log(`election status: ${this.isInElection}`)
-        }
+      blockAdded: {
+        /* istanbul ignore next */
+        variables() {
+          return {
+            networkId: this.network,
+          }
+        },
+        /* istanbul ignore next */
+        query() {
+          return gql`
+            subscription blockAdded($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                data
+              }
+            }
+          `
+        },
+        /* istanbul ignore next */
+        skip() {
+          return this.currentNetwork.network_type !== "polkadot"
+        },
+        /* istanbul ignore next */
+        result({ data }) {
+          if (
+            data.blockAdded.data &&
+            JSON.parse(data.blockAdded.data).isInElection
+          ) {
+            this.isInElection = JSON.parse(data.blockAdded.data).isInElection
+            console.log(`election status: ${this.isInElection}`)
+          }
+        },
       },
     },
-  },
   },
 }
 </script>
