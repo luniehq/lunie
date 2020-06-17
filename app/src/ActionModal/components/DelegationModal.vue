@@ -573,7 +573,7 @@ export default {
       /* istanbul ignore next */
       query() {
         return gql`
-          subscription($networkId: String!) {
+          subscription blockAdded($networkId: String!) {
             blockAdded(networkId: $networkId) {
               height
             }
