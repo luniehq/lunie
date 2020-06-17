@@ -509,7 +509,6 @@ export default {
         query: UserTransactionAdded,
         /* istanbul ignore next */
         result() {
-          console.log(`UserTransactionAdded`)
           this.$apollo.queries.delegations.refetch()
         },
       },

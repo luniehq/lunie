@@ -576,7 +576,6 @@ export default {
           subscription($networkId: String!) {
             blockAdded(networkId: $networkId) {
               height
-              data
             }
           }
         `
