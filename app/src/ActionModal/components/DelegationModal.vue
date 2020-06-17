@@ -558,14 +558,14 @@ export default {
       query: UserTransactionAdded,
       /* istanbul ignore next */
       result() {
+        console.log(`userTransactionAdded`)
         this.$apollo.queries.balance.refetch()
         this.$apollo.queries.delegations.refetch()
       },
     },
-    blockAdded2: {
+    blockAdded: {
       /* istanbul ignore next */
       variables() {
-        console.log(this.network)
         return {
           networkId: this.network,
         }
