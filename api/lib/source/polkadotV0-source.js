@@ -59,7 +59,7 @@ class polkadotAPI {
       blockEvents,
       parseInt(blockHeight)
     )
-    
+
     const eraElectionStatus = await api.query.staking.eraElectionStatus()
     const data = {
       isInElection: eraElectionStatus.toString() === `Close` ? false : true
