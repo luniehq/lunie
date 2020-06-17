@@ -158,7 +158,7 @@ class PolkadotNodeSubscription {
           })
         ])
         this.sessionValidators = sessionValidators
-        
+
         if (this.currentEra < era || this.currentEra === 0) {
           console.log(
             `\x1b[36mCurrent staking era is ${era}, fetching rewards!\x1b[0m`

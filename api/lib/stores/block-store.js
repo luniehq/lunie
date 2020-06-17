@@ -242,8 +242,8 @@ class BlockStore {
   async addPopularityToValidators(validators, networkId) {
     // popularity is actually the number of views of a validator on their page
     const validatorPopularity = await this.db.getValidatorsViews(networkId)
-    validatorPopularity.forEach(({operator_address, requests}) => {
-      if(validators[operator_address]) {
+    validatorPopularity.forEach(({ operator_address, requests }) => {
+      if (validators[operator_address]) {
         validators[operator_address].popularity = requests
       }
     })
@@ -258,18 +258,19 @@ class BlockStore {
   async addValidatorPictures(validators) {
     const validatorInfo = await this.db.getValidatorsInfo()
     const validatorInfoMap = keyBy(validatorInfo, 'operator_address')
-    return _.keyBy(Object.entries(validators).map(([operatorAddress, validator]) =>
-      enrichValidator(validatorInfoMap[operatorAddress], validator)
-    ), 'operatorAddress')
+    return _.keyBy(
+      Object.entries(validators).map(([operatorAddress, validator]) =>
+        enrichValidator(validatorInfoMap[operatorAddress], validator)
+      ),
+      'operatorAddress'
+    )
   }
 }
 
 function enrichValidator(validatorInfo, validator) {
   const picture = validatorInfo ? validatorInfo.picture : undefined
   const name =
-    validatorInfo && validatorInfo.name
-      ? validatorInfo.name
-      : validator.name || formatBech32Reducer(validator.operatorAddress)
+    validatorInfo && validatorInfo.name ? validatorInfo.name : validator.name
 
   return {
     ...validator,

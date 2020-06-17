@@ -1,4 +1,4 @@
-const {sortBy} = require('lodash')
+const { sortBy } = require('lodash')
 const {
   blockAdded,
   notificationAdded,
@@ -59,7 +59,7 @@ async function validators(
   // if popularSort is true then we filter out validators with no picture
   if (popularSort) {
     validators = validators.filter(({ picture }) => picture)
-    validators = sortBy(validators, "popularity")
+    validators = sortBy(validators, 'popularity')
   }
   if (searchTerm) {
     validators = validators.filter(({ name, operatorAddress }) => {
@@ -74,9 +74,7 @@ async function validators(
 
 async function validator(_, { networkId, operatorAddress }, { dataSources }) {
   await localStore(dataSources, networkId).dataReady
-  return localStore(dataSources, networkId).validators[
-    operatorAddress
-  ]
+  return localStore(dataSources, networkId).validators[operatorAddress]
 }
 
 async function delegation(
