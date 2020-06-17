@@ -1,0 +1,1 @@
+[Fixed] [#4276](https://github.com/cosmos/lunie/pull/4276) Fixes the API release flow by adding the missing GIT_BOT_TOKEN env variable @Bitcoinera

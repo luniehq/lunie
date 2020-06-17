@@ -16,7 +16,7 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
   if (data.errors || data.error) {
     console.error('Query failed:', query)
     const errors = data.errors || [data.error]
-    errors.forEach(error => {
+    errors.forEach((error) => {
       console.error(error.message)
       console.error(error.hint)
     })

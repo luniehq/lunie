@@ -16,7 +16,7 @@ describe(`EventList`, () => {
       timestamp: new Date(
         Date.now() + txs.length * 1000 * 60 * 60 * 24
       ).toISOString(),
-      memo: "(Sent via Lunie)",
+      memo: "",
       success: true,
       fees: [],
       details: {

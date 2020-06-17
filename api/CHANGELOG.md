@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.25] - 2020-06-11
+
+### Changed
+
+- [#4268](https://github.com/cosmos/lunie/pull/4268) Disables Polkadot for now @Bitcoinera
+- [#4252](https://github.com/cosmos/lunie/pull/4252) Upgrade to Kava-3 @Bitcoinera
+
+### Fixed
+
+- Use correct reward deduping @faboweb
+- Fix for websocket connection lost @michielmulders
+
 ## [1.0.24] - 2020-06-11
 
 ### Added

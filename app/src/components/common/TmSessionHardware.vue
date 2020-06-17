@@ -206,7 +206,7 @@ export default {
   border-radius: 0.25rem;
   border: 1px solid var(--bc-dim);
   background-color: #1c223e;
-  font-weight: 300;
+  font-weight: 400;
   margin: 2rem 0;
   padding: 1rem 1rem;
   font-size: 14px;

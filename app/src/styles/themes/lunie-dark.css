@@ -25,5 +25,4 @@
   --bc: var(--app-fg);
   --bc-dim: var(--app-bg);
   --input-bc: var(--menu-border);
-  --success: var(--primary);
 }
