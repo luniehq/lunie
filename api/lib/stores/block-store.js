@@ -57,7 +57,10 @@ class BlockStore {
       )
 
       // write file async
-      this.storeValidatorData(validators) // not used rn
+      this.storeValidatorData(validators)
+
+      // write validators to db to have all validators in the db to add pictures
+      this.updateDBValidatorProfiles(validators)
 
       if (Object.keys(this.validators).length !== 0) {
         this.checkValidatorUpdates(validators)
@@ -107,6 +110,18 @@ class BlockStore {
     // Set validator store equal to validatorMap from file storage
     this.validators = validatorMap
     this.resolveReady()
+  }
+
+  // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
+  async updateDBValidatorProfiles(validators) {
+    const validatorRows = Object.values(validators).map(
+      ({ operatorAddress, name, chainId }) => ({
+        operator_address: operatorAddress,
+        name,
+        chain_id: chainId
+      })
+    )
+    return this.db.upsert('validatorprofiles', validatorRows)
   }
 
   checkValidatorUpdates(validators) {
