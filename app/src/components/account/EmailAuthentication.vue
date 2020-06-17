@@ -1,7 +1,7 @@
 <template>
   <TmPage data-title="authentication" hide-header>
     <TmPart>
-      <h2 v-if="user.userSignedIn">You are now authenticated/ logged in!</h2>
+      <h2 v-if="account.userSignedIn">You are now authenticated/ logged in!</h2>
       <h2 v-else>Good bye, see you soon!</h2>
     </TmPart>
     <TmBtn value="Sign Out" type="secondary" @click.native="signOut()" />
@@ -21,7 +21,7 @@ export default {
     TmBtn,
   },
   computed: {
-    ...mapState([`user`]),
+    ...mapState([`account`]),
   },
   mounted() {
     this.$store.dispatch(`signInUser`)
