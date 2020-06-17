@@ -43,7 +43,7 @@ body {
 #load-main p {
   font-size: var(--m);
   line-height: 2rem;
-  font-weight: 300;
+  font-weight: 400;
   padding: 0 0.5rem;
   color: var(--dim);
   background: var(--app-fg);

@@ -31,7 +31,7 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "@polkadot/api": "^1.18.1",
+    "@polkadot/api": "^1.19.1",
     "@sentry/node": "^5.16.1",
     "apollo-datasource-rest": "^0.9.2",
     "apollo-server": "^2.14.2",
@@ -41,15 +41,9 @@
     "bignumber.js": "^9.0.0",
     "coingecko-api": "^1.0.10",
     "dotenv": "^8.2.0",
-    "events": "^3.1.0",
     "graphql": "^15.1.0",
     "graphql-redis-subscriptions": "^2.2.1",
-    "lodash": "^4.17.15",
-    "ndjson": "^1.5.0",
-    "pumpify": "^2.0.1",
-    "should": "^13.2.3",
-    "url": "^0.11.0",
-    "websocket-stream": "^5.5.2"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
