@@ -586,8 +586,9 @@ export default {
       /* istanbul ignore next */
       result({ data }) {
         /* istanbul ignore next */
-        this.isInElection = data.blockAdded.data.isInElection
-        console.log(`election status: ${this.isInElection}`)
+        // this.isInElection = data.blockAdded.data.isInElection
+        // console.log(`election status: ${this.isInElection}`)
+        console.log(data)
       },
     },
   },
