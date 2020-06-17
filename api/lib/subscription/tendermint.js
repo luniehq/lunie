@@ -54,7 +54,7 @@ class Client {
     this.ws.onerror = (error) => {
       console.error(
         `\x1b[36mwebsocket connection lost for network ${this.networkId}\x1b[0m`,
-        error
+        error.message
       )
 
       // only log to Sentry if retry fails 5 times in a row

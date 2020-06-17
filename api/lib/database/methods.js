@@ -35,8 +35,7 @@ const incrementValidatorViews = ({
   ])
 }
 
-const getValidatorViews = ({ hasura_url, hasura_admin_key }) => () => async (
-  validatorId,
+const getValidatorsViews = ({ hasura_url, hasura_admin_key }) => () => async (
   networkId
 ) => {
   const validatorPopularity = await read({
@@ -45,14 +44,13 @@ const getValidatorViews = ({ hasura_url, hasura_admin_key }) => () => async (
   })('')(
     `validatorPopularity`,
     `validatorPopularity`,
-    ['requests'],
-    `where: {operator_address: {_eq: "${validatorId}"}, networkId: {_eq: "${networkId}"}}`
+    ['operator_address', 'requests'],
+    `where: { networkId: {_eq: "${networkId}"}}`
   )
   if (validatorPopularity.length > 0) {
-    // the read query only returns one validator, so we can safely pick the first validator of the list
-    return validatorPopularity[0].requests
+    return validatorPopularity
   } else {
-    return 0
+    return []
   }
 }
 
@@ -167,7 +165,7 @@ const getUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
 
 module.exports = {
   incrementValidatorViews,
-  getValidatorViews,
+  getValidatorsViews,
   getValidatorsInfo,
   getMaintenance,
   storeStatistics,
