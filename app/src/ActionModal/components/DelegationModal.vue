@@ -562,7 +562,7 @@ export default {
         this.$apollo.queries.delegations.refetch()
       },
     },
-    blockAdded: {
+    blockAdded2: {
       /* istanbul ignore next */
       variables() {
         console.log(this.network)
