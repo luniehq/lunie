@@ -13,7 +13,7 @@ function blockReducer(
   sessionIndex,
   blockAuthor,
   transactions,
-  data
+  data = {}
 ) {
   return {
     networkId,
