@@ -75,6 +75,15 @@
       </template>
     </TmFormGroup>
 
+    <TmFormGroup v-if="isInElection" class="action-modal-form-group">
+      <div class="form-message notice">
+        <span>
+          There is currently an ongoing election for new validator candidates.
+          Staking operations are not allowed.
+        </span>
+      </div>
+    </TmFormGroup>
+
     <TmFormGroup
       v-if="session.addressRole !== `stash`"
       class="action-modal-form-group"
@@ -213,6 +222,7 @@ export default {
     delegations: [],
     messageType,
     smallestAmount: SMALLEST,
+    isInElection: false, // Handle election period in Polkadot
   }),
   computed: {
     ...mapState([`session`]),
@@ -550,6 +560,34 @@ export default {
       result() {
         this.$apollo.queries.balance.refetch()
         this.$apollo.queries.delegations.refetch()
+      },
+    },
+    blockAdded: {
+      /* istanbul ignore next */
+      query() {
+        return gql`
+          subscription($networkId: String!) {
+            blockAdded(networkId: $networkId) {
+              data
+            }
+          }
+        `
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return this.currentNetwork.network_type !== "polkadot"
+      },
+      /* istanbul ignore next */
+      result({ data }) {
+        /* istanbul ignore next */
+        this.isInElection = data.blockAdded.data.isInElection
+        console.log(`election status: ${this.isInElection}`)
       },
     },
   },
