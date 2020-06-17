@@ -161,7 +161,7 @@ import { UserTransactionAdded } from "src/gql"
 import BigNumber from "bignumber.js"
 import { formatAddress } from "src/filters"
 
-const defaultMemo = "(Sent via Lunie)"
+const defaultMemo = ""
 
 const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/

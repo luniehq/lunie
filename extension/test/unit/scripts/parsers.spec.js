@@ -25,7 +25,7 @@ const signedMessage = {
     ],
     gas: '39953'
   },
-  memo: '(Sent via Lunie)'
+  memo: ''
 }
 
 describe(`parsers helper`, () => {
@@ -41,7 +41,7 @@ describe(`parsers helper`, () => {
         amount: { denom: 'STAKE', amount: 10 }
       },
       timestamp: undefined,
-      memo: '(Sent via Lunie)',
+      memo: '',
       fees: [{ denom: 'STAKE', amount: 0.00004 }],
       success: false
     }
