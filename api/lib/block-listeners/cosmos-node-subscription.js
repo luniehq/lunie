@@ -17,7 +17,6 @@ const EXPECTED_MAX_BLOCK_WINDOW = 120000
 // if we don't do this, we run into errors as the data is not yet available
 const COSMOS_DB_DELAY = 2000
 const PROPOSAL_POLLING_INTERVAL = 600000 // 10min
-const UPDATE_VALIDATORS_INTERVAL = 600000 // 10min
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
@@ -33,7 +32,6 @@ class CosmosNodeSubscription {
     this.height = undefined
 
     if (network.feature_proposals === 'ENABLED') this.pollForProposalChanges()
-    if (network.feature_validators === 'ENABLED') this.updateDBValidators()
     this.pollForNewBlock()
   }
 
@@ -50,16 +48,6 @@ class CosmosNodeSubscription {
 
       this.pollForProposalChanges()
     }, PROPOSAL_POLLING_INTERVAL)
-  }
-
-  async updateDBValidators() {
-    const cosmosAPI = new this.CosmosApiClass(this.network, this.store)
-    let validators = await cosmosAPI.getAllValidators(this.height)
-    this.updateDBValidatorProfiles(validators)
-
-    this.updateDBValidatorsTimeout = setTimeout(async () => {
-      this.updateDBValidators()
-    }, UPDATE_VALIDATORS_INTERVAL)
   }
 
   async checkProposals(cosmosAPI) {
