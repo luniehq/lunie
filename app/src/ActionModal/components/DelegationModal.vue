@@ -537,8 +537,7 @@ export default {
         return totalStake - liquidStake
       },
     },
-  },
-  $subscribe: {
+      $subscribe: {
     userTransactionAdded: {
       /* istanbul ignore next */
       variables() {
@@ -581,17 +580,18 @@ export default {
         `
       },
       /* istanbul ignore next */
-      // skip() {
-      //   return this.currentNetwork.network_type !== "polkadot"
-      // },
+      skip() {
+        return this.currentNetwork.network_type !== "polkadot"
+      },
       /* istanbul ignore next */
-      result(response) {
-        /* istanbul ignore next */
-        // this.isInElection = data.blockAdded.data.isInElection
-        // console.log(`election status: ${this.isInElection}`)
-        console.log(response)
+      result({data}) {
+        if (data.blockAdded.data && data.blockAdded.data.isInElection) {
+          this.isInElection = data.blockAdded.data.isInElection
+          console.log(`election status: ${this.isInElection}`)
+        }
       },
     },
+  },
   },
 }
 </script>
