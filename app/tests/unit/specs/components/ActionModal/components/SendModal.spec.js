@@ -188,7 +188,7 @@ describe(`SendModal`, () => {
         amount: 2,
         denom: "STAKE",
       },
-      memo: "(Sent via Lunie)",
+      memo: "",
       to: ["cosmos12345"],
       from: ["cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx"],
     })
