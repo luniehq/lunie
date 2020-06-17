@@ -300,7 +300,7 @@ const transactionMetadata = async (
   }
 }
 
-const storeUser = async (_, { idToken }) => {
+const storeUser = async (_, { idToken, premium }) => {
   try {
     const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
     // get user creation date
@@ -312,19 +312,19 @@ const storeUser = async (_, { idToken }) => {
       // set premium field
       await firebaseAdmin
         .auth()
-        .setCustomUserClaims(decodedToken.uid, { premium: false }) // default
+        .setCustomUserClaims(decodedToken.uid, { premium: premium || false })
+    }
+    const user = {
+      uid: decodedToken.uid,
+      email: decodedToken.email,
+      premium: premium || false,
+      createdAt: userRecord.metadata.creationTime,
+      lastActive: userRecord.metadata.lastSignInTime
     }
     if (!storedUser) {
-      const user = {
-        uid: decodedToken.uid,
-        email: decodedToken.email,
-        premium: false, // default
-        createdAt: userRecord.metadata.creationTime,
-        lastActive: userRecord.metadata.lastSignInTime
-      }
       database(config)('').storeUser(user)
     } else {
-      console.info(`User has already been stored`)
+      database(config)('').upsert(`users`, user)
     }
   } catch (error) {
     console.error(`In storeUser`, error)
