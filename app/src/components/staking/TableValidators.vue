@@ -6,8 +6,8 @@
           :class="{ active: isSortedBy(`popularity`) }"
           @click="sortBy(`popularity`)"
         >
-          <i class="sorting-icon material-icons notranslate">star_rate</i> Popular
-          on Lunie
+          <i class="sorting-icon material-icons notranslate">star_rate</i>
+          Popular on Lunie
           <i
             :class="{ inactive: !isSortedBy(`popularity`) }"
             class="sorting-check material-icons notranslate"
@@ -30,8 +30,8 @@
           :class="{ active: isSortedBy(`expectedReturns`) }"
           @click="sortBy(`expectedReturns`)"
         >
-          <i class="sorting-icon material-icons notranslate">emoji_events</i> Most
-          Rewards
+          <i class="sorting-icon material-icons notranslate">emoji_events</i>
+          Most Rewards
           <i
             :class="{ inactive: !isSortedBy(`expectedReturns`) }"
             class="sorting-check material-icons notranslate"
@@ -314,10 +314,13 @@ export default {
   visibility: collapse;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+
+.fade-enter,
+ .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
 </style>

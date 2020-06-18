@@ -118,7 +118,7 @@ export default {
       /* istanbul ignore next */
       query: gql`
         query validators(
-          $networkId: String! 
+          $networkId: String!
           $searchTerm: String
           $activeOnly: Boolean
           $popularSort: Boolean
@@ -285,6 +285,7 @@ export default {
       max-width: 300px;
     }
   }
+
   .filter-toggle {
     margin: 0 0 0 2rem;
   }

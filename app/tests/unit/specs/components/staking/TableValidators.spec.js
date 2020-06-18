@@ -82,5 +82,4 @@ describe(`TableValidators`, () => {
     wrapper.vm.loadMore()
     expect(wrapper.findAll("livalidator-stub").length).toBe(12)
   })
-  
 })
