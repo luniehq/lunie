@@ -5,7 +5,7 @@ const {
 } = require('../subscriptions')
 const Sentry = require('@sentry/node')
 const database = require('../database')
-const { orderBy, keyBy } = require('lodash')
+const { orderBy } = require('lodash')
 const config = require('../../config.js')
 const {
   lunieMessageTypes: { SEND }
@@ -32,7 +32,6 @@ class CosmosNodeSubscription {
     this.height = undefined
 
     if (network.feature_proposals === 'ENABLED') this.pollForProposalChanges()
-
     this.pollForNewBlock()
   }
 
@@ -150,12 +149,10 @@ class CosmosNodeSubscription {
       }
 
       const validators = await cosmosAPI.getAllValidators(block.height)
-      const validatorMap = await this.getValidatorMap(validators)
-      this.updateDBValidatorProfiles(validators)
-      this.store.update({
+      await this.store.update({
         height: block.height,
         block,
-        validators: validatorMap
+        validators: validators
       })
       publishBlockAdded(this.network.id, block)
 
@@ -187,11 +184,6 @@ class CosmosNodeSubscription {
       console.error('newBlockHandler failed', error)
       Sentry.captureException(error)
     }
-  }
-
-  async getValidatorMap(validators) {
-    const validatorMap = keyBy(validators, 'operatorAddress')
-    return validatorMap
   }
 
   // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
