@@ -173,7 +173,8 @@ class PolkadotNodeSubscription {
           fetch(`${config.scriptRunnerEndpoint}/polkadotrewards`, {
             method: 'POST',
             headers: {
-              Authorization: config.scriptRunnerAuthenticationToken
+              Authorization: config.scriptRunnerAuthenticationToken,
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({
               era
