@@ -192,11 +192,23 @@ const transactionMetadata = async (
 const registerUser = async (_, { idToken }) => {
   try {
     const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
+    // get user record, with custom claims and creation & activity dates
+    const userRecord = await firebaseAdmin.auth().getUser(decodedToken.uid)
     // check if user already exists in DB
     const storedUser = await database(config)('').getUser(decodedToken.uid)
+    // check if user already has premium as a custom claim
+    if (!userRecord.customClaims) {
+      // set premium field
+      await firebaseAdmin
+        .auth()
+        .setCustomUserClaims(decodedToken.uid, { premium: false })
+    }
+    // we don't store user emails for now
     const user = {
       uid: decodedToken.uid,
-      premium: false
+      premium: false,
+      createdAt: userRecord.metadata.creationTime,
+      lastActive: userRecord.metadata.lastSignInTime
     }
     if (!storedUser) {
       database(config)('').storeUser(user)
