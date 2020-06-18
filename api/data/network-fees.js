@@ -94,7 +94,7 @@ const getNetworkTransactionChainAppliedFees = (networkId, transactionType) => {
 }
 
 const terraGasEstimates = {
-    default: 300000,
+    default: 350000,
     ClaimRewardsTx: 550000
 }
 
