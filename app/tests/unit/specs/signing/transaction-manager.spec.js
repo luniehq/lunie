@@ -49,7 +49,7 @@ describe("Transaction Manager", () => {
           denom: "uatom",
         },
       ],
-      memo: "(Sent via Lunie)",
+      memo: "",
     },
     senderAddress: "cosmos12345",
     network: {
@@ -110,7 +110,7 @@ describe("Transaction Manager", () => {
           ],
           gas: "200000",
         },
-        memo: "(Sent via Lunie)",
+        memo: "",
         msg: [
           {
             type: "cosmos-sdk/MsgSend",
