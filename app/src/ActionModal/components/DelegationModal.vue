@@ -11,6 +11,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="delegate"
+    :disabled="isInElection"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -40,7 +41,11 @@
     </TmFormGroup>
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
-        <span v-if="!isRedelegation">
+        <span v-if="isInElection">
+          There is currently an ongoing election for new validator candidates.
+          Stake is not allowed by now.
+        </span>
+        <span v-else-if="!isRedelegation">
           It will take {{ undelegationPeriod }} to unlock your tokens after they
           are staked. There is a risk that some tokens will be lost depending on
           the behaviour of the validator you choose.
@@ -73,15 +78,6 @@
           class="tm-form-msg--desc"
         />
       </template>
-    </TmFormGroup>
-
-    <TmFormGroup v-if="isInElection" class="action-modal-form-group">
-      <div class="form-message notice">
-        <span>
-          There is currently an ongoing election for new validator candidates.
-          Staking operations are not allowed.
-        </span>
-      </div>
     </TmFormGroup>
 
     <TmFormGroup
@@ -587,7 +583,6 @@ export default {
         result({ data }) {
           if (data.blockAdded.data) {
             this.isInElection = JSON.parse(data.blockAdded.data).isInElection
-            console.log(`election status: ${this.isInElection}`)
           }
         },
       },
