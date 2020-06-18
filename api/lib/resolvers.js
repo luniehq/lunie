@@ -23,9 +23,9 @@ const config = require('../config.js')
 const { logOverview } = require('./statistics')
 const networks = require('../data/networks')
 
-const firebaseServiceAccount = require('../firebaseCredentials.json');
+const firebaseServiceAccount = require('../firebaseCredentials.json')
 firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(firebaseServiceAccount),
+  credential: firebaseAdmin.credential.cert(firebaseServiceAccount)
 })
 
 function createDBInstance(network) {
@@ -196,7 +196,7 @@ const registerUser = async (_, { idToken }) => {
     const storedUser = await database(config)('').getUser(decodedToken.uid)
     const user = {
       uid: decodedToken.uid,
-      premium:  false
+      premium: false
     }
     if (!storedUser) {
       database(config)('').storeUser(user)

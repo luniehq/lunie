@@ -5,7 +5,7 @@ import gql from "graphql-tag"
 
 const Auth = firebase.auth()
 
-export default ({apollo}) => {
+export default ({ apollo }) => {
   const state = {
     userSignedIn: false,
     user: null,
@@ -46,13 +46,15 @@ export default ({apollo}) => {
         const user = JSON.parse(localStorage.getItem(`user`))
         try {
           await Auth.signInWithEmailLink(user.email, window.location.href)
-          const idToken = await firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+          const idToken = await firebase
+            .auth()
+            .currentUser.getIdToken(/* forceRefresh */ true)
           apollo.mutate({
             mutation: gql`
               mutation {
                 registerUser(idToken:"${idToken}")
               }
-            `
+            `,
           })
         } catch (error) {
           console.error(error)

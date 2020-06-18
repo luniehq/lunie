@@ -26,5 +26,5 @@ export default {
     Coinbase: "https://coinbase-consumer.sjv.io/31vxX",
   },
 
-  firebaseConfig: JSON.parse(process.env.VUE_APP_FIREBASE_CONFIG || '{}')
+  firebaseConfig: JSON.parse(process.env.VUE_APP_FIREBASE_CONFIG || "{}"),
 }
