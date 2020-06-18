@@ -275,7 +275,7 @@ h2.reveal-title {
 
 .seed-container .length {
   position: absolute;
-  color: #252833;
+  color: #9ca6c7;
   font-size: 70%;
   top: 0.25em;
   right: 0.75em;
@@ -292,8 +292,6 @@ h2.reveal-title {
   font-size: 70%;
 }
 
-
-
 .copy-to-clipboard {
   position: relative;
   display: block;
@@ -302,7 +300,7 @@ h2.reveal-title {
   width: 100%;
   cursor: pointer;
   color: var(--bright);
-  border: 1px solid #252833;
+  border: 1px solid #9ca6c7;
   border-radius: 0.25em;
   padding: 1rem;
   font-weight: 500;
