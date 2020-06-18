@@ -50,6 +50,7 @@
           :key="address.address"
           class="menu-list-item address-list"
           :class="{ selected: address.address === selectedAddress }"
+          @click="selectAddress(address.address)"
         >
           <div>
             <span v-if="address.type">{{ address.type }}</span>
@@ -61,19 +62,35 @@
             >check</i
           >
         </div>
-        <div class="menu-list-item dark">
+        <div
+          class="menu-list-item"
+          :class="{ dark: selectedOption === `create` }"
+          @click="selectOption(`create`)"
+        >
           <span>Create New Account</span>
           <i class="material-icons">add_circle</i>
         </div>
-        <div class="menu-list-item">
+        <div
+          class="menu-list-item"
+          :class="{ dark: selectedOption === `settings` }"
+          @click="selectOption(`settings`)"
+        >
           <span>Settings</span>
           <i class="material-icons">settings</i>
         </div>
-        <div class="menu-list-item">
+        <div
+          class="menu-list-item"
+          :class="{ dark: selectedOption === `payment` }"
+          @click="selectOption(`payment`)"
+        >
           <span>Manage Subscription</span>
           <i class="material-icons">payment</i>
         </div>
-        <div class="menu-list-item outline">
+        <div
+          class="menu-list-item outline"
+          :class="{ dark: selectedOption === `logout` }"
+          @click="selectOption(`logout`) && signOut()"
+        >
           <span>Logout</span>
           <i class="material-icons">exit_to_app</i>
         </div>
@@ -117,6 +134,7 @@ export default {
       },
     ],
     selectedAddress: "cosmos1...abcd",
+    selectedOption: "",
   }),
   computed: {
     ...mapState([`session`, `connection`]),
@@ -158,6 +176,15 @@ export default {
     },
     openSignInModal() {
       this.$router.push({ name: `sign-in-modal` })
+    },
+    selectAddress(address) {
+      this.selectedAddress = address
+    },
+    selectOption(option) {
+      this.selectedOption = option
+    },
+    signOut() {
+      this.$store.dispatch(`signOutUser`)
     },
   },
 }
