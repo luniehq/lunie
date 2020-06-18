@@ -585,10 +585,7 @@ export default {
         },
         /* istanbul ignore next */
         result({ data }) {
-          if (
-            data.blockAdded.data &&
-            JSON.parse(data.blockAdded.data).isInElection
-          ) {
+          if (data.blockAdded.data) {
             this.isInElection = JSON.parse(data.blockAdded.data).isInElection
             console.log(`election status: ${this.isInElection}`)
           }
