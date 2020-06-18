@@ -153,15 +153,19 @@ p {
   direction: ltr;
 }
 
+.session-container {
+  margin-top: 2em;
+}
+
 .reveal-seed-buttons {
   display: flex;
   justify-content: space-between;
-  margin: 1em 0 0;
+  margin: 3.5em 0 0;
 }
 
 .reveal-seed-button {
   flex: 0.5;
-  height: 3.5em;
+  height: 4em;
 }
 
 .reveal-seed-button.button.secondary {
@@ -186,4 +190,14 @@ p {
   padding: 1rem 0 0.5rem 0;
   text-align: center;
 }
+
+.session-title {
+  color: #FFF7C4;
+}
+
+.reveal-seed-form-group.tm-form-group {
+  margin-top: 6rem;
+}
+
+
 </style>
