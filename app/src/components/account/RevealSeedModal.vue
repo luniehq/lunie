@@ -26,7 +26,7 @@
         </div>
         <TmFormMsg v-if="$v.password.$error" name="Password" type="required" />
         <TmFormMsg
-          v-if="wrongPasswordError"
+          v-else-if="wrongPasswordError"
           type="custom"
           msg="Wrong password"
         />
