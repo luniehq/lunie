@@ -1,11 +1,6 @@
 import firebase from "firebase/app"
 import "firebase/auth"
+import config from "../config"
 
-const firebaseConfig = {
-  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
-  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
-}
-
-firebase.initializeApp(firebaseConfig)
+firebase.initializeApp(config.firebaseConfig)
 export default firebase
