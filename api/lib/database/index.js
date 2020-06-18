@@ -6,7 +6,7 @@ const {
   storeNotification,
   getNotifications,
   incrementValidatorViews,
-  getValidatorViews
+  getValidatorsViews
 } = require('./methods')
 
 function database({ hasura_url, hasura_admin_key }) {
@@ -43,7 +43,7 @@ function database({ hasura_url, hasura_admin_key }) {
         hasura_url,
         hasura_admin_key
       })(schema),
-      getValidatorViews: getValidatorViews({
+      getValidatorsViews: getValidatorsViews({
         hasura_url,
         hasura_admin_key
       })(schema)
