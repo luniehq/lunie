@@ -11,6 +11,7 @@ env:
   HASURA_URL: "https://staging-db.lunie.io/v1/graphql"
   HASURA_ADMIN_KEY: ${{ secrets.LUNIE_STAGING_DB_KEY }}
   SENTRY_DSN: ${{ secrets.SENTRY_DSN_API_STAGING }}
+  SCRIPT_RUNNER_ENDPOINT: ${{ secrets.SCRIPT_RUNNER_ENDPOINT }}
 jobs:
   test:
     name: Compile
@@ -48,4 +49,4 @@ jobs:
           docker load < lunieapi.tgz
           docker stack deploy -c docker-compose.yml lunieapi
           docker service update --image lunieapi:latest --force lunieapi_lunieapi
-        envs: HASURA_URL,HASURA_ADMIN_KEY,SENTRY_DSN
+        envs: HASURA_URL,HASURA_ADMIN_KEY,SENTRY_DSN,SCRIPT_RUNNER_ENDPOINT

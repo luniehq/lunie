@@ -1,0 +1,6 @@
+scripts-production.lunie.io {
+    proxy / lunie-script-runner:9000 {
+        transparent
+        header_downstream Access-Control-Allow-Origin "*"
+    }
+}
