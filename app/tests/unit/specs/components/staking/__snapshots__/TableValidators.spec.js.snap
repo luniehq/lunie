@@ -14,8 +14,8 @@ exports[`TableValidators shows a validator table 1`] = `
       >
         star_rate
       </i>
-       Popular
-        on Lunie
+      
+        Popular on Lunie
         
       <i
         class="sorting-check material-icons notranslate inactive"
@@ -50,8 +50,8 @@ exports[`TableValidators shows a validator table 1`] = `
       >
         emoji_events
       </i>
-       Most
-        Rewards
+      
+        Most Rewards
         
       <i
         class="sorting-check material-icons notranslate inactive"
