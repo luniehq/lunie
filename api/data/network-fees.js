@@ -42,7 +42,7 @@ const pollForNewFees = async () => {
       Sentry.captureException(err)
     })
   })
-  terraTaxRate = Number(Number(terraTaxRateResponse.result).toFixed(6))
+  terraTaxRate = Number(terraTaxRateResponse.result)
   emoneyGasPrices = emoneyGasPricesResponse.result.min_gas_prices.map(gasPrice => gasPrice = {
     denom: gasPrice.denom, 
     price: gasPrice.amount
