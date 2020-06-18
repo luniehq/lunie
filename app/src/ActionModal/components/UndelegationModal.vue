@@ -517,7 +517,7 @@ export default {
           this.$apollo.queries.delegations.refetch()
         },
       },
-            blockAdded: {
+      blockAdded: {
         /* istanbul ignore next */
         variables() {
           return {
