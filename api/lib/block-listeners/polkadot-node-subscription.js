@@ -178,7 +178,7 @@ class PolkadotNodeSubscription {
             body: JSON.stringify({
               era
             })
-          }).catch(error => {
+          }).catch((error) => {
             console.error('Failed running Polkadot rewards script', error)
             Sentry.captureException(error)
           })
