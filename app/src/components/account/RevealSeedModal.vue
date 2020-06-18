@@ -233,7 +233,7 @@ h2.reveal-title {
 }
 
 .reveal-seed-form-group.tm-form-group {
-  margin-top: 6em;
+  margin-top: 5.5em;
 }
 
 .pill {
