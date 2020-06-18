@@ -4,6 +4,8 @@ exports[`CardSignInRequired shows a sign in required card 1`] = `
 <div
   class="card-sign-in"
 >
+  <!---->
+   
   <h2>
     Welcome to Lunie 👋
   </h2>

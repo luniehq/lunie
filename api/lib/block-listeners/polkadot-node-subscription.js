@@ -1,4 +1,3 @@
-const _ = require('lodash')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
 const {
   publishBlockAdded,
@@ -15,7 +14,6 @@ const config = require('../../config.js')
 const { spawn } = require('child_process')
 
 const POLLING_INTERVAL = 1000
-// const NEW_BLOCK_DELAY = 2000
 const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // 6h. Used to disconnect from API to free memory
 
 // This class polls for new blocks
@@ -191,11 +189,10 @@ class PolkadotNodeSubscription {
         }
       }
 
-      this.updateDBValidatorProfiles(this.sessionValidators)
-      this.store.update({
+      await this.store.update({
         height: blockHeight,
         block,
-        validators: this.getValidatorMap(this.sessionValidators),
+        validators: this.sessionValidators,
         data: {
           era: this.currentEra
         }
@@ -230,45 +227,6 @@ class PolkadotNodeSubscription {
     }
   }
 
-  getValidatorMap(validators) {
-    const validatorMap = _.keyBy(validators, 'operatorAddress')
-    return validatorMap
-  }
-
-  // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
-  async updateDBValidatorProfiles(validators) {
-    // filter only new validators
-    let newValidators = validators.filter(
-      (validator) =>
-        !this.validators.find(
-          (v) =>
-            v.address == validator.operatorAddress && v.name == validator.name // in case if validator name was changed
-        )
-    )
-    // save all new validators to an array
-    this.validators = [
-      ...this.validators.filter(
-        ({ operatorAddress }) =>
-          !newValidators.find(
-            ({ operatorAddress: newValidatorOperatorAddress }) =>
-              newValidatorOperatorAddress === operatorAddress
-          )
-      ),
-      ...newValidators.map((v) => ({
-        address: v.operatorAddress,
-        name: v.name
-      }))
-    ]
-    // update only new ones
-    const validatorRows = newValidators.map(
-      ({ operatorAddress, name, chainId }) => ({
-        operator_address: operatorAddress,
-        name,
-        chain_id: chainId
-      })
-    )
-    return this.db.upsert('validatorprofiles', validatorRows)
-  }
   async updateRewards(era, chainId) {
     console.time()
     console.log('update rewards')

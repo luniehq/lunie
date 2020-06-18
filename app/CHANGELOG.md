@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.213] - 2020-06-17
+
+### Added
+
+- akash theme @jbibla
+- [#4299](https://github.com/cosmos/lunie/issues/4299) Upgrade polkadot api to v1.19.1 @mariopino
+
+### Changed
+
+- remove default message from lunie send transactions @jbibla
+
+### Security
+
+- Update node-addon-api because of a security issue @faboweb
+
 ## [1.0.212] - 2020-06-11
 
 ### Added
