@@ -425,7 +425,7 @@ export default {
 h1 {
   font-size: 24px;
   color: var(--bright);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 select {

@@ -232,6 +232,11 @@ export default (store) => {
       component: require("account/RevealSeedModal").default,
     },
     {
+      path: `/email-authentication`,
+      name: `email-authentication`,
+      component: () => import(`./components/account/EmailAuthentication`),
+    },
+    {
       path: `/:networkId`,
       component: () => import(`./components/common/NetworkSetter`),
       redirect: `/:networkId/portfolio`,

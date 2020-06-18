@@ -1,4 +1,3 @@
-const _ = require('lodash')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
 const {
   publishBlockAdded,
@@ -15,8 +14,7 @@ const config = require('../../config.js')
 const { spawn } = require('child_process')
 
 const POLLING_INTERVAL = 1000
-// const NEW_BLOCK_DELAY = 2000
-// const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // used to disconnect from API to free memory
+const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // 6h. Used to disconnect from API to free memory
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
@@ -56,25 +54,35 @@ class PolkadotNodeSubscription {
     }
 
     // Subscribe to new block headers
-    await this.api.rpc.chain.subscribeNewHeads(async (blockHeader) => {
-      const blockHeight = blockHeader.number.toNumber()
-      if (this.height < blockHeight) {
-        this.height = blockHeight
-        this.newBlockHandler(blockHeight)
-      }
+    const unsubscribe = await this.api.rpc.chain.subscribeNewHeads(
+      async (blockHeader) => {
+        const blockHeight = blockHeader.number.toNumber()
+        if (this.height < blockHeight) {
+          this.height = blockHeight
+          this.newBlockHandler(blockHeight) // do not await as this can take some seconds
+        }
 
-      // refresh the api to prevent memory leaks
-      // if (Date.now() - this.store.polkadotRPCOpened > DISCONNECTION_INTERVAL) {
-      //   console.log(
-      //     'Disconnecting Polkadot for network',
-      //     this.network.id,
-      //     'to avoid memory leaks'
-      //   )
-      //   this.api.disconnect()
-      //   this.api = undefined
-      //   await this.initPolkadotRPC()
-      // }
-    })
+        // refresh the api to prevent memory leaks
+        // right after a new block so we don't miss any block
+        if (
+          Date.now() - this.store.polkadotRPCOpened >
+          DISCONNECTION_INTERVAL
+        ) {
+          console.log(
+            'Disconnecting Polkadot for network',
+            this.network.id,
+            'to avoid memory leaks'
+          )
+          // we keep the active connection alive so queries can finish
+          const oldApi = this.api
+          setTimeout(() => oldApi.disconnect(), 1000 * 60 * 5)
+          this.api = undefined
+          unsubscribe() // unsubscribe to not react to the same block twice
+          this.subscribeForNewBlock()
+          return
+        }
+      }
+    )
   }
 
   // Sometimes blocks get published unordered so we need to enqueue
@@ -181,11 +189,10 @@ class PolkadotNodeSubscription {
         }
       }
 
-      this.updateDBValidatorProfiles(this.sessionValidators)
-      this.store.update({
+      await this.store.update({
         height: blockHeight,
         block,
-        validators: this.getValidatorMap(this.sessionValidators),
+        validators: this.sessionValidators,
         data: {
           era: this.currentEra
         }
@@ -220,45 +227,6 @@ class PolkadotNodeSubscription {
     }
   }
 
-  getValidatorMap(validators) {
-    const validatorMap = _.keyBy(validators, 'operatorAddress')
-    return validatorMap
-  }
-
-  // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
-  async updateDBValidatorProfiles(validators) {
-    // filter only new validators
-    let newValidators = validators.filter(
-      (validator) =>
-        !this.validators.find(
-          (v) =>
-            v.address == validator.operatorAddress && v.name == validator.name // in case if validator name was changed
-        )
-    )
-    // save all new validators to an array
-    this.validators = [
-      ...this.validators.filter(
-        ({ operatorAddress }) =>
-          !newValidators.find(
-            ({ operatorAddress: newValidatorOperatorAddress }) =>
-              newValidatorOperatorAddress === operatorAddress
-          )
-      ),
-      ...newValidators.map((v) => ({
-        address: v.operatorAddress,
-        name: v.name
-      }))
-    ]
-    // update only new ones
-    const validatorRows = newValidators.map(
-      ({ operatorAddress, name, chainId }) => ({
-        operator_address: operatorAddress,
-        name,
-        chain_id: chainId
-      })
-    )
-    return this.db.upsert('validatorprofiles', validatorRows)
-  }
   async updateRewards(era, chainId) {
     console.time()
     console.log('update rewards')
