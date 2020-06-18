@@ -15,7 +15,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="undelegate"
-    :disabled="session.addressRole === `stash`"
+    :disabled="session.addressRole === `stash` || isInElection"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -36,7 +36,11 @@
       class="action-modal-form-group"
     >
       <div class="form-message notice">
-        <span v-if="!isRedelegation">
+        <span v-if="isInElection">
+          There is currently an ongoing election for new validator candidates.
+          Unstake is not allowed by now.
+        </span>
+        <span v-else-if="!isRedelegation">
           Unstaking takes {{ undelegationPeriod }} to complete and cannot be
           undone. Please make sure you understand the rules of staking.
         </span>
@@ -188,6 +192,7 @@ export default {
     },
     messageType,
     smallestAmount: SMALLEST,
+    isInElection: false, // Handle election period in Polkadot
   }),
   computed: {
     ...mapState([`session`]),
@@ -510,6 +515,34 @@ export default {
         /* istanbul ignore next */
         result() {
           this.$apollo.queries.delegations.refetch()
+        },
+      },
+      blockAdded: {
+        /* istanbul ignore next */
+        variables() {
+          return {
+            networkId: this.network,
+          }
+        },
+        /* istanbul ignore next */
+        query() {
+          return gql`
+            subscription blockAdded($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                data
+              }
+            }
+          `
+        },
+        /* istanbul ignore next */
+        skip() {
+          return this.currentNetwork.network_type !== "polkadot"
+        },
+        /* istanbul ignore next */
+        result({ data }) {
+          if (data.blockAdded.data) {
+            this.isInElection = JSON.parse(data.blockAdded.data).isInElection
+          }
         },
       },
     },

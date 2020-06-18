@@ -60,6 +60,11 @@ class polkadotAPI {
       parseInt(blockHeight)
     )
 
+    const eraElectionStatus = await api.query.staking.eraElectionStatus()
+    const data = {
+      isInElection: eraElectionStatus.toString() === `Close` ? false : true
+    }
+
     return this.reducers.blockReducer(
       this.network.id,
       this.network.chain_id,
@@ -67,7 +72,8 @@ class polkadotAPI {
       blockHash,
       sessionIndex.toNumber(),
       author,
-      transactions
+      transactions,
+      data
     )
   }
 

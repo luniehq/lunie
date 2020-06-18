@@ -11,6 +11,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="delegate"
+    :disabled="isInElection"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -40,7 +41,11 @@
     </TmFormGroup>
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
-        <span v-if="!isRedelegation">
+        <span v-if="isInElection">
+          There is currently an ongoing election for new validator candidates.
+          Stake is not allowed by now.
+        </span>
+        <span v-else-if="!isRedelegation">
           It will take {{ undelegationPeriod }} to unlock your tokens after they
           are staked. There is a risk that some tokens will be lost depending on
           the behaviour of the validator you choose.
@@ -213,6 +218,7 @@ export default {
     delegations: [],
     messageType,
     smallestAmount: SMALLEST,
+    isInElection: false, // Handle election period in Polkadot
   }),
   computed: {
     ...mapState([`session`]),
@@ -527,29 +533,58 @@ export default {
         return totalStake - liquidStake
       },
     },
-  },
-  $subscribe: {
-    userTransactionAdded: {
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.address,
-        }
+    $subscribe: {
+      userTransactionAdded: {
+        /* istanbul ignore next */
+        variables() {
+          return {
+            networkId: this.network,
+            address: this.address,
+          }
+        },
+        /* istanbul ignore next */
+        skip() {
+          return (
+            !this.address ||
+            !this.$refs.actionModal ||
+            !this.$refs.actionModal.show
+          )
+        },
+        query: UserTransactionAdded,
+        /* istanbul ignore next */
+        result() {
+          console.log(`userTransactionAdded`)
+          this.$apollo.queries.balance.refetch()
+          this.$apollo.queries.delegations.refetch()
+        },
       },
-      /* istanbul ignore next */
-      skip() {
-        return (
-          !this.address ||
-          !this.$refs.actionModal ||
-          !this.$refs.actionModal.show
-        )
-      },
-      query: UserTransactionAdded,
-      /* istanbul ignore next */
-      result() {
-        this.$apollo.queries.balance.refetch()
-        this.$apollo.queries.delegations.refetch()
+      blockAdded: {
+        /* istanbul ignore next */
+        variables() {
+          return {
+            networkId: this.network,
+          }
+        },
+        /* istanbul ignore next */
+        query() {
+          return gql`
+            subscription blockAdded($networkId: String!) {
+              blockAdded(networkId: $networkId) {
+                data
+              }
+            }
+          `
+        },
+        /* istanbul ignore next */
+        skip() {
+          return this.currentNetwork.network_type !== "polkadot"
+        },
+        /* istanbul ignore next */
+        result({ data }) {
+          if (data.blockAdded.data) {
+            this.isInElection = JSON.parse(data.blockAdded.data).isInElection
+          }
+        },
       },
     },
   },
