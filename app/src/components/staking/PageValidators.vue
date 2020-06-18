@@ -165,8 +165,8 @@ export default {
           : result.validators
       },
     },
-    delegations: {
       /* istanbul ignore next */
+    delegations: {
       query: gql`
         query Delegations($networkId: String!, $delegatorAddress: String!) {
           delegations(
