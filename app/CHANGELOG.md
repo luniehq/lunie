@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.214] - 2020-06-18
+
+### Added
+
+- [#4147](https://github.com/cosmos/lunie/issues/4147) Adds sign in and sign out using Firebase auth and store @Bitcoinera
+
 ## [1.0.213] - 2020-06-17
 
 ### Added
