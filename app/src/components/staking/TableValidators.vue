@@ -187,7 +187,11 @@ export default {
       }
     },
     sortBy(property) {
-      this.sort.property = property
+      if (this.sort.property === property) {
+        this.sort.property = ``
+      } else {
+        this.sort.property = property
+      }
     },
     isSortedBy(property) {
       return this.sort.property === property
@@ -322,5 +326,14 @@ export default {
 .fade-enter,
  .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .sortingOptions {
+    display: none;
+  }
+  .shrinked .panel-sort-container {
+    visibility: initial;
+  }
 }
 </style>

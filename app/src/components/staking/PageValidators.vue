@@ -285,9 +285,8 @@ export default {
       max-width: 300px;
     }
   }
-
-  .filter-toggle {
-    margin: 0 0 0 2rem;
+  .show-mobile-sorting {
+    display: none;
   }
 }
 
