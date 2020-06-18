@@ -165,24 +165,23 @@ class PolkadotNodeSubscription {
           )
           this.currentEra = era
 
-          try {
-            console.log(
-              'Starting Polkadot rewards script on',
-              config.scriptRunnerEndpoint
-            )
-            fetch(`${config.scriptRunnerEndpoint}/polkadotrewards`, {
-              method: 'POST',
-              headers: {
-                Authorization: config.scriptRunnerAuthenticationToken
-              },
-              body: JSON.stringify({
-                era
-              })
+          console.log(
+            'Starting Polkadot rewards script on',
+            config.scriptRunnerEndpoint
+          )
+          // runs async, we don't need to wait for this
+          fetch(`${config.scriptRunnerEndpoint}/polkadotrewards`, {
+            method: 'POST',
+            headers: {
+              Authorization: config.scriptRunnerAuthenticationToken
+            },
+            body: JSON.stringify({
+              era
             })
-          } catch (error) {
+          }).catch(error => {
             console.error('Failed running Polkadot rewards script', error)
             Sentry.captureException(error)
-          }
+          })
         }
       }
 
