@@ -192,12 +192,10 @@ p {
 }
 
 .session-title {
-  color: #FFF7C4;
+  color: #fff7c4;
 }
 
 .reveal-seed-form-group.tm-form-group {
   margin-top: 6rem;
 }
-
-
 </style>
