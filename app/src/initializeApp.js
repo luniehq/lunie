@@ -50,6 +50,9 @@ export default async function init(urlParams, env = process.env) {
   setOptions(urlParams, store)
   await store.dispatch(`preloadNetworkCapabilities`)
 
+  // check if user is signed in
+  store.dispatch(`listenToAuthChanges`)
+
   const router = Router(store)
   setGoogleAnalyticsPage(router.currentRoute.path)
   router.beforeEach(routeGuard(store))
