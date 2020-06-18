@@ -227,6 +227,11 @@ export default (store) => {
       component: () => import(`./components/common/FeatureNotPresent`),
     },
     {
+      path: `/sign-in-modal`,
+      name: `sign-in-modal`,
+      component: require("account/SignInModal").default,
+    },
+    {
       path: `/email-authentication`,
       name: `email-authentication`,
       component: () => import(`./components/account/EmailAuthentication`),

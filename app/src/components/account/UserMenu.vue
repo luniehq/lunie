@@ -29,7 +29,7 @@
       value="Sign In / Sign Up"
       type="secondary"
       size="small"
-      @click.native="signIn()"
+      @click.native="openSignInModal()"
     />
     <router-link
       v-if="session.experimentalMode"
@@ -92,31 +92,31 @@ import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `user-menu`,
   filters: {
-    formatAddress
+    formatAddress,
   },
   components: {
     Address,
     Avatar,
-    TmBtn
+    TmBtn,
   },
   data: () => ({
     ledgerAddressError: undefined,
     showAddressOnLedgerFn: showAddressOnLedger,
     addresses: [
       {
-        name: 'seed 1',
-        address: 'cosmos1...abcd'
-      }, 
+        name: "seed 1",
+        address: "cosmos1...abcd",
+      },
       {
-        name: 'seed 2',
-        address: 'akash1...efgh'
-      }, 
+        name: "seed 2",
+        address: "akash1...efgh",
+      },
       {
-        name: 'seed 3',
-        address: 'polka1...ijkl'
-      }, 
+        name: "seed 3",
+        address: "polka1...ijkl",
+      },
     ],
-    selectedAddress: 'cosmos1...abcd'
+    selectedAddress: "cosmos1...abcd",
   }),
   computed: {
     ...mapState([`session`, `connection`]),
@@ -134,7 +134,7 @@ export default {
         )
       }
       return `Your Address`
-    }
+    },
   },
   methods: {
     async showAddressOnLedger() {
@@ -156,15 +156,18 @@ export default {
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
     },
-    signIn() {
-      console.log(`Feature coming soon`)
-      // this.$store.dispatch(`signInUser`)
-    }
-  }
+    openSignInModal() {
+      this.$router.push({ name: `sign-in-modal` })
+    },
+  },
 }
 </script>
 
 <style scoped>
+h3 {
+  font-size: 12px;
+}
+
 .user-menu {
   display: flex;
   align-items: center;
@@ -175,7 +178,6 @@ export default {
 .notifications {
   background: var(--app-fg);
   margin: 0 0.5rem;
-  border-radius: 50%;
   padding: 0.5rem 1rem;
   border-radius: 50%;
   display: flex;
@@ -185,18 +187,19 @@ export default {
   width: 2rem;
 }
 
-.notifications:hover i {
-  transform: rotate(0);
-}
-
 .notifications i {
   transition: transform 0.2s ease;
   font-size: 18px;
   transform: rotate(-30deg);
 }
 
-h3 {
-  font-size: 12px;
+.notifications:hover i {
+  transform: rotate(0);
+}
+
+.material-icons {
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .address-list {
@@ -222,7 +225,7 @@ h3 {
 
 .menu-list-item:hover {
   cursor: pointer;
-  background: #eeeeee;
+  background: #eee;
 }
 
 .menu-list-item.dark {
@@ -231,7 +234,7 @@ h3 {
 }
 
 .menu-list-item.outline {
-  border: 1px solid #eeeeee;
+  border: 1px solid #eee;
 }
 
 .menu-list-item.selected {
@@ -274,10 +277,5 @@ h3 {
   height: 2rem;
   width: 2rem;
   cursor: pointer;
-}
-
-.material-icons {
-  font-size: 18px;
-  font-weight: 500;
 }
 </style>
