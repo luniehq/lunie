@@ -1,5 +1,5 @@
 <template>
-  <div class="copyable-address" v-tooltip="tooltipText">
+  <div v-tooltip="tooltipText" class="copyable-address">
     <div
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
@@ -20,20 +20,20 @@ import { formatAddress } from "src/filters"
 export default {
   name: `lunie-address`,
   filters: {
-    formatAddress
+    formatAddress,
   },
   props: {
     address: {
       type: String,
-      required: true
+      required: true,
     },
     tooltipText: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data: () => ({
-    copySuccess: false
+    copySuccess: false,
   }),
   methods: {
     onCopy() {
@@ -41,8 +41,8 @@ export default {
       setTimeout(() => {
         this.copySuccess = false
       }, 2500)
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

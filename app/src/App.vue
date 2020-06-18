@@ -8,7 +8,7 @@
         <MaintenanceBar />
         <DisconnectedBar />
       </div>
-      <UserMenu v-if="!isMobileApp && isDevelopmentMode"/>
+      <UserMenu v-if="!isMobileApp && isDevelopmentMode" />
       <router-view name="session" />
       <router-view />
     </div>
@@ -37,7 +37,7 @@ export default {
     UserMenu,
     MaintenanceBar,
     MobileMenu,
-    NetworkSelector
+    NetworkSelector,
   },
   data: () => ({
     isMobileApp: config.mobileApp,
@@ -45,9 +45,9 @@ export default {
   }),
   computed: {
     ...mapState([`notifications`, `session`]),
-    ...mapGetters([`network`])
+    ...mapGetters([`network`]),
   },
-  store
+  store,
 }
 </script>
 

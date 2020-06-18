@@ -84,7 +84,7 @@ export default {
     ...mapState([`session`, `connection`]),
     networkSlug() {
       return this.connection.networkSlug
-    }
+    },
   },
   mounted: async function () {
     this.watchWindowSize()
@@ -119,8 +119,8 @@ export default {
       } else {
         this.desktop = false
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

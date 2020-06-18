@@ -105,17 +105,17 @@ import { shortDecimals } from "scripts/num.js"
 export default {
   name: `app-menu`,
   components: {
-    ConnectedNetwork
+    ConnectedNetwork,
   },
   filters: {
-    shortDecimals
+    shortDecimals,
   },
   computed: {
     ...mapState([`session`, `connection`]),
     ...mapGetters([`address`, `network`]),
     networkSlug() {
       return this.connection.networkSlug
-    }
+    },
   },
   methods: {
     handleClick() {
@@ -130,12 +130,12 @@ export default {
       if (this.$route.name !== `portfolio`) {
         this.$router.push({
           name: `portfolio`,
-          params: { networkId: this.networkSlug }
+          params: { networkId: this.networkSlug },
         })
       }
       this.$emit(`close`)
-    }
-  }
+    },
+  },
 }
 </script>
 
