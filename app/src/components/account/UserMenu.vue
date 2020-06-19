@@ -1,35 +1,23 @@
 <template>
   <div class="user-menu">
-    <div v-if="address" class="address">
-      <Address
-        class="menu-address"
-        :address="address || ''"
-        :tooltip-text="addressType"
-      />
-      <a
-        v-if="!session.isMobile && session.sessionType === 'ledger'"
-        class="show-on-ledger"
-        @click="showAddressOnLedger()"
-        >Show on Ledger</a
-      >
-      <TmFormMsg
-        v-if="ledgerAddressError"
-        :msg="ledgerAddressError"
-        type="custom"
-      />
-      <!-- <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-        <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
-          >exit_to_app</i
-        >
-      </a> -->
-    </div>
+    <UserMenuAddress v-if="address" :address="address" />
     <TmBtn
-      v-else
+      v-if="!account.userSignedIn"
       id="sign-in"
+      class="user-menu-button"
       value="Sign In / Sign Up"
       type="secondary"
       size="small"
       @click.native="openSignInModal()"
+    />
+    <TmBtn
+      v-if="!address && account.userSignedIn"
+      id="sign-out"
+      class="user-menu-button"
+      value="Sign Out"
+      type="secondary"
+      size="small"
+      @click.native="signOut()"
     />
     <router-link
       v-if="session.experimentalMode && account.userSignedIn"
@@ -93,7 +81,11 @@
         <div
           class="menu-list-item outline"
           :class="{ dark: selectedOption === `logout` }"
-          @click="selectOption(`logout`) && signOut() && closePopover()"
+          @click="
+            selectOption(`logout`)
+            signOut()
+            closePopover()
+          "
         >
           <span>Logout</span>
           <i class="material-icons">exit_to_app</i>
@@ -104,25 +96,22 @@
 </template>
 
 <script>
-import Address from "common/Address"
 import Avatar from "common/Avatar"
 import TmBtn from "common/TmBtn"
+import UserMenuAddress from "account/UserMenuAddress"
 import { formatAddress } from "src/filters"
 import { mapGetters, mapState } from "vuex"
-import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `user-menu`,
   filters: {
     formatAddress,
   },
   components: {
-    Address,
     Avatar,
     TmBtn,
+    UserMenuAddress,
   },
   data: () => ({
-    ledgerAddressError: undefined,
-    showAddressOnLedgerFn: showAddressOnLedger,
     addresses: [
       {
         name: "seed 1",
@@ -141,40 +130,15 @@ export default {
     selectedOption: "",
   }),
   computed: {
-    ...mapState([`session`, `connection`, `account`]),
-    ...mapGetters([`address`, `network`]),
-    addressType() {
-      if (
-        this.session.addressRole &&
-        this.session.addressRole !== `stash/controller` &&
-        this.session.addressRole !== `none`
-      ) {
-        return (
-          `Your` +
-          this.capitalizeFirstLetter(this.session.addressRole) +
-          `Address`
-        )
-      }
-      return `Your Address`
+    ...mapState([`session`, `account`]),
+    ...mapGetters([`address`]),
+  },
+  watch: {
+    address: () => {
+      this.addresses = [{name: 'account1', address: this.address}]
     },
   },
   methods: {
-    async showAddressOnLedger() {
-      if (this.messageTimeout) {
-        clearTimeout(this.messageTimeout)
-        this.messageTimeout = undefined
-      }
-      this.ledgerAddressError = undefined
-      try {
-        await this.showAddressOnLedgerFn(this.network, this.$store)
-      } catch (error) {
-        this.ledgerAddressError = error.message
-        this.messageTimeout = setTimeout(
-          () => (this.ledgerAddressError = undefined),
-          8000
-        )
-      }
-    },
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
     },
@@ -191,7 +155,7 @@ export default {
       this.$store.dispatch(`signOutUser`)
     },
     closePopover() {
-      this.$el.querySelector(`.tooltip`).style.display = "none"
+      this.$el.querySelector(`.v-popover`).focus()
     },
   },
 }
@@ -206,7 +170,7 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 0 2rem;
+  margin: 1em;
 }
 
 .notifications {
@@ -311,5 +275,13 @@ h3 {
   height: 2rem;
   width: 2rem;
   cursor: pointer;
+}
+
+.user-menu-button {
+  padding: 6px 10px;
+  font-size: 12px;
+  min-width: 0;
+  background-color: transparent;
+  margin-left: 0.5em;
 }
 </style>

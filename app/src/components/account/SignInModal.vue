@@ -14,7 +14,7 @@
     </TmFormGroup>
     <div class="sign-in-buttons">
       <TmBtn value="Cancel" type="secondary" @click.native="close()" />
-      <TmBtn value="Sign In" type="primary" @click.native="sendMagicLink()" />
+      <TmBtn value="Send Link" type="primary" @click.native="sendMagicLink()" />
     </div>
   </SessionFrame>
 </template>

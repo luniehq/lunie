@@ -1,24 +1,23 @@
 <template>
-  <TmPage data-title="authentication" hide-header>
-    <TmPart>
-      <h2 v-if="account.userSignedIn">You are now authenticated/ logged in!</h2>
-      <h2 v-else>Good bye, see you soon!</h2>
-    </TmPart>
-    <TmBtn value="Sign Out" type="secondary" @click.native="signOut()" />
+  <TmPage data-title="email-authentication" hide-header>
+    <div class="card">
+      <h1 v-if="account.userSignedIn" class="authentication-title">
+        You are now signed in! &#128640;
+      </h1>
+      <h1 v-else class="authentication-title">
+        Good bye, see you soon! &#128075;
+      </h1>
+    </div>
   </TmPage>
 </template>
 
 <script>
 import TmPage from "common/TmPage"
 import { mapState } from "vuex"
-import TmPart from "common/TmPart"
-import TmBtn from "common/TmBtn"
 export default {
   name: `email-authentication`,
   components: {
     TmPage,
-    TmPart,
-    TmBtn,
   },
   computed: {
     ...mapState([`account`]),
@@ -26,10 +25,16 @@ export default {
   mounted() {
     this.$store.dispatch(`signInUser`)
   },
-  methods: {
-    signOut() {
-      this.$store.dispatch(`signOutUser`)
-    },
-  },
 }
 </script>
+<style scoped>
+.card {
+  padding: 1rem 1.5rem;
+  margin: 1.5rem auto;
+}
+
+.authentication-title {
+  font-size: 2em;
+  color: #fff7c4;
+}
+</style>
