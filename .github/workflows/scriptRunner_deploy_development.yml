@@ -6,7 +6,6 @@ on:
       - 'develop'
     paths:
       - 'scriptRunner/**'
-      - 'api/**'
 env:
   WORKING_DIRECTORY: ./scriptRunner
   HASURA_URL: "https://staging-db.lunie.io/v1/graphql"
