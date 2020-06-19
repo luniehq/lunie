@@ -55,7 +55,10 @@
         <div
           class="menu-list-item"
           :class="{ dark: selectedOption === `create` }"
-          @click="selectOption(`create`)"
+          @click="
+            selectOption(`create`)
+            openFeatureNotAvailable()
+          "
         >
           <span>Create New Account</span>
           <i class="material-icons">add_circle</i>
@@ -63,7 +66,10 @@
         <div
           class="menu-list-item"
           :class="{ dark: selectedOption === `settings` }"
-          @click="selectOption(`settings`)"
+          @click="
+            selectOption(`settings`)
+            openFeatureNotAvailable()
+          "
         >
           <span>Settings</span>
           <i class="material-icons">settings</i>
@@ -71,7 +77,10 @@
         <div
           class="menu-list-item"
           :class="{ dark: selectedOption === `payment` }"
-          @click="selectOption(`payment`)"
+          @click="
+            selectOption(`payment`)
+            openFeatureNotAvailable()
+          "
         >
           <span>Manage Subscription</span>
           <i class="material-icons">payment</i>
@@ -154,6 +163,10 @@ export default {
     },
     closePopover() {
       this.$el.querySelector(`.v-popover`).focus()
+    },
+    openFeatureNotAvailable() {
+      this.$el.querySelector(`.v-popover`).focus()
+      this.$router.push(`/feature-not-available-frame`)
     },
   },
 }

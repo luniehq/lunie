@@ -35,6 +35,5 @@ export default {
 
 .authentication-title {
   font-size: 2em;
-  color: #fff7c4;
 }
 </style>

@@ -219,12 +219,17 @@ export default (store) => {
     },
     {
       path: `/feature-not-available/:feature`,
-      component: () => import(`./components/common/PageFeatureNotAvailable`),
+      component: () => import(`./components/common/FeatureNotAvailable`),
       props: true,
     },
     {
       path: `/feature-not-present/:feature`,
       component: () => import(`./components/common/FeatureNotPresent`),
+    },
+    {
+      path: `/feature-not-available-frame`,
+      component: () => import(`./components/common/FeatureNotAvailableFrame`),
+      props: true,
     },
     {
       path: `/sign-in-modal`,
