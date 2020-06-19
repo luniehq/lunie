@@ -12,10 +12,10 @@ services:
     - ./firebaseCredentials.json:/var/www/server/firebaseCredentials.json
     networks:
        - general
-    # logging:
-    #   driver: loki
-    #   options:
-    #     loki-url: "http://admin:${LOKI_PASSWORD}@monitoring.lunie.io:3100/loki/api/v1/push"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://admin:${LOKI_PASSWORD}@monitoring.lunie.io:3100/loki/api/v1/push"
     deploy:
       replicas: 1
       resources:
