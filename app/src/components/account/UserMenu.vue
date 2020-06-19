@@ -4,18 +4,16 @@
     <TmBtn
       v-if="!account.userSignedIn"
       id="sign-in"
-      class="user-menu-button"
+      :custom-class="`user-menu-button`"
       :value="address ? `Sign into account` : `Sign In / Sign Up`"
-      type="secondary"
       size="small"
       @click.native="openSignInModal()"
     />
     <TmBtn
       v-if="!address && account.userSignedIn"
       id="sign-out"
-      class="user-menu-button"
+      :custom-class="`user-menu-button`"
       value="Sign Out"
-      type="secondary"
       size="small"
       @click.native="signOut()"
     />
@@ -135,7 +133,7 @@ export default {
   },
   watch: {
     address: function () {
-      this.addresses = [{name: 'account1', address: this.address}]
+      this.addresses = [{ name: "account1", address: this.address }]
     },
   },
   methods: {
@@ -278,8 +276,12 @@ h3 {
 }
 
 .user-menu-button {
-  color: var(--menu-bright);
+  padding: 6px 10px;
+  font-size: 12px;
+  min-width: 0;
+  color: var(--text);
   border-color: var(--primary);
+  background-color: transparent;
 }
 
 .user-menu-button:hover {
