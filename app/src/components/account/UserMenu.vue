@@ -35,6 +35,9 @@
 
       <!-- This will be the content of the popover -->
       <template slot="popover">
+        <div class="user-email-container">
+          <h3 v-if="user">{{ user.email }}</h3>
+        </div>
         <div
           v-for="address in addresses"
           :key="address.address"
@@ -44,8 +47,8 @@
         >
           <div>
             <span v-if="address.type">{{ address.type }}</span>
-            <span class="address-name">{{ address.name }}</span>
             <span class="address">{{ address.address | formatAddress }}</span>
+            <span class="address-network">{{ address.network }}</span>
           </div>
 
           <i v-if="address.address === selectedAddress" class="material-icons"
@@ -115,16 +118,16 @@ export default {
   data: () => ({
     addresses: [
       {
-        name: "seed 1",
         address: "cosmos1...abcd",
+        network: "Cosmos Hub",
       },
       {
-        name: "seed 2",
         address: "akash1...efgh",
+        network: "Akash Testnet",
       },
       {
-        name: "seed 3",
         address: "polka1...ijkl",
+        network: "Polkadot",
       },
     ],
     selectedAddress: "cosmos1...abcd",
@@ -132,11 +135,16 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `account`]),
-    ...mapGetters([`address`]),
+    ...mapGetters([`address`, `currentNetwork`]),
+    user() {
+      return this.account.userSignedIn ? this.account.user : null
+    },
   },
   watch: {
     address: function () {
-      this.addresses = [{ name: "account1", address: this.address }]
+      this.addresses = [
+        { address: this.address, network: this.currentNetwork.title },
+      ]
     },
   },
   methods: {
@@ -254,13 +262,13 @@ h3 {
 }
 
 .address {
-  color: hsl(0, 0%, 40%);
-  font-weight: 400;
-}
-
-.address-name {
   padding-bottom: 0.25rem;
   font-weight: 500;
+}
+
+.address-network {
+  color: hsl(0, 0%, 40%);
+  font-weight: 400;
 }
 
 .avatar {
@@ -276,6 +284,14 @@ h3 {
   height: 2rem;
   width: 2rem;
   cursor: pointer;
+}
+
+.user-email-container {
+  text-align: center;
+  margin: 0.5em;
+  font-size: 1em;
+  font-weight: 600;
+  color: #324175;
 }
 
 .user-menu-button {
