@@ -15,9 +15,9 @@
         <TmField
           id="password"
           ref="passwordInput"
-          class="passwordInput"
           :key="passwordInputKey"
           v-model="password"
+          class="passwordInput"
           :type="passwordInputType"
           placeholder="Password"
         />
@@ -56,14 +56,16 @@
           v-for="word in wallet.seedPhrase.split(` `)"
           :key="word"
           class="seed-word"
-        >{{ word}}</span>
+          >{{ word }}</span
+        >
       </div>
       <div v-else-if="wallet.privateKey" class="private-key-container">
         <p class="title">Private Key</p>
         <p class="private-key">{{ wallet.privateKey }}</p>
       </div>
       <p class="message">
-        Be sure not to share your <span v-if="wallet.seedPhrase">seed phrase</span>
+        Be sure not to share your
+        <span v-if="wallet.seedPhrase">seed phrase</span>
         <span v-else>private key</span> with anyone you don't trust
       </p>
       <div
@@ -78,9 +80,7 @@
         >
           check
         </i>
-        <i
-          class="material-icons notranslate copy-icon"
-        >
+        <i class="material-icons notranslate copy-icon">
           content_copy
         </i>
       </div>
@@ -233,7 +233,7 @@ h2.reveal-title {
 }
 
 .reveal-seed-form-group.tm-form-group {
-  margin-top: 5.5em;
+  margin-top: 5em;
 }
 
 .pill {
