@@ -21,19 +21,19 @@
           <div class="toggles">
             <TmBtn
               value="Popular"
-              class="btn-radio secondary"
+              class="btn-radio"
               :type="popularSort ? `active` : `secondary`"
               @click.native="defaultSelectorsController(`popularSort`)"
             />
             <TmBtn
               value="All"
-              class="btn-radio secondary"
+              class="btn-radio"
               :type="allValidators ? `active` : `secondary`"
               @click.native="defaultSelectorsController(`allValidators`)"
             />
             <TmBtn
               value="Active"
-              class="btn-radio secondary"
+              class="btn-radio"
               :type="activeOnly ? `active` : `secondary`"
               @click.native="defaultSelectorsController(`activeOnly`)"
             />
@@ -165,7 +165,7 @@ export default {
           : result.validators
       },
     },
-      /* istanbul ignore next */
+    /* istanbul ignore next */
     delegations: {
       query: gql`
         query Delegations($networkId: String!, $delegatorAddress: String!) {
@@ -202,7 +202,7 @@ export default {
 
 <style lang="scss" scoped>
 .loading-image-container {
-  padding: 2rem;
+  padding: 2em;
 }
 
 .filterContainer {
@@ -210,21 +210,18 @@ export default {
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
-  margin: 0.5rem 1rem;
-  flex-direction: column-reverse;
-
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 0.5em 1em 1em;
   .toggles {
-    margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     display: inline-flex;
   }
-
-  label {
-    cursor: pointer;
-  }
-
   input {
-    font-size: 14px;
+    max-width: 300px;
+  }
+  .btn-radio {
+    min-width: 100px;
   }
 }
 
@@ -233,12 +230,12 @@ export default {
 }
 
 .filterContainer .btn-radio:last-child {
-  border-radius: 0 0.5rem 0.5rem 0;
+  border-radius: 0 0.5em 0.5em 0;
   margin-left: -1px;
 }
 
 .filterContainer .btn-radio:first-child {
-  border-radius: 0.5rem 0 0 0.5rem;
+  border-radius: 0.5em 0 0 0.5em;
   margin-right: -1px;
 }
 
@@ -264,35 +261,44 @@ export default {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  margin: 0.5rem 1rem;
 }
 
 .filter-toggle {
-  margin: 0 0 1rem 1rem;
+  margin-left: 1em;
 }
 
-@media screen and (min-width: 768px) {
-  .filterContainer {
-    justify-content: space-between;
-    flex-direction: row;
-    margin: 0.5rem 2rem 1rem;
-
-    .toggles {
-      margin-bottom: 0;
-    }
-
-    input {
-      max-width: 300px;
-    }
-  }
-  .show-mobile-sorting {
-    display: none;
-  }
+.show-mobile-sorting {
+  display: none;
 }
 
 .no-results {
   text-align: center;
-  margin: 3rem;
+  margin: 3em;
   color: var(--dim);
+}
+
+@media screen and (max-width: 768px) {
+  .filterContainer {
+    margin: 0.5rem 2rem 0rem 2rem;
+    .btn-radio {
+      min-width: 75px;
+    }
+  }
+  .filterContainer input {
+    max-width: 100%;
+  }
+  .filterOptions {
+    padding: 1.5em 0.5em 0.5em;
+    width: 100%;
+  }
+  .show-mobile-sorting {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .filterContainer {
+    margin: 0.5em 1em 0.5em;
+  }
 }
 </style>
