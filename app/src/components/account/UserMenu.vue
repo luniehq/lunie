@@ -9,22 +9,24 @@
       size="small"
       @click.native="openSignInModal()"
     />
-    <TmBtn
-      v-if="!address && account.userSignedIn"
-      id="sign-out"
-      :custom-class="`user-menu-button`"
-      value="Sign Out"
-      size="small"
-      @click.native="signOut()"
-    />
     <router-link
       v-if="session.experimentalMode && account.userSignedIn"
       v-tooltip="`Your Notifications`"
       :to="{ name: 'notifications' }"
-      class="notifications"
+      class="user-menu-icon-container notifications"
     >
       <i class="material-icons">notifications</i>
     </router-link>
+    <a
+      v-if="account.userSignedIn"
+      id="sign-out"
+      class="user-menu-icon-container"
+      @click="signOut()"
+    >
+      <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
+        >exit_to_app</i
+      >
+    </a>
     <v-popover open-class="user-menu-popover">
       <!-- This will be the popover target (for the events and position) -->
       <Avatar
@@ -188,7 +190,7 @@ h3 {
   margin: 1em;
 }
 
-.notifications {
+.user-menu-icon-container {
   background: var(--app-fg);
   margin: 0 0.5rem;
   padding: 0.5rem 1rem;
