@@ -25,7 +25,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix import for firebase credentials @faboweb
 - SCRIPT_RUNNER_ENDPOINT was not available when deployed @faboweb
 - Remove chain id for validator updates @faboweb
-- Increase Terra gas estimats @faboweb
 
 ### Deprecated
 
