@@ -16,11 +16,6 @@
       :msg="ledgerAddressError"
       type="custom"
     />
-    <!-- <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-        <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
-          >exit_to_app</i
-        >
-      </a> -->
   </div>
 </template>
 <script>
