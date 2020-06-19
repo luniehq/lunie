@@ -25,6 +25,7 @@ services:
       - PORT=$PORT
       - HASURA_URL=$HASURA_URL
       - SENTRY_DSN=$SENTRY_DSN
+      - SCRIPT_RUNNER_ENDPOINT=$SCRIPT_RUNNER_ENDPOINT
       - NODE_ENV=staging
       - ENABLE_CACHE=true
       - REDIS_URL=http://redis:6379
