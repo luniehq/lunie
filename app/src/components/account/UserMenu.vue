@@ -28,9 +28,15 @@
     <v-popover open-class="user-menu-popover">
       <!-- This will be the popover target (for the events and position) -->
       <Avatar
-        v-if="account.userSignedIn"
+        v-if="account.userSignedIn && !user.photoURL"
         class="avatar tooltip-target"
         :address="addresses[0].address"
+        :human="true"
+      />
+      <img
+        v-if="account.userSignedIn && user.photoURL"
+        class="avatar"
+        :src="user.photoURL"
       />
 
       <!-- This will be the content of the popover -->
@@ -273,9 +279,8 @@ h3 {
 
 .avatar {
   display: inline-block;
-  background: var(--app-fg);
-  width: 2rem;
-  height: 2rem;
+  width: 2.2rem;
+  height: 2.2rem;
   border-radius: 50%;
   border: 2px solid var(--bc-dim);
 }
