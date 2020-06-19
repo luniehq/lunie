@@ -9,6 +9,8 @@ module.exports = {
 
     const validatorNames = await getValidators(browser)
 
+    console.log(`validatorNames:`, validatorNames)
+
     const searchTestStrings = ["validator", "stake", "~~"]
     for (let index = 0; index < searchTestStrings.length; index++) {
       const searchTestString = searchTestStrings[index]
@@ -20,6 +22,8 @@ module.exports = {
       browser.setValue(".searchField", [" ", browser.Keys.BACK_SPACE])
       for (let attempts = 7; attempts > 0; attempts--) {
         updatedValidatorNames = await getValidators(browser)
+
+        console.log(`updatedValidatorNames:`, updatedValidatorNames)
 
         // checking validators did reset
         if (!isSameArray(validatorNames, updatedValidatorNames)) {
