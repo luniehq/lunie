@@ -11,36 +11,48 @@
       />
     </div>
     <template v-else slot="managed-body">
-      <div class="filterOptions">
+      <div class="filterContainer">
         <TmField
           v-model="searchTerm"
           class="searchField"
           placeholder="Search"
         />
-        <div class="toggles">
-          <TmBtn
-            value="Popular"
-            class="btn-radio secondary"
-            :type="popularSort ? `active` : `secondary`"
-            @click.native="defaultSelectorsController(`popularSort`)"
-          />
-          <TmBtn
-            value="All"
-            class="btn-radio secondary"
-            :type="allValidators ? `active` : `secondary`"
-            @click.native="defaultSelectorsController(`allValidators`)"
-          />
-          <TmBtn
-            value="Active"
-            class="btn-radio secondary"
-            :type="activeOnly ? `active` : `secondary`"
-            @click.native="defaultSelectorsController(`activeOnly`)"
-          />
+        <div class="filterOptions">
+          <div class="toggles">
+            <TmBtn
+              value="Popular"
+              class="btn-radio"
+              :type="popularSort ? `active` : `secondary`"
+              @click.native="defaultSelectorsController(`popularSort`)"
+            />
+            <TmBtn
+              value="All"
+              class="btn-radio"
+              :type="allValidators ? `active` : `secondary`"
+              @click.native="defaultSelectorsController(`allValidators`)"
+            />
+            <TmBtn
+              value="Active"
+              class="btn-radio"
+              :type="activeOnly ? `active` : `secondary`"
+              @click.native="defaultSelectorsController(`activeOnly`)"
+            />
+          </div>
+          <div class="show-mobile-sorting">
+            <i
+              :class="{ active: showMobileSorting }"
+              class="filter-toggle material-icons notranslate"
+              @click="toggleMobileSorting"
+              >filter_list</i
+            >
+          </div>
         </div>
       </div>
+
       <TableValidators
         :validators="validators"
         :delegations="delegations"
+        :show-mobile-sorting="showMobileSorting"
         show-on-mobile="expectedReturns"
       />
       <div
@@ -76,15 +88,10 @@ export default {
     popularSort: true,
     validators: [],
     loaded: false,
+    showMobileSorting: false,
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
-    validatorsPlus() {
-      return this.validators.map((validator) => ({
-        ...validator,
-        smallName: validator.name ? validator.name.toLowerCase() : "",
-      }))
-    },
   },
   methods: {
     defaultSelectorsController(selector) {
@@ -102,9 +109,13 @@ export default {
         this.activeOnly = true
       }
     },
+    toggleMobileSorting() {
+      this.showMobileSorting = !this.showMobileSorting
+    },
   },
   apollo: {
     validators: {
+      /* istanbul ignore next */
       query: gql`
         query validators(
           $networkId: String!
@@ -130,6 +141,7 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
@@ -138,11 +150,22 @@ export default {
           popularSort: this.popularSort,
         }
       },
+      /* istanbul ignore next */
       update: function (result) {
+        if (!Array.isArray(result.validators)) {
+          return []
+        }
+
         this.loaded = true
-        return Array.isArray(result.validators) ? result.validators : []
+
+        return this.activeOnly
+          ? result.validators.filter(
+              ({ name, operatorAddress }) => name !== operatorAddress
+            )
+          : result.validators
       },
     },
+    /* istanbul ignore next */
     delegations: {
       query: gql`
         query Delegations($networkId: String!, $delegatorAddress: String!) {
@@ -157,17 +180,19 @@ export default {
           }
         }
       `,
+      /* istanbul ignore next */
       skip() {
         return !this.address
       },
+      /* istanbul ignore next */
       variables() {
         return {
           networkId: this.network,
           delegatorAddress: this.address,
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.delegations
       },
     },
@@ -177,65 +202,103 @@ export default {
 
 <style lang="scss" scoped>
 .loading-image-container {
-  padding: 2rem;
+  padding: 2em;
 }
 
-.filterOptions {
+.filterContainer {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   justify-content: center;
-  margin: 0.5rem 1rem;
-  flex-direction: column-reverse;
-
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 0.5em 2em 1em;
   .toggles {
-    margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
     display: inline-flex;
   }
-
-  label {
-    cursor: pointer;
-  }
-
   input {
-    font-size: 14px;
+    max-width: 300px;
+  }
+  .btn-radio {
+    min-width: 100px;
   }
 }
 
-.filterOptions .btn-radio {
+.filterContainer .btn-radio {
   border-radius: 0;
 }
 
-.filterOptions .btn-radio:last-child {
-  border-radius: 0 0.5rem 0.5rem 0;
+.filterContainer .btn-radio:last-child {
+  border-radius: 0 0.5em 0.5em 0;
   margin-left: -1px;
 }
 
-.filterOptions .btn-radio:first-child {
-  border-radius: 0.5rem 0 0 0.5rem;
+.filterContainer .btn-radio:first-child {
+  border-radius: 0.5em 0 0 0.5em;
   margin-right: -1px;
 }
 
-@media screen and (min-width: 768px) {
-  .filterOptions {
-    justify-content: space-between;
-    flex-direction: row;
-    margin: 0.5rem 2rem 1rem;
+.show-mobile-sorting {
+  cursor: pointer;
+}
 
-    .toggles {
-      margin-bottom: 0;
-    }
+.show-mobile-sorting.active {
+  color: var(--highlight);
+}
 
-    input {
-      max-width: 300px;
-    }
-  }
+.filterOptions {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.filter-toggle {
+  margin-left: 1em;
+}
+
+.show-mobile-sorting {
+  display: none;
 }
 
 .no-results {
   text-align: center;
-  margin: 3rem;
+  margin: 3em;
   color: var(--dim);
+}
+
+@media screen and (max-width: 768px) {
+  .filterContainer {
+    margin: 0.5rem 2rem 0rem 2rem;
+    .btn-radio {
+      min-width: 75px;
+    }
+  }
+  .filterContainer input {
+    max-width: 100%;
+  }
+  .filterOptions {
+    padding: 1.5em 0.5em 0.5em;
+    width: 100%;
+  }
+  .show-mobile-sorting {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .filterContainer {
+    margin: 0.5em 1em 0.5em;
+  }
 }
 </style>

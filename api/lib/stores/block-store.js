@@ -115,10 +115,9 @@ class BlockStore {
   // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
   async updateDBValidatorProfiles(validators) {
     const validatorRows = Object.values(validators).map(
-      ({ operatorAddress, name, chainId }) => ({
+      ({ operatorAddress, name }) => ({
         operator_address: operatorAddress,
-        name,
-        chain_id: chainId
+        name
       })
     )
     return this.db.upsert('validatorprofiles', validatorRows)

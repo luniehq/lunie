@@ -10,7 +10,8 @@
   "workspaces": [
     "app",
     "api",
-    "extension"
+    "extension",
+    "scriptRunner"
   ],
   "scripts": {
     "changelog:api": "cd api && yarn changelog",

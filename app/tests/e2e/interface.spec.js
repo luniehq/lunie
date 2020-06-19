@@ -3,10 +3,11 @@ module.exports = {
     // move to according page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
     await browser.waitForElementVisible(".li-validator", 10000)
-    const validatorNames = await getValidators(browser)
 
     // select button 'All' in PageValidators
     await browser.click(".toggles .btn-radio:nth-child(2)")
+
+    const validatorNames = await getValidators(browser)
 
     const searchTestStrings = ["validator", "stake", "~~"]
     for (let index = 0; index < searchTestStrings.length; index++) {

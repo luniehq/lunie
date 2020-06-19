@@ -79,4 +79,42 @@ describe(`PageValidators`, () => {
     })
     expect(wrapper.element).toMatchSnapshot()
   })
+
+  it(`shows the mobile sorting`, async () => {
+    wrapper = shallowMount(PageValidators, {
+      mocks: {
+        $apollo: {
+          queries: {
+            validators: {
+              loading: false,
+              error: true,
+            },
+          },
+        },
+      },
+    })
+    wrapper.vm.toggleMobileSorting()
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`Should toggle between popular / active / all validators`, async () => {
+    wrapper = shallowMount(PageValidators, {
+      mocks: {
+        $apollo: {
+          queries: {
+            validators: {
+              loading: false,
+              error: true,
+            },
+          },
+        },
+      },
+    })
+    wrapper.vm.defaultSelectorsController(`popularSort`)
+    expect(wrapper.element).toMatchSnapshot()
+    wrapper.vm.defaultSelectorsController(`activeOnly`)
+    expect(wrapper.element).toMatchSnapshot()
+    wrapper.vm.defaultSelectorsController(`allValidators`)
+    expect(wrapper.element).toMatchSnapshot()
+  })
 })

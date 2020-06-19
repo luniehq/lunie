@@ -138,6 +138,29 @@ const getMaintenance = ({ hasura_url, hasura_admin_key }) => (
   ])
 }
 
+const storeUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
+  payload
+) => {
+  return await insert({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(`users`, payload, undefined, undefined, ['uid'])
+}
+
+const getUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
+  uid
+) => {
+  return await read({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(
+    `users`,
+    `users`,
+    ['uid', 'email', 'premium', 'createdAt', 'lastActive'],
+    `where: { uid: {_eq: "${uid}"} }`
+  )
+}
+
 module.exports = {
   incrementValidatorViews,
   getValidatorsViews,
@@ -145,5 +168,7 @@ module.exports = {
   getMaintenance,
   storeStatistics,
   storeNotification,
-  getNotifications
+  getNotifications,
+  storeUser,
+  getUser
 }

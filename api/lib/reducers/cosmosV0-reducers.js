@@ -231,7 +231,7 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
   }
 }
 
-function blockReducer(networkId, block, transactions) {
+function blockReducer(networkId, block, transactions, data = {}) {
   return {
     networkId,
     height: block.block_meta.header.height,
@@ -239,7 +239,8 @@ function blockReducer(networkId, block, transactions) {
     hash: block.block_meta.block_id.hash,
     time: block.block_meta.header.time,
     transactions,
-    proposer_address: block.block_meta.header.proposer_address
+    proposer_address: block.block_meta.header.proposer_address,
+    data: JSON.stringify(data)
   }
 }
 

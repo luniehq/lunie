@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "GraphQL API for Lunie.io",
   "repository": {
     "type": "git",
@@ -11,6 +11,7 @@
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "dev-cache": "cross-env NODE_ENV=development ENABLE_CACHE=true nodemon index.js",
     "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
+    "build": "docker build . -t lunieapi",
     "lint": "eslint index.js config.js lib tests",
     "lint-fix": "yarn lint --fix",
     "start": "node index.js ",
@@ -41,6 +42,7 @@
     "bignumber.js": "^9.0.0",
     "coingecko-api": "^1.0.10",
     "dotenv": "^8.2.0",
+    "firebase-admin": "^8.12.1",
     "graphql": "^15.1.0",
     "graphql-redis-subscriptions": "^2.2.1",
     "lodash": "^4.17.15"
