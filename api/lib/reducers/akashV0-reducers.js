@@ -1,6 +1,6 @@
 const terraV3Reducers = require('./terraV3-reducers')
 
-function blockReducer(networkId, block, transactions) {
+function blockReducer(networkId, block, transactions, data = {}) {
   return {
     networkId,
     height: block.block.header.height,
@@ -8,7 +8,8 @@ function blockReducer(networkId, block, transactions) {
     hash: block.block_id.hash,
     time: block.block.header.time,
     transactions,
-    proposer_address: block.block.header.proposer_address
+    proposer_address: block.block.header.proposer_address,
+    data: JSON.stringify(data)
   }
 }
 

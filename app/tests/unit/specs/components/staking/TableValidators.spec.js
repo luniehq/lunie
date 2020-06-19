@@ -42,7 +42,10 @@ describe(`TableValidators`, () => {
     }
 
     wrapper = shallowMount(TableValidators, {
-      propsData: { validators },
+      propsData: {
+        validators,
+        showMobileSorting: true,
+      },
       directives: {
         infiniteScroll: () => {},
       },
@@ -58,14 +61,14 @@ describe(`TableValidators`, () => {
   })
 
   it(`should sort the delegates by selected property`, () => {
-    wrapper.vm.sort.property = `operatorAddress`
+    wrapper.vm.sortBy(`operatorAddress`)
     wrapper.vm.sort.order = `desc`
 
     expect(
       wrapper.vm.sortedEnrichedValidators.map((x) => x.operatorAddress)
     ).toEqual(validators.map((x) => x.operatorAddress).reverse())
 
-    wrapper.vm.sort.property = `operatorAddress`
+    wrapper.vm.sortBy(`operatorAddress`)
     wrapper.vm.sort.order = `asc`
 
     expect(

@@ -1,10 +1,11 @@
 import config from "src/../config"
 import firebase from "../../firebase.js"
 import * as Sentry from "@sentry/browser"
+import gql from "graphql-tag"
 
 const Auth = firebase.auth()
 
-export default () => {
+export default ({ apollo }) => {
   const state = {
     userSignedIn: false,
     user: null,
@@ -45,6 +46,16 @@ export default () => {
         const user = JSON.parse(localStorage.getItem(`user`))
         try {
           await Auth.signInWithEmailLink(user.email, window.location.href)
+          const idToken = await firebase
+            .auth()
+            .currentUser.getIdToken(/* forceRefresh */ true)
+          apollo.mutate({
+            mutation: gql`
+              mutation {
+                registerUser(idToken:"${idToken}")
+              }
+            `,
+          })
         } catch (error) {
           console.error(error)
           commit(`setSignInError`, error)
