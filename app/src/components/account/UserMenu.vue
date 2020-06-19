@@ -5,7 +5,7 @@
       v-if="!account.userSignedIn"
       id="sign-in"
       class="user-menu-button"
-      value="Sign In / Sign Up"
+      :value="address ? `Sign into account` : `Sign In / Sign Up`"
       type="secondary"
       size="small"
       @click.native="openSignInModal()"
@@ -134,7 +134,7 @@ export default {
     ...mapGetters([`address`]),
   },
   watch: {
-    address: () => {
+    address: function () {
       this.addresses = [{name: 'account1', address: this.address}]
     },
   },
@@ -278,10 +278,12 @@ h3 {
 }
 
 .user-menu-button {
-  padding: 6px 10px;
-  font-size: 12px;
-  min-width: 0;
-  background-color: transparent;
-  margin-left: 0.5em;
+  color: var(--menu-bright);
+  border-color: var(--primary);
+}
+
+.user-menu-button:hover {
+  color: var(--menu-text);
+  border-color: var(--bc);
 }
 </style>
