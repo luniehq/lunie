@@ -79,6 +79,7 @@ export default {
 
 .account {
   display: flex;
+  margin-top: 1em;
   align-items: center;
   justify-content: space-between;
   padding: 1rem;
