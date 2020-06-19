@@ -7,7 +7,7 @@ on:
     paths:
       - 'scriptRunner/**'
 env:
-  WORKING_DIRECTORY: ./app
+  WORKING_DIRECTORY: ./scriptRunner
 jobs:
   createReleasePR:
     name: createReleasePR
