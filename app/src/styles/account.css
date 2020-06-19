@@ -1,0 +1,244 @@
+.account-frame {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-modal);
+  width: 100vw;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.account-outer-container {
+  position: relative;
+  padding: 3rem 0;
+}
+
+.account-logo {
+  height: 2.5rem;
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+}
+
+.account {
+  background: var(--app-bg);
+  max-width: 560px;
+  border-radius: 0.5em;
+  padding: 1.5rem;
+  position: relative;
+  overflow: auto;
+  max-height: 90vh;
+}
+
+.account-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.account-header p {
+  font-size: 14px;
+}
+
+.account-main {
+  flex: 1;
+}
+
+.account-main p {
+  margin-bottom: 1.5rem;
+}
+
+.account-title {
+  font-size: var(--h2);
+  line-height: 42px;
+  color: var(--bright);
+  font-weight: 400;
+  padding: 0.5rem 0 1rem 0;
+  text-align: center;
+}
+
+.account-subtitle {
+  font-size: 1rem;
+  line-height: 42px;
+  color: var(--bright);
+  font-weight: 300;
+  padding: 0.5rem 0 1rem 0;
+  text-align: center;
+}
+
+.account-image {
+  height: 6rem;
+  padding-left: 1rem;
+  margin: 1rem auto;
+}
+
+.account-list {
+  padding: 1rem 0;
+}
+
+.account-list h3 {
+  font-size: var(--h3);
+  color: var(--bright);
+  font-weight: 500;
+  padding: 1rem 1rem 0.5rem;
+}
+
+.account-paragraph {
+  margin-bottom: 1rem;
+  padding: 0 1rem;
+}
+
+.account-back {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.account-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1.5rem 0 1rem;
+
+  /* keeps button in bottom right no matter the size of the action modal */
+  flex-grow: 1;
+  align-self: flex-end;
+}
+
+.footnote {
+  padding: 1rem 1rem 0;
+  font-size: var(--sm);
+}
+
+.account-logo-mobile {
+  display: block;
+  height: 2.5rem;
+  margin: 1rem 1rem 3.5rem;
+}
+
+.field-checkbox-input {
+  display: block;
+  line-height: 14px;
+  font-size: 14px;
+}
+
+.field-checkbox-label {
+  color: var(--bright);
+}
+
+.accounts-header {
+  padding: 0 1rem;
+}
+
+.account .material-icons {
+  color: var(--txt);
+}
+
+.material-icons.circle.modal-icon {
+  background: var(--app-fg);
+  color: var(--dim);
+  border-radius: 50%;
+  padding: 1.5rem;
+  font-size: 1.6rem;
+  position: absolute;
+  top: 0.6rem;
+  left: 40%;
+  z-index: 1;
+  /* box-shadow: 1px 7px 20px -7px hsla(0, 0%, 100%, 0.3); */
+}
+
+.material-icons.circle:hover {
+  background: var(--app-fg-hover);
+}
+
+@media screen and (min-width: 667px) {
+  .account {
+    width: 100%;
+    min-width: 460px;
+  }
+
+  .account-logo-mobile {
+    display: none;
+  }
+
+  .account-paragraph {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 666px) {
+  .account {
+    height: 100vh;
+    max-height: 100vh;
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .account-frame {
+    max-width: 100%;
+  }
+
+  .bottom-indent.reorder {
+    flex-direction: column;
+    display: flex;
+  }
+
+  .bottom-indent.reorder .seed-phrase {
+    order: 2;
+  }
+
+  .bottom-indent.reorder .field-checkbox {
+    order: 1;
+  }
+
+  .account-outer-container {
+    width: 100%;
+    position: relative;
+  }
+
+  .account-logo {
+    display: none;
+  }
+
+  .account-title.welcome {
+    display: none;
+  }
+
+  .form-main .account-footer button {
+    width: 100%;
+  }
+
+  .form-main > div {
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+  }
+
+  .account-close-mobile {
+    display: block;
+    position: absolute;
+    right: 1.9rem;
+    top: 4.4rem;
+  }
+
+  .account-close-mobile i {
+    font-size: 1.25rem;
+  }
+
+  .account-title {
+    padding: 0.5rem 0 1rem;
+  }
+
+  .account-main .step--container {
+    margin: 0.5rem 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .account-close .user-box {
+    display: none;
+  }
+}

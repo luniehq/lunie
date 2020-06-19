@@ -1,9 +1,10 @@
 <template>
-  <SessionFrame>
-    <h2 class="session-title">Sign In/ Sign Up</h2>
+  <AccountFrame :icon="`verified_user`">
+    <h2 class="account-title">Sign In / Sign Up</h2>
+    <h4 class="account-subtitle">We will send you a magic link to your email</h4>
+
     <TmFormGroup
       field-id="sign-in-credentials"
-      field-label="We will send you a magic link to your email"
     >
       <TmField
         id="email"
@@ -16,17 +17,17 @@
       <TmBtn value="Cancel" type="secondary" @click.native="close()" />
       <TmBtn value="Send Link" type="primary" @click.native="sendMagicLink()" />
     </div>
-  </SessionFrame>
+  </AccountFrame>
 </template>
 <script>
-import SessionFrame from "common/SessionFrame"
+import AccountFrame from "common/AccountFrame"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
 import TmBtn from "common/TmBtn"
 export default {
   name: `sign-in-modal`,
   components: {
-    SessionFrame,
+    AccountFrame,
     TmFormGroup,
     TmField,
     TmBtn,
@@ -48,15 +49,33 @@ export default {
 }
 </script>
 <style scoped>
+
 .sign-in-buttons {
   display: flex;
   justify-content: space-evenly;
   margin-top: 1.5em;
 }
 
+.sign-in-buttons button {
+  width: 100%;
+  height: 4rem;
+}
+
+.sign-in-buttons button:first-child {
+  margin-right: 0.8rem;
+}
+
+.sign-in-buttons button:nth-child(2) {
+  margin-left: 0.8rem;
+}
+
+#email {
+  height: 3.5rem !important;
+}
+
 @media screen and (min-width: 667px) {
-  .session {
-    min-width: 450px;
+  .account {
+    min-width: 460px;
   }
 }
 </style>
