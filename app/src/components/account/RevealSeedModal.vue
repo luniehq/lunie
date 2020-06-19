@@ -30,6 +30,16 @@
           type="custom"
           msg="Wrong password"
         />
+        <TmFormMsg
+          v-if="recoveryError && isExtension"
+          type="custom"
+          msg="Your seed couldn't be recovered. Please contact our team"
+        />
+        <TmFormMsg
+          v-if="recoveryError && !isExtension"
+          type="custom"
+          msg="Your seed couldn't be recovered. Please try again on extension"
+        />
         <div class="reveal-seed-buttons">
           <TmBtn
             value="Dismiss"
@@ -112,6 +122,7 @@ export default {
     passwordInputType: `password`,
     passwordInputKey: 0,
     wrongPasswordError: false,
+    recoveryError: false,
     copySuccess: false,
   }),
   computed: {
@@ -144,7 +155,12 @@ export default {
         this.wrongPasswordError = true
         return
       }
-      this.wallet = wallet
+      // check if seedPhrase or privKey is present
+      if (wallet.seedPhrase || wallet.privateKey) {
+        this.wallet = wallet
+      } else {
+        this.recoveryError = true
+      }
     },
     close() {
       this.$router.go(`-1`)
@@ -211,7 +227,7 @@ export default {
   height: 2em;
   width: 2em;
   position: absolute;
-  top: 2.5em;
+  top: 1.5em;
   right: 0;
 }
 
