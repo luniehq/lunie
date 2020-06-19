@@ -29,10 +29,11 @@ export default ({ apollo }) => {
 
   const actions = {
     async listenToAuthChanges({ commit }) {
-      await Auth.onAuthStateChanged((user) => {
+      await Auth.onAuthStateChanged(async (user) => {
         if (user) {
           commit(`userSignedIn`, true)
           commit(`setUserInformation`, user)
+          await actions.updateProfilePicture()
           console.log("User is now signed in!")
         } else {
           commit(`userSignedIn`, false)
@@ -84,6 +85,19 @@ export default ({ apollo }) => {
       } catch (error) {
         console.error(error)
         commit(`setSignInError`, error)
+        Sentry.captureException(error)
+      }
+    },
+    // TODO: it should only run on sign up
+    async updateProfilePicture() {
+      try {
+        const user = Auth.currentUser
+        await user.updateProfile({
+          photoURL: `https://${config.digitalOceanURL}/users/${user.email}.png`,
+        })
+        console.log(`Succesfully updated user's avatar`)
+      } catch (error) {
+        console.error(error)
         Sentry.captureException(error)
       }
     },
