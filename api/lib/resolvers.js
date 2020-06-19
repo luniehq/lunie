@@ -1,4 +1,8 @@
 const { sortBy } = require('lodash')
+const Sentry = require('@sentry/node')
+const firebaseAdmin = require('firebase-admin')
+const { UserInputError, withFilter } = require('apollo-server')
+const BigNumber = require('bignumber.js')
 const {
   blockAdded,
   notificationAdded,
@@ -7,7 +11,6 @@ const {
   event
 } = require('./subscriptions')
 const { encodeB32, decodeB32 } = require('./tools')
-const { UserInputError, withFilter } = require('apollo-server')
 const { networkList, networkMap } = require('./networks')
 const {
   getNetworkTransactionGasEstimates,
@@ -18,8 +21,12 @@ const database = require('./database')
 const { getNotifications } = require('./notifications')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
-const BigNumber = require('bignumber.js')
 const networks = require('../data/networks')
+
+const firebaseServiceAccount = require('../firebaseCredentials.json')
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(firebaseServiceAccount)
+})
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
