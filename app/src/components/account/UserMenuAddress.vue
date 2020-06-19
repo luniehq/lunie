@@ -5,12 +5,14 @@
       :address="address || ''"
       :tooltip-text="addressType"
     />
-    <a
+    <div
       v-if="!session.isMobile && session.sessionType === 'ledger'"
-      class="show-on-ledger"
-      @click="showAddressOnLedger()"
-      >Show on Ledger</a
+      class="show-on-ledger-container"
     >
+      <a class="show-on-ledger" @click="showAddressOnLedger()"
+        >Show on Ledger</a
+      >
+    </div>
     <TmFormMsg
       v-if="ledgerAddressError"
       :msg="ledgerAddressError"
@@ -69,3 +71,15 @@ export default {
   },
 }
 </script>
+<style scoped>
+.show-on-ledger-container {
+  display: inline-block;
+  padding: 6px 10px;
+  font-size: 12px;
+  min-width: 0;
+  background-color: var(--app-fg);
+  border-radius: 1rem;
+  font-weight: 400;
+  width: fit-content;
+}
+</style>
