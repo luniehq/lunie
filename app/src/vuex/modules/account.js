@@ -93,7 +93,7 @@ export default ({ apollo }) => {
       try {
         const user = Auth.currentUser
         await user.updateProfile({
-          photoURL: `https://${config.digitalOceanURL}/users/${user.email}.png`,
+          photoURL: `${config.digitalOceanURL}/users/${user.email}.png`,
         })
         console.log(`Succesfully updated user's avatar`)
       } catch (error) {
