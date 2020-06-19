@@ -1,11 +1,11 @@
 <template>
   <AccountFrame :icon="`verified_user`">
     <h2 class="account-title">Sign In / Sign Up</h2>
-    <h4 class="account-subtitle">We will send you a magic link to your email</h4>
+    <h4 class="account-subtitle">
+      We will send you a magic link to your email
+    </h4>
 
-    <TmFormGroup
-      field-id="sign-in-credentials"
-    >
+    <TmFormGroup field-id="sign-in-credentials">
       <TmField
         id="email"
         v-model="email"
@@ -49,7 +49,6 @@ export default {
 }
 </script>
 <style scoped>
-
 .sign-in-buttons {
   display: flex;
   justify-content: space-evenly;
