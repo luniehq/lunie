@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageValidators shows a list of validators 1`] = `
+exports[`PageValidators Should toggle between popular / active / all validators 1`] = `
 <tmpage-stub
   hideheader="true"
   managed="true"
@@ -9,7 +9,7 @@ exports[`PageValidators shows a list of validators 1`] = `
 >
   <template>
     <div
-      class="filterOptions"
+      class="filterContainer"
     >
       <tmfield-stub
         class="searchField"
@@ -19,25 +19,237 @@ exports[`PageValidators shows a list of validators 1`] = `
       />
        
       <div
-        class="toggles"
+        class="filterOptions"
       >
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="active"
-          value="Popular"
-        />
+        <div
+          class="toggles"
+        >
+          <tmbtn-stub
+            class="btn-radio"
+            type="active"
+            value="Popular"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="All"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="Active"
+          />
+        </div>
          
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="All"
-        />
+        <div
+          class="show-mobile-sorting"
+        >
+          <i
+            class="filter-toggle material-icons notranslate"
+          >
+            filter_list
+          </i>
+        </div>
+      </div>
+    </div>
+     
+    <tablevalidators-stub
+      delegations=""
+      showonmobile="expectedReturns"
+      validators=""
+    />
+     
+    <!---->
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidators Should toggle between popular / active / all validators 2`] = `
+<tmpage-stub
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="filterContainer"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="filterOptions"
+      >
+        <div
+          class="toggles"
+        >
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="Popular"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="All"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="active"
+            value="Active"
+          />
+        </div>
          
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="Active"
-        />
+        <div
+          class="show-mobile-sorting"
+        >
+          <i
+            class="filter-toggle material-icons notranslate"
+          >
+            filter_list
+          </i>
+        </div>
+      </div>
+    </div>
+     
+    <tablevalidators-stub
+      delegations=""
+      showonmobile="expectedReturns"
+      validators=""
+    />
+     
+    <!---->
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidators Should toggle between popular / active / all validators 3`] = `
+<tmpage-stub
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="filterContainer"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="filterOptions"
+      >
+        <div
+          class="toggles"
+        >
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="Popular"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="active"
+            value="All"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="Active"
+          />
+        </div>
+         
+        <div
+          class="show-mobile-sorting"
+        >
+          <i
+            class="filter-toggle material-icons notranslate"
+          >
+            filter_list
+          </i>
+        </div>
+      </div>
+    </div>
+     
+    <tablevalidators-stub
+      delegations=""
+      showonmobile="expectedReturns"
+      validators=""
+    />
+     
+    <!---->
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidators shows a list of validators 1`] = `
+<tmpage-stub
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="filterContainer"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="filterOptions"
+      >
+        <div
+          class="toggles"
+        >
+          <tmbtn-stub
+            class="btn-radio"
+            type="active"
+            value="Popular"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="All"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="Active"
+          />
+        </div>
+         
+        <div
+          class="show-mobile-sorting"
+        >
+          <i
+            class="filter-toggle material-icons notranslate"
+          >
+            filter_list
+          </i>
+        </div>
       </div>
     </div>
      
@@ -80,7 +292,7 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
 >
   <template>
     <div
-      class="filterOptions"
+      class="filterContainer"
     >
       <tmfield-stub
         class="searchField"
@@ -90,25 +302,39 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
       />
        
       <div
-        class="toggles"
+        class="filterOptions"
       >
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="active"
-          value="Popular"
-        />
+        <div
+          class="toggles"
+        >
+          <tmbtn-stub
+            class="btn-radio"
+            type="active"
+            value="Popular"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="All"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="Active"
+          />
+        </div>
          
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="All"
-        />
-         
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="Active"
-        />
+        <div
+          class="show-mobile-sorting"
+        >
+          <i
+            class="filter-toggle material-icons notranslate"
+          >
+            filter_list
+          </i>
+        </div>
       </div>
     </div>
      
@@ -132,7 +358,7 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
 >
   <template>
     <div
-      class="filterOptions"
+      class="filterContainer"
     >
       <tmfield-stub
         class="searchField"
@@ -142,30 +368,111 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
       />
        
       <div
-        class="toggles"
+        class="filterOptions"
       >
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="active"
-          value="Popular"
-        />
+        <div
+          class="toggles"
+        >
+          <tmbtn-stub
+            class="btn-radio"
+            type="active"
+            value="Popular"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="All"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="Active"
+          />
+        </div>
          
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="All"
-        />
-         
-        <tmbtn-stub
-          class="btn-radio secondary"
-          type="secondary"
-          value="Active"
-        />
+        <div
+          class="show-mobile-sorting"
+        >
+          <i
+            class="filter-toggle material-icons notranslate"
+          >
+            filter_list
+          </i>
+        </div>
       </div>
     </div>
      
     <tablevalidators-stub
       delegations=""
+      showonmobile="expectedReturns"
+      validators=""
+    />
+     
+    <!---->
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageValidators shows the mobile sorting 1`] = `
+<tmpage-stub
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="filterContainer"
+    >
+      <tmfield-stub
+        class="searchField"
+        placeholder="Search"
+        type="text"
+        value=""
+      />
+       
+      <div
+        class="filterOptions"
+      >
+        <div
+          class="toggles"
+        >
+          <tmbtn-stub
+            class="btn-radio"
+            type="active"
+            value="Popular"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="All"
+          />
+           
+          <tmbtn-stub
+            class="btn-radio"
+            type="secondary"
+            value="Active"
+          />
+        </div>
+         
+        <div
+          class="show-mobile-sorting"
+        >
+          <i
+            class="filter-toggle material-icons notranslate active"
+          >
+            filter_list
+          </i>
+        </div>
+      </div>
+    </div>
+     
+    <tablevalidators-stub
+      delegations=""
+      showmobilesorting="true"
       showonmobile="expectedReturns"
       validators=""
     />
