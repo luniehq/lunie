@@ -89,7 +89,7 @@
         <div
           class="menu-list-item outline"
           :class="{ dark: selectedOption === `logout` }"
-          @click="selectOption(`logout`) && signOut()"
+          @click="selectOption(`logout`) && signOut() && closePopover()"
         >
           <span>Logout</span>
           <i class="material-icons">exit_to_app</i>
@@ -185,6 +185,9 @@ export default {
     },
     signOut() {
       this.$store.dispatch(`signOutUser`)
+    },
+    closePopover() {
+      this.$el.querySelector(`.tooltip`).style.display = "none"
     },
   },
 }
