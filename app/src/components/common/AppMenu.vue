@@ -1,6 +1,50 @@
 <template>
   <menu class="app-menu">
     <div>
+      <div v-if="session.signedIn" class="user-box">
+        <div class="user-box-address">
+          <div class="user-box-inner-row">
+            <div>
+              <h3
+                v-if="
+                  session.addressRole &&
+                  session.addressRole !== `stash/controller` &&
+                  session.addressRole !== `none`
+                "
+              >
+                {{ capitalizeFirstLetter(session.addressRole) }} Address
+              </h3>
+              <h3 v-else>Your Address</h3>
+              <Address class="menu-address" :address="address || ''" />
+              <a
+                v-if="!session.isMobile && session.sessionType === 'ledger'"
+                class="show-on-ledger"
+                @click="showAddressOnLedger()"
+                >Show on Ledger</a
+              >
+              <TmFormMsg
+                v-if="ledgerAddressError"
+                :msg="ledgerAddressError"
+                type="custom"
+              />
+            </div>
+            <a v-if="session.signedIn" id="sign-out" @click="signOut()">
+              <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
+                >exit_to_app</i
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+      <TmBtn
+        v-else
+        id="sign-in"
+        class="session-link sidebar"
+        value="Sign In / Sign Up"
+        type="secondary"
+        size="small"
+        @click.native="signIn()"
+      />
       <div>
         <router-link
           class="app-menu-item hide-s"
@@ -99,17 +143,28 @@
 </template>
 
 <script>
+import Address from "common/Address"
 import ConnectedNetwork from "common/TmConnectedNetwork"
+import TmBtn from "common/TmBtn"
+import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { shortDecimals } from "scripts/num.js"
+import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `app-menu`,
   components: {
+    Address,
     ConnectedNetwork,
+    TmBtn,
+    TmFormMsg,
   },
   filters: {
     shortDecimals,
   },
+  data: () => ({
+    ledgerAddressError: undefined,
+    showAddressOnLedgerFn: showAddressOnLedger,
+  }),
   computed: {
     ...mapState([`session`, `connection`]),
     ...mapGetters([`address`, `network`]),
@@ -134,6 +189,25 @@ export default {
         })
       }
       this.$emit(`close`)
+    },
+    async showAddressOnLedger() {
+      if (this.messageTimeout) {
+        clearTimeout(this.messageTimeout)
+        this.messageTimeout = undefined
+      }
+      this.ledgerAddressError = undefined
+      try {
+        await this.showAddressOnLedgerFn(this.network, this.$store)
+      } catch (error) {
+        this.ledgerAddressError = error.message
+        this.messageTimeout = setTimeout(
+          () => (this.ledgerAddressError = undefined),
+          8000
+        )
+      }
+    },
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
     },
   },
 }
@@ -198,6 +272,7 @@ export default {
   border: 2px solid var(--menu-border);
   border-radius: 0.25rem;
   display: block;
+  min-width: 17em;
 }
 
 .user-box-address {
@@ -216,6 +291,11 @@ export default {
   padding: 0.5rem;
   border-radius: 50%;
   background: var(--app-nav-hover);
+}
+
+.user-box-inner-row {
+  display: flex;
+  align-items: center;
 }
 
 .user-box i:hover {
