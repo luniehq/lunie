@@ -53,6 +53,7 @@
           >
         </div>
         <div
+          v-if="session.experimentalMode"
           class="menu-list-item"
           :class="{ dark: selectedOption === `create` }"
           @click="selectOption(`create`)"
@@ -61,6 +62,7 @@
           <i class="material-icons">add_circle</i>
         </div>
         <div
+          v-if="session.experimentalMode"
           class="menu-list-item"
           :class="{ dark: selectedOption === `settings` }"
           @click="selectOption(`settings`)"
@@ -69,6 +71,7 @@
           <i class="material-icons">settings</i>
         </div>
         <div
+          v-if="session.experimentalMode"
           class="menu-list-item"
           :class="{ dark: selectedOption === `payment` }"
           @click="selectOption(`payment`)"
