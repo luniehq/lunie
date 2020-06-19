@@ -1,4 +1,4 @@
-name: Update existing droplet in Digital Ocean
+name: SCRIPT RUNNER DEVEOPMENT Update existing droplet in Digital Ocean
 
 on:
   push:
