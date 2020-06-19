@@ -32,7 +32,7 @@
       @click.native="openSignInModal()"
     />
     <router-link
-      v-if="session.experimentalMode"
+      v-if="session.experimentalMode && account.userSignedIn"
       v-tooltip="`Your Notifications`"
       :to="{ name: 'notifications' }"
       class="notifications"
@@ -41,7 +41,11 @@
     </router-link>
     <v-popover open-class="user-menu-popover">
       <!-- This will be the popover target (for the events and position) -->
-      <Avatar class="avatar tooltip-target" :address="addresses[0].address" />
+      <Avatar
+        v-if="account.userSignedIn"
+        class="avatar tooltip-target"
+        :address="addresses[0].address"
+      />
 
       <!-- This will be the content of the popover -->
       <template slot="popover">
@@ -137,7 +141,7 @@ export default {
     selectedOption: "",
   }),
   computed: {
-    ...mapState([`session`, `connection`]),
+    ...mapState([`session`, `connection`, `account`]),
     ...mapGetters([`address`, `network`]),
     addressType() {
       if (

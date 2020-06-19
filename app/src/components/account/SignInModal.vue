@@ -1,7 +1,10 @@
 <template>
   <SessionFrame>
     <h2 class="session-title">Sign In/ Sign Up</h2>
-    <TmFormGroup field-id="sign-in-credentials">
+    <TmFormGroup
+      field-id="sign-in-credentials"
+      field-label="We will send you a magic link to your email"
+    >
       <TmField
         id="email"
         v-model="email"
