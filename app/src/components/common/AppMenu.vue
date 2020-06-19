@@ -15,7 +15,11 @@
                 {{ capitalizeFirstLetter(session.addressRole) }} Address
               </h3>
               <h3 v-else>Your Address</h3>
-              <Address class="menu-address" :address="address || ''" />
+              <Address
+                class="menu-address"
+                :address="address || ''"
+                tooltip-text="Your address"
+              />
               <a
                 v-if="!session.isMobile && session.sessionType === 'ledger'"
                 class="show-on-ledger"

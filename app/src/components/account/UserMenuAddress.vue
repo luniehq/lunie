@@ -72,6 +72,10 @@ export default {
 }
 </script>
 <style scoped>
+.address {
+  display: flex;
+}
+
 .show-on-ledger-container {
   display: inline-block;
   padding: 6px 10px;

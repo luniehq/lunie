@@ -17,16 +17,6 @@
     >
       <i class="material-icons">notifications</i>
     </router-link>
-    <a
-      v-if="account.userSignedIn"
-      id="sign-out"
-      class="user-menu-icon-container"
-      @click="signOut()"
-    >
-      <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
-        >exit_to_app</i
-      >
-    </a>
     <v-popover open-class="user-menu-popover">
       <!-- This will be the popover target (for the events and position) -->
       <Avatar
@@ -192,7 +182,7 @@ h3 {
 
 .user-menu-icon-container {
   background: var(--app-fg);
-  margin: 0 0.5rem;
+  margin: 0 0.25rem;
   padding: 0.5rem 1rem;
   border-radius: 50%;
   display: flex;
@@ -270,11 +260,11 @@ h3 {
 }
 
 .address {
-  padding-bottom: 0.25rem;
   font-weight: 500;
 }
 
 .address-network {
+  margin-top: 0.25em;
   color: hsl(0, 0%, 40%);
   font-weight: 400;
 }
