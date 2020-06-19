@@ -212,7 +212,7 @@ export default {
   justify-content: center;
   justify-content: space-between;
   flex-direction: row;
-  margin: 0.5em 1em 1em;
+  margin: 0.5em 2em 1em;
   .toggles {
     margin-bottom: 0;
     display: inline-flex;
