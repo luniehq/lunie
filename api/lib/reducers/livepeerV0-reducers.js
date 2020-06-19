@@ -1,13 +1,14 @@
 const BigNumber = require('bignumber.js')
 const LPT_CONVERSION = `1000000000000000000`
 
-function blockReducer(networkId, block) {
+function blockReducer(networkId, block, data = {}) {
   return {
     networkId,
     height: block.id,
     chainId: networkId,
     hash: block.id,
-    time: block.timestamp
+    time: block.timestamp,
+    data: JSON.stringify(data)
   }
 }
 

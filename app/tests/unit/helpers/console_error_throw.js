@@ -12,6 +12,7 @@ if (!process.env.LISTENING_TO_UNHANDLED_REJECTION) {
 
 if (!process.env.ALLOW_CONSOLE) {
   const originalError = global.console.error
+  // polkadot is throwing warnings, we can only mock polkadot in tests
   // const originalWarn = global.console.warn
   global.console.error = (...args) => {
     originalError(...args)
