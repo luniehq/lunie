@@ -48,6 +48,6 @@ jobs:
           mv Caddyfile.prod Caddyfile
           docker image prune -a -f
           docker load < lunieapi.tgz
-          docker stack deploy -c docker-compose.yml lunieapi
-          docker service update --image lunieapi:latest --force lunieapi_lunieapi
+          SENTRY_DSN=${{ secrets.SENTRY_DSN_API_PRODUCTION }} SCRIPT_RUNNER_ENDPOINT=${{ secrets.SCRIPT_RUNNER_ENDPOINT_PRODUCTION }} docker stack deploy -c docker-compose.yml lunieapi
+          SENTRY_DSN=${{ secrets.SENTRY_DSN_API_PRODUCTION }} SCRIPT_RUNNER_ENDPOINT=${{ secrets.SCRIPT_RUNNER_ENDPOINT_PRODUCTION }} docker service update --image lunieapi:latest --force lunieapi_lunieapi
         envs: HASURA_URL,HASURA_ADMIN_KEY,SENTRY_DSN,SCRIPT_RUNNER_ENDPOINT
