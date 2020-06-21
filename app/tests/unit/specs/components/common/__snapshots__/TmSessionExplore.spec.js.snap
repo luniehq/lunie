@@ -202,6 +202,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
       class="session-footer"
     >
       <tmbtn-stub
+        customclass=""
         value="Explore"
       />
     </div>

@@ -29,7 +29,7 @@ export default {
     },
     tooltipText: {
       type: String,
-      required: true,
+      default: ``,
     },
   },
   data: () => ({

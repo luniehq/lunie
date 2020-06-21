@@ -23,18 +23,21 @@ exports[`PageValidators shows a list of validators 1`] = `
       >
         <tmbtn-stub
           class="btn-radio secondary"
+          customclass=""
           type="active"
           value="Popular"
         />
          
         <tmbtn-stub
           class="btn-radio secondary"
+          customclass=""
           type="secondary"
           value="All"
         />
          
         <tmbtn-stub
           class="btn-radio secondary"
+          customclass=""
           type="secondary"
           value="Active"
         />
@@ -94,18 +97,21 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
       >
         <tmbtn-stub
           class="btn-radio secondary"
+          customclass=""
           type="active"
           value="Popular"
         />
          
         <tmbtn-stub
           class="btn-radio secondary"
+          customclass=""
           type="secondary"
           value="All"
         />
          
         <tmbtn-stub
           class="btn-radio secondary"
+          customclass=""
           type="secondary"
           value="Active"
         />
@@ -146,18 +152,21 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
       >
         <tmbtn-stub
           class="btn-radio secondary"
+          customclass=""
           type="active"
           value="Popular"
         />
          
         <tmbtn-stub
           class="btn-radio secondary"
+          customclass=""
           type="secondary"
           value="All"
         />
          
         <tmbtn-stub
           class="btn-radio secondary"
+          customclass=""
           type="secondary"
           value="Active"
         />

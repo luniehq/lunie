@@ -78,6 +78,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
       class="session-footer"
     >
       <tmbtn-stub
+        customclass=""
         value="Sign In"
       />
     </div>

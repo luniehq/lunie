@@ -58,6 +58,7 @@ exports[`TmSessionSignUpSeed renders 1`] = `
         class="session-footer"
       >
         <tmbtn-stub
+          customclass=""
           value="Create"
         />
       </div>

@@ -38,6 +38,7 @@ exports[`TmModalError has the expected html structure 1`] = `
     >
       <tmbtn-stub
         color="primary"
+        customclass=""
         href="https://github.com/cosmos/voyager/issues"
         icon="bug_report"
         id="tm-modal-error__btn-issue"

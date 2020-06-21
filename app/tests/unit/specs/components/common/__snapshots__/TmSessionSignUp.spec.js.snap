@@ -49,6 +49,7 @@ exports[`TmSessionSignUp renders 1`] = `
         class="session-footer"
       >
         <tmbtn-stub
+          customclass=""
           type="submit"
           value="Next"
         />
