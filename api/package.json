@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "GraphQL API for Lunie.io",
   "repository": {
     "type": "git",
@@ -11,6 +11,7 @@
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "dev-cache": "cross-env NODE_ENV=development ENABLE_CACHE=true nodemon index.js",
     "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
+    "build": "docker build . -t lunieapi",
     "lint": "eslint index.js config.js lib tests",
     "lint-fix": "yarn lint --fix",
     "start": "node index.js ",

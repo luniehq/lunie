@@ -1,4 +1,4 @@
-name: Update existing droplet in Digital Ocean
+name: SCRIPT RUNNER PRODUCTION Update existing droplet in Digital Ocean
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
       - 'master'
     paths:
       - 'scriptRunner/CHANGELOG.MD'
-      - 'api/CHANGELOG.MD'
 env:
   WORKING_DIRECTORY: ./scriptRunner
   HASURA_URL: "https://production-db.lunie.io/v1/graphql"

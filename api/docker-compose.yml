@@ -9,6 +9,7 @@ services:
     volumes:
     - /logs:/var/www/server/logs
     - caches:/var/www/server/caches
+    - ./firebaseCredentials.json:/var/www/server/firebaseCredentials.json
     networks:
        - general
     logging:
@@ -24,6 +25,8 @@ services:
       - PORT=$PORT
       - HASURA_URL=$HASURA_URL
       - SENTRY_DSN=$SENTRY_DSN
+      - SCRIPT_RUNNER_ENDPOINT=$SCRIPT_RUNNER_ENDPOINT
+      - AUTHENTICATION_TOKEN=$AUTHENTICATION_TOKEN
       - NODE_ENV=staging
       - ENABLE_CACHE=true
       - REDIS_URL=http://redis:6379
