@@ -204,7 +204,7 @@ const getPolkadotMessage = async (messageType, senderAddress, message, network, 
   const messageFormatter = polkadotMessages[messageType]
   const api = networkSource.store.polkadotRPC
   await api.isReady
-  return messageFormatter && network ? await messageFormatter(senderAddress, message, network, api) : null
+  return messageFormatter && network ? await messageFormatter(senderAddress, api, message, network) : null
 }
 
 const getPolkadotFee = async ({ messageType, message, senderAddress, network, networkSource }) => {
