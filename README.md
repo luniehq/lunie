@@ -1,4 +1,4 @@
-# Lunie Official Monorepo 
+# Lunie Official Monorepo
 
 ## Workspaces:
 
