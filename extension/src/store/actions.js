@@ -65,6 +65,21 @@ export default ({ apollo }) => {
     )
   }
 
+  const getWallet = (store, { address, password }) => {
+    return new Promise((resolve, reject) => {
+      chrome.runtime.sendMessage(
+        {
+          type: 'GET_WALLET',
+          payload: { address, password }
+        },
+        function (wallet) {
+          if (!wallet) return reject('Could not get wallet')
+          return resolve(wallet)
+        }
+      )
+    })
+  }
+
   const testLogin = (store, { address, password }) => {
     return new Promise((resolve) => {
       chrome.runtime.sendMessage(
@@ -242,6 +257,7 @@ export default ({ apollo }) => {
     createSeed,
     createKey,
     loadAccounts,
+    getWallet,
     getNetworkByAddress,
     testLogin,
     getSignRequest,

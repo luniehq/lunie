@@ -49,6 +49,11 @@ export default (store) => {
       component: require('common/TmSessionImport').default
     },
     {
+      path: `/reveal/:address`,
+      name: `reveal`,
+      component: require('account/RevealSeedModal').default
+    },
+    {
       path: `/select-network`,
       name: `select-network`,
       component: require('common/TmSelectNetwork').default
