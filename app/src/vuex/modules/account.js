@@ -33,6 +33,7 @@ export default ({ apollo }) => {
         if (user) {
           commit(`userSignedIn`, true)
           commit(`setUserInformation`, user)
+          localStorage.setItem(`auth_token`, JSON.stringify(user.uid))
           console.log("User is now signed in!")
         } else {
           commit(`userSignedIn`, false)
