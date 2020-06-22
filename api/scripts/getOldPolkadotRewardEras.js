@@ -10,8 +10,8 @@ const path = require('path')
 const eraCachePath = networkId => path.join(
   __dirname,
   '..',
-  networkId + '-caches',
-  `eras.json`
+  'caches',
+  `${networkId}-eras.json`
 )
 
 async function initPolkadotRPC(network, store) {
