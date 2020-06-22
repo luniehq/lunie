@@ -311,7 +311,7 @@ async function main() {
   )
 
   // store data to only load missing data the next run
-  storeEraData(newEraData)
+  storeEraData(networkId, newEraData)
 
   // calculate the actual rewards from the inputs
   console.time('calculating rewards')
