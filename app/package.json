@@ -24,6 +24,10 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
+    "@capacitor/android": "2.1.0",
+    "@capacitor/cli": "2.2.0",
+    "@capacitor/core": "2.2.0",
+    "@capacitor/ios": "2.2.0",
     "@dicebear/avatars": "4.1.1",
     "@dicebear/avatars-jdenticon-sprites": "4.1.1",
     "@lunie/cosmos-keys": "0.2.2",
@@ -46,7 +50,7 @@
     "axios": "^0.19.2",
     "bech32": "^1.1.4",
     "bignumber.js": "^9.0.0",
-    "capacitor-intercom": "2.1.0",
+    "capacitor-intercom": "2.1.1",
     "core-js": "^2.6.5",
     "cross-spawn": "7.0.1",
     "crypto-js": "^4.0.0",
@@ -126,6 +130,7 @@
     "stylelint-webpack-plugin": "1.1.2",
     "vue-jest": "3.0.5",
     "vue-template-compiler": "^2.6.10",
+    "webdriverio": "6.1.19",
     "webpack": "4.43.0"
   },
   "husky": {
