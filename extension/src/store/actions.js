@@ -3,7 +3,6 @@ import gql from 'graphql-tag'
 import { NetworksAll } from '../popup/gql'
 import { lunieMessageTypes, parseTx } from '../scripts/parsers'
 import { storeWallet } from '@lunie/cosmos-keys'
-// import { resolve } from 'core-js/fn/promise'
 
 export default ({ apollo }) => {
   const createSeed = async () => {

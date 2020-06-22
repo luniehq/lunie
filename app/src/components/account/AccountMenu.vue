@@ -11,8 +11,6 @@
         <span class="account-menu-button-span">Show Seed</span>
       </div>
     </div>
-    <!-- <RevealSeedModal v-if="command === `show-seed`" :address="address" />
-    <AccountModal v-else-if="command !== '' && command !== `show-seed`" /> -->
   </div>
 </template>
 
