@@ -15,6 +15,7 @@ const config = require('../../config.js')
 
 const POLLING_INTERVAL = 1000
 const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // 6h. Used to disconnect from API to free memory
+const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
@@ -130,6 +131,14 @@ class PolkadotNodeSubscription {
     }, POLLING_INTERVAL)
   }
 
+  async pollForUpdateNetworks() {
+    // gives us the control to modify network parameters
+    this.store.updateNetworkInDB()
+    this.updateNetworksPollingTimeout = setTimeout(async () => {
+      this.pollForUpdateNetworks()
+    }, UPDATE_NETWORKS_POLLING_INTERVAL)
+  }
+
   // For each block event, we fetch the block information and publish a message.
   // A GraphQL resolver is listening for these messages and sends the block to
   // each subscribed user.
@@ -231,6 +240,8 @@ class PolkadotNodeSubscription {
   async storeNetworkInDB() {
     // only run at startup
     await this.store.storeNetwork(this.store.network)
+    // start one minute loop to update networks
+    this.pollForUpdateNetworks()
   }
 }
 
