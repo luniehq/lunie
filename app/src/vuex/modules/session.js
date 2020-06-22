@@ -60,7 +60,6 @@ export default ({ apollo }) => {
     },
     setExperimentalMode(state) {
       state.experimentalMode = true
-      state.developmentMode = true
     },
     setInsecureMode(state) {
       state.insecureMode = true
