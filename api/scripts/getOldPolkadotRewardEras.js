@@ -7,10 +7,10 @@ const BN = require('bignumber.js')
 const fs = require('fs')
 const path = require('path')
 
-const eraCachePath = path.join(
+const eraCachePath = networkId => path.join(
   __dirname,
   '..',
-  'caches',
+  networkId + '-caches',
   `eras.json`
 )
 
@@ -36,18 +36,18 @@ function storeRewards(rewards, chainId) {
   return db.upsert('rewards', rewards, undefined, chainId) // height is in the rewards rows already
 }
 
-function storeEraData([erasPoints, erasPreferences, erasRewards, exposures]) {
-  if (fs.existsSync(eraCachePath)) fs.unlinkSync(eraCachePath)
+function storeEraData(networkId, [erasPoints, erasPreferences, erasRewards, exposures]) {
+  if (fs.existsSync(eraCachePath(networkId))) fs.unlinkSync(eraCachePath(networkId))
   fs.writeFileSync(
-    eraCachePath,
+    eraCachePath(networkId),
     JSON.stringify([erasPoints, erasPreferences, erasRewards, exposures])
   )
 }
 
 function loadStoredEraData() {
   if (
-    !fs.existsSync(eraCachePath) ||
-    fs.readFileSync(eraCachePath, 'utf8') === ''
+    !fs.existsSync(eraCachePath(networkId)) ||
+    fs.readFileSync(eraCachePath(networkId), 'utf8') === ''
   )
     return {
       storedEraPoints: [],
@@ -61,7 +61,7 @@ function loadStoredEraData() {
     storedEraPreferences,
     storedEraRewards,
     storedExposures
-  ] = JSON.parse(fs.readFileSync(eraCachePath, 'utf8'))
+  ] = JSON.parse(fs.readFileSync(eraCachePath(networkId), 'utf8'))
 
   return {
     storedEraPoints,
@@ -250,6 +250,7 @@ async function getMissingEras(lastStoredEra, currentEra) {
 async function main() {
   const currentEraArg = require('minimist')(process.argv.slice(2))
   let currentEra = currentEraArg['currentEra']
+  const networkId = currentEraArg['network']
 
   // get previously stored data
   let {
@@ -268,7 +269,7 @@ async function main() {
   console.log("Getting rewards from era:", currentEra || 'latest')
 
   const networks = require('../data/networks')
-  const network = networks.find(({ id }) => id === 'kusama')
+  const network = networks.find(({ id }) => id === networkId)
   const PolkadotApiClass = require('../lib/' + network.source_class_name)
   const store = {}
   await initPolkadotRPC(network, store)
