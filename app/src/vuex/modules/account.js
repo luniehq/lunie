@@ -34,6 +34,8 @@ export default ({ apollo }) => {
           commit(`userSignedIn`, true)
           commit(`setUserInformation`, user)
           localStorage.setItem(`auth_token`, JSON.stringify(user.uid))
+          // make sure new authorization token get added to header
+          apollo.resetStore()
           console.log("User is now signed in!")
         } else {
           commit(`userSignedIn`, false)
@@ -82,6 +84,9 @@ export default ({ apollo }) => {
     async signOutUser({ commit }) {
       try {
         await Auth.signOut()
+        localStorage.removeItem(`auth_token`)
+        // get rid of cached token in header
+        apollo.resetStore()
       } catch (error) {
         console.error(error)
         commit(`setSignInError`, error)
