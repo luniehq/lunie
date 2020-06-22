@@ -105,7 +105,28 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
   )(`public`)(
     `networks`,
     `networks`,
-    ['id', 'enabled'],
+    [
+      'id',
+      'enabled',
+      'experimental',
+      'title',
+      'chain_id',
+      'rpc_url',
+      'api_url',
+      'bech32_prefix',
+      'testnet',
+      'default',
+      'stakingDenom',
+      'address_prefix',
+      'address_creator',
+      'ledger_app',
+      'network_type',
+      'source_class_name',
+      'block_listener_class_name',
+      'icon',
+      'slug',
+      'lockUpPeriod'
+    ],
     `where: { 
       id: {_eq: "${id}"}
     }`
