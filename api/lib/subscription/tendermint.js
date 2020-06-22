@@ -63,7 +63,8 @@ class Client {
 
     this.ws.onmessage = (result) => {
       const data = JSON.parse(result.data)
-      if (!data.id || !data.result || Object.keys(data.result).length === 0) return
+      if (!data.id || !data.result || Object.keys(data.result).length === 0)
+        return
 
       const subscription = this.subscriptions.find(({ id }) => id === data.id)
       if (!subscription) return
