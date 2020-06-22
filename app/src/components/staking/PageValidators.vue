@@ -225,11 +225,8 @@ export default {
 
   .btn-radio {
     min-width: 100px;
+    border-radius: 0;
   }
-}
-
-.filterContainer .btn-radio {
-  border-radius: 0;
 }
 
 .filterContainer .btn-radio:last-child {
@@ -244,6 +241,7 @@ export default {
 
 .show-mobile-sorting {
   cursor: pointer;
+  display: none;
 }
 
 .show-mobile-sorting.active {
@@ -268,10 +266,6 @@ export default {
 
 .filter-toggle {
   margin-left: 1em;
-}
-
-.show-mobile-sorting {
-  display: none;
 }
 
 .no-results {
