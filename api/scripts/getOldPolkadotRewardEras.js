@@ -44,7 +44,7 @@ function storeEraData(networkId, [erasPoints, erasPreferences, erasRewards, expo
   )
 }
 
-function loadStoredEraData() {
+function loadStoredEraData(networkId) {
   if (
     !fs.existsSync(eraCachePath(networkId)) ||
     fs.readFileSync(eraCachePath(networkId), 'utf8') === ''
