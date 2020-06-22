@@ -312,21 +312,6 @@ function formatNetworkForDB(network) {
       api_url: network.api_url,
       bech32_prefix: network.bech32_prefix,
       testnet: network.testnet,
-      feature_session: network.feature_session,
-      feature_portfolio: network.feature_portfolio,
-      feature_validators: network.feature_validators,
-      feature_proposals: network.feature_proposals,
-      feature_activity: network.feature_activity,
-      feature_explorer: network.feature_explorer,
-      feature_explore: network.feature_explore,
-      action_send: network.action_send,
-      action_claim_rewards: network.action_claim_rewards,
-      action_delegate: network.action_delegate,
-      action_redelegate: network.action_delegate,
-      action_undelegate: network.action_delegate,
-      action_deposit: network.action_delegate,
-      action_vote: network.action_delegate,
-      action_proposal: network.action_delegate,
       default: network.default,
       stakingDenom: network.stakingDenom,
       address_prefix: network.address_prefix,
@@ -346,7 +331,25 @@ function formatNetworkForDB(network) {
       viewDenom: coinLookup.viewDenom,
       chainDenom: coinLookup.chainDenom,
       chainToViewConversionFactor: coinLookup.chainToViewConversionFactor
-    }))
+    })),
+    networkCapabilities: {
+      network_id: network.id,
+      feature_session: network.feature_session,
+      feature_portfolio: network.feature_portfolio,
+      feature_validators: network.feature_validators,
+      feature_proposals: network.feature_proposals,
+      feature_activity: network.feature_activity,
+      feature_explorer: network.feature_explorer,
+      feature_explore: network.feature_explore,
+      action_send: network.action_send,
+      action_claim_rewards: network.action_claim_rewards,
+      action_delegate: network.action_delegate,
+      action_redelegate: network.action_delegate,
+      action_undelegate: network.action_delegate,
+      action_deposit: network.action_delegate,
+      action_vote: network.action_delegate,
+      action_proposal: network.action_delegate
+    }
   }
 }
 

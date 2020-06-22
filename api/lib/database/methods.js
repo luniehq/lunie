@@ -144,12 +144,20 @@ const storeNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
       true,
       false
     )(schema)(`networks`, payload[`network`]),
-    storeCoinLookups(
+    await storeCoinLookups(
       hasura_url,
       hasura_admin_key,
       schema,
       payload[`coinLookups`]
-    )
+    ),
+    await insert(
+      {
+        hasura_url,
+        hasura_admin_key
+      },
+      true,
+      false
+    )(schema)(`networkCapabilities`, payload[`networkCapabilities`])
   )
 }
 
