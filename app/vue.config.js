@@ -20,6 +20,7 @@ const config = {
           assets: resolve(`src/assets`),
           scripts: resolve(`src/scripts`),
           common: resolve(`src/components/common`),
+          account: resolve(`src/components/account`),
           governance: resolve(`src/components/governance`),
           network: resolve(`src/components/network`),
           staking: resolve(`src/components/staking`),

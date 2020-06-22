@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import AccountList from "common/AccountList"
+import AccountList from "account/AccountList"
 
 describe(`AccountList`, () => {
   let wrapper, $store
