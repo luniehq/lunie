@@ -13,5 +13,22 @@ exports[`PagePortfolio should display the portfolio page 1`] = `
      
     <undelegations-stub />
   </template>
+   
+  <div
+    id="powered-by-coingecko"
+  >
+    <span>
+      Fiat currencies courtesy of 
+    </span>
+     
+    <img
+      id="coingecko-logo"
+      src="/img/icons/coingecko.webp"
+    />
+     
+    <span>
+       API
+    </span>
+  </div>
 </tmpage-stub>
 `;
