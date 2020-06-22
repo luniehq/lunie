@@ -13,6 +13,7 @@ export const setNetworkId = (state, networkId) => {
 export const setNetworks = (state, networks) => {
   state.networks = networks
 }
+
 export const setNetworkSlug = (state, networkSlug) => {
   state.networkSlug = networkSlug
 }

@@ -232,6 +232,11 @@ export default (store) => {
       component: require("account/SignInModal").default,
     },
     {
+      path: `/reveal/:address`,
+      name: `reveal`,
+      component: require("account/RevealSeedModal").default,
+    },
+    {
       path: `/email-authentication`,
       name: `email-authentication`,
       component: () => import(`./components/account/EmailAuthentication`),
