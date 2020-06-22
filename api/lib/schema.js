@@ -105,6 +105,7 @@ const typeDefs = gql`
     time: String
     transactions: [TransactionV2]
     proposer_address: String
+    data: String
   }
 
   type Maintenance {
@@ -346,6 +347,10 @@ const typeDefs = gql`
     userTransactionAdded(networkId: String!, address: String!): Transaction
     userTransactionAddedV2(networkId: String!, address: String!): TransactionV2
     event(networkId: String!, eventType: String!, resourceId: String): Event
+  }
+
+  type Mutation {
+    registerUser(idToken: String!): Boolean
   }
 
   type ChainAppliedFees {

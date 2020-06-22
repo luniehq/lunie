@@ -1,11 +1,47 @@
 # Changelog
-
+ 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.27] - 2020-06-19
+
+### Added
+
+- [#4295](https://github.com/cosmos/lunie/issues/4295) Adds some user management to API with the store and getUser functions  @Bitcoinera
+- [#3894](https://github.com/cosmos/lunie/issues/3894) Upgrade @polkadot/api to v1.19.1 @Bitcoinera @mariopino
+- [#3995](https://github.com/cosmos/lunie/issues/3995) Handle polkadot election period @mariopino
+
+### Changed
+
+- Use script runner instane for CPU intense tasks @faboweb
+- Deliver full Terra tax and not trim to avoid bad tax rates @faboweb
+
+### Fixed
+
+- Fix import for firebase credentials @faboweb
+- SCRIPT_RUNNER_ENDPOINT was not available when deployed @faboweb
+- Remove chain id for validator updates @faboweb
+
+### Deprecated
+
+- [#4310](https://github.com/cosmos/lunie/pull/4310) Delete an unused function, updateDBValidatorProfiles, now living in the store @Bitcoinera
+
+## [1.0.26] - 2020-06-18
+
+### Added
+
+- [#4299](https://github.com/cosmos/lunie/issues/4299) Upgrade polkadot api to v1.19.1 @mariopino
+
+### Fixed
+
+- [#4280](https://github.com/cosmos/lunie/issues/4280) Fixes validator search taking too long @Bitcoinera
+- [#4276](https://github.com/cosmos/lunie/pull/4276) Fixes the API release flow by adding the missing GIT_BOT_TOKEN env variable @Bitcoinera
+- Fix Polkadot reconnection @faboweb
+- Fix Tendermint connections @faboweb
 
 ## [1.0.25] - 2020-06-11
 
