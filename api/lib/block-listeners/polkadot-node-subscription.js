@@ -1,4 +1,5 @@
 const { ApiPromise, WsProvider } = require('@polkadot/api')
+const fetch = require('node-fetch')
 const {
   publishBlockAdded,
   publishUserTransactionAddedV2,
@@ -11,7 +12,6 @@ const { eventTypes, resourceTypes } = require('../notifications-types')
 const Sentry = require('@sentry/node')
 const database = require('../database')
 const config = require('../../config.js')
-const { spawn } = require('child_process')
 
 const POLLING_INTERVAL = 1000
 const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // 6h. Used to disconnect from API to free memory
@@ -165,26 +165,23 @@ class PolkadotNodeSubscription {
           )
           this.currentEra = era
 
-          const rewardsScript = spawn(
-            'node',
-            [
-              'scripts/getOldPolkadotRewardEras.js',
-              `--currentEra=${this.currentEra}`
-            ],
-            {
-              stdio: 'inherit' //feed all child process logging into parent process
-            }
+          console.log(
+            'Starting Polkadot rewards script on',
+            config.scriptRunnerEndpoint
           )
-          rewardsScript.on('close', function (code) {
-            process.stdout.write(
-              'rewardsScript finished with code ' + code + '\n'
-            )
-
-            if (code !== 0) {
-              Sentry.captureException(
-                new Error('getOldPolkadotRewardEras script failed')
-              )
-            }
+          // runs async, we don't need to wait for this
+          fetch(`${config.scriptRunnerEndpoint}/polkadotrewards`, {
+            method: 'POST',
+            headers: {
+              Authorization: config.scriptRunnerAuthenticationToken,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              era
+            })
+          }).catch((error) => {
+            console.error('Failed running Polkadot rewards script', error)
+            Sentry.captureException(error)
           })
         }
       }
@@ -225,44 +222,6 @@ class PolkadotNodeSubscription {
       console.error(`newBlockHandler failed`, error.message)
       Sentry.captureException(error)
     }
-  }
-
-  async updateRewards(era, chainId) {
-    console.time()
-    console.log('update rewards')
-    const rewards = await this.polkadotAPI.getEraRewards(era) // ATTENTION: era means "get all rewards of all eras since that era". putting a low number takes a long time.
-    console.timeEnd()
-
-    console.time()
-    console.log('store rewards', rewards.length)
-    await this.storeRewards(
-      rewards
-        .filter(({ amount }) => amount > 0)
-        .map(({ amount, height, validatorAddress, denom, address }) => ({
-          amount,
-          height,
-          validator: validatorAddress,
-          denom,
-          address
-        })),
-      era,
-      chainId
-    )
-    console.timeEnd()
-  }
-
-  storeRewards(rewards, chainId) {
-    return this.db.insert('rewards', rewards, undefined, chainId) // height is in the rewards rows already
-  }
-
-  async eraRewardsExist(era) {
-    const response = await this.db.read(
-      'rewards',
-      'rewardsExitCheck',
-      ['amount'],
-      `limit:1 where:{height:{_eq:"${era}"}}`
-    )
-    return response.length > 0
   }
 }
 
