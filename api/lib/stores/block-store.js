@@ -280,8 +280,12 @@ class BlockStore {
   async updateNetworkInDB() {
     try {
       const storedNetwork = await this.db.getNetwork(this.network.id)
-      // getNetwork only returns one network, so it is safe to do storedNetwork[0]
-      this.network.enabled = storedNetwork[0].enabled
+      if (storedNetwork.length > 0) {
+        // getNetwork only returns one network, so it is safe to do storedNetwork[0]
+        this.network.enabled = storedNetwork[0].enabled
+      } else {
+        await this.storeNetwork(this.network)
+      }
     } catch (error) {
       console.error('Failed during update network in DB', error)
       Sentry.captureException(error)
@@ -324,7 +328,7 @@ function formatNetworkForDB(network) {
       icon: network.icon,
       slug: network.slug,
       lockUpPeriod: network.lockUpPeriod,
-      powered: network.powered
+      powered: JSON.stringify(network.powered)
     },
     coinLookups: network.coinLookup.map((coinLookup) => ({
       networkId: network.id,
