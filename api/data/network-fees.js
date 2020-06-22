@@ -204,35 +204,44 @@ const getPolkadotMessage = async (messageType, senderAddress, message, network, 
   const messageFormatter = polkadotMessages[messageType]
   const api = networkSource.store.polkadotRPC
   await api.isReady
-  return messageFormatter && network ? await messageFormatter(senderAddress, message, network, api) : null
+  return messageFormatter && network ? await messageFormatter(senderAddress, api, message, network) : null
 }
 
 const getPolkadotFee = async ({ messageType, message, senderAddress, network, networkSource }) => {
   if (!messageType) return null
 
-  const chainMessage = await getPolkadotMessage(
-    messageType,
-    senderAddress,
-    message,
-    network,
-    networkSource
-  )
-
-  const { partialFee } = await chainMessage.transaction.paymentInfo(
-    senderAddress
-  )
-  const chainFees = partialFee.toJSON()
-  const viewFees = BigNumber(chainFees)
-    .times(network.coinLookup[0].chainToViewConversionFactor)
-    .toNumber()
-  let { amount } = message
-  if (message.amounts) {
-    const { amounts } = message
-    amount = amounts[0]
-  }  
-  return {
-    denom: (amount && amount.denom) || network.stakingDenom,
-    amount: viewFees
+  try {
+    const chainMessage = await getPolkadotMessage(
+      messageType,
+      senderAddress,
+      message,
+      network,
+      networkSource
+    )
+    const { partialFee } = await chainMessage.transaction.paymentInfo(
+      senderAddress
+    )
+    const chainFees = partialFee.toJSON()
+    const viewFees = BigNumber(chainFees)
+      .times(network.coinLookup[0].chainToViewConversionFactor)
+      .toNumber()
+    let { amount } = message
+    if (message.amounts) {
+      const { amounts } = message
+      amount = amounts[0]
+    }  
+    return {
+      denom: (amount && amount.denom) || network.stakingDenom,
+      amount: viewFees
+    }
+  } catch(error) {
+    Sentry.captureException(error)
+    // back up plan. Send most common fee
+    // TODO: check it this is the same for Polkadot network
+    return {
+      denom: network.stakingDenom,
+      amount: 0.001
+    }
   }
 }
 

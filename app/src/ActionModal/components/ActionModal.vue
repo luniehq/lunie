@@ -896,7 +896,7 @@ export default {
   background: var(--app-fg);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   right: 1rem;
   padding: 1.5rem 1.5rem 2rem 1.5rem;
   position: fixed;
