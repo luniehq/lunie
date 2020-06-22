@@ -4,15 +4,17 @@ function setTransactionSuccess(transaction) {
   return transaction.code ? false : true
 }
 
-function blockReducer(networkId, block, transactions) {
+function blockReducer(networkId, block, transactions, data = {}) {
   return {
     networkId,
     height: block.block.header.height,
     chainId: block.block.header.chain_id,
-    hash: block.block_id.hash,
+    // fix for now. This is actually last block's hash
+    hash: block.block.header.last_block_id.hash,
     time: block.block.header.time,
     transactions,
-    proposer_address: block.block.header.proposer_address
+    proposer_address: block.block.header.proposer_address,
+    data: JSON.stringify(data)
   }
 }
 

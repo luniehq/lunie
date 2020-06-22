@@ -1,4 +1,8 @@
-const { keyBy } = require('lodash')
+const { sortBy } = require('lodash')
+const Sentry = require('@sentry/node')
+const firebaseAdmin = require('firebase-admin')
+const { UserInputError, withFilter } = require('apollo-server')
+const BigNumber = require('bignumber.js')
 const {
   blockAdded,
   notificationAdded,
@@ -7,8 +11,6 @@ const {
   event
 } = require('./subscriptions')
 const { encodeB32, decodeB32 } = require('./tools')
-const { UserInputError, withFilter } = require('apollo-server')
-const { formatBech32Reducer } = require('./reducers/livepeerV0-reducers')
 const { networkList, networkMap } = require('./networks')
 const {
   getNetworkTransactionGasEstimates,
@@ -19,8 +21,12 @@ const database = require('./database')
 const { getNotifications } = require('./notifications')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
-const BigNumber = require('bignumber.js')
 const networks = require('../data/networks')
+
+const firebaseServiceAccount = require('../firebaseCredentials.json')
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(firebaseServiceAccount)
+})
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -47,44 +53,6 @@ function localStore(dataSources, networkId) {
   }
 }
 
-// TODO updating the validators with the profiles should happen already in the store so we don't query the db all the time
-async function getValidatorInfosMap(store) {
-  const validatorInfo = await store.db.getValidatorsInfo()
-  const validatorInfoMap = keyBy(validatorInfo, 'operator_address')
-  return validatorInfoMap
-}
-
-function enrichValidator(validatorInfo, validator) {
-  const picture = validatorInfo ? validatorInfo.picture : undefined
-  const name =
-    validatorInfo && validatorInfo.name
-      ? validatorInfo.name
-      : validator.name || formatBech32Reducer(validator.operatorAddress)
-
-  return {
-    ...validator,
-    name,
-    picture: picture === 'null' || picture === 'undefined' ? undefined : picture
-  }
-}
-
-async function addPopularityToValidators(validators, dataSources, networkId) {
-  return Promise.all(
-    validators.map(async (validator) => {
-      // popularity is actually the number of views of a validator on their page
-      const popularity = await localStore(
-        dataSources,
-        networkId
-      ).db.getValidatorViews(validator.operatorAddress, networkId)
-      // we add the popularity field to the validator
-      return {
-        ...validator,
-        popularity: popularity || 0
-      }
-    })
-  )
-}
-
 async function validators(
   _,
   { networkId, searchTerm, activeOnly, popularSort },
@@ -92,32 +60,14 @@ async function validators(
 ) {
   await localStore(dataSources, networkId).dataReady
   let validators = Object.values(localStore(dataSources, networkId).validators)
-  validators = await addPopularityToValidators(
-    validators,
-    dataSources,
-    networkId
-  )
-  function compare(a, b) {
-    let comparison = 0
-    if (a.popularity < b.popularity) {
-      comparison = 1
-    } else if (a.popularity > b.popularity) {
-      comparison = -1
-    }
-    return comparison
-  }
-  // we always sort validators by popularity
-  validators.sort(compare)
   if (activeOnly) {
     validators = validators.filter(({ status }) => status === 'ACTIVE')
   }
-  const validatorInfoMap = await getValidatorInfosMap(
-    localStore(dataSources, networkId)
-  )
-  validators = validators.map((validator) =>
-    enrichValidator(validatorInfoMap[validator.operatorAddress], validator)
-  )
-
+  // if popularSort is true then we filter out validators with no picture
+  if (popularSort) {
+    validators = validators.filter(({ picture }) => picture)
+    validators = sortBy(validators, 'popularity')
+  }
   if (searchTerm) {
     validators = validators.filter(({ name, operatorAddress }) => {
       return (
@@ -126,44 +76,12 @@ async function validators(
       )
     })
   }
-  // if popularSort is true then we filter out validators with no picture
-  if (popularSort) {
-    return validators.filter(({ picture }) => picture)
-  }
   return validators
 }
 
 async function validator(_, { networkId, operatorAddress }, { dataSources }) {
   await localStore(dataSources, networkId).dataReady
-  const validatorInfo = await localStore(
-    dataSources,
-    networkId
-  ).db.getValidatorInfoByAddress(operatorAddress)
-
-  // here first we check if validators in localStore are an empty object
-  // this is because sometimes it takes time to fetch them on startup
-  if (Object.keys(localStore(dataSources, networkId).validators).length > 0) {
-    const validator = localStore(dataSources, networkId).validators[
-      operatorAddress
-    ]
-
-    if (!validator) {
-      throw new UserInputError(
-        `The validator ${operatorAddress} was not found within the network ${networkId}`
-      )
-    }
-
-    localStore(dataSources, networkId).db.incrementValidatorViews(
-      operatorAddress,
-      networkId
-    )
-
-    return enrichValidator(validatorInfo, validator)
-  } else {
-    throw new Error(
-      `Validators have not been loaded yet for the network ${networkId}`
-    )
-  }
+  return localStore(dataSources, networkId).validators[operatorAddress]
 }
 
 async function delegation(
@@ -191,19 +109,8 @@ async function delegations(
     dataSources,
     networkId
   ).getDelegationsForDelegatorAddress(delegatorAddress)
-  const validatorInfoMap = await getValidatorInfosMap(
-    localStore(dataSources, networkId)
-  )
 
-  return Promise.all(
-    delegations.map(async (delegation) => ({
-      ...delegation,
-      validator: enrichValidator(
-        validatorInfoMap[delegation.validator.operatorAddress],
-        delegation.validator
-      )
-    }))
-  )
+  return delegations
 }
 
 async function undelegations(
@@ -216,19 +123,7 @@ async function undelegations(
     dataSources,
     networkId
   ).getUndelegationsForDelegatorAddress(delegatorAddress)
-  const validatorInfoMap = await getValidatorInfosMap(
-    localStore(dataSources, networkId)
-  )
-
-  return Promise.all(
-    undelegations.map(async (undelegation) => ({
-      ...undelegation,
-      validator: enrichValidator(
-        validatorInfoMap[undelegation.validator.operatorAddress],
-        undelegation.validator
-      )
-    }))
-  )
+  return undelegations
 }
 
 const networkFees = async (
@@ -291,6 +186,41 @@ const transactionMetadata = async (
     chainAppliedFees: thisNetworkFees.chainAppliedFees,
     accountSequence: accountDetails.sequence,
     accountNumber: accountDetails.accountNumber
+  }
+}
+
+const registerUser = async (_, { idToken }) => {
+  try {
+    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
+    // get user record, with custom claims and creation & activity dates
+    const userRecord = await firebaseAdmin.auth().getUser(decodedToken.uid)
+    // check if user already exists in DB
+    const storedUser = await database(config)('').getUser(decodedToken.uid)
+    // check if user already has premium as a custom claim
+    if (!userRecord.customClaims) {
+      // set premium field
+      await firebaseAdmin
+        .auth()
+        .setCustomUserClaims(decodedToken.uid, { premium: false })
+    }
+    // we don't store user emails for now
+    const user = {
+      uid: decodedToken.uid,
+      premium: false,
+      createdAt: userRecord.metadata.creationTime,
+      lastActive: userRecord.metadata.lastSignInTime
+    }
+    if (!storedUser) {
+      database(config)('').storeUser(user)
+    } else {
+      database(config)('').upsert(`users`, user)
+    }
+  } catch (error) {
+    console.error(`In storeUser`, error)
+    Sentry.withScope(function (scope) {
+      scope.setExtra('storeUser resolver')
+      Sentry.captureException(error)
+    })
   }
 }
 
@@ -544,6 +474,9 @@ const resolvers = {
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
     }
+  },
+  Mutation: {
+    registerUser: registerUser
   },
   Subscription: {
     blockAdded: {

@@ -1,7 +1,47 @@
 <template>
   <div>
+    <transition name="fade">
+      <ul v-if="showMobileSorting" class="sortingOptions">
+        <li
+          :class="{ active: isSortedBy(`popularity`) }"
+          @click="sortBy(`popularity`)"
+        >
+          <i class="sorting-icon material-icons notranslate">star_rate</i>
+          Popular on Lunie
+          <i
+            :class="{ inactive: !isSortedBy(`popularity`) }"
+            class="sorting-check material-icons notranslate"
+            >check</i
+          >
+        </li>
+        <li
+          :class="{ active: isSortedBy(`votingPower`) }"
+          @click="sortBy(`votingPower`)"
+        >
+          <i class="sorting-icon material-icons notranslate">flash_on</i> Voting
+          Power
+          <i
+            :class="{ inactive: !isSortedBy(`votingPower`) }"
+            class="sorting-check material-icons notranslate"
+            >check</i
+          >
+        </li>
+        <li
+          :class="{ active: isSortedBy(`expectedReturns`) }"
+          @click="sortBy(`expectedReturns`)"
+        >
+          <i class="sorting-icon material-icons notranslate">emoji_events</i>
+          Most Rewards
+          <i
+            :class="{ inactive: !isSortedBy(`expectedReturns`) }"
+            class="sorting-check material-icons notranslate"
+            >check</i
+          >
+        </li>
+      </ul>
+    </transition>
     <table class="data-table">
-      <thead>
+      <thead :class="{ shrinked: showMobileSorting }">
         <PanelSort
           :sort="sort"
           :properties="properties"
@@ -53,6 +93,10 @@ export default {
     showOnMobile: {
       type: String,
       default: () => "returns",
+    },
+    showMobileSorting: {
+      type: Boolean,
+      default: () => false,
     },
   },
   data: () => ({
@@ -142,6 +186,18 @@ export default {
         )
       }
     },
+    sortBy(property) {
+      if (this.sort.property === property) {
+        this.sort.property = ``
+        this.sort.order = `desc`
+      } else {
+        this.sort.property = property
+        this.sort.order = `desc`
+      }
+    },
+    isSortedBy(property) {
+      return this.sort.property === property
+    },
   },
   apollo: {
     rewards: {
@@ -229,5 +285,58 @@ export default {
 
 .data-table >>> th:nth-child(3) {
   width: 50%;
+}
+
+.sortingOptions {
+  margin: 0.5rem 1rem;
+}
+
+.sortingOptions li.active {
+  color: var(--highlight);
+}
+
+.sortingOptions li {
+  padding: 1rem 0.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sorting-check {
+  justify-content: space-between;
+}
+
+.sorting-check.inactive {
+  color: var(--app-bg);
+}
+
+.sortingOptions .material-icons {
+  font-size: 22px;
+  width: 2rem;
+  vertical-align: text-bottom;
+}
+
+.shrinked .panel-sort-container {
+  visibility: collapse;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .sortingOptions {
+    display: none;
+  }
+
+  .shrinked .panel-sort-container {
+    visibility: initial;
+  }
 }
 </style>

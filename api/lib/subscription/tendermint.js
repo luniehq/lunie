@@ -1,9 +1,5 @@
-const EventEmitter = require(`events`)
 const Sentry = require('@sentry/node')
-const url = require(`url`)
-const websocket = require(`websocket-stream`)
-const ndjson = require(`ndjson`)
-const pumpify = require(`pumpify`).obj
+const WebSocket = require('ws')
 
 function convertWsArgs(args = {}) {
   for (const key in args) {
@@ -19,26 +15,16 @@ function convertWsArgs(args = {}) {
   return args
 }
 
-class Client extends EventEmitter {
-  constructor(networkId, uriString = `localhost:26657`) {
-    super()
-
-    // parse full-node URI
-    let { protocol, hostname, port } = url.parse(uriString)
-
-    // default port
-    if (!port) {
-      port = 26657
-    }
-
+class Client {
+  constructor(networkId, uriString) {
     this.networkId = networkId
     this.websocket = true
-    this.uri = `${protocol}//${hostname}:${port}/websocket`
+    this.uri = uriString
+    this.closed = true
 
     // Keep track of subscription calls so we can call them again in case of disconnection
     this.subscriptions = []
 
-    this.call = this.callWs
     this.connectWs()
   }
 
@@ -53,22 +39,39 @@ class Client extends EventEmitter {
       )
     }
 
-    this.ws = pumpify(ndjson.stringify(), websocket(this.uri))
+    this.ws = new WebSocket(this.uri)
 
-    if (this.subscriptions.length > 0) {
-      this.subscriptions.forEach(({ method, args, listener }) => {
-        this.call(method, args, listener)
-      })
+    this.ws.onopen = () => {
+      this.closed = false
+
+      if (this.subscriptions.length > 0) {
+        this.subscriptions.forEach(({ args, listener }) => {
+          this.subscribe(args, listener)
+        })
+      }
     }
-    this.ws.on(`error`, (error) => {
+
+    this.ws.onerror = (error) => {
       console.error(
-        `\x1b[36mwebsocket connection lost for network ${this.networkId}\x1b[0m`
+        `\x1b[36mwebsocket connection lost for network ${this.networkId}\x1b[0m`,
+        error.message
       )
 
       // only log to Sentry if retry fails 5 times in a row
       if (attempt === 5) Sentry.captureException(error)
-    })
-    this.ws.on(`close`, () => {
+    }
+
+    this.ws.onmessage = (result) => {
+      const data = JSON.parse(result.data)
+      if (!data.id || Object.keys(data.result).length === 0) return
+
+      const subscription = this.subscriptions.find(({ id }) => id === data.id)
+      if (!subscription) return
+      subscription.resolve(data.result)
+      subscription.listener(data.result)
+    }
+
+    this.ws.onerror = () => {
       // Disconnect happens after an error which is handled by the error event and logged with Sentry
 
       if (this.closed || attempt >= 5) {
@@ -79,56 +82,42 @@ class Client extends EventEmitter {
         return
       }
       this.connectWs(attempt + 1)
-    })
-    this.ws.on(`data`, (data) => {
-      data = JSON.parse(data)
-      if (!data.id) return
-      this.emit(data.id, data.error, data.result)
-    })
+    }
   }
 
-  callWs(method, args, listener) {
+  subscribe(args, listener) {
     const self = this
-
-    // Store every call
-    self.subscriptions.push({
-      method,
-      args,
-      listener
-    })
 
     return new Promise((resolve, reject) => {
       const id = Math.random().toString(36)
-      const params = convertWsArgs(args)
 
-      if (method !== `subscribe`) {
-        throw Error(`Only the subscribe method is supported`)
-      }
+      // Store every call
+      self.subscriptions.push({
+        id,
+        args,
+        listener,
+        resolve,
+        reject
+      })
+
+      if (this.closed) return
+
+      const params = convertWsArgs(args)
 
       if (typeof listener !== `function`) {
         throw Error(`Must provide listener function`)
       }
 
-      // events get passed to listener
-      this.on(id + `#event`, (err, res) => {
-        if (err) return self.emit(`error`, err)
-        listener(res.data.value)
-      })
-
-      // promise resolves on successful subscription or error
-      this.on(id, (err) => {
-        if (err) return reject(err)
-        resolve()
-      })
-
-      this.ws.write({ jsonrpc: `2.0`, id, method, params })
+      this.ws.send(
+        JSON.stringify({ jsonrpc: `2.0`, id, method: 'subscribe', params })
+      )
     })
   }
 
   close() {
     this.closed = true
     if (!this.ws) return
-    this.ws.destroy()
+    this.ws.close()
   }
 }
 

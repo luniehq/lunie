@@ -12,17 +12,18 @@ if (!process.env.LISTENING_TO_UNHANDLED_REJECTION) {
 
 if (!process.env.ALLOW_CONSOLE) {
   const originalError = global.console.error
-  const originalWarn = global.console.warn
+  // polkadot is throwing warnings, we can only mock polkadot in tests
+  // const originalWarn = global.console.warn
   global.console.error = (...args) => {
     originalError(...args)
     fail(
       `console.error in tests are forbidden (run with ALLOW_CONSOLE=true to show the console.error without failing)\n${args}`
     )
   }
-  global.console.warn = (...args) => {
-    originalWarn(...args)
-    fail(
-      `console.warn in tests are forbidden (run with ALLOW_CONSOLE=true to show the console.warn without failing)\n${args}`
-    )
-  }
+  // global.console.warn = (...args) => {
+  //   originalWarn(...args)
+  //   fail(
+  //     `console.warn in tests are forbidden (run with ALLOW_CONSOLE=true to show the console.warn without failing)\n${args}`
+  //   )
+  // }
 }

@@ -10,7 +10,8 @@
   "workspaces": [
     "app",
     "api",
-    "extension"
+    "extension",
+    "scriptRunner"
   ],
   "scripts": {
     "changelog:api": "cd api && yarn changelog",
@@ -18,5 +19,8 @@
     "changelog:extension": "cd extension && yarn changelog",
     "lint:global": "cd api && yarn lint --fix && cd .. && cd app && yarn lint --fix && cd .. && cd extension && yarn lint:fix && cd ..",
     "release": "git stash && git fetch --all && git checkout origin/develop -B develop && git pull && git checkout origin/release -B release && git pull && git merge origin/develop && git push && git stash pop"
+  },
+  "resolutions": {
+    "node-addon-api": "^2.0.1"
   }
 }

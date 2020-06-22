@@ -196,32 +196,32 @@ module.exports = [
     },
     lockUpPeriod: '7 days'
   },
-  {
-    id: 'polkadot',
-    title: 'Polkadot',
-    chain_id: 'polkadot-cc1',
-    api_url: 'https://api-01.polkascan.io/polkadot/api/v1/',
-    rpc_url: process.env.LOCAL_POLKADOT_API || 'wss://rpc.polkadot.io',
-    bech32_prefix: ' ',
-    address_prefix: '0', // used in Polkadot as well to generate display addresses (https://wiki.polkadot.network/docs/en/learn-accounts)
-    ledger_app: 'polkadot',
-    address_creator: 'polkadot',
-    network_type: 'polkadot',
-    source_class_name: 'source/polkadotV0-source',
-    block_listener_class_name: 'block-listeners/polkadot-node-subscription',
-    testnet: false,
-    ...getNetworkCapabilities[`polkadot`],
-    default: false,
-    stakingDenom: 'DOT',
-    // https://wiki.polkadot.network/docs/en/learn-DOT
-    coinLookup: coinLookupDictionary[`polkadot`],
-    enabled: true,
-    experimental: true,
-    icon:
-      '/img/networks/polkadot-mainnet.png',
-    slug: 'polkadot',
-    lockUpPeriod: '28 days'
-  },
+  // {
+  //   id: 'polkadot',
+  //   title: 'Polkadot',
+  //   chain_id: 'polkadot-cc1',
+  //   api_url: 'https://api-01.polkascan.io/polkadot/api/v1/',
+  //   rpc_url: process.env.LOCAL_POLKADOT_API || 'wss://rpc.polkadot.io',
+  //   bech32_prefix: ' ',
+  //   address_prefix: '0', // used in Polkadot as well to generate display addresses (https://wiki.polkadot.network/docs/en/learn-accounts)
+  //   ledger_app: 'polkadot',
+  //   address_creator: 'polkadot',
+  //   network_type: 'polkadot',
+  //   source_class_name: 'source/polkadotV0-source',
+  //   block_listener_class_name: 'block-listeners/polkadot-node-subscription',
+  //   testnet: false,
+  //   ...getNetworkCapabilities[`polkadot`],
+  //   default: false,
+  //   stakingDenom: 'DOT',
+  //   // https://wiki.polkadot.network/docs/en/learn-DOT
+  //   coinLookup: coinLookupDictionary[`polkadot`],
+  //   enabled: true,
+  //   experimental: true,
+  //   icon:
+  //     '/img/networks/polkadot-mainnet.png',
+  //   slug: 'polkadot',
+  //   lockUpPeriod: '28 days'
+  // },
   {
     id: 'polkadot-testnet',
     title: 'Polkadot Testnet',
@@ -251,7 +251,7 @@ module.exports = [
   {
     id: 'kava-mainnet',
     title: 'Kava',
-    chain_id: 'kava-2',
+    chain_id: 'kava-3',
     api_url: 'http://lcd.kava.forbole.com:1317',
     rpc_url: 'ws://rpc.kava.forbole.com:26657/websocket',
     bech32_prefix: 'kava',
@@ -259,7 +259,7 @@ module.exports = [
     address_creator: 'cosmos',
     ledger_app: 'cosmos',
     network_type: 'cosmos',
-    source_class_name: 'source/kavaV0-source',
+    source_class_name: 'source/kavaV1-source',
     block_listener_class_name: 'block-listeners/cosmos-node-subscription',
     testnet: false,
     ...getNetworkCapabilities[`kava-mainnet`],

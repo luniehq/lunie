@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "1.0.24",
+  "version": "1.0.27",
   "description": "GraphQL API for Lunie.io",
   "repository": {
     "type": "git",
@@ -11,6 +11,7 @@
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "dev-cache": "cross-env NODE_ENV=development ENABLE_CACHE=true nodemon index.js",
     "dev-docker": "docker build -t lunie-api-dev . && docker run --init -it -p 4000:4000 lunie-api-dev",
+    "build": "docker build . -t lunieapi",
     "lint": "eslint index.js config.js lib tests",
     "lint-fix": "yarn lint --fix",
     "start": "node index.js ",
@@ -31,7 +32,7 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "@polkadot/api": "^v1.19.1",
+    "@polkadot/api": "^1.20.1",
     "@sentry/node": "^5.16.1",
     "apollo-datasource-rest": "^0.9.2",
     "apollo-server": "^2.14.2",
@@ -41,15 +42,10 @@
     "bignumber.js": "^9.0.0",
     "coingecko-api": "^1.0.10",
     "dotenv": "^8.2.0",
-    "events": "^3.1.0",
+    "firebase-admin": "^8.12.1",
     "graphql": "^15.1.0",
     "graphql-redis-subscriptions": "^2.2.1",
-    "lodash": "^4.17.15",
-    "ndjson": "^1.5.0",
-    "pumpify": "^2.0.1",
-    "should": "^13.2.3",
-    "url": "^0.11.0",
-    "websocket-stream": "^5.5.2"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",

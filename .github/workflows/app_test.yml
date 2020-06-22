@@ -8,6 +8,7 @@ on:
       - 'app/**'
 env:
   WORKING_DIRECTORY: ./app
+  VUE_APP_FIREBASE_CONFIG: ${{ secrets.VUE_APP_FIREBASE_CONFIG }}
 jobs:
   test:
     name: test
