@@ -235,7 +235,7 @@ const getPolkadotFee = async ({ messageType, message, senderAddress, network, ne
       amount: viewFees
     }
   } catch(error) {
-    console.error(error)
+    Sentry.captureException(error)
     // back up plan. Send most common fee
     // TODO: check it this is the same for Polkadot network
     return {
