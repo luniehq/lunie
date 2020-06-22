@@ -135,8 +135,8 @@ const storeCoinLookups = (
 const storeNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   payload
 ) => {
-  return Promise.all(
-    insert(
+  return (
+    await insert(
       {
         hasura_url,
         hasura_admin_key
@@ -230,5 +230,5 @@ module.exports = {
   storeNetwork,
   getNetwork,
   storeUser,
-  getUser,
+  getUser
 }

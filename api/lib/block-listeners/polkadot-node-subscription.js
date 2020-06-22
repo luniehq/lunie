@@ -33,6 +33,7 @@ class PolkadotNodeSubscription {
     this.blockQueue = []
     this.chainId = this.network.chain_id
     this.subscribeForNewBlock()
+    this.storeNetworkInDB()
   }
 
   // here we init the polkadot rpc once for all processes
@@ -141,6 +142,9 @@ class PolkadotNodeSubscription {
       const block = await this.polkadotAPI.getBlockByHeightV2(blockHeight)
       this.enqueueAndPublishBlockAdded(block)
 
+      // gives us the control to modify network parameters
+      this.store.updateNetworkInDB()
+
       // We dont need to fetch validators on every new block.
       // Validator list only changes on new sessions
       if (
@@ -222,6 +226,11 @@ class PolkadotNodeSubscription {
       console.error(`newBlockHandler failed`, error.message)
       Sentry.captureException(error)
     }
+  }
+
+  async storeNetworkInDB() {
+    // only run at startup
+    await this.store.storeNetwork(this.store.network)
   }
 }
 

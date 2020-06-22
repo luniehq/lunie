@@ -264,6 +264,29 @@ class BlockStore {
       'operatorAddress'
     )
   }
+
+  async storeNetwork() {
+    try {
+      // prepare network with the format we are going to store it in public/networks
+      const dbNetwork = formatNetworkForDB(this.network)
+      // store network in DB under public/networks
+      this.db.storeNetwork(dbNetwork)
+    } catch (error) {
+      console.error('Failed during store network in DB', error)
+      Sentry.captureException(error)
+    }
+  }
+
+  async updateNetworkInDB() {
+    try {
+      const storedNetwork = await this.db.getNetwork(this.network.id)
+      // getNetwork only returns one network, so it is safe to do storedNetwork[0]
+      this.network.enabled = storedNetwork[0].enabled
+    } catch (error) {
+      console.error('Failed during update network in DB', error)
+      Sentry.captureException(error)
+    }
+  }
 }
 
 function enrichValidator(validatorInfo, validator) {
@@ -275,6 +298,55 @@ function enrichValidator(validatorInfo, validator) {
     ...validator,
     name,
     picture: picture === 'null' || picture === 'undefined' ? undefined : picture
+  }
+}
+
+function formatNetworkForDB(network) {
+  // removed enabled
+  return {
+    network: {
+      id: network.id,
+      title: network.title,
+      chain_id: network.chain_id,
+      rpc_url: network.rpc_url,
+      api_url: network.api_url,
+      bech32_prefix: network.bech32_prefix,
+      testnet: network.testnet,
+      feature_session: network.feature_session,
+      feature_portfolio: network.feature_portfolio,
+      feature_validators: network.feature_validators,
+      feature_proposals: network.feature_proposals,
+      feature_activity: network.feature_activity,
+      feature_explorer: network.feature_explorer,
+      feature_explore: network.feature_explore,
+      action_send: network.action_send,
+      action_claim_rewards: network.action_claim_rewards,
+      action_delegate: network.action_delegate,
+      action_redelegate: network.action_delegate,
+      action_undelegate: network.action_delegate,
+      action_deposit: network.action_delegate,
+      action_vote: network.action_delegate,
+      action_proposal: network.action_delegate,
+      default: network.default,
+      stakingDenom: network.stakingDenom,
+      address_prefix: network.address_prefix,
+      address_creator: network.address_creator,
+      ledger_app: network.ledger_app,
+      network_type: network.network_type,
+      source_class_name: network.source_class_name,
+      block_listener_class_name: network.block_listener_class_name,
+      experimental: network.experimental,
+      icon: network.icon,
+      slug: network.slug,
+      lockUpPeriod: network.lockUpPeriod,
+      powered: network.powered
+    },
+    coinLookups: network.coinLookup.map((coinLookup) => ({
+      networkId: network.id,
+      viewDenom: coinLookup.viewDenom,
+      chainDenom: coinLookup.chainDenom,
+      chainToViewConversionFactor: coinLookup.chainToViewConversionFactor
+    }))
   }
 }
 
