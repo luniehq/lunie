@@ -8,7 +8,7 @@
         <MaintenanceBar />
         <DisconnectedBar />
       </div>
-      <UserMenu v-if="!isMobileApp && isDevelopmentMode" />
+      <UserMenu v-if="!isMobileApp && session.experimentalMode" />
       <router-view name="session" />
       <router-view />
     </div>
@@ -43,10 +43,7 @@ export default {
     ...mapGetters([`network`]),
     isMobileApp() {
       return this.session.mobile
-    },
-    isDevelopmentMode() {
-      return this.session.developmentMode
-    },
+    }
   },
   store,
 }
