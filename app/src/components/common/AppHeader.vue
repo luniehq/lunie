@@ -66,7 +66,6 @@
 </template>
 
 <script>
-import config from "src/../config"
 import { mapState } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
@@ -77,13 +76,17 @@ export default {
   data: () => ({
     open: false,
     desktop: false,
-    isMobileApp: config.mobileApp,
-    isDevelopmentMode: config.development,
   }),
   computed: {
     ...mapState([`session`, `connection`]),
     networkSlug() {
       return this.connection.networkSlug
+    },
+    isMobileApp() {
+      return this.session.mobile
+    },
+    isDevelopmentMode() {
+      return this.session.developmentMode
     },
   },
   mounted: async function () {

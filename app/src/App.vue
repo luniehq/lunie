@@ -26,7 +26,6 @@ import MaintenanceBar from "common/MaintenanceBar"
 import MobileMenu from "common/MobileMenu"
 import NetworkSelector from "common/NetworkSelector"
 import store from "./vuex/store"
-import config from "src/../config"
 
 export default {
   name: `app`,
@@ -39,13 +38,15 @@ export default {
     MobileMenu,
     NetworkSelector,
   },
-  data: () => ({
-    isMobileApp: config.mobileApp,
-    isDevelopmentMode: config.development,
-  }),
   computed: {
     ...mapState([`notifications`, `session`]),
     ...mapGetters([`network`]),
+    isMobileApp() {
+      return this.session.mobile
+    },
+    isDevelopmentMode() {
+      return this.session.developmentMode
+    },
   },
   store,
 }
