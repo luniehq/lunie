@@ -43,12 +43,10 @@ export async function getAPI(endpoint) {
 //   return provider.send(method, params)
 // }
 
-export async function multiMessage(transactions) {
+export async function multiMessage(transactions, networkId) {
   const polkadotNetworks = await getPolkadotNetworks()
-  const polkadotNetwork = polkadotNetworks.find((network) =>
-    transactions.find((transaction) => {
-      network.id === transaction.id
-    })
+  const polkadotNetwork = polkadotNetworks.find(
+    (network) => network.id === networkId
   )
   const api = await getAPI(polkadotNetwork.rpc_url)
   return api.tx.utility.batch(transactions)
@@ -57,10 +55,10 @@ export async function multiMessage(transactions) {
 /**
  * Entry point of the script.
  */
-export async function getSignMessage(senderAddress, transaction) {
+export async function getSignMessage(senderAddress, transaction, networkId) {
   if (Array.isArray(transaction)) {
     if (transaction.length > 1) {
-      transaction = await multiMessage(transaction)
+      transaction = await multiMessage(transaction, networkId)
     } else {
       transaction = transaction[0]
     }
