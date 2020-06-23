@@ -1,6 +1,5 @@
 const { ApolloServer } = require('apollo-server-express')
 const responseCachePlugin = require('apollo-server-plugin-response-cache')
-const firebaseAdmin = require('firebase-admin')
 const Sentry = require('@sentry/node')
 
 const typeDefs = require('./schema')
@@ -10,12 +9,8 @@ const Notifications = require('./notifications')
 const { networkList } = require('./networks')
 const NetworkContainer = require('./network-container')
 
+const firebaseAdmin = require('./firebase')
 const config = require('../config')
-
-const firebaseServiceAccount = require('../firebaseCredentials.json')
-firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(firebaseServiceAccount)
-})
 
 const networks = networkList.map((network) => new NetworkContainer(network))
 
@@ -111,7 +106,5 @@ function createApolloServer(httpServer) {
   return apolloServer
 }
 
-module.exports = {
-  createApolloServer,
-  firebaseAdmin
-}
+module.exports = { createApolloServer }
+
