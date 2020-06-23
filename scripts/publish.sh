@@ -5,7 +5,7 @@ then
     echo "Publishing"
     git config user.email "bot@lunie.io"
     git config user.name "Publish Lunie Bot"
-    git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie-api.git
+    git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
     git checkout master
     git pull
     git merge --no-edit origin/develop
