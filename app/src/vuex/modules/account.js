@@ -29,11 +29,12 @@ export default ({ apollo }) => {
 
   const actions = {
     async listenToAuthChanges({ commit }) {
-      await Auth.onAuthStateChanged((user) => {
+      await Auth.onAuthStateChanged(async (user) => {
         if (user) {
           commit(`userSignedIn`, true)
           commit(`setUserInformation`, user)
-          localStorage.setItem(`auth_token`, JSON.stringify(user.uid))
+          const idToken = await user.getIdToken(/* forceRefresh */ true)
+          localStorage.setItem(`auth_token`, idToken)
           // make sure new authorization token get added to header
           apollo.resetStore()
           console.log("User is now signed in!")
