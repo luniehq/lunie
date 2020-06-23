@@ -78,17 +78,15 @@ function createApolloServer(httpServer) {
           }
         }
         const idToken = req.headers.authorization
-        let validToken = false
+        let uid = undefined
         if (idToken) {
-          validToken = await checkIsValidIdToken(idToken)
+          uid = await checkIsValidIdToken(idToken)
         }
         return {
           fingerprint: req.headers.fingerprint,
           development: req.headers.development,
           authorization: {
-            idToken: req.headers.authorization,
-            // valid will be the user uid in case the idToken is valid
-            valid: validToken
+            uid
           }
         }
       }
