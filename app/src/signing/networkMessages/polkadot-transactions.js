@@ -3,11 +3,21 @@
  */
 import { WsProvider, ApiPromise } from "@polkadot/api"
 import { u8aToHex, u8aConcat } from "@polkadot/util"
-import networks from "../../../../api/data/networks"
+import { createApolloProvider } from "src/gql/apollo.js"
+import { NetworksAll } from "src/gql"
+import config from "src/../config"
 
-const polkadotNetworks = networks.filter(
-  (network) => network.network_type === `polkadot`
-)
+export async function getPolkadotNetworks() {
+  const apolloProvider = await createApolloProvider()
+  const apollo = apolloProvider.clients.defaultClient
+  const { data } = await apollo.query({
+    query: NetworksAll,
+    variables: { experimental: config.experimentalMode },
+    fetchPolicy: "network-only",
+  })
+  return data.networks.filter((network) => network.network_type === `polkadot`)
+}
+
 // will only be inited once per session
 let api
 export async function getAPI(endpoint) {
@@ -34,6 +44,7 @@ export async function getAPI(endpoint) {
 // }
 
 export async function multiMessage(transactions) {
+  const polkadotNetworks = await getPolkadotNetworks()
   const polkadotNetwork = polkadotNetworks.find((network) =>
     transactions.find((transaction) => {
       network.id === transaction.id
