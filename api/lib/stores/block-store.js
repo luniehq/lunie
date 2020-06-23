@@ -3,6 +3,8 @@ const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
 const Sentry = require('@sentry/node')
+const database = require('../database')
+const config = require('../../config')
 const { publishEvent: publishEvent } = require('../subscriptions')
 const { eventTypes, resourceTypes } = require('../notifications-types')
 
@@ -270,7 +272,7 @@ class BlockStore {
       // prepare network with the format we are going to store it in public/networks
       const dbNetwork = formatNetworkForDB(this.network)
       // store network in DB under public/networks
-      this.db.storeNetwork(dbNetwork)
+      database(config)('').storeNetwork(dbNetwork)
     } catch (error) {
       console.error('Failed during store network in DB', error)
       Sentry.captureException(error)
@@ -279,7 +281,9 @@ class BlockStore {
 
   async updateNetworkInDB() {
     try {
-      const storedNetwork = await this.db.getNetwork(this.network.id)
+      const storedNetwork = await database(config)('').getNetwork(
+        this.network.id
+      )
       if (storedNetwork.length > 0) {
         // getNetwork only returns one network, so it is safe to do storedNetwork[0]
         // we update everything except the network id and powered

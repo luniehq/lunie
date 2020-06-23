@@ -96,13 +96,10 @@ const getNotifications = ({ hasura_url, hasura_admin_key }) => (
 }
 
 const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
-  return await read(
-    {
-      hasura_url,
-      hasura_admin_key
-    },
-    false
-  )(`public`)(
+  return await read({
+    hasura_url,
+    hasura_admin_key
+  })('')(
     `networks`,
     `networks`,
     [
@@ -146,8 +143,7 @@ const storeCoinLookups = (
           hasura_url,
           hasura_admin_key
         },
-        true,
-        false
+        true
       )(schema)(`coinLookups`, coinLookup)
     })
   )
@@ -162,8 +158,7 @@ const storeNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
         hasura_url,
         hasura_admin_key
       },
-      true,
-      false
+      true
     )(schema)(`networks`, payload[`network`]),
     await storeCoinLookups(
       hasura_url,
@@ -176,8 +171,7 @@ const storeNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
         hasura_url,
         hasura_admin_key
       },
-      true,
-      false
+      true
     )(schema)(`networkCapabilities`, payload[`networkCapabilities`])
   )
 }

@@ -59,17 +59,15 @@ function getColumns(objects) {
   return Object.keys(obj)
 }
 
-const insert = (
-  { hasura_url, hasura_admin_key },
-  upsert = false,
-  usePrefix = true
-) => (schema) => async (table, rows, height, chainId, returnKeys) => {
+const insert = ({ hasura_url, hasura_admin_key }, upsert = false) => (
+  schema
+) => async (table, rows, height, chainId, returnKeys) => {
   if ((Array.isArray(rows) && rows.length === 0) || !rows) {
     return
   }
 
   returnKeys = Array.isArray(returnKeys) ? returnKeys : []
-  let schema_prefix = schema && usePrefix ? schema + '_' : ''
+  let schema_prefix = schema ? schema + '_' : ''
 
   const query = `
         mutation {
@@ -100,12 +98,15 @@ const insert = (
   return graphQLQuery({ hasura_url, hasura_admin_key })(query)
 }
 
-const read = ({ hasura_url, hasura_admin_key }, usePrefix = true) => (
-  schema
-) => async (table, queryName, keys, filter) => {
+const read = ({ hasura_url, hasura_admin_key }) => (schema) => async (
+  table,
+  queryName,
+  keys,
+  filter
+) => {
   keys = Array.isArray(keys) ? keys : [keys]
   // schema could be set or not
-  let schema_prefix = schema && usePrefix ? schema + '_' : ''
+  let schema_prefix = schema ? schema + '_' : ''
 
   const query = `
         query ${schema_prefix}${queryName} {
