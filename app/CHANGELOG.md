@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.214] - 2020-06-23
+
+### Added
+
+- [#4147](https://github.com/cosmos/lunie/issues/4147) Adds sign in and sign out using Firebase auth and store @Bitcoinera
+- Register users in DB @faboweb
+- [#3894](https://github.com/cosmos/lunie/issues/3894) Validator list UX improvements @Bitcoinera @mariopino
+- [#3995](https://github.com/cosmos/lunie/issues/3995) Handle polkadot election period @mariopino
+- [#4328](https://github.com/cosmos/lunie/issues/4328) Upgrade Polkadot js api to v1.20.1 @mariopino
+- [#4233](https://github.com/cosmos/lunie/issues/4233) Adds the seed export feature @team
+
+### Changed
+
+- [#4324](https://github.com/cosmos/lunie/pull/4324) Styles the action modal so there is not too much space between header and body @Bitcoinera
+
+### Fixed
+
+- Fix location of capacitor plugins for mobile builds @faboweb
+- Update Capacitor to fix build issues @faboweb
+
 ## [1.0.213] - 2020-06-17
 
 ### Added
