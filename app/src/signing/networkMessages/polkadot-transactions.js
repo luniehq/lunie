@@ -3,13 +3,17 @@
  */
 import { WsProvider, ApiPromise } from "@polkadot/api"
 import { u8aToHex, u8aConcat } from "@polkadot/util"
+import networks from "../../../../api/data/networks"
 
+const polkadotNetworks = networks.filter(
+  (network) => network.network_type === `polkadot`
+)
 // will only be inited once per session
 let api
-export async function getAPI() {
+export async function getAPI(endpoint) {
   if (!api) {
     api = new ApiPromise({
-      provider: new WsProvider("wss://kusama-rpc.polkadot.io/"),
+      provider: new WsProvider(endpoint),
     })
   }
   await api.isReady
@@ -30,7 +34,12 @@ export async function getAPI() {
 // }
 
 export async function multiMessage(transactions) {
-  const api = await getAPI()
+  const polkadotNetwork = polkadotNetworks.find((network) =>
+    transactions.find((transaction) => {
+      network.id === transaction.id
+    })
+  )
+  const api = await getAPI(polkadotNetwork.rpc_url)
   return api.tx.utility.batch(transactions)
 }
 
