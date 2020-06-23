@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import AccountList from "common/AccountList"
+import AccountList from "account/AccountList"
 import SessionFrame from "common/SessionFrame"
 import { mapState, mapGetters } from "vuex"
 export default {
