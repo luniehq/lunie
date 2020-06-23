@@ -47,7 +47,7 @@ async function getSignMessage(senderAddress, transaction, api) {
 
 // Bank
 /* istanbul ignore next */
-async function SendTx(senderAddress, { to, amount }, network, api) {
+async function SendTx(senderAddress, api, { to, amount }, network) {
   return await getSignMessage(
     senderAddress,
     api.tx.balances.transfer(to[0], toChainAmount(amount, network.coinLookup)),
@@ -58,9 +58,9 @@ async function SendTx(senderAddress, { to, amount }, network, api) {
 // Staking
 async function StakeTx(
   senderAddress,
+  api,
   { to, amount, addressRole },
-  network,
-  api
+  network
 ) {
   // stake with all existing plus the selected
   const transactions = []
@@ -105,9 +105,9 @@ async function StakeTx(
 }
 async function UnstakeTx(
   senderAddress,
+  api,
   { from, amount, addressRole },
-  network,
-  api
+  network
 ) {
   // stake with all existing plus the selected
   const transactions = []
@@ -138,7 +138,7 @@ async function UnstakeTx(
   return await getSignMessage(senderAddress, transactions, api)
 }
 
-async function RestakeTx(senderAddress, { to, from, addressRole }, api) {
+async function RestakeTx(senderAddress, api, { to, from, addressRole }) {
   // stake with all existing plus the selected
   const transactions = []
   // validators you continue nominating
