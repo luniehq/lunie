@@ -125,7 +125,7 @@
     "sass-loader": "^7.1.0",
     "selenium-server": "^3.141.59",
     "simsala": "^0.0.21",
-    "stylelint": "^10.1.0",
+    "stylelint": "^13.6.1",
     "stylelint-config-standard": "^18.3.0",
     "vue-jest": "^3.0.5",
     "vue-loader": "^15.4.2",
