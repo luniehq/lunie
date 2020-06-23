@@ -1,5 +1,8 @@
 const { ApolloServer } = require('apollo-server-express')
 const responseCachePlugin = require('apollo-server-plugin-response-cache')
+const firebaseAdmin = require('firebase-admin')
+const Sentry = require('@sentry/node')
+
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 const Notifications = require('./notifications')
@@ -8,6 +11,11 @@ const { networkList } = require('./networks')
 const NetworkContainer = require('./network-container')
 
 const config = require('../config')
+
+const firebaseServiceAccount = require('../firebaseCredentials.json')
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(firebaseServiceAccount)
+})
 
 const networks = networkList.map((network) => new NetworkContainer(network))
 
@@ -26,6 +34,17 @@ function getDataSources(networks) {
 
 function startBlockTriggers() {
   networks.map((network) => network.initialize())
+}
+
+async function checkIsValidIdToken(idToken) {
+  try {
+    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
+    return true
+  } catch (error) {
+    console.error(error)
+    Sentry.captureException(error)
+    return false
+  }
 }
 
 function createApolloServer(httpServer) {
@@ -50,7 +69,7 @@ function createApolloServer(httpServer) {
     subscriptions: {
       path: config.subscriptionPath
     },
-    context: ({ req, connection }) => {
+    context: async ({ req, connection }) => {
       if (connection) {
         return {
           dataSources: getDataSources(networks)
@@ -63,9 +82,18 @@ function createApolloServer(httpServer) {
             throw new Error(`Access Forbidden`)
           }
         }
+        const idToken = req.headers.authorization
+        let validToken = false
+        if (idToken) {
+          validToken = await checkIsValidIdToken(idToken)
+        }
         return {
           fingerprint: req.headers.fingerprint,
-          development: req.headers.development
+          development: req.headers.development,
+          authorization: {
+            idToken: req.headers.authorization,
+            valid: validToken
+          }
         }
       }
     }
@@ -83,5 +111,6 @@ function createApolloServer(httpServer) {
 }
 
 module.exports = {
-  createApolloServer
+  createApolloServer,
+  firebaseAdmin
 }

@@ -51,7 +51,7 @@ const createApolloClient = async () => {
 
     operation.setContext({
       headers: {
-        authorization: token ? `Bearer ${token}` : "",
+        authorization: token ? `${token}` : "",
         fingerprint,
         development: config.development,
       },
