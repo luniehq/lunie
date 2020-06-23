@@ -21,7 +21,7 @@ const { getNotifications } = require('./notifications')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
 const networks = require('../data/networks')
-const { firebaseAdmin } = require('./apollo')
+const { firebaseAdmin } = require('./apollo.js')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
