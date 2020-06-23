@@ -38,8 +38,8 @@ function startBlockTriggers() {
 
 async function checkIsValidIdToken(idToken) {
   try {
-    await firebaseAdmin.auth().verifyIdToken(idToken)
-    return true
+    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
+    return decodedToken.uid
   } catch (error) {
     console.error(error)
     Sentry.captureException(error)
@@ -92,6 +92,7 @@ function createApolloServer(httpServer) {
           development: req.headers.development,
           authorization: {
             idToken: req.headers.authorization,
+            // valid will be the user uid in case the idToken is valid
             valid: validToken
           }
         }
