@@ -29,12 +29,12 @@ class SlashingMonitor {
   initialize() {
     this.client.subscribe(
       { query: "slash.reason='double_sign'" },
-      storeSlashes('double_sign')
+      this.storeSlashes('double_sign')
     )
 
     this.client.subscribe(
       { query: "slash.reason='missing_signature'" },
-      storeSlashes('missing_signature')
+      this.storeSlashes('missing_signature')
     )
 
     // this.client.subscribe(
