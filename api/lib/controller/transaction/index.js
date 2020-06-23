@@ -4,57 +4,33 @@ const { publishUserTransactionAddedV2 } = require('../../subscriptions')
 const { storeTransactions } = require('../../statistics')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
 const networks = require('../../../data/networks')
+const polkadotNetworks = networks.filter(
+  (network) => network.network_type === `polkadot`
+)
 
 global.fetch = require('node-fetch')
 
-let kusamaAPI, polkadotAPI, polkadotTestnetAPI
+const polkadotAPIsDictionary = {}
 
-async function initKusamaAPI() {
-  // ignore polkadot in tests for now
-  if (process.env.TEST || !networkMap['kusama']) return
-
-  kusamaAPI = new ApiPromise({
-    provider: new WsProvider(networkMap['kusama'].rpc_url)
-  })
-  await kusamaAPI.isReady
+async function initPolkadotAPIs() {
+  return Promise.all(
+    polkadotNetworks.map((network) => {
+      // ignore polkadot in tests for now
+      if (process.env.TEST || !networkMap[network.id]) return
+      const polkadotAPI = new ApiPromise({
+        provider: new WsProvider(networkMap[network.id].rpc_url)
+      })
+      polkadotAPI.isReady
+      polkadotAPIsDictionary[network.id] = polkadotAPI
+    })
+  )
 }
 
-async function initPolkadotAPI() {
-  // ignore polkadot in tests for now
-  if (process.env.TEST || !networkMap['polkadot']) return
+initPolkadotAPIs()
 
-  polkadotAPI = new ApiPromise({
-    provider: new WsProvider(networkMap['polkadot'].rpc_url)
-  })
-  await polkadotAPI.isReady
-}
-
-async function initPolkadotTestnetAPI() {
-  // ignore polkadot in tests for now
-  if (process.env.TEST || !networkMap['polkadot-testnet']) return
-  polkadotTestnetAPI = new ApiPromise({
-    provider: new WsProvider(networkMap['polkadot-testnet'].rpc_url)
-  })
-  await polkadotTestnetAPI.isReady
-}
-
-initKusamaAPI()
-initPolkadotAPI()
-initPolkadotTestnetAPI()
-
-async function getKusamaAPI() {
-  await kusamaAPI.isReady
-  return kusamaAPI
-}
-
-async function getPolkadotAPI() {
-  await polkadotAPI.isReady
-  return polkadotAPI
-}
-
-async function getPolkadotTestnetAPI() {
-  await polkadotTestnetAPI.isReady
-  return polkadotTestnetAPI
+async function getPolkadotAPI(networkId) {
+  await polkadotAPIsDictionary[networkId].isReady
+  return polkadotAPIsDictionary[networkId]
 }
 
 async function broadcastWithCosmos(tx, fingerprint, development) {
@@ -72,30 +48,9 @@ async function broadcastWithCosmos(tx, fingerprint, development) {
   }
 }
 
-async function broadcastWithKusama(tx) {
-  const api = await getKusamaAPI()
-  const result = await api.rpc.author.submitExtrinsic(tx.signedMessage)
-  const hash = result.toJSON()
-  return {
-    hash,
-    success: true
-  }
-}
-
 async function broadcastWithPolkadot(tx) {
-  const api = await getPolkadotAPI()
+  const api = await getPolkadotAPI(tx.networkId)
   const result = await api.rpc.author.submitExtrinsic(tx.signedMessage)
-  const hash = result.toJSON()
-  return {
-    hash,
-    success: true
-  }
-}
-
-async function broadcastWithPolkadotTestnet(tx) {
-  const api = await getPolkadotTestnetAPI()
-  const result = await api.rpc.author.submitExtrinsic(tx.signedMessage)
-  console.log(api, result)
   const hash = result.toJSON()
   return {
     hash,
@@ -108,12 +63,8 @@ async function broadcast(tx, fingerprint, development) {
   try {
     if (networkMap[tx.networkId].network_type === `cosmos`) {
       return await broadcastWithCosmos(tx, fingerprint, development)
-    } else if (tx.networkId === `kusama`) {
-      return await broadcastWithKusama(tx, fingerprint, development)
-    } else if (tx.networkId === `polkadot`) {
+    } else if (networkMap[tx.networkId].network_type === `polkadot`) {
       return await broadcastWithPolkadot(tx, fingerprint, development)
-    } else if (tx.networkId === `polkadot-testnet`) {
-      return await broadcastWithPolkadotTestnet(tx, fingerprint, development)
     }
   } catch (e) {
     Sentry.withScope(function (scope) {
