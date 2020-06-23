@@ -107,4 +107,3 @@ function createApolloServer(httpServer) {
 }
 
 module.exports = { createApolloServer }
-
