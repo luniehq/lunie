@@ -38,7 +38,7 @@ function startBlockTriggers() {
 
 async function checkIsValidIdToken(idToken) {
   try {
-    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
+    await firebaseAdmin.auth().verifyIdToken(idToken)
     return true
   } catch (error) {
     console.error(error)
