@@ -46,9 +46,12 @@ const makeWebSocketLink = () => {
 const createApolloClient = async () => {
   const fingerprint = await getFingerprint()
   const middleware = new ApolloLink((operation, forward) => {
-    // add the authentication to the headers
+    // Retrieve the authorization token from local storage.
+    const token = localStorage.getItem("auth_token")
+
     operation.setContext({
       headers: {
+        authorization: token ? `${token}` : "",
         fingerprint,
         development: config.development,
       },
