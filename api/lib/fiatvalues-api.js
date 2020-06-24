@@ -112,7 +112,7 @@ class fiatValueAPI {
     const fiatCurrenciesUppercase = allFiatCurrencies.map((fiatCurrency) =>
       fiatCurrency.toUpperCase()
     )
-    let allFiatValues
+    let allFiatValues = {}
     if (Object.keys(this.priceFeed).length > 0) {
       allFiatValues = geckoCoinIDs.reduce((allFiatValues, coinID) => {
         const coinDenom = this.fiatValuesAPIReverseDictionary[coinID] // the actual denom of the coin
@@ -127,8 +127,6 @@ class fiatValueAPI {
         })
         return allFiatValues
       }, {})
-    } else {
-      allFiatValues = {}
     }
     // add e-Money exchange rates
     allFiatValues = {
