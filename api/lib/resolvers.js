@@ -1,6 +1,5 @@
 const { sortBy } = require('lodash')
 const Sentry = require('@sentry/node')
-const firebaseAdmin = require('firebase-admin')
 const { UserInputError, withFilter } = require('apollo-server')
 const BigNumber = require('bignumber.js')
 const {
@@ -22,11 +21,7 @@ const { getNotifications } = require('./notifications')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
 const networks = require('../data/networks')
-
-const firebaseServiceAccount = require('../firebaseCredentials.json')
-firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(firebaseServiceAccount)
-})
+const firebaseAdmin = require('./firebase')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
