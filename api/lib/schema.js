@@ -133,7 +133,7 @@ const typeDefs = gql`
     id: String
     title: String
     chain_id: String
-    public_rpc_url: String
+    rpc_url: String
     api_url: String
     bech32_prefix: String
     address_prefix: String
