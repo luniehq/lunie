@@ -1,6 +1,9 @@
 package org.lunie.lunie;
 
+import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.webkit.WebView;
 
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
