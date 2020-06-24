@@ -84,7 +84,7 @@
   font-size: var(--h3);
   color: var(--bright);
   font-weight: 500;
-  padding: 1rem 1rem 0.5rem;
+  padding: 0.5rem 1rem 0.5rem;
 }
 
 .account-paragraph {

@@ -276,7 +276,6 @@ export default {
   border: 2px solid var(--menu-border);
   border-radius: 0.25rem;
   display: block;
-  min-width: 17em;
 }
 
 .user-box-address {
@@ -322,6 +321,11 @@ export default {
 .app-menu .app-menu-item.router-link-active h2 {
   color: var(--menu-bright);
   font-weight: 500;
+}
+
+.menu-address {
+  background: none;
+  padding: 0 1rem 0 0;
 }
 
 @media screen and (min-width: 1024px) {
