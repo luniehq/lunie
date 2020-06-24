@@ -29,7 +29,7 @@ jobs:
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_APP }}
         working-directory: ${{env.WORKING_DIRECTORY}}
-      - uses: nwtgck/actions-netlify@v1.1.1
+      - uses: nwtgck/actions-netlify@v1.1.4
         id: deploy
         with:
           alias: develop

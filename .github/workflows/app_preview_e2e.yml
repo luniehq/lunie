@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: yarn build
         working-directory: ${{env.WORKING_DIRECTORY}}
-      - uses: nwtgck/actions-netlify@v1.1.1
+      - uses: nwtgck/actions-netlify@v1.1.4
         id: deploy
         with:
           alias: ${{ github.head_ref }}
@@ -32,7 +32,7 @@ jobs:
           github-token: ${{ secrets.GIT_BOT_TOKEN }}
           deploy-message: "Deploy from GitHub Actions"
           enable-pull-request-comment: true
-          enable-commit-comment: true
+          enable-commit-comment: false
           overwrites-pull-request-comment: true
           netlify-config-path: ./app/netlify.toml
         env:
