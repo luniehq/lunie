@@ -20,7 +20,7 @@
   </AccountFrame>
 </template>
 <script>
-import AccountFrame from "common/AccountFrame"
+import AccountFrame from "account/AccountFrame"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
 import TmBtn from "common/TmBtn"
@@ -41,6 +41,7 @@ export default {
       await this.$store.dispatch(`sendUserMagicLink`, {
         user: { email: this.email },
       })
+      this.$router.push({ name: `magic-link-sent-modal` })
     },
     close() {
       this.$router.go(`-1`)
