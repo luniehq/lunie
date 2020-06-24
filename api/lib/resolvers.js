@@ -340,16 +340,10 @@ const resolvers = {
     networks: (_, { experimental }) => {
       const networks = networkList
         .map((network) => {
-          if (network.id === 'local-cosmos-hub-testnet') {
-            // HACK: network.api_url for the testnet has to be different for internal
-            // (docker DNS to access the testnet container) and external (this frontend to
-            // access the docker container from the outside via its port)
-            return {
-              ...network,
-              api_url: 'http://localhost:9071'
-            }
-          }
-          return network
+          return Object.assign({}, network, {
+            rpc_url: network.public_rpc_url,
+            public_rpc_url: undefined
+          })
         })
         // filter out not enabled networks
         .filter((network) => (experimental ? true : network.enabled))
