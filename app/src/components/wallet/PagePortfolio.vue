@@ -4,15 +4,19 @@
       <DelegationsOverview />
       <Undelegations />
     </template>
-    <div id="powered-by-coingecko">
+    <div
+      v-if="!session.isMobile && session.signedIn && !currentNetwork.testnet"
+      id="powered-by-coingecko"
+    >
       <span>Fiat currencies courtesy of&nbsp;</span>
-      <img id="coingecko-logo" src="/img/icons/coingecko.webp"/>
+      <img id="coingecko-logo" src="/img/icons/coingecko.webp" />
       <span>&nbsp;API</span>
     </div>
   </TmPage>
 </template>
 
 <script>
+import { mapState, mapGetters } from "vuex"
 import TmPage from "common/TmPage"
 import DelegationsOverview from "staking/DelegationsOverview"
 import Undelegations from "staking/Undelegations"
@@ -24,23 +28,35 @@ export default {
     Undelegations,
     DelegationsOverview,
   },
+  computed: {
+    ...mapState([`session`]),
+    ...mapGetters([`currentNetwork`]),
+  },
 }
 </script>
 <style scoped>
-  #coingecko-logo {
-    width: 6rem;
-  }
+#powered-by-coingecko {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 0.75rem;
+}
 
+#coingecko-logo {
+  width: 6rem;
+}
+
+#powered-by-coingecko > * {
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+@media screen and (max-width: 1023px) {
   #powered-by-coingecko {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-right: 1rem;
-    font-size: 0.75rem;
+    display: none;
   }
-
-  #powered-by-coingecko > * {
-    display: inline-block;
-    margin-right: 0.25rem;
-  }
+}
 </style>
