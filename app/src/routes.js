@@ -232,6 +232,11 @@ export default (store) => {
       component: require("account/SignInModal").default,
     },
     {
+      path: `/magic-link-sent-modal`,
+      name: `magic-link-sent-modal`,
+      component: require("account/MagicLinkSentModal").default,
+    },
+    {
       path: `/reveal/:address`,
       name: `reveal`,
       component: require("account/RevealSeedModal").default,
