@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.215] - 2020-06-24
+
+### Changed
+
+- [#4149](https://github.com/cosmos/lunie/issues/4149) Adds the user authentication token to ApolloClient @Bitcoinera
+
 ## [1.0.214] - 2020-06-23
 
 ### Added
