@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.29] - 2020-06-24
+
+### Added
+
+- [#4334](https://github.com/cosmos/lunie/pull/4334) Adds authorization token in header to apollo context @Bitcoinera
+
+### Fixed
+
+- [#4353](https://github.com/cosmos/lunie/pull/4353) Fix subscriptions breaking @Bitcoinera
+
 ## [1.0.28] - 2020-06-23
 
 ### Added
