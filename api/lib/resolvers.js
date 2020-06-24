@@ -340,6 +340,7 @@ const resolvers = {
     networks: (_, { experimental }) => {
       const networks = networkList
         .map((network) => {
+          // we will only output the public_rpc_url to the world under the "rpc_url" denomination
           return Object.assign({}, network, {
             rpc_url: network.public_rpc_url,
             public_rpc_url: undefined
