@@ -18,7 +18,10 @@ async function initPolkadotAPIs() {
       // ignore polkadot in tests for now
       if (process.env.TEST || !networkMap[network.id]) return
       const polkadotAPI = new ApiPromise({
-        provider: new WsProvider(networkMap[network.id].rpc_url || networkMap[network.id].public_rpc_url)
+        provider: new WsProvider(
+          networkMap[network.id].rpc_url ||
+            networkMap[network.id].public_rpc_url
+        )
       })
       polkadotAPI.isReady
       polkadotAPIsDictionary[network.id] = polkadotAPI
