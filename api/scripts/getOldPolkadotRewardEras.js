@@ -16,7 +16,7 @@ const eraCachePath = path.join(
 
 async function initPolkadotRPC(network, store) {
   const api = new ApiPromise({
-    provider: new WsProvider(network.rpc_url)
+    provider: new WsProvider(network.rpc_url || network.public_rpc_url)
   })
   store.polkadotRPC = api
   await api.isReady

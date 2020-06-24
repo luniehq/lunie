@@ -15,7 +15,7 @@ export const Networks = gql`
       chain_id
       testnet
       title
-      rpc_url
+      public_rpc_url
     }
   }
 `

@@ -39,7 +39,7 @@ class PolkadotNodeSubscription {
   // the class gets stored in the store to be used by all instances
   async initPolkadotRPC() {
     this.api = new ApiPromise({
-      provider: new WsProvider(this.network.rpc_url)
+      provider: new WsProvider(this.network.rpc_url || this.network.public_rpc_url)
     })
     this.store.polkadotRPC = this.api
     this.store.polkadotRPCOpened = Date.now()

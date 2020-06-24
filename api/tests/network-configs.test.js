@@ -11,7 +11,7 @@ const schema = Joi.object({
   id: Joi.string().lowercase(),
   title: Joi.string(),
   chain_id: Joi.string(),
-  rpc_url: Joi.string().uri(),
+  public_rpc_url: Joi.string().uri(),
   api_url: Joi.string().uri(),
   bech32_prefix: Joi.string(),
   address_prefix: Joi.string(),

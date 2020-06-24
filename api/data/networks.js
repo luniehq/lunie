@@ -169,7 +169,8 @@ module.exports = [
     title: 'Kusama',
     chain_id: 'kusama-cc3',
     api_url: 'https://host-01.polkascan.io/kusama/api/v1/',
-    rpc_url: process.env.LOCAL_KUSAMA_API || 'wss://lunie-wss.kusama.fish',
+    rpc_url: process.env.LOCAL_KUSAMA_API,
+    public_rpc_url: 'wss://kusama-rpc.polkadot.io/', 
     bech32_prefix: ' ',
     address_prefix: '2', // used in Polkadot as well to generate display addresses (https://wiki.polkadot.network/docs/en/learn-accounts)
     ledger_app: 'polkadot',
@@ -201,7 +202,8 @@ module.exports = [
   //   title: 'Polkadot',
   //   chain_id: 'polkadot-cc1',
   //   api_url: 'https://api-01.polkascan.io/polkadot/api/v1/',
-  //   rpc_url: process.env.LOCAL_POLKADOT_API || 'wss://rpc.polkadot.io',
+  //   rpc_url: process.env.LOCAL_POLKADOT_API,
+  //   public_rpc_url: 'wss://rpc.polkadot.io',
   //   bech32_prefix: ' ',
   //   address_prefix: '0', // used in Polkadot as well to generate display addresses (https://wiki.polkadot.network/docs/en/learn-accounts)
   //   ledger_app: 'polkadot',
@@ -227,7 +229,8 @@ module.exports = [
     title: 'Polkadot Testnet',
     chain_id: 'westend',
     api_url: 'https://api-01.polkascan.io/polkadot/api/v1/',
-    rpc_url: process.env.LOCAL_WESTEND_API || 'wss://westend-rpc.polkadot.io',
+    rpc_url: process.env.LOCAL_WESTEND_API,
+    public_rpc_url: 'wss://westend-rpc.polkadot.io',
     bech32_prefix: ' ',
     address_prefix: '42', // used in Polkadot as well to generate display addresses (https://wiki.polkadot.network/docs/en/learn-accounts)
     ledger_app: 'polkadot',
