@@ -43,7 +43,7 @@ export default {
     ...mapGetters([`network`]),
     isMobileApp() {
       return this.session.mobile
-    }
+    },
   },
   store,
 }
