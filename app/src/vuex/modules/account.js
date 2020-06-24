@@ -33,7 +33,14 @@ export default ({ apollo }) => {
         if (user) {
           commit(`userSignedIn`, true)
           commit(`setUserInformation`, user)
+
           await actions.updateProfilePicture()
+
+          const idToken = await user.getIdToken(/* forceRefresh */ true)
+          localStorage.setItem(`auth_token`, idToken)
+          // make sure new authorization token get added to header
+          apollo.cache.reset()
+
           console.log("User is now signed in!")
         } else {
           commit(`userSignedIn`, false)
@@ -82,6 +89,9 @@ export default ({ apollo }) => {
     async signOutUser({ commit }) {
       try {
         await Auth.signOut()
+        localStorage.removeItem(`auth_token`)
+        // get rid of cached token in header
+        apollo.cache.reset()
       } catch (error) {
         console.error(error)
         commit(`setSignInError`, error)

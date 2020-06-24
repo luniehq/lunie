@@ -240,6 +240,7 @@ export default {
 }
 
 .show-mobile-sorting {
+  display: none;
   cursor: pointer;
   display: none;
 }

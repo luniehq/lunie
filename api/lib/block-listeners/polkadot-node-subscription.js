@@ -177,7 +177,8 @@ class PolkadotNodeSubscription {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              era
+              era,
+              networkId: this.network.id
             })
           }).catch((error) => {
             console.error('Failed running Polkadot rewards script', error)
