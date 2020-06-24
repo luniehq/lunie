@@ -1,24 +1,14 @@
 import {
   getSignMessage,
-  getAPI,
-  getPolkadotNetworks,
+  getAPI
 } from "./polkadot-transactions"
 import uniqBy from "lodash.uniqby"
 import BigNumber from "bignumber.js"
 
-async function getNetworkRPCUrl(networkId) {
-  const polkadotNetworks = await getPolkadotNetworks()
-  const polkadotNetwork = polkadotNetworks.find(
-    (network) => network.id === networkId
-  )
-  return polkadotNetwork.rpc_url
-}
-
 // Bank
 /* istanbul ignore next */
 export async function SendTx(senderAddress, { to, amount }, network) {
-  const rpcUrl = await getNetworkRPCUrl(network.id)
-  const api = await getAPI(rpcUrl)
+  const api = await getAPI(network.id)
 
   return await getSignMessage(
     senderAddress,
@@ -33,9 +23,8 @@ export async function StakeTx(
   { to, amount, addressRole },
   network
 ) {
-  const rpcUrl = await getNetworkRPCUrl(network.id)
   // stake with all existing plus the selected
-  const api = await getAPI(rpcUrl)
+  const api = await getAPI(network.id)
   const transactions = []
   // delegation amount
   if (amount.amount > 0) {
@@ -83,9 +72,8 @@ export async function UnstakeTx(
   { from, amount, addressRole },
   network
 ) {
-  const rpcUrl = await getNetworkRPCUrl(network.id)
   // stake with all existing plus the selected
-  const api = await getAPI(rpcUrl)
+  const api = await getAPI(network.id)
   const transactions = []
   // undelegation amount
   if (amount.amount > 0) {
@@ -119,9 +107,8 @@ export async function RestakeTx(
   { to, from, addressRole },
   network
 ) {
-  const rpcUrl = await getNetworkRPCUrl(network.id)
   // stake with all existing plus the selected
-  const api = await getAPI(rpcUrl)
+  const api = await getAPI(network.id)
   const transactions = []
   // validators you continue nominating
   if (
@@ -143,9 +130,8 @@ export async function RestakeTx(
 }
 
 export async function ClaimRewardsTx(senderAddress, {}, network) {
-  const rpcUrl = await getNetworkRPCUrl(network.id)
   let allClaimingTxs = []
-  const api = await getAPI(rpcUrl)
+  const api = await getAPI(network.id)
   const stakerRewards = await api.derive.staking.stakerRewards(senderAddress)
   const newStakerRewards = stakerRewards.filter(({ era }) => era.toJSON() > 718)
   if (newStakerRewards.length === 0) {
