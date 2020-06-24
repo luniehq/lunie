@@ -19,15 +19,23 @@ export async function getPolkadotNetworks() {
 }
 
 // will only be inited once per session
-let api
-export async function getAPI(endpoint) {
-  if (!api) {
-    api = new ApiPromise({
+let apis = {}
+let polkadotNetworks
+export async function getAPI(networkId) {
+  if (!apis[networkId]) {
+    if (!polkadotNetworks) {
+      polkadotNetworks = await getPolkadotNetworks()
+    }
+    const polkadotNetwork = polkadotNetworks.find(
+      (network) => network.id === networkId
+    )
+    const endpoint = polkadotNetwork.public_rpc_url
+    apis[networkId] = new ApiPromise({
       provider: new WsProvider(endpoint),
     })
   }
-  await api.isReady
-  return api
+  await apis[networkId].isReady
+  return apis[networkId]
 }
 
 /**
@@ -44,11 +52,7 @@ export async function getAPI(endpoint) {
 // }
 
 export async function multiMessage(transactions, networkId) {
-  const polkadotNetworks = await getPolkadotNetworks()
-  const polkadotNetwork = polkadotNetworks.find(
-    (network) => network.id === networkId
-  )
-  const api = await getAPI(polkadotNetwork.rpc_url)
+  const api = await getAPI(networkId)
   return api.tx.utility.batch(transactions)
 }
 
@@ -64,7 +68,7 @@ export async function getSignMessage(senderAddress, transaction, networkId) {
     }
   }
 
-  const api = await getAPI()
+  const api = await getAPI(networkId)
   const nonce = (await api.derive.balances.account(senderAddress)).accountNonce
   let options
   let blockNumber
