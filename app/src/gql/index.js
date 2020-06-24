@@ -136,7 +136,7 @@ export const NetworksAll = gql`
         viewDenom
         chainToViewConversionFactor
       }
-      public_rpc_url
+      rpc_url
     }
   }
 `
