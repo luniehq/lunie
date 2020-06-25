@@ -134,7 +134,7 @@ export const createApolloProvider = async () => {
     defaultOptions: {
       // apollo options applied to all queries in components
       $query: {
-        fetchPolicy: "cache-and-network",
+        fetchPolicy: "cache-first",
       },
     },
   })
