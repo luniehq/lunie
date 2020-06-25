@@ -46,7 +46,7 @@ const config = {
             MOBILE_APP: JSON.stringify(process.env.MOBILE_APP),
           },
         }),
-        new BundleAnalyzerPlugin()
+        // new BundleAnalyzerPlugin() // uncomment to analyze deps
       ],
       optimization: {
         splitChunks: {
