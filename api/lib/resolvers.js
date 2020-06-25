@@ -326,20 +326,15 @@ const resolvers = {
     },
     network: (_, { id }) => {
       const network = networkMap[id]
-      if (network.id === 'local-cosmos-hub-testnet') {
-        // HACK: network.api_url for the testnet has to be different for internal
-        // (docker DNS to access the testnet container) and external (this frontend to
-        // access the docker container from the outside via it's port)
-        return {
-          ...network,
-          api_url: 'http://localhost:9071'
-        }
-      }
-      return network
+      return Object.assign({}, network, {
+        rpc_url: network.public_rpc_url,
+        public_rpc_url: undefined
+      })
     },
     networks: (_, { experimental }) => {
       const networks = networkList
         .map((network) => {
+          // the server side nodes are mostly whitelisted or secret so we don't want to send them to the FE
           return Object.assign({}, network, {
             rpc_url: network.public_rpc_url,
             public_rpc_url: undefined

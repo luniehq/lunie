@@ -29,7 +29,7 @@ export async function getAPI(networkId) {
     const polkadotNetwork = polkadotNetworks.find(
       (network) => network.id === networkId
     )
-    const endpoint = polkadotNetwork.public_rpc_url
+    const endpoint = polkadotNetwork.rpc_url
     apis[networkId] = new ApiPromise({
       provider: new WsProvider(endpoint),
     })
