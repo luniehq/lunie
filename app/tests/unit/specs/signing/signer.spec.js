@@ -168,7 +168,8 @@ describe("pick signer", () => {
     expect(signWithExtension).toHaveBeenCalled()
   })
 
-  it("should create signature for Polkadot", async () => {
+  // this will connect to the actual API
+  xit("should create signature for Polkadot", async () => {
     jest.setTimeout(60000)
     const nodeEnv = process.env.NODE_ENV
     process.env.NODE_ENV = "production"

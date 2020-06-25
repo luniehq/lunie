@@ -242,6 +242,7 @@ export default {
 .show-mobile-sorting {
   display: none;
   cursor: pointer;
+  display: none;
 }
 
 .show-mobile-sorting.active {
