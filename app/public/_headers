@@ -1,9 +1,3 @@
-/index.html
-    cache-control: max-age=0
-    cache-control: no-cache
-    cache-control: no-store
-    cache-control: must-revalidate
-
 /*
     Content-Security-Policy:  default-src 'self' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://monitoring.lunie.io:9000 https://js.intercomcdn.com;
     Content-Security-Policy:  connect-src 'self' https://api-iam.intercom.io https://widget.intercom.io wss://*.intercom.io wss://production-api.lunie.io/graphql https://production-api.lunie.io wss://staging-api.lunie.io/graphql https://staging-api.lunie.io https://monitoring.lunie.io:9000 wss://kusama-rpc.polkadot.io/;
