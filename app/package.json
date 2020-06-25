@@ -4,8 +4,8 @@
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
-    "build": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa",
-    "buildsentry": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa && chmod 755 tasks/sentry.sh && ./tasks/sentry.sh",
+    "build": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa --mode production",
+    "buildsentry": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa --modern --mode production && chmod 755 tasks/sentry.sh && ./tasks/sentry.sh",
     "build:mobile": "cross-env MOBILE_APP=true npm run build",
     "changelog": "simsala log --pending-path ./changes",
     "lint": "yarn lint:style & yarn lint:js",
