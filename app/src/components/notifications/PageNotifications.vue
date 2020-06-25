@@ -1,7 +1,8 @@
 <template>
   <TmPage data-title="My alerts" hide-header>
+    <TmDataLoading v-if="$apollo.loading && notifications.length === 0" />
     <TmDataMsg
-      v-if="notifications.length === 0"
+      v-else-if="!$apollo.loading && notifications.length === 0"
       icon="error"
       icon-color="var(--dark-grey-blue)"
     >
@@ -37,6 +38,7 @@
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
 import EventList from "common/EventList"
+import TmDataLoading from "common/TmDataLoading"
 import { mapState, mapGetters } from "vuex"
 import gql from "graphql-tag"
 
@@ -46,6 +48,7 @@ export default {
     TmPage,
     TmDataMsg,
     EventList,
+    TmDataLoading,
   },
   data: () => ({
     notifications: [],
