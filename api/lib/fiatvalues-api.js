@@ -37,6 +37,8 @@ const denomToCoinGeckoIDDictionary = {
   KRT: 'terra-krw',
   SDT: 'terra-sdt',
   KAVA: 'kava',
+  BNB: 'binancecoin',
+  // USDX: 'usdx', // not on coin gecko yet
   KSM: 'kusama'
 }
 
@@ -46,6 +48,8 @@ const geckoIDToDenomDictionary = {
   'terra-krw': 'KRT',
   'terra-sdt': 'SDT',
   kava: 'KAVA',
+  binancecoin: 'BNB',
+  // usdx: 'USDX', // not on coin gecko yet
   kusama: 'KSM'
 }
 
@@ -72,7 +76,7 @@ class fiatValueAPI {
     this.fiatValuesAPIDictionary = denomToCoinGeckoIDDictionary
     this.fiatValuesAPIReverseDictionary = geckoIDToDenomDictionary
     this.fiatCurrenciesSymbolsDictionary = fiatCurrenciesSymbolsDictionary
-    this.coins = ['ATOM', 'LUNA', 'KRT', 'SDT', 'KAVA', 'KSM'] // Lunie coins currently being traded in the open
+    this.coins = ['ATOM', 'LUNA', 'KRT', 'SDT', 'KAVA', 'BNB', 'KSM'] // Lunie coins currently being traded in the open
     this.priceFeed = {}
 
     this.pollNewPriceFeed()
@@ -161,12 +165,7 @@ class fiatValueAPI {
               denom: fiatCurrency,
               symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
             }
-          : {
-              coinDenom: coin.denom, // only used to identify values
-              amount: 0,
-              denom: fiatCurrency,
-              symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
-            }
+          : null
       )
     )
     return keyBy(fiatValuesArray, 'coinDenom')

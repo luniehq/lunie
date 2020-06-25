@@ -361,7 +361,7 @@ async function balanceV2Reducer(
     type: isStakingDenom ? 'STAKE' : 'CURRENCY',
     total,
     denom: lunieCoin.denom,
-    fiatValue: fiatValue[stakingDenom],
+    fiatValue: fiatValue[lunieCoin.denom],
     available: lunieCoin.amount,
     availableFiatValue: availableFiatValue[stakingDenom]
   }
