@@ -1,6 +1,19 @@
-import firebase from "firebase/app"
-import "firebase/auth"
 import config from "../config"
 
-firebase.initializeApp(config.firebaseConfig)
-export default firebase
+// load firebase async
+let firebaseInstance
+const getFirebase = async () => {
+    if (firebaseInstance) {
+        return firebaseInstance
+    }
+    const [firebase] = await Promise.all([
+        import("firebase/app"),
+        import("firebase/auth")
+    ])
+    firebase.initializeApp(config.firebaseConfig)
+    firebaseInstance = firebase
+    return firebase
+}
+
+
+export default getFirebase
