@@ -21,26 +21,3 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "same-origin"
-
-  for = "/index.html"
-  [headers.values]
-    cache-control = '''
-      max-age=0,
-      no-cache,
-      no-store,
-      must-revalidate
-    '''
-
-[context.production]
-  command = "yarn buildsentry"
-
-[context.deploy-preview]
-  command = "yarn build --mode development"
-
-[context.deploy-preview.environment]
-  SENTRY_DSN = ""
-  SENTRY_URL = ""
-  SENTRY_TOKEN = ""
-
-[context.deploy-preview.processing]
-  skip_processing = true
