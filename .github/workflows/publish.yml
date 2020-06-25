@@ -3,7 +3,7 @@ name: Publish to master
 on:
   push:
     branches:
-      - '*'
+      - ana/fix-publish-flow
 
 env:
     GIT_BOT_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}
