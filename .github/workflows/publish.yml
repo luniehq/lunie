@@ -22,4 +22,6 @@ jobs:
         - name: Use Node.js
           uses: actions/setup-node@v1
         - name: publish to master
-          run: bash ./scripts/publish.sh        
+          run: bash ./scripts/publish.sh $GIT_BOT_TOKEN
+          env:
+            GIT_BOT_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}     

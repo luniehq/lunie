@@ -1,4 +1,5 @@
 #!/bin/bash
+GIT_BOT_TOKEN=$1
 COMMIT_MESSAGE=$(git log --format=%B -n 1)
 if [[ $COMMIT_MESSAGE == "release-"* || $COMMIT_MESSAGE == "[Simsala] automatic release"* ]]
 then
