@@ -3,7 +3,12 @@ name: Publish to master
 on:
   push:
     branches:
-      - ana/fix-publish-flow
+      - develop
+    paths:
+      - 'api/CHANGELOG.md'
+      - 'app/CHANGELOG.md'
+      - 'extension/CHANGELOG.md'
+      - 'scriptRunner/CHANGELOG.md'
 
 env:
     GIT_BOT_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}
