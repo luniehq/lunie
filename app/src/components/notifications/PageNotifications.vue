@@ -132,7 +132,6 @@ export default {
         this.dataLoaded = true
         // assume that when the full page got loaded, that there is more
         this.moreAvailable = result.notifications.length % 20 === 0
-        this.notifications = result.notifications
         return result.notifications
       },
       /* istanbul ignore next */
