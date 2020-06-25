@@ -61,13 +61,15 @@ import FieldSeed from "common/TmFieldSeed"
 import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
-import { isHex } from "@polkadot/util"
 import { mnemonicValidate } from "@polkadot/util-crypto"
 
 const has12or24words = (param) => {
   return (
     param && (param.split(` `).length === 12 || param.split(` `).length === 24)
   )
+}
+const isHex = value => {
+  return /[0-9a-f]+/i.test(value)
 }
 
 const lowerCaseAndSpaces = (param) => {
