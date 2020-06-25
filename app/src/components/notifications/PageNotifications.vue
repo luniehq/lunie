@@ -13,24 +13,31 @@
       <div slot="subtitle">Don't worry, they are on their way!</div>
     </TmDataMsg>
 
-    <EventList
-      v-else
-      :events="notifications"
-      :more-available="moreAvailable"
-      @loadMore="loadMore"
-    >
-      <template slot-scope="event">
-        <router-link :key="event.id" class="notification" :to="event.link">
-          <div class="content">
-            <img :src="event.icon" />
-            <div>
-              <h3 class="title">{{ event.title }}</h3>
+    <div v-else>
+      <EventList
+        :events="notifications"
+        :more-available="moreAvailable"
+        @loadMore="loadMore"
+      >
+        <template slot-scope="event">
+          <router-link :key="event.id" class="notification" :to="event.link">
+            <div class="content">
+              <img :src="event.icon" />
+              <div>
+                <h3 class="title">{{ event.title }}</h3>
+              </div>
             </div>
-          </div>
-          <i class="material-icons notranslate">chevron_right</i>
-        </router-link>
-      </template>
-    </EventList>
+            <i class="material-icons notranslate">chevron_right</i>
+          </router-link>
+        </template>
+      </EventList>
+      <div
+        v-if="$apollo.loading && !dataLoaded && moreAvailable"
+        class="spinner-container"
+      >
+        <img src="/img/spinner_blue@256.gif" class="spinner" />
+      </div>
+    </div>
   </TmPage>
 </template>
 
@@ -125,6 +132,7 @@ export default {
         this.dataLoaded = true
         // assume that when the full page got loaded, that there is more
         this.moreAvailable = result.notifications.length % 20 === 0
+        this.notifications = result.notifications
         return result.notifications
       },
       /* istanbul ignore next */
@@ -212,5 +220,15 @@ img {
 .title {
   font-weight: 400;
   overflow-wrap: anywhere; /** Important. Otherwise awful style bug */
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+}
+
+.spinner {
+  height: 45px;
+  width: 45px;
 }
 </style>
