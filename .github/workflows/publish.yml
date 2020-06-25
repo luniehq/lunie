@@ -17,16 +17,15 @@ jobs:
         - name: Use Node.js
           uses: actions/setup-node@v1
         - name: publish to master
-          run: bash 
-            COMMIT_MESSAGE=$(git log --format=%B -n 1)
-            echo "Publishing"
-            git config pull.rebase false
-            git config user.email "bot@lunie.io"
-            git config user.name "Publish Lunie Bot"
-            git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git
-            git checkout aleksei/error_handling
-            git pull
-            git merge --no-edit origin/develop
+          run: COMMIT_MESSAGE=$(git log --format=%B -n 1) &&
+            echo "Publishing" &&
+            git config pull.rebase false &&
+            git config user.email "bot@lunie.io" &&
+            git config user.name "Publish Lunie Bot" &&
+            git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git &&
+            git checkout aleksei/error_handling &&
+            git pull &&
+            git merge --no-edit origin/develop &&
             git push
           env:
             GIT_BOT_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}     
