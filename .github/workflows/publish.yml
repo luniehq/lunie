@@ -18,7 +18,7 @@ jobs:
           uses: actions/setup-node@v1
         - name: publish to master
           run: COMMIT_MESSAGE=$(git log --format=%B -n 1) &&
-            if [[ $COMMIT_MESSAGE == "release-"* || $COMMIT_MESSAGE == "[Simsala] automatic release"* ]]
+            if [[ $COMMIT_MESSAGE == "release-"* || $COMMIT_MESSAGE == "[Simsala] automatic release"* ]];
             then
               echo "Publishing" &&
               git config pull.rebase false &&
@@ -28,9 +28,9 @@ jobs:
               git checkout aleksei/error_handling &&
               git pull &&
               git merge --no-edit origin/develop &&
-              git push
+              git push;
             else
-              echo "No release detected, so not publishing"
+              echo "No release detected, so not publishing";
             fi
           env:
             GIT_BOT_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}     
