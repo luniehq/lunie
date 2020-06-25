@@ -51,9 +51,11 @@ const config = {
       optimization: {
         splitChunks: {
           chunks: "all",
+          minSize: 10000,
+          maxSize: 250000,
         },
       },
-      devtool: "eval-source-map",
+      devtool: "eval-source-map"
     }
 
     return config
