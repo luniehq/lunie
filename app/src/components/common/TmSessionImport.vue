@@ -69,7 +69,7 @@ const has12or24words = (param) => {
   )
 }
 const isHex = value => {
-  return /[0-9a-f]+/i.test(value)
+  return /0x[0-9a-f]+/i.test(value)
 }
 
 const lowerCaseAndSpaces = (param) => {

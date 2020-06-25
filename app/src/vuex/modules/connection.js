@@ -8,7 +8,7 @@ const isPolkadotAddress = (address) => {
 }
 
 const isValidPolkadotAddress = async (address, addressPrefix) => {
-  const { checkAddress } = import("@polkadot/util-crypto")
+  const { checkAddress } = await import("@polkadot/util-crypto")
   return checkAddress(address, addressPrefix)
 }
 
