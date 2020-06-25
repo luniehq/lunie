@@ -19,7 +19,7 @@ jobs:
         - name: publish to master
           run: COMMIT_MESSAGE=$(git log --format=%B -n 1) &&
             echo "Publishing" &&
-            git config pull.rebase false &&
+            git config pull.rebase true &&
             git config user.email "bot@lunie.io" &&
             git config user.name "Publish Lunie Bot" &&
             git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git &&
