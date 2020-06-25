@@ -156,12 +156,7 @@ class fiatValueAPI {
               denom: fiatCurrency,
               symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
             }
-          : {
-              coinDenom: coin.denom, // only used to identify values
-              amount: 0,
-              denom: fiatCurrency,
-              symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
-            }
+          : null
       )
     )
     return keyBy(fiatValuesArray, 'coinDenom')
