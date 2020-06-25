@@ -38,7 +38,7 @@ const denomToCoinGeckoIDDictionary = {
   SDT: 'terra-sdt',
   KAVA: 'kava',
   BNB: 'binancecoin',
-  // USDX: 'usdx',
+  // USDX: 'usdx', // not on coin gecko yet
   KSM: 'kusama'
 }
 
@@ -49,7 +49,7 @@ const geckoIDToDenomDictionary = {
   'terra-sdt': 'SDT',
   kava: 'KAVA',
   binancecoin: 'BNB',
-  // usdx: 'USDX',
+  // usdx: 'USDX', // not on coin gecko yet
   kusama: 'KSM'
 }
 
