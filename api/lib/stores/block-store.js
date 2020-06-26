@@ -3,6 +3,8 @@ const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
 const Sentry = require('@sentry/node')
+const database = require('../database')
+const config = require('../../config')
 const { publishEvent: publishEvent } = require('../subscriptions')
 const { eventTypes, resourceTypes } = require('../notifications-types')
 
@@ -27,13 +29,31 @@ class BlockStore {
     this.db = database
 
     // system to stop queries to proceed if store data is not yet available
-    this.resolveReady
-    this.dataReady = new Promise((resolve) => {
-      this.resolveReady = resolve
+    // this.resolveReady
+    // this.dataReady = new Promise((resolve) => {
+    //   this.resolveReady = resolve
+    // })
+    this.dataReady = new Promise(() => {
+      this.getStore()
     })
-    this.db = database
 
     this.loadStoredValidatorData()
+  }
+
+  async getStore() {
+    const { data } = await database(config)('').getStore(this.network.id)
+    if (data && data.store) {
+      const dbStore = JSON.parse(data.store)
+      this.latestHeight = dbStore.latestHeight
+      this.block = dbStore.block
+      this.stakingDenom = dbStore.stakingDenom
+      this.annualProvision = dbStore.annualProvision
+      this.signedBlocksWindow = dbStore.signedBlocksWindow
+      this.validators = dbStore.validators
+      this.proposals = dbStore.proposals
+      this.newValidators = dbStore.newValidators
+    }
+    return true
   }
 
   async update({
@@ -74,9 +94,11 @@ class BlockStore {
     this.data = data
 
     // when the data is available signal readyness so the resolver stop blocking the requests
-    if (this.validators) {
-      this.resolveReady()
-    }
+    // if (this.validators) {
+    //   this.resolveReady()
+    // }
+    // save store in DB to improve API perfomance on startup
+    storeStoreInDB(this)
   }
 
   /**
@@ -109,7 +131,7 @@ class BlockStore {
 
     // Set validator store equal to validatorMap from file storage
     this.validators = validatorMap
-    this.resolveReady()
+    // this.resolveReady()
   }
 
   // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
@@ -276,6 +298,22 @@ function enrichValidator(validatorInfo, validator) {
     name,
     picture: picture === 'null' || picture === 'undefined' ? undefined : picture
   }
+}
+
+async function storeStoreInDB(store) {
+  let dbStore = {}
+  dbStore.latestHeight = store.latestHeight
+  dbStore.block = store.block
+  dbStore.stakingDenom = store.stakingDenom
+  dbStore.annualProvision = store.annualProvision
+  dbStore.signedBlocksWindow = store.signedBlocksWindow
+  dbStore.validators = store.validators
+  dbStore.proposals = store.proposals
+  dbStore.newValidators = store.newValidators
+  await database(config)('').storeStore({
+    store: JSON.stringify(dbStore),
+    networkId: store.network.id
+  })
 }
 
 module.exports = BlockStore
