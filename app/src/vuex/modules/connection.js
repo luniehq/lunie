@@ -23,6 +23,7 @@ export default function ({ apollo }) {
     externals: {
       config,
     },
+    polkadotAPI: undefined,
   }
 
   const mutations = {
@@ -37,6 +38,9 @@ export default function ({ apollo }) {
     },
     setNetworks(state, networks) {
       state.networks = networks
+    },
+    setPolkadotAPI(state, polkadotAPI) {
+      state.polkadotAPI = polkadotAPI
     },
   }
 
@@ -150,7 +154,28 @@ export default function ({ apollo }) {
       }
       commit("setAddressType", network.address_creator)
       dispatch(`checkForPersistedSession`) // check for persisted session on that network
+      // if the network is a pokadot network
+      if (network.network_type === `polkadot`) {
+        actions.connectToPolkadotAPI({ commit }, { networkId: network.id })
+      }
       console.info(`Connecting to: ${network.id}`)
+    },
+    async connectToPolkadotAPI({ commit }, { networkId }) {
+      const { WsProvider, ApiPromise } = await import("@polkadot/api")
+
+      const polkadotNetworks = state.networks.filter(
+        (network) => network.network_type === `polkadot`
+      )
+
+      const polkadotNetwork = polkadotNetworks.find(
+        (network) => network.id === networkId
+      )
+      const endpoint = polkadotNetwork.rpc_url
+      const polkadotAPI = new ApiPromise({
+        provider: new WsProvider(endpoint),
+      })
+      await polkadotAPI.isReady
+      commit(`setPolkadotAPI`, polkadotAPI)
     },
   }
 
