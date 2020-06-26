@@ -124,6 +124,9 @@ describe(`ActionModal`, () => {
           browserWithLedgerSupport: null,
           currrentModalOpen: false,
         },
+        connection: {
+          polkadotAPI: {},
+        },
         overview,
         balances,
         delegations,
@@ -187,7 +190,14 @@ describe(`ActionModal`, () => {
     const failingSendMock = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))
-    const $store = { dispatch: jest.fn() }
+    const $store = {
+      dispatch: jest.fn(),
+      state: {
+        connection: {
+          polkadotAPI: {},
+        },
+      },
+    }
     const self = {
       $store,
       $apollo,
