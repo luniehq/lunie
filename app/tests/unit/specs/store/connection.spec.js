@@ -150,27 +150,27 @@ describe(`Module: Connection`, () => {
       ],
     }
 
-    it(`identifies a Cosmos address`, () => {
+    it(`identifies a Cosmos address`, async () => {
       const address = `cosmos19fpzpl5s3nctstne4rqqcd6mt0dn9a0svkvkaa`
-      const network = actions.getNetworkByAccount(
+      const network = await actions.getNetworkByAccount(
         { state },
         { account: { address } }
       )
       expect(network.id).toBe("cosmos-hub-mainnet")
     })
 
-    it(`identifies a testnet Cosmos address`, () => {
+    it(`identifies a testnet Cosmos address`, async () => {
       const address = `cosmos19fpzpl5s3nctstne4rqqcd6mt0dn9a0svkvkaa`
-      const network = actions.getNetworkByAccount(
+      const network = await actions.getNetworkByAccount(
         { state },
         { account: { address }, testnet: true }
       )
       expect(network.id).toBe("cosmos-hub-testnet")
     })
 
-    it(`identifies a Polkadot Kusama address`, () => {
+    it(`identifies a Polkadot Kusama address`, async () => {
       const polkadotAddress = `EksmaF7D2fWWjcX9LvZ48g9j1y4TpexY2ixNraHTfMWRton`
-      const network = actions.getNetworkByAccount(
+      const network = await actions.getNetworkByAccount(
         { state },
         { account: { address: polkadotAddress }, testnet: true }
       )
@@ -178,29 +178,29 @@ describe(`Module: Connection`, () => {
     })
 
     it(`should show error if address is not in bech32`, () => {
-      const address = `cosmos2xxxxx`
-      expect(() =>
+      const address = `cosmosxxxxx`
+      expect(
         actions.getNetworkByAccount({ state }, { account: { address } })
-      ).toThrow()
+      ).rejects.toThrow()
     })
 
     it(`should show error if address is a validator address`, () => {
       const address = `cosmosvaloper12knqu4ecmg0982plzs9m9f5jareh0cvegcw3wu`
-      expect(() =>
+      expect(
         actions.getNetworkByAccount({ state }, { account: { address } })
-      ).toThrow()
+      ).rejects.toThrow()
     })
 
     it(`should show error if address is a "cosmospub" address`, () => {
       const address = `cosmospub1addwnpepqgadvwk7ev0kk2x0tua0hrt056p8tqpv35r0mwydz45ytxp3wfaz5e7nxun`
-      expect(() =>
+      expect(
         actions.getNetworkByAccount({ state }, { account: { address } })
-      ).toThrow()
+      ).rejects.toThrow()
     })
 
-    it(`filters networks correctly also on prefix`, () => {
+    it(`filters networks correctly also on prefix`, async () => {
       const address = `terra1mma85hevm6kavfuu9mgmektxvmxnwssqspxrhc`
-      const network = actions.getNetworkByAccount(
+      const network = await actions.getNetworkByAccount(
         { state },
         { account: { address }, testnet: true }
       )

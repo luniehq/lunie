@@ -1,5 +1,7 @@
 const path = require(`path`)
 const webpack = require(`webpack`)
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin
 const { version } = require("./package.json")
 
 function resolve(dir) {
@@ -44,10 +46,13 @@ const config = {
             MOBILE_APP: JSON.stringify(process.env.MOBILE_APP),
           },
         }),
+        // new BundleAnalyzerPlugin() // uncomment to analyze deps
       ],
       optimization: {
         splitChunks: {
           chunks: "all",
+          minSize: 10000,
+          maxSize: 250000,
         },
       },
       devtool: "eval-source-map",
