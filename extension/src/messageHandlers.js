@@ -7,6 +7,7 @@ const {
 const {
   default: TransactionManager
 } = require('app/src/signing/transaction-manager')
+const { getPolkadotAPI } = require('./utils')
 
 export async function signMessageHandler(
   signRequestQueue,
@@ -70,6 +71,10 @@ export async function signMessageHandler(
       } = event.payload
 
       const transactionManager = new TransactionManager()
+      let polkadotAPI
+      if (network.network_type === `polkadot`) {
+        polkadotAPI = await getPolkadotAPI(network)
+      }
       try {
         const broadcastableObject = await transactionManager.createAndSignLocally(
           messageType,
@@ -78,7 +83,8 @@ export async function signMessageHandler(
           senderAddress,
           network,
           'local',
-          password
+          password,
+          polkadotAPI
         )
         const { tabID } = signRequestQueue.unqueueSignRequest(id)
         sendAsyncResponseToLunie(tabID, {
