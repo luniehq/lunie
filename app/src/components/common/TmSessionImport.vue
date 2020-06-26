@@ -68,7 +68,7 @@ const has12or24words = (param) => {
     param && (param.split(` `).length === 12 || param.split(` `).length === 24)
   )
 }
-const isHex = value => {
+const isHex = (value) => {
   return /0x[0-9a-f]+/i.test(value)
 }
 

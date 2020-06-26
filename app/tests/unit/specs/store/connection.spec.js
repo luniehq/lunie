@@ -179,17 +179,23 @@ describe(`Module: Connection`, () => {
 
     it(`should show error if address is not in bech32`, () => {
       const address = `cosmosxxxxx`
-      expect(actions.getNetworkByAccount({ state }, { account: { address } })).rejects.toThrow()
+      expect(
+        actions.getNetworkByAccount({ state }, { account: { address } })
+      ).rejects.toThrow()
     })
 
     it(`should show error if address is a validator address`, () => {
       const address = `cosmosvaloper12knqu4ecmg0982plzs9m9f5jareh0cvegcw3wu`
-      expect(actions.getNetworkByAccount({ state }, { account: { address } })).rejects.toThrow()
+      expect(
+        actions.getNetworkByAccount({ state }, { account: { address } })
+      ).rejects.toThrow()
     })
 
     it(`should show error if address is a "cosmospub" address`, () => {
       const address = `cosmospub1addwnpepqgadvwk7ev0kk2x0tua0hrt056p8tqpv35r0mwydz45ytxp3wfaz5e7nxun`
-      expect(actions.getNetworkByAccount({ state }, { account: { address } })).rejects.toThrow()
+      expect(
+        actions.getNetworkByAccount({ state }, { account: { address } })
+      ).rejects.toThrow()
     })
 
     it(`filters networks correctly also on prefix`, async () => {

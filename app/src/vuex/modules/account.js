@@ -50,8 +50,9 @@ export default ({ apollo }) => {
         const user = JSON.parse(localStorage.getItem(`user`))
         try {
           await Auth.signInWithEmailLink(user.email, window.location.href)
-          const idToken = await Auth
-            .currentUser.getIdToken(/* forceRefresh */ true)
+          const idToken = await Auth.currentUser.getIdToken(
+            /* forceRefresh */ true
+          )
           apollo.mutate({
             mutation: gql`
               mutation {
