@@ -1,7 +1,8 @@
 <template>
   <TmPage data-title="My alerts" hide-header>
+    <TmDataLoading v-if="$apollo.loading && notifications.length === 0" />
     <TmDataMsg
-      v-if="notifications.length === 0"
+      v-else-if="!$apollo.loading && notifications.length === 0"
       icon="error"
       icon-color="var(--dark-grey-blue)"
     >
@@ -12,24 +13,31 @@
       <div slot="subtitle">Don't worry, they are on their way!</div>
     </TmDataMsg>
 
-    <EventList
-      v-else
-      :events="notifications"
-      :more-available="moreAvailable"
-      @loadMore="loadMore"
-    >
-      <template slot-scope="event">
-        <router-link :key="event.id" class="notification" :to="event.link">
-          <div class="content">
-            <img :src="event.icon" />
-            <div>
-              <h3 class="title">{{ event.title }}</h3>
+    <div v-else>
+      <EventList
+        :events="notifications"
+        :more-available="moreAvailable"
+        @loadMore="loadMore"
+      >
+        <template slot-scope="event">
+          <router-link :key="event.id" class="notification" :to="event.link">
+            <div class="content">
+              <img :src="event.icon" />
+              <div>
+                <h3 class="title">{{ event.title }}</h3>
+              </div>
             </div>
-          </div>
-          <i class="material-icons notranslate">chevron_right</i>
-        </router-link>
-      </template>
-    </EventList>
+            <i class="material-icons notranslate">chevron_right</i>
+          </router-link>
+        </template>
+      </EventList>
+      <div
+        v-if="$apollo.loading && !dataLoaded && moreAvailable"
+        class="spinner-container"
+      >
+        <img src="/img/spinner_blue@256.gif" class="spinner" />
+      </div>
+    </div>
   </TmPage>
 </template>
 
@@ -37,6 +45,7 @@
 import TmPage from "common/TmPage"
 import TmDataMsg from "common/TmDataMsg"
 import EventList from "common/EventList"
+import TmDataLoading from "common/TmDataLoading"
 import { mapState, mapGetters } from "vuex"
 import gql from "graphql-tag"
 
@@ -46,6 +55,7 @@ export default {
     TmPage,
     TmDataMsg,
     EventList,
+    TmDataLoading,
   },
   data: () => ({
     notifications: [],
@@ -209,5 +219,15 @@ img {
 .title {
   font-weight: 400;
   overflow-wrap: anywhere; /** Important. Otherwise awful style bug */
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+}
+
+.spinner {
+  height: 45px;
+  width: 45px;
 }
 </style>
