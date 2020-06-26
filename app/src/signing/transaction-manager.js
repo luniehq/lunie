@@ -103,6 +103,7 @@ export default class TransactionManager {
     network,
     signingType,
     password,
+    polkadotAPI,
   }) {
     let broadcastableObject
     if (signingType === "extension") {
@@ -121,7 +122,8 @@ export default class TransactionManager {
         senderAddress,
         network,
         signingType,
-        password
+        password,
+        polkadotAPI
       )
     }
     return this.broadcastTransaction(
@@ -140,13 +142,15 @@ export default class TransactionManager {
     senderAddress,
     network,
     signingType,
-    password
+    password,
+    polkadotAPI
   ) {
     const messages = await getMessage(
       network,
       messageType,
       senderAddress,
-      message
+      message,
+      polkadotAPI
     )
     const signer = await getSigner(
       signingType,

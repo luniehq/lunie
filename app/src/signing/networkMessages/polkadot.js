@@ -1,19 +1,14 @@
-import {
-  getSignMessage,
-  getAPI
-} from "./polkadot-transactions"
+import { getSignMessage } from "./polkadot-transactions"
 import uniqBy from "lodash.uniqby"
 import BigNumber from "bignumber.js"
 
 // Bank
 /* istanbul ignore next */
-export async function SendTx(senderAddress, { to, amount }, network) {
-  const api = await getAPI(network.id)
-
+export async function SendTx(senderAddress, { to, amount }, network, api) {
   return await getSignMessage(
     senderAddress,
     api.tx.balances.transfer(to[0], toChainAmount(amount, network.coinLookup)),
-    network.id
+    api
   )
 }
 
@@ -21,10 +16,10 @@ export async function SendTx(senderAddress, { to, amount }, network) {
 export async function StakeTx(
   senderAddress,
   { to, amount, addressRole },
-  network
+  network,
+  api
 ) {
   // stake with all existing plus the selected
-  const api = await getAPI(network.id)
   const transactions = []
   // delegation amount
   if (amount.amount > 0) {
@@ -64,16 +59,16 @@ export async function StakeTx(
   if (transactions.length === 0) {
     throw new Error("You have to either bond stake or nominate a new validator")
   }
-  return await getSignMessage(senderAddress, transactions, network.id)
+  return await getSignMessage(senderAddress, transactions, api)
 }
 
 export async function UnstakeTx(
   senderAddress,
   { from, amount, addressRole },
-  network
+  network,
+  api
 ) {
   // stake with all existing plus the selected
-  const api = await getAPI(network.id)
   const transactions = []
   // undelegation amount
   if (amount.amount > 0) {
@@ -99,16 +94,16 @@ export async function UnstakeTx(
       transactions.push(await api.tx.staking.chill())
     }
   }
-  return await getSignMessage(senderAddress, transactions, network.id)
+  return await getSignMessage(senderAddress, transactions, api)
 }
 
 export async function RestakeTx(
   senderAddress,
   { to, from, addressRole },
-  network
+  network,
+  api
 ) {
   // stake with all existing plus the selected
-  const api = await getAPI(network.id)
   const transactions = []
   // validators you continue nominating
   if (
@@ -126,12 +121,11 @@ export async function RestakeTx(
       .concat(to[0])
     transactions.push(await api.tx.staking.nominate(validatorAddresses))
   }
-  return await getSignMessage(senderAddress, transactions, network.id)
+  return await getSignMessage(senderAddress, transactions, api)
 }
 
-export async function ClaimRewardsTx(senderAddress, {}, network) {
+export async function ClaimRewardsTx(senderAddress, {}, network, api) {
   let allClaimingTxs = []
-  const api = await getAPI(network.id)
   const stakerRewards = await api.derive.staking.stakerRewards(senderAddress)
   const newStakerRewards = stakerRewards.filter(({ era }) => era.toJSON() > 718)
   if (newStakerRewards.length === 0) {
@@ -157,7 +151,7 @@ export async function ClaimRewardsTx(senderAddress, {}, network) {
   if (allClaimingTxs.length === 0) {
     throw new Error("There are no claimable rewards")
   }
-  return await getSignMessage(senderAddress, allClaimingTxs, network.id)
+  return await getSignMessage(senderAddress, allClaimingTxs, api)
 }
 
 function toChainAmount({ amount, denom }, coinLookup) {
