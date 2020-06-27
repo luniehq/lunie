@@ -112,7 +112,37 @@ const createApolloClient = async () => {
     introspectionQueryResultData,
   })
 
-  const cache = new InMemoryCache({ fragmentMatcher })
+  const cache = new InMemoryCache({
+    fragmentMatcher,
+    cacheRedirects: {
+      Query: {
+        network: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: "Network", id: args.id }),
+        validator: (_, args, { getCacheKey }) =>
+          getCacheKey({
+            __typename: "Validator",
+            operatorAddress: args.operatorAddress,
+          }),
+        delegation: (_, args, { getCacheKey }) =>
+          getCacheKey({
+            __typename: "Delegation",
+            delegatorAddress: args.delegatorAddress,
+            networkId: args.networkId,
+          }),
+        reward: (_, args, { getCacheKey }) =>
+          getCacheKey({
+            __typename: "Reward",
+            delegatorAddress: args.delegatorAddress,
+            networkId: args.networkId,
+            fiatCurrency: args.fiatCurrency,
+          }),
+        maintenance: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: "Maintenance" }),
+        blockV2: (_, args, { getCacheKey }) =>
+          getCacheKey({ __typename: "BlockV2", networkId: args.networkId }),
+      },
+    },
+  })
 
   // await before instantiating ApolloClient, else queries might run before the cache is persisted
   await persistCache({
@@ -134,7 +164,7 @@ export const createApolloProvider = async () => {
     defaultOptions: {
       // apollo options applied to all queries in components
       $query: {
-        fetchPolicy: "cache-first",
+        fetchPolicy: "cache-and-network",
       },
     },
   })
