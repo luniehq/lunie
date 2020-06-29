@@ -30,7 +30,8 @@ describe(`Module: Connection`, () => {
       expect(state.signInError).toEqual({ error: { message: `big error` } })
     })
   })
-
+  // Sadly it is quite difficult to fully test everything here since it would be necessary to open the email
+  // and click on it to be able to test everything connected to the "onAuthStateChanged" Firebase observer.
   describe("actions", () => {
     it(`signs in the user`, async () => {
       const commit = jest.fn()
