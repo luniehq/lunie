@@ -1,8 +1,8 @@
 <template>
-  <AccountFrame :icon="`verified_user`">
-    <h2 class="account-title">Sign In / Sign Up</h2>
+  <SessionFrame>
+    <h2 class="account-title">Sign up for premium features!</h2>
     <h4 class="account-subtitle">
-      We will send you a magic link to your email
+      We will send you a magic link to your email.
     </h4>
 
     <TmFormGroup field-id="sign-in-credentials">
@@ -14,20 +14,23 @@
       />
     </TmFormGroup>
     <div class="sign-in-buttons">
-      <TmBtn value="Cancel" type="secondary" @click.native="close()" />
-      <TmBtn value="Send Link" type="primary" @click.native="sendMagicLink()" />
+      <TmBtn
+        value="Send Me A Magic Link"
+        type="primary"
+        @click.native="sendMagicLink()"
+      />
     </div>
-  </AccountFrame>
+  </SessionFrame>
 </template>
 <script>
-import AccountFrame from "account/AccountFrame"
+import SessionFrame from "common/SessionFrame"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
 import TmBtn from "common/TmBtn"
 export default {
   name: `sign-in-modal`,
   components: {
-    AccountFrame,
+    SessionFrame,
     TmFormGroup,
     TmField,
     TmBtn,

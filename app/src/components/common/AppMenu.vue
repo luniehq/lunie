@@ -1,166 +1,110 @@
 <template>
   <menu class="app-menu">
     <div>
-      <div v-if="session.signedIn" class="user-box">
-        <div class="user-box-address">
-          <div class="user-box-inner-row">
-            <div>
-              <h3
-                v-if="
-                  session.addressRole &&
-                  session.addressRole !== `stash/controller` &&
-                  session.addressRole !== `none`
-                "
-              >
-                {{ capitalizeFirstLetter(session.addressRole) }} Address
-              </h3>
-              <h3 v-else>Your Address</h3>
-              <Address
-                class="menu-address"
-                :address="address || ''"
-                tooltip-text="Your address"
-              />
-              <a
-                v-if="!session.isMobile && session.sessionType === 'ledger'"
-                class="show-on-ledger"
-                @click="showAddressOnLedger()"
-                >Show on Ledger</a
-              >
-              <TmFormMsg
-                v-if="ledgerAddressError"
-                :msg="ledgerAddressError"
-                type="custom"
-              />
-            </div>
-            <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-              <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
-                >exit_to_app</i
-              >
-            </a>
-          </div>
-        </div>
-      </div>
-      <TmBtn
-        v-else
-        id="sign-in"
-        class="session-link sidebar"
-        value="Sign In / Sign Up"
-        type="secondary"
-        size="small"
-        @click.native="signIn()"
-      />
-      <div>
-        <router-link
-          class="app-menu-item hide-s"
-          :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
-          exact="exact"
-          title="Portfolio"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Portfolio</h2>
-          <i class="material-icons notranslate">chevron_right</i>
-        </router-link>
-        <router-link
-          class="app-menu-item hide-s"
-          :to="{ name: 'Validators', params: { networkId: networkSlug } }"
-          title="Validators"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Validators</h2>
-          <i class="material-icons notranslate">chevron_right</i>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-s"
+        :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
+        exact="exact"
+        title="Portfolio"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Portfolio</h2>
+        <i class="material-icons notranslate">chevron_right</i>
+      </router-link>
+      <router-link
+        class="app-menu-item hide-s"
+        :to="{ name: 'Validators', params: { networkId: networkSlug } }"
+        title="Validators"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Validators</h2>
+        <i class="material-icons notranslate">chevron_right</i>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-s"
-          :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
-          title="Proposals"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Proposals</h2>
-          <i class="material-icons notranslate">chevron_right</i>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-s"
+        :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
+        title="Proposals"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Proposals</h2>
+        <i class="material-icons notranslate">chevron_right</i>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-s"
-          :to="{ name: 'transactions', params: { networkId: networkSlug } }"
-          exact="exact"
-          title="Transactions"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Transactions</h2>
-          <i class="material-icons notranslate">chevron_right</i>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-s"
+        :to="{ name: 'transactions', params: { networkId: networkSlug } }"
+        exact="exact"
+        title="Transactions"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Transactions</h2>
+        <i class="material-icons notranslate">chevron_right</i>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-m"
-          to="/about"
-          exact="exact"
-          title="About"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">About</h2>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-m"
+        to="/about"
+        exact="exact"
+        title="About"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">About</h2>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-m"
-          to="/careers"
-          exact="exact"
-          title="Careers"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Careers</h2>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-m"
+        to="/careers"
+        exact="exact"
+        title="Careers"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Careers</h2>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-m"
-          to="/security"
-          exact="exact"
-          title="Security"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Security</h2>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-m"
+        to="/security"
+        exact="exact"
+        title="Security"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Security</h2>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-m"
-          to="/terms"
-          exact="exact"
-          title="Terms"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Terms of Service</h2>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-m"
+        to="/terms"
+        exact="exact"
+        title="Terms"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Terms of Service</h2>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-m"
-          to="/privacy"
-          exact="exact"
-          title="Privacy"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Privacy Policy</h2>
-        </router-link>
-      </div>
+      <router-link
+        class="app-menu-item hide-m"
+        to="/privacy"
+        exact="exact"
+        title="Privacy"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Privacy Policy</h2>
+      </router-link>
     </div>
     <ConnectedNetwork @close-menu="handleClick" />
   </menu>
 </template>
 
 <script>
-import Address from "common/Address"
 import ConnectedNetwork from "common/TmConnectedNetwork"
-import TmBtn from "common/TmBtn"
-import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { shortDecimals } from "scripts/num.js"
 import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `app-menu`,
   components: {
-    Address,
     ConnectedNetwork,
-    TmBtn,
-    TmFormMsg,
   },
   filters: {
     shortDecimals,
@@ -224,6 +168,7 @@ export default {
   flex-flow: column;
   position: relative;
   height: 100%;
+  padding-top: 3rem;
 }
 
 .app-menu-item {

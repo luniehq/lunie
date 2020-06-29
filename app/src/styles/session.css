@@ -23,6 +23,10 @@
   left: 1.25rem;
 }
 
+/* .session-icon {
+  background: grey;
+} */
+
 .session {
   background: var(--app-bg);
   max-width: 560px;

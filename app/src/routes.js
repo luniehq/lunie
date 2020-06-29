@@ -247,6 +247,11 @@ export default (store) => {
       component: () => import(`./components/account/EmailAuthentication`),
     },
     {
+      path: `/welcome`,
+      name: `welcome`,
+      component: () => import(`./components/common/CardSignInRequired`),
+    },
+    {
       path: `/:networkId`,
       component: () => import(`./components/common/NetworkSetter`),
       redirect: `/:networkId/portfolio`,

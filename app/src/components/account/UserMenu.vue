@@ -1,16 +1,8 @@
 <template>
   <div class="user-menu">
     <UserMenuAddress v-if="address" :address="address" />
-    <TmBtn
-      v-if="!account.userSignedIn"
-      id="sign-in"
-      :custom-class="`user-menu-button`"
-      :value="address ? `Sign into account` : `Sign In / Sign Up`"
-      size="small"
-      @click.native="openSignInModal()"
-    />
     <router-link
-      v-if="session.experimentalMode && account.userSignedIn"
+      v-if="session.experimentalMode"
       v-tooltip="`Your Notifications`"
       :to="{ name: 'notifications' }"
       class="user-menu-icon-container notifications"
@@ -19,22 +11,33 @@
     </router-link>
     <v-popover open-class="user-menu-popover">
       <!-- This will be the popover target (for the events and position) -->
-      <Avatar
-        v-if="account.userSignedIn && !user.photoURL"
-        class="avatar tooltip-target"
-        :address="addresses[0].address"
-        :human="true"
-      />
-      <img
-        v-if="account.userSignedIn && user.photoURL"
-        class="avatar"
-        :src="user.photoURL"
-      />
+      <div class="avatar-container">
+        <span v-if="!account.userSignedIn" class="avatar tooltip-target"
+          >👻</span
+        >
+        <Avatar
+          v-if="account.userSignedIn"
+          class="avatar tooltip-target"
+          :address="account.user.email"
+          :human="true"
+        />
+      </div>
 
       <!-- This will be the content of the popover -->
       <template slot="popover">
-        <div class="user-email-container">
-          <h3 v-if="user">{{ user.email }}</h3>
+        <div class="user-popover">
+          <div class="avatar-container">
+            <span v-if="!account.userSignedIn" class="avatar tooltip-target"
+              >👻</span
+            >
+            <Avatar
+              v-if="account.userSignedIn"
+              class="avatar tooltip-target"
+              :address="account.user.email"
+              :human="true"
+            />
+          </div>
+          <h3 class="email">{{ user.email || `Anonymous User` }}</h3>
         </div>
         <div
           v-for="address in addresses"
@@ -44,53 +47,56 @@
           @click="selectAddress(address.address)"
         >
           <div>
-            <span v-if="address.type">{{ address.type }}</span>
+            <span v-if="address.sessionType"
+              >{{ address.sessionType }} — {{ address.networkId }}</span
+            >
             <span class="address">{{ address.address | formatAddress }}</span>
-            <span class="address-network">{{ address.network }}</span>
           </div>
-
           <i v-if="address.address === selectedAddress" class="material-icons"
             >check</i
           >
         </div>
-        <div
-          v-if="session.experimentalMode"
-          class="menu-list-item"
-          :class="{ dark: selectedOption === `create` }"
-          @click="selectOption(`create`)"
-        >
+        <div v-close-popover class="menu-list-item" @click="goToWelcome()">
           <span>Create New Account</span>
           <i class="material-icons">add_circle</i>
         </div>
-        <div
-          v-if="session.experimentalMode"
-          class="menu-list-item"
-          :class="{ dark: selectedOption === `settings` }"
-          @click="selectOption(`settings`)"
-        >
-          <span>Settings</span>
-          <i class="material-icons">settings</i>
+        <div v-if="account.userSignedIn">
+          <div
+            v-if="false"
+            v-close-popover
+            class="menu-list-item"
+            @click="closePopover()"
+          >
+            <span>Settings</span>
+            <i class="material-icons">settings</i>
+          </div>
+          <div
+            v-if="false"
+            v-close-popover
+            class="menu-list-item"
+            @click="closePopover()"
+          >
+            <span>Manage Subscription</span>
+            <i class="material-icons">payment</i>
+          </div>
+          <div
+            v-close-popover
+            class="menu-list-item outline"
+            @click="signOut()"
+          >
+            <span>Logout</span>
+            <i class="material-icons">exit_to_app</i>
+          </div>
         </div>
-        <div
-          v-if="session.experimentalMode"
-          class="menu-list-item"
-          :class="{ dark: selectedOption === `payment` }"
-          @click="selectOption(`payment`)"
-        >
-          <span>Manage Subscription</span>
-          <i class="material-icons">payment</i>
-        </div>
-        <div
-          class="menu-list-item outline"
-          :class="{ dark: selectedOption === `logout` }"
-          @click="
-            selectOption(`logout`)
-            signOut()
-            closePopover()
-          "
-        >
-          <span>Logout</span>
-          <i class="material-icons">exit_to_app</i>
+        <div v-else>
+          <div
+            v-close-popover
+            class="menu-list-item outline"
+            @click="signUpForPremium()"
+          >
+            <span>Sign up for premium</span>
+            <i class="material-icons">email</i>
+          </div>
         </div>
       </template>
     </v-popover>
@@ -99,7 +105,6 @@
 
 <script>
 import Avatar from "common/Avatar"
-import TmBtn from "common/TmBtn"
 import UserMenuAddress from "account/UserMenuAddress"
 import { formatAddress } from "src/filters"
 import { mapGetters, mapState } from "vuex"
@@ -110,59 +115,42 @@ export default {
   },
   components: {
     Avatar,
-    TmBtn,
     UserMenuAddress,
   },
   data: () => ({
-    addresses: [
-      {
-        address: "cosmos1...abcd",
-        network: "Cosmos Hub",
-      },
-      {
-        address: "akash1...efgh",
-        network: "Akash Testnet",
-      },
-      {
-        address: "polka1...ijkl",
-        network: "Polkadot",
-      },
-    ],
-    selectedAddress: "cosmos1...abcd",
+    selectedAddress: "",
     selectedOption: "",
   }),
   computed: {
     ...mapState([`session`, `account`]),
     ...mapGetters([`address`, `currentNetwork`]),
     user() {
-      return this.account.userSignedIn ? this.account.user : null
+      return this.account.userSignedIn ? this.account.user : {}
     },
-  },
-  watch: {
-    address: function () {
-      this.addresses = [
-        { address: this.address, network: this.currentNetwork.title },
-      ]
+    addresses() {
+      return this.session.allSessionAddresses
     },
   },
   methods: {
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
-    },
     openSignInModal() {
       this.$router.push({ name: `sign-in-modal` })
     },
     selectAddress(address) {
       this.selectedAddress = address
     },
-    selectOption(option) {
-      this.selectedOption = option
-    },
     signOut() {
+      this.$store.dispatch(`signOut`, this.network)
       this.$store.dispatch(`signOutUser`)
     },
-    closePopover() {
-      this.$el.querySelector(`.v-popover`).focus()
+    goToWelcome() {
+      if (this.$route.name !== `welcome`) {
+        this.$router.push({ name: `welcome` })
+      }
+    },
+    signUpForPremium() {
+      if (this.$route.name !== `sign-in-modal`) {
+        this.$router.push({ name: `sign-in-modal` })
+      }
     },
   },
 }
@@ -178,6 +166,15 @@ h3 {
   align-items: center;
   justify-content: flex-end;
   margin: 1em;
+}
+
+.user-popover {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.75rem;
+  border: 1px solid #eee;
+  border-radius: 0.25rem;
 }
 
 .user-menu-icon-container {
@@ -233,11 +230,6 @@ h3 {
   background: #eee;
 }
 
-.menu-list-item.dark {
-  margin-top: 0.5rem;
-  background: hsl(226, 30%, 90%);
-}
-
 .menu-list-item.outline {
   border: 1px solid #eee;
 }
@@ -246,8 +238,9 @@ h3 {
   background: #e6fae6;
 }
 
-.menu-list-item.dark:hover {
-  background: hsl(226, 30%, 85%);
+.email {
+  padding: 0.75rem;
+  margin: 0.25rem 0;
 }
 
 .address-list .material-icons {
@@ -269,26 +262,26 @@ h3 {
   font-weight: 400;
 }
 
-.avatar {
-  display: inline-block;
-  width: 2.2rem;
-  height: 2.2rem;
+.avatar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
-  border: 2px solid var(--bc-dim);
+  background: var(--app-fg);
+  overflow: hidden;
+  border: 4px solid var(--app-fg);
+}
+
+.avatar {
+  width: 100%;
+  position: relative;
+  top: 0.25rem;
 }
 
 .v-popover {
-  height: 2rem;
-  width: 2rem;
   cursor: pointer;
-}
-
-.user-email-container {
-  text-align: center;
-  margin: 0.5em;
-  font-size: 1em;
-  font-weight: 600;
-  color: #324175;
 }
 
 .user-menu-button {

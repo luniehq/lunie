@@ -23,8 +23,9 @@ export default {
   computed: {
     svg() {
       let sprites = this.human ? humanSprites : regularSprites
-      const options = {}
+      const options = { mood: [`happy`] }
       const avatars = new Avatars(sprites, options)
+      console.log(this.address)
       return avatars.create(this.address)
     },
   },

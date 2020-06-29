@@ -8,6 +8,10 @@
       @click.self="goToPortfolio()"
     >
       <div class="session-outer-container">
+        <div v-if="icon" class="session-icon">
+          <i class="material-icons">{{ icon }}</i>
+          <!-- <img src="~assets/images/lunie-logo-white.svg" alt="" /> -->
+        </div>
         <div class="session">
           <div class="session-header">
             <a v-if="!hideBack" @click="goBack">
@@ -37,6 +41,10 @@ export default {
     hideBack: {
       type: Boolean,
       default: false,
+    },
+    icon: {
+      type: String,
+      default: ``,
     },
   },
   data: () => ({
