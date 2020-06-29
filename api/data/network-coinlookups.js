@@ -100,7 +100,7 @@ const coinLookupDictionary = {
       viewDenom: 'DOT',
       chainToViewConversionFactor: 1e-12
   }],
-  "polkadot-testnet": [{
+  "westend": [{
     chainDenom: 'Planck',
     viewDenom: 'WND',
     chainToViewConversionFactor: 1e-12

@@ -133,7 +133,7 @@ const networkGasEstimatesDictionary = {
   'akash-testnet': akashGasEstimates,
   'kusama': polkadotGasEstimates,
   'polkadot': polkadotGasEstimates,
-  'polkadot-testnet': polkadotGasEstimates,
+  'westend': polkadotGasEstimates,
   'kava-mainnet': kavaGasEstimates,
   'kava-testnet': kavaGasEstimates
 }
@@ -200,7 +200,7 @@ let networkGasPricesDictionary = {
   'akash-testnet': akashGasPrices,
   'kusama': polkadotGasPrices,
   'polkadot': polkadotGasPrices,
-  'polkadot-testnet': polkadotGasPrices,
+  'westend': polkadotGasPrices,
 }
 
 const getPolkadotMessage = async (messageType, senderAddress, message, network, networkSource) => {
@@ -239,6 +239,7 @@ const getPolkadotFee = async ({ messageType, message, senderAddress, network, ne
       amount: viewFees
     }
   } catch(error) {
+    console.error(error)
     Sentry.captureException(error)
     // back up plan. Send most common fee
     // TODO: check it this is the same for Polkadot network

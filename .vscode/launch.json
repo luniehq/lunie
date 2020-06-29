@@ -28,7 +28,7 @@
             "program": "${workspaceFolder}/api/scripts/getOldPolkadotRewardEras.js",
             "envFile": "${workspaceFolder}/api/.env",
             "env": {
-                "RUN_ONLY_NETWORK": "polkadot-testnet"
+                "RUN_ONLY_NETWORK": "westend"
             }
         }
     ]
