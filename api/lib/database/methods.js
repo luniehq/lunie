@@ -96,7 +96,7 @@ const getNotifications = ({ hasura_url, hasura_admin_key }) => (
 }
 
 const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
-  const storedNetworkArray = await read({
+  const storedNetwork = await read({
     hasura_url,
     hasura_admin_key
   })('')(
@@ -128,8 +128,50 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
       id: {_eq: "${id}"}
     }`
   )
-  // return single network from Array
-  return storedNetworkArray[0]
+  const storedNetworkCapabilities = await read({
+    hasura_url,
+    hasura_admin_key
+  })('')(
+    `networksCapabilities`,
+    `networksCapabilities`,
+    [
+      'feature_session',
+      'feature_explore',
+      'feature_portfolio',
+      'feature_validators',
+      'feature_proposals ',
+      'feature_activity',
+      'feature_explorer',
+      'action_send',
+      'action_claim_rewards',
+      'action_delegate',
+      'action_redelegate',
+      'action_undelegate',
+      'action_deposit',
+      'action_vote',
+      'action_proposal'
+    ],
+    `where: { 
+      id: {_eq: "${id}"}
+    }`
+  )
+  const storedNetworkCoinLookup = await read({
+    hasura_url,
+    hasura_admin_key
+  })('')(
+    `coinLookups`,
+    `coinLookups`,
+    ['chainDenom', 'viewDenom', 'chainToViewConversionFactor'],
+    `where: { 
+      id: {_eq: "${id}"}
+    }`
+  )
+  // build and extract single network fields from Arrays
+  return {
+    ...storedNetwork[0],
+    ...storedNetworkCapabilities[0],
+    ...storedNetworkCoinLookup[0]
+  }
 }
 
 const storeCoinLookups = (
