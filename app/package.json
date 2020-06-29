@@ -51,7 +51,7 @@
     "cross-spawn": "7.0.1",
     "crypto-js": "^4.0.0",
     "fingerprintjs2": "2.1.0",
-    "firebase": "7.15.0",
+    "firebase": "7.15.5",
     "graphql": "15.1.0",
     "graphql-tag": "2.10.3",
     "https-proxy-agent": ">=3.0.0",
