@@ -1,17 +1,18 @@
 <template>
-  <AccountFrame :icon="`/img/icons/magic-wand.png`">
-    <h2 class="account-title">Magic Link Sent</h2>
-    <h4 class="account-subtitle">
-      Check your inbox for the magic link to confirm your email address
-    </h4>
-  </AccountFrame>
+  <SessionFrame>
+    <h2 class="session-title">Magic Link Sent</h2>
+    <p>
+      Check your email inbox for your magic link to confirm your email address.
+    </p>
+  </SessionFrame>
 </template>
 <script>
-import AccountFrame from "account/AccountFrame"
+import SessionFrame from "common/SessionFrame"
+
 export default {
   name: `magic-link-sent-modal`,
   components: {
-    AccountFrame,
+    SessionFrame,
   },
   data: () => ({
     email: "",

@@ -1,18 +1,12 @@
 <template>
   <SessionFrame>
-    <h2 class="account-title">Sign up for premium features!</h2>
-    <h4 class="account-subtitle">
-      We will send you a magic link to your email.
-    </h4>
+    <h2 class="session-title">Sign up for premium features!</h2>
+    <p>
+      We'll send a magic link to your email. Click the link and you'll be signed
+      in!
+    </p>
+    <TmField id="email" v-model="email" type="input" placeholder="Your email" />
 
-    <TmFormGroup field-id="sign-in-credentials">
-      <TmField
-        id="email"
-        v-model="email"
-        type="input"
-        placeholder="Your email"
-      />
-    </TmFormGroup>
     <div class="sign-in-buttons">
       <TmBtn
         value="Send Me A Magic Link"
@@ -24,14 +18,12 @@
 </template>
 <script>
 import SessionFrame from "common/SessionFrame"
-import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
 import TmBtn from "common/TmBtn"
 export default {
   name: `sign-in-modal`,
   components: {
     SessionFrame,
-    TmFormGroup,
     TmField,
     TmBtn,
   },
