@@ -3883,17 +3883,17 @@ apollo-graphql@^0.4.0:
     apollo-env "^0.6.5"
     lodash.sortby "^4.7.0"
 
-apollo-link-batch-http@1.2.13:
-  version "1.2.13"
-  resolved "https://registry.yarnpkg.com/apollo-link-batch-http/-/apollo-link-batch-http-1.2.13.tgz#22b2e69e321922b4c3b0c9277811328ab6a401ba"
-  integrity sha512-wOuJ7M5GO1UlfWDDEIDX1rPLuy1ZR74olwDGgwOFE/PXiJpphwGg1noNHygp96PExPOwwSzfV+5J31RDVQ3ckA==
+apollo-link-batch-http@1.2.14:
+  version "1.2.14"
+  resolved "https://registry.yarnpkg.com/apollo-link-batch-http/-/apollo-link-batch-http-1.2.14.tgz#4502109d3f32a94d88eabd3a89274ae3a6e2f56f"
+  integrity sha512-LFUmfV3OXR3Er+zSgFxPY/qUe4Wyx0HS1euJZ36RCCaDvPegr24C9OQgKFScHy91VbjRTtFUyjXXVq1xFGPMvQ==
   dependencies:
-    apollo-link "^1.2.13"
-    apollo-link-batch "^1.1.14"
-    apollo-link-http-common "^0.2.15"
+    apollo-link "^1.2.14"
+    apollo-link-batch "^1.1.15"
+    apollo-link-http-common "^0.2.16"
     tslib "^1.9.3"
 
-apollo-link-batch@^1.1.14:
+apollo-link-batch@^1.1.15:
   version "1.1.15"
   resolved "https://registry.yarnpkg.com/apollo-link-batch/-/apollo-link-batch-1.1.15.tgz#3a5b8c7d9cf1b7840ce630238249b95070e75e54"
   integrity sha512-XbfQI/FNxJW9RSgJTfAl7RDFxxN77425yDtT7YgsImH4/2NQ+U4SWN6thWE3ZU1Wf7ktXd+XFa3KkenBRTybOQ==
@@ -3910,7 +3910,7 @@ apollo-link-error@^1.0.3:
     apollo-link-http-common "^0.2.16"
     tslib "^1.9.3"
 
-apollo-link-http-common@^0.2.15, apollo-link-http-common@^0.2.16:
+apollo-link-http-common@^0.2.16:
   version "0.2.16"
   resolved "https://registry.yarnpkg.com/apollo-link-http-common/-/apollo-link-http-common-0.2.16.tgz#756749dafc732792c8ca0923f9a40564b7c59ecc"
   integrity sha512-2tIhOIrnaF4UbQHf7kjeQA/EmSorB7+HyJIIrUjJOKBgnXwuexi8aMecRlqTIDWcyVXCeqLhUnztMa6bOH/jTg==
