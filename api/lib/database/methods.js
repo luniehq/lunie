@@ -96,7 +96,7 @@ const getNotifications = ({ hasura_url, hasura_admin_key }) => (
 }
 
 const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
-  return await read({
+  const storedNetworkArray = await read({
     hasura_url,
     hasura_admin_key
   })('')(
@@ -128,6 +128,8 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
       id: {_eq: "${id}"}
     }`
   )
+  // return single network from Array
+  return storedNetworkArray[0]
 }
 
 const storeCoinLookups = (

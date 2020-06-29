@@ -284,29 +284,28 @@ class BlockStore {
       const storedNetwork = await database(config)('').getNetwork(
         this.network.id
       )
-      if (storedNetwork.length > 0) {
-        // getNetwork only returns one network, so it is safe to do storedNetwork[0]
+      if (storedNetwork) {
         // we update everything except the network id and powered
-        this.network.enabled = storedNetwork[0].enabled
-        this.network.experimental = storedNetwork[0].experimental
-        this.network.title = storedNetwork[0].title
-        this.network.chain_id = storedNetwork[0].chain_id
-        this.network.rpc_url = storedNetwork[0].rpc_url
-        this.network.api_url = storedNetwork[0].api_url
-        this.network.bech32_prefix = storedNetwork[0].bech32_prefix
-        this.network.testnet = storedNetwork[0].testnet
-        this.network.default = storedNetwork[0].default
-        this.network.stakingDenom = storedNetwork[0].stakingDenom
-        this.network.address_prefix = storedNetwork[0].address_prefix
-        this.network.address_creator = storedNetwork[0].address_creator
-        this.network.ledger_app = storedNetwork[0].ledger_app
-        this.network.network_type = storedNetwork[0].network_type
-        this.network.source_class_name = storedNetwork[0].source_class_name
+        this.network.enabled = storedNetwork.enabled
+        this.network.experimental = storedNetwork.experimental
+        this.network.title = storedNetwork.title
+        this.network.chain_id = storedNetwork.chain_id
+        this.network.rpc_url = storedNetwork.rpc_url
+        this.network.api_url = storedNetwork.api_url
+        this.network.bech32_prefix = storedNetwork.bech32_prefix
+        this.network.testnet = storedNetwork.testnet
+        this.network.default = storedNetwork.default
+        this.network.stakingDenom = storedNetwork.stakingDenom
+        this.network.address_prefix = storedNetwork.address_prefix
+        this.network.address_creator = storedNetwork.address_creator
+        this.network.ledger_app = storedNetwork.ledger_app
+        this.network.network_type = storedNetwork.network_type
+        this.network.source_class_name = storedNetwork.source_class_name
         this.network.block_listener_class_name =
-          storedNetwork[0].block_listener_class_name
-        this.network.icon = storedNetwork[0].icon
-        this.network.slug = storedNetwork[0].slug
-        this.network.lockUpPeriod = storedNetwork[0].lockUpPeriod
+          storedNetwork.block_listener_class_name
+        this.network.icon = storedNetwork.icon
+        this.network.slug = storedNetwork.slug
+        this.network.lockUpPeriod = storedNetwork.lockUpPeriod
       } else {
         await this.storeNetwork(this.network)
       }
