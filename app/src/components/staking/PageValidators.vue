@@ -213,20 +213,20 @@ export default {
   justify-content: space-between;
   flex-direction: row;
   margin: 0.5em 2em 1em;
+
   .toggles {
     margin-bottom: 0;
     display: inline-flex;
   }
+
   input {
     max-width: 300px;
   }
+
   .btn-radio {
     min-width: 100px;
+    border-radius: 0;
   }
-}
-
-.filterContainer .btn-radio {
-  border-radius: 0;
 }
 
 .filterContainer .btn-radio:last-child {
@@ -240,6 +240,7 @@ export default {
 }
 
 .show-mobile-sorting {
+  display: none;
   cursor: pointer;
 }
 
@@ -267,10 +268,6 @@ export default {
   margin-left: 1em;
 }
 
-.show-mobile-sorting {
-  display: none;
-}
-
 .no-results {
   text-align: center;
   margin: 3em;
@@ -279,18 +276,22 @@ export default {
 
 @media screen and (max-width: 768px) {
   .filterContainer {
-    margin: 0.5rem 2rem 0rem 2rem;
+    margin: 0.5rem 2rem 0 2rem;
+
     .btn-radio {
       min-width: 75px;
     }
   }
+
   .filterContainer input {
     max-width: 100%;
   }
+
   .filterOptions {
     padding: 1.5em 0.5em 0.5em;
     width: 100%;
   }
+
   .show-mobile-sorting {
     display: block;
   }

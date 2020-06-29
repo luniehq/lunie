@@ -1,0 +1,2 @@
+[Changed] [#4372](https://github.com/cosmos/lunie/pull/4372) Add TmDataLoading to PageNotifications and a spinner for the dynamic notifications loading @Bitcoinera
+[Changed] [#4372](https://github.com/cosmos/lunie/pull/4372) Hide 0 fiat values in TmBalance @Bitcoinera

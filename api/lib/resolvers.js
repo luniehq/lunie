@@ -1,6 +1,5 @@
 const { sortBy } = require('lodash')
 const Sentry = require('@sentry/node')
-const firebaseAdmin = require('firebase-admin')
 const { UserInputError, withFilter } = require('apollo-server')
 const BigNumber = require('bignumber.js')
 const {
@@ -22,11 +21,7 @@ const { getNotifications } = require('./notifications')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
 const networks = require('../data/networks')
-
-const firebaseServiceAccount = require('../firebaseCredentials.json')
-firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(firebaseServiceAccount)
-})
+const firebaseAdmin = require('./firebase')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -326,30 +321,19 @@ const resolvers = {
     },
     network: (_, { id }) => {
       const network = networkMap[id]
-      if (network.id === 'local-cosmos-hub-testnet') {
-        // HACK: network.api_url for the testnet has to be different for internal
-        // (docker DNS to access the testnet container) and external (this frontend to
-        // access the docker container from the outside via it's port)
-        return {
-          ...network,
-          api_url: 'http://localhost:9071'
-        }
-      }
-      return network
+      return Object.assign({}, network, {
+        rpc_url: network.public_rpc_url,
+        public_rpc_url: undefined
+      })
     },
     networks: (_, { experimental }) => {
       const networks = networkList
         .map((network) => {
-          if (network.id === 'local-cosmos-hub-testnet') {
-            // HACK: network.api_url for the testnet has to be different for internal
-            // (docker DNS to access the testnet container) and external (this frontend to
-            // access the docker container from the outside via its port)
-            return {
-              ...network,
-              api_url: 'http://localhost:9071'
-            }
-          }
-          return network
+          // the server side nodes are mostly whitelisted or secret so we don't want to send them to the FE
+          return Object.assign({}, network, {
+            rpc_url: network.public_rpc_url,
+            public_rpc_url: undefined
+          })
         })
         // filter out not enabled networks
         .filter((network) => (experimental ? true : network.enabled))

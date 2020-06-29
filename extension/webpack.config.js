@@ -31,6 +31,7 @@ const config = {
       assets: resolve('../app/src/assets'),
       'common/Avatar': resolve('./src/components/BlankAvatar'),
       common: resolve('../app/src/components/common'),
+      account: resolve('../app/src/components/account'),
       network: resolve('../app/src/components/network'),
       transactions: resolve('../app/src/components/transactions'),
       modules: resolve('../app/src/vuex/modules'),

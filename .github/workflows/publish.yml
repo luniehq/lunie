@@ -1,0 +1,41 @@
+name: Publish to master
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - 'api/CHANGELOG.md'
+      - 'app/CHANGELOG.md'
+      - 'extension/CHANGELOG.md'
+      - 'scriptRunner/CHANGELOG.md'
+
+env:
+    GIT_BOT_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}
+jobs:
+    publish:
+        name: publish
+        runs-on: ubuntu-latest
+        timeout-minutes: 3
+        steps:
+        - uses: actions/checkout@v1
+        - name: Use Node.js
+          uses: actions/setup-node@v1
+        - name: publish to master
+          run: COMMIT_MESSAGE=$(git log --format=%B -n 1) &&
+            if [[ $COMMIT_MESSAGE == "release-"* || $COMMIT_MESSAGE == "[Simsala] automatic release"* ]];
+            then
+              echo "Publishing" &&
+              git config pull.rebase false &&
+              git config user.email "bot@lunie.io" &&
+              git config user.name "Publish Lunie Bot" &&
+              git remote add bot https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git &&
+              git checkout master &&
+              git pull &&
+              git merge --no-edit origin/develop &&
+              git push;
+            else
+              echo "No release detected, so not publishing";
+            fi
+          env:
+            GIT_BOT_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}     

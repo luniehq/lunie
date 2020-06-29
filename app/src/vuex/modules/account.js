@@ -1,9 +1,7 @@
 import config from "src/../config"
-import firebase from "../../firebase.js"
+import getFirebase from "../../firebase.js"
 import * as Sentry from "@sentry/browser"
 import gql from "graphql-tag"
-
-const Auth = firebase.auth()
 
 export default ({ apollo }) => {
   const state = {
@@ -29,10 +27,15 @@ export default ({ apollo }) => {
 
   const actions = {
     async listenToAuthChanges({ commit }) {
-      await Auth.onAuthStateChanged((user) => {
+      const Auth = (await getFirebase()).auth()
+      await Auth.onAuthStateChanged(async (user) => {
         if (user) {
           commit(`userSignedIn`, true)
           commit(`setUserInformation`, user)
+          const idToken = await user.getIdToken(/* forceRefresh */ true)
+          localStorage.setItem(`auth_token`, idToken)
+          // make sure new authorization token get added to header
+          apollo.cache.reset()
           console.log("User is now signed in!")
         } else {
           commit(`userSignedIn`, false)
@@ -42,13 +45,14 @@ export default ({ apollo }) => {
       })
     },
     async signInUser({ commit }) {
+      const Auth = (await getFirebase()).auth()
       if (Auth.isSignInWithEmailLink(window.location.href)) {
         const user = JSON.parse(localStorage.getItem(`user`))
         try {
           await Auth.signInWithEmailLink(user.email, window.location.href)
-          const idToken = await firebase
-            .auth()
-            .currentUser.getIdToken(/* forceRefresh */ true)
+          const idToken = await Auth.currentUser.getIdToken(
+            /* forceRefresh */ true
+          )
           apollo.mutate({
             mutation: gql`
               mutation {
@@ -64,6 +68,7 @@ export default ({ apollo }) => {
       }
     },
     async sendUserMagicLink({ commit }, { user }) {
+      const Auth = (await getFirebase()).auth()
       const actionCodeSettings = {
         url: `${window.location.protocol}//${window.location.host}/email-authentication`,
         handleCodeInApp: true,
@@ -79,8 +84,12 @@ export default ({ apollo }) => {
       }
     },
     async signOutUser({ commit }) {
+      const Auth = (await getFirebase()).auth()
       try {
         await Auth.signOut()
+        localStorage.removeItem(`auth_token`)
+        // get rid of cached token in header
+        apollo.cache.reset()
       } catch (error) {
         console.error(error)
         commit(`setSignInError`, error)

@@ -227,6 +227,11 @@ export default (store) => {
       component: () => import(`./components/common/FeatureNotPresent`),
     },
     {
+      path: `/reveal/:address`,
+      name: `reveal`,
+      component: require("account/RevealSeedModal").default,
+    },
+    {
       path: `/email-authentication`,
       name: `email-authentication`,
       component: () => import(`./components/account/EmailAuthentication`),

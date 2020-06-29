@@ -1,5 +1,7 @@
 const { ApolloServer } = require('apollo-server-express')
 const responseCachePlugin = require('apollo-server-plugin-response-cache')
+const Sentry = require('@sentry/node')
+
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 const Notifications = require('./notifications')
@@ -7,6 +9,7 @@ const Notifications = require('./notifications')
 const { networkList } = require('./networks')
 const NetworkContainer = require('./network-container')
 
+const firebaseAdmin = require('./firebase')
 const config = require('../config')
 
 const networks = networkList.map((network) => new NetworkContainer(network))
@@ -26,6 +29,17 @@ function getDataSources(networks) {
 
 function startBlockTriggers() {
   networks.map((network) => network.initialize())
+}
+
+async function checkIsValidIdToken(idToken) {
+  try {
+    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
+    return decodedToken.uid
+  } catch (error) {
+    console.error(error)
+    Sentry.captureException(error)
+    return false
+  }
 }
 
 function createApolloServer(httpServer) {
@@ -50,7 +64,7 @@ function createApolloServer(httpServer) {
     subscriptions: {
       path: config.subscriptionPath
     },
-    context: ({ req, connection }) => {
+    context: async ({ req, connection }) => {
       if (connection) {
         return {
           dataSources: getDataSources(networks)
@@ -63,9 +77,17 @@ function createApolloServer(httpServer) {
             throw new Error(`Access Forbidden`)
           }
         }
+        const idToken = req.headers.authorization
+        let uid = undefined
+        if (idToken) {
+          uid = await checkIsValidIdToken(idToken)
+        }
         return {
           fingerprint: req.headers.fingerprint,
-          development: req.headers.development
+          development: req.headers.development,
+          authorization: {
+            uid
+          }
         }
       }
     }
@@ -82,6 +104,4 @@ function createApolloServer(httpServer) {
   return apolloServer
 }
 
-module.exports = {
-  createApolloServer
-}
+module.exports = { createApolloServer }
