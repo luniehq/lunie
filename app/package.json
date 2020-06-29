@@ -89,7 +89,7 @@
     "@capacitor/core": "2.2.0",
     "@capacitor/ios": "2.2.0",
     "@vue/babel-preset-app": "4.4.5",
-    "@vue/cli-plugin-babel": "^3.10.0",
+    "@vue/cli-plugin-babel": "^4.4.6",
     "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-plugin-pwa": "^3.10.0",
     "@vue/cli-plugin-unit-jest": "4.3.1",
