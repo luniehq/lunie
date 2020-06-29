@@ -156,7 +156,7 @@ export default {
         return
       }
       // check if seedPhrase or privKey is present
-      if (wallet.seedPhrase || wallet.privateKey) {
+      if (wallet && (wallet.seedPhrase || wallet.privateKey)) {
         this.wallet = wallet
       } else {
         this.recoveryError = true
