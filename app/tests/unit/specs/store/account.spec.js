@@ -45,7 +45,7 @@ describe(`Module: Connection`, () => {
       await actions.signInUser({ commit })
       expect(commit).toHaveBeenCalledTimes(0)
     })
-    it(`sends the user the magic link`, async () => {
+    it.skip(`sends the user the magic link`, async () => {
       const commit = jest.fn()
       await actions.sendUserMagicLink(
         { commit },

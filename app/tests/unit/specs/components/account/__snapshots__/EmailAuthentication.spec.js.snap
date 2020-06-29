@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Page404 should show the EmailAuthentication page 1`] = `
+exports[`EmailAuthentication should show the EmailAuthentication page 1`] = `
 <tmpage-stub
   data-title="authentication"
   hideheader="true"
