@@ -12,7 +12,7 @@
     <v-popover open-class="user-menu-popover">
       <!-- This will be the popover target (for the events and position) -->
       <div class="avatar-container">
-        <span v-if="!account.userSignedIn" class="avatar tooltip-target"
+        <span v-if="!account.userSignedIn" class="avatar emoji tooltip-target"
           >👻</span
         >
         <Avatar
@@ -26,17 +26,6 @@
       <!-- This will be the content of the popover -->
       <template slot="popover">
         <div class="user-popover">
-          <div class="avatar-container">
-            <span v-if="!account.userSignedIn" class="avatar tooltip-target"
-              >👻</span
-            >
-            <Avatar
-              v-if="account.userSignedIn"
-              class="avatar tooltip-target"
-              :address="account.user.email"
-              :human="true"
-            />
-          </div>
           <h3 class="email">{{ user.email || `Anonymous User` }}</h3>
         </div>
         <div
@@ -46,11 +35,18 @@
           :class="{ selected: address.address === selectedAddress }"
           @click="selectAddress(address.address)"
         >
-          <div>
-            <span v-if="address.sessionType"
-              >{{ address.sessionType }} — {{ address.networkId }}</span
-            >
-            <span class="address">{{ address.address | formatAddress }}</span>
+          <div class="address-item">
+            <img
+              class="network-icon"
+              :src="address.icon"
+              alt="little circle with network logo"
+            />
+            <div>
+              <span class="address">{{ address.address | formatAddress }}</span>
+              <span v-if="address.sessionType" class="address-type">
+                {{ address.sessionType }}
+              </span>
+            </div>
           </div>
           <i v-if="address.address === selectedAddress" class="material-icons"
             >check</i
@@ -137,6 +133,12 @@ export default {
     },
     selectAddress(address) {
       this.selectedAddress = address
+      this.$store.dispatch(`setNetwork`, address.networkId)
+      this.$store.dispatch(`signIn`, {
+        sessionType: `explore`,
+        address: address,
+        networkId: address.networkId,
+      })
     },
     signOut() {
       this.$store.dispatch(`signOut`, this.network)
@@ -172,7 +174,6 @@ h3 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 0.75rem;
   border: 1px solid #eee;
   border-radius: 0.25rem;
 }
@@ -213,8 +214,14 @@ h3 {
   justify-content: space-between;
 }
 
+.address-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .menu-list-item {
-  padding: 0.75rem;
+  padding: 0.75rem 0.5rem;
   margin: 0.25rem 0;
   display: flex;
   justify-content: space-between;
@@ -238,6 +245,17 @@ h3 {
   background: #e6fae6;
 }
 
+.network-icon {
+  display: block;
+  position: relative;
+  max-height: 100%;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  padding: 0.25rem;
+}
+
 .email {
   padding: 0.75rem;
   margin: 0.25rem 0;
@@ -254,6 +272,11 @@ h3 {
 
 .address {
   font-weight: 500;
+  color: black;
+}
+
+.address-type {
+  color: hsl(0, 0%, 40%);
 }
 
 .address-network {
@@ -278,6 +301,12 @@ h3 {
   width: 100%;
   position: relative;
   top: 0.25rem;
+}
+
+.avatar.emoji {
+  font-size: 26px;
+  transform: scale(0.75);
+  top: 0;
 }
 
 .v-popover {
