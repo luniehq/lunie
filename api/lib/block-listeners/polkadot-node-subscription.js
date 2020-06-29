@@ -34,7 +34,8 @@ class PolkadotNodeSubscription {
     this.blockQueue = []
     this.chainId = this.network.chain_id
     this.subscribeForNewBlock()
-    this.storeNetworkInDB()
+    // start one minute loop to update networks
+    this.pollForUpdateNetworks()
   }
 
   // here we init the polkadot rpc once for all processes
@@ -235,13 +236,6 @@ class PolkadotNodeSubscription {
       console.error(`newBlockHandler failed`, error.message)
       Sentry.captureException(error)
     }
-  }
-
-  async storeNetworkInDB() {
-    // only run at startup
-    await this.store.storeNetwork(this.store.network)
-    // start one minute loop to update networks
-    this.pollForUpdateNetworks()
   }
 }
 

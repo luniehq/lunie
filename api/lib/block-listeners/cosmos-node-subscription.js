@@ -34,7 +34,8 @@ class CosmosNodeSubscription {
 
     if (network.feature_proposals === 'ENABLED') this.pollForProposalChanges()
     this.pollForNewBlock()
-    this.storeNetworkInDB()
+    // start one minute loop to update networks
+    this.pollForUpdateNetworks()
   }
 
   async pollForProposalChanges() {
@@ -194,13 +195,6 @@ class CosmosNodeSubscription {
       console.error('newBlockHandler failed', error)
       Sentry.captureException(error)
     }
-  }
-
-  async storeNetworkInDB() {
-    // only run at startup
-    await this.store.storeNetwork(this.store.network)
-    // start one minute loop to update networks
-    this.pollForUpdateNetworks()
   }
 }
 
