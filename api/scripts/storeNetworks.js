@@ -1,15 +1,20 @@
 const Sentry = require('@sentry/node')
 const database = require('../lib/database')
 const config = require('../config')
+const networks = require('../data/networks')
 
-async function storeNetwork(network) {
+async function storeNetworks() {
     try {
-      // prepare network with the format we are going to store it in public/networks
-      const dbNetwork = formatNetworkForDB(network)
-      // store network in DB under public/networks
-      database(config)('').storeNetwork(dbNetwork)
+        await Promise.all(
+            networks.map(network => {
+                // prepare network with the format we are going to store it in public/networks
+                const dbNetwork = formatNetworkForDB(network)
+                // store network in DB under public/networks
+                database(config)('').storeNetwork(dbNetwork)
+            })
+        )
     } catch (error) {
-      console.error('Failed during store network in DB', error)
+      console.error('Failed while storing networks in DB', error)
       Sentry.captureException(error)
     }
 }
@@ -66,4 +71,4 @@ function formatNetworkForDB(network) {
     }
 }
 
-module.exports = { storeNetwork }
+storeNetworks()

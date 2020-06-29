@@ -7,7 +7,6 @@ const database = require('../database')
 const config = require('../../config')
 const { publishEvent: publishEvent } = require('../subscriptions')
 const { eventTypes, resourceTypes } = require('../notifications-types')
-const { storeNetwork } = require('../../scripts/storeNetworks')
 
 class BlockStore {
   constructor(network, database) {
@@ -35,11 +34,6 @@ class BlockStore {
       this.resolveReady = resolve
     })
     this.db = database
-
-    // in development we will run the script to store each network in DB (staging) on startup
-    if (config.env === `development`) {
-      storeNetwork(this.network)
-    }
 
     this.loadStoredValidatorData()
   }
