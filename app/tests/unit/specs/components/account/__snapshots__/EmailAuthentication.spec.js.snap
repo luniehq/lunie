@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page404 should show the EmailAuthentication page 1`] = `
+<tmpage-stub
+  data-title="authentication"
+  hideheader="true"
+  subtitle=""
+  title=""
+>
+  <tmpart-stub>
+    <h2>
+      You are now authenticated/ logged in!
+    </h2>
+  </tmpart-stub>
+   
+  <tmbtn-stub
+    type="secondary"
+    value="Sign Out"
+  />
+</tmpage-stub>
+`;
