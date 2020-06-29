@@ -294,6 +294,32 @@ class BlockStore {
         this.network.icon = storedNetwork.icon
         this.network.slug = storedNetwork.slug
         this.network.lockUpPeriod = storedNetwork.lockUpPeriod
+
+        // network capabilities
+        this.network.feature_session = storedNetwork.feature_session
+        this.network.feature_explore = storedNetwork.feature_explore
+        this.network.feature_portfolio = storedNetwork.feature_portfolio
+        this.network.feature_validators = storedNetwork.feature_validators
+        this.network.feature_proposals = storedNetwork.feature_proposals
+        this.network.feature_activity = storedNetwork.feature_activity
+        this.network.feature_explorer = storedNetwork.feature_explorer
+        this.network.action_send = storedNetwork.action_send
+        this.network.action_claim_rewards = storedNetwork.action_claim_rewards
+        this.network.action_delegate = storedNetwork.action_delegate
+        this.network.action_redelegate = storedNetwork.action_redelegate
+        this.network.action_undelegate = storedNetwork.action_undelegate
+        this.network.action_deposit = storedNetwork.action_deposit
+        this.network.action_vote = storedNetwork.action_vote
+        this.network.action_proposal = storedNetwork.action_proposal
+
+        // coinLookups
+        this.network.coinLookup.map((coinLookup, index) => {
+          coinLookup.chainDenom = storedNetwork.coinLookup[index].chainDenom
+          coinLookup.viewDenom = storedNetwork.coinLookup[index].viewDenom
+          coinLookup.chainToViewConversionFactor =
+            storedNetwork.coinLookup[index].chainToViewConversionFactor
+          return coinLookup
+        })
       } else {
         console.error(`This network is not present in the DB`)
       }

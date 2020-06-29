@@ -166,11 +166,11 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
       id: {_eq: "${id}"}
     }`
   )
-  // build and extract single network fields from Arrays
+  // build and extract single network fields from Arrays except coinLookup
   return {
     ...storedNetwork[0],
     ...storedNetworkCapabilities[0],
-    ...storedNetworkCoinLookup[0]
+    coinLookup: storedNetworkCoinLookup
   }
 }
 
@@ -216,7 +216,7 @@ const storeNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
         hasura_admin_key
       },
       true
-    )(schema)(`networkCapabilities`, payload[`networkCapabilities`])
+    )(schema)(`networksCapabilities`, payload[`networksCapabilities`])
   )
 }
 

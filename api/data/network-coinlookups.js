@@ -10,11 +10,6 @@ const terraCoinLookup = [
     chainToViewConversionFactor: 1e-6
   },
   {
-    chainDenom: 'ukrw',
-    viewDenom: 'KRT',
-    chainToViewConversionFactor: 1e-6
-  },
-  {
     chainDenom: 'umnt',
     viewDenom: 'MNT',
     chainToViewConversionFactor: 1e-6

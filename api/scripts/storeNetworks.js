@@ -45,13 +45,13 @@ function formatNetworkForDB(network) {
         powered: JSON.stringify(network.powered)
       },
       coinLookups: network.coinLookup.map((coinLookup) => ({
-        networkId: network.id,
+        id: network.id,
         viewDenom: coinLookup.viewDenom,
         chainDenom: coinLookup.chainDenom,
         chainToViewConversionFactor: coinLookup.chainToViewConversionFactor
       })),
-      networkCapabilities: {
-        network_id: network.id,
+      networksCapabilities: {
+        id: network.id,
         feature_session: network.feature_session,
         feature_portfolio: network.feature_portfolio,
         feature_validators: network.feature_validators,
