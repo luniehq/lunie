@@ -27,6 +27,13 @@ describe(`TmSessionSignIn`, () => {
       testnet: true,
       slug: "terra-testnet",
     },
+    {
+      id: "kusama",
+      address_prefix: "2",
+      testnet: false,
+      slug: "kusama",
+      network_type: "polkadot",
+    },
   ]
 
   const addresses = [
@@ -215,6 +222,22 @@ describe(`TmSessionSignIn`, () => {
   })
 
   it(`automatically connects to the testnet network an address belongs to if "tesnet" is set to true`, async () => {
+    wrapper.setData({
+      signInAddress: `HaT6pivXZTGWXM5xRBPgFKPDAKhJp2vnyUu3tcvvioHeqdt`,
+    })
+    await wrapper.vm.selectNetworkByAddress(
+      `HaT6pivXZTGWXM5xRBPgFKPDAKhJp2vnyUu3tcvvioHeqdt`
+    )
+    expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: "kusama",
+      slug: "kusama",
+      address_prefix: "2",
+      testnet: false,
+      network_type: "polkadot",
+    })
+  })
+
+  it(`returns the Polkadot network we want to connect to`, async () => {
     wrapper.setData({
       testnet: true,
     })
