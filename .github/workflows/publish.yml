@@ -1,16 +1,14 @@
 name: Publish to master
 
 on:
-  pull_request:
+  push:
     branches:
-      - '*'
-    # branches:
-    #   - develop
-    # paths:
-    #   - 'api/CHANGELOG.md'
-    #   - 'app/CHANGELOG.md'
-    #   - 'extension/CHANGELOG.md'
-    #   - 'scriptRunner/CHANGELOG.md'
+      - develop
+    paths:
+      - 'api/CHANGELOG.md'
+      - 'app/CHANGELOG.md'
+      - 'extension/CHANGELOG.md'
+      - 'scriptRunner/CHANGELOG.md'
 
 jobs:
     publish:
@@ -23,14 +21,19 @@ jobs:
           uses: actions/setup-node@v1
         - name: publish to master
           run: COMMIT_MESSAGE=$(git log --format=%B -n 1) &&
-            echo "Publishing" &&
-            git config pull.rebase false &&
-            git config user.email "bot@lunie.io" &&
-            git config user.name "Publish Lunie Bot" &&
-            git remote set-url origin https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git &&
-            git checkout fabo/merge-test &&
-            git pull &&
-            git merge --no-edit origin/develop &&
-            git push;
+            if [[ $COMMIT_MESSAGE == "release-"* || $COMMIT_MESSAGE == "[Simsala] automatic release"* ]];
+            then
+              echo "Publishing" &&
+              git config pull.rebase false &&
+              git config user.email "bot@lunie.io" &&
+              git config user.name "Publish Lunie Bot" &&
+              git remote set-url origin https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git &&
+              git checkout fabo/merge-test &&
+              git pull &&
+              git merge --no-edit origin/develop &&
+              git push;
+            else
+              echo "No release detected, so not publishing";
+            fi
           env:
             GIT_BOT_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}     
