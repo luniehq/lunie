@@ -156,13 +156,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
             
           </span>
            
-          <span
-            class="fiat"
-          >
-            
-              0
-              USD
-          </span>
+          <!---->
         </div>
       </div>
        

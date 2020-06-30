@@ -4,8 +4,8 @@
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
-    "build": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa",
-    "buildsentry": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa && chmod 755 tasks/sentry.sh && ./tasks/sentry.sh",
+    "build": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa --mode production",
+    "buildsentry": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa --modern --mode production && chmod 755 tasks/sentry.sh && ./tasks/sentry.sh",
     "build:mobile": "cross-env MOBILE_APP=true npm run build",
     "changelog": "simsala log --pending-path ./changes",
     "lint": "yarn lint:style & yarn lint:js",
@@ -24,10 +24,6 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
-    "@capacitor/android": "2.1.0",
-    "@capacitor/cli": "2.2.0",
-    "@capacitor/core": "2.2.0",
-    "@capacitor/ios": "2.2.0",
     "@dicebear/avatars": "4.1.1",
     "@dicebear/avatars-jdenticon-sprites": "4.1.1",
     "@lunie/cosmos-keys": "0.2.2",
@@ -131,7 +127,8 @@
     "vue-jest": "3.0.5",
     "vue-template-compiler": "^2.6.10",
     "webdriverio": "6.1.19",
-    "webpack": "4.43.0"
+    "webpack": "4.43.0",
+    "webpack-bundle-analyzer": "3.8.0"
   },
   "husky": {
     "hooks": {
