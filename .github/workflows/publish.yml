@@ -28,7 +28,7 @@ jobs:
               git config user.email "bot@lunie.io" &&
               git config user.name "Publish Lunie Bot" &&
               git remote set-url origin https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git &&
-              git checkout fabo/merge-test &&
+              git checkout master &&
               git pull &&
               git merge --no-edit origin/develop &&
               git push;
