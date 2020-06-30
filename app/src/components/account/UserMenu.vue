@@ -30,10 +30,10 @@
         </div>
         <div
           v-for="address in addresses"
-          :key="address.address"
+          :key="address.address.concat(`-${address.networkId}`)"
           class="menu-list-item address-list"
           :class="{ selected: address.address === selectedAddress }"
-          @click="selectAddress(address.address)"
+          @click="selectAddress(address)"
         >
           <div class="address-item">
             <img
@@ -119,7 +119,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `account`]),
-    ...mapGetters([`address`, `currentNetwork`]),
+    ...mapGetters([`address`, `networks`]),
     user() {
       return this.account.userSignedIn ? this.account.user : {}
     },
@@ -132,11 +132,14 @@ export default {
       this.$router.push({ name: `sign-in-modal` })
     },
     selectAddress(address) {
-      this.selectedAddress = address
-      this.$store.dispatch(`setNetwork`, address.networkId)
+      this.selectedAddress = address.address
+      const selectedNetwork = this.networks.find(
+        (network) => network.id === address.networkId
+      )
+      this.$store.dispatch(`setNetwork`, selectedNetwork)
       this.$store.dispatch(`signIn`, {
         sessionType: `explore`,
-        address: address,
+        address: this.selectedAddress,
         networkId: address.networkId,
       })
     },
