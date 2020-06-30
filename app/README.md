@@ -92,7 +92,7 @@ yarn build
 
 #### Dependencies
 
-Install following dependencies when working with on mobile builds:
+Install the following dependencies when working with on mobile builds:
 
 ```
 cd app
