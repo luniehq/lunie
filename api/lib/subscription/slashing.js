@@ -17,7 +17,7 @@ class SlashingMonitor {
           networkId: this.networkId,
           operatorAddress: address,
           reason: tendermintResponse.events['slash.reason'][index],
-          amount: tendermintResponse.events['slash.power'][index],
+          amount: tendermintResponse.events['slash.power'][index], // on chain value. convert to Lunie value?
           height: tendermintResponse.height
         })
       ).filter(({reason}) => reason === filterReason)
@@ -37,6 +37,7 @@ class SlashingMonitor {
       this.storeSlashes('missing_signature')
     )
 
+    // requires some more logic to not spam the notifications if a validator is down for 1000 blocks
     // this.client.subscribe(
     //   { query: 'liveness.missed_blocks >= 1' },
     //   (response) => {
