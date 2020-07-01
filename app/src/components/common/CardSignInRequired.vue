@@ -113,6 +113,7 @@ export default {
     })
   },
   methods: {
+    /* istanbul ignore next */
     async sendMagicLink() {
       await this.$store.dispatch(`sendUserMagicLink`, {
         user: { email: this.email },
