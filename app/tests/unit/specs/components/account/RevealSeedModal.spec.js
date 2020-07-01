@@ -1,9 +1,11 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
+import VueClipboard from "vue-clipboard2"
 import RevealSeedModal from "src/components/account/RevealSeedModal"
 
 const localVue = createLocalVue()
 localVue.use(Vuelidate)
+localVue.directive(`clipboard`, VueClipboard)
 
 jest.mock(`src/../config.js`, () => ({
   isExtension: false,
@@ -20,7 +22,9 @@ describe(`RevealSeedModal`, () => {
 
   beforeEach(() => {
     $store = {
-      dispatch: jest.fn(),
+      dispatch: async () => {
+        return { seedPhrase: `seed1 seed2 seed3` }
+      },
     }
     wrapper = shallowMount(RevealSeedModal, {
       localVue,
@@ -63,6 +67,14 @@ describe(`RevealSeedModal`, () => {
   })
 
   it(`should set recoveryError to true when failing to fetch wallet from stored wallets`, async () => {
+    $store = { dispatch: jest.fn() }
+    wrapper = shallowMount(RevealSeedModal, {
+      localVue,
+      mocks: {
+        $route,
+        $store,
+      },
+    })
     wrapper.setData({
       password: `password`,
     })
@@ -70,9 +82,11 @@ describe(`RevealSeedModal`, () => {
     expect(wrapper.vm.recoveryError).toBe(true)
   })
 
-  // // more difficult to test since it involves the keystore module
-  // it(`should get the wallet and set it in data if it contains the secret (seed or private key)`, async () => {
-  // })
+  // more difficult to test since it involves the keystore module
+  it(`should get the wallet and set it in data if it contains the secret (seed or private key)`, async () => {
+    await wrapper.vm.revealSeedPhrase()
+    expect(wrapper.vm.wallet).toEqual({ seedPhrase: `seed1 seed2 seed3` })
+  })
 
   it(`should set input type for password input as "text" or as "password" if it is already "text".
         It should also increase by one this component key`, () => {
