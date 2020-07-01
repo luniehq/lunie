@@ -451,7 +451,7 @@ function rewardReducer(network, validators, reward, reducers) {
   let parsedRewards = []
   Object.entries(reward.validators).map((validatorReward) => {
     const lunieReward = {
-      id: reducers.coinReducer(network, validatorReward[1]).denom,
+      id: validators[validatorReward[0]].operatorAddress,
       ...reducers.coinReducer(network, validatorReward[1]),
       height: reward.era,
       address: reward.address,

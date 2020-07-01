@@ -414,7 +414,7 @@ async function reduceFormattedRewards(
         ? await calculateFiatValue(lunieCoin, fiatCurrency)
         : undefined
       multiDenomRewardsArray.push({
-        id: lunieCoin.denom,
+        id: validator.operatorAddress,
         denom: lunieCoin.denom,
         amount: fixDecimalsAndRoundUp(lunieCoin.amount, 6).toString(), // TODO: refactor using a decimals number from coinLookup
         fiatValue,

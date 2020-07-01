@@ -69,6 +69,7 @@ describe('Cosmos V2 API', function () {
       //Act & Assert
       await expect(api.getRewards(delegatorAddress)).resolves.toEqual([
         {
+          id: 'cosmosvaloper1y3v65vhz5f93k8uk7vnz5v7yr7ks5gdcumgcqr',
           amount: '49',
           denom: 'MUON',
           fiatValue: undefined,
