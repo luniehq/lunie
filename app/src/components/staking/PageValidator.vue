@@ -371,6 +371,7 @@ export default {
             delegatorAddress: $delegatorAddress
             operatorAddress: $operatorAddress
           ) {
+            id
             amount
           }
         }
@@ -404,7 +405,7 @@ export default {
     rewards: {
       /* istanbul ignore next */
       query: gql`
-        query RewardsPageValidator(
+        query rewards(
           $networkId: String!
           $delegatorAddress: String!
           $operatorAddress: String
@@ -414,6 +415,7 @@ export default {
             delegatorAddress: $delegatorAddress
             operatorAddress: $operatorAddress
           ) {
+            id
             amount
             denom
           }

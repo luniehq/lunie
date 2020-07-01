@@ -68,6 +68,7 @@ export const DelegatorValidators = (schema) => gql`
 export const DelegationsForDelegator = (schema) => gql`
   query Delegations($delegatorAddress: String!) {
     delegations(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
+      id
       validator {
         ${ValidatorFragment}
       }

@@ -147,6 +147,7 @@ export default {
       query: gql`
         query rewards($networkId: String!, $delegatorAddress: String!) {
           rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            id
             validator {
               operatorAddress
             }

@@ -363,6 +363,7 @@ export default {
             delegatorAddress: $delegatorAddress
             fiatCurrency: $fiatCurrency
           ) {
+            id
             amount
             denom
           }

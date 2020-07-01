@@ -42,8 +42,9 @@ export default {
       query() {
         /* istanbul ignore next */
         return gql`
-        query Undelegations($networkId: String!, $delegatorAddress: String!) {
+        query undelegations($networkId: String!, $delegatorAddress: String!) {
           undelegations(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            id
             validator {
               ${ValidatorFragment}
             }
