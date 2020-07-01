@@ -250,7 +250,7 @@ describe(`TmSessionSignIn`, () => {
     })
   })
 
-  it(`checks that the address is valid address of the network and selects testnet if testnet is set to true`, () => {
+  it(`checks that the address is a valid address of the network and selects testnet if testnet is set to true`, () => {
     const self = {
       testnet: true,
       signInAddress: addresses[0],
@@ -262,6 +262,23 @@ describe(`TmSessionSignIn`, () => {
       id: "gaia-testnet",
       slug: "cosmos-testnet",
       testnet: true,
+    })
+  })
+
+  it(`Polkadot network specifig: checks that the address is a valid address of the network 
+    and selects testnet if testnet is set to true`, () => {
+    const self = {
+      testnet: false,
+      signInAddress: `HaT6pivXZTGWXM5xRBPgFKPDAKhJp2vnyUu3tcvvioHeqdt`,
+      networks,
+    }
+    const signInNetwork = TmSessionSignIn.computed.networkOfAddress.call(self)
+    expect(signInNetwork).toEqual({
+      address_prefix: "2",
+      id: "kusama",
+      network_type: "polkadot",
+      slug: "kusama",
+      testnet: false,
     })
   })
 
