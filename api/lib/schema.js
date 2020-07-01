@@ -25,6 +25,7 @@ const typeDefs = gql`
   }
 
   type Reward {
+    id: String
     validator: Validator
     denom: String
     amount: String
@@ -38,6 +39,7 @@ const typeDefs = gql`
   }
 
   type Balance {
+    id: String!
     denom: String!
     amount: String!
     fiatValue: FiatValue
@@ -45,6 +47,7 @@ const typeDefs = gql`
   }
 
   type BalanceV2 {
+    id: String!
     type: TokenType!
     denom: String!
     total: String!
@@ -54,8 +57,8 @@ const typeDefs = gql`
   }
 
   type Proposal {
-    networkId: String!
     id: Int
+    networkId: String!
     type: String
     title: String
     description: String
@@ -70,6 +73,7 @@ const typeDefs = gql`
   }
 
   type Validator {
+    id: String!
     networkId: String!
     operatorAddress: String
     consensusPubkey: String
@@ -98,6 +102,7 @@ const typeDefs = gql`
   }
 
   type BlockV2 @cacheControl(maxAge: 10) {
+    id: Int
     networkId: String!
     height: Int
     hash: String
@@ -168,6 +173,7 @@ const typeDefs = gql`
   }
 
   type Delegation {
+    id: String!
     delegatorAddress: String!
     amount: String!
     validator: Validator
@@ -175,6 +181,7 @@ const typeDefs = gql`
   }
 
   type Undelegation {
+    id: String!
     delegatorAddress: String!
     validator: Validator
     amount: String!
@@ -183,6 +190,7 @@ const typeDefs = gql`
   }
 
   type Transaction {
+    id: String!
     type: String!
     hash: String!
     height: Int!
@@ -233,6 +241,7 @@ const typeDefs = gql`
     | UnknownTx
 
   type TransactionV2 {
+    id: String!
     type: String!
     hash: String!
     key: String!
@@ -317,6 +326,7 @@ const typeDefs = gql`
   }
 
   type Overview {
+    id: String!
     networkId: String!
     address: String!
     totalStake: String!
@@ -385,6 +395,7 @@ const typeDefs = gql`
   }
 
   type Notification {
+    id: String! # id is title
     networkId: String
     timestamp: String!
     title: String!

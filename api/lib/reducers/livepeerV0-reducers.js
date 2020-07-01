@@ -3,6 +3,7 @@ const LPT_CONVERSION = `1000000000000000000`
 
 function blockReducer(networkId, block, data = {}) {
   return {
+    id: block.id,
     networkId,
     height: block.id,
     chainId: networkId,
@@ -92,6 +93,7 @@ function expectedRewardsPerToken({
 
 function validatorReducer(networkId, validator, totalStakedTokens, globals) {
   return {
+    id: validator.id,
     networkId,
     operatorAddress: validator.id,
     tokens: bigNumberReducer(validator.totalStake),

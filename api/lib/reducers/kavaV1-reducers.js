@@ -6,6 +6,7 @@ function setTransactionSuccess(transaction) {
 
 function blockReducer(networkId, block, transactions, data = {}) {
   return {
+    id: block.block.header.height,
     networkId,
     height: block.block.header.height,
     chainId: block.block.header.chain_id,
