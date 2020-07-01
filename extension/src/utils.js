@@ -8,9 +8,9 @@ export async function getPolkadotAPI(polkadotNetwork) {
     const polkadotAPI = new ApiPromise({
       provider: new WsProvider(endpoint)
     })
-    await polkadotAPI.isReady
     // store it in the polkadotAPIs Object for a later use
     polkadotAPIs[polkadotNetwork.id] = polkadotAPI
   }
+  await polkadotAPIs[polkadotNetwork.id].isReady
   return polkadotAPIs[polkadotNetwork.id]
 }
