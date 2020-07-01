@@ -82,8 +82,10 @@ describe(`RevealSeedModal`, () => {
     expect(wrapper.vm.recoveryError).toBe(true)
   })
 
-  // more difficult to test since it involves the keystore module
   it(`should get the wallet and set it in data if it contains the secret (seed or private key)`, async () => {
+    wrapper.setData({
+      password: `password`,
+    })
     await wrapper.vm.revealSeedPhrase()
     expect(wrapper.vm.wallet).toEqual({ seedPhrase: `seed1 seed2 seed3` })
   })
