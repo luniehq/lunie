@@ -1,9 +1,8 @@
 <template>
-  <SessionFrame>
+  <SessionFrame :icon="`verified_user`">
     <h2 class="session-title">Sign up for premium features!</h2>
-    <p>
-      We'll send a magic link to your email. Click the link and you'll be signed
-      in!
+    <p class="session-subtitle">
+      We'll send a magic link to your email. Click it and you'll be signed in!
     </p>
     <TmField id="email" v-model="email" type="input" placeholder="Your email" />
 

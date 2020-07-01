@@ -1,7 +1,7 @@
 <template>
-  <SessionFrame>
+  <SessionFrame :icon="`/img/icons/magic-wand.png`">
     <h2 class="session-title">Magic Link Sent</h2>
-    <p>
+    <p class="session-subtitle">
       Check your email inbox for your magic link to confirm your email address.
     </p>
   </SessionFrame>

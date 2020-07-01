@@ -10,6 +10,12 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
   <div
     class="session-outer-container"
   >
+    <i
+      class="material-icons notranslate circle modal-icon"
+    >
+      
+    </i>
+     
     <div
       class="session"
     >
