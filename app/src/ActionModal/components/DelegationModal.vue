@@ -404,6 +404,7 @@ export default {
       query: gql`
         query validators($networkId: String!) {
           validators(networkId: $networkId) {
+            id
             name
             operatorAddress
           }

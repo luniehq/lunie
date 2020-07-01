@@ -116,58 +116,8 @@ const createApolloClient = async () => {
   const cache = new InMemoryCache({
     fragmentMatcher,
     dataIdFromObject: (object) => {
-      switch (object.__typename) {
-        case "Validator":
-          return `Validator: ${object.operatorAddress}`
-        // case 'Reward': return `Reward: ${object.validator.operatorAddress}-${object.denom}`; // throwing errors
-        // case 'Delegation': return `Delegation: ${object.validator.operatorAddress}-${object.amount}`; // throwing errors
-        case "Balance":
-        case "BalanceV2":
-          return `Balance: ${object.denom}`
-        case "TransactionV2":
-          return `TransactionV2: ${object.hash}`
-        // case 'SentTx':
-        // case 'StakeTx':
-        // case 'ClaimRewardsTx':
-        // case 'UnstakeTx':
-        // case 'RestakeTx':
-        // case 'SubmitProposalTx':
-        // case 'DepositTx':
-        // case 'UnknownTx': return `${object.__typename}: ${object.txhash}`; // Sadly txhash is not present in the details...
-        default:
-          return defaultDataIdFromObject(object)
-      }
+      return defaultDataIdFromObject(object)
     },
-    // cacheRedirects: {
-    //   Query: {
-    //     network: (_, args, { getCacheKey }) =>
-    //       getCacheKey({ __typename: "Network", id: args.id }),
-    //     validator: (_, args, { getCacheKey }) =>
-    //       getCacheKey({
-    //         __typename: "Validator",
-    //         operatorAddress: args.operatorAddress,
-    //         networkId: args.networkId,
-    //       }),
-    //     delegation: (_, args, { getCacheKey }) =>
-    //       getCacheKey({
-    //         __typename: "Delegation",
-    //         delegatorAddress: args.delegatorAddress,
-    //         networkId: args.networkId,
-    //         operatorAddress: args.operatorAddress,
-    //       }),
-    //     reward: (_, args, { getCacheKey }) =>
-    //       getCacheKey({
-    //         __typename: "Reward",
-    //         delegatorAddress: args.delegatorAddress,
-    //         networkId: args.networkId,
-    //         fiatCurrency: args.fiatCurrency,
-    //       }),
-    //     maintenance: (_, args, { getCacheKey }) =>
-    //       getCacheKey({ __typename: "Maintenance" }),
-    //     blockV2: (_, args, { getCacheKey }) =>
-    //       getCacheKey({ __typename: "BlockV2", networkId: args.networkId }),
-    //   },
-    // },
   })
 
   // await before instantiating ApolloClient, else queries might run before the cache is persisted

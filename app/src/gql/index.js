@@ -15,6 +15,7 @@ export const schemaMap = {
 }
 
 export const ValidatorFragment = `
+  id
   name
   operatorAddress
   consensusPubkey
@@ -197,6 +198,7 @@ query vote($proposalId: Int!, $address: String!) {
 export const Block = (networkId) => gql`
 query Block {
   block(networkId: "${networkId}") {
+    id
     height
     chainId
   }

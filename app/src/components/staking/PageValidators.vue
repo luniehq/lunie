@@ -129,6 +129,7 @@ export default {
             activeOnly: $activeOnly
             popularSort: $popularSort
           ) {
+            id
             name
             operatorAddress
             consensusPubkey
