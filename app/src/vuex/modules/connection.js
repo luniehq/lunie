@@ -23,7 +23,7 @@ export default function ({ apollo }) {
     externals: {
       config,
     },
-    polkadotAPI: undefined,
+    polkadotAPIs: {}, // in the polkadotAPIs Object we will store all the different Polkadot APIs. It is erased on refresh
   }
 
   const mutations = {
@@ -39,8 +39,8 @@ export default function ({ apollo }) {
     setNetworks(state, networks) {
       state.networks = networks
     },
-    setPolkadotAPI(state, polkadotAPI) {
-      state.polkadotAPI = polkadotAPI
+    setPolkadotAPIs(state, polkadotAPIs) {
+      state.polkadotAPIs = polkadotAPIs
     },
   }
 
@@ -156,18 +156,23 @@ export default function ({ apollo }) {
       dispatch(`checkForPersistedSession`) // check for persisted session on that network
       // if the network is a pokadot network
       if (network.network_type === `polkadot`) {
-        actions.connectToPolkadotAPI({ commit }, { network })
+        actions.connectToPolkadotAPI({ commit }, network)
       }
       console.info(`Connecting to: ${network.id}`)
     },
-    async connectToPolkadotAPI({ commit }, { network }) {
-      const { WsProvider, ApiPromise } = await import("@polkadot/api")
-      const endpoint = network.rpc_url
-      const polkadotAPI = new ApiPromise({
-        provider: new WsProvider(endpoint),
-      })
-      await polkadotAPI.isReady
-      commit(`setPolkadotAPI`, polkadotAPI)
+    async connectToPolkadotAPI({ commit }, polkadotNetwork) {
+      if (!state.polkadotAPIs[polkadotNetwork.id]) {
+        const { WsProvider, ApiPromise } = await import("@polkadot/api")
+        const endpoint = polkadotNetwork.rpc_url
+        const polkadotAPI = new ApiPromise({
+          provider: new WsProvider(endpoint),
+        })
+        let polkadotAPIs = state.polkadotAPIs
+        // store it in the polkadotAPIs Object for a later use
+        polkadotAPIs[polkadotNetwork.id] = polkadotAPI
+        await polkadotAPIs[polkadotNetwork.id].isReady
+        commit(`setPolkadotAPIs`, polkadotAPIs)
+      }
     },
   }
 
