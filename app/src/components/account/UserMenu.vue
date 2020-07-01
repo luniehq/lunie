@@ -40,6 +40,12 @@
           @click="selectAddress(address)"
         >
           <div class="address-item">
+            <div
+              v-if="getAddressNetwork(address).testnet"
+              class="testnet-icon-container"
+            >
+              <img class="testnet-icon" src="/img/icons/test-tube-32.png" />
+            </div>
             <img
               class="network-icon"
               :src="address.icon"
@@ -47,7 +53,9 @@
             />
             <div>
               <span class="address">{{ address.address | formatAddress }}</span>
-              <span class="address-network">{{ address.networkId }}</span>
+              <span class="address-network">{{
+                getAddressNetwork(address).title
+              }}</span>
               <span v-if="address.sessionType" class="address-type">
                 {{ address.sessionType }}
               </span>
@@ -168,6 +176,9 @@ export default {
         this.$router.push({ name: `sign-in-modal` })
       }
     },
+    getAddressNetwork(address) {
+      return this.networks.find((network) => network.id === address.networkId)
+    },
   },
 }
 </script>
@@ -229,6 +240,7 @@ h3 {
 }
 
 .address-item {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -315,6 +327,25 @@ h3 {
   width: 100%;
   position: relative;
   top: 0.25rem;
+}
+
+.testnet-icon-container {
+  position: absolute;
+  bottom: 0.25rem;
+  left: 1.5rem;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  background-color: #9b82ff;
+}
+
+.testnet-icon {
+  max-width: 0.75rem;
+  transform: scaleX(-1);
+  filter: invert(1);
 }
 
 .avatar.emoji {
