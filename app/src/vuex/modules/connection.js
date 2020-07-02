@@ -1,14 +1,14 @@
 import config from "src/../config"
 import bech32 from "bech32"
 import { NetworksAll } from "../../gql"
-import { checkAddress } from "@polkadot/util-crypto"
 
 const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
 }
 
-const isValidPolkadotAddress = (address, addressPrefix) => {
+const isValidPolkadotAddress = async (address, addressPrefix) => {
+  const { checkAddress } = await import("@polkadot/util-crypto")
   return checkAddress(address, addressPrefix)
 }
 
@@ -70,7 +70,7 @@ export default function ({ apollo }) {
         }
       }
     },
-    getNetworkByAccount(
+    async getNetworkByAccount(
       { state },
       { account: { network, address }, testnet = false }
     ) {
@@ -79,11 +79,11 @@ export default function ({ apollo }) {
       }
       // HACK as polkadot addresses don't have a prefix
       if (isPolkadotAddress(address)) {
-        const selectedNetwork = state.networks
+        const selectedNetwork = await state.networks
           .filter(({ network_type }) => network_type === `polkadot`)
           .find(
-            (network) =>
-              isValidPolkadotAddress(
+            async (network) =>
+              await isValidPolkadotAddress(
                 address,
                 parseInt(network.address_prefix)
               )[0]

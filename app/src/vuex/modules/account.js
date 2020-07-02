@@ -1,18 +1,12 @@
-import config from "src/../config"
-import firebase from "../../firebase.js"
+import getFirebase from "../../firebase.js"
 import * as Sentry from "@sentry/browser"
 import gql from "graphql-tag"
-
-const Auth = firebase.auth()
 
 export default ({ apollo }) => {
   const state = {
     userSignedIn: false,
     user: null,
     signInError: null,
-    externals: {
-      config,
-    },
   }
 
   const mutations = {
@@ -29,6 +23,7 @@ export default ({ apollo }) => {
 
   const actions = {
     async listenToAuthChanges({ commit }) {
+      const Auth = (await getFirebase()).auth()
       await Auth.onAuthStateChanged(async (user) => {
         if (user) {
           commit(`userSignedIn`, true)
@@ -46,13 +41,14 @@ export default ({ apollo }) => {
       })
     },
     async signInUser({ commit }) {
+      const Auth = (await getFirebase()).auth()
       if (Auth.isSignInWithEmailLink(window.location.href)) {
         const user = JSON.parse(localStorage.getItem(`user`))
         try {
           await Auth.signInWithEmailLink(user.email, window.location.href)
-          const idToken = await firebase
-            .auth()
-            .currentUser.getIdToken(/* forceRefresh */ true)
+          const idToken = await Auth.currentUser.getIdToken(
+            /* forceRefresh */ true
+          )
           apollo.mutate({
             mutation: gql`
               mutation {
@@ -68,6 +64,7 @@ export default ({ apollo }) => {
       }
     },
     async sendUserMagicLink({ commit }, { user }) {
+      const Auth = (await getFirebase()).auth()
       const actionCodeSettings = {
         url: `${window.location.protocol}//${window.location.host}/email-authentication`,
         handleCodeInApp: true,
@@ -77,12 +74,13 @@ export default ({ apollo }) => {
         localStorage.setItem("user", JSON.stringify(user))
         console.log("Magic link sent to your email!")
       } catch (error) {
-        console.error(error)
+        console.log(error)
         commit(`setSignInError`, error)
         Sentry.captureException(error)
       }
     },
     async signOutUser({ commit }) {
+      const Auth = (await getFirebase()).auth()
       try {
         await Auth.signOut()
         localStorage.removeItem(`auth_token`)

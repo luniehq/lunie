@@ -187,7 +187,7 @@ module.exports = [
     enabled: true,
     experimental: true,
     icon:
-      'https://lunie.fra1.digitaloceanspaces.com/network-icons/polkadot.png',
+      'https://lunie.fra1.digitaloceanspaces.com/network-icons/kusama.png',
     slug: 'kusama',
     powered: {
       name: 'stake.fish',
@@ -219,8 +219,7 @@ module.exports = [
     coinLookup: coinLookupDictionary[`polkadot`],
     enabled: true,
     experimental: true,
-    icon:
-      '/img/networks/polkadot-mainnet.png',
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/polkadot.png',
     slug: 'polkadot',
     lockUpPeriod: '28 days'
   },
@@ -246,8 +245,7 @@ module.exports = [
     coinLookup: coinLookupDictionary[`polkadot-testnet`],
     enabled: true,
     experimental: true,
-    icon:
-      '/img/networks/westend.png',
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/westend.png',
     slug: 'polkadot-testnet',
     lockUpPeriod: '28 days'
   },
