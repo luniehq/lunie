@@ -90,15 +90,6 @@ yarn build
 
 ### Mobile
 
-#### Dependencies
-
-Install the following dependencies when working with on mobile builds:
-
-```
-cd app
-yarn add @capacitor/core@2.2.0 @capacitor/ios@2.2.0 @capacitor/android@2.2.0 @capacitor-community/intercom@1.0.2
-```
-
 #### Android
 
 Dependencies: 
