@@ -51,19 +51,21 @@
       </div>
 
       <div class="table-column networks">
-        <h4>Network Updates</h4>
-        <ul>
-          <li class="table-cell check">News</li>
-          <li class="table-cell check">Protocol Upgrades</li>
-          <li class="table-cell check">Github Alerts</li>
-        </ul>
+        <div>
+          <h4>Network Updates</h4>
+          <ul>
+            <li class="table-cell check">News</li>
+            <li class="table-cell check">Protocol Upgrades</li>
+            <li class="table-cell check">Github Alerts</li>
+          </ul>
+        </div>
+        <div class="table-span">
+          <span>
+            Have any ideas? Share them with us
+            <i class="material-icons notranslate">ic_send</i>
+          </span>
+        </div>
       </div>
-    </div>
-    <div class="table-span">
-      <span>
-        Have any ideas? Share them with us
-        <i class="material-icons notranslate">ic_send</i>
-      </span>
     </div>
     <div class="notifications">
       <div class="notification-scroller">
@@ -212,10 +214,12 @@ h3 {
 
 .table-span {
   color: #7a88b8;
+  margin: 2rem 0;
 }
 
 .table-column.networks {
   background-color: #daf7e6;
+  max-height: 20rem;
 }
 
 .table ul {
