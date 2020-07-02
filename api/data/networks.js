@@ -36,9 +36,9 @@ module.exports = [
     id: 'cosmos-hub-mainnet',
     title: 'Cosmos Hub',
     chain_id: 'cosmoshub-3',
-    rpc_url: 'wss://cosmos-hub-3.lunie.io/websocket',
+    rpc_url: 'ws://rpc.nylira.net:26657/websocket',
     api_url:
-      'https://cosmoshub-3--lcd--archive.datahub.figment.network/apikey/7996efcecdc5ef91da3715eb60cd2201',
+      'https://lcd.nylira.net',
     bech32_prefix: 'cosmos',
     address_prefix: 'cosmos',
     address_creator: 'cosmos',
@@ -55,12 +55,12 @@ module.exports = [
     experimental: false,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png',
     slug: 'cosmos-hub',
-    powered: {
-      name: 'Figment',
-      providerAddress: 'cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d',
-      picture:
-        'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
-    },
+    // powered: {
+    //   name: 'Figment',
+    //   providerAddress: 'cosmosvaloper1hjct6q7npsspsg3dgvzk3sdf89spmlpfdn6m9d',
+    //   picture:
+    //     'https://s3.amazonaws.com/keybase_processed_uploads/bd5fb87f241bd78a9c4bceaaa849ca05_360_360.jpg'
+    // },
     lockUpPeriod: '21 days'
   },
   {
