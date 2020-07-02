@@ -9,6 +9,7 @@
       value="Get Started"
       @click.native="$router.push({ name: `sign-in-modal` })"
     />
+    <div id="line"></div>
     <div class="table">
       <div class="table-column">
         <h4>Staking Rewards</h4>
@@ -183,6 +184,13 @@ h3 {
   border-radius: 27px;
 }
 
+#line {
+  margin-top: 3.5rem;
+  border-bottom: solid 1px #7a88b8;
+  width: 90%;
+  opacity: 20%;
+}
+
 .paywall-container {
   display: flex;
   flex-direction: column;
@@ -192,7 +200,7 @@ h3 {
 
 .table {
   display: flex;
-  padding: 4rem 2rem;
+  padding: 1rem 2rem;
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
