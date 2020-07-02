@@ -12,17 +12,17 @@ class SlashingMonitor {
   // to prevent adding a slash twice we filter the slashes
   storeSlashes(filterReason) {
     return (tendermintResponse) => {
-      const slashes = tendermintResponse.events['slash.address'].map(
-        (address, index) => ({
+      const slashes = tendermintResponse.events['slash.address']
+        .map((address, index) => ({
           networkId: this.networkId,
           operatorAddress: address,
           reason: tendermintResponse.events['slash.reason'][index],
           amount: tendermintResponse.events['slash.power'][index], // on chain value. convert to Lunie value?
           height: tendermintResponse.height
-        })
-      ).filter(({reason}) => reason === filterReason)
+        }))
+        .filter(({ reason }) => reason === filterReason)
       database(config).upsert('slashes', slashes)
-      console.log("Added", slashes.length, "slashes")
+      console.log('Added', slashes.length, 'slashes')
     }
   }
 
