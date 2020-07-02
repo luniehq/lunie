@@ -157,7 +157,7 @@ export default function ({ apollo }) {
       dispatch(`checkForPersistedSession`) // check for persisted session on that network
       // if the network is a pokadot network
       if (network.network_type === `polkadot`) {
-        const polkadotAPI = await getPolkadotAPI(network)
+        const polkadotAPI = getPolkadotAPI(network)
         commit(`setPolkadotAPI`, polkadotAPI)
       }
       console.info(`Connecting to: ${network.id}`)
