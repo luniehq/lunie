@@ -248,7 +248,7 @@ module.exports = [
     experimental: true,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/westend.png',
     slug: 'polkadot-testnet',
-    lockUpPeriod: '28 days',
+    lockUpPeriod: '7 days',
     erasPerDay: 1 // https://wiki.polkadot.network/docs/en/learn-staking#reward-distribution
   },
   {
