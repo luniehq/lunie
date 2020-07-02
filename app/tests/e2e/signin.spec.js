@@ -92,8 +92,8 @@ async function signOut(browser) {
 
 async function signIn(browser) {
   await openMenu(browser)
-  await browser.waitForElementVisible("#sign-in", 10000, true)
-  await browser.click("#sign-in")
+  await browser.waitForElementVisible(".trigger", 10000, true)
+  await browser.click(`.menu-list-item span:nth-of-type(1)`)
 }
 
 async function prepare(browser) {
