@@ -6,6 +6,7 @@
 /**
  * Routes are all defined here
  */
+/* istanbul ignore file */
 export default (store) => {
   return [
     {

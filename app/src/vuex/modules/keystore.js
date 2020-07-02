@@ -22,6 +22,7 @@ export default () => {
         const wallet = getStoredWallet(address, password)
         return wallet
       } catch (error) {
+        /* istanbul ignore next */
         return error
       }
     },
