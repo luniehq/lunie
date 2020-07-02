@@ -16,7 +16,7 @@ function blockReducer(
   data = {}
 ) {
   return {
-    id: blockHeight,
+    id: blockHash,
     networkId,
     height: blockHeight,
     chainId,

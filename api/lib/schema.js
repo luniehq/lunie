@@ -102,7 +102,7 @@ const typeDefs = gql`
   }
 
   type BlockV2 @cacheControl(maxAge: 10) {
-    id: Int
+    id: String # the block hash
     networkId: String!
     height: Int
     hash: String

@@ -2,7 +2,7 @@ const terraV3Reducers = require('./terraV3-reducers')
 
 function blockReducer(networkId, block, transactions, data = {}) {
   return {
-    id: block.block.header.height,
+    id: block.block_id.hash,
     networkId,
     height: block.block.header.height,
     chainId: block.block.header.chain_id,

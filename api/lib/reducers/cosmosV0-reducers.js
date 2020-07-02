@@ -234,7 +234,7 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
 
 function blockReducer(networkId, block, transactions, data = {}) {
   return {
-    id: block.block_meta.header.height,
+    id: block.block_meta.block_id.hash,
     networkId,
     height: block.block_meta.header.height,
     chainId: block.block_meta.header.chain_id,
