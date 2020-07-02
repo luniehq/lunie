@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.217] - 2020-07-02
+
+### Fixed
+
+- [#4376](https://github.com/cosmos/lunie/pull/4376) Fix many little old Polkadot-related bugs such as reward.filter, filterStakingDenomReward... @Bitcoinera
+- [#4406](https://github.com/cosmos/lunie/issues/4406) Fix wrong lockup period in susbtrate networks @mariopino
+
+### Repository
+
+- Removing Capacitor libraries to only add them when actually building the apps @faboweb
+
 ## [1.0.216] - 2020-07-02
 
 ### Changed
