@@ -26,7 +26,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
     >
       <span>
         
-        Unstaking takes  to complete and cannot be
+        Unstaking takes 21 days to complete and cannot be
         undone. Please make sure you understand the rules of staking.
       
       </span>
