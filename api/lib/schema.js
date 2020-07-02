@@ -395,7 +395,7 @@ const typeDefs = gql`
   }
 
   type Notification {
-    id: String! # id is title
+    id: String! # id from DB
     networkId: String
     timestamp: String!
     title: String!

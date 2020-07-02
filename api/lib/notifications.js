@@ -220,7 +220,7 @@ const startNotificationService = () => {
       const notificationResponse =
         response.data.insert_notifications.returning[0]
       const notification = {
-        id: getMessageTitle(notificationResponse),
+        id: notificationResponse.id,
         networkId: event.networkId,
         timestamp: notificationResponse.created_at,
         title: getMessageTitle(notificationResponse),
