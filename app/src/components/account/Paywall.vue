@@ -59,6 +59,31 @@
         </ul>
       </div>
     </div>
+    <div class="table-span">
+      <span>
+        Have any ideas? Share them with us
+        <i class="material-icons notranslate">ic_send</i>
+      </span>
+    </div>
+    <div class="notifications">
+      <div class="notification-scroller">
+        <div
+          v-for="notification in notifications"
+          :key="notification.id"
+          class="notification long"
+        >
+          <div class="content">
+            <div class="main">
+              <img src="/img/icons/lunie.svg" width="32" />
+              <p class="title">{{ notification.title }}</p>
+            </div>
+            <div>
+              <i class="material-icons notranslate">chevron_right</i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -68,6 +93,68 @@ export default {
   components: {
     TmBtn,
   },
+  data: () => ({
+    notifications: [
+      {
+        id: 1,
+        title: `You have 50 ATOMs in unclaimed rewards. 🤑`,
+      },
+      {
+        id: 2,
+        title: `Your validator’s commission changed from 0%-2%. 😮`,
+      },
+      {
+        id: 3,
+        title: `New Proposal alert on Cosmos Hub! 🚨`,
+      },
+      {
+        id: 4,
+        title: `Proposal #42 is out of the deposit period and ready for voting! 🗳`,
+      },
+    ],
+    mobileNotifications: [
+      {
+        id: 5,
+        title: `Your validator went offline for 300 blocks! 🔔`,
+      },
+      {
+        id: 6,
+        title: `🚨 New Proposal alert on Polkadot.`,
+      },
+      {
+        id: 7,
+        title: `💸 You have 25 DOTs waiting to be withdrawn.`,
+      },
+      {
+        id: 8,
+        title: `📉 Your validator is no longer in the active set.`,
+      },
+      {
+        id: 9,
+        title: `👍 Kava network upgraded from Kava-2 to Kava-3.`,
+      },
+      {
+        id: 10,
+        title: `🧊 The unstaking lock up period is coming to an end in 2 hours.`,
+      },
+      {
+        id: 11,
+        title: `❓ Your validator just voted — are you happy with how they voted?`,
+      },
+      {
+        id: 12,
+        title: `Your validator went offline for 2000 blocks! 🔔`,
+      },
+      {
+        id: 13,
+        title: `🚨 New Proposal alert on Cosmos.`,
+      },
+      {
+        id: 14,
+        title: `💸 You have 70 ATOMs waiting to be withdrawn.`,
+      },
+    ],
+  }),
 }
 </script>
 <style scoped>
@@ -114,6 +201,19 @@ h3 {
   background-color: #fff;
 }
 
+.table-cell {
+  width: 100%;
+  font-size: 14px;
+  color: #324075;
+  padding: 1rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.table-span {
+  color: #7a88b8;
+}
+
 .table-column.networks {
   background-color: #daf7e6;
 }
@@ -130,27 +230,6 @@ h3 {
   font-weight: 500;
 }
 
-.table-column.dark {
-  background: #272b49;
-}
-
-.table-column.dark h4 {
-  color: white;
-}
-
-.table-column.dark .table-cell {
-  color: white;
-}
-
-.table-cell {
-  width: 100%;
-  font-size: 14px;
-  color: #324075;
-  padding: 1rem 0;
-  display: flex;
-  align-items: center;
-}
-
 .check::before {
   content: "✔";
   box-shadow: 0 2px 4px hsla(143, 100%, 38.8%, 0.3);
@@ -164,5 +243,63 @@ h3 {
   font-size: 12px;
   color: white;
   margin-right: 1rem;
+}
+
+.notifications {
+  padding: 5rem 0;
+  overflow: hidden;
+}
+
+.notification-scroller {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  z-index: 2;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  animation-name: ticker;
+  animation-duration: 40s;
+}
+
+.notification-scroller:first-child {
+  animation-duration: 50s;
+  margin-bottom: 2rem;
+}
+
+.notification {
+  display: flex;
+  background: white;
+  margin: 0.5rem;
+  border-radius: 0.25rem;
+  width: 100%;
+  max-width: 700px;
+  color: #324175;
+  box-shadow: 0 0 3px hsla(232, 14.1%, 69.4%, 0.4);
+  font-weight: 500;
+  padding: 0 0.5rem;
+}
+
+.notification .content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.notification .content .main {
+  display: flex;
+}
+
+.notification .title {
+  margin: 0.5rem;
+  text-align: left;
+}
+
+.notification-types img {
+  padding-right: 1rem;
+}
+
+.notification.long {
+  min-width: 32rem;
 }
 </style>
