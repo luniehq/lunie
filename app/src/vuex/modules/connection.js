@@ -1,7 +1,7 @@
 import config from "src/../config"
 import bech32 from "bech32"
 import { NetworksAll } from "../../gql"
-import { getPolkadotAPI } from "../../../../extension/src/utils"
+import { getPolkadotAPI } from "../../../../utils"
 
 const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
