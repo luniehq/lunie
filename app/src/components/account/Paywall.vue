@@ -59,7 +59,7 @@
             <li class="table-cell check">Github Alerts</li>
           </ul>
         </div>
-        <div class="table-span">
+        <div class="table-span" @click="handleIntercom()">
           <span>
             Have any ideas? Share them with us
             <i class="material-icons notranslate">ic_send</i>
@@ -157,6 +157,11 @@ export default {
       },
     ],
   }),
+  methods: {
+    handleIntercom() {
+      this.$store.dispatch(`displayMessenger`)
+    },
+  },
 }
 </script>
 <style scoped>
@@ -215,6 +220,7 @@ h3 {
 .table-span {
   color: #7a88b8;
   margin: 2rem 0;
+  cursor: pointer;
 }
 
 .table-column.networks {
@@ -305,5 +311,10 @@ h3 {
 
 .notification.long {
   min-width: 32rem;
+}
+
+.table-span .material-icons {
+  font-size: 1rem;
+  margin-left: -2rem;
 }
 </style>
