@@ -1,6 +1,7 @@
 import config from "src/../config"
 import bech32 from "bech32"
 import { NetworksAll } from "../../gql"
+import { getPolkadotAPI } from "../../../../extension/src/utils"
 
 const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
@@ -23,7 +24,7 @@ export default function ({ apollo }) {
     externals: {
       config,
     },
-    polkadotAPIs: {}, // in the polkadotAPIs Object we will store all the different Polkadot APIs. It is erased on refresh
+    polkadotAPI: {}, // in the polkadotAPI Object we will store all the different Polkadot APIs. It is erased on refresh
   }
 
   const mutations = {
@@ -39,8 +40,8 @@ export default function ({ apollo }) {
     setNetworks(state, networks) {
       state.networks = networks
     },
-    setPolkadotAPIs(state, polkadotAPIs) {
-      state.polkadotAPIs = polkadotAPIs
+    setPolkadotAPI(state, polkadotAPI) {
+      state.polkadotAPI = polkadotAPI
     },
   }
 
@@ -156,23 +157,10 @@ export default function ({ apollo }) {
       dispatch(`checkForPersistedSession`) // check for persisted session on that network
       // if the network is a pokadot network
       if (network.network_type === `polkadot`) {
-        actions.connectToPolkadotAPI({ commit }, network)
+        const polkadotAPI = await getPolkadotAPI(network)
+        commit(`setPolkadotAPI`, polkadotAPI)
       }
       console.info(`Connecting to: ${network.id}`)
-    },
-    async connectToPolkadotAPI({ commit }, polkadotNetwork) {
-      if (!state.polkadotAPIs[polkadotNetwork.id]) {
-        const { WsProvider, ApiPromise } = await import("@polkadot/api")
-        const endpoint = polkadotNetwork.rpc_url
-        const polkadotAPI = new ApiPromise({
-          provider: new WsProvider(endpoint),
-        })
-        let polkadotAPIs = state.polkadotAPIs
-        // store it in the polkadotAPIs Object for a later use
-        polkadotAPIs[polkadotNetwork.id] = polkadotAPI
-        await polkadotAPIs[polkadotNetwork.id].isReady
-        commit(`setPolkadotAPIs`, polkadotAPIs)
-      }
     },
   }
 

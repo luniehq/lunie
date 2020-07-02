@@ -699,9 +699,7 @@ export default {
           network: this.network,
           signingType: this.selectedSignMethod,
           password: this.password,
-          polkadotAPI: this.$store.state.connection.polkadotAPIs[
-            this.network.id
-          ],
+          polkadotAPI: this.$store.state.connection.polkadotAPI,
         })
 
         const { hash } = hashResult

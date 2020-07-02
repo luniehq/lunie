@@ -125,7 +125,7 @@ describe(`ActionModal`, () => {
           currrentModalOpen: false,
         },
         connection: {
-          polkadotAPIs: {},
+          polkadotAPI: {},
         },
         overview,
         balances,
@@ -194,7 +194,7 @@ describe(`ActionModal`, () => {
       dispatch: jest.fn(),
       state: {
         connection: {
-          polkadotAPIs: {},
+          polkadotAPI: {},
         },
       },
     }
