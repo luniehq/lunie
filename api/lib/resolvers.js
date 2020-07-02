@@ -397,7 +397,7 @@ const resolvers = {
       if (operatorAddress) {
         rewards = rewards.filter((reward) => {
           // multidenom rewards
-          if (reward.validator === undefined && Array.isArray(reward)) {
+          if (reward.validator === undefined) {
             return reward.filter(
               ({ validator }) => validator.operatorAddress === operatorAddress
             )
