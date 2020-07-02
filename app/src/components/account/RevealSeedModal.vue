@@ -79,7 +79,7 @@
         <span v-else>private key</span> with anyone you don't trust
       </p>
       <div
-        v-clipboard:copy="SeedOrPrivateKey"
+        v-clipboard:copy="seedOrPrivateKey"
         v-clipboard:success="() => onCopy()"
         class="copy-to-clipboard"
       >
@@ -126,7 +126,10 @@ export default {
     copySuccess: false,
   }),
   computed: {
-    SeedOrPrivateKey() {
+    address() {
+      return this.$route.params.address
+    },
+    seedOrPrivateKey() {
       if (this.wallet.seedPhrase) {
         return this.wallet.seedPhrase
       } else if (this.wallet.privateKey) {
@@ -135,9 +138,6 @@ export default {
         return ``
       }
     },
-  },
-  mounted() {
-    this.address = this.$route.params.address
   },
   methods: {
     async revealSeedPhrase() {
@@ -156,7 +156,7 @@ export default {
         return
       }
       // check if seedPhrase or privKey is present
-      if (wallet.seedPhrase || wallet.privateKey) {
+      if (wallet && (wallet.seedPhrase || wallet.privateKey)) {
         this.wallet = wallet
       } else {
         this.recoveryError = true
