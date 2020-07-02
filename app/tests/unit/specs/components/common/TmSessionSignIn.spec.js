@@ -27,6 +27,13 @@ describe(`TmSessionSignIn`, () => {
       testnet: true,
       slug: "terra-testnet",
     },
+    {
+      id: "kusama",
+      address_prefix: "2",
+      testnet: false,
+      slug: "kusama",
+      network_type: "polkadot",
+    },
   ]
 
   const addresses = [
@@ -216,6 +223,22 @@ describe(`TmSessionSignIn`, () => {
 
   it(`automatically connects to the testnet network an address belongs to if "tesnet" is set to true`, async () => {
     wrapper.setData({
+      signInAddress: `HaT6pivXZTGWXM5xRBPgFKPDAKhJp2vnyUu3tcvvioHeqdt`,
+    })
+    await wrapper.vm.selectNetworkByAddress(
+      `HaT6pivXZTGWXM5xRBPgFKPDAKhJp2vnyUu3tcvvioHeqdt`
+    )
+    expect($store.dispatch).toHaveBeenCalledWith(`setNetwork`, {
+      id: "kusama",
+      slug: "kusama",
+      address_prefix: "2",
+      testnet: false,
+      network_type: "polkadot",
+    })
+  })
+
+  it(`returns the Polkadot network we want to connect to`, async () => {
+    wrapper.setData({
       testnet: true,
     })
     await wrapper.vm.selectNetworkByAddress(`cosmosdefault`)
@@ -227,7 +250,7 @@ describe(`TmSessionSignIn`, () => {
     })
   })
 
-  it(`checks that the address is valid address of the network and selects testnet if testnet is set to true`, () => {
+  it(`checks that the address is a valid address of the network and selects testnet if testnet is set to true`, () => {
     const self = {
       testnet: true,
       signInAddress: addresses[0],
@@ -239,6 +262,23 @@ describe(`TmSessionSignIn`, () => {
       id: "gaia-testnet",
       slug: "cosmos-testnet",
       testnet: true,
+    })
+  })
+
+  it(`Polkadot network specifig: checks that the address is a valid address of the network 
+    and selects testnet if testnet is set to true`, () => {
+    const self = {
+      testnet: false,
+      signInAddress: `HaT6pivXZTGWXM5xRBPgFKPDAKhJp2vnyUu3tcvvioHeqdt`,
+      networks,
+    }
+    const signInNetwork = TmSessionSignIn.computed.networkOfAddress.call(self)
+    expect(signInNetwork).toEqual({
+      address_prefix: "2",
+      id: "kusama",
+      network_type: "polkadot",
+      slug: "kusama",
+      testnet: false,
     })
   })
 

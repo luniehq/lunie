@@ -51,7 +51,8 @@ const schema = Joi.object({
       picture: Joi.string().optional()
     })
     .optional(),
-  lockUpPeriod: Joi.string().optional()
+  lockUpPeriod: Joi.string().optional(),
+  erasPerDay: Joi.number().optional()
 })
 
 describe('Network configs', function () {

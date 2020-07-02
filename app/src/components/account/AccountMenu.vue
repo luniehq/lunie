@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
 import gql from "graphql-tag"
 
 export default {
@@ -31,14 +30,6 @@ export default {
       seed: "",
       command: "",
     }
-  },
-  methods: {
-    accountMenuController(command) {
-      this.command = command
-    },
-    close() {
-      console.log("I should make this component disappear")
-    },
   },
 }
 </script>

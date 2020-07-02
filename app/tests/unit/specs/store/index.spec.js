@@ -1,4 +1,4 @@
-jest.mock(`capacitor-intercom`, () => ({}))
+jest.mock(`@capacitor-community/intercom`, () => ({}))
 jest.mock(`src/firebase.js`, () => ({
   auth: () => {},
 }))

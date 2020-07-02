@@ -186,8 +186,7 @@ module.exports = [
     coinLookup: coinLookupDictionary[`kusama`],
     enabled: true,
     experimental: true,
-    icon:
-      'https://lunie.fra1.digitaloceanspaces.com/network-icons/kusama.png',
+    icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/kusama.png',
     slug: 'kusama',
     powered: {
       name: 'stake.fish',
@@ -195,7 +194,8 @@ module.exports = [
       picture:
         'https://s3.amazonaws.com/keybase_processed_uploads/e1378cd4d5203ded716906687ad53905_360_360.jpg'
     },
-    lockUpPeriod: '7 days'
+    lockUpPeriod: '7 days',
+    erasPerDay: 4 // https://wiki.polkadot.network/docs/en/learn-staking#reward-distribution
   },
   {
     id: 'polkadot',
@@ -221,7 +221,8 @@ module.exports = [
     experimental: true,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/polkadot.png',
     slug: 'polkadot',
-    lockUpPeriod: '28 days'
+    lockUpPeriod: '28 days',
+    erasPerDay: 1 // https://wiki.polkadot.network/docs/en/learn-staking#reward-distribution
   },
   {
     id: 'polkadot-testnet',
@@ -247,7 +248,8 @@ module.exports = [
     experimental: true,
     icon: 'https://lunie.fra1.digitaloceanspaces.com/network-icons/westend.png',
     slug: 'polkadot-testnet',
-    lockUpPeriod: '28 days'
+    lockUpPeriod: '7 days',
+    erasPerDay: 1 // https://wiki.polkadot.network/docs/en/learn-staking#reward-distribution
   },
   {
     id: 'kava-mainnet',
