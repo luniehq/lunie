@@ -12,8 +12,6 @@ module.exports = {
     await next(browser)
     // check if signed in
     await browser.waitForElementNotPresent(".session", 10000, true)
-    openMenu(browser)
-    await browser.waitForElementVisible("#sign-out", 10000, true)
   },
   "Import local account": async function (browser) {
     await prepare(browser)
