@@ -55,15 +55,13 @@ class PolkadotNodeSubscription {
     }
 
     // Subscribe to new block headers
-    await this.api.rpc.chain.subscribeNewHeads(
-      async (blockHeader) => {
-        const blockHeight = blockHeader.number.toNumber()
-        if (this.height < blockHeight) {
-          this.height = blockHeight
-          this.newBlockHandler(blockHeight) // do not await as this can take some seconds
-        }
+    await this.api.rpc.chain.subscribeNewHeads(async (blockHeader) => {
+      const blockHeight = blockHeader.number.toNumber()
+      if (this.height < blockHeight) {
+        this.height = blockHeight
+        this.newBlockHandler(blockHeight) // do not await as this can take some seconds
       }
-    )
+    })
   }
 
   // Sometimes blocks get published unordered so we need to enqueue
