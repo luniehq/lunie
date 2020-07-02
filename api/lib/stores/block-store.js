@@ -267,7 +267,7 @@ class BlockStore {
     )
   }
 
-  async updateNetworkInDB() {
+  async updateNetworkFromDB() {
     try {
       const storedNetwork = await database(config)('').getNetwork(
         this.network.id

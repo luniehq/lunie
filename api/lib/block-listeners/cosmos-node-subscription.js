@@ -55,7 +55,7 @@ class CosmosNodeSubscription {
 
   async pollForUpdateNetworks() {
     // gives us the control to modify network parameters
-    this.store.updateNetworkInDB()
+    this.store.updateNetworkFromDB()
     this.updateNetworksPollingTimeout = setTimeout(async () => {
       this.pollForUpdateNetworks()
     }, UPDATE_NETWORKS_POLLING_INTERVAL)

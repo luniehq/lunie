@@ -136,7 +136,7 @@ class PolkadotNodeSubscription {
 
   async pollForUpdateNetworks() {
     // gives us the control to modify network parameters
-    this.store.updateNetworkInDB()
+    this.store.updateNetworkFromDB()
     this.updateNetworksPollingTimeout = setTimeout(async () => {
       this.pollForUpdateNetworks()
     }, UPDATE_NETWORKS_POLLING_INTERVAL)
@@ -155,7 +155,7 @@ class PolkadotNodeSubscription {
       this.enqueueAndPublishBlockAdded(block)
 
       // gives us the control to modify network parameters
-      this.store.updateNetworkInDB()
+      this.store.updateNetworkFromDB()
 
       // We dont need to fetch validators on every new block.
       // Validator list only changes on new sessions
