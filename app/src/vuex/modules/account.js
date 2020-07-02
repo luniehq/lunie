@@ -1,4 +1,3 @@
-import config from "src/../config"
 import getFirebase from "../../firebase.js"
 import * as Sentry from "@sentry/browser"
 import gql from "graphql-tag"
@@ -8,9 +7,6 @@ export default ({ apollo }) => {
     userSignedIn: false,
     user: null,
     signInError: null,
-    externals: {
-      config,
-    },
   }
 
   const mutations = {
@@ -78,7 +74,7 @@ export default ({ apollo }) => {
         localStorage.setItem("user", JSON.stringify(user))
         console.log("Magic link sent to your email!")
       } catch (error) {
-        console.error(error)
+        console.log(error)
         commit(`setSignInError`, error)
         Sentry.captureException(error)
       }
