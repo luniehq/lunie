@@ -2,7 +2,6 @@ const BigNumber = require('bignumber.js')
 const { uniqWith, uniq } = require('lodash')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
-const ERAS_PER_DAY = 4 // Kusama, 3 eras per day for Polkadot
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
 
@@ -298,7 +297,7 @@ class polkadotAPI {
       )
       const annualizedValidatorReward = estimatedPayout
         .multipliedBy(this.network.coinLookup[0].chainToViewConversionFactor)
-        .multipliedBy(ERAS_PER_DAY)
+        .multipliedBy(this.network.erasPerDay)
         .multipliedBy(365)
         .toFixed(6)
       expectedReturns[validator] = annualizedValidatorReward
