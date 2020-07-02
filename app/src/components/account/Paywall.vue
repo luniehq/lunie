@@ -7,7 +7,7 @@
     <TmBtn
       id="getStartedBtn"
       value="Get Started"
-      @click.native="router.push({ name: `sign-in-modal` })"
+      @click.native="$router.push({ name: `sign-in-modal` })"
     />
     <div class="table">
       <div class="table-column">
