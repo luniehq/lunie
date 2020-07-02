@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.216] - 2020-07-02
+
+### Changed
+
+- [#4326](https://github.com/cosmos/lunie/issues/4326) Add tests for all the new account components and module @Bitcoinera
+
+### Security
+
+- Updated Polkadot @faboweb
+
+## [1.0.215] - 2020-06-30
+
+### Added
+
+- [#4281](https://github.com/cosmos/lunie/issues/4281) Add polkadot testnet network (Westend) @mariopino
+
+### Changed
+
+- [#4149](https://github.com/cosmos/lunie/issues/4149) Adds the user authentication token to ApolloClient @Bitcoinera
+- [#4372](https://github.com/cosmos/lunie/pull/4372) Add TmDataLoading to PageNotifications and a spinner for the dynamic notifications loading @Bitcoinera
+- [#4372](https://github.com/cosmos/lunie/pull/4372) Hide 0 fiat values in TmBalance @Bitcoinera
+- [#4361](https://github.com/cosmos/lunie/pull/4361) Add Kava token icons for BNB and USDX @Bitcoinera
+- [#4377](https://github.com/cosmos/lunie/pull/4377) Update polkadot api to v1.21.1 @Bitcoinera
+- Add develop preview and change to nice URLs @faboweb
+
+### Code Improvements
+
+- Optimize initial loading of the app by splitting dependencies @faboweb
+
 ## [1.0.214] - 2020-06-23
 
 ### Added

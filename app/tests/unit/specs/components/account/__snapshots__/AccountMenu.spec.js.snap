@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountMenu should show the AccountMenu page 1`] = `
+<div
+  class="account-menu"
+>
+  <div
+    class="account-menu-buttons"
+  >
+    <div
+      class="account-menu-button-container"
+    >
+      <router-link-stub
+        class="account-menu-button account-menu-show-seed"
+        to="[object Object]"
+      >
+        <i
+          class="material-icons notranslate"
+        >
+          visibility
+        </i>
+      </router-link-stub>
+       
+      <span
+        class="account-menu-button-span"
+      >
+        Show Seed
+      </span>
+    </div>
+  </div>
+</div>
+`;

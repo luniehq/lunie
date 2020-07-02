@@ -72,9 +72,15 @@ import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmFormStruct from "common/TmFormStruct"
 import SessionFrame from "common/SessionFrame"
+import { checkAddress } from "@polkadot/util-crypto"
+
 const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
+}
+
+const isValidPolkadotAddress = (address, addressPrefix) => {
+  return checkAddress(address, addressPrefix)
 }
 
 export default {
@@ -104,11 +110,16 @@ export default {
       }))
     },
     networkOfAddress() {
-      // HACK as polkadot addresses don't have a prefix
       if (isPolkadotAddress(this.signInAddress)) {
-        return this.networks.find(
-          ({ network_type }) => network_type === "polkadot"
-        )
+        return this.networks
+          .filter(({ network_type }) => network_type === `polkadot`)
+          .find(
+            (network) =>
+              isValidPolkadotAddress(
+                this.signInAddress,
+                parseInt(network.address_prefix)
+              )[0]
+          )
       }
 
       const selectedNetworksArray = this.networks.filter(({ address_prefix }) =>
@@ -196,11 +207,16 @@ export default {
       } else {
         selectedNetwork = selectedNetworksArray[0]
       }
-      // HACK as polkadot addresses don't have a prefix
       if (isPolkadotAddress(this.signInAddress)) {
-        selectedNetwork = this.networks.find(
-          ({ network_type }) => network_type === "polkadot"
-        )
+        selectedNetwork = this.networks
+          .filter(({ network_type }) => network_type === `polkadot`)
+          .find(
+            (network) =>
+              isValidPolkadotAddress(
+                this.signInAddress,
+                parseInt(network.address_prefix)
+              )[0]
+          )
       }
 
       this.$store.dispatch(`setNetwork`, selectedNetwork)

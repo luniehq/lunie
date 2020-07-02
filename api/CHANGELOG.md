@@ -7,6 +7,51 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.32] - 2020-07-02
+
+### Fixed
+
+- Updated Polkadot @faboweb
+
+## [1.0.31] - 2020-06-30
+
+### Changed
+
+- [#4377](https://github.com/cosmos/lunie/pull/4377) Update polkadot api to v1.21.1 @Bitcoinera
+
+### Repository
+
+- [#4375](https://github.com/cosmos/lunie/pull/4375) Release of API v1.0.30 @Bitcoinera
+
+## [1.0.30] - 2020-06-26
+
+### Added
+
+- [#4281](https://github.com/cosmos/lunie/issues/4281) Add polkadot testnet network (Westend) @mariopino
+
+### Changed
+
+- [#4361](https://github.com/cosmos/lunie/pull/4361) Add Kava tokens to fiat values API @Bitcoinera
+
+### Fixed
+
+- [#4374](https://github.com/cosmos/lunie/pull/4374) Fix the networks icons links for the new polkadot networks @Bitcoinera
+- [#4364](https://github.com/cosmos/lunie/pull/4364) Fix the publish flow @Bitcoinera
+
+### Code Improvements
+
+- [#4360](https://github.com/cosmos/lunie/pull/4360) Handle CoinGecko timeouts @Bitcoinera
+
+## [1.0.29] - 2020-06-24
+
+### Added
+
+- [#4334](https://github.com/cosmos/lunie/pull/4334) Adds authorization token in header to apollo context @Bitcoinera
+
+### Fixed
+
+- [#4353](https://github.com/cosmos/lunie/pull/4353) Fix subscriptions breaking @Bitcoinera
+
 ## [1.0.28] - 2020-06-23
 
 ### Added

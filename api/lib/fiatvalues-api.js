@@ -37,6 +37,8 @@ const denomToCoinGeckoIDDictionary = {
   KRT: 'terra-krw',
   SDT: 'terra-sdt',
   KAVA: 'kava',
+  BNB: 'binancecoin',
+  // USDX: 'usdx', // not on coin gecko yet
   KSM: 'kusama'
 }
 
@@ -46,6 +48,8 @@ const geckoIDToDenomDictionary = {
   'terra-krw': 'KRT',
   'terra-sdt': 'SDT',
   kava: 'KAVA',
+  binancecoin: 'BNB',
+  // usdx: 'USDX', // not on coin gecko yet
   kusama: 'KSM'
 }
 
@@ -72,8 +76,8 @@ class fiatValueAPI {
     this.fiatValuesAPIDictionary = denomToCoinGeckoIDDictionary
     this.fiatValuesAPIReverseDictionary = geckoIDToDenomDictionary
     this.fiatCurrenciesSymbolsDictionary = fiatCurrenciesSymbolsDictionary
-    this.coins = ['ATOM', 'LUNA', 'KRT', 'SDT', 'KAVA', 'KSM'] // Lunie coins currently being traded in the open
-    this.priceFeed = []
+    this.coins = ['ATOM', 'LUNA', 'KRT', 'SDT', 'KAVA', 'BNB', 'KSM'] // Lunie coins currently being traded in the open
+    this.priceFeed = {}
 
     this.pollNewPriceFeed()
   }
@@ -89,14 +93,20 @@ class fiatValueAPI {
   }
 
   async getNewPriceFeed() {
-    const fiatValuesAPIResponse = await this.client.simple.price({
-      ids: this.coins
-        .map((coinID) => this.fiatValuesAPIDictionary[coinID])
-        .join(','),
-      vs_currencies: [allFiatCurrencies.join(',')]
-    })
+    try {
+      const fiatValuesAPIResponse = await this.client.simple.price({
+        ids: this.coins
+          .map((coinID) => this.fiatValuesAPIDictionary[coinID])
+          .join(','),
+        vs_currencies: [allFiatCurrencies.join(',')]
+      })
 
-    return fiatValuesAPIResponse.data
+      return fiatValuesAPIResponse.data
+    } catch (error) {
+      console.error(error)
+      Sentry.captureException(error)
+      return {}
+    }
   }
 
   async getFiatValuesForAllCoins() {
@@ -106,19 +116,22 @@ class fiatValueAPI {
     const fiatCurrenciesUppercase = allFiatCurrencies.map((fiatCurrency) =>
       fiatCurrency.toUpperCase()
     )
-    let allFiatValues = geckoCoinIDs.reduce((allFiatValues, coinID) => {
-      const coinDenom = this.fiatValuesAPIReverseDictionary[coinID] // the actual denom of the coin
-      fiatCurrenciesUppercase.forEach((fiatCurrency) => {
-        allFiatValues = {
-          ...allFiatValues,
-          [coinDenom]: {
-            ...allFiatValues[coinDenom],
-            [fiatCurrency]: this.priceFeed[coinID][fiatCurrency.toLowerCase()]
+    let allFiatValues = {}
+    if (Object.keys(this.priceFeed).length > 0) {
+      allFiatValues = geckoCoinIDs.reduce((allFiatValues, coinID) => {
+        const coinDenom = this.fiatValuesAPIReverseDictionary[coinID] // the actual denom of the coin
+        fiatCurrenciesUppercase.forEach((fiatCurrency) => {
+          allFiatValues = {
+            ...allFiatValues,
+            [coinDenom]: {
+              ...allFiatValues[coinDenom],
+              [fiatCurrency]: this.priceFeed[coinID][fiatCurrency.toLowerCase()]
+            }
           }
-        }
-      })
-      return allFiatValues
-    }, {})
+        })
+        return allFiatValues
+      }, {})
+    }
     // add e-Money exchange rates
     allFiatValues = {
       ...allFiatValues,

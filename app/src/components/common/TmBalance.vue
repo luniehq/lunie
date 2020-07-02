@@ -95,7 +95,14 @@
                 {{ balance.total | bigFigureOrShortDecimals }}
                 {{ balance.denom }}
               </span>
-              <span v-if="balance.fiatValue && !isTestnet" class="fiat">
+              <span
+                v-if="
+                  balance.fiatValue &&
+                  !isTestnet &&
+                  balance.fiatValue.amount > 0
+                "
+                class="fiat"
+              >
                 {{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
                 {{ balance.fiatValue.denom }}</span
               >
