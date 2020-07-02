@@ -45,6 +45,7 @@ describe(`DelegationModal`, () => {
       coinLookup: [
         { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 },
       ],
+      lockUpPeriod: `21 days`,
     },
     address: "cosmos1234",
     stakingDenom: "STAKE",

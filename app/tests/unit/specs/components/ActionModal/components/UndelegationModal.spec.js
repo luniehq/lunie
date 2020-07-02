@@ -36,6 +36,7 @@ describe(`UndelegationModal`, () => {
           coinLookup: [
             { viewDenom: "STAKE", chainToViewConversionFactor: 0.000001 },
           ],
+          lockUpPeriod: `21 days`,
         },
         stakingDenom: "STAKE",
         address: "cosmos12345",
