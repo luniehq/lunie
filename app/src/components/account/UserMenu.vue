@@ -11,7 +11,7 @@
     </router-link>
     <v-popover open-class="user-menu-popover">
       <!-- This will be the popover target (for the events and position) -->
-      <div id="trigger" class="avatar-container">
+      <div id="open-user-menu" class="avatar-container">
         <span v-if="!account.userSignedIn" class="avatar emoji tooltip-target"
           >👻</span
         >

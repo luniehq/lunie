@@ -91,7 +91,7 @@ async function signOut(browser) {
 }
 
 async function signIn(browser) {
-  await browser.waitForElementVisible("#trigger", 10000, true)
+  await browser.waitForElementVisible("#open-user-menu", 10000, true)
   await browser.click("#create-new-account")
 }
 
