@@ -378,19 +378,11 @@ class polkadotAPI {
     return rewards
   }
 
-  // returns all addresses that have bonded funds except validators and intentions
+  // returns all active delegators
   async getAllDelegators() {
     const api = await this.getAPI()
-    const allBondedKeys = await api.query.staking.bonded.keys()
-    const allStashAddresses = JSON.parse(
-      JSON.stringify(await api.derive.staking.stashes())
-    )
-    const allDelegators = allBondedKeys
-      .map((address) => {
-        return address.toHuman()[0]
-      })
-      .filter((address) => !allStashAddresses.includes(address)) // Filter validators and intentions
-    return uniq(allDelegators)
+    const delegators = await api.query.staking.nominators.entries()
+    return delegators.map(([address]) => address.toHuman()[0])
   }
 
   async getOverview(delegatorAddress, validatorsDictionary, fiatCurrency) {
