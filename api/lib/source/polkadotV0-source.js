@@ -298,7 +298,7 @@ class polkadotAPI {
       )
       const annualizedValidatorReward = estimatedPayout
         .multipliedBy(this.network.coinLookup[0].chainToViewConversionFactor)
-        .multipliedBy(ERAS_PER_DAY)
+        .multipliedBy(this.network.erasPerDay)
         .multipliedBy(365)
         .toFixed(6)
       expectedReturns[validator] = annualizedValidatorReward
