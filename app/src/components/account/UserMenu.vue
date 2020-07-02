@@ -70,7 +70,12 @@
             >check</i
           >
         </div>
-        <div id="create-new-account" v-close-popover class="menu-list-item" @click="goToWelcome()">
+        <div
+          id="create-new-account"
+          v-close-popover
+          class="menu-list-item"
+          @click="goToWelcome()"
+        >
           <span>Create New Account</span>
           <i class="material-icons">add_circle</i>
         </div>
