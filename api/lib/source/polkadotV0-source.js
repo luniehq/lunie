@@ -1,5 +1,5 @@
 const BigNumber = require('bignumber.js')
-const { uniqWith, uniq } = require('lodash')
+const { uniqWith } = require('lodash')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 const ERAS_PER_DAY = 4 // Kusama, 3 eras per day for Polkadot
