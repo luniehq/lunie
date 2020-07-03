@@ -29,7 +29,7 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
 function escapeValue(value) {
   if (typeof value === 'object') {
     const clone = JSON.parse(JSON.stringify(value))
-    Object.keys(clone).forEach(key => {
+    Object.keys(clone).forEach((key) => {
       clone[key] = escapeValue(clone[key])
     })
     return JSON.stringify(clone)
