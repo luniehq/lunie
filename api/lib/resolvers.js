@@ -451,7 +451,7 @@ const resolvers = {
         }
       }
     },
-    notifications: getNotifications,
+    notifications: getNotifications(networkList),
     accountRole: async (_, { networkId, address }, { dataSources }) => {
       await localStore(dataSources, networkId).dataReady
       if (!remoteFetch(dataSources, networkId).getAddressRole) return undefined
