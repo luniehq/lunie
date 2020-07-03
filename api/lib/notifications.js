@@ -233,7 +233,7 @@ const startNotificationService = () => {
 }
 
 // Resolver for retrieving notifications
-const getNotifications = networks => async (
+const getNotifications = (networks) => async (
   _,
   { timestamp = '', addressObjects },
   { dataSources }
