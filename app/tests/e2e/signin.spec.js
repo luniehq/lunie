@@ -122,15 +122,15 @@ async function prepare(browser) {
   }, [])
   await browser.url(browser.launch_url + "?insecure=true")
 
-  // check if we are already singed in
-  await openMenu(browser)
-  const signedIn = await isSignedIn(browser)
-  await closeMenu(browser)
+  // // check if we are already singed in
+  // await openMenu(browser)
+  // const signedIn = await isSignedIn(browser)
+  // await closeMenu(browser)
 
-  if (signedIn) {
-    await signOut(browser)
-  }
-  await signIn(browser)
+  // if (signedIn) {
+  //   await signOut(browser)
+  // }
+  // await signIn(browser)
 }
 
 async function isSignedIn(browser) {
