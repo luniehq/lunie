@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Remove Polkadot API disconnection as memory leak has been fixed @faboweb
-- Switch to Pengs node for Cosmos Hub @faboweb
+- Switch to Figment full node for Cosmos Hub and add Pengs as Tendermint @faboweb
 
 ### Fixed
 
