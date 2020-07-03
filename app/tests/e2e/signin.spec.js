@@ -12,6 +12,8 @@ module.exports = {
     await next(browser)
     // check if signed in
     await browser.waitForElementNotPresent(".session", 10000, true)
+    openMenu(browser)
+    await browser.waitForElementVisible("#sign-out", 10000, true)
   },
   "Import local account": async function (browser) {
     await prepare(browser)
@@ -89,8 +91,9 @@ async function signOut(browser) {
 }
 
 async function signIn(browser) {
-  await browser.waitForElementVisible("#open-user-menu", 10000, true)
-  await browser.click("#create-new-account")
+  await openMenu(browser)
+  await browser.waitForElementVisible("#sign-in", 10000, true)
+  await browser.click("#sign-in")
 }
 
 async function prepare(browser) {
@@ -122,15 +125,15 @@ async function prepare(browser) {
   }, [])
   await browser.url(browser.launch_url + "?insecure=true")
 
-  // // check if we are already singed in
-  // await openMenu(browser)
-  // const signedIn = await isSignedIn(browser)
-  // await closeMenu(browser)
+  // check if we are already singed in
+  await openMenu(browser)
+  const signedIn = await isSignedIn(browser)
+  await closeMenu(browser)
 
-  // if (signedIn) {
-  //   await signOut(browser)
-  // }
-  // await signIn(browser)
+  if (signedIn) {
+    await signOut(browser)
+  }
+  await signIn(browser)
 }
 
 async function isSignedIn(browser) {
