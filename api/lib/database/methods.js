@@ -150,11 +150,16 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
       }
     }
   `)
-  return networks.map(network => ({
+  const allNetworks = networks.map(network => ({
     ...network,
     ...networksCapabilities.find(({id}) => id === network.id),
     coinLookup: coinLookups.filter(({id}) => id === network.id)
   }))
+  // if the RUN_ONLY_NETWORK env variable is set, we only run the especified network
+  if (process.env.RUN_ONLY_NETWORK) {
+    return allNetworks.filter(({ id }) => id === process.env.RUN_ONLY_NETWORK)
+  }
+  return allNetworks
 }
 
 const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {

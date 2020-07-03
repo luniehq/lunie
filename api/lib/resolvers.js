@@ -10,7 +10,6 @@ const {
   event
 } = require('./subscriptions')
 const { encodeB32, decodeB32 } = require('./tools')
-const { networkList, networkMap } = require('./networks')
 const {
   getNetworkTransactionGasEstimates,
   getPolkadotFee,
@@ -20,7 +19,6 @@ const database = require('./database')
 const { getNotifications } = require('./notifications')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
-const networks = require('../data/networks')
 const firebaseAdmin = require('./firebase')
 
 function createDBInstance(network) {
@@ -219,7 +217,7 @@ const registerUser = async (_, { idToken }) => {
   }
 }
 
-const resolvers = {
+const resolvers = networkList => ({
   Overview: {
     accountInformation: (account, _, { dataSources }) =>
       remoteFetch(dataSources, account.networkId).getAccountInfo(
@@ -425,7 +423,7 @@ const resolvers = {
       overview.address = address
 
       if (development !== 'true') {
-        logOverview(overview, address, networkId, fingerprint)
+        logOverview(networks, overview, address, networkId, fingerprint)
       }
       return overview
     },
@@ -497,6 +495,6 @@ const resolvers = {
       return obj.type
     }
   }
-}
+})
 
 module.exports = resolvers
