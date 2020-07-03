@@ -240,7 +240,7 @@ const startNotificationService = (networks) => {
 }
 
 // Resolver for retrieving notifications
-const getNotifications = async (
+const getNotifications = (networks) => async (
   _,
   { timestamp = '', addressObjects },
   { dataSources }
@@ -266,8 +266,8 @@ const getNotifications = async (
   const notifications = relevantNotifications.map((notification) => ({
     networkId: notification.networkId, // used for filtering per network
     timestamp: notification.created_at, // used for grouping / sorting
-    title: getMessageTitle(notification), // title of notification
-    link: getPushLink(notification), // link for click-through action
+    title: getMessageTitle(networks, notification), // title of notification
+    link: getPushLink(networks, notification), // link for click-through action
     icon: getIcon(notification) // icon link
   }))
 
