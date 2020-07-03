@@ -14,21 +14,23 @@ if (config.SENTRY_DSN) {
   })
 }
 
-const app = express()
-const httpServer = http.createServer(app)
+async function main() {
+  const app = express()
+  const httpServer = http.createServer(app)
+  
+  app.use(express.json())
+  app.use(config.transactionPath, cors(), transaction)
+  
+  const apolloServer = await createApolloServer(httpServer)
+  app.use(apolloServer.getMiddleware({ app, path: config.queryPath, cors: true }))
+  
+  httpServer.listen({ port: config.port }, () => {
+    console.log(`GraphQL Queries ready at ${apolloServer.graphqlPath}`)
+    console.log(
+      `GraphQL Subscriptions ready at ${apolloServer.subscriptionsPath}`
+    )
+    console.log(`Transaction service ready at ${config.transactionPath}`)
+  })
+}
 
-app.use(express.json())
-app.use(config.transactionPath, cors(), transaction)
-
-const apolloServer = new createApolloServer(httpServer)
-app.use(apolloServer.getMiddleware({ app, path: config.queryPath, cors: true }))
-
-httpServer.listen({ port: config.port }, () => {
-  console.log(`GraphQL Queries ready at ${apolloServer.graphqlPath}`)
-  console.log(
-    `GraphQL Subscriptions ready at ${apolloServer.subscriptionsPath}`
-  )
-  console.log(`Transaction service ready at ${config.transactionPath}`)
-})
-
-module.exports = httpServer
+main()

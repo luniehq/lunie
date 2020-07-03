@@ -4,6 +4,7 @@ const {
   getMaintenance,
   storeNetwork,
   getNetwork,
+  getNetworks,
   storeStatistics,
   storeNotification,
   getNotifications,
@@ -34,10 +35,11 @@ function database({ hasura_url, hasura_admin_key }) {
         return validatorInfo[0]
       },
       getNetwork: getNetwork({ hasura_url, hasura_admin_key })(schema),
+      getNetworks: getNetworks({ hasura_url, hasura_admin_key })(schema),
       storeNetwork: storeNetwork({ hasura_url, hasura_admin_key })(schema),
       storeStatistics: storeStatistics({ hasura_url, hasura_admin_key })(
         schema
-      ),
+        ),
       storeNotification: storeNotification({ hasura_url, hasura_admin_key })(
         schema
       ),
@@ -54,7 +56,7 @@ function database({ hasura_url, hasura_admin_key }) {
         hasura_admin_key
       })(schema),
       storeUser: storeUser({ hasura_url, hasura_admin_key })(schema),
-      getUser: getUser({ hasura_url, hasura_admin_key })(schema)
+      getUser: getUser({ hasura_url, hasura_admin_key })(schema),
     }
 
     return {
