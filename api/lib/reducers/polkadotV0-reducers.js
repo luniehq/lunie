@@ -37,7 +37,7 @@ function validatorReducer(network, validator) {
       validator.identity.web && validator.identity.web !== ``
         ? validator.identity.web
         : ``,
-    identity: identityReducer(validator.accountId, validator.identity),
+    identity: validator.identity.twitter,
     name: identityReducer(validator.accountId, validator.identity),
     votingPower: validator.votingPower.toFixed(6),
     startHeight: undefined,
