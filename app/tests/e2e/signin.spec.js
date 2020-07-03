@@ -84,7 +84,7 @@ async function prepare(browser) {
   browser.waitForElementVisible(`#app-content`, 10000, true)
 
   // add a standard account to be used for signing in to an existing account
-  await browser.execute(function () {
+  await browser.execute(function (browser) {
     window.localStorage.setItem(
       "cosmos-wallets-index",
       JSON.stringify([
@@ -102,8 +102,9 @@ async function prepare(browser) {
         wallet: `ae1d20a49e1085cca29a71e270c6f64f8f86794cb67c6922caea6bcba0ed9e60g+nSTgP8/wHpWaomDkhW/7g2Xldvno3VRFggvdpWIDrRV+n4BJtpk3UpLKo0K3SDL5dRzxz3NmGFnSA8znggFmtesdqu6jWJYzSNqaQhM/gCPTVabF7t1UHaybze1NRlYcm/wl5oOyXRpki6ugOHxNhF7+4wlzhYxMilAB7ekDB4+VVHoPMUinU4dsUdtC4XwDUA0rbX1TTmrh+i1eBp6UTQ+nHGiZXL1TkhhR1mE0fR3bLRunz5XagYtjoST33pecQWzqeaZZQ/mgm9QXu/i+ymfbnPQkh8ivx+J6/d2RfZuAV4NnwFZDUr7CzPX4TU`,
       })
     )
+    localStorage.removeItem(`session_${browser.globals.networkData.network}`)
     return true
-  }, [])
+  }, [browser])
   await browser.url(browser.launch_url + "?insecure=true")
 
   // check if we are already singed in
