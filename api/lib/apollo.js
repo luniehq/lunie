@@ -52,7 +52,7 @@ async function createApolloServer(httpServer) {
 
   let options = {
     typeDefs,
-    resolvers: resolvers(networks),
+    resolvers: resolvers(networkList),
     dataSources: getDataSources(networks),
     cacheControl: {
       defaultMaxAge: 10
