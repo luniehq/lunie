@@ -116,14 +116,15 @@
             <span>Sign up for premium</span>
             <i class="material-icons">email</i>
           </div>
-          <div
+          <!-- TODO -->
+          <!-- <div
             v-close-popover
             class="menu-list-item outline"
             @click="resetSessions()"
           >
             <span>Reset Sessions</span>
             <i class="material-icons">cancel</i>
-          </div>
+          </div> -->
         </div>
       </template>
     </v-popover>
@@ -168,6 +169,7 @@ export default {
       this.selectedNetwork = this.networks.find(
         (network) => network.id === address.networkId
       )
+      this.$store.dispatch(`setNetwork`, this.selectedNetwork)
       this.$router.push({
         name: "portfolio",
         params: {
@@ -197,9 +199,9 @@ export default {
     getAddressNetwork(address) {
       return this.networks.find((network) => network.id === address.networkId)
     },
-    async resetSessions() {
-      await this.$store.commit("setAllSessionAddresses", [])
-    },
+    // TODO
+    // async resetSessions() {
+    // },
   },
 }
 </script>
