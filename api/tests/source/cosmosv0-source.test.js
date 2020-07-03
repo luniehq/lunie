@@ -8,12 +8,14 @@ describe('Cosmos V0 API', function () {
 
     beforeEach(() => {
       cosmosNetworkConfig = {
-        title: "Cosmos Hub",
-        bech32_prefix: "cosmos", // DEPRECATE
-        address_prefix: "cosmos",
-        coinLookup: [{
-          viewDenom: "ATOM"
-        }]
+        title: 'Cosmos Hub',
+        bech32_prefix: 'cosmos', // DEPRECATE
+        address_prefix: 'cosmos',
+        coinLookup: [
+          {
+            viewDenom: 'ATOM'
+          }
+        ]
       }
       api = new CosmosV0API(cosmosNetworkConfig, {})
     })

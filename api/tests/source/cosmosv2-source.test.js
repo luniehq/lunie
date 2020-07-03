@@ -32,11 +32,13 @@ describe('Cosmos V2 API', function () {
 
     beforeEach(() => {
       cosmosNetworkConfig = {
-        bech32_prefix: "cosmos", // DEPRECATE
-        address_prefix: "cosmos",
-        coinLookup: [{
-          viewDenom: "ATOM"
-        }]
+        bech32_prefix: 'cosmos', // DEPRECATE
+        address_prefix: 'cosmos',
+        coinLookup: [
+          {
+            viewDenom: 'ATOM'
+          }
+        ]
       }
       store = {
         validators: mockValidatorsDictionary
