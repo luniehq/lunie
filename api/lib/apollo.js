@@ -12,7 +12,7 @@ const NetworkContainer = require('./network-container')
 const firebaseAdmin = require('./firebase')
 const config = require('../config')
 
-const db = database(config)("")
+const db = database(config)('')
 
 function getDataSources(networks) {
   return () => {

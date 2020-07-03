@@ -5,7 +5,7 @@ const database = require('../../database')
 const config = require('../../../config')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
 
-const db = database(config)("")
+const db = database(config)('')
 
 global.fetch = require('node-fetch')
 
@@ -15,19 +15,16 @@ async function initPolkadotAPIs() {
   const networks = await db.getNetworks()
   return Promise.all(
     networks
-    .filter((network) => network.network_type === `polkadot`)
-    .map((network) => {
-      // ignore polkadot in tests for now
-      if (process.env.TEST) return
-      const polkadotAPI = new ApiPromise({
-        provider: new WsProvider(
-          network.rpc_url ||
-          network.public_rpc_url
-        )
+      .filter((network) => network.network_type === `polkadot`)
+      .map((network) => {
+        // ignore polkadot in tests for now
+        if (process.env.TEST) return
+        const polkadotAPI = new ApiPromise({
+          provider: new WsProvider(network.rpc_url || network.public_rpc_url)
+        })
+        polkadotAPI.isReady
+        polkadotAPIsDictionary[network.id] = polkadotAPI
       })
-      polkadotAPI.isReady
-      polkadotAPIsDictionary[network.id] = polkadotAPI
-    })
   )
 }
 
@@ -65,7 +62,7 @@ async function broadcastWithPolkadot(tx) {
 
 async function broadcast(tx, fingerprint, development) {
   console.log(`Received broadcast: ${JSON.stringify(tx)}`)
-  const network = await db.getNetwork(networkId)
+  const network = await db.getNetwork(tx.networkId)
   try {
     if (network.network_type === `cosmos`) {
       return await broadcastWithCosmos(network, tx, fingerprint, development)

@@ -11,7 +11,7 @@ const {
 const database = require('./database')
 const config = require('../config.js')
 
-function getMessageTitle(notification) {
+function getMessageTitle(networks, notification) {
   // Need to decode JSOn string from Hasura as it escapes strings
   // e.g. a quote " is represented as &quot; - need to reverse this with the below operation
   // second replace statement helps to remove line breaks from descriptions (for proposals) that cause JSON.parse to fail
@@ -120,7 +120,10 @@ function findNetworkSlug(networks, networkId) {
   return network.slug
 }
 
-function getPushLink(networks, { resourceType, eventType, networkId, resourceId, data }) {
+function getPushLink(
+  networks,
+  { resourceType, eventType, networkId, resourceId, data }
+) {
   const resource =
     resourceType === resourceTypes.VALIDATOR ? eventType : resourceType
   const notificationData = JSON.parse(
@@ -226,7 +229,7 @@ const startNotificationService = (networks) => {
       const notification = {
         networkId: event.networkId,
         timestamp: notificationResponse.created_at,
-        title: getMessageTitle(notificationResponse),
+        title: getMessageTitle(networks, notificationResponse),
         link: getPushLink(networks, notificationResponse),
         icon: getIcon(notificationResponse)
       }

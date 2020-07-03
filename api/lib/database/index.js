@@ -39,7 +39,7 @@ function database({ hasura_url, hasura_admin_key }) {
       storeNetwork: storeNetwork({ hasura_url, hasura_admin_key })(schema),
       storeStatistics: storeStatistics({ hasura_url, hasura_admin_key })(
         schema
-        ),
+      ),
       storeNotification: storeNotification({ hasura_url, hasura_admin_key })(
         schema
       ),
@@ -56,7 +56,7 @@ function database({ hasura_url, hasura_admin_key }) {
         hasura_admin_key
       })(schema),
       storeUser: storeUser({ hasura_url, hasura_admin_key })(schema),
-      getUser: getUser({ hasura_url, hasura_admin_key })(schema),
+      getUser: getUser({ hasura_url, hasura_admin_key })(schema)
     }
 
     return {
