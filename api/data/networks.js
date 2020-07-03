@@ -36,7 +36,7 @@ module.exports = [
     id: 'cosmos-hub-mainnet',
     title: 'Cosmos Hub',
     chain_id: 'cosmoshub-3',
-    rpc_url: 'wss://cosmos-hub-3.lunie.io/websocket',
+    rpc_url: 'ws://rpc.nylira.net:26657/websocket',
     api_url:
       'https://cosmoshub-3--lcd--full.datahub.figment.network/apikey/f6781f85128efee07ac995bd36393227',
     bech32_prefix: 'cosmos',
