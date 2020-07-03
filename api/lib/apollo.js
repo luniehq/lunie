@@ -5,14 +5,14 @@ const Sentry = require('@sentry/node')
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 const Notifications = require('./notifications')
+const database = require('./database')
 
-const { networkList } = require('./networks')
 const NetworkContainer = require('./network-container')
 
 const firebaseAdmin = require('./firebase')
 const config = require('../config')
 
-const networks = networkList.map((network) => new NetworkContainer(network))
+const db = database(config)('')
 
 function getDataSources(networks) {
   return () => {
@@ -27,7 +27,7 @@ function getDataSources(networks) {
   }
 }
 
-function startBlockTriggers() {
+function startBlockTriggers(networks) {
   networks.map((network) => network.initialize())
 }
 
@@ -42,14 +42,17 @@ async function checkIsValidIdToken(idToken) {
   }
 }
 
-function createApolloServer(httpServer) {
+async function createApolloServer(httpServer) {
+  const networkList = await db.getNetworks()
+  const networks = networkList.map((network) => new NetworkContainer(network))
+
   if (config.env !== 'test') {
-    startBlockTriggers()
+    startBlockTriggers(networks)
   }
 
   let options = {
     typeDefs,
-    resolvers,
+    resolvers: resolvers(networks),
     dataSources: getDataSources(networks),
     cacheControl: {
       defaultMaxAge: 10

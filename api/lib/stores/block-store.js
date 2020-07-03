@@ -3,6 +3,8 @@ const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
 const Sentry = require('@sentry/node')
+const database = require('../database')
+const config = require('../../config')
 const { publishEvent: publishEvent } = require('../subscriptions')
 const { eventTypes, resourceTypes } = require('../notifications-types')
 
@@ -264,6 +266,22 @@ class BlockStore {
       ),
       'operatorAddress'
     )
+  }
+
+  async updateNetworkFromDB() {
+    try {
+      const storedNetwork = await database(config)('').getNetwork(
+        this.network.id
+      )
+      if (storedNetwork) {
+        Object.assign(this.network, storedNetwork)
+      } else {
+        console.error(`This network is not present in the DB`)
+      }
+    } catch (error) {
+      console.error('Failed during update network in DB', error)
+      Sentry.captureException(error)
+    }
   }
 }
 
