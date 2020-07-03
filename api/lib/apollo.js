@@ -102,7 +102,7 @@ async function createApolloServer(httpServer) {
   const apolloServer = new ApolloServer(options)
   apolloServer.installSubscriptionHandlers(httpServer)
 
-  Notifications.startNotificationService()
+  Notifications.startNotificationService(networkList)
 
   return apolloServer
 }
