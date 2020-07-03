@@ -36,16 +36,16 @@ function escapeValue(value) {
       })
       return JSON.stringify(clone)
     } else {
-      return escape(value)
+      return `"${escape(value)}"`
     }
   } catch (error) {
-    return escape(value)
+    return `"${escape(value)}"`
   }
 }
 
 function gqlKeyValue([key, value]) {
   // escape all values but handle objects gracefully
-  return `${key}: "${escapeValue(value)}"`
+  return `${key}: ${escapeValue(value)}`
 }
 
 // stringify a set of row to be according to the graphQL schema
