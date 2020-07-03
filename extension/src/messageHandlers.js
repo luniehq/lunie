@@ -7,7 +7,7 @@ const {
 const {
   default: TransactionManager
 } = require('app/src/signing/transaction-manager')
-const { getPolkadotAPI } = require('../../utils')
+const { getPolkadotAPI } = require('../../common/polkadotApiConnector')
 
 export async function signMessageHandler(
   signRequestQueue,

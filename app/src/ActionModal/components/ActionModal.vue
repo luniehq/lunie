@@ -265,6 +265,7 @@ import { track, sendEvent } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
 import TransactionManager from "../../signing/transaction-manager"
+import { getPolkadotAPI } from "../../../../common/polkadotApiConnector"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -699,7 +700,7 @@ export default {
           network: this.network,
           signingType: this.selectedSignMethod,
           password: this.password,
-          polkadotAPI: await this.$store.state.connection.polkadotAPI,
+          polkadotAPI: await getPolkadotAPI(this.network),
         })
 
         const { hash } = hashResult

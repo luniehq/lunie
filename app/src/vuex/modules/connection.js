@@ -1,7 +1,7 @@
 import config from "src/../config"
 import bech32 from "bech32"
 import { NetworksAll } from "../../gql"
-import { getPolkadotAPI } from "../../../../utils"
+import { getPolkadotAPI } from "../../../../common/polkadotApiConnector"
 
 const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
@@ -24,7 +24,6 @@ export default function ({ apollo }) {
     externals: {
       config,
     },
-    polkadotAPI: {}, // in the polkadotAPI Object we will store all the different Polkadot APIs. It is erased on refresh
   }
 
   const mutations = {
@@ -39,9 +38,6 @@ export default function ({ apollo }) {
     },
     setNetworks(state, networks) {
       state.networks = networks
-    },
-    setPolkadotAPI(state, polkadotAPI) {
-      state.polkadotAPI = polkadotAPI
     },
   }
 
@@ -155,10 +151,9 @@ export default function ({ apollo }) {
       }
       commit("setAddressType", network.address_creator)
       dispatch(`checkForPersistedSession`) // check for persisted session on that network
-      // if the network is a pokadot network
       if (network.network_type === `polkadot`) {
-        const polkadotAPI = getPolkadotAPI(network)
-        commit(`setPolkadotAPI`, polkadotAPI)
+        // we initialize the API on sign in so it is available when the user wants to use it
+        getPolkadotAPI(network)
       }
       console.info(`Connecting to: ${network.id}`)
     },
