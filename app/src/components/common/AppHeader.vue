@@ -48,7 +48,7 @@
         </router-link>
         <div class="header-menu-section">
           <template v-if="!desktop">
-            <UserMenu v-if="isMobileApp" />
+            <UserMenu v-if="isMobileApp && isDevelopmentMode" />
             <div v-if="open" class="close-menu" @click="close()">
               <i class="material-icons notranslate mobile-menu-action">close</i>
             </div>
