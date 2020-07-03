@@ -11,6 +11,9 @@ const PORT = process.env.PORT || 9000;
 const HOST = process.env.NODE_ENV = "docker" ? '0.0.0.0' : 'localhost';
 
 const polkadotrewards = require("./polkadotrewards")
+const { getKeybaseImages } = require("./keybase")
+getKeybaseImages()
+setInterval(getKeybaseImages, 1000 * 60 * 60) // check once per hour for new validators (throttled by 24 after an update)
 
 app.use(bodyParser.json())
 app.use(timeout(120000))

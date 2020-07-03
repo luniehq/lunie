@@ -4,7 +4,6 @@ const BigNumber = require('bignumber.js')
 const { orderBy, keyBy, uniqBy } = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
-const networks = require('../../data/networks')
 const { getNetworkGasPrices } = require('../../data/network-fees')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
@@ -381,13 +380,8 @@ class CosmosV0API extends RESTDataSource {
     })
   }
 
-  getNetwork(networkId) {
-    return networks.find(({ id }) => id === networkId)
-  }
-
-  async getAccountInfo(address, networkId) {
-    const network = this.getNetwork(networkId)
-    if (!address.startsWith(network.address_prefix)) {
+  async getAccountInfo(address) {
+    if (!address.startsWith(this.network.address_prefix)) {
       throw new UserInputError("This address doesn't exist in this network")
     }
     const response = await this.query(`auth/accounts/${address}`)

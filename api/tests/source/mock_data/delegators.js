@@ -1,4 +1,4 @@
-const delegatorAddress = 'cosmosvaloper1y3v65vhz5f93k8uk7vnz5v7yr7ks5gdcumgcqr'
+const delegatorAddress = 'cosmos1fh44aqn7m4v570ujtjlmt3dytq80qyfwj07ckc'
 
 const mockValidatorsDictionary = {
   [delegatorAddress]: {

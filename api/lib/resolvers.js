@@ -1,6 +1,5 @@
 const { sortBy } = require('lodash')
 const Sentry = require('@sentry/node')
-const firebaseAdmin = require('firebase-admin')
 const { UserInputError, withFilter } = require('apollo-server')
 const BigNumber = require('bignumber.js')
 const {
@@ -11,7 +10,6 @@ const {
   event
 } = require('./subscriptions')
 const { encodeB32, decodeB32 } = require('./tools')
-const { networkList, networkMap } = require('./networks')
 const {
   getNetworkTransactionGasEstimates,
   getPolkadotFee,
@@ -21,12 +19,7 @@ const database = require('./database')
 const { getNotifications } = require('./notifications')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
-const networks = require('../data/networks')
-
-const firebaseServiceAccount = require('../firebaseCredentials.json')
-firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(firebaseServiceAccount)
-})
+const firebaseAdmin = require('./firebase')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -126,7 +119,7 @@ async function undelegations(
   return undelegations
 }
 
-const networkFees = async (
+const networkFees = (networks) => async (
   _,
   { networkId, senderAddress, messageType, message, memo },
   { dataSources }
@@ -170,12 +163,15 @@ const networkFees = async (
   }
 }
 
-const transactionMetadata = async (
+const transactionMetadata = (networks) => async (
   _,
   { networkId, transactionType, address },
   { dataSources }
 ) => {
-  const thisNetworkFees = await networkFees(_, { networkId, transactionType })
+  const thisNetworkFees = await networkFees(networks)(_, {
+    networkId,
+    transactionType
+  })
   const accountDetails = await remoteFetch(
     dataSources,
     networkId
@@ -224,7 +220,7 @@ const registerUser = async (_, { idToken }) => {
   }
 }
 
-const resolvers = {
+const resolvers = (networkList) => ({
   Overview: {
     accountInformation: (account, _, { dataSources }) =>
       remoteFetch(dataSources, account.networkId).getAccountInfo(
@@ -325,31 +321,20 @@ const resolvers = {
       return remoteFetch(dataSources, networkId).getBlockV2(height)
     },
     network: (_, { id }) => {
-      const network = networkMap[id]
-      if (network.id === 'local-cosmos-hub-testnet') {
-        // HACK: network.api_url for the testnet has to be different for internal
-        // (docker DNS to access the testnet container) and external (this frontend to
-        // access the docker container from the outside via it's port)
-        return {
-          ...network,
-          api_url: 'http://localhost:9071'
-        }
-      }
-      return network
+      const network = networkList.find((network) => network.id === id)
+      return Object.assign({}, network, {
+        rpc_url: network.public_rpc_url,
+        public_rpc_url: undefined
+      })
     },
     networks: (_, { experimental }) => {
       const networks = networkList
         .map((network) => {
-          if (network.id === 'local-cosmos-hub-testnet') {
-            // HACK: network.api_url for the testnet has to be different for internal
-            // (docker DNS to access the testnet container) and external (this frontend to
-            // access the docker container from the outside via its port)
-            return {
-              ...network,
-              api_url: 'http://localhost:9071'
-            }
-          }
-          return network
+          // the server side nodes are mostly whitelisted or secret so we don't want to send them to the FE
+          return Object.assign({}, network, {
+            rpc_url: network.public_rpc_url,
+            public_rpc_url: undefined
+          })
         })
         // filter out not enabled networks
         .filter((network) => (experimental ? true : network.enabled))
@@ -441,7 +426,7 @@ const resolvers = {
       overview.address = address
 
       if (development !== 'true') {
-        logOverview(overview, address, networkId, fingerprint)
+        logOverview(networkList, overview, address, networkId, fingerprint)
       }
       return overview
     },
@@ -450,8 +435,8 @@ const resolvers = {
         address,
         pageNumber
       ),
-    networkFees,
-    transactionMetadata,
+    networkFees: networkFees(networkList),
+    transactionMetadata: transactionMetadata(networkList),
     estimate: () => {
       try {
         const gasEstimate = 550000
@@ -467,7 +452,7 @@ const resolvers = {
         }
       }
     },
-    notifications: getNotifications,
+    notifications: getNotifications(networkList),
     accountRole: async (_, { networkId, address }, { dataSources }) => {
       await localStore(dataSources, networkId).dataReady
       if (!remoteFetch(dataSources, networkId).getAddressRole) return undefined
@@ -513,6 +498,6 @@ const resolvers = {
       return obj.type
     }
   }
-}
+})
 
 module.exports = resolvers

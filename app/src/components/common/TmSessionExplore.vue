@@ -34,7 +34,7 @@
       <div class="session-main">
         <TmFormGroup field-id="sign-in-name" field-label="Your Address">
           <TmField
-            v-model="address"
+            v-model.trim="address"
             type="text"
             placeholder
             vue-focus="vue-focus"

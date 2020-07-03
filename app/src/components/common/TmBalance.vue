@@ -95,7 +95,14 @@
                 {{ balance.total | bigFigureOrShortDecimals }}
                 {{ balance.denom }}
               </span>
-              <span v-if="balance.fiatValue && !isTestnet" class="fiat">
+              <span
+                v-if="
+                  balance.fiatValue &&
+                  !isTestnet &&
+                  balance.fiatValue.amount > 0
+                "
+                class="fiat"
+              >
                 {{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
                 {{ balance.fiatValue.denom }}</span
               >
@@ -109,6 +116,7 @@
               }}
               {{ balance.denom }}
             </h2>
+            <h2 v-else>0</h2>
           </div>
 
           <div :key="balance.denom + '_available'" class="table-cell available">
@@ -488,7 +496,7 @@ select option {
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 2rem 2rem;
+  padding: 1rem 2rem 2rem;
   width: 100%;
 }
 

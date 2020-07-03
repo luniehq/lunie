@@ -152,12 +152,13 @@ export default {
       },
       /* istanbul ignore next */
       update: function (result) {
+        /* istanbul ignore next */
         if (!Array.isArray(result.validators)) {
           return []
         }
 
         this.loaded = true
-
+        /* istanbul ignore next */
         return this.activeOnly
           ? result.validators.filter(
               ({ name, operatorAddress }) => name !== operatorAddress
@@ -240,8 +241,8 @@ export default {
 }
 
 .show-mobile-sorting {
-  cursor: pointer;
   display: none;
+  cursor: pointer;
 }
 
 .show-mobile-sorting.active {

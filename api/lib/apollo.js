@@ -1,15 +1,18 @@
 const { ApolloServer } = require('apollo-server-express')
 const responseCachePlugin = require('apollo-server-plugin-response-cache')
+const Sentry = require('@sentry/node')
+
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 const Notifications = require('./notifications')
+const database = require('./database')
 
-const { networkList } = require('./networks')
 const NetworkContainer = require('./network-container')
 
+const firebaseAdmin = require('./firebase')
 const config = require('../config')
 
-const networks = networkList.map((network) => new NetworkContainer(network))
+const db = database(config)('')
 
 function getDataSources(networks) {
   return () => {
@@ -24,18 +27,32 @@ function getDataSources(networks) {
   }
 }
 
-function startBlockTriggers() {
+function startBlockTriggers(networks) {
   networks.map((network) => network.initialize())
 }
 
-function createApolloServer(httpServer) {
+async function checkIsValidIdToken(idToken) {
+  try {
+    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
+    return decodedToken.uid
+  } catch (error) {
+    console.error(error)
+    Sentry.captureException(error)
+    return false
+  }
+}
+
+async function createApolloServer(httpServer) {
+  const networkList = await db.getNetworks()
+  const networks = networkList.map((network) => new NetworkContainer(network))
+
   if (config.env !== 'test') {
-    startBlockTriggers()
+    startBlockTriggers(networks)
   }
 
   let options = {
     typeDefs,
-    resolvers,
+    resolvers: resolvers(networkList),
     dataSources: getDataSources(networks),
     cacheControl: {
       defaultMaxAge: 10
@@ -50,7 +67,7 @@ function createApolloServer(httpServer) {
     subscriptions: {
       path: config.subscriptionPath
     },
-    context: ({ req, connection }) => {
+    context: async ({ req, connection }) => {
       if (connection) {
         return {
           dataSources: getDataSources(networks)
@@ -63,9 +80,17 @@ function createApolloServer(httpServer) {
             throw new Error(`Access Forbidden`)
           }
         }
+        const idToken = req.headers.authorization
+        let uid = undefined
+        if (idToken) {
+          uid = await checkIsValidIdToken(idToken)
+        }
         return {
           fingerprint: req.headers.fingerprint,
-          development: req.headers.development
+          development: req.headers.development,
+          authorization: {
+            uid
+          }
         }
       }
     }
@@ -77,11 +102,9 @@ function createApolloServer(httpServer) {
   const apolloServer = new ApolloServer(options)
   apolloServer.installSubscriptionHandlers(httpServer)
 
-  Notifications.startNotificationService()
+  Notifications.startNotificationService(networkList)
 
   return apolloServer
 }
 
-module.exports = {
-  createApolloServer
-}
+module.exports = { createApolloServer }

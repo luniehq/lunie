@@ -1,34 +1,28 @@
 <template>
-  <AccountFrame :icon="`verified_user`">
-    <h2 class="account-title">Sign In / Sign Up</h2>
-    <h4 class="account-subtitle">
-      We will send you a magic link to your email
-    </h4>
+  <SessionFrame :icon="`verified_user`">
+    <h2 class="session-title">Sign up for premium features!</h2>
+    <p class="session-subtitle">
+      We'll send a magic link to your email. Click it and you'll be signed in!
+    </p>
+    <TmField id="email" v-model="email" type="input" placeholder="Your email" />
 
-    <TmFormGroup field-id="sign-in-credentials">
-      <TmField
-        id="email"
-        v-model="email"
-        type="input"
-        placeholder="Your email"
-      />
-    </TmFormGroup>
     <div class="sign-in-buttons">
-      <TmBtn value="Cancel" type="secondary" @click.native="close()" />
-      <TmBtn value="Send Link" type="primary" @click.native="sendMagicLink()" />
+      <TmBtn
+        value="Send Me A Magic Link"
+        type="primary"
+        @click.native="sendMagicLink()"
+      />
     </div>
-  </AccountFrame>
+  </SessionFrame>
 </template>
 <script>
-import AccountFrame from "common/AccountFrame"
-import TmFormGroup from "src/components/common/TmFormGroup"
+import SessionFrame from "common/SessionFrame"
 import TmField from "src/components/common/TmField"
 import TmBtn from "common/TmBtn"
 export default {
   name: `sign-in-modal`,
   components: {
-    AccountFrame,
-    TmFormGroup,
+    SessionFrame,
     TmField,
     TmBtn,
   },
@@ -41,6 +35,7 @@ export default {
       await this.$store.dispatch(`sendUserMagicLink`, {
         user: { email: this.email },
       })
+      this.$router.push({ name: `magic-link-sent-modal` })
     },
     close() {
       this.$router.go(`-1`)

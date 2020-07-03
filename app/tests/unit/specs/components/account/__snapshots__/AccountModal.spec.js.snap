@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountModal should show the AccountModal page 1`] = `
+<div
+  class="session-frame"
+  mode="out-in"
+  name="component-fade"
+  tabindex="0"
+>
+  <div
+    class="session-outer-container"
+  >
+    <div
+      class="session"
+    >
+      <div
+        class="session-header"
+      >
+        <a>
+          <i
+            class="material-icons notranslate circle back"
+          >
+            arrow_back
+          </i>
+        </a>
+         
+        <div
+          class="session-close"
+        >
+          <a>
+            <i
+              class="material-icons notranslate circle back"
+            >
+              close
+            </i>
+          </a>
+        </div>
+      </div>
+       
+      <h1
+        class="session-title"
+      >
+        Feature Not Available
+      </h1>
+       
+      <p>
+        (But coming soon)
+      </p>
+       
+      <tmformgroup-stub
+        class="account-modal-form-group"
+        fieldid="password"
+        style="display: none;"
+      >
+        <tmfield-stub
+          id="password"
+          placeholder="Password"
+          type="password"
+          value=""
+        />
+         
+        <div
+          class="account-modal-buttons"
+        >
+          <tmbtn-stub
+            customclass=""
+            type="secondary"
+            value="Dismiss"
+          />
+           
+          <tmbtn-stub
+            customclass=""
+            type="primary"
+            value="Reveal"
+          />
+        </div>
+      </tmformgroup-stub>
+    </div>
+  </div>
+</div>
+`;

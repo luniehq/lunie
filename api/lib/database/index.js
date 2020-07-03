@@ -2,6 +2,9 @@ const { insert, read, query } = require('./helpers')
 const {
   getValidatorsInfo,
   getMaintenance,
+  storeNetwork,
+  getNetwork,
+  getNetworks,
   storeStatistics,
   storeNotification,
   getNotifications,
@@ -31,6 +34,9 @@ function database({ hasura_url, hasura_admin_key }) {
         })(schema)(validatorId)
         return validatorInfo[0]
       },
+      getNetwork: getNetwork({ hasura_url, hasura_admin_key })(schema),
+      getNetworks: getNetworks({ hasura_url, hasura_admin_key })(schema),
+      storeNetwork: storeNetwork({ hasura_url, hasura_admin_key })(schema),
       storeStatistics: storeStatistics({ hasura_url, hasura_admin_key })(
         schema
       ),

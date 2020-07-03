@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmailAuthentication should show the EmailAuthentication page 1`] = `
+<tmpage-stub
+  data-title="email-authentication"
+  hideheader="true"
+  subtitle=""
+  title=""
+>
+  <div
+    class="card"
+  >
+    <h1
+      class="authentication-title"
+    >
+      
+      You are now signed in! 🚀
+    
+    </h1>
+  </div>
+</tmpage-stub>
+`;

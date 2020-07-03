@@ -1,34 +1,45 @@
-const { networkMap } = require('../../networks')
 const Sentry = require('@sentry/node')
 const { publishUserTransactionAddedV2 } = require('../../subscriptions')
 const { storeTransactions } = require('../../statistics')
+const database = require('../../database')
+const config = require('../../../config')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
-const networks = require('../../../data/networks')
+
+const db = database(config)('')
 
 global.fetch = require('node-fetch')
 
-let api
-async function initPolkadotAPI() {
-  // ignore polkadot in tests for now
-  if (process.env.TEST || !networkMap['kusama']) return
+const polkadotAPIsDictionary = {}
 
-  api = new ApiPromise({
-    provider: new WsProvider(networkMap['kusama'].rpc_url)
-  })
-  await api.isReady
+async function initPolkadotAPIs() {
+  const networks = await db.getNetworks()
+  return Promise.all(
+    networks
+      .filter((network) => network.network_type === `polkadot`)
+      .map((network) => {
+        // ignore polkadot in tests for now
+        if (process.env.TEST) return
+        const polkadotAPI = new ApiPromise({
+          provider: new WsProvider(network.rpc_url || network.public_rpc_url)
+        })
+        polkadotAPI.isReady
+        polkadotAPIsDictionary[network.id] = polkadotAPI
+      })
+  )
 }
-initPolkadotAPI()
 
-async function getPolkadotAPI() {
-  await api.isReady
-  return api
+initPolkadotAPIs()
+
+async function getPolkadotAPI(networkId) {
+  await polkadotAPIsDictionary[networkId].isReady
+  return polkadotAPIsDictionary[networkId]
 }
 
-async function broadcastWithCosmos(tx, fingerprint, development) {
+async function broadcastWithCosmos(network, tx, fingerprint, development) {
   const hash = await broadcastCosmosTransaction(
     tx.networkId,
     tx.senderAddress,
-    networkMap[tx.networkId].api_url,
+    network.api_url,
     tx.signedMessage,
     fingerprint,
     development
@@ -39,16 +50,10 @@ async function broadcastWithCosmos(tx, fingerprint, development) {
   }
 }
 
-async function broadcastWithPolkadot(
-  tx
-  // fingerprint
-) {
-  const api = await getPolkadotAPI()
-
+async function broadcastWithPolkadot(tx) {
+  const api = await getPolkadotAPI(tx.networkId)
   const result = await api.rpc.author.submitExtrinsic(tx.signedMessage)
-
   const hash = result.toJSON()
-
   return {
     hash,
     success: true
@@ -57,16 +62,16 @@ async function broadcastWithPolkadot(
 
 async function broadcast(tx, fingerprint, development) {
   console.log(`Received broadcast: ${JSON.stringify(tx)}`)
+  const network = await db.getNetwork(tx.networkId)
   try {
-    switch (networkMap[tx.networkId].network_type) {
-      case 'cosmos':
-        return await broadcastWithCosmos(tx, fingerprint, development)
-      case 'polkadot':
-        return await broadcastWithPolkadot(tx, fingerprint, development)
+    if (network.network_type === `cosmos`) {
+      return await broadcastWithCosmos(network, tx, fingerprint, development)
+    } else if (network.network_type === `polkadot`) {
+      return await broadcastWithPolkadot(tx)
     }
   } catch (e) {
     Sentry.withScope(function (scope) {
-      scope.setExtra('api_url', networkMap[tx.networkId].api_url)
+      scope.setExtra('api_url', network.api_url)
       scope.setExtra('transaction', tx.signedMessage)
       Sentry.captureException(e)
     })
@@ -181,7 +186,7 @@ async function pollTransactionSuccess(
   development,
   iteration = 0
 ) {
-  const network = networks.find(({ id }) => id === networkId)
+  const network = await db.getNetwork(networkId)
   const NetworkApiClass = require('../../' + network.source_class_name)
   const store = {}
   const NetworkApi = new NetworkApiClass(network, store)
