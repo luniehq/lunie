@@ -273,53 +273,7 @@ class BlockStore {
         this.network.id
       )
       if (storedNetwork) {
-        // we update everything except the network id and powered
-        this.network.enabled = storedNetwork.enabled
-        this.network.experimental = storedNetwork.experimental
-        this.network.title = storedNetwork.title
-        this.network.chain_id = storedNetwork.chain_id
-        this.network.rpc_url = storedNetwork.rpc_url
-        this.network.api_url = storedNetwork.api_url
-        this.network.bech32_prefix = storedNetwork.bech32_prefix
-        this.network.testnet = storedNetwork.testnet
-        this.network.default = storedNetwork.default
-        this.network.stakingDenom = storedNetwork.stakingDenom
-        this.network.address_prefix = storedNetwork.address_prefix
-        this.network.address_creator = storedNetwork.address_creator
-        this.network.ledger_app = storedNetwork.ledger_app
-        this.network.network_type = storedNetwork.network_type
-        this.network.source_class_name = storedNetwork.source_class_name
-        this.network.block_listener_class_name =
-          storedNetwork.block_listener_class_name
-        this.network.icon = storedNetwork.icon
-        this.network.slug = storedNetwork.slug
-        this.network.lockUpPeriod = storedNetwork.lockUpPeriod
-
-        // network capabilities
-        this.network.feature_session = storedNetwork.feature_session
-        this.network.feature_explore = storedNetwork.feature_explore
-        this.network.feature_portfolio = storedNetwork.feature_portfolio
-        this.network.feature_validators = storedNetwork.feature_validators
-        this.network.feature_proposals = storedNetwork.feature_proposals
-        this.network.feature_activity = storedNetwork.feature_activity
-        this.network.feature_explorer = storedNetwork.feature_explorer
-        this.network.action_send = storedNetwork.action_send
-        this.network.action_claim_rewards = storedNetwork.action_claim_rewards
-        this.network.action_delegate = storedNetwork.action_delegate
-        this.network.action_redelegate = storedNetwork.action_redelegate
-        this.network.action_undelegate = storedNetwork.action_undelegate
-        this.network.action_deposit = storedNetwork.action_deposit
-        this.network.action_vote = storedNetwork.action_vote
-        this.network.action_proposal = storedNetwork.action_proposal
-
-        // coinLookups
-        this.network.coinLookup.map((coinLookup, index) => {
-          coinLookup.chainDenom = storedNetwork.coinLookup[index].chainDenom
-          coinLookup.viewDenom = storedNetwork.coinLookup[index].viewDenom
-          coinLookup.chainToViewConversionFactor =
-            storedNetwork.coinLookup[index].chainToViewConversionFactor
-          return coinLookup
-        })
+        Object.assign(this.network, storedNetwork)
       } else {
         console.error(`This network is not present in the DB`)
       }

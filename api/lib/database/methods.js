@@ -122,6 +122,7 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
         icon
         slug
         lockUpPeriod
+        powered
       }
       networksCapabilities: networksCapabilities {
         id
@@ -157,81 +158,71 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
 }
 
 const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
-  const storedNetwork = await read({
+  const { data: { networks, networksCapabilities, coinLookups } } = await query({
     hasura_url,
     hasura_admin_key
-  })('')(
-    `networks`,
-    `networks`,
-    [
-      'id',
-      'enabled',
-      'experimental',
-      'title',
-      'chain_id',
-      'rpc_url',
-      'api_url',
-      'bech32_prefix',
-      'testnet',
-      'default',
-      'stakingDenom',
-      'address_prefix',
-      'address_creator',
-      'ledger_app',
-      'network_type',
-      'source_class_name',
-      'block_listener_class_name',
-      'icon',
-      'slug',
-      'lockUpPeriod'
-    ],
-    `where: { 
-      id: {_eq: "${id}"}
-    }`
-  )
-  const storedNetworkCapabilities = await read({
-    hasura_url,
-    hasura_admin_key
-  })('')(
-    `networksCapabilities`,
-    `networksCapabilities`,
-    [
-      'feature_session',
-      'feature_explore',
-      'feature_portfolio',
-      'feature_validators',
-      'feature_proposals ',
-      'feature_activity',
-      'feature_explorer',
-      'action_send',
-      'action_claim_rewards',
-      'action_delegate',
-      'action_redelegate',
-      'action_undelegate',
-      'action_deposit',
-      'action_vote',
-      'action_proposal'
-    ],
-    `where: { 
-      id: {_eq: "${id}"}
-    }`
-  )
-  const storedNetworkCoinLookup = await read({
-    hasura_url,
-    hasura_admin_key
-  })('')(
-    `coinLookups`,
-    `coinLookups`,
-    ['chainDenom', 'viewDenom', 'chainToViewConversionFactor'],
-    `where: { 
-      id: {_eq: "${id}"}
-    }`
-  )
-  // build and extract single network fields from Arrays except coinLookup
+  })(`
+    query {
+      networks: networks(where: { 
+        id: {_eq: "${id}"}
+      }) {
+        id
+        enabled
+        experimental
+        title
+        chain_id
+        rpc_url
+        api_url
+        bech32_prefix
+        testnet
+        default
+        stakingDenom
+        address_prefix
+        address_creator
+        ledger_app
+        network_type
+        source_class_name
+        block_listener_class_name
+        icon
+        slug
+        lockUpPeriod
+        powered
+      }
+      networksCapabilities: networksCapabilities(where: { 
+        id: {_eq: "${id}"}
+      }) {
+        id
+        feature_session
+        feature_explore
+        feature_portfolio
+        feature_validators
+        feature_proposals 
+        feature_activity
+        feature_explorer
+        action_send
+        action_claim_rewards
+        action_delegate
+        action_redelegate
+        action_undelegate
+        action_deposit
+        action_vote
+        action_proposal
+      }
+      coinLookups: coinLookups(where: { 
+        id: {_eq: "${id}"}
+      }) {
+        id
+        chainDenom
+        viewDenom
+        chainToViewConversionFactor
+      }
+    }
+  `)
+  const network = networks[0]
   return {
-    ...storedNetwork[0],
-    ...storedNetworkCapabilities[0],
-    coinLookup: storedNetworkCoinLookup
+    ...network,
+    ...networksCapabilities[0],
+    coinLookup: coinLookups
   }
 }
 
