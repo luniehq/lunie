@@ -26,9 +26,20 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
   return data
 }
 
+function escapeValue(value) {
+  if (typeof value === 'object') {
+    Object.keys(value).forEach(key => {
+      value[key] = escapeValue(value[key])
+    })
+    return JSON.stringify(value)
+  } else {
+    return escape(value)
+  }
+}
+
 function gqlKeyValue([key, value]) {
-  // escape all values as they could be malicious
-  return `${key}: "${escape(value)}"`
+  // escape all values but handle objects gracefully
+  return `${key}: "${escapeValue(value)}"`
 }
 
 // stringify a set of row to be according to the graphQL schema
