@@ -14,7 +14,6 @@ const database = require('../database')
 const config = require('../../config.js')
 
 const POLLING_INTERVAL = 1000
-const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // 6h. Used to disconnect from API to free memory
 const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
 
 // This class polls for new blocks
@@ -59,35 +58,13 @@ class PolkadotNodeSubscription {
     }
 
     // Subscribe to new block headers
-    const unsubscribe = await this.api.rpc.chain.subscribeNewHeads(
-      async (blockHeader) => {
-        const blockHeight = blockHeader.number.toNumber()
-        if (this.height < blockHeight) {
-          this.height = blockHeight
-          this.newBlockHandler(blockHeight) // do not await as this can take some seconds
-        }
-
-        // refresh the api to prevent memory leaks
-        // right after a new block so we don't miss any block
-        if (
-          Date.now() - this.store.polkadotRPCOpened >
-          DISCONNECTION_INTERVAL
-        ) {
-          console.log(
-            'Disconnecting Polkadot for network',
-            this.network.id,
-            'to avoid memory leaks'
-          )
-          // we keep the active connection alive so queries can finish
-          const oldApi = this.api
-          setTimeout(() => oldApi.disconnect(), 1000 * 60 * 5)
-          this.api = undefined
-          unsubscribe() // unsubscribe to not react to the same block twice
-          this.subscribeForNewBlock()
-          return
-        }
+    await this.api.rpc.chain.subscribeNewHeads(async (blockHeader) => {
+      const blockHeight = blockHeader.number.toNumber()
+      if (this.height < blockHeight) {
+        this.height = blockHeight
+        this.newBlockHandler(blockHeight) // do not await as this can take some seconds
       }
-    )
+    })
   }
 
   // Sometimes blocks get published unordered so we need to enqueue
