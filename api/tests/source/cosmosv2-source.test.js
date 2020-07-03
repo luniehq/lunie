@@ -1,5 +1,4 @@
 const CosmosV2API = require('../../lib/source/cosmosV2-source')
-const networks = require('../../data/networks')
 const {
   delegatorAddress,
   mockValidatorsDictionary,
@@ -32,9 +31,13 @@ describe('Cosmos V2 API', function () {
     let api, cosmosNetworkConfig, store
 
     beforeEach(() => {
-      cosmosNetworkConfig = networks.find(
-        (network) => network.id === 'cosmos-hub-testnet'
-      )
+      cosmosNetworkConfig = {
+        bech32_prefix: "cosmos", // DEPRECATE
+        address_prefix: "cosmos",
+        coinLookup: [{
+          viewDenom: "ATOM"
+        }]
+      }
       store = {
         validators: mockValidatorsDictionary
       }

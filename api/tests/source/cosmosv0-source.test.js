@@ -1,5 +1,4 @@
 const CosmosV0API = require('../../lib/source/cosmosV0-source')
-const networks = require('../../data/networks')
 
 jest.useFakeTimers()
 
@@ -8,9 +7,14 @@ describe('Cosmos V0 API', function () {
     let api, cosmosNetworkConfig
 
     beforeEach(() => {
-      cosmosNetworkConfig = networks.find(
-        (network) => network.id === 'cosmos-hub-testnet'
-      )
+      cosmosNetworkConfig = {
+        title: "Cosmos Hub",
+        bech32_prefix: "cosmos", // DEPRECATE
+        address_prefix: "cosmos",
+        coinLookup: [{
+          viewDenom: "ATOM"
+        }]
+      }
       api = new CosmosV0API(cosmosNetworkConfig, {})
     })
 
