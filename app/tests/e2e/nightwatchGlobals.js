@@ -81,7 +81,7 @@ async function initialiseDefaults(browser) {
     if (arg.indexOf("--network=") !== -1)
       network = arg.slice(arg.indexOf("=") + 1)
     // frontend uri
-    if (arg.indexOf("--fe=") !== -1) feURI = arg.slice(arg.indexOf("=") + 1)
+    if (arg.indexOf("--fe=") !== -1) feURI = arg.slice(arg.indexOf("=") + 1).replace(/\/$/, "")
     // api uri
     if (arg.indexOf("--api=") !== -1) apiURI = arg.slice(arg.indexOf("=") + 1)
   })
@@ -99,6 +99,7 @@ async function initialiseDefaults(browser) {
   browser.globals.apiURI = apiURI
   browser.globals.slug = "/" + networkData.slug
   browser.globals.expectedDiff = networkData.expectedDiff
+  browser.globals.network = networkData.network
   // checking if network is local, the API should be local too
   if (network.indexOf("local-") === 0) {
     if (apiURI.indexOf("//localhost:") === -1) {

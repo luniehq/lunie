@@ -101,12 +101,14 @@ exports[`PageValidator if uptimePercentage is blank 1`] = `
       class="action-button-container"
     >
       <tmbtn-stub
+        customclass=""
         id="delegation-btn"
         value="Stake"
       />
        
       <tmbtn-stub
         class="undelegation-btn"
+        customclass=""
         id="undelegation-btn"
         type="secondary"
         value="Unstake"
@@ -154,6 +156,7 @@ exports[`PageValidator if uptimePercentage is blank 1`] = `
         <span>
           <address-stub
             address="cosmosvaloper1abcdefghijklmnop"
+            tooltiptext=""
           />
         </span>
       </li>
@@ -383,12 +386,14 @@ exports[`PageValidator if user has signed in 1`] = `
       class="action-button-container"
     >
       <tmbtn-stub
+        customclass=""
         id="delegation-btn"
         value="Stake"
       />
        
       <tmbtn-stub
         class="undelegation-btn"
+        customclass=""
         id="undelegation-btn"
         type="secondary"
         value="Unstake"
@@ -436,6 +441,7 @@ exports[`PageValidator if user has signed in 1`] = `
         <span>
           <address-stub
             address="cosmosvaloper1abcdefghijklmnop"
+            tooltiptext=""
           />
         </span>
       </li>
@@ -665,12 +671,14 @@ exports[`PageValidator if user hasn't signed in 1`] = `
       class="action-button-container"
     >
       <tmbtn-stub
+        customclass=""
         id="delegation-btn"
         value="Stake"
       />
        
       <tmbtn-stub
         class="undelegation-btn"
+        customclass=""
         id="undelegation-btn"
         type="secondary"
         value="Unstake"
@@ -718,6 +726,7 @@ exports[`PageValidator if user hasn't signed in 1`] = `
         <span>
           <address-stub
             address="cosmosvaloper1abcdefghijklmnop"
+            tooltiptext=""
           />
         </span>
       </li>
