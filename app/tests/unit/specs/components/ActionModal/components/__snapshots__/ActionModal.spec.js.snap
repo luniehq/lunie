@@ -76,12 +76,14 @@ exports[`ActionModal back button renders and functions 1`] = `
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         type="primary"
         value="Send"
       />
@@ -172,12 +174,14 @@ exports[`ActionModal runs validation and changes step on sign step should displa
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         type="primary"
         value="Send"
       />
@@ -370,12 +374,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         type="primary"
         value="Sign In"
       />
@@ -451,12 +457,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         type="primary"
         value="Sign In"
       />
@@ -523,12 +531,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         type="primary"
         value="Sign In"
       />
@@ -599,12 +609,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         disabled="true"
         loading="true"
         type="primary"
@@ -697,12 +709,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         type="primary"
         value="Send"
       />
@@ -785,12 +799,14 @@ exports[`ActionModal should show the action modal when user has logged in with e
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         disabled="true"
         type="primary"
         value="Waiting for Extension"
@@ -862,12 +878,14 @@ exports[`ActionModal should show the action modal when user has logged in with l
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         disabled="true"
         loading="true"
         type="primary"
@@ -949,12 +967,14 @@ exports[`ActionModal should show the action modal when user has logged in with l
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         type="primary"
         value="Send"
       />
@@ -1026,12 +1046,14 @@ exports[`ActionModal should show the action modal when user has logged in with l
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         disabled="true"
         type="primary"
         value="Waiting for Ledger"
@@ -1103,12 +1125,14 @@ exports[`ActionModal should show the action modal when user has logged in with l
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         disabled="true"
         loading="true"
         type="primary"
@@ -1195,12 +1219,14 @@ exports[`ActionModal should show the action modal when user has logged in with l
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         type="primary"
         value="Send"
       />
@@ -1276,12 +1302,14 @@ exports[`ActionModal should show the action modal when user has logged in with l
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         disabled="true"
         type="primary"
         value="Sending..."
@@ -1349,12 +1377,14 @@ exports[`ActionModal should show the action modal when user hasn't logged in 1`]
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         type="primary"
         value="Sign In"
       />
@@ -1412,12 +1442,14 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
       class="action-modal-group"
     >
       <tmbtn-stub
+        customclass=""
         id="closeBtn"
         type="secondary"
         value="Cancel"
       />
        
       <tmbtn-stub
+        customclass=""
         type="primary"
         value="Next"
       />

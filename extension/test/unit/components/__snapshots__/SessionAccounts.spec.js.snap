@@ -3,6 +3,7 @@
 exports[`SessionAccounts has the expected html structure 1`] = `
 <sessionframe-stub
   hideback="true"
+  icon=""
 >
   <div
     class="session-container"

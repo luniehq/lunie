@@ -33,6 +33,9 @@ const mockKeysLib = {
       address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
     },
   ],
+  getStoredWallet: () => ({
+    seedPhrase: `seed seed seed`,
+  }),
   storeWallet: () => {},
 }
 jest.mock("@lunie/cosmos-keys", () => mockKeysLib)
@@ -120,6 +123,14 @@ describe(`Module: Keystore`, () => {
   it(`should create a seed phrase`, async () => {
     const seed = await actions.createSeed()
     expect(seed).toBe(`xxx`)
+  })
+
+  it(`should get a wallet`, async () => {
+    const wallet = await actions.getWallet(
+      { state },
+      { address: `cosmos1234`, password: `password` }
+    )
+    expect(wallet).toEqual({ seedPhrase: `seed seed seed` })
   })
 
   it(`should create a Cosmos address from a seed phrase`, async () => {
