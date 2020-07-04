@@ -122,7 +122,7 @@ export default {
       const stakingDenomRewards = this.rewards.filter(
         (reward) => reward.denom === this.stakingDenom
       )
-      return stakingDenomRewards[0].amount
+      return stakingDenomRewards.length > 0 ? stakingDenomRewards[0].amount : 0
     },
   },
 }
