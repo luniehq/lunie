@@ -322,20 +322,21 @@ const resolvers = (networkList) => ({
     },
     network: (_, { id }) => {
       const network = networkList.find((network) => network.id === id)
-      return Object.assign({}, network, {
-        rpc_url: network.public_rpc_url,
-        public_rpc_url: undefined
-      })
+      return network
+      // return Object.assign({}, network, {
+      //   rpc_url: network.public_rpc_url,
+      //   public_rpc_url: undefined
+      // })
     },
     networks: (_, { experimental }) => {
       const networks = networkList
-        .map((network) => {
-          // the server side nodes are mostly whitelisted or secret so we don't want to send them to the FE
-          return Object.assign({}, network, {
-            rpc_url: network.public_rpc_url,
-            public_rpc_url: undefined
-          })
-        })
+        // .map((network) => {
+        //   // the server side nodes are mostly whitelisted or secret so we don't want to send them to the FE
+        //   return Object.assign({}, network, {
+        //     rpc_url: network.public_rpc_url,
+        //     public_rpc_url: undefined
+        //   })
+        // })
         // filter out not enabled networks
         .filter((network) => (experimental ? true : network.enabled))
       return networks
