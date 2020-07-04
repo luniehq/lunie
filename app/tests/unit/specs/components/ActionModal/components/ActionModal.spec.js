@@ -38,6 +38,10 @@ jest.mock("@sentry/browser", () => ({
   withScope: () => {},
 }))
 
+jest.mock(`src/../../common/polkadotApiConnector`, () => ({
+  getPolkadotAPI: () => {},
+}))
+
 describe(`ActionModal`, () => {
   let wrapper, $store, $apollo
 
@@ -124,9 +128,6 @@ describe(`ActionModal`, () => {
           browserWithLedgerSupport: null,
           currrentModalOpen: false,
         },
-        connection: {
-          polkadotAPI: {},
-        },
         overview,
         balances,
         delegations,
@@ -192,11 +193,6 @@ describe(`ActionModal`, () => {
       .mockRejectedValue(new Error(`some kind of error message`))
     const $store = {
       dispatch: jest.fn(),
-      state: {
-        connection: {
-          polkadotAPI: {},
-        },
-      },
     }
     const self = {
       $store,
