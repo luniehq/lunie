@@ -81,7 +81,8 @@ async function initialiseDefaults(browser) {
     if (arg.indexOf("--network=") !== -1)
       network = arg.slice(arg.indexOf("=") + 1)
     // frontend uri
-    if (arg.indexOf("--fe=") !== -1) feURI = arg.slice(arg.indexOf("=") + 1).replace(/\/$/, "")
+    if (arg.indexOf("--fe=") !== -1)
+      feURI = arg.slice(arg.indexOf("=") + 1).replace(/\/$/, "")
     // api uri
     if (arg.indexOf("--api=") !== -1) apiURI = arg.slice(arg.indexOf("=") + 1)
   })
