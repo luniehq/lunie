@@ -3,35 +3,37 @@
     <div>
       <div v-if="session.signedIn" class="user-box">
         <div class="user-box-address">
-          <div>
-            <h3
-              v-if="
-                session.addressRole &&
-                session.addressRole !== `stash/controller` &&
-                session.addressRole !== `none`
-              "
-            >
-              {{ capitalizeFirstLetter(session.addressRole) }} Address
-            </h3>
-            <h3 v-else>Your Address</h3>
-            <Address class="menu-address" :address="address || ''" />
-            <a
-              v-if="!session.isMobile && session.sessionType === 'ledger'"
-              class="show-on-ledger"
-              @click="showAddressOnLedger()"
-              >Show on Ledger</a
-            >
-            <TmFormMsg
-              v-if="ledgerAddressError"
-              :msg="ledgerAddressError"
-              type="custom"
-            />
+          <div class="user-box-inner-row">
+            <div>
+              <h3
+                v-if="
+                  session.addressRole &&
+                  session.addressRole !== `stash/controller` &&
+                  session.addressRole !== `none`
+                "
+              >
+                {{ capitalizeFirstLetter(session.addressRole) }} Address
+              </h3>
+              <h3 v-else>Your Address</h3>
+              <Address class="menu-address" :address="address || ''" />
+              <a
+                v-if="!session.isMobile && session.sessionType === 'ledger'"
+                class="show-on-ledger"
+                @click="showAddressOnLedger()"
+                >Show on Ledger</a
+              >
+              <TmFormMsg
+                v-if="ledgerAddressError"
+                :msg="ledgerAddressError"
+                type="custom"
+              />
+            </div>
+            <a v-if="session.signedIn" id="sign-out" @click="signOut()">
+              <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
+                >exit_to_app</i
+              >
+            </a>
           </div>
-          <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-            <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
-              >exit_to_app</i
-            >
-          </a>
         </div>
       </div>
       <TmBtn
@@ -43,112 +45,96 @@
         size="small"
         @click.native="signIn()"
       />
-      <div>
-        <router-link
-          class="app-menu-item hide-s"
-          :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
-          exact="exact"
-          title="Portfolio"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Portfolio</h2>
-          <i class="material-icons notranslate">chevron_right</i>
-        </router-link>
-        <router-link
-          class="app-menu-item hide-s"
-          :to="{ name: 'Validators', params: { networkId: networkSlug } }"
-          title="Validators"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Validators</h2>
-          <i class="material-icons notranslate">chevron_right</i>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-s"
+        :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
+        exact="exact"
+        title="Portfolio"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Portfolio</h2>
+        <i class="material-icons notranslate">chevron_right</i>
+      </router-link>
+      <router-link
+        class="app-menu-item hide-s"
+        :to="{ name: 'Validators', params: { networkId: networkSlug } }"
+        title="Validators"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Validators</h2>
+        <i class="material-icons notranslate">chevron_right</i>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-s"
-          :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
-          title="Proposals"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Proposals</h2>
-          <i class="material-icons notranslate">chevron_right</i>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-s"
+        :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
+        title="Proposals"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Proposals</h2>
+        <i class="material-icons notranslate">chevron_right</i>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-s"
-          :to="{ name: 'transactions', params: { networkId: networkSlug } }"
-          exact="exact"
-          title="Transactions"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Transactions</h2>
-          <i class="material-icons notranslate">chevron_right</i>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-s"
+        :to="{ name: 'transactions', params: { networkId: networkSlug } }"
+        exact="exact"
+        title="Transactions"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Transactions</h2>
+        <i class="material-icons notranslate">chevron_right</i>
+      </router-link>
 
-        <router-link
-          v-if="session.experimentalMode"
-          class="app-menu-item hide-s"
-          to="/notifications"
-          exact="exact"
-          title="Notifications"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">
-            Notifications
-          </h2>
-          <i class="material-icons notranslate hide-s">chevron_right</i>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-m"
+        to="/about"
+        exact="exact"
+        title="About"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">About</h2>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-m"
-          to="/about"
-          exact="exact"
-          title="About"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">About</h2>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-m"
+        to="/careers"
+        exact="exact"
+        title="Careers"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Careers</h2>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-m"
-          to="/careers"
-          exact="exact"
-          title="Careers"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Careers</h2>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-m"
+        to="/security"
+        exact="exact"
+        title="Security"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Security</h2>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-m"
-          to="/security"
-          exact="exact"
-          title="Security"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Security</h2>
-        </router-link>
+      <router-link
+        class="app-menu-item hide-m"
+        to="/terms"
+        exact="exact"
+        title="Terms"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Terms of Service</h2>
+      </router-link>
 
-        <router-link
-          class="app-menu-item hide-m"
-          to="/terms"
-          exact="exact"
-          title="Terms"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Terms of Service</h2>
-        </router-link>
-
-        <router-link
-          class="app-menu-item hide-m"
-          to="/privacy"
-          exact="exact"
-          title="Privacy"
-          @click.native="handleClick()"
-        >
-          <h2 class="app-menu-title">Privacy Policy</h2>
-        </router-link>
-      </div>
+      <router-link
+        class="app-menu-item hide-m"
+        to="/privacy"
+        exact="exact"
+        title="Privacy"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Privacy Policy</h2>
+      </router-link>
     </div>
     <ConnectedNetwork @close-menu="handleClick" />
   </menu>
@@ -232,6 +218,7 @@ export default {
   flex-flow: column;
   position: relative;
   height: 100%;
+  padding-top: 3rem;
 }
 
 .app-menu-item {
@@ -304,6 +291,11 @@ export default {
   background: var(--app-nav-hover);
 }
 
+.user-box-inner-row {
+  display: flex;
+  align-items: center;
+}
+
 .user-box i:hover {
   color: var(--menu-link-hover);
   cursor: pointer;
@@ -324,6 +316,11 @@ export default {
 .app-menu .app-menu-item.router-link-active h2 {
   color: var(--menu-bright);
   font-weight: 500;
+}
+
+.menu-address {
+  background: none;
+  padding: 0 1rem 0 0;
 }
 
 @media screen and (min-width: 1024px) {

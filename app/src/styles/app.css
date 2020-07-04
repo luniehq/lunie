@@ -118,11 +118,6 @@ input.tm-field {
   line-height: 14px;
 }
 
-#bar-container {
-  display: block;
-  padding: 0.75rem;
-}
-
 .hide {
   display: none;
 }

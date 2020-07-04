@@ -13,12 +13,12 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
       </div>
       <p class="proposer">
         Proposed by Big Daddy Validator:
-        <address-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></address-stub>
+        <address-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz" tooltiptext=""></address-stub>
       </p>
     </div>
     <div class="button-container">
-      <tmbtn-stub value="Deposit" disabled="true" id="deposit-btn" color="primary"></tmbtn-stub>
-      <tmbtn-stub value="Vote" id="vote-btn" color="primary"></tmbtn-stub>
+      <tmbtn-stub value="Deposit" disabled="true" customclass="" id="deposit-btn" color="primary"></tmbtn-stub>
+      <tmbtn-stub value="Vote" customclass="" id="vote-btn" color="primary"></tmbtn-stub>
     </div>
   </div>
   <textblock-stub content="test"></textblock-stub>
@@ -94,12 +94,12 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
       </div>
       <p class="proposer">
         Proposed by Big Daddy Validator:
-        <address-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"></address-stub>
+        <address-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz" tooltiptext=""></address-stub>
       </p>
     </div>
     <div class="button-container">
-      <tmbtn-stub value="Deposit" disabled="true" id="deposit-btn" color="primary"></tmbtn-stub>
-      <tmbtn-stub value="Vote" disabled="true" id="vote-btn" color="primary"></tmbtn-stub>
+      <tmbtn-stub value="Deposit" disabled="true" customclass="" id="deposit-btn" color="primary"></tmbtn-stub>
+      <tmbtn-stub value="Vote" disabled="true" customclass="" id="vote-btn" color="primary"></tmbtn-stub>
     </div>
   </div>
   <textblock-stub content="test"></textblock-stub>
@@ -213,6 +213,7 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
             
         <address-stub
           address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
+          tooltiptext=""
         />
       </p>
     </div>
@@ -222,6 +223,7 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
     >
       <tmbtn-stub
         color="primary"
+        customclass=""
         disabled="true"
         id="deposit-btn"
         value="Deposit"
@@ -229,6 +231,7 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
        
       <tmbtn-stub
         color="primary"
+        customclass=""
         disabled="true"
         id="vote-btn"
         value="Vote"

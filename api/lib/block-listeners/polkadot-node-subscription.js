@@ -14,7 +14,7 @@ const database = require('../database')
 const config = require('../../config.js')
 
 const POLLING_INTERVAL = 1000
-const DISCONNECTION_INTERVAL = 1000 * 60 * 60 * 6 // 6h. Used to disconnect from API to free memory
+const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
@@ -33,6 +33,8 @@ class PolkadotNodeSubscription {
     this.blockQueue = []
     this.chainId = this.network.chain_id
     this.subscribeForNewBlock()
+    // start one minute loop to update networks
+    this.pollForUpdateNetworks()
   }
 
   // here we init the polkadot rpc once for all processes
@@ -56,35 +58,13 @@ class PolkadotNodeSubscription {
     }
 
     // Subscribe to new block headers
-    const unsubscribe = await this.api.rpc.chain.subscribeNewHeads(
-      async (blockHeader) => {
-        const blockHeight = blockHeader.number.toNumber()
-        if (this.height < blockHeight) {
-          this.height = blockHeight
-          this.newBlockHandler(blockHeight) // do not await as this can take some seconds
-        }
-
-        // refresh the api to prevent memory leaks
-        // right after a new block so we don't miss any block
-        if (
-          Date.now() - this.store.polkadotRPCOpened >
-          DISCONNECTION_INTERVAL
-        ) {
-          console.log(
-            'Disconnecting Polkadot for network',
-            this.network.id,
-            'to avoid memory leaks'
-          )
-          // we keep the active connection alive so queries can finish
-          const oldApi = this.api
-          setTimeout(() => oldApi.disconnect(), 1000 * 60 * 5)
-          this.api = undefined
-          unsubscribe() // unsubscribe to not react to the same block twice
-          this.subscribeForNewBlock()
-          return
-        }
+    await this.api.rpc.chain.subscribeNewHeads(async (blockHeader) => {
+      const blockHeight = blockHeader.number.toNumber()
+      if (this.height < blockHeight) {
+        this.height = blockHeight
+        this.newBlockHandler(blockHeight) // do not await as this can take some seconds
       }
-    )
+    })
   }
 
   // Sometimes blocks get published unordered so we need to enqueue
@@ -131,6 +111,14 @@ class PolkadotNodeSubscription {
     }, POLLING_INTERVAL)
   }
 
+  async pollForUpdateNetworks() {
+    // gives us the control to modify network parameters
+    this.store.updateNetworkFromDB()
+    this.updateNetworksPollingTimeout = setTimeout(async () => {
+      this.pollForUpdateNetworks()
+    }, UPDATE_NETWORKS_POLLING_INTERVAL)
+  }
+
   // For each block event, we fetch the block information and publish a message.
   // A GraphQL resolver is listening for these messages and sends the block to
   // each subscribed user.
@@ -142,6 +130,9 @@ class PolkadotNodeSubscription {
 
       const block = await this.polkadotAPI.getBlockByHeightV2(blockHeight)
       this.enqueueAndPublishBlockAdded(block)
+
+      // gives us the control to modify network parameters
+      this.store.updateNetworkFromDB()
 
       // We dont need to fetch validators on every new block.
       // Validator list only changes on new sessions

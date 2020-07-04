@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RevealSeedModal should show the RevealSeedModal page 1`] = `
-<sessionframe-stub>
+<sessionframe-stub
+  icon=""
+>
   <div
     class="session-container"
   >
@@ -52,12 +54,14 @@ exports[`RevealSeedModal should show the RevealSeedModal page 1`] = `
       >
         <tmbtn-stub
           class="reveal-seed-button"
+          customclass=""
           type="secondary"
           value="Dismiss"
         />
          
         <tmbtn-stub
           class="reveal-seed-button"
+          customclass=""
           type="primary"
           value="Reveal"
         />
