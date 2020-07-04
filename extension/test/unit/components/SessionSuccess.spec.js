@@ -23,6 +23,6 @@ describe(`SessionSuccess`, () => {
   })
 
   it('has link back to accounts', async () => {
-    expect(wrapper.find(RouterLinkStub).props().to).toBe('/accounts')
+    expect(wrapper.findComponent(RouterLinkStub).props().to).toBe('/accounts')
   })
 })

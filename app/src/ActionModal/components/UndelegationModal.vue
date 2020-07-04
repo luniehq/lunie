@@ -318,14 +318,7 @@ export default {
       return this.toSelectedIndex !== `0`
     },
     undelegationPeriod() {
-      // TODO: get this from API. Should be inside the network object
-      if (this.currentNetwork.network_type === "cosmos") {
-        return "21 days"
-      } else if (this.currentNetwork.network_type === "polkadot") {
-        return "7 days"
-      } else {
-        return `a certain number of time`
-      }
+      return this.currentNetwork.lockUpPeriod
     },
     enhancedSourceValidator() {
       return validatorEntry(this.sourceValidator)

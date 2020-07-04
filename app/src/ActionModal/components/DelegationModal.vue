@@ -320,14 +320,7 @@ export default {
       return this.fromSelectedIndex !== 0 && this.fromSelectedIndex !== "0" // where are these 0 strings comming from?
     },
     undelegationPeriod() {
-      // TODO: get this from API. Should be inside the network object
-      if (this.currentNetwork.network_type === "cosmos") {
-        return "21 days"
-      } else if (this.currentNetwork.network_type === "polkadot") {
-        return "7 days"
-      } else {
-        return `a certain number of time`
-      }
+      return this.currentNetwork.lockUpPeriod
     },
     enhancedTargetValidator() {
       return validatorEntry(this.targetValidator)

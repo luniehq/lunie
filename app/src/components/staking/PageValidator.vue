@@ -353,7 +353,9 @@ export default {
         const stakingDenomRewards = this.rewards.filter(
           (reward) => reward.denom === this.stakingDenom
         )
-        return stakingDenomRewards[0].amount
+        return stakingDenomRewards.length > 0
+          ? stakingDenomRewards[0].amount
+          : 0
       }
     },
   },
@@ -378,7 +380,10 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.userAddress
+        return (
+          !this.userAddress ||
+          (!this.$route.params.validator && this.validator.operatorAddress)
+        )
       },
       /* istanbul ignore next */
       variables() {
@@ -423,7 +428,10 @@ export default {
       `,
       /* istanbul ignore next */
       skip() {
-        return !this.userAddress
+        return (
+          !this.userAddress ||
+          (!this.$route.params.validator && this.validator.operatorAddress)
+        )
       },
       /* istanbul ignore next */
       variables() {

@@ -6,6 +6,7 @@
 /**
  * Routes are all defined here
  */
+/* istanbul ignore file */
 export default (store) => {
   return [
     {
@@ -227,6 +228,16 @@ export default (store) => {
       component: () => import(`./components/common/FeatureNotPresent`),
     },
     {
+      path: `/sign-in-modal`,
+      name: `sign-in-modal`,
+      component: require("account/SignInModal").default,
+    },
+    {
+      path: `/magic-link-sent-modal`,
+      name: `magic-link-sent-modal`,
+      component: require("account/MagicLinkSentModal").default,
+    },
+    {
       path: `/reveal/:address`,
       name: `reveal`,
       component: require("account/RevealSeedModal").default,
@@ -235,6 +246,11 @@ export default (store) => {
       path: `/email-authentication`,
       name: `email-authentication`,
       component: () => import(`./components/account/EmailAuthentication`),
+    },
+    {
+      path: `/welcome`,
+      name: `welcome`,
+      component: () => import(`./components/common/CardSignInRequired`),
     },
     {
       path: `/:networkId`,

@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.33] - 2020-07-02
+
+### Added
+
+- Store slashes in DB @faboweb
+
+### Changed
+
+- Remove Polkadot API disconnection as memory leak has been fixed @faboweb
+- Switch to Pengs node for Cosmos Hub @faboweb
+
+### Fixed
+
+- [#4402](https://github.com/cosmos/lunie/issues/4402) Fix annualizedValidatorReward in Polkadot mainnet @mariopino
+- [#4406](https://github.com/cosmos/lunie/issues/4406) Fix polkadot testnet (westend) lock-up period @mariopino
+
+## [1.0.32] - 2020-07-02
+
+### Fixed
+
+- Updated Polkadot @faboweb
+
 ## [1.0.31] - 2020-06-30
 
 ### Changed

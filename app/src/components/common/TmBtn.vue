@@ -1,13 +1,15 @@
 <template>
   <button
     class="button"
-    :class="{
-      secondary: type === `secondary`,
-      small: size === `small`,
-      active: type === `active`,
-      sidebar: type === `sidebar`,
-      loading: loading,
-    }"
+    :class="
+      customClass || {
+        secondary: type === `secondary`,
+        small: size === `small`,
+        active: type === `active`,
+        sidebar: type === `sidebar`,
+        loading: loading,
+      }
+    "
     :disabled="disabled"
   >
     <svg
@@ -63,6 +65,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false,
+    },
+    customClass: {
+      type: String,
+      default: "",
     },
   },
 }

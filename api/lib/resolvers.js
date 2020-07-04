@@ -10,7 +10,6 @@ const {
   event
 } = require('./subscriptions')
 const { encodeB32, decodeB32 } = require('./tools')
-const { networkList, networkMap } = require('./networks')
 const {
   getNetworkTransactionGasEstimates,
   getPolkadotFee,
@@ -20,7 +19,6 @@ const database = require('./database')
 const { getNotifications } = require('./notifications')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
-const networks = require('../data/networks')
 const firebaseAdmin = require('./firebase')
 
 function createDBInstance(network) {
@@ -121,7 +119,7 @@ async function undelegations(
   return undelegations
 }
 
-const networkFees = async (
+const networkFees = (networks) => async (
   _,
   { networkId, senderAddress, messageType, message, memo },
   { dataSources }
@@ -165,12 +163,15 @@ const networkFees = async (
   }
 }
 
-const transactionMetadata = async (
+const transactionMetadata = (networks) => async (
   _,
   { networkId, transactionType, address },
   { dataSources }
 ) => {
-  const thisNetworkFees = await networkFees(_, { networkId, transactionType })
+  const thisNetworkFees = await networkFees(networks)(_, {
+    networkId,
+    transactionType
+  })
   const accountDetails = await remoteFetch(
     dataSources,
     networkId
@@ -219,7 +220,7 @@ const registerUser = async (_, { idToken }) => {
   }
 }
 
-const resolvers = {
+const resolvers = (networkList) => ({
   Overview: {
     accountInformation: (account, _, { dataSources }) =>
       remoteFetch(dataSources, account.networkId).getAccountInfo(
@@ -320,7 +321,7 @@ const resolvers = {
       return remoteFetch(dataSources, networkId).getBlockV2(height)
     },
     network: (_, { id }) => {
-      const network = networkMap[id]
+      const network = networkList.find((network) => network.id === id)
       return Object.assign({}, network, {
         rpc_url: network.public_rpc_url,
         public_rpc_url: undefined
@@ -426,7 +427,7 @@ const resolvers = {
       overview.address = address
 
       if (development !== 'true') {
-        logOverview(overview, address, networkId, fingerprint)
+        logOverview(networkList, overview, address, networkId, fingerprint)
       }
       return overview
     },
@@ -435,8 +436,8 @@ const resolvers = {
         address,
         pageNumber
       ),
-    networkFees,
-    transactionMetadata,
+    networkFees: networkFees(networkList),
+    transactionMetadata: transactionMetadata(networkList),
     estimate: () => {
       try {
         const gasEstimate = 550000
@@ -452,7 +453,7 @@ const resolvers = {
         }
       }
     },
-    notifications: getNotifications,
+    notifications: getNotifications(networkList),
     accountRole: async (_, { networkId, address }, { dataSources }) => {
       await localStore(dataSources, networkId).dataReady
       if (!remoteFetch(dataSources, networkId).getAddressRole) return undefined
@@ -498,6 +499,6 @@ const resolvers = {
       return obj.type
     }
   }
-}
+})
 
 module.exports = resolvers

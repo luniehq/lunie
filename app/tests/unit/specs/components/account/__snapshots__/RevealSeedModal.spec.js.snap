@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RevealSeedModal should show the RevealSeedModal page 1`] = `
+<sessionframe-stub
+  icon=""
+>
+  <div
+    class="session-container"
+  >
+    <h2
+      class="title reveal-title"
+    >
+      
+      You are about to reveal
+      <br />
+       
+      <span
+        class="pill"
+      >
+        your seed phrase.
+      </span>
+    </h2>
+     
+    <tmformgroup-stub
+      class="reveal-seed-form-group"
+      fieldid="password"
+    >
+      <tmfield-stub
+        class="passwordInput"
+        id="password"
+        placeholder="Password"
+        type="password"
+        value=""
+      />
+       
+      <div
+        class="reveal-seed-show-password"
+      >
+        <i
+          class="material-icons notranslate"
+        >
+          visibility
+        </i>
+      </div>
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+       
+      <div
+        class="reveal-seed-buttons"
+      >
+        <tmbtn-stub
+          class="reveal-seed-button"
+          customclass=""
+          type="secondary"
+          value="Dismiss"
+        />
+         
+        <tmbtn-stub
+          class="reveal-seed-button"
+          customclass=""
+          type="primary"
+          value="Reveal"
+        />
+      </div>
+    </tmformgroup-stub>
+  </div>
+</sessionframe-stub>
+`;
