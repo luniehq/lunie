@@ -160,9 +160,7 @@ export default {
         this.loaded = true
         /* istanbul ignore next */
         return this.activeOnly
-          ? result.validators.filter(
-              ({ status }) => status === `ACTIVE`
-            )
+          ? result.validators.filter(({ status }) => status === `ACTIVE`)
           : result.validators
       },
     },
