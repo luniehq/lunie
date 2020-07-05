@@ -432,6 +432,7 @@ export default {
             id
             amount
             validator {
+              id
               operatorAddress
               name
             }
