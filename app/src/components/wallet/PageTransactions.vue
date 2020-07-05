@@ -62,6 +62,7 @@ import gql from "graphql-tag"
 import uniqBy from "lodash.uniqby"
 
 const txFields = `
+  id
   type
   hash
   key
