@@ -327,7 +327,6 @@ const typeDefs = gql`
   }
 
   type Overview {
-    id: String!
     networkId: String!
     address: String!
     totalStake: String!
