@@ -112,6 +112,7 @@ export default {
             timestamp: $timestamp
             addressObjects: $addressObjects
           ) {
+            id
             networkId
             timestamp
             title
@@ -124,7 +125,9 @@ export default {
       variables() {
         return {
           timestamp: "",
-          addressObjects: this.session.allSessionAddresses,
+          addressObjects: this.session.allSessionAddresses.map(
+            ({ networkId, address }) => ({ networkId, address })
+          ),
         }
       },
       /* istanbul ignore next */
