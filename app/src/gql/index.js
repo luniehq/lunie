@@ -66,7 +66,7 @@ export const DelegatorValidators = (schema) => gql`
 `
 
 export const DelegationsForDelegator = (schema) => gql`
-  query Delegations($delegatorAddress: String!) {
+  query delegations($delegatorAddress: String!) {
     delegations(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
       id
       validator {
