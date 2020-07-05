@@ -224,6 +224,7 @@ export default {
       query: gql`
         query blockV2($networkId: String!, $height: Int!) {
           blockV2(networkId: $networkId, height: $height) {
+            id
             networkId
             height
             hash
