@@ -2,7 +2,7 @@
 
 exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
 <sessionframe-stub
-  icon=""
+  icon="language"
 >
   <tmformstruct-stub
     submit="function () { [native code] }"

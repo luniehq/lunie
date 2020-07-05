@@ -2,7 +2,7 @@
 
 exports[`TmSessionImport has the expected html structure 1`] = `
 <sessionframe-stub
-  icon=""
+  icon="settings_backup_restore"
 >
   <tmformstruct-stub
     submit="function () { [native code] }"
