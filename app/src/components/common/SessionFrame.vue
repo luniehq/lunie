@@ -65,7 +65,6 @@ export default {
       this.$router.go(`-1`)
     },
     goToPortfolio() {
-      console.log(this.icon)
       this.$router.push({
         name: "portfolio",
         params: {
