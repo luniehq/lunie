@@ -125,6 +125,7 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
         slug
         lockUpPeriod
         powered
+        erasPerDay
       }
       networksCapabilities: networksCapabilities {
         id
