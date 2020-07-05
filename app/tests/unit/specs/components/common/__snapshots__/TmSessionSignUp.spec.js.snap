@@ -2,7 +2,7 @@
 
 exports[`TmSessionSignUp renders 1`] = `
 <sessionframe-stub
-  icon=""
+  icon="person_add"
 >
   <tmformstruct-stub
     submit="function () { [native code] }"

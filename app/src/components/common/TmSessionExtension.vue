@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame>
+  <SessionFrame :icon="`laptop`">
     <div class="session-container">
       <h2 class="session-title">
         Use Lunie Browser Extension

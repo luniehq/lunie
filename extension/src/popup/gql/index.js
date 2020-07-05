@@ -45,6 +45,7 @@ export const NetworksAll = gql`
         viewDenom
         chainToViewConversionFactor
       }
+      rpc_url
     }
   }
 `

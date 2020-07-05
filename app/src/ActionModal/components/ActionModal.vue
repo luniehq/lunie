@@ -265,6 +265,7 @@ import { track, sendEvent } from "scripts/google-analytics"
 import { UserTransactionAdded } from "src/gql"
 import config from "src/../config"
 import TransactionManager from "../../signing/transaction-manager"
+import { getPolkadotAPI } from "../../../../common/polkadotApiConnector"
 
 const defaultStep = `details`
 const feeStep = `fees`
@@ -681,6 +682,7 @@ export default {
             }
           )
         }
+        let polkadotAPI
         if (this.network.network_type === "polkadot") {
           transactionData = {
             fee: {
@@ -689,6 +691,7 @@ export default {
             },
             addressRole: this.session.addressRole,
           }
+          polkadotAPI = await getPolkadotAPI(this.network)
         }
 
         const hashResult = await this.transactionManager.createSignBroadcast({
@@ -699,6 +702,7 @@ export default {
           network: this.network,
           signingType: this.selectedSignMethod,
           password: this.password,
+          polkadotAPI,
         })
 
         const { hash } = hashResult

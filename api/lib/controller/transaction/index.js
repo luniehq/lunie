@@ -28,6 +28,7 @@ async function initPolkadotAPIs() {
   )
 }
 
+// TODO refactor to use common/polkadotAPIConnector
 initPolkadotAPIs()
 
 async function getPolkadotAPI(networkId) {
