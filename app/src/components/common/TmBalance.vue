@@ -331,6 +331,7 @@ export default {
             address: $address
             fiatCurrency: $fiatCurrency
           ) {
+            id
             type
             denom
             available
