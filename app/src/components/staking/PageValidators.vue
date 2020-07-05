@@ -161,7 +161,7 @@ export default {
         /* istanbul ignore next */
         return this.activeOnly
           ? result.validators.filter(
-              ({ name, operatorAddress }) => name !== operatorAddress
+              ({ status }) => status === `ACTIVE`
             )
           : result.validators
       },
