@@ -39,7 +39,7 @@ const typeDefs = gql`
   }
 
   type Balance {
-    id: String!
+    id: String
     denom: String!
     amount: String!
     fiatValue: FiatValue
@@ -47,7 +47,7 @@ const typeDefs = gql`
   }
 
   type BalanceV2 {
-    id: String!
+    id: String
     type: TokenType!
     denom: String!
     total: String!
