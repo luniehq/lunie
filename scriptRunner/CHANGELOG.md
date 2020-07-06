@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.3] - 2020-07-06
+
+### Added
+
+- Add querying for keybase images @faboweb
+- Load Twitter images for Polkadot validators @faboweb
+
 ## [1.0.2] - 2020-06-23
 
 ### Changed
