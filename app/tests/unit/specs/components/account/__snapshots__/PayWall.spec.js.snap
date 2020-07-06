@@ -177,7 +177,7 @@ exports[`Paywall should show the Paywall page 1`] = `
           <i
             class="material-icons notranslate"
           >
-            ic_send
+            launch
           </i>
         </span>
       </div>
