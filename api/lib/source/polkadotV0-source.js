@@ -97,13 +97,17 @@ class polkadotAPI {
   }
 
   async getAllValidators() {
+
+    console.time(`getAllValidators`)
+
     const api = await this.getAPI()
 
-    // Fetch all stash addresses for current session (including validators and intentions)
-    const allStashAddresses = await api.derive.staking.stashes()
-
-    // Fetch active validator addresses for current session.
-    const validatorAddresses = await api.query.session.validators()
+    // Fetch stash addresses, active validator addresses and annualized validator rewards for current session
+    const [ allStashAddresses, validatorAddresses, expectedReturns ] = await Promise.all([
+      api.derive.staking.stashes(),
+      api.query.session.validators(),
+      this.getAllValidatorsExpectedReturns()
+    ]);
 
     // Fetch all validators staking info
     let allValidators = await Promise.all(
@@ -131,9 +135,6 @@ class polkadotAPI {
       )
     )
     allValidatorsIdentity = JSON.parse(JSON.stringify(allValidatorsIdentity))
-
-    // Get annualized validator rewards
-    const expectedReturns = await this.getAllValidatorsExpectedReturns()
 
     allValidators.forEach((validator) => {
       if (expectedReturns[validator.accountId.toString()]) {
@@ -168,6 +169,8 @@ class polkadotAPI {
         validator.votingPower = 0
       }
     })
+
+    console.timeEnd(`getAllValidators`)
 
     return allValidators.map((validator) =>
       this.reducers.validatorReducer(this.network, validator)
@@ -232,18 +235,18 @@ class polkadotAPI {
     )
     const lastEra = activeEra - 1
 
-    // Get last era reward
-    const eraRewards = await api.query.staking.erasValidatorReward(lastEra)
+    // Parallelize as much as possible
+    const [ eraRewards, eraPoints, erasStakers ] = await Promise.all([
+      api.query.staking.erasValidatorReward(lastEra),
+      api.query.staking.erasRewardPoints(lastEra),
+      api.query.staking.erasStakers.entries(lastEra)
+    ]);
 
-    // Get last era reward points
-    const eraPoints = await api.query.staking.erasRewardPoints(lastEra)
     eraPoints.individual.forEach((val, index) => {
       validatorEraPoints.push({ accountId: index.toHuman(), points: val })
     })
     const totalEraPoints = eraPoints.total.toNumber()
-
-    // Get exposures for the last era
-    const erasStakers = await api.query.staking.erasStakers.entries(lastEra)
+    
     const eraExposures = erasStakers.map(([key, exposure]) => {
       return {
         accountId: key.args[1].toHuman(),
