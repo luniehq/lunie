@@ -114,15 +114,13 @@ export default {
         id: 4,
         title: `Proposal #42 is out of the deposit period and ready for voting! 🗳`,
       },
-    ],
-    mobileNotifications: [
       {
         id: 5,
         title: `Your validator went offline for 300 blocks! 🔔`,
       },
       {
         id: 6,
-        title: `🚨 New Proposal alert on Polkadot.`,
+        title: `🚨 New Proposal alert on Cosmos.`,
       },
       {
         id: 7,
@@ -147,14 +145,6 @@ export default {
       {
         id: 12,
         title: `Your validator went offline for 2000 blocks! 🔔`,
-      },
-      {
-        id: 13,
-        title: `🚨 New Proposal alert on Cosmos.`,
-      },
-      {
-        id: 14,
-        title: `💸 You have 70 ATOMs waiting to be withdrawn.`,
       },
     ],
   }),
@@ -280,7 +270,7 @@ h3 {
 }
 
 .notification-scroller:first-child {
-  animation-duration: 50s;
+  animation-duration: 120s;
   margin-bottom: 2rem;
 }
 
@@ -328,14 +318,14 @@ h3 {
 
 @keyframes ticker {
   0% {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(30%, 0, 0);
+    transform: translate3d(30%, 0, 0);
     visibility: visible;
   }
 
   100% {
-    -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
+    -webkit-transform: translate3d(-70%, 0, 0);
+    transform: translate3d(-70%, 0, 0);
   }
 }
 </style>
