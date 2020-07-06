@@ -36,7 +36,9 @@ export default {
         /* istanbul ignore next */
         variables() {
           return {
-            addressObjects: this.session.allSessionAddresses,
+            addressObjects: this.session.allSessionAddresses.map(
+              ({ networkId, address }) => ({ networkId, address })
+            ),
           }
         },
         /* istanbul ignore next */
