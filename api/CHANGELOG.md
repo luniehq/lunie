@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.34] - 2020-07-06
+
+### Added
+
+- Store validator keybase hash and twitter handle @faboweb
+- [#4430](https://github.com/cosmos/lunie/issues/4430) Upgrade @polkadot/api to v1.23.1 @mariopino
+
+### Changed
+
+- [#4373](https://github.com/cosmos/lunie/pull/4373) Use Polkadot connection script @faboweb
+- [#4235](https://github.com/cosmos/lunie/pull/4235) Enabled field in network can be overwritten by its value on DB table "networks"  @Bitcoinera
+
+### Fixed
+
+- Pass networks to getNotifications @faboweb
+- [#4400](https://github.com/cosmos/lunie/issues/4400) Fix all delegators query in polkadot @mariopino
+
 ## [1.0.33] - 2020-07-02
 
 ### Added
