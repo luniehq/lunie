@@ -40,5 +40,5 @@ jobs:
         script: |
           docker image prune -a -f
           docker load < lunie-script-runner.tgz
-          HASURA_URL=https://staging-db.lunie.io/v1/graphql HASURA_ADMIN_KEY=${{secrets.LUNIE_STAGING_DB_KEY}} SENTRY_DSN=${{secrets.SENTRY_DSN_API_STAGING}} AUTHENTICATION_TOKEN=${{secrets.AUTHENTICATION_TOKEN}} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} docker stack deploy -c docker-compose.yml lunie-script-runner
-          HASURA_URL=https://staging-db.lunie.io/v1/graphql HASURA_ADMIN_KEY=${{secrets.LUNIE_STAGING_DB_KEY}} SENTRY_DSN=${{secrets.SENTRY_DSN_API_STAGING}} AUTHENTICATION_TOKEN=${{secrets.AUTHENTICATION_TOKEN}} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} docker service update --image lunie-script-runner:latest --force lunie-script-runner_lunie-script-runner
+          TWITTER_AUTH_TOKEN=${{secrets.TWITTER_AUTH_TOKEN}} HASURA_URL=https://staging-db.lunie.io/v1/graphql HASURA_ADMIN_KEY=${{secrets.LUNIE_STAGING_DB_KEY}} SENTRY_DSN=${{secrets.SENTRY_DSN_API_STAGING}} AUTHENTICATION_TOKEN=${{secrets.AUTHENTICATION_TOKEN}} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} docker stack deploy -c docker-compose.yml lunie-script-runner
+          TWITTER_AUTH_TOKEN=${{secrets.TWITTER_AUTH_TOKEN}} HASURA_URL=https://staging-db.lunie.io/v1/graphql HASURA_ADMIN_KEY=${{secrets.LUNIE_STAGING_DB_KEY}} SENTRY_DSN=${{secrets.SENTRY_DSN_API_STAGING}} AUTHENTICATION_TOKEN=${{secrets.AUTHENTICATION_TOKEN}} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} docker service update --image lunie-script-runner:latest --force lunie-script-runner_lunie-script-runner
