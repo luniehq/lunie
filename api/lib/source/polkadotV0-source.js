@@ -170,7 +170,7 @@ class polkadotAPI {
       }
     })
 
-    console.timeEnd(`getAllValidators`)
+    console.timeEnd(`get validators for ${this.network.id}`)
 
     return allValidators.map((validator) =>
       this.reducers.validatorReducer(this.network, validator)
