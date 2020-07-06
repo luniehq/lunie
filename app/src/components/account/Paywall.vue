@@ -224,6 +224,8 @@ h3 {
 .table-column.networks {
   background-color: #daf7e6;
   max-height: 20rem;
+  margin-right: 33%;
+  margin-left: 33%;
 }
 
 .table ul {
