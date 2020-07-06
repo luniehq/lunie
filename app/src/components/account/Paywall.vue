@@ -63,7 +63,7 @@
         <div class="table-span" @click="handleIntercom()">
           <span>
             Have any ideas? Share them with us
-            <i class="material-icons notranslate">ic_send</i>
+            <i class="material-icons notranslate">launch</i>
           </span>
         </div>
       </div>
@@ -218,12 +218,16 @@ h3 {
 }
 
 .table-span {
+  position: absolute;
+  left: 0;
   color: #7a88b8;
   margin: 2rem 0;
   cursor: pointer;
+  font-size: 0.9rem;
 }
 
 .table-column.networks {
+  position: relative;
   background-color: #daf7e6;
   max-height: 20rem;
 }
@@ -313,9 +317,14 @@ h3 {
   min-width: 32rem;
 }
 
+.table-span span {
+  display: flex;
+  align-items: center;
+}
+
 .table-span .material-icons {
-  font-size: 1rem;
-  margin-left: -2rem;
+  margin-left: 0.5rem;
+  font-size: 0.9rem;
 }
 
 @keyframes ticker {
