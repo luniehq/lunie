@@ -57,7 +57,6 @@ class SlashingMonitor {
       { query: `tm.event='NewBlockHeader' AND liveness.missed_blocks >= 1` },
       async (response) => {
         try {
-          console.log(response)
           const missedBlocks = response.events['liveness.address'].map(
             (address, index) => ({
               networkId: this.networkId,
@@ -72,7 +71,7 @@ class SlashingMonitor {
             return aggregateMissedBlocks(lastMissedBlockEvent, missedBlockEvent)
           }))
           database(config)("").upsert("slashes", rows)
-          console.log('Wrote missed block events', rows)
+          console.log('Wrote missed block events', rows.length)
         } catch (error) {
           console.error("Failed to write missed block events", error)
           Sentry.captureException(error)
