@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionImportName has the expected html structure 1`] = `
-<sessionframe-stub>
+<sessionframe-stub
+  icon=""
+>
   <tmformstruct-stub
     submit="function () { [native code] }"
     width=""
@@ -57,6 +59,7 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
       class="session-footer"
     >
       <tmbtn-stub
+        customclass=""
         type="submit"
         value="Next"
       />

@@ -27,4 +27,5 @@ export default {
   },
 
   firebaseConfig: JSON.parse(process.env.VUE_APP_FIREBASE_CONFIG || "{}"),
+  digitalOceanURL: process.env.VUE_APP_DIGITALOCEAN_URL,
 }

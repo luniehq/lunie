@@ -8,11 +8,10 @@ const {
   resourceTypes,
   getDefaultSubscriptions
 } = require('./notifications-types')
-const networks = require('../data/networks')
 const database = require('./database')
 const config = require('../config.js')
 
-function getMessageTitle(notification) {
+function getMessageTitle(networks, notification) {
   // Need to decode JSOn string from Hasura as it escapes strings
   // e.g. a quote " is represented as &quot; - need to reverse this with the below operation
   // second replace statement helps to remove line breaks from descriptions (for proposals) that cause JSON.parse to fail
@@ -25,20 +24,24 @@ function getMessageTitle(notification) {
       return `You have received ${data.details.amount.amount} ${
         data.details.amount.denom
       }${data.details.amount.amount !== 1 ? 's' : ''} on ${findNetworkTitle(
+        networks,
         notification.networkId
       )}`
     case eventTypes.TRANSACTION_SEND:
       return `You sent ${data.details.amount.amount} ${
         data.details.amount.denom
       }${data.details.amount.amount !== 1 ? 's' : ''} on ${findNetworkTitle(
+        networks,
         notification.networkId
       )}`
     case eventTypes.PROPOSAL_CREATE:
       return `New proposal created for ${findNetworkTitle(
+        networks,
         notification.networkId
       )}: '${data.title}'`
     case eventTypes.PROPOSAL_UPDATE:
       return `Proposal status changed to '${data.status}' on ${findNetworkTitle(
+        networks,
         notification.networkId
       )} for ${data.title}`
 
@@ -96,6 +99,7 @@ function getMessageTitle(notification) {
       return `New validator ${
         data.nextValidator.name
       } entered the validator list on ${findNetworkTitle(
+        networks,
         notification.networkId
       )}`
 
@@ -106,17 +110,20 @@ function getMessageTitle(notification) {
   }
 }
 
-function findNetworkTitle(networkId) {
+function findNetworkTitle(networks, networkId) {
   const network = networks.find((network) => network.id === networkId)
   return network.title
 }
 
-function findNetworkSlug(networkId) {
+function findNetworkSlug(networks, networkId) {
   const network = networks.find((network) => network.id === networkId)
   return network.slug
 }
 
-function getPushLink({ resourceType, eventType, networkId, resourceId, data }) {
+function getPushLink(
+  networks,
+  { resourceType, eventType, networkId, resourceId, data }
+) {
   const resource =
     resourceType === resourceTypes.VALIDATOR ? eventType : resourceType
   const notificationData = JSON.parse(
@@ -125,9 +132,9 @@ function getPushLink({ resourceType, eventType, networkId, resourceId, data }) {
 
   switch (resource) {
     case resourceTypes.TRANSACTION:
-      return `/${findNetworkSlug(networkId)}/transactions`
+      return `/${findNetworkSlug(networks, networkId)}/transactions`
     case resourceTypes.PROPOSAL:
-      return `/${findNetworkSlug(networkId)}/proposals/${resourceId}`
+      return `/${findNetworkSlug(networks, networkId)}/proposals/${resourceId}`
     case eventTypes.VALIDATOR_WEBSITE:
       return notificationData.nextValidator.website
     case eventTypes.VALIDATOR_COMMISSION:
@@ -138,7 +145,7 @@ function getPushLink({ resourceType, eventType, networkId, resourceId, data }) {
     case eventTypes.VALIDATOR_STATUS:
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
     case eventTypes.VALIDATOR_ADDED:
-      return `/${findNetworkSlug(networkId)}/validators/${resourceId}`
+      return `/${findNetworkSlug(networks, networkId)}/validators/${resourceId}`
 
     // ResourceId field contains link property
     case resourceTypes.LUNIE:
@@ -199,7 +206,7 @@ function getTopic({ resourceType, networkId, eventType, resourceId }) {
   return data.filter((x) => !!x).join('_')
 }
 
-const startNotificationService = () => {
+const startNotificationService = (networks) => {
   // Disable for development mode
   // (only activate for staging/production to avoid duplicate notifications)
   if (config.env !== 'development') {
@@ -222,8 +229,8 @@ const startNotificationService = () => {
       const notification = {
         networkId: event.networkId,
         timestamp: notificationResponse.created_at,
-        title: getMessageTitle(notificationResponse),
-        link: getPushLink(notificationResponse),
+        title: getMessageTitle(networks, notificationResponse),
+        link: getPushLink(networks, notificationResponse),
         icon: getIcon(notificationResponse)
       }
 
@@ -233,7 +240,7 @@ const startNotificationService = () => {
 }
 
 // Resolver for retrieving notifications
-const getNotifications = async (
+const getNotifications = (networks) => async (
   _,
   { timestamp = '', addressObjects },
   { dataSources }
@@ -259,8 +266,8 @@ const getNotifications = async (
   const notifications = relevantNotifications.map((notification) => ({
     networkId: notification.networkId, // used for filtering per network
     timestamp: notification.created_at, // used for grouping / sorting
-    title: getMessageTitle(notification), // title of notification
-    link: getPushLink(notification), // link for click-through action
+    title: getMessageTitle(networks, notification), // title of notification
+    link: getPushLink(networks, notification), // link for click-through action
     icon: getIcon(notification) // icon link
   }))
 

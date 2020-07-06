@@ -4,3 +4,7 @@ update_configs:
     directory: "/"
     update_schedule: "weekly"
     target_branch: "develop"
+    automerged_updates:
+      - match:
+          dependency_type: "all"
+          update_type: "semver:minor"
