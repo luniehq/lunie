@@ -14,9 +14,11 @@
         >
           <img class="icon-image" :src="icon" />
         </div>
-        <i v-else class="material-icons notranslate circle modal-icon">{{
-          icon
-        }}</i>
+        <i
+          v-else-if="icon.length > 0"
+          class="material-icons notranslate circle modal-icon"
+          >{{ icon }}</i
+        >
         <div class="session">
           <div class="session-header">
             <a v-if="!hideBack" @click="goBack">

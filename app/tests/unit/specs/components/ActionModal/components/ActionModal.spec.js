@@ -38,6 +38,10 @@ jest.mock("@sentry/browser", () => ({
   withScope: () => {},
 }))
 
+jest.mock(`src/../../common/polkadotApiConnector`, () => ({
+  getPolkadotAPI: () => {},
+}))
+
 describe(`ActionModal`, () => {
   let wrapper, $store, $apollo
 
@@ -187,7 +191,9 @@ describe(`ActionModal`, () => {
     const failingSendMock = jest
       .fn()
       .mockRejectedValue(new Error(`some kind of error message`))
-    const $store = { dispatch: jest.fn() }
+    const $store = {
+      dispatch: jest.fn(),
+    }
     const self = {
       $store,
       $apollo,

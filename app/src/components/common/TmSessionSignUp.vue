@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame>
+  <SessionFrame icon="person_add">
     <TmFormStruct :submit="onSubmit">
       <h2 class="session-title">
         Create a new address

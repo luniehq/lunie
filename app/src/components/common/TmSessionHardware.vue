@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame>
+  <SessionFrame :icon="`vpn_key`">
     <h2 class="session-title">
       Use my Ledger Nano
     </h2>

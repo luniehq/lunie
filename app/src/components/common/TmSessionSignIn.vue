@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame>
+  <SessionFrame :icon="`lock`">
     <TmFormStruct :submit="onSubmit" class="session-container">
       <h2 class="session-title">
         Sign in with account

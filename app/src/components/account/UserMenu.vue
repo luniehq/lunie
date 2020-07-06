@@ -11,7 +11,7 @@
     </router-link>
     <v-popover open-class="user-menu-popover">
       <!-- This will be the popover target (for the events and position) -->
-      <div class="avatar-container">
+      <div id="open-user-menu" class="avatar-container">
         <span v-if="!account.userSignedIn" class="avatar emoji tooltip-target"
           >👻</span
         >
@@ -70,7 +70,12 @@
             >check</i
           >
         </div>
-        <div v-close-popover class="menu-list-item" @click="goToWelcome()">
+        <div
+          id="create-new-account"
+          v-close-popover
+          class="menu-list-item"
+          @click="goToWelcome()"
+        >
           <span>Create New Account</span>
           <i class="material-icons">add_circle</i>
         </div>
@@ -111,6 +116,15 @@
             <span>Sign up for premium</span>
             <i class="material-icons">email</i>
           </div>
+          <!-- TODO -->
+          <!-- <div
+            v-close-popover
+            class="menu-list-item outline"
+            @click="resetSessions()"
+          >
+            <span>Reset Sessions</span>
+            <i class="material-icons">cancel</i>
+          </div> -->
         </div>
       </template>
     </v-popover>
@@ -156,6 +170,12 @@ export default {
         (network) => network.id === address.networkId
       )
       this.$store.dispatch(`setNetwork`, this.selectedNetwork)
+      this.$router.push({
+        name: "portfolio",
+        params: {
+          networkId: this.selectedNetwork.slug,
+        },
+      })
       this.$store.dispatch(`signIn`, {
         sessionType: address.sessionType,
         address: this.selectedAddress,
@@ -179,6 +199,9 @@ export default {
     getAddressNetwork(address) {
       return this.networks.find((network) => network.id === address.networkId)
     },
+    // TODO
+    // async resetSessions() {
+    // },
   },
 }
 </script>

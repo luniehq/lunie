@@ -2,7 +2,7 @@
 
 exports[`TmSessionExtension should show a guide to install the extension if no extension is installed 1`] = `
 <sessionframe-stub
-  icon=""
+  icon="laptop"
 >
   <div
     class="session-container"
@@ -41,7 +41,7 @@ exports[`TmSessionExtension should show a guide to install the extension if no e
 
 exports[`TmSessionExtension should show a list of all accounts in the extension 1`] = `
 <sessionframe-stub
-  icon=""
+  icon="laptop"
 >
   <div
     class="session-container"
