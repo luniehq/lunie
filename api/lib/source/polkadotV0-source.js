@@ -109,17 +109,13 @@ class polkadotAPI {
       this.getAllValidatorsExpectedReturns()
     ]);
 
-    // Fetch all validators staking & identity info
-    let [ allValidators, allValidatorsIdentity ] = await Promise.all([
+    // Fetch all validators staking info
+    let allValidators = await Promise.all(
       allStashAddresses.map((authorityId) =>
         api.derive.staking.account(authorityId)
-      ),
-       allStashAddresses.map((authorityId) =>
-        api.derive.accounts.info(authorityId)
       )
-    ])
+    )
     allValidators = JSON.parse(JSON.stringify(allValidators))
-    allValidatorsIdentity = JSON.parse(JSON.stringify(allValidatorsIdentity))
 
     // Calculate and update total active staked funds
     let networkTotalStake = new BigNumber(0)
@@ -131,6 +127,14 @@ class polkadotAPI {
           networkTotalStake = networkTotalStake.plus(accum)
         }
       })
+
+    // Fetch identity info
+    let allValidatorsIdentity = await Promise.all(
+      allStashAddresses.map((authorityId) =>
+        api.derive.accounts.info(authorityId)
+      )
+    )
+    allValidatorsIdentity = JSON.parse(JSON.stringify(allValidatorsIdentity))
 
     allValidators.forEach((validator) => {
       if (expectedReturns[validator.accountId.toString()]) {
@@ -166,7 +170,7 @@ class polkadotAPI {
       }
     })
 
-    console.timeEnd(`get validators for ${this.network.id}`)
+    console.timeEnd(`getAllValidators`)
 
     return allValidators.map((validator) =>
       this.reducers.validatorReducer(this.network, validator)
