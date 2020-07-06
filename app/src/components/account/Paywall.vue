@@ -204,6 +204,8 @@ h3 {
   border-radius: 0.25rem;
   flex: 1 0 250px;
   background-color: #fff;
+  max-width: 22rem;
+  min-width: 17rem;
 }
 
 .table-cell {
@@ -224,8 +226,6 @@ h3 {
 .table-column.networks {
   background-color: #daf7e6;
   max-height: 20rem;
-  margin-right: 33%;
-  margin-left: 33%;
 }
 
 .table ul {
@@ -320,8 +320,8 @@ h3 {
 
 @keyframes ticker {
   0% {
-    -webkit-transform: translate3d(30%, 0, 0);
-    transform: translate3d(30%, 0, 0);
+    -webkit-transform: translate3d(40%, 0, 0);
+    transform: translate3d(40%, 0, 0);
     visibility: visible;
   }
 
