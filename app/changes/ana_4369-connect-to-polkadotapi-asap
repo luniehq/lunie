@@ -1,0 +1,1 @@
+[Code Improvements] [#4369](https://github.com/cosmos/lunie/issues/4369) Refactor connecting to polkadot API directly on network connection and saving it to store (connection) @Bitcoinera

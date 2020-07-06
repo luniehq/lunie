@@ -37,7 +37,9 @@ export default {
   computed: {
     ...mapGetters([`networks`]),
     mainNetworks() {
-      return this.networks.filter((network) => !network.testnet)
+      return this.networks
+        .filter((network) => !network.testnet)
+        .sort((a, b) => b.default - a.default)
     },
     testNetworks() {
       return this.networks.filter((network) => network.testnet)

@@ -2,7 +2,7 @@
 
 exports[`TmSessionSignIn has the expected html structure 1`] = `
 <sessionframe-stub
-  icon=""
+  icon="lock"
 >
   <tmformstruct-stub
     class="session-container"

@@ -125,6 +125,7 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
         slug
         lockUpPeriod
         powered
+        erasPerDay
       }
       networksCapabilities: networksCapabilities {
         id
@@ -196,6 +197,7 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
         slug
         lockUpPeriod
         powered
+        public_rpc_url
       }
       networksCapabilities: networksCapabilities(where: { 
         id: {_eq: "${id}"}
