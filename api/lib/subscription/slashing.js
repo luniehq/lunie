@@ -23,7 +23,7 @@ class SlashingMonitor {
             height: tendermintResponse.height
           }))
           .filter(({ reason }) => reason === filterReason)
-        database(config).upsert('slashes', slashes)
+        database(config)("").upsert('slashes', slashes)
         console.log('Added', slashes.length, 'slashes')
         slashes.forEach(slash => {
           publishEvent(
