@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.5.4",
-    "@babel/runtime-corejs3": "^7.4.0",
+    "@babel/runtime-corejs3": "^7.10.4",
     "@lunie/cosmos-api": "^0.0.23",
     "@lunie/cosmos-keys": "^0.2.3",
     "@polkadot/api": "^1.23.1",
