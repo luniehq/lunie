@@ -5,8 +5,8 @@ const db = database(config)
 
 module.exports.getTwitterImages = async () => {
     const networks = await db("").getNetworks()
-    const cosmosNetworks = networks.filter(({network_type}) => network_type === "polkadot")
-    cosmosNetworks.forEach(async network => {
+    const polkadotNetworks = networks.filter(({network_type}) => network_type === "polkadot")
+    polkadotNetworks.forEach(async network => {
         const schema = network.id.replace(/-/g, "_")
         const validators = await db(schema).read(
             `validatorprofiles`,
