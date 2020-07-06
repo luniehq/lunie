@@ -26,18 +26,21 @@ exports[`PageValidators Should toggle between popular / active / all validators 
         >
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="active"
             value="Popular"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="All"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="Active"
           />
@@ -92,18 +95,21 @@ exports[`PageValidators Should toggle between popular / active / all validators 
         >
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="Popular"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="All"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="active"
             value="Active"
           />
@@ -158,18 +164,21 @@ exports[`PageValidators Should toggle between popular / active / all validators 
         >
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="Popular"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="active"
             value="All"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="Active"
           />
@@ -224,18 +233,21 @@ exports[`PageValidators shows a list of validators 1`] = `
         >
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="active"
             value="Popular"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="All"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="Active"
           />
@@ -309,18 +321,21 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
         >
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="active"
             value="Popular"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="All"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="Active"
           />
@@ -375,18 +390,21 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
         >
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="active"
             value="Popular"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="All"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="Active"
           />
@@ -441,18 +459,21 @@ exports[`PageValidators shows the mobile sorting 1`] = `
         >
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="active"
             value="Popular"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="All"
           />
            
           <tmbtn-stub
             class="btn-radio"
+            customclass=""
             type="secondary"
             value="Active"
           />

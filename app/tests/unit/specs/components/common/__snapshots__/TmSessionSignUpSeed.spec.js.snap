@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionSignUpSeed renders 1`] = `
-<sessionframe-stub>
+<sessionframe-stub
+  icon=""
+>
   <tmformstruct-stub
     submit="function () { [native code] }"
     width=""
@@ -58,6 +60,7 @@ exports[`TmSessionSignUpSeed renders 1`] = `
         class="session-footer"
       >
         <tmbtn-stub
+          customclass=""
           value="Create"
         />
       </div>

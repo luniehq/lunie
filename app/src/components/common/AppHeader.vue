@@ -48,12 +48,7 @@
         </router-link>
         <div class="header-menu-section">
           <template v-if="!desktop">
-            <router-link
-              v-if="session.experimentalMode"
-              :to="{ name: 'notifications' }"
-            >
-              <NotificationIcon />
-            </router-link>
+            <UserMenu v-if="isMobileApp && isDevelopmentMode" />
             <div v-if="open" class="close-menu" @click="close()">
               <i class="material-icons notranslate mobile-menu-action">close</i>
             </div>
@@ -71,23 +66,27 @@
 </template>
 
 <script>
-import config from "src/../config"
 import { mapState } from "vuex"
 import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
-import NotificationIcon from "../../components/notifications/NotificationIcon"
+import UserMenu from "account/UserMenu"
 export default {
   name: `app-header`,
-  components: { AppMenu, NotificationIcon },
+  components: { AppMenu, UserMenu },
   data: () => ({
     open: false,
     desktop: false,
-    isMobileApp: config.mobileApp,
   }),
   computed: {
     ...mapState([`session`, `connection`]),
     networkSlug() {
       return this.connection.networkSlug
+    },
+    isMobileApp() {
+      return this.session.mobile
+    },
+    isDevelopmentMode() {
+      return this.session.developmentMode
     },
   },
   mounted: async function () {

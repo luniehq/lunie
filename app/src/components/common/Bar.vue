@@ -1,19 +1,21 @@
 <template>
-  <div v-if="showMessage" :class="`bar ${barType}`">
-    <p>
-      <slot />
-    </p>
-    <div class="right">
-      <TmBtn
-        v-if="link"
-        class="button small"
-        :value="linkCaption"
-        type="button"
-        @click.native="goToLink(link)"
-      />
-      <i class="material-icons notranslate close-icon" @click="close()"
-        >close</i
-      >
+  <div v-if="showMessage" class="bar-container">
+    <div :class="`bar ${barType}`">
+      <p>
+        <slot />
+      </p>
+      <div class="right">
+        <TmBtn
+          v-if="link"
+          class="button small"
+          :value="linkCaption"
+          type="button"
+          @click.native="goToLink(link)"
+        />
+        <i class="material-icons notranslate close-icon" @click="close()"
+          >close</i
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -66,10 +68,13 @@ export default {
 </script>
 
 <style scoped>
+.bar-container {
+  margin: 0.5rem;
+}
+
 .bar {
   width: 100%;
   padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
   border-radius: 0.5rem;
   font-family: var(--sans);
   background-color: transparent;

@@ -16,6 +16,7 @@ export default ({ apollo }) => {
     history: [],
     address: null, // Current address
     addresses: [], // Array of previously used addresses
+    allSessionAddresses: [],
     addressRole: undefined, // Polkadot: 'stash/controller', 'stash', 'controller' or 'none'
     errorCollection: false,
     analyticsCollection: false,
@@ -266,14 +267,20 @@ export default ({ apollo }) => {
       },
     }) {
       let allSessionAddresses = []
-      const networkIds = networks.map((network) => network.id)
-      networkIds.forEach((networkId) => {
-        const sessionEntry = localStorage.getItem(`session_${networkId}`)
+      networks.forEach((network) => {
+        const sessionEntry = localStorage.getItem(`session_${network.id}`)
         if (!sessionEntry) return []
+
+        const networkId = network.id
+        const icon = network.icon
+        const title = network.title
 
         allSessionAddresses.push({
           networkId,
+          icon,
+          title,
           address: JSON.parse(sessionEntry).address,
+          sessionType: JSON.parse(sessionEntry).sessionType,
         })
       })
       return allSessionAddresses

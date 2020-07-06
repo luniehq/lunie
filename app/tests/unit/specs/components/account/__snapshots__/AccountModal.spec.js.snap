@@ -63,11 +63,13 @@ exports[`AccountModal should show the AccountModal page 1`] = `
           class="account-modal-buttons"
         >
           <tmbtn-stub
+            customclass=""
             type="secondary"
             value="Dismiss"
           />
            
           <tmbtn-stub
+            customclass=""
             type="primary"
             value="Reveal"
           />

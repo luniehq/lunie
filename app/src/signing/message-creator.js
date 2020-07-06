@@ -19,10 +19,16 @@ async function getNetworkSpecificMessageCreator(network, messageType) {
 }
 
 /* returns a message object to be signed by a network specific signing algorithm */
-export async function getMessage(network, messageType, senderAddress, message) {
+export async function getMessage(
+  network,
+  messageType,
+  senderAddress,
+  message,
+  polkadotAPI
+) {
   const messageFormatter = await getNetworkSpecificMessageCreator(
     network.id,
     messageType
   )
-  return await messageFormatter(senderAddress, message, network)
+  return await messageFormatter(senderAddress, message, network, polkadotAPI)
 }
