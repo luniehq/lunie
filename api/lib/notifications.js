@@ -107,6 +107,8 @@ function getMessageTitle(networks, notification) {
       return data.title
     case eventTypes.SLASH:
       return `Validator ${data.operatorAddress} got slashed ${data.amount}.`
+    case eventTypes.LIVENESS:
+      return `Validator ${data.operatorAddress} was offline ${data.blocks}.`
     default:
       return 'Check it out! 👋'
   }
@@ -148,6 +150,7 @@ function getPushLink(
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
     case eventTypes.VALIDATOR_ADDED:
     case eventTypes.SLASH:
+    case eventTypes.LIVENESS:
       return `/${findNetworkSlug(networks, networkId)}/validators/${resourceId}`
 
     // ResourceId field contains link property
@@ -182,6 +185,7 @@ function getIcon({ eventType, data }) {
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
     case eventTypes.VALIDATOR_ADDED:
     case eventTypes.SLASH:
+    case eventTypes.LIVENESS:
       // Picture field for validator type can be null
       return `${
         notificationData.nextValidator.picture ||
@@ -217,6 +221,10 @@ const startNotificationService = (networks) => {
     // listens on the graphQL subscription for events
     eventSubscription(async (event) => {
       if (event.properties.type === 'UnknownTx') return
+
+      // hack to not spam users on every liveness failure
+      // need to figure out how to handle this
+      if (event.eventType === eventTypes.LIVENESS) return
 
       const topic = getTopic(event)
       const response = await database(config)('').storeNotification({
