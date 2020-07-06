@@ -86,7 +86,7 @@ async function getLastMissedBlock(networkId, operatorAddress) {
   // get last liveness issue
   const {data} = await database(config)("").query(`
     query {
-      slashes(where:{networkId:{_eq:"${networkId}"}, operatorAddress:{_eq:"${operatorAddress}"}}, reason:{_eq:"missed_blocks"},order_by:{id:desc}, limit: 1) {
+      slashes(where:{networkId:{_eq:"${networkId}"}, operatorAddress:{_eq:"${operatorAddress}"}, reason:{_eq:"missed_blocks"}}, order_by:{id:desc}, limit: 1) {
         height
         id
         reason
