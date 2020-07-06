@@ -20,7 +20,7 @@ class SlashingMonitor {
             operatorAddress: address,
             reason: tendermintResponse.events['slash.reason'][index],
             amount: tendermintResponse.events['slash.power'][index], // on chain value. convert to Lunie value?
-            height: tendermintResponse.height
+            height: tendermintResponse.height || tendermintResponse.data.value.header.height
           }))
           .filter(({ reason }) => reason === filterReason)
         database(config)("").upsert('slashes', slashes)
@@ -54,17 +54,17 @@ class SlashingMonitor {
 
     // requires some more logic to not spam the notifications if a validator is down for 1000 blocks
     this.client.subscribe(
-      { query: 'liveness.missed_blocks >= 1' },
+      { query: `tm.event='NewBlockHeader' AND liveness.missed_blocks >= 1` },
       async (response) => {
         try {
-
+          console.log(response)
           const missedBlocks = response.events['liveness.address'].map(
             (address, index) => ({
               networkId: this.networkId,
               operatorAddress: address,
-              amount: response.events['liveness.missed_blocks'][index],
+              blocks: response.events['liveness.missed_blocks'][index],
               reason: 'missed_blocks',
-              height: response.height,
+              height: response.data.value.header.height,
             })
           )
           const rows = await Promise.all(missedBlocks.map(async missedBlockEvent => {
@@ -94,12 +94,12 @@ async function getLastMissedBlock(networkId, operatorAddress) {
     }
   `)
 
-  return data
+  return data.slashes[0]
 }
 
 function aggregateMissedBlocks(lastMissedBlockEvent, newMissedBlockEvent) {
   if (!lastMissedBlockEvent) return newMissedBlockEvent
-  if (lastMissedBlockEvent.height === newMissedBlockEvent.height - 1) {
+  if (newMissedBlockEvent.height - newMissedBlockEvent.blocks <= lastMissedBlockEvent.height) {
     return {
       ...newMissedBlockEvent,
       id: lastMissedBlockEvent.id // overwrite old entry
