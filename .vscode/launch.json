@@ -30,6 +30,16 @@
             "env": {
                 "RUN_ONLY_NETWORK": "polkadot-testnet"
             }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Script Runner",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/scriptRunner/src/index.js",
+            "envFile": "${workspaceFolder}/api/.env"
         }
     ]
 }

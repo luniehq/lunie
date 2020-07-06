@@ -14,7 +14,8 @@ module.exports.getTwitterImages = async () => {
             ['operator_address', 'name', 'last_updated', 'profile_identifier']
           )
         const updateableValidators = validators
-            .filter(({profile_identifier}) => profile_identifier)
+            // in the DB we have sometimes "undefined" for the identifier
+            .filter(({profile_identifier}) => profile_identifier && profile_identifier !== 'undefined')
             .filter(({last_updated}) => {
                 // only update validators every 24h
                 return Date.now() - new Date(last_updated).getTime() > 1000 * 60 * 60 * 24
