@@ -1,3 +1,4 @@
+const Sentry = require('@sentry/node')
 const Tendermint = require('./tendermint')
 const database = require('../database')
 const config = require('../../config')
@@ -12,17 +13,31 @@ class SlashingMonitor {
   // to prevent adding a slash twice we filter the slashes
   storeSlashes(filterReason) {
     return (tendermintResponse) => {
-      const slashes = tendermintResponse.events['slash.address']
-        .map((address, index) => ({
-          networkId: this.networkId,
-          operatorAddress: address,
-          reason: tendermintResponse.events['slash.reason'][index],
-          amount: tendermintResponse.events['slash.power'][index], // on chain value. convert to Lunie value?
-          height: tendermintResponse.height
-        }))
-        .filter(({ reason }) => reason === filterReason)
-      database(config).upsert('slashes', slashes)
-      console.log('Added', slashes.length, 'slashes')
+      try {
+        const slashes = tendermintResponse.events['slash.address']
+          .map((address, index) => ({
+            networkId: this.networkId,
+            operatorAddress: address,
+            reason: tendermintResponse.events['slash.reason'][index],
+            amount: tendermintResponse.events['slash.power'][index], // on chain value. convert to Lunie value?
+            height: tendermintResponse.height
+          }))
+          .filter(({ reason }) => reason === filterReason)
+        database(config).upsert('slashes', slashes)
+        console.log('Added', slashes.length, 'slashes')
+        slashes.forEach(slash => {
+          publishEvent(
+            this.network.id,
+            resourceTypes.VALIDATOR,
+            eventTypes.SLASH,
+            slash.operatorAddress,
+            slash
+          )
+        })
+      } catch (error) {
+        console.error("Failed to add slashes", tendermintResponse.events, error)
+        Sentry.captureException(error)
+      }
     }
   }
 
