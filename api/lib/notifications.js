@@ -105,6 +105,8 @@ function getMessageTitle(networks, notification) {
 
     case eventTypes.LUNIE_UPDATE:
       return data.title
+    case eventTypes.SLASH:
+      return `Validator ${data.operatorAddress} got slashed ${data.amount}.`
     default:
       return 'Check it out! 👋'
   }
@@ -145,6 +147,7 @@ function getPushLink(
     case eventTypes.VALIDATOR_STATUS:
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
     case eventTypes.VALIDATOR_ADDED:
+    case eventTypes.SLASH:
       return `/${findNetworkSlug(networks, networkId)}/validators/${resourceId}`
 
     // ResourceId field contains link property
@@ -178,6 +181,7 @@ function getIcon({ eventType, data }) {
     case eventTypes.VALIDATOR_STATUS:
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
     case eventTypes.VALIDATOR_ADDED:
+    case eventTypes.SLASH:
       // Picture field for validator type can be null
       return `${
         notificationData.nextValidator.picture ||

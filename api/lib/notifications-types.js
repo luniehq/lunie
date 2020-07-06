@@ -26,7 +26,8 @@ const eventTypes = {
   LUNIE_UPDATE: 'lunieUpdate',
 
   /* Slashes */
-  SLASH: 'slash'
+  SLASH: 'slash',
+  LIVENESS: 'liveness',
 }
 
 const resourceTypes = {
