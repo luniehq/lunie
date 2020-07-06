@@ -21,6 +21,7 @@ exports[`SendTxDetails renders a received transaction message 1`] = `
      
     <address-stub
       address="cosmosvaloper123"
+      tooltiptext=""
     />
   </div>
    
@@ -60,6 +61,7 @@ exports[`SendTxDetails renders a sent transaction message 1`] = `
      
     <address-stub
       address="cosmosvaloper456"
+      tooltiptext=""
     />
   </div>
    

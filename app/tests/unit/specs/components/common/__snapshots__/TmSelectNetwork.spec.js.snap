@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSelectNetwork has the expected html structure 1`] = `
-<sessionframe-stub>
+<sessionframe-stub
+  icon=""
+>
   <div
     class="select-network"
   >

@@ -1,0 +1,2 @@
+[Fixed] [#4421](https://github.com/cosmos/lunie/pull/4421) Fixes icon circle showing on SessionFrame when no icon @Bitcoinera
+[Fixed] [#4421](https://github.com/cosmos/lunie/pull/4421) Fixes TmSelectNetwork leaving networks out in the Sign Up/Create account flow @Bitcoinera

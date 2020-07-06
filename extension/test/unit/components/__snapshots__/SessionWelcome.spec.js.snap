@@ -3,6 +3,7 @@
 exports[`SessionWelcome has the expected html structure 1`] = `
 <sessionframe-stub
   hideback="true"
+  icon=""
 >
   <div
     id="session-welcome"

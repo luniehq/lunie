@@ -28,10 +28,14 @@ export default ({ apollo }) => {
         if (user) {
           commit(`userSignedIn`, true)
           commit(`setUserInformation`, user)
+
+          await actions.updateProfilePicture()
+
           const idToken = await user.getIdToken(/* forceRefresh */ true)
           localStorage.setItem(`auth_token`, idToken)
           // make sure new authorization token get added to header
           apollo.cache.reset()
+
           console.log("User is now signed in!")
         } else {
           commit(`userSignedIn`, false)
@@ -89,6 +93,19 @@ export default ({ apollo }) => {
       } catch (error) {
         console.error(error)
         commit(`setSignInError`, error)
+        Sentry.captureException(error)
+      }
+    },
+    // TODO: it should only run on sign up
+    async updateProfilePicture() {
+      try {
+        const user = Auth.currentUser
+        await user.updateProfile({
+          photoURL: `${config.digitalOceanURL}/users/${user.email}.png`,
+        })
+        console.log(`Succesfully updated user's avatar`)
+      } catch (error) {
+        console.error(error)
         Sentry.captureException(error)
       }
     },

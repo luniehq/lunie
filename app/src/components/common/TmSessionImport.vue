@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame>
+  <SessionFrame :icon="`settings_backup_restore`">
     <TmFormStruct :submit="onSubmit">
       <h2 class="session-title">
         Recover with backup code

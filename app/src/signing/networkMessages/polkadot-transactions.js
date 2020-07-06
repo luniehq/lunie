@@ -1,42 +1,7 @@
 /*
  * Source: https://github.com/polkadot-js/tools/blob/master/packages/signer-cli/src/cmdSendOffline.ts
  */
-import { WsProvider, ApiPromise } from "@polkadot/api"
 import { u8aToHex, u8aConcat } from "@polkadot/util"
-import { createApolloProvider } from "src/gql/apollo.js"
-import { NetworksAll } from "src/gql"
-import config from "src/../config"
-
-export async function getPolkadotNetworks() {
-  const apolloProvider = await createApolloProvider()
-  const apollo = apolloProvider.clients.defaultClient
-  const { data } = await apollo.query({
-    query: NetworksAll,
-    variables: { experimental: config.experimentalMode },
-    fetchPolicy: "network-only",
-  })
-  return data.networks.filter((network) => network.network_type === `polkadot`)
-}
-
-// will only be inited once per session
-let apis = {}
-let polkadotNetworks
-export async function getAPI(networkId) {
-  if (!apis[networkId]) {
-    if (!polkadotNetworks) {
-      polkadotNetworks = await getPolkadotNetworks()
-    }
-    const polkadotNetwork = polkadotNetworks.find(
-      (network) => network.id === networkId
-    )
-    const endpoint = polkadotNetwork.rpc_url
-    apis[networkId] = new ApiPromise({
-      provider: new WsProvider(endpoint),
-    })
-  }
-  await apis[networkId].isReady
-  return apis[networkId]
-}
 
 /**
  * Send a JSONRPC request to the node at substrateNodeEndpoint.
@@ -51,24 +16,22 @@ export async function getAPI(networkId) {
 //   return provider.send(method, params)
 // }
 
-export async function multiMessage(transactions, networkId) {
-  const api = await getAPI(networkId)
+export async function multiMessage(transactions, api) {
   return api.tx.utility.batch(transactions)
 }
 
 /**
  * Entry point of the script.
  */
-export async function getSignMessage(senderAddress, transaction, networkId) {
+export async function getSignMessage(senderAddress, transaction, api) {
   if (Array.isArray(transaction)) {
     if (transaction.length > 1) {
-      transaction = await multiMessage(transaction, networkId)
+      transaction = await multiMessage(transaction, api)
     } else {
       transaction = transaction[0]
     }
   }
 
-  const api = await getAPI(networkId)
   const nonce = (await api.derive.balances.account(senderAddress)).accountNonce
   let options
   let blockNumber
