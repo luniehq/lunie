@@ -10,7 +10,13 @@ const config = require('../config')
 const PORT = process.env.PORT || 9000;
 const HOST = process.env.NODE_ENV = "docker" ? '0.0.0.0' : 'localhost';
 
-const polkadotrewards = require("./polkadotrewards")
+const { getKeybaseImages } = require("./keybase")
+getKeybaseImages()
+setInterval(getKeybaseImages, 1000 * 60 * 60) // check once per hour for new validators (throttled by 24 after an update)
+
+const { getTwitterImages } = require("./twitterImages")
+getTwitterImages()
+setInterval(getTwitterImages, 1000 * 60 * 60) // check once per hour for new validators (throttled by 24 after an update)
 
 app.use(bodyParser.json())
 app.use(timeout(120000))
@@ -19,14 +25,15 @@ app.use(function (req, res, next) {
     const authenticationToken = req.header("Authorization")
     if (authenticationToken !== config.authenticationToken) {
         res
-            .status(403)
-            .send()
+        .status(403)
+        .send()
         return
     }
     next()
 })
 
 
+const polkadotrewards = require("./polkadotrewards")
 app.post('/polkadotrewards', polkadotrewards)
 
 app.listen(PORT, HOST, () => console.log(`Script server running on http://localhost:${PORT}`))

@@ -8,6 +8,17 @@
       @click.self="goToPortfolio()"
     >
       <div class="session-outer-container">
+        <div
+          v-if="icon.startsWith(`/img`) || icon.startsWith(`https`)"
+          class="icon-circle"
+        >
+          <img class="icon-image" :src="icon" />
+        </div>
+        <i
+          v-else-if="icon.length > 0"
+          class="material-icons notranslate circle modal-icon"
+          >{{ icon }}</i
+        >
         <div class="session">
           <div class="session-header">
             <a v-if="!hideBack" @click="goBack">
@@ -37,6 +48,10 @@ export default {
     hideBack: {
       type: Boolean,
       default: false,
+    },
+    icon: {
+      type: String,
+      default: ``,
     },
   },
   data: () => ({
@@ -72,5 +87,29 @@ export default {
 .component-fade-enter,
 .component-fade-leave-to .component-fade-leave-active {
   opacity: 0;
+}
+
+.icon-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--app-fg);
+  color: var(--dim);
+  border-radius: 50%;
+  padding: 2.5rem;
+  position: absolute;
+  top: 0.6rem;
+  left: 40%;
+  z-index: 1;
+  width: 4rem;
+  height: 4rem;
+}
+
+.icon-image {
+  width: 2rem;
+  height: 2rem;
+  transform: scaleX(-1);
+  filter: invert(85%) sepia(9%) saturate(18%) hue-rotate(6deg) brightness(85%)
+    contrast(87%); /* converts to same than var(--dim) */
 }
 </style>

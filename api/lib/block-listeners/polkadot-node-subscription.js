@@ -14,6 +14,7 @@ const database = require('../database')
 const config = require('../../config.js')
 
 const POLLING_INTERVAL = 1000
+const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
@@ -32,6 +33,8 @@ class PolkadotNodeSubscription {
     this.blockQueue = []
     this.chainId = this.network.chain_id
     this.subscribeForNewBlock()
+    // start one minute loop to update networks
+    this.pollForUpdateNetworks()
   }
 
   // here we init the polkadot rpc once for all processes
@@ -108,6 +111,14 @@ class PolkadotNodeSubscription {
     }, POLLING_INTERVAL)
   }
 
+  async pollForUpdateNetworks() {
+    // gives us the control to modify network parameters
+    this.store.updateNetworkFromDB()
+    this.updateNetworksPollingTimeout = setTimeout(async () => {
+      this.pollForUpdateNetworks()
+    }, UPDATE_NETWORKS_POLLING_INTERVAL)
+  }
+
   // For each block event, we fetch the block information and publish a message.
   // A GraphQL resolver is listening for these messages and sends the block to
   // each subscribed user.
@@ -119,6 +130,9 @@ class PolkadotNodeSubscription {
 
       const block = await this.polkadotAPI.getBlockByHeightV2(blockHeight)
       this.enqueueAndPublishBlockAdded(block)
+
+      // gives us the control to modify network parameters
+      this.store.updateNetworkFromDB()
 
       // We dont need to fetch validators on every new block.
       // Validator list only changes on new sessions

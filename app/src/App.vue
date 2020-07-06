@@ -8,6 +8,7 @@
         <MaintenanceBar />
         <DisconnectedBar />
       </div>
+      <UserMenu v-if="!isMobileApp && session.experimentalMode" />
       <router-view name="session" />
       <router-view />
     </div>
@@ -20,11 +21,11 @@ import { mapState, mapGetters } from "vuex"
 import AppHeader from "common/AppHeader"
 import CookieBar from "common/CookieBar"
 import DisconnectedBar from "common/DisconnectedBar"
+import UserMenu from "account/UserMenu"
 import MaintenanceBar from "common/MaintenanceBar"
 import MobileMenu from "common/MobileMenu"
 import NetworkSelector from "common/NetworkSelector"
 import store from "./vuex/store"
-import config from "src/../config"
 
 export default {
   name: `app`,
@@ -32,16 +33,17 @@ export default {
     AppHeader,
     CookieBar,
     DisconnectedBar,
+    UserMenu,
     MaintenanceBar,
     MobileMenu,
     NetworkSelector,
   },
-  data: () => ({
-    isMobileApp: config.mobileApp,
-  }),
   computed: {
     ...mapState([`notifications`, `session`]),
     ...mapGetters([`network`]),
+    isMobileApp() {
+      return this.session.mobile
+    },
   },
   store,
 }

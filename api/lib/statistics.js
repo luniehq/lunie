@@ -1,6 +1,5 @@
 const database = require('./database')
 const config = require('../config')
-const networks = require('../data/networks')
 
 let overviewedAddresses = {}
 
@@ -67,7 +66,13 @@ const store = async (payload) => {
   return database(config)('').storeStatistics(payload)
 }
 
-const logOverview = async (overview, address, networkId, fingerprint) => {
+const logOverview = async (
+  networks,
+  overview,
+  address,
+  networkId,
+  fingerprint
+) => {
   let key = address + networkId // just a key to store data about last request time
   const network = networks.find(({ id }) => id === networkId)
   /*

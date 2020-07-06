@@ -1,16 +1,15 @@
 <template>
-  <div class="copyable-address">
+  <div v-tooltip="tooltipText" class="copyable-address">
     <div
-      v-tooltip="`Click to copy`"
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
       class="address"
     >
-      {{ address | formatAddress }}
+      <span>{{ address | formatAddress }}</span>
+      <div :class="{ active: copySuccess }" class="icon-container">
+        <i class="material-icons notranslate success">check</i>
+      </div>
       <i class="material-icons notranslate copy">content_copy</i>
-    </div>
-    <div :class="{ active: copySuccess }" class="icon-container">
-      <i class="material-icons notranslate success">check</i>
     </div>
   </div>
 </template>
@@ -28,6 +27,10 @@ export default {
       type: String,
       required: true,
     },
+    tooltipText: {
+      type: String,
+      default: ``,
+    },
   },
   data: () => ({
     copySuccess: false,
@@ -44,11 +47,14 @@ export default {
 </script>
 <style scoped>
 .copyable-address {
-  font-size: 12px;
+  font-size: 14px;
   display: inline-flex;
   align-items: center;
-  padding: 0;
+  height: 2rem;
+  padding: 0 1rem;
+  border-radius: 1rem;
   margin: 0;
+  background: var(--app-fg);
 }
 
 .copyable-address .address {
@@ -87,7 +93,7 @@ export default {
 }
 
 .copyable-address i {
-  font-size: 12px;
+  font-size: 14px;
   padding-left: 0.25rem;
 }
 
@@ -96,6 +102,6 @@ export default {
 }
 
 .material-icons {
-  font-size: 12px;
+  font-size: 14px;
 }
 </style>

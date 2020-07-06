@@ -1,6 +1,7 @@
 import config from "src/../config"
 import bech32 from "bech32"
 import { NetworksAll } from "../../gql"
+import { getPolkadotAPI } from "../../../../common/polkadotApiConnector"
 
 const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
@@ -150,6 +151,10 @@ export default function ({ apollo }) {
       }
       commit("setAddressType", network.address_creator)
       dispatch(`checkForPersistedSession`) // check for persisted session on that network
+      if (network.network_type === `polkadot`) {
+        // we initialize the API on sign in so it is available when the user wants to use it
+        getPolkadotAPI(network)
+      }
       console.info(`Connecting to: ${network.id}`)
     },
   }

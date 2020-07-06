@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
-<sessionframe-stub>
+<sessionframe-stub
+  icon="language"
+>
   <tmformstruct-stub
     submit="function () { [native code] }"
     width=""
@@ -202,6 +204,7 @@ exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
       class="session-footer"
     >
       <tmbtn-stub
+        customclass=""
         value="Explore"
       />
     </div>
