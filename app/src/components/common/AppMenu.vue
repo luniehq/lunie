@@ -141,6 +141,9 @@
 </template>
 
 <script>
+import Address from "common/Address"
+import TmFormMsg from "common/TmFormMsg"
+import TmBtn from "src/components/common/TmBtn"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import { mapGetters, mapState } from "vuex"
 import { shortDecimals } from "scripts/num.js"
@@ -149,6 +152,9 @@ export default {
   name: `app-menu`,
   components: {
     ConnectedNetwork,
+    TmFormMsg,
+    Address,
+    TmBtn,
   },
   filters: {
     shortDecimals,
