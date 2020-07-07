@@ -32,16 +32,18 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
 }
 
 function escapeValue(value) {
-  if (!value) return `false`
-  if (typeof value === 'object') {
-    const clone = JSON.parse(JSON.stringify(value))
-    Object.keys(clone).forEach((key) => {
-      clone[key] = escapeValue(clone[key])
-    })
-    return JSON.stringify(clone)
-  } else if (typeof value === 'boolean') {
-    return escape(value)
-  } else {
+  try {
+    JSON.parse(value)
+    if (typeof JSON.parse(value) === 'object') {
+      const clone = JSON.parse(JSON.stringify(value))
+      Object.keys(clone).forEach((key) => {
+        clone[key] = escapeValue(clone[key])
+      })
+      return JSON.stringify(clone)
+    } else {
+      return `"${escape(value)}"`
+    }
+  } catch (error) {
     return `"${escape(value)}"`
   }
 }
