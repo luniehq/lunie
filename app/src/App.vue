@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     niteModeToggle() {
-      if (this.$el.classList[0] === `lunie-dark`) {
+      if (this.isNiteMode) {
         this.$el.classList = [this.network]
         this.isNiteMode = false
       } else {
