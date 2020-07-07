@@ -265,6 +265,7 @@ function transactionReducerV2(networkId, transaction, reducers) {
       ? otherMessages.concat(claimMessage) // add aggregated claim message
       : otherMessages
     const returnedMessages = allMessages.map(({ value, type }, index) => ({
+      id: transaction.txhash,
       type: reducers.getMessageType(type),
       hash: transaction.txhash,
       key: `${transaction.txhash}_${index}`,
@@ -312,6 +313,7 @@ function transactionsReducerV2(networkId, txs, reducers) {
 
 function delegationReducer(delegation, validator, active) {
   return {
+    id: delegation.validator_address,
     validatorAddress: delegation.validator_address,
     delegatorAddress: delegation.delegator_address,
     validator,
@@ -330,6 +332,7 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
   }
 
   return {
+    id: validator.operator_address,
     networkId,
     operatorAddress: validator.operator_address,
     consensusPubkey: validator.consensus_pubkey,

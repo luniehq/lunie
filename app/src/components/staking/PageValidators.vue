@@ -129,6 +129,7 @@ export default {
             activeOnly: $activeOnly
             popularSort: $popularSort
           ) {
+            id
             name
             operatorAddress
             consensusPubkey
@@ -167,13 +168,15 @@ export default {
     /* istanbul ignore next */
     delegations: {
       query: gql`
-        query Delegations($networkId: String!, $delegatorAddress: String!) {
+        query delegations($networkId: String!, $delegatorAddress: String!) {
           delegations(
             networkId: $networkId
             delegatorAddress: $delegatorAddress
           ) {
+            id
             amount
             validator {
+              id
               operatorAddress
             }
           }

@@ -15,6 +15,7 @@ export const schemaMap = {
 }
 
 export const ValidatorFragment = `
+  id
   name
   operatorAddress
   consensusPubkey
@@ -65,8 +66,9 @@ export const DelegatorValidators = (schema) => gql`
 `
 
 export const DelegationsForDelegator = (schema) => gql`
-  query Delegations($delegatorAddress: String!) {
+  query delegations($delegatorAddress: String!) {
     delegations(networkId: "${schema}", delegatorAddress: $delegatorAddress) {
+      id
       validator {
         ${ValidatorFragment}
       }
@@ -197,6 +199,7 @@ query vote($proposalId: Int!, $address: String!) {
 export const Block = (networkId) => gql`
 query Block {
   block(networkId: "${networkId}") {
+    id
     height
     chainId
   }

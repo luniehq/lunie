@@ -227,6 +227,7 @@ const startNotificationService = (networks) => {
       const notificationResponse =
         response.data.insert_notifications.returning[0]
       const notification = {
+        id: notificationResponse.id,
         networkId: event.networkId,
         timestamp: notificationResponse.created_at,
         title: getMessageTitle(networks, notificationResponse),
@@ -264,6 +265,7 @@ const getNotifications = (networks) => async (
   )
 
   const notifications = relevantNotifications.map((notification) => ({
+    id: notification.id, // used for correctly handling cache in Apollo
     networkId: notification.networkId, // used for filtering per network
     timestamp: notification.created_at, // used for grouping / sorting
     title: getMessageTitle(networks, notification), // title of notification

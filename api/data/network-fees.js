@@ -176,7 +176,15 @@ const kavaGasPrices = [
   {
     denom: 'ukava',
     price: '0.1'
-  }
+  },
+  {
+    denom: 'usdx',
+    price: '0.1'
+  },
+  {
+    denom: 'ubnb',
+    price: '0.1'
+  },
 ]
 
 const akashGasPrices = [
