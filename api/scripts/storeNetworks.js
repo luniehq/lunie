@@ -1,10 +1,10 @@
 const Sentry = require('@sentry/node')
 const database = require('../lib/database')
 const config = require('../config')
-const networks = require('../data/networks')
 
 async function storeNetworks() {
     try {
+        const networks = await database(config)("").getNetworks()
         await Promise.all(
             networks.map(network => {
                 // prepare network with the format we are going to store it in public/networks

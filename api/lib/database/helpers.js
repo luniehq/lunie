@@ -11,11 +11,12 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
     body: JSON.stringify({
       query
     })
-  }).then((res) => res.json())
-  .catch(error => {
-    console.error(error, query)
-    throw new Error('GraphQL query failed')
   })
+    .then((res) => res.json())
+    .catch((error) => {
+      console.error(error, query)
+      throw new Error('GraphQL query failed')
+    })
 
   if (data.errors || data.error) {
     console.error('Query failed:', query)
@@ -31,13 +32,15 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
 }
 
 function escapeValue(value) {
-  if (!value) return `""`
+  if (!value) return `false`
   if (typeof value === 'object') {
     const clone = JSON.parse(JSON.stringify(value))
     Object.keys(clone).forEach((key) => {
       clone[key] = escapeValue(clone[key])
     })
     return JSON.stringify(clone)
+  } else if (typeof value === 'boolean') {
+    return escape(value)
   } else {
     return `"${escape(value)}"`
   }
