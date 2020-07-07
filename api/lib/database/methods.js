@@ -352,10 +352,13 @@ const getUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
 const storeStore = ({ hasura_url, hasura_admin_key }) => () => async (
   payload
 ) => {
-  await insert({
-    hasura_url,
-    hasura_admin_key
-  })('')(`storeCaches`, payload, undefined, undefined, [`networkId`])
+  await insert(
+    {
+      hasura_url,
+      hasura_admin_key
+    },
+    true
+  )('')(`storeCaches`, payload, undefined, undefined, [`networkId`])
 }
 
 const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
