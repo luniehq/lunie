@@ -221,7 +221,7 @@ const startNotificationService = (networks) => {
         resourceType: event.resourceType,
         resourceId: event.resourceId,
         networkId: event.networkId,
-        data: JSON.stringify(event.properties)
+        data: event.properties
       })
 
       const notificationResponse =

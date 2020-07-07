@@ -98,6 +98,7 @@ export default ({ apollo }) => {
     },
     // TODO: it should only run on sign up
     async updateProfilePicture() {
+      const Auth = (await getFirebase()).auth()
       try {
         const user = Auth.currentUser
         await user.updateProfile({

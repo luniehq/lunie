@@ -268,7 +268,7 @@ async function main() {
 
   console.log("Getting rewards from era:", currentEra || 'latest')
 
-  const networks = require('../data/networks')
+  const networks = await database(config)("").getNetworks()
   const network = networks.find(({ id }) => id === networkId)
   const PolkadotApiClass = require('../lib/' + network.source_class_name)
   const store = {}
