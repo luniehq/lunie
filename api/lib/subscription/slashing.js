@@ -4,10 +4,10 @@ const database = require('../database')
 const config = require('../../config')
 
 class SlashingMonitor {
-  constructor(networkId, rpcEndpoint, store) {
-    this.networkId = networkId
-    this.client = new Tendermint(networkId, rpcEndpoint)
-    this.store = store
+  constructor(network, {api}) {
+    this.network = network
+    this.client = new Tendermint(network.id, network.rpc_url || network.public_rpc_url)
+    this.api = api
   }
 
   // to prevent adding a slash twice we filter the slashes
@@ -19,7 +19,10 @@ class SlashingMonitor {
             networkId: this.networkId,
             operatorAddress: address,
             reason: tendermintResponse.events['slash.reason'][index],
-            amount: tendermintResponse.events['slash.power'][index], // on chain value. convert to Lunie value?
+            amount: api.reducers.coinReducer({
+              amount: tendermintResponse.events['slash.power'][index],
+              denom: this.network.stakingDenom
+            }),
             height: tendermintResponse.height || tendermintResponse.data.value.header.height
           }))
           .filter(({ reason }) => reason === filterReason)
