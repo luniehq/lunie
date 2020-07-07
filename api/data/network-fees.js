@@ -181,7 +181,7 @@ const kavaGasPrices = [
 
 const akashGasPrices = [
   {
-    denom: 'uakt',
+    denom: 'akash',
     price: '0.25'
   }
 ]
