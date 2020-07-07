@@ -1,4 +1,4 @@
-const { read, insert } = require('./helpers')
+const { read, insert, query } = require('./helpers')
 
 const incrementValidatorViews = ({
   hasura_url,
@@ -92,6 +92,194 @@ const getNotifications = ({ hasura_url, hasura_admin_key }) => (
       topic: {_in: [${topics.map((topic) => `"${topic}"`)}]},
       created_at: {_lt: "${timestamp}"}
     } limit: ${limit}, order_by: {created_at: desc}`
+  )
+}
+
+const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
+  const {
+    data: { networks, networksCapabilities, coinLookups }
+  } = await query({
+    hasura_url,
+    hasura_admin_key
+  })(`
+    query {
+      networks: networks {
+        id
+        enabled
+        experimental
+        title
+        chain_id
+        rpc_url
+        api_url
+        bech32_prefix
+        testnet
+        default
+        stakingDenom
+        address_prefix
+        address_creator
+        ledger_app
+        network_type
+        source_class_name
+        block_listener_class_name
+        icon
+        slug
+        lockUpPeriod
+        powered
+        erasPerDay
+      }
+      networksCapabilities: networksCapabilities {
+        id
+        feature_session
+        feature_explore
+        feature_portfolio
+        feature_validators
+        feature_proposals 
+        feature_activity
+        feature_explorer
+        action_send
+        action_claim_rewards
+        action_delegate
+        action_redelegate
+        action_undelegate
+        action_deposit
+        action_vote
+        action_proposal
+      }
+      coinLookups: coinLookups {
+        id
+        chainDenom
+        viewDenom
+        chainToViewConversionFactor
+      }
+    }
+  `)
+  const allNetworks = networks.map((network) => ({
+    ...network,
+    ...networksCapabilities.find(({ id }) => id === network.id),
+    coinLookup: coinLookups.filter(({ id }) => id === network.id)
+  }))
+  // if the RUN_ONLY_NETWORK env variable is set, we only run the especified network
+  if (process.env.RUN_ONLY_NETWORK) {
+    return allNetworks.filter(({ id }) => id === process.env.RUN_ONLY_NETWORK)
+  }
+  return allNetworks
+}
+
+const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
+  const {
+    data: { networks, networksCapabilities, coinLookups }
+  } = await query({
+    hasura_url,
+    hasura_admin_key
+  })(`
+    query {
+      networks: networks(where: { 
+        id: {_eq: "${id}"}
+      }) {
+        id
+        enabled
+        experimental
+        title
+        chain_id
+        rpc_url
+        api_url
+        bech32_prefix
+        testnet
+        default
+        stakingDenom
+        address_prefix
+        address_creator
+        ledger_app
+        network_type
+        source_class_name
+        block_listener_class_name
+        icon
+        slug
+        lockUpPeriod
+        powered
+        public_rpc_url
+      }
+      networksCapabilities: networksCapabilities(where: { 
+        id: {_eq: "${id}"}
+      }) {
+        id
+        feature_session
+        feature_explore
+        feature_portfolio
+        feature_validators
+        feature_proposals 
+        feature_activity
+        feature_explorer
+        action_send
+        action_claim_rewards
+        action_delegate
+        action_redelegate
+        action_undelegate
+        action_deposit
+        action_vote
+        action_proposal
+      }
+      coinLookups: coinLookups(where: { 
+        id: {_eq: "${id}"}
+      }) {
+        id
+        chainDenom
+        viewDenom
+        chainToViewConversionFactor
+      }
+    }
+  `)
+  const network = networks[0]
+  return {
+    ...network,
+    ...networksCapabilities[0],
+    coinLookup: coinLookups
+  }
+}
+
+const storeCoinLookups = (
+  hasura_url,
+  hasura_admin_key,
+  schema,
+  coinLookups
+) => {
+  return Promise.all(
+    coinLookups.map((coinLookup) => {
+      return insert(
+        {
+          hasura_url,
+          hasura_admin_key
+        },
+        true
+      )(schema)(`coinLookups`, coinLookup)
+    })
+  )
+}
+
+const storeNetwork = ({ hasura_url, hasura_admin_key }) => (schema) => async (
+  payload
+) => {
+  return (
+    await insert(
+      {
+        hasura_url,
+        hasura_admin_key
+      },
+      true
+    )(schema)(`networks`, payload[`network`]),
+    await storeCoinLookups(
+      hasura_url,
+      hasura_admin_key,
+      schema,
+      payload[`coinLookups`]
+    ),
+    await insert(
+      {
+        hasura_url,
+        hasura_admin_key
+      },
+      true
+    )(schema)(`networksCapabilities`, payload[`networksCapabilities`])
   )
 }
 
@@ -192,6 +380,9 @@ module.exports = {
   storeStatistics,
   storeNotification,
   getNotifications,
+  storeNetwork,
+  getNetwork,
+  getNetworks,
   storeUser,
   getUser,
   storeStore,

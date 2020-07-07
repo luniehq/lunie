@@ -79,6 +79,7 @@ export default {
     ...mapGetters([`networkSlug`]),
   },
   methods: {
+    /* istanbul ignore next */
     close() {
       this.$router.push({
         name: "portfolio",

@@ -152,16 +152,15 @@ export default {
       },
       /* istanbul ignore next */
       update: function (result) {
+        /* istanbul ignore next */
         if (!Array.isArray(result.validators)) {
           return []
         }
 
         this.loaded = true
-
+        /* istanbul ignore next */
         return this.activeOnly
-          ? result.validators.filter(
-              ({ name, operatorAddress }) => name !== operatorAddress
-            )
+          ? result.validators.filter(({ status }) => status === `ACTIVE`)
           : result.validators
       },
     },

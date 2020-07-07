@@ -7,6 +7,61 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.217] - 2020-07-06
+
+### Added
+
+- [#4275](https://github.com/cosmos/lunie/pull/4275) Adds the user menu with the new sign in and sign out logic  @team
+- [#4430](https://github.com/cosmos/lunie/issues/4430) Upgrade @polkadot/api to v1.23.1 @mariopino
+
+### Fixed
+
+- [#4426](https://github.com/cosmos/lunie/issues/4426) Fix Polkadot expectedRewards being shown as NaN @Bitcoinera
+- [#4432](https://github.com/cosmos/lunie/issues/4432) Fix addressObjects being invalid NotificationInput type @Bitcoinera
+- [#4376](https://github.com/cosmos/lunie/pull/4376) Fix many little old Polkadot-related bugs such as reward.filter, filterStakingDenomReward... @Bitcoinera
+- [#4428](https://github.com/cosmos/lunie/pull/4428) Fix the network ordering by using the default field @Bitcoinera
+- [#4421](https://github.com/cosmos/lunie/pull/4421) Fixes icon circle showing on SessionFrame when no icon @Bitcoinera
+- [#4421](https://github.com/cosmos/lunie/pull/4421) Fixes TmSelectNetwork leaving networks out in the Sign Up/Create account flow @Bitcoinera
+- Deploy app in develop on every change @faboweb
+- [#4406](https://github.com/cosmos/lunie/issues/4406) Fix wrong lockup period in susbtrate networks @mariopino
+
+### Code Improvements
+
+- [#4369](https://github.com/cosmos/lunie/issues/4369) Refactor connecting to polkadot API directly on network connection and saving it to store (connection) @Bitcoinera
+
+### Repository
+
+- Removing Capacitor libraries to only add them when actually building the apps @faboweb
+
+## [1.0.216] - 2020-07-02
+
+### Changed
+
+- [#4326](https://github.com/cosmos/lunie/issues/4326) Add tests for all the new account components and module @Bitcoinera
+
+### Security
+
+- Updated Polkadot @faboweb
+
+## [1.0.215] - 2020-06-30
+
+### Added
+
+- [#4281](https://github.com/cosmos/lunie/issues/4281) Add polkadot testnet network (Westend) @mariopino
+
+### Changed
+
+- [#4149](https://github.com/cosmos/lunie/issues/4149) Adds the user authentication token to ApolloClient @Bitcoinera
+- [#4372](https://github.com/cosmos/lunie/pull/4372) Add TmDataLoading to PageNotifications and a spinner for the dynamic notifications loading @Bitcoinera
+- [#4372](https://github.com/cosmos/lunie/pull/4372) Hide 0 fiat values in TmBalance @Bitcoinera
+- [#4361](https://github.com/cosmos/lunie/pull/4361) Add Kava token icons for BNB and USDX @Bitcoinera
+- [#4377](https://github.com/cosmos/lunie/pull/4377) Update polkadot api to v1.21.1 @Bitcoinera
+- Add develop preview and change to nice URLs @faboweb
+
+### Code Improvements
+
+- Optimize initial loading of the app by splitting dependencies @faboweb
+
 ## [1.0.214] - 2020-06-23
 
 ### Added

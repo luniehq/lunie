@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountList should show the AccountList page 1`] = `
+<div>
+  <ul
+    class="account-list"
+  />
+</div>
+`;

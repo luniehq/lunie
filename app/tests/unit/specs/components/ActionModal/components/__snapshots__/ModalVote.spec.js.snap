@@ -22,6 +22,7 @@ exports[`ModalVote should display vote modal form 1`] = `
       <tmbtn-stub
         class=""
         color="secondary"
+        customclass=""
         id="vote-yes"
         size="md"
         value="Yes"
@@ -30,6 +31,7 @@ exports[`ModalVote should display vote modal form 1`] = `
       <tmbtn-stub
         class=""
         color="secondary"
+        customclass=""
         id="vote-veto"
         size="md"
         value="No With Veto"
@@ -40,6 +42,7 @@ exports[`ModalVote should display vote modal form 1`] = `
       <tmbtn-stub
         class=""
         color="secondary"
+        customclass=""
         id="vote-no"
         size="md"
         value="No"
@@ -48,6 +51,7 @@ exports[`ModalVote should display vote modal form 1`] = `
       <tmbtn-stub
         class=""
         color="secondary"
+        customclass=""
         id="vote-abstain"
         size="md"
         value="Abstain"

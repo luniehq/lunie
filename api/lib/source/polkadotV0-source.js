@@ -1,8 +1,7 @@
 const BigNumber = require('bignumber.js')
-const { uniqWith, uniq } = require('lodash')
+const { uniqWith } = require('lodash')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
-const ERAS_PER_DAY = 4 // Kusama, 3 eras per day for Polkadot
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
 
@@ -298,7 +297,7 @@ class polkadotAPI {
       )
       const annualizedValidatorReward = estimatedPayout
         .multipliedBy(this.network.coinLookup[0].chainToViewConversionFactor)
-        .multipliedBy(ERAS_PER_DAY)
+        .multipliedBy(this.network.erasPerDay)
         .multipliedBy(365)
         .toFixed(6)
       expectedReturns[validator] = annualizedValidatorReward
@@ -378,19 +377,11 @@ class polkadotAPI {
     return rewards
   }
 
-  // returns all addresses that have bonded funds except validators and intentions
+  // returns all active delegators
   async getAllDelegators() {
     const api = await this.getAPI()
-    const allBondedKeys = await api.query.staking.bonded.keys()
-    const allStashAddresses = JSON.parse(
-      JSON.stringify(await api.derive.staking.stashes())
-    )
-    const allDelegators = allBondedKeys
-      .map((address) => {
-        return address.toHuman()[0]
-      })
-      .filter((address) => !allStashAddresses.includes(address)) // Filter validators and intentions
-    return uniq(allDelegators)
+    const delegators = await api.query.staking.nominators.entries()
+    return delegators.map(([address]) => address.toHuman()[0])
   }
 
   async getOverview(delegatorAddress, validatorsDictionary, fiatCurrency) {

@@ -1,5 +1,5 @@
 import config from "src/../config"
-import { Intercom } from "capacitor-intercom"
+import { Intercom } from "@capacitor-community/intercom"
 
 let intercom = null
 /* istanbul ignore next */

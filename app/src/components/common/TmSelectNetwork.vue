@@ -34,3 +34,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.select-network {
+  overflow: auto;
+}
+</style>

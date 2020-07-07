@@ -17,6 +17,7 @@ const EXPECTED_MAX_BLOCK_WINDOW = 120000
 // if we don't do this, we run into errors as the data is not yet available
 const COSMOS_DB_DELAY = 2000
 const PROPOSAL_POLLING_INTERVAL = 600000 // 10min
+const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
@@ -33,6 +34,8 @@ class CosmosNodeSubscription {
 
     if (network.feature_proposals === 'ENABLED') this.pollForProposalChanges()
     this.pollForNewBlock()
+    // start one minute loop to update networks
+    this.pollForUpdateNetworks()
   }
 
   async pollForProposalChanges() {
@@ -48,6 +51,14 @@ class CosmosNodeSubscription {
 
       this.pollForProposalChanges()
     }, PROPOSAL_POLLING_INTERVAL)
+  }
+
+  async pollForUpdateNetworks() {
+    // gives us the control to modify network parameters
+    this.store.updateNetworkFromDB()
+    this.updateNetworksPollingTimeout = setTimeout(async () => {
+      this.pollForUpdateNetworks()
+    }, UPDATE_NETWORKS_POLLING_INTERVAL)
   }
 
   async checkProposals(cosmosAPI) {

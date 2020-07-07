@@ -20,12 +20,14 @@ exports[`AccountList has the expected html structure 1`] = `
            
           <address-stub
             address="cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"
+            tooltiptext=""
           />
         </div>
          
         <tmbtn-stub
           class="account-button"
           color="primary"
+          customclass=""
           value="Button Text"
         />
          
@@ -55,12 +57,14 @@ exports[`AccountList has the expected html structure 1`] = `
            
           <address-stub
             address="cosmos1ek9cd8ewgxgyoyocolinyo4aaxaruvcw4v9e"
+            tooltiptext=""
           />
         </div>
          
         <tmbtn-stub
           class="account-button"
           color="primary"
+          customclass=""
           value="Button Text"
         />
          

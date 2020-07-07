@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame>
+  <SessionFrame :icon="`language`">
     <TmFormStruct :submit="onSubmit">
       <h2 class="session-title bottom-indent">Explore with any address</h2>
 
@@ -34,7 +34,7 @@
       <div class="session-main">
         <TmFormGroup field-id="sign-in-name" field-label="Your Address">
           <TmField
-            v-model="address"
+            v-model.trim="address"
             type="text"
             placeholder
             vue-focus="vue-focus"

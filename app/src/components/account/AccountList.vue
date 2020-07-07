@@ -82,7 +82,7 @@ export default {
   margin-top: 1em;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 0.5rem;
   background: var(--app-fg);
   border-radius: 0.25rem;
   border: 2px solid var(--bc-dim);
@@ -95,7 +95,7 @@ export default {
 }
 
 .account.open {
-  transform: translate(-5rem);
+  transform: translate(-3rem);
 }
 
 .account h3 {

@@ -7,6 +7,74 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.34] - 2020-07-06
+
+### Added
+
+- Store validator keybase hash and twitter handle @faboweb
+- [#4430](https://github.com/cosmos/lunie/issues/4430) Upgrade @polkadot/api to v1.23.1 @mariopino
+
+### Changed
+
+- [#4373](https://github.com/cosmos/lunie/pull/4373) Use Polkadot connection script @faboweb
+- [#4235](https://github.com/cosmos/lunie/pull/4235) Enabled field in network can be overwritten by its value on DB table "networks"  @Bitcoinera
+
+### Fixed
+
+- Pass networks to getNotifications @faboweb
+- [#4400](https://github.com/cosmos/lunie/issues/4400) Fix all delegators query in polkadot @mariopino
+
+## [1.0.33] - 2020-07-02
+
+### Added
+
+- Store slashes in DB @faboweb
+
+### Changed
+
+- Remove Polkadot API disconnection as memory leak has been fixed @faboweb
+- Switch to Pengs node for Cosmos Hub @faboweb
+
+### Fixed
+
+- [#4402](https://github.com/cosmos/lunie/issues/4402) Fix annualizedValidatorReward in Polkadot mainnet @mariopino
+- [#4406](https://github.com/cosmos/lunie/issues/4406) Fix polkadot testnet (westend) lock-up period @mariopino
+
+## [1.0.32] - 2020-07-02
+
+### Fixed
+
+- Updated Polkadot @faboweb
+
+## [1.0.31] - 2020-06-30
+
+### Changed
+
+- [#4377](https://github.com/cosmos/lunie/pull/4377) Update polkadot api to v1.21.1 @Bitcoinera
+
+### Repository
+
+- [#4375](https://github.com/cosmos/lunie/pull/4375) Release of API v1.0.30 @Bitcoinera
+
+## [1.0.30] - 2020-06-26
+
+### Added
+
+- [#4281](https://github.com/cosmos/lunie/issues/4281) Add polkadot testnet network (Westend) @mariopino
+
+### Changed
+
+- [#4361](https://github.com/cosmos/lunie/pull/4361) Add Kava tokens to fiat values API @Bitcoinera
+
+### Fixed
+
+- [#4374](https://github.com/cosmos/lunie/pull/4374) Fix the networks icons links for the new polkadot networks @Bitcoinera
+- [#4364](https://github.com/cosmos/lunie/pull/4364) Fix the publish flow @Bitcoinera
+
+### Code Improvements
+
+- [#4360](https://github.com/cosmos/lunie/pull/4360) Handle CoinGecko timeouts @Bitcoinera
+
 ## [1.0.29] - 2020-06-24
 
 ### Added

@@ -165,6 +165,8 @@ const typeDefs = gql`
     slug: String
     powered: Powered
     lockUpPeriod: String
+    erasPerDay: Int!
+    source_class_name: String!
   }
 
   type Delegation {
