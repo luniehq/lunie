@@ -121,7 +121,7 @@ const read = ({ hasura_url, hasura_admin_key }) => (schema) => async (
     const res = await graphQLQuery({ hasura_url, hasura_admin_key })(query)
     return res.data[`${schema_prefix}${table}`]
   } catch (error) {
-    console.error("DB read failed for query", query, error)
+    console.error('DB read failed for query', query, error)
     Sentry.withScope(function (scope) {
       scope.setExtra('query', query)
       Sentry.captureException(error)

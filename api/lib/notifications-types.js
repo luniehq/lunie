@@ -27,7 +27,7 @@ const eventTypes = {
 
   /* Slashes */
   SLASH: 'slash',
-  LIVENESS: 'liveness',
+  LIVENESS: 'liveness'
 }
 
 const resourceTypes = {
