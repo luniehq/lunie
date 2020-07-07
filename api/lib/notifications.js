@@ -12,13 +12,7 @@ const database = require('./database')
 const config = require('../config.js')
 
 function getMessageTitle(networks, notification) {
-  // Need to decode JSOn string from Hasura as it escapes strings
-  // e.g. a quote " is represented as &quot; - need to reverse this with the below operation
-  // second replace statement helps to remove line breaks from descriptions (for proposals) that cause JSON.parse to fail
-  // Regex used: line break varies between operating system encodings. Windows would be \r\n, but Linux just uses \n and Apple uses \r.
-  const data = JSON.parse(
-    notification.data.replace(/&quot;/g, '"').replace(/(\r\n|\n|\r)/gm, ' ')
-  )
+  const data = JSON.parse(notification.data)
   switch (notification.eventType) {
     case eventTypes.TRANSACTION_RECEIVE:
       return `You have received ${data.details.amount.amount} ${
