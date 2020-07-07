@@ -6,10 +6,10 @@ describe("database helpers", () => {
             expect(escapeValue(true)).toBe(true)
         })
         it("string", () => {
-            expect(escapeValue("HALLO WORLD")).toBe("HALLO WORLD")
+            expect(escapeValue("HALLO WORLD")).toBe(`"HALLO WORLD"`)
         })
         it("malicious string", () => {
-            expect(escapeValue("<script></script>")).toBe("&lt;script&gt;&lt;/script&gt;")
+            expect(escapeValue("<script></script>")).toBe(`"&lt;script&gt;&lt;/script&gt;"`)
         })
         it("number", () => {
             expect(escapeValue(42)).toBe(42)
@@ -19,6 +19,9 @@ describe("database helpers", () => {
         })
         it("null", () => {
             expect(gqlKeyValue(["x", undefined])).toBe(`x: ""`)
+        })
+        it("string top level", () => {
+            expect(gqlKeyValue(["x", "hallo world"])).toBe(`x: "hallo world"`)
         })
     })
 })

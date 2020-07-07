@@ -276,7 +276,7 @@ function enrichValidator(validatorInfo, validator) {
 
 async function storeStoreInDB(store) {
   await database(config)('').storeStore({
-    store: JSON.parse(JSON.stringify(dbStore)), // clone to remove any functions
+    store,
     networkId: store.network.id
   })
 }

@@ -32,16 +32,17 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
 }
 
 function escapeValue(value, nested = false) {
+  if (!value) return value // 
   const type = typeof value
   switch (type) {
-    case "string": return escape(value)
+    case "string": return nested ? escape(value) : `"${escape(value)}"`
     case "object": {
       const clone = JSON.parse(JSON.stringify(value))
       Object.keys(clone).forEach((key) => {
         clone[key] = escapeValue(clone[key], true)
       })
       // only stringify the top object not the nested ones
-      return nested ? clone : `"${JSON.stringify(clone)}"`
+      return nested ? clone : `"${JSON.stringify(clone).replace(/"/g, "'")}"`
     }
     default: return value
   }
