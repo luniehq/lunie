@@ -80,7 +80,7 @@ export default function ({ apollo }) {
         const substrateNetworks = await state.networks
           .filter(({ network_type }) => network_type === `polkadot`)
         for (let index = 0; index < substrateNetworks.length; index++) {
-          const network = substrateNetworks[i]
+          const network = substrateNetworks[index]
           if (await isValidPolkadotAddress(
             address,
             parseInt(network.address_prefix)
