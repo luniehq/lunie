@@ -11,11 +11,12 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
     body: JSON.stringify({
       query
     })
-  }).then((res) => res.json())
-  .catch(error => {
-    console.error(error, query)
-    throw new Error('GraphQL query failed')
   })
+    .then((res) => res.json())
+    .catch((error) => {
+      console.error(error, query)
+      throw new Error('GraphQL query failed')
+    })
 
   if (data.errors || data.error) {
     console.error('Query failed:', query)
@@ -30,16 +31,20 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
   return data
 }
 
-function escapeValue(value) {
-  if (!value) return `""`
-  if (typeof value === 'object') {
-    const clone = JSON.parse(JSON.stringify(value))
-    Object.keys(clone).forEach((key) => {
-      clone[key] = escapeValue(clone[key])
-    })
-    return JSON.stringify(clone)
-  } else {
-    return `"${escape(value)}"`
+function escapeValue(value, nested = false) {
+  if (value === null || value === undefined) return nested ? value : `""`
+  const type = typeof value
+  switch (type) {
+    case "string": return nested ? escape(value) : `"${escape(value)}"`
+    case "object": {
+      const clone = JSON.parse(JSON.stringify(value))
+      Object.keys(clone).forEach((key) => {
+        clone[key] = escapeValue(clone[key], true)
+      })
+      // only stringify the top object not the nested ones
+      return nested ? clone : `"${JSON.stringify(clone).replace(/"/g, '\\"')}"`
+    }
+    default: return value
   }
 }
 
@@ -140,5 +145,7 @@ const read = ({ hasura_url, hasura_admin_key }) => (schema) => async (
 module.exports = {
   insert,
   read,
-  query: graphQLQuery
+  query: graphQLQuery,
+  escapeValue,
+  gqlKeyValue
 }
