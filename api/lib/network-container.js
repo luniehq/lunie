@@ -25,8 +25,8 @@ class NetworkContainer {
 
     if (network.network_type === 'cosmos')
       this.slashingMonitor = new SlashingMonitor(
-        network,
-        this.createDataSource()
+        network.id,
+        network.rpc_url || network.public_rpc_url
       )
   }
 
