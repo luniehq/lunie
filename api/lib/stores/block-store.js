@@ -1,6 +1,4 @@
 const { keyBy } = require('lodash')
-const fs = require('fs')
-const path = require('path')
 const _ = require('lodash')
 const Sentry = require('@sentry/node')
 const database = require('../database')
@@ -11,13 +9,6 @@ const { eventTypes, resourceTypes } = require('../notifications-types')
 class BlockStore {
   constructor(network, database) {
     this.network = network
-    this.validatorCachePath = path.join(
-      __dirname,
-      '..',
-      '..',
-      'caches',
-      `validators-${network.id}.json`
-    )
     this.latestHeight = 0
     this.block = {}
     this.stakingDenom = ''
@@ -36,8 +27,6 @@ class BlockStore {
     this.dataReady = new Promise(() => {
       this.getStore()
     })
-
-    this.loadStoredValidatorData()
   }
 
   async getStore() {
@@ -55,7 +44,7 @@ class BlockStore {
         this.newValidators = dbStore.newValidators
       }
       return true
-    } catch(error) {
+    } catch (error) {
       console.error(error)
     }
   }
@@ -80,9 +69,6 @@ class BlockStore {
         this.network.id
       )
 
-      // write file async
-      this.storeValidatorData(validators)
-
       // write validators to db to have all validators in the db to add pictures
       this.updateDBValidatorProfiles(validators)
 
@@ -103,39 +89,6 @@ class BlockStore {
     // }
     // save store in DB to improve API perfomance on startup
     storeStoreInDB(this)
-  }
-
-  /**
-   * Write all validators to file storage
-   * @param { Object } validators validatorMap
-   */
-  storeValidatorData(validators) {
-    if (!fs.existsSync(this.validatorCachePath)) {
-      fs.openSync(this.validatorCachePath, 'w')
-    }
-    fs.writeFile(this.validatorCachePath, JSON.stringify(validators), (err) => {
-      if (err) Sentry.captureException(err)
-    })
-  }
-
-  /**
-   * Load validator data from file storage
-   * Function gets triggered when store is created
-   */
-  loadStoredValidatorData() {
-    if (
-      !fs.existsSync(this.validatorCachePath) ||
-      fs.readFileSync(this.validatorCachePath, 'utf8') === ''
-    )
-      return {}
-
-    const validatorMap = JSON.parse(
-      fs.readFileSync(this.validatorCachePath, 'utf8')
-    )
-
-    // Set validator store equal to validatorMap from file storage
-    this.validators = validatorMap
-    // this.resolveReady()
   }
 
   // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
