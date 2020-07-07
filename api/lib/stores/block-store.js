@@ -20,32 +20,29 @@ class BlockStore {
     this.db = database
 
     // system to stop queries to proceed if store data is not yet available
-    // this.resolveReady
-    // this.dataReady = new Promise((resolve) => {
-    //   this.resolveReady = resolve
-    // })
-    this.dataReady = new Promise(() => {
-      this.getStore()
+    this.dataReady = new Promise((resolve) => {
+      this.resolveReady = resolve
+    })
+    this.dataReady.then(() => {
+      console.log(this.network.id, "is ready")
+    })
+    this.getStore().then((foundStore) => {
+      if (foundStore) this.resolveReady()
     })
   }
 
   async getStore() {
     try {
-      const { store } = await database(config)('').getStore(this.network.id)
-      if (store) {
-        const dbStore = JSON.parse(store)
-        this.latestHeight = dbStore.latestHeight
-        this.block = dbStore.block
-        this.stakingDenom = dbStore.stakingDenom
-        this.annualProvision = dbStore.annualProvision
-        this.signedBlocksWindow = dbStore.signedBlocksWindow
-        this.validators = dbStore.validators
-        this.proposals = dbStore.proposals
-        this.newValidators = dbStore.newValidators
+      const result = await database(config)('').getStore(this.network.id)
+      if (result) {
+        const dbStore = JSON.parse(result.store)
+        Object.assign(this, dbStore)
       }
       return true
     } catch (error) {
       console.error(error)
+      Sentry.captureException(error)
+      return false
     }
   }
 
@@ -275,8 +272,11 @@ function enrichValidator(validatorInfo, validator) {
 }
 
 async function storeStoreInDB(store) {
+  const clone = JSON.parse(JSON.stringify(store))
+  delete clone.db
+  delete clone.network
   await database(config)('').storeStore({
-    store,
+    store: clone,
     networkId: store.network.id
   })
 }

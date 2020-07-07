@@ -42,7 +42,7 @@ function escapeValue(value, nested = false) {
         clone[key] = escapeValue(clone[key], true)
       })
       // only stringify the top object not the nested ones
-      return nested ? clone : `"${JSON.stringify(clone).replace(/"/g, "'")}"`
+      return nested ? clone : `"${JSON.stringify(clone).replace(/"/g, `\\"`)}"`
     }
     default: return value
   }
