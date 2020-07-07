@@ -275,17 +275,8 @@ function enrichValidator(validatorInfo, validator) {
 }
 
 async function storeStoreInDB(store) {
-  let dbStore = {}
-  dbStore.latestHeight = store.latestHeight
-  dbStore.block = store.block
-  dbStore.stakingDenom = store.stakingDenom
-  dbStore.annualProvision = store.annualProvision
-  dbStore.signedBlocksWindow = store.signedBlocksWindow
-  dbStore.validators = store.validators
-  dbStore.proposals = store.proposals
-  dbStore.newValidators = store.newValidators
   await database(config)('').storeStore({
-    store: JSON.stringify(dbStore),
+    store: JSON.parse(JSON.stringify(dbStore)), // clone to remove any functions
     networkId: store.network.id
   })
 }

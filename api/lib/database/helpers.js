@@ -31,26 +31,25 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
   return data
 }
 
-function escapeValue(value) {
-  try {
-    JSON.parse(value)
-    if (typeof JSON.parse(value) === 'object') {
+function escapeValue(value, nested = false) {
+  const type = typeof value
+  switch (type) {
+    case "string": return escape(value)
+    case "object": {
       const clone = JSON.parse(JSON.stringify(value))
       Object.keys(clone).forEach((key) => {
-        clone[key] = escapeValue(clone[key])
+        clone[key] = escapeValue(clone[key], true)
       })
-      return JSON.stringify(clone)
-    } else {
-      return `"${escape(value)}"`
+      // only stringify the top object not the nested ones
+      return nested ? clone : `"${JSON.stringify(clone)}"`
     }
-  } catch (error) {
-    return `"${escape(value)}"`
+    default: return value
   }
 }
 
 function gqlKeyValue([key, value]) {
   // escape all values but handle objects gracefully
-  return `${key}: ${escapeValue(value)}`
+  return `${key}: ${value ? escapeValue(value) : `""`}`
 }
 
 // stringify a set of row to be according to the graphQL schema
@@ -145,5 +144,7 @@ const read = ({ hasura_url, hasura_admin_key }) => (schema) => async (
 module.exports = {
   insert,
   read,
-  query: graphQLQuery
+  query: graphQLQuery,
+  escapeValue,
+  gqlKeyValue
 }
