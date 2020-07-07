@@ -3,9 +3,12 @@ const database = require('../database')
 const config = require('../../config')
 
 class SlashingMonitor {
-  constructor(network, {api}) {
+  constructor(network, { api }) {
     this.network = network
-    this.client = new Tendermint(network.id, network.rpc_url || network.public_rpc_url)
+    this.client = new Tendermint(
+      network.id,
+      network.rpc_url || network.public_rpc_url
+    )
     this.api = api
   }
 
