@@ -41,19 +41,23 @@ class BlockStore {
   }
 
   async getStore() {
-    const { data } = await database(config)('').getStore(this.network.id)
-    if (data && data.store) {
-      const dbStore = JSON.parse(data.store)
-      this.latestHeight = dbStore.latestHeight
-      this.block = dbStore.block
-      this.stakingDenom = dbStore.stakingDenom
-      this.annualProvision = dbStore.annualProvision
-      this.signedBlocksWindow = dbStore.signedBlocksWindow
-      this.validators = dbStore.validators
-      this.proposals = dbStore.proposals
-      this.newValidators = dbStore.newValidators
+    try {
+      const { store } = await database(config)('').getStore(this.network.id)
+      if (store) {
+        const dbStore = JSON.parse(store)
+        this.latestHeight = dbStore.latestHeight
+        this.block = dbStore.block
+        this.stakingDenom = dbStore.stakingDenom
+        this.annualProvision = dbStore.annualProvision
+        this.signedBlocksWindow = dbStore.signedBlocksWindow
+        this.validators = dbStore.validators
+        this.proposals = dbStore.proposals
+        this.newValidators = dbStore.newValidators
+      }
+      return true
+    } catch(error) {
+      console.error(error)
     }
-    return true
   }
 
   async update({

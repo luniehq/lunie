@@ -362,7 +362,7 @@ const storeStore = ({ hasura_url, hasura_admin_key }) => () => async (
 }
 
 const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
-  return await read({
+  const data = await read({
     hasura_url,
     hasura_admin_key
   })('')(
@@ -373,6 +373,7 @@ const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
       networkId: {_eq: "${id}"}
     }`
   )
+  return data[0]
 }
 
 module.exports = {
