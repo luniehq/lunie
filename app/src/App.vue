@@ -8,13 +8,15 @@
         <MaintenanceBar />
         <DisconnectedBar />
       </div>
-      <TmBtn
-        id="niteModeBtn"
-        value="NITE"
-        type="secondary"
-        @click.native="niteModeToggle()"
-      />
-      <UserMenu v-if="!isMobileApp && session.experimentalMode" />
+      <div class="user-controls">
+        <TmBtn
+          id="niteModeBtn"
+          :value="isNiteMode ? `☀️ DayMode` : `🌜 NiteMode`"
+          type="secondary"
+          @click.native="niteModeToggle()"
+        />
+        <UserMenu v-if="!isMobileApp && session.experimentalMode" />
+      </div>
       <router-view name="session" />
       <router-view />
     </div>
@@ -46,6 +48,9 @@ export default {
     NetworkSelector,
     TmBtn,
   },
+  data: () => ({
+    isNiteMode: false,
+  }),
   computed: {
     ...mapState([`notifications`, `session`]),
     ...mapGetters([`network`]),
@@ -57,8 +62,10 @@ export default {
     niteModeToggle() {
       if (this.$el.classList[0] === `lunie-dark`) {
         this.$el.classList = [this.network]
+        this.isNiteMode = false
       } else {
         this.$el.classList = [`lunie-dark`]
+        this.isNiteMode = true
       }
     },
   },
@@ -68,4 +75,15 @@ export default {
 
 <style>
 @import "./styles/app.css";
+
+.user-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#niteModeBtn {
+  width: 4rem;
+  margin-left: 1rem;
+}
 </style>
