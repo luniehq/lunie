@@ -81,10 +81,10 @@ export default function ({ apollo }) {
           .filter(({ network_type }) => network_type === `polkadot`)
         for (let index = 0; index < substrateNetworks.length; index++) {
           const network = substrateNetworks[index]
-          if (await isValidPolkadotAddress(
+          if ((await isValidPolkadotAddress(
             address,
             parseInt(network.address_prefix)
-          )[0]) {
+          ))[0]) {
             selectedNetwork = network
             break
           }
