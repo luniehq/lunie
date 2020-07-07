@@ -22,6 +22,13 @@ export default (store) => {
       },
     },
     {
+      path: `/paywall`,
+      name: `paywall`,
+      components: {
+        session: () => import(`./components/account/Paywall`),
+      },
+    },
+    {
       path: `/notifications`,
       name: `notifications`,
       components: {

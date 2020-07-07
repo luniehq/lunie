@@ -142,19 +142,19 @@
 
 <script>
 import Address from "common/Address"
-import ConnectedNetwork from "common/TmConnectedNetwork"
-import TmBtn from "common/TmBtn"
 import TmFormMsg from "common/TmFormMsg"
+import TmBtn from "src/components/common/TmBtn"
+import ConnectedNetwork from "common/TmConnectedNetwork"
 import { mapGetters, mapState } from "vuex"
 import { shortDecimals } from "scripts/num.js"
 import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `app-menu`,
   components: {
-    Address,
     ConnectedNetwork,
-    TmBtn,
     TmFormMsg,
+    Address,
+    TmBtn,
   },
   filters: {
     shortDecimals,
