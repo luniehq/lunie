@@ -1,0 +1,1 @@
+[Fixed] Disable store caching as it seems to slow down the API @faboweb
