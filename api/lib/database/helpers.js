@@ -45,7 +45,7 @@ function escapeValue(value) {
   } else if (typeof value === 'number') {
     return value
   } else {
-    return escape(value)
+    return escape(value).replace(/amp;/g,"")
   }
 }
 
