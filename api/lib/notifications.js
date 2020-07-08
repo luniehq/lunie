@@ -230,7 +230,7 @@ const startNotificationService = (networks) => {
         }
         publishNotificationAdded(notification, topic)
       } catch (error) {
-        console.error(error, notification)
+        console.error(error, notificationResponse)
         Sentry.withScope(function (scope) {
           scope.setExtra('notificationResponse', notificationResponse)
           Sentry.captureException(error)
