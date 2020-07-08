@@ -10,7 +10,7 @@ if (config.SENTRY_DSN) {
     const Sentry = require('@sentry/node')
     Sentry.init({
         dsn: config.SENTRY_DSN,
-        release: require('./package.json').version
+        release: require('../package.json').version
     })
 }
 
