@@ -59,7 +59,7 @@ function gqlKeyValue([key, value]) {
     ? value 
     : typeof value === 'string' 
     ? `"${escapeValue(value)}"` 
-    : `"${JSON.stringify(escapeValue(value))}"`}`
+    : `"${JSON.stringify(escapeValue(value)).replace(/"/g, "'")}"`}`
 }
 
 // stringify a set of row to be according to the graphQL schema
