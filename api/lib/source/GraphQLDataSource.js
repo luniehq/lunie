@@ -51,7 +51,7 @@ function hash(string) {
 // i.e. www.cool.de/x/y > www.cool.de/x
 function removeLastRoute(url) {
   let gqlUrl = new URL(url)
-  gqlUrl.pathname = `/subgraphs/name/livepeer`
+  gqlUrl.pathname = `/subgraphs/name/livepeer` // DEPRECATED
   return gqlUrl.href
 }
 

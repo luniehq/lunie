@@ -397,6 +397,7 @@ export default {
       query: gql`
         query validators($networkId: String!) {
           validators(networkId: $networkId) {
+            id
             name
             operatorAddress
           }
@@ -423,16 +424,15 @@ export default {
     },
     delegations: {
       query: gql`
-        query DelegationsDelegationModal(
-          $networkId: String!
-          $delegatorAddress: String!
-        ) {
+        query delegations($networkId: String!, $delegatorAddress: String!) {
           delegations(
             networkId: $networkId
             delegatorAddress: $delegatorAddress
           ) {
+            id
             amount
             validator {
+              id
               operatorAddress
               name
             }

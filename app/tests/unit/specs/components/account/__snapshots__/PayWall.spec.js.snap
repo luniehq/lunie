@@ -1,0 +1,556 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Paywall should show the Paywall page 1`] = `
+<div
+  class="paywall-container"
+>
+  <h3>
+    
+    Lunie Notifications
+    <br />
+    
+    are here!
+  
+  </h3>
+   
+  <tmbtn-stub
+    customclass=""
+    id="getStartedBtn"
+    value="Get Started"
+  />
+   
+  <div
+    id="line"
+  />
+   
+  <div
+    class="table"
+  >
+    <div
+      class="table-column"
+    >
+      <h4>
+        Staking Rewards
+      </h4>
+       
+      <ul>
+        <li
+          class="table-cell check"
+        >
+          Unclaimed Rewards
+        </li>
+         
+        <li
+          class="table-cell check"
+        >
+          Balance Updates
+        </li>
+         
+        <li
+          class="table-cell check"
+        >
+          
+          Undelegation Reminders
+        
+        </li>
+         
+        <li
+          class="table-cell check"
+        >
+          
+          Transaction Confirmations
+        
+        </li>
+      </ul>
+    </div>
+     
+    <div
+      class="table-column"
+    >
+      <h4>
+        Governance
+      </h4>
+       
+      <ul>
+        <li
+          class="table-cell check"
+        >
+          New Proposals
+        </li>
+         
+        <li
+          class="table-cell check"
+        >
+          
+          Proposal State Changes
+        
+        </li>
+         
+        <li
+          class="table-cell check"
+        >
+          
+          Deposit and Voting Reminders
+        
+        </li>
+         
+        <li
+          class="table-cell check"
+        >
+          
+          Know How Your Validators Vote
+        
+        </li>
+      </ul>
+    </div>
+     
+    <div
+      class="table-column"
+    >
+      <h4>
+        Validators
+      </h4>
+       
+      <ul>
+        <li
+          class="table-cell check"
+        >
+          Commission Changes
+        </li>
+         
+        <li
+          class="table-cell check"
+        >
+          Slashing Events
+        </li>
+         
+        <li
+          class="table-cell check"
+        >
+          Downtime Alerts
+        </li>
+         
+        <li
+          class="table-cell check"
+        >
+          Profile Updates
+        </li>
+      </ul>
+    </div>
+     
+    <div
+      class="table-column networks"
+    >
+      <div>
+        <h4>
+          Network Updates
+        </h4>
+         
+        <ul>
+          <li
+            class="table-cell check"
+          >
+            News
+          </li>
+           
+          <li
+            class="table-cell check"
+          >
+            Protocol Upgrades
+          </li>
+           
+          <li
+            class="table-cell check"
+          >
+            Github Alerts
+          </li>
+        </ul>
+      </div>
+       
+      <div
+        class="table-span"
+      >
+        <span>
+          
+          Have any ideas? Share them with us
+          
+          <i
+            class="material-icons notranslate"
+          >
+            launch
+          </i>
+        </span>
+      </div>
+    </div>
+  </div>
+   
+  <div
+    class="notifications"
+  >
+    <div
+      class="notification-scroller"
+    >
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              You have 50 ATOMs in unclaimed rewards. 🤑
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              Your validator’s commission changed from 0%-2%. 😮
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              New Proposal alert on Cosmos Hub! 🚨
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              Proposal #42 is out of the deposit period and ready for voting! 🗳
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              Your validator went offline for 300 blocks! 🔔
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              🚨 New Proposal alert on Cosmos.
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              💸 You have 25 DOTs waiting to be withdrawn.
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              📉 Your validator is no longer in the active set.
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              👍 Kava network upgraded from Kava-2 to Kava-3.
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              🧊 The unstaking lock up period is coming to an end in 2 hours.
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              ❓ Your validator just voted — are you happy with how they voted?
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        class="notification long"
+      >
+        <div
+          class="content"
+        >
+          <div
+            class="main"
+          >
+            <img
+              src="/img/icons/lunie.svg"
+              width="32"
+            />
+             
+            <p
+              class="title"
+            >
+              Your validator went offline for 2000 blocks! 🔔
+            </p>
+          </div>
+           
+          <div>
+            <i
+              class="material-icons notranslate"
+            >
+              chevron_right
+            </i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

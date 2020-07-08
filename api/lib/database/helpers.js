@@ -11,11 +11,15 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
     body: JSON.stringify({
       query
     })
-  }).then((res) => res.json())
-  .catch(error => {
-    console.error(error, query)
-    throw new Error('GraphQL query failed')
   })
+    .then(async (response) => {
+      if(!response.ok) throw new Error(response.status + ' ' + await response.text());
+      else return response.json();
+    })
+    .catch((error) => {
+      console.error(error, query)
+      throw new Error('GraphQL query failed')
+    })
 
   if (data.errors || data.error) {
     console.error('Query failed:', query)
@@ -30,9 +34,28 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
   return data
 }
 
+function escapeValue(value, nested = false) {
+  if (value === null || value === undefined) return nested ? value : `""`
+  const type = typeof value
+  switch (type) {
+    case 'string':
+      return nested ? escape(value) : `"${escape(value)}"`
+    case 'object': {
+      const clone = JSON.parse(JSON.stringify(value))
+      Object.keys(clone).forEach((key) => {
+        clone[key] = escapeValue(clone[key], true)
+      })
+      // only stringify the top object not the nested ones
+      return nested ? clone : `"${JSON.stringify(clone).replace(/"/g, '\\"')}"`
+    }
+    default:
+      return value
+  }
+}
+
 function gqlKeyValue([key, value]) {
-  // escape all values as they could be malicious
-  return `${key}: "${escape(value)}"`
+  // escape all values but handle objects gracefully
+  return `${key}: ${escapeValue(value)}`
 }
 
 // stringify a set of row to be according to the graphQL schema
@@ -127,5 +150,7 @@ const read = ({ hasura_url, hasura_admin_key }) => (schema) => async (
 module.exports = {
   insert,
   read,
-  query: graphQLQuery
+  query: graphQLQuery,
+  escapeValue,
+  gqlKeyValue
 }

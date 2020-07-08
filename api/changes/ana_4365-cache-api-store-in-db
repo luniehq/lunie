@@ -1,0 +1,1 @@
+[Added] [#4365](https://github.com/cosmos/lunie/issues/4365) Store blockStore in DB and boosts API startup by taking initial values from DB. Delete now deprecated validators cache @Bitcoinera

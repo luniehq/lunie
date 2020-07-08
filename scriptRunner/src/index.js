@@ -6,6 +6,14 @@ var app = express()
 require('dotenv').config()
 const config = require('../config')
 
+if (config.SENTRY_DSN) {
+    const Sentry = require('@sentry/node')
+    Sentry.init({
+        dsn: config.SENTRY_DSN,
+        release: require('../package.json').version
+    })
+}
+
 // Constants
 const PORT = process.env.PORT || 9000;
 const HOST = process.env.NODE_ENV = "docker" ? '0.0.0.0' : 'localhost';

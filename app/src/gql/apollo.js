@@ -8,6 +8,7 @@ import { WebSocketLink } from "apollo-link-ws"
 import {
   InMemoryCache,
   IntrospectionFragmentMatcher,
+  defaultDataIdFromObject,
 } from "apollo-cache-inmemory"
 import { persistCache } from "apollo-cache-persist"
 import { split } from "apollo-link"
@@ -112,7 +113,10 @@ const createApolloClient = async () => {
     introspectionQueryResultData,
   })
 
-  const cache = new InMemoryCache({ fragmentMatcher })
+  const cache = new InMemoryCache({
+    fragmentMatcher,
+    dataIdFromObject: object => defaultDataIdFromObject(object),
+  })
 
   // await before instantiating ApolloClient, else queries might run before the cache is persisted
   await persistCache({

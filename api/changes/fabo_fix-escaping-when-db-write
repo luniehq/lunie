@@ -1,0 +1,1 @@
+[Fixed] Only escape values of objects when writing to db @faboweb

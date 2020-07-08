@@ -1,0 +1,1 @@
+[Changed] [#4469](https://github.com/cosmos/lunie/pull/4469) Deactivate store blockStore in DB and retrieve it for now @Bitcoinera
