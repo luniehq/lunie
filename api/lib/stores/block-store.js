@@ -20,12 +20,12 @@ class BlockStore {
     this.db = database
 
     // system to stop queries to proceed if store data is not yet available
-    // this.dataReady = new Promise((resolve) => {
-    //   this.resolveReady = resolve
-    // })
-    // this.dataReady.then(() => {
-    //   console.log(this.network.id, "is ready")
-    // })
+     this.dataReady = new Promise((resolve) => {
+       this.resolveReady = resolve
+     })
+     this.dataReady.then(() => {
+       console.log(this.network.id, "is ready")
+     })
     // Deactivated for now. Get store from DB
     // this.getStore().then((foundStore) => {
     //   if (foundStore) this.resolveReady()
