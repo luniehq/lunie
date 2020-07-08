@@ -139,8 +139,8 @@ function proposalReducer(
   totalBondedTokens
 ) {
   return {
-    networkId,
     id: Number(proposal.proposal_id),
+    networkId,
     type: proposal.proposal_content.type,
     title: proposal.proposal_content.value.title,
     description: proposal.proposal_content.value.description,
@@ -199,6 +199,7 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
   }
 
   return {
+    id: validator.operator_address,
     networkId,
     operatorAddress: validator.operator_address,
     consensusPubkey: validator.consensus_pubkey,
@@ -233,6 +234,7 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
 
 function blockReducer(networkId, block, transactions, data = {}) {
   return {
+    id: block.block_meta.block_id.hash,
     networkId,
     height: block.block_meta.header.height,
     chainId: block.block_meta.header.chain_id,
@@ -317,6 +319,7 @@ function rewardCoinReducer(reward) {
 
 async function balanceReducer(coin, gasPrices, fiatValue) {
   return {
+    id: coin.denom,
     ...coin,
     fiatValue,
     gasPrice: gasPrices
@@ -358,6 +361,7 @@ async function balanceV2Reducer(
     fiatCurrency
   )
   return {
+    id: lunieCoin.denom,
     type: isStakingDenom ? 'STAKE' : 'CURRENCY',
     total,
     denom: lunieCoin.denom,
@@ -372,6 +376,8 @@ function delegationReducer(delegation, validator, active) {
   const balance = calculateTokens(validator, delegation.shares)
 
   return {
+    // id: delegation.validator_address.concat(`-${balance.denom}`),
+    id: delegation.validator_address,
     validatorAddress: delegation.validator_address,
     delegatorAddress: delegation.delegator_address,
     validator,
@@ -382,6 +388,7 @@ function delegationReducer(delegation, validator, active) {
 
 function undelegationReducer(undelegation, validator) {
   return {
+    id: validator.operatorAddress,
     delegatorAddress: undelegation.delegator_address,
     validator,
     amount: atoms(undelegation.balance),
@@ -407,6 +414,7 @@ async function reduceFormattedRewards(
         ? await calculateFiatValue(lunieCoin, fiatCurrency)
         : undefined
       multiDenomRewardsArray.push({
+        id: validator.operatorAddress,
         denom: lunieCoin.denom,
         amount: fixDecimalsAndRoundUp(lunieCoin.amount, 6).toString(), // TODO: refactor using a decimals number from coinLookup
         fiatValue,

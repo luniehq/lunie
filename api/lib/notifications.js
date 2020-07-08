@@ -12,13 +12,7 @@ const database = require('./database')
 const config = require('../config.js')
 
 function getMessageTitle(networks, notification) {
-  // Need to decode JSOn string from Hasura as it escapes strings
-  // e.g. a quote " is represented as &quot; - need to reverse this with the below operation
-  // second replace statement helps to remove line breaks from descriptions (for proposals) that cause JSON.parse to fail
-  // Regex used: line break varies between operating system encodings. Windows would be \r\n, but Linux just uses \n and Apple uses \r.
-  const data = JSON.parse(
-    notification.data.replace(/&quot;/g, '"').replace(/(\r\n|\n|\r)/gm, ' ')
-  )
+  const data = JSON.parse(notification.data)
   switch (notification.eventType) {
     case eventTypes.TRANSACTION_RECEIVE:
       return `You have received ${data.details.amount.amount} ${
@@ -227,6 +221,7 @@ const startNotificationService = (networks) => {
       const notificationResponse =
         response.data.insert_notifications.returning[0]
       const notification = {
+        id: notificationResponse.id,
         networkId: event.networkId,
         timestamp: notificationResponse.created_at,
         title: getMessageTitle(networks, notificationResponse),
@@ -264,6 +259,7 @@ const getNotifications = (networks) => async (
   )
 
   const notifications = relevantNotifications.map((notification) => ({
+    id: notification.id, // used for correctly handling cache in Apollo
     networkId: notification.networkId, // used for filtering per network
     timestamp: notification.created_at, // used for grouping / sorting
     title: getMessageTitle(networks, notification), // title of notification

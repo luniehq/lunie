@@ -120,6 +120,7 @@ export default {
       query: gql`
         query blockV2($networkId: String!) {
           blockV2(networkId: $networkId) {
+            id
             height
             chainId
           }

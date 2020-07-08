@@ -41,7 +41,6 @@ class NetworkContainer {
 
   createStore() {
     this.store = new BlockStore(this.network, this.db)
-    this.store.loadStoredValidatorData()
   }
 
   createFiatValuesAPI() {

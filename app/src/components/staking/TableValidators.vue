@@ -202,8 +202,9 @@ export default {
   apollo: {
     rewards: {
       query: gql`
-        query Rewards($networkId: String!, $delegatorAddress: String!) {
+        query rewards($networkId: String!, $delegatorAddress: String!) {
           rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            id
             validator {
               operatorAddress
             }
