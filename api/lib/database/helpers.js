@@ -13,7 +13,7 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
     })
   })
     .then((response) => {
-      if(!response.ok) throw new Error(response.status);
+      if(!response.ok) throw new Error(response.status + ' ' + response.text());
       else return response.json();
     })
     .catch((error) => {
