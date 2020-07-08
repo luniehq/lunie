@@ -1,4 +1,5 @@
 const { UserInputError } = require('apollo-server')
+const Sentry = require('@sentry/node')
 const {
   eventSubscription,
   publishNotificationAdded
@@ -120,9 +121,7 @@ function getPushLink(
 ) {
   const resource =
     resourceType === resourceTypes.VALIDATOR ? eventType : resourceType
-  const notificationData = JSON.parse(
-    data.replace(/&quot;/g, '"').replace(/(\r\n|\n|\r)/gm, ' ')
-  )
+  const notificationData = JSON.parse(data)
 
   switch (resource) {
     case resourceTypes.TRANSACTION:
@@ -220,16 +219,24 @@ const startNotificationService = (networks) => {
 
       const notificationResponse =
         response.data.insert_notifications.returning[0]
-      const notification = {
-        id: notificationResponse.id,
-        networkId: event.networkId,
-        timestamp: notificationResponse.created_at,
-        title: getMessageTitle(networks, notificationResponse),
-        link: getPushLink(networks, notificationResponse),
-        icon: getIcon(notificationResponse)
+      try {
+        const notification = {
+          id: notificationResponse.id,
+          networkId: event.networkId,
+          timestamp: notificationResponse.created_at,
+          title: getMessageTitle(networks, notificationResponse),
+          link: getPushLink(networks, notificationResponse),
+          icon: getIcon(notificationResponse)
+        }
+        publishNotificationAdded(notification, topic)
+      } catch (error) {
+        console.error(error)
+        Sentry.withScope(function (scope) {
+          scope.setExtra('notificationResponse', notificationResponse)
+          Sentry.captureException(error)
+        })
       }
 
-      publishNotificationAdded(notification, topic)
     })
   }
 }
