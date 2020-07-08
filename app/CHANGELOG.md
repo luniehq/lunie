@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.218] - 2020-07-08
+
+### Added
+
+- [#4399](https://github.com/cosmos/lunie/issues/4399) Add the Paywall componen to restrict access to notifications @Bitcoinera
+
+### Changed
+
+- [#4409](https://github.com/cosmos/lunie/pull/4409) Rename Akash token icon to akash.png @Bitcoinera
+
+### Fixed
+
+- [#4367](https://github.com/cosmos/lunie/issues/4367) Fix GraphQL queries not coming from cache @Bitcoinera
+- [#4422](https://github.com/cosmos/lunie/issues/4422) Fix missing active validators in Westend when filtering for "Active" @Bitcoinera
+- [#4457](https://github.com/cosmos/lunie/issues/4457) Fix wrong network detected for substrate address in explore mode @mariopino
+
 ## [1.0.217] - 2020-07-06
 
 ### Added
