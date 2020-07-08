@@ -36,7 +36,7 @@ class BlockStore {
     try {
       const result = await database(config)('').getStore(this.network.id)
       if (result) {
-        const dbStore = JSON.parse(JSON.stringify(result.store))
+        const dbStore = JSON.parse(result.store)
         Object.assign(this, dbStore)
       }
       return true
