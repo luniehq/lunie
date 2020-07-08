@@ -22,7 +22,5 @@ module.exports = {
   scriptRunnerEndpoint:
     process.env.SCRIPT_RUNNER_ENDPOINT || 'http://localhost:9000',
   scriptRunnerAuthenticationToken:
-    process.env.AUTHENTICATION_TOKEN || secrets.read('AUTHENTICATION_TOKEN'),
-  twitterAuthToken:
-    process.env.TWITTER_AUTH_TOKEN || secrets.read('TWITTER_AUTH_TOKEN')
+    process.env.AUTHENTICATION_TOKEN || secrets.read('AUTHENTICATION_TOKEN')
 }
