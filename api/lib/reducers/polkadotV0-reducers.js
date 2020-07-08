@@ -449,7 +449,8 @@ function dbRewardsReducer(validatorsDictionary, dbRewards) {
 
 function rewardReducer(network, validators, reward, reducers) {
   let parsedRewards = []
-  Object.entries(reward.validators).map((validatorReward) => {
+  Object.entries(reward.validators).forEach((validatorReward) => {
+    if (!validators[validatorReward[0]]) return
     const lunieReward = {
       id: validators[validatorReward[0]].operatorAddress,
       ...reducers.coinReducer(network, validatorReward[1]),
