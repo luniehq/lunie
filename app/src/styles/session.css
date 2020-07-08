@@ -143,6 +143,10 @@
   color: var(--txt);
 }
 
+.session .material-icons.show-seed {
+  color: inherit;
+}
+
 .material-icons.circle.modal-icon {
   background: var(--app-fg);
   color: var(--dim);
