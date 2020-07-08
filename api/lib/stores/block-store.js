@@ -20,15 +20,16 @@ class BlockStore {
     this.db = database
 
     // system to stop queries to proceed if store data is not yet available
-    this.dataReady = new Promise((resolve) => {
-      this.resolveReady = resolve
-    })
-    this.dataReady.then(() => {
-      console.log(this.network.id, "is ready")
-    })
-    this.getStore().then((foundStore) => {
-      if (foundStore) this.resolveReady()
-    })
+     this.dataReady = new Promise((resolve) => {
+       this.resolveReady = resolve
+     })
+     this.dataReady.then(() => {
+       console.log(this.network.id, "is ready")
+     })
+    // Deactivated for now. Get store from DB
+    // this.getStore().then((foundStore) => {
+    //   if (foundStore) this.resolveReady()
+    // })
   }
 
   async getStore() {
@@ -84,8 +85,8 @@ class BlockStore {
     // if (this.validators) {
     //   this.resolveReady()
     // }
-    // save store in DB to improve API perfomance on startup
-    storeStoreInDB(this)
+    // save store in DB to improve API perfomance on startup. Deactivated for now
+    // storeStoreInDB(this)
   }
 
   // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
