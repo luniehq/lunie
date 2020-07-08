@@ -36,14 +36,15 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
 
 function escapeValue(value) {
   if (value === undefined || value === null) return ""
+  if (typeof value === 'boolean' || typeof value === 'number') {
+    return value
+  }
   if (typeof value === 'object') {
     const clone = JSON.parse(JSON.stringify(value))
     Object.keys(clone).forEach((key) => {
       clone[key] = escapeValue(clone[key])
     })
     return clone
-  } else if (typeof value === 'number') {
-    return value
   } else {
     return escape(value).replace(/amp;/g,"")
   }
@@ -51,7 +52,14 @@ function escapeValue(value) {
 
 function gqlKeyValue([key, value]) {
   // escape all values but handle objects gracefully
-  return `${key}: ${typeof value === 'number' ? value : typeof value === 'string' ? `"${escapeValue(value)}"` : `"${JSON.stringify(escapeValue(value))}"`}`
+  return `${key}: ${
+    (value === undefined || value === null)
+    ? `""`
+    : (typeof value === 'boolean' || typeof value === 'number')
+    ? value 
+    : typeof value === 'string' 
+    ? `"${escapeValue(value)}"` 
+    : `"${JSON.stringify(escapeValue(value))}"`}`
 }
 
 // stringify a set of row to be according to the graphQL schema
