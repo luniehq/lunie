@@ -26,9 +26,9 @@ class BlockStore {
     this.dataReady.then(() => {
       console.log(this.network.id, "is ready")
     })
-    this.getStore().then((foundStore) => {
-      if (foundStore) this.resolveReady()
-    })
+    // this.getStore().then((foundStore) => {
+    //   if (foundStore) this.resolveReady()
+    // })
   }
 
   async getStore() {
@@ -81,11 +81,11 @@ class BlockStore {
     this.data = data
 
     // when the data is available signal readyness so the resolver stop blocking the requests
-    // if (this.validators) {
-    //   this.resolveReady()
-    // }
+    if (this.validators) {
+      this.resolveReady()
+    }
     // save store in DB to improve API perfomance on startup
-    storeStoreInDB(this)
+    // storeStoreInDB(this)
   }
 
   // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
