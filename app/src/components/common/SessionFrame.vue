@@ -9,7 +9,10 @@
     >
       <div class="session-outer-container">
         <div
-          v-if="(icon.startsWith(`/img`) || icon.startsWith(`https`)) && !isExtension"
+          v-if="
+            (icon.startsWith(`/img`) || icon.startsWith(`https`)) &&
+            !isExtension
+          "
           class="icon-circle"
         >
           <img class="icon-image" :src="icon" />

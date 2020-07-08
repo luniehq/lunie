@@ -115,7 +115,7 @@ const createApolloClient = async () => {
 
   const cache = new InMemoryCache({
     fragmentMatcher,
-    dataIdFromObject: object => defaultDataIdFromObject(object),
+    dataIdFromObject: (object) => defaultDataIdFromObject(object),
   })
 
   // await before instantiating ApolloClient, else queries might run before the cache is persisted
