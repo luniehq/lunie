@@ -22,9 +22,7 @@ class GlobalStore {
   async getStores() {
     const networks = await this.db(config)('').getNetworks()
     const stores = await Promise.all(
-      networks.map((network) => {
-        this.db(config)('').getStore(network.id)
-      })
+      networks.map((network) => this.db(config)('').getStore(network.id))
     )
     this.stores = stores
     await this.getGlobalValidators()
@@ -32,10 +30,9 @@ class GlobalStore {
   }
 
   async getGlobalValidators() {
-    // total staked assets (cross network)
-    // uptime (cross network)
-    const aggregatedValidators = this.stores.reduce(
-      (validatorsAggregator, { validators }) => {
+    const aggregatedValidators = this.stores
+      .map(({ store }) => JSON.parse(store))
+      .reduce((validatorsAggregator, { validators }) => {
         if (validators.find(({ name }) => !validatorsAggregator[name])) {
           validators.forEach((validator) => {
             validatorsAggregator[validator.name] = this.globalValidatorReducer(
@@ -44,9 +41,7 @@ class GlobalStore {
           })
         }
         return validatorsAggregator
-      },
-      {}
-    )
+      }, {})
     this.globalValidators = aggregatedValidators
   }
 
