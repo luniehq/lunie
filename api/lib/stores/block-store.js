@@ -82,9 +82,9 @@ class BlockStore {
     this.data = data
 
     // when the data is available signal readyness so the resolver stop blocking the requests
-    // if (this.validators) {
-    //   this.resolveReady()
-    // }
+    if (this.validators) {
+      this.resolveReady()
+    }
     // save store in DB to improve API perfomance on startup. Deactivated for now
     // storeStoreInDB(this)
   }
