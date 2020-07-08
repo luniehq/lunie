@@ -24,7 +24,7 @@ class BlockStore {
       this.resolveReady = resolve
     })
     this.dataReady.then(() => {
-      console.log(this.network.id, "is ready")
+      console.log(this.network.id, 'is ready')
     })
     this.getStore().then((foundStore) => {
       if (foundStore) this.resolveReady()
