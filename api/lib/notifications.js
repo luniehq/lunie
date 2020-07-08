@@ -152,7 +152,7 @@ function getPushLink(
 // TODO: Upload icons to DO instead of passing relative links
 function getIcon({ eventType, data }) {
   const notificationData = JSON.parse(
-    data.replace(/&quot;/g, '"').replace(/(\r\n|\n|\r)/gm, ' ')
+    data
   )
   switch (eventType) {
     case eventTypes.TRANSACTION_RECEIVE:
@@ -230,7 +230,7 @@ const startNotificationService = (networks) => {
         }
         publishNotificationAdded(notification, topic)
       } catch (error) {
-        console.error(error)
+        console.error(error, notification)
         Sentry.withScope(function (scope) {
           scope.setExtra('notificationResponse', notificationResponse)
           Sentry.captureException(error)
