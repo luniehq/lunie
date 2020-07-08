@@ -391,16 +391,15 @@ export default {
   apollo: {
     delegations: {
       query: gql`
-        query DelegationsUndelegationModal(
-          $networkId: String!
-          $delegatorAddress: String!
-        ) {
+        query delegations($networkId: String!, $delegatorAddress: String!) {
           delegations(
             networkId: $networkId
             delegatorAddress: $delegatorAddress
           ) {
+            id
             amount
             validator {
+              id
               name
               operatorAddress
             }
@@ -461,6 +460,7 @@ export default {
       query: gql`
         query validators($networkId: String!) {
           validators(networkId: $networkId) {
+            id
             name
             operatorAddress
             status

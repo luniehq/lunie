@@ -201,6 +201,7 @@ function transactionReducerV2(
     ? otherMessages.concat(claimMessage) // add aggregated claim message
     : otherMessages
   const returnedMessages = allMessages.map(({ value, type }, index) => ({
+    id: transaction.txhash,
     type: getMessageType(type),
     hash: transaction.txhash,
     height: transaction.height,

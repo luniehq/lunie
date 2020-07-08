@@ -114,6 +114,7 @@ export default {
             timestamp: $timestamp
             addressObjects: $addressObjects
           ) {
+            id
             networkId
             timestamp
             title

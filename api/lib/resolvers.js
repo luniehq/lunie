@@ -422,6 +422,7 @@ const resolvers = (networkList) => ({
         validatorsDictionary,
         fiatCurrency
       )
+      overview.id = address
       overview.networkId = networkId
       overview.address = address
 

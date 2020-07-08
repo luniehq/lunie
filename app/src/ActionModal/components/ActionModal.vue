@@ -776,6 +776,7 @@ export default {
       query: gql`
         query balances($networkId: String!, $address: String!) {
           balances(networkId: $networkId, address: $address) {
+            id
             denom
             amount
             gasPrice

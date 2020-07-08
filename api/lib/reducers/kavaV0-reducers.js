@@ -3,6 +3,7 @@ const { lunieMessageTypes } = require('../../lib/message-types')
 
 function delegationReducer(delegation, validator) {
   return {
+    id: delegation.validator_address,
     validatorAddress: delegation.validator_address,
     delegatorAddress: delegation.delegator_address,
     validator,
