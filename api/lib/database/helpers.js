@@ -12,7 +12,10 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
       query
     })
   })
-    .then((res) => res.json())
+    .then((response) => {
+      if(!response.ok) throw new Error(response.status);
+      else return response.json();
+    })
     .catch((error) => {
       console.error(error, query)
       throw new Error('GraphQL query failed')
