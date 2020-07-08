@@ -30,7 +30,6 @@
 .session {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   background: var(--app-bg);
   max-width: 560px;
   border-radius: 2px;
