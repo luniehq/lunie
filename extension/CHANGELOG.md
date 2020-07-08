@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.26] - 2020-07-08
+
+### Added
+
+- [#4430](https://github.com/cosmos/lunie/issues/4430) Upgrade @polkadot/api to v1.23.1 @mariopino
+
+### Changed
+
+- [#4373](https://github.com/cosmos/lunie/pull/4373) Connects to PolkadotAPI in extension to sign transactions @Bitcoinera
+- [#4275](https://github.com/cosmos/lunie/pull/4275) Adds the account directory to the webpack resolvers @Bitcoinera
+
+### Fixed
+
+- [#4467](https://github.com/cosmos/lunie/pull/4467) Fix extension deploy flow @Bitcoinera
+
 ## [1.0.25] - 2020-07-02
 
 ### Fixed
