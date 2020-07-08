@@ -35,8 +35,9 @@ function escapeValue(value, nested = false) {
   if (value === null || value === undefined) return nested ? value : `""`
   const type = typeof value
   switch (type) {
-    case "string": return nested ? escape(value) : `"${escape(value)}"`
-    case "object": {
+    case 'string':
+      return nested ? escape(value) : `"${escape(value)}"`
+    case 'object': {
       const clone = JSON.parse(JSON.stringify(value))
       Object.keys(clone).forEach((key) => {
         clone[key] = escapeValue(clone[key], true)
@@ -44,7 +45,8 @@ function escapeValue(value, nested = false) {
       // only stringify the top object not the nested ones
       return nested ? clone : `"${JSON.stringify(clone).replace(/"/g, '\\"')}"`
     }
-    default: return value
+    default:
+      return value
   }
 }
 
