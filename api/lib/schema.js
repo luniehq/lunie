@@ -1,5 +1,8 @@
 const { gql } = require('apollo-server')
+const validatorTypeDefs = require('./validator-schemas')
 const typeDefs = gql`
+  ${validatorTypeDefs}
+
   enum ValidatorStatusEnum {
     ACTIVE
     INACTIVE
@@ -409,6 +412,24 @@ const typeDefs = gql`
     networkId: String!
   }
 
+  type ValidatorProfile {
+    name: String
+    rank: Int
+    description: String
+    teamMembers: [ValidatorTeamMember]
+    website: String
+    telegram: String
+    github: String
+    twitter: String
+    blog: String
+    numberStakers: Int
+    totalStakedAssets: Int
+    uptimePercentage: String
+    contributionLinks: [ContributionLink]
+    networks: [ValidatorNetwork]
+    feed: [Notification]
+  }
+
   type Query {
     blockV2(networkId: String!, height: Int): BlockV2
     proposal(networkId: String!, id: Int!): Proposal
@@ -486,6 +507,7 @@ const typeDefs = gql`
       addressObjects: [NotificationInput]!
     ): [Notification]!
     accountRole(networkId: String!, address: String!): String
+    validatorProfile(name: String!): ValidatorProfile
   }
 `
 

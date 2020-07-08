@@ -20,6 +20,7 @@ const { getNotifications } = require('./notifications')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
 const firebaseAdmin = require('./firebase')
+const GlobalStore = require('./stores/global-store')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -183,6 +184,10 @@ const transactionMetadata = (networks) => async (
     accountSequence: accountDetails.sequence,
     accountNumber: accountDetails.accountNumber
   }
+}
+
+async function validatorProfile(_, { name }) {
+  return new GlobalStore().globalValidators[name]
 }
 
 const registerUser = async (_, { idToken }) => {
@@ -459,7 +464,8 @@ const resolvers = (networkList) => ({
       if (!remoteFetch(dataSources, networkId).getAddressRole) return undefined
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
-    }
+    },
+    validatorProfile
   },
   Mutation: {
     registerUser: registerUser
