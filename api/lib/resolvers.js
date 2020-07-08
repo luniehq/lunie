@@ -186,6 +186,7 @@ const transactionMetadata = (networks) => async (
   }
 }
 
+// TODO: should also work with identity
 async function validatorProfile(_, { name }) {
   return new GlobalStore().globalValidators[name]
 }
