@@ -15,7 +15,7 @@ exports[`AccountMenu should show the AccountMenu page 1`] = `
         to="[object Object]"
       >
         <i
-          class="material-icons notranslate"
+          class="material-icons notranslate show-seed"
         >
           visibility
         </i>

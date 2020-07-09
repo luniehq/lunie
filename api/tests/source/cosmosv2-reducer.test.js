@@ -6,6 +6,7 @@ describe('Cosmos V2 Reducer', function () {
       const networkId = `cosmos-hub-mainnet`
       //Arrange
       const transaction = {
+        id: '8A5713CFA4A3106F7D17D945E661BA7509F7038B7960D2B078B972732BD6FEAD',
         height: '1546139',
         txhash:
           '8A5713CFA4A3106F7D17D945E661BA7509F7038B7960D2B078B972732BD6FEAD',

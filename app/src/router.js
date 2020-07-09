@@ -16,6 +16,14 @@ export const routeGuard = (store) => async (to, from, next) => {
     next(path)
     return
   }
+  if (to.name === `notifications`) {
+    if (store.state.account.userSignedIn) {
+      next()
+      return
+    } else {
+      next(`/paywall`)
+    }
+  }
   if (to.meta.feature) {
     const featureAvalability = await featureAvailable(
       store,

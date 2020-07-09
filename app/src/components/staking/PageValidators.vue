@@ -129,6 +129,7 @@ export default {
             activeOnly: $activeOnly
             popularSort: $popularSort
           ) {
+            id
             name
             operatorAddress
             consensusPubkey
@@ -160,22 +161,22 @@ export default {
         this.loaded = true
         /* istanbul ignore next */
         return this.activeOnly
-          ? result.validators.filter(
-              ({ name, operatorAddress }) => name !== operatorAddress
-            )
+          ? result.validators.filter(({ status }) => status === `ACTIVE`)
           : result.validators
       },
     },
     /* istanbul ignore next */
     delegations: {
       query: gql`
-        query Delegations($networkId: String!, $delegatorAddress: String!) {
+        query delegations($networkId: String!, $delegatorAddress: String!) {
           delegations(
             networkId: $networkId
             delegatorAddress: $delegatorAddress
           ) {
+            id
             amount
             validator {
+              id
               operatorAddress
             }
           }

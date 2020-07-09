@@ -1,6 +1,4 @@
 const { keyBy } = require('lodash')
-const fs = require('fs')
-const path = require('path')
 const _ = require('lodash')
 const Sentry = require('@sentry/node')
 const database = require('../database')
@@ -11,13 +9,6 @@ const { eventTypes, resourceTypes } = require('../notifications-types')
 class BlockStore {
   constructor(network, database) {
     this.network = network
-    this.validatorCachePath = path.join(
-      __dirname,
-      '..',
-      '..',
-      'caches',
-      `validators-${network.id}.json`
-    )
     this.latestHeight = 0
     this.block = {}
     this.stakingDenom = ''
@@ -29,13 +20,31 @@ class BlockStore {
     this.db = database
 
     // system to stop queries to proceed if store data is not yet available
-    this.resolveReady
-    this.dataReady = new Promise((resolve) => {
-      this.resolveReady = resolve
-    })
-    this.db = database
+     this.dataReady = new Promise((resolve) => {
+       this.resolveReady = resolve
+     })
+     this.dataReady.then(() => {
+       console.log(this.network.id, "is ready")
+     })
+    // Deactivated for now. Get store from DB
+    // this.getStore().then((foundStore) => {
+    //   if (foundStore) this.resolveReady()
+    // })
+  }
 
-    this.loadStoredValidatorData()
+  async getStore() {
+    try {
+      const result = await database(config)('').getStore(this.network.id)
+      if (result) {
+        const dbStore = JSON.parse(result.store)
+        Object.assign(this, dbStore)
+      }
+      return true
+    } catch (error) {
+      console.error(error)
+      Sentry.captureException(error)
+      return false
+    }
   }
 
   async update({
@@ -58,9 +67,6 @@ class BlockStore {
         this.network.id
       )
 
-      // write file async
-      this.storeValidatorData(validators)
-
       // write validators to db to have all validators in the db to add pictures
       this.updateDBValidatorProfiles(validators)
 
@@ -79,39 +85,8 @@ class BlockStore {
     if (this.validators) {
       this.resolveReady()
     }
-  }
-
-  /**
-   * Write all validators to file storage
-   * @param { Object } validators validatorMap
-   */
-  storeValidatorData(validators) {
-    if (!fs.existsSync(this.validatorCachePath)) {
-      fs.openSync(this.validatorCachePath, 'w')
-    }
-    fs.writeFile(this.validatorCachePath, JSON.stringify(validators), (err) => {
-      if (err) Sentry.captureException(err)
-    })
-  }
-
-  /**
-   * Load validator data from file storage
-   * Function gets triggered when store is created
-   */
-  loadStoredValidatorData() {
-    if (
-      !fs.existsSync(this.validatorCachePath) ||
-      fs.readFileSync(this.validatorCachePath, 'utf8') === ''
-    )
-      return {}
-
-    const validatorMap = JSON.parse(
-      fs.readFileSync(this.validatorCachePath, 'utf8')
-    )
-
-    // Set validator store equal to validatorMap from file storage
-    this.validators = validatorMap
-    this.resolveReady()
+    // save store in DB to improve API perfomance on startup. Deactivated for now
+    // storeStoreInDB(this)
   }
 
   // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
@@ -295,6 +270,16 @@ function enrichValidator(validatorInfo, validator) {
     name,
     picture: picture === 'null' || picture === 'undefined' ? undefined : picture
   }
+}
+
+async function storeStoreInDB(store) {
+  const clone = JSON.parse(JSON.stringify(store))
+  delete clone.db
+  delete clone.network
+  await database(config)('').storeStore({
+    store: clone,
+    networkId: store.network.id
+  })
 }
 
 module.exports = BlockStore

@@ -349,6 +349,33 @@ const getUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   )
 }
 
+const storeStore = ({ hasura_url, hasura_admin_key }) => () => async (
+  payload
+) => {
+  await insert(
+    {
+      hasura_url,
+      hasura_admin_key
+    },
+    true
+  )('')(`storeCaches`, payload, undefined, undefined, [`networkId`])
+}
+
+const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
+  const data = await read({
+    hasura_url,
+    hasura_admin_key
+  })('')(
+    `storeCaches`,
+    `storeCaches`,
+    ['networkId', 'store'],
+    `where: { 
+      networkId: {_eq: "${id}"}
+    }`
+  )
+  return data[0]
+}
+
 module.exports = {
   incrementValidatorViews,
   getValidatorsViews,
@@ -361,5 +388,7 @@ module.exports = {
   getNetwork,
   getNetworks,
   storeUser,
-  getUser
+  getUser,
+  storeStore,
+  getStore
 }

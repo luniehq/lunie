@@ -29,6 +29,7 @@ const config = {
   resolve: {
     alias: {
       assets: resolve('../app/src/assets'),
+      '~assets': resolve('../app/src/assets'),
       'common/Avatar': resolve('./src/components/BlankAvatar'),
       common: resolve('../app/src/components/common'),
       account: resolve('../app/src/components/account'),
@@ -72,10 +73,14 @@ const config = {
       },
       {
         test: /\.(png|jpg|gif|svg|ico)$/,
-        loader: 'file-loader',
-        query: {
-          name: `images/[name].[ext]`
-        }
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              esModule: false,
+            },
+          }
+        ]
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,

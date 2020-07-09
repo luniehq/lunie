@@ -16,6 +16,7 @@ function blockReducer(
   data = {}
 ) {
   return {
+    id: blockHash,
     networkId,
     height: blockHeight,
     chainId,
@@ -30,6 +31,7 @@ function blockReducer(
 
 function validatorReducer(network, validator) {
   return {
+    id: validator.accountId,
     networkId: network.id,
     chainId: network.chain_id,
     operatorAddress: validator.accountId,
@@ -96,6 +98,7 @@ async function balanceReducer(
   )
   return [
     {
+      id: lunieCoin.denom,
       amount: lunieCoin.amount,
       total: fixDecimalsAndRoundUp(
         BigNumber(total)
@@ -127,6 +130,7 @@ async function balanceV2Reducer(
 
   if (total === '0') {
     return {
+      id: availableLunieCoin.denom,
       type: 'STAKE',
       available: 0,
       total: 0,
@@ -137,6 +141,7 @@ async function balanceV2Reducer(
   }
 
   return {
+    id: availableLunieCoin.denom,
     type: 'STAKE', // just a staking denom on Kusama for now
     available: availableLunieCoin.amount,
     total: totalLunieCoin.amount,
@@ -149,6 +154,7 @@ async function balanceV2Reducer(
 function delegationReducer(network, delegation, validator, active) {
   if (validator === undefined) return {} // TODO: once we can use the debugger on Polkadot, really debug why this happens
   return {
+    id: validator.operatorAddress,
     validatorAddress: validator.operatorAddress,
     delegatorAddress: delegation.who,
     validator,
@@ -207,6 +213,7 @@ function parsePolkadotTransaction(
 ) {
   const lunieTransactionType = getMessageType(message.section, message.method)
   return {
+    id: hash,
     type: lunieTransactionType,
     hash,
     height: blockHeight,
@@ -442,8 +449,10 @@ function dbRewardsReducer(validatorsDictionary, dbRewards) {
 
 function rewardReducer(network, validators, reward, reducers) {
   let parsedRewards = []
-  Object.entries(reward.validators).map((validatorReward) => {
+  Object.entries(reward.validators).forEach((validatorReward) => {
+    if (!validators[validatorReward[0]]) return
     const lunieReward = {
+      id: validators[validatorReward[0]].operatorAddress,
       ...reducers.coinReducer(network, validatorReward[1]),
       height: reward.era,
       address: reward.address,

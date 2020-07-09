@@ -382,6 +382,7 @@ export default {
       query: gql`
         query BalancesSendModal($networkId: String!, $address: String!) {
           balances(networkId: $networkId, address: $address) {
+            id
             amount
             denom
           }

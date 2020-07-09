@@ -1,4 +1,5 @@
 const { UserInputError } = require('apollo-server')
+const Sentry = require('@sentry/node')
 const {
   eventSubscription,
   publishNotificationAdded
@@ -12,13 +13,7 @@ const database = require('./database')
 const config = require('../config.js')
 
 function getMessageTitle(networks, notification) {
-  // Need to decode JSOn string from Hasura as it escapes strings
-  // e.g. a quote " is represented as &quot; - need to reverse this with the below operation
-  // second replace statement helps to remove line breaks from descriptions (for proposals) that cause JSON.parse to fail
-  // Regex used: line break varies between operating system encodings. Windows would be \r\n, but Linux just uses \n and Apple uses \r.
-  const data = JSON.parse(
-    notification.data.replace(/&quot;/g, '"').replace(/(\r\n|\n|\r)/gm, ' ')
-  )
+  const data = JSON.parse(notification.data)
   switch (notification.eventType) {
     case eventTypes.TRANSACTION_RECEIVE:
       return `You have received ${data.details.amount.amount} ${
@@ -126,9 +121,7 @@ function getPushLink(
 ) {
   const resource =
     resourceType === resourceTypes.VALIDATOR ? eventType : resourceType
-  const notificationData = JSON.parse(
-    data.replace(/&quot;/g, '"').replace(/(\r\n|\n|\r)/gm, ' ')
-  )
+  const notificationData = JSON.parse(data)
 
   switch (resource) {
     case resourceTypes.TRANSACTION:
@@ -159,7 +152,7 @@ function getPushLink(
 // TODO: Upload icons to DO instead of passing relative links
 function getIcon({ eventType, data }) {
   const notificationData = JSON.parse(
-    data.replace(/&quot;/g, '"').replace(/(\r\n|\n|\r)/gm, ' ')
+    data
   )
   switch (eventType) {
     case eventTypes.TRANSACTION_RECEIVE:
@@ -221,20 +214,29 @@ const startNotificationService = (networks) => {
         resourceType: event.resourceType,
         resourceId: event.resourceId,
         networkId: event.networkId,
-        data: JSON.stringify(event.properties)
+        data: event.properties
       })
 
       const notificationResponse =
         response.data.insert_notifications.returning[0]
-      const notification = {
-        networkId: event.networkId,
-        timestamp: notificationResponse.created_at,
-        title: getMessageTitle(networks, notificationResponse),
-        link: getPushLink(networks, notificationResponse),
-        icon: getIcon(notificationResponse)
+      try {
+        const notification = {
+          id: notificationResponse.id,
+          networkId: event.networkId,
+          timestamp: notificationResponse.created_at,
+          title: getMessageTitle(networks, notificationResponse),
+          link: getPushLink(networks, notificationResponse),
+          icon: getIcon(notificationResponse)
+        }
+        publishNotificationAdded(notification, topic)
+      } catch (error) {
+        console.error(error, notificationResponse)
+        Sentry.withScope(function (scope) {
+          scope.setExtra('notificationResponse', notificationResponse)
+          Sentry.captureException(error)
+        })
       }
 
-      publishNotificationAdded(notification, topic)
     })
   }
 }
@@ -264,6 +266,7 @@ const getNotifications = (networks) => async (
   )
 
   const notifications = relevantNotifications.map((notification) => ({
+    id: notification.id, // used for correctly handling cache in Apollo
     networkId: notification.networkId, // used for filtering per network
     timestamp: notification.created_at, // used for grouping / sorting
     title: getMessageTitle(networks, notification), // title of notification

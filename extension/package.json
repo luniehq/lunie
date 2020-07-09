@@ -1,6 +1,6 @@
 {
   "name": "extension",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
   "licenses": [
@@ -107,7 +107,7 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-friendly-formatter": "^4.0.1",
-    "eslint-loader": "^2.1.2",
+    "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.3",
