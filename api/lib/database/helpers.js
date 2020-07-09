@@ -50,18 +50,21 @@ function escapeObject(value) {
   }
 }
 
+function escapeValue(value) {
+  return (value === undefined || value === null)
+  ? `""`
+  : (typeof value === 'boolean' || typeof value === 'number')
+  ? value 
+  : typeof value === 'string' 
+  ? `"${escape(value)}"` 
+  // we need to double stringify to double escape the quotations
+  // if not, inserted in the query the object will have double quotes inside
+  : JSON.stringify(JSON.stringify(escapeObject(value)))
+}
+
 function gqlKeyValue([key, value]) {
   // escape all values but handle objects gracefully
-  return `${key}: ${
-    (value === undefined || value === null)
-    ? `""`
-    : (typeof value === 'boolean' || typeof value === 'number')
-    ? value 
-    : typeof value === 'string' 
-    ? `"${escape(value)}"` 
-    // we need to double stringify to double escape the quotations
-    // if not, inserted in the query the object will have double quotes inside
-    : JSON.stringify(JSON.stringify(escapeObject(value)))}` 
+  return `${key}: ${escapeValue(value)}` 
 }
 
 // stringify a set of row to be according to the graphQL schema
