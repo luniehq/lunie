@@ -108,7 +108,7 @@ function getMessageTitle(networks, notification) {
     case eventTypes.SLASH:
       return `Validator ${data.operatorAddress} got slashed ${data.amount.amount} ${data.amount.denom}s.`
     case eventTypes.LIVENESS:
-      return `Validator ${data.operatorAddress} was offline ${data.blocks}.`
+      return `Validator ${data.operatorAddress} was offline for ${data.blocks} blocks.`
     default:
       return 'Check it out! 👋'
   }
