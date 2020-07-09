@@ -63,7 +63,7 @@ jobs:
       - uses: bahmutov/npm-install@v1
       - name: Run Polkadot E2E tests
         run: |
-          yarn test:e2e:browserstack --fe=${{needs.deploy.outputs.deploy-url}} --api=https://staging-api.lunie.io --network="polkadot-testnet"
+          yarn test:e2e:browserstack --fe=${{needs.deploy.outputs.deploy-url}} --api=https://production-api.lunie.io --network="polkadot-testnet"
         working-directory: ${{env.WORKING_DIRECTORY}}
         env:
           PASSWORD: ${{secrets.GAIA_PASSWORD}}

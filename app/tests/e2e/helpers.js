@@ -172,7 +172,7 @@ async function actionModalCheckout(
   await browser.setValue("#password", browser.globals.password)
   await browser.click(".action-modal-footer .button:nth-of-type(2)")
 
-  await browser.expect.element(".success-step").to.be.present.before(30 * 1000)
+  await browser.expect.element(".success-step").to.be.present.before(60 * 1000)
   // wait for success-step modal
   await browser.expect.element("#closeBtn").to.be.present.before(30 * 1000)
   await browser.click("#closeBtn")
