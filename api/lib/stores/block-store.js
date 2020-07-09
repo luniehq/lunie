@@ -262,11 +262,9 @@ class BlockStore {
 
 function enrichValidator(validatorInfo, validator) {
   const picture = validatorInfo ? validatorInfo.picture : undefined
-  const name = validatorInfo && validatorInfo.name ? validatorInfo.name : validator.name
 
   return {
     ...validator,
-    name,
     picture: picture === 'null' || picture === 'undefined' ? undefined : picture
   }
 }
