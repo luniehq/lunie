@@ -9,7 +9,7 @@
         alt="geometric placeholder shapes"
       />
     </div>
-    <div class="balance-header" v-else>
+    <div v-else class="balance-header">
       <div class="header-container">
         <h1>Your Portfolio</h1>
         <div class="buttons">
