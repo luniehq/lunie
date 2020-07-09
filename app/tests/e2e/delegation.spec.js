@@ -24,10 +24,14 @@ async function setSelect(browser, selector, option) {
 
 module.exports = {
   "Delegate Action": async function (browser) {
-    await browser.url(
-      browser.launch_url + browser.globals.slug + "/transactions"
-    )
-    const lastHash = await getLastActivityItemHash(browser)
+    let lastHash = undefined
+    // Activity feature is not enabled in polkadot
+    if (browser.globals.networkData.network !== `polkadot-testnet`) {
+      await browser.url(
+        browser.launch_url + browser.globals.slug + "/transactions"
+      )
+      lastHash = await getLastActivityItemHash(browser)
+    }
 
     // move to according page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
@@ -49,25 +53,34 @@ module.exports = {
       value
     )
     await getAccountBalance(browser)
-    // check if the hash is changed
-    await browser.url(
-      browser.launch_url + browser.globals.slug + "/transactions"
-    )
-    // check if tx shows
-    await waitForText(
-      browser,
-      ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
-      `Staked`
-    )
-    await waitForText(
-      browser,
-      ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
-      `${value} ${browser.globals.denom}`
-    )
 
-    await waitForHashUpdate(browser, lastHash)
+    // Activity feature is not enabled in polkadot
+    if (browser.globals.networkData.network !== `polkadot-testnet`) {
+      // check if the hash is changed
+      await browser.url(
+        browser.launch_url + browser.globals.slug + "/transactions"
+      )
+      // check if tx shows
+      await waitForText(
+        browser,
+        ".tx:nth-of-type(1) .tx__content .tx__content__left h3",
+        `Staked`
+      )
+      await waitForText(
+        browser,
+        ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
+        `${value} ${browser.globals.denom}`
+      )
+
+      await waitForHashUpdate(browser, lastHash)
+    }
   },
   "Redelegate Action": async function (browser) {
+    // Not possible in polkadot, as we need to wait for session change to do it
+    if (browser.globals.networkData.network === `polkadot-testnet`) {
+      return
+    }
+
     await browser.url(
       browser.launch_url + browser.globals.slug + "/transactions"
     )
@@ -114,6 +127,11 @@ module.exports = {
     await waitForHashUpdate(browser, lastHash)
   },
   "Undelegate Action": async function (browser) {
+    // Not possible in polkadot, as we need to wait for session change to do it
+    if (browser.globals.networkData.network === `polkadot-testnet`) {
+      return
+    }
+
     await browser.url(
       browser.launch_url + browser.globals.slug + "/transactions"
     )
@@ -158,7 +176,6 @@ module.exports = {
       ".tx:nth-of-type(1) .tx__content .tx__content__right .amount",
       `${value} ${browser.globals.denom}`
     )
-
     await waitForHashUpdate(browser, lastHash)
   },
 }

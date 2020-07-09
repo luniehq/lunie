@@ -20,6 +20,7 @@ module.exports = {
     let networkData = await initialiseDefaults(browser)
     networkData.password = process.env.PASSWORD
     browser.globals.password = networkData.password
+    browser.globals.networkData = networkData
 
     if (!initializedAccount) {
       // creating testing account and funding it with the master account
@@ -216,7 +217,7 @@ async function createAccountAndFundIt(browser, done, networkData) {
   // switching to master account
   await switchToAccount(browser, networkData)
   // funding main account
-  if (browser.globals.availableAtoms * 1 < 20) {
+  if (browser.globals.availableAtoms * 1 < 10) {
     throw new Error("Master Account is out of funds. Fund it!")
     // await fundMasterAccount(browser, networkData.network, networkData.address)
   }
