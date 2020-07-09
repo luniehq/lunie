@@ -129,7 +129,7 @@ async function initialiseDefaults(browser) {
 async function defineNeededValidators(browser) {
   // need to store validators, cause they can shuffle during the test
   await browser.url(browser.launch_url + browser.globals.slug + "/validators")
-  await browser.waitForElementVisible(".li-validator", 10000)
+  await browser.waitForElementVisible(".li-validator", 20000)
   const validators = await browser.execute(function () {
     const validatorLIs = document.getElementsByClassName("li-validator")
     if (validatorLIs.length < 2) {
