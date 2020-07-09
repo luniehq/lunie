@@ -1,10 +1,8 @@
 <template>
-  <TmPage :sign-in-required="true" :managed="true" :dark-background="true">
-    <template slot="managed-body">
-      <TmBalance />
-      <DelegationsOverview />
-      <Undelegations />
-    </template>
+  <TmPage :sign-in-required="true" :dark-background="true">
+    <TmBalance />
+    <DelegationsOverview />
+    <Undelegations />
   </TmPage>
 </template>
 
