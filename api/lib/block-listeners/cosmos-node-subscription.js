@@ -109,6 +109,7 @@ class CosmosNodeSubscription {
     } catch (error) {
       console.error('Failed to fetch block', error)
       Sentry.captureException(error)
+      return
     }
     // overwrite chain_id with the network's one, making sure it is correct
     this.store.network.chain_id = block.chainId

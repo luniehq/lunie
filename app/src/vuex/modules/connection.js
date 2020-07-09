@@ -76,16 +76,24 @@ export default function ({ apollo }) {
       }
       // HACK as polkadot addresses don't have a prefix
       if (isPolkadotAddress(address)) {
-        const selectedNetwork = await state.networks
-          .filter(({ network_type }) => network_type === `polkadot`)
-          .find(
-            async (network) =>
+        let selectedNetwork = undefined
+        const substrateNetworks = await state.networks.filter(
+          ({ network_type }) => network_type === `polkadot`
+        )
+        for (let index = 0; index < substrateNetworks.length; index++) {
+          const network = substrateNetworks[index]
+          if (
+            (
               await isValidPolkadotAddress(
                 address,
                 parseInt(network.address_prefix)
-              )[0]
-          )
-
+              )
+            )[0]
+          ) {
+            selectedNetwork = network
+            break
+          }
+        }
         if (selectedNetwork) {
           return selectedNetwork
         } else {

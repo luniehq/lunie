@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.35] - 2020-07-08
+
+### Added
+
+- [#4365](https://github.com/cosmos/lunie/issues/4365) Store blockStore in DB and boosts API startup by taking initial values from DB. Delete now deprecated validators cache @Bitcoinera
+
+### Changed
+
+- [#4458](https://github.com/cosmos/lunie/pull/4458) Add the new Substrate networks RPC endpoints to our CSP @Bitcoinera
+- [#4469](https://github.com/cosmos/lunie/pull/4469) Deactivate store blockStore in DB and retrieve it for now @Bitcoinera
+- [#4409](https://github.com/cosmos/lunie/pull/4409) Upgrade Akash to Phase 2 @Bitcoinera
+
+### Fixed
+
+- Only escape values of objects when writing to db @faboweb
+- Remove serialization fix for notifications @faboweb
+
+### Code Improvements
+
+- [#4367](https://github.com/cosmos/lunie/issues/4367) Add id field to all the relevant Object types @Bitcoinera
+
 ## [1.0.34] - 2020-07-06
 
 ### Added
