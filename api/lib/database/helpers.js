@@ -34,7 +34,7 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
   return data
 }
 
-function escapeValue(value) {
+function escapeObject(value) {
   if (value === undefined || value === null) return ""
   if (typeof value === 'boolean' || typeof value === 'number') {
     return value
@@ -42,7 +42,7 @@ function escapeValue(value) {
   if (typeof value === 'object') {
     const clone = JSON.parse(JSON.stringify(value))
     Object.keys(clone).forEach((key) => {
-      clone[key] = escapeValue(clone[key])
+      clone[key] = escapeObject(clone[key])
     })
     return clone
   } else {
@@ -58,8 +58,10 @@ function gqlKeyValue([key, value]) {
     : (typeof value === 'boolean' || typeof value === 'number')
     ? value 
     : typeof value === 'string' 
-    ? `"${escapeValue(value)}"` 
-    : `"${JSON.stringify(escapeValue(value)).replace(/"/g, "'")}"`}`
+    ? `"${escape(value)}"` 
+    // we need to double stringify to double escape the quotations
+    // if not, inserted in the query the object will have double quotes inside
+    : JSON.stringify(JSON.stringify(escapeObject(value)))}` 
 }
 
 // stringify a set of row to be according to the graphQL schema
@@ -155,6 +157,6 @@ module.exports = {
   insert,
   read,
   query: graphQLQuery,
-  escapeValue,
+  escapeValue: escapeObject,
   gqlKeyValue
 }

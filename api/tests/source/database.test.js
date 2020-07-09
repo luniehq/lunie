@@ -32,7 +32,7 @@ describe('database helpers', () => {
     })
     it('object value', () => {
       expect(gqlKeyValue(['x', { a: { b: 'hallo' } }])).toBe(
-        `x: "{\"a\":{\"b\":\"hallo\"}}"`
+        `x: "{\\"a\\":{\\"b\\":\\"hallo\\"}}"`
       )
     })
     it('null value', () => {
