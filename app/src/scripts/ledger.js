@@ -1,3 +1,4 @@
+import hdPathsOrAlgosDictionary from "../../../common/dictionaries"
 import config from "src/../config"
 
 function parseLedgerErrors(error) {
@@ -56,7 +57,8 @@ async function getLedgerConnector(networkId, store) {
     case "cosmos": {
       const { default: Ledger } = await import("@lunie/cosmos-ledger")
 
-      const HDPATH = [44, 118, 0, 0, 0]
+      const HDPATH =
+        hdPathsOrAlgosDictionary[JSON.parse(network.hdPathsOrAlgos)[0]] // TODO: use accountType
       const ledger = new Ledger(
         {
           testModeAllowed: config.testModeAllowed,

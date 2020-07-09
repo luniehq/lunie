@@ -44,12 +44,16 @@ export default () => {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
     },
-    async getAddressFromSeed(store, { seedPhrase, network }) {
+    async getAddressFromSeed(store, { seedPhrase, network, attempt }) {
       // get current network
       const networkObject = await getNetworkInfo(network, store)
 
-      const wallet = await getWallet(seedPhrase, networkObject)
-      return wallet.cosmosAddress
+      const createAddressResponse = await getWallet(
+        seedPhrase,
+        networkObject,
+        attempt
+      )
+      return createAddressResponse
     },
     async createKey(store, { seedPhrase, password, name, network }) {
       // TODO extract the key storage from the key creation

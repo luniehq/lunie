@@ -139,6 +139,7 @@ export const NetworksAll = gql`
         chainToViewConversionFactor
       }
       rpc_url
+      hdPathsOrAlgos
     }
   }
 `

@@ -87,6 +87,7 @@ export default {
   },
   data: () => ({
     importedAddress: undefined,
+    attempt: 0,
   }),
   computed: {
     ...mapGetters([`connected`, `recover`]),
@@ -101,10 +102,19 @@ export default {
     },
   },
   async created() {
-    this.importedAddress = await this.$store.dispatch(`getAddressFromSeed`, {
-      seedPhrase: this.$store.state.recover.seed,
-      network: this.network,
-    })
+    const createAddressResponse = await this.$store.dispatch(
+      `getAddressFromSeed`,
+      {
+        seedPhrase: this.$store.state.recover.seed,
+        network: this.network,
+        // accountType: undefined,
+        attempt: this.attempt,
+      }
+    )
+    this.importedAddress = createAddressResponse.wallet.cosmosAddress
+    this.attempt = createAddressResponse.attempt
+    // TODO
+    // this.$store.dispatch(`setAccountType`, createAddressResponse.wallet.accountType)
   },
   methods: {
     onSubmit() {

@@ -1,5 +1,5 @@
 // creates a cosmos addres for the network desired
-function getCosmosAddressCreator(bech32Prefix) {
+function getCosmosAddressCreator(bech32Prefix, network, attempt) {
   return async (seedPhrase) => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
     return getNewWalletFromSeed(seedPhrase, bech32Prefix)
@@ -7,7 +7,7 @@ function getCosmosAddressCreator(bech32Prefix) {
 }
 
 // creates a polkadot address
-async function createPolkadotAddress(seedPhrase, addressPrefix) {
+async function createPolkadotAddress(seedPhrase, network, attempt) {
   const [{ Keyring }] = await Promise.all([
     import("@polkadot/api"),
     import("@polkadot/wasm-crypto").then(async ({ waitReady }) => {
@@ -19,33 +19,49 @@ async function createPolkadotAddress(seedPhrase, addressPrefix) {
     }),
   ])
 
+  if (attempt) {
+    attempt = numberAttemptsController(network, attempt)
+  }
+
   const keyring = new Keyring({
-    ss58Format: Number(addressPrefix),
-    type: "sr25519",
+    ss58Format: Number(network.address_prefix),
+    type: JSON.parse(network.hdPathsOrAlgos)[attempt],
   })
   const newPair = keyring.addFromUri(seedPhrase)
 
   return {
-    cosmosAddress: newPair.address,
-    publicKey: newPair.publicKey,
-    seedPhrase,
+    wallet: {
+      cosmosAddress: newPair.address,
+      publicKey: newPair.publicKey,
+      accountType: JSON.parse(network.hdPathsOrAlgos)[attempt], // accountType refers to the algo that created this account
+      seedPhrase,
+    },
+    attempt,
   }
 }
 
-export async function getWallet(seedPhrase, network) {
+export async function getWallet(seedPhrase, network, attempt) {
   switch (network.network_type) {
     case "cosmos": {
       const addressCreator = await getCosmosAddressCreator(
-        network.address_prefix
+        network.address_prefix,
+        network,
+        attempt
       )
       return await addressCreator(seedPhrase)
     }
     case "polkadot": {
-      return await createPolkadotAddress(seedPhrase, network.address_prefix)
+      return await createPolkadotAddress(seedPhrase, network, attempt)
     }
     default:
       throw new Error(
         "Lunie doesn't support address creation for this network."
       )
+  }
+}
+
+function numberAttemptsController(network, attempt) {
+  if (network.hdPathsOrAlgos.length - 1 < attempt) {
+    return attempt - (network.hdPathsOrAlgos.length - 1)
   }
 }
