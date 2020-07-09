@@ -13,7 +13,12 @@
             src="~assets/images/loader.svg"
             alt="a small spinning circle to display loading"
           />
-          <p v-else class="address">{{ importedAddress }}</p>
+          <div v-else>
+            <p class="address">{{ importedAddress }}</p>
+            <span class="retry-link" @click="created(true)"
+              >Not your address?</span
+            >
+          </div>
         </TmFormGroup>
         <TmFormGroup
           :error="$v.$error && $v.name.$invalid"
@@ -101,26 +106,30 @@ export default {
       },
     },
   },
-  async created() {
-    const createAddressResponse = await this.$store.dispatch(
-      `getAddressFromSeed`,
-      {
-        seedPhrase: this.$store.state.recover.seed,
-        network: this.network,
-        // accountType: undefined,
-        attempt: this.attempt,
-      }
-    )
-    this.importedAddress = createAddressResponse.wallet.cosmosAddress
-    this.attempt = createAddressResponse.attempt
-    // TODO
-    // this.$store.dispatch(`setAccountType`, createAddressResponse.wallet.accountType)
+  mounted() {
+    this.created()
   },
   methods: {
     onSubmit() {
       this.$v.$touch()
       if (this.$v.name.$invalid) return
       this.$router.push("/recover/password")
+    },
+    async created(retry = false) {
+      if (retry) this.attempt++
+      const createAddressResponse = await this.$store.dispatch(
+        `getAddressFromSeed`,
+        {
+          seedPhrase: this.$store.state.recover.seed,
+          network: this.network,
+          // accountType: undefined,
+          attempt: this.attempt,
+        }
+      )
+      this.importedAddress = createAddressResponse.wallet.cosmosAddress
+      this.attempt = createAddressResponse.attempt
+      // TODO
+      // this.$store.dispatch(`setAccountType`, createAddressResponse.wallet.accountType)
     },
   },
   validations: () => ({
@@ -133,5 +142,19 @@ export default {
   word-break: break-all;
   font-size: 0.9rem;
   color: var(--txt);
+}
+
+.session-main p {
+  margin-bottom: 0;
+}
+
+.retry-link {
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--link);
+}
+
+.retry-link:hover {
+  color: var(--link-hover);
 }
 </style>

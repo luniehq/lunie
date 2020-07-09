@@ -18,14 +18,15 @@ async function createPolkadotAddress(seedPhrase, network, attempt) {
       await cryptoWaitReady()
     }),
   ])
+  const hdPathsOrAlgos = JSON.parse(network.hdPathsOrAlgos)
 
   if (attempt) {
-    attempt = numberAttemptsController(network, attempt)
+    attempt = numberAttemptsController(hdPathsOrAlgos, attempt)
   }
 
   const keyring = new Keyring({
     ss58Format: Number(network.address_prefix),
-    type: JSON.parse(network.hdPathsOrAlgos)[attempt],
+    type: hdPathsOrAlgos[attempt],
   })
   const newPair = keyring.addFromUri(seedPhrase)
 
@@ -33,7 +34,7 @@ async function createPolkadotAddress(seedPhrase, network, attempt) {
     wallet: {
       cosmosAddress: newPair.address,
       publicKey: newPair.publicKey,
-      accountType: JSON.parse(network.hdPathsOrAlgos)[attempt], // accountType refers to the algo that created this account
+      accountType: hdPathsOrAlgos[attempt], // accountType refers to the algo that created this account
       seedPhrase,
     },
     attempt,
@@ -60,8 +61,10 @@ export async function getWallet(seedPhrase, network, attempt) {
   }
 }
 
-function numberAttemptsController(network, attempt) {
-  if (network.hdPathsOrAlgos.length - 1 < attempt) {
-    return attempt - (network.hdPathsOrAlgos.length - 1)
+function numberAttemptsController(hdPathsOrAlgos, attempt) {
+  if (attempt >= hdPathsOrAlgos.length) {
+    return attempt - hdPathsOrAlgos.length
+  } else {
+    return attempt
   }
 }
