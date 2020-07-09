@@ -17,9 +17,9 @@ describe('database helpers', () => {
       expect(escapeValue(42)).toBe(42)
     })
     it('object', () => {
-      expect(escapeValue({ a: { b: '<script></script>', c: 42 } })).toEqual(
-        { a: { b: '&lt;script&gt;&lt;/script&gt;', c: 42 } }
-      )
+      expect(escapeValue({ a: { b: '<script></script>', c: 42 } })).toEqual({
+        a: { b: '&lt;script&gt;&lt;/script&gt;', c: 42 }
+      })
     })
     it('null', () => {
       expect(gqlKeyValue(['x', undefined])).toBe(`x: ""`)
@@ -36,9 +36,7 @@ describe('database helpers', () => {
       )
     })
     it('null value', () => {
-      expect(gqlKeyValue(['x', undefined])).toBe(
-        `x: ""`
-      )
+      expect(gqlKeyValue(['x', undefined])).toBe(`x: ""`)
     })
   })
 })
