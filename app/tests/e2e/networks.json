@@ -48,9 +48,9 @@
     "slug": "polkadot-testnet",
     "wallet": "3cd1e165309a8423cbc57dfaca0ed53935cdf4bc4b1248545670a1b460897d00iMtlmQML31Gcu570L+aBulyGPzzTB9LaYc1XS9/GpmGt+Bl5o7IM1R9KCgzokRQJuAEUlLod5t/pCjv1XwQzYEW7hyNgDpOETqDrX0qIh4docg9ffck6me3AyI4Q3ktSOCxZ9BLXluvbataTa5U5ijKvkYavU1/nTFiuvMQmpe4j32wNR/8k6Y8+reSoEk4g44o2wr1Hv7Ux9QfzmRaaUNr1CfwOMEsKDJCTjunuRsBSyPGph6DzuY5sjnaU4+Ff/jkomv9UK6VvwHbxPgJfx9dCUADwr4ziLyxoHpQwlEoZnWBKRr3VDJmu2Nu/Debc8G5Cy7vEpATBAzvp03EiywH/Jd2pyW9RCymkho6Bm2tpsXDe5dx5Hze9cBm3mjfnR6PuNJkKU5wXWwAMt/ty8KkSfywLItkx8GE8yNg+u/0RqDYMngintaeB9qwh7MTnjSAFq2YcGBoJDTcl/b8erUqLOZoK41SxlB/jCtMgEH+CfMKWqF6BIR802oGRyryOUXP3CAZd1w6WN7X2NPawez7TyMsCJg++WUC9b4XREac7HsyN92YI48x434GLXSNsxH7u8Dw7Wk8ZYiAsoPeJkM/K91OLMsmFXCajB4NiWbF41j6zyNpOX4Zg7gfL6cVEI08eH6bsc3iGXGIJX3DSp8jalRPlujJAp9GjytQ4eq8iOwMVUkI8nLU5i9PDjNNy",
     "name": "westend_demo",
-    "stakeAmount": 0.1,
-    "restakeAmount": 0.1,
-    "fundingAmount": 0.4,
+    "stakeAmount": 0.01,
+    "restakeAmount": 0.01,
+    "fundingAmount": 0.2,
     "expectedDiff": 0.1
   }
 ]
