@@ -693,6 +693,7 @@ export default {
           }
           polkadotAPI = await getPolkadotAPI(this.network)
         }
+        const accountType = await this.$store.dispatch(`getCurrentAccountType`)
 
         const hashResult = await this.transactionManager.createSignBroadcast({
           messageType: type,
@@ -703,6 +704,7 @@ export default {
           signingType: this.selectedSignMethod,
           password: this.password,
           polkadotAPI,
+          accountType,
         })
 
         const { hash } = hashResult

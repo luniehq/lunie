@@ -3,7 +3,9 @@ function getCosmosAddressCreator(bech32Prefix, network, attempt) {
   return async (seedPhrase) => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
     return {
-      wallet: JSON.parse(JSON.stringify(getNewWalletFromSeed(seedPhrase, bech32Prefix))),
+      wallet: JSON.parse(
+        JSON.stringify(getNewWalletFromSeed(seedPhrase, bech32Prefix))
+      ),
       attempt,
     }
   }
@@ -37,9 +39,9 @@ async function createPolkadotAddress(seedPhrase, network, attempt) {
     wallet: {
       cosmosAddress: newPair.address,
       publicKey: newPair.publicKey,
-      accountType: hdPathsOrAlgos[attempt], // accountType refers to the algo that created this account
       seedPhrase,
     },
+    accountType: hdPathsOrAlgos[attempt], // accountType refers to the algo that created this account
     attempt,
   }
 }

@@ -128,8 +128,7 @@ export default {
       )
       this.importedAddress = createAddressResponse.wallet.cosmosAddress
       this.attempt = createAddressResponse.attempt
-      // TODO
-      // this.$store.dispatch(`setAccountType`, createAddressResponse.wallet.accountType)
+      this.$store.state.session.accountType = createAddressResponse.accountType // HACK
     },
   },
   validations: () => ({

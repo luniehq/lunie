@@ -118,6 +118,7 @@ export default {
           seedPhrase: this.recover.seed,
           password: this.recover.password,
           name: this.recover.name,
+          accountType: this.$store.state.session.accountType,
           network: this.network,
         })
         if (this.isExtension) {

@@ -12,6 +12,7 @@ export default ({ apollo }) => {
     mobile: config.mobileApp || false,
     signedIn: false,
     sessionType: null, // local, explore, ledger, extension
+    accountType: undefined, // algo this account was created with
     pauseHistory: false,
     history: [],
     address: null, // Current address
@@ -49,6 +50,9 @@ export default ({ apollo }) => {
     },
     setSessionType(state, sessionType) {
       state.sessionType = sessionType
+    },
+    setAccountType(state, accountType) {
+      state.accountType = accountType
     },
     setUserAddress(state, address) {
       state.address = address
@@ -95,8 +99,13 @@ export default ({ apollo }) => {
     }) {
       const session = localStorage.getItem(sessionKey(network))
       if (session) {
-        const { address, sessionType } = JSON.parse(session)
-        await dispatch(`signIn`, { address, sessionType, networkId: network })
+        const { address, sessionType, accountType } = JSON.parse(session)
+        await dispatch(`signIn`, {
+          address,
+          sessionType,
+          accountType,
+          networkId: network,
+        })
       } else {
         commit(`setSignIn`, false)
       }
@@ -107,10 +116,13 @@ export default ({ apollo }) => {
         await commit(`setUserAddresses`, JSON.parse(addresses))
       }
     },
-    async persistSession(store, { address, sessionType, networkId }) {
+    async persistSession(
+      store,
+      { address, sessionType, accountType, networkId }
+    ) {
       localStorage.setItem(
         sessionKey(networkId),
-        JSON.stringify({ address, sessionType })
+        JSON.stringify({ address, sessionType, accountType })
       )
     },
     async persistAddresses(store, { addresses }) {
@@ -136,7 +148,12 @@ export default ({ apollo }) => {
     },
     async signIn(
       { state, getters: { currentNetwork }, commit, dispatch },
-      { address, sessionType = `ledger`, networkId }
+      {
+        address,
+        sessionType = `ledger`,
+        accountType = `cosmosStandard`,
+        networkId,
+      }
     ) {
       if (networkId && currentNetwork.id !== networkId) {
         await commit(`setNetworkId`, networkId)
@@ -144,12 +161,19 @@ export default ({ apollo }) => {
       }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
+      commit(`setAccountType`, accountType)
       commit(`setUserAddress`, address)
-      await dispatch(`rememberAddress`, { address, sessionType, networkId })
+      await dispatch(`rememberAddress`, {
+        address,
+        sessionType,
+        accountType,
+        networkId,
+      })
 
       dispatch(`persistSession`, {
         address,
         sessionType,
+        accountType,
         networkId: currentNetwork.id,
       })
       const addresses = state.addresses
@@ -172,7 +196,13 @@ export default ({ apollo }) => {
       const allSessionAddresses = await dispatch("getAllSessionAddresses")
       commit("setAllSessionAddresses", allSessionAddresses)
 
-      state.externals.track(`event`, `session`, `sign-in`, sessionType)
+      state.externals.track(
+        `event`,
+        `session`,
+        `sign-in`,
+        sessionType,
+        accountType
+      )
     },
     async signOut({ state, commit, dispatch }, networkId) {
       state.externals.track(`event`, `session`, `sign-out`)
@@ -281,9 +311,23 @@ export default ({ apollo }) => {
           title,
           address: JSON.parse(sessionEntry).address,
           sessionType: JSON.parse(sessionEntry).sessionType,
+          accountType: JSON.parse(sessionEntry).accountType,
         })
       })
       return allSessionAddresses
+    },
+    getCurrentAccountType({
+      rootState: {
+        connection: { networks, network },
+      },
+    }) {
+      const currentNetwork = networks.find(({ id }) => id === network)
+      const sessionEntry = localStorage.getItem(`session_${currentNetwork.id}`)
+      if (!sessionEntry)
+        return currentNetwork.network_type === "cosmos"
+          ? `cosmosStandard`
+          : `sr25519`
+      return JSON.parse(sessionEntry).accountType
     },
     setNotificationAvailable(store, { notificationAvailable }) {
       state.notificationAvailable = notificationAvailable

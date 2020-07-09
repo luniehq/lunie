@@ -73,7 +73,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `signup`]),
-    ...mapGetters([`network`, `networkSlug`, `isExtension`]),
+    ...mapGetters([`network`, `networkSlug`, `isExtension`, `currentNetwork`]),
     fieldSeed: {
       get() {
         return this.$store.state.signup.signUpSeed
@@ -108,6 +108,7 @@ export default {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
+          accountType: JSON.parse(this.currentNetwork.hdPathsOrAlgos)[0], // default algo
           network: this.network,
         })
         if (this.isExtension) {
