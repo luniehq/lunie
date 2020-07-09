@@ -3,9 +3,6 @@
 exports[`EmailAuthentication should show the EmailAuthentication page 1`] = `
 <tmpage-stub
   data-title="email-authentication"
-  hideheader="true"
-  subtitle=""
-  title=""
 >
   <div
     class="card"

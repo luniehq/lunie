@@ -2,54 +2,23 @@
 
 exports[`TmPage should show links to other pages 1`] = `
 <div
-  class="tm-page"
+  class="page"
+  dataempty="true"
 >
-  <tmpageheader-stub
-    tabs=""
-  >
-    <!---->
-     
-    <!---->
-     
-    <template>
-      <!---->
-    </template>
-     
-    <template />
-  </tmpageheader-stub>
+  <!---->
    
-  <main
-    class="tm-page-main"
-  >
-    <!---->
-     
-  </main>
+  <!---->
+   
 </div>
 `;
 
 exports[`TmPage shows a page skeleton 1`] = `
 <div
-  class="tm-page"
+  class="page"
 >
-  <tmpageheader-stub
-    tabs=""
-  >
-    <!---->
-     
-    <!---->
-     
-    <template>
-      <!---->
-    </template>
-     
-    <template />
-  </tmpageheader-stub>
+  <!---->
    
-  <main
-    class="tm-page-main"
-  >
-    <!---->
-     
-  </main>
+  <!---->
+   
 </div>
 `;
