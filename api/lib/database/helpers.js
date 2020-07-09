@@ -34,28 +34,37 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
   return data
 }
 
-function escapeValue(value, nested = false) {
-  if (value === null || value === undefined) return nested ? value : `""`
-  const type = typeof value
-  switch (type) {
-    case 'string':
-      return nested ? escape(value) : `"${escape(value)}"`
-    case 'object': {
-      const clone = JSON.parse(JSON.stringify(value))
-      Object.keys(clone).forEach((key) => {
-        clone[key] = escapeValue(clone[key], true)
-      })
-      // only stringify the top object not the nested ones
-      return nested ? clone : `"${JSON.stringify(clone).replace(/"/g, '\\"')}"`
-    }
-    default:
-      return value
+function escapeObject(value) {
+  if (value === undefined || value === null) return ""
+  if (typeof value === 'boolean' || typeof value === 'number') {
+    return value
   }
+  if (typeof value === 'object') {
+    const clone = JSON.parse(JSON.stringify(value))
+    Object.keys(clone).forEach((key) => {
+      clone[key] = escapeObject(clone[key])
+    })
+    return clone
+  } else {
+    return escape(value).replace(/amp;/g,"")
+  }
+}
+
+function escapeValue(value) {
+  return (value === undefined || value === null)
+  ? `""`
+  : (typeof value === 'boolean' || typeof value === 'number')
+  ? value 
+  : typeof value === 'string' 
+  ? `"${escape(value)}"` 
+  // we need to double stringify to double escape the quotations
+  // if not, inserted in the query the object will have double quotes inside
+  : JSON.stringify(JSON.stringify(escapeObject(value)))
 }
 
 function gqlKeyValue([key, value]) {
   // escape all values but handle objects gracefully
-  return `${key}: ${escapeValue(value)}`
+  return `${key}: ${escapeValue(value)}` 
 }
 
 // stringify a set of row to be according to the graphQL schema
@@ -151,6 +160,6 @@ module.exports = {
   insert,
   read,
   query: graphQLQuery,
-  escapeValue,
+  escapeValue: escapeObject,
   gqlKeyValue
 }

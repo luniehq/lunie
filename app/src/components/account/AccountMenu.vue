@@ -6,7 +6,7 @@
           class="account-menu-button account-menu-show-seed"
           :to="{ name: 'reveal', params: { address } }"
         >
-          <i class="material-icons notranslate">visibility</i>
+          <i class="material-icons notranslate show-seed">visibility</i>
         </router-link>
         <span class="account-menu-button-span">Show Seed</span>
       </div>

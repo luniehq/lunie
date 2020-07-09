@@ -20,11 +20,11 @@ const HOST = process.env.NODE_ENV = "docker" ? '0.0.0.0' : 'localhost';
 
 const { getKeybaseImages } = require("./keybase")
 getKeybaseImages()
-setInterval(getKeybaseImages, 1000 * 60 * 60) // check once per hour for new validators (throttled by 24 after an update)
+setInterval(getKeybaseImages, 1000 * 60 * 5) // check once every 5 minutes for new validators (throttled by 24 after an update)
 
 const { getTwitterImages } = require("./twitterImages")
 getTwitterImages()
-setInterval(getTwitterImages, 1000 * 60 * 60) // check once per hour for new validators (throttled by 24 after an update)
+setInterval(getTwitterImages, 1000 * 60 * 5) // check once every 5 minutes for new validators (throttled by 24 after an update)
 
 app.use(bodyParser.json())
 app.use(timeout(120000))
