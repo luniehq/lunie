@@ -1,7 +1,6 @@
 <template>
   <TmPage
     data-title="Proposals"
-    :managed="true"
     :loading="$apollo.queries.proposals.loading && !loaded"
   >
     <div v-if="loaded" class="button-container">

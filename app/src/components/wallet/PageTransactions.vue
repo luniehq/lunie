@@ -1,32 +1,28 @@
 <template>
   <TmPage
-    :managed="true"
-    :loading="$apollo.queries.transactions.loading && dataEmpty"
-    :loaded="!$apollo.queries.transactions.loading && !dataEmpty"
-    :error="$apollo.queries.transactions.error"
-    :data-empty="transactions.length === 0"
     data-title="Transactions"
+    :loading="$apollo.queries.transactions.loading"
+    :error="$apollo.queries.transactions.error"
     :sign-in-required="true"
   >
-    <DataEmptyTx slot="no-data" />
-    <template slot="managed-body">
-      <div>
-        <EventList
-          :events="transactions"
-          :more-available="moreAvailable"
-          @loadMore="loadMore"
-        >
-          <template slot-scope="event">
-            <TransactionItem
-              :key="event.key"
-              :transaction="event"
-              :validators="validatorsAddressMap"
-              :address="address"
-            />
-          </template>
-        </EventList>
-      </div>
-      <br />
+    <DataEmptyTx v-if="!$apollo.queries.transactions.loading && dataEmpty" />
+
+    <template v-if="!dataEmpty">
+      <EventList
+        :events="transactions"
+        :more-available="moreAvailable"
+        @loadMore="loadMore"
+      >
+        <template slot-scope="event">
+          <TransactionItem
+            :key="event.key"
+            :transaction="event"
+            :validators="validatorsAddressMap"
+            :address="address"
+          />
+        </template>
+      </EventList>
+
       <TmDataMsg icon="calendar_today">
         <div slot="title">
           Looking for older transactions?

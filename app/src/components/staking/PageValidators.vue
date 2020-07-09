@@ -1,5 +1,5 @@
 <template>
-  <TmPage :managed="true">
+  <TmPage>
     <div
       v-if="$apollo.queries.validators.loading && !validators.length && !loaded"
       class="loading-image-container"
@@ -10,7 +10,7 @@
         alt="geometric placeholder shapes"
       />
     </div>
-    <template v-else slot="managed-body">
+    <template v-else>
       <div class="filterContainer">
         <TmField
           v-model="searchTerm"

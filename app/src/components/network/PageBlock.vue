@@ -1,11 +1,11 @@
 <template>
   <TmPage
     data-title="Block"
-    :managed="true"
     :loading="this.$apollo.queries.block.loading"
     :error="error"
+    class="readable-width"
   >
-    <template slot="managed-body">
+    <template v-if="!this.$apollo.queries.block.loading">
       <div class="block">
         <h2 class="page-profile__title">Block #{{ height | prettyInt }}</h2>
       </div>

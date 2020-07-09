@@ -1,13 +1,11 @@
 <template>
   <TmPage
-    :managed="true"
+    data-title="Validator"
     :data-empty="!validator.operatorAddress"
     :loading="$apollo.queries.validator.loading"
-    :loaded="loaded"
-    data-title="Validator"
-    class="small"
+    class="readable-width"
   >
-    <template v-if="validator.operatorAddress" slot="managed-body">
+    <template v-if="validator.operatorAddress">
       <div class="button-container">
         <button class="back-button" @click="$router.go(-1)">
           <i class="material-icons notranslate arrow">arrow_back</i>
