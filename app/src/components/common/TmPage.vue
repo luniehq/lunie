@@ -4,11 +4,9 @@
     :class="{ 'dark-background': darkBackground && session.signedIn }"
   >
     <CardSignInRequired v-if="signInRequired && !session.signedIn" />
-    <template>
-      <TmDataConnecting v-if="!connected" />
-      <TmDataLoading v-else-if="loading" />
-      <TmDataError v-else-if="error" />
-    </template>
+    <TmDataConnecting v-if="!connected" />
+    <TmDataLoading v-else-if="loading" />
+    <TmDataError v-else-if="error" />
 
     <slot />
   </div>
@@ -51,6 +49,14 @@ export default {
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`connected`]),
+  },
+  watch: {
+    $route() {
+      this.scrollContainer.scrollTop = 0
+    },
+  },
+  mounted() {
+    this.scrollContainer = this.$el.querySelector(`.page`)
   },
 }
 </script>
