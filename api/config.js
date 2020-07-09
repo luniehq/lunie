@@ -22,5 +22,7 @@ module.exports = {
   scriptRunnerEndpoint:
     process.env.SCRIPT_RUNNER_ENDPOINT || 'http://localhost:9000',
   scriptRunnerAuthenticationToken:
-    process.env.AUTHENTICATION_TOKEN || secrets.read('AUTHENTICATION_TOKEN')
+    process.env.AUTHENTICATION_TOKEN || secrets.read('AUTHENTICATION_TOKEN'),
+  pepipostAPIKey:
+    process.env.PEPIPOST_API_KEY || secrets.read('PEPIPOST_API_KEY')
 }
