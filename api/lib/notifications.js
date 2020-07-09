@@ -151,9 +151,7 @@ function getPushLink(
 // Get relevant icon for notification
 // TODO: Upload icons to DO instead of passing relative links
 function getIcon({ eventType, data }) {
-  const notificationData = JSON.parse(
-    data
-  )
+  const notificationData = JSON.parse(data)
   switch (eventType) {
     case eventTypes.TRANSACTION_RECEIVE:
       return `/img/icons/activity/Received.svg`
@@ -236,7 +234,6 @@ const startNotificationService = (networks) => {
           Sentry.captureException(error)
         })
       }
-
     })
   }
 }
