@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <% if (process.env.MOBILE_APP) { %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0 viewport-fit=cover">
+  <% } else { %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0 viewport-fit=cover">
+  <% } %>
+  <meta name="Description" content="Lunie is the staking and governance platform for proof-of-stake blockchains.">
+  <meta name="Author" content="Lunie International Software Systems Inc.">
+  <meta name="keywords"
+    content="Staking, Staking Rewards, Proof of Stake, Blockchain, Cryptocurrency, Cosmos, Tezos, Polkadot, Binance, Wallet">
+  <title>Lunie — Simple Staking Wallet | Staking Rewards</title>
+
+  <meta property="og:title" content="Lunie — Simple Staking Wallet | Staking Rewards" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://lunie.io" />
+  <meta property="og:image" content="https://lunie.fra1.digitaloceanspaces.com/lunie-og.png" />
+  <meta property="og:description"
+    content="Lunie is the staking and governance platform for proof-of-stake blockchains." />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@luniehq" />
+  <meta name="twitter:creator" content="@luniehq" />
+
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <link rel="canonical" href="https://lunie.io">
+  <link rel="manifest" href="/manifest.json">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/img/icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/img/icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/img/icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/img/icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/img/icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/img/icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/img/icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/img/icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/img/icons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/img/icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" href="img/icons/favicon-96x96.png" />
+
+  <style>
+    .preloader {
+      height: 100vh;
+      width: 100vw;
+      background: white;
+      position: fixed;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+
+<body class="lunie-dark">
+  <noscript>
+    <strong>We're sorry but Lunie doesn't work properly without JavaScript enabled. Please enable it to
+      continue.</strong>
+  </noscript>
+  <div id="app">
+    <div class="preloader">
+      <img src="/img/spinner_blue@256.gif" style="height: 64px; width: 64px;" />
+    </div>
+  </div>
+  <!-- built files will be auto injected -->
+
+  <script nonce="YW5hbHl0aWNzLWx1bmll" async src='https://www.google-analytics.com/analytics.js'></script>
+
+  <script nonce="4AEemGbGTJptoIGFP3Nd">
+    if (!localStorage.getItem("isE2eTest")) {
+      window.intercomSettings = {
+        app_id: "<%= process.env.VUE_APP_INTERCOM_ID %>",
+        custom_launcher_selector: '.intercom-button'
+      };
+    }
+  </script>
+
+  <script nonce="HYjB4SnB0b0lHRlAzTmQ" defer>
+    if (!localStorage.getItem("isE2eTest")) {
+      (function () { var w = window; var ic = w.Intercom; if (typeof ic === "function") { ic('reattach_activator'); ic('update', w.intercomSettings); } else { var d = document; var i = function () { i.c(arguments); }; i.q = []; i.c = function (args) { i.q.push(args); }; w.Intercom = i; var l = function () { var s = d.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'https://widget.intercom.io/widget/<%= process.env.VUE_APP_INTERCOM_ID %>'; var x = d.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); }; if (w.attachEvent) { w.attachEvent('onload', l); } else { w.addEventListener('load', l, false); } } })();
+    }
+  </script>
+</body>
+
+</html>

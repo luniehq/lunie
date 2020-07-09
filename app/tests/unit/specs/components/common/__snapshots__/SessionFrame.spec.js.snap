@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionFrame shows an overview of all wallets to sign in with from the extension 1`] = `
+<div
+  class="session-frame"
+  mode="out-in"
+  name="component-fade"
+  tabindex="0"
+>
+  <div
+    class="session-outer-container"
+  >
+    <!---->
+     
+    <div
+      class="session evenly"
+    >
+      <div
+        class="session-header"
+      >
+        <a>
+          <i
+            class="material-icons notranslate circle back"
+          >
+            arrow_back
+          </i>
+        </a>
+         
+        <div
+          class="session-close"
+        >
+          <a>
+            <i
+              class="material-icons notranslate circle back"
+            >
+              close
+            </i>
+          </a>
+        </div>
+      </div>
+       
+    </div>
+  </div>
+</div>
+`;

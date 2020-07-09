@@ -1,0 +1,213 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionExplore shows a form to sign in with an address 1`] = `
+<sessionframe-stub
+  icon="language"
+>
+  <tmformstruct-stub
+    submit="function () { [native code] }"
+    width=""
+  >
+    <h2
+      class="session-title bottom-indent"
+    >
+      Explore with any address
+    </h2>
+     
+    <div
+      class="session-list"
+    >
+      <div
+        title="cosmos1unc788q8md2jymsns24eyhua58palg5kc7cstv"
+      >
+        <div
+          class="tm-li-session"
+        >
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons notranslate circle"
+            >
+              vpn_key
+            </i>
+          </div>
+           
+          <div
+            class="tm-li-session-text"
+          >
+            <div
+              class="tm-li-session-title"
+            >
+              <span>
+                cosmos…palg5kc7cstv
+              </span>
+               
+              <p
+                class="tm-li-session-subtitle"
+              >
+                
+                Ledger Nano S
+              
+              </p>
+            </div>
+          </div>
+           
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons notranslate"
+            >
+              arrow_forward
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        title="cosmos1vxkye0mpdtjhzrc6va5lcnxnuaa7m64khj8klc"
+      >
+        <div
+          class="tm-li-session"
+        >
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons notranslate circle"
+            >
+              laptop
+            </i>
+          </div>
+           
+          <div
+            class="tm-li-session-text"
+          >
+            <div
+              class="tm-li-session-title"
+            >
+              <span>
+                cosmos…a7m64khj8klc
+              </span>
+               
+              <p
+                class="tm-li-session-subtitle"
+              >
+                
+                Lunie Browser Extension
+              
+              </p>
+            </div>
+          </div>
+           
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons notranslate"
+            >
+              arrow_forward
+            </i>
+          </div>
+        </div>
+      </div>
+      <div
+        title="cosmos1epsszxwps8ayeusfh8ru995atagc05sslwesuy"
+      >
+        <div
+          class="tm-li-session"
+        >
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons notranslate circle"
+            >
+              phone_iphone
+            </i>
+          </div>
+           
+          <div
+            class="tm-li-session-text"
+          >
+            <div
+              class="tm-li-session-title"
+            >
+              <span>
+                cosmos…gc05sslwesuy
+              </span>
+               
+              <p
+                class="tm-li-session-subtitle"
+              >
+                
+                Local
+              
+              </p>
+            </div>
+          </div>
+           
+          <div
+            class="tm-li-session-icon"
+          >
+            <i
+              class="material-icons notranslate"
+            >
+              arrow_forward
+            </i>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="session-main"
+    >
+      <tmformgroup-stub
+        fieldid="sign-in-name"
+        fieldlabel="Your Address"
+      >
+        <tmfield-stub
+          placeholder=""
+          type="text"
+          vue-focus="vue-focus"
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </div>
+     
+    <tmformgroup-stub
+      class="field-checkbox"
+      fieldid="sign-up-warning"
+      fieldlabel=""
+    >
+      <div
+        class="field-checkbox-input"
+      >
+        <label
+          class="field-checkbox-label"
+          for="select-testnet"
+        >
+          <input
+            id="select-testnet"
+            type="checkbox"
+          />
+          
+          This is a testnet address
+        
+        </label>
+      </div>
+    </tmformgroup-stub>
+     
+    <div
+      class="session-footer"
+    >
+      <tmbtn-stub
+        customclass=""
+        value="Explore"
+      />
+    </div>
+  </tmformstruct-stub>
+</sessionframe-stub>
+`;

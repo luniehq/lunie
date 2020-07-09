@@ -1,0 +1,45 @@
+name: Publish on Netlify
+on:
+  push:
+    branches:
+      - "develop"
+    paths:
+      - 'app/*'
+
+env:
+  WORKING_DIRECTORY: ./app
+  GOOGLE_ANALYTICS_UID: ${{ secrets.GOOGLE_ANALYTICS_UID_FE }}
+  SENTRY_DSN: ${{ secrets.SENTRY_DSN_APP }}
+  SENTRY_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+  SENTRY_URL: ${{ secrets.SENTRY_URL }}
+  VUE_APP_GRAPHQL_URL: ${{ secrets.LUNIE_API }}
+  VUE_APP_INTERCOM_ID: ${{ secrets.INTERCOM_ID_FE }}
+  VUE_APP_FIREBASE_CONFIG: ${{ secrets.VUE_APP_FIREBASE_CONFIG }}
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - uses: bahmutov/npm-install@v1
+      - name: Build
+        run: yarn buildsentry
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN_APP }}
+        working-directory: ${{env.WORKING_DIRECTORY}}
+      - uses: nwtgck/actions-netlify@v1.1.4
+        id: deploy
+        with:
+          alias: staging
+          publish-dir: './app/dist'
+          github-token: ${{ secrets.GIT_BOT_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+          netlify-config-path: ./app/netlify.toml
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

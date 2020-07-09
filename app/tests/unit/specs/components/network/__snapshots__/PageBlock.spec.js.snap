@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageBlock shows a page with information about a certain block 1`] = `
+<tmpage-stub
+  data-title="Block"
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="block"
+    >
+      <h2
+        class="page-profile__title"
+      >
+        Block #100
+      </h2>
+    </div>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Chain ID
+        </h4>
+         
+        <span
+          class="page-data"
+        >
+          gaia-13006
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Time
+        </h4>
+         
+        <span
+          class="page-data"
+        >
+          September 24th 2019, 13:03
+        </span>
+      </li>
+    </ul>
+     
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <h3
+          class="page-profile__section-title"
+        >
+          
+          Transactions (1)
+          
+          <!---->
+        </h3>
+         
+        <eventlist-stub
+          events="[object Object]"
+        />
+         
+        <br />
+      </div>
+    </div>
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageBlock shows the block page with no txs 1`] = `
+<tmpage-stub
+  data-title="Block"
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="block"
+    >
+      <h2
+        class="page-profile__title"
+      >
+        Block #100
+      </h2>
+    </div>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Chain ID
+        </h4>
+         
+        <span
+          class="page-data"
+        >
+          gaia-13006
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Time
+        </h4>
+         
+        <span
+          class="page-data"
+        >
+          September 24th 2019, 13:03
+        </span>
+      </li>
+    </ul>
+     
+    <div
+      class="row"
+    >
+      <div
+        class="column"
+      >
+        <h3
+          class="page-profile__section-title"
+        >
+          
+          Transactions (0)
+          
+          <!---->
+        </h3>
+         
+        <tmdatamsg-stub
+          icon="info_outline"
+          iconcolor="var(--warning)"
+        >
+          <div>
+            
+            No Transactions
+          
+          </div>
+           
+          <div>
+            
+            This block doesn't contain any transactions.
+          
+          </div>
+        </tmdatamsg-stub>
+         
+        <br />
+      </div>
+    </div>
+  </template>
+</tmpage-stub>
+`;

@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SendTxDetails renders a received transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiontype="Received"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Received
+    </h3>
+     
+    <span>
+      From 
+    </span>
+     
+    <address-stub
+      address="cosmosvaloper123"
+      tooltiptext=""
+    />
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      10 
+      ATOM
+    
+    </p>
+  </div>
+</div>
+`;
+
+exports[`SendTxDetails renders a sent transaction message 1`] = `
+<div
+  class="tx__content"
+>
+  <transactionicon-stub
+    transactiontype="Sent"
+  />
+   
+  <div
+    class="tx__content__left"
+  >
+    <h3>
+      Sent
+    </h3>
+     
+    <span>
+      To 
+    </span>
+     
+    <address-stub
+      address="cosmosvaloper456"
+      tooltiptext=""
+    />
+  </div>
+   
+  <div
+    class="tx__content__right"
+  >
+    <p
+      class="amount"
+    >
+      
+      10 
+      ATOM
+    
+    </p>
+  </div>
+</div>
+`;

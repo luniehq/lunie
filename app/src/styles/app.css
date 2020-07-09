@@ -1,0 +1,191 @@
+@import "reset";
+@import "variables";
+@import "vendor/vue-directive-tooltip.css";
+
+/* global-reset() */
+
+/* reset-html5() */
+
+/* --- MODULES --- */
+@import "table.css";
+
+/* --- BASICS --- */
+* {
+  box-sizing: border-box;
+  transition: color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
+  transition: border-color 0.2s ease-in-out;
+  transition: fill 0.2s ease-in-out;
+}
+
+html,
+body,
+#app {
+  background: var(--app-bg);
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--link-hover);
+  cursor: pointer;
+}
+
+#app {
+  font-size: var(--x);
+  line-height: 1.5;
+  font-family: var(--sans);
+  color: var(--txt);
+  display: flex;
+  flex-flow: column nowrap;
+  min-width: 0;
+}
+
+#app-content {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+}
+
+.tm-field {
+  border-radius: 0.25rem !important;
+}
+
+input[readonly],
+input[disabled],
+textarea[readonly],
+textarea[disabled] {
+  background: var(--bc-dim) !important;
+}
+
+input[type="radio"] {
+  margin: 0;
+}
+
+input.tm-field {
+  height: inherit !important;
+}
+
+.tm-select .tm-field-select-addon {
+  height: 100% !important;
+  border-left: 1px solid var(--input-bc);
+  width: 29px !important;
+}
+
+.tm-li-container {
+  margin-right: 1rem;
+}
+
+.input-suffix {
+  background: transparent;
+  display: inline-block;
+  position: absolute;
+  padding: 7px;
+  font-size: var(--sm);
+  text-transform: uppercase;
+  top: 0;
+  right: 30px;
+  letter-spacing: 1px;
+  text-align: right;
+  font-weight: 500;
+  border-radius: 2px;
+}
+
+.input-suffix.max-button {
+  right: 124px;
+}
+
+.field-checkbox-label {
+  display: inline-block;
+  padding-left: 1.5rem;
+  text-indent: -1.5rem;
+  line-height: 14px;
+}
+
+.hide {
+  display: none;
+}
+
+.loading-image-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  overflow: hidden;
+  animation: fade 1.5s infinite;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0.4;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  #app-content {
+    padding-top: 66px;
+    flex-flow: column;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  #app {
+    flex-flow: row nowrap;
+  }
+
+  #app-content {
+    display: flex;
+    min-width: 0;
+  }
+}
+
+@media screen and (max-width: 667px) {
+  .hide-xs {
+    display: none !important;
+  }
+}
+
+/* iPhone X and Xs Max */
+@media only screen and (min-device-width: 375px) and (min-device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait) {
+  #app-content {
+    padding-top: 80px;
+  }
+}
+
+/* iPhone XR */
+@media only screen and (min-device-width: 414px) and (min-device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
+  #app-content {
+    padding-top: 80px;
+  }
+}
+
+.intercom-button {
+  cursor: pointer;
+}

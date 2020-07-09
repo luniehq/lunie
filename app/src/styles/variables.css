@@ -1,0 +1,58 @@
+@import "themes/akash";
+@import "themes/cosmos";
+@import "themes/e-money";
+@import "themes/terra";
+@import "themes/kava";
+@import "themes/kusama";
+@import "themes/polkadot";
+@import "themes/polkadot-testnet";
+@import "themes/lunie-dark";
+
+:root {
+  --input-bg: transparent;
+  --menu-bright: hsl(0, 0%, 100%);
+  --menu-text: hsl(0, 0%, 90%);
+  --notification-title: hsl(227, 40%, 33%);
+  --success: hsl(120, 72%, 47%);
+  --warning: hsl(22, 86%, 56%);
+  --danger: hsl(0, 100%, 55%);
+  --info: hsl(332, 47%, 23%);
+  --sky-blue: hsl(217, 100%, 70%);
+  --faded-blue: hsl(226, 30%, 60%);
+  --dark-grey-blue: hsl(227, 40%, 33%);
+  --x: 16px;
+  --sans:
+    -apple-system,
+    blinkmacsystemfont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
+    sans-serif;
+  --mono: consolas, monaco, monospace;
+  --xxl: calc(var(--x) * 1.75);
+  --xl: calc(var(--x) * 1.5);
+  --lg: calc(var(--x) * 1.25);
+  --m: var(--x);
+  --sm: calc(var(--x) * 0.75);
+  --xs: calc(var(--x) * 0.7);
+  --h1: 2rem;
+  --h2: 1.5rem;
+  --h3: 1.25rem;
+  --h4: 1.125rem;
+  --h5: 1rem;
+  --h6: 0.75rem;
+  --sidebar-width: 14rem;
+  --sidebar-plus-width: 18rem;
+  --z-modalError: 1002;
+  --z-modal: 1000;
+  --z-appHeader: 100;
+  --z-appMenu: 99;
+  --z-listItem: 10;
+  --z-default: 1;
+  --z-below: -1;
+}

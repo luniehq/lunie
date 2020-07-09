@@ -1,0 +1,44 @@
+name: SCRIPT RUNNER DEVEOPMENT Update existing droplet in Digital Ocean
+
+on:
+  push:
+    branches:
+      - 'develop'
+    paths:
+      - 'scriptRunner/**'
+env:
+  WORKING_DIRECTORY: ./scriptRunner
+jobs:
+  test:
+    name: Compile
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+    - uses: bahmutov/npm-install@v1
+    - name: Build image
+      run: cd ${{env.WORKING_DIRECTORY}} && yarn build 
+    - name: Save file
+      run: docker save lunie-script-runner | gzip > lunie-script-runner.tgz
+      working-directory: ${{env.WORKING_DIRECTORY}}
+    - name: Copy file via scp
+      uses: appleboy/scp-action@master
+      with:
+        source: "scriptRunner/lunie-script-runner.tgz,scriptRunner/docker-compose.yml,scriptRunner/Caddyfile"
+        strip_components: 1 # remove the api folder
+        target: "/root/"
+        host: ${{ secrets.HOST_SCRIPT_RUNNER }}
+        username: root
+        key: ${{ secrets.SSH_KEY_SCRIPT_RUNNER }}
+    - name: Install on instance
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_SCRIPT_RUNNER }}
+        username: root
+        key: ${{ secrets.SSH_KEY_SCRIPT_RUNNER }}
+        script: |
+          docker image prune -a -f
+          docker load < lunie-script-runner.tgz
+          TWITTER_AUTH_TOKEN=${{secrets.TWITTER_AUTH_TOKEN}} HASURA_URL=https://staging-db.lunie.io/v1/graphql HASURA_ADMIN_KEY=${{secrets.LUNIE_STAGING_DB_KEY}} SENTRY_DSN=${{secrets.SENTRY_DSN_API_STAGING}} AUTHENTICATION_TOKEN=${{secrets.AUTHENTICATION_TOKEN}} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} docker stack deploy -c docker-compose.yml lunie-script-runner
+          TWITTER_AUTH_TOKEN=${{secrets.TWITTER_AUTH_TOKEN}} HASURA_URL=https://staging-db.lunie.io/v1/graphql HASURA_ADMIN_KEY=${{secrets.LUNIE_STAGING_DB_KEY}} SENTRY_DSN=${{secrets.SENTRY_DSN_API_STAGING}} AUTHENTICATION_TOKEN=${{secrets.AUTHENTICATION_TOKEN}} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} docker service update --image lunie-script-runner:latest --force lunie-script-runner_lunie-script-runner

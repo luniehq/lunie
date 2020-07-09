@@ -1,0 +1,28 @@
+.lunie-dark {
+  /* theme colors */
+  --primary: hsl(144, 54%, 60%);
+  --primary-hover: hsl(144, 54%, 55%);
+  --highlight: hsl(7, 88%, 70%);
+  --link: hsl(217, 100%, 70%);
+  --link-hover: hsl(217, 100%, 65%);
+
+  /* background-colors */
+  --app-fg: hsl(229, 15%, 22%);
+  --app-fg-hover: hsl(229, 15%, 17%);
+  --app-bg: hsl(229, 20%, 11%);
+
+  /* menu styles */
+  --app-nav: hsl(229, 20%, 11%);
+  --app-nav-hover: hsl(229, 20%, 16%);
+  --menu-link: var(--link);
+  --menu-link-hover: var(--link-hover);
+  --menu-border: hsl(229, 20%, 26%);
+
+  /* dark-theme typography */
+  --bright: hsl(227, 41%, 88%);
+  --txt: hsl(227, 41%, 83%);
+  --dim: hsl(227, 41%, 78%);
+  --bc: var(--app-fg);
+  --bc-dim: var(--app-bg);
+  --input-bc: var(--menu-border);
+}

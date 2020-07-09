@@ -1,0 +1,25 @@
+name: Create a release PR
+
+on:
+  push:
+    branches:
+      - release
+    paths:
+      - 'api/**'
+env:
+  WORKING_DIRECTORY: ./api
+jobs:
+  createReleasePR:
+    name: createReleasePR
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+    - name: configure release bot
+      run: git config user.email "bot@lunie.io" && git config user.name "Release Lunie Bot"
+      working-directory: ${{env.WORKING_DIRECTORY}}
+    - name: create release PR
+      run: npx simsala release-candidate --semver patch --pending-path ./changes --owner luniehq --repository lunie --token ${{ secrets.GIT_BOT_TOKEN }} --message "Please manually test before merging this to master" --tag-prefix "api"
+      working-directory: ${{env.WORKING_DIRECTORY}}

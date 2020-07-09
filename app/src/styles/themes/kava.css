@@ -1,0 +1,29 @@
+.kava-testnet,
+.kava-mainnet {
+  /* theme colors */
+  --primary: hsl(2, 100%, 65%);
+  --primary-hover: hsl(2, 100%, 55%);
+  --highlight: hsl(2, 100%, 75%);
+  --link: var(--primary);
+  --link-hover: var(--primary-hover);
+
+  /* background-colors */
+  --app-fg: hsl(0, 0%, 97%);
+  --app-fg-hover: hsl(0, 0%, 92%);
+  --app-bg: hsl(0, 0%, 100%);
+
+  /* menu styles */
+  --app-nav: hsl(244, 66%, 51%);
+  --app-nav-hover: hsla(2, 100%, 60%, 0.25);
+  --menu-link: var(--primary);
+  --menu-link-hover: var(--primary-hover);
+  --menu-border: hsl(244, 66%, 56%);
+
+  /* light-theme typography */
+  --bright: hsl(0, 0%, 0%);
+  --txt: hsl(0, 0%, 10%);
+  --dim: hsl(0, 0%, 20%);
+  --bc: hsl(0, 0%, 90%);
+  --bc-dim: hsl(0, 0%, 95%);
+  --input-bc: hsl(0, 0%, 75%);
+}

@@ -1,0 +1,8 @@
+node_modules
+.vscode/launch.json
+.env
+.log
+yarn-error.log
+firebaseCredentials.json
+caddy_certs
+redis_data

@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CookieBar shows the cookie bar 1`] = `
+<div>
+  <bar-stub
+    bartype="primary"
+    link=""
+    linkcaption=""
+    show="true"
+  >
+    <span
+      class="hide-on-mobile"
+    >
+      This site uses cookies to help improve your experience.
+    </span>
+    
+    By using Lunie, you accept our
+    
+    <router-link-stub
+      class="link"
+      to="/terms"
+    >
+      Terms of Service
+    </router-link-stub>
+     and
+    
+    <router-link-stub
+      class="link"
+      to="/privacy"
+    >
+       Privacy Policy
+    </router-link-stub>
+    .
+  
+  </bar-stub>
+</div>
+`;

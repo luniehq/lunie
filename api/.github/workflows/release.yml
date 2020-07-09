@@ -1,0 +1,22 @@
+name: Create a release PR
+
+on:
+  push:
+    branches:
+      - release
+jobs:
+  createReleasePR:
+    name: createReleasePR
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+    - name: yarn install
+      run: yarn && yarn add simsala
+    - name: configure release bot
+      run: git config user.email "bot@lunie.io" && git config user.name "Release Lunie Bot"
+    - name: create release PR
+      run: node node_modules/simsala/src/cli.js release-candidate --semver patch --pending-path ./changes --owner luniehq --repository lunie-api --token ${{ secrets.GIT_BOT_TOKEN }} --message "Please test https://develop--lunieio.netlify.com/?api=https://staging-api.lunie.io before releasing."

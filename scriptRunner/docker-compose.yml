@@ -1,0 +1,57 @@
+version: '3.6'
+services:
+  lunie-script-runner:
+    image: lunie-script-runner:latest
+    container_name: lunie-script-runner
+    restart: unless-stopped
+    secrets:
+    - HASURA_ADMIN_KEY
+    - AUTHENTICATION_TOKEN
+    volumes:
+    - /logs:/logs
+    - caches:/api/caches
+    networks:
+       - general
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://admin:${LOKI_PASSWORD}@monitoring.lunie.io:3100/loki/api/v1/push"
+    deploy:
+      replicas: 1
+      # resources:
+      #   limits:
+      #     memory: 2.5G
+      #     cpus: '0.9'
+    environment:
+      - HASURA_URL=$HASURA_URL
+      - HASURA_ADMIN_KEY=$HASURA_ADMIN_KEY
+      - SENTRY_DSN=$SENTRY_DSN
+      - AUTHENTICATION_TOKEN=$AUTHENTICATION_TOKEN
+      - TWITTER_AUTH_TOKEN=$TWITTER_AUTH_TOKEN
+    ports:
+    - "9000:9000"
+  caddy:
+    image: abiosoft/caddy:1.0.3-no-stats
+    depends_on:
+    - "lunie-script-runner"
+    restart: on-failure
+    container_name: caddy
+    networks:
+        - general
+    deploy:
+      replicas: 1
+    ports:
+    - "443:443"
+    volumes:
+    - ./Caddyfile:/etc/Caddyfile
+    - caddy_certs:/root/.caddy
+secrets:
+  HASURA_ADMIN_KEY:
+    external: true
+  AUTHENTICATION_TOKEN:
+    external: true
+volumes:  
+  caddy_certs:
+  caches:
+networks:
+  general:

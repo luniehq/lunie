@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionApprove shows the approval modal with the transaction and an invoice table 1`] = `
+<div
+  class="session session-approve"
+  validators=""
+>
+  <h2>
+    Approve Transaction
+  </h2>
+   
+  <br />
+   
+  <div
+    class="from"
+  >
+    
+    From
+    
+    <address-stub
+      address="cosmos1234"
+      tooltiptext=""
+    />
+  </div>
+   
+  <tmformgroup-stub>
+    <transactionitem-stub
+      address="cosmos1234"
+      transaction="[object Object]"
+      validators="[object Object]"
+    />
+     
+    <tableinvoice-stub
+      amount="12"
+      class="approval-table"
+      fee="[object Object]"
+      transactiondenom="STAKE"
+    />
+     
+    <tmformgroup-stub
+      class="action-modal-group"
+      fieldid="password"
+      fieldlabel="Password"
+    >
+      <tmfield-stub
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
+       
+      <!---->
+       
+      <!---->
+       
+      <!---->
+    </tmformgroup-stub>
+     
+    <div
+      class="session-approve-footer"
+    >
+      <tmbtn-stub
+        class="left-button"
+        customclass=""
+        id="reject-btn"
+        type="secondary"
+        value="Reject"
+      />
+       
+      <tmbtn-stub
+        class="right-button"
+        customclass=""
+        id="approve-btn"
+        type="primary"
+        value="Approve"
+      />
+    </div>
+  </tmformgroup-stub>
+</div>
+`;

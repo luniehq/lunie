@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountList has the expected html structure 1`] = `
+<div>
+  <ul
+    class="account-list"
+  >
+    <li>
+      <!---->
+       
+      <div
+        class="account"
+      >
+        <div
+          class="account-info"
+        >
+          <h3>
+            Benjis account
+          </h3>
+           
+          <address-stub
+            address="cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"
+            tooltiptext=""
+          />
+        </div>
+         
+        <tmbtn-stub
+          class="account-button"
+          color="primary"
+          customclass=""
+          value="Button Text"
+        />
+         
+        <div
+          class="account-menu-toggle"
+        >
+          <i
+            class="material-icons notranslate"
+          >
+            more_vert
+          </i>
+        </div>
+      </div>
+    </li>
+    <li>
+      <!---->
+       
+      <div
+        class="account"
+      >
+        <div
+          class="account-info"
+        >
+          <h3>
+            Colins account
+          </h3>
+           
+          <address-stub
+            address="cosmos1ek9cd8ewgxgyoyocolinyo4aaxaruvcw4v9e"
+            tooltiptext=""
+          />
+        </div>
+         
+        <tmbtn-stub
+          class="account-button"
+          color="primary"
+          customclass=""
+          value="Button Text"
+        />
+         
+        <div
+          class="account-menu-toggle"
+        >
+          <i
+            class="material-icons notranslate"
+          >
+            more_vert
+          </i>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
+`;

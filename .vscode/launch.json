@@ -1,0 +1,41 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch API",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/api/index.js",
+            "envFile": "${workspaceFolder}/api/.env",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Polkadot Rewards Script",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/api/scripts/getOldPolkadotRewardEras.js",
+            "envFile": "${workspaceFolder}/api/.env",
+            "env": {
+                "RUN_ONLY_NETWORK": "polkadot-testnet"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Script Runner",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/scriptRunner/src/index.js",
+            "envFile": "${workspaceFolder}/api/.env"
+        }
+    ]
+}

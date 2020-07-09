@@ -1,0 +1,51 @@
+name: API PRODUCTION Update existing droplet in Digital Ocean
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'api/CHANGELOG.md'
+env:
+  WORKING_DIRECTORY: ./api
+  HASURA_URL: "https://production-db.lunie.io/v1/graphql"
+  HASURA_ADMIN_KEY: ${{ secrets.LUNIE_PRODUCTION_DB_KEY }}
+  SENTRY_DSN: ${{ secrets.SENTRY_DSN_API_PRODUCTION }}
+  SCRIPT_RUNNER_ENDPOINT: ${{ secrets.SCRIPT_RUNNER_ENDPOINT_PRODUCTION }}
+jobs:
+  test:
+    name: Compile
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+    - uses: bahmutov/npm-install@v1
+    - name: Build image
+      run: docker build -t lunieapi . 
+      working-directory: ${{env.WORKING_DIRECTORY}}
+    - name: Save file
+      run: docker save lunieapi | gzip > lunieapi.tgz
+      working-directory: ${{env.WORKING_DIRECTORY}}
+    - name: Copy file via scp
+      uses: appleboy/scp-action@master
+      with:
+        source: "api/lunieapi.tgz,api/docker-compose.yml,api/Caddyfile.prod"
+        strip_components: 1 # remove the api folder
+        target: "/root/"
+        host: ${{ secrets.HOST_PRODUCTION }}
+        username: root
+        key: ${{ secrets.SSH_KEY_PRODUCTION }}
+    - name: Install on instance
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_PRODUCTION }}
+        username: root
+        key: ${{ secrets.SSH_KEY_PRODUCTION }}
+        script: |
+          mv Caddyfile.prod Caddyfile
+          docker image prune -a -f
+          docker load < lunieapi.tgz
+          AUTHENTICATION_TOKEN=${{ secrets.AUTHENTICATION_TOKEN }} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} SENTRY_DSN=${{ secrets.SENTRY_DSN_API_PRODUCTION }} SCRIPT_RUNNER_ENDPOINT=${{ secrets.SCRIPT_RUNNER_ENDPOINT_PRODUCTION }} docker stack deploy -c docker-compose.yml lunieapi
+          AUTHENTICATION_TOKEN=${{ secrets.AUTHENTICATION_TOKEN }} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} SENTRY_DSN=${{ secrets.SENTRY_DSN_API_PRODUCTION }} SCRIPT_RUNNER_ENDPOINT=${{ secrets.SCRIPT_RUNNER_ENDPOINT_PRODUCTION }} docker service update --image lunieapi:latest --force lunieapi_lunieapi
+        envs: HASURA_URL,HASURA_ADMIN_KEY,SENTRY_DSN,SCRIPT_RUNNER_ENDPOINT

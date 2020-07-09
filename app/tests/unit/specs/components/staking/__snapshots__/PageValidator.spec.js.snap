@@ -1,0 +1,856 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageValidator if uptimePercentage is blank 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="button-container"
+    >
+      <button
+        class="back-button"
+      >
+        <i
+          class="material-icons notranslate arrow"
+        >
+          arrow_back
+        </i>
+        
+        Back
+      
+      </button>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="status-button-container"
+    >
+      <div
+        class="status-container"
+      >
+        <span
+          class="validator-status active"
+        >
+          
+          ACTIVE
+        
+        </span>
+         
+        <span
+          class="validator-status-detailed"
+        >
+          active
+        </span>
+      </div>
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
+      >
+        <div
+          class="li-validator-name-row"
+        >
+          <avatar-stub
+            address="cosmosvaloper1abcdefghijklmnop"
+            alt="generic geometric symbol - generated avatar from address"
+            class="li-validator-image"
+          />
+           
+          <div
+            class="validator-info"
+          >
+            <h3
+              class="li-validator-name"
+            >
+              
+            </h3>
+             
+            <!---->
+          </div>
+        </div>
+         
+        <span
+          class="no-img-info"
+        >
+          
+          Looks like we don't have this validator logo — if this is your
+          validator
+          
+          <a
+            class="intercom-button"
+          >
+            contact us
+          </a>
+          .
+        
+        </span>
+      </td>
+    </tr>
+     
+    <div
+      class="action-button-container"
+    >
+      <tmbtn-stub
+        customclass=""
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        class="undelegation-btn"
+        customclass=""
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
+    </div>
+     
+    <ul
+      class="row"
+    >
+      <li
+        class="column"
+      >
+        <h4>
+          Description
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Website
+        </h4>
+         
+        <span
+          id="validator-website"
+        >
+          
+          --
+        
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Validator Address
+        </h4>
+         
+        <span>
+          <address-stub
+            address="cosmosvaloper1abcdefghijklmnop"
+            tooltiptext=""
+          />
+        </span>
+      </li>
+    </ul>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Rewards
+        </h4>
+         
+        <span
+          id="page-profile__rewards"
+        >
+          
+          0.00%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Voting Power / Total Stake
+        </h4>
+         
+        <span
+          id="page-profile__power"
+        >
+          
+          0.00% /
+          
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Self Stake
+        </h4>
+         
+        <span
+          id="page-profile__self-bond"
+        >
+          
+           /
+          0.00%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Validator Since
+        </h4>
+         
+        <span>
+          Block #0
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Uptime
+        </h4>
+         
+        <span
+          id="page-profile__uptime"
+        >
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Current Commission Rate
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Commission Rate
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Daily Commission Change
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Last Commission Change
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+    </ul>
+     
+    <delegationmodal-stub
+      targetvalidator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      sourcevalidator="[object Object]"
+    />
+  </template>
+   
+  <!---->
+</tmpage-stub>
+`;
+
+exports[`PageValidator if user has signed in 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="button-container"
+    >
+      <button
+        class="back-button"
+      >
+        <i
+          class="material-icons notranslate arrow"
+        >
+          arrow_back
+        </i>
+        
+        Back
+      
+      </button>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="status-button-container"
+    >
+      <div
+        class="status-container"
+      >
+        <span
+          class="validator-status active"
+        >
+          
+          ACTIVE
+        
+        </span>
+         
+        <span
+          class="validator-status-detailed"
+        >
+          active
+        </span>
+      </div>
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
+      >
+        <div
+          class="li-validator-name-row"
+        >
+          <avatar-stub
+            address="cosmosvaloper1abcdefghijklmnop"
+            alt="generic geometric symbol - generated avatar from address"
+            class="li-validator-image"
+          />
+           
+          <div
+            class="validator-info"
+          >
+            <h3
+              class="li-validator-name"
+            >
+              
+            </h3>
+             
+            <!---->
+          </div>
+        </div>
+         
+        <span
+          class="no-img-info"
+        >
+          
+          Looks like we don't have this validator logo — if this is your
+          validator
+          
+          <a
+            class="intercom-button"
+          >
+            contact us
+          </a>
+          .
+        
+        </span>
+      </td>
+    </tr>
+     
+    <div
+      class="action-button-container"
+    >
+      <tmbtn-stub
+        customclass=""
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        class="undelegation-btn"
+        customclass=""
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
+    </div>
+     
+    <ul
+      class="row"
+    >
+      <li
+        class="column"
+      >
+        <h4>
+          Description
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Website
+        </h4>
+         
+        <span
+          id="validator-website"
+        >
+          
+          --
+        
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Validator Address
+        </h4>
+         
+        <span>
+          <address-stub
+            address="cosmosvaloper1abcdefghijklmnop"
+            tooltiptext=""
+          />
+        </span>
+      </li>
+    </ul>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Rewards
+        </h4>
+         
+        <span
+          id="page-profile__rewards"
+        >
+          
+          0.00%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Voting Power / Total Stake
+        </h4>
+         
+        <span
+          id="page-profile__power"
+        >
+          
+          0.00% /
+          
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Self Stake
+        </h4>
+         
+        <span
+          id="page-profile__self-bond"
+        >
+          
+           /
+          0.00%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Validator Since
+        </h4>
+         
+        <span>
+          Block #0
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Uptime
+        </h4>
+         
+        <span
+          id="page-profile__uptime"
+        >
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Current Commission Rate
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Commission Rate
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Daily Commission Change
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Last Commission Change
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+    </ul>
+     
+    <delegationmodal-stub
+      targetvalidator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      sourcevalidator="[object Object]"
+    />
+  </template>
+   
+  <!---->
+</tmpage-stub>
+`;
+
+exports[`PageValidator if user hasn't signed in 1`] = `
+<tmpage-stub
+  class="small"
+  data-title="Validator"
+  hideheader="true"
+  managed="true"
+  subtitle=""
+  title=""
+>
+  <template>
+    <div
+      class="button-container"
+    >
+      <button
+        class="back-button"
+      >
+        <i
+          class="material-icons notranslate arrow"
+        >
+          arrow_back
+        </i>
+        
+        Back
+      
+      </button>
+       
+      <!---->
+    </div>
+     
+    <div
+      class="status-button-container"
+    >
+      <div
+        class="status-container"
+      >
+        <span
+          class="validator-status active"
+        >
+          
+          ACTIVE
+        
+        </span>
+         
+        <span
+          class="validator-status-detailed"
+        >
+          active
+        </span>
+      </div>
+    </div>
+     
+    <tr
+      class="li-validator"
+    >
+      <td
+        class="data-table__row__info"
+      >
+        <div
+          class="li-validator-name-row"
+        >
+          <avatar-stub
+            address="cosmosvaloper1abcdefghijklmnop"
+            alt="generic geometric symbol - generated avatar from address"
+            class="li-validator-image"
+          />
+           
+          <div
+            class="validator-info"
+          >
+            <h3
+              class="li-validator-name"
+            >
+              
+            </h3>
+             
+            <!---->
+          </div>
+        </div>
+         
+        <span
+          class="no-img-info"
+        >
+          
+          Looks like we don't have this validator logo — if this is your
+          validator
+          
+          <a
+            class="intercom-button"
+          >
+            contact us
+          </a>
+          .
+        
+        </span>
+      </td>
+    </tr>
+     
+    <div
+      class="action-button-container"
+    >
+      <tmbtn-stub
+        customclass=""
+        id="delegation-btn"
+        value="Stake"
+      />
+       
+      <tmbtn-stub
+        class="undelegation-btn"
+        customclass=""
+        id="undelegation-btn"
+        type="secondary"
+        value="Unstake"
+      />
+    </div>
+     
+    <ul
+      class="row"
+    >
+      <li
+        class="column"
+      >
+        <h4>
+          Description
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Website
+        </h4>
+         
+        <span
+          id="validator-website"
+        >
+          
+          --
+        
+        </span>
+      </li>
+       
+      <li
+        class="column"
+      >
+        <h4>
+          Validator Address
+        </h4>
+         
+        <span>
+          <address-stub
+            address="cosmosvaloper1abcdefghijklmnop"
+            tooltiptext=""
+          />
+        </span>
+      </li>
+    </ul>
+     
+    <ul
+      class="row"
+    >
+      <li>
+        <h4>
+          Rewards
+        </h4>
+         
+        <span
+          id="page-profile__rewards"
+        >
+          
+          0.00%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Voting Power / Total Stake
+        </h4>
+         
+        <span
+          id="page-profile__power"
+        >
+          
+          0.00% /
+          
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Self Stake
+        </h4>
+         
+        <span
+          id="page-profile__self-bond"
+        >
+          
+           /
+          0.00%
+        
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Validator Since
+        </h4>
+         
+        <span>
+          Block #0
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Uptime
+        </h4>
+         
+        <span
+          id="page-profile__uptime"
+        >
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Current Commission Rate
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Commission Rate
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Max Daily Commission Change
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+       
+      <li>
+        <h4>
+          Last Commission Change
+        </h4>
+         
+        <span>
+          --
+        </span>
+      </li>
+    </ul>
+     
+    <delegationmodal-stub
+      targetvalidator="[object Object]"
+    />
+     
+    <undelegationmodal-stub
+      sourcevalidator="[object Object]"
+    />
+  </template>
+   
+  <!---->
+</tmpage-stub>
+`;

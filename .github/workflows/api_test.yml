@@ -1,0 +1,44 @@
+name: API testing
+
+on:
+  pull_request:
+    branches:
+      - "*"
+    paths:
+      - 'api/**'
+env:
+  WORKING_DIRECTORY: ./api
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - uses: bahmutov/npm-install@v1
+      - name: Test
+        run: |
+          yarn test:unit --coverage
+          bash <(curl -s https://codecov.io/bash)
+        working-directory: ${{env.WORKING_DIRECTORY}}
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - uses: bahmutov/npm-install@v1
+      - name: Lint
+        run: yarn lint 
+        working-directory: ${{env.WORKING_DIRECTORY}}
+  checkChangelog:
+    name: checkChangelog
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+      - name: Check if changlog was updated
+        run: npx simsala check --pending-path ./api/changes

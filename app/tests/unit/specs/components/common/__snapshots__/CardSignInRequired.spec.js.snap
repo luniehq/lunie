@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CardSignInRequired shows a sign in required card 1`] = `
+<div
+  class="card-sign-in"
+>
+  <h2>
+    Welcome to Lunie 👋
+  </h2>
+   
+  <h3>
+    How would you like to get started?
+  </h3>
+   
+  <div
+    class="session-list"
+  >
+    <!---->
+     
+    <!---->
+     
+    <lisession-stub
+      icon="laptop"
+      id="use-extension"
+      img=""
+      route="/extension"
+      title="Lunie Browser Extension"
+    />
+     
+    <!---->
+     
+    <lisession-stub
+      icon="language"
+      id="explore-with-address"
+      img=""
+      route="/explore"
+      title="Explore with any address"
+    />
+     
+    <!---->
+  </div>
+   
+  <router-link-stub
+    class="footnote"
+    to="/create"
+  >
+    
+    Want to create a new address?
+  
+  </router-link-stub>
+</div>
+`;

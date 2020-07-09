@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableInvoice should render correctly 1`] = `
+<div>
+  <ul
+    class="table-invoice"
+  >
+    <li
+      class="sub-total"
+    >
+      <span>
+        Subtotal
+      </span>
+       
+      <span>
+         17.200000 STAKE 
+      </span>
+    </li>
+     
+    <li
+      class="fees"
+    >
+      <span>
+        Network Fee
+      </span>
+       
+      <span>
+        
+        0.030864
+        STAKE
+      
+      </span>
+    </li>
+     
+    <li
+      class="total-row"
+    >
+      <span>
+        Total
+      </span>
+       
+      <div
+        class="total-column"
+      >
+        <p>
+          17.230864 STAKE
+        </p>
+         
+        <!---->
+      </div>
+    </li>
+  </ul>
+</div>
+`;

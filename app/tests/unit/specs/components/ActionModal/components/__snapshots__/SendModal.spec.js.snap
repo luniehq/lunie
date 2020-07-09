@@ -1,0 +1,350 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SendModal should display send modal form 1`] = `
+<actionmodal-stub
+  featureflag="send"
+  id="send-modal"
+  notifymessage="[object Object]"
+  rewards=""
+  selecteddenom="STAKE"
+  submissionerrorprefix="Sending tokens failed"
+  title="Send"
+  transactiondata="[object Object]"
+  transactiontype="SendTx"
+  validate="function () { [native code] }"
+>
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="send-address"
+    fieldlabel="Send To"
+  >
+    <tmfield-stub
+      id="send-address"
+      placeholder="Address"
+      type="text"
+      value=""
+    />
+     
+    <!---->
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+    id="form-group-amount"
+  >
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="0"
+        type="number"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
+      />
+       
+      <tmbtn-stub
+        class="addon-max"
+        customclass=""
+        type="button"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
+     
+    <!---->
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
+  >
+    <tmfield-stub
+      id="memo"
+      type="text"
+      value=""
+    />
+     
+    <!---->
+     
+    <!---->
+  </tmformgroup-stub>
+</actionmodal-stub>
+`;
+
+exports[`SendModal validation should show address required error 1`] = `
+<actionmodal-stub
+  amount="2"
+  featureflag="send"
+  id="send-modal"
+  notifymessage="[object Object]"
+  rewards=""
+  selecteddenom="STAKE"
+  submissionerrorprefix="Sending tokens failed"
+  title="Send"
+  transactiondata="[object Object]"
+  transactiontype="SendTx"
+  validate="function () { [native code] }"
+>
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    error="true"
+    fieldid="send-address"
+    fieldlabel="Send To"
+  >
+    <tmfield-stub
+      id="send-address"
+      placeholder="Address"
+      type="text"
+      value=""
+    />
+     
+    <tmformmsg-stub
+      msg=""
+      name="Address"
+      type="required"
+    />
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+    id="form-group-amount"
+  >
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="0"
+        type="number"
+        value="2"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
+      />
+       
+      <tmbtn-stub
+        class="addon-max"
+        customclass=""
+        type="button"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
+     
+    <!---->
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
+  >
+    <tmfield-stub
+      id="memo"
+      type="text"
+      value=""
+    />
+     
+    <!---->
+     
+    <!---->
+  </tmformgroup-stub>
+</actionmodal-stub>
+`;
+
+exports[`SendModal validation should show an error if trying to send more then the max amount of tokens 1`] = `
+<actionmodal-stub
+  amount="1000"
+  featureflag="send"
+  id="send-modal"
+  notifymessage="[object Object]"
+  rewards=""
+  selecteddenom="STAKE"
+  submissionerrorprefix="Sending tokens failed"
+  title="Send"
+  transactiondata="[object Object]"
+  transactiontype="SendTx"
+  validate="function () { [native code] }"
+>
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    error="true"
+    fieldid="send-address"
+    fieldlabel="Send To"
+  >
+    <tmfield-stub
+      id="send-address"
+      placeholder="Address"
+      type="text"
+      value="cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767"
+    />
+     
+    <tmformmsg-stub
+      msg="doesn't have a format known by Lunie"
+      name="Address"
+      type="custom"
+    />
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+    id="form-group-amount"
+  >
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="0"
+        type="number"
+        value="1000"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
+      />
+       
+      <tmbtn-stub
+        class="addon-max"
+        customclass=""
+        type="button"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
+     
+    <!---->
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
+  >
+    <tmfield-stub
+      id="memo"
+      type="text"
+      value=""
+    />
+     
+    <!---->
+     
+    <!---->
+  </tmformgroup-stub>
+</actionmodal-stub>
+`;
+
+exports[`SendModal validation should show bech32 error when address is not bech32 1`] = `
+<actionmodal-stub
+  amount="2"
+  featureflag="send"
+  id="send-modal"
+  notifymessage="[object Object]"
+  rewards=""
+  selecteddenom="STAKE"
+  submissionerrorprefix="Sending tokens failed"
+  title="Send"
+  transactiondata="[object Object]"
+  transactiontype="SendTx"
+  validate="function () { [native code] }"
+>
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    error="true"
+    fieldid="send-address"
+    fieldlabel="Send To"
+  >
+    <tmfield-stub
+      id="send-address"
+      placeholder="Address"
+      type="text"
+      value="cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767"
+    />
+     
+    <tmformmsg-stub
+      msg="doesn't have a format known by Lunie"
+      name="Address"
+      type="custom"
+    />
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-form-group"
+    fieldid="amount"
+    fieldlabel="Amount"
+    id="form-group-amount"
+  >
+    <tmfieldgroup-stub>
+      <tmfield-stub
+        class="tm-field-addon"
+        id="amount"
+        placeholder="0"
+        type="number"
+        value="2"
+      />
+       
+      <tmfield-stub
+        class="tm-field-token-selector"
+        id="token"
+        options="[object Object]"
+        placeholder="Select the token"
+        title="Select the token you wish to operate with"
+        type="select"
+        value="STAKE"
+      />
+       
+      <tmbtn-stub
+        class="addon-max"
+        customclass=""
+        type="button"
+        value="Set Max"
+      />
+    </tmfieldgroup-stub>
+     
+    <!---->
+  </tmformgroup-stub>
+   
+  <tmformgroup-stub
+    class="action-modal-group"
+    fieldid="memo"
+    fieldlabel="Memo"
+    id="memo"
+  >
+    <tmfield-stub
+      id="memo"
+      type="text"
+      value=""
+    />
+     
+    <!---->
+     
+    <!---->
+  </tmformgroup-stub>
+</actionmodal-stub>
+`;

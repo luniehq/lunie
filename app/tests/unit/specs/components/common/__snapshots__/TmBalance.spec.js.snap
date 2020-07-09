@@ -1,0 +1,508 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmBalance do not show available atoms when the user has none in the first place 1`] = `
+<div
+  class="balance-header"
+>
+  <div>
+    <div
+      class="header-container"
+    >
+      <h1>
+        Your Portfolio
+      </h1>
+       
+      <div
+        class="buttons"
+      >
+        <tmbtn-stub
+          class="send-button"
+          customclass=""
+          type="secondary"
+          value="Send"
+        />
+         
+        <tmbtn-stub
+          class="withdraw-rewards"
+          customclass=""
+          id="withdraw-btn"
+          value="Claim Rewards"
+        />
+         
+        <button
+          class="tutorial-button"
+        >
+          <span>
+            Need some tokens?
+          </span>
+        </button>
+         
+        <div
+          class="currency-selector"
+        >
+          <img
+            alt="USD currency"
+            class="currency-flag"
+            src="/img/icons/currencies/usd.png"
+          />
+           
+          <select>
+            <option
+              hidden="hidden"
+              value=""
+            >
+              USD
+            </option>
+             
+            <option
+              value="USD"
+            >
+              USD
+            </option>
+             
+            <option
+              value="EUR"
+            >
+              EUR
+            </option>
+             
+            <option
+              value="CAD"
+            >
+              CAD
+            </option>
+             
+            <option
+              value="GBP"
+            >
+              GBP
+            </option>
+             
+            <option
+              value="JPY"
+            >
+              JPY
+            </option>
+             
+            <option
+              value="CHF"
+            >
+              CHF
+            </option>
+             
+            <option
+              value="DKK"
+            >
+              DKK
+            </option>
+             
+            <option
+              value="NOK"
+            >
+              NOK
+            </option>
+             
+            <option
+              value="SEK"
+            >
+              SEK
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="table four-columns"
+    >
+      <div
+        class="table-cell big title"
+      >
+        Token
+      </div>
+       
+      <div
+        class="table-cell title"
+      >
+        Rewards
+      </div>
+       
+      <div
+        class="table-cell title available"
+      >
+        Available
+      </div>
+       
+      <div
+        class="table-cell title actions"
+      />
+       
+      <div
+        class="table-cell big"
+      >
+        <img
+          alt="MUON currency"
+          class="currency-flag"
+          src="/img/icons/currencies/muon.png"
+        />
+         
+        <div
+          class="total-and-fiat"
+        >
+          <span
+            class="total"
+          >
+            
+              0
+              MUON
+            
+          </span>
+           
+          <!---->
+        </div>
+      </div>
+       
+      <div
+        class="table-cell rewards"
+      >
+        <h2>
+          
+            +5
+            MUON
+          
+        </h2>
+      </div>
+       
+      <div
+        class="table-cell available"
+      >
+        <span
+          class="available-amount"
+        >
+          
+            0
+          
+        </span>
+      </div>
+       
+      <div
+        class="table-cell actions"
+      >
+        <div
+          class="icon-button-container"
+        >
+          <button
+            class="icon-button"
+          >
+            <i
+              class="material-icons"
+            >
+              send
+            </i>
+          </button>
+          <span>
+            Send
+          </span>
+        </div>
+      </div>
+    </div>
+     
+    <sendmodal-stub
+      denoms="MUON"
+    />
+     
+    <modalwithdrawrewards-stub />
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`TmBalance show the balance header when signed in 1`] = `
+<div
+  class="balance-header"
+>
+  <div>
+    <div
+      class="header-container"
+    >
+      <h1>
+        Your Portfolio
+      </h1>
+       
+      <div
+        class="buttons"
+      >
+        <tmbtn-stub
+          class="send-button"
+          customclass=""
+          type="secondary"
+          value="Send"
+        />
+         
+        <tmbtn-stub
+          class="withdraw-rewards"
+          customclass=""
+          id="withdraw-btn"
+          value="Claim Rewards"
+        />
+         
+        <button
+          class="tutorial-button"
+        >
+          <span>
+            Need some tokens?
+          </span>
+        </button>
+         
+        <div
+          class="currency-selector"
+        >
+          <img
+            alt="USD currency"
+            class="currency-flag"
+            src="/img/icons/currencies/usd.png"
+          />
+           
+          <select>
+            <option
+              hidden="hidden"
+              value=""
+            >
+              USD
+            </option>
+             
+            <option
+              value="USD"
+            >
+              USD
+            </option>
+             
+            <option
+              value="EUR"
+            >
+              EUR
+            </option>
+             
+            <option
+              value="CAD"
+            >
+              CAD
+            </option>
+             
+            <option
+              value="GBP"
+            >
+              GBP
+            </option>
+             
+            <option
+              value="JPY"
+            >
+              JPY
+            </option>
+             
+            <option
+              value="CHF"
+            >
+              CHF
+            </option>
+             
+            <option
+              value="DKK"
+            >
+              DKK
+            </option>
+             
+            <option
+              value="NOK"
+            >
+              NOK
+            </option>
+             
+            <option
+              value="SEK"
+            >
+              SEK
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+     
+    <div
+      class="table four-columns"
+    >
+      <div
+        class="table-cell big title"
+      >
+        Token
+      </div>
+       
+      <div
+        class="table-cell title"
+      >
+        Rewards
+      </div>
+       
+      <div
+        class="table-cell title available"
+      >
+        Available
+      </div>
+       
+      <div
+        class="table-cell title actions"
+      />
+       
+      <div
+        class="table-cell big"
+      >
+        <img
+          alt="MUON currency"
+          class="currency-flag"
+          src="/img/icons/currencies/muon.png"
+        />
+         
+        <div
+          class="total-and-fiat"
+        >
+          <span
+            class="total"
+          >
+            
+              100.78
+              MUON
+            
+          </span>
+           
+          <span
+            class="fiat"
+          >
+            
+              10
+              USD
+          </span>
+        </div>
+      </div>
+       
+      <div
+        class="table-cell rewards"
+      >
+        <h2>
+          
+            +5
+            MUON
+          
+        </h2>
+      </div>
+       
+      <div
+        class="table-cell available"
+      >
+        <span
+          class="available-amount"
+        >
+          
+            80.78
+          
+        </span>
+      </div>
+       
+      <div
+        class="table-cell actions"
+      >
+        <div
+          class="icon-button-container"
+        >
+          <button
+            class="icon-button"
+          >
+            <i
+              class="material-icons"
+            >
+              send
+            </i>
+          </button>
+          <span>
+            Send
+          </span>
+        </div>
+      </div>
+      <div
+        class="table-cell big"
+      >
+        <img
+          alt="MUON_2 currency"
+          class="currency-flag"
+          src="/img/icons/currencies/muon_2.png"
+        />
+         
+        <div
+          class="total-and-fiat"
+        >
+          <span
+            class="total"
+          >
+            
+              20.78
+              MUON_2
+            
+          </span>
+           
+          <span
+            class="fiat"
+          >
+            
+              40
+              USD
+          </span>
+        </div>
+      </div>
+       
+      <div
+        class="table-cell rewards"
+      >
+        <h2>
+          0
+        </h2>
+      </div>
+       
+      <div
+        class="table-cell available"
+      >
+        <!---->
+      </div>
+       
+      <div
+        class="table-cell actions"
+      >
+        <div
+          class="icon-button-container"
+        >
+          <button
+            class="icon-button"
+          >
+            <i
+              class="material-icons"
+            >
+              send
+            </i>
+          </button>
+          <span>
+            Send
+          </span>
+        </div>
+      </div>
+    </div>
+     
+    <sendmodal-stub
+      denoms="MUON,MUON_2"
+    />
+     
+    <modalwithdrawrewards-stub />
+     
+    <!---->
+  </div>
+</div>
+`;

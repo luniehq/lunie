@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSelectNetwork has the expected html structure 1`] = `
+<sessionframe-stub
+  icon=""
+>
+  <div
+    class="select-network"
+  >
+    <h2
+      class="session-title"
+    >
+      Select a Network
+    </h2>
+     
+    <networklist-stub
+      networks="[object Object],[object Object]"
+      sectiontitle="Main Networks"
+    />
+     
+    <networklist-stub
+      networks="[object Object],[object Object],[object Object]"
+      sectiontitle="Test Networks"
+    />
+  </div>
+</sessionframe-stub>
+`;

@@ -1,0 +1,204 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableValidators shows a validator table 1`] = `
+<div>
+  <ul
+    class="sortingOptions"
+    name="fade"
+  >
+    <li
+      class=""
+    >
+      <i
+        class="sorting-icon material-icons notranslate"
+      >
+        star_rate
+      </i>
+      
+        Popular on Lunie
+        
+      <i
+        class="sorting-check material-icons notranslate inactive"
+      >
+        check
+      </i>
+    </li>
+     
+    <li
+      class=""
+    >
+      <i
+        class="sorting-icon material-icons notranslate"
+      >
+        flash_on
+      </i>
+       Voting
+        Power
+        
+      <i
+        class="sorting-check material-icons notranslate inactive"
+      >
+        check
+      </i>
+    </li>
+     
+    <li
+      class=""
+    >
+      <i
+        class="sorting-icon material-icons notranslate"
+      >
+        emoji_events
+      </i>
+      
+        Most Rewards
+        
+      <i
+        class="sorting-check material-icons notranslate inactive"
+      >
+        check
+      </i>
+    </li>
+  </ul>
+   
+  <table
+    class="data-table"
+  >
+    <thead
+      class="shrinked"
+    >
+      <panelsort-stub
+        properties="[object Object],[object Object],[object Object],[object Object]"
+        showonmobile="returns"
+        sort="[object Object]"
+      />
+    </thead>
+     
+    <tbody
+      infinite-scroll-distance="400"
+      name="flip-list"
+    >
+      <livalidator-stub
+        delegation="[object Object]"
+        index="0"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="1"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="2"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="3"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="4"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="5"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="6"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="7"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="8"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="9"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="10"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="11"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="12"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="13"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+      <livalidator-stub
+        delegation="[object Object]"
+        index="14"
+        rewards=""
+        showonmobile="returns"
+        stakingdenom="ATOM"
+        validator="[object Object]"
+      />
+    </tbody>
+  </table>
+</div>
+`;

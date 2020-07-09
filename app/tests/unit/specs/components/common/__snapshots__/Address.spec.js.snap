@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Address Component should show a short address 1`] = `
+<div
+  class="copyable-address"
+>
+  <div
+    class="address"
+  >
+    <span>
+      cosmos…4v9e
+    </span>
+     
+    <div
+      class="icon-container"
+    >
+      <i
+        class="material-icons notranslate success"
+      >
+        check
+      </i>
+    </div>
+     
+    <i
+      class="material-icons notranslate copy"
+    >
+      content_copy
+    </i>
+  </div>
+</div>
+`;
