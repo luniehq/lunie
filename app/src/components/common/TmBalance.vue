@@ -1,5 +1,5 @@
 <template>
-  <div class="balance-header">
+  <div class="balance-header-container">
     <div
       v-if="$apollo.queries.balances.loading"
       class="loading-image-container"
@@ -9,7 +9,7 @@
         alt="geometric placeholder shapes"
       />
     </div>
-    <div v-else>
+    <div class="balance-header" v-else>
       <div class="header-container">
         <h1>Your Portfolio</h1>
         <div class="buttons">
@@ -422,11 +422,14 @@ export default {
 }
 </script>
 <style scoped>
-.balance-header {
-  max-width: 1100px;
-  margin: 0 auto;
+.balance-header-container {
   width: 100%;
   background: var(--app-bg);
+}
+
+.balance-header {
+  margin: 0 auto;
+  max-width: 1100px;
 }
 
 .loading-image-container {
