@@ -58,10 +58,10 @@ async function next(browser) {
 
 async function createNewAccount(browser, networkData) {
   await browser.url(browser.launch_url + "/create")
-  await browser.waitForElementVisible("#sign-up-name", 10000, true)
+  await browser.waitForElementVisible("#sign-up-name", 20000, true)
   browser.setValue("#sign-up-name", "demo-account")
   await next(browser)
-  browser.waitForElementVisible("#sign-up-password", 10000, true)
+  browser.waitForElementVisible("#sign-up-password", 20000, true)
   browser.setValue("#sign-up-password", networkData.password)
   browser.setValue("#sign-up-password-confirm", networkData.password)
   await next(browser)

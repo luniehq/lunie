@@ -2,34 +2,34 @@ module.exports = {
   "Sign in with local account": async function (browser) {
     await prepare(browser)
 
-    await browser.waitForElementVisible("#sign-in-with-account", 10000, true)
+    await browser.waitForElementVisible("#sign-in-with-account", 20000, true)
     await browser.click("#sign-in-with-account")
-    await browser.waitForElementVisible("#sign-in-name", 10000, true)
+    await browser.waitForElementVisible("#sign-in-name", 20000, true)
     await browser.click(
       "#sign-in-name option[value=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e]"
     )
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
     // check if signed in
-    await browser.waitForElementNotPresent(".session", 10000, true)
-    await browser.waitForElementVisible(".user-menu .address", 10000, true)
+    await browser.waitForElementNotPresent(".session", 20000, true)
+    await browser.waitForElementVisible(".user-menu .address", 20000, true)
   },
   "Import local account": async function (browser) {
     await prepare(browser)
 
-    browser.waitForElementVisible("#recover-with-backup", 10000, true)
+    browser.waitForElementVisible("#recover-with-backup", 20000, true)
     // scroll to bottom
     await browser.execute("window.scrollTo(0,document.body.scrollHeight);")
     browser.click("#recover-with-backup")
 
     await browser.waitForElementVisible(
       `.select-network-item[data-network=cosmos-hub-mainnet]`,
-      10000,
+      20000,
       true
     )
     await browser.click(`.select-network-item[data-network=cosmos-hub-mainnet]`)
 
-    browser.waitForElementVisible("#import-seed", 10000, true)
+    browser.waitForElementVisible("#import-seed", 20000, true)
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
     browser.setValue(
@@ -38,13 +38,13 @@ module.exports = {
     )
     await next(browser)
 
-    browser.waitForElementVisible("#import-name", 10000, true)
+    browser.waitForElementVisible("#import-name", 20000, true)
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
     browser.setValue("#import-name", "demo-account-imported")
     await next(browser)
 
-    browser.waitForElementVisible("#import-password", 10000, true)
+    browser.waitForElementVisible("#import-password", 20000, true)
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
     browser.setValue("#import-password", "1234567890")
@@ -54,8 +54,8 @@ module.exports = {
     await next(browser)
 
     // check if signed in
-    await browser.waitForElementNotPresent(".session", 10000, true)
-    await browser.waitForElementVisible(".user-menu .address", 10000, true)
+    await browser.waitForElementNotPresent(".session", 20000, true)
+    await browser.waitForElementVisible(".user-menu .address", 20000, true)
   },
 }
 
@@ -73,15 +73,15 @@ async function next(browser) {
 }
 
 async function openMenu(browser) {
-  await browser.waitForElementVisible(".open-menu", 10000, true)
+  await browser.waitForElementVisible(".open-menu", 20000, true)
   await browser.click(".open-menu")
 }
 
 async function prepare(browser) {
   browser.resizeWindow(400, 1024) // force mobile screen to be able to click some out of screen buttons
   await browser.url(browser.launch_url + "?insecure=true&experimental=true")
-  browser.waitForElementVisible(`body`, 10000, true)
-  browser.waitForElementVisible(`#app-content`, 10000, true)
+  browser.waitForElementVisible(`body`, 20000, true)
+  browser.waitForElementVisible(`#app-content`, 20000, true)
 
   // add a standard account to be used for signing in to an existing account
   await browser.execute(
@@ -111,8 +111,8 @@ async function prepare(browser) {
   await browser.url(browser.launch_url + "?insecure=true&experimental=true")
 
   // check if we are already signed in
-  await browser.waitForElementVisible("#open-user-menu", 10000, true)
+  await browser.waitForElementVisible("#open-user-menu", 20000, true)
   await browser.click("#open-user-menu")
-  await browser.waitForElementVisible("#create-new-account", 10000, true)
+  await browser.waitForElementVisible("#create-new-account", 20000, true)
   await browser.click("#create-new-account")
 }
