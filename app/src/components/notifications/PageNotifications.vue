@@ -183,7 +183,7 @@ export default {
 </script>
 
 <style scoped>
-.tm-page {
+.page {
   padding: 0 2rem;
 }
 
