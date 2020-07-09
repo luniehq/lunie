@@ -46,7 +46,7 @@ function escapeObject(value) {
     })
     return clone
   } else {
-    return escape(value).replace(/amp;/g,"")
+    return escape(value)
   }
 }
 

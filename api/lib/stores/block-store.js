@@ -262,8 +262,7 @@ class BlockStore {
 
 function enrichValidator(validatorInfo, validator) {
   const picture = validatorInfo ? validatorInfo.picture : undefined
-  const name =
-    validatorInfo && validatorInfo.name ? validatorInfo.name : validator.name
+  const name = validator.name || formatBech32Reducer(validator.operatorAddress)
 
   return {
     ...validator,
@@ -283,3 +282,4 @@ async function storeStoreInDB(store) {
 }
 
 module.exports = BlockStore
+module.exports.enrichValidator = enrichValidator
