@@ -65,7 +65,7 @@ export default {
   flex: 1;
 }
 
-.page.small {
+.readable-width {
   max-width: 720px;
 }
 
@@ -73,9 +73,62 @@ export default {
   background: var(--app-fg);
 }
 
+.column {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: normal;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 2rem 0 1rem;
+}
+
+.page-profile__section {
+  margin-bottom: 1rem;
+}
+
+.page-profile__section-title {
+  margin: 0 0 0.25rem 1rem;
+  color: var(--dim);
+  font-size: var(--sm);
+  font-weight: 500;
+}
+
+li {
+  width: 100%;
+  padding: 1rem;
+  border-bottom: 1px solid var(--bc-dim);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+h4 {
+  color: var(--txt);
+  font-size: var(--sm);
+  margin-bottom: 2px;
+  font-weight: 500;
+}
+
+.row span {
+  color: var(--bright);
+  font-size: var(--sm);
+  font-weight: 400;
+  line-height: 1rem;
+}
+
 @media screen and (min-width: 1024px) {
   .page {
-    margin: 1rem auto 0;
+    margin: 0 auto 2rem;
   }
 }
 
