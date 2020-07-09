@@ -265,7 +265,6 @@ function enrichValidator(validatorInfo, validator) {
 
   return {
     ...validator,
-    name,
     picture: picture === 'null' || picture === 'undefined' ? undefined : picture
   }
 }
