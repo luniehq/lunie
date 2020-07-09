@@ -4,7 +4,6 @@
     :managed="true"
     :loading="this.$apollo.queries.block.loading"
     :error="error"
-    hide-header
   >
     <template slot="managed-body">
       <div class="block">

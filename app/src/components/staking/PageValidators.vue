@@ -1,5 +1,5 @@
 <template>
-  <TmPage :managed="true" hide-header>
+  <TmPage :managed="true">
     <div
       v-if="$apollo.queries.validators.loading && !validators.length && !loaded"
       class="loading-image-container"

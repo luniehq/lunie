@@ -426,6 +426,7 @@ export default {
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
+  background: var(--app-bg);
 }
 
 .loading-image-container {

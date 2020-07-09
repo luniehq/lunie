@@ -2,7 +2,6 @@
   <TmPage
     data-title="Proposals"
     :managed="true"
-    hide-header
     :loading="$apollo.queries.proposals.loading && !loaded"
   >
     <div v-if="loaded" class="button-container">

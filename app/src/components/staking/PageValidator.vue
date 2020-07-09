@@ -4,7 +4,6 @@
     :data-empty="!validator.operatorAddress"
     :loading="$apollo.queries.validator.loading"
     :loaded="loaded"
-    :hide-header="true"
     data-title="Validator"
     class="small"
   >

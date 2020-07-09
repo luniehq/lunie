@@ -7,7 +7,6 @@
     :data-empty="transactions.length === 0"
     data-title="Transactions"
     :sign-in-required="true"
-    :hide-header="true"
   >
     <DataEmptyTx slot="no-data" />
     <template slot="managed-body">

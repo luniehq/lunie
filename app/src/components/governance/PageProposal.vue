@@ -1,5 +1,5 @@
 <template>
-  <TmPage data-title="Proposal" hide-header class="small">
+  <TmPage data-title="Proposal" class="small">
     <TmDataLoading v-if="$apollo.loading && !loaded" />
     <TmDataNotFound v-else-if="!found" />
     <TmDataError v-else-if="error" />

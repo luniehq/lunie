@@ -1,58 +1,41 @@
 <template>
-  <div class="tm-page">
-    <TmPageHeader v-if="!hideHeader" :tabs="tabs">
-      <h2 v-if="title" slot="title">
-        {{ title }}
-      </h2>
-      <h3 v-if="subtitle" slot="subtitle">
-        {{ subtitle }}
-      </h3>
-      <slot slot="menu-body" name="menu-body">
-        <TmBalance v-if="session.signedIn" />
+  <div
+    class="page"
+    :class="{ 'dark-background': darkBackground && session.signedIn }"
+  >
+    <CardSignInRequired v-if="signInRequired && !session.signedIn" />
+    <template v-else-if="managed">
+      <TmDataConnecting v-if="!connected" />
+      <TmDataLoading v-else-if="loading" />
+      <TmDataError v-else-if="error" />
+      <slot v-else-if="dataEmpty" name="no-data">
+        <TmDataEmpty>
+          <template slot="title">
+            <slot name="title" />
+          </template>
+          <template slot="subtitle">
+            <slot name="subtitle" />
+          </template>
+        </TmDataEmpty>
       </slot>
-      <slot slot="header-buttons" name="header-buttons" />
-    </TmPageHeader>
-    <main
-      class="tm-page-main"
-      :class="{ 'dark-background': darkBackground && session.signedIn }"
-    >
-      <CardSignInRequired v-if="signInRequired && !session.signedIn" />
-      <template v-else-if="managed">
-        <TmDataConnecting v-if="!connected" />
-        <TmDataLoading v-else-if="loading" />
-        <TmDataError v-else-if="error" />
-        <slot v-else-if="dataEmpty" name="no-data">
-          <TmDataEmpty>
-            <template slot="title">
-              <slot name="title" />
-            </template>
-            <template slot="subtitle">
-              <slot name="subtitle" />
-            </template>
-          </TmDataEmpty>
-        </slot>
-        <slot v-else name="managed-body" />
-      </template>
-      <slot />
-    </main>
+      <slot v-else name="managed-body" />
+    </template>
+    <slot />
   </div>
 </template>
 
 <script>
-import TmPageHeader from "./TmPageHeader.vue"
+import { mapState, mapGetters } from "vuex"
+
 import TmDataLoading from "common/TmDataLoading"
 import TmDataEmpty from "common/TmDataEmpty"
 import CardSignInRequired from "common/CardSignInRequired"
-import { mapState, mapGetters } from "vuex"
 import TmDataError from "common/TmDataError"
 import TmDataConnecting from "common/TmDataConnecting"
-import TmBalance from "common/TmBalance"
 
 export default {
   name: `tm-page`,
   components: {
-    TmBalance,
-    TmPageHeader,
     TmDataEmpty,
     TmDataLoading,
     TmDataError,
@@ -63,14 +46,6 @@ export default {
     hideHeader: {
       type: Boolean,
       default: false,
-    },
-    title: {
-      type: String,
-      default: ``,
-    },
-    subtitle: {
-      type: String,
-      default: ``,
     },
     managed: {
       type: Boolean,

@@ -1,5 +1,5 @@
 <template>
-  <TmPage data-title="My alerts" hide-header>
+  <TmPage data-title="My alerts">
     <TmDataLoading v-if="$apollo.loading && notifications.length === 0" />
     <TmDataMsg
       v-else-if="!$apollo.loading && notifications.length === 0"
