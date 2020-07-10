@@ -7,6 +7,50 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.218] - 2020-07-09
+
+### Added
+
+- [#4399](https://github.com/cosmos/lunie/issues/4399) Add the Paywall componen to restrict access to notifications @Bitcoinera
+
+### Changed
+
+- [#4472](https://github.com/cosmos/lunie/pull/4472) Display signIn error with Firebase on SignInModal @Bitcoinera
+- [#4466](https://github.com/cosmos/lunie/pull/4466) Adapt AccountMenu styles to extension @Bitcoinera
+- [#4409](https://github.com/cosmos/lunie/pull/4409) Rename Akash token icon to akash.png @Bitcoinera
+
+### Fixed
+
+- [#4367](https://github.com/cosmos/lunie/issues/4367) Fix GraphQL queries not coming from cache @Bitcoinera
+- [#4422](https://github.com/cosmos/lunie/issues/4422) Fix missing active validators in Westend when filtering for "Active" @Bitcoinera
+- [#4457](https://github.com/cosmos/lunie/issues/4457) Fix wrong network detected for substrate address in explore mode @mariopino
+
+## [1.0.217] - 2020-07-06
+
+### Added
+
+- [#4275](https://github.com/cosmos/lunie/pull/4275) Adds the user menu with the new sign in and sign out logic  @team
+- [#4430](https://github.com/cosmos/lunie/issues/4430) Upgrade @polkadot/api to v1.23.1 @mariopino
+
+### Fixed
+
+- [#4426](https://github.com/cosmos/lunie/issues/4426) Fix Polkadot expectedRewards being shown as NaN @Bitcoinera
+- [#4432](https://github.com/cosmos/lunie/issues/4432) Fix addressObjects being invalid NotificationInput type @Bitcoinera
+- [#4376](https://github.com/cosmos/lunie/pull/4376) Fix many little old Polkadot-related bugs such as reward.filter, filterStakingDenomReward... @Bitcoinera
+- [#4428](https://github.com/cosmos/lunie/pull/4428) Fix the network ordering by using the default field @Bitcoinera
+- [#4421](https://github.com/cosmos/lunie/pull/4421) Fixes icon circle showing on SessionFrame when no icon @Bitcoinera
+- [#4421](https://github.com/cosmos/lunie/pull/4421) Fixes TmSelectNetwork leaving networks out in the Sign Up/Create account flow @Bitcoinera
+- Deploy app in develop on every change @faboweb
+- [#4406](https://github.com/cosmos/lunie/issues/4406) Fix wrong lockup period in susbtrate networks @mariopino
+
+### Code Improvements
+
+- [#4369](https://github.com/cosmos/lunie/issues/4369) Refactor connecting to polkadot API directly on network connection and saving it to store (connection) @Bitcoinera
+
+### Repository
+
+- Removing Capacitor libraries to only add them when actually building the apps @faboweb
+
 ## [1.0.216] - 2020-07-02
 
 ### Changed

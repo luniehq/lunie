@@ -15,6 +15,11 @@
           type="input"
           placeholder="Your email"
         />
+        <TmFormMsg
+          v-if="signInError"
+          type="custom"
+          :msg="account.signInError.message"
+        />
       </div>
 
       <div class="session-footer">
@@ -27,28 +32,40 @@
 import SessionFrame from "common/SessionFrame"
 import TmField from "src/components/common/TmField"
 import TmFormStruct from "src/components/common/TmFormStruct"
+import TmFormMsg from "src/components/common/TmFormMsg"
 import TmBtn from "common/TmBtn"
+import { mapState } from "vuex"
 export default {
   name: `sign-in-modal`,
   components: {
     SessionFrame,
+    TmFormMsg,
     TmField,
     TmFormStruct,
     TmBtn,
   },
   data: () => ({
     email: "",
-    errorOnAuthentication: false,
+    signInError: false,
   }),
+  computed: {
+    ...mapState([`account`]),
+  },
+  watch: {
+    email: function () {
+      this.signInError = false
+    },
+  },
   methods: {
     async sendMagicLink() {
       await this.$store.dispatch(`sendUserMagicLink`, {
         user: { email: this.email },
       })
-      this.$router.push({ name: `magic-link-sent` })
-    },
-    close() {
-      this.$router.go(`-1`)
+      if (this.account.signInError) {
+        this.signInError = true
+      } else {
+        this.$router.push({ name: `magic-link-sent` })
+      }
     },
   },
 }

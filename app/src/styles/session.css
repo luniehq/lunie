@@ -30,7 +30,6 @@
 .session {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   background: var(--app-bg);
   max-width: 560px;
   border-radius: 2px;
@@ -141,6 +140,10 @@
 
 .session .material-icons {
   color: var(--txt);
+}
+
+.session .material-icons.show-seed {
+  color: inherit;
 }
 
 .circle.modal-icon {

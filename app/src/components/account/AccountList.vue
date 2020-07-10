@@ -95,7 +95,7 @@ export default {
 }
 
 .account.open {
-  transform: translate(-3rem);
+  transform: translate(-4rem);
 }
 
 .account h3 {

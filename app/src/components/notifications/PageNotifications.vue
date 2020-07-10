@@ -86,7 +86,9 @@ export default {
           variables: {
             // get notifications that are older then the last one
             timestamp: dateLastTimestamp.toISOString(),
-            addressObjects: this.session.allSessionAddresses,
+            addressObjects: this.session.allSessionAddresses.map(
+              ({ networkId, address }) => ({ networkId, address })
+            ),
           },
           // Transform the previous result with new data
           updateQuery: function (previousResult, { fetchMoreResult }) {
@@ -112,6 +114,7 @@ export default {
             timestamp: $timestamp
             addressObjects: $addressObjects
           ) {
+            id
             networkId
             timestamp
             title
@@ -124,7 +127,9 @@ export default {
       variables() {
         return {
           timestamp: "",
-          addressObjects: this.session.allSessionAddresses,
+          addressObjects: this.session.allSessionAddresses.map(
+            ({ networkId, address }) => ({ networkId, address })
+          ),
         }
       },
       /* istanbul ignore next */
@@ -166,7 +171,9 @@ export default {
         /* istanbul ignore next */
         variables() {
           return {
-            addressObjects: this.session.allSessionAddresses,
+            addressObjects: this.session.allSessionAddresses.map(
+              ({ networkId, address }) => ({ networkId, address })
+            ),
           }
         },
       },
@@ -208,6 +215,7 @@ img {
   width: 2rem;
   height: 2rem;
   margin-right: 1rem;
+  border-radius: 50%;
 }
 
 .content {

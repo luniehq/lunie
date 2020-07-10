@@ -32,7 +32,7 @@ jobs:
       - uses: nwtgck/actions-netlify@v1.1.4
         id: deploy
         with:
-          alias: develop
+          alias: staging
           publish-dir: './app/dist'
           github-token: ${{ secrets.GIT_BOT_TOKEN }}
           deploy-message: "Deploy from GitHub Actions"
