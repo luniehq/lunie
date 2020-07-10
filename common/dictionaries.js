@@ -1,4 +1,4 @@
-export const hdPathsOrAlgosDictionary = {
+export const HDPathsOrAlgosDictionary = {
     cosmosStandard: [44, 118, 0, 0, 0],
     terraStation: [/*TODO*/],
 }
