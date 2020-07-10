@@ -153,7 +153,9 @@ export default ({ apollo }) => {
     ) {
       if (!accountType) {
         // first searched for accountType in localStorage
-        const session = JSON.parse(localStorage.getItem(`session_${networkId}`))
+        const session = JSON.parse(
+          localStorage.getItem(`session_${networkId}_${address}`)
+        )
         if (session && session.accountType && address === session.address) {
           accountType = session.accountType
         } else {
@@ -211,19 +213,29 @@ export default ({ apollo }) => {
         accountType
       )
     },
-    async signOut({ state, commit, dispatch }, networkId) {
+    async signOut({ state, commit, dispatch }, { address, networkId }) {
       state.externals.track(`event`, `session`, `sign-out`)
 
-      dispatch(`resetSessionData`, networkId)
+      dispatch(`resetSessionData`, { address, networkId })
       commit(`setSignIn`, false)
 
       // update session addresses
       const allSessionAddresses = await dispatch("getAllSessionAddresses")
       commit("setAllSessionAddresses", allSessionAddresses)
     },
-    resetSessionData({ commit, state }, networkId) {
+    resetSessionData({ commit, state }, { address, networkId }) {
+      const currentAddress = address || state.address
       state.history = ["/"]
       commit(`setUserAddress`, null)
+      if (currentAddress) {
+        // session_<networkId> (sessionKey) will store the current active session while session_<networkId>_<address> (historySessionKey)
+        // will serve as historical log in localStorage for all the ever initiated sessions
+        const session = JSON.parse(localStorage.getItem(sessionKey(networkId)))
+        localStorage.setItem(
+          historySessionKey(currentAddress, networkId),
+          JSON.stringify(session)
+        )
+      }
       localStorage.removeItem(sessionKey(networkId))
     },
     loadLocalPreferences({ state, dispatch }) {
@@ -350,4 +362,8 @@ export default ({ apollo }) => {
 
 function sessionKey(networkId) {
   return `session_${networkId}`
+}
+
+function historySessionKey(address, networkId) {
+  return `session_${networkId}_${address}`
 }

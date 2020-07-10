@@ -177,7 +177,10 @@ export default {
     },
     signOut() {
       this.$emit(`close`)
-      this.$store.dispatch(`signOut`, this.network)
+      this.$store.dispatch(`signOut`, {
+        address: this.address,
+        networkId: this.network,
+      })
     },
     signIn() {
       if (this.$route.name !== `portfolio`) {
