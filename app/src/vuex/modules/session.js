@@ -1,6 +1,7 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/../config"
 import { AddressRole } from "../../gql"
+import { standardHDPathsOrAlgosDictionary } from "../../../../common/dictionaries"
 
 export default ({ apollo }) => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
@@ -148,13 +149,19 @@ export default ({ apollo }) => {
     },
     async signIn(
       { state, getters: { currentNetwork }, commit, dispatch },
-      {
-        address,
-        sessionType = `ledger`,
-        accountType = `cosmosStandard`,
-        networkId,
-      }
+      { address, sessionType = `ledger`, accountType, networkId }
     ) {
+      if (!accountType) {
+        // first searched for accountType in localStorage
+        const session = JSON.parse(localStorage.getItem(`session_${networkId}`))
+        if (session.accountType) {
+          accountType = session.accountType
+        } else {
+          // set defaults accountTypes if this is not defined
+          accountType =
+            standardHDPathsOrAlgosDictionary[currentNetwork.network_type]
+        }
+      }
       if (networkId && currentNetwork.id !== networkId) {
         await commit(`setNetworkId`, networkId)
         await dispatch(`persistNetwork`, { id: networkId })

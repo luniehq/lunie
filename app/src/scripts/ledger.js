@@ -1,4 +1,4 @@
-import hdPathsOrAlgosDictionary from "../../../common/dictionaries"
+import { hdPathsOrAlgosDictionary } from "../../../common/dictionaries"
 import config from "src/../config"
 
 function parseLedgerErrors(error) {

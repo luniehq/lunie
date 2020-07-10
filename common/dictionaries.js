@@ -1,6 +1,9 @@
-const hdPathsOrAlgosDictionary = {
+export const hdPathsOrAlgosDictionary = {
     cosmosStandard: [44, 118, 0, 0, 0],
-    terraStation: [/*TODO*/]
+    terraStation: [/*TODO*/],
 }
 
-export default hdPathsOrAlgosDictionary
+export const standardHDPathsOrAlgosDictionary = {
+    cosmos: `cosmosStandard`,
+    polkadot: `sr25519`,
+}
