@@ -7,6 +7,9 @@
       <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" field-label="Your Address">
+          <span v-if="networkHDPathsOrAlgos.length > 1" class="algo"
+            >Created using {{ currentAlgo }}</span
+          >
           <img
             v-if="importedAddress === undefined"
             class="tm-data-msg__icon"
@@ -15,7 +18,11 @@
           />
           <div v-else>
             <p class="address">{{ importedAddress }}</p>
-            <span class="retry-link" @click="created(true)"
+            <!-- only show the retry option if the networks supports more than one algo -->
+            <span
+              v-if="networkHDPathsOrAlgos.length > 1"
+              class="retry-link"
+              @click="created(true)"
               >Not your address?</span
             >
           </div>
@@ -69,6 +76,7 @@ import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 import { getWalletIndex } from "@lunie/cosmos-keys"
+import { polkadotAlgosDictionary } from "../../../../common/dictionaries"
 
 const nameExists = (value) => {
   const walletIndex = getWalletIndex()
@@ -96,7 +104,7 @@ export default {
   }),
   computed: {
     ...mapGetters([`connected`, `recover`]),
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `currentNetwork`]),
     name: {
       get() {
         return this.$store.state.recover.name
@@ -104,6 +112,16 @@ export default {
       set(value) {
         this.$store.commit(`updateField`, { field: `name`, value })
       },
+    },
+    networkHDPathsOrAlgos() {
+      return JSON.parse(this.currentNetwork.HDPathsOrAlgos)
+    },
+    currentAlgo() {
+      if (this.currentNetwork.network_type === `polkadot`) {
+        return polkadotAlgosDictionary[this.networkHDPathsOrAlgos[this.attempt]]
+      } else {
+        return this.networkHDPathsOrAlgos[this.attempt]
+      }
     },
   },
   mounted() {
@@ -122,7 +140,6 @@ export default {
         {
           seedPhrase: this.$store.state.recover.seed,
           network: this.network,
-          // accountType: undefined,
           attempt: this.attempt,
         }
       )
@@ -157,5 +174,17 @@ export default {
 
 .retry-link:hover {
   color: var(--link-hover);
+}
+
+.tm-form-group_field {
+  position: unset;
+}
+
+.algo {
+  position: absolute;
+  top: 1.1rem;
+  left: 7rem;
+  font-size: 14px;
+  font-weight: 500;
 }
 </style>

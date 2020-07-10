@@ -7,3 +7,9 @@ export const standardHDPathsOrAlgosDictionary = {
     cosmos: `cosmosStandard`,
     polkadot: `sr25519`,
 }
+
+export const polkadotAlgosDictionary = {
+    sr25519: `Schnorrkel`,
+    ed25519: `Edwards`,
+    ecdsa: `ECDSA`,
+}

@@ -19,10 +19,6 @@ async function createPolkadotAddress(seedPhrase, network, attempt) {
     }),
   ])
   const HDPathsOrAlgos = JSON.parse(network.HDPathsOrAlgos)
-  // control the attempt/retry index before selecting the algo from Array
-  if (attempt) {
-    attempt = numberAttemptsController(HDPathsOrAlgos, attempt)
-  }
   const HDPathOrAlgo = attempt ? HDPathsOrAlgos[attempt] : HDPathsOrAlgos[0]
 
   const keyring = new Keyring({
@@ -60,6 +56,11 @@ export async function getWallet(seedPhrase, network, attempt) {
 }
 
 export async function getWalletWithRetry(seedPhrase, network, attempt) {
+  const HDPathsOrAlgos = JSON.parse(network.HDPathsOrAlgos)
+  // control the attempt/retry index before selecting the algo from Array
+  if (attempt) {
+    attempt = numberAttemptsController(HDPathsOrAlgos, attempt)
+  }
   return {
     wallet: await getWallet(seedPhrase, network, attempt),
     attempt,
