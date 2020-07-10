@@ -174,7 +174,8 @@ export default class TransactionManager {
     const broadcastableObject = await getBroadcastableObject(
       messages,
       transactionData,
-      signedContext
+      signedContext,
+      accountType
     )
 
     return broadcastableObject
