@@ -1,15 +1,19 @@
 <template>
   <TmPage :sign-in-required="true" :dark-background="true">
-    <TmBalance />
-    <DelegationsOverview />
-    <Undelegations />
+    <template slot="signInRequired">
+      <TmBalance />
+      <DelegationsOverview />
+      <Undelegations />
+    </template>
   </TmPage>
 </template>
 
 <script>
+import { mapState } from "vuex"
+
+import DelegationsOverview from "staking/DelegationsOverview"
 import TmBalance from "common/TmBalance"
 import TmPage from "common/TmPage"
-import DelegationsOverview from "staking/DelegationsOverview"
 import Undelegations from "staking/Undelegations"
 
 export default {
@@ -19,6 +23,9 @@ export default {
     TmPage,
     Undelegations,
     DelegationsOverview,
+  },
+  computed: {
+    ...mapState([`session`]),
   },
 }
 </script>

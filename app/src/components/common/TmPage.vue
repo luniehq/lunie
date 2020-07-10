@@ -8,7 +8,8 @@
     <TmDataLoading v-else-if="loading" />
     <TmDataError v-else-if="error" />
 
-    <slot />
+    <slot></slot>
+    <slot v-if="session.signedIn" name="signInRequired"></slot>
   </div>
 </template>
 
