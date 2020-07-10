@@ -1,6 +1,7 @@
 const fetch = require("node-fetch")
+const Sentry = require("@sentry/node")
 const database = require("../../api/lib/database")
-const config = require("../../api/config")
+const config = require("../config")
 const db = database(config)
 
 module.exports.getTwitterImages = async () => {
@@ -35,6 +36,9 @@ module.exports.getTwitterImages = async () => {
                         operator_address,
                         picture: result.profile_image_url
                     }
+                } else {
+                    console.log(JSON.stringify(result.errors, null, 2))
+                    Sentry.captureException(new Error(JSON.stringify(result.errors)))
                 }
                 return {
                     name,

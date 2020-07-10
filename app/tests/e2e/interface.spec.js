@@ -26,6 +26,7 @@ module.exports = {
           await sleep()
           continue
         }
+        break
       }
       if (!isSameArray(validatorNames, updatedValidatorNames)) {
         throw new Error(`Validatorlist did not reset to full list`)
@@ -41,6 +42,7 @@ module.exports = {
           await sleep()
           continue
         }
+        break
       }
       if (isSameArray(validatorNames, updatedValidatorNames)) {
         throw new Error(
@@ -53,10 +55,10 @@ module.exports = {
 
 function isSameArray(array1, array2) {
   var is_same =
-    array1.length == array2.length &&
-    array1.every(function (element, index) {
-      return element === array2[index]
-    })
+  array1.length === array2.length &&
+  array1.every(function (element, index) {
+    return element === array2[index]
+  })
   return is_same
 }
 

@@ -62,6 +62,7 @@ import gql from "graphql-tag"
 import uniqBy from "lodash.uniqby"
 
 const txFields = `
+  id
   type
   hash
   key
@@ -253,6 +254,7 @@ export default {
       query: gql`
         query validators($networkId: String!) {
           validators(networkId: $networkId) {
+            id
             name
             operatorAddress
             picture
