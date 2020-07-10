@@ -13,7 +13,7 @@ const database = require('./database')
 const config = require('../config.js')
 
 function getMessageTitle(networks, notification) {
-  const data = JSON.parse(notification.data)
+  const data = notification.properties || JSON.parse(notification.data)
   switch (notification.eventType) {
     case eventTypes.TRANSACTION_RECEIVE:
       return `You have received ${data.details.amount.amount} ${
@@ -117,11 +117,11 @@ function findNetworkSlug(networks, networkId) {
 
 function getPushLink(
   networks,
-  { resourceType, eventType, networkId, resourceId, data }
+  { resourceType, eventType, networkId, resourceId, data, properties }
 ) {
   const resource =
     resourceType === resourceTypes.VALIDATOR ? eventType : resourceType
-  const notificationData = JSON.parse(data)
+  const notificationData = properties || JSON.parse(data)
 
   switch (resource) {
     case resourceTypes.TRANSACTION:
@@ -151,9 +151,7 @@ function getPushLink(
 // Get relevant icon for notification
 // TODO: Upload icons to DO instead of passing relative links
 function getIcon({ eventType, data }) {
-  const notificationData = JSON.parse(
-    data
-  )
+  const notificationData = notification.properties || JSON.parse(data)
   switch (eventType) {
     case eventTypes.TRANSACTION_RECEIVE:
       return `/img/icons/activity/Received.svg`

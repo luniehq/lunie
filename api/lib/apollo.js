@@ -13,7 +13,6 @@ const firebaseAdmin = require('./firebase')
 const config = require('../config')
 const NotificationContoller = require("./notificationController")
 
-new NotificationContoller()
 const db = database(config)('')
 
 function getDataSources(networks) {
@@ -51,6 +50,8 @@ async function createApolloServer(httpServer) {
   if (config.env !== 'test') {
     startBlockTriggers(networks)
   }
+
+  new NotificationContoller(networkList)
 
   let options = {
     typeDefs,

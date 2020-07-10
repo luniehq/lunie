@@ -1,10 +1,11 @@
 const database = require("./database");
 const config = require("../config");
 const { eventSubscription } = require("./subscriptions");
-const { getTopic } = require("./notifications")
+const { getTopic, getMessageTitle, getPushLink } = require("./notifications")
+const Sentry = require("@sentry/node")
 
 class NotificationController {
-    constructor() {
+    constructor(networks) {
         this.db = database(config)
         this.registrations = {
             "cosmos1px678cw4m5j5ye52ydjapf2kcw5edn0p6u9cry_transactionSend_cosmos-hub-testnet": {
@@ -12,6 +13,9 @@ class NotificationController {
                 push: {}
             }
         }
+        // TODO networks might not update here
+        // IDEA have a NetworksController which provides a getter and handles updating the networks
+        this.networks = networks
         this.listenToNotifications()
     }
 
@@ -31,6 +35,7 @@ class NotificationController {
     // type = [email|push]
     getRegisteredUsers(notification, type) {
         const topic = getTopic(notification)
+        if (!this.registrations[topic]) return []
         return Object.keys(this.registrations[topic][type] || {})
     }
     
@@ -53,7 +58,15 @@ class NotificationController {
     }
 
     getEmailContent(notification) {
-        return {content: "HELLO WORLD", subject: "test"}
+        return {
+            subject: getMessageTitle(this.networks, notification),
+            content: `
+                <p>There is a notification on Lunie we believe requires your attention</p>
+                <p>
+                    <a href="${config.frontendURL}${getPushLink(this.networks, notification)}">${getMessageTitle(this.networks, notification)}</a>
+                </p>
+            `
+        }
     }
 
     sendEmail(emails, subject, content) {
@@ -65,7 +78,7 @@ class NotificationController {
                   "content-type": "application/json"
                 },
                 body: JSON.stringify({
-                    from: {email: 'notifications@pepisandbox.com', name: 'Lunie Notifications'},
+                    from: {email: 'notifications@lunie.io', name: 'Lunie Notifications'},
                     subject,
                     content: [{type: 'html', value: content}],
                     personalizations: [{to: [{email}]}]
@@ -73,6 +86,7 @@ class NotificationController {
             }).then(res => res.json())
             if (res.status !== "success") {
                 console.error(res)
+                Sentry.captureException(new Error(JSON.stringify(res.error)))
             }
         })
     }
