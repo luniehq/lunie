@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex"
-
 import DelegationsOverview from "staking/DelegationsOverview"
 import TmBalance from "common/TmBalance"
 import TmPage from "common/TmPage"
@@ -23,9 +21,6 @@ export default {
     TmPage,
     Undelegations,
     DelegationsOverview,
-  },
-  computed: {
-    ...mapState([`session`]),
   },
 }
 </script>
