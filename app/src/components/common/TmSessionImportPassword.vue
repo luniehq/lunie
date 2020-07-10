@@ -119,6 +119,7 @@ export default {
           password: this.recover.password,
           name: this.recover.name,
           accountType: this.$store.state.session.accountType,
+          accountTypeIndex: this.$store.state.session.accountTypeIndex,
           network: this.network,
         })
         if (this.isExtension) {

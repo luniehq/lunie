@@ -14,6 +14,7 @@ export default ({ apollo }) => {
     signedIn: false,
     sessionType: null, // local, explore, ledger, extension
     accountType: undefined, // algo this account was created with
+    accountTypeIndex: 0, // index for the algo inside the HDPathsOrAlgos Array fron the network Object
     pauseHistory: false,
     history: [],
     address: null, // Current address

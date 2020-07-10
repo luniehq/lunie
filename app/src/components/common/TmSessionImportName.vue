@@ -129,6 +129,7 @@ export default {
       this.importedAddress = createAddressResponse.wallet.cosmosAddress
       this.$store.state.session.accountType =
         createAddressResponse.wallet.accountType // HACK
+      this.$store.state.session.accountTypeIndex = createAddressResponse.attempt // HACK
       this.attempt = createAddressResponse.attempt
     },
   },
