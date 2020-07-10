@@ -174,7 +174,6 @@ export default {
       })
     },
     signOut(address) {
-      this.$store.dispatch(`signOut`, { address, networkId: this.network })
       this.$store.dispatch(`signOutUser`)
     },
     goToWelcome() {

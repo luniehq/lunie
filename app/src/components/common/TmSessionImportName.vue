@@ -149,9 +149,10 @@ export default {
         }
       )
       this.importedAddress = createAddressResponse.wallet.cosmosAddress
-      this.$store.state.session.accountType =
-        createAddressResponse.wallet.accountType // HACK
-      this.$store.state.session.accountTypeIndex = createAddressResponse.attempt // HACK
+      this.$store.commit(`updateField`, {
+        field: `accountType`,
+        value: createAddressResponse.wallet.accountType,
+      })
       this.attempt = createAddressResponse.attempt
     },
   },
