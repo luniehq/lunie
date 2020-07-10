@@ -1,13 +1,13 @@
 // creates a cosmos addres for the network desired
-function getCosmosAddressCreator(bech32Prefix, network, attempt) {
+function getCosmosAddressCreator(bech32Prefix, accountType) {
   return async (seedPhrase) => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-    return getNewWalletFromSeed(seedPhrase, bech32Prefix)
+    return getNewWalletFromSeed(seedPhrase, bech32Prefix, accountType)
   }
 }
 
 // creates a polkadot address
-async function createPolkadotAddress(seedPhrase, network, attempt) {
+async function createPolkadotAddress(seedPhrase, network, accountType) {
   const [{ Keyring }] = await Promise.all([
     import("@polkadot/api"),
     import("@polkadot/wasm-crypto").then(async ({ waitReady }) => {
@@ -18,12 +18,10 @@ async function createPolkadotAddress(seedPhrase, network, attempt) {
       await cryptoWaitReady()
     }),
   ])
-  const HDPathsOrAlgos = JSON.parse(network.HDPathsOrAlgos)
-  const HDPathOrAlgo = attempt ? HDPathsOrAlgos[attempt] : HDPathsOrAlgos[0]
 
   const keyring = new Keyring({
     ss58Format: Number(network.address_prefix),
-    type: HDPathOrAlgo,
+    type: accountType,
   })
   const newPair = keyring.addFromUri(seedPhrase)
 
@@ -31,22 +29,22 @@ async function createPolkadotAddress(seedPhrase, network, attempt) {
     cosmosAddress: newPair.address,
     publicKey: newPair.publicKey,
     seedPhrase,
-    accountType: HDPathOrAlgo, // accountType refers to the algo that created this account
+    accountType,
   }
 }
 
-export async function getWallet(seedPhrase, network, attempt) {
+export async function getWallet(seedPhrase, network, accountType) {
+  // accountType refers to the algo that creates this account
   switch (network.network_type) {
     case "cosmos": {
       const addressCreator = await getCosmosAddressCreator(
         network.address_prefix,
-        network,
-        attempt
+        accountType
       )
       return await addressCreator(seedPhrase)
     }
     case "polkadot": {
-      return await createPolkadotAddress(seedPhrase, network, attempt)
+      return await createPolkadotAddress(seedPhrase, network, accountType)
     }
     default:
       throw new Error(
@@ -61,8 +59,9 @@ export async function getWalletWithRetry(seedPhrase, network, attempt) {
   if (attempt) {
     attempt = numberAttemptsController(HDPathsOrAlgos, attempt)
   }
+  const HDPathOrAlgo = attempt ? HDPathsOrAlgos[attempt] : HDPathsOrAlgos[0]
   return {
-    wallet: await getWallet(seedPhrase, network, attempt),
+    wallet: await getWallet(seedPhrase, network, HDPathOrAlgo),
     attempt,
   }
 }

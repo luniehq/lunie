@@ -57,7 +57,7 @@ export default () => {
     },
     async createKey(
       store,
-      { seedPhrase, password, name, accountType, accountTypeIndex, network }
+      { seedPhrase, password, name, accountType, network }
     ) {
       // TODO extract the key storage from the key creation
       const { storeWallet } = await import("@lunie/cosmos-keys")
@@ -65,11 +65,7 @@ export default () => {
       // get current network
       const networkObject = await getNetworkInfo(network, store)
       // create a new key pair
-      const wallet = await getWallet(
-        seedPhrase,
-        networkObject,
-        accountTypeIndex
-      )
+      const wallet = await getWallet(seedPhrase, networkObject, accountType)
 
       storeWallet(wallet, name, password, network)
 
