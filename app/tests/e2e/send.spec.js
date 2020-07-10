@@ -23,7 +23,8 @@ module.exports = {
       ".table-cell.actions button",
       // actions to do on details page
       async () => {
-        await browser.setValue("#send-address", browser.globals.address)
+        // We send some balance back to master account
+        await browser.setValue("#send-address", browser.globals.networkData.address)
         await browser.clearValue("#amount")
         await browser.setValue("#amount", amount)
       },

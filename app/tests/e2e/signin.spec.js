@@ -6,7 +6,7 @@ module.exports = {
     await browser.click("#sign-in-with-account")
     await browser.waitForElementVisible("#sign-in-name", 20000, true)
     await browser.click(
-      "#sign-in-name option[value=cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e]"
+      `#sign-in-name option[value=${browser.globals.networkData.address}]`
     )
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
@@ -23,18 +23,18 @@ module.exports = {
     browser.click("#recover-with-backup")
 
     await browser.waitForElementVisible(
-      `.select-network-item[data-network=cosmos-hub-mainnet]`,
+      `.select-network-item[data-network=${browser.globals.networkData.network}]`,
       20000,
       true
     )
-    await browser.click(`.select-network-item[data-network=cosmos-hub-mainnet]`)
+    await browser.click(`.select-network-item[data-network=${browser.globals.networkData.network}]`)
 
     browser.waitForElementVisible("#import-seed", 20000, true)
     await next(browser)
     browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
     browser.setValue(
       "#import-seed",
-      `lab stable vessel rose donkey panel slim assault cause tenant level yellow sport argue rural pizza supply idea detect brass shift aunt matrix simple`
+      browser.globals.networkData.seed
     )
     await next(browser)
 
@@ -85,28 +85,32 @@ async function prepare(browser) {
 
   // add a standard account to be used for signing in to an existing account
   await browser.execute(
-    function (network) {
+    function (network, address, wallet) {
       window.localStorage.setItem(
         "cosmos-wallets-index",
         JSON.stringify([
           {
             name: "demo",
-            address: "cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e",
+            address,
           },
         ])
       )
       window.localStorage.setItem(
-        `cosmos-wallets-cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
+        `cosmos-wallets-${address}`,
         JSON.stringify({
           name: `rich_account`,
-          address: `cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e`,
-          wallet: `ae1d20a49e1085cca29a71e270c6f64f8f86794cb67c6922caea6bcba0ed9e60g+nSTgP8/wHpWaomDkhW/7g2Xldvno3VRFggvdpWIDrRV+n4BJtpk3UpLKo0K3SDL5dRzxz3NmGFnSA8znggFmtesdqu6jWJYzSNqaQhM/gCPTVabF7t1UHaybze1NRlYcm/wl5oOyXRpki6ugOHxNhF7+4wlzhYxMilAB7ekDB4+VVHoPMUinU4dsUdtC4XwDUA0rbX1TTmrh+i1eBp6UTQ+nHGiZXL1TkhhR1mE0fR3bLRunz5XagYtjoST33pecQWzqeaZZQ/mgm9QXu/i+ymfbnPQkh8ivx+J6/d2RfZuAV4NnwFZDUr7CzPX4TU`,
+          address,
+          wallet,
         })
       )
       window.localStorage.removeItem(`session_${network}`)
       return true
     },
-    [browser.globals.network]
+    [
+      browser.globals.network,
+      browser.globals.networkData.address,
+      browser.globals.networkData.wallet
+    ]
   )
   await browser.url(browser.launch_url + "?insecure=true&experimental=true")
 
