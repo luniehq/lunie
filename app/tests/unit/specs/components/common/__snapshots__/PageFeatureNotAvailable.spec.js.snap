@@ -2,61 +2,58 @@
 
 exports[`PageFeatureNotAvailable shows a warning about a feature not being available 1`] = `
 <div
-  class="tm-page"
+  class="page"
   data-title="Feature Not Available"
 >
   <!---->
    
-  <main
-    class="tm-page-main"
+  <!---->
+   
+  <div
+    class="tm-data-msg"
   >
-    <!---->
+    <div
+      class="tm-data-msg__icon"
+    >
+      <i
+        class="material-icons notranslate"
+      >
+        timeline
+      </i>
+    </div>
      
     <div
-      class="tm-data-msg"
+      class="tm-data-msg__text"
     >
-      <div
-        class="tm-data-msg__icon"
+      <h2
+        class="tm-data-msg__title"
       >
-        <i
-          class="material-icons notranslate"
-        >
-          timeline
-        </i>
-      </div>
+        <div>
+          Feature not available
+        </div>
+      </h2>
        
-      <div
-        class="tm-data-msg__text"
+      <h3
+        class="tm-data-msg__subtitle"
       >
-        <h2
-          class="tm-data-msg__title"
-        >
-          <div>
-            Feature not available
-          </div>
-        </h2>
-         
-        <h3
-          class="tm-data-msg__subtitle"
-        >
-          <div>
-            
-    This feature hasn't been implemented on this network yet.
+        <div>
+          
+    We haven't implemented this feature for this network yet.
     
-            <br />
-             
-            <br />
-             
-            <a
-              class="intercom-button"
-              href="#"
-            >
-              Reach out if you'd like us to enable this feature.
-            </a>
-          </div>
-        </h3>
-      </div>
+          <br />
+           
+          <br />
+           
+          <a
+            class="intercom-button"
+          >
+            Reach out if you'd like us to add support for this feature.
+          </a>
+        </div>
+      </h3>
     </div>
-  </main>
+  </div>
+   
+  <!---->
 </div>
 `;

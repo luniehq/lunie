@@ -51,14 +51,6 @@ export default {
     ...mapState([`session`]),
     ...mapGetters([`connected`]),
   },
-  watch: {
-    $route() {
-      this.scrollContainer.scrollTop = 0
-    },
-  },
-  mounted() {
-    this.scrollContainer = this.$el.querySelector(`.page`)
-  },
 }
 </script>
 

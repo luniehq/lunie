@@ -5,10 +5,12 @@ exports[`PagePortfolio should display the portfolio page 1`] = `
   darkbackground="true"
   signinrequired="true"
 >
-  <tmbalance-stub />
-   
-  <delegationsoverview-stub />
-   
-  <undelegations-stub />
+  <template>
+    <tmbalance-stub />
+     
+    <delegationsoverview-stub />
+     
+    <undelegations-stub />
+  </template>
 </tmpage-stub>
 `;

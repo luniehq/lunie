@@ -1,14 +1,30 @@
-import { mount } from "@vue/test-utils"
+import { mount, createLocalVue } from "@vue/test-utils"
 import PageFeatureNotAvailable from "common/PageFeatureNotAvailable"
+import Vuex from "vuex"
+const localVue = createLocalVue()
+
+localVue.use(Vuex)
 
 describe(`PageFeatureNotAvailable`, () => {
   let wrapper
+  let store
+
   beforeEach(() => {
-    wrapper = mount(PageFeatureNotAvailable, {
-      propsData: {
-        feature: "Spacetravel",
+    store = new Vuex.Store({
+      state: {
+        session: () => ({ address: `cosmos`, atoms: 1 }),
       },
-      stubs: ["router-link"],
+      getters: {
+        connected: () => true,
+      }
+    })
+    wrapper = mount(PageFeatureNotAvailable, {
+      store,
+      localVue,
+      propsData: {
+        feature: "spacetravel",
+      },
+      stubs: [`router-link`]
     })
   })
 

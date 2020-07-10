@@ -8,7 +8,8 @@ exports[`TmPage should show links to other pages 1`] = `
   <!---->
    
   <!---->
-   
+    
+  <!---->
 </div>
 `;
 
@@ -19,6 +20,7 @@ exports[`TmPage shows a page skeleton 1`] = `
   <!---->
    
   <!---->
-   
+    
+  <!---->
 </div>
 `;
