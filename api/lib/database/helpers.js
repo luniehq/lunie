@@ -13,8 +13,9 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
     })
   })
     .then(async (response) => {
-      if(!response.ok) throw new Error(response.status + ' ' + await response.text());
-      else return response.json();
+      if (!response.ok)
+        throw new Error(response.status + ' ' + (await response.text()))
+      else return response.json()
     })
     .catch((error) => {
       console.error(error, query)
@@ -35,7 +36,7 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
 }
 
 function escapeObject(value) {
-  if (value === undefined || value === null) return ""
+  if (value === undefined || value === null) return ''
   if (typeof value === 'boolean' || typeof value === 'number') {
     return value
   }
@@ -46,25 +47,25 @@ function escapeObject(value) {
     })
     return clone
   } else {
-    return escape(value).replace(/amp;/g,"")
+    return escape(value)
   }
 }
 
 function escapeValue(value) {
-  return (value === undefined || value === null)
-  ? `""`
-  : (typeof value === 'boolean' || typeof value === 'number')
-  ? value 
-  : typeof value === 'string' 
-  ? `"${escape(value)}"` 
-  // we need to double stringify to double escape the quotations
-  // if not, inserted in the query the object will have double quotes inside
-  : JSON.stringify(JSON.stringify(escapeObject(value)))
+  return value === undefined || value === null
+    ? `""`
+    : typeof value === 'boolean' || typeof value === 'number'
+    ? value
+    : typeof value === 'string'
+    ? `"${escape(value)}"`
+    : // we need to double stringify to double escape the quotations
+      // if not, inserted in the query the object will have double quotes inside
+      JSON.stringify(JSON.stringify(escapeObject(value)))
 }
 
 function gqlKeyValue([key, value]) {
   // escape all values but handle objects gracefully
-  return `${key}: ${escapeValue(value)}` 
+  return `${key}: ${escapeValue(value)}`
 }
 
 // stringify a set of row to be according to the graphQL schema

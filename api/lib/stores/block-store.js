@@ -20,12 +20,12 @@ class BlockStore {
     this.db = database
 
     // system to stop queries to proceed if store data is not yet available
-     this.dataReady = new Promise((resolve) => {
-       this.resolveReady = resolve
-     })
-     this.dataReady.then(() => {
-       console.log(this.network.id, "is ready")
-     })
+    this.dataReady = new Promise((resolve) => {
+      this.resolveReady = resolve
+    })
+    this.dataReady.then(() => {
+      console.log(this.network.id, 'is ready')
+    })
     // Deactivated for now. Get store from DB
     // this.getStore().then((foundStore) => {
     //   if (foundStore) this.resolveReady()
@@ -262,12 +262,9 @@ class BlockStore {
 
 function enrichValidator(validatorInfo, validator) {
   const picture = validatorInfo ? validatorInfo.picture : undefined
-  const name =
-    validatorInfo && validatorInfo.name ? validatorInfo.name : validator.name
 
   return {
     ...validator,
-    name,
     picture: picture === 'null' || picture === 'undefined' ? undefined : picture
   }
 }
@@ -283,3 +280,4 @@ async function storeStoreInDB(store) {
 }
 
 module.exports = BlockStore
+module.exports.enrichValidator = enrichValidator
