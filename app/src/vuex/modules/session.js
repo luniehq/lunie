@@ -154,7 +154,7 @@ export default ({ apollo }) => {
       if (!accountType) {
         // first searched for accountType in localStorage
         const session = JSON.parse(localStorage.getItem(`session_${networkId}`))
-        if (session.accountType) {
+        if (session && session.accountType && address === session.address) {
           accountType = session.accountType
         } else {
           // set defaults accountTypes if this is not defined

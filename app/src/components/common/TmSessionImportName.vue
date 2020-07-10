@@ -127,8 +127,9 @@ export default {
         }
       )
       this.importedAddress = createAddressResponse.wallet.cosmosAddress
+      this.$store.state.session.accountType =
+        createAddressResponse.wallet.accountType // HACK
       this.attempt = createAddressResponse.attempt
-      this.$store.state.session.accountType = createAddressResponse.accountType // HACK
     },
   },
   validations: () => ({

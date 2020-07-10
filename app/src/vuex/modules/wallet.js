@@ -2,12 +2,7 @@
 function getCosmosAddressCreator(bech32Prefix, network, attempt) {
   return async (seedPhrase) => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-    return {
-      wallet: JSON.parse(
-        JSON.stringify(getNewWalletFromSeed(seedPhrase, bech32Prefix))
-      ),
-      attempt,
-    }
+    return getNewWalletFromSeed(seedPhrase, bech32Prefix)
   }
 }
 
@@ -24,25 +19,23 @@ async function createPolkadotAddress(seedPhrase, network, attempt) {
     }),
   ])
   const HDPathsOrAlgos = JSON.parse(network.HDPathsOrAlgos)
-
+  // control the attempt/retry index before selecting the algo from Array
   if (attempt) {
     attempt = numberAttemptsController(HDPathsOrAlgos, attempt)
   }
+  const HDPathOrAlgo = attempt ? HDPathsOrAlgos[attempt] : HDPathsOrAlgos[0]
 
   const keyring = new Keyring({
     ss58Format: Number(network.address_prefix),
-    type: HDPathsOrAlgos[attempt],
+    type: HDPathOrAlgo,
   })
   const newPair = keyring.addFromUri(seedPhrase)
 
   return {
-    wallet: {
-      cosmosAddress: newPair.address,
-      publicKey: newPair.publicKey,
-      seedPhrase,
-    },
-    accountType: HDPathsOrAlgos[attempt], // accountType refers to the algo that created this account
-    attempt,
+    cosmosAddress: newPair.address,
+    publicKey: newPair.publicKey,
+    seedPhrase,
+    accountType: HDPathOrAlgo, // accountType refers to the algo that created this account
   }
 }
 
@@ -63,6 +56,13 @@ export async function getWallet(seedPhrase, network, attempt) {
       throw new Error(
         "Lunie doesn't support address creation for this network."
       )
+  }
+}
+
+export async function getWalletWithRetry(seedPhrase, network, attempt) {
+  return {
+    wallet: await getWallet(seedPhrase, network, attempt),
+    attempt,
   }
 }
 

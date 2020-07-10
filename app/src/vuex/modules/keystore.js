@@ -1,5 +1,5 @@
 import { track } from "scripts/google-analytics"
-import { getWallet } from "./wallet"
+import { getWallet, getWalletWithRetry } from "./wallet"
 export default () => {
   const state = {
     accounts: [],
@@ -48,7 +48,7 @@ export default () => {
       // get current network
       const networkObject = await getNetworkInfo(network, store)
 
-      const createAddressResponse = await getWallet(
+      const createAddressResponse = await getWalletWithRetry(
         seedPhrase,
         networkObject,
         attempt
@@ -65,9 +65,9 @@ export default () => {
       // get current network
       const networkObject = await getNetworkInfo(network, store)
       // create a new key pair
-      const getWalletResponse = await getWallet(seedPhrase, networkObject)
+      const wallet = await getWallet(seedPhrase, networkObject)
 
-      storeWallet(getWalletResponse.wallet, name, password, network)
+      storeWallet(wallet, name, password, network)
 
       store.state.externals.track(`event`, `session`, `create-keypair`)
 
@@ -75,7 +75,7 @@ export default () => {
       store.dispatch("loadAccounts")
 
       await store.dispatch("signIn", {
-        address: getWalletResponse.wallet.cosmosAddress,
+        address: wallet.cosmosAddress,
         sessionType: "local",
         accountType,
         networkId: network,
