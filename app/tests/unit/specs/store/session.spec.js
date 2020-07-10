@@ -116,7 +116,7 @@ describe(`Module: Session`, () => {
   it(`should clear all session related data`, () => {
     state.history = [`/x`]
     const commit = jest.fn()
-    actions.resetSessionData({ state, commit })
+    actions.resetSessionData({ state, commit }, { addres, networkId })
 
     expect(state.history).toEqual(["/"])
     expect(localStorage.getItem(`session`)).toBeNull()
@@ -155,7 +155,8 @@ describe(`Module: Session`, () => {
         `event`,
         `session`,
         `sign-in`,
-        `local`
+        `local`,
+        `cosmosStandard`
       )
     })
 
@@ -183,7 +184,8 @@ describe(`Module: Session`, () => {
         `event`,
         `session`,
         `sign-in`,
-        `ledger`
+        `ledger`,
+        `cosmosStandard`
       )
     })
 
@@ -385,7 +387,10 @@ describe(`Module: Session`, () => {
     const dispatch = jest.fn()
     await actions.signOut({ state, commit, dispatch }, "red-feliz")
 
-    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`, "red-feliz")
+    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`, {
+      address: undefined,
+      networkId: "red-feliz",
+    })
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
     expect(state.externals.track).toHaveBeenCalled()
   })

@@ -27,6 +27,10 @@ describe(`TmSessionImportPassword`, () => {
           passwordConfirm: ``,
           warning: false,
         },
+        session: {
+          accountType: ``,
+          accountTypeIndex: ``,
+        },
       },
       getters,
       commit: jest.fn(),
@@ -92,6 +96,8 @@ describe(`TmSessionImportPassword`, () => {
       password: `1234567890`,
       network: "lunie-net",
       seedPhrase: ``,
+      accountType: ``,
+      accountTypeIndex: ``,
     })
   })
 

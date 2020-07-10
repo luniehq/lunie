@@ -54,13 +54,17 @@ describe(`AppMenu`, () => {
   it(`call dispatch to sign the user out`, () => {
     const $store = { dispatch: jest.fn() }
     const self = {
+      address: `cosmos1`,
       network: `la-red-feliz`,
       $store,
       $router: { push: jest.fn() },
       $emit: jest.fn(),
     }
     AppMenu.methods.signOut.call(self)
-    expect($store.dispatch).toHaveBeenCalledWith(`signOut`, `la-red-feliz`)
+    expect($store.dispatch).toHaveBeenCalledWith(`signOut`, {
+      address: `cosmos1`,
+      networkId: `la-red-feliz`,
+    })
   })
 
   it(`closes menu on sign out`, () => {
