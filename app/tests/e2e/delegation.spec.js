@@ -26,7 +26,7 @@ module.exports = {
   "Delegate Action": async function (browser) {
     let lastHash = undefined
     // Activity feature is not enabled in polkadot
-    if (browser.globals.networkData.network !== `polkadot-testnet`) {
+    if (browser.globals.network !== `polkadot-testnet`) {
       await browser.url(
         browser.launch_url + browser.globals.slug + "/transactions"
       )
@@ -55,7 +55,7 @@ module.exports = {
     await getAccountBalance(browser)
 
     // Activity feature is not enabled in polkadot
-    if (browser.globals.networkData.network !== `polkadot-testnet`) {
+    if (browser.globals.network !== `polkadot-testnet`) {
       // check if the hash is changed
       await browser.url(
         browser.launch_url + browser.globals.slug + "/transactions"
@@ -77,7 +77,7 @@ module.exports = {
   },
   "Redelegate Action": async function (browser) {
     // Not possible in polkadot, as we need to wait for session change to do it
-    if (browser.globals.networkData.network === `polkadot-testnet`) {
+    if (browser.globals.network === `polkadot-testnet`) {
       return
     }
 
@@ -128,7 +128,7 @@ module.exports = {
   },
   "Undelegate Action": async function (browser) {
     // Not possible in polkadot, as we need to wait for session change to do it
-    if (browser.globals.networkData.network === `polkadot-testnet`) {
+    if (browser.globals.network === `polkadot-testnet`) {
       return
     }
 

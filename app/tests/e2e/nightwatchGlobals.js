@@ -20,7 +20,6 @@ module.exports = {
     let networkData = await initialiseDefaults(browser)
     networkData.password = process.env.PASSWORD
     browser.globals.password = networkData.password
-    browser.globals.networkData = networkData
 
     if (!initializedAccount) {
       // creating testing account and funding it with the master account
@@ -102,6 +101,9 @@ async function initialiseDefaults(browser) {
   browser.globals.slug = "/" + networkData.slug
   browser.globals.expectedDiff = networkData.expectedDiff
   browser.globals.network = networkData.network
+  browser.globals.address = networkData.address
+  browser.globals.wallet = networkData.wallet
+  browser.globals.seed = networkData.seed
   // checking if network is local, the API should be local too
   if (network.indexOf("local-") === 0) {
     if (apiURI.indexOf("//localhost:") === -1) {
