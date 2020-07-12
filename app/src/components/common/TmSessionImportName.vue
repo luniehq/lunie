@@ -6,7 +6,10 @@
       </h2>
       <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
-        <TmFormGroup field-id="import-name" :field-label="fieldLabel">
+        <TmFormGroup field-id="import-name" field-label="Your Address">
+          <span v-if="networkAccountTypes.length > 1" class="algo"
+            >created using {{ currentAlgo }}</span
+          >
           <img
             v-if="importedAddress === undefined"
             class="tm-data-msg__icon"
@@ -111,19 +114,10 @@ export default {
       },
     },
     networkAccountTypes() {
-      console.log(this.currentNetwork.accountTypes)
       return JSON.parse(this.currentNetwork.accountTypes)
     },
     currentAlgo() {
       return this.networkAccountTypes[this.attempt]
-    },
-    fieldLabel() {
-      let label = `Your Address`
-      if (this.networkAccountTypes.length > 1) {
-        return label.concat(` --- Created using ${this.currentAlgo}`)
-      } else {
-        return label
-      }
     },
   },
   mounted() {
@@ -165,7 +159,7 @@ export default {
   }),
 }
 </script>
-<style scoped>
+<style>
 .address {
   word-break: break-all;
   font-size: 0.9rem;
@@ -184,5 +178,17 @@ export default {
 
 .retry-link:hover {
   color: var(--link-hover);
+}
+
+.tm-form-group__field {
+  position: unset;
+}
+
+.algo {
+  position: absolute;
+  top: 1.1rem;
+  left: 5.75rem;
+  font-size: 14px;
+  font-weight: 500;
 }
 </style>
