@@ -1,10 +1,8 @@
+/* eslint-disable */
 export const accountTypesDictionary = {
     cosmosStandard: [44, 118, 0, 0, 0],
     terraStation: [44, 330, 0, 0, 0],
-}
-
-export const polkadotAlgosDictionary = {
-    sr25519: `Schnorrkel`,
-    ed25519: `Edwards`,
-    ecdsa: `ECDSA`,
+    Schnorrkel: `sr25519`,
+    Edwards: `ed25519`,
+    ECDSA: `ecdsa`,
 }

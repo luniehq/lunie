@@ -1,4 +1,5 @@
 import { hexToU8a } from "@polkadot/util"
+import { accountTypesDictionary } from "../../../common/dictionaries"
 
 export async function getSignature(
   { payload, transaction },
@@ -19,7 +20,7 @@ export async function getSignature(
 
   const keyring = new Keyring({
     ss58Format: Number(network.address_prefix),
-    type: accountType,
+    type: accountTypesDictionary[accountType],
   })
   const keypair = keyring.createFromUri(wallet.seedPhrase)
 

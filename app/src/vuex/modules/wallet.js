@@ -1,3 +1,5 @@
+import { accountTypesDictionary } from "../../../../common/dictionaries"
+
 // creates a cosmos addres for the network desired
 function getCosmosAddressCreator(bech32Prefix, accountType) {
   return async (seedPhrase) => {
@@ -21,7 +23,7 @@ async function createPolkadotAddress(seedPhrase, network, accountType) {
 
   const keyring = new Keyring({
     ss58Format: Number(network.address_prefix),
-    type: accountType,
+    type: accountTypesDictionary[accountType],
   })
   const newPair = keyring.addFromUri(seedPhrase)
 

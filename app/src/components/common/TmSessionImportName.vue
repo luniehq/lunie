@@ -115,11 +115,7 @@ export default {
       return JSON.parse(this.currentNetwork.accountTypes)
     },
     currentAlgo() {
-      if (this.currentNetwork.network_type === `polkadot`) {
-        return polkadotAlgosDictionary[this.networkAccountTypes[this.attempt]]
-      } else {
-        return this.networkAccountTypes[this.attempt]
-      }
+      return this.networkAccountTypes[this.attempt]
     },
     fieldLabel() {
       let label = `Your Address`
