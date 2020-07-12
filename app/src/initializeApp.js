@@ -9,6 +9,7 @@ import {
 import config from "src/../config"
 import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
+// import pushNotifications from "./vuex/modules/pushNotifications"
 import { createApolloProvider } from "src/gql/apollo.js"
 
 if (navigator && navigator.serviceWorker) {
@@ -44,6 +45,8 @@ export default async function init(urlParams, env = process.env) {
 
   const apolloProvider = await createApolloProvider()
   const apolloClient = apolloProvider.clients.defaultClient
+
+  // await pushNotifications.initializeFirebase(apolloClient)
 
   const store = Store({ apollo: apolloClient })
   // we need to set url params before querying for networks because of experimental flag

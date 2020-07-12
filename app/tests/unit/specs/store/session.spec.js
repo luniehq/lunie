@@ -1,4 +1,7 @@
 import sessionModule from "src/vuex/modules/session.js"
+// import pushNotifications from "src/vuex/modules/pushNotifications.js"
+
+jest.mock("src/vuex/modules/pushNotifications.js")
 
 describe(`Module: Session`, () => {
   let module, state, actions, mutations
@@ -24,6 +27,9 @@ describe(`Module: Session`, () => {
     state = module.state
     actions = module.actions
     mutations = module.mutations
+    global.Notification = {
+      requestPermission: jest.fn(),
+    }
 
     state.externals = {
       track: jest.fn(),
@@ -251,6 +257,15 @@ describe(`Module: Session`, () => {
         },
         { address, sessionType, networkId: "fabo-net" }
       )
+      // expect(pushNotifications.askPermissionAndRegister).toHaveBeenCalledWith(
+      //   [
+      //     {
+      //       address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      //       networkId: "fabo-net"
+      //     }
+      //   ],
+      //   expect.objectContaining({}) // apollo
+      // )
       localStorage.removeItem("session_fabo-net")
     })
 
@@ -303,7 +318,7 @@ describe(`Module: Session`, () => {
       expect(dispatch).toHaveBeenCalledWith(`rememberAddress`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
         sessionType: `explore`,
-        networkId: `happy-net`
+        networkId: `happy-net`,
       })
     })
 
@@ -535,13 +550,13 @@ describe(`Module: Session`, () => {
         {
           address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
           sessionType: `local`,
-          networkId: `happy-net`
+          networkId: `happy-net`,
         }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         sessionType: `local`,
-        networkId: `happy-net`
+        networkId: `happy-net`,
       })
 
       dispatch.mockClear()
@@ -560,13 +575,13 @@ describe(`Module: Session`, () => {
         {
           address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
           sessionType: `ledger`,
-          networkId: `happy-net`
+          networkId: `happy-net`,
         }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         sessionType: `ledger`,
-        networkId: `happy-net`
+        networkId: `happy-net`,
       })
     })
 
