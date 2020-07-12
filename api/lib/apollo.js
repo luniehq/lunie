@@ -5,7 +5,7 @@ const Sentry = require('@sentry/node')
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 const PushNotifications = require('./notifications/pushNotifications')
-const Notifications = require('./notifications')
+const Notifications = require('./notifications/notifications')
 const database = require('./database')
 
 const NetworkContainer = require('./network-container')

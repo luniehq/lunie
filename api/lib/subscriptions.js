@@ -1,7 +1,7 @@
 const { PubSub } = require('apollo-server')
 const config = require('../config')
 const { createRedisPubSub } = require('./redis')
-const { getDefaultSubscriptions } = require('./notifications-types')
+const { getDefaultSubscriptions } = require('./notifications/notifications-types')
 
 const pubsub = getPubSub()
 

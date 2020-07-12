@@ -1,7 +1,7 @@
-const { eventSubscription } = require('./subscriptions')
+const { eventSubscription } = require('../subscriptions')
 const { eventTypes } = require('./pushNotifications-format')
-const config = require('../config.js')
-var admin = require('firebase-admin')
+const config = require('../../config.js')
+const firebaseAdmin = require('../firebase')
 
 function getMessageBody(eventType, event) {
   switch (eventType) {
@@ -61,7 +61,7 @@ async function pushToTopic(topic, event) {
   }
 
   try {
-    await admin.messaging().send(message)
+    await firebaseAdmin.messaging().send(message)
   } catch (error) {
     console.error('Error sending message:', error, message)
   }
@@ -95,7 +95,7 @@ function getPushLink(eventType, networkSlug) {
 function subscribeUser(registrationToken, topics) {
   return Promise.all(
     topics.map((topic) =>
-      admin.messaging().subscribeToTopic(registrationToken, topic)
+      firebaseAdmin.messaging().subscribeToTopic(registrationToken, topic)
     )
   )
 }
@@ -104,17 +104,12 @@ function subscribeUser(registrationToken, topics) {
 function unsubscribeUser(registrationToken, topics) {
   return Promise.all(
     topics.map((topic) =>
-      admin.messaging().unsubscribeFromTopic(registrationToken, topic)
+      firebaseAdmin.messaging().unsubscribeFromTopic(registrationToken, topic)
     )
   )
 }
 
 const startPushingEvents = () => {
-  admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-    databaseURL: config.firebaseDatabaseUrl
-  })
-
   // listens on the graphQL subscription for events
   // in the app, create an event via pushEvent from `subscription.js`
   eventSubscription((event) => {
@@ -137,7 +132,7 @@ module.exports = {
  */
 
 if (!config.firebaseAdminKeySet) {
-  console.error('No Firebase Admin Key set so skipping push notifications')
+  console.error('No Firebase firebaseAdmin Key set so skipping push notifications')
 
   module.exports = {
     startPushingEvents: () => {},

@@ -16,7 +16,7 @@ const {
   getCosmosFee
 } = require('../data/network-fees')
 const database = require('./database')
-const { getNotifications } = require('./notifications')
+const { getNotifications } = require('./notifications/notifications')
 const {
   subscribeUser,
   unsubscribeUser

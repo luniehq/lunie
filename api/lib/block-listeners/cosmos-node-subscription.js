@@ -11,7 +11,7 @@ const {
   lunieMessageTypes: { SEND }
 } = require('../message-types.js')
 // const { eventTypes } = require('../notifications/pushNotifications-format')
-const { eventTypes, resourceTypes } = require('../notifications-types')
+const { eventTypes, resourceTypes } = require('../notifications/notifications-types')
 const BLOCK_POLLING_INTERVAL = 1000
 const EXPECTED_MAX_BLOCK_WINDOW = 120000
 // apparently the cosmos db takes a while to serve the content after a block has been updated
