@@ -21,6 +21,9 @@ describe(`TmSessionImportName`, () => {
     getters = {
       connected: () => true,
       network: "cosmos-hub-mainnet",
+      currentNetwork: {
+        accountTypes: `["cosmosStandard"]`,
+      },
     }
     $store = {
       state: {

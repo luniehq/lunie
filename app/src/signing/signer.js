@@ -23,7 +23,7 @@ async function getWallet(address, password) {
 
 export async function getSigner(
   signingType,
-  { address, password, network, accountType },
+  { address, password, network, displayedProperties, accountType },
   config
 ) {
   if (signingType === `local`) {

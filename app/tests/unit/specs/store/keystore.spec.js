@@ -142,15 +142,16 @@ describe(`Module: Keystore`, () => {
             network_type: "cosmos",
             address_prefix: "cosmos",
             testnet: true,
+            accountTypes: JSON.stringify(["cosmosStandard"]),
           },
         ],
       },
     }
-    const address = await actions.getAddressFromSeed(store, {
+    const wallet = await actions.getAddressFromSeed(store, {
       seedPhrase: `xxx`,
       network: `cosmos-hub-testnet`,
     })
-    expect(address).toBe(`cosmos1234`)
+    expect(wallet.cosmosAddress).toBe(`cosmos1234`)
   })
 
   it(`should create a Polkadot address from a 12 words seed phrase`, async () => {
@@ -163,17 +164,19 @@ describe(`Module: Keystore`, () => {
             address_prefix: "2",
             testnet: false,
             network_type: "polkadot",
-            accountTypes: JSON.stringify(["sr25519", "ed25519"]),
+            accountTypes: JSON.stringify(["Schnorrkel", "Edwards"]),
           },
         ],
       },
     }
 
-    const address = await actions.getAddressFromSeed(store, {
+    const wallet = await actions.getAddressFromSeed(store, {
       seedPhrase: `lunch primary know smoke track sustain parrot enact shock final rookie banana`,
       network: "kusama",
     })
-    expect(address).toBe(`DcjhGvTmsVvJHzqFR1SQVHs77cFTQTJrm59WPM4FRgbGFoR`)
+    expect(wallet.cosmosAddress).toBe(
+      `DcjhGvTmsVvJHzqFR1SQVHs77cFTQTJrm59WPM4FRgbGFoR`
+    )
   })
 
   it(`should create a Polkadot address from a 24 words seed phrase`, async () => {
@@ -186,17 +189,19 @@ describe(`Module: Keystore`, () => {
             address_prefix: "2",
             testnet: false,
             network_type: "polkadot",
-            accountTypes: JSON.stringify(["sr25519", "ed25519"]),
+            accountTypes: JSON.stringify(["Schnorrkel", "Edwards"]),
           },
         ],
       },
     }
 
-    const address = await actions.getAddressFromSeed(store, {
+    const wallet = await actions.getAddressFromSeed(store, {
       seedPhrase: `spirit ride warm like ribbon axis minimum number myth wrestle minute amount subway whip system axis cross box actual rifle control profit town advice`,
       network: `kusama`,
     })
-    expect(address).toBe(`DGTPCmSeaMKKkno6GMLteH6JUBjjRf6PEtvLgmKQS4SV3Tc`)
+    expect(wallet.cosmosAddress).toBe(
+      `DGTPCmSeaMKKkno6GMLteH6JUBjjRf6PEtvLgmKQS4SV3Tc`
+    )
   })
 
   it(`should create a Polkadot address from a raw hex seed phrase`, async () => {
@@ -209,17 +214,19 @@ describe(`Module: Keystore`, () => {
             address_prefix: "2",
             testnet: false,
             network_type: "polkadot",
-            accountTypes: JSON.stringify(["sr25519", "ed25519"]),
+            accountTypes: JSON.stringify(["Schnorrkel", "Edwards"]),
           },
         ],
       },
     }
 
-    const address = await actions.getAddressFromSeed(store, {
+    const wallet = await actions.getAddressFromSeed(store, {
       seedPhrase: `0x2fbaa6dc94a4bc904cc913de9151b890c5c1de1beb08ec01c96b66b355a7b9ca`,
       network: `kusama`,
     })
-    expect(address).toBe(`EkpVDgUgARxa96strjK5oCiEdLTokcTqw4uUMqEGBTmibLe`)
+    expect(wallet.cosmosAddress).toBe(
+      `EkpVDgUgARxa96strjK5oCiEdLTokcTqw4uUMqEGBTmibLe`
+    )
   })
 
   it(`should create a key from a seed phrase`, async () => {

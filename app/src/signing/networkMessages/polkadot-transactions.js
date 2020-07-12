@@ -70,7 +70,9 @@ const curvePrefixes = {
 }
 
 function formatSignature(rawSignature, accountType) {
-  const prefix = new Uint8Array(curvePrefixes[accountTypesDictionary[accountType]])
+  const prefix = new Uint8Array(
+    curvePrefixes[accountTypesDictionary[accountType]]
+  )
   const signature = u8aToHex(u8aConcat(prefix, rawSignature))
   return signature
 }

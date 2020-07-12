@@ -15,6 +15,9 @@ describe(`TmSessionSignUpSeed`, () => {
         network: "lunie-net",
         networkSlug: "lunie",
         isExtension: false,
+        currentNetwork: {
+          accountTypes: `["cosmosStandard"]`,
+        },
       },
       state: {
         session: { insecureMode: true },
@@ -73,6 +76,7 @@ describe(`TmSessionSignUpSeed`, () => {
       network: "lunie-net",
       seedPhrase:
         "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf",
+      accountType: `cosmosStandard`,
     })
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
       name: "portfolio",
