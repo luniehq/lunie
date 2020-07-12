@@ -111,11 +111,12 @@ export default {
       },
     },
     networkAccountTypes() {
+      console.log(this.currentNetwork.accountTypes)
       return JSON.parse(this.currentNetwork.accountTypes)
     },
     currentAlgo() {
       if (this.currentNetwork.network_type === `polkadot`) {
-        return polkadotAlgosDictionary[this.networkaAccountTypes[this.attempt]]
+        return polkadotAlgosDictionary[this.networkAccountTypes[this.attempt]]
       } else {
         return this.networkAccountTypes[this.attempt]
       }
@@ -140,7 +141,8 @@ export default {
     },
     async created(retry = false) {
       if (retry) this.attempt++
-      const createAddressResponse = await this.$store.dispatch(
+      this.attempt = this.numberAttemptsController(JSON.parse(this.currentNetwork.accountTypes), this.attempt)
+      const wallet = await this.$store.dispatch(
         `getAddressFromSeed`,
         {
           seedPhrase: this.$store.state.recover.seed,
@@ -148,13 +150,19 @@ export default {
           attempt: this.attempt,
         }
       )
-      this.importedAddress = createAddressResponse.wallet.cosmosAddress
+      this.importedAddress = wallet.cosmosAddress
       this.$store.commit(`updateField`, {
         field: `accountType`,
-        value: createAddressResponse.wallet.accountType,
+        value: wallet.accountType,
       })
-      this.attempt = createAddressResponse.attempt
     },
+    numberAttemptsController(accountTypes, attempt) {
+      if (attempt >= accountTypes.length) {
+        return attempt - accountTypes.length
+      } else {
+        return attempt
+      }
+    }
   },
   validations: () => ({
     name: { required, minLength: minLength(3), nameExists },
