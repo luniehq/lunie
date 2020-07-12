@@ -4,7 +4,7 @@ import { accountTypesDictionary } from "../../../../common/dictionaries"
 function getCosmosAddressCreator(bech32Prefix, accountType) {
   return async (seedPhrase) => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-    return getNewWalletFromSeed(seedPhrase, bech32Prefix, accountType)
+    return getNewWalletFromSeed(seedPhrase, bech32Prefix, accountTypesDictionary[accountType])
   }
 }
 
