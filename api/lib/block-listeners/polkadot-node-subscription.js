@@ -8,6 +8,7 @@ const {
 const {
   lunieMessageTypes: { SEND }
 } = require('../message-types.js')
+// const { eventTypes } = require('../notifications/pushNotifications-format')
 const { eventTypes, resourceTypes } = require('../notifications-types')
 const Sentry = require('@sentry/node')
 const database = require('../database')

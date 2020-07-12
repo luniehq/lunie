@@ -17,6 +17,16 @@ const {
 } = require('../data/network-fees')
 const database = require('./database')
 const { getNotifications } = require('./notifications')
+const {
+  subscribeUser,
+  unsubscribeUser
+} = require('./notifications/pushNotifications')
+const {
+  getDefaultTransactionSubscriptions,
+  getDefaultProposalUpdateSubscriptions,
+  getDefaultProposalCreationSubscriptions,
+  activeNetworkValidation
+} = require('./notifications/pushNotifications-format')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
 const firebaseAdmin = require('./firebase')
@@ -462,7 +472,102 @@ const resolvers = (networkList) => ({
     }
   },
   Mutation: {
-    registerUser: registerUser
+    registerUser: registerUser,
+    /**
+     * Unsubscribe topics for user via push token
+     * @param {string} token push ID
+     * @param { [string] } topics topics to unsubscribe for
+     */
+    unsubscribeTopics: async (_, { token, topics }) => {
+      const dbInstance = createDBInstance()
+      const existingTopicsArray = await dbInstance.getTopicsforToken(token)
+      if (existingTopicsArray.length === 0)
+        throw new Error('Push token does not exist')
+
+      // Only one topicRegistration exists per user - always first element
+      const existingTopics = existingTopicsArray[0].topics.split(',')
+      const unsubscribeTopics = topics.filter(
+        (topic) => existingTopics.indexOf(topic) !== -1
+      )
+
+      if (unsubscribeTopics.length > 0) {
+        await unsubscribeUser(token, unsubscribeTopics)
+
+        const remainingTopics = existingTopics.filter(
+          (topic) => topics.indexOf(topic) === -1
+        )
+
+        const topicRegistrationResult = await dbInstance.storePushTopics(
+          {
+            token,
+            topics: remainingTopics
+          },
+          true
+        )
+
+        return {
+          token,
+          topics: topicRegistrationResult.data.insert_pushTopics.returning[0].topics.split(
+            ','
+          )
+        }
+      }
+
+      return {
+        token,
+        topics: existingTopics
+      }
+    },
+
+    /**
+     * Register new device based on push ID token
+     * Active networks need to be saved uniquely to identify a user with its token
+     * and for easier retrieval of the token when other devices are used to log in
+     * @param {string} token push ID
+     * @param { [ Object] } activeNetworks all addresses associated with user account
+     * @param {string} activeNetwork.address single address associated with user account
+     * @param {string} activeNetwork.networkId associated networkId with address
+     * @param { [string] } topics topics to unsubscribe for
+     */
+    registerDevice: async (_, { token, activeNetworks, topics = [] }) => {
+      const pushRegistration = {
+        token,
+        activeNetworks,
+        topics
+      }
+      const parsedActiveNetworks = JSON.parse(pushRegistration.activeNetworks)
+
+      activeNetworkValidation(parsedActiveNetworks)
+
+      if (pushRegistration.topics.length === 0) {
+        const defaultSubscriptions = [
+          ...getDefaultTransactionSubscriptions(parsedActiveNetworks),
+          ...getDefaultProposalCreationSubscriptions(parsedActiveNetworks),
+          ...getDefaultProposalUpdateSubscriptions(parsedActiveNetworks)
+        ]
+
+        pushRegistration.topics = defaultSubscriptions
+      }
+
+      try {
+        await subscribeUser(pushRegistration.token, pushRegistration.topics)
+
+        const dbInstance = createDBInstance()
+        await dbInstance.storePushTopics(
+          {
+            token: pushRegistration.token,
+            topics: pushRegistration.topics
+          },
+          true
+        )
+      } catch (error) {
+        throw new UserInputError(
+          `Incorrect input for registering device to push notifications`
+        )
+      }
+
+      return pushRegistration
+    }
   },
   Subscription: {
     blockAdded: {

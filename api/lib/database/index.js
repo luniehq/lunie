@@ -8,6 +8,8 @@ const {
   storeStatistics,
   storeNotification,
   getNotifications,
+  getTopicsforToken,
+  storePushTopics,
   incrementValidatorViews,
   getValidatorsViews,
   storeUser,
@@ -45,6 +47,13 @@ function database({ hasura_url, hasura_admin_key }) {
       storeNotification: storeNotification({ hasura_url, hasura_admin_key })(
         schema
       ),
+      storePushTopics: storePushTopics({ hasura_url, hasura_admin_key })(
+        schema
+      ),
+      getTopicsforToken: getTopicsforToken({
+        hasura_url,
+        hasura_admin_key
+      })(schema),
       getMaintenance: getMaintenance({
         hasura_url,
         hasura_admin_key

@@ -95,6 +95,32 @@ const getNotifications = ({ hasura_url, hasura_admin_key }) => (
   )
 }
 
+const getTopicsforToken = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (token) => {
+  return await read({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(
+    `pushTopics`,
+    `pushTopics`,
+    ['topics', 'token'],
+    token ? `where: {token: {_eq: "${token}"}}` : false
+  )
+}
+
+const storePushTopics = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (payload, upsert = false) => {
+  return await insert(
+    {
+      hasura_url,
+      hasura_admin_key
+    },
+    upsert
+  )(schema)(`pushTopics`, payload, undefined, undefined, ['topics', 'token'])
+}
+
 const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
   const {
     data: { networks, networksCapabilities, coinLookups }
@@ -384,6 +410,8 @@ module.exports = {
   storeStatistics,
   storeNotification,
   getNotifications,
+  getTopicsforToken,
+  storePushTopics,
   storeNetwork,
   getNetwork,
   getNetworks,

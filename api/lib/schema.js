@@ -362,6 +362,12 @@ const typeDefs = gql`
 
   type Mutation {
     registerUser(idToken: String!): Boolean
+    registerDevice(
+      token: String!
+      activeNetworks: String!
+      topics: [String]
+    ): PushRegistration!
+    unsubscribeTopics(token: String!, topics: [String]!): PushTopic
   }
 
   type ChainAppliedFees {
@@ -407,6 +413,17 @@ const typeDefs = gql`
   input NotificationInput {
     address: String!
     networkId: String!
+  }
+
+  type PushRegistration {
+    token: String!
+    activeNetworks: String!
+    topics: [String]
+  }
+
+  type PushTopic {
+    token: String!
+    topics: [String]!
   }
 
   type Query {

@@ -4,6 +4,7 @@ const Sentry = require('@sentry/node')
 
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
+const PushNotifications = require('./notifications/pushNotifications')
 const Notifications = require('./notifications')
 const database = require('./database')
 
@@ -102,6 +103,7 @@ async function createApolloServer(httpServer) {
   const apolloServer = new ApolloServer(options)
   apolloServer.installSubscriptionHandlers(httpServer)
 
+  PushNotifications.startPushingEvents()
   Notifications.startNotificationService(networkList)
 
   return apolloServer
