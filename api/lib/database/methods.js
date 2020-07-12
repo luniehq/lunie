@@ -199,6 +199,7 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
         powered
         public_rpc_url
         HDPathsOrAlgos
+        standardHDPathOrAlgo
       }
       networksCapabilities: networksCapabilities(where: { 
         id: {_eq: "${id}"}

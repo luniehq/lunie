@@ -1,7 +1,6 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/../config"
 import { AddressRole } from "../../gql"
-import { standardHDPathsOrAlgosDictionary } from "../../../../common/dictionaries"
 
 export default ({ apollo }) => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
@@ -155,14 +154,22 @@ export default ({ apollo }) => {
       if (!accountType) {
         // first searched for accountType in localStorage
         const session = JSON.parse(
-          localStorage.getItem(`session_${networkId}_${address}`)
+          localStorage.getItem(`cosmos-wallets-${address}`)
         )
         if (session && session.accountType && address === session.address) {
           accountType = session.accountType
         } else {
           // set defaults accountTypes if this is not defined
-          accountType =
-            standardHDPathsOrAlgosDictionary[currentNetwork.network_type]
+          accountType = currentNetwork.standardHDPathOrAlgo
+          // stores the accountType in localStorage for later use
+          if (session)
+            localStorage.setItem(
+              `cosmos-wallets-${address}`,
+              JSON.stringify({
+                ...session,
+                algo: currentNetwork.standardHDPathOrAlgo,
+              })
+            )
         }
       }
       if (networkId && currentNetwork.id !== networkId) {
@@ -214,29 +221,19 @@ export default ({ apollo }) => {
         accountType
       )
     },
-    async signOut({ state, commit, dispatch }, { address, networkId }) {
+    async signOut({ state, commit, dispatch }, networkId) {
       state.externals.track(`event`, `session`, `sign-out`)
 
-      dispatch(`resetSessionData`, { address, networkId })
+      dispatch(`resetSessionData`, networkId)
       commit(`setSignIn`, false)
 
       // update session addresses
       const allSessionAddresses = await dispatch("getAllSessionAddresses")
       commit("setAllSessionAddresses", allSessionAddresses)
     },
-    resetSessionData({ commit, state }, { address, networkId }) {
-      const currentAddress = address || state.address
+    resetSessionData({ commit, state }, networkId) {
       state.history = ["/"]
       commit(`setUserAddress`, null)
-      if (currentAddress) {
-        // session_<networkId> (sessionKey) will store the current active session while session_<networkId>_<address> (historySessionKey)
-        // will serve as historical log in localStorage for all the ever initiated sessions
-        const session = JSON.parse(localStorage.getItem(sessionKey(networkId)))
-        localStorage.setItem(
-          historySessionKey(currentAddress, networkId),
-          JSON.stringify(session)
-        )
-      }
       localStorage.removeItem(sessionKey(networkId))
     },
     loadLocalPreferences({ state, dispatch }) {

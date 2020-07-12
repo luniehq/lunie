@@ -604,7 +604,7 @@ export default {
     goToSession() {
       this.close()
 
-      this.$store.dispatch(`signOut`, this.session.address, this.network)
+      this.$store.dispatch(`signOut`, this.network)
       if (this.$route.name !== `portfolio`)
         this.$router.push({ name: "portfolio" })
     },

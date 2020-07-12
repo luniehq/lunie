@@ -116,7 +116,7 @@ describe(`Module: Session`, () => {
   it(`should clear all session related data`, () => {
     state.history = [`/x`]
     const commit = jest.fn()
-    actions.resetSessionData({ state, commit }, { addres, networkId })
+    actions.resetSessionData({ state, commit }, `keine-ahnungnet`)
 
     expect(state.history).toEqual(["/"])
     expect(localStorage.getItem(`session`)).toBeNull()
@@ -128,6 +128,7 @@ describe(`Module: Session`, () => {
       const dispatch = jest.fn()
       const sessionType = `local`
       const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
+      const accountType = `cosmosStandard`
       await actions.signIn(
         {
           state,
@@ -140,7 +141,7 @@ describe(`Module: Session`, () => {
           commit,
           dispatch,
         },
-        { address, sessionType, networkId: "not-fabo-net" }
+        { address, sessionType, networkId: "not-fabo-net", accountType }
       )
       expect(commit).toHaveBeenCalledWith(`setNetworkId`, `not-fabo-net`)
       expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
@@ -162,6 +163,7 @@ describe(`Module: Session`, () => {
 
     it(`with Ledger Nano`, async () => {
       const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
+      const accountType = `cosmosStandard`
       const commit = jest.fn()
       const dispatch = jest.fn()
       await actions.signIn(
@@ -176,7 +178,7 @@ describe(`Module: Session`, () => {
           commit,
           dispatch,
         },
-        { sessionType: `ledger`, address }
+        { sessionType: `ledger`, address, accountType }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
@@ -213,7 +215,8 @@ describe(`Module: Session`, () => {
         `event`,
         `session`,
         `sign-in`,
-        `explore`
+        `explore`,
+        undefined, // accountType
       )
     })
 
@@ -387,10 +390,7 @@ describe(`Module: Session`, () => {
     const dispatch = jest.fn()
     await actions.signOut({ state, commit, dispatch }, "red-feliz")
 
-    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`, {
-      address: undefined,
-      networkId: "red-feliz",
-    })
+    expect(dispatch).toHaveBeenCalledWith(`resetSessionData`, "red-feliz")
     expect(commit).toHaveBeenCalledWith(`setSignIn`, false)
     expect(state.externals.track).toHaveBeenCalled()
   })

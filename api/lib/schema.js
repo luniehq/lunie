@@ -173,6 +173,7 @@ const typeDefs = gql`
     erasPerDay: Int!
     source_class_name: String!
     HDPathsOrAlgos: String!
+    standardHDPathOrAlgo: String!
   }
 
   type Delegation {

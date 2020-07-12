@@ -67,7 +67,7 @@ export default () => {
       // create a new key pair
       const wallet = await getWallet(seedPhrase, networkObject, accountType)
 
-      storeWallet(wallet, name, password, network)
+      storeWallet(wallet, name, password, network, accountType)
 
       store.state.externals.track(`event`, `session`, `create-keypair`)
 

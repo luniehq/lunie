@@ -140,6 +140,7 @@ export const NetworksAll = gql`
       }
       rpc_url
       HDPathsOrAlgos
+      standardHDPathOrAlgo
     }
   }
 `

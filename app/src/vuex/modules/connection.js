@@ -151,7 +151,7 @@ export default function ({ apollo }) {
       commit("setNetworks", data.networks)
     },
     async setNetwork({ commit, dispatch }, network) {
-      dispatch(`signOut`, { address: undefined, networkId: network.id })
+      dispatch(`signOut`, network.id)
       dispatch(`persistNetwork`, network)
       commit("setNetworkId", network.id)
       if (network.slug) {
