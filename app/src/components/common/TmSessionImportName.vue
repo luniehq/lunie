@@ -143,7 +143,7 @@ export default {
       this.importedAddress = wallet.cosmosAddress
       this.$store.commit(`updateField`, {
         field: `accountType`,
-        value: wallet.accountType,
+        value: this.currentAlgo,
       })
     },
     numberAttemptsController(accountTypes, attempt) {
