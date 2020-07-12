@@ -40,25 +40,16 @@
           @click="selectAddress(address)"
         >
           <div class="address-item">
-            <div
-              v-if="getAddressNetwork(address).testnet"
-              class="testnet-icon-container"
-            >
-              <img class="testnet-icon" src="/img/icons/test-tube-32.png" />
-            </div>
             <img
               class="network-icon"
               :src="address.icon"
               alt="little circle with network logo"
             />
             <div>
-              <span class="address">{{ address.address | formatAddress }}</span>
               <span class="address-network">{{
                 getAddressNetwork(address).title
               }}</span>
-              <span v-if="address.sessionType" class="address-type">
-                {{ address.sessionType }}
-              </span>
+              <span class="address">{{ address.address | formatAddress }}</span>
             </div>
           </div>
           <i
@@ -76,7 +67,7 @@
           class="menu-list-item"
           @click="goToWelcome()"
         >
-          <span>Create New Account</span>
+          <span>Use a new address</span>
           <i class="material-icons">add_circle</i>
         </div>
         <div v-if="account.userSignedIn">
@@ -113,7 +104,7 @@
             class="menu-list-item outline"
             @click="signUpForPremium()"
           >
-            <span>Sign up for premium</span>
+            <span>Sign Up / Sign In</span>
             <i class="material-icons">email</i>
           </div>
         </div>
@@ -257,7 +248,7 @@ h3 {
 }
 
 .menu-list-item {
-  padding: 0.75rem 0.5rem;
+  padding: 0.75rem;
   margin: 0.25rem 0;
   display: flex;
   justify-content: space-between;
@@ -266,6 +257,15 @@ h3 {
   align-items: center;
   border-radius: 0.25rem;
   color: #324175;
+}
+
+.menu-list-item.address-list {
+  padding: 0.25rem;
+}
+
+.email {
+  padding: 0.75rem;
+  margin: 0.25rem 0;
 }
 
 .menu-list-item:hover {
@@ -292,11 +292,6 @@ h3 {
   padding: 0.25rem;
 }
 
-.email {
-  padding: 0.75rem;
-  margin: 0.25rem 0;
-}
-
 .address-list .material-icons {
   font-weight: 700;
   color: #00c700;
@@ -307,8 +302,9 @@ h3 {
 }
 
 .address {
-  font-weight: 500;
-  color: black;
+  font-weight: 400;
+  margin-top: 0.25em;
+  color: hsl(0, 0%, 40%);
 }
 
 .address-type {
@@ -317,8 +313,7 @@ h3 {
 }
 
 .address-network {
-  margin-top: 0.25em;
-  color: hsl(0, 0%, 40%);
+  color: black;
 }
 
 .avatar-container {

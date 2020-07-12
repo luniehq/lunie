@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable */ 
 // in the polkadotAPIs Object we will store all the different Polkadot APIs to sign in extension
 let polkadotAPIs = {}
 
