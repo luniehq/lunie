@@ -156,8 +156,8 @@ export default ({ apollo }) => {
         const session = JSON.parse(
           localStorage.getItem(`cosmos-wallets-${address}`)
         )
-        if (session && session.algo && address === session.address) {
-          accountType = session.algo
+        if (session && session.accountType && address === session.address) {
+          accountType = session.accountType
         } else {
           // set defaults accountTypes if this is not defined
           accountType = currentNetwork.defaultAccountType
@@ -167,7 +167,7 @@ export default ({ apollo }) => {
               `cosmos-wallets-${address}`,
               JSON.stringify({
                 ...session,
-                algo: currentNetwork.defaultAccountType,
+                accountType: currentNetwork.defaultAccountType,
               })
             )
         }
