@@ -216,7 +216,7 @@ describe(`Module: Session`, () => {
         `session`,
         `sign-in`,
         `explore`,
-        undefined, // accountType
+        undefined // accountType
       )
     })
 

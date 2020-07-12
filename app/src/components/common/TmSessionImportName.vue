@@ -141,15 +141,15 @@ export default {
     },
     async created(retry = false) {
       if (retry) this.attempt++
-      this.attempt = this.numberAttemptsController(JSON.parse(this.currentNetwork.accountTypes), this.attempt)
-      const wallet = await this.$store.dispatch(
-        `getAddressFromSeed`,
-        {
-          seedPhrase: this.$store.state.recover.seed,
-          network: this.network,
-          attempt: this.attempt,
-        }
+      this.attempt = this.numberAttemptsController(
+        JSON.parse(this.currentNetwork.accountTypes),
+        this.attempt
       )
+      const wallet = await this.$store.dispatch(`getAddressFromSeed`, {
+        seedPhrase: this.$store.state.recover.seed,
+        network: this.network,
+        attempt: this.attempt,
+      })
       this.importedAddress = wallet.cosmosAddress
       this.$store.commit(`updateField`, {
         field: `accountType`,
@@ -162,7 +162,7 @@ export default {
       } else {
         return attempt
       }
-    }
+    },
   },
   validations: () => ({
     name: { required, minLength: minLength(3), nameExists },
