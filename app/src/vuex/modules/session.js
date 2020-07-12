@@ -13,7 +13,7 @@ export default ({ apollo }) => {
     signedIn: false,
     sessionType: null, // local, explore, ledger, extension
     accountType: undefined, // algo this account was created with
-    accountTypeIndex: 0, // index for the algo inside the HDPathsOrAlgos Array fron the network Object
+    accountTypeIndex: 0, // index for the algo inside the accountTypes Array fron the network Object
     pauseHistory: false,
     history: [],
     address: null, // Current address
@@ -160,14 +160,14 @@ export default ({ apollo }) => {
           accountType = session.algo
         } else {
           // set defaults accountTypes if this is not defined
-          accountType = currentNetwork.standardHDPathOrAlgo
+          accountType = currentNetwork.defaultAccountType
           // stores the accountType in localStorage for later use
           if (session)
             localStorage.setItem(
               `cosmos-wallets-${address}`,
               JSON.stringify({
                 ...session,
-                algo: currentNetwork.standardHDPathOrAlgo,
+                algo: currentNetwork.defaultAccountType,
               })
             )
         }

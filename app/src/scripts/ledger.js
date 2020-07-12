@@ -1,4 +1,3 @@
-import { HDPathsOrAlgosDictionary } from "../../../common/dictionaries"
 import config from "src/../config"
 
 function parseLedgerErrors(error) {

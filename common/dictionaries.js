@@ -1,4 +1,4 @@
-export const HDPathsOrAlgosDictionary = {
+export const accountTypesDictionary = {
     cosmosStandard: [44, 118, 0, 0, 0],
     terraStation: [44, 330, 0, 0, 0],
 }

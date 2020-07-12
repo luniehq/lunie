@@ -54,21 +54,21 @@ export async function getWallet(seedPhrase, network, accountType) {
 }
 
 export async function getWalletWithRetry(seedPhrase, network, attempt) {
-  const HDPathsOrAlgos = JSON.parse(network.HDPathsOrAlgos)
+  const accountTypes = JSON.parse(network.accountTypes)
   // control the attempt/retry index before selecting the algo from Array
   if (attempt) {
-    attempt = numberAttemptsController(HDPathsOrAlgos, attempt)
+    attempt = numberAttemptsController(accountTypes, attempt)
   }
-  const HDPathOrAlgo = attempt ? HDPathsOrAlgos[attempt] : HDPathsOrAlgos[0]
+  const HDPathOrAlgo = attempt ? accountTypes[attempt] : accountTypes[0]
   return {
     wallet: await getWallet(seedPhrase, network, HDPathOrAlgo),
     attempt,
   }
 }
 
-function numberAttemptsController(HDPathsOrAlgos, attempt) {
-  if (attempt >= HDPathsOrAlgos.length) {
-    return attempt - HDPathsOrAlgos.length
+function numberAttemptsController(accountTypes, attempt) {
+  if (attempt >= accountTypes.length) {
+    return attempt - accountTypes.length
   } else {
     return attempt
   }

@@ -17,7 +17,7 @@
             <p class="address">{{ importedAddress }}</p>
             <!-- only show the retry option if the networks supports more than one algo -->
             <span
-              v-if="networkHDPathsOrAlgos.length > 1"
+              v-if="networkAccountTypes.length > 1"
               class="retry-link"
               @click="created(true)"
               >Not your address?</span
@@ -110,19 +110,19 @@ export default {
         this.$store.commit(`updateField`, { field: `name`, value })
       },
     },
-    networkHDPathsOrAlgos() {
-      return JSON.parse(this.currentNetwork.HDPathsOrAlgos)
+    networkAccountTypes() {
+      return JSON.parse(this.currentNetwork.accountTypes)
     },
     currentAlgo() {
       if (this.currentNetwork.network_type === `polkadot`) {
-        return polkadotAlgosDictionary[this.networkHDPathsOrAlgos[this.attempt]]
+        return polkadotAlgosDictionary[this.networkaAccountTypes[this.attempt]]
       } else {
-        return this.networkHDPathsOrAlgos[this.attempt]
+        return this.networkAccountTypes[this.attempt]
       }
     },
     fieldLabel() {
       let label = `Your Address`
-      if (this.networkHDPathsOrAlgos.length > 1) {
+      if (this.networkAccountTypes.length > 1) {
         return label.concat(` --- Created using ${this.currentAlgo}`)
       } else {
         return label

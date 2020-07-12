@@ -108,7 +108,7 @@ export default {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
-          accountType: JSON.parse(this.currentNetwork.HDPathsOrAlgos)[0], // default algo
+          accountType: JSON.parse(this.currentNetwork.accountTypes)[0], // default algo
           network: this.network,
         })
         if (this.isExtension) {

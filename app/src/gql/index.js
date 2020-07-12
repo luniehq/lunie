@@ -139,8 +139,8 @@ export const NetworksAll = gql`
         chainToViewConversionFactor
       }
       rpc_url
-      HDPathsOrAlgos
-      standardHDPathOrAlgo
+      accountTypes
+      defaultAccountType
     }
   }
 `
