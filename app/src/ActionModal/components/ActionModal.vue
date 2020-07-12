@@ -693,7 +693,7 @@ export default {
           }
           polkadotAPI = await getPolkadotAPI(this.network)
         }
-        const accountType = await this.$store.dispatch(`getCurrentAccountType`)
+        const accountType = await this.$store.state.session.accountType
 
         const hashResult = await this.transactionManager.createSignBroadcast({
           messageType: type,

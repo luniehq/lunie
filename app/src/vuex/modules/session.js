@@ -333,19 +333,6 @@ export default ({ apollo }) => {
       })
       return allSessionAddresses
     },
-    getCurrentAccountType({
-      rootState: {
-        connection: { networks, network },
-      },
-    }) {
-      const currentNetwork = networks.find(({ id }) => id === network)
-      const sessionEntry = localStorage.getItem(`session_${currentNetwork.id}`)
-      if (!sessionEntry)
-        return currentNetwork.network_type === "cosmos"
-          ? `cosmosStandard`
-          : `sr25519`
-      return JSON.parse(sessionEntry).accountType
-    },
     setNotificationAvailable(store, { notificationAvailable }) {
       state.notificationAvailable = notificationAvailable
     },
@@ -360,8 +347,4 @@ export default ({ apollo }) => {
 
 function sessionKey(networkId) {
   return `session_${networkId}`
-}
-
-function historySessionKey(address, networkId) {
-  return `session_${networkId}_${address}`
 }
