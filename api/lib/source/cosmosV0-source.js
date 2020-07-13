@@ -359,10 +359,16 @@ class CosmosV0API extends RESTDataSource {
     const balances = balancesResponse || []
     // the user might not have liquid staking tokens but have staking tokens delegated
     // if we don't add the staking denom, we would show a 0 total for the staking denom which is wrong
-    if (delegations.length > 0 && !balancesResponse.find(({denom}) => denom === this.network.stakingDenom)) {
+    if (
+      delegations.length > 0 &&
+      !balancesResponse.find(
+        ({ denom }) =>
+          this.reducers.denomLookup(denom) === this.network.stakingDenom
+      )
+    ) {
       balances.push({
         amount: 0,
-        denom: this.network.stakingDenom,
+        denom: this.network.stakingDenom
       })
     }
     const coins = balances.map(this.reducers.coinReducer)
