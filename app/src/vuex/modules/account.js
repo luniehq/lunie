@@ -70,6 +70,13 @@ export default ({ apollo }) => {
       const actionCodeSettings = {
         url: `${window.location.protocol}//${window.location.host}/email-authentication`,
         handleCodeInApp: true,
+        android: {
+          packageName: `org.lunie.lunie`,
+          installApp: true,
+          minimumVersion: `1.0.219` // the first version with deep linking enabled
+        },
+        // TODO: iOS
+        dynamicLinkDomain: `deeplink.lunie.io`, // should work
       }
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
