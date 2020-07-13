@@ -26,7 +26,7 @@
         </EventList>
 
         <TmDataMsg
-          v-if="!apollo.queries.transactions.loading"
+          v-if="!$apollo.queries.transactions.loading"
           icon="calendar_today"
         >
           <div slot="title">
