@@ -45,7 +45,7 @@
     "firebase-admin": "^8.12.1",
     "graphql": "^15.1.0",
     "graphql-redis-subscriptions": "^2.2.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
