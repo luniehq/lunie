@@ -130,7 +130,7 @@ async function actionModalCheckout(
   // proceed to invoice step
   await browser.waitForElementVisible(
     ".action-modal-footer .button:nth-of-type(2):enabled",
-    20000
+    30000
   )
   await browser.click(".action-modal-footer .button:nth-of-type(2)")
   browser.expect.element(`.table-invoice`).to.be.visible.before(20000)
