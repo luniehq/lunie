@@ -28,7 +28,7 @@ module.exports = {
 
     browser.waitForElementVisible("#import-seed", 20000, true)
     await next(browser)
-    if (browser.globals.network === `polkadot-testnet`) {
+    if (browser.globals.type === `polkadot`) {
       browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
     } else {
       browser.expect.elements(".tm-form-msg--error").count.to.equal(1)

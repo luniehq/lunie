@@ -27,7 +27,7 @@ module.exports = {
   "Delegate Action": async function (browser) {
     let lastHash = undefined
     // Activity feature is not enabled in polkadot
-    if (browser.globals.network !== `polkadot-testnet`) {
+    if (browser.globals.type !== `polkadot`) {
       await browser.url(
         browser.launch_url + browser.globals.slug + "/transactions"
       )
@@ -44,7 +44,7 @@ module.exports = {
     const value = browser.globals.stakeAmount
     
     // we stop if there's an ongoing polkadot election
-    if (browser.globals.network === `polkadot-testnet`) {
+    if (browser.globals.type === `polkadot`) {
       const response = await axios.post(browser.globals.apiURI, {
         query: `{blockV2(networkId: "${browser.globals.network}") {data}}`,
       })
@@ -70,7 +70,7 @@ module.exports = {
     await getAccountBalance(browser)
 
     // Activity feature is not enabled in polkadot
-    if (browser.globals.network !== `polkadot-testnet`) {
+    if (browser.globals.type !== `polkadot`) {
       // check if the hash is changed
       await browser.url(
         browser.launch_url + browser.globals.slug + "/transactions"
@@ -92,7 +92,7 @@ module.exports = {
   },
   "Redelegate Action": async function (browser) {
     // Not possible in polkadot, as we need to wait for session change to do it
-    if (browser.globals.network === `polkadot-testnet`) {
+    if (browser.globals.type === `polkadot`) {
       return
     }
 
@@ -143,7 +143,7 @@ module.exports = {
   },
   "Undelegate Action": async function (browser) {
     // Not possible in polkadot, as we need to wait for session change to do it
-    if (browser.globals.network === `polkadot-testnet`) {
+    if (browser.globals.type === `polkadot`) {
       return
     }
 

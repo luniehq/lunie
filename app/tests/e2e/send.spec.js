@@ -9,7 +9,7 @@ module.exports = {
   "Send Action": async function (browser) {
     let lastHash = undefined
     // Activity feature is not enabled in polkadot
-    if (browser.globals.network !== `polkadot-testnet`) {
+    if (browser.globals.type !== `polkadot`) {
       // remember the hash of the last transaction
       await browser.url(
         browser.launch_url + browser.globals.slug + "/transactions"
@@ -35,7 +35,7 @@ module.exports = {
     )
 
     // Activity feature is not enabled in polkadot
-    if (browser.globals.network !== `polkadot-testnet`) {
+    if (browser.globals.type !== `polkadot`) {
 
       // check if the hash is changed
       await browser.url(

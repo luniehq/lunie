@@ -101,6 +101,7 @@ async function initialiseDefaults(browser) {
   browser.globals.slug = "/" + networkData.slug
   browser.globals.expectedDiff = networkData.expectedDiff
   browser.globals.network = networkData.network
+  browser.globals.type = networkData.type
   browser.globals.address = networkData.address
   browser.globals.wallet = networkData.wallet
   browser.globals.seed = networkData.seed
