@@ -195,7 +195,7 @@ h3 {
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
-  color: var(--notification-text);
+  color: var(--bc);
 }
 
 .table-column {
@@ -212,7 +212,7 @@ h3 {
 .table-cell {
   width: 100%;
   font-size: 14px;
-  color: var(--notification-text);
+  color: var(--bc);
   padding: 1rem 0;
   display: flex;
   align-items: center;
@@ -298,7 +298,7 @@ h3 {
   border-radius: 0.25rem;
   width: 100%;
   max-width: 700px;
-  color: var(--notification-text);
+  color: var(--bc);
   box-shadow: 0 0 3px hsla(232, 14.1%, 69.4%, 0.4);
   font-weight: 500;
   padding: 0 0.5rem;
