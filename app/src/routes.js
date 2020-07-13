@@ -235,13 +235,13 @@ export default (store) => {
       component: () => import(`./components/common/FeatureNotPresent`),
     },
     {
-      path: `/sign-in-modal`,
+      path: `/sign-up-email`,
       name: `sign-in-modal`,
       component: require("account/SignInModal").default,
     },
     {
-      path: `/magic-link-sent-modal`,
-      name: `magic-link-sent-modal`,
+      path: `/magic-link`,
+      name: `magic-link-sent`,
       component: require("account/MagicLinkSentModal").default,
     },
     {

@@ -1,4 +1,5 @@
 import getFirebase from "../../firebase.js"
+import config from "../../../config"
 import * as Sentry from "@sentry/browser"
 import gql from "graphql-tag"
 
@@ -35,12 +36,9 @@ export default ({ apollo }) => {
           localStorage.setItem(`auth_token`, idToken)
           // make sure new authorization token get added to header
           apollo.cache.reset()
-
-          console.log("User is now signed in!")
         } else {
           commit(`userSignedIn`, false)
           commit(`setUserInformation`, null)
-          console.log("User is now signed out!")
         }
       })
     },
@@ -76,9 +74,7 @@ export default ({ apollo }) => {
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
         localStorage.setItem("user", JSON.stringify(user))
-        console.log("Magic link sent to your email!")
       } catch (error) {
-        console.log(error)
         commit(`setSignInError`, error)
         Sentry.captureException(error)
       }
@@ -91,7 +87,6 @@ export default ({ apollo }) => {
         // get rid of cached token in header
         apollo.cache.reset()
       } catch (error) {
-        console.error(error)
         commit(`setSignInError`, error)
         Sentry.captureException(error)
       }
@@ -104,7 +99,6 @@ export default ({ apollo }) => {
         await user.updateProfile({
           photoURL: `${config.digitalOceanURL}/users/${user.email}.png`,
         })
-        console.log(`Succesfully updated user's avatar`)
       } catch (error) {
         console.error(error)
         Sentry.captureException(error)
