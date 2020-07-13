@@ -3,11 +3,13 @@
     data-title="Transactions"
     :loading="$apollo.queries.transactions.loading"
     :error="$apollo.queries.transactions.error"
+    :empty="dataEmpty"
+    :empty-title="`No Transaction History`"
+    :empty-subtitle="`There are no transactions associated with this address yet.`"
     :sign-in-required="true"
   >
     <template slot="signInRequired">
-      <DataEmptyTx v-if="!$apollo.queries.transactions.loading && dataEmpty" />
-      <template v-if="!dataEmpty">
+      <template>
         <EventList
           :events="transactions"
           :more-available="moreAvailable"
@@ -23,7 +25,10 @@
           </template>
         </EventList>
 
-        <TmDataMsg icon="calendar_today">
+        <TmDataMsg
+          v-if="!apollo.queries.transactions.loading"
+          icon="calendar_today"
+        >
           <div slot="title">
             Looking for older transactions?
           </div>
@@ -49,7 +54,6 @@
 
 <script>
 import { mapGetters } from "vuex"
-import DataEmptyTx from "common/TmDataEmptyTx"
 import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
 import EventList from "common/EventList"
@@ -136,7 +140,6 @@ export default {
   components: {
     TransactionItem,
     EventList,
-    DataEmptyTx,
     TmDataMsg,
     TmPage,
   },
