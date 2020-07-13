@@ -5,9 +5,9 @@ module.exports = {
     await browser.waitForElementVisible("#sign-in-with-account", 20000, true)
     await browser.click("#sign-in-with-account")
     await browser.waitForElementVisible("#sign-in-name", 20000, true)
-    await browser.click(
-      `#sign-in-name option[value=${browser.globals.address}]`
-    )
+    // await browser.click(
+    //   `#sign-in-name option[value=${browser.globals.address}]`
+    // )
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
     // check if signed in
@@ -31,7 +31,11 @@ module.exports = {
 
     browser.waitForElementVisible("#import-seed", 20000, true)
     await next(browser)
-    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+    if (browser.globals.network === `polkadot-testnet`) {
+      browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
+    } else {
+      browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
+    }
     browser.setValue(
       "#import-seed",
       browser.globals.seed
