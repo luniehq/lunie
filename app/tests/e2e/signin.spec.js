@@ -5,9 +5,6 @@ module.exports = {
     await browser.waitForElementVisible("#sign-in-with-account", 20000, true)
     await browser.click("#sign-in-with-account")
     await browser.waitForElementVisible("#sign-in-name", 20000, true)
-    // await browser.click(
-    //   `#sign-in-name option[value=${browser.globals.address}]`
-    // )
     browser.setValue("#sign-in-password", "1234567890")
     await next(browser)
     // check if signed in
