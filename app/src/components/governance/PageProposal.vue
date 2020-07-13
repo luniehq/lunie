@@ -32,14 +32,14 @@
             <TmBtn
               v-if="proposal.status !== 'Passed'"
               id="deposit-btn"
-              :value="connected ? 'Deposit' : 'Connecting...'"
+              value="Deposit"
               :disabled="proposal.status !== 'DepositPeriod'"
               color="primary"
               @click.native="onDeposit"
             />
             <TmBtn
               id="vote-btn"
-              :value="connected ? 'Vote' : 'Connecting...'"
+              value="Vote"
               :disabled="proposal.status !== 'VotingPeriod'"
               color="primary"
               @click.native="() => onVote()"
@@ -230,7 +230,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
-    ...mapGetters([`connected`]),
     status() {
       return getProposalStatus(this.proposal)
     },

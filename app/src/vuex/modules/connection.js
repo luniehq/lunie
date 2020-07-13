@@ -16,7 +16,6 @@ const isValidPolkadotAddress = async (address, addressPrefix) => {
 export default function ({ apollo }) {
   const state = {
     stopConnecting: false,
-    connected: true, // TODO do connection test
     network: config.network, // network id to reference network capabilities stored in Hasura
     networkSlug: "cosmos-hub",
     networks: [],

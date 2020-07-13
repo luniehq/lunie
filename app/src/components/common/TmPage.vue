@@ -4,7 +4,6 @@
     :class="{ 'dark-background': darkBackground && session.signedIn }"
   >
     <CardSignInRequired v-if="signInRequired && !session.signedIn" />
-    <TmDataConnecting v-if="!connected" />
     <TmDataLoading v-else-if="loading" />
     <TmDataError v-else-if="error" />
 
@@ -14,10 +13,9 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex"
+import { mapState } from "vuex"
 
 import CardSignInRequired from "common/CardSignInRequired"
-import TmDataConnecting from "common/TmDataConnecting"
 import TmDataError from "common/TmDataError"
 import TmDataLoading from "common/TmDataLoading"
 
@@ -25,7 +23,6 @@ export default {
   name: `tm-page`,
   components: {
     CardSignInRequired,
-    TmDataConnecting,
     TmDataError,
     TmDataLoading,
   },
@@ -49,7 +46,6 @@ export default {
   },
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`connected`]),
   },
 }
 </script>
