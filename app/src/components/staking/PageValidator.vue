@@ -1,11 +1,13 @@
 <template>
   <TmPage
     data-title="Validator"
-    :data-empty="!validator.operatorAddress"
+    :empty="!validator.operatorAddress"
     :loading="$apollo.queries.validator.loading"
+    :empty-title="`Validator not found`"
+    :empty-subtitle="`There must be a typo somewhere.`"
     class="readable-width"
   >
-    <template v-if="validator.operatorAddress">
+    <template>
       <div class="button-container">
         <button class="back-button" @click="$router.go(-1)">
           <i class="material-icons notranslate arrow">arrow_back</i>
@@ -25,7 +27,10 @@
       </div>
       <div class="status-button-container">
         <div class="status-container">
-          <span :class="validator.status | toLower" class="validator-status">
+          <span
+            :class="validator.status || `` | toLower"
+            class="validator-status"
+          >
             {{ validator.status }}
           </span>
           <span
@@ -170,14 +175,7 @@
         :source-validator="validator"
       />
     </template>
-    <template v-else>
-      <div slot="title">Validator Not Found</div>
-      <div slot="subtitle">
-        Please visit the
-        <router-link to="/validators/">Validators</router-link>page to view all
-        validators
-      </div>
-    </template>
+
     <ModalTutorial
       v-if="
         showTutorial &&

@@ -14,7 +14,7 @@
       :subtitle="emptySubtitle"
     />
 
-    <slot></slot>
+    <slot v-else-if="!loading && !error && !empty"></slot>
     <slot v-if="session.signedIn" name="signInRequired"></slot>
   </div>
 </template>
@@ -142,9 +142,9 @@ h4 {
   line-height: 1rem;
 }
 
-@media screen and (min-width: 1024px) {
+@media screen and (max-width: 1024px) {
   .page {
-    margin: 0 auto 2rem;
+    margin: 0 auto 6rem;
   }
 }
 
