@@ -234,14 +234,6 @@ h3 {
   color: #324075;
 }
 
-.table-column.networks h4 {
-  border-bottom: 1px solid #324075;
-}
-
-.table-column.networks .table-cell {
-  color: #324075;
-}
-
 .table ul {
   padding: 2rem 0;
   margin: 0;
@@ -252,6 +244,14 @@ h3 {
   padding: 2rem 0;
   border-bottom: 1px solid #e8e8e8;
   font-weight: 500;
+}
+
+.table-column.networks h4 {
+  border-bottom: 1px solid #324075;
+}
+
+.table-column.networks .table-cell {
+  color: #324075;
 }
 
 .check::before {
