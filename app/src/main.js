@@ -56,15 +56,15 @@ init(urlParams).then(({ store, router, apolloProvider }) => {
   }).$mount("#app")
 })
 
-App.addListener('appUrlOpen', function( data ){
+App.addListener("appUrlOpen", function (data) {
   // Example url: https://lunie.io/email-authentication
   // slug = /email-authentication
-  const slug = data.url.split(".io").pop();
+  const slug = data.url.split(".io").pop()
 
   // We only push to the route if there is a slug present
-  if( slug ){
-      router.push({
-          path: slug
-      });
+  if (slug) {
+    router.push({
+      path: slug,
+    })
   }
-});
+})
