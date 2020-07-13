@@ -80,7 +80,7 @@
               <img src="/img/icons/lunie.svg" width="32" />
               <p class="title">{{ notification.title }}</p>
             </div>
-            <div>
+            <div class="notification-arrow">
               <i class="material-icons notranslate">chevron_right</i>
             </div>
           </div>
@@ -161,7 +161,7 @@ h3 {
   font-size: 32px;
   line-height: 44px;
   text-align: center;
-  color: #fff;
+  color: var(--txt);
 }
 
 #getStartedBtn {
@@ -186,6 +186,7 @@ h3 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .table {
@@ -194,7 +195,7 @@ h3 {
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
-  color: #324175;
+  color: var(--notification-text);
 }
 
 .table-column {
@@ -203,7 +204,7 @@ h3 {
   box-shadow: 0 0 3px hsla(232, 14.1%, 69.4%, 0.4);
   border-radius: 0.25rem;
   flex: 1 0 250px;
-  background-color: #fff;
+  background-color: var(--bright);
   max-width: 22rem;
   min-width: 17rem;
 }
@@ -211,7 +212,7 @@ h3 {
 .table-cell {
   width: 100%;
   font-size: 14px;
-  color: #324075;
+  color: var(--notification-text);
   padding: 1rem 0;
   display: flex;
   align-items: center;
@@ -230,6 +231,15 @@ h3 {
   position: relative;
   background-color: #daf7e6;
   max-height: 20rem;
+  color: #324075;
+}
+
+.table-column.networks h4 {
+  border-bottom: 1px solid #324075;
+}
+
+.table-column.networks .table-cell {
+  color: #324075;
 }
 
 .table ul {
@@ -282,15 +292,20 @@ h3 {
 
 .notification {
   display: flex;
-  background: white;
+  align-items: center;
+  background: var(--bright);
   margin: 0.5rem;
   border-radius: 0.25rem;
   width: 100%;
   max-width: 700px;
-  color: #324175;
+  color: var(--notification-text);
   box-shadow: 0 0 3px hsla(232, 14.1%, 69.4%, 0.4);
   font-weight: 500;
   padding: 0 0.5rem;
+}
+
+.notification-arrow {
+  margin-top: 0.5rem;
 }
 
 .notification .content {
