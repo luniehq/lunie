@@ -41,7 +41,7 @@
     </TmFormGroup>
     <TmFormGroup class="action-modal-form-group">
       <div class="form-message notice">
-        <span v-if="isInElection">
+        <span class="in-election" v-if="isInElection">
           There is currently an ongoing election for new validator candidates.
           Stake is not allowed by now.
         </span>
