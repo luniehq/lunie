@@ -3,14 +3,14 @@ const Sentry = require('@sentry/node')
 const {
   eventSubscription,
   publishNotificationAdded
-} = require('./subscriptions')
+} = require('../subscriptions')
 const {
   eventTypes,
   resourceTypes,
   getDefaultSubscriptions
 } = require('./notifications-types')
-const database = require('./database')
-const config = require('../config.js')
+const database = require('../database')
+const config = require('../../config.js')
 
 function getMessageTitle(networks, notification) {
   const data = notification.properties || JSON.parse(notification.data)
