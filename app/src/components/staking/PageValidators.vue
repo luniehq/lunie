@@ -1,16 +1,10 @@
 <template>
-  <TmPage>
-    <div
-      v-if="$apollo.queries.validators.loading && !validators.length && !loaded"
-      class="loading-image-container"
-    >
-      <img
-        class="loading-image"
-        src="/img/validator-list-loading.svg"
-        alt="geometric placeholder shapes"
-      />
-    </div>
-    <template v-else>
+  <TmPage
+    :loading="$apollo.queries.validators.loading"
+    :empty="!validators.length"
+    :loader-path="`/img/validator-list-loading.svg`"
+  >
+    <template>
       <div class="filterContainer">
         <TmField
           v-model="searchTerm"
@@ -203,15 +197,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.loading-image-container {
-  padding: 2em;
-}
-
 .filterContainer {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: center;
   justify-content: space-between;
   flex-direction: row;
   margin: 0.5em 2em 1em;

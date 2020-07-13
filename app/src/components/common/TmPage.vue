@@ -4,7 +4,16 @@
     :class="{ 'dark-background': darkBackground && session.signedIn }"
   >
     <CardSignInRequired v-if="signInRequired && !session.signedIn" />
-    <TmDataLoading v-else-if="loading" />
+
+    <TmDataLoading v-else-if="loading && !loaderPath" />
+    <template v-if="loading && loaderPath" class="loading-image-container">
+      <img
+        class="loading-image"
+        :src="loaderPath"
+        alt="geometric placeholder loading shapes"
+      />
+    </template>
+
     <TmDataError v-else-if="error" />
     <TmDataMsg
       v-else-if="!loading && !error && empty"
@@ -44,6 +53,10 @@ export default {
       type: Boolean,
       required: true
     },
+    loaderPath: {
+      type: String,
+      default: ``
+    },
     empty: {
       type: Boolean,
       default: false
@@ -79,6 +92,10 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+
+.loading-image-container {
+  padding: 2em;
 }
 
 .readable-width {
