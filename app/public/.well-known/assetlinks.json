@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "org.lunie.lunie",
+            "sha256_cert_fingerprints": [
+                "5A:9B:FF:2C:61:61:43:8B:2E:77:D0:3A:B8:94:BA:75:DB:CD:0E:E5:ED:C5:05:82:88:40:52:4C:ED:14:FB:DF"
+            ]
+        }
+    }
+]
