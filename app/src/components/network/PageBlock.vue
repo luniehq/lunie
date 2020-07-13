@@ -5,7 +5,7 @@
     :error="error"
     class="readable-width"
   >
-    <template v-if="!this.$apollo.queries.block.loading">
+    <template>
       <div class="block">
         <h2 class="page-profile__title">Block #{{ height | prettyInt }}</h2>
       </div>
