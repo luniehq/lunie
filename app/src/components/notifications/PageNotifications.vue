@@ -1,19 +1,12 @@
 <template>
-  <TmPage data-title="My alerts">
-    <TmDataLoading v-if="$apollo.loading && notifications.length === 0" />
-    <TmDataMsg
-      v-else-if="!$apollo.loading && notifications.length === 0"
-      icon="error"
-      icon-color="var(--dark-grey-blue)"
-    >
-      <div>
-        <i class="material-icons nontranslate">error</i>
-      </div>
-      <div slot="title">You don't have any notifications yet</div>
-      <div slot="subtitle">Don't worry, they are on their way!</div>
-    </TmDataMsg>
-
-    <div v-else>
+  <TmPage
+    data-title="My alerts"
+    :loading="$apollo.queries.notifications.loading"
+    :empty="notifications.length === 0"
+    :empty-title="`You don't have any notifications yet`"
+    :empty-subtitle="`Don't worry, they are on their way!`"
+  >
+    <template>
       <EventList
         :events="notifications"
         :more-available="moreAvailable"
@@ -31,21 +24,14 @@
           </router-link>
         </template>
       </EventList>
-      <div
-        v-if="$apollo.loading && !dataLoaded && moreAvailable"
-        class="spinner-container"
-      >
-        <img src="/img/spinner_blue@256.gif" class="spinner" />
-      </div>
-    </div>
+    </template>
   </TmPage>
 </template>
 
 <script>
 import TmPage from "common/TmPage"
-import TmDataMsg from "common/TmDataMsg"
 import EventList from "common/EventList"
-import TmDataLoading from "common/TmDataLoading"
+
 import { mapState, mapGetters } from "vuex"
 import gql from "graphql-tag"
 
@@ -53,9 +39,7 @@ export default {
   name: "PageNotifications",
   components: {
     TmPage,
-    TmDataMsg,
     EventList,
-    TmDataLoading,
   },
   data: () => ({
     notifications: [],
@@ -145,6 +129,10 @@ export default {
           !this.session.allSessionAddresses ||
           this.session.allSessionAddresses.length === 0
         )
+      },
+      result(data) {
+        /* istanbul ignore next */
+        this.error = data.error
       },
       subscribeToMore: {
         document: gql`

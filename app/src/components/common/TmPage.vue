@@ -6,6 +6,13 @@
     <CardSignInRequired v-if="signInRequired && !session.signedIn" />
     <TmDataLoading v-else-if="loading" />
     <TmDataError v-else-if="error" />
+    <TmDataMsg
+      v-else-if="!loading && !error && empty"
+      icon="error"
+      icon-color="var(--dark-grey-blue)"
+      :title="emptyTitle"
+      :subtitle="emptySubtitle"
+    />
 
     <slot></slot>
     <slot v-if="session.signedIn" name="signInRequired"></slot>
@@ -18,6 +25,7 @@ import { mapState } from "vuex"
 import CardSignInRequired from "common/CardSignInRequired"
 import TmDataError from "common/TmDataError"
 import TmDataLoading from "common/TmDataLoading"
+import TmDataMsg from "common/TmDataMsg"
 
 export default {
   name: `tm-page`,
@@ -25,15 +33,28 @@ export default {
     CardSignInRequired,
     TmDataError,
     TmDataLoading,
+    TmDataMsg
   },
   props: {
     error: {
       type: Boolean,
-      default: undefined,
+      default: false
     },
     loading: {
       type: Boolean,
-      default: false,
+      required: true
+    },
+    empty: {
+      type: Boolean,
+      default: false
+    },
+    emptyTitle: {
+      type: String,
+      default: `No data`
+    },
+    emptySubtitle: {
+      type: String,
+      default: ``
     },
     signInRequired: {
       type: Boolean,
