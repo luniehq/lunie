@@ -125,8 +125,8 @@ async function actionModalCheckout(
 
   await browser.pause(500)
 
-  // we stop this test if there's an ongoing polkadot election
-  if (browser.globals.network === `polkadot-testnet`) {
+  // we check if there's an ongoing polkadot election
+  if (browser.globals.network === `polkadot-testnet` && btnSelector === `#delegation-btn`) {
     await browser.expect
       .element(".in-election")
       .count.to.equal(0)
