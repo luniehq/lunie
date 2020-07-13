@@ -1,8 +1,11 @@
 <template>
-  <TmPage data-title="Proposal" class="readable-width">
-    <TmDataLoading v-if="$apollo.queries.proposal.loading && !loaded" />
-    <TmDataNotFound v-else-if="!found" />
-    <TmDataError v-else-if="error" />
+  <TmPage
+    data-title="Proposal"
+    class="readable-width"
+    :loading="$apollo.queries.proposal.loading"
+    :error="error"
+  >
+    <TmDataNotFound v-if="!found" />
     <template v-else>
       <div class="proposal">
         <div class="page-profile__header__info">
@@ -173,9 +176,7 @@ import { mapGetters } from "vuex"
 import { percent, prettyInt } from "scripts/num"
 import { date, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
-import TmDataError from "common/TmDataError"
 import TmDataNotFound from "common/TmDataNotFound"
-import TmDataLoading from "common/TmDataLoading"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
@@ -192,9 +193,7 @@ export default {
     TmBtn,
     ModalDeposit,
     ModalVote,
-    TmDataError,
     TmDataNotFound,
-    TmDataLoading,
     TmPage,
     TextBlock,
     Address,
