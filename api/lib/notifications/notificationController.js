@@ -1,6 +1,6 @@
-const database = require("./database");
-const config = require("../config");
-const { eventSubscription } = require("./subscriptions");
+const database = require("../database");
+const config = require("../../config");
+const { eventSubscription } = require("../subscriptions");
 const { getTopic, getMessageTitle, getPushLink } = require("./notifications")
 const { getDefaultEMailSubscriptions } = require("./notifications-types")
 const firebaseAdmin = require('./firebase')
