@@ -48,7 +48,6 @@ module.exports = {
       const response = await axios.post(browser.globals.apiURI, {
         query: `{blockV2(networkId: "${browser.globals.network}") {data}}`,
       })
-      console.log(response.data.data.blockV2.data)
       if (response.data.errors) {
         throw new Error(JSON.stringify(response.data.errors))
       }
