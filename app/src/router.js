@@ -17,6 +17,8 @@ export const routeGuard = (store) => async (to, from, next) => {
     return
   }
   if (to.name === `notifications`) {
+    // firebase requires some time to sign the user in after the app is initialized
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     if (store.state.account.userSignedIn) {
       next()
       return
