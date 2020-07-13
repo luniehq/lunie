@@ -35,11 +35,14 @@ function startBlockTriggers(networks) {
 async function checkIsValidIdToken(idToken) {
   try {
     const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
-    return decodedToken.uid
+    return {
+      uid: decodedToken.uid,
+      email: decodedToken.email
+    }
   } catch (error) {
     console.error(error)
     Sentry.captureException(error)
-    return false
+    return {}
   }
 }
 
@@ -51,11 +54,11 @@ async function createApolloServer(httpServer) {
     startBlockTriggers(networks)
   }
 
-  new NotificationContoller(networkList)
+  const notificationController = new NotificationContoller(networkList)
 
   let options = {
     typeDefs,
-    resolvers: resolvers(networkList),
+    resolvers: resolvers(networkList, notificationController),
     dataSources: getDataSources(networks),
     cacheControl: {
       defaultMaxAge: 10
@@ -84,16 +87,14 @@ async function createApolloServer(httpServer) {
           }
         }
         const idToken = req.headers.authorization
-        let uid = undefined
+        let user = {}
         if (idToken) {
-          uid = await checkIsValidIdToken(idToken)
+          user = await checkIsValidIdToken(idToken)
         }
         return {
           fingerprint: req.headers.fingerprint,
           development: req.headers.development,
-          authorization: {
-            uid
-          }
+          user
         }
       }
     }

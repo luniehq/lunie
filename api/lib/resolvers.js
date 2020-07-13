@@ -220,7 +220,7 @@ const registerUser = async (_, { idToken }) => {
   }
 }
 
-const resolvers = (networkList) => ({
+const resolvers = (networkList, notificationController) => ({
   Overview: {
     accountInformation: (account, _, { dataSources }) =>
       remoteFetch(dataSources, account.networkId).getAccountInfo(
@@ -462,7 +462,12 @@ const resolvers = (networkList) => ({
     }
   },
   Mutation: {
-    registerUser: registerUser
+    registerUser: registerUser,
+    notifications: async (_, { addressObjects, notificationType }, { dataSources, user: { uid }}) => {
+      if (!uid) throw new UserInputError("Notifications need a signed in user")
+      await notificationController.updateRegistrations(uid, addressObjects, notificationType, dataSources)
+      return true
+    }
   },
   Subscription: {
     blockAdded: {

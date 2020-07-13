@@ -172,6 +172,9 @@ export default ({ apollo }) => {
       const allSessionAddresses = await dispatch("getAllSessionAddresses")
       commit("setAllSessionAddresses", allSessionAddresses)
 
+      // update registered topics for emails
+      dispatch("updateEmailRegistrations")
+
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
     async signOut({ state, commit, dispatch }, networkId) {
@@ -183,6 +186,9 @@ export default ({ apollo }) => {
       // update session addresses
       const allSessionAddresses = await dispatch("getAllSessionAddresses")
       commit("setAllSessionAddresses", allSessionAddresses)
+
+      // update registered topics for emails
+      dispatch("updateEmailRegistrations")
     },
     resetSessionData({ commit, state }, networkId) {
       state.history = ["/"]
