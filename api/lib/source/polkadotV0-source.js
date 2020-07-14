@@ -558,6 +558,14 @@ class polkadotAPI {
       }
     )
   }
+
+  async getAllProposals() {
+
+    const api = await this.getAPI()
+    const democracyProposals = await api.query.democracy.publicProps()
+    console.log(JSON.stringify(democracyProposals, null, 2))
+    return {}
+  }
 }
 
 module.exports = polkadotAPI
