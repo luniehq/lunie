@@ -108,7 +108,7 @@ export default {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
-          accountType: JSON.parse(this.currentNetwork.accountTypes)[0], // default algo
+          HDPathOrCurve: this.currentNetwork.defaultHDPathOrCurve, // default HDPath or curve in case of Substrate networks
           network: this.network,
         })
         if (this.isExtension) {

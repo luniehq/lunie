@@ -12,8 +12,7 @@ export default ({ apollo }) => {
     mobile: config.mobileApp || false,
     signedIn: false,
     sessionType: null, // local, explore, ledger, extension
-    accountType: undefined, // algo this account was created with
-    accountTypeIndex: 0, // index for the algo inside the accountTypes Array fron the network Object
+    HDPathOrCurve: undefined, // algo this account was created with
     pauseHistory: false,
     history: [],
     address: null, // Current address
@@ -52,8 +51,8 @@ export default ({ apollo }) => {
     setSessionType(state, sessionType) {
       state.sessionType = sessionType
     },
-    setAccountType(state, accountType) {
-      state.accountType = accountType
+    setHDPathOrCurve(state, HDPathOrCurve) {
+      state.HDPathOrCurve = HDPathOrCurve
     },
     setUserAddress(state, address) {
       state.address = address
@@ -100,11 +99,11 @@ export default ({ apollo }) => {
     }) {
       const session = localStorage.getItem(sessionKey(network))
       if (session) {
-        const { address, sessionType, accountType } = JSON.parse(session)
+        const { address, sessionType, HDPathOrCurve } = JSON.parse(session)
         await dispatch(`signIn`, {
           address,
           sessionType,
-          accountType,
+          HDPathOrCurve,
           networkId: network,
         })
       } else {
@@ -119,11 +118,11 @@ export default ({ apollo }) => {
     },
     async persistSession(
       store,
-      { address, sessionType, accountType, networkId }
+      { address, sessionType, HDPathOrCurve, networkId }
     ) {
       localStorage.setItem(
         sessionKey(networkId),
-        JSON.stringify({ address, sessionType, accountType })
+        JSON.stringify({ address, sessionType, HDPathOrCurve })
       )
     },
     async persistAddresses(store, { addresses }) {
@@ -149,25 +148,25 @@ export default ({ apollo }) => {
     },
     async signIn(
       { state, getters: { currentNetwork }, commit, dispatch },
-      { address, sessionType = `ledger`, accountType, networkId }
+      { address, sessionType = `ledger`, HDPathOrCurve, networkId }
     ) {
-      if (!accountType) {
-        // first searched for accountType in localStorage
+      if (!HDPathOrCurve) {
+        // first searched for HDPathOrCurve in localStorage
         const session = JSON.parse(
           localStorage.getItem(`cosmos-wallets-${address}`)
         )
-        if (session && session.accountType && address === session.address) {
-          accountType = session.accountType
+        if (session && session.HDPathOrCurve && address === session.address) {
+          HDPathOrCurve = session.HDPathOrCurve
         } else {
-          // set defaults accountTypes if this is not defined
-          accountType = currentNetwork.defaultAccountType
-          // stores the accountType in localStorage for later use
+          // set defaults HDPathOrCurves if this is not defined
+          HDPathOrCurve = currentNetwork.defaultHDPathOrCurve
+          // stores the HDPathOrCurve in localStorage for later use
           if (session)
             localStorage.setItem(
               `cosmos-wallets-${address}`,
               JSON.stringify({
                 ...session,
-                accountType: currentNetwork.defaultAccountType,
+                HDPathOrCurve: currentNetwork.defaultHDPathOrCurve,
               })
             )
         }
@@ -178,19 +177,19 @@ export default ({ apollo }) => {
       }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
-      commit(`setAccountType`, accountType)
+      commit(`setHDPathOrCurve`, HDPathOrCurve)
       commit(`setUserAddress`, address)
       await dispatch(`rememberAddress`, {
         address,
         sessionType,
-        accountType,
+        HDPathOrCurve,
         networkId,
       })
 
       dispatch(`persistSession`, {
         address,
         sessionType,
-        accountType,
+        HDPathOrCurve,
         networkId,
       })
       const addresses = state.addresses
@@ -218,7 +217,7 @@ export default ({ apollo }) => {
         `session`,
         `sign-in`,
         sessionType,
-        accountType
+        HDPathOrCurve
       )
     },
     async signOut({ state, commit, dispatch }, networkId) {
@@ -328,7 +327,7 @@ export default ({ apollo }) => {
           title,
           address: JSON.parse(sessionEntry).address,
           sessionType: JSON.parse(sessionEntry).sessionType,
-          accountType: JSON.parse(sessionEntry).accountType,
+          HDPathOrCurve: JSON.parse(sessionEntry).HDPathOrCurve,
         })
       })
       return allSessionAddresses

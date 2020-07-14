@@ -58,7 +58,7 @@ export default () => {
     },
     async createKey(
       store,
-      { seedPhrase, password, name, accountType, network }
+      { seedPhrase, password, name, HDPathOrCurve, network }
     ) {
       // TODO extract the key storage from the key creation
       const { storeWallet } = await import("@lunie/cosmos-keys")
@@ -66,9 +66,9 @@ export default () => {
       // get current network
       const networkObject = await getNetworkInfo(network, store)
       // create a new key pair
-      const wallet = await getWallet(seedPhrase, networkObject, accountType)
+      const wallet = await getWallet(seedPhrase, networkObject, HDPathOrCurve)
 
-      storeWallet(wallet, name, password, network, accountType)
+      storeWallet(wallet, name, password, network, HDPathOrCurve)
 
       store.state.externals.track(`event`, `session`, `create-keypair`)
 
@@ -78,7 +78,7 @@ export default () => {
       await store.dispatch("signIn", {
         address: wallet.cosmosAddress,
         sessionType: "local",
-        accountType,
+        HDPathOrCurve,
         networkId: network,
       })
 

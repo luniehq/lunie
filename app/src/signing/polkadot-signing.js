@@ -4,7 +4,7 @@ export async function getSignature(
   { payload, transaction },
   wallet,
   network,
-  accountType
+  curve
 ) {
   const [{ Keyring }] = await Promise.all([
     import("@polkadot/api"),
@@ -19,7 +19,7 @@ export async function getSignature(
 
   const keyring = new Keyring({
     ss58Format: Number(network.address_prefix),
-    type: accountType,
+    type: curve,
   })
   const keypair = keyring.createFromUri(wallet.seedPhrase)
 

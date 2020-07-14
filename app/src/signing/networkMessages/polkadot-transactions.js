@@ -68,9 +68,9 @@ const curvePrefixes = {
   ecdsa: [2],
 }
 
-function formatSignature(rawSignature, accountType) {
+function formatSignature(rawSignature, curve) {
   const prefix = new Uint8Array(
-    curvePrefixes[accountType]
+    curvePrefixes[curve]
   )
   const signature = u8aToHex(u8aConcat(prefix, rawSignature))
   return signature
@@ -84,9 +84,9 @@ export function getBroadcastableObject(
   chainMessages,
   transactionData,
   { transaction, payload, rawSignature },
-  accountType
+  curve
 ) {
-  const signature = formatSignature(rawSignature, accountType)
+  const signature = formatSignature(rawSignature, curve)
 
   transaction.addSignature(
     payload.address.toJSON(),

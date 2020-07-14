@@ -104,7 +104,7 @@ export default class TransactionManager {
     signingType,
     password,
     polkadotAPI,
-    accountType,
+    HDPathOrCurve,
   }) {
     let broadcastableObject
     if (signingType === "extension") {
@@ -125,7 +125,7 @@ export default class TransactionManager {
         signingType,
         password,
         polkadotAPI,
-        accountType
+        HDPathOrCurve
       )
     }
     return this.broadcastTransaction(
@@ -146,7 +146,7 @@ export default class TransactionManager {
     signingType,
     password,
     polkadotAPI,
-    accountType
+    HDPathOrCurve
   ) {
     const messages = await getMessage(
       network,
@@ -161,7 +161,7 @@ export default class TransactionManager {
         address: senderAddress,
         password,
         network,
-        accountType,
+        HDPathOrCurve,
       },
       config // only needed for Ledger
     )
@@ -175,7 +175,7 @@ export default class TransactionManager {
       messages,
       transactionData,
       signedContext,
-      accountType
+      HDPathOrCurve
     )
 
     return broadcastableObject

@@ -148,13 +148,13 @@ export default {
       })
       this.importedAddress = wallet.cosmosAddress
       this.$store.commit(`updateField`, {
-        field: `accountType`,
+        field: `HDPathOrCurve`,
         value: this.currentCrypto,
       })
     },
-    numberAttemptsController(accountTypes, attempt) {
-      if (attempt >= accountTypes.length) {
-        return attempt - accountTypes.length
+    numberAttemptsController(networkCryptoTypes, attempt) {
+      if (attempt >= networkCryptoTypes.length) {
+        return attempt - networkCryptoTypes.length
       } else {
         return attempt
       }
