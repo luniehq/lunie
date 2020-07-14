@@ -1,4 +1,4 @@
-const { sortBy } = require('lodash')
+  const { sortBy } = require('lodash')
 const Sentry = require('@sentry/node')
 const { UserInputError, withFilter } = require('apollo-server')
 const BigNumber = require('bignumber.js')
@@ -16,10 +16,10 @@ const {
   getCosmosFee
 } = require('../data/network-fees')
 const database = require('./database')
-const { getNotifications } = require('./notifications')
+const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
-const firebaseAdmin = require('./firebase')
+const firebaseAdmin = require('./notifications/firebase')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false

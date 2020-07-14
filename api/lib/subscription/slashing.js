@@ -3,7 +3,7 @@ const Tendermint = require('./tendermint')
 const database = require('../database')
 const config = require('../../config')
 const { publishEvent } = require('../subscriptions')
-const { eventTypes, resourceTypes } = require('../notifications-types')
+const { eventTypes, resourceTypes } = require('../notifications/notifications-types')
 
 class SlashingMonitor {
   constructor(network, { api }) {

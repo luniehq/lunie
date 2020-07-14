@@ -4,7 +4,7 @@ const Sentry = require('@sentry/node')
 const database = require('../database')
 const config = require('../../config')
 const { publishEvent: publishEvent } = require('../subscriptions')
-const { eventTypes, resourceTypes } = require('../notifications-types')
+const { eventTypes, resourceTypes } = require('../notifications/notifications-types')
 
 class BlockStore {
   constructor(network, database) {

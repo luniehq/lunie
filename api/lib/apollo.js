@@ -4,14 +4,14 @@ const Sentry = require('@sentry/node')
 
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
-const Notifications = require('./notifications')
+const Notifications = require('./notifications/notifications')
 const database = require('./database')
 
 const NetworkContainer = require('./network-container')
 
-const firebaseAdmin = require('./firebase')
+const firebaseAdmin = require('./notifications/firebase')
 const config = require('../config')
-const NotificationContoller = require("./notificationController")
+const NotificationContoller = require("./notifications/notificationController")
 
 const db = database(config)('')
 
