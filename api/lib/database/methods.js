@@ -198,8 +198,9 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
         lockUpPeriod
         powered
         public_rpc_url
-        accountTypes
-        defaultAccountType
+        HDPaths
+        curves
+        defaultHDPathOrCurve
       }
       networksCapabilities: networksCapabilities(where: { 
         id: {_eq: "${id}"}

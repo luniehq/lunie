@@ -7,8 +7,8 @@
       <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" field-label="Your Address">
-          <span v-if="networkAccountTypes.length > 1" class="algo"
-            >created using {{ currentAlgo }}</span
+          <span v-if="networkCryptoTypes.length > 1" class="algo"
+            >created using {{ currentCrypto }}</span
           >
           <img
             v-if="importedAddress === undefined"
@@ -20,7 +20,7 @@
             <p class="address">{{ importedAddress }}</p>
             <!-- only show the retry option if the networks supports more than one algo -->
             <span
-              v-if="networkAccountTypes.length > 1"
+              v-if="networkCryptoTypes.length > 1"
               class="retry-link"
               @click="created(true)"
               >Not your address?</span
@@ -113,11 +113,17 @@ export default {
         this.$store.commit(`updateField`, { field: `name`, value })
       },
     },
-    networkAccountTypes() {
-      return JSON.parse(this.currentNetwork.accountTypes)
+    networkCryptoTypes() {
+      if (this.currentNetwork.network_type === `cosmos`) {
+        return JSON.parse(this.currentNetwork.HDPaths)
+      } else if (this.currentNetwork.network_type === `polkadot`) {
+        return JSON.parse(this.currentNetwork.curves)
+      } else {
+        return []
+      }
     },
-    currentAlgo() {
-      return this.networkAccountTypes[this.attempt]
+    currentCrypto() {
+      return this.networkCryptoTypes[this.attempt]
     },
   },
   mounted() {
@@ -143,7 +149,7 @@ export default {
       this.importedAddress = wallet.cosmosAddress
       this.$store.commit(`updateField`, {
         field: `accountType`,
-        value: this.currentAlgo,
+        value: this.currentCrypto,
       })
     },
     numberAttemptsController(accountTypes, attempt) {
