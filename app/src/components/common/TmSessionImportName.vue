@@ -76,7 +76,6 @@ import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 import { getWalletIndex } from "@lunie/cosmos-keys"
-import { polkadotAlgosDictionary } from "../../../../common/dictionaries"
 
 const nameExists = (value) => {
   const walletIndex = getWalletIndex()

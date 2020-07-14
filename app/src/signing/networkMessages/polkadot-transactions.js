@@ -2,7 +2,6 @@
  * Source: https://github.com/polkadot-js/tools/blob/master/packages/signer-cli/src/cmdSendOffline.ts
  */
 import { u8aToHex, u8aConcat } from "@polkadot/util"
-import { accountTypesDictionary } from "../../../../common/dictionaries"
 
 /**
  * Send a JSONRPC request to the node at substrateNodeEndpoint.
@@ -71,7 +70,7 @@ const curvePrefixes = {
 
 function formatSignature(rawSignature, accountType) {
   const prefix = new Uint8Array(
-    curvePrefixes[accountTypesDictionary[accountType]]
+    curvePrefixes[accountType]
   )
   const signature = u8aToHex(u8aConcat(prefix, rawSignature))
   return signature
