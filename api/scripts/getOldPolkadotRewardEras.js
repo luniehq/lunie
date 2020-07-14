@@ -28,13 +28,16 @@ async function initPolkadotRPC(network, store) {
 }
 
 function cleanOldRewards(minDesiredEra) {
-  return db.query(`
-    mutation {
-      delete_${networkId}_rewards(where:{height: {_lt: "${minDesiredEra}"}}) {
-        affected_rows
+  if (minDesiredEra >= 0) {
+    return db.query(`
+      mutation {
+        delete_${networkId}_rewards(where:{height: {_lt: "${minDesiredEra}"}}) {
+          affected_rows
+        }
       }
-    }
-  `)
+    `)
+  }
+  return
 }
 
 function storeRewards(rewards, chainId) {
