@@ -150,7 +150,7 @@ export default ({ apollo }) => {
       dispatch(`persistSession`, {
         address,
         sessionType,
-        networkId: currentNetwork.id,
+        networkId,
       })
       const addresses = state.addresses
       dispatch(`persistAddresses`, {

@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 const escape = require('escape-html')
+const Sentry = require('@sentry/node')
 
 const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
   const data = await fetch(hasura_url, {
@@ -12,7 +13,11 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
       query
     })
   })
-    .then((res) => res.json())
+    .then(async (response) => {
+      if (!response.ok)
+        throw new Error(response.status + ' ' + (await response.text()))
+      else return response.json()
+    })
     .catch((error) => {
       console.error(error, query)
       throw new Error('GraphQL query failed')
@@ -31,23 +36,32 @@ const graphQLQuery = ({ hasura_url, hasura_admin_key }) => async (query) => {
   return data
 }
 
-function escapeValue(value, nested = false) {
-  if (value === null || value === undefined) return nested ? value : `""`
-  const type = typeof value
-  switch (type) {
-    case 'string':
-      return nested ? escape(value) : `"${escape(value)}"`
-    case 'object': {
-      const clone = JSON.parse(JSON.stringify(value))
-      Object.keys(clone).forEach((key) => {
-        clone[key] = escapeValue(clone[key], true)
-      })
-      // only stringify the top object not the nested ones
-      return nested ? clone : `"${JSON.stringify(clone).replace(/"/g, '\\"')}"`
-    }
-    default:
-      return value
+function escapeObject(value) {
+  if (value === undefined || value === null) return ''
+  if (typeof value === 'boolean' || typeof value === 'number') {
+    return value
   }
+  if (typeof value === 'object') {
+    const clone = JSON.parse(JSON.stringify(value))
+    Object.keys(clone).forEach((key) => {
+      clone[key] = escapeObject(clone[key])
+    })
+    return clone
+  } else {
+    return escape(value)
+  }
+}
+
+function escapeValue(value) {
+  return value === undefined || value === null
+    ? `""`
+    : typeof value === 'boolean' || typeof value === 'number'
+    ? value
+    : typeof value === 'string'
+    ? `"${escape(value)}"`
+    : // we need to double stringify to double escape the quotations
+      // if not, inserted in the query the object will have double quotes inside
+      JSON.stringify(JSON.stringify(escapeObject(value)))
 }
 
 function gqlKeyValue([key, value]) {
@@ -140,14 +154,22 @@ const read = ({ hasura_url, hasura_admin_key }) => (schema) => async (
         }
     `
 
-  const res = await graphQLQuery({ hasura_url, hasura_admin_key })(query)
-  return res.data[`${schema_prefix}${table}`]
+  try {
+    const res = await graphQLQuery({ hasura_url, hasura_admin_key })(query)
+    return res.data[`${schema_prefix}${table}`]
+  } catch (error) {
+    console.error('DB read failed for query', query, error)
+    Sentry.withScope(function (scope) {
+      scope.setExtra('query', query)
+      Sentry.captureException(error)
+    })
+  }
 }
 
 module.exports = {
   insert,
   read,
   query: graphQLQuery,
-  escapeValue,
+  escapeValue: escapeObject,
   gqlKeyValue
 }

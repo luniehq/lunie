@@ -9,17 +9,20 @@
     >
       <div class="session-outer-container">
         <div
-          v-if="icon.startsWith(`/img`) || icon.startsWith(`https`)"
+          v-if="
+            (icon.startsWith(`/img`) || icon.startsWith(`https`)) &&
+            !isExtension
+          "
           class="icon-circle"
         >
           <img class="icon-image" :src="icon" />
         </div>
         <i
-          v-else-if="icon.length > 0"
+          v-else-if="icon.length > 0 && !isExtension"
           class="material-icons notranslate circle modal-icon"
           >{{ icon }}</i
         >
-        <div class="session">
+        <div class="session" :class="{ evenly: !isExtension }">
           <div class="session-header">
             <a v-if="!hideBack" @click="goBack">
               <i class="material-icons notranslate circle back">arrow_back</i>
@@ -111,5 +114,9 @@ export default {
   transform: scaleX(-1);
   filter: invert(85%) sepia(9%) saturate(18%) hue-rotate(6deg) brightness(85%)
     contrast(87%); /* converts to same than var(--dim) */
+}
+
+.evenly {
+  justify-content: space-evenly;
 }
 </style>

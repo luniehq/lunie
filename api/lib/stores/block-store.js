@@ -26,9 +26,10 @@ class BlockStore {
     this.dataReady.then(() => {
       console.log(this.network.id, 'is ready')
     })
-    this.getStore().then((foundStore) => {
-      if (foundStore) this.resolveReady()
-    })
+    // Deactivated for now. Get store from DB
+    // this.getStore().then((foundStore) => {
+    //   if (foundStore) this.resolveReady()
+    // })
   }
 
   async getStore() {
@@ -81,11 +82,11 @@ class BlockStore {
     this.data = data
 
     // when the data is available signal readyness so the resolver stop blocking the requests
-    // if (this.validators) {
-    //   this.resolveReady()
-    // }
-    // save store in DB to improve API perfomance on startup
-    storeStoreInDB(this)
+    if (this.validators) {
+      this.resolveReady()
+    }
+    // save store in DB to improve API perfomance on startup. Deactivated for now
+    // storeStoreInDB(this)
   }
 
   // this adds all the validator addresses to the database so we can easily check in the database which ones have an image and which ones don't
@@ -261,12 +262,9 @@ class BlockStore {
 
 function enrichValidator(validatorInfo, validator) {
   const picture = validatorInfo ? validatorInfo.picture : undefined
-  const name =
-    validatorInfo && validatorInfo.name ? validatorInfo.name : validator.name
 
   return {
     ...validator,
-    name,
     picture: picture === 'null' || picture === 'undefined' ? undefined : picture
   }
 }
@@ -282,3 +280,4 @@ async function storeStoreInDB(store) {
 }
 
 module.exports = BlockStore
+module.exports.enrichValidator = enrichValidator
