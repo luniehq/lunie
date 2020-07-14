@@ -18,7 +18,7 @@ const {
 const database = require('./database')
 const { getNotifications } = require('./notifications')
 const config = require('../config.js')
-const { logOverview } = require('./statistics')
+const { logRewards, logBalances } = require('./statistics')
 const firebaseAdmin = require('./firebase')
 
 function createDBInstance(network) {
@@ -358,10 +358,21 @@ const resolvers = (networkList) => ({
       { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
-      return remoteFetch(dataSources, networkId).getBalancesV2FromAddress(
+      const balances = remoteFetch(
+        dataSources,
+        networkId
+      ).getBalancesV2FromAddress(address, fiatCurrency)
+      const stakingDenomBalance = balances.find(({ type }) => type === `STAKE`)
+      // if (development !== 'true') {
+      logBalances(
+        networkList,
+        stakingDenomBalance,
         address,
-        fiatCurrency
+        networkId,
+        fingerprint
       )
+      // }
+      return balances
     },
     balance: async (
       _,
@@ -408,6 +419,16 @@ const resolvers = (networkList) => ({
           }
         })
       }
+
+      // if (development !== 'true') {
+      logRewards(
+        networkList,
+        stakingDenomBalance,
+        address,
+        networkId,
+        fingerprint
+      )
+      // }
       return rewards
     },
     overview: async (
