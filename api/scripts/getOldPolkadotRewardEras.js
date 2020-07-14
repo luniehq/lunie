@@ -351,14 +351,15 @@ async function main() {
   //   ? lunieRewards.filter(({ amount }) => amount > 0)
   //   : [], reward => `${reward.address}_${reward.validator.id}_${reward.height}_${reward.chain_id}`) // HACK somehow we get some rewards twice which causes the insert to fail 
   
-  // let storableRewards = []
-  // lunieRewards.filter(({ amount }) => amount > 0).forEach(reward => {
-  //   if (!storableRewards.find(storableReward => storableReward.address === reward.address && storableReward.validatorAddress === reward.validatorAddress && storableReward.height === reward.height && storableReward.chain_id === reward.chain_id )) {
-  //     storableRewards.push(reward)
-  //   }
-  // })
+  let storableRewards = []
+  lunieRewards.filter(({ amount }) => parseFloat(amount) > 0).forEach(reward => {
+    if (!storableRewards.find(storableReward => storableReward.address === reward.address && storableReward.validatorAddress === reward.validatorAddress && storableReward.height === reward.height && storableReward.chain_id === reward.chain_id )) {
+      storableRewards.push(reward)
+      console.log(`reward: `, reward)
+    }
+  })
 
-  const storableRewards = lunieRewards.filter(({ amount }) => amount > 0)
+  // const storableRewards = lunieRewards.filter(({ amount }) => amount > 0)
 
   console.log(
     `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
