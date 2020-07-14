@@ -141,7 +141,8 @@ export const NetworksAll = gql`
       rpc_url
       HDPaths
       curves
-      defaultHDPathOrCurve
+      defaultHDPath
+      defaultCurve
     }
   }
 `

@@ -108,7 +108,8 @@ export default {
           seedPhrase: this.signup.signUpSeed,
           password: this.signup.signUpPassword,
           name: this.signup.signUpName,
-          HDPathOrCurve: this.currentNetwork.defaultHDPathOrCurve, // default HDPath or curve in case of Substrate networks
+          HDPath: this.currentNetwork.defaultHDPath,
+          curve: this.currentNetwork.defaultCurve,
           network: this.network,
         })
         if (this.isExtension) {

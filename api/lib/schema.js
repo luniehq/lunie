@@ -174,7 +174,8 @@ const typeDefs = gql`
     source_class_name: String!
     HDPaths: String!
     curves: String!
-    defaultHDPathOrCurve: String!
+    defaultHDPath: String!
+    defaultCurve: String!
   }
 
   type Delegation {

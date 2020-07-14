@@ -118,7 +118,8 @@ export default {
           seedPhrase: this.recover.seed,
           password: this.recover.password,
           name: this.recover.name,
-          HDPathOrCurve: this.$store.state.session.HDPathOrCurve,
+          HDPath: this.$store.state.session.HDPath,
+          curve: this.$store.state.session.curve,
           network: this.network,
         })
         if (this.isExtension) {

@@ -76,6 +76,7 @@ import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 import { getWalletIndex } from "@lunie/cosmos-keys"
+import { getWallet } from "../../vuex/modules/wallet"
 
 const nameExists = (value) => {
   const walletIndex = getWalletIndex()
@@ -112,17 +113,29 @@ export default {
         this.$store.commit(`updateField`, { field: `name`, value })
       },
     },
+    networkHDPaths() {
+      return JSON.parse(this.currentNetwork.HDPaths)
+    },
+    networkCurves() {
+      return JSON.parse(this.currentNetwork.curves)
+    },
     networkCryptoTypes() {
       if (this.currentNetwork.network_type === `cosmos`) {
-        return JSON.parse(this.currentNetwork.HDPaths)
+        return this.networkHDPaths
       } else if (this.currentNetwork.network_type === `polkadot`) {
-        return JSON.parse(this.currentNetwork.curves)
+        return this.networkCurves
       } else {
         return []
       }
     },
     currentCrypto() {
-      return this.networkCryptoTypes[this.attempt]
+      if (this.currentNetwork.network_type === `cosmos`) {
+        return this.networkHDPaths[this.attempt]
+      } else if (this.currentNetwork.network_type === `polkadot`) {
+        return this.networkCurves[this.attempt]
+      } else {
+        return `unknown`
+      }
     },
   },
   mounted() {
@@ -134,22 +147,44 @@ export default {
       if (this.$v.name.$invalid) return
       this.$router.push("/recover/password")
     },
+    currentHDPathOrCurve() {
+      if (this.currentNetwork.network_type === `cosmos`) {
+        return {
+          HDPath: this.currentCrypto,
+          curve: this.networkCurves[0] // ed25519
+        }
+      } else if (this.currentNetwork.network_type === `polkadot`) {
+        return {
+          HDPath: this.networkHDPaths[0], // no clue
+          curve: this.currentCrypto,
+        }      
+      } else {
+        return {
+          HDPath: ``,
+          curve: ``,
+        }
+      }
+    },
     async created(retry = false) {
       if (retry) this.attempt++
       this.attempt = this.numberAttemptsController(
         this.networkCryptoTypes,
         this.attempt
       )
-      const wallet = await this.$store.dispatch(`getAddressFromSeed`, {
-        seedPhrase: this.$store.state.recover.seed,
-        network: this.network,
-        networkCryptoTypes: this.networkCryptoTypes,
-        attempt: this.attempt,
-      })
+      const wallet = await getWallet(
+        this.$store.state.recover.seed,
+        this.currentNetwork,
+        this.currentHDPathOrCurve()[`HDPath`],
+        this.currentHDPathOrCurve()[`curve`],
+      )
       this.importedAddress = wallet.cosmosAddress
       this.$store.commit(`updateField`, {
-        field: `HDPathOrCurve`,
-        value: this.currentCrypto,
+        field: `HDPath`,
+        value: this.currentHDPathOrCurve()[`HDPath`],
+      })
+      this.$store.commit(`updateField`, {
+        field: `curve`,
+        value: this.currentHDPathOrCurve()[`curve`],
       })
     },
     numberAttemptsController(networkCryptoTypes, attempt) {

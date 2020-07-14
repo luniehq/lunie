@@ -693,7 +693,8 @@ export default {
           }
           polkadotAPI = await getPolkadotAPI(this.network)
         }
-        const HDPathOrCurve = await this.$store.state.session.HDPathOrCurve
+        const HDPath = await this.$store.state.session.HDPath
+        const curve = await this.$store.state.session.curve
 
         const hashResult = await this.transactionManager.createSignBroadcast({
           messageType: type,
@@ -704,7 +705,8 @@ export default {
           signingType: this.selectedSignMethod,
           password: this.password,
           polkadotAPI,
-          HDPathOrCurve,
+          HDPath,
+          curve,
         })
 
         const { hash } = hashResult

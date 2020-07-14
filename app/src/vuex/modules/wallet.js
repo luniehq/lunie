@@ -6,7 +6,7 @@ function getCosmosAddressCreator(bech32Prefix, HDPath, curve) {
       seedPhrase,
       bech32Prefix,
       HDPath,
-      //curve TODO,
+      curve,
     )
   }
 }
@@ -38,19 +38,17 @@ async function createPolkadotAddress(seedPhrase, network, curve) {
   }
 }
 
-export async function getWallet(seedPhrase, network, HDPathOrCurve) {
-  // HDPathOrCurve refers to the algo that creates this account
+export async function getWallet(seedPhrase, network, HDPath, curve) {
   switch (network.network_type) {
     case "cosmos": {
-      const HDPath = HDPathOrCurve
       const addressCreator = await getCosmosAddressCreator(
         network.address_prefix,
-        HDPath
+        HDPath,
+        curve,
       )
       return await addressCreator(seedPhrase)
     }
     case "polkadot": {
-      const curve = HDPathOrCurve
       return await createPolkadotAddress(seedPhrase, network, curve)
     }
     default:
@@ -58,9 +56,4 @@ export async function getWallet(seedPhrase, network, HDPathOrCurve) {
         "Lunie doesn't support address creation for this network."
       )
   }
-}
-
-export async function getWalletWithRetry(seedPhrase, network, networkCryptoTypes, attempt) {
-  const HDPathOrCurve = attempt ? networkCryptoTypes[attempt] : networkCryptoTypes[0]
-  return await getWallet(seedPhrase, network, HDPathOrCurve)
 }
