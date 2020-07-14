@@ -46,6 +46,9 @@ export default ({ apollo }) => {
   }
 
   const mutations = {
+    updateField(state, payload) {
+      state[payload.field] = payload.value
+    },
     setSignIn(state, hasSignedIn) {
       state.signedIn = hasSignedIn
     },
