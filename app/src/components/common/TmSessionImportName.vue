@@ -8,8 +8,7 @@
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" field-label="Your Address">
           <span v-if="networkCryptoTypes.length > 1" class="algo"
-            >created using the
-            {{ currentCrypto.crypto.concat(` ${currentCrypto.denom}`) }}</span
+            >created using the {{ currentCryptoView }}</span
           >
           <img
             v-if="importedAddress === undefined"
@@ -88,6 +87,14 @@ const nameExists = (value) => {
   }
 }
 
+const cryptoDictionary = {
+  "m/44/118/0/0/0": `Cosmos HD Path`,
+  "m/44/330/0/0/0": `Terra HD Path`,
+  sr25519: `Schnorrkel curve`,
+  ed25519: `Edwards curve`,
+  ecdsa: `ECDSA curve`,
+}
+
 export default {
   name: `session-import-name`,
   components: {
@@ -133,17 +140,22 @@ export default {
     },
     currentCrypto() {
       if (this.currentNetwork.network_type === `cosmos`) {
-        return {
-          crypto: this.networkHDPaths[this.attempt],
-          denom: `derivation path`,
-        }
+        return this.networkHDPaths[this.attempt]
       } else if (this.currentNetwork.network_type === `polkadot`) {
-        return {
-          crypto: this.networkCurves[this.attempt],
-          denom: `curve`,
-        }
+        return this.networkCurves[this.attempt]
       } else {
         return null
+      }
+    },
+    currentCryptoView() {
+      if (this.currentNetwork.network_type === `cosmos`) {
+        return cryptoDictionary[
+          this.networkHDPaths[this.attempt].replace(/\'/g, "")
+        ]
+      } else if (this.currentNetwork.network_type === `polkadot`) {
+        return cryptoDictionary[this.networkCurves[this.attempt]]
+      } else {
+        return ``
       }
     },
   },
@@ -159,13 +171,13 @@ export default {
     currentHDPathOrCurve() {
       if (this.currentNetwork.network_type === `cosmos`) {
         return {
-          HDPath: this.currentCrypto.crypto,
+          HDPath: this.currentCrypto,
           curve: this.networkCurves[0], // ed25519
         }
       } else if (this.currentNetwork.network_type === `polkadot`) {
         return {
           HDPath: this.networkHDPaths[0], // no clue
-          curve: this.currentCrypto.crypto,
+          curve: this.currentCrypto,
         }
       } else {
         return {
