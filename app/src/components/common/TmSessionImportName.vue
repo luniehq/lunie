@@ -114,7 +114,9 @@ export default {
       },
     },
     networkHDPaths() {
-      return JSON.parse(this.currentNetwork.HDPaths)
+      return JSON.parse(this.currentNetwork.HDPaths).map((HDPath) =>
+        HDPath.replace(/''/g, "'")
+      ) // to store HDPaths in DB we need to add double single quotes, that is why we need to deserialize here
     },
     networkCurves() {
       return JSON.parse(this.currentNetwork.curves)
@@ -151,13 +153,13 @@ export default {
       if (this.currentNetwork.network_type === `cosmos`) {
         return {
           HDPath: this.currentCrypto,
-          curve: this.networkCurves[0] // ed25519
+          curve: this.networkCurves[0], // ed25519
         }
       } else if (this.currentNetwork.network_type === `polkadot`) {
         return {
           HDPath: this.networkHDPaths[0], // no clue
           curve: this.currentCrypto,
-        }      
+        }
       } else {
         return {
           HDPath: ``,
@@ -175,7 +177,7 @@ export default {
         this.$store.state.recover.seed,
         this.currentNetwork,
         this.currentHDPathOrCurve()[`HDPath`],
-        this.currentHDPathOrCurve()[`curve`],
+        this.currentHDPathOrCurve()[`curve`]
       )
       this.importedAddress = wallet.cosmosAddress
       this.$store.commit(`updateField`, {
