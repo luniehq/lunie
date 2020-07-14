@@ -1,12 +1,16 @@
 const database = require('../lib/database')
 const config = require('../config')
-const db = database(config)('kusama')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
 const _ = require('lodash')
 const BN = require('bignumber.js')
 const fs = require('fs')
 const path = require('path')
 const { isHex } = require("@polkadot/util")
+
+const currentEraArg = require('minimist')(process.argv.slice(2))
+let currentEra = currentEraArg['currentEra']
+const networkId = currentEraArg['network']
+const db = database(config)(networkId)
 
 const eraCachePath = networkId => path.join(
   __dirname,
@@ -26,7 +30,7 @@ async function initPolkadotRPC(network, store) {
 function cleanOldRewards(minDesiredEra) {
   return db.query(`
     mutation {
-      delete_kusama_rewards(where:{height: {_lt: "${minDesiredEra}"}}) {
+      delete_${networkId}_rewards(where:{height: {_lt: "${minDesiredEra}"}}) {
         affected_rows
       }
     }
@@ -251,9 +255,6 @@ async function getMissingEras(lastStoredEra, currentEra) {
 }
 
 async function main() {
-  const currentEraArg = require('minimist')(process.argv.slice(2))
-  let currentEra = currentEraArg['currentEra']
-  const networkId = currentEraArg['network']
 
   // get previously stored data
   let {
@@ -337,7 +338,9 @@ async function main() {
   console.timeEnd('parsing lunie rewards')
 
   // store
-  const storableRewards = lunieRewards.filter(({ amount }) => amount > 0)
+  const storableRewards = _.uniqBy(lunieRewards
+    ? lunieRewards.filter(({ amount }) => amount > 0)
+    : [], reward => `${reward.address}_${reward.validatorAddress}_${reward.height}_${reward.chain_id}`) // HACK somehow we get some rewards twice which causes the insert to fail 
 
   console.log(
     `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
@@ -345,7 +348,7 @@ async function main() {
 
   const rewardChunks = _.chunk(storableRewards, 1000)
   for (let i = 0; i < rewardChunks.length; i++) {
-    await storeRewards(
+    const res = await storeRewards(
       rewardChunks[i].map(reward => ({
         amount: reward.amount,
         height: reward.height.toString(),
