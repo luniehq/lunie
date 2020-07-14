@@ -455,8 +455,6 @@ function rewardReducer(network, validators, reward, reducers) {
   let parsedRewards = []
 
   Object.entries(reward.validators).forEach((validatorReward) => {
-    console.log(`validatorReward[1]:`, validatorReward[1])
-    console.log(`validatorReward[1] (string):`, validatorReward[1].toString(10))
     if (!validators[validatorReward[0]]) return
     const lunieReward = {
       id: validatorReward[0],
@@ -468,7 +466,6 @@ function rewardReducer(network, validators, reward, reducers) {
     }
     parsedRewards.push(lunieReward)
   })
-  console.log(`parsedRewards:`, parsedRewards)
   return parsedRewards
 }
 
