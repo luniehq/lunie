@@ -97,7 +97,7 @@ const getDefaultEMailSubscriptions = async (addresses, dataSources) => {
     })
     subscriptions.push(
       `${eventTypes.PROPOSAL_CREATE}_${networkId}`,
-      `${eventTypes.PROPOSAL_UPDATE}_${networkId}`,
+      `${eventTypes.PROPOSAL_UPDATE}_${networkId}`
     )
   }
 

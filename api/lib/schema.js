@@ -362,7 +362,10 @@ const typeDefs = gql`
 
   type Mutation {
     registerUser(idToken: String!): Boolean
-    notifications(addressObjects: [NotificationInput]!, notificationType: String): Boolean
+    notifications(
+      addressObjects: [NotificationInput]!
+      notificationType: String
+    ): Boolean
   }
 
   type ChainAppliedFees {

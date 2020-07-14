@@ -1,4 +1,4 @@
-  const { sortBy } = require('lodash')
+const { sortBy } = require('lodash')
 const Sentry = require('@sentry/node')
 const { UserInputError, withFilter } = require('apollo-server')
 const BigNumber = require('bignumber.js')
@@ -463,9 +463,18 @@ const resolvers = (networkList, notificationController) => ({
   },
   Mutation: {
     registerUser: registerUser,
-    notifications: async (_, { addressObjects, notificationType }, { dataSources, user: { uid }}) => {
-      if (!uid) throw new UserInputError("Notifications need a signed in user")
-      await notificationController.updateRegistrations(uid, addressObjects, notificationType, dataSources)
+    notifications: async (
+      _,
+      { addressObjects, notificationType },
+      { dataSources, user: { uid } }
+    ) => {
+      if (!uid) throw new UserInputError('Notifications need a signed in user')
+      await notificationController.updateRegistrations(
+        uid,
+        addressObjects,
+        notificationType,
+        dataSources
+      )
       return true
     }
   },

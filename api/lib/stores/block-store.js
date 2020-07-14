@@ -4,7 +4,10 @@ const Sentry = require('@sentry/node')
 const database = require('../database')
 const config = require('../../config')
 const { publishEvent: publishEvent } = require('../subscriptions')
-const { eventTypes, resourceTypes } = require('../notifications/notifications-types')
+const {
+  eventTypes,
+  resourceTypes
+} = require('../notifications/notifications-types')
 
 class BlockStore {
   constructor(network, database) {
@@ -274,9 +277,12 @@ class BlockStore {
     if (oldPropsals.length === 0) return
 
     // case 1: New proposal
-    const newProposalIds = difference(Object.keys(newProposalsDictionary), Object.keys(oldProposalsDictionary))
+    const newProposalIds = difference(
+      Object.keys(newProposalsDictionary),
+      Object.keys(oldProposalsDictionary)
+    )
     if (newProposalIds.length > 0) {
-      newProposalIds.forEach(id => {
+      newProposalIds.forEach((id) => {
         const newProposal = newProposalsDictionary[id]
 
         publishEvent(

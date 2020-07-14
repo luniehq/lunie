@@ -7,7 +7,7 @@ module.exports = {
   env: env,
   port: process.env.PORT || '4000',
   queryPath: '/',
-  frontendURL: "https://app.lunie.io",
+  frontendURL: 'https://app.lunie.io',
   transactionPath: '/transaction',
   subscriptionPath: '/graphql',
   apollo_engine_api_key: process.env.ENGINE_API_KEY || '',

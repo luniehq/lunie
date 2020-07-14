@@ -63,8 +63,14 @@ function database({ hasura_url, hasura_admin_key }) {
       getUser: getUser({ hasura_url, hasura_admin_key })(schema),
       storeStore: storeStore({ hasura_url, hasura_admin_key })(schema),
       getStore: getStore({ hasura_url, hasura_admin_key })(schema),
-      storeNotificationRegistrations: storeNotificationRegistrations({ hasura_url, hasura_admin_key })(schema),
-      getNotificationRegistrations: getNotificationRegistrations({ hasura_url, hasura_admin_key })(schema)
+      storeNotificationRegistrations: storeNotificationRegistrations({
+        hasura_url,
+        hasura_admin_key
+      })(schema),
+      getNotificationRegistrations: getNotificationRegistrations({
+        hasura_url,
+        hasura_admin_key
+      })(schema)
     }
 
     return {

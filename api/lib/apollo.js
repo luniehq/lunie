@@ -11,7 +11,7 @@ const NetworkContainer = require('./network-container')
 
 const firebaseAdmin = require('./notifications/firebase')
 const config = require('../config')
-const NotificationContoller = require("./notifications/notificationController")
+const NotificationContoller = require('./notifications/notificationController')
 
 const db = database(config)('')
 
