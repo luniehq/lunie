@@ -8,7 +8,8 @@
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" field-label="Your Address">
           <span v-if="networkCryptoTypes.length > 1" class="algo"
-            >created using {{ currentCrypto }}</span
+            >created using the
+            {{ currentCrypto.crypto.concat(` ${currentCrypto.denom}`) }}</span
           >
           <img
             v-if="importedAddress === undefined"
@@ -132,11 +133,17 @@ export default {
     },
     currentCrypto() {
       if (this.currentNetwork.network_type === `cosmos`) {
-        return this.networkHDPaths[this.attempt]
+        return {
+          crypto: this.networkHDPaths[this.attempt],
+          denom: `derivation path`,
+        }
       } else if (this.currentNetwork.network_type === `polkadot`) {
-        return this.networkCurves[this.attempt]
+        return {
+          crypto: this.networkCurves[this.attempt],
+          denom: `curve`,
+        }
       } else {
-        return `unknown`
+        return null
       }
     },
   },
@@ -152,13 +159,13 @@ export default {
     currentHDPathOrCurve() {
       if (this.currentNetwork.network_type === `cosmos`) {
         return {
-          HDPath: this.currentCrypto,
+          HDPath: this.currentCrypto.crypto,
           curve: this.networkCurves[0], // ed25519
         }
       } else if (this.currentNetwork.network_type === `polkadot`) {
         return {
           HDPath: this.networkHDPaths[0], // no clue
-          curve: this.currentCrypto,
+          curve: this.currentCrypto.crypto,
         }
       } else {
         return {
