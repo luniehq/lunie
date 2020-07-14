@@ -18,6 +18,7 @@ class BlockStore {
     this.proposals = []
     this.newValidators = {}
     this.db = database
+    this.apiClass = require(this.network.source_class_name)
 
     // system to stop queries to proceed if store data is not yet available
     this.dataReady = new Promise((resolve) => {
@@ -30,6 +31,10 @@ class BlockStore {
     // this.getStore().then((foundStore) => {
     //   if (foundStore) this.resolveReady()
     // })
+  }
+
+  startUpdateLoops() {
+
   }
 
   async getStore() {
@@ -49,10 +54,10 @@ class BlockStore {
 
   async update({
     height,
-    block = this.block,
+    block,
     validators,
     proposals,
-    data = this.data // multi purpose block to be used for any chain specific data
+    data // multi purpose block to be used for any chain specific data
   }) {
     if (validators) {
       // convert to map
@@ -78,9 +83,14 @@ class BlockStore {
       this.validators = validators
     }
 
-    this.latestHeight = Number(height)
-    this.block = block
-    this.data = data
+    if (data) {
+      this.data = data
+    }
+    
+    if (this.block) {
+      this.latestHeight = Number(height)
+      this.block = block
+    }
 
     if (proposals) {
       this.checkProposalsUpdate(this.proposals, proposals)
@@ -247,22 +257,6 @@ class BlockStore {
       ),
       'operatorAddress'
     )
-  }
-
-  async updateNetworkFromDB() {
-    try {
-      const storedNetwork = await database(config)('').getNetwork(
-        this.network.id
-      )
-      if (storedNetwork) {
-        Object.assign(this.network, storedNetwork)
-      } else {
-        console.error(`This network is not present in the DB`)
-      }
-    } catch (error) {
-      console.error('Failed during update network in DB', error)
-      Sentry.captureException(error)
-    }
   }
 
   checkProposalsUpdate(oldPropsals, newProposals) {

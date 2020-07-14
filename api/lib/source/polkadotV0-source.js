@@ -76,6 +76,11 @@ class polkadotAPI {
     )
   }
 
+  async getEra() {
+    const response = await this.api.query.staking.activeEra()
+    return response.toJSON().index
+  }
+
   async getBlockV2(blockHeight) {
     if (this.store.height === blockHeight) {
       return this.store.block

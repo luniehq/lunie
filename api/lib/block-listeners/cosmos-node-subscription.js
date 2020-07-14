@@ -5,7 +5,6 @@ const {
 } = require('../subscriptions')
 const Sentry = require('@sentry/node')
 const database = require('../database')
-const { orderBy } = require('lodash')
 const config = require('../../config.js')
 const {
   lunieMessageTypes: { SEND }
@@ -49,6 +48,8 @@ class CosmosNodeSubscription {
     })
 
     this.proposalPollingTimeout = setTimeout(async () => {
+      await this.checkProposals(cosmosAPI)
+
       this.pollForProposalChanges()
     }, PROPOSAL_POLLING_INTERVAL)
   }
