@@ -224,7 +224,7 @@ export default {
 }
 
 .tm-form-group__field {
-  position: unset;
+  position: unset !important;
 }
 
 .algo {
