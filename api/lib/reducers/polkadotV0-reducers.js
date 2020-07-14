@@ -449,19 +449,24 @@ function dbRewardsReducer(validatorsDictionary, dbRewards) {
 
 function rewardReducer(network, validators, reward, reducers) {
   let parsedRewards = []
+  let validatorsDict = []
+  validators.forEach(validator => { 
+    validatorsDict[validator.operatorAddress] = validator
+  })
+
   Object.entries(reward.validators).forEach((validatorReward) => {
-    const validator = validators.find(({ operatorAddress }) => operatorAddress === validatorReward[0])
-    if (!validator) return
+    if (!validatorsDict[validatorReward[0]]) return
     const lunieReward = {
-      id: validator.operatorAddress,
+      id: validatorReward[0],
       ...reducers.coinReducer(network, validatorReward[1]),
       height: reward.era,
       address: reward.address,
-      validator, // used for user facing rewards in the API
-      validatorAddress: validator.operatorAddress // added for writing the validator to the db even it it is not in the dictionary
+      validator: validatorsDict[validatorReward[0]], // used for user facing rewards in the API
+      validatorAddress: validatorReward[0] // added for writing the validator to the db even it it is not in the dictionary
     }
     parsedRewards.push(lunieReward)
   })
+  console.log(`parsedRewards:`, parsedRewards)
   return parsedRewards
 }
 
