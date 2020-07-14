@@ -96,7 +96,8 @@ describe(`TmSessionImportPassword`, () => {
       password: `1234567890`,
       network: "lunie-net",
       seedPhrase: ``,
-      accountType: ``,
+      HDPath: undefined,
+      curve: undefined,
     })
   })
 

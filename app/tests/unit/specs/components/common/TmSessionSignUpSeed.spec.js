@@ -76,7 +76,8 @@ describe(`TmSessionSignUpSeed`, () => {
       network: "lunie-net",
       seedPhrase:
         "asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf",
-      accountType: `cosmosStandard`,
+      HDPath: undefined,
+      curve: undefined,
     })
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
       name: "portfolio",

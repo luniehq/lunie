@@ -250,7 +250,7 @@ describe(`Module: Wallet (getWallet)`, () => {
       `xxx`, // seedPhrase
       networks[0], // network
       `m/44'/118'/0'/0/0`, // HDPath
-      `ed25519`, // curve
+      `ed25519` // curve
     )
     console.log(wallet)
     expect(wallet.cosmosAddress).toBe(`cosmos1234`)
@@ -263,7 +263,7 @@ describe(`Module: Wallet (getWallet)`, () => {
       `lunch primary know smoke track sustain parrot enact shock final rookie banana`, // seedPhrase
       networks[2], // network
       ``, // HDPath
-      `sr25519`, // curve
+      `sr25519` // curve
     )
     expect(wallet.cosmosAddress).toBe(
       `DcjhGvTmsVvJHzqFR1SQVHs77cFTQTJrm59WPM4FRgbGFoR`
@@ -277,7 +277,7 @@ describe(`Module: Wallet (getWallet)`, () => {
       `spirit ride warm like ribbon axis minimum number myth wrestle minute amount subway whip system axis cross box actual rifle control profit town advice`, // seedPhrase
       networks[2], // network
       ``, // HDPath
-      `sr25519`, // curve
+      `sr25519` // curve
     )
     expect(wallet.cosmosAddress).toBe(
       `DGTPCmSeaMKKkno6GMLteH6JUBjjRf6PEtvLgmKQS4SV3Tc`
@@ -291,7 +291,7 @@ describe(`Module: Wallet (getWallet)`, () => {
       `0x2fbaa6dc94a4bc904cc913de9151b890c5c1de1beb08ec01c96b66b355a7b9ca`, // seedPhrase
       networks[2], // network
       ``, // HDPath
-      `sr25519`, // curve
+      `sr25519` // curve
     )
     expect(wallet.cosmosAddress).toBe(
       `EkpVDgUgARxa96strjK5oCiEdLTokcTqw4uUMqEGBTmibLe`

@@ -128,7 +128,8 @@ describe(`Module: Session`, () => {
       const dispatch = jest.fn()
       const sessionType = `local`
       const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
-      const accountType = `cosmosStandard`
+      const HDPath = `m/44'/118'/0'/0/0`
+      const curve = `ed25519`
       await actions.signIn(
         {
           state,
@@ -141,7 +142,7 @@ describe(`Module: Session`, () => {
           commit,
           dispatch,
         },
-        { address, sessionType, networkId: "not-fabo-net", accountType }
+        { address, sessionType, networkId: "not-fabo-net", HDPath, curve }
       )
       expect(commit).toHaveBeenCalledWith(`setNetworkId`, `not-fabo-net`)
       expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
@@ -157,13 +158,15 @@ describe(`Module: Session`, () => {
         `session`,
         `sign-in`,
         `local`,
-        `cosmosStandard`
+        `m/44'/118'/0'/0/0`,
+        `ed25519`
       )
     })
 
     it(`with Ledger Nano`, async () => {
       const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
-      const accountType = `cosmosStandard`
+      const HDPath = `m/44'/118'/0'/0/0`
+      const curve = `ed25519`
       const commit = jest.fn()
       const dispatch = jest.fn()
       await actions.signIn(
@@ -178,7 +181,7 @@ describe(`Module: Session`, () => {
           commit,
           dispatch,
         },
-        { sessionType: `ledger`, address, accountType }
+        { sessionType: `ledger`, address, HDPath, curve }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
@@ -187,7 +190,8 @@ describe(`Module: Session`, () => {
         `session`,
         `sign-in`,
         `ledger`,
-        `cosmosStandard`
+        `m/44'/118'/0'/0/0`,
+        `ed25519`
       )
     })
 
@@ -216,7 +220,8 @@ describe(`Module: Session`, () => {
         `session`,
         `sign-in`,
         `explore`,
-        undefined // accountType
+        undefined, // HDPath
+        undefined // curve
       )
     })
 

@@ -7,6 +7,9 @@ jest.mock("@lunie/cosmos-keys", () => ({
   getWalletIndex: function () {
     return [{ name: `Happy Lunie User`, address: `xyz123` }]
   },
+  getNewWalletFromSeed: function () {
+    return { cosmosAddress: `cosmos1234` }
+  },
 }))
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -22,7 +25,12 @@ describe(`TmSessionImportName`, () => {
       connected: () => true,
       network: "cosmos-hub-mainnet",
       currentNetwork: {
-        accountTypes: `["cosmosStandard"]`,
+        id: "cosmos-hub-mainnet",
+        network_type: "cosmos",
+        address_prefix: "cosmos",
+        testnet: false,
+        HDPaths: `["m/44'/118'/0'/0/0"]`,
+        curves: `["ed25519"]`,
       },
     }
     $store = {
