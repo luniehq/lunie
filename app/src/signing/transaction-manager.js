@@ -127,7 +127,7 @@ export default class TransactionManager {
         password,
         polkadotAPI,
         HDPath,
-        curve,
+        curve
       )
     }
     return this.broadcastTransaction(
@@ -149,7 +149,7 @@ export default class TransactionManager {
     password,
     polkadotAPI,
     HDPath,
-    curve,
+    curve
   ) {
     const messages = await getMessage(
       network,
@@ -180,7 +180,7 @@ export default class TransactionManager {
       transactionData,
       signedContext,
       HDPath,
-      curve,
+      curve
     )
 
     return broadcastableObject

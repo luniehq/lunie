@@ -44,7 +44,10 @@ export default () => {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
     },
-    async getAddressFromSeed(store, { seedPhrase, network, networkCryptoTypes, attempt }) {
+    async getAddressFromSeed(
+      store,
+      { seedPhrase, network, networkCryptoTypes, attempt }
+    ) {
       // get current network
       const networkObject = await getNetworkInfo(network, store)
 
@@ -52,7 +55,7 @@ export default () => {
         seedPhrase,
         networkObject,
         networkCryptoTypes,
-        attempt,
+        attempt
       )
       return createAddressResponse
     },

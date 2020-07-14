@@ -69,9 +69,7 @@ const curvePrefixes = {
 }
 
 function formatSignature(rawSignature, curve) {
-  const prefix = new Uint8Array(
-    curvePrefixes[curve]
-  )
+  const prefix = new Uint8Array(curvePrefixes[curve])
   const signature = u8aToHex(u8aConcat(prefix, rawSignature))
   return signature
 }
@@ -85,7 +83,7 @@ export function getBroadcastableObject(
   transactionData,
   { transaction, payload, rawSignature },
   HDPath,
-  curve,
+  curve
 ) {
   const signature = formatSignature(rawSignature, curve)
 

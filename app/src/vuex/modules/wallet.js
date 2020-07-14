@@ -2,12 +2,7 @@
 function getCosmosAddressCreator(bech32Prefix, HDPath, curve) {
   return async (seedPhrase) => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-    return getNewWalletFromSeed(
-      seedPhrase,
-      bech32Prefix,
-      HDPath,
-      curve,
-    )
+    return getNewWalletFromSeed(seedPhrase, bech32Prefix, HDPath, curve)
   }
 }
 
@@ -44,7 +39,7 @@ export async function getWallet(seedPhrase, network, HDPath, curve) {
       const addressCreator = await getCosmosAddressCreator(
         network.address_prefix,
         HDPath,
-        curve,
+        curve
       )
       return await addressCreator(seedPhrase)
     }

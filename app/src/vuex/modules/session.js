@@ -163,7 +163,12 @@ export default ({ apollo }) => {
         const session = JSON.parse(
           localStorage.getItem(`cosmos-wallets-${address}`)
         )
-        if (session && session.HDPath && session.curve && address === session.address) {
+        if (
+          session &&
+          session.HDPath &&
+          session.curve &&
+          address === session.address
+        ) {
           HDPath = session.HDPath
           curve = session.curve
         } else {
@@ -232,7 +237,7 @@ export default ({ apollo }) => {
         `sign-in`,
         sessionType,
         HDPath,
-        curve,
+        curve
       )
     },
     async signOut({ state, commit, dispatch }, networkId) {
