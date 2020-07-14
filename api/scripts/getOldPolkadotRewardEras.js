@@ -6,6 +6,7 @@ const _ = require('lodash')
 const BN = require('bignumber.js')
 const fs = require('fs')
 const path = require('path')
+const { isHex } = require("@polkadot/util")
 
 const eraCachePath = networkId => path.join(
   __dirname,
@@ -119,13 +120,21 @@ function parseRewards(
             )
 
             staked = stakerExposure ? stakerExposure.value : ZERO
+            // console.log(`staked1:`, staked)
+            staked = isHex(staked) ? new BN(staked.substr(2, staked.length - 2), 16) : new BN(staked)
+            // console.log(`staked2:`, staked)
           }
-
+          
           value = available
             .minus(validatorCut)
             .times(staked)
             .dividedBy(exposureTotal)
             .plus(validatorId === delegator ? validatorCut : ZERO)
+
+          // console.log(`available:`, available)
+          // console.log(`validatorCut:`, validatorCut)
+          // console.log(`value:`, value)
+  
         }
 
         validators[validatorId] = value
@@ -320,6 +329,9 @@ async function main() {
       getRewardsForDelegator(delegator, ...newEraData)
     )
   )
+
+  // console.log(`polkadotRewards: `, polkadotRewards)
+
   console.timeEnd('calculating rewards')
 
   // parse to lunie format
@@ -332,13 +344,28 @@ async function main() {
   )
   console.timeEnd('parsing lunie rewards')
   
+  // console.log(`lunieRewards: `, lunieRewards)
+
   // store
-  const storableRewards = _.uniqBy(lunieRewards
-    ? lunieRewards.filter(({ amount }) => amount > 0)
-    : [], reward => `${reward.address}_${reward.validator}_${reward.height}_${reward.chain_id}`) // HACK somehow we get some rewards twice which causes the insert to fail 
+  // const storableRewards = _.uniqBy(lunieRewards
+  //   ? lunieRewards.filter(({ amount }) => amount > 0)
+  //   : [], reward => `${reward.address}_${reward.validator.id}_${reward.height}_${reward.chain_id}`) // HACK somehow we get some rewards twice which causes the insert to fail 
+  
+  // let storableRewards = []
+  // lunieRewards.filter(({ amount }) => amount > 0).forEach(reward => {
+  //   if (!storableRewards.find(storableReward => storableReward.address === reward.address && storableReward.validatorAddress === reward.validatorAddress && storableReward.height === reward.height && storableReward.chain_id === reward.chain_id )) {
+  //     storableRewards.push(reward)
+  //   }
+  // })
+
+  const storableRewards = lunieRewards.filter(({ amount }) => amount > 0)
+
   console.log(
     `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
   )
+
+  // console.log(`storableRewards: `, storableRewards)
+
   const rewardChunks = _.chunk(storableRewards, 1000)
   for (let i = 0; i < rewardChunks.length; i++) {
     await storeRewards(
