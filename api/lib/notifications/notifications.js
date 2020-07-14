@@ -156,8 +156,8 @@ function getPushLink(
 
 // Get relevant icon for notification
 // TODO: Upload icons to DO instead of passing relative links
-function getIcon({ eventType, data }) {
-  const notificationData = notification.properties || JSON.parse(data)
+function getIcon({ eventType, data, properties }) {
+  const notificationData = properties || JSON.parse(data)
   switch (eventType) {
     case eventTypes.TRANSACTION_RECEIVE:
       return `/img/icons/activity/Received.svg`
