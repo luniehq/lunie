@@ -137,12 +137,13 @@ export default {
     async created(retry = false) {
       if (retry) this.attempt++
       this.attempt = this.numberAttemptsController(
-        JSON.parse(this.currentNetwork.accountTypes),
+        this.networkCryptoTypes,
         this.attempt
       )
       const wallet = await this.$store.dispatch(`getAddressFromSeed`, {
         seedPhrase: this.$store.state.recover.seed,
         network: this.network,
+        networkCryptoTypes: this.networkCryptoTypes,
         attempt: this.attempt,
       })
       this.importedAddress = wallet.cosmosAddress

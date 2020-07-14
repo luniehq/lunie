@@ -44,14 +44,15 @@ export default () => {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
     },
-    async getAddressFromSeed(store, { seedPhrase, network, attempt }) {
+    async getAddressFromSeed(store, { seedPhrase, network, networkCryptoTypes, attempt }) {
       // get current network
       const networkObject = await getNetworkInfo(network, store)
 
       const createAddressResponse = await getWalletWithRetry(
         seedPhrase,
         networkObject,
-        attempt
+        networkCryptoTypes,
+        attempt,
       )
       return createAddressResponse
     },

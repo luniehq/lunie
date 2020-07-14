@@ -1,10 +1,12 @@
-import { accountTypesDictionary } from "../../../../common/dictionaries"
-
 // creates a cosmos addres for the network desired
 function getCosmosAddressCreator(bech32Prefix, accountType) {
   return async (seedPhrase) => {
     const { getNewWalletFromSeed } = await import("@lunie/cosmos-keys")
-    return getNewWalletFromSeed(seedPhrase, bech32Prefix, accountTypesDictionary[accountType])
+    return getNewWalletFromSeed(
+      seedPhrase,
+      bech32Prefix,
+      accountType
+    )
   }
 }
 
@@ -23,7 +25,7 @@ async function createPolkadotAddress(seedPhrase, network, accountType) {
 
   const keyring = new Keyring({
     ss58Format: Number(network.address_prefix),
-    type: accountTypesDictionary[accountType],
+    type: accountType,
   })
   const newPair = keyring.addFromUri(seedPhrase)
 
@@ -55,8 +57,7 @@ export async function getWallet(seedPhrase, network, accountType) {
   }
 }
 
-export async function getWalletWithRetry(seedPhrase, network, attempt) {
-  const accountTypes = JSON.parse(network.accountTypes)
-  const HDPathOrAlgo = attempt ? accountTypes[attempt] : accountTypes[0]
-  return await getWallet(seedPhrase, network, HDPathOrAlgo)
+export async function getWalletWithRetry(seedPhrase, network, networkCryptoTypes, attempt) {
+  const HDPathOrCurve = attempt ? networkCryptoTypes[attempt] : networkCryptoTypes[0]
+  return await getWallet(seedPhrase, network, HDPathOrCurve)
 }
