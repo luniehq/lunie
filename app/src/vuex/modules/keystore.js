@@ -1,5 +1,5 @@
 import { track } from "scripts/google-analytics"
-import { getWallet, getWalletWithRetry } from "./wallet"
+import { getWallet } from "./wallet"
 export default () => {
   const state = {
     accounts: [],
@@ -43,21 +43,6 @@ export default () => {
     async createSeed() {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
-    },
-    async getAddressFromSeed(
-      store,
-      { seedPhrase, network, networkCryptoTypes, attempt }
-    ) {
-      // get current network
-      const networkObject = await getNetworkInfo(network, store)
-
-      const createAddressResponse = await getWalletWithRetry(
-        seedPhrase,
-        networkObject,
-        networkCryptoTypes,
-        attempt
-      )
-      return createAddressResponse
     },
     async createKey(
       store,

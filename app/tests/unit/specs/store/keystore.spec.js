@@ -1,4 +1,5 @@
 import keystoreModule from "src/vuex/modules/keystore.js"
+import { getWallet } from "src/vuex/modules/wallet.js"
 
 const networks = [
   {
@@ -133,102 +134,6 @@ describe(`Module: Keystore`, () => {
     expect(wallet).toEqual({ seedPhrase: `seed seed seed` })
   })
 
-  it(`should create a Cosmos address from a seed phrase`, async () => {
-    const store = {
-      getters: {
-        networks: [
-          {
-            id: "cosmos-hub-testnet",
-            network_type: "cosmos",
-            address_prefix: "cosmos",
-            testnet: true,
-            accountTypes: JSON.stringify(["cosmosStandard"]),
-          },
-        ],
-      },
-    }
-    const wallet = await actions.getAddressFromSeed(store, {
-      seedPhrase: `xxx`,
-      network: `cosmos-hub-testnet`,
-    })
-    expect(wallet.cosmosAddress).toBe(`cosmos1234`)
-  })
-
-  it(`should create a Polkadot address from a 12 words seed phrase`, async () => {
-    jest.setTimeout(30000)
-    const store = {
-      getters: {
-        networks: [
-          {
-            id: "kusama",
-            address_prefix: "2",
-            testnet: false,
-            network_type: "polkadot",
-            accountTypes: JSON.stringify(["Schnorrkel", "Edwards"]),
-          },
-        ],
-      },
-    }
-
-    const wallet = await actions.getAddressFromSeed(store, {
-      seedPhrase: `lunch primary know smoke track sustain parrot enact shock final rookie banana`,
-      network: "kusama",
-    })
-    expect(wallet.cosmosAddress).toBe(
-      `DcjhGvTmsVvJHzqFR1SQVHs77cFTQTJrm59WPM4FRgbGFoR`
-    )
-  })
-
-  it(`should create a Polkadot address from a 24 words seed phrase`, async () => {
-    jest.setTimeout(10000)
-    const store = {
-      getters: {
-        networks: [
-          {
-            id: "kusama",
-            address_prefix: "2",
-            testnet: false,
-            network_type: "polkadot",
-            accountTypes: JSON.stringify(["Schnorrkel", "Edwards"]),
-          },
-        ],
-      },
-    }
-
-    const wallet = await actions.getAddressFromSeed(store, {
-      seedPhrase: `spirit ride warm like ribbon axis minimum number myth wrestle minute amount subway whip system axis cross box actual rifle control profit town advice`,
-      network: `kusama`,
-    })
-    expect(wallet.cosmosAddress).toBe(
-      `DGTPCmSeaMKKkno6GMLteH6JUBjjRf6PEtvLgmKQS4SV3Tc`
-    )
-  })
-
-  it(`should create a Polkadot address from a raw hex seed phrase`, async () => {
-    jest.setTimeout(10000)
-    const store = {
-      getters: {
-        networks: [
-          {
-            id: "kusama",
-            address_prefix: "2",
-            testnet: false,
-            network_type: "polkadot",
-            accountTypes: JSON.stringify(["Schnorrkel", "Edwards"]),
-          },
-        ],
-      },
-    }
-
-    const wallet = await actions.getAddressFromSeed(store, {
-      seedPhrase: `0x2fbaa6dc94a4bc904cc913de9151b890c5c1de1beb08ec01c96b66b355a7b9ca`,
-      network: `kusama`,
-    })
-    expect(wallet.cosmosAddress).toBe(
-      `EkpVDgUgARxa96strjK5oCiEdLTokcTqw4uUMqEGBTmibLe`
-    )
-  })
-
   it(`should create a key from a seed phrase`, async () => {
     const seedPhrase = `abc`
     const password = `123`
@@ -335,6 +240,61 @@ describe(`Module: Keystore`, () => {
       })
     ).rejects.toThrowError(
       "Lunie doesn't support address creation for this network."
+    )
+  })
+})
+
+describe(`Module: Wallet (getWallet)`, () => {
+  it(`should create a Cosmos address from a seed phrase`, async () => {
+    const wallet = await getWallet(
+      `xxx`, // seedPhrase
+      networks[0], // network
+      `m/44'/118'/0'/0/0`, // HDPath
+      `ed25519`, // curve
+    )
+    console.log(wallet)
+    expect(wallet.cosmosAddress).toBe(`cosmos1234`)
+  })
+
+  it(`should create a Polkadot address from a 12 words seed phrase`, async () => {
+    jest.setTimeout(30000)
+
+    const wallet = await getWallet(
+      `lunch primary know smoke track sustain parrot enact shock final rookie banana`, // seedPhrase
+      networks[2], // network
+      ``, // HDPath
+      `sr25519`, // curve
+    )
+    expect(wallet.cosmosAddress).toBe(
+      `DcjhGvTmsVvJHzqFR1SQVHs77cFTQTJrm59WPM4FRgbGFoR`
+    )
+  })
+
+  it(`should create a Polkadot address from a 24 words seed phrase`, async () => {
+    jest.setTimeout(10000)
+
+    const wallet = await getWallet(
+      `spirit ride warm like ribbon axis minimum number myth wrestle minute amount subway whip system axis cross box actual rifle control profit town advice`, // seedPhrase
+      networks[2], // network
+      ``, // HDPath
+      `sr25519`, // curve
+    )
+    expect(wallet.cosmosAddress).toBe(
+      `DGTPCmSeaMKKkno6GMLteH6JUBjjRf6PEtvLgmKQS4SV3Tc`
+    )
+  })
+
+  it(`should create a Polkadot address from a raw hex seed phrase`, async () => {
+    jest.setTimeout(10000)
+
+    const wallet = await getWallet(
+      `0x2fbaa6dc94a4bc904cc913de9151b890c5c1de1beb08ec01c96b66b355a7b9ca`, // seedPhrase
+      networks[2], // network
+      ``, // HDPath
+      `sr25519`, // curve
+    )
+    expect(wallet.cosmosAddress).toBe(
+      `EkpVDgUgARxa96strjK5oCiEdLTokcTqw4uUMqEGBTmibLe`
     )
   })
 })
