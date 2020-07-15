@@ -134,7 +134,7 @@
           href=" https://intercom.help/lunie/en/articles/3776563-using-the-memo-option-when-sending-tokens-to-and-from-exchanges"
           target="_blank"
           >our guide</a
-        ></span
+        >.</span
       >
       <TmFormMsg
         v-if="$v.memo.$error && !$v.memo.maxLength"
