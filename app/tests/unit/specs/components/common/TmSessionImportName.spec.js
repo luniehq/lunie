@@ -102,4 +102,71 @@ describe(`TmSessionImportName`, () => {
     wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/password`)
   })
+
+  // case cosmos
+  it(`should return the HDPaths from a network parsed as JSON`, () => {
+    expect(wrapper.vm.networkCryptoTypes).toEqual(["m/44'/118'/0'/0/0"])
+  })
+
+  // case polkadot
+  it(`should return the curves from a network parsed as JSON`, () => {
+    wrapper.setData({
+      currentNetwork: {
+        id: "polkadot-testnet",
+        network_type: "polkadot",
+        address_prefix: "42",
+        testnet: false,
+        HDPaths: `[""]`,
+        curves: `["ed25519"]`,
+      },
+    })
+    expect(wrapper.vm.networkCryptoTypes).toEqual(["ed25519"])
+  })
+
+  // case cosmos
+  it(`should return a beautiful presentation for the curve to be displayed on modal`, () => {
+    expect(wrapper.vm.currentCryptoView).toEqual("Cosmos HD Path")
+  })
+
+  // case polkadot
+  it(`should return a beautiful presentation for the curve to be displayed on modal`, () => {
+    wrapper.setData({
+      currentNetwork: {
+        id: "polkadot-testnet",
+        network_type: "polkadot",
+        address_prefix: "42",
+        testnet: false,
+        HDPaths: `[""]`,
+        curves: `["ed25519"]`,
+      },
+      attempt: 0,
+    })
+    expect(wrapper.vm.currentCryptoView).toEqual("Edwards curve")
+  })
+
+  // case cosmos
+  it(`should return the current HDPath we are creating the address from depending on the attempt number`, () => {
+    wrapper.setData({
+      attempt: 0,
+    })
+    const curve = wrapper.vm.currentHDPathOrCurve()["HDPath"]
+    expect(curve).toEqual("m/44'/118'/0'/0/0")
+  })
+
+  // case polkadot
+  it(`should return the current curve we are creating the address from depending on the attempt number`, () => {
+    wrapper.setData({
+      currentNetwork: {
+        id: "polkadot-testnet",
+        network_type: "polkadot",
+        address_prefix: "42",
+        testnet: false,
+        HDPaths: `[""]`,
+        curves: `["sr25519","ed25519","ecdsa"]`,
+      },
+      attempt: 1,
+    })
+    const curve = wrapper.vm.currentHDPathOrCurve()["curve"]
+    expect(curve).toEqual("ed25519")
+  })
 })

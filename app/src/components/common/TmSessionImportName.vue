@@ -138,6 +138,7 @@ export default {
         return []
       }
     },
+    /* istanbul ignore next */
     currentCrypto() {
       if (this.currentNetwork.network_type === `cosmos`) {
         return this.networkHDPaths[this.attempt]
