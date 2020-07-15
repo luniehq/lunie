@@ -19,8 +19,8 @@ if (config.SENTRY_DSN) {
 const currentEraArg = require('minimist')(process.argv.slice(2))
 let currentEra = currentEraArg['currentEra']
 const networkId = currentEraArg['network']
-const dbName = networkId.replace("-", "_")
-const db = database(config)(dbName)
+const schema = networkId.replace("-", "_")
+const db = database(config)(schema)
 
 const eraCachePath = networkId => path.join(
   __dirname,
@@ -41,7 +41,7 @@ function cleanOldRewards(minDesiredEra) {
   if (minDesiredEra >= 0) {
     return db.query(`
       mutation {
-        delete_${dbName}_rewards(where:{height: {_lt: "${minDesiredEra}"}}) {
+        delete_${schema}_rewards(where:{height: {_lt: "${minDesiredEra}"}}) {
           affected_rows
         }
       }
