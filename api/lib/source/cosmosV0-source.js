@@ -358,25 +358,29 @@ class CosmosV0API extends RESTDataSource {
     ])
     const balances = balancesResponse || []
     const coins = balances.map(this.reducers.coinReducer)
-    const hasStakingDenom = coins.find(({denom}) => denom === this.network.stakingDenom)
+    const hasStakingDenom = coins.find(
+      ({ denom }) => denom === this.network.stakingDenom
+    )
     // the user might not have liquid staking tokens but have staking tokens delegated
     // if we don't add the staking denom, we would show a 0 total for the staking denom which is wrong
     if (!hasStakingDenom) {
       coins.push({
         amount: BigNumber(0),
-        denom: this.network.stakingDenom,
+        denom: this.network.stakingDenom
       })
     }
     const fiatValueAPI = this.fiatValuesAPI
-    return coins.map((coin) => {
-      return this.reducers.balanceV2Reducer(
-        coin,
-        this.network.stakingDenom,
-        delegations,
-        fiatValueAPI,
-        fiatCurrency
-      )
-    })
+    return await Promise.all(
+      coins.map((coin) => {
+        return this.reducers.balanceV2Reducer(
+          coin,
+          this.network.stakingDenom,
+          delegations,
+          fiatValueAPI,
+          fiatCurrency
+        )
+      })
+    )
   }
 
   async getAccountInfo(address) {

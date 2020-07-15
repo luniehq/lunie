@@ -103,7 +103,7 @@ const logBalances = async (
   store(data)
   // store totalStake
   data.action = 'totalStake'
-  data.value = overview.total.toString()
+  data.value = balance.total.toString()
   store(data)
 }
 
@@ -124,6 +124,14 @@ const logRewards = async (
   }
   addressesDictionary[key] = process.hrtime() // time in ms
 
+  let data = {
+    address,
+    network: networkId,
+    fingerprint,
+    action: `rewards`,
+    added: Date.now(),
+    value: 0
+  }
   // store rewards
   // summing rewards with one denom
   if (rewards) {
@@ -139,9 +147,6 @@ const logRewards = async (
         return newArray
       }, [])
       .map((reward) => {
-        data.action = 'rewards'
-        data.added = Date.now()
-        data.denom = reward.denom
         data.value = reward.amount
         store(data)
       })
