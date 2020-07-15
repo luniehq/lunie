@@ -336,8 +336,8 @@ const resolvers = (networkList) => ({
             public_rpc_url: undefined
           })
         })
-        // filter out not enabled networks
-        .filter((network) => (experimental ? true : network.enabled))
+        // filter out experimental networks unless the experimental flag is set to true
+        .filter((network) => (experimental ? true : !network.experimental))
       return networks
     },
     maintenance: () => createDBInstance().getMaintenance(),

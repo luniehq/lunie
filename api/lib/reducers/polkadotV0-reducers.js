@@ -449,7 +449,7 @@ function dbRewardsReducer(validatorsDictionary, dbRewards) {
 
 function rewardReducer(network, validators, reward, reducers) {
   let parsedRewards = []
-  const validatorDictionary = keyBy(validators, "operatorAddress")
+  const validatorDictionary = keyBy(validators, 'operatorAddress')
   Object.entries(reward.validators).forEach((validatorReward) => {
     const validator = validatorDictionary[validatorReward[0]]
     if (!validator) return
