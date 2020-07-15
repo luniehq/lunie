@@ -75,6 +75,19 @@ exports[`SendModal should display send modal form 1`] = `
       value=""
     />
      
+    <span
+      class="memo-span"
+    >
+      To know more on memos read
+      
+      <a
+        href=" https://intercom.help/lunie/en/articles/3776563-using-the-memo-option-when-sending-tokens-to-and-from-exchanges"
+        target="_blank"
+      >
+        our guide
+      </a>
+    </span>
+     
     <!---->
      
     <!---->
@@ -163,6 +176,19 @@ exports[`SendModal validation should show address required error 1`] = `
       type="text"
       value=""
     />
+     
+    <span
+      class="memo-span"
+    >
+      To know more on memos read
+      
+      <a
+        href=" https://intercom.help/lunie/en/articles/3776563-using-the-memo-option-when-sending-tokens-to-and-from-exchanges"
+        target="_blank"
+      >
+        our guide
+      </a>
+    </span>
      
     <!---->
      
@@ -253,6 +279,19 @@ exports[`SendModal validation should show an error if trying to send more then t
       value=""
     />
      
+    <span
+      class="memo-span"
+    >
+      To know more on memos read
+      
+      <a
+        href=" https://intercom.help/lunie/en/articles/3776563-using-the-memo-option-when-sending-tokens-to-and-from-exchanges"
+        target="_blank"
+      >
+        our guide
+      </a>
+    </span>
+     
     <!---->
      
     <!---->
@@ -341,6 +380,19 @@ exports[`SendModal validation should show bech32 error when address is not bech3
       type="text"
       value=""
     />
+     
+    <span
+      class="memo-span"
+    >
+      To know more on memos read
+      
+      <a
+        href=" https://intercom.help/lunie/en/articles/3776563-using-the-memo-option-when-sending-tokens-to-and-from-exchanges"
+        target="_blank"
+      >
+        our guide
+      </a>
+    </span>
      
     <!---->
      

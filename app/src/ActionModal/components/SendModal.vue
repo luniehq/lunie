@@ -128,6 +128,14 @@
         type="text"
         @keyup.enter.native="enterPressed"
       />
+      <span class="memo-span"
+        >To know more on memos read
+        <a
+          href=" https://intercom.help/lunie/en/articles/3776563-using-the-memo-option-when-sending-tokens-to-and-from-exchanges"
+          target="_blank"
+          >our guide</a
+        ></span
+      >
       <TmFormMsg
         v-if="$v.memo.$error && !$v.memo.maxLength"
         name="Memo"
@@ -525,5 +533,10 @@ export default {
 
 .tm-field-token-selector >>> .tm-field-select-addon {
   border: 0;
+}
+
+.memo-span {
+  font-size: var(--sm);
+  font-style: italic;
 }
 </style>
