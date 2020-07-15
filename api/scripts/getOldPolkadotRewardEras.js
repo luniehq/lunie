@@ -128,25 +128,21 @@ function parseRewards(
 
         if (!exposureTotal.isZero() && !validatorPoints.isZero()) {
           let staked
-
           if (validatorId === delegator) {
             staked = exposure.own
           } else {
             const stakerExposure = exposure.others.find(
               ({ who }) => who.toString() === delegator
             )
-
             staked = stakerExposure ? stakerExposure.value : ZERO
             staked = isHex(staked) ? new BN(staked.substr(2, staked.length - 2), 16) : new BN(staked)
           }
-
           value = available
             .minus(validatorCut)
             .times(staked)
             .dividedBy(exposureTotal)
             .plus(validatorId === delegator ? validatorCut : ZERO)
         }
-
         validators[validatorId] = value
       })
 
