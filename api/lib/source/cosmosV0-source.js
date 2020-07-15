@@ -370,15 +370,17 @@ class CosmosV0API extends RESTDataSource {
       })
     }
     const fiatValueAPI = this.fiatValuesAPI
-    return coins.map((coin) => {
-      return this.reducers.balanceV2Reducer(
-        coin,
-        this.network.stakingDenom,
-        delegations,
-        fiatValueAPI,
-        fiatCurrency
-      )
-    })
+    return await Promise.all(
+      coins.map((coin) => {
+        return this.reducers.balanceV2Reducer(
+          coin,
+          this.network.stakingDenom,
+          delegations,
+          fiatValueAPI,
+          fiatCurrency
+        )
+      })
+    )
   }
 
   async getAccountInfo(address) {
