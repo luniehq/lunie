@@ -71,7 +71,7 @@ class NotificationController {
       ).map((topic) => ({ topic, type: 'email' }))
     } else {
       throw new UserInputError(
-        'Only Email notfication registration is supported on this endpoint'
+        'Only Email notification registration is supported on this endpoint'
       )
     }
     topics.forEach(({ topic, type }) => {
