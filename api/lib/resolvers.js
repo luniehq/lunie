@@ -363,15 +363,15 @@ const resolvers = (networkList) => ({
         networkId
       ).getBalancesV2FromAddress(address, fiatCurrency)
       const stakingDenomBalance = balances.find(({ type }) => type === `STAKE`)
-      // if (development !== 'true') {
-      logBalances(
-        networkList,
-        stakingDenomBalance,
-        address,
-        networkId,
-        fingerprint
-      )
-      // }
+      if (development !== 'true') {
+        logBalances(
+          networkList,
+          stakingDenomBalance,
+          address,
+          networkId,
+          fingerprint
+        )
+      }
       return balances
     },
     balance: async (
@@ -404,6 +404,15 @@ const resolvers = (networkList) => ({
         delegatorAddress,
         fiatCurrency
       )
+      if (development !== 'true') {
+        logRewards(
+          networkList,
+          rewards,
+          delegatorAddress,
+          networkId,
+          fingerprint
+        )
+      }
 
       // filter to a specific validator
       if (operatorAddress) {
@@ -420,9 +429,6 @@ const resolvers = (networkList) => ({
         })
       }
 
-      // if (development !== 'true') {
-      logRewards(networkList, rewards, delegatorAddress, networkId, fingerprint)
-      // }
       return rewards
     },
     overview: async (

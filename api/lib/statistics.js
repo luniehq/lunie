@@ -148,6 +148,7 @@ const logRewards = async (
       }, [])
       .map((reward) => {
         data.value = reward.amount
+        data.denom = reward.denom
         store(data)
       })
   }
