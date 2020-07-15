@@ -2,7 +2,6 @@
   <TmPage
     data-title="Transactions"
     :loading="$apollo.queries.transactions.loading"
-    :error="$apollo.queries.transactions.error"
     :empty="dataEmpty"
     :empty-title="`No Transaction History`"
     :empty-subtitle="`There are no transactions associated with this address yet.`"

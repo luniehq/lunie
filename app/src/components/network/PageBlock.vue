@@ -2,7 +2,6 @@
   <TmPage
     data-title="Block"
     :loading="this.$apollo.queries.block.loading"
-    :error="error"
     class="readable-width"
   >
     <template>
@@ -165,7 +164,6 @@ export default {
       transactions: [],
     },
     validators: [],
-    error: undefined,
   }),
   computed: {
     ...mapGetters([`address`, `network`]),

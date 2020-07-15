@@ -3,7 +3,6 @@
     data-title="Proposal"
     class="readable-width"
     :loading="$apollo.queries.proposal.loading"
-    :error="error"
   >
     <TmDataNotFound v-if="!found" />
     <template v-else>

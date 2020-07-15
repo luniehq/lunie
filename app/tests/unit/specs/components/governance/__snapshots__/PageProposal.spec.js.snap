@@ -343,7 +343,6 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
   data-title="Proposal"
   emptysubtitle=""
   emptytitle="No data"
-  error="[object Object]"
   loaderpath=""
 >
   <tmdatanotfound-stub />
