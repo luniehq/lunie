@@ -24,6 +24,7 @@ const storeTransactions = (
       address: senderAddress,
       action: transaction.type,
       hash: transaction.hash,
+      added: Date.now(),
       fingerprint
     }
     if (!transaction.details.amounts && !transaction.details.amount) {
@@ -92,6 +93,7 @@ const logBalances = async (
     network: networkId,
     fingerprint,
     action: ``,
+    added: Date.now(),
     value: 0,
     denom: network.stakingDenom
   }
@@ -138,6 +140,7 @@ const logRewards = async (
       }, [])
       .map((reward) => {
         data.action = 'rewards'
+        data.added = Date.now()
         data.denom = reward.denom
         data.value = reward.amount
         store(data)
