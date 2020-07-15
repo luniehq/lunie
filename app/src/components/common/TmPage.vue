@@ -51,7 +51,7 @@ export default {
     },
     loading: {
       type: Boolean,
-      required: true
+      default: false
     },
     loaderPath: {
       type: String,

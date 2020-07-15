@@ -4,6 +4,9 @@ exports[`Page404 should show the 404 page 1`] = `
 <tmpage-stub
   class="four-oh-four"
   data-title="404"
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath=""
 >
   <tmpart-stub
     class="four-oh-four-top"

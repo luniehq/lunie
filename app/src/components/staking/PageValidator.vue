@@ -7,7 +7,7 @@
     :empty-subtitle="`There must be a typo somewhere.`"
     class="readable-width"
   >
-    <template>
+    <template v-if="validator.operatorAddress">
       <div class="button-container">
         <button class="back-button" @click="$router.go(-1)">
           <i class="material-icons notranslate arrow">arrow_back</i>

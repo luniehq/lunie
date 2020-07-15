@@ -4,6 +4,9 @@ exports[`PageValidator if uptimePercentage is blank 1`] = `
 <tmpage-stub
   class="readable-width"
   data-title="Validator"
+  emptysubtitle="There must be a typo somewhere."
+  emptytitle="Validator not found"
+  loaderpath=""
 >
   <div
     class="button-container"
@@ -283,6 +286,9 @@ exports[`PageValidator if user has signed in 1`] = `
 <tmpage-stub
   class="readable-width"
   data-title="Validator"
+  emptysubtitle="There must be a typo somewhere."
+  emptytitle="Validator not found"
+  loaderpath=""
 >
   <div
     class="button-container"
@@ -562,6 +568,9 @@ exports[`PageValidator if user hasn't signed in 1`] = `
 <tmpage-stub
   class="readable-width"
   data-title="Validator"
+  emptysubtitle="There must be a typo somewhere."
+  emptytitle="Validator not found"
+  loaderpath=""
 >
   <div
     class="button-container"

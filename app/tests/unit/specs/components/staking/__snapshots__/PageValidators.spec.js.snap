@@ -1,7 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageValidators Should toggle between popular / active / all validators 1`] = `
-<tmpage-stub>
+<tmpage-stub
+  empty="true"
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath="/img/validator-list-loading.svg"
+>
   <div
     class="filterContainer"
   >
@@ -63,7 +68,12 @@ exports[`PageValidators Should toggle between popular / active / all validators 
 `;
 
 exports[`PageValidators Should toggle between popular / active / all validators 2`] = `
-<tmpage-stub>
+<tmpage-stub
+  empty="true"
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath="/img/validator-list-loading.svg"
+>
   <div
     class="filterContainer"
   >
@@ -125,7 +135,12 @@ exports[`PageValidators Should toggle between popular / active / all validators 
 `;
 
 exports[`PageValidators Should toggle between popular / active / all validators 3`] = `
-<tmpage-stub>
+<tmpage-stub
+  empty="true"
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath="/img/validator-list-loading.svg"
+>
   <div
     class="filterContainer"
   >
@@ -187,7 +202,11 @@ exports[`PageValidators Should toggle between popular / active / all validators 
 `;
 
 exports[`PageValidators shows a list of validators 1`] = `
-<tmpage-stub>
+<tmpage-stub
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath="/img/validator-list-loading.svg"
+>
   <div
     class="filterContainer"
   >
@@ -249,21 +268,80 @@ exports[`PageValidators shows a list of validators 1`] = `
 `;
 
 exports[`PageValidators shows a message if still loading 1`] = `
-<tmpage-stub>
+<tmpage-stub
+  empty="true"
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath="/img/validator-list-loading.svg"
+  loading="true"
+>
   <div
-    class="loading-image-container"
+    class="filterContainer"
   >
-    <img
-      alt="geometric placeholder shapes"
-      class="loading-image"
-      src="/img/validator-list-loading.svg"
+    <tmfield-stub
+      class="searchField"
+      placeholder="Search"
+      type="text"
+      value=""
     />
+     
+    <div
+      class="filterOptions"
+    >
+      <div
+        class="toggles"
+      >
+        <tmbtn-stub
+          class="btn-radio"
+          customclass=""
+          type="active"
+          value="Popular"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio"
+          customclass=""
+          type="secondary"
+          value="All"
+        />
+         
+        <tmbtn-stub
+          class="btn-radio"
+          customclass=""
+          type="secondary"
+          value="Active"
+        />
+      </div>
+       
+      <div
+        class="show-mobile-sorting"
+      >
+        <i
+          class="filter-toggle material-icons notranslate"
+        >
+          filter_list
+        </i>
+      </div>
+    </div>
   </div>
+   
+  <tablevalidators-stub
+    delegations=""
+    showonmobile="expectedReturns"
+    validators=""
+  />
+   
+  <!---->
 </tmpage-stub>
 `;
 
 exports[`PageValidators shows a message if there is an error to display 1`] = `
-<tmpage-stub>
+<tmpage-stub
+  empty="true"
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath="/img/validator-list-loading.svg"
+>
   <div
     class="filterContainer"
   >
@@ -325,7 +403,12 @@ exports[`PageValidators shows a message if there is an error to display 1`] = `
 `;
 
 exports[`PageValidators shows a message if there is nothing to display 1`] = `
-<tmpage-stub>
+<tmpage-stub
+  empty="true"
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath="/img/validator-list-loading.svg"
+>
   <div
     class="filterContainer"
   >
@@ -387,7 +470,12 @@ exports[`PageValidators shows a message if there is nothing to display 1`] = `
 `;
 
 exports[`PageValidators shows the mobile sorting 1`] = `
-<tmpage-stub>
+<tmpage-stub
+  empty="true"
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath="/img/validator-list-loading.svg"
+>
   <div
     class="filterContainer"
   >
