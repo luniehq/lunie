@@ -204,7 +204,7 @@ class polkadotAPI {
     )
     const fiatValueAPI = this.fiatValuesAPI
     return [
-      this.reducers.balanceV2Reducer(
+      await this.reducers.balanceV2Reducer(
         this.network,
         freeBalance.toString(),
         totalBalance.toString(),

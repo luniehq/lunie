@@ -337,7 +337,8 @@ async function balanceV2Reducer(
   stakingDenom,
   delegations,
   fiatValueAPI,
-  fiatCurrency
+  fiatCurrency,
+  address
 ) {
   const isStakingDenom = lunieCoin.denom === stakingDenom
   const delegatedStake = delegations.reduce(
@@ -414,7 +415,7 @@ async function reduceFormattedRewards(
         ? await calculateFiatValue(lunieCoin, fiatCurrency)
         : undefined
       multiDenomRewardsArray.push({
-        id: validator.operatorAddress,
+        id: `${validator.operatorAddress}_${lunieCoin.denom}_${fiatCurrency}`,
         denom: lunieCoin.denom,
         amount: fixDecimalsAndRoundUp(lunieCoin.amount, 6).toString(), // TODO: refactor using a decimals number from coinLookup
         fiatValue,

@@ -450,15 +450,15 @@ function dbRewardsReducer(validatorsDictionary, dbRewards) {
 
 function rewardReducer(network, validators, reward, reducers) {
   let parsedRewards = []
-
   Object.entries(reward.validators).forEach((validatorReward) => {
-    if (!validators[validatorReward[0]]) return
+    const validator = validatorDictionary[validatorReward[0]]
+    if (!validator) return
     const lunieReward = {
       id: validatorReward[0],
       ...reducers.coinReducer(network, validatorReward[1].toString(10)),
       height: reward.era,
       address: reward.address,
-      validator: validators[validatorReward[0]], // used for user facing rewards in the API
+      validator, // used for user facing rewards in the API
       validatorAddress: validatorReward[0] // added for writing the validator to the db even it it is not in the dictionary
     }
     parsedRewards.push(lunieReward)

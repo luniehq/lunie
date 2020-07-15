@@ -18,7 +18,7 @@ const {
 const database = require('./database')
 const { getNotifications } = require('./notifications')
 const config = require('../config.js')
-const { logOverview } = require('./statistics')
+const { logRewards, logBalances } = require('./statistics')
 const firebaseAdmin = require('./firebase')
 
 function createDBInstance(network) {
@@ -336,8 +336,8 @@ const resolvers = (networkList) => ({
             public_rpc_url: undefined
           })
         })
-        // filter out not enabled networks
-        .filter((network) => (experimental ? true : network.enabled))
+        // filter out experimental networks unless the experimental flag is set to true
+        .filter((network) => (experimental ? true : !network.experimental))
       return networks
     },
     maintenance: () => createDBInstance().getMaintenance(),
@@ -355,13 +355,24 @@ const resolvers = (networkList) => ({
     balancesV2: async (
       _,
       { networkId, address, fiatCurrency },
-      { dataSources }
+      { dataSources, fingerprint }
     ) => {
       await localStore(dataSources, networkId).dataReady
-      return remoteFetch(dataSources, networkId).getBalancesV2FromAddress(
-        address,
-        fiatCurrency
-      )
+      const balances = await remoteFetch(
+        dataSources,
+        networkId
+      ).getBalancesV2FromAddress(address, fiatCurrency)
+      const stakingDenomBalance = balances.find(({ type }) => type === `STAKE`)
+      if (development !== 'true') {
+        logBalances(
+          networkList,
+          stakingDenomBalance,
+          address,
+          networkId,
+          fingerprint
+        )
+      }
+      return balances
     },
     balance: async (
       _,
@@ -386,13 +397,22 @@ const resolvers = (networkList) => ({
     rewards: async (
       _,
       { networkId, delegatorAddress, operatorAddress, fiatCurrency },
-      { dataSources }
+      { dataSources, fingerprint }
     ) => {
       await localStore(dataSources, networkId).dataReady
       let rewards = await remoteFetch(dataSources, networkId).getRewards(
         delegatorAddress,
         fiatCurrency
       )
+      if (development !== 'true') {
+        logRewards(
+          networkList,
+          rewards,
+          delegatorAddress,
+          networkId,
+          fingerprint
+        )
+      }
 
       // filter to a specific validator
       if (operatorAddress) {
@@ -408,6 +428,7 @@ const resolvers = (networkList) => ({
           }
         })
       }
+
       return rewards
     },
     overview: async (
