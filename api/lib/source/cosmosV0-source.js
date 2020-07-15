@@ -361,7 +361,7 @@ class CosmosV0API extends RESTDataSource {
     // if we don't add the staking denom, we would show a 0 total for the staking denom which is wrong
     if (
       delegations.length > 0 &&
-      !balancesResponse.find(({ denom }) => denom === this.network.stakingDenom)
+      !balancesResponse.find(({ denom }) => this.reducers.denomLookup(denom) === this.network.stakingDenom)
     ) {
       balances.push({
         amount: 0,
