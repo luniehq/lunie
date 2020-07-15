@@ -6,6 +6,15 @@ const BN = require('bignumber.js')
 const fs = require('fs')
 const path = require('path')
 const { isHex } = require("@polkadot/util")
+const Sentry = require('@sentry/node')
+
+if (config.SENTRY_DSN) {
+  const Sentry = require('@sentry/node')
+  Sentry.init({
+    dsn: config.SENTRY_DSN,
+    release: require('../package.json').version
+  })
+}
 
 const currentEraArg = require('minimist')(process.argv.slice(2))
 let currentEra = currentEraArg['currentEra']
@@ -345,25 +354,33 @@ async function main() {
     ? lunieRewards.filter(({ amount }) => amount > 0)
     : [], reward => `${reward.address}_${reward.validatorAddress}_${reward.height}_${reward.chain_id}`) // HACK somehow we get some rewards twice which causes the insert to fail 
 
-  console.log(
-    `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
-  )
-
-  const rewardChunks = _.chunk(storableRewards, 1000)
-  for (let i = 0; i < rewardChunks.length; i++) {
-    const res = await storeRewards(
-      rewardChunks[i].map(reward => ({
-        amount: reward.amount,
-        height: reward.height.toString(),
-        denom: reward.denom,
-        address: reward.address,
-        validator: reward.validatorAddress
-      })),
-      network.chain_id
+  if (storableRewards.length === 0) {
+    const error = `No storable rewards for era ${maxDesiredEra}`
+    console.error(`Error: ${error}`)
+    Sentry.captureException({ error })
+  } else {
+    console.log(
+      `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
     )
+    const rewardChunks = _.chunk(storableRewards, 1000)
+    for (let i = 0; i < rewardChunks.length; i++) {
+      const res = await storeRewards(
+        rewardChunks[i].map(reward => ({
+          amount: reward.amount,
+          height: reward.height.toString(),
+          denom: reward.denom,
+          address: reward.address,
+          validator: reward.validatorAddress
+        })),
+        network.chain_id
+      )
+    }
   }
+  console.log(
+    `Cleaning old rewards for era ${maxDesiredEra}.`
+  )
   await cleanOldRewards(minDesiredEra)
-  console.log('Finished querying and storing rewards')
+  console.log('Finished querying, storing and cleaning rewards')
   process.exit(0)
 }
 
