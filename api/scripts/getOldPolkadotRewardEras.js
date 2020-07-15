@@ -367,7 +367,7 @@ async function main() {
       const res = await storeRewards(
         rewardChunks[i].map(reward => ({
           amount: reward.amount,
-          height: reward.height.toString(),
+          height: reward.height,
           denom: reward.denom,
           address: reward.address,
           validator: reward.validatorAddress
