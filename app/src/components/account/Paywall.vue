@@ -90,6 +90,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex"
 import TmBtn from "src/components/common/TmBtn"
 export default {
   name: `paywall`,
@@ -148,6 +149,21 @@ export default {
       },
     ],
   }),
+  computed: {
+    ...mapState([`account`]),
+    userSignedIn() {
+      return this.account.userSignedIn
+    },
+  },
+  watch: {
+    userSignedIn: function () {
+      if (this.userSignedIn) {
+        this.$router.push({
+          name: `notifications`,
+        })
+      }
+    },
+  },
   methods: {
     handleIntercom() {
       this.$store.dispatch(`displayMessenger`)
