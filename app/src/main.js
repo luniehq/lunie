@@ -53,5 +53,18 @@ init(urlParams).then(({ store, router, apolloProvider }) => {
         StatusBar.show()
       }
     },
+    watch: {
+    '$route': {
+      handler: function () {
+          if (this.$route.name === `notifications`) {
+            this.$el.classList = [`lunie-dark`]      
+          } 
+          else {
+            this.$el.classList = [`cosmos-hub-mainnet`]      
+          }
+        },
+        deep: true,
+      }
+    }
   }).$mount("#app")
 })
