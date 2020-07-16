@@ -22,8 +22,8 @@ const storeTransactions = (
     const baseRow = {
       network: networkId,
       address: senderAddress,
-      action: transaction.type,
-      hash: transaction.hash,
+      action: transaction.type || transaction.messageType,
+      hash: transaction.hash, // we are not getting this in Substrate networks for reasons explained below
       added: Date.now(),
       fingerprint
     }
