@@ -27,11 +27,22 @@ const storeTransactions = (
       added: Date.now(),
       fingerprint
     }
-    if (!transaction.details.amounts && !transaction.details.amount) {
-      store(baseRow)
-      return
+    let amounts = []
+    // since we are not polling to get the transaction from the blockchain itself for Polkadot, we are not running
+    // either the transactionReducer on it, so we need this hack for now
+    if (!transaction.details) {
+      if (!transaction.message.amounts && !transaction.message.amount) {
+        store(baseRow)
+        return
+      }
+      amounts = transaction.message.amounts || [transaction.message.amount]
+    } else {
+      if (!transaction.details.amounts && !transaction.details.amount) {
+        store(baseRow)
+        return
+      }
+      amounts = transaction.details.amounts || [transaction.details.amount]
     }
-    const amounts = transaction.details.amounts || [transaction.details.amount]
     amounts.forEach(({ amount, denom }) => {
       store({
         ...baseRow,
