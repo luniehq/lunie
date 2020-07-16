@@ -45,8 +45,7 @@ async function checkIsValidIdToken(idToken) {
 async function createApolloServer(httpServer) {
   const networksFromDBList = await db.getNetworks()
   const networkList = networksFromDBList.filter((network) => network.enabled)
-  const networks = networkList
-    .map((network) => new NetworkContainer(network))
+  const networks = networkList.map((network) => new NetworkContainer(network))
 
   if (config.env !== 'test') {
     startBlockTriggers(networks)

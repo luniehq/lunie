@@ -83,7 +83,6 @@ export function getBroadcastableObject(
   { transaction, payload, rawSignature }
 ) {
   const signature = formatSignature(rawSignature)
-
   transaction.addSignature(
     payload.address.toJSON(),
     signature,
