@@ -1,7 +1,9 @@
 <template>
   <TmPage
     data-title="My alerts"
-    :loading="$apollo.queries.notifications.loading"
+    :loading="
+      $apollo.queries.notifications.loading && notifications.length === 0
+    "
     :empty="notifications.length === 0"
     :empty-title="`You don't have any notifications yet`"
     :empty-subtitle="`Don't worry, they are on their way!`"
@@ -24,6 +26,14 @@
           </router-link>
         </template>
       </EventList>
+      <div
+        v-if="
+          $apollo.queries.notifications.loading && !dataLoaded && moreAvailable
+        "
+        class="spinner-container"
+      >
+        <img src="/img/spinner_blue@256.gif" class="spinner" />
+      </div>
     </template>
   </TmPage>
 </template>
@@ -76,6 +86,7 @@ export default {
           },
           // Transform the previous result with new data
           updateQuery: function (previousResult, { fetchMoreResult }) {
+            this.moreAvailable = fetchMoreResult.notifications.length === 0
             return {
               notifications: [
                 ...previousResult.notifications,
@@ -120,7 +131,6 @@ export default {
       update(result) {
         this.dataLoaded = true
         // assume that when the full page got loaded, that there is more
-        this.moreAvailable = result.notifications.length % 20 === 0
         return result.notifications
       },
       /* istanbul ignore next */
