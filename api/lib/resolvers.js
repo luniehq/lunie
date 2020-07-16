@@ -355,7 +355,7 @@ const resolvers = (networkList) => ({
     balancesV2: async (
       _,
       { networkId, address, fiatCurrency },
-      { dataSources, fingerprint }
+      { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
       const balances = await remoteFetch(
@@ -397,7 +397,7 @@ const resolvers = (networkList) => ({
     rewards: async (
       _,
       { networkId, delegatorAddress, operatorAddress, fiatCurrency },
-      { dataSources, fingerprint }
+      { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
       let rewards = await remoteFetch(dataSources, networkId).getRewards(
@@ -434,7 +434,7 @@ const resolvers = (networkList) => ({
     overview: async (
       _,
       { networkId, address, fiatCurrency },
-      { dataSources, fingerprint, development }
+      { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
       const validatorsDictionary = localStore(dataSources, networkId).validators
@@ -447,9 +447,6 @@ const resolvers = (networkList) => ({
       overview.networkId = networkId
       overview.address = address
 
-      if (development !== 'true') {
-        logOverview(networkList, overview, address, networkId, fingerprint)
-      }
       return overview
     },
     transactionsV2: (_, { networkId, address, pageNumber }, { dataSources }) =>
