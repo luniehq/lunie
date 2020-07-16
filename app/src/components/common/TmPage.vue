@@ -85,6 +85,7 @@ export default {
   display: flex;
   flex-direction: column;
   flex: 1;
+  padding: 1rem 0 0;
 }
 
 .loading-image-container {
