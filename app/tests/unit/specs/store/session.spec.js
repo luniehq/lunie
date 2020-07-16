@@ -281,7 +281,7 @@ describe(`Module: Session`, () => {
           commit,
           dispatch,
         },
-        { sessionType: `explore`, address, networkId: "fabo-net" }
+        { sessionType: `explore`, address, networkId: "happy-net" }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistAddresses`, {
         addresses: [
@@ -298,12 +298,12 @@ describe(`Module: Session`, () => {
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
         sessionType: `explore`,
-        networkId: "fabo-net",
+        networkId: "happy-net",
       })
       expect(dispatch).toHaveBeenCalledWith(`rememberAddress`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
         sessionType: `explore`,
-        networkId: "fabo-net",
+        networkId: `happy-net`,
       })
     })
 
@@ -535,12 +535,13 @@ describe(`Module: Session`, () => {
         {
           address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
           sessionType: `local`,
+          networkId: `happy-net`,
         }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         sessionType: `local`,
-        networkId: "fabo-net",
+        networkId: `happy-net`,
       })
 
       dispatch.mockClear()
@@ -559,12 +560,13 @@ describe(`Module: Session`, () => {
         {
           address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
           sessionType: `ledger`,
+          networkId: `happy-net`,
         }
       )
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         sessionType: `ledger`,
-        networkId: "fabo-net",
+        networkId: `happy-net`,
       })
     })
 

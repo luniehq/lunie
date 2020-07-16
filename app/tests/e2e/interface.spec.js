@@ -2,7 +2,7 @@ module.exports = {
   "Validators search": async function (browser) {
     // move to according page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
-    await browser.waitForElementVisible(".li-validator", 10000)
+    await browser.waitForElementVisible(".li-validator", 20000)
 
     // select button 'All' in PageValidators
     await browser.click(".toggles .btn-radio:nth-child(2)")
@@ -26,6 +26,7 @@ module.exports = {
           await sleep()
           continue
         }
+        break
       }
       if (!isSameArray(validatorNames, updatedValidatorNames)) {
         throw new Error(`Validatorlist did not reset to full list`)
@@ -41,6 +42,7 @@ module.exports = {
           await sleep()
           continue
         }
+        break
       }
       if (isSameArray(validatorNames, updatedValidatorNames)) {
         throw new Error(
@@ -53,7 +55,7 @@ module.exports = {
 
 function isSameArray(array1, array2) {
   var is_same =
-    array1.length == array2.length &&
+    array1.length === array2.length &&
     array1.every(function (element, index) {
       return element === array2[index]
     })
@@ -72,5 +74,5 @@ async function getValidators(browser) {
 }
 
 async function sleep() {
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await new Promise((resolve) => setTimeout(resolve, 5000))
 }

@@ -1,0 +1,1 @@
+[Fixed] [#3512](https://github.com/cosmos/lunie/issues/3512) Fix dashboard by deprecating the overview query and using balances and rewards queries instead @Bitcoinera

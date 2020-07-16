@@ -100,6 +100,10 @@ function getMessageTitle(networks, notification) {
 
     case eventTypes.LUNIE_UPDATE:
       return data.title
+    case eventTypes.SLASH:
+      return `Validator ${data.operatorAddress} got slashed ${data.amount.amount} ${data.amount.denom}s.`
+    case eventTypes.LIVENESS:
+      return `Validator ${data.operatorAddress} was offline for ${data.blocks} blocks.`
     default:
       return 'Check it out! 👋'
   }
@@ -138,6 +142,8 @@ function getPushLink(
     case eventTypes.VALIDATOR_STATUS:
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
     case eventTypes.VALIDATOR_ADDED:
+    case eventTypes.SLASH:
+    case eventTypes.LIVENESS:
       return `/${findNetworkSlug(networks, networkId)}/validators/${resourceId}`
 
     // ResourceId field contains link property
@@ -151,9 +157,7 @@ function getPushLink(
 // Get relevant icon for notification
 // TODO: Upload icons to DO instead of passing relative links
 function getIcon({ eventType, data }) {
-  const notificationData = JSON.parse(
-    data
-  )
+  const notificationData = JSON.parse(data)
   switch (eventType) {
     case eventTypes.TRANSACTION_RECEIVE:
       return `/img/icons/activity/Received.svg`
@@ -171,6 +175,8 @@ function getIcon({ eventType, data }) {
     case eventTypes.VALIDATOR_STATUS:
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
     case eventTypes.VALIDATOR_ADDED:
+    case eventTypes.SLASH:
+    case eventTypes.LIVENESS:
       // Picture field for validator type can be null
       return `${
         notificationData.nextValidator.picture ||
@@ -207,6 +213,10 @@ const startNotificationService = (networks) => {
     eventSubscription(async (event) => {
       if (event.properties.type === 'UnknownTx') return
 
+      // hack to not spam users on every liveness failure
+      // need to figure out how to handle this
+      if (event.eventType === eventTypes.LIVENESS) return
+
       const topic = getTopic(event)
       const response = await database(config)('').storeNotification({
         topic,
@@ -236,7 +246,6 @@ const startNotificationService = (networks) => {
           Sentry.captureException(error)
         })
       }
-
     })
   }
 }

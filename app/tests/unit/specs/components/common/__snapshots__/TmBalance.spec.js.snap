@@ -2,9 +2,11 @@
 
 exports[`TmBalance do not show available atoms when the user has none in the first place 1`] = `
 <div
-  class="balance-header"
+  class="balance-header-container"
 >
-  <div>
+  <div
+    class="balance-header"
+  >
     <div
       class="header-container"
     >
@@ -220,9 +222,11 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
 
 exports[`TmBalance show the balance header when signed in 1`] = `
 <div
-  class="balance-header"
+  class="balance-header-container"
 >
-  <div>
+  <div
+    class="balance-header"
+  >
     <div
       class="header-container"
     >

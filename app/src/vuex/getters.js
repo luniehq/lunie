@@ -1,6 +1,4 @@
 import config from "../../config"
-// connection
-export const connected = (state) => state.connection.connected
 export const nodeUrl = (state) =>
   state.connection.connected ? state.connection.nodeUrl : undefined
 

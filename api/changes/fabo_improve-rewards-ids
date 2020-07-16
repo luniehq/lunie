@@ -1,0 +1,1 @@
+[Fixed] [#4511](https://github.com/cosmos/lunie/issues/4511) Added denom to rewards id to prevent caching issues @faboweb

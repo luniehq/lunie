@@ -23,7 +23,11 @@ const eventTypes = {
   PROPOSAL_UPDATE: 'proposalChange',
 
   /* Lunie */
-  LUNIE_UPDATE: 'lunieUpdate'
+  LUNIE_UPDATE: 'lunieUpdate',
+
+  /* Slashes */
+  SLASH: 'slash',
+  LIVENESS: 'liveness'
 }
 
 const resourceTypes = {

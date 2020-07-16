@@ -1,0 +1,1 @@
+[Fixed] [#4490](https://github.com/cosmos/lunie/issues/4490) Total was not showing if no staking  denom in balances @faboweb
