@@ -7,6 +7,9 @@ export default ({apollo}) => {
 
   const actions = {
     async updateEmailRegistrations({rootState}) {
+      // if the user is not signed in, we can't register topics for email notifications on the server
+      if (!rootState.account.userSignedIn) return
+      
       const addressObjects = rootState.session.allSessionAddresses.map(
         ({ networkId, address }) => ({ networkId, address })
       )
