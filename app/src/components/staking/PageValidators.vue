@@ -1,7 +1,6 @@
 <template>
   <TmPage
-    :loading="$apollo.queries.validators.loading"
-    :empty="!validators.length"
+    :loading="$apollo.queries.validators.loading && !loaded"
     :loader-path="`/img/validator-list-loading.svg`"
   >
     <template>
