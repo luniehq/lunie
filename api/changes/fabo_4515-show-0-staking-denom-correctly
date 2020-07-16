@@ -1,0 +1,1 @@
+[Fixed] [#4515](https://github.com/cosmos/lunie/issues/4515) Show staking balance of 0 if user has no delegations and no tokens @faboweb

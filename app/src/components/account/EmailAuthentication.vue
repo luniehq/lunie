@@ -1,5 +1,5 @@
 <template>
-  <TmPage data-title="email-authentication" hide-header>
+  <TmPage data-title="email-authentication">
     <div class="card">
       <h1 v-if="account.userSignedIn" class="authentication-title">
         You are now signed in! &#128640;

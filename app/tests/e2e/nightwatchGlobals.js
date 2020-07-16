@@ -57,10 +57,10 @@ async function next(browser) {
 
 async function createNewAccount(browser, networkData) {
   await browser.url(browser.launch_url + "/create")
-  await browser.waitForElementVisible("#sign-up-name", 10000, true)
+  await browser.waitForElementVisible("#sign-up-name", 20000, true)
   browser.setValue("#sign-up-name", "demo-account")
   await next(browser)
-  browser.waitForElementVisible("#sign-up-password", 10000, true)
+  browser.waitForElementVisible("#sign-up-password", 20000, true)
   browser.setValue("#sign-up-password", networkData.password)
   browser.setValue("#sign-up-password-confirm", networkData.password)
   await next(browser)
@@ -101,6 +101,10 @@ async function initialiseDefaults(browser) {
   browser.globals.slug = "/" + networkData.slug
   browser.globals.expectedDiff = networkData.expectedDiff
   browser.globals.network = networkData.network
+  browser.globals.type = networkData.type
+  browser.globals.address = networkData.address
+  browser.globals.wallet = networkData.wallet
+  browser.globals.seed = networkData.seed
   // checking if network is local, the API should be local too
   if (network.indexOf("local-") === 0) {
     if (apiURI.indexOf("//localhost:") === -1) {
@@ -128,7 +132,7 @@ async function initialiseDefaults(browser) {
 async function defineNeededValidators(browser) {
   // need to store validators, cause they can shuffle during the test
   await browser.url(browser.launch_url + browser.globals.slug + "/validators")
-  await browser.waitForElementVisible(".li-validator", 10000)
+  await browser.waitForElementVisible(".li-validator", 30000)
   const validators = await browser.execute(function () {
     const validatorLIs = document.getElementsByClassName("li-validator")
     if (validatorLIs.length < 2) {
@@ -216,7 +220,7 @@ async function createAccountAndFundIt(browser, done, networkData) {
   // switching to master account
   await switchToAccount(browser, networkData)
   // funding main account
-  if (browser.globals.availableAtoms * 1 < 25) {
+  if (browser.globals.availableAtoms * 1 < 10) {
     throw new Error("Master Account is out of funds. Fund it!")
     // await fundMasterAccount(browser, networkData.network, networkData.address)
   }

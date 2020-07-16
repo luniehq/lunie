@@ -1,24 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageProposal Modal onVote enables voting if the proposal is on the 'VotingPeriod' 1`] = `
-<tmpage-stub hideheader="true" title="" subtitle="" data-title="Proposal" class="small">
+<tmpage-stub loaderpath="" emptytitle="No data" emptysubtitle="" data-title="Proposal" class="readable-width">
   <div class="proposal">
     <div class="page-profile__header__info"><span class="proposal-status votingperiod">
           Voting Period
         </span>
       <div class="proposal-title__row">
-        <div class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_left</i></div>
         <h2 class="proposal-title">test</h2>
-        <div class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_right</i></div>
       </div>
+    </div>
+    <div class="proposer-row">
       <p class="proposer">
         Proposed by Big Daddy Validator:
         <address-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz" tooltiptext=""></address-stub>
       </p>
-    </div>
-    <div class="button-container">
-      <tmbtn-stub value="Deposit" disabled="true" customclass="" id="deposit-btn" color="primary"></tmbtn-stub>
-      <tmbtn-stub value="Vote" customclass="" id="vote-btn" color="primary"></tmbtn-stub>
+      <div class="button-container">
+        <tmbtn-stub value="Deposit" disabled="true" customclass="" id="deposit-btn" color="primary"></tmbtn-stub>
+        <tmbtn-stub value="Vote" customclass="" id="vote-btn" color="primary"></tmbtn-stub>
+      </div>
     </div>
   </div>
   <textblock-stub content="test"></textblock-stub>
@@ -82,24 +82,24 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
 `;
 
 exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
-<tmpage-stub hideheader="true" title="" subtitle="" data-title="Proposal" class="small">
+<tmpage-stub loaderpath="" emptytitle="No data" emptysubtitle="" data-title="Proposal" class="readable-width">
   <div class="proposal">
     <div class="page-profile__header__info"><span class="proposal-status rejected">
           Rejected
         </span>
       <div class="proposal-title__row">
-        <div class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_left</i></div>
         <h2 class="proposal-title">test</h2>
-        <div class="read-more-link" style="visibility: hidden;"><i class="material-icons notranslate">chevron_right</i></div>
       </div>
+    </div>
+    <div class="proposer-row">
       <p class="proposer">
         Proposed by Big Daddy Validator:
         <address-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz" tooltiptext=""></address-stub>
       </p>
-    </div>
-    <div class="button-container">
-      <tmbtn-stub value="Deposit" disabled="true" customclass="" id="deposit-btn" color="primary"></tmbtn-stub>
-      <tmbtn-stub value="Vote" disabled="true" customclass="" id="vote-btn" color="primary"></tmbtn-stub>
+      <div class="button-container">
+        <tmbtn-stub value="Deposit" disabled="true" customclass="" id="deposit-btn" color="primary"></tmbtn-stub>
+        <tmbtn-stub value="Vote" disabled="true" customclass="" id="vote-btn" color="primary"></tmbtn-stub>
+      </div>
     </div>
   </div>
   <textblock-stub content="test"></textblock-stub>
@@ -153,11 +153,12 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
 
 exports[`PageProposal should show a loader if the necessary data hasen't been loaded 1`] = `
 <tmpage-stub
-  class="small"
+  class="readable-width"
   data-title="Proposal"
-  hideheader="true"
-  subtitle=""
-  title=""
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath=""
+  loading="true"
 >
   <div
     class="proposal"
@@ -176,35 +177,17 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
       <div
         class="proposal-title__row"
       >
-        <div
-          class="read-more-link"
-          style="visibility: hidden;"
-        >
-          <i
-            class="material-icons notranslate"
-          >
-            chevron_left
-          </i>
-        </div>
-         
         <h2
           class="proposal-title"
         >
           test
         </h2>
-         
-        <div
-          class="read-more-link"
-          style="visibility: hidden;"
-        >
-          <i
-            class="material-icons notranslate"
-          >
-            chevron_right
-          </i>
-        </div>
       </div>
-       
+    </div>
+     
+    <div
+      class="proposer-row"
+    >
       <p
         class="proposer"
       >
@@ -216,26 +199,26 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
           tooltiptext=""
         />
       </p>
-    </div>
-     
-    <div
-      class="button-container"
-    >
-      <tmbtn-stub
-        color="primary"
-        customclass=""
-        disabled="true"
-        id="deposit-btn"
-        value="Deposit"
-      />
        
-      <tmbtn-stub
-        color="primary"
-        customclass=""
-        disabled="true"
-        id="vote-btn"
-        value="Vote"
-      />
+      <div
+        class="button-container"
+      >
+        <tmbtn-stub
+          color="primary"
+          customclass=""
+          disabled="true"
+          id="deposit-btn"
+          value="Deposit"
+        />
+         
+        <tmbtn-stub
+          color="primary"
+          customclass=""
+          disabled="true"
+          id="vote-btn"
+          value="Vote"
+        />
+      </div>
     </div>
   </div>
    
@@ -356,11 +339,11 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
 
 exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
 <tmpage-stub
-  class="small"
+  class="readable-width"
   data-title="Proposal"
-  hideheader="true"
-  subtitle=""
-  title=""
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath=""
 >
   <tmdatanotfound-stub />
 </tmpage-stub>
