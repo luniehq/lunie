@@ -57,10 +57,10 @@ init(urlParams).then(({ store, router, apolloProvider }) => {
     '$route': {
       handler: function () {
           if (this.$route.name === `notifications`) {
-            this.$el.classList = [`lunie-dark`]      
+            this.$el.classList.add(`lunie-dark`)      
           } 
           else {
-            this.$el.classList = [`cosmos-hub-mainnet`]      
+            this.$el.classList.remove(`lunie-dark`)      
           }
         },
         deep: true,
