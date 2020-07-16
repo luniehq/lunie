@@ -45,7 +45,7 @@ When running you can access GraphQL Playground at http://localhost:4000/. You ca
 | `REDIS_URL` | Redis server URI in `<auth>@hostname:port` format |
 | `ENGINE_API_KEY` | Enable Apollo GraphQL metrics through https://engine.apollographql.com/  |
 | `SENTRY_DSN` | Sentry (https://sentry.io) data source name in format `https://<key>@sentry.io/<project>` |
-| `RUN_ONLY_NETWORK` | Run only the network with this ID (allows scaling and better development) |
+| `RUN_ONLY_NETWORKS` | Run only the networks with this ID comma separated (allows scaling and better development) |
 | `LOCAL_KUSAMA_API` | Use a local kusama API as the one here is only whitelisted for some IPs |
 | `WHITELIST_ORIGIN` | Allow only some origins to access the API |
 

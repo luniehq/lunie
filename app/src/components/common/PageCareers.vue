@@ -1,5 +1,5 @@
 <template>
-  <TmPage data-title="Careers" hide-header>
+  <TmPage data-title="Careers">
     <div class="card">
       <h1>Careers</h1>
       <h2 class="c5">

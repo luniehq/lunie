@@ -21,15 +21,12 @@
     />
     <div class="network-status">
       <img
-        v-if="!connected && network === networkItem.id"
+        v-if="network === networkItem.id"
         class="tm-connected-network-loader"
         src="~assets/images/loader.svg"
         alt="a small spinning circle to display loading"
       />
-      <div
-        v-else-if="!disabled && connected && isCurrentNetwork"
-        class="network-selected"
-      >
+      <div v-else-if="!disabled && isCurrentNetwork" class="network-selected">
         <i class="material-icons notranslate">check</i>
       </div>
     </div>
@@ -56,7 +53,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters([`connected`, `network`]),
+    ...mapGetters([`network`]),
     isCurrentNetwork() {
       return this.networkItem.id === this.network
     },

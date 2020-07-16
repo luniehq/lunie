@@ -89,7 +89,7 @@ export default {
     importedAddress: undefined,
   }),
   computed: {
-    ...mapGetters([`connected`, `recover`]),
+    ...mapGetters([`recover`]),
     ...mapGetters([`network`]),
     name: {
       get() {

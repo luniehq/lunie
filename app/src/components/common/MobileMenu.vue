@@ -39,7 +39,7 @@
     >
       <i class="material-icons notranslate">show_chart</i>
       <h2 class="app-menu-title">
-        Activity
+        Transactions
       </h2>
     </router-link>
     <router-link

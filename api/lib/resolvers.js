@@ -16,10 +16,10 @@ const {
   getCosmosFee
 } = require('../data/network-fees')
 const database = require('./database')
-const { getNotifications } = require('./notifications')
+const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
-const { logOverview } = require('./statistics')
-const firebaseAdmin = require('./firebase')
+const { logRewards, logBalances } = require('./statistics')
+const firebaseAdmin = require('./notifications/firebase')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -220,7 +220,7 @@ const registerUser = async (_, { idToken }) => {
   }
 }
 
-const resolvers = (networkList) => ({
+const resolvers = (networkList, notificationController) => ({
   Overview: {
     accountInformation: (account, _, { dataSources }) =>
       remoteFetch(dataSources, account.networkId).getAccountInfo(
@@ -336,8 +336,8 @@ const resolvers = (networkList) => ({
             public_rpc_url: undefined
           })
         })
-        // filter out not enabled networks
-        .filter((network) => (experimental ? true : network.enabled))
+        // filter out experimental networks unless the experimental flag is set to true
+        .filter((network) => (experimental ? true : !network.experimental))
       return networks
     },
     maintenance: () => createDBInstance().getMaintenance(),
@@ -355,13 +355,24 @@ const resolvers = (networkList) => ({
     balancesV2: async (
       _,
       { networkId, address, fiatCurrency },
-      { dataSources }
+      { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
-      return remoteFetch(dataSources, networkId).getBalancesV2FromAddress(
-        address,
-        fiatCurrency
-      )
+      const balances = await remoteFetch(
+        dataSources,
+        networkId
+      ).getBalancesV2FromAddress(address, fiatCurrency)
+      const stakingDenomBalance = balances.find(({ type }) => type === `STAKE`)
+      if (development !== 'true') {
+        logBalances(
+          networkList,
+          stakingDenomBalance,
+          address,
+          networkId,
+          fingerprint
+        )
+      }
+      return balances
     },
     balance: async (
       _,
@@ -386,13 +397,22 @@ const resolvers = (networkList) => ({
     rewards: async (
       _,
       { networkId, delegatorAddress, operatorAddress, fiatCurrency },
-      { dataSources }
+      { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
       let rewards = await remoteFetch(dataSources, networkId).getRewards(
         delegatorAddress,
         fiatCurrency
       )
+      if (development !== 'true') {
+        logRewards(
+          networkList,
+          rewards,
+          delegatorAddress,
+          networkId,
+          fingerprint
+        )
+      }
 
       // filter to a specific validator
       if (operatorAddress) {
@@ -408,6 +428,7 @@ const resolvers = (networkList) => ({
           }
         })
       }
+
       return rewards
     },
     overview: async (
@@ -462,7 +483,21 @@ const resolvers = (networkList) => ({
     }
   },
   Mutation: {
-    registerUser: registerUser
+    registerUser: registerUser,
+    notifications: async (
+      _,
+      { addressObjects, notificationType },
+      { dataSources, user: { uid } }
+    ) => {
+      if (!uid) throw new UserInputError('Notifications need a signed in user')
+      await notificationController.updateRegistrations(
+        uid,
+        addressObjects,
+        notificationType,
+        dataSources
+      )
+      return true
+    }
   },
   Subscription: {
     blockAdded: {

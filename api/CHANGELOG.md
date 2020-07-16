@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.36] - 2020-07-16
+
+### Added
+
+- [#4524](https://github.com/cosmos/lunie/pull/4524) Reintroduce really disabling networks by filtering out (i.e. not running) disabled networks @Bitcoinera
+- Added slashing events @faboweb
+- [#4497](https://github.com/cosmos/lunie/issues/4497) Upgrade polkadot api to v1.24.1 @mariopino
+
+### Fixed
+
+- [#3512](https://github.com/cosmos/lunie/issues/3512) Fix dashboard by deprecating the overview query and using balances and rewards queries instead @Bitcoinera
+- [#4506](https://github.com/cosmos/lunie/pull/4506) Fix double balances in Tendermint networks @Bitcoinera
+- [#4470](https://github.com/cosmos/lunie/issues/4470) Takes always onchain names to fix amp; issue @faboweb
+- [#4515](https://github.com/cosmos/lunie/issues/4515) Show staking balance of 0 if user has no delegations and no tokens @faboweb
+- [#4490](https://github.com/cosmos/lunie/issues/4490) Total was not showing if no staking  denom in balances @faboweb
+- [#4511](https://github.com/cosmos/lunie/issues/4511) Added denom to rewards id to prevent caching issues @faboweb
+- [#4510](https://github.com/cosmos/lunie/issues/4510) Fix polkadot rewards @mariopino
+
 ## [1.0.35] - 2020-07-08
 
 ### Added
