@@ -167,7 +167,7 @@ function getIcon({ eventType, data }) {
     case eventTypes.PROPOSAL_UPDATE:
       return `/img/icons/activity/Submitted.svg`
     case eventTypes.VALIDATOR_ADDED:
-      return `/img/networks/${notification.networkId}.png`
+      return `/img/networks/${notificationData.networkId}.png`
     case eventTypes.VALIDATOR_WEBSITE:
     case eventTypes.VALIDATOR_COMMISSION:
     case eventTypes.VALIDATOR_VOTING_POWER_INCREASE:
