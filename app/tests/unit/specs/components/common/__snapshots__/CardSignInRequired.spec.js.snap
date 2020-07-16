@@ -2,7 +2,7 @@
 
 exports[`CardSignInRequired shows a sign in required card 1`] = `
 <sessionframe-stub
-  icon=""
+  icon="account_box"
 >
   <div
     class="card-sign-in"
