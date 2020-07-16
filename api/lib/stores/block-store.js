@@ -1,10 +1,13 @@
-const { keyBy } = require('lodash')
+const { keyBy, difference } = require('lodash')
 const _ = require('lodash')
 const Sentry = require('@sentry/node')
 const database = require('../database')
 const config = require('../../config')
 const { publishEvent: publishEvent } = require('../subscriptions')
-const { eventTypes, resourceTypes } = require('../notifications-types')
+const {
+  eventTypes,
+  resourceTypes
+} = require('../notifications/notifications-types')
 
 class BlockStore {
   constructor(network, database) {
@@ -51,6 +54,7 @@ class BlockStore {
     height,
     block = this.block,
     validators,
+    proposals,
     data = this.data // multi purpose block to be used for any chain specific data
   }) {
     if (validators) {
@@ -80,6 +84,11 @@ class BlockStore {
     this.latestHeight = Number(height)
     this.block = block
     this.data = data
+
+    if (proposals) {
+      this.checkProposalsUpdate(this.proposals, proposals)
+      this.proposals = proposals
+    }
 
     // when the data is available signal readyness so the resolver stop blocking the requests
     if (this.validators) {
@@ -257,6 +266,50 @@ class BlockStore {
       console.error('Failed during update network in DB', error)
       Sentry.captureException(error)
     }
+  }
+
+  checkProposalsUpdate(oldPropsals, newProposals) {
+    const oldProposalsDictionary = keyBy(oldPropsals, 'id')
+    const newProposalsDictionary = keyBy(newProposals, 'id')
+
+    // Safety check
+    // On the first run we don't have old proposals in the store
+    if (oldPropsals.length === 0) return
+
+    // case 1: New proposal
+    const newProposalIds = difference(
+      Object.keys(newProposalsDictionary),
+      Object.keys(oldProposalsDictionary)
+    )
+    if (newProposalIds.length > 0) {
+      newProposalIds.forEach((id) => {
+        const newProposal = newProposalsDictionary[id]
+
+        publishEvent(
+          this.network.id,
+          resourceTypes.PROPOSAL,
+          eventTypes.PROPOSAL_CREATE,
+          newProposal.id,
+          newProposal
+        )
+      })
+    }
+
+    // case 2: Check for status changes
+    Object.entries(newProposalsDictionary).forEach(([id, proposal]) => {
+      if (
+        oldProposalsDictionary[id] &&
+        oldProposalsDictionary[id].status !== proposal.status
+      ) {
+        publishEvent(
+          this.network.id,
+          resourceTypes.PROPOSAL,
+          eventTypes.PROPOSAL_UPDATE,
+          proposal.id,
+          proposal
+        )
+      }
+    })
   }
 }
 
