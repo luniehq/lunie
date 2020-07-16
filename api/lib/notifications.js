@@ -90,13 +90,13 @@ function getMessageTitle(networks, notification) {
       return `Validator status changed for ${data.nextValidator.name} from ${data.prevValidator.status} to ${data.nextValidator.status}`
     case eventTypes.VALIDATOR_WEBSITE:
       return `Validator ${data.nextValidator.name} updated its website to: ${data.nextValidator.website}`
-    case eventTypes.VALIDATOR_ADDED:
-      return `New validator ${
-        data.nextValidator.name
-      } entered the validator list on ${findNetworkTitle(
-        networks,
-        notification.networkId
-      )}`
+    // case eventTypes.VALIDATOR_ADDED:
+    //   return `New validator ${
+    //     data.nextValidator.name
+    //   } entered the validator list on ${findNetworkTitle(
+    //     networks,
+    //     notification.networkId
+    //   )}`
 
     case eventTypes.LUNIE_UPDATE:
       return data.title
@@ -166,6 +166,8 @@ function getIcon({ eventType, data }) {
     case eventTypes.PROPOSAL_CREATE:
     case eventTypes.PROPOSAL_UPDATE:
       return `/img/icons/activity/Submitted.svg`
+    case eventTypes.VALIDATOR_ADDED:
+      return `/img/networks/${notification.networkId}.png`
     case eventTypes.VALIDATOR_WEBSITE:
     case eventTypes.VALIDATOR_COMMISSION:
     case eventTypes.VALIDATOR_VOTING_POWER_INCREASE:
@@ -174,7 +176,6 @@ function getIcon({ eventType, data }) {
     case eventTypes.VALIDATOR_PICTURE:
     case eventTypes.VALIDATOR_STATUS:
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
-    case eventTypes.VALIDATOR_ADDED:
     case eventTypes.SLASH:
     case eventTypes.LIVENESS:
       // Picture field for validator type can be null
