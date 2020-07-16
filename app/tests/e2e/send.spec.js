@@ -36,7 +36,6 @@ module.exports = {
 
     // Activity feature is not enabled in polkadot
     if (browser.globals.type !== `polkadot`) {
-
       // check if the hash is changed
       await browser.url(
         browser.launch_url + browser.globals.slug + "/transactions"
@@ -53,7 +52,6 @@ module.exports = {
         `${amount} ${browser.globals.denom}`
       )
       await waitForHashUpdate(browser, lastHash)
-      
     }
   },
 }

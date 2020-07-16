@@ -1,5 +1,5 @@
 <template>
-  <TmPage data-title="Network" class="page" hide-header>
+  <TmPage data-title="Network" class="page">
     <template>
       <NetworkList :networks="mainNetworks" section-title="Main Networks" />
 
