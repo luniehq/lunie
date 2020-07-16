@@ -7,6 +7,11 @@ describe(`Paywall`, () => {
   beforeEach(() => {
     dispatch = jest.fn()
     $store = {
+      state: {
+        account: {
+          userSignedIn: false,
+        },
+      },
       dispatch,
     }
     wrapper = shallowMount(Paywall, {
