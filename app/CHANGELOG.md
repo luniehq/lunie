@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.219] - 2020-07-16
+
+### Added
+
+- [#4392](https://github.com/cosmos/lunie/issues/4392) Polkadot e2e tests @mariopino
+- [#4497](https://github.com/cosmos/lunie/issues/4497) Upgrade polkadot api to v1.24.1 @mariopino
+
+### Changed
+
+- [#3660](https://github.com/cosmos/lunie/issues/3660) Add the guide link to the memo field @Bitcoinera
+- cleaning up initial version of email auth and new user menu @jbibla
+
+### Fixed
+
+- [#4489](https://github.com/cosmos/lunie/issues/4489) Fix Paywall overflow and colors not using variables @Bitcoinera
+- Fix Android build @faboweb
+- Fix interface E2E tests @faboweb
+- Stored sessions had old network not the new one from the desired target network @faboweb
+- Connect to the first found network if desired network not found (fixes issues with local API) @faboweb
+
+### Deprecated
+
+- removed a bunch of unused components and associated tests @jbibla
+
+### Code Improvements
+
+- [#4042](https://github.com/cosmos/lunie/issues/4042) cleaning up TmPage part 1 @jbibla
+
 ## [1.0.218] - 2020-07-09
 
 ### Added
