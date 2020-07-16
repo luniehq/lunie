@@ -7,14 +7,15 @@ describe(`PageFeatureNotAvailable`, () => {
   beforeEach(() => {
     const state = {
       session: {
-        address: `cosmos`, atoms: 1
-      }
+        address: `cosmos`,
+        atoms: 1,
+      },
     }
     $store = {
       state,
       getters: {
         connected: true,
-      }
+      },
     }
     wrapper = shallowMount(PageFeatureNotAvailable, {
       mocks: {

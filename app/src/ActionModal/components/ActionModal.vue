@@ -396,11 +396,7 @@ export default {
   }),
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapGetters([
-      `isExtensionAccount`,
-      `networks`,
-      `currentNetwork`,
-    ]),
+    ...mapGetters([`isExtensionAccount`, `networks`, `currentNetwork`]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag

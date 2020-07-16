@@ -39,28 +39,28 @@ export default {
   components: {
     CardSignInRequired,
     TmDataLoading,
-    TmDataMsg
+    TmDataMsg,
   },
   props: {
     loading: {
       type: Boolean,
-      default: false
+      default: false,
     },
     loaderPath: {
       type: String,
-      default: ``
+      default: ``,
     },
     empty: {
       type: Boolean,
-      default: false
+      default: false,
     },
     emptyTitle: {
       type: String,
-      default: `No data`
+      default: `No data`,
     },
     emptySubtitle: {
       type: String,
-      default: ``
+      default: ``,
     },
     signInRequired: {
       type: Boolean,
