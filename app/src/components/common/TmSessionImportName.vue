@@ -256,6 +256,13 @@ export default {
   line-height: 2rem;
   padding: 0.75rem 0;
   font-size: var(--xs);
-  color: var(--highlight);
+  color: var(--dim);
+
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 600;
+  border: 2px solid;
+  padding: 2px 4px;
+  border-radius: 0.25rem;
 }
 </style>
