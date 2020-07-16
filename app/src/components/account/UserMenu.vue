@@ -67,7 +67,7 @@
           class="menu-list-item"
           @click="goToWelcome()"
         >
-          <span>Use a new address</span>
+          <span>Add an address</span>
           <i class="material-icons">add_circle</i>
         </div>
         <div v-if="account.userSignedIn">
