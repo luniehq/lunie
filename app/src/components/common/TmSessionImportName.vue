@@ -7,9 +7,9 @@
       <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" field-label="Your Address">
-          <span v-if="networkCryptoTypes.length > 1" class="algo"
-            >created using the {{ currentCryptoView }}</span
-          >
+          <span v-if="networkCryptoTypes.length > 1 && attempt > 0" class="algo">
+            - {{ currentCryptoView }}
+          </span>
           <img
             v-if="importedAddress === undefined"
             class="tm-data-msg__icon"
@@ -17,7 +17,9 @@
             alt="a small spinning circle to display loading"
           />
           <div v-else>
-            <p class="address">{{ importedAddress }}</p>
+            <p class="address">
+              {{ importedAddress }}
+            </p>
             <!-- only show the retry option if the networks supports more than one algo -->
             <span
               v-if="networkCryptoTypes.length > 1"
@@ -247,11 +249,13 @@ export default {
   position: unset !important;
 }
 
-.algo {
+.algo { 
   position: absolute;
-  top: 1.1rem;
-  left: 5.75rem;
-  font-size: 14px;
-  font-weight: 500;
+  top: 0;
+  left: 5.45rem;
+  line-height: 2rem;
+  padding: 0.75rem 0;
+  font-size: var(--xs);
+  color: var(--highlight);
 }
 </style>
