@@ -23,8 +23,10 @@ export default ({ apollo }) => {
   }
 
   const actions = {
-    async listenToAuthChanges({ commit }) {
+    async listenToAuthChanges({ dispatch, commit }) {
       const Auth = (await getFirebase()).auth()
+      // start listening for idToken changes too
+      dispatch(`listenToIdTokenChanges`)
       await Auth.onAuthStateChanged(async (user) => {
         if (user) {
           commit(`userSignedIn`, true)
@@ -39,6 +41,23 @@ export default ({ apollo }) => {
         } else {
           commit(`userSignedIn`, false)
           commit(`setUserInformation`, null)
+        }
+      })
+    },
+    async listenToIdTokenChanges({ commit }) {
+      const Auth = (await getFirebase()).auth()
+      await Auth.onIdTokenChanged(async (user) => {
+        if (user) {
+          // user is already signed in since we are handling that with onAuthStateChanged
+          commit(`setUserInformation`, user)
+
+          // retrieving refreshed idToken
+          const idToken = await user.getIdToken(/* forceRefresh */ true)
+
+          // really important part, store idToken in localstorage so Apollo gets the newest
+          localStorage.setItem(`auth_token`, idToken)
+          // make sure new authorization token get added to header
+          apollo.cache.reset()
         }
       })
     },
