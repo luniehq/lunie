@@ -7,6 +7,7 @@ module.exports = {
   env: env,
   port: process.env.PORT || '4000',
   queryPath: '/',
+  frontendURL: 'https://app.lunie.io',
   transactionPath: '/transaction',
   subscriptionPath: '/graphql',
   apollo_engine_api_key: process.env.ENGINE_API_KEY || '',
@@ -22,5 +23,7 @@ module.exports = {
   scriptRunnerEndpoint:
     process.env.SCRIPT_RUNNER_ENDPOINT || 'http://localhost:9000',
   scriptRunnerAuthenticationToken:
-    process.env.AUTHENTICATION_TOKEN || secrets.read('AUTHENTICATION_TOKEN')
+    process.env.AUTHENTICATION_TOKEN || secrets.read('AUTHENTICATION_TOKEN'),
+  pepipostAPIKey:
+    process.env.PEPIPOST_API_KEY || secrets.read('PEPIPOST_API_KEY')
 }
