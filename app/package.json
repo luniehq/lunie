@@ -31,7 +31,7 @@
     "@dicebear/avatars": "4.1.1",
     "@dicebear/avatars-human-sprites": "4.2.0",
     "@dicebear/avatars-jdenticon-sprites": "4.1.1",
-    "@lunie/cosmos-keys": "0.2.3",
+    "@lunie/cosmos-keys": "0.3.0",
     "@lunie/cosmos-ledger": "0.1.8",
     "@polkadot/api": "1.24.1",
     "@polkadot/util-crypto": "2.18.1",
