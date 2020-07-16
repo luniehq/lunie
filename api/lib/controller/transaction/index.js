@@ -55,6 +55,7 @@ async function broadcastWithPolkadot(tx, fingerprint, development) {
   const api = await getPolkadotAPI(tx.networkId)
   const result = await api.rpc.author.submitExtrinsic(tx.signedMessage)
   const hash = result.toJSON()
+  tx.hash = hash
   // store tx in db
   // if (!development) {
   storeTransactions([tx], tx.networkId, tx.senderAddress, fingerprint)
