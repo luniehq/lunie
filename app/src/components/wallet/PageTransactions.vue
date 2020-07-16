@@ -1,17 +1,14 @@
 <template>
   <TmPage
-    :managed="true"
-    :loading="$apollo.queries.transactions.loading && dataEmpty"
-    :loaded="!$apollo.queries.transactions.loading && !dataEmpty"
-    :error="$apollo.queries.transactions.error"
-    :data-empty="transactions.length === 0"
     data-title="Transactions"
+    :loading="$apollo.queries.transactions.loading"
+    :empty="dataEmpty"
+    :empty-title="`No Transaction History`"
+    :empty-subtitle="`There are no transactions associated with this address yet.`"
     :sign-in-required="true"
-    :hide-header="true"
   >
-    <DataEmptyTx slot="no-data" />
-    <template slot="managed-body">
-      <div>
+    <template slot="signInRequired">
+      <template>
         <EventList
           :events="transactions"
           :more-available="moreAvailable"
@@ -26,34 +23,36 @@
             />
           </template>
         </EventList>
-      </div>
-      <br />
-      <TmDataMsg icon="calendar_today">
-        <div slot="title">
-          Looking for older transactions?
-        </div>
-        <div slot="subtitle">
-          <p>
-            Lunie cannot display transactions from previous chains in your
-            activity page.
-          </p>
-          <p>
-            If you would like to view information from previous chain upgrades
-            please visit our
-            <a
-              href="https://intercom.help/lunie/en/articles/3787014-how-to-get-blockchain-data-from-previous-chain-upgrades"
-              >Help Center.</a
-            >
-          </p>
-        </div>
-      </TmDataMsg>
+
+        <TmDataMsg
+          v-if="!$apollo.queries.transactions.loading"
+          icon="calendar_today"
+        >
+          <div slot="title">
+            Looking for older transactions?
+          </div>
+          <div slot="subtitle">
+            <p>
+              Lunie cannot display transactions from previous chains in your
+              activity page.
+            </p>
+            <p>
+              If you would like to view information from previous chain upgrades
+              please visit our
+              <a
+                href="https://intercom.help/lunie/en/articles/3787014-how-to-get-blockchain-data-from-previous-chain-upgrades"
+                >Help Center.</a
+              >
+            </p>
+          </div>
+        </TmDataMsg>
+      </template>
     </template>
   </TmPage>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
-import DataEmptyTx from "common/TmDataEmptyTx"
 import TmDataMsg from "common/TmDataMsg"
 import TmPage from "common/TmPage"
 import EventList from "common/EventList"
@@ -140,7 +139,6 @@ export default {
   components: {
     TransactionItem,
     EventList,
-    DataEmptyTx,
     TmDataMsg,
     TmPage,
   },

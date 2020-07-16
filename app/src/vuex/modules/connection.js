@@ -16,7 +16,6 @@ const isValidPolkadotAddress = async (address, addressPrefix) => {
 export default function ({ apollo }) {
   const state = {
     stopConnecting: false,
-    connected: true, // TODO do connection test
     network: config.network, // network id to reference network capabilities stored in Hasura
     networkSlug: "cosmos-hub",
     networks: [],
@@ -51,20 +50,11 @@ export default function ({ apollo }) {
       if (persistedNetwork && storedNetwork) {
         await dispatch(`setNetwork`, storedNetwork)
       } else {
-        const defaultNetwork = state.networks.find(
+        const network = state.networks.find(
           (network) => network.id === state.externals.config.network
-        )
-        if (defaultNetwork) {
-          // remove additional execution of checkForPersistedNetwork
-          await dispatch(`setNetwork`, defaultNetwork)
-          await commit(`setNetworkSlug`, defaultNetwork.slug)
-        } else {
-          // otherwise we connect to a fallback network
-          const fallbackNetwork = state.networks.find(
-            (network) => network.id == state.externals.config.fallbackNetwork
-          )
-          await dispatch("setNetwork", fallbackNetwork)
-        }
+        ) || state.networks[0]
+        // remove additional execution of checkForPersistedNetwork
+        await dispatch(`setNetwork`, network)
       }
     },
     async getNetworkByAccount(

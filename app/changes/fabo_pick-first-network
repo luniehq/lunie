@@ -1,0 +1,1 @@
+[Fixed] Connect to the first found network if desired network not found (fixes issues with local API) @faboweb

@@ -1,8 +1,10 @@
 <template>
-  <TmPage data-title="Proposal" hide-header class="small">
-    <TmDataLoading v-if="$apollo.loading && !loaded" />
-    <TmDataNotFound v-else-if="!found" />
-    <TmDataError v-else-if="error" />
+  <TmPage
+    data-title="Proposal"
+    class="readable-width"
+    :loading="$apollo.queries.proposal.loading"
+  >
+    <TmDataNotFound v-if="!found" />
     <template v-else>
       <div class="proposal">
         <div class="page-profile__header__info">
@@ -10,32 +12,11 @@
             {{ status.badge }}
           </span>
           <div class="proposal-title__row">
-            <div
-              class="read-more-link"
-              :style="{ visibility: getPrevProposalId ? 'visible' : 'hidden' }"
-              @click="
-                $router.push({
-                  name: 'Proposal',
-                  params: { proposalId: String(getPrevProposalId) },
-                })
-              "
-            >
-              <i class="material-icons notranslate">chevron_left</i>
-            </div>
             <h2 class="proposal-title">{{ proposal.title }}</h2>
-            <div
-              class="read-more-link"
-              :style="{ visibility: getNextProposalId ? 'visible' : 'hidden' }"
-              @click="
-                $router.push({
-                  name: 'Proposal',
-                  params: { proposalId: String(getNextProposalId) },
-                })
-              "
-            >
-              <i class="material-icons notranslate">chevron_right</i>
-            </div>
           </div>
+        </div>
+
+        <div class="proposer-row">
           <p class="proposer">
             <template v-if="proposal.validator">
               Proposed by {{ proposal.validator.name }}:
@@ -49,23 +30,23 @@
               Unknown proposer
             </template>
           </p>
-        </div>
-        <div class="button-container">
-          <TmBtn
-            v-if="proposal.status !== 'Passed'"
-            id="deposit-btn"
-            :value="connected ? 'Deposit' : 'Connecting...'"
-            :disabled="proposal.status !== 'DepositPeriod'"
-            color="primary"
-            @click.native="onDeposit"
-          />
-          <TmBtn
-            id="vote-btn"
-            :value="connected ? 'Vote' : 'Connecting...'"
-            :disabled="proposal.status !== 'VotingPeriod'"
-            color="primary"
-            @click.native="() => onVote()"
-          />
+          <div class="button-container">
+            <TmBtn
+              v-if="proposal.status !== 'Passed'"
+              id="deposit-btn"
+              value="Deposit"
+              :disabled="proposal.status !== 'DepositPeriod'"
+              color="primary"
+              @click.native="onDeposit"
+            />
+            <TmBtn
+              id="vote-btn"
+              value="Vote"
+              :disabled="proposal.status !== 'VotingPeriod'"
+              color="primary"
+              @click.native="() => onVote()"
+            />
+          </div>
         </div>
       </div>
 
@@ -194,9 +175,7 @@ import { mapGetters } from "vuex"
 import { percent, prettyInt } from "scripts/num"
 import { date, fromNow } from "src/filters"
 import TmBtn from "common/TmBtn"
-import TmDataError from "common/TmDataError"
 import TmDataNotFound from "common/TmDataNotFound"
-import TmDataLoading from "common/TmDataLoading"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
@@ -213,9 +192,7 @@ export default {
     TmBtn,
     ModalDeposit,
     ModalVote,
-    TmDataError,
     TmDataNotFound,
-    TmDataLoading,
     TmPage,
     TextBlock,
     Address,
@@ -251,7 +228,6 @@ export default {
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
-    ...mapGetters([`connected`]),
     status() {
       return getProposalStatus(this.proposal)
     },
@@ -444,9 +420,6 @@ export default {
 
 .proposal-title__row {
   color: var(--bright);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .proposal-title__row a {
@@ -460,29 +433,33 @@ export default {
 }
 
 .proposal-title {
-  text-align: center;
   color: var(--bright);
   font-size: var(--h1);
   line-height: 2.25rem;
   font-weight: 500;
-  padding-top: 1rem;
+  padding-top: 2rem;
 }
 
 .proposer {
-  font-size: 14px;
-  padding-top: 1rem;
+  font-size: 12px;
+  color: var(--txt);
 }
 
 .text-block {
   padding: 0 1rem 3rem;
 }
 
+.proposer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  margin: 2rem 0;
+}
+
 .button-container {
   display: flex;
-  align-items: flex-end;
-  padding: 0.5rem 1rem;
-  border-top: 1px solid var(--bc-dim);
-  border-bottom: 1px solid var(--bc-dim);
+  flex-direction: row;
 }
 
 .page-profile__header__info {
@@ -505,13 +482,17 @@ export default {
 }
 
 @media screen and (max-width: 667px) {
+  .proposer-row {
+    flex-direction: column;
+  }
+
   .button-container {
     width: 100%;
     padding: 1rem;
   }
 
   .button-container button {
-    width: 50%;
+    width: 100%;
   }
 }
 </style>
