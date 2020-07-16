@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame icon="">
+  <SessionFrame icon="account_box">
     <TmDataLoading v-if="!loaded" />
     <div v-else class="card-sign-in">
       <h2>Welcome to Lunie 👋</h2>

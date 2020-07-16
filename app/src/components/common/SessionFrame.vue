@@ -65,15 +65,27 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.go(`-1`)
+      if (location.href.includes(`portfolio`)) {
+        this.$router.push({
+          name: "networks"
+        })
+      } else {
+        this.$router.go(`-1`)
+      }
     },
     goToPortfolio() {
-      this.$router.push({
-        name: "portfolio",
-        params: {
-          networkId: this.networkSlug,
-        },
-      })
+      if (location.href.includes(`portfolio`)) {
+        this.$router.push({
+          name: "networks"
+        })
+      } else {
+        this.$router.push({
+          name: "portfolio",
+          params: {
+            networkId: this.networkSlug,
+          },
+        })
+      }
     },
   },
 }
