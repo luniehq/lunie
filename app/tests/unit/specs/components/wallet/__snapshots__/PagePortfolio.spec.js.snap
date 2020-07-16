@@ -3,12 +3,14 @@
 exports[`PagePortfolio should display the portfolio page 1`] = `
 <tmpage-stub
   darkbackground="true"
-  managed="true"
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath=""
   signinrequired="true"
-  subtitle=""
-  title=""
 >
   <template>
+    <tmbalance-stub />
+     
     <delegationsoverview-stub />
      
     <undelegations-stub />

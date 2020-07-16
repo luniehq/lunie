@@ -412,10 +412,11 @@ function extractInvolvedAddresses(lunieTransactionType, signer, message) {
 
 function rewardsReducer(network, validators, rewards, reducers) {
   const allRewards = []
+  const validatorsDict = _.keyBy(validators, "operatorAddress")
   rewards.forEach((reward) => {
     // reward reducer returns an array
     allRewards.push(
-      ...reducers.rewardReducer(network, validators, reward, reducers)
+      ...reducers.rewardReducer(network, validatorsDict, reward, reducers)
     )
   })
   return allRewards
@@ -449,13 +450,12 @@ function dbRewardsReducer(validatorsDictionary, dbRewards) {
 
 function rewardReducer(network, validators, reward, reducers) {
   let parsedRewards = []
-  const validatorDictionary = keyBy(validators, 'operatorAddress')
   Object.entries(reward.validators).forEach((validatorReward) => {
-    const validator = validatorDictionary[validatorReward[0]]
+    const validator = validators[validatorReward[0]]
     if (!validator) return
     const lunieReward = {
-      id: `${validator.operatorAddress}_${lunieCoin.denom}_${fiatCurrency}`,
-      ...reducers.coinReducer(network, validatorReward[1]),
+      id: validatorReward[0],
+      ...reducers.coinReducer(network, validatorReward[1].toString(10)),
       height: reward.era,
       address: reward.address,
       validator, // used for user facing rewards in the API

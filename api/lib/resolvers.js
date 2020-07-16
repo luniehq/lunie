@@ -355,7 +355,7 @@ const resolvers = (networkList) => ({
     balancesV2: async (
       _,
       { networkId, address, fiatCurrency },
-      { dataSources, fingerprint }
+      { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
       const balances = await remoteFetch(
@@ -397,7 +397,7 @@ const resolvers = (networkList) => ({
     rewards: async (
       _,
       { networkId, delegatorAddress, operatorAddress, fiatCurrency },
-      { dataSources, fingerprint }
+      { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
       let rewards = await remoteFetch(dataSources, networkId).getRewards(

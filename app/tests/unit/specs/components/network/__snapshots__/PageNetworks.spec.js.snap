@@ -4,9 +4,9 @@ exports[`PageNetworks shows a page with a selection of networks 1`] = `
 <tmpage-stub
   class="page"
   data-title="Network"
-  hideheader="true"
-  subtitle=""
-  title=""
+  emptysubtitle=""
+  emptytitle="No data"
+  loaderpath=""
 >
   <networklist-stub
     networks="[object Object]"

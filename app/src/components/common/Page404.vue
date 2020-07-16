@@ -1,5 +1,5 @@
 <template>
-  <TmPage data-title="404" class="four-oh-four" hide-header>
+  <TmPage data-title="404" class="four-oh-four">
     <TmPart class="four-oh-four-top">
       <h2>Oops! We can't find the page you're looking for.</h2>
       <h3>Error code: 404</h3>

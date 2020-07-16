@@ -34,9 +34,9 @@ export default (store) => {
       components: {
         session: () => import(`./components/notifications/PageNotifications`),
       },
-      // meta: {
-      //   feature: "Notifications"
-      // }
+      meta: {
+        feature: "notifications",
+      },
     },
     {
       path: `/login`,
@@ -45,7 +45,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSessionSignIn`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
     },
     {
@@ -55,7 +55,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSelectNetwork`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
     },
     {
@@ -65,7 +65,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSelectNetwork`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
     },
     {
@@ -75,7 +75,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSelectNetwork`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
     },
     {
@@ -85,7 +85,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSessionSignUp`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
     },
     {
@@ -95,7 +95,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSessionSignUpPassword`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
       beforeEnter: (to, from, next) => {
         if (from.name === `create`) {
@@ -112,7 +112,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSessionSignUpSeed`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
       beforeEnter: (to, from, next) => {
         if (from.name === `create-password`) {
@@ -129,7 +129,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSessionImport`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
     },
     {
@@ -139,7 +139,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSessionImportName`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
       beforeEnter: (to, from, next) => {
         if (from.name === `recover`) {
@@ -156,7 +156,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSessionImportPassword`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
       beforeEnter: (to, from, next) => {
         if (from.name === `recover-name`) {
@@ -173,7 +173,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSessionExplore`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
     },
     {
@@ -183,7 +183,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSessionHardware`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
     },
     {
@@ -201,7 +201,7 @@ export default (store) => {
         session: () => import(`./components/common/TmSessionExtension`),
       },
       meta: {
-        feature: "Session",
+        feature: "session",
       },
     },
     { path: `/404`, component: () => import(`./components/common/Page404`) },
@@ -268,7 +268,7 @@ export default (store) => {
           path: `proposals`,
           name: `Proposals`,
           meta: {
-            feature: "Proposals",
+            feature: "proposals",
           },
           component: () => import(`./components/governance/PageProposals`),
         },
@@ -281,7 +281,7 @@ export default (store) => {
           path: `proposals/:proposalId`,
           name: `Proposal`,
           meta: {
-            feature: "Proposals",
+            feature: "proposals",
           },
           component: () => import(`./components/governance/PageProposal`),
           props: true,
@@ -295,7 +295,7 @@ export default (store) => {
           path: `validators`,
           name: `Validators`,
           meta: {
-            feature: "Validators",
+            feature: "validators",
           },
           component: () => import(`./components/staking/PageValidators`),
         },
@@ -308,7 +308,7 @@ export default (store) => {
           path: `validators/:validator`,
           name: `validator`,
           meta: {
-            feature: "Validators",
+            feature: "validators",
           },
           component: () => import(`./components/staking/PageValidator`),
         },
@@ -322,7 +322,7 @@ export default (store) => {
           component: () => import(`./components/wallet/PagePortfolio`),
           meta: {
             requiresAuth: true,
-            feature: "Portfolio",
+            feature: "portfolio",
           },
         },
         {
@@ -331,7 +331,7 @@ export default (store) => {
           component: () => import(`./components/wallet/PageTransactions`),
           meta: {
             requiresAuth: true,
-            feature: "Activity",
+            feature: "activity",
           },
         },
         {
@@ -339,7 +339,7 @@ export default (store) => {
           name: `block`,
           component: () => import(`./components/network/PageBlock`),
           meta: {
-            feature: "Explorer",
+            feature: "blocks",
           },
         },
         { path: `*`, component: () => import(`./components/common/Page404`) },

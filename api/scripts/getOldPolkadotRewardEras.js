@@ -1,11 +1,26 @@
 const database = require('../lib/database')
 const config = require('../config')
-const db = database(config)('kusama')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
 const _ = require('lodash')
 const BN = require('bignumber.js')
 const fs = require('fs')
 const path = require('path')
+const { isHex } = require("@polkadot/util")
+const Sentry = require('@sentry/node')
+
+if (config.SENTRY_DSN) {
+  const Sentry = require('@sentry/node')
+  Sentry.init({
+    dsn: config.SENTRY_DSN,
+    release: require('../package.json').version
+  })
+}
+
+const currentEraArg = require('minimist')(process.argv.slice(2))
+let currentEra = currentEraArg['currentEra']
+const networkId = currentEraArg['network']
+const schema = networkId.replace("-", "_")
+const db = database(config)(schema)
 
 const eraCachePath = networkId => path.join(
   __dirname,
@@ -23,13 +38,16 @@ async function initPolkadotRPC(network, store) {
 }
 
 function cleanOldRewards(minDesiredEra) {
-  return db.query(`
-    mutation {
-      delete_kusama_rewards(where:{height: {_lt: "${minDesiredEra}"}}) {
-        affected_rows
+  if (minDesiredEra >= 0) {
+    return db.query(`
+      mutation {
+        delete_${schema}_rewards(where:{height: {_lt: "${minDesiredEra}"}}) {
+          affected_rows
+        }
       }
-    }
-  `)
+    `)
+  }
+  return
 }
 
 function storeRewards(rewards, chainId) {
@@ -110,24 +128,21 @@ function parseRewards(
 
         if (!exposureTotal.isZero() && !validatorPoints.isZero()) {
           let staked
-
           if (validatorId === delegator) {
             staked = exposure.own
           } else {
             const stakerExposure = exposure.others.find(
-              ({ who }) => who === delegator
+              ({ who }) => who.toString() === delegator
             )
-
             staked = stakerExposure ? stakerExposure.value : ZERO
+            staked = isHex(staked) ? new BN(staked.substr(2, staked.length - 2), 16) : new BN(staked)
           }
-
           value = available
             .minus(validatorCut)
             .times(staked)
             .dividedBy(exposureTotal)
             .plus(validatorId === delegator ? validatorCut : ZERO)
         }
-
         validators[validatorId] = value
       })
 
@@ -248,9 +263,6 @@ async function getMissingEras(lastStoredEra, currentEra) {
 }
 
 async function main() {
-  const currentEraArg = require('minimist')(process.argv.slice(2))
-  let currentEra = currentEraArg['currentEra']
-  const networkId = currentEraArg['network']
 
   // get previously stored data
   let {
@@ -320,6 +332,7 @@ async function main() {
       getRewardsForDelegator(delegator, ...newEraData)
     )
   )
+
   console.timeEnd('calculating rewards')
 
   // parse to lunie format
@@ -331,29 +344,39 @@ async function main() {
     polkadotAPI.reducers
   )
   console.timeEnd('parsing lunie rewards')
-  
+
   // store
   const storableRewards = _.uniqBy(lunieRewards
     ? lunieRewards.filter(({ amount }) => amount > 0)
-    : [], reward => `${reward.address}_${reward.validator}_${reward.height}_${reward.chain_id}`) // HACK somehow we get some rewards twice which causes the insert to fail 
-  console.log(
-    `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
-  )
-  const rewardChunks = _.chunk(storableRewards, 1000)
-  for (let i = 0; i < rewardChunks.length; i++) {
-    await storeRewards(
-      rewardChunks[i].map(reward => ({
-        amount: reward.amount,
-        height: reward.height,
-        denom: reward.denom,
-        address: reward.address,
-        validator: reward.validatorAddress
-      })),
-      network.chain_id
+    : [], reward => `${reward.address}_${reward.validatorAddress}_${reward.height}_${reward.chain_id}`) // HACK somehow we get some rewards twice which causes the insert to fail 
+
+  if (storableRewards.length === 0) {
+    const error = `No storable rewards for era ${maxDesiredEra}`
+    console.error(`Error: ${error}`)
+    Sentry.captureException({ error })
+  } else {
+    console.log(
+      `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
     )
+    const rewardChunks = _.chunk(storableRewards, 1000)
+    for (let i = 0; i < rewardChunks.length; i++) {
+      const res = await storeRewards(
+        rewardChunks[i].map(reward => ({
+          amount: reward.amount,
+          height: reward.height,
+          denom: reward.denom,
+          address: reward.address,
+          validator: reward.validatorAddress
+        })),
+        network.chain_id
+      )
+    }
   }
+  console.log(
+    `Cleaning old rewards for era ${maxDesiredEra}.`
+  )
   await cleanOldRewards(minDesiredEra)
-  console.log('Finished querying and storing rewards')
+  console.log('Finished querying, storing and cleaning rewards')
   process.exit(0)
 }
 

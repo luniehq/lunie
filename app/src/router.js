@@ -60,8 +60,14 @@ export const routeGuard = (store) => async (to, from, next) => {
 const Router = (store) =>
   new router({
     mode: process.env.VUE_APP_E2E ? undefined : "history",
-    scrollBehavior: () => ({ y: 0 }),
     routes: routes(store),
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        return { x: 0, y: 0 }
+      }
+    },
   })
 
 export default Router
@@ -82,6 +88,6 @@ async function featureAvailable(store, networkSlug, feature) {
 
   if (!currentNetwork) return "" // HACK route is not actually a network
 
-  const featureSelector = `feature_${feature.toLowerCase()}`
+  const featureSelector = `feature_${feature}`
   return currentNetwork[featureSelector]
 }
