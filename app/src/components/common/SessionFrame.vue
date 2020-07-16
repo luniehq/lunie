@@ -65,12 +65,12 @@ export default {
   },
   methods: {
     goBack() {
-      if (location.href.includes(`portfolio`)) {
+      try {
+        this.$router.go(`-1`)
+      } catch (error) {
         this.$router.push({
           name: "networks"
         })
-      } else {
-        this.$router.go(`-1`)
       }
     },
     goToPortfolio() {
