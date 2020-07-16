@@ -92,7 +92,7 @@ describe(`Module: Connection`, () => {
     state.externals = {
       config: {
         stargate: `https://voyager.lol`,
-        network: `strangenet`
+        network: `strangenet`,
       },
     }
     state.networks = [networks[2]]
