@@ -15,7 +15,7 @@ const {
   getCosmosFee
 } = require('../data/network-fees')
 const database = require('./database')
-const { getNotifications } = require('./notifications')
+const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
 const { registerUser } = require('./accounts')
@@ -447,7 +447,7 @@ const resolvers = (networkList) => ({
     }
   },
   Mutation: {
-    registerUser: (_, variables, { authorization: { uid } }) =>
+    registerUser: (_, variables, { user: { uid } }) =>
       registerUser(uid)
   },
   Subscription: {

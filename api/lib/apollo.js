@@ -4,13 +4,14 @@ const Sentry = require('@sentry/node')
 
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
-const Notifications = require('./notifications')
+const Notifications = require('./notifications/notifications')
 const database = require('./database')
 const { validateIdToken } = require('./accounts')
 
 const NetworkContainer = require('./network-container')
 
 const config = require('../config')
+const NotificationContoller = require('./notifications/notificationController')
 
 const db = database(config)('')
 
@@ -40,9 +41,11 @@ async function createApolloServer(httpServer) {
     startBlockTriggers(networks)
   }
 
+  const notificationController = new NotificationContoller(networkList)
+
   let options = {
     typeDefs,
-    resolvers: resolvers(networkList),
+    resolvers: resolvers(networkList, notificationController),
     dataSources: getDataSources(networks),
     cacheControl: {
       defaultMaxAge: 10
@@ -71,16 +74,14 @@ async function createApolloServer(httpServer) {
           }
         }
         const idToken = req.headers.authorization
-        let uid = undefined
+        let user = {}
         if (idToken) {
-          uid = await validateIdToken(idToken)
+          user = await validateIdToken(idToken)
         }
         return {
           fingerprint: req.headers.fingerprint,
           development: req.headers.development,
-          authorization: {
-            uid
-          }
+          user
         }
       }
     }

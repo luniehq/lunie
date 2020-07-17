@@ -1,4 +1,4 @@
-const firebaseAdmin = require('./firebase')
+const firebaseAdmin = require('./notifications/firebase')
 const Sentry = require('@sentry/node')
 const database = require('./database')
 
@@ -37,7 +37,10 @@ const registerUser = async (uid) => {
 async function validateIdToken(idToken) {
   try {
     const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
-    return decodedToken.uid
+    return {
+      uid: decodedToken.uid,
+      email: decodedToken.email
+    }
   } catch (error) {
     console.error(error)
     Sentry.captureException(error)
