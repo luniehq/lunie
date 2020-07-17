@@ -27,7 +27,7 @@ export default ({ apollo }) => {
       const Auth = (await getFirebase()).auth()
       // start listening for idToken changes too
       await dispatch(`listenToIdTokenChanges`)
-      await new Promise(resolve => 
+      await new Promise((resolve) =>
         Auth.onAuthStateChanged(async (user) => {
           if (user) {
             commit(`userSignedIn`, true)
@@ -48,7 +48,7 @@ export default ({ apollo }) => {
     },
     async listenToIdTokenChanges({ commit }) {
       const Auth = (await getFirebase()).auth()
-      await new Promise(resolve =>
+      await new Promise((resolve) =>
         Auth.onIdTokenChanged(async (user) => {
           commit(`setUserInformation`, user)
           // user is already signed in since we are handling that with onAuthStateChanged

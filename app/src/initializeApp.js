@@ -48,7 +48,7 @@ export default async function init(urlParams, env = process.env) {
   const store = Store({ apollo: apolloClient })
   // we need to set url params before querying for networks because of experimental flag
   setOptions(urlParams, store)
-  
+
   // check if user is signed in
   await store.dispatch(`listenToAuthChanges`)
 
