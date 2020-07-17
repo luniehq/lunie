@@ -412,7 +412,7 @@ function extractInvolvedAddresses(lunieTransactionType, signer, message) {
 
 function rewardsReducer(network, validators, rewards, reducers) {
   const allRewards = []
-  const validatorsDict = _.keyBy(validators, "operatorAddress")
+  const validatorsDict = _.keyBy(validators, 'operatorAddress')
   rewards.forEach((reward) => {
     // reward reducer returns an array
     allRewards.push(
