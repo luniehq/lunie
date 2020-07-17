@@ -45,6 +45,7 @@
       </template>
       <div
         v-else-if="$apollo.loading && (!balancesLoaded || !networkFeesLoaded)"
+        class="spinner-container"
       >
         <img src="/img/spinner_blue@256.gif" class="spinner" />
       </div>
