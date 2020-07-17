@@ -174,6 +174,7 @@ h4 {
 .spinner-container.loading-more {
   position: absolute;
   bottom: 1rem;
+  padding-right: 4rem;
 }
 
 @media screen and (max-width: 1024px) {
