@@ -15,7 +15,7 @@
         alt="geometric placeholder loading shapes"
       />
     </template>
-    <div v-else-if="loadingMore" class="spinner-container loading-more">
+    <div v-else-if="!loading && loadingMore" class="spinner-container loading-more">
       <img src="/img/spinner_blue@256.gif" class="spinner" />
     </div>
 
@@ -80,18 +80,6 @@ export default {
   computed: {
     ...mapState([`session`]),
   },
-  watch: {
-    loading: function () {
-      this.loadersController()
-    }
-  },
-  methods: {
-    loadersController() {
-      if (this.loading) {
-        this.loadingMore = false
-      }
-    }
-  }
 }
 </script>
 
