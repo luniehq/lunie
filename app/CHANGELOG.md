@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.220] - 2020-07-17
+
+### Added
+
+- Register clients for EMail notifications @faboweb
+
+### Fixed
+
+- [#4518](https://github.com/cosmos/lunie/issues/4518) Fix sending an expired idToken from localStorage to API (Apollo) @Bitcoinera
+
 ## [1.0.219] - 2020-07-16
 
 ### Added
