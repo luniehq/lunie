@@ -33,8 +33,6 @@ export default ({ apollo }) => {
             commit(`userSignedIn`, true)
             commit(`setUserInformation`, user)
 
-            await actions.updateProfilePicture()
-
             const idToken = await user.getIdToken(/* forceRefresh */ true)
             localStorage.setItem(`auth_token`, idToken)
             // make sure new authorization token get added to header
@@ -113,19 +111,6 @@ export default ({ apollo }) => {
         apollo.cache.reset()
       } catch (error) {
         commit(`setSignInError`, error)
-        Sentry.captureException(error)
-      }
-    },
-    // TODO: it should only run on sign up
-    async updateProfilePicture() {
-      const Auth = (await getFirebase()).auth()
-      try {
-        const user = Auth.currentUser
-        await user.updateProfile({
-          photoURL: `${config.digitalOceanURL}/users/${user.email}.png`,
-        })
-      } catch (error) {
-        console.error(error)
         Sentry.captureException(error)
       }
     },
