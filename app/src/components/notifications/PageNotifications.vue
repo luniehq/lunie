@@ -2,7 +2,7 @@
   <TmPage
     data-title="My alerts"
     :loading="
-      $apollo.queries.notifications.loading && notifications.length === 0
+      $apollo.queries.notifications.loading && !dataLoaded
     "
     :empty="notifications.length === 0"
     :empty-title="`You don't have any notifications yet`"
