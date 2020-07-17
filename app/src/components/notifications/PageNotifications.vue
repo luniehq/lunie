@@ -1,9 +1,7 @@
 <template>
   <TmPage
     data-title="My alerts"
-    :loading="
-      $apollo.queries.notifications.loading && !firstLoaded
-    "
+    :loading="$apollo.queries.notifications.loading && !firstLoaded"
     :empty="notifications.length === 0"
     :empty-title="`You don't have any notifications yet`"
     :empty-subtitle="`Don't worry, they are on their way!`"
@@ -227,15 +225,5 @@ img {
 .title {
   font-weight: 400;
   overflow-wrap: anywhere; /** Important. Otherwise awful style bug */
-}
-
-.spinner-container {
-  display: flex;
-  justify-content: center;
-}
-
-.spinner {
-  height: 45px;
-  width: 45px;
 }
 </style>

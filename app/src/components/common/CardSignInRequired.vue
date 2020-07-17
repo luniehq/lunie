@@ -1,5 +1,7 @@
 <template>
-  <TmDataLoading v-if="!loaded" />
+  <div v-if="!loaded" class="spinner-container">
+    <img src="/img/spinner_blue@256.gif" class="spinner" />
+  </div>
   <div v-else class="card-sign-in">
     <h2>Welcome to Lunie 👋</h2>
     <h3>How would you like to get started?</h3>
@@ -66,11 +68,10 @@
 import config from "src/../config"
 import { mapState, mapGetters } from "vuex"
 import LiSession from "common/TmLiSession"
-import TmDataLoading from "src/components/common/TmDataLoading"
 
 export default {
   name: `card-sign-in-required`,
-  components: { LiSession, TmDataLoading },
+  components: { LiSession },
   data: () => ({
     isMobileApp: config.mobileApp,
     isExtension: config.isExtension,

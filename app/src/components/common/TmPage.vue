@@ -5,7 +5,9 @@
   >
     <CardSignInRequired v-if="signInRequired && !session.signedIn" />
 
-    <TmDataLoading v-else-if="loading && !loaderPath" />
+    <div v-else-if="loading && !loaderPath" class="spinner-container">
+      <img src="/img/spinner_blue@256.gif" class="spinner" />
+    </div>
     <template v-if="loading && loaderPath" class="loading-image-container">
       <img
         class="loading-image"
@@ -29,16 +31,13 @@
 
 <script>
 import { mapState } from "vuex"
-
 import CardSignInRequired from "common/CardSignInRequired"
-import TmDataLoading from "common/TmDataLoading"
 import TmDataMsg from "common/TmDataMsg"
 
 export default {
   name: `tm-page`,
   components: {
     CardSignInRequired,
-    TmDataLoading,
     TmDataMsg,
   },
   props: {

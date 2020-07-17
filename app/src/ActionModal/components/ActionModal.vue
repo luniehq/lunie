@@ -43,9 +43,11 @@
       <template v-if="!checkFeatureAvailable">
         <FeatureNotAvailable :feature="title" />
       </template>
-      <TmDataLoading
+      <div
         v-else-if="$apollo.loading && (!balancesLoaded || !networkFeesLoaded)"
-      />
+      >
+        <img src="/img/spinner_blue@256.gif" class="spinner" />
+      </div>
       <template v-else>
         <div v-if="requiresSignIn" class="action-modal-form">
           <p class="form-message notice">
@@ -248,7 +250,6 @@ import TmBtn from "src/components/common/TmBtn"
 import TmField from "src/components/common/TmField"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
-import TmDataLoading from "src/components/common/TmDataLoading"
 import FeatureNotAvailable from "src/components/common/FeatureNotAvailable"
 import TmDataMsg from "common/TmDataMsg"
 import TableInvoice from "./TableInvoice"
@@ -310,7 +311,6 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmDataMsg,
-    TmDataLoading,
     TableInvoice,
     Steps,
     FeatureNotAvailable,
