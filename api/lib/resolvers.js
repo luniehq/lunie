@@ -18,7 +18,7 @@ const database = require('./database')
 const { getNotifications } = require('./notifications')
 const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
-const { registerUser } = require("./accounts")
+const { registerUser } = require('./accounts')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -447,7 +447,8 @@ const resolvers = (networkList) => ({
     }
   },
   Mutation: {
-    registerUser: (_, variables, { authorization: { uid }}) => registerUser(uid)
+    registerUser: (_, variables, { authorization: { uid } }) =>
+      registerUser(uid)
   },
   Subscription: {
     blockAdded: {
