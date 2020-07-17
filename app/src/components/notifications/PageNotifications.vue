@@ -2,7 +2,7 @@
   <TmPage
     data-title="My alerts"
     :loading="
-      $apollo.queries.notifications.loading && !dataLoaded
+      $apollo.queries.notifications.loading && !firstLoaded
     "
     :empty="notifications.length === 0"
     :empty-title="`You don't have any notifications yet`"
@@ -55,6 +55,7 @@ export default {
     notifications: [],
     moreAvailable: true,
     dataLoaded: false,
+    firstLoaded: false,
   }),
   computed: {
     ...mapState([`session`]),
@@ -130,6 +131,7 @@ export default {
       /* istanbul ignore next */
       update(result) {
         this.dataLoaded = true
+        this.firstLoaded = true
         // assume that when the full page got loaded, that there is more
         return result.notifications
       },
