@@ -1,5 +1,4 @@
 const { sortBy } = require('lodash')
-const Sentry = require('@sentry/node')
 const { UserInputError, withFilter } = require('apollo-server')
 const BigNumber = require('bignumber.js')
 const {
@@ -16,10 +15,10 @@ const {
   getCosmosFee
 } = require('../data/network-fees')
 const database = require('./database')
-const { getNotifications } = require('./notifications')
+const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
-const firebaseAdmin = require('./firebase')
+const { registerUser } = require('./accounts')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -182,41 +181,6 @@ const transactionMetadata = (networks) => async (
     chainAppliedFees: thisNetworkFees.chainAppliedFees,
     accountSequence: accountDetails.sequence,
     accountNumber: accountDetails.accountNumber
-  }
-}
-
-const registerUser = async (_, { idToken }) => {
-  try {
-    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
-    // get user record, with custom claims and creation & activity dates
-    const userRecord = await firebaseAdmin.auth().getUser(decodedToken.uid)
-    // check if user already exists in DB
-    const storedUser = await database(config)('').getUser(decodedToken.uid)
-    // check if user already has premium as a custom claim
-    if (!userRecord.customClaims) {
-      // set premium field
-      await firebaseAdmin
-        .auth()
-        .setCustomUserClaims(decodedToken.uid, { premium: false })
-    }
-    // we don't store user emails for now
-    const user = {
-      uid: decodedToken.uid,
-      premium: false,
-      createdAt: userRecord.metadata.creationTime,
-      lastActive: userRecord.metadata.lastSignInTime
-    }
-    if (!storedUser) {
-      database(config)('').storeUser(user)
-    } else {
-      database(config)('').upsert(`users`, user)
-    }
-  } catch (error) {
-    console.error(`In storeUser`, error)
-    Sentry.withScope(function (scope) {
-      scope.setExtra('storeUser resolver')
-      Sentry.captureException(error)
-    })
   }
 }
 
@@ -434,7 +398,7 @@ const resolvers = (networkList) => ({
     overview: async (
       _,
       { networkId, address, fiatCurrency },
-      { dataSources, fingerprint, development }
+      { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
       const validatorsDictionary = localStore(dataSources, networkId).validators
@@ -447,9 +411,6 @@ const resolvers = (networkList) => ({
       overview.networkId = networkId
       overview.address = address
 
-      if (development !== 'true') {
-        logOverview(networkList, overview, address, networkId, fingerprint)
-      }
       return overview
     },
     transactionsV2: (_, { networkId, address, pageNumber }, { dataSources }) =>
@@ -483,7 +444,8 @@ const resolvers = (networkList) => ({
     }
   },
   Mutation: {
-    registerUser: registerUser
+    registerUser: (_, variables, { user: { uid } }) =>
+      registerUser(uid)
   },
   Subscription: {
     blockAdded: {

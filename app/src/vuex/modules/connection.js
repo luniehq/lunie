@@ -50,9 +50,10 @@ export default function ({ apollo }) {
       if (persistedNetwork && storedNetwork) {
         await dispatch(`setNetwork`, storedNetwork)
       } else {
-        const network = state.networks.find(
-          (network) => network.id === state.externals.config.network
-        ) || state.networks[0]
+        const network =
+          state.networks.find(
+            (network) => network.id === state.externals.config.network
+          ) || state.networks[0]
         // remove additional execution of checkForPersistedNetwork
         await dispatch(`setNetwork`, network)
       }
