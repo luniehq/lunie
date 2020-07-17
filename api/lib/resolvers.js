@@ -434,7 +434,7 @@ const resolvers = (networkList, notificationController) => ({
     overview: async (
       _,
       { networkId, address, fiatCurrency },
-      { dataSources, fingerprint, development }
+      { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
       const validatorsDictionary = localStore(dataSources, networkId).validators
@@ -447,9 +447,6 @@ const resolvers = (networkList, notificationController) => ({
       overview.networkId = networkId
       overview.address = address
 
-      if (development !== 'true') {
-        logOverview(networkList, overview, address, networkId, fingerprint)
-      }
       return overview
     },
     transactionsV2: (_, { networkId, address, pageNumber }, { dataSources }) =>
