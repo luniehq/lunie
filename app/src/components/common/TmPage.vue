@@ -15,6 +15,9 @@
         alt="geometric placeholder loading shapes"
       />
     </template>
+    <div v-else-if="loadingMore" class="spinner-container loading-more">
+      <img src="/img/spinner_blue@256.gif" class="spinner" />
+    </div>
 
     <TmDataMsg
       v-else-if="!loading && empty"
@@ -42,6 +45,10 @@ export default {
   },
   props: {
     loading: {
+      type: Boolean,
+      default: false,
+    },
+    loadingMore: {
       type: Boolean,
       default: false,
     },
@@ -73,6 +80,18 @@ export default {
   computed: {
     ...mapState([`session`]),
   },
+  watch: {
+    loading: function () {
+      this.loadersController()
+    }
+  },
+  methods: {
+    loadersController() {
+      if (this.loading) {
+        this.loadingMore = false
+      }
+    }
+  }
 }
 </script>
 
@@ -150,6 +169,11 @@ h4 {
   font-size: var(--sm);
   font-weight: 400;
   line-height: 1rem;
+}
+
+.spinner-container.loading-more {
+  position: absolute;
+  bottom: 1rem;
 }
 
 @media screen and (max-width: 1024px) {

@@ -2,6 +2,7 @@
   <TmPage
     data-title="My alerts"
     :loading="$apollo.queries.notifications.loading && !firstLoaded"
+    :loadingMore="$apollo.queries.notifications.loading && !dataLoaded && moreAvailable"
     :empty="notifications.length === 0"
     :empty-title="`You don't have any notifications yet`"
     :empty-subtitle="`Don't worry, they are on their way!`"
@@ -24,14 +25,6 @@
           </router-link>
         </template>
       </EventList>
-      <div
-        v-if="
-          $apollo.queries.notifications.loading && !dataLoaded && moreAvailable
-        "
-        class="spinner-container"
-      >
-        <img src="/img/spinner_blue@256.gif" class="spinner" />
-      </div>
     </template>
   </TmPage>
 </template>
