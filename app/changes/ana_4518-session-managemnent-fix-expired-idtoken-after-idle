@@ -1,0 +1,1 @@
+[Fixed] [#4518](https://github.com/cosmos/lunie/issues/4518) Fix sending an expired idToken from localStorage to API (Apollo) @Bitcoinera
