@@ -1,5 +1,5 @@
 <template>
-  <TmPage data-title="Feature Not Available" hide-header>
+  <TmPage data-title="Feature Not Available">
     <FeatureNotAvailable :feature="feature" />
   </TmPage>
 </template>

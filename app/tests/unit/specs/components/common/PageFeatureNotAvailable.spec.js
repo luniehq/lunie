@@ -1,14 +1,29 @@
-import { mount } from "@vue/test-utils"
+import { shallowMount } from "@vue/test-utils"
 import PageFeatureNotAvailable from "common/PageFeatureNotAvailable"
 
 describe(`PageFeatureNotAvailable`, () => {
-  let wrapper
+  let wrapper, $store
+
   beforeEach(() => {
-    wrapper = mount(PageFeatureNotAvailable, {
-      propsData: {
-        feature: "Spacetravel",
+    const state = {
+      session: {
+        address: `cosmos`,
+        atoms: 1,
       },
-      stubs: ["router-link"],
+    }
+    $store = {
+      state,
+      getters: {
+        connected: true,
+      },
+    }
+    wrapper = shallowMount(PageFeatureNotAvailable, {
+      mocks: {
+        $store,
+      },
+      propsData: {
+        feature: "spacetravel",
+      },
     })
   })
 

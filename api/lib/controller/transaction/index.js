@@ -51,10 +51,15 @@ async function broadcastWithCosmos(network, tx, fingerprint, development) {
   }
 }
 
-async function broadcastWithPolkadot(tx) {
+async function broadcastWithPolkadot(tx, fingerprint, development) {
   const api = await getPolkadotAPI(tx.networkId)
   const result = await api.rpc.author.submitExtrinsic(tx.signedMessage)
   const hash = result.toJSON()
+  tx.hash = hash
+  // store tx in db
+  // if (!development) {
+  storeTransactions([tx], tx.networkId, tx.senderAddress, fingerprint)
+  // }
   return {
     hash,
     success: true
@@ -68,7 +73,7 @@ async function broadcast(tx, fingerprint, development) {
     if (network.network_type === `cosmos`) {
       return await broadcastWithCosmos(network, tx, fingerprint, development)
     } else if (network.network_type === `polkadot`) {
-      return await broadcastWithPolkadot(tx)
+      return await broadcastWithPolkadot(tx, fingerprint, development)
     }
   } catch (e) {
     Sentry.withScope(function (scope) {
