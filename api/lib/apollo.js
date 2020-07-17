@@ -6,10 +6,10 @@ const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 const Notifications = require('./notifications')
 const database = require('./database')
+const { validateIdToken } = require('./accounts')
 
 const NetworkContainer = require('./network-container')
 
-const firebaseAdmin = require('./firebase')
 const config = require('../config')
 
 const db = database(config)('')
@@ -29,17 +29,6 @@ function getDataSources(networks) {
 
 function startBlockTriggers(networks) {
   networks.map((network) => network.initialize())
-}
-
-async function checkIsValidIdToken(idToken) {
-  try {
-    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
-    return decodedToken.uid
-  } catch (error) {
-    console.error(error)
-    Sentry.captureException(error)
-    return false
-  }
 }
 
 async function createApolloServer(httpServer) {
@@ -85,7 +74,7 @@ async function createApolloServer(httpServer) {
         const idToken = req.headers.authorization
         let uid = undefined
         if (idToken) {
-          uid = await checkIsValidIdToken(idToken)
+          uid = await validateIdToken(idToken)
         }
         return {
           fingerprint: req.headers.fingerprint,
