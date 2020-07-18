@@ -80,7 +80,7 @@ export default {
           },
           // Transform the previous result with new data
           updateQuery: function (previousResult, { fetchMoreResult }) {
-            this.moreAvailable = fetchMoreResult.notifications.length === 0
+            this.moreAvailable = !(fetchMoreResult.notifications.length === 0)
             return {
               notifications: [
                 ...previousResult.notifications,
