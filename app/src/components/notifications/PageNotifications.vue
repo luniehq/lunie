@@ -34,8 +34,8 @@
 <script>
 import TmPage from "common/TmPage"
 import EventList from "common/EventList"
-
 import { mapState, mapGetters } from "vuex"
+import uniqBy from "lodash.uniqby"
 import gql from "graphql-tag"
 
 export default {
@@ -82,10 +82,14 @@ export default {
           updateQuery: function (previousResult, { fetchMoreResult }) {
             this.moreAvailable = !(fetchMoreResult.notifications.length === 0)
             return {
-              notifications: [
-                ...previousResult.notifications,
-                ...fetchMoreResult.notifications,
-              ],
+              // DEPRECATE uniqBy, should be resolved via API
+              notifications: uniqBy(
+                [
+                  ...previousResult.notifications,
+                  ...fetchMoreResult.notifications,
+                ],
+                "id"
+              ),
             }
           },
         })
