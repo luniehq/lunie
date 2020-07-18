@@ -13,7 +13,6 @@
         alt="geometric placeholder loading shapes"
       />
     </template>
-    <TmDataLoading v-else-if="!loading && loadingMore" class="loading-more" />
 
     <TmDataMsg
       v-else-if="!loading && empty"
@@ -23,7 +22,10 @@
       :subtitle="emptySubtitle"
     />
 
-    <slot v-else-if="!loading && !empty"></slot>
+    <template v-else-if="!loading && !empty">
+      <slot></slot>
+      <TmDataLoading v-if="!loading && loadingMore" class="loading-more" />
+    </template>
     <slot v-if="session.signedIn" name="signInRequired"></slot>
   </div>
 </template>
@@ -161,6 +163,7 @@ h4 {
   position: absolute;
   bottom: 1rem;
   padding-right: 4rem;
+  z-index: var(--z-modal);
 }
 
 @media screen and (max-width: 1024px) {
