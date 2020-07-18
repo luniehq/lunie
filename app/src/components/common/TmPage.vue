@@ -5,9 +5,7 @@
   >
     <CardSignInRequired v-if="signInRequired && !session.signedIn" />
 
-    <div v-else-if="loading && !loaderPath" class="spinner-container">
-      <img src="/img/spinner_blue@256.gif" class="spinner" />
-    </div>
+    <TmDataLoading v-else-if="loading && !loaderPath" />
     <template v-if="loading && loaderPath" class="loading-image-container">
       <img
         class="loading-image"
@@ -15,9 +13,7 @@
         alt="geometric placeholder loading shapes"
       />
     </template>
-    <div v-else-if="!loading && loadingMore" class="spinner-container loading-more">
-      <img src="/img/spinner_blue@256.gif" class="spinner" />
-    </div>
+    <TmDataLoading v-else-if="!loading && loadingMore" class="loading-more" />
 
     <TmDataMsg
       v-else-if="!loading && empty"
@@ -35,12 +31,14 @@
 <script>
 import { mapState } from "vuex"
 import CardSignInRequired from "common/CardSignInRequired"
+import TmDataLoading from "common/TmDataLoading"
 import TmDataMsg from "common/TmDataMsg"
 
 export default {
   name: `tm-page`,
   components: {
     CardSignInRequired,
+    TmDataLoading,
     TmDataMsg,
   },
   props: {
@@ -159,7 +157,7 @@ h4 {
   line-height: 1rem;
 }
 
-.spinner-container.loading-more {
+.loading-more {
   position: absolute;
   bottom: 1rem;
   padding-right: 4rem;
