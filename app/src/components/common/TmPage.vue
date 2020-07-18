@@ -160,10 +160,7 @@ h4 {
 }
 
 .loading-more {
-  position: absolute;
-  bottom: 1rem;
-  padding-right: 4rem;
-  z-index: var(--z-modal);
+  margin: 1rem 1rem 1rem 0;
 }
 
 @media screen and (max-width: 1024px) {
