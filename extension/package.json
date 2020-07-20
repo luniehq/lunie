@@ -88,7 +88,7 @@
     "webextension-polyfill": "^0.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.4",
+    "@babel/core": "^7.10.5",
     "@babel/plugin-proposal-optional-chaining": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.10.4",
     "@babel/preset-env": "^7.10.3",
