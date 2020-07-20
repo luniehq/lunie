@@ -24,7 +24,7 @@
         <i class="material-icons notranslate">check</i>
       </div>
       <img
-        v-else="disabled && isCurrentNetwork"
+        v-else-if="disabled && isCurrentNetwork"
         class="tm-connected-network-loader"
         src="~assets/images/loader.svg"
         alt="a small spinning circle to display loading"
