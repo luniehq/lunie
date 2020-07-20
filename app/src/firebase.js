@@ -17,6 +17,7 @@ const getFirebase = async () => {
     return firebase
   } catch (error) {
     console.error(`Firebase could not be initialized`)
+    console.error(error)
     Sentry.captureException(error)
   }
 }

@@ -74,7 +74,5 @@ export const setNetwork = async ({ to, next }, store) => {
 }
 
 function networkOrAny(network, networks) {
-  return network
-    ? network
-    : networks[0]
+  return network ? network : networks[0]
 }
