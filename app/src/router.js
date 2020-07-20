@@ -14,7 +14,6 @@ export const routeGuard = (store) => async (to, from, next) => {
   if (to.fullPath.includes("portfolio") && store.state.account.userSignedIn) {
     next(`/notifications`)
   }
-
   // Redirect if fullPath begins with a hash (fallback for old pre history mode urls)
   if (to.fullPath.includes("#")) {
     const path = to.fullPath.substr(to.fullPath.indexOf("#") + 1)
@@ -25,9 +24,15 @@ export const routeGuard = (store) => async (to, from, next) => {
     if (store.state.account.userSignedIn) {
       next()
       return
+    } else if (from.name === `paywall`) {
+      return
     } else {
       next(`/paywall`)
     }
+  }
+  if (to.fullPath.includes(`paywall`)) {
+    console.log('I am going to Paywall')
+    console.log(to.fullPath)
   }
   if (to.meta.feature) {
     const featureAvalability = await featureAvailable(
