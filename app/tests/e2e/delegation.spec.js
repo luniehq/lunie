@@ -42,7 +42,7 @@ module.exports = {
       `.li-validator[data-name="${browser.globals.validatorOneName}"]`
     )
     const value = browser.globals.stakeAmount
-    
+
     // we stop if there's an ongoing polkadot election
     if (browser.globals.type === `polkadot`) {
       const response = await axios.post(browser.globals.apiURI, {
@@ -52,7 +52,9 @@ module.exports = {
         throw new Error(JSON.stringify(response.data.errors))
       }
       if (JSON.parse(response.data.data.blockV2.data).isInElection === true) {
-        throw new Error(`There's an ongoing election in network ${browser.globals.network}. No staking actions are allowed.`)
+        throw new Error(
+          `There's an ongoing election in network ${browser.globals.network}. No staking actions are allowed.`
+        )
       }
     }
 

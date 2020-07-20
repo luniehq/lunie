@@ -207,12 +207,6 @@
                 type="primary"
               />
               <TmBtn
-                v-else-if="!connected"
-                value="Connecting..."
-                disabled="disabled"
-                type="primary"
-              />
-              <TmBtn
                 v-else-if="step !== signStep"
                 ref="next"
                 type="primary"
@@ -402,12 +396,7 @@ export default {
   }),
   computed: {
     ...mapState([`extension`, `session`]),
-    ...mapGetters([
-      `connected`,
-      `isExtensionAccount`,
-      `networks`,
-      `currentNetwork`,
-    ]),
+    ...mapGetters([`isExtensionAccount`, `networks`, `currentNetwork`]),
     ...mapGetters({ networkId: `network` }),
     checkFeatureAvailable() {
       const action = `action_` + this.featureFlag

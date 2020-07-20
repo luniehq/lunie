@@ -1,6 +1,6 @@
 {
   "name": "extension",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
   "licenses": [
@@ -90,7 +90,7 @@
   "devDependencies": {
     "@babel/core": "^7.10.4",
     "@babel/plugin-proposal-optional-chaining": "^7.0.0",
-    "@babel/plugin-transform-runtime": "^7.10.3",
+    "@babel/plugin-transform-runtime": "^7.10.4",
     "@babel/preset-env": "^7.10.3",
     "@vue/test-utils": "^1.0.0-beta.29",
     "archiver": "^4.0.1",

@@ -1,12 +1,10 @@
 <template>
   <TmPage
     data-title="Block"
-    :managed="true"
     :loading="this.$apollo.queries.block.loading"
-    :error="error"
-    hide-header
+    class="readable-width"
   >
-    <template slot="managed-body">
+    <template>
       <div class="block">
         <h2 class="page-profile__title">Block #{{ height | prettyInt }}</h2>
       </div>
@@ -166,7 +164,6 @@ export default {
       transactions: [],
     },
     validators: [],
-    error: undefined,
   }),
   computed: {
     ...mapGetters([`address`, `network`]),

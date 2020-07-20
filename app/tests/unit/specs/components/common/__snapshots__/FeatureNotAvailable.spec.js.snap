@@ -30,7 +30,7 @@ exports[`FeatureNotAvailable shows a warning about a feature not being available
     >
       <div>
         
-    This feature hasn't been implemented on this network yet.
+    We haven't implemented this feature for this network yet.
     
         <br />
          
@@ -38,9 +38,8 @@ exports[`FeatureNotAvailable shows a warning about a feature not being available
          
         <a
           class="intercom-button"
-          href="#"
         >
-          Reach out if you'd like us to enable this feature.
+          Reach out if you'd like us to add support for this feature.
         </a>
       </div>
     </h3>

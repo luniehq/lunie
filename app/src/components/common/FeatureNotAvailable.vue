@@ -2,11 +2,11 @@
   <TmDataMsg icon="timeline">
     <div slot="title">Feature not available</div>
     <div slot="subtitle">
-      This feature hasn't been implemented on this network yet.
+      We haven't implemented this feature for this network yet.
       <br />
       <br />
-      <a class="intercom-button" href="#"
-        >Reach out if you'd like us to enable this feature.</a
+      <a class="intercom-button" @click="$store.dispatch(`displayMessenger`)"
+        >Reach out if you'd like us to add support for this feature.</a
       >
     </div>
   </TmDataMsg>

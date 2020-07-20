@@ -1,100 +1,66 @@
 <template>
-  <div class="tm-page">
-    <TmPageHeader v-if="!hideHeader" :tabs="tabs">
-      <h2 v-if="title" slot="title">
-        {{ title }}
-      </h2>
-      <h3 v-if="subtitle" slot="subtitle">
-        {{ subtitle }}
-      </h3>
-      <slot slot="menu-body" name="menu-body">
-        <TmBalance v-if="session.signedIn" />
-      </slot>
-      <slot slot="header-buttons" name="header-buttons" />
-    </TmPageHeader>
-    <main
-      class="tm-page-main"
-      :class="{ 'dark-background': darkBackground && session.signedIn }"
-    >
-      <CardSignInRequired v-if="signInRequired && !session.signedIn" />
-      <template v-else-if="managed">
-        <TmDataConnecting v-if="!connected" />
-        <TmDataLoading v-else-if="loading" />
-        <TmDataError v-else-if="error" />
-        <slot v-else-if="dataEmpty" name="no-data">
-          <TmDataEmpty>
-            <template slot="title">
-              <slot name="title" />
-            </template>
-            <template slot="subtitle">
-              <slot name="subtitle" />
-            </template>
-          </TmDataEmpty>
-        </slot>
-        <slot v-else name="managed-body" />
-      </template>
-      <slot />
-    </main>
+  <div
+    class="page"
+    :class="{ 'dark-background': darkBackground && session.signedIn }"
+  >
+    <CardSignInRequired v-if="signInRequired && !session.signedIn" />
+
+    <TmDataLoading v-else-if="loading && !loaderPath" />
+    <template v-if="loading && loaderPath" class="loading-image-container">
+      <img
+        class="loading-image"
+        :src="loaderPath"
+        alt="geometric placeholder loading shapes"
+      />
+    </template>
+
+    <TmDataMsg
+      v-else-if="!loading && empty"
+      icon="error"
+      icon-color="var(--dark-grey-blue)"
+      :title="emptyTitle"
+      :subtitle="emptySubtitle"
+    />
+
+    <slot v-else-if="!loading && !empty"></slot>
+    <slot v-if="session.signedIn" name="signInRequired"></slot>
   </div>
 </template>
 
 <script>
-import TmPageHeader from "./TmPageHeader.vue"
-import TmDataLoading from "common/TmDataLoading"
-import TmDataEmpty from "common/TmDataEmpty"
+import { mapState } from "vuex"
+
 import CardSignInRequired from "common/CardSignInRequired"
-import { mapState, mapGetters } from "vuex"
-import TmDataError from "common/TmDataError"
-import TmDataConnecting from "common/TmDataConnecting"
-import TmBalance from "common/TmBalance"
+import TmDataLoading from "common/TmDataLoading"
+import TmDataMsg from "common/TmDataMsg"
 
 export default {
   name: `tm-page`,
   components: {
-    TmBalance,
-    TmPageHeader,
-    TmDataEmpty,
-    TmDataLoading,
-    TmDataError,
-    TmDataConnecting,
     CardSignInRequired,
+    TmDataLoading,
+    TmDataMsg,
   },
   props: {
-    hideHeader: {
-      type: Boolean,
-      default: false,
-    },
-    title: {
-      type: String,
-      default: ``,
-    },
-    subtitle: {
-      type: String,
-      default: ``,
-    },
-    managed: {
-      type: Boolean,
-      default: false,
-    },
-    error: {
-      type: Boolean,
-      default: undefined,
-    },
-    tabs: {
-      type: Array,
-      default: undefined,
-    },
     loading: {
       type: Boolean,
       default: false,
     },
-    loaded: {
-      type: Boolean,
-      default: undefined,
+    loaderPath: {
+      type: String,
+      default: ``,
     },
-    dataEmpty: {
+    empty: {
       type: Boolean,
-      default: undefined,
+      default: false,
+    },
+    emptyTitle: {
+      type: String,
+      default: `No data`,
+    },
+    emptySubtitle: {
+      type: String,
+      default: ``,
     },
     signInRequired: {
       type: Boolean,
@@ -107,54 +73,31 @@ export default {
   },
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`connected`]),
-  },
-  watch: {
-    $route() {
-      this.scrollContainer.scrollTop = 0
-    },
-  },
-  mounted() {
-    this.scrollContainer = this.$el.querySelector(`.tm-page-main`)
   },
 }
 </script>
 
 <style scoped>
-.tm-page {
+.page {
   position: relative;
   width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   flex: 1;
+  padding: 1rem 0 0;
 }
 
-.tm-page.small {
+.loading-image-container {
+  padding: 2em;
+}
+
+.readable-width {
   max-width: 720px;
 }
 
-.tm-page-main {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding-bottom: 3rem;
-}
-
-.tm-page-main.dark-background {
+.page.dark-background {
   background: var(--app-fg);
-}
-
-.tm-page-title {
-  color: var(--bright);
-  font-size: var(--h2);
-  padding: 0.5rem 1rem 1rem;
-}
-
-.tm-page-subtitle > div {
-  color: var(--dim);
-  font-size: var(--sm);
 }
 
 .column {
@@ -210,50 +153,14 @@ h4 {
   line-height: 1rem;
 }
 
-.footer {
-  width: 100%;
-  background: var(--app-fg);
-  padding: 0.5rem;
-  margin-top: 1rem;
-}
-
-.app-menu-item-small {
-  display: inline-block;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.25rem 0.25rem;
-  margin: 0 0.5rem;
-  color: var(--dim);
-  border-radius: 0.25rem;
-  font-size: var(--sm);
-}
-
-.link-list {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.link-list li {
-  display: inline;
-}
-
-@media screen and (min-width: 1024px) {
-  .tm-page {
-    margin: 1rem auto 0;
+@media screen and (max-width: 1024px) {
+  .page {
+    margin: 0 auto 6rem;
   }
 }
 
 @media screen and (max-width: 667px) {
-  .row {
-    flex-direction: column;
-  }
-
-  .page-profile__header__actions {
-    margin-right: 0;
-  }
-
-  .tm-page {
+  .page {
     padding-bottom: 4rem;
   }
 }
