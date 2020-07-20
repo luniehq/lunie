@@ -185,8 +185,10 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
     coinLookup: coinLookups.filter(({ id }) => id === network.id)
   }))
   // if the RUN_ONLY_NETWORK env variable is set, we only run the especified network
-  if (process.env.RUN_ONLY_NETWORK) {
-    return allNetworks.filter(({ id }) => id === process.env.RUN_ONLY_NETWORK)
+  if (process.env.RUN_ONLY_NETWORKS) {
+    return allNetworks.filter(({ id }) =>
+      process.env.RUN_ONLY_NETWORKS.split(',').includes(id)
+    )
   }
   return allNetworks
 }
@@ -336,6 +338,35 @@ const storeNotification = ({ hasura_url, hasura_admin_key }) => (
   ])
 }
 
+const storeNotificationRegistrations = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (payload) => {
+  return await insert(
+    {
+      hasura_url,
+      hasura_admin_key
+    },
+    true
+  )(schema)(`notificationRegistrations`, payload, undefined, undefined, [
+    'uid',
+    'topic',
+    'type'
+  ])
+}
+
+const getNotificationRegistrations = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (payload) => {
+  return await read({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(`notificationRegistrations`, `notificationRegistrations`, [
+    'uid',
+    'topic',
+    'type'
+  ])
+}
+
 const getMaintenance = ({ hasura_url, hasura_admin_key }) => (
   schema
 ) => async () => {
@@ -418,5 +449,7 @@ module.exports = {
   storeUser,
   getUser,
   storeStore,
-  getStore
+  getStore,
+  storeNotificationRegistrations,
+  getNotificationRegistrations
 }

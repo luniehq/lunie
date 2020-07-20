@@ -10,8 +10,11 @@ const config = require('../../config.js')
 const {
   lunieMessageTypes: { SEND }
 } = require('../message-types.js')
-// const { eventTypes } = require('../notifications/pushNotifications-format')
-const { eventTypes, resourceTypes } = require('../notifications/notifications-types')
+const { eventTypes } = require('../notifications/pushNotifications-format')
+const {
+  eventTypes,
+  resourceTypes
+} = require('../notifications/notifications-types')
 const BLOCK_POLLING_INTERVAL = 1000
 const EXPECTED_MAX_BLOCK_WINDOW = 120000
 // apparently the cosmos db takes a while to serve the content after a block has been updated
@@ -45,11 +48,11 @@ class CosmosNodeSubscription {
     const cosmosAPI = new this.CosmosApiClass(this.network, this.store)
 
     // set store upon start
-    this.store.proposals = await cosmosAPI.getAllProposals()
+    this.store.update({
+      proposals: await cosmosAPI.getAllProposals()
+    })
 
     this.proposalPollingTimeout = setTimeout(async () => {
-      await this.checkProposals(cosmosAPI)
-
       this.pollForProposalChanges()
     }, PROPOSAL_POLLING_INTERVAL)
   }
@@ -60,47 +63,6 @@ class CosmosNodeSubscription {
     this.updateNetworksPollingTimeout = setTimeout(async () => {
       this.pollForUpdateNetworks()
     }, UPDATE_NETWORKS_POLLING_INTERVAL)
-  }
-
-  async checkProposals(cosmosAPI) {
-    const newProposals = await cosmosAPI.getAllProposals()
-    const storedProposals = orderBy(this.store.proposals, 'id', 'asc')
-    const sortedNewProposals = orderBy(newProposals, 'id', 'asc')
-
-    // Safety check
-    if (newProposals.length === 0) return
-
-    // case 1: New proposal
-    if (newProposals.length !== this.store.proposals.length) {
-      const newProposal = sortedNewProposals[sortedNewProposals.length - 1]
-
-      publishEvent(
-        this.network.id,
-        resourceTypes.PROPOSAL,
-        eventTypes.PROPOSAL_CREATE,
-        newProposal.id,
-        newProposal
-      )
-    }
-
-    // case 2: Check for status changes
-    sortedNewProposals.forEach((proposal, index) => {
-      if (
-        storedProposals[index] &&
-        storedProposals[index].status !== proposal.status
-      ) {
-        publishEvent(
-          this.network.id,
-          resourceTypes.PROPOSAL,
-          eventTypes.PROPOSAL_UPDATE,
-          proposal.id,
-          proposal
-        )
-      }
-    })
-
-    // Set new proposal list
-    this.store.proposals = sortedNewProposals
   }
 
   async checkForNewBlock(cosmosAPI) {

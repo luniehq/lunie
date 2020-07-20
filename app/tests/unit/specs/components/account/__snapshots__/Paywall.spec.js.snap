@@ -211,7 +211,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >
@@ -241,7 +243,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >
@@ -271,7 +275,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >
@@ -301,7 +307,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >
@@ -331,7 +339,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >
@@ -361,7 +371,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >
@@ -391,7 +403,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >
@@ -421,7 +435,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >
@@ -451,7 +467,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >
@@ -481,7 +499,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >
@@ -511,7 +531,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >
@@ -541,7 +563,9 @@ exports[`Paywall should show the Paywall page 1`] = `
             </p>
           </div>
            
-          <div>
+          <div
+            class="notification-arrow"
+          >
             <i
               class="material-icons notranslate"
             >

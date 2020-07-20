@@ -173,10 +173,12 @@ export default ({ apollo }) => {
       const allSessionAddresses = await dispatch("getAllSessionAddresses")
       commit("setAllSessionAddresses", allSessionAddresses)
 
+      // TODO
       // Register device for push registrations
       // const activeNetworks = getActiveNetworks(networks)
-      /* istanbul ignore next */
       // await pushNotifications.askPermissionAndRegister(activeNetworks, apollo)
+      // update registered topics for emails
+      dispatch("updateEmailRegistrations")
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
@@ -189,6 +191,9 @@ export default ({ apollo }) => {
       // update session addresses
       const allSessionAddresses = await dispatch("getAllSessionAddresses")
       commit("setAllSessionAddresses", allSessionAddresses)
+
+      // update registered topics for emails
+      dispatch("updateEmailRegistrations")
     },
     resetSessionData({ commit, state }, networkId) {
       state.history = ["/"]

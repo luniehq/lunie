@@ -368,6 +368,10 @@ const typeDefs = gql`
       topics: [String]
     ): PushRegistration!
     unsubscribeTopics(token: String!, topics: [String]!): PushTopic
+    notifications(
+      addressObjects: [NotificationInput]!
+      notificationType: String
+    ): Boolean
   }
 
   type ChainAppliedFees {
@@ -424,6 +428,10 @@ const typeDefs = gql`
   type PushTopic {
     token: String!
     topics: [String]!
+  input NotificationSetting {
+    topic: String!
+    type: String!
+    remove: Boolean
   }
 
   type Query {
