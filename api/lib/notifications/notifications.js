@@ -53,9 +53,9 @@ function getMessageTitle(networks, notification) {
 
       return `Voting power increased from ${Number(
         data.prevValidator.votingPower
-      ).toFixed(6)} to ${Number(data.nextValidator.votingPower).toFixed(
-        6
-      )} (${percentageDifference.toFixed(3)}% increase) for ${
+      ).toFixed(2)}% to ${Number(data.nextValidator.votingPower).toFixed(
+        2
+      )}% (${percentageDifference.toFixed(3)}% increase) for ${
         data.nextValidator.name
       }`
     }
@@ -69,9 +69,9 @@ function getMessageTitle(networks, notification) {
 
       return `Voting power decreased from ${Number(
         data.prevValidator.votingPower
-      ).toFixed(6)} to ${Number(data.nextValidator.votingPower).toFixed(
-        6
-      )} (${percentageDifference.toFixed(3)}% decrease) for ${
+      ).toFixed(2)}% to ${Number(data.nextValidator.votingPower).toFixed(
+        2
+      )}% (${percentageDifference.toFixed(3)}% decrease) for ${
         data.nextValidator.name
       }`
     }
