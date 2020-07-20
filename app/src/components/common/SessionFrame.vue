@@ -22,7 +22,7 @@
           class="material-icons notranslate circle modal-icon"
           >{{ icon }}</i
         >
-        <div class="session" :class="{ evenly: !isExtension }">
+        <div class="session">
           <div class="session-header">
             <a v-if="!hideBack" @click="goBack">
               <i class="material-icons notranslate circle back">arrow_back</i>
@@ -69,7 +69,7 @@ export default {
         this.$router.go(`-1`)
       } catch (error) {
         this.$router.push({
-          name: "networks"
+          name: "networks",
         })
       }
     },
@@ -124,9 +124,5 @@ export default {
   transform: scaleX(-1);
   filter: invert(85%) sepia(9%) saturate(18%) hue-rotate(6deg) brightness(85%)
     contrast(87%); /* converts to same than var(--dim) */
-}
-
-.evenly {
-  justify-content: space-evenly;
 }
 </style>

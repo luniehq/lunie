@@ -121,7 +121,6 @@ h3 {
   padding: 0 1rem 5rem;
   margin: 0 auto;
   width: 100%;
-  overflow: auto;
 }
 
 .session-list {
