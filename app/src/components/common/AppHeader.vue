@@ -1,9 +1,9 @@
 <template>
   <nav
     class="app-header"
-    :class="{ mobile: !desktop, hideSidebarMenu: !hideSidebarMenu }"
+    :class="{ mobile: !desktop, hideSidebarMenu: hideSidebarMenu }"
   >
-    <div v-if="hideSidebarMenu" class="container" :class="{ open: open }">
+    <div v-show="!hideSidebarMenu" class="container" :class="{ open: open }">
       <div class="header-item" :class="{ open: open }">
         <a v-if="!isMobileApp" href="https://lunie.io">
           <svg
@@ -92,7 +92,7 @@ export default {
       return this.session.developmentMode
     },
     hideSidebarMenu() {
-      return this.$route.name !== `paywall` && this.$route.name !== `notifications`
+      return (this.$route.name === `paywall` || this.$route.name === `notifications`) && this.desktop
     }
   },
   mounted: async function () {
