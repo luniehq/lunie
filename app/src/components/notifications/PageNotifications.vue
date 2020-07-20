@@ -1,8 +1,10 @@
 <template>
   <TmPage
     data-title="My alerts"
-    :loading="!firstLoaded"
-    :loading-more="!dataLoaded && moreAvailable"
+    :loading="$apollo.queries.notifications.loading"
+    :loading-more="
+      $apollo.queries.notifications.loading && !dataLoaded && moreAvailable
+    "
     :empty="notifications.length === 0"
     :empty-title="`You don't have any notifications yet`"
     :empty-subtitle="`Don't worry, they are on their way!`"
