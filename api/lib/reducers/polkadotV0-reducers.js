@@ -243,7 +243,7 @@ function parsePolkadotTransaction(
 
 function getExtrinsicSuccess(extrinsicIndex, blockEvents) {
   let extrinsicSuccess = false
-  for (let index = 0, length = blockEvents.length; index < length; index++) {
+  blockEvents.forEach(({ event, phase })) => {
     const { event, phase } = blockEvents[index]
     if (
       parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex &&
