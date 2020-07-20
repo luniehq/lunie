@@ -24,7 +24,7 @@
 
     <template v-else-if="!loading && !empty">
       <slot></slot>
-      <TmDataLoading v-if="!loading && loadingMore" class="loading-more" />
+      <TmDataLoading v-if="!loading && loadingMore" />
     </template>
     <slot v-if="session.signedIn" name="signInRequired"></slot>
   </div>
@@ -157,10 +157,6 @@ h4 {
   font-size: var(--sm);
   font-weight: 400;
   line-height: 1rem;
-}
-
-.loading-more {
-  margin: 1rem;
 }
 
 @media screen and (max-width: 1024px) {
