@@ -224,8 +224,8 @@ describe(`DelegationModal`, () => {
       const self = {
         $emit: jest.fn(),
         $store: {
-          dispatch: jest.fn()
-        }
+          dispatch: jest.fn(),
+        },
       }
       DelegationModal.methods.onSuccess.call(self)
       expect(self.$emit).toHaveBeenCalledWith(
@@ -238,8 +238,8 @@ describe(`DelegationModal`, () => {
       const self = {
         $emit: jest.fn(),
         $store: {
-          dispatch: jest.fn()
-        }
+          dispatch: jest.fn(),
+        },
       }
       DelegationModal.methods.onSuccess.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(

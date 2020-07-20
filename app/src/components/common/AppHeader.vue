@@ -92,8 +92,12 @@ export default {
       return this.session.developmentMode
     },
     hideSidebarMenu() {
-      return (this.$route.name === `paywall` || this.$route.name === `notifications`) && this.desktop
-    }
+      return (
+        (this.$route.name === `paywall` ||
+          this.$route.name === `notifications`) &&
+        this.desktop
+      )
+    },
   },
   mounted: async function () {
     this.watchWindowSize()
