@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.37] - 2020-07-17
+
+### Added
+
+- Register users for email notifications and send email notifications @faboweb
+
+### Fixed
+
+- [#4532](https://github.com/cosmos/lunie/pull/4532) Fix dashboard/statistics for Substrate transactions @Bitcoinera
+
+### Code Improvements
+
+- [#4533](https://github.com/cosmos/lunie/pull/4533) Refactored accounts logic into own file @faboweb
+
 ## [1.0.36] - 2020-07-16
 
 ### Added
@@ -72,7 +86,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Remove Polkadot API disconnection as memory leak has been fixed @faboweb
-- Switch to Pengs node for Cosmos Hub @faboweb
+- Switch to Figment full node for Cosmos Hub and add Pengs as Tendermint @faboweb
 
 ### Fixed
 
