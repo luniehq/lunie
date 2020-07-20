@@ -444,8 +444,7 @@ const resolvers = (networkList) => ({
     }
   },
   Mutation: {
-    registerUser: (_, variables, { user: { uid } }) =>
-      registerUser(uid)
+    registerUser: (_, variables, { user: { uid } }) => registerUser(uid)
   },
   Subscription: {
     blockAdded: {

@@ -1,7 +1,10 @@
 <template>
   <TmPage
     data-title="My alerts"
-    :loading="$apollo.queries.notifications.loading"
+    :loading="$apollo.queries.notifications.loading && !firstLoaded"
+    :loading-more="
+      $apollo.queries.notifications.loading && !dataLoaded && moreAvailable
+    "
     :empty="notifications.length === 0"
     :empty-title="`You don't have any notifications yet`"
     :empty-subtitle="`Don't worry, they are on their way!`"
@@ -31,8 +34,8 @@
 <script>
 import TmPage from "common/TmPage"
 import EventList from "common/EventList"
-
 import { mapState, mapGetters } from "vuex"
+import uniqBy from "lodash.uniqby"
 import gql from "graphql-tag"
 
 export default {
@@ -45,6 +48,7 @@ export default {
     notifications: [],
     moreAvailable: true,
     dataLoaded: false,
+    firstLoaded: false,
   }),
   computed: {
     ...mapState([`session`, `account`]),
@@ -88,11 +92,16 @@ export default {
           },
           // Transform the previous result with new data
           updateQuery: function (previousResult, { fetchMoreResult }) {
+            this.moreAvailable = !(fetchMoreResult.notifications.length === 0)
             return {
-              notifications: [
-                ...previousResult.notifications,
-                ...fetchMoreResult.notifications,
-              ],
+              // DEPRECATE uniqBy, should be resolved via API
+              notifications: uniqBy(
+                [
+                  ...previousResult.notifications,
+                  ...fetchMoreResult.notifications,
+                ],
+                "id"
+              ),
             }
           },
         })
@@ -131,8 +140,8 @@ export default {
       /* istanbul ignore next */
       update(result) {
         this.dataLoaded = true
+        this.firstLoaded = true
         // assume that when the full page got loaded, that there is more
-        this.moreAvailable = result.notifications.length % 20 === 0
         return result.notifications
       },
       /* istanbul ignore next */
@@ -227,15 +236,5 @@ img {
 .title {
   font-weight: 400;
   overflow-wrap: anywhere; /** Important. Otherwise awful style bug */
-}
-
-.spinner-container {
-  display: flex;
-  justify-content: center;
-}
-
-.spinner {
-  height: 45px;
-  width: 45px;
 }
 </style>
