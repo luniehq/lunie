@@ -39,7 +39,7 @@ module.exports = {
 
         // checking validators
         if (isSameArray(validatorNames, updatedValidatorNames)) {
-          await sleep()
+          browser.pause(2000)
           continue
         }
         break
