@@ -93,8 +93,7 @@ export default {
     },
     hideSidebarMenu() {
       return (
-        (this.$route.name === `paywall` ||
-          this.$route.name === `notifications`) &&
+        this.$route.meta.hideSidebar &&
         this.desktop
       )
     },

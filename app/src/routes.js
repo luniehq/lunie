@@ -27,6 +27,9 @@ export default (store) => {
       components: {
         session: () => import(`./components/account/Paywall`),
       },
+      meta: {
+        hideSidebar: true,
+      },
     },
     {
       path: `/notifications`,
@@ -35,6 +38,7 @@ export default (store) => {
         session: () => import(`./components/notifications/PageNotifications`),
       },
       meta: {
+        hideSidebar: true,
         feature: "notifications",
       },
     },
