@@ -4,8 +4,8 @@
       v-focus-last
       class="session-frame"
       tabindex="0"
-      @keyup.esc="goToPortfolio()"
-      @click.self="goToPortfolio()"
+      @keyup.esc="closeModal()"
+      @click.self="closeModal()"
     >
       <div class="session-outer-container">
         <div
@@ -28,7 +28,7 @@
               <i class="material-icons notranslate circle back">arrow_back</i>
             </a>
             <div v-if="!isExtension" class="session-close">
-              <a @click="goToPortfolio()">
+              <a @click="closeModal()">
                 <i class="material-icons notranslate circle back">close</i>
               </a>
             </div>
@@ -73,18 +73,16 @@ export default {
         })
       }
     },
-    goToPortfolio() {
-      if (location.href.includes(`portfolio`)) {
+    closeModal() {
+      if (this.$route.meta.requiresAuth) {
         this.$router.push({
-          name: "networks"
-        })
-      } else {
-        this.$router.push({
-          name: "portfolio",
+          name: "Validators",
           params: {
             networkId: this.networkSlug,
           },
         })
+      } else {
+        this.goBack()
       }
     },
   },
