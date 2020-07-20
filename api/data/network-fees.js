@@ -182,7 +182,7 @@ const kavaGasPrices = [
     price: '0.1'
   },
   {
-    denom: 'ubnb',
+    denom: 'bnb',
     price: '0.1'
   },
 ]
