@@ -30,10 +30,6 @@ export const routeGuard = (store) => async (to, from, next) => {
       next(`/paywall`)
     }
   }
-  if (to.fullPath.includes(`paywall`)) {
-    console.log('I am going to Paywall')
-    console.log(to.fullPath)
-  }
   if (to.meta.feature) {
     const featureAvalability = await featureAvailable(
       store,
