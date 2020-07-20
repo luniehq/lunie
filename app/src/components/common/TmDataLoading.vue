@@ -13,3 +13,15 @@ export default {
   name: `tm-data-loading`,
 }
 </script>
+<style>
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.spinner {
+  height: 45px;
+  width: 45px;
+}
+</style>

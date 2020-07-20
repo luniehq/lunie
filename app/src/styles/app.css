@@ -130,17 +130,6 @@ input.tm-field {
   animation: fade 1.5s infinite;
 }
 
-.spinner-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.spinner {
-  height: 45px;
-  width: 45px;
-}
-
 @keyframes fade {
   0% {
     opacity: 0.4;
