@@ -23,7 +23,7 @@ module.exports = {
 
         // checking validators did reset
         if (!isSameArray(validatorNames, updatedValidatorNames)) {
-          await sleep()
+          await browser.pause(2000)
           continue
         }
         break
@@ -39,7 +39,7 @@ module.exports = {
 
         // checking validators
         if (isSameArray(validatorNames, updatedValidatorNames)) {
-          browser.pause(2000)
+          await sleep()
           continue
         }
         break
