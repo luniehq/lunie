@@ -71,7 +71,7 @@ function getMessageTitle(networks, notification) {
         data.prevValidator.votingPower
       ).toFixed(2)}% to ${Number(data.nextValidator.votingPower).toFixed(
         2
-      )}% (${percentageDifference.toFixed(3)}% decrease) for ${
+      )}% (${percentageDifference.toFixed(2)}% decrease) for ${
         data.nextValidator.name
       }`
     }
