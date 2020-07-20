@@ -1,7 +1,7 @@
 <template>
   <TmPage
     data-title="My alerts"
-    :loading="$apollo.queries.notifications.loading"
+    :loading="$apollo.queries.notifications.loading && !firstLoaded"
     :loading-more="
       $apollo.queries.notifications.loading && !dataLoaded && moreAvailable
     "
