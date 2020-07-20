@@ -242,19 +242,11 @@ function parsePolkadotTransaction(
 }
 
 function getExtrinsicSuccess(extrinsicIndex, blockEvents) {
-  let extrinsicSuccess = false
-  blockEvents.forEach(({ event, phase })) => {
-    const { event, phase } = blockEvents[index]
-    if (
-      parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex &&
+  return blockEvents.find(({ event, phase }) =>
+    parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex &&
         event.section === `system` &&
         event.method === `ExtrinsicSuccess`
-    ) {
-      extrinsicSuccess = true
-      break
-    }
-  }
-  return extrinsicSuccess
+  ) ? true : false
 }
 
 function transactionReducerV2(
