@@ -92,7 +92,7 @@
           <div
             v-close-popover
             class="menu-list-item outline"
-            @click="signOut(address)"
+            @click="signOut()"
           >
             <span>Logout</span>
             <i class="material-icons">exit_to_app</i>
@@ -164,7 +164,7 @@ export default {
         networkId: address.networkId,
       })
     },
-    signOut(address) {
+    signOut() {
       this.$store.dispatch(`signOutUser`)
     },
     goToWelcome() {
