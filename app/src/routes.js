@@ -11,7 +11,7 @@ export default (store) => {
   return [
     {
       path: `/`,
-      redirect: `/notifications`,
+      redirect: `/cosmos-hub/portfolio`,
     },
     {
       path: `/networks`,
