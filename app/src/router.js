@@ -10,11 +10,6 @@ export const routeGuard = (store) => async (to, from, next) => {
   // set any open modal to false
   store.state.session.currrentModalOpen = false
 
-  // notifications is landing page if user is signed in with email
-  if (store.state.account.userSignedIn) {
-    next(`/notifications`)
-  }
-
   // fallback for old history mode url redirect if path includes a hash
   if (to.fullPath.includes("#")) {
     const path = to.fullPath.substr(to.fullPath.indexOf("#") + 1)
