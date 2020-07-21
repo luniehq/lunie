@@ -111,6 +111,7 @@ async function prepare(browser) {
     },
     [browser.globals.network, browser.globals.address, browser.globals.wallet]
   )
+
   await browser.url(
     browser.launch_url +
     browser.globals.slug +
@@ -118,6 +119,7 @@ async function prepare(browser) {
   )
 
   // check if we are already signed in
+  await browser.click(".session-close")
   await browser.waitForElementVisible("#open-user-menu", 20000, true)
   await browser.click("#open-user-menu")
   await browser.waitForElementVisible("#create-new-account", 20000, true)
