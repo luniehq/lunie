@@ -7,6 +7,7 @@ export default ({ apollo }) => {
   const state = {
     userSignedIn: false,
     user: null,
+    signInEmailError: null,
     signInError: null,
   }
 
@@ -19,6 +20,9 @@ export default ({ apollo }) => {
     },
     setSignInError(state, error) {
       state.signInError = error
+    },
+    setSignInEmailError(state, error) {
+      state.signInEmailError = error
     },
   }
 
@@ -42,12 +46,14 @@ export default ({ apollo }) => {
         }
       })
     },
-    async signInUser({ commit }) {
+    async signInUser({ commit }, url) {
+      commit(`setSignInError`, undefined)
       const Auth = (await getFirebase()).auth()
-      if (Auth.isSignInWithEmailLink(window.location.href)) {
-        const user = JSON.parse(localStorage.getItem(`user`))
-        try {
-          await Auth.signInWithEmailLink(user.email, window.location.href)
+      try {
+        if (Auth.isSignInWithEmailLink(url)) {
+            const user = JSON.parse(localStorage.getItem(`user`))
+              await Auth.signInWithEmailLink(user.email, url)
+
           const idToken = await Auth.currentUser.getIdToken(
             /* forceRefresh */ true
           )
@@ -58,31 +64,32 @@ export default ({ apollo }) => {
               }
             `,
           })
-        } catch (error) {
-          console.error(error)
-          commit(`setSignInError`, error)
-          Sentry.captureException(error)
         }
+      } catch (error) {
+        console.error(error)
+        Sentry.captureException(error)
+        commit(`setSignInError`, error)
       }
     },
     async sendUserMagicLink({ commit }, { user }) {
+      commit(`setSignInEmailError`, undefined)
       const Auth = (await getFirebase()).auth()
       const actionCodeSettings = {
-        url: `${window.location.protocol}//${window.location.host}/email-authentication`,
+        url: config.mobileApp
+          ? `https://app.lunie.io/email-authentication`
+          : `${window.location.protocol}//${window.location.host}/email-authentication`,
         handleCodeInApp: true,
         android: {
           packageName: `org.lunie.lunie`,
           installApp: true,
           minimumVersion: `1.0.219`, // the first version with deep linking enabled
-        },
-        // TODO: iOS
-        dynamicLinkDomain: `deeplink.lunie.io`, // should work
+        }
       }
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
         localStorage.setItem("user", JSON.stringify(user))
       } catch (error) {
-        commit(`setSignInError`, error)
+        commit(`setSignInEmailError`, error)
         Sentry.captureException(error)
       }
     },
@@ -117,5 +124,44 @@ export default ({ apollo }) => {
     state,
     mutations,
     actions,
+  }
+}
+
+export async function getLaunchUrl(router) {
+  const urlOpen = await Plugins.App.getLaunchUrl();
+  if(!urlOpen || !urlOpen.url) return;
+  handleDeeplink(urlOpen.url, router)
+}
+
+export function handleDeeplink(url, router) {
+  console.log("Received deeplink " + url)
+
+  // Example url: https://lunie.io/email-authentication
+  // slug = /email-authentication
+  const regexp = /https:\/\/[\w\d-\.]+\/([\w\d-\/]*)(\?(.+))?/
+  const matches = regexp.exec(url)
+  const path = matches[1]
+  const query = matches[3]
+
+  const queryObject = query.split("&")
+    .map(keyValue => keyValue.split("="))
+    .reduce((query, [key, value]) => {
+      query[key] = value
+      return query
+    }, {})
+
+  // if we receive a deeplink for firebase authentication we follow that link
+  if (queryObject.link) {
+    window.open(unescape(queryObject.link), "_blank")
+  }
+
+  try {
+    // change the route to the route we got from the deeplink
+    router.push({
+      path: "/" + path,
+      query: queryObject
+    })
+  } catch (error) {
+    console.error(error)
   }
 }

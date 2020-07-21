@@ -4,6 +4,9 @@
       <h1 v-if="account.userSignedIn" class="authentication-title">
         You are now signed in! &#128640;
       </h1>
+      <h1 v-else-if="account.signInError" class="authentication-title">
+        {{account.signInError.message}} 🙀
+      </h1>
       <h1 v-else class="authentication-title">
         Good bye, see you soon! &#128075;
       </h1>
@@ -23,7 +26,7 @@ export default {
     ...mapState([`account`]),
   },
   mounted() {
-    this.$store.dispatch(`signInUser`)
+    this.$store.dispatch(`signInUser`, window.location.href)
   },
 }
 </script>
