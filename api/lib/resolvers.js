@@ -322,10 +322,12 @@ const resolvers = (networkList) => ({
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      // needed to get coinLookups
+      const network = await database(config)('').getNetwork(networkId)
       const balances = await remoteFetch(
         dataSources,
         networkId
-      ).getBalancesV2FromAddress(address, fiatCurrency)
+      ).getBalancesV2FromAddress(address, fiatCurrency, network)
       const stakingDenomBalance = balances.find(({ type }) => type === `STAKE`)
       if (development !== 'true') {
         logBalances(

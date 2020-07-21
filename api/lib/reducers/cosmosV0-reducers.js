@@ -270,7 +270,7 @@ function denomLookup(denom) {
   return lookup[denom] ? lookup[denom] : denom.toUpperCase()
 }
 
-function coinReducer(coin) {
+function coinReducer(coin, coinLookup) {
   if (!coin) {
     return {
       amount: 0,
@@ -282,7 +282,7 @@ function coinReducer(coin) {
   const denom = denomLookup(coin.denom)
   return {
     denom: denom,
-    amount: BigNumber(coin.amount).div(1000000) // Danger: this might not be the case for all future tokens
+    amount: BigNumber(coin.amount).div(coinLookup.chainToVieConversionFactor) // Danger: this might not be the case for all future tokens
   }
 }
 
