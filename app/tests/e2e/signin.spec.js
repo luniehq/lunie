@@ -78,11 +78,10 @@ async function openMenu(browser) {
 }
 
 async function prepare(browser) {
-  browser.resizeWindow(400, 1024) // force mobile screen to be able to click some out of screen buttons
   await browser.url(
     browser.launch_url +
-      browser.globals.slug +
-      "?insecure=true&experimental=true"
+    browser.globals.slug +
+    "?insecure=true&experimental=true"
   )
   browser.waitForElementVisible(`body`, 20000, true)
   browser.waitForElementVisible(`#app-content`, 20000, true)
@@ -114,8 +113,8 @@ async function prepare(browser) {
   )
   await browser.url(
     browser.launch_url +
-      browser.globals.slug +
-      "?insecure=true&experimental=true"
+    browser.globals.slug +
+    "?insecure=true&experimental=true"
   )
 
   // check if we are already signed in
