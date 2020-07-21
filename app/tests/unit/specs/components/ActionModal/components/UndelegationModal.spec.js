@@ -121,8 +121,8 @@ describe(`UndelegationModal`, () => {
     const self = {
       $emit: jest.fn(),
       $store: {
-        dispatch: jest.fn()
-      }
+        dispatch: jest.fn(),
+      },
     }
     UndelegationModal.methods.onSuccess.call(self)
     expect(self.$emit).toHaveBeenCalledWith(
@@ -135,8 +135,8 @@ describe(`UndelegationModal`, () => {
     const self = {
       $emit: jest.fn(),
       $store: {
-        dispatch: jest.fn()
-      }
+        dispatch: jest.fn(),
+      },
     }
     UndelegationModal.methods.onSuccess.call(self)
     expect(self.$store.dispatch).toHaveBeenCalledWith(

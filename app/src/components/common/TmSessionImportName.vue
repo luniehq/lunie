@@ -7,7 +7,10 @@
       <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" field-label="Your Address">
-          <span v-if="networkCryptoTypes.length > 1 && attempt > 0" class="algo">
+          <span
+            v-if="networkCryptoTypes.length > 1 && attempt > 0"
+            class="algo"
+          >
             - {{ currentCryptoView }}
           </span>
           <img
@@ -249,7 +252,7 @@ export default {
   position: unset !important;
 }
 
-.algo { 
+.algo {
   position: absolute;
   top: 0;
   left: 5.45rem;
@@ -257,12 +260,9 @@ export default {
   padding: 0.75rem 0;
   font-size: var(--xs);
   color: var(--dim);
-
   text-transform: uppercase;
-  font-size: 10px;
   font-weight: 600;
   border: 2px solid;
-  padding: 2px 4px;
   border-radius: 0.25rem;
 }
 </style>
