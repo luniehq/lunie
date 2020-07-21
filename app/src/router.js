@@ -17,8 +17,14 @@ export const routeGuard = (store) => async (to, from, next) => {
   }
 
   // redirect from notifications to paywall is user is not signed in
-  if (to.name === `notifications` && !store.state.account.userSignedIn) {
-    next(`/paywall`)
+  if (to.name === `notifications`) {
+    if (store.state.account.userSignedIn) {
+      next()
+    } else if (from.name === `paywall`) {
+      return
+    } else {
+      next(`/paywall`)
+    }
   }
 
   // checks for feature flags and feature availability
