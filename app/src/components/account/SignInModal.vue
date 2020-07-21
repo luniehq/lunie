@@ -18,7 +18,11 @@
         <TmFormMsg
           v-if="signInError"
           type="custom"
-          :msg="account.signInEmailError ? account.signInEmailError.message : undefined"
+          :msg="
+            account.signInEmailError
+              ? account.signInEmailError.message
+              : undefined
+          "
         />
       </div>
 

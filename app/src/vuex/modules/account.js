@@ -51,8 +51,8 @@ export default ({ apollo }) => {
       const Auth = (await getFirebase()).auth()
       try {
         if (Auth.isSignInWithEmailLink(url)) {
-            const user = JSON.parse(localStorage.getItem(`user`))
-              await Auth.signInWithEmailLink(user.email, url)
+          const user = JSON.parse(localStorage.getItem(`user`))
+          await Auth.signInWithEmailLink(user.email, url)
 
           const idToken = await Auth.currentUser.getIdToken(
             /* forceRefresh */ true
@@ -83,7 +83,7 @@ export default ({ apollo }) => {
           packageName: `org.lunie.lunie`,
           installApp: true,
           minimumVersion: `1.0.219`, // the first version with deep linking enabled
-        }
+        },
       }
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
@@ -128,8 +128,8 @@ export default ({ apollo }) => {
 }
 
 export async function getLaunchUrl(router) {
-  const urlOpen = await Plugins.App.getLaunchUrl();
-  if(!urlOpen || !urlOpen.url) return;
+  const urlOpen = await Plugins.App.getLaunchUrl()
+  if (!urlOpen || !urlOpen.url) return
   handleDeeplink(urlOpen.url, router)
 }
 
@@ -143,8 +143,9 @@ export function handleDeeplink(url, router) {
   const path = matches[1]
   const query = matches[3]
 
-  const queryObject = query.split("&")
-    .map(keyValue => keyValue.split("="))
+  const queryObject = query
+    .split("&")
+    .map((keyValue) => keyValue.split("="))
     .reduce((query, [key, value]) => {
       query[key] = value
       return query
@@ -159,7 +160,7 @@ export function handleDeeplink(url, router) {
     // change the route to the route we got from the deeplink
     router.push({
       path: "/" + path,
-      query: queryObject
+      query: queryObject,
     })
   } catch (error) {
     console.error(error)

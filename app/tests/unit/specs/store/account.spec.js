@@ -42,8 +42,9 @@ describe(`Module: Connection`, () => {
           },
         })
       )
-      await actions.signInUser({ commit })
-      expect(commit).toHaveBeenCalledTimes(0)
+      await actions.signInUser({ commit }, "app.lunie.io?oobCode=1234")
+      expect(commit).toHaveBeenCalledWith(`setSignInError`, undefined) // reset
+      expect(commit).toHaveBeenCalledTimes(1)
     })
     it.skip(`sends the user the magic link`, async () => {
       const commit = jest.fn()
@@ -60,7 +61,8 @@ describe(`Module: Connection`, () => {
         { user: { email: `hello@world` } }
       )
       const error = new Error(`The email address is badly formatted.`)
-      expect(commit).toHaveBeenCalledWith(`setSignInError`, error)
+      expect(commit).toHaveBeenCalledWith(`setSignInEmailError`, undefined) // reset
+      expect(commit).toHaveBeenCalledWith(`setSignInEmailError`, error)
     })
     it(`signs out the user`, async () => {
       const commit = jest.fn()
