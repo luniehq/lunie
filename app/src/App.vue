@@ -39,7 +39,7 @@ export default {
     NetworkSelector,
   },
   computed: {
-    ...mapState([`notifications`, `session`]),
+    ...mapState([`session`]),
     ...mapGetters([`network`]),
     isMobileApp() {
       return this.session.mobile

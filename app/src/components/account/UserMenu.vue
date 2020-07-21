@@ -358,6 +358,7 @@ h3 {
   font-size: 26px;
   transform: scale(0.75);
   top: 0;
+  padding-bottom: 0.25rem;
 }
 
 .v-popover {

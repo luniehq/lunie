@@ -7,29 +7,33 @@ import { setNetwork } from "./scripts/setNetwork"
 Vue.use(router)
 
 export const routeGuard = (store) => async (to, from, next) => {
-  // Set any open modal to false
+  // set any open modal to false
   store.state.session.currrentModalOpen = false
 
-  // Redirect if fullPath begins with a hash (fallback for old pre history mode urls)
+  // fallback for old history mode url redirect if path includes a hash
   if (to.fullPath.includes("#")) {
     const path = to.fullPath.substr(to.fullPath.indexOf("#") + 1)
     next(path)
-    return
   }
+
+  // redirect from notifications to paywall is user is not signed in
   if (to.name === `notifications`) {
     if (store.state.account.userSignedIn) {
       next()
-      return
     } else {
       next(`/paywall`)
+      return
     }
   }
+
+  // checks for feature flags and feature availability
   if (to.meta.feature) {
     const featureAvalability = await featureAvailable(
       store,
       to.params.networkId,
       to.meta.feature
     )
+
     switch (featureAvalability) {
       case "DISABLED": {
         next(`/feature-not-available/${to.meta.feature}`)
@@ -45,10 +49,12 @@ export const routeGuard = (store) => async (to, from, next) => {
     }
   }
 
+  // manually set browser history
   if (from.fullPath !== to.fullPath && !store.state.session.pauseHistory) {
     store.commit(`addHistory`, from.fullPath)
   }
 
+  // set network based on url params
   if (to.params.networkId) {
     await setNetwork({ to, from, next }, store)
   } else {
