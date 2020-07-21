@@ -22,14 +22,16 @@
       :subtitle="emptySubtitle"
     />
 
-    <slot v-else-if="!loading && !empty"></slot>
+    <template v-else-if="!loading && !empty">
+      <slot></slot>
+      <TmDataLoading v-if="!loading && loadingMore" />
+    </template>
     <slot v-if="session.signedIn" name="signInRequired"></slot>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex"
-
 import CardSignInRequired from "common/CardSignInRequired"
 import TmDataLoading from "common/TmDataLoading"
 import TmDataMsg from "common/TmDataMsg"
@@ -43,6 +45,10 @@ export default {
   },
   props: {
     loading: {
+      type: Boolean,
+      default: false,
+    },
+    loadingMore: {
       type: Boolean,
       default: false,
     },

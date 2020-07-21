@@ -21,6 +21,11 @@ describe(`SessionFrame`, () => {
           go: jest.fn(),
           push: jest.fn(),
         },
+        $route: {
+          meta: {
+            requiresAuth: true
+          },
+        }
       },
       stubs: [`router-link`],
     })
@@ -35,10 +40,10 @@ describe(`SessionFrame`, () => {
     expect(wrapper.vm.$router.go).toHaveBeenCalledWith(`-1`)
   })
 
-  it(`should go back to portfolio of the current network`, () => {
-    wrapper.vm.goToPortfolio()
+  it(`should go to validators page of the current network`, () => {
+    wrapper.vm.closeModal()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
-      name: "portfolio",
+      name: "Validators",
       params: {
         networkId: `cosmos-hub`,
       },

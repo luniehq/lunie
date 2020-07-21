@@ -4,8 +4,8 @@
       v-focus-last
       class="session-frame"
       tabindex="0"
-      @keyup.esc="goToPortfolio()"
-      @click.self="goToPortfolio()"
+      @keyup.esc="closeModal()"
+      @click.self="closeModal()"
     >
       <div class="session-outer-container">
         <div
@@ -22,13 +22,13 @@
           class="material-icons notranslate circle modal-icon"
           >{{ icon }}</i
         >
-        <div class="session" :class="{ evenly: !isExtension }">
+        <div class="session">
           <div class="session-header">
             <a v-if="!hideBack" @click="goBack">
               <i class="material-icons notranslate circle back">arrow_back</i>
             </a>
             <div v-if="!isExtension" class="session-close">
-              <a @click="goToPortfolio()">
+              <a @click="closeModal()">
                 <i class="material-icons notranslate circle back">close</i>
               </a>
             </div>
@@ -65,15 +65,25 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.go(`-1`)
+      try {
+        this.$router.go(`-1`)
+      } catch (error) {
+        this.$router.push({
+          name: "networks",
+        })
+      }
     },
-    goToPortfolio() {
-      this.$router.push({
-        name: "portfolio",
-        params: {
-          networkId: this.networkSlug,
-        },
-      })
+    closeModal() {
+      if (this.$route.meta.requiresAuth) {
+        this.$router.push({
+          name: "Validators",
+          params: {
+            networkId: this.networkSlug,
+          },
+        })
+      } else {
+        this.goBack()
+      }
     },
   },
 }
@@ -114,9 +124,5 @@ export default {
   transform: scaleX(-1);
   filter: invert(85%) sepia(9%) saturate(18%) hue-rotate(6deg) brightness(85%)
     contrast(87%); /* converts to same than var(--dim) */
-}
-
-.evenly {
-  justify-content: space-evenly;
 }
 </style>
