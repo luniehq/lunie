@@ -329,6 +329,7 @@ class CosmosV0API extends RESTDataSource {
     }
   }
 
+  // DEPRECATE
   async getBalancesFromAddress(address, fiatCurrency) {
     this.checkAddress(address)
     const response = await this.query(`bank/balances/${address}`)

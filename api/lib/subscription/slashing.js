@@ -27,10 +27,15 @@ class SlashingMonitor {
             networkId: this.networkId,
             operatorAddress: address,
             reason: tendermintResponse.events['slash.reason'][index],
-            amount: this.api.reducers.coinReducer({
-              amount: tendermintResponse.events['slash.power'][index],
-              denom: this.network.stakingDenom
-            }),
+            amount: this.api.reducers.coinReducer(
+              {
+                amount: tendermintResponse.events['slash.power'][index],
+                denom: this.network.stakingDenom
+              },
+              {
+                chainToViewConversionFactor: 0.000001 // this chainToViewConversionFactor should be accurate for stakingDenoms
+              }
+            ),
             height:
               tendermintResponse.height ||
               tendermintResponse.data.value.header.height

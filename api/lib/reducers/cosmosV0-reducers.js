@@ -305,13 +305,15 @@ function gasPriceReducer(gasPrice) {
 // amount: {"15000umuon"}, or in multidenom networks they look like this:
 // amount: {"15000ungm,100000uchf,110000ueur,2000000ujpy"}
 // That is why we need this separate function to extract those amounts in this format
-function rewardCoinReducer(reward) {
+function rewardCoinReducer(reward, coinLookup) {
   const multiDenomRewardsArray = reward.split(`,`)
   const mappedMultiDenomRewardsArray = multiDenomRewardsArray.map(
     (reward) =>
       (reward = {
         denom: denomLookup(reward.match(/[a-z]+/gi)[0]),
-        amount: BigNumber(reward.match(/[0-9]+/gi)).div(1000000)
+        amount: BigNumber(reward.match(/[0-9]+/gi)).times(
+          coinLookup.chainToViewConversionFactor
+        )
       })
   )
   return mappedMultiDenomRewardsArray
