@@ -404,11 +404,15 @@ async function reduceFormattedRewards(
   fiatCurrency,
   calculateFiatValue,
   reducers,
-  multiDenomRewardsArray
+  multiDenomRewardsArray,
+  network
 ) {
   await Promise.all(
     reward.map(async (denomReward) => {
-      const lunieCoin = reducers.coinReducer(denomReward)
+      const coinLookup = network.coinLookup.find(
+        ({ chainDenom }) => chainDenom === denomReward.denom
+      )
+      const lunieCoin = reducers.coinReducer(denomReward, coinLookup)
       if (lunieCoin.amount < 0.000001) return
 
       const fiatValue = calculateFiatValue
@@ -430,7 +434,8 @@ async function rewardReducer(
   validatorsDictionary,
   fiatCurrency,
   calculateFiatValue,
-  reducers
+  reducers,
+  network
 ) {
   const formattedRewards = rewards.map((reward) => ({
     reward: reward.reward,
@@ -445,7 +450,8 @@ async function rewardReducer(
         fiatCurrency,
         calculateFiatValue,
         reducers,
-        multiDenomRewardsArray
+        multiDenomRewardsArray,
+        network
       )
     )
   )

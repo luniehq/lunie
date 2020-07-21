@@ -366,9 +366,12 @@ const resolvers = (networkList) => ({
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      // needed to get coinLookups
+      const network = await database(config)('').getNetwork(networkId)
       let rewards = await remoteFetch(dataSources, networkId).getRewards(
         delegatorAddress,
-        fiatCurrency
+        fiatCurrency,
+        network
       )
       if (development !== 'true') {
         logRewards(
