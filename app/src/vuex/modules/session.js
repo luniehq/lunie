@@ -158,7 +158,7 @@ export default ({ apollo }) => {
       { state, getters: { currentNetwork }, commit, dispatch },
       { address, sessionType = `ledger`, HDPath, curve, networkId }
     ) {
-      if (!HDPath || !curve) {
+      if (!HDPath && !curve) {
         // first search in localStorage
         const session = JSON.parse(
           localStorage.getItem(`cosmos-wallets-${address}`)
@@ -175,18 +175,18 @@ export default ({ apollo }) => {
           // set default if this is not defined
           HDPath = currentNetwork.defaultHDPath
           curve = currentNetwork.defaultCurve
-          // store in localStorage for later use
-          if (session)
-            localStorage.setItem(
-              `cosmos-wallets-${address}`,
-              JSON.stringify({
-                ...session,
-                HDPath,
-                curve,
-              })
-            )
         }
       }
+      // store in localStorage for later use
+      if (session)
+      localStorage.setItem(
+        `cosmos-wallets-${address}`,
+        JSON.stringify({
+          ...session,
+          HDPath,
+          curve,
+        })
+      )
       if (networkId && currentNetwork.id !== networkId) {
         await commit(`setNetworkId`, networkId)
         await dispatch(`persistNetwork`, { id: networkId })
