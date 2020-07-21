@@ -96,7 +96,7 @@ class CosmosV0API extends RESTDataSource {
     const txs = await this.loadPaginatedTxs(`txs?tx.height=${height}`)
     return Array.isArray(txs)
       ? this.reducers.transactionsReducerV2(
-          this.networkId,
+          this.network,
           txs,
           this.reducers,
           this.network.stakingDenom

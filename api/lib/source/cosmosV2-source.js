@@ -138,11 +138,7 @@ class CosmosV2API extends CosmosV0API {
       [].concat(...results)
     )
 
-    return this.reducers.transactionsReducerV2(
-      this.networkId,
-      txs,
-      this.reducers
-    )
+    return this.reducers.transactionsReducerV2(this.network, txs, this.reducers)
   }
 
   async getRewards(delegatorAddress, fiatCurrency, network) {

@@ -44,33 +44,45 @@ function setTransactionSuccess(transaction, index) {
     : false
 }
 
-function sendDetailsReducer(message, reducers) {
+function sendDetailsReducer(message, reducers, network) {
+  const coinLookup = network.coinLookup.find(
+    ({ chainDenom }) => chainDenom === message.amount[0].denom
+  )
   return {
     from: [message.from_address],
     to: [message.to_address],
-    amount: reducers.coinReducer(message.amount[0])
+    amount: reducers.coinReducer(message.amount[0], coinLookup)
   }
 }
 
-function stakeDetailsReducer(message, reducers) {
+function stakeDetailsReducer(message, reducers, network) {
+  const coinLookup = network.coinLookup.find(
+    ({ chainDenom }) => chainDenom === message.amount.denom
+  )
   return {
     to: [message.validator_address],
-    amount: reducers.coinReducer(message.amount)
+    amount: reducers.coinReducer(message.amount, coinLookup)
   }
 }
 
-function restakeDetailsReducer(message, reducers) {
+function restakeDetailsReducer(message, reducers, network) {
+  const coinLookup = network.coinLookup.find(
+    ({ chainDenom }) => chainDenom === message.amount.denom
+  )
   return {
     from: [message.validator_src_address],
     to: [message.validator_dst_address],
-    amount: reducers.coinReducer(message.amount)
+    amount: reducers.coinReducer(message.amount, coinLookup)
   }
 }
 
-function unstakeDetailsReducer(message, reducers) {
+function unstakeDetailsReducer(message, reducers, network) {
+  const coinLookup = network.coinLookup.find(
+    ({ chainDenom }) => chainDenom === message.amount.denom
+  )
   return {
     from: [message.validator_address],
-    amount: reducers.coinReducer(message.amount)
+    amount: reducers.coinReducer(message.amount, coinLookup)
   }
 }
 
@@ -123,12 +135,15 @@ function claimRewardsAmountReducer(transaction, reducers) {
   return claimedRewardsDenomArray.map(([denom, amount]) => ({ denom, amount }))
 }
 
-function submitProposalDetailsReducer(message, reducers) {
+function submitProposalDetailsReducer(message, reducers, network) {
+  const coinLookup = network.coinLookup.find(
+    ({ chainDenom }) => chainDenom === message.initial_deposit[0].denom
+  )
   return {
     proposalType: message.content.type,
     proposalTitle: message.content.value.title,
     proposalDescription: message.content.value.description,
-    initialDeposit: reducers.coinReducer(message.initial_deposit[0])
+    initialDeposit: reducers.coinReducer(message.initial_deposit[0], coinLookup)
   }
 }
 
@@ -139,28 +154,37 @@ function voteProposalDetailsReducer(message) {
   }
 }
 
-function depositDetailsReducer(message, reducers) {
+function depositDetailsReducer(message, reducers, network) {
+  const coinLookup = network.coinLookup.find(
+    ({ chainDenom }) => chainDenom === message.amount[0].denom
+  )
   return {
     proposalId: message.proposal_id,
-    amount: reducers.coinReducer(message.amount[0])
+    amount: reducers.coinReducer(message.amount[0], coinLookup)
   }
 }
 
 // function to map cosmos messages to our details format
-function transactionDetailsReducer(type, message, reducers, transaction) {
+function transactionDetailsReducer(
+  type,
+  message,
+  reducers,
+  transaction,
+  network
+) {
   let details
   switch (type) {
     case lunieMessageTypes.SEND:
-      details = reducers.sendDetailsReducer(message, reducers)
+      details = reducers.sendDetailsReducer(message, reducers, network)
       break
     case lunieMessageTypes.STAKE:
-      details = reducers.stakeDetailsReducer(message, reducers)
+      details = reducers.stakeDetailsReducer(message, reducers, network)
       break
     case lunieMessageTypes.RESTAKE:
-      details = reducers.restakeDetailsReducer(message, reducers)
+      details = reducers.restakeDetailsReducer(message, reducers, network)
       break
     case lunieMessageTypes.UNSTAKE:
-      details = reducers.unstakeDetailsReducer(message, reducers)
+      details = reducers.unstakeDetailsReducer(message, reducers, network)
       break
     case lunieMessageTypes.CLAIM_REWARDS:
       details = reducers.claimRewardsDetailsReducer(
@@ -170,13 +194,17 @@ function transactionDetailsReducer(type, message, reducers, transaction) {
       )
       break
     case lunieMessageTypes.SUBMIT_PROPOSAL:
-      details = reducers.submitProposalDetailsReducer(message, reducers)
+      details = reducers.submitProposalDetailsReducer(
+        message,
+        reducers,
+        network
+      )
       break
     case lunieMessageTypes.VOTE:
-      details = reducers.voteProposalDetailsReducer(message, reducers)
+      details = reducers.voteProposalDetailsReducer(message, reducers, network)
       break
     case lunieMessageTypes.DEPOSIT:
-      details = reducers.depositDetailsReducer(message, reducers)
+      details = reducers.depositDetailsReducer(message, reducers, network)
       break
     default:
       details = {}
@@ -224,7 +252,7 @@ function proposalReducer(
   }
 }
 
-function transactionReducerV2(networkId, transaction, reducers) {
+function transactionReducerV2(network, transaction, reducers) {
   try {
     // TODO check if this is anywhere not an array
     let fees
@@ -232,9 +260,17 @@ function transactionReducerV2(networkId, transaction, reducers) {
       transaction.tx.value &&
       Array.isArray(transaction.tx.value.fee.amount)
     ) {
-      fees = transaction.tx.value.fee.amount.map(coinReducer)
+      fees = transaction.tx.value.fee.amount.map((coin) => {
+        const coinLookup = network.coinLookup.find(
+          ({ chainDenom }) => chainDenom === coin.denom
+        )
+        return coinReducer(coin, coinLookup)
+      })
     } else {
-      fees = [coinReducer(transaction.tx.value.fee.amount)]
+      const coinLookup = network.coinLookup.find(
+        ({ chainDenom }) => chainDenom === transaction.tx.value.fee.amount.denom
+      )
+      fees = [coinReducer(transaction.tx.value.fee.amount, coinLookup)]
     }
     // We do display only the transactions we support in Lunie
     const filteredMessages = transaction.tx.value.msg.filter(
@@ -274,12 +310,13 @@ function transactionReducerV2(networkId, transaction, reducers) {
         reducers.getMessageType(type),
         value,
         reducers,
-        transaction
+        transaction,
+        network
       ),
       timestamp: transaction.timestamp,
       memo: transaction.tx.value.memo,
       fees,
-      success: reducers.setTransactionSuccess(transaction, index, networkId),
+      success: reducers.setTransactionSuccess(transaction, index, network.id),
       log:
         transaction.logs && transaction.logs[index]
           ? transaction.logs[index].log
@@ -299,14 +336,14 @@ function transactionReducerV2(networkId, transaction, reducers) {
   }
 }
 
-function transactionsReducerV2(networkId, txs, reducers) {
+function transactionsReducerV2(network, txs, reducers) {
   const duplicateFreeTxs = uniqWith(txs, (a, b) => a.txhash === b.txhash)
   const sortedTxs = sortBy(duplicateFreeTxs, ['timestamp'])
   const reversedTxs = reverse(sortedTxs)
   // here we filter out all transactions related to validators
   return reversedTxs.reduce((collection, transaction) => {
     return collection.concat(
-      transactionReducerV2(networkId, transaction, reducers)
+      transactionReducerV2(network, transaction, reducers)
     )
   }, [])
 }
