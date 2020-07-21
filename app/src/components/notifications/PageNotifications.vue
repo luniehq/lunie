@@ -54,8 +54,20 @@ export default {
     firstLoaded: false,
   }),
   computed: {
-    ...mapState([`session`]),
+    ...mapState([`session`, `account`]),
     ...mapGetters([`networks`]),
+    userSignedIn() {
+      return this.account.userSignedIn
+    },
+  },
+  watch: {
+    userSignedIn: function () {
+      if (!this.userSignedIn) {
+        this.$router.push({
+          name: `paywall`,
+        })
+      }
+    },
   },
   mounted: async function () {
     // set notificationAvailable to false
