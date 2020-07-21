@@ -178,7 +178,6 @@ export default ({ apollo }) => {
         }
       }
       // store in localStorage for later use
-      if (session)
       localStorage.setItem(
         `cosmos-wallets-${address}`,
         JSON.stringify({
