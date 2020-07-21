@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="network">
+  <div id="app" :class="themeClass">
     <NetworkSelector />
     <AppHeader />
     <div id="app-content">
@@ -43,6 +43,9 @@ export default {
     ...mapGetters([`network`]),
     isMobileApp() {
       return this.session.mobile
+    },
+    themeClass() {
+      return !this.$route.meta.networkSpecificRoute ? `lunie-light` : this.network
     },
   },
   store,

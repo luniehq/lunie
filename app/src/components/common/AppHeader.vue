@@ -1,6 +1,9 @@
 <template>
-  <nav class="app-header" :class="{ mobile: !desktop }">
-    <div class="container" :class="{ open: open }">
+  <nav
+    class="app-header"
+    :class="{ mobile: !desktop, hideSidebarMenu: hideSidebarMenu }"
+  >
+    <div v-show="!hideSidebarMenu" class="container" :class="{ open: open }">
       <div class="header-item" :class="{ open: open }">
         <a v-if="!isMobileApp" href="https://lunie.io">
           <svg
@@ -88,6 +91,12 @@ export default {
     isDevelopmentMode() {
       return this.session.developmentMode
     },
+    hideSidebarMenu() {
+      return (
+        !this.$route.meta.networkSpecificRoute &&
+        this.desktop
+      )
+    },
   },
   mounted: async function () {
     this.watchWindowSize()
@@ -134,6 +143,10 @@ export default {
   width: var(--sidebar-plus-width);
   display: flex;
   flex-direction: row;
+}
+
+.app-header.hideSidebarMenu {
+  width: 4rem;
 }
 
 .container {

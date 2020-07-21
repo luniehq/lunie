@@ -1,34 +1,37 @@
 <template>
-  <TmPage
-    data-title="My alerts"
-    :loading="$apollo.queries.notifications.loading && !firstLoaded"
-    :loading-more="
-      $apollo.queries.notifications.loading && !dataLoaded && moreAvailable
-    "
-    :empty="notifications.length === 0"
-    :empty-title="`You don't have any notifications yet`"
-    :empty-subtitle="`Don't worry, they are on their way!`"
-  >
-    <template>
-      <EventList
-        :events="notifications"
-        :more-available="moreAvailable"
-        @loadMore="loadMore"
-      >
-        <template slot-scope="event">
-          <router-link :key="event.id" class="notification" :to="event.link">
-            <div class="content">
-              <img :src="event.icon" />
-              <div>
-                <h3 class="title">{{ event.title }}</h3>
+  <div class="notifications-container">
+    <h2>Notifications</h2>
+    <TmPage
+      data-title="My alerts"
+      :loading="$apollo.queries.notifications.loading && !firstLoaded"
+      :loading-more="
+        $apollo.queries.notifications.loading && !dataLoaded && moreAvailable
+      "
+      :empty="notifications.length === 0"
+      :empty-title="`You don't have any notifications yet`"
+      :empty-subtitle="`To start receiving notifications, all you have to do is use an address on any Lunie supported network. We'll take care of the rest!`"
+    >
+      <template>
+        <EventList
+          :events="notifications"
+          :more-available="moreAvailable"
+          @loadMore="loadMore"
+        >
+          <template slot-scope="event">
+            <router-link :key="event.id" class="notification" :to="event.link">
+              <div class="content">
+                <img :src="event.icon" />
+                <div>
+                  <h3 class="title">{{ event.title }}</h3>
+                </div>
+                <i class="material-icons notranslate">chevron_right</i>
               </div>
-            </div>
-            <i class="material-icons notranslate">chevron_right</i>
-          </router-link>
-        </template>
-      </EventList>
-    </template>
-  </TmPage>
+            </router-link>
+          </template>
+        </EventList>
+      </template>
+    </TmPage>
+  </div>
 </template>
 
 <script>
@@ -61,7 +64,7 @@ export default {
     userSignedIn: function () {
       if (!this.userSignedIn) {
         this.$router.push({
-          name: `paywall`,
+          name: `notification-wall`,
         })
       }
     },
@@ -192,15 +195,15 @@ export default {
 </script>
 
 <style scoped>
-.page {
-  padding: 0 2rem;
+.notifications-container {
+  padding: 0 2rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.header {
-  display: flex;
-  justify-content: center;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+h2 {
+  font-size: 36px;
+  font-weight: 400;
 }
 
 .notification {
