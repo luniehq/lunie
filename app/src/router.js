@@ -21,7 +21,7 @@ export const routeGuard = (store) => async (to, from, next) => {
     if (store.state.account.userSignedIn) {
       next()
     } else {
-      next(`/paywall`)
+      next(`/notification-wall`)
       return
     }
   }

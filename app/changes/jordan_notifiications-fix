@@ -1,0 +1,1 @@
+[Fixed] router guard was sending user to an invalid route @jbibla
