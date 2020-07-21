@@ -20,6 +20,7 @@ export const routeGuard = (store) => async (to, from, next) => {
   if (to.name === `notifications`) {
     if (store.state.account.userSignedIn) {
       next()
+      // this is needed to prevent accessing notifications from paywall
     } else if (from.name === `paywall`) {
       return
     } else {
