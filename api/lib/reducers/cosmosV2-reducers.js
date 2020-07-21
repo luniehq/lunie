@@ -86,14 +86,14 @@ function unstakeDetailsReducer(message, reducers, network) {
   }
 }
 
-function claimRewardsDetailsReducer(message, reducers, transaction) {
+function claimRewardsDetailsReducer(message, reducers, transaction, network) {
   return {
     from: message.validators,
-    amounts: claimRewardsAmountReducer(transaction, reducers)
+    amounts: claimRewardsAmountReducer(transaction, reducers, network)
   }
 }
 
-function claimRewardsAmountReducer(transaction, reducers) {
+function claimRewardsAmountReducer(transaction, reducers, network) {
   const transactionClaimEvents =
     transaction.events &&
     transaction.events.filter((event) => event.type === `transfer`)
@@ -118,7 +118,12 @@ function claimRewardsAmountReducer(transaction, reducers) {
     .filter((attribute) => attribute.key === `amount`)
   const allClaimedRewards = amountAttributes
     .map((amount) => amount.value)
-    .map((rewardValue) => reducers.rewardCoinReducer(rewardValue))
+    .map((rewardValue) => {
+      const coinLookup = network.coinLookup.find(
+        ({ chainDenom }) => chainDenom === rewardValue.denom
+      )
+      return reducers.rewardCoinReducer(rewardValue, coinLookup)
+    })
   const aggregatedClaimRewardsObject = allClaimedRewards.reduce(
     (all, rewards) => {
       rewards.forEach((reward) => {
@@ -190,7 +195,8 @@ function transactionDetailsReducer(
       details = reducers.claimRewardsDetailsReducer(
         message,
         reducers,
-        transaction
+        transaction,
+        network
       )
       break
     case lunieMessageTypes.SUBMIT_PROPOSAL:
