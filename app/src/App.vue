@@ -45,7 +45,7 @@ export default {
       return this.session.mobile
     },
     themeClass() {
-      return this.$route.name === `notifications` ? `lunie-light` : this.network
+      return !this.$route.meta.networkSpecificRoute ? `lunie-light` : this.network
     },
   },
   store,

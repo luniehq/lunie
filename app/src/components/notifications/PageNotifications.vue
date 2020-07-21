@@ -64,7 +64,7 @@ export default {
     userSignedIn: function () {
       if (!this.userSignedIn) {
         this.$router.push({
-          name: `paywall`,
+          name: `notification-wall`,
         })
       }
     },

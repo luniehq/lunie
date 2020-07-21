@@ -5,7 +5,7 @@
       :key="network.chain_id"
       class="network-item"
       :class="{
-        selected: networkId === network.id && !$route.meta.hideSidebar,
+        selected: networkId === network.id && $route.meta.networkSpecificRoute,
       }"
       :to="{ params: { networkId: network.slug }, name: 'portfolio' }"
     >

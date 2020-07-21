@@ -22,13 +22,10 @@ export default (store) => {
       },
     },
     {
-      path: `/paywall`,
-      name: `paywall`,
+      path: `/notification-wall`,
+      name: `notification-wall`,
       components: {
         session: () => import(`./components/account/Paywall`),
-      },
-      meta: {
-        hideSidebar: true,
       },
     },
     {
@@ -38,7 +35,6 @@ export default (store) => {
         session: () => import(`./components/notifications/PageNotifications`),
       },
       meta: {
-        hideSidebar: true,
         feature: "notifications",
       },
     },
@@ -273,6 +269,7 @@ export default (store) => {
           name: `Proposals`,
           meta: {
             feature: "proposals",
+            networkSpecificRoute: true
           },
           component: () => import(`./components/governance/PageProposals`),
         },
@@ -286,6 +283,7 @@ export default (store) => {
           name: `Proposal`,
           meta: {
             feature: "proposals",
+            networkSpecificRoute: true
           },
           component: () => import(`./components/governance/PageProposal`),
           props: true,
@@ -300,6 +298,7 @@ export default (store) => {
           name: `Validators`,
           meta: {
             feature: "validators",
+            networkSpecificRoute: true
           },
           component: () => import(`./components/staking/PageValidators`),
         },
@@ -313,6 +312,7 @@ export default (store) => {
           name: `validator`,
           meta: {
             feature: "validators",
+            networkSpecificRoute: true
           },
           component: () => import(`./components/staking/PageValidator`),
         },
@@ -327,6 +327,7 @@ export default (store) => {
           meta: {
             requiresAuth: true,
             feature: "portfolio",
+            networkSpecificRoute: true
           },
         },
         {
@@ -336,6 +337,7 @@ export default (store) => {
           meta: {
             requiresAuth: true,
             feature: "activity",
+            networkSpecificRoute: true
           },
         },
         {
@@ -344,6 +346,7 @@ export default (store) => {
           component: () => import(`./components/network/PageBlock`),
           meta: {
             feature: "blocks",
+            networkSpecificRoute: true
           },
         },
         { path: `*`, component: () => import(`./components/common/Page404`) },

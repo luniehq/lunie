@@ -93,7 +93,7 @@ export default {
     },
     hideSidebarMenu() {
       return (
-        this.$route.meta.hideSidebar &&
+        !this.$route.meta.networkSpecificRoute &&
         this.desktop
       )
     },
