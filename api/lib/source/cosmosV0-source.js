@@ -357,11 +357,11 @@ class CosmosV0API extends RESTDataSource {
       this.getDelegationsForDelegatorAddress(address)
     ])
     const balances = balancesResponse || []
-    const coins = balances.map(({ denom }) => {
+    const coins = balances.map((coin) => {
       const coinLookup = network.coinLookup.find(
-        ({ chainDenom }) => chainDenom === denom
+        ({ chainDenom }) => chainDenom === coin.denom
       )
-      this.reducers.coinReducer(coinLookup)
+      return this.reducers.coinReducer(coin, coinLookup)
     })
     const hasStakingDenom = coins.find(
       ({ denom }) => denom === this.network.stakingDenom

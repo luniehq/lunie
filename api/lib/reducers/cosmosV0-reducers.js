@@ -282,7 +282,7 @@ function coinReducer(coin, coinLookup) {
   const denom = denomLookup(coin.denom)
   return {
     denom: denom,
-    amount: BigNumber(coin.amount).div(coinLookup.chainToVieConversionFactor) // Danger: this might not be the case for all future tokens
+    amount: BigNumber(coin.amount).times(coinLookup.chainToViewConversionFactor) // Danger: this might not be the case for all future tokens
   }
 }
 
