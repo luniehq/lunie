@@ -9,7 +9,7 @@
       "
       :empty="notifications.length === 0"
       :empty-title="`You don't have any notifications yet`"
-      :empty-subtitle="`Don't worry, they are on their way!`"
+      :empty-subtitle="`To start receiving notifications, all you have to do is use an address on any Lunie supported network. We'll take care of the rest!`"
     >
       <template>
         <EventList
