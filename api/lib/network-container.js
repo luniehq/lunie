@@ -1,4 +1,4 @@
-const BlockStore = require('./stores/block-store')
+const NetworkStore = require('./stores/network-store')
 const FiatValuesAPI = require('./fiatvalues-api')
 const SlashingMonitor = require('./subscription/slashing')
 const database = require('./database')
@@ -40,7 +40,7 @@ class NetworkContainer {
   }
 
   createStore() {
-    this.store = new BlockStore(this.network, this.db)
+    this.store = new NetworkStore(this.network, this.db)
   }
 
   createFiatValuesAPI() {

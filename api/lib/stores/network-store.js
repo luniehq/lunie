@@ -6,7 +6,7 @@ const config = require('../../config')
 const { publishEvent: publishEvent } = require('../subscriptions')
 const { eventTypes, resourceTypes } = require('../notifications-types')
 
-class BlockStore {
+class NetworkStore {
   constructor(network, database) {
     this.network = network
     this.latestHeight = 0
@@ -279,5 +279,5 @@ async function storeStoreInDB(store) {
   })
 }
 
-module.exports = BlockStore
+module.exports = NetworkStore
 module.exports.enrichValidator = enrichValidator
