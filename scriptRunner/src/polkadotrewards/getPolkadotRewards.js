@@ -5,7 +5,7 @@ module.exports.loadPolkadotRewards = async function loadPolkadotRewards({ era, n
     const rewardsScript = spawn(
       'node',
       [
-        './api/scripts/getOldPolkadotRewardEras.js', // the path is in context of the root directory
+        '../api/scripts/getOldPolkadotRewardEras.js', // the path is in context of the root directory
         `--currentEra=${era}`,
         `--network=${networkId}`
       ]
