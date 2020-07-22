@@ -5,7 +5,7 @@
   z-index: var(--z-modal);
   width: 100vw;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,20 +23,16 @@
   left: 1.25rem;
 }
 
-/* .session-icon {
-  background: grey;
-} */
-
 .session {
   display: flex;
   flex-direction: column;
   background: var(--app-bg);
   max-width: 560px;
-  border-radius: 2px;
+  border-radius: 0.25rem;
   padding: 2rem;
   position: relative;
   overflow: auto;
-  max-height: 90vh;
+  max-height: 85vh;
 }
 
 .session-header {
@@ -233,7 +229,7 @@
     width: 100%;
   }
 
-  .form-main > div {
+  .form-main>div {
     display: flex;
     flex-direction: column;
     align-items: space-between;

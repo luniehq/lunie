@@ -1,70 +1,73 @@
 <template>
-  <TmPage data-title="My alerts" hide-header>
-    <TmDataLoading v-if="$apollo.loading && notifications.length === 0" />
-    <TmDataMsg
-      v-else-if="!$apollo.loading && notifications.length === 0"
-      icon="error"
-      icon-color="var(--dark-grey-blue)"
+  <div class="notifications-container">
+    <h2>Notifications</h2>
+    <TmPage
+      data-title="My alerts"
+      :loading="$apollo.queries.notifications.loading && !firstLoaded"
+      :loading-more="
+        $apollo.queries.notifications.loading && !dataLoaded && moreAvailable
+      "
+      :empty="notifications.length === 0"
+      :empty-title="`You don't have any notifications yet`"
+      :empty-subtitle="`To start receiving notifications, all you have to do is use an address on any Lunie supported network. We'll take care of the rest!`"
     >
-      <div>
-        <i class="material-icons nontranslate">error</i>
-      </div>
-      <div slot="title">You don't have any notifications yet</div>
-      <div slot="subtitle">Don't worry, they are on their way!</div>
-    </TmDataMsg>
-
-    <div v-else>
-      <EventList
-        :events="notifications"
-        :more-available="moreAvailable"
-        @loadMore="loadMore"
-      >
-        <template slot-scope="event">
-          <router-link :key="event.id" class="notification" :to="event.link">
-            <div class="content">
-              <img :src="event.icon" />
-              <div>
-                <h3 class="title">{{ event.title }}</h3>
+      <template>
+        <EventList
+          :events="notifications"
+          :more-available="moreAvailable"
+          @loadMore="loadMore"
+        >
+          <template slot-scope="event">
+            <router-link :key="event.id" class="notification" :to="event.link">
+              <div class="content">
+                <img :src="event.icon" />
+                <div>
+                  <h3 class="title">{{ event.title }}</h3>
+                </div>
+                <i class="material-icons notranslate">chevron_right</i>
               </div>
-            </div>
-            <i class="material-icons notranslate">chevron_right</i>
-          </router-link>
-        </template>
-      </EventList>
-      <div
-        v-if="$apollo.loading && !dataLoaded && moreAvailable"
-        class="spinner-container"
-      >
-        <img src="/img/spinner_blue@256.gif" class="spinner" />
-      </div>
-    </div>
-  </TmPage>
+            </router-link>
+          </template>
+        </EventList>
+      </template>
+    </TmPage>
+  </div>
 </template>
 
 <script>
 import TmPage from "common/TmPage"
-import TmDataMsg from "common/TmDataMsg"
 import EventList from "common/EventList"
-import TmDataLoading from "common/TmDataLoading"
 import { mapState, mapGetters } from "vuex"
+import uniqBy from "lodash.uniqby"
 import gql from "graphql-tag"
 
 export default {
   name: "PageNotifications",
   components: {
     TmPage,
-    TmDataMsg,
     EventList,
-    TmDataLoading,
   },
   data: () => ({
     notifications: [],
     moreAvailable: true,
     dataLoaded: false,
+    firstLoaded: false,
   }),
   computed: {
-    ...mapState([`session`]),
+    ...mapState([`session`, `account`]),
     ...mapGetters([`networks`]),
+    userSignedIn() {
+      return this.account.userSignedIn
+    },
+  },
+  watch: {
+    userSignedIn: function () {
+      if (!this.userSignedIn) {
+        this.$router.push({
+          name: `notification-wall`,
+        })
+      }
+    },
   },
   mounted: async function () {
     // set notificationAvailable to false
@@ -92,11 +95,16 @@ export default {
           },
           // Transform the previous result with new data
           updateQuery: function (previousResult, { fetchMoreResult }) {
+            this.moreAvailable = !(fetchMoreResult.notifications.length === 0)
             return {
-              notifications: [
-                ...previousResult.notifications,
-                ...fetchMoreResult.notifications,
-              ],
+              // DEPRECATE uniqBy, should be resolved via API
+              notifications: uniqBy(
+                [
+                  ...previousResult.notifications,
+                  ...fetchMoreResult.notifications,
+                ],
+                "id"
+              ),
             }
           },
         })
@@ -135,8 +143,8 @@ export default {
       /* istanbul ignore next */
       update(result) {
         this.dataLoaded = true
+        this.firstLoaded = true
         // assume that when the full page got loaded, that there is more
-        this.moreAvailable = result.notifications.length % 20 === 0
         return result.notifications
       },
       /* istanbul ignore next */
@@ -145,6 +153,10 @@ export default {
           !this.session.allSessionAddresses ||
           this.session.allSessionAddresses.length === 0
         )
+      },
+      result(data) {
+        /* istanbul ignore next */
+        this.error = data.error
       },
       subscribeToMore: {
         document: gql`
@@ -183,15 +195,15 @@ export default {
 </script>
 
 <style scoped>
-.tm-page {
-  padding: 0 2rem;
+.notifications-container {
+  padding: 0 2rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.header {
-  display: flex;
-  justify-content: center;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+h2 {
+  font-size: 36px;
+  font-weight: 400;
 }
 
 .notification {
@@ -227,15 +239,5 @@ img {
 .title {
   font-weight: 400;
   overflow-wrap: anywhere; /** Important. Otherwise awful style bug */
-}
-
-.spinner-container {
-  display: flex;
-  justify-content: center;
-}
-
-.spinner {
-  height: 45px;
-  width: 45px;
 }
 </style>

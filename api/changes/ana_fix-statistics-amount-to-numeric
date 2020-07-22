@@ -1,0 +1,1 @@
+[Fixed] [#4556](https://github.com/cosmos/lunie/pull/4556) Fix storing statistics due to invalid numeric type for amount @Bitcoinera

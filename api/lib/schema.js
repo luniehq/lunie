@@ -365,6 +365,10 @@ const typeDefs = gql`
 
   type Mutation {
     registerUser(idToken: String!): Boolean
+    notifications(
+      addressObjects: [NotificationInput]!
+      notificationType: String
+    ): Boolean
   }
 
   type ChainAppliedFees {
@@ -428,6 +432,12 @@ const typeDefs = gql`
     contributionLinks: [ContributionLink]
     networks: [ValidatorNetwork]
     feed: [Notification]
+  }
+
+  input NotificationSetting {
+    topic: String!
+    type: String!
+    remove: Boolean
   }
 
   type Query {

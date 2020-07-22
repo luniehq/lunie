@@ -20,18 +20,15 @@
       hide-on-mobile
     />
     <div class="network-status">
+      <div v-if="isCurrentNetwork" class="network-selected">
+        <i class="material-icons notranslate">check</i>
+      </div>
       <img
-        v-if="!connected && network === networkItem.id"
+        v-else-if="disabled && isCurrentNetwork"
         class="tm-connected-network-loader"
         src="~assets/images/loader.svg"
         alt="a small spinning circle to display loading"
       />
-      <div
-        v-else-if="!disabled && connected && isCurrentNetwork"
-        class="network-selected"
-      >
-        <i class="material-icons notranslate">check</i>
-      </div>
     </div>
   </div>
 </template>
@@ -56,7 +53,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters([`connected`, `network`]),
+    ...mapGetters([`network`]),
     isCurrentNetwork() {
       return this.networkItem.id === this.network
     },

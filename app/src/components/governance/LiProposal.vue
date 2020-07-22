@@ -55,7 +55,7 @@ export default {
 @import "../../styles/proposal-status.css";
 
 .li-proposal {
-  margin: 1rem 0;
+  margin: 1rem 1rem;
   padding: 1rem 0;
   display: block;
   cursor: pointer;
