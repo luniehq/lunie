@@ -5,14 +5,14 @@ module.exports.loadPolkadotRewards = async function loadPolkadotRewards({ era, n
     const rewardsScript = spawn(
       'node',
       [
-        '../api/scripts/getOldPolkadotRewardEras.js', // the path is in context of scriptRunner/index.js
+        './api/scripts/getOldPolkadotRewardEras.js', // the path is in context of the root directory
         `--currentEra=${era}`,
         `--network=${networkId}`
-      ],
-      {
-        stdio: 'inherit' //feed all child process logging into parent process
-      }
+      ]
     )
+    rewardsScript.stdout.pipe(process.stdout)
+    rewardsScript.stderr.pipe(process.stderr)
+
     rewardsScript.on('close', function (code) {
       process.stdout.write(
         'rewardsScript finished with code ' + code + '\n'
