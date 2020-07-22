@@ -42,7 +42,7 @@
 
 <script>
 import config from "src/../config"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 
 export default {
   name: `session-frame`,
@@ -61,6 +61,7 @@ export default {
     isExtension: config.isExtension,
   }),
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`networkSlug`]),
   },
   methods: {
@@ -82,7 +83,17 @@ export default {
           },
         })
       } else {
-        this.goBack()
+        // if user is signed in with address
+        if (this.session.address) {
+          this.$router.push({
+            name: `portfolio`,
+          })
+          // if user is not signed in with address
+        } else {
+          this.$router.push({
+            name: `validators`,
+          })
+        }
       }
     },
   },
