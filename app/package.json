@@ -80,6 +80,7 @@
     "vue-infinite-scroll": "2.0.2",
     "vue-reactive-refs": "0.0.2",
     "vue-router": "3.1.6",
+    "vue-simple-progress": "1.1.1",
     "vuelidate": "0.7.5",
     "vuex": "3.4.0",
     "web3-utils": "1.2.4"
