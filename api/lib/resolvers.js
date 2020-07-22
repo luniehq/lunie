@@ -311,7 +311,7 @@ const resolvers = (networkList) => ({
       { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
-      const network = await database(config)('').getNetwork(networkId)
+      const network = networkList.find((network) => network.id === networkId)
       return remoteFetch(dataSources, networkId).getBalancesFromAddress(
         address,
         fiatCurrency,
@@ -325,7 +325,7 @@ const resolvers = (networkList) => ({
     ) => {
       await localStore(dataSources, networkId).dataReady
       // needed to get coinLookups
-      const network = await database(config)('').getNetwork(networkId)
+      const network = networkList.find((network) => network.id === networkId)
       const balances = await remoteFetch(
         dataSources,
         networkId
@@ -369,7 +369,7 @@ const resolvers = (networkList) => ({
     ) => {
       await localStore(dataSources, networkId).dataReady
       // needed to get coinLookups
-      const network = await database(config)('').getNetwork(networkId)
+      const network = networkList.find((network) => network.id === networkId)
       let rewards = await remoteFetch(dataSources, networkId).getRewards(
         delegatorAddress,
         fiatCurrency,
@@ -408,7 +408,7 @@ const resolvers = (networkList) => ({
       { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
-      const network = await database(config)('').getNetwork(networkId)
+      const network = networkList.find((network) => network.id === networkId)
       const validatorsDictionary = localStore(dataSources, networkId).validators
       const overview = await remoteFetch(dataSources, networkId).getOverview(
         address,
