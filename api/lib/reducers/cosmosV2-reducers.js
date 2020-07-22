@@ -118,12 +118,7 @@ function claimRewardsAmountReducer(transaction, reducers, network) {
     .filter((attribute) => attribute.key === `amount`)
   const allClaimedRewards = amountAttributes
     .map((amount) => amount.value)
-    .map((rewardValue) => {
-      const coinLookup = network.coinLookup.find(
-        ({ chainDenom }) => chainDenom === rewardValue.denom
-      )
-      return reducers.rewardCoinReducer(rewardValue, coinLookup)
-    })
+    .map((rewardValue) => reducers.rewardCoinReducer(rewardValue, network))
   const aggregatedClaimRewardsObject = allClaimedRewards.reduce(
     (all, rewards) => {
       rewards.forEach((reward) => {
