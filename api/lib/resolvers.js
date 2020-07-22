@@ -45,10 +45,10 @@ function localStore(dataSources, networkId) {
   }
 }
 
-function globalStore(dataSources) {
+function globalStore(dataSources, networks) {
   // actually we can access the GlobalStore from any of the networks sources
-  if (dataSources[`cosmos-hub-mainnet`]) {
-    return dataSources[`cosmos-hub-mainnet`].globalStore
+  if (dataSources[networks[0].id]) {
+    return dataSources[networks[0].id].globalStore
   }
 }
 
@@ -192,8 +192,8 @@ const transactionMetadata = (networks) => async (
 }
 
 // TODO: should also work with identity
-async function validatorProfile(_, { name }, { dataSources }) {
-  await globalStore(dataSources, `cosmos-hub-mainnet`).dataReady
+async function getValidatorProfile(name, dataSources, networks) {
+  await globalStore(dataSources, networks).dataReady
   return globalStore.globalValidators[name]
 }
 
@@ -455,7 +455,9 @@ const resolvers = (networkList) => ({
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
     },
-    validatorProfile
+    validatorProfile: (_, {name}, {dataSources}) => {
+      getValidatorProfile(name, dataSources, networkList)
+    }
   },
   Mutation: {
     registerUser: (_, variables, { user: { uid } }) => registerUser(uid)
