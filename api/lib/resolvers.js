@@ -408,11 +408,13 @@ const resolvers = (networkList) => ({
       { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      const network = await database(config)('').getNetwork(networkId)
       const validatorsDictionary = localStore(dataSources, networkId).validators
       const overview = await remoteFetch(dataSources, networkId).getOverview(
         address,
         validatorsDictionary,
-        fiatCurrency
+        fiatCurrency,
+        network
       )
       overview.id = address
       overview.networkId = networkId

@@ -521,10 +521,15 @@ class CosmosV0API extends RESTDataSource {
     )
   }
 
-  async getOverview(delegatorAddress, validatorsDictionary, fiatCurrency) {
+  async getOverview(
+    delegatorAddress,
+    validatorsDictionary,
+    fiatCurrency,
+    network
+  ) {
     this.checkAddress(delegatorAddress)
     const [balances, delegations, undelegations] = await Promise.all([
-      this.getBalancesFromAddress(delegatorAddress),
+      this.getBalancesFromAddress(delegatorAddress, fiatCurrency, network),
       this.getDelegationsForDelegatorAddress(delegatorAddress),
       this.getUndelegationsForDelegatorAddress(delegatorAddress)
     ])
