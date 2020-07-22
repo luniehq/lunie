@@ -52,6 +52,7 @@ export default ({ apollo }) => {
       try {
         if (Auth.isSignInWithEmailLink(url)) {
           const user = JSON.parse(localStorage.getItem(`user`))
+          if (!user) throw new Error("Sign in flow broken. User E-Mail is unknown.")
           await Auth.signInWithEmailLink(user.email, url)
 
           const idToken = await Auth.currentUser.getIdToken(
