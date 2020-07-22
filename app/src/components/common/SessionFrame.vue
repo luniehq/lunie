@@ -86,12 +86,12 @@ export default {
         // if user is signed in with address
         if (this.session.address) {
           this.$router.push({
-            name: `portfolio`
+            name: `portfolio`,
           })
-        // if user is not signed in with address
+          // if user is not signed in with address
         } else {
           this.$router.push({
-            name: `validators`
+            name: `validators`,
           })
         }
       }
