@@ -21,6 +21,9 @@ class SlashingMonitor {
   // to prevent adding a slash twice we filter the slashes
   storeSlashes(filterReason) {
     return (tendermintResponse) => {
+      const coinLookup = this.network.coinLookup.find(
+        ({ viewDenom }) => viewDenom === this.network.stakingDenom
+      )
       try {
         const slashes = tendermintResponse.events['slash.address']
           .map((address, index) => ({
@@ -32,9 +35,7 @@ class SlashingMonitor {
                 amount: tendermintResponse.events['slash.power'][index],
                 denom: this.network.stakingDenom
               },
-              {
-                chainToViewConversionFactor: 0.000001 // this chainToViewConversionFactor should be accurate for stakingDenoms
-              }
+              coinLookup
             ),
             height:
               tendermintResponse.height ||
