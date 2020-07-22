@@ -77,7 +77,7 @@ export default {
     closeModal() {
       if (this.$route.meta.requiresAuth) {
         this.$router.push({
-          name: "Validators",
+          name: "validators",
           params: {
             networkId: this.networkSlug,
           },
