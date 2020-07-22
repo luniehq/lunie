@@ -28,7 +28,10 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
         fieldid="import-name"
         fieldlabel="Your Address"
       >
-        <!---->
+        <hdpathorcurve-stub
+          attempt="0"
+          networkcryptotypes="m/44'/118'/0'/0/0"
+        />
          
         <img
           alt="a small spinning circle to display loading"

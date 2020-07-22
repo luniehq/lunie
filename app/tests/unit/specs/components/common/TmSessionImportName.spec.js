@@ -124,27 +124,6 @@ describe(`TmSessionImportName`, () => {
   })
 
   // case cosmos
-  it(`should return a beautiful presentation for the curve to be displayed on modal`, () => {
-    expect(wrapper.vm.currentCryptoView).toEqual("Cosmos HD Path")
-  })
-
-  // case polkadot
-  it(`should return a beautiful presentation for the curve to be displayed on modal`, () => {
-    wrapper.setData({
-      currentNetwork: {
-        id: "polkadot-testnet",
-        network_type: "polkadot",
-        address_prefix: "42",
-        testnet: false,
-        HDPaths: `[""]`,
-        curves: `["ed25519"]`,
-      },
-      attempt: 0,
-    })
-    expect(wrapper.vm.currentCryptoView).toEqual("Edwards curve")
-  })
-
-  // case cosmos
   it(`should return the current HDPath we are creating the address from depending on the attempt number`, () => {
     wrapper.setData({
       attempt: 0,
