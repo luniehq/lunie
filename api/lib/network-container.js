@@ -81,7 +81,7 @@ class NetworkContainer {
           this.db
         ),
         store: this.store,
-        globalStore: this.globalStore,
+        globalStore: this.globalStore
       }
     }
   }
