@@ -194,7 +194,9 @@ const transactionMetadata = (networks) => async (
 // TODO: should also work with identity
 async function getValidatorProfile(name, dataSources, networks) {
   await globalStore(dataSources, networks).dataReady
-  return globalStore.globalValidators[name]
+  const globalsStoreConst = globalStore(dataSources, networks)
+  const globalValidators = globalsStoreConst.getGlobalValidators()
+  return globalValidators[name]
 }
 
 const resolvers = (networkList) => ({
@@ -455,7 +457,7 @@ const resolvers = (networkList) => ({
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
     },
-    validatorProfile: (_, {name}, {dataSources}) => {
+    validatorProfile: (_, { name }, { dataSources }) => {
       getValidatorProfile(name, dataSources, networkList)
     }
   },

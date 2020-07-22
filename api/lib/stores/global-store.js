@@ -13,9 +13,7 @@ class GlobalStore {
     this.dataReady.then(() => {
       console.log(`Global Store is ready`)
     })
-    this.getStores().then((stores) => {
-      if (stores) this.resolveRedy()
-    })
+    this.getStores()
   }
 
   async getStores() {
@@ -24,21 +22,23 @@ class GlobalStore {
       setTimeout(async () => await this.getStores(), 1000)
     } else {
       await this.getGlobalValidators()
-      return true
+      this.resolveReady()
     }
   }
 
   async getGlobalValidators() {
     const aggregatedValidators = this.stores
-      .map(({ store }) => JSON.parse(store))
-      .reduce((validatorsAggregator, { validators }) => {
-        if (validators.find(({ name }) => !validatorsAggregator[name])) {
-          validators.forEach((validator) => {
+      .map(({ validators }) => validators)
+      .reduce((validatorsAggregator, validators) => {
+        const validatorsKeys = Object.keys(validators)
+        validatorsKeys.forEach((key) => {
+          let validator = validators[key]
+          if (!validatorsAggregator[validator.name]) {
             validatorsAggregator[validator.name] = this.globalValidatorReducer(
               validator
             )
-          })
-        }
+          }
+        })
         return validatorsAggregator
       }, {})
     this.globalValidators = aggregatedValidators
@@ -47,6 +47,7 @@ class GlobalStore {
   globalValidatorReducer(validator) {
     // TODO: calculate uptimePercentage average cross-chain
     return {
+      name: validator.name,
       uptimePercentage: validator.uptimePercentage
     }
   }
