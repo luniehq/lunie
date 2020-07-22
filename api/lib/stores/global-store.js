@@ -26,7 +26,7 @@ class GlobalStore {
     }
   }
 
-  async getGlobalValidators() {
+  getGlobalValidators() {
     const aggregatedValidators = this.stores
       .map(({ validators }) => validators)
       .reduce((validatorsAggregator, validators) => {
@@ -42,6 +42,7 @@ class GlobalStore {
         return validatorsAggregator
       }, {})
     this.globalValidators = aggregatedValidators
+    return aggregatedValidators
   }
 
   globalValidatorReducer(validator) {
