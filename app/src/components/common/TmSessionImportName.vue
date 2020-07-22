@@ -7,12 +7,10 @@
       <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" field-label="Your Address">
-          <span
-            v-if="networkCryptoTypes.length > 1 && attempt > 0"
-            class="algo"
-          >
-            - {{ currentCryptoView }}
-          </span>
+          <HDPathOrCurve
+            :network-crypto-types="networkCryptoTypes"
+            :attempt="attempt"
+          />
           <img
             v-if="importedAddress === undefined"
             class="tm-data-msg__icon"
@@ -78,6 +76,7 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import SessionFrame from "common/SessionFrame"
+import HDPathOrCurve from "common/HDPathOrCurve"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 import { getWalletIndex } from "@lunie/cosmos-keys"
@@ -92,14 +91,6 @@ const nameExists = (value) => {
   }
 }
 
-const cryptoDictionary = {
-  "m/44/118/0/0/0": `Cosmos HD Path`,
-  "m/44/330/0/0/0": `Terra HD Path`,
-  sr25519: `Schnorrkel curve`,
-  ed25519: `Edwards curve`,
-  ecdsa: `ECDSA curve`,
-}
-
 export default {
   name: `session-import-name`,
   components: {
@@ -109,6 +100,7 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
+    HDPathOrCurve,
     Steps,
   },
   data: () => ({
@@ -131,37 +123,13 @@ export default {
         HDPath.replace(/''/g, "'")
       ) // to store HDPaths in DB we need to add double single quotes, that is why we need to deserialize here
     },
-    networkCurves() {
-      return JSON.parse(this.currentNetwork.curves)
-    },
     networkCryptoTypes() {
       if (this.currentNetwork.network_type === `cosmos`) {
         return this.networkHDPaths
       } else if (this.currentNetwork.network_type === `polkadot`) {
-        return this.networkCurves
+        return JSON.parse(this.currentNetwork.curves)
       } else {
         return []
-      }
-    },
-    /* istanbul ignore next */
-    currentCrypto() {
-      if (this.currentNetwork.network_type === `cosmos`) {
-        return this.networkHDPaths[this.attempt]
-      } else if (this.currentNetwork.network_type === `polkadot`) {
-        return this.networkCurves[this.attempt]
-      } else {
-        return null
-      }
-    },
-    currentCryptoView() {
-      if (this.currentNetwork.network_type === `cosmos`) {
-        return cryptoDictionary[
-          this.networkHDPaths[this.attempt].replace(/\'/g, "")
-        ]
-      } else if (this.currentNetwork.network_type === `polkadot`) {
-        return cryptoDictionary[this.networkCurves[this.attempt]]
-      } else {
-        return ``
       }
     },
   },
@@ -177,13 +145,13 @@ export default {
     currentHDPathOrCurve() {
       if (this.currentNetwork.network_type === `cosmos`) {
         return {
-          HDPath: this.currentCrypto,
-          curve: this.networkCurves[0], // ed25519
+          HDPath: this.networkCryptoTypes[this.attempt],
+          curve: JSON.parse(this.currentNetwork.curves)[0], // ed25519
         }
       } else if (this.currentNetwork.network_type === `polkadot`) {
         return {
           HDPath: this.networkHDPaths[0], // no clue
-          curve: this.currentCrypto,
+          curve: this.networkCryptoTypes[this.attempt],
         }
       } else {
         return {
@@ -250,19 +218,5 @@ export default {
 
 .tm-form-group__field {
   position: unset !important;
-}
-
-.algo {
-  position: absolute;
-  top: 0;
-  left: 5.45rem;
-  line-height: 2rem;
-  padding: 0.75rem 0;
-  font-size: var(--xs);
-  color: var(--dim);
-  text-transform: uppercase;
-  font-weight: 600;
-  border: 2px solid;
-  border-radius: 0.25rem;
 }
 </style>
