@@ -80,7 +80,8 @@ class NetworkContainer {
           this.fiatValuesAPI,
           this.db
         ),
-        store: this.store
+        store: this.store,
+        globalStore: this.globalStore,
       }
     }
   }
