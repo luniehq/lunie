@@ -16,12 +16,12 @@ import ProposalStatusBar from "governance/ProposalStatusBar"
 import Timeline from "governance/Timeline"
 
 export default {
-	name: `page-proposal-2`,
+  name: `page-proposal-2`,
   components: {
-		ProposalDescription,
-		ProposalHeader,
-		ProposalStatusBar,
-		Timeline
-	},
+    ProposalDescription,
+    ProposalHeader,
+    ProposalStatusBar,
+    Timeline,
+  },
 }
 </script>

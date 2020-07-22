@@ -9,30 +9,30 @@
 
 <script>
 export default {
-	name: `timeline`,
+  name: `timeline`,
   data: () => ({
-		timeline: [
-			{
-				title: `Created`,
-				date: `July 12th, 2020`,
-				completed: true
-			},
-			{
-				title: `Deposit Period`,
-				date: `July 12th, 2020`,
-				completed: true
-			},
-			{
-				title: `Voting Period`,
-				date: `July 12th, 2020`,
-				completed: true
-			},
-			{
-				title: `Decision`,
-				date: `July 26th, 2020 @ 21:37`,
-				completed: false
-			},
-		]
+    timeline: [
+      {
+        title: `Created`,
+        date: `July 12th, 2020`,
+        completed: true,
+      },
+      {
+        title: `Deposit Period`,
+        date: `July 12th, 2020`,
+        completed: true,
+      },
+      {
+        title: `Voting Period`,
+        date: `July 12th, 2020`,
+        completed: true,
+      },
+      {
+        title: `Decision`,
+        date: `July 26th, 2020 @ 21:37`,
+        completed: false,
+      },
+    ],
   }),
 }
 </script>

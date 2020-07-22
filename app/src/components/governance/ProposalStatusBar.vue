@@ -18,24 +18,24 @@
 </template>
 
 <script>
-import ProgressBar from 'vue-simple-progress'
+import ProgressBar from "vue-simple-progress"
 
 export default {
-	name: `proposal-status-bar`,
-	components: {
-		ProgressBar,
-	},
-	data: () => ({
-		id: `27`,
-		date: `July 12, 2020`,
-		depositCount: `55`,
-		voteCount: `280`,
-		depositPeriod: false,
-		votingPeriod: true,
-		totalDeposited: `512 ATOM`,
-		depositPercentage: `100%`,
-		totalVotes: `85,347,116 ATOM`,
-		votePercentage: `46%`
+  name: `proposal-status-bar`,
+  components: {
+    ProgressBar,
+  },
+  data: () => ({
+    id: `27`,
+    date: `July 12, 2020`,
+    depositCount: `55`,
+    voteCount: `280`,
+    depositPeriod: false,
+    votingPeriod: true,
+    totalDeposited: `512 ATOM`,
+    depositPercentage: `100%`,
+    totalVotes: `85,347,116 ATOM`,
+    votePercentage: `46%`,
   }),
 }
 </script>

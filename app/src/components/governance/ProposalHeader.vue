@@ -36,17 +36,17 @@
 
 <script>
 export default {
-	name: `proposal-header`,
-	data: () => ({
-		title: `Stargate Upgrade Proposal 1`,
-		summary: `Signalling proposal for the cosmoshub-3 -> cosmoshub-4 upgrade`,
-		proposer: {
-			img: ``,
-			name: `iqlusion`,
-			address: `cosmos1grgelyng2v6v3t8z87wu3sxgt9m5s03xvslewd`
-		},
+  name: `proposal-header`,
+  data: () => ({
+    title: `Stargate Upgrade Proposal 1`,
+    summary: `Signalling proposal for the cosmoshub-3 -> cosmoshub-4 upgrade`,
+    proposer: {
+      img: ``,
+      name: `iqlusion`,
+      address: `cosmos1grgelyng2v6v3t8z87wu3sxgt9m5s03xvslewd`,
+    },
     depositPeriod: false,
-    votingPeriod: true	
+    votingPeriod: true,
   }),
 }
 </script>
