@@ -285,7 +285,7 @@ export default (store) => {
             feature: "proposals",
             networkSpecificRoute: true,
           },
-          component: () => import(`./components/governance/PageProposal2`),
+          component: () => import(`./components/governance/PageProposal`),
           props: true,
         },
         // for depredecated routes
