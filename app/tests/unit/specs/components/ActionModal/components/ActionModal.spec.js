@@ -105,9 +105,6 @@ describe(`ActionModal`, () => {
 
   $apollo = {
     queries: {
-      overview: {
-        refetch: jest.fn(),
-      },
       balances: {
         refetch: jest.fn(),
       },
@@ -293,9 +290,6 @@ describe(`ActionModal`, () => {
         },
         $apollo: {
           queries: {
-            overview: {
-              loading: true,
-            },
             balances: {
               loading: true,
             },
@@ -850,11 +844,6 @@ describe(`ActionModal`, () => {
       },
       session: {
         address: "testaddress",
-      },
-      $apollo: {
-        queries: {
-          overview: { refetch: jest.fn() },
-        },
       },
     }
     const spy = jest.spyOn(self, `sendEvent`)
