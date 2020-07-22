@@ -1,0 +1,1 @@
+[Fixed] some route names were lowercase and some were uppercase and some router.push's were failing as a result @jbibla
