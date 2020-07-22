@@ -311,9 +311,11 @@ const resolvers = (networkList) => ({
       { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      const network = await database(config)('').getNetwork(networkId)
       return remoteFetch(dataSources, networkId).getBalancesFromAddress(
         address,
-        fiatCurrency
+        fiatCurrency,
+        network
       )
     },
     balancesV2: async (

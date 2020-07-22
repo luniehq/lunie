@@ -330,11 +330,16 @@ class CosmosV0API extends RESTDataSource {
   }
 
   // DEPRECATE
-  async getBalancesFromAddress(address, fiatCurrency) {
+  async getBalancesFromAddress(address, fiatCurrency, network) {
     this.checkAddress(address)
     const response = await this.query(`bank/balances/${address}`)
     let balances = response || []
-    const coins = balances.map(this.reducers.coinReducer)
+    const coins = balances.map((coin) => {
+      const coinLookup = network.coinLookup.find(
+        ({ chainDenom }) => chainDenom === coin.denom
+      )
+      return this.reducers.coinReducer(coin, coinLookup)
+    })
     const fiatValues = await this.fiatValuesAPI.calculateFiatValues(
       coins,
       fiatCurrency
