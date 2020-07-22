@@ -20,7 +20,9 @@ class GlobalStore {
 
   async getStores() {
     const networks = await this.db.getNetworks()
-    if (networks.length === this.stores.length) {
+    if (networks.length !== this.stores.length) {
+      setTimeout(async () => await this.getStores(), 1000)
+    } else {
       await this.getGlobalValidators()
       return true
     }

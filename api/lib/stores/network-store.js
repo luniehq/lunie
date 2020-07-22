@@ -1,4 +1,4 @@
-const { keyBy, difference } = require('lodash')
+const { keyBy, difference, uniqBy } = require('lodash')
 const _ = require('lodash')
 const Sentry = require('@sentry/node')
 const database = require('../database')
@@ -51,6 +51,7 @@ class NetworkStore {
       // otherwise push to the list
     } else {
       this.globalStore.stores.push(this)
+      uniqBy(this.globalStore.stores, 'network')
     }
   }
 
