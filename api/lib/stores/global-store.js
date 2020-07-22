@@ -1,5 +1,4 @@
 const Sentry = require('@sentry/node')
-const config = require('../../config')
 
 class GlobalStore {
   constructor(database) {
@@ -23,6 +22,27 @@ class GlobalStore {
     } else {
       await this.getGlobalValidators()
       this.resolveReady()
+    }
+  }
+
+  upsertStoreToGlobalStore(newStore) {
+    // first check if it is already there In that case update store
+    if (
+      this.stores.length > 0 &&
+      this.stores.find((store) => store.network.id === newStore.network.id)
+    ) {
+      this.stores = this.stores.reduce((updatedGlobalStores, store) => {
+        if (store.network.id === newStore.network.id) {
+          updatedGlobalStores.push(newStore)
+          return updatedGlobalStores
+        } else {
+          updatedGlobalStores.push(store)
+          return updatedGlobalStores
+        }
+      }, [])
+      // otherwise push to the list
+    } else {
+      this.stores.push(newStore)
     }
   }
 

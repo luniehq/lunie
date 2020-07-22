@@ -1,4 +1,4 @@
-const { keyBy, difference, uniqBy } = require('lodash')
+const { keyBy, difference } = require('lodash')
 const _ = require('lodash')
 const Sentry = require('@sentry/node')
 const database = require('../database')
@@ -34,25 +34,6 @@ class NetworkStore {
     // this.getStore().then((foundStore) => {
     //   if (foundStore) this.resolveReady()
     // })
-  }
-
-  upsertStoreToGlobalStore() {
-    // first check if it is already there In that case update store
-    if (
-      this.globalStore.stores.find(
-        (store) => store.network.id === this.network.id
-      )
-    ) {
-      this.globalStore.stores.map((store) => {
-        if (store.network.id === this.network.id) {
-          return this
-        }
-      })
-      // otherwise push to the list
-    } else {
-      this.globalStore.stores.push(this)
-      uniqBy(this.globalStore.stores, 'network')
-    }
   }
 
   async getStore() {
@@ -95,7 +76,7 @@ class NetworkStore {
       this.updateDBValidatorProfiles(validators)
 
       // add this NetworkStore into the global store stores
-      this.upsertStoreToGlobalStore()
+      this.globalStore.upsertStoreToGlobalStore(this)
 
       if (Object.keys(this.validators).length !== 0) {
         this.checkValidatorUpdates(validators)
