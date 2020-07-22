@@ -38,7 +38,7 @@
           v-tooltip.top="'Block Height'"
           :class="
             `block-number` && {
-              noClickable: currentNetwork.network_type === `polkadot`,
+              noClickable: !currentNetwork.feature_activity,
             }
           "
           :to="
