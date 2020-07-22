@@ -92,10 +92,7 @@ export default {
       return this.session.developmentMode
     },
     hideSidebarMenu() {
-      return (
-        !this.$route.meta.networkSpecificRoute &&
-        this.desktop
-      )
+      return !this.$route.meta.networkSpecificRoute && this.desktop
     },
   },
   mounted: async function () {

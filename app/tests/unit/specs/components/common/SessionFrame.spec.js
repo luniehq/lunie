@@ -23,9 +23,9 @@ describe(`SessionFrame`, () => {
         },
         $route: {
           meta: {
-            requiresAuth: true
+            requiresAuth: true,
           },
-        }
+        },
       },
       stubs: [`router-link`],
     })
