@@ -20,7 +20,6 @@ const { getNotifications } = require('./notifications')
 const config = require('../config.js')
 const { logOverview } = require('./statistics')
 const firebaseAdmin = require('./firebase')
-const GlobalStore = require('./stores/global-store')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -44,6 +43,13 @@ function localStore(dataSources, networkId) {
     throw new UserInputError(
       `The network with the ID '${networkId}' is not supported by the Lunie API`
     )
+  }
+}
+
+function globalStore(dataSources) {
+  // actually we can access the GlobalStore from any of the networks sources
+  if (dataSources[`cosmos-hub-mainnet`]) {
+    return dataSources[`cosmos-hub-mainnet`].globalStore
   }
 }
 
@@ -187,8 +193,9 @@ const transactionMetadata = (networks) => async (
 }
 
 // TODO: should also work with identity
-async function validatorProfile(_, { name }) {
-  return new GlobalStore().globalValidators[name]
+async function validatorProfile(_, { name }, { dataSources }) {
+  await globalStore(dataSources, `cosmos-hub-mainnet`).dataReady
+  return globalStore.globalValidators[name]
 }
 
 const registerUser = async (_, { idToken }) => {

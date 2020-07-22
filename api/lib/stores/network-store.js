@@ -7,7 +7,7 @@ const { publishEvent: publishEvent } = require('../subscriptions')
 const { eventTypes, resourceTypes } = require('../notifications-types')
 
 class NetworkStore {
-  constructor(network, database) {
+  constructor(network, database, globalStore) {
     this.network = network
     this.latestHeight = 0
     this.block = {}
@@ -18,6 +18,7 @@ class NetworkStore {
     this.proposals = []
     this.newValidators = {}
     this.db = database
+    this.globalStore = globalStore
 
     // system to stop queries to proceed if store data is not yet available
     this.dataReady = new Promise((resolve) => {
@@ -30,6 +31,24 @@ class NetworkStore {
     // this.getStore().then((foundStore) => {
     //   if (foundStore) this.resolveReady()
     // })
+  }
+
+  upsertStoreToGlobalStore() {
+    // first check if it is already there In that case update store
+    if (
+      this.globalStore.stores.find(
+        (store) => store.network.id === this.network.id
+      )
+    ) {
+      this.globalStore.stores.map((store) => {
+        if (store.network.id === this.network.id) {
+          return this
+        }
+      })
+      // otherwise push to the list
+    } else {
+      this.globalStore.stores.push(this)
+    }
   }
 
   async getStore() {
@@ -69,6 +88,9 @@ class NetworkStore {
 
       // write validators to db to have all validators in the db to add pictures
       this.updateDBValidatorProfiles(validators)
+
+      // add this NetworkStore into the global store stores
+      this.upsertStoreToGlobalStore()
 
       if (Object.keys(this.validators).length !== 0) {
         this.checkValidatorUpdates(validators)

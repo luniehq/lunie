@@ -1,17 +1,16 @@
 const Sentry = require('@sentry/node')
-const database = require('../database')
 const config = require('../../config')
 
 class GlobalStore {
-  constructor() {
+  constructor(database) {
     this.stores = []
     this.db = database
     this.globalValidators = {}
 
-    this.storesReady = new Promise((resolve) => {
+    this.dataReady = new Promise((resolve) => {
       this.resolveReady = resolve
     })
-    this.storesReady.then(() => {
+    this.dataReady.then(() => {
       console.log(`Global Store is ready`)
     })
     this.getStores().then((stores) => {
@@ -20,13 +19,11 @@ class GlobalStore {
   }
 
   async getStores() {
-    const networks = await this.db(config)('').getNetworks()
-    const stores = await Promise.all(
-      networks.map((network) => this.db(config)('').getStore(network.id))
-    )
-    this.stores = stores
-    await this.getGlobalValidators()
-    return true
+    const networks = await this.db.getNetworks()
+    if (networks.length === this.stores.length) {
+      await this.getGlobalValidators()
+      return true
+    }
   }
 
   async getGlobalValidators() {

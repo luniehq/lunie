@@ -1,4 +1,5 @@
 const NetworkStore = require('./stores/network-store')
+const GlobalStore = require('./stores/global-store')
 const FiatValuesAPI = require('./fiatvalues-api')
 const SlashingMonitor = require('./subscription/slashing')
 const database = require('./database')
@@ -31,7 +32,8 @@ class NetworkContainer {
   }
 
   initialize() {
-    this.createStore()
+    this.createGlobalStore()
+    this.createNetworkStore()
     this.createBlockListener()
     this.createFiatValuesAPI()
 
@@ -39,8 +41,12 @@ class NetworkContainer {
       this.slashingMonitor.initialize()
   }
 
-  createStore() {
-    this.store = new NetworkStore(this.network, this.db)
+  createGlobalStore() {
+    this.globalStore = new GlobalStore(this.db)
+  }
+
+  createNetworkStore() {
+    this.store = new NetworkStore(this.network, this.db, this.globalStore)
   }
 
   createFiatValuesAPI() {
