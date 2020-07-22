@@ -1,5 +1,9 @@
 import connectionModule from "src/vuex/modules/account.js"
 
+jest.mock("src/../config.js", () => ({
+  mobileApp: false
+}))
+
 describe(`Module: Connection`, () => {
   let module, state, actions, mutations
 
