@@ -3,7 +3,12 @@ const CosmosV2Reducer = require('../../lib/reducers/cosmosV2-reducers')
 describe('Cosmos V2 Reducer', function () {
   describe('transactionReducerV2', function () {
     it('on partially failed txs', () => {
-      const networkId = `cosmos-hub-mainnet`
+      const network = {
+        id: `cosmos-hub-mainnet`,
+        coinLookup: [
+          { chainDenom: 'uatom', chainToViewConversionFactor: 0.000001 }
+        ]
+      }
       //Arrange
       const transaction = {
         id: '8A5713CFA4A3106F7D17D945E661BA7509F7038B7960D2B078B972732BD6FEAD',
@@ -125,7 +130,7 @@ describe('Cosmos V2 Reducer', function () {
 
       //Act
       const result = CosmosV2Reducer.transactionReducerV2(
-        networkId,
+        network,
         transaction,
         CosmosV2Reducer
       )
