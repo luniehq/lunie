@@ -42,7 +42,7 @@
             }
           "
           :to="
-            currentNetwork.network_type === `polkadot`
+            !currentNetwork.feature_activity
               ? ``
               : {
                   name: `block`,
