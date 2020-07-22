@@ -266,7 +266,7 @@ export default (store) => {
       children: [
         {
           path: `proposals`,
-          name: `Proposals`,
+          name: `proposals`,
           meta: {
             feature: "proposals",
             networkSpecificRoute: true,
@@ -280,7 +280,7 @@ export default (store) => {
         },
         {
           path: `proposals/:proposalId`,
-          name: `Proposal`,
+          name: `proposal`,
           meta: {
             feature: "proposals",
             networkSpecificRoute: true,
@@ -295,7 +295,7 @@ export default (store) => {
         },
         {
           path: `validators`,
-          name: `Validators`,
+          name: `validators`,
           meta: {
             feature: "validators",
             networkSpecificRoute: true,
