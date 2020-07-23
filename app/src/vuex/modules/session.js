@@ -155,9 +155,17 @@ export default ({ apollo }) => {
       }
     },
     async signIn(
-      { state, getters: { currentNetwork }, commit, dispatch },
+      {
+        state,
+        rootState: {
+          connection: { networks },
+        },
+        commit,
+        dispatch,
+      },
       { address, sessionType = `ledger`, HDPath, curve, networkId }
     ) {
+      const currentNetwork = networks.find(({ id }) => id === networkId)
       // first search in localStorage for the curve and derivation path
       const session = JSON.parse(
         localStorage.getItem(`cosmos-wallets-${address}`)
