@@ -57,16 +57,16 @@ async function next(browser) {
 
 async function createNewAccount(browser, networkData) {
   await browser.url(browser.launch_url + "/create?experimental=true&insecure=true")
-  await browser.waitForElementVisible("#sign-up-name", 20000, true)
+  await browser.waitForElementVisible("#sign-up-name", 30000, true)
   browser.setValue("#sign-up-name", "demo-account")
   await next(browser)
-  browser.waitForElementVisible("#sign-up-password", 20000, true)
+  browser.waitForElementVisible("#sign-up-password", 30000, true)
   browser.setValue("#sign-up-password", networkData.password)
   browser.setValue("#sign-up-password-confirm", networkData.password)
   await next(browser)
   browser.click("#sign-up-warning")
   await next(browser)
-  browser.waitForElementVisible(".balance-header", 20000, true) // wait until signup is completed
+  browser.waitForElementVisible(".balance-header", 30000, true) // wait until signup is completed
 }
 
 async function initialiseDefaults(browser) {
