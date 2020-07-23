@@ -474,8 +474,8 @@ function proposalReducer(
   return {
     id: proposal.index,
     network: network.id,
-    type: `${proposal.status.threshold} referendum`,
-    title: proposal.imageHash,
+    type: "cosmos-sdk/TextProposal",
+    title: `${proposal.proposal_content.type} referendum #${proposal.proposal_id}`,
     description: undefined,
     creationTime: undefined,
     status: `VotingPeriod`,
