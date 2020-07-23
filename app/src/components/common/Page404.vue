@@ -16,7 +16,7 @@
         </li>
         <li>
           <router-link
-            :to="{ name: 'Validators', params: { networkId: networkSlug } }"
+            :to="{ name: 'validators', params: { networkId: networkSlug } }"
           >
             Validators
           </router-link>
@@ -30,7 +30,7 @@
         </li>
         <li>
           <router-link
-            :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
+            :to="{ name: 'proposals', params: { networkId: networkSlug } }"
           >
             Proposals
           </router-link>

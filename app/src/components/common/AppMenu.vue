@@ -57,7 +57,7 @@
       </router-link>
       <router-link
         class="app-menu-item hide-s"
-        :to="{ name: 'Validators', params: { networkId: networkSlug } }"
+        :to="{ name: 'validators', params: { networkId: networkSlug } }"
         title="Validators"
         @click.native="handleClick()"
       >
@@ -67,7 +67,7 @@
 
       <router-link
         class="app-menu-item hide-s"
-        :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
+        :to="{ name: 'proposals', params: { networkId: networkSlug } }"
         title="Proposals"
         @click.native="handleClick()"
       >

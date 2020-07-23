@@ -1,5 +1,4 @@
 import getFirebase from "../../firebase.js"
-import config from "../../../config"
 import * as Sentry from "@sentry/browser"
 import gql from "graphql-tag"
 

@@ -38,7 +38,7 @@ const storeTransactions = (
     amounts.forEach(({ amount, denom }) => {
       store({
         ...baseRow,
-        value: amount,
+        value: Number(amount),
         denom
       })
     })
