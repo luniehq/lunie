@@ -195,7 +195,7 @@ const transactionMetadata = (networks) => async (
 async function getValidatorProfile(name, dataSources, networks) {
   await globalStore(dataSources, networks).dataReady
   const globalsStoreConst = globalStore(dataSources, networks)
-  const globalValidators = globalsStoreConst.getGlobalValidators()
+  const globalValidators = await globalsStoreConst.getGlobalValidators()
   return globalValidators[name]
 }
 

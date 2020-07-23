@@ -1,6 +1,7 @@
 const { insert, read, query } = require('./helpers')
 const {
   getValidatorsInfo,
+  getPremiumValidators,
   getMaintenance,
   storeNetwork,
   getNetwork,
@@ -28,6 +29,10 @@ function database({ hasura_url, hasura_admin_key }) {
       getValidatorsInfo: getValidatorsInfo({ hasura_url, hasura_admin_key })(
         schema
       ),
+      getPremiumValidators: getPremiumValidators({
+        hasura_url,
+        hasura_admin_key
+      })(schema),
       getNotifications: getNotifications({ hasura_url, hasura_admin_key })(
         schema
       ),

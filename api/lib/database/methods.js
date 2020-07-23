@@ -68,6 +68,32 @@ const getValidatorsInfo = ({ hasura_url, hasura_admin_key }) => (
   )
 }
 
+const getPremiumValidators = ({
+  hasura_url,
+  hasura_admin_key
+}) => () => async () => {
+  const premiumValidators = await read({
+    hasura_url,
+    hasura_admin_key
+  })('')(`premiumValidators`, `premiumValidators`, [
+    'name',
+    'networks',
+    'rank',
+    'teamMembers',
+    'website',
+    'telegram',
+    'github',
+    'twitter',
+    'blog',
+    'contributionLinks'
+  ])
+  if (premiumValidators.length > 0) {
+    return premiumValidators
+  } else {
+    return []
+  }
+}
+
 const getNotifications = ({ hasura_url, hasura_admin_key }) => (
   schema
 ) => async (topics, timestamp) => {
@@ -411,6 +437,7 @@ module.exports = {
   incrementValidatorViews,
   getValidatorsViews,
   getValidatorsInfo,
+  getPremiumValidators,
   getMaintenance,
   storeStatistics,
   storeNotification,
