@@ -1,6 +1,12 @@
 const Sentry = require('@sentry/node')
+const database = require('../database')
+const config = require('../../config')
 
+// global store is currently being destroyed with every network
+// but this objects do persist
 let validatorsLookup = {}
+let networkCounter = 0
+const networks = database(config)('').getNetworks()
 
 class GlobalStore {
   constructor(database) {
@@ -42,11 +48,18 @@ class GlobalStore {
     })
   }
 
+  calculateAverageUptimePercentage() {
+
+  }
+
   async getGlobalValidators() {
+    networkCounter++
     const premiumValidators = await this.db.getPremiumValidators()
     this.globalValidators = premiumValidators
     this.createGlobalValidatorsLookup()
-    return premiumValidators
+    if (networkCounter >= networks.length) {
+      return premiumValidators
+    }
   }
 
   globalValidatorReducer(validator) {
