@@ -87,7 +87,7 @@ export default {
     errorMessage: ``,
   }),
   computed: {
-    ...mapState([`recover`]),
+    ...mapState([`recover`, `session`]),
     ...mapGetters([`network`, `networkSlug`, `isExtension`]),
     password: {
       get() {
@@ -118,7 +118,7 @@ export default {
           seedPhrase: this.recover.seed,
           password: this.recover.password,
           name: this.recover.name,
-          HDPath: this.$store.state.session.HDPath,
+          HDPath: this.session.HDPath,
           curve: this.$store.state.session.curve,
           network: this.network,
         })

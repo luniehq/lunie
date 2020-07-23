@@ -682,8 +682,8 @@ export default {
           }
           polkadotAPI = await getPolkadotAPI(this.network)
         }
-        const HDPath = await this.$store.state.session.HDPath
-        const curve = await this.$store.state.session.curve
+        const HDPath = this.session.HDPath
+        const curve = this.session.curve
 
         const hashResult = await this.transactionManager.createSignBroadcast({
           messageType: type,
