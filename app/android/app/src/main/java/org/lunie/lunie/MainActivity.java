@@ -7,7 +7,7 @@ import com.getcapacitor.Plugin;
 
 import java.util.ArrayList;
 
-import io.stewan.capacitor.intercom.IntercomPlugin;
+import com.getcapacitor.community.intercom.IntercomPlugin;
 
 public class MainActivity extends BridgeActivity {
   @Override

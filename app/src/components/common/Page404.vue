@@ -1,5 +1,5 @@
 <template>
-  <TmPage data-title="404" class="four-oh-four" hide-header>
+  <TmPage data-title="404" class="four-oh-four">
     <TmPart class="four-oh-four-top">
       <h2>Oops! We can't find the page you're looking for.</h2>
       <h3>Error code: 404</h3>
@@ -16,7 +16,7 @@
         </li>
         <li>
           <router-link
-            :to="{ name: 'Validators', params: { networkId: networkSlug } }"
+            :to="{ name: 'validators', params: { networkId: networkSlug } }"
           >
             Validators
           </router-link>
@@ -30,7 +30,7 @@
         </li>
         <li>
           <router-link
-            :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
+            :to="{ name: 'proposals', params: { networkId: networkSlug } }"
           >
             Proposals
           </router-link>

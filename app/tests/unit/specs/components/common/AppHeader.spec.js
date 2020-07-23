@@ -28,6 +28,7 @@ describe(`AppHeader`, () => {
     wrapper = shallowMount(AppHeader, {
       mocks: {
         $store,
+        $route: { meta: true },
       },
       methods: {
         watchWindowSize: () => {}, // overwriting to not cause side effects when setting the data in tests
@@ -40,6 +41,7 @@ describe(`AppHeader`, () => {
     wrapper.setData({
       desktop: true,
       open: true,
+      $route: { meta: true },
     })
 
     expect(wrapper.element).toMatchSnapshot()
@@ -49,6 +51,7 @@ describe(`AppHeader`, () => {
     wrapper.setData({
       desktop: false,
       open: true,
+      $route: { name: `route` },
     })
 
     expect(wrapper.element).toMatchSnapshot()
@@ -73,6 +76,7 @@ describe(`AppHeader`, () => {
       wrapper = shallowMount(AppHeader, {
         mocks: {
           $store,
+          $route: { meta: true },
         },
         stubs: [`router-link`],
       })

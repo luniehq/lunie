@@ -227,10 +227,12 @@ function parsePolkadotTransaction(
     ),
     timestamp: new Date().getTime(), // FIXME!: pass it from block, we should get current timestamp from blockchain for new blocks
     memo: ``,
-    fees: {
-      amount: `0`,
-      denom: network.coinLookup[0].viewDenom
-    }, // FIXME!
+    fees: [
+      {
+        amount: `0`,
+        denom: network.coinLookup[0].viewDenom
+      }
+    ], // FIXME!
     success,
     log: ``,
     involvedAddresses: reducers.extractInvolvedAddresses(
@@ -241,18 +243,15 @@ function parsePolkadotTransaction(
   }
 }
 
-function getExtrinsicSuccess(index, blockEvents) {
-  blockEvents.forEach((record) => {
-    const { event, phase } = record
-    if (
-      parseInt(phase.toHuman().ApplyExtrinsic) === index &&
+function getExtrinsicSuccess(extrinsicIndex, blockEvents) {
+  return blockEvents.find(
+    ({ event, phase }) =>
+      parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex &&
       event.section === `system` &&
-      event.method === `ExtrinsicFailed`
-    ) {
-      return false
-    }
-  })
-  return true
+      event.method === `ExtrinsicSuccess`
+  )
+    ? true
+    : false
 }
 
 function transactionReducerV2(
@@ -412,10 +411,11 @@ function extractInvolvedAddresses(lunieTransactionType, signer, message) {
 
 function rewardsReducer(network, validators, rewards, reducers) {
   const allRewards = []
+  const validatorsDict = _.keyBy(validators, 'operatorAddress')
   rewards.forEach((reward) => {
     // reward reducer returns an array
     allRewards.push(
-      ...reducers.rewardReducer(network, validators, reward, reducers)
+      ...reducers.rewardReducer(network, validatorsDict, reward, reducers)
     )
   })
   return allRewards
@@ -450,13 +450,14 @@ function dbRewardsReducer(validatorsDictionary, dbRewards) {
 function rewardReducer(network, validators, reward, reducers) {
   let parsedRewards = []
   Object.entries(reward.validators).forEach((validatorReward) => {
-    if (!validators[validatorReward[0]]) return
+    const validator = validators[validatorReward[0]]
+    if (!validator) return
     const lunieReward = {
-      id: validators[validatorReward[0]].operatorAddress,
-      ...reducers.coinReducer(network, validatorReward[1]),
+      id: validatorReward[0],
+      ...reducers.coinReducer(network, validatorReward[1].toString(10)),
       height: reward.era,
       address: reward.address,
-      validator: validators[validatorReward[0]], // used for user facing rewards in the API
+      validator, // used for user facing rewards in the API
       validatorAddress: validatorReward[0] // added for writing the validator to the db even it it is not in the dictionary
     }
     parsedRewards.push(lunieReward)

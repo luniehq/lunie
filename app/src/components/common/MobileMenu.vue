@@ -13,7 +13,7 @@
     </router-link>
     <router-link
       class="mobile-menu-item"
-      :to="{ name: 'Validators', params: { networkId: networkSlug } }"
+      :to="{ name: 'validators', params: { networkId: networkSlug } }"
       title="Validators"
     >
       <i class="material-icons notranslate">sort</i>
@@ -23,7 +23,7 @@
     </router-link>
     <router-link
       class="mobile-menu-item"
-      :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
+      :to="{ name: 'proposals', params: { networkId: networkSlug } }"
       title="Proposals"
     >
       <i class="material-icons notranslate">add_circle_outline</i>
@@ -39,7 +39,7 @@
     >
       <i class="material-icons notranslate">show_chart</i>
       <h2 class="app-menu-title">
-        Activity
+        Transactions
       </h2>
     </router-link>
     <router-link

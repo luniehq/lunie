@@ -1,13 +1,13 @@
 const database = require('./database')
 const config = require('../config')
 
-let overviewedAddresses = {}
+let addressesDictionary = {}
 
-const clearOverviewedAddresses = () => {
+const clearAddressesDictionary = () => {
   // clear old records, that are older than 1 hour
-  Object.keys(overviewedAddresses).map((key) =>
-    process.hrtime(overviewedAddresses[key])[0] > 60 * 60
-      ? delete overviewedAddresses[key]
+  Object.keys(addressesDictionary).map((key) =>
+    process.hrtime(addressesDictionary[key])[0] > 60 * 60
+      ? delete addressesDictionary[key]
       : null
   )
 }
@@ -22,19 +22,23 @@ const storeTransactions = (
     const baseRow = {
       network: networkId,
       address: senderAddress,
-      action: transaction.type,
-      hash: transaction.hash,
+      action: transaction.type || transaction.messageType,
+      hash: transaction.hash, // we are not getting this in Substrate networks for reasons explained below
+      added: Date.now(),
       fingerprint
     }
-    if (!transaction.details.amounts && !transaction.details.amount) {
+    // since we are not polling to get the transaction from the blockchain itself for Polkadot, we are not running
+    // either the transactionReducer on it, so we need this hack for now
+    const message = transaction.details || transaction.message
+    if (!message.amounts && !message.amount) {
       store(baseRow)
       return
     }
-    const amounts = transaction.details.amounts || [transaction.details.amount]
+    const amounts = message.amounts || [message.amount]
     amounts.forEach(({ amount, denom }) => {
       store({
         ...baseRow,
-        value: amount,
+        value: Number(amount),
         denom
       })
     })
@@ -66,9 +70,9 @@ const store = async (payload) => {
   return database(config)('').storeStatistics(payload)
 }
 
-const logOverview = async (
+const logBalances = async (
   networks,
-  overview,
+  balance,
   address,
   networkId,
   fingerprint
@@ -80,33 +84,61 @@ const logOverview = async (
    and we don't need so many records in db
    so limiting writting posibilities to 1 hour
   */
-  if (overviewedAddresses[key]) {
-    if (process.hrtime(overviewedAddresses[key])[0] < 60 * 60) {
-      return clearOverviewedAddresses()
+  if (addressesDictionary[key]) {
+    if (process.hrtime(addressesDictionary[key])[0] < 60 * 60) {
+      return clearAddressesDictionary()
     }
   }
-  overviewedAddresses[key] = process.hrtime() // time in ms
+  addressesDictionary[key] = process.hrtime() // time in ms
   // common object
   let data = {
     address,
     network: networkId,
     fingerprint,
     action: ``,
+    added: Date.now(),
     value: 0,
     denom: network.stakingDenom
   }
   // store liquidStake
   data.action = 'liquidStake'
-  data.value = overview.liquidStake.toString()
+  data.value = balance.available.toString()
   store(data)
   // store totalStake
   data.action = 'totalStake'
-  data.value = overview.totalStake.toString()
+  data.value = balance.total.toString()
   store(data)
+}
+
+const logRewards = async (
+  networks,
+  rewards,
+  address,
+  networkId,
+  fingerprint
+) => {
+  let key = address + networkId // just a key to store data about last request time
+  const network = networks.find(({ id }) => id === networkId)
+  // also limiting here rewards records to 1h
+  if (addressesDictionary[key]) {
+    if (process.hrtime(addressesDictionary[key])[0] < 60 * 60) {
+      return clearAddressesDictionary()
+    }
+  }
+  addressesDictionary[key] = process.hrtime() // time in ms
+
+  let data = {
+    address,
+    network: networkId,
+    fingerprint,
+    action: `rewards`,
+    added: Date.now(),
+    value: 0
+  }
   // store rewards
   // summing rewards with one denom
-  if (overview.rewards) {
-    overview.rewards
+  if (rewards) {
+    rewards
       .reduce((newArray, currentItem) => {
         const index = newArray.findIndex((el) => el.denom == currentItem.denom)
         if (index !== -1) {
@@ -118,14 +150,15 @@ const logOverview = async (
         return newArray
       }, [])
       .map((reward) => {
-        data.action = 'rewards'
-        data.denom = reward.denom
         data.value = reward.amount
+        data.denom = reward.denom
         store(data)
       })
   }
 }
+
 module.exports = {
   storeTransactions,
-  logOverview
+  logBalances,
+  logRewards
 }

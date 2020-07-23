@@ -1,76 +1,79 @@
 <template>
-  <TmDataLoading v-if="!loaded" />
-  <div v-else class="card-sign-in">
-    <h2>Welcome to Lunie 👋</h2>
-    <h3>How would you like to get started?</h3>
+  <SessionFrame icon="account_box">
+    <TmDataLoading v-if="!loaded" />
+    <div v-else class="card-sign-in">
+      <h2>Welcome to Lunie 👋</h2>
+      <h3>How would you like to get started?</h3>
 
-    <div class="session-list">
-      <LiSession
-        v-if="session.insecureMode || (isMobileApp && !accountExists)"
-        id="create-new-address"
-        icon="person_add"
-        title="Create a new address"
-        route="/select-network/create"
-      />
-      <LiSession
-        v-if="
-          !isMobileApp &&
-          !isExtension &&
-          currentNetwork.network_type !== `polkadot`
-        "
-        id="use-ledger-nano"
-        icon="vpn_key"
-        title="Ledger Nano"
-        route="/ledger"
-      />
-      <LiSession
-        v-if="!isMobileApp"
-        id="use-extension"
-        icon="laptop"
-        title="Lunie Browser Extension"
-        route="/extension"
+      <div class="session-list">
+        <LiSession
+          v-if="session.insecureMode || (isMobileApp && !accountExists)"
+          id="create-new-address"
+          icon="person_add"
+          title="Create a new address"
+          route="/select-network/create"
+        />
+        <LiSession
+          v-if="
+            !isMobileApp &&
+            !isExtension &&
+            currentNetwork.network_type !== `polkadot`
+          "
+          id="use-ledger-nano"
+          icon="vpn_key"
+          title="Ledger Nano"
+          route="/ledger"
+        />
+        <LiSession
+          v-if="!isMobileApp"
+          id="use-extension"
+          icon="laptop"
+          title="Lunie Browser Extension"
+          route="/extension"
+        >
+        </LiSession>
+        <LiSession
+          v-if="accountExists && (session.insecureMode || isMobileApp)"
+          id="sign-in-with-account"
+          icon="lock"
+          title="Sign in with account"
+          route="/login"
+        />
+        <LiSession
+          id="explore-with-address"
+          icon="language"
+          title="Explore with any address"
+          route="/explore"
+        />
+        <LiSession
+          v-if="isMobileApp || session.insecureMode"
+          id="recover-with-backup"
+          icon="settings_backup_restore"
+          title="Recover with backup code"
+          route="/select-network/recover"
+        />
+      </div>
+      <router-link
+        v-if="!isMobileApp || accountExists"
+        :to="createAccountLink"
+        class="footnote"
       >
-      </LiSession>
-      <LiSession
-        v-if="accountExists && (session.insecureMode || isMobileApp)"
-        id="sign-in-with-account"
-        icon="lock"
-        title="Sign in with account"
-        route="/login"
-      />
-      <LiSession
-        id="explore-with-address"
-        icon="language"
-        title="Explore with any address"
-        route="/explore"
-      />
-      <LiSession
-        v-if="isMobileApp || session.insecureMode"
-        id="recover-with-backup"
-        icon="settings_backup_restore"
-        title="Recover with backup code"
-        route="/select-network/recover"
-      />
+        Want to create a new address?
+      </router-link>
     </div>
-    <router-link
-      v-if="!isMobileApp || accountExists"
-      :to="createAccountLink"
-      class="footnote"
-    >
-      Want to create a new address?
-    </router-link>
-  </div>
+  </SessionFrame>
 </template>
 
 <script>
 import config from "src/../config"
 import { mapState, mapGetters } from "vuex"
 import LiSession from "common/TmLiSession"
+import SessionFrame from "common/SessionFrame"
 import TmDataLoading from "src/components/common/TmDataLoading"
 
 export default {
   name: `card-sign-in-required`,
-  components: { LiSession, TmDataLoading },
+  components: { LiSession, TmDataLoading, SessionFrame },
   data: () => ({
     isMobileApp: config.mobileApp,
     isExtension: config.isExtension,

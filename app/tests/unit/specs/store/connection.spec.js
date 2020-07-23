@@ -82,7 +82,6 @@ describe(`Module: Connection`, () => {
       id: `keine-ahnungnet`,
       slug: `ahnungnet`,
     })
-    expect(commit).toHaveBeenCalledWith(`setNetworkSlug`, "ahnungnet")
     localStorage.clear()
   })
 
@@ -94,7 +93,6 @@ describe(`Module: Connection`, () => {
       config: {
         stargate: `https://voyager.lol`,
         network: `strangenet`,
-        fallbackNetwork: `localnet`,
       },
     }
     state.networks = [networks[2]]

@@ -4,8 +4,8 @@
       v-focus-last
       class="session-frame"
       tabindex="0"
-      @keyup.esc="goToPortfolio()"
-      @click.self="goToPortfolio()"
+      @keyup.esc="closeModal()"
+      @click.self="closeModal()"
     >
       <div class="session-outer-container">
         <div
@@ -22,13 +22,13 @@
           class="material-icons notranslate circle modal-icon"
           >{{ icon }}</i
         >
-        <div class="session" :class="{ evenly: !isExtension }">
+        <div class="session">
           <div class="session-header">
             <a v-if="!hideBack" @click="goBack">
               <i class="material-icons notranslate circle back">arrow_back</i>
             </a>
             <div v-if="!isExtension" class="session-close">
-              <a @click="goToPortfolio()">
+              <a @click="closeModal()">
                 <i class="material-icons notranslate circle back">close</i>
               </a>
             </div>
@@ -42,7 +42,7 @@
 
 <script>
 import config from "src/../config"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 
 export default {
   name: `session-frame`,
@@ -61,19 +61,40 @@ export default {
     isExtension: config.isExtension,
   }),
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`networkSlug`]),
   },
   methods: {
     goBack() {
-      this.$router.go(`-1`)
+      try {
+        this.$router.go(`-1`)
+      } catch (error) {
+        this.$router.push({
+          name: "networks",
+        })
+      }
     },
-    goToPortfolio() {
-      this.$router.push({
-        name: "portfolio",
-        params: {
-          networkId: this.networkSlug,
-        },
-      })
+    closeModal() {
+      if (this.$route.meta.requiresAuth) {
+        this.$router.push({
+          name: "validators",
+          params: {
+            networkId: this.networkSlug,
+          },
+        })
+      } else {
+        // if user is signed in with address
+        if (this.session.address) {
+          this.$router.push({
+            name: `portfolio`,
+          })
+          // if user is not signed in with address
+        } else {
+          this.$router.push({
+            name: `validators`,
+          })
+        }
+      }
     },
   },
 }
@@ -114,9 +135,5 @@ export default {
   transform: scaleX(-1);
   filter: invert(85%) sepia(9%) saturate(18%) hue-rotate(6deg) brightness(85%)
     contrast(87%); /* converts to same than var(--dim) */
-}
-
-.evenly {
-  justify-content: space-evenly;
 }
 </style>

@@ -13,7 +13,9 @@ const {
   storeUser,
   getUser,
   storeStore,
-  getStore
+  getStore,
+  storeNotificationRegistrations,
+  getNotificationRegistrations
 } = require('./methods')
 
 function database({ hasura_url, hasura_admin_key }) {
@@ -60,7 +62,15 @@ function database({ hasura_url, hasura_admin_key }) {
       storeUser: storeUser({ hasura_url, hasura_admin_key })(schema),
       getUser: getUser({ hasura_url, hasura_admin_key })(schema),
       storeStore: storeStore({ hasura_url, hasura_admin_key })(schema),
-      getStore: getStore({ hasura_url, hasura_admin_key })(schema)
+      getStore: getStore({ hasura_url, hasura_admin_key })(schema),
+      storeNotificationRegistrations: storeNotificationRegistrations({
+        hasura_url,
+        hasura_admin_key
+      })(schema),
+      getNotificationRegistrations: getNotificationRegistrations({
+        hasura_url,
+        hasura_admin_key
+      })(schema)
     }
 
     return {

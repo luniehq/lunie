@@ -7,29 +7,33 @@ import { setNetwork } from "./scripts/setNetwork"
 Vue.use(router)
 
 export const routeGuard = (store) => async (to, from, next) => {
-  // Set any open modal to false
+  // set any open modal to false
   store.state.session.currrentModalOpen = false
 
-  // Redirect if fullPath begins with a hash (fallback for old pre history mode urls)
+  // fallback for old history mode url redirect if path includes a hash
   if (to.fullPath.includes("#")) {
     const path = to.fullPath.substr(to.fullPath.indexOf("#") + 1)
     next(path)
-    return
   }
+
+  // redirect from notifications to paywall is user is not signed in
   if (to.name === `notifications`) {
     if (store.state.account.userSignedIn) {
       next()
-      return
     } else {
-      next(`/paywall`)
+      next(`/notification-wall`)
+      return
     }
   }
+
+  // checks for feature flags and feature availability
   if (to.meta.feature) {
     const featureAvalability = await featureAvailable(
       store,
       to.params.networkId,
       to.meta.feature
     )
+
     switch (featureAvalability) {
       case "DISABLED": {
         next(`/feature-not-available/${to.meta.feature}`)
@@ -45,10 +49,12 @@ export const routeGuard = (store) => async (to, from, next) => {
     }
   }
 
+  // manually set browser history
   if (from.fullPath !== to.fullPath && !store.state.session.pauseHistory) {
     store.commit(`addHistory`, from.fullPath)
   }
 
+  // set network based on url params
   if (to.params.networkId) {
     await setNetwork({ to, from, next }, store)
   } else {
@@ -60,8 +66,14 @@ export const routeGuard = (store) => async (to, from, next) => {
 const Router = (store) =>
   new router({
     mode: process.env.VUE_APP_E2E ? undefined : "history",
-    scrollBehavior: () => ({ y: 0 }),
     routes: routes(store),
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition
+      } else {
+        return { x: 0, y: 0 }
+      }
+    },
   })
 
 export default Router
@@ -82,6 +94,6 @@ async function featureAvailable(store, networkSlug, feature) {
 
   if (!currentNetwork) return "" // HACK route is not actually a network
 
-  const featureSelector = `feature_${feature.toLowerCase()}`
+  const featureSelector = `feature_${feature}`
   return currentNetwork[featureSelector]
 }
