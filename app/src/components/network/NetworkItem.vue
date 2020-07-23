@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import PoweredBy from "./PoweredBy"
 
 export default {
@@ -57,6 +57,7 @@ export default {
     },
   },
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`network`]),
     isCurrentNetwork() {
       return this.networkItem.id === this.network
@@ -64,10 +65,23 @@ export default {
   },
   methods: {
     goToNetwork() {
-      this.$router.push({
-        name: "portfolio",
-        params: { networkId: this.networkItem.slug },
-      })
+      // search for an active session in the network we are switching to
+      if (
+        this.session.allSessionAddresses.find(
+          ({ networkId }) => networkId === this.networkItem.id
+        )
+      ) {
+        this.$router.push({
+          name: `portfolio`,
+          params: { networkId: this.networkItem.slug },
+        })
+        // if no active session found then take to the validators table
+      } else {
+        this.$router.push({
+          name: `validators`,
+          params: { networkId: this.networkItem.slug },
+        })
+      }
     },
   },
 }
