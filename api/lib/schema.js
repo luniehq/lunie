@@ -389,8 +389,8 @@ const typeDefs = gql`
     gasEstimate: Int
     gasPrices: [GasPrice]
     chainAppliedFees: ChainAppliedFees
-    accountSequence: Int
-    accountNumber: Int
+    accountSequence: String
+    accountNumber: String
   }
 
   type EstimateResult {

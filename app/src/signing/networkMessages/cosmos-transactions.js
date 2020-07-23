@@ -36,7 +36,7 @@ type StdSignMsg struct {
   Memo          string      `json:"memo"`
 }
 */
-function createSignMessage(jsonTx, { sequence, accountNumber, chainId }) {
+function createSignMessage(jsonTx, { accountSequence, accountNumber, chainId }) {
   // sign bytes need amount to be an array
   const fee = {
     amount: jsonTx.fee.amount || [],
@@ -48,18 +48,18 @@ function createSignMessage(jsonTx, { sequence, accountNumber, chainId }) {
       fee,
       memo: jsonTx.memo,
       msgs: jsonTx.msg, // weird msg vs. msgs
-      sequence,
+      sequence: accountSequence,
       account_number: accountNumber,
       chain_id: chainId,
     })
   )
 }
 
-function formatSignature(signature, sequence, accountNumber, publicKey) {
+function formatSignature(signature, accountSequence, accountNumber, publicKey) {
   return {
     signature: signature.toString(`base64`),
     account_number: accountNumber,
-    sequence,
+    sequence: accountSequence,
     pub_key: {
       type: `tendermint/PubKeySecp256k1`, // TODO: allow other keytypes
       value: publicKey.toString(`base64`),
@@ -90,12 +90,12 @@ function removeEmptyProperties(jsonTx) {
 
 export async function getSignableObject(
   chainMessages,
-  { gasEstimate, fee, memo = ``, chainId, accountNumber, sequence }
+  { gasEstimate, fee, memo = ``, chainId, accountNumber, accountSequence }
 ) {
   // sign transaction
   const stdTx = createStdTx({ gasEstimate, fee, memo }, chainMessages)
   const signMessage = createSignMessage(stdTx, {
-    sequence,
+    accountSequence,
     accountNumber,
     chainId,
   })
@@ -105,13 +105,13 @@ export async function getSignableObject(
 
 export async function getBroadcastableObject(
   chainMessages,
-  { sequence, accountNumber, gasEstimate, fee, memo },
+  { accountSequence, accountNumber, gasEstimate, fee, memo },
   { signature, publicKey }
 ) {
   const stdTx = createStdTx({ gasEstimate, fee, memo }, chainMessages)
   const signatureObject = formatSignature(
     Buffer.from(signature, "hex"),
-    sequence,
+    accountSequence,
     accountNumber,
     Buffer.from(publicKey, "hex")
   )
