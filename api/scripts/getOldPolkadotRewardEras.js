@@ -17,7 +17,7 @@ if (config.SENTRY_DSN) {
 }
 
 const currentEraArg = require('minimist')(process.argv.slice(2))
-let currentEra = currentEraArg['currentEra']
+let currentEra = currentEraArg['currentEra'] === "undefined" ? undefined : currentEraArg['currentEra']
 const networkId = currentEraArg['network']
 const schema = networkId.replace("-", "_")
 const db = database(config)(schema)
