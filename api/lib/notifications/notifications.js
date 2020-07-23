@@ -53,9 +53,9 @@ function getMessageTitle(networks, notification) {
 
       return `Voting power increased from ${Number(
         data.prevValidator.votingPower
-      ).toFixed(6)} to ${Number(data.nextValidator.votingPower).toFixed(
-        6
-      )} (${percentageDifference.toFixed(3)}% increase) for ${
+      ).toFixed(2)}% to ${Number(data.nextValidator.votingPower).toFixed(
+        2
+      )}% (${percentageDifference.toFixed(3)}% increase) for ${
         data.nextValidator.name
       }`
     }
@@ -69,9 +69,9 @@ function getMessageTitle(networks, notification) {
 
       return `Voting power decreased from ${Number(
         data.prevValidator.votingPower
-      ).toFixed(6)} to ${Number(data.nextValidator.votingPower).toFixed(
-        6
-      )} (${percentageDifference.toFixed(3)}% decrease) for ${
+      ).toFixed(2)}% to ${Number(data.nextValidator.votingPower).toFixed(
+        2
+      )}% (${percentageDifference.toFixed(2)}% decrease) for ${
         data.nextValidator.name
       }`
     }
@@ -166,6 +166,8 @@ function getIcon({ eventType, data, properties }) {
     case eventTypes.PROPOSAL_CREATE:
     case eventTypes.PROPOSAL_UPDATE:
       return `/img/icons/activity/Submitted.svg`
+    case eventTypes.VALIDATOR_ADDED:
+      return `/img/networks/${notificationData.nextValidator.networkId}.png`
     case eventTypes.VALIDATOR_WEBSITE:
     case eventTypes.VALIDATOR_COMMISSION:
     case eventTypes.VALIDATOR_VOTING_POWER_INCREASE:
@@ -174,7 +176,6 @@ function getIcon({ eventType, data, properties }) {
     case eventTypes.VALIDATOR_PICTURE:
     case eventTypes.VALIDATOR_STATUS:
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
-    case eventTypes.VALIDATOR_ADDED:
     case eventTypes.SLASH:
     case eventTypes.LIVENESS:
       // Picture field for validator type can be null
@@ -274,14 +275,16 @@ const getNotifications = (networks) => async (
     timestamp
   )
 
-  const notifications = relevantNotifications.map((notification) => ({
-    id: notification.id, // used for correctly handling cache in Apollo
-    networkId: notification.networkId, // used for filtering per network
-    timestamp: notification.created_at, // used for grouping / sorting
-    title: getMessageTitle(networks, notification), // title of notification
-    link: getPushLink(networks, notification), // link for click-through action
-    icon: getIcon(notification) // icon link
-  }))
+  const notifications = relevantNotifications
+    .filter(({ eventType }) => eventType !== eventTypes.VALIDATOR_ADDED)
+    .map((notification) => ({
+      id: notification.id, // used for correctly handling cache in Apollo
+      networkId: notification.networkId, // used for filtering per network
+      timestamp: notification.created_at, // used for grouping / sorting
+      title: getMessageTitle(networks, notification), // title of notification
+      link: getPushLink(networks, notification), // link for click-through action
+      icon: getIcon(notification) // icon link
+    }))
 
   return notifications
 }

@@ -57,9 +57,9 @@ async function broadcastWithPolkadot(tx, fingerprint, development) {
   const hash = result.toJSON()
   tx.hash = hash
   // store tx in db
-  // if (!development) {
-  storeTransactions([tx], tx.networkId, tx.senderAddress, fingerprint)
-  // }
+  if (!development) {
+    storeTransactions([tx], tx.networkId, tx.senderAddress, fingerprint)
+  }
   return {
     hash,
     success: true

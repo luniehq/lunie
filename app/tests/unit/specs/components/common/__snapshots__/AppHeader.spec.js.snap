@@ -2,10 +2,11 @@
 
 exports[`AppHeader should display the sidebar on desktop 1`] = `
 <nav
-  class="app-header"
+  class="app-header hideSidebarMenu"
 >
   <div
     class="container open"
+    style="display: none;"
   >
     <div
       class="header-item open"

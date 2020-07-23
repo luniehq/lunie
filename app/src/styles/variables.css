@@ -7,6 +7,7 @@
 @import "themes/polkadot";
 @import "themes/polkadot-testnet";
 @import "themes/lunie-dark";
+@import "themes/lunie-light";
 
 :root {
   --input-bg: transparent;
