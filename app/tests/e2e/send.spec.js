@@ -38,7 +38,7 @@ module.exports = {
     if (browser.globals.type !== `polkadot`) {
       // check if the hash is changed
       await browser.url(
-        browser.launch_url + browser.globals.slug + "/transactions"
+        browser.launch_url + browser.globals.slug + "/transactions?experimental=true"
       )
       // check if tx shows
       await waitForText(

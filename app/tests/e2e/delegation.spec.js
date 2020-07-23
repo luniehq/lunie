@@ -29,7 +29,7 @@ module.exports = {
     // Activity feature is not enabled in polkadot
     if (browser.globals.type !== `polkadot`) {
       await browser.url(
-        browser.launch_url + browser.globals.slug + "/transactions"
+        browser.launch_url + browser.globals.slug + "/transactions?experimental=true"
       )
       lastHash = await getLastActivityItemHash(browser)
     }
@@ -75,7 +75,7 @@ module.exports = {
     if (browser.globals.type !== `polkadot`) {
       // check if the hash is changed
       await browser.url(
-        browser.launch_url + browser.globals.slug + "/transactions"
+        browser.launch_url + browser.globals.slug + "/transactions?experimental=true"
       )
       // check if tx shows
       await waitForText(
@@ -99,12 +99,12 @@ module.exports = {
     }
 
     await browser.url(
-      browser.launch_url + browser.globals.slug + "/transactions"
+      browser.launch_url + browser.globals.slug + "/transactions?experimental=true"
     )
     const lastHash = await getLastActivityItemHash(browser)
 
     // move to validator page
-    await browser.url(browser.launch_url + browser.globals.slug + "/validators")
+    await browser.url(browser.launch_url + browser.globals.slug + "/validators?experimental=true")
     browser.expect.element(".li-validator").to.be.visible.before(20000)
     await browser.click(
       `.li-validator[data-name="${browser.globals.validatorTwoName}"]`
@@ -128,7 +128,7 @@ module.exports = {
     // check if tx shows
     // check if the hash is changed
     await browser.url(
-      browser.launch_url + browser.globals.slug + "/transactions"
+      browser.launch_url + browser.globals.slug + "/transactions?experimental=true"
     )
     await waitForText(
       browser,
@@ -150,7 +150,7 @@ module.exports = {
     }
 
     await browser.url(
-      browser.launch_url + browser.globals.slug + "/transactions"
+      browser.launch_url + browser.globals.slug + "/transactions?experimental=true"
     )
     const lastHash = await getLastActivityItemHash(browser)
 
@@ -158,7 +158,7 @@ module.exports = {
     //await nextBlock(browser)
 
     // move to according page
-    await browser.url(browser.launch_url + browser.globals.slug + "/validators")
+    await browser.url(browser.launch_url + browser.globals.slug + "/validators?experimental=true")
 
     // move to validator page
     browser.expect.element(".li-validator").to.be.visible.before(20000)
@@ -181,7 +181,7 @@ module.exports = {
 
     // check if tx shows
     await browser.url(
-      browser.launch_url + browser.globals.slug + "/transactions"
+      browser.launch_url + browser.globals.slug + "/transactions?experimental=true"
     )
     await waitForText(
       browser,
