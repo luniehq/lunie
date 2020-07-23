@@ -30,14 +30,14 @@ app.use(bodyParser.json())
 app.use(timeout(120000))
 app.use(morgan('combined'))
 app.use(function (req, res, next) {
-    const authenticationToken = req.header("Authorization")
-    if (authenticationToken !== config.authenticationToken) {
-        res
-        .status(403)
-        .send()
-        return
-    }
-    next()
+  const authenticationToken = req.header("Authorization")
+  if (authenticationToken !== config.authenticationToken) {
+    res
+    .status(403)
+    .send()
+    return
+  }
+  next()
 })
 
 

@@ -227,10 +227,12 @@ function parsePolkadotTransaction(
     ),
     timestamp: new Date().getTime(), // FIXME!: pass it from block, we should get current timestamp from blockchain for new blocks
     memo: ``,
-    fees: {
-      amount: `0`,
-      denom: network.coinLookup[0].viewDenom
-    }, // FIXME!
+    fees: [
+      {
+        amount: `0`,
+        denom: network.coinLookup[0].viewDenom
+      }
+    ], // FIXME!
     success,
     log: ``,
     involvedAddresses: reducers.extractInvolvedAddresses(

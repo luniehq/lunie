@@ -1,4 +1,5 @@
-const {scheduleJob} = require('../executor')
+const { scheduleJob } = require("../executor")
+const Sentry = require("@sentry/node")
 
 module.exports = async function (req, res) {
   const {era, networkId} = req.body;
@@ -9,6 +10,7 @@ module.exports = async function (req, res) {
     res.send()
     return
   } catch (error) {
+    Sentry.captureException(error)
     res.status(500)
     res.send(error.message)
     return
