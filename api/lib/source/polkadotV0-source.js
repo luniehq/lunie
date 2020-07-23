@@ -560,34 +560,67 @@ class polkadotAPI {
   }
 
   async getAllProposals() {
-
     const api = await this.getAPI()
-
-    const blockHeight = await this.getBlockHeight()
-
-    // we use total issuance to calculate voting percentage
-    const totalIssuance = await api.query.balances.totalIssuance()
-
-    //
-    // Public referendum proposals
-    // There's no proposal in any substrate network ATM (23/07/2020)
-    //
-    // const democracyProposals = await api.query.democracy.publicProps()
-    // console.log(JSON.stringify(democracyProposals, null, 2))
-
-    // Referendums
-    const referendums = await api.derive.democracy.referendums()
-    // console.log(JSON.stringify(referendums, null, 2))
-    const proposals = referendums.map((proposal) => {
-      return this.reducers.proposalReducer(
-        this.network,
-        proposal,
-        totalIssuance,
-        blockHeight
+    
+    const [
+      blockHeight,
+      totalIssuance,
+      democracyProposals,
+      democracyReferendums,
+      // treasuryProposals,
+      councilProposals,
+      councilMembers
+    ] = await Promise.all([
+      this.getBlockHeight(),
+      api.query.balances.totalIssuance(),
+      api.derive.democracy.proposals(),
+      api.derive.democracy.referendums(),
+      // api.derive.treasury.proposals(),
+      api.derive.council.proposals(),
+      api.query.council.members()
+    ])
+    
+    const allProposals = democracyProposals
+      .map((proposal) => {
+        return this.reducers.democracyProposalReducer(
+          this.network,
+          proposal,
+          totalIssuance,
+          blockHeight
+        )
+      })
+      .concat(
+        democracyReferendums.map((proposal) => {
+          return this.reducers.democracyReferendumReducer(
+            this.network,
+            proposal,
+            totalIssuance,
+            blockHeight
+          )
+        })
       )
-    })
+      // .concat(
+      //   treasuryProposals.map((proposal) => {
+      //     return this.reducers.treasuryProposalReducer(
+      //       this.network,
+      //       proposal,
+      //       totalIssuance,
+      //       blockHeight
+      //     )
+      //   })
+      // )
+      .concat(
+        councilProposals.map((proposal) => {
+          return this.reducers.councilProposalReducer(
+            this.network,
+            proposal,
+            councilMembers,
+            blockHeight,
+          )
+        })
+      )
 
-    return orderBy(proposals, 'id', 'desc')
+    return orderBy(allProposals, 'id', 'desc')
   }
 }
 

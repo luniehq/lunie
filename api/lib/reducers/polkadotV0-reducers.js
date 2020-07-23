@@ -465,7 +465,16 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
-function proposalReducer(
+function democracyProposalReducer(
+  network,
+  proposal,
+  totalIssuance,
+  blockHeight
+) {
+  return {}
+}
+
+function democracyReferendumReducer(
   network,
   proposal,
   totalIssuance,
@@ -474,8 +483,8 @@ function proposalReducer(
   return {
     id: proposal.index,
     network: network.id,
-    type: "cosmos-sdk/TextProposal",
-    title: `${proposal.proposal_content.type} referendum #${proposal.proposal_id}`,
+    type: `text`,
+    title: `Referendum #${proposal.index}`,
     description: undefined,
     creationTime: undefined,
     status: `VotingPeriod`,
@@ -486,6 +495,72 @@ function proposalReducer(
       network,
       proposal.status.tally.turnout
     ),
+    proposer: undefined
+  }
+}
+
+// function treasuryProposals(
+//   network,
+//   proposal,
+//   totalIssuance,
+//   blockHeight
+// ) {
+//   return {
+//   }
+// }
+
+function councilProposalReducer(
+  network,
+  proposal,
+  councilMembers,
+  blockHeight
+) {
+
+  // {
+  //   "hash": "0x437283774530ccde4e9ca20ed3c8de486089c66c7c468f2830d6f8c7bddc5ad8",
+  //   "proposal": {
+  //     "callIndex": "0x1201",
+  //     "args": {
+  //       "proposal_id": 38
+  //     }
+  //   },
+  //   "votes": {
+  //     "index": 183,
+  //     "threshold": 11,
+  //     "ayes": [
+  //       "GLVeryFRbg5hEKvQZcAnLvXZEXhiYaBjzSDwrXBXrfPF7wj",
+  //       "J9nD3s7zssCX7bion1xctAF6xcVexcpy2uwy4jTm9JL8yuK",
+  //       "Hjuii5eGVttxjAqQrPLVN3atxBDXPc4hNpXF6cPhbwzvtis",
+  //       "EDkyLR1J19e9agASF6PK649jiheqD95tRweFNyzTg11Xug4",
+  //       "H9eSvWe34vQDJAWckeTHWSqSChRat8bgKHG39GC1fjvEm7y",
+  //       "DWUAQt9zcpnQt5dT48NwWbJuxQ78vKRK9PRkHDkGDn9TJ1j",
+  //       "DTLcUu92NoQw4gg6VmNgXeYQiNywDhfYMQBPYg2Y1W6AkJF",
+  //       "GcqKn3HHodwcFc3Pg3Evcbc43m7qJNMiMv744e5WMSS7TGn",
+  //       "DfiSM1qqP11ECaekbA64L2ENcsWEpGk8df8wf1LAfV2sBd4"
+  //     ],
+  //     "nays": [],
+  //     "end": 3312800
+  //   }
+  // },
+  return {
+    id: proposal.votes.index,
+    network: network.id,
+    type: `text`,
+    title: `Council proposal #${proposal.votes.index}`,
+    description: undefined,
+    creationTime: undefined,
+    status: `VotingPeriod`,
+    statusBeginTime: undefined,
+    statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
+    tally: {
+      yes: proposal.votes.ayes.length,
+      no: proposal.votes.nays.length,
+      abstain: 0,
+      veto: 0,
+      total: proposal.votes.ayes.length + proposal.votes.nays.length,
+      totalVotedPercentage: ((proposal.votes.ayes.length + proposal.votes.nays.length) * 100 / councilMembers.length).toFixed(2)
+    },
+    deposit: undefined,
     proposer: undefined
   }
 }
@@ -578,7 +653,9 @@ module.exports = {
   dbRewardsReducer,
   getExtrinsicSuccess,
   identityReducer,
-  proposalReducer,
+  democracyProposalReducer,
+  democracyReferendumReducer,
+  councilProposalReducer,
   tallyReducer,
   toViewDenom
 }
