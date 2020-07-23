@@ -2,7 +2,7 @@ const database = require('../lib/database')
 const config = require('../config')
 const { ApiPromise, WsProvider } = require('@polkadot/api')
 const _ = require('lodash')
-const BN = require('bn.js')
+const BN = require('bignumber.js')
 const fs = require('fs')
 const path = require('path')
 const { isHex } = require("@polkadot/util")
@@ -17,7 +17,7 @@ if (config.SENTRY_DSN) {
 }
 
 const currentEraArg = require('minimist')(process.argv.slice(2))
-let currentEra = currentEraArg['currentEra'] === "undefined" ? undefined : currentEraArg['currentEra']
+let currentEra = currentEraArg['currentEra']
 const networkId = currentEraArg['network']
 const schema = networkId.replace("-", "_")
 const db = database(config)(schema)
@@ -90,8 +90,8 @@ function loadStoredEraData(networkId) {
   }
 }
 
-const ZERO = new BN(0)
-const COMM_DIV = new BN(1000000000)
+const ZERO = BN(0)
+const COMM_DIV = BN(1000000000)
 function parseRewards(
   delegator,
   [erasPoints, erasPreferences, erasRewards, exposures]
@@ -109,27 +109,22 @@ function parseRewards(
         validators: {}
       }
       const validators = {}
-      const allValidatorPreferencesUnwrapped = Object.fromEntries(
-        Object.entries(allValidatorPreferences).map(([address, value]) => {
-          return [address, value.toJSON()]
-        })
-      )
 
       Object.entries(eraValidators).forEach(([validatorId, exposure]) => {
         const validatorPoints = allValidatorPoints[validatorId]
-          ? new BN(allValidatorPoints[validatorId])
+          ? BN(allValidatorPoints[validatorId])
           : ZERO
-        const validatorCommission = allValidatorPreferencesUnwrapped[validatorId]
-          ? new BN(allValidatorPreferencesUnwrapped[validatorId].commission)
+        const validatorCommission = allValidatorPreferences[validatorId]
+          ? BN(allValidatorPreferences[validatorId].commission)
           : ZERO
-        const available = new BN(eraReward)
-          .mul(validatorPoints)
-          .div(eraPoints)
+        const available = BN(eraReward)
+          .times(validatorPoints)
+          .dividedBy(eraPoints)
         const validatorCut = validatorCommission
-          .mul(available)
-          .div(COMM_DIV)
-        const exposureTotal = new BN(exposure.total)
-        let value = new BN(0)
+          .times(available)
+          .dividedBy(COMM_DIV)
+        const exposureTotal = BN(exposure.total)
+        let value = BN(0)
 
         if (!exposureTotal.isZero() && !validatorPoints.isZero()) {
           let staked
@@ -143,10 +138,10 @@ function parseRewards(
             staked = isHex(staked) ? new BN(staked.substr(2, staked.length - 2), 16) : new BN(staked)
           }
           value = available
-            .sub(validatorCut)
-            .mul(staked)
-            .div(exposureTotal)
-            .add(validatorId === delegator ? validatorCut : ZERO)
+            .minus(validatorCut)
+            .times(staked)
+            .dividedBy(exposureTotal)
+            .plus(validatorId === delegator ? validatorCut : ZERO)
         }
         validators[validatorId] = value
       })
@@ -181,9 +176,7 @@ function getDelegatorExposure(exposures, delegator) {
         isEmpty: !Object.keys(validators).length,
         isValidator,
         nominating,
-        validators: Object.fromEntries(
-          Object.entries(validators).map(([address, validator]) => [address, validator.toJSON()])
-        )
+        validators
       }
     }
   )
@@ -208,16 +201,15 @@ function getRewardsForDelegator(
 }
 
 async function loadEraData(missingEras, api) {
-  const bnMissingEras = missingEras.map(era => new BN(era))
   let [eraPoints, eraPreferences, eraRewards] = await Promise.all([
     api.derive.staking
-      ._erasPoints(bnMissingEras)
+      .erasPoints(missingEras)
       .then(result => _.keyBy(result, 'era')),
     api.derive.staking
-      ._erasPrefs(bnMissingEras)
+      .erasPrefs(missingEras)
       .then(result => _.keyBy(result, 'era')),
     api.derive.staking
-      ._erasRewards(bnMissingEras)
+      .erasRewards(missingEras)
       .then(result => _.keyBy(result, 'era'))
   ])
   // load one exposure after another as this is very costly and might time out the API
@@ -230,19 +222,62 @@ async function loadEraData(missingEras, api) {
   }
 
   return [eraPoints, eraPreferences, eraRewards, exposures]
-} 
+}
 
-async function getMissingEras(currentEra) {
+function cropEraData(
+  minDesiredEra,
+  [storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures],
+  [eraPoints, eraPrefs, eraRewards, exposures]
+) {
+  const newEraData = [
+    _.fromPairs(
+      _.toPairs(storedEraPoints)
+        .filter(([era]) => era >= minDesiredEra)
+        .concat(_.toPairs(eraPoints))
+    ),
+    _.fromPairs(
+      _.toPairs(storedEraPreferences)
+        .filter(([era]) => era >= minDesiredEra)
+        .concat(_.toPairs(eraPrefs))
+    ),
+    _.fromPairs(
+      _.toPairs(storedEraRewards)
+        .filter(([era]) => era >= minDesiredEra)
+        .concat(_.toPairs(eraRewards))
+    ),
+    storedExposures.filter(({ era }) => era >= minDesiredEra).concat(exposures)
+  ]
+
+  return newEraData
+}
+
+async function getMissingEras(lastStoredEra, currentEra) {
   const CLAIMABLE_REWARD_SPAN = 84
   const desiredEras = Array.from(new Array(CLAIMABLE_REWARD_SPAN).keys()).map((index) => index + 1 + currentEra - CLAIMABLE_REWARD_SPAN)
 
   const minDesiredEra = _.min(desiredEras)
   const maxDesiredEra = _.max(desiredEras)
+  const missingEras = desiredEras.filter(era => era > lastStoredEra)
 
-  return { minDesiredEra, missingEras: desiredEras, maxDesiredEra }
+  return { minDesiredEra, missingEras, maxDesiredEra }
 }
 
 async function main() {
+
+  // get previously stored data
+  let {
+    storedEraPoints,
+    storedEraPreferences,
+    storedEraRewards,
+    storedExposures,
+    lastStoredEra
+  } = loadStoredEraData(networkId)
+
+  if (currentEra && currentEra <= lastStoredEra) {
+    console.log('Rewards for this era are already stored')
+    process.exit(0)
+  }
+
   console.log("Getting rewards from era:", currentEra || 'latest')
 
   const networks = await database(config)("").getNetworks()
@@ -267,8 +302,10 @@ async function main() {
   console.log(`Querying rewards for ${delegators.length} delegators.`)
 
   const { minDesiredEra, missingEras, maxDesiredEra } = await getMissingEras(
+    lastStoredEra,
     currentEra
   )
+  console.log({ minDesiredEra, missingEras, maxDesiredEra })
 
   const [eraPoints, eraPreferences, eraRewards, exposures] = await loadEraData(
     missingEras,
@@ -278,11 +315,21 @@ async function main() {
   // disconnect from the API WS
   api.disconnect()
 
+  // filter out not needed data and stitch old and new data together
+  const newEraData = cropEraData(
+    minDesiredEra,
+    [storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures],
+    [eraPoints, eraPreferences, eraRewards, exposures]
+  )
+
+  // store data to only load missing data the next run
+  storeEraData(networkId, newEraData)
+
   // calculate the actual rewards from the inputs
   console.time('calculating rewards')
   const polkadotRewards = [].concat(
     ...delegators.map(delegator =>
-      getRewardsForDelegator(delegator, eraPoints, eraPreferences, eraRewards, exposures)
+      getRewardsForDelegator(delegator, ...newEraData)
     )
   )
 
@@ -334,8 +381,3 @@ async function main() {
 }
 
 main()
-  .catch(error => {
-    Sentry.captureException(error)
-    console.error(error)
-    process.exit(1)
-  })
