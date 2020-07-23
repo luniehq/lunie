@@ -465,6 +465,103 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
+function proposalReducer(
+  network,
+  proposal,
+  totalIssuance,
+  blockHeight
+) {
+  return {
+    id: proposal.index,
+    network: network.id,
+    type: `${proposal.status.threshold} referendum`,
+    title: proposal.imageHash,
+    description: undefined,
+    creationTime: undefined,
+    status: `VotingPeriod`,
+    statusBeginTime: undefined,
+    statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
+    tally: tallyReducer(network, proposal.status.tally, totalIssuance),
+    deposit: toViewDenom(
+      network,
+      proposal.status.tally.turnout
+    ),
+    proposer: undefined
+  }
+}
+
+function tallyReducer(network, tally, totalIssuance) {
+
+  //
+  // tally chain format:
+  //
+  // "tally": {
+  //   "ayes": "0x0000000000000000001e470441298100",
+  //   "nays": "0x00000000000000000186de726fc56000",
+  //   "turnout": "0x000000000000000000dc3dd9ad3d0800"
+  // }
+  //
+  // turnout is the real amount deposited by voters
+  // in polkadot you can vote with "conviction", that means
+  // ayes and nays are amplified by the selected lockup period:
+  //
+  // 1x voting balance, locked for 1x enactment (8.00 days)
+  // 2x voting balance, locked for 2x enactment (16.00 days)
+  // 3x voting balance, locked for 4x enactment (32.00 days)
+  // 4x voting balance, locked for 8x enactment (64.00 days)
+  // 5x voting balance, locked for 16x enactment (128.00 days)
+  // 6x voting balance, locked for 32x enactment (256.00 days)
+  //
+
+  const turnout = BigNumber(tally.turnout)
+
+  const totalVoted = BigNumber(tally.ayes)
+    .plus(tally.nays)
+  const total = toViewDenom(
+    network,
+    totalVoted.toString(10)
+  )
+  const yes = toViewDenom(
+    network,
+    tally.ayes
+  )
+  const no = toViewDenom(
+    network,
+    tally.nays
+  )
+  const totalVotedPercentage = (
+    (
+      turnout
+        .times(10000)
+        .div(
+          BigNumber(totalIssuance)
+        )
+        .toNumber()
+    ) / 100
+  ).toFixed(2)
+
+  return {
+    yes,
+    no,
+    abstain: 0,
+    veto: 0,
+    total,
+    totalVotedPercentage
+  }
+}
+
+function toViewDenom(network, chainDenomAmount) {
+  return BigNumber(chainDenomAmount)
+    .times(network.coinLookup[0].chainToViewConversionFactor)
+    .toFixed(6)
+}
+
+function getStatusEndTime(blockHeight, endBlock) {
+  return new Date(
+    new Date().getTime() + ((endBlock - blockHeight) * 6000)
+  ).toUTCString()
+}
+
 module.exports = {
   blockReducer,
   validatorReducer,
@@ -480,5 +577,8 @@ module.exports = {
   rewardsReducer,
   dbRewardsReducer,
   getExtrinsicSuccess,
-  identityReducer
+  identityReducer,
+  proposalReducer,
+  tallyReducer,
+  toViewDenom
 }

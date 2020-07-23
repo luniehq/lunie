@@ -1,5 +1,5 @@
 const BigNumber = require('bignumber.js')
-const { uniqWith } = require('lodash')
+const { orderBy, uniqWith } = require('lodash')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -562,9 +562,32 @@ class polkadotAPI {
   async getAllProposals() {
 
     const api = await this.getAPI()
-    const democracyProposals = await api.query.democracy.publicProps()
-    console.log(JSON.stringify(democracyProposals, null, 2))
-    return {}
+
+    const blockHeight = await this.getBlockHeight()
+
+    // we use total issuance to calculate voting percentage
+    const totalIssuance = await api.query.balances.totalIssuance()
+
+    //
+    // Public referendum proposals
+    // There's no proposal in any substrate network ATM (23/07/2020)
+    //
+    // const democracyProposals = await api.query.democracy.publicProps()
+    // console.log(JSON.stringify(democracyProposals, null, 2))
+
+    // Referendums
+    const referendums = await api.derive.democracy.referendums()
+    // console.log(JSON.stringify(referendums, null, 2))
+    const proposals = referendums.map((proposal) => {
+      return this.reducers.proposalReducer(
+        this.network,
+        proposal,
+        totalIssuance,
+        blockHeight
+      )
+    })
+
+    return orderBy(proposals, 'id', 'desc')
   }
 }
 
