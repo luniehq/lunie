@@ -164,13 +164,23 @@ const networkFees = (networks) => async (
 
 const transactionMetadata = (networks) => async (
   _,
-  { networkId, transactionType, address },
+  { networkId, transactionType, address, message, memo },
   { dataSources }
 ) => {
-  const thisNetworkFees = await networkFees(networks)(_, {
-    networkId,
-    transactionType
-  })
+  let thisNetworkFees = {}
+  if (message) {
+    thisNetworkFees = await networkFees(networks)(
+      _,
+      {
+        networkId,
+        senderAddress: address,
+        messageType: transactionType,
+        message,
+        memo
+      },
+      { dataSources }
+    )
+  }
   const accountDetails = await remoteFetch(
     dataSources,
     networkId

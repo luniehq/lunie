@@ -386,7 +386,7 @@ const typeDefs = gql`
   }
 
   type TransactionMetadata {
-    gasEstimate: Int!
+    gasEstimate: Int
     gasPrices: [GasPrice]
     chainAppliedFees: ChainAppliedFees
     accountSequence: Int
