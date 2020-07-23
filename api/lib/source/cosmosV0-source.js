@@ -247,7 +247,7 @@ class CosmosV0API extends RESTDataSource {
       return this.reducers.proposalReducer(
         this.network.id,
         proposal,
-        {}, //TODO also add tally to overview when we need it
+        {},
         totalBondedTokens
       )
     })
@@ -518,30 +518,6 @@ class CosmosV0API extends RESTDataSource {
     )
     return uniqBy(allDelegations, 'delegator_address').map(
       ({ delegator_address }) => delegator_address
-    )
-  }
-
-  async getOverview(
-    delegatorAddress,
-    validatorsDictionary,
-    fiatCurrency,
-    network
-  ) {
-    this.checkAddress(delegatorAddress)
-    const [balances, delegations, undelegations] = await Promise.all([
-      this.getBalancesFromAddress(delegatorAddress, fiatCurrency, network),
-      this.getDelegationsForDelegatorAddress(delegatorAddress),
-      this.getUndelegationsForDelegatorAddress(delegatorAddress)
-    ])
-    const fiatValueAPI = this.fiatValuesAPI
-    return this.reducers.overviewReducer(
-      balances,
-      delegations,
-      undelegations,
-      this.network.stakingDenom,
-      fiatValueAPI,
-      fiatCurrency,
-      this.reducers
     )
   }
 

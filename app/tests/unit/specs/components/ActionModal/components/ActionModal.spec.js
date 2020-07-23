@@ -45,12 +45,6 @@ jest.mock(`src/../../common/polkadotApiConnector`, () => ({
 describe(`ActionModal`, () => {
   let wrapper, $store, $apollo
 
-  const overview = {
-    totalRewards: 100000,
-    liquidStake: 1230.0,
-    totalStake: 1430000000,
-  }
-
   const balances = [
     {
       denom: "STAKE",
@@ -125,7 +119,6 @@ describe(`ActionModal`, () => {
           browserWithLedgerSupport: null,
           currrentModalOpen: false,
         },
-        overview,
         balances,
         delegations,
       },

@@ -384,30 +384,6 @@ class polkadotAPI {
     return delegators.map(([address]) => address.toHuman()[0])
   }
 
-  async getOverview(delegatorAddress, validatorsDictionary, fiatCurrency) {
-    const accountBalances = await this.getBalancesFromAddress(
-      delegatorAddress,
-      fiatCurrency
-    )
-    const totalStake = accountBalances[0] ? accountBalances[0].total : 0
-    const lunieCoin = {
-      denom: this.network.coinLookup[0].viewDenom,
-      amount: totalStake
-    }
-    const fiatValues = await this.fiatValuesAPI.calculateFiatValues(
-      [lunieCoin],
-      fiatCurrency
-    )
-    return {
-      networkId: this.networkId,
-      address: delegatorAddress,
-      totalStake,
-      totalStakeFiatValue: fiatValues[lunieCoin.denom],
-      liquidStake: accountBalances[0] ? accountBalances[0].amount : 0,
-      accountInformation: undefined
-    }
-  }
-
   getAccountInfo(address) {
     return {
       address,

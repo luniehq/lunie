@@ -195,43 +195,6 @@ const transactionMetadata = (networks) => async (
 }
 
 const resolvers = (networkList) => ({
-  Overview: {
-    accountInformation: (account, _, { dataSources }) =>
-      remoteFetch(dataSources, account.networkId).getAccountInfo(
-        account.address,
-        account.networkId
-      ),
-    rewards: async (
-      { networkId, address, fiatCurrency },
-      _,
-      { dataSources }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      return remoteFetch(dataSources, networkId).getRewards(
-        address,
-        fiatCurrency
-      )
-    },
-    totalRewards: async (
-      { networkId, address, fiatCurrency },
-      _,
-      { dataSources }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      const rewards = await remoteFetch(dataSources, networkId).getRewards(
-        address,
-        fiatCurrency
-      )
-      const stakingDenom = await remoteFetch(
-        dataSources,
-        networkId
-      ).getStakingViewDenom()
-      return rewards
-        .filter(({ denom }) => denom === stakingDenom)
-        .reduce((sum, { amount }) => BigNumber(sum).plus(amount), 0)
-        .toFixed(6)
-    }
-  },
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
       //
@@ -411,26 +374,6 @@ const resolvers = (networkList) => ({
       }
 
       return rewards
-    },
-    overview: async (
-      _,
-      { networkId, address, fiatCurrency },
-      { dataSources }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      const network = networkList.find((network) => network.id === networkId)
-      const validatorsDictionary = localStore(dataSources, networkId).validators
-      const overview = await remoteFetch(dataSources, networkId).getOverview(
-        address,
-        validatorsDictionary,
-        fiatCurrency,
-        network
-      )
-      overview.id = address
-      overview.networkId = networkId
-      overview.address = address
-
-      return overview
     },
     transactionsV2: (_, { networkId, address, pageNumber }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getTransactionsV2(

@@ -463,48 +463,6 @@ async function rewardReducer(
   return multiDenomRewardsArray
 }
 
-async function overviewReducer(
-  balances,
-  delegations,
-  undelegations,
-  stakingDenom,
-  fiatValueAPI,
-  fiatCurrency,
-  reducers
-) {
-  stakingDenom = denomLookup(stakingDenom)
-  const liquidStake = BigNumber(
-    (
-      balances.find(({ denom }) => denomLookup(denom) === stakingDenom) || {
-        amount: 0
-      }
-    ).amount
-  )
-  const delegatedStake = delegations.reduce(
-    (sum, { amount }) => BigNumber(sum).plus(amount),
-    0
-  )
-  const undelegatingStake = undelegations.reduce(
-    (sum, { amount }) => BigNumber(sum).plus(amount),
-    0
-  )
-  const totalStake = liquidStake.plus(delegatedStake).plus(undelegatingStake)
-
-  return {
-    liquidStake: liquidStake,
-    totalStake,
-    totalStakeFiatValue: fiatValueAPI
-      ? totalStakeFiatValueReducer(
-          fiatValueAPI,
-          fiatCurrency,
-          totalStake,
-          stakingDenom,
-          reducers
-        )
-      : null
-  }
-}
-
 async function totalStakeFiatValueReducer(
   fiatValueAPI,
   fiatCurrency,
@@ -554,7 +512,6 @@ module.exports = {
   balanceV2Reducer,
   undelegationReducer,
   rewardReducer,
-  overviewReducer,
   accountInfoReducer,
   calculateTokens,
 
