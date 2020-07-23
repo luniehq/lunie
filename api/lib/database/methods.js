@@ -341,6 +341,18 @@ const getNotificationRegistrations = ({ hasura_url, hasura_admin_key }) => (
   ])
 }
 
+const storePushRegistrations = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (payload) => {
+  return await upsert({
+    hasura_url,
+    hasura_admin_key
+  })("")(`pushRegistrations`, payload, undefined, undefined, [
+    'uid',
+    'pushToken'
+  ])
+}
+
 const getMaintenance = ({ hasura_url, hasura_admin_key }) => (
   schema
 ) => async () => {
@@ -423,5 +435,6 @@ module.exports = {
   storeStore,
   getStore,
   storeNotificationRegistrations,
-  getNotificationRegistrations
+  getNotificationRegistrations,
+  storePushRegistrations
 }

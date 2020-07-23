@@ -184,7 +184,7 @@ const transactionMetadata = (networks) => async (
   }
 }
 
-const resolvers = (networkList) => ({
+const resolvers = (networkList, notificationController) => ({
   Overview: {
     accountInformation: (account, _, { dataSources }) =>
       remoteFetch(dataSources, account.networkId).getAccountInfo(
@@ -444,7 +444,9 @@ const resolvers = (networkList) => ({
     }
   },
   Mutation: {
-    registerUser: (_, variables, { user: { uid } }) => registerUser(uid)
+    registerUser: (_, variables, { user: { uid } }) => registerUser(uid),
+    notifications: (_, { addressObjects, notificationType, pushToken }, { dataSources, user: { uid } }) =>
+      notificationController.updateRegistrations(uid, addressObjects, notificationType, dataSources, pushToken)
   },
   Subscription: {
     blockAdded: {

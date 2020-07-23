@@ -1,11 +1,10 @@
 const database = require('../database')
 const config = require('../../config')
 const { eventSubscription } = require('../subscriptions')
-const { getTopic, getMessageTitle, getPushLink } = require('./notifications')
+const { getTopic, getMessageTitle, getPushLink, getIcon } = require('./notifications')
 const { getDefaultEMailSubscriptions } = require('./notifications-types')
 const firebaseAdmin = require('./firebase')
 const Sentry = require('@sentry/node')
-const { UserInputError } = require('apollo-server')
 
 class NotificationController {
   constructor(networks) {
@@ -26,15 +25,23 @@ class NotificationController {
 
   listenToNotifications() {
     eventSubscription((notification) => {
-      this.onNotification(notification)
+      this.onNotificationSendEMails(notification)
+      this.onNotificationSendPushNotifications(notification)
     })
   }
 
-  async onNotification(notification) {
+  async onNotificationSendEMails(notification) {
     const emailUsers = await this.getRegisteredUsers(notification, 'email')
     const emails = await this.getEmails(emailUsers)
     const { content, subject } = this.getEmailContent(notification)
     this.sendEmail(emails, subject, content)
+  }
+
+  async onNotificationSendPushNotifications(notification) {
+    const pushNotificationUsers = await this.getRegisteredUsers(notification, 'push')
+    if (pushNotificationUsers.length > 0) {
+      this.sendPushNotification(notification)
+    }
   }
 
   getRegistrationsFromDB() {
@@ -62,7 +69,8 @@ class NotificationController {
     uid,
     addressObjects,
     notificationType,
-    dataSources
+    dataSources,
+    pushToken
   ) {
     let topics = []
     if (notificationType === 'email') {
@@ -70,15 +78,18 @@ class NotificationController {
         await getDefaultEMailSubscriptions(addressObjects, dataSources)
       ).map((topic) => ({ topic, type: 'email' }))
     } else {
-      throw new UserInputError(
-        'Only Email notification registration is supported on this endpoint'
-      )
+      topics = (
+        await getDefaultEMailSubscriptions(addressObjects, dataSources)
+      ).map((topic) => ({ topic, type: 'push' }))
+
+      this.db('').storePushRegistrations({uid, pushToken})
     }
     topics.forEach(({ topic, type }) => {
       if (!this.registrations[topic])
         this.registrations[topic] = { email: {}, push: {} }
       this.registrations[topic][type][uid] = true
     })
+    
     const rows = topics.map((topic) => ({
       ...topic,
       uid
@@ -133,6 +144,33 @@ class NotificationController {
         Sentry.captureException(new Error(JSON.stringify(res.error)))
       }
     })
+  }
+
+  async sendPushNotification(notification) {
+    const topic = getTopic(notification)
+    const body = getMessageTitle(this.networks, notification)
+    // const image = getIcon(notification) // should we use an icon per notification or just use the Lunie logo?
+
+    const message = {
+      notification: {
+        body,
+        image:
+          'https://lunie.fra1.digitaloceanspaces.com/lunie-push-notification.PNG'
+      },
+      topic,
+      webpush: {
+        fcm_options: {
+          link: getPushLink(this.networks, notification)
+        }
+      }
+    }
+
+    try {
+      await firebaseAdmin.messaging().send(message)
+    } catch (error) {
+      console.error('Error sending message:', error, message)
+      Sentry.captureException(error)
+    }
   }
 }
 

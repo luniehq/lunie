@@ -365,6 +365,7 @@ const typeDefs = gql`
     notifications(
       addressObjects: [NotificationInput]!
       notificationType: String
+      pushToken: String
     ): Boolean
   }
 

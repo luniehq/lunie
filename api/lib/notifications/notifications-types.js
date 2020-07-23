@@ -104,9 +104,35 @@ const getDefaultEMailSubscriptions = async (addresses, dataSources) => {
   return subscriptions
 }
 
+const getDefaultPushSubscriptions = async (addresses, dataSources) => {
+  let subscriptions = []
+
+  for (const { address, networkId } of addresses) {
+    const delegations = await dataSources[
+      networkId
+    ].api.getDelegationsForDelegatorAddress(address)
+
+    delegations.forEach((delegation) => {
+      subscriptions.push(
+        `${delegation.validatorAddress}_${eventTypes.VALIDATOR_COMMISSION}_${networkId}`,
+        `${delegation.validatorAddress}_${eventTypes.VALIDATOR_STATUS}_${networkId}`,
+        `${delegation.validatorAddress}_${eventTypes.SLASH}_${networkId}`,
+        `${delegation.validatorAddress}_${eventTypes.LIVENESS}_${networkId}`
+      )
+    })
+    subscriptions.push(
+      `${eventTypes.PROPOSAL_CREATE}_${networkId}`,
+      `${eventTypes.PROPOSAL_UPDATE}_${networkId}`
+    )
+  }
+
+  return subscriptions
+}
+
 module.exports = {
   eventTypes,
   resourceTypes,
   getDefaultSubscriptions,
-  getDefaultEMailSubscriptions
+  getDefaultEMailSubscriptions,
+  getDefaultPushSubscriptions
 }
