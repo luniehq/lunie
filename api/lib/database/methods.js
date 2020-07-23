@@ -87,11 +87,7 @@ const getPremiumValidators = ({
     'blog',
     'contributionLinks'
   ])
-  if (premiumValidators.length > 0) {
-    return premiumValidators
-  } else {
-    return []
-  }
+  return premiumValidators
 }
 
 const getNotifications = ({ hasura_url, hasura_admin_key }) => (

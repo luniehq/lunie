@@ -1,13 +1,11 @@
-const Sentry = require('@sentry/node')
-const database = require('../database')
-const config = require('../../config')
-
 class GlobalStore {
   constructor(database) {
     this.db = database
     this.stores = []
     this.networks = []
-    this.validatorsLookup = {}
+    this.validatorsLookup = {
+      /* hardcode code coming */
+    }
     this.globalValidators = {}
 
     this.dataReady = new Promise((resolve) => {
@@ -29,6 +27,8 @@ class GlobalStore {
     }
   }
 
+  // checks if the particular network store already lives in this.stores.
+  // If so, it will update it. Otherwise, it will just push it in.
   upsertStoreToGlobalStore(newStore) {
     // first check if it is already there In that case update store
     if (
@@ -48,20 +48,6 @@ class GlobalStore {
     } else {
       this.stores.push(newStore)
     }
-  }
-
-  createGlobalValidatorsLookup() {
-    this.stores.forEach((store) => {
-      const validatorsKeys = Object.keys(store.validators)
-      validatorsKeys.forEach((key) => {
-        let validator = store.validators[key]
-        if (!this.validatorsLookup[validator.name]) {
-          return (this.validatorsLookup[validator.name] = [key])
-        } else {
-          return this.validatorsLookup[validator.name].push(key)
-        }
-      })
-    })
   }
 
   calculateAverageUptimePercentage(name) {
@@ -86,7 +72,6 @@ class GlobalStore {
   async getGlobalValidators() {
     const premiumValidators = await this.db.getPremiumValidators()
     this.globalValidators = premiumValidators
-    this.createGlobalValidatorsLookup()
     return premiumValidators.map((validator) =>
       this.globalValidatorReducer(validator)
     )
