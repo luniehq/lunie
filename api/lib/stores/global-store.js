@@ -64,20 +64,39 @@ class GlobalStore {
     })
   }
 
-  calculateAverageUptimePercentage() {}
+  calculateAverageUptimePercentage(name) {
+    let aggregatedUptimePercentage = 0
+    let validatorNetworks = 0
+    this.validatorsLookup[name].forEach((operatorAddress) => {
+      this.stores.forEach((store) => {
+        if (store.validators[operatorAddress]) {
+          let validator = store.validators[operatorAddress]
+          aggregatedUptimePercentage =
+            aggregatedUptimePercentage + validator.uptimePercentage
+          validatorNetworks++
+        }
+      })
+    })
+    // divide aggregated uptimePercentage by number of networks
+    const averageUptimePercentage =
+      aggregatedUptimePercentage / validatorNetworks
+    return averageUptimePercentage
+  }
 
   async getGlobalValidators() {
     const premiumValidators = await this.db.getPremiumValidators()
     this.globalValidators = premiumValidators
     this.createGlobalValidatorsLookup()
-    return premiumValidators
+    return premiumValidators.map((validator) =>
+      this.globalValidatorReducer(validator)
+    )
   }
 
   globalValidatorReducer(validator) {
-    // TODO: calculate uptimePercentage average cross-chain
+    // add manually input validator data with on-chain calculated data
     return {
-      name: validator.name,
-      uptimePercentage: validator.uptimePercentage
+      ...validator,
+      uptimePercentage: this.calculateAverageUptimePercentage(validator.name)
     }
   }
 }
