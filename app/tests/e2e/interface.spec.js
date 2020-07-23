@@ -1,7 +1,7 @@
 module.exports = {
   "Validators search": async function (browser) {
     // move to according page
-    await browser.url(browser.launch_url + browser.globals.slug + "/validators")
+    await browser.url(browser.launch_url + browser.globals.slug + "/validators?experimental=true")
     await browser.waitForElementVisible(".li-validator", 20000)
 
     // select button 'All' in PageValidators

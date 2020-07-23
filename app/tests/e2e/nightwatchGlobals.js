@@ -56,7 +56,7 @@ async function next(browser) {
 }
 
 async function createNewAccount(browser, networkData) {
-  await browser.url(browser.launch_url + "/create")
+  await browser.url(browser.launch_url + "/create?experimental=true&insecure=true")
   await browser.waitForElementVisible("#sign-up-name", 20000, true)
   browser.setValue("#sign-up-name", "demo-account")
   await next(browser)
@@ -114,7 +114,7 @@ async function initialiseDefaults(browser) {
     }
   }
   // open default page
-  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio?experimental=true")
   await browser.execute(
     function (apiURI) {
       // setting the api to localStorage
@@ -131,7 +131,7 @@ async function initialiseDefaults(browser) {
 
 async function defineNeededValidators(browser) {
   // need to store validators, cause they can shuffle during the test
-  await browser.url(browser.launch_url + browser.globals.slug + "/validators")
+  await browser.url(browser.launch_url + browser.globals.slug + "/validators?experimental=true")
   await browser.waitForElementVisible(".li-validator", 30000)
   const validators = await browser.execute(function () {
     const validatorLIs = document.getElementsByClassName("li-validator")
@@ -150,7 +150,7 @@ async function defineNeededValidators(browser) {
 async function storeAccountData(browser, networkData) {
   // refreshing and saving all needed info of a newly created account
   await browser.pause(500) // needed for localStorage variable setting
-  await browser.url(browser.launch_url)
+  await browser.url(browser.launch_url + "?insecure=true&experimental=true")
   const tempAcc = await browser.execute(
     function (networkData) {
       // saving account info from localStorage
@@ -190,7 +190,7 @@ async function storeAccountData(browser, networkData) {
 }
 
 async function fundingTempAccount(browser, networkData) {
-  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio?experimental=true")
   await actionModalCheckout(
     browser,
     ".table-cell.actions button",
@@ -210,7 +210,7 @@ async function fundingTempAccount(browser, networkData) {
 
 async function createAccountAndFundIt(browser, done, networkData) {
   // changing network
-  await browser.url(browser.launch_url + browser.globals.slug)
+  await browser.url(browser.launch_url + browser.globals.slug + "?experimental=true")
 
   // define two first validators
   await defineNeededValidators(browser, networkData)
@@ -254,7 +254,7 @@ async function switchToAccount(
   if (Number(response.data.data.overview.totalStake) === 0) {
     throw new Error(`Account ${address} in ${network} has no funds`)
   }
-  await browser.url(browser.launch_url)
+  await browser.url(browser.launch_url + "?experimental=true")
   await browser.execute(
     function ({ address, network, wallet, name }) {
       // skip sign in

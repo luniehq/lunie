@@ -35,7 +35,7 @@ module.exports = {
     }
 
     // move to according page
-    await browser.url(browser.launch_url + browser.globals.slug + "/validators")
+    await browser.url(browser.launch_url + browser.globals.slug + "/validators?experimental=true")
     // move to validator page
     await browser.expect.element(".li-validator").to.be.visible.before(20000)
     await browser.click(

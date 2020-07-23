@@ -179,7 +179,7 @@ async function actionModalCheckout(
 
   if (checkUIUpdates) {
     // go to portfolio to remember balances
-    await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+    await browser.url(browser.launch_url + browser.globals.slug + "/portfolio?experimental=true")
 
     // check if balance header updates as expected
     // TODO find a way to know the rewards on an undelegation to know the final balance 100%
@@ -220,7 +220,7 @@ async function actionModalCheckout(
 
 async function getAccountBalance(browser) {
   // save denom
-  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+  await browser.url(browser.launch_url + browser.globals.slug + "/portfolio?experimental=true")
   const denom = await getDenom(browser)
   browser.globals.denom = denom
 

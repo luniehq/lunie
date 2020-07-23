@@ -16,7 +16,7 @@ module.exports = {
       )
       lastHash = await getLastActivityItemHash(browser)
     }
-    await browser.url(browser.launch_url + browser.globals.slug + "/portfolio")
+    await browser.url(browser.launch_url + browser.globals.slug + "/portfolio?experimental=true")
     const amount = 0.01
     await actionModalCheckout(
       browser,
