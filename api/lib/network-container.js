@@ -10,6 +10,9 @@ function createDBInstance(networkId) {
   return new database(config)(networkSchemaName)
 }
 
+// make persistent across networks
+const globalStore = new GlobalStore(this.db)
+
 /*
   This class handles creation and management of each network.
   Given a network config object it will establish the block listeners,
@@ -32,7 +35,6 @@ class NetworkContainer {
   }
 
   initialize() {
-    this.createGlobalStore()
     this.createNetworkStore()
     this.createBlockListener()
     this.createFiatValuesAPI()
@@ -41,12 +43,8 @@ class NetworkContainer {
       this.slashingMonitor.initialize()
   }
 
-  createGlobalStore() {
-    this.globalStore = new GlobalStore(this.db)
-  }
-
   createNetworkStore() {
-    this.store = new NetworkStore(this.network, this.db, this.globalStore)
+    this.store = new NetworkStore(this.network, this.db, globalStore)
   }
 
   createFiatValuesAPI() {
@@ -81,7 +79,7 @@ class NetworkContainer {
           this.db
         ),
         store: this.store,
-        globalStore: this.globalStore
+        globalStore: globalStore
       }
     }
   }
