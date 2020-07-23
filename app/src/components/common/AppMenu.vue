@@ -12,7 +12,7 @@
                   session.addressRole !== `none`
                 "
               >
-                {{ capitalizeFirstLetter(session.addressRole) }} Address
+                {{ session.addressRole | capitalize }} Address
               </h3>
               <h3 v-else>Your Address</h3>
               <Address class="menu-address" :address="address || ''" />
@@ -142,6 +142,7 @@
 
 <script>
 import Address from "common/Address"
+import { capitalize } from "src/filters"
 import TmFormMsg from "common/TmFormMsg"
 import TmBtn from "src/components/common/TmBtn"
 import ConnectedNetwork from "common/TmConnectedNetwork"
@@ -157,7 +158,8 @@ export default {
     TmBtn,
   },
   filters: {
-    shortDecimals,
+    capitalize,
+    shortDecimals
   },
   data: () => ({
     ledgerAddressError: undefined,
@@ -203,9 +205,6 @@ export default {
           8000
         )
       }
-    },
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
     },
   },
 }

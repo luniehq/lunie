@@ -53,3 +53,9 @@ export const resolveValidatorName = (address, validators) => {
 
 export const validatorEntry = (validator) =>
   `${validator.name} - ${formatAddress(validator.operatorAddress, 20)}`
+
+export const capitalize = (value) => {
+  if (!value) return ''
+  value = value.toString()
+  return value.charAt(0).toUpperCase() + value.slice(1)
+}

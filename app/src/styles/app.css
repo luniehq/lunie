@@ -63,10 +63,6 @@ a:hover {
   min-height: 100vh;
 }
 
-.tm-field {
-  border-radius: 0.25rem !important;
-}
-
 input[readonly],
 input[disabled],
 textarea[readonly],

@@ -22,12 +22,17 @@
 </template>
 <script>
 import Address from "common/Address"
+import { capitalize } from "src/filters"
 import { mapGetters, mapState } from "vuex"
 import { showAddressOnLedger } from "scripts/ledger"
+
 export default {
   name: `user-menu-address`,
   components: {
     Address,
+  },
+  filters: {
+    capitalize,
   },
   data: () => ({
     ledgerAddressError: undefined,
@@ -44,7 +49,7 @@ export default {
       ) {
         return (
           `Your` +
-          this.capitalizeFirstLetter(this.session.addressRole) +
+          this.session.addressRole | capitalize +
           `Address`
         )
       }
@@ -67,9 +72,6 @@ export default {
           8000
         )
       }
-    },
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
     },
   },
 }

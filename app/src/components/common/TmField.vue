@@ -197,6 +197,7 @@ input[type="checkbox"] {
 
 input.tm-field {
   height: 2rem;
+  font-family: var(--sans);
 }
 
 textarea.tm-field {

@@ -10,36 +10,11 @@
           class="searchField"
           placeholder="Search"
         />
-        <div class="filterOptions">
-          <div class="toggles">
-            <TmBtn
-              value="Popular"
-              class="btn-radio"
-              :type="popularSort ? `active` : `secondary`"
-              @click.native="defaultSelectorsController(`popularSort`)"
-            />
-            <TmBtn
-              value="All"
-              class="btn-radio"
-              :type="allValidators ? `active` : `secondary`"
-              @click.native="defaultSelectorsController(`allValidators`)"
-            />
-            <TmBtn
-              value="Active"
-              class="btn-radio"
-              :type="activeOnly ? `active` : `secondary`"
-              @click.native="defaultSelectorsController(`activeOnly`)"
-            />
-          </div>
-          <div class="show-mobile-sorting">
-            <i
-              :class="{ active: showMobileSorting }"
-              class="filter-toggle material-icons notranslate"
-              @click="toggleMobileSorting"
-              >filter_list</i
-            >
-          </div>
-        </div>
+        <Toggle
+          :toggle-options="toggleOptions"
+          :current-selection="currentSelection"
+          @sort="currentSelection = $event"
+        />
       </div>
 
       <TableValidators
@@ -63,7 +38,7 @@ import { mapGetters } from "vuex"
 import TableValidators from "staking/TableValidators"
 import TmPage from "common/TmPage"
 import TmField from "common/TmField"
-import TmBtn from "common/TmBtn"
+import Toggle from "common/Toggle"
 import gql from "graphql-tag"
 
 export default {
@@ -72,35 +47,22 @@ export default {
     TableValidators,
     TmPage,
     TmField,
-    TmBtn,
+    Toggle,
   },
   data: () => ({
-    searchTerm: "",
-    activeOnly: false,
-    allValidators: false,
-    popularSort: true,
+    searchTerm: ``,
+    currentSelection: `popular`,
     validators: [],
     loaded: false,
     showMobileSorting: false,
+    toggleOptions: [`popular`, `all`, `active`],
   }),
   computed: {
     ...mapGetters([`address`, `network`]),
   },
   methods: {
-    defaultSelectorsController(selector) {
-      this.popularSort = false
-      this.allValidators = false
-      this.activeOnly = false
-
-      if (selector === `popularSort`) {
-        this.popularSort = true
-      }
-      if (selector === `allValidators`) {
-        this.allValidators = true
-      }
-      if (selector === `activeOnly`) {
-        this.activeOnly = true
-      }
+    sort(option) {
+      this.currentSelection = option
     },
     toggleMobileSorting() {
       this.showMobileSorting = !this.showMobileSorting
@@ -195,38 +157,17 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .filterContainer {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
   justify-content: space-between;
-  flex-direction: row;
   margin: 0.5em 2em 1em;
-
-  .toggles {
-    margin-bottom: 0;
-    display: inline-flex;
-  }
-
-  input {
-    max-width: 300px;
-  }
-
-  .btn-radio {
-    min-width: 100px;
-    border-radius: 0;
-  }
 }
 
-.filterContainer .btn-radio:last-child {
-  border-radius: 0 0.5em 0.5em 0;
-  margin-left: -1px;
-}
-
-.filterContainer .btn-radio:first-child {
-  border-radius: 0.5em 0 0 0.5em;
-  margin-right: -1px;
+input {
+  max-width: 300px;
 }
 
 .show-mobile-sorting {
@@ -238,39 +179,26 @@ export default {
   color: var(--highlight);
 }
 
-.filterOptions {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -ms-flex-flow: row wrap;
-  flex-flow: row wrap;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-}
-
-.filter-toggle {
-  margin-left: 1em;
-}
-
 .no-results {
   text-align: center;
   margin: 3em;
   color: var(--dim);
 }
 
+.searchField {
+  padding: 0.75rem 1rem;
+  background: var(--app-fg);
+  border-color: var(--app-fg);
+  border-radius: 0.25rem;
+}
+
 @media screen and (max-width: 768px) {
   .filterContainer {
     margin: 0.5rem 2rem 0 2rem;
+  }
 
-    .btn-radio {
-      min-width: 75px;
-    }
+  .btn-radio {
+    min-width: 75px;
   }
 
   .filterContainer input {
