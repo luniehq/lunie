@@ -24,7 +24,10 @@ module.exports = {
       30000,
       true
     )
-    await browser.pause(500)
+    if (browser.globals.type === `polkadot`) {
+      // scroll to bottom
+      await browser.execute("window.scrollTo(0,document.body.scrollHeight);")
+    }
     await browser.click(
       `.select-network-item[data-network=${browser.globals.network}]`
     )
