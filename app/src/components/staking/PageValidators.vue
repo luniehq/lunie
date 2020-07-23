@@ -13,14 +13,13 @@
         <Toggle
           :toggle-options="toggleOptions"
           :current-selection="currentSelection"
-          @sort="currentSelection = $event"
+          @sort="sort($event)"
         />
       </div>
 
       <TableValidators
         :validators="validators"
         :delegations="delegations"
-        :show-mobile-sorting="showMobileSorting"
         show-on-mobile="expectedReturns"
       />
       <div
@@ -42,7 +41,7 @@ import Toggle from "common/Toggle"
 import gql from "graphql-tag"
 
 export default {
-  name: `tab-validators`,
+  name: `page-validators`,
   components: {
     TableValidators,
     TmPage,
@@ -52,9 +51,11 @@ export default {
   data: () => ({
     searchTerm: ``,
     currentSelection: `popular`,
+    popularSort: true,
+    allValidators: false,
+    activeOnly: false,
     validators: [],
     loaded: false,
-    showMobileSorting: false,
     toggleOptions: [`popular`, `all`, `active`],
   }),
   computed: {
@@ -63,9 +64,20 @@ export default {
   methods: {
     sort(option) {
       this.currentSelection = option
-    },
-    toggleMobileSorting() {
-      this.showMobileSorting = !this.showMobileSorting
+
+      this.popularSort = false
+      this.allValidators = false
+      this.activeOnly = false
+
+      if (option === this.currentSelection) {
+        this.popularSort = true
+      }
+      if (option === `all`) {
+        this.allValidators = true
+      }
+      if (option === `active`) {
+        this.activeOnly = true
+      }
     },
   },
   apollo: {
@@ -170,15 +182,6 @@ input {
   max-width: 300px;
 }
 
-.show-mobile-sorting {
-  display: none;
-  cursor: pointer;
-}
-
-.show-mobile-sorting.active {
-  color: var(--highlight);
-}
-
 .no-results {
   text-align: center;
   margin: 3em;
@@ -208,10 +211,6 @@ input {
   .filterOptions {
     padding: 1.5em 0.5em 0.5em;
     width: 100%;
-  }
-
-  .show-mobile-sorting {
-    display: block;
   }
 }
 

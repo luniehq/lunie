@@ -1,71 +1,29 @@
 <template>
-  <div>
-    <transition name="fade">
-      <ul v-if="showMobileSorting" class="sortingOptions">
-        <li
-          :class="{ active: isSortedBy(`popularity`) }"
-          @click="sortBy(`popularity`)"
-        >
-          <i class="sorting-icon material-icons notranslate">star_rate</i>
-          Popular on Lunie
-          <i
-            :class="{ inactive: !isSortedBy(`popularity`) }"
-            class="sorting-check material-icons notranslate"
-            >check</i
-          >
-        </li>
-        <li
-          :class="{ active: isSortedBy(`votingPower`) }"
-          @click="sortBy(`votingPower`)"
-        >
-          <i class="sorting-icon material-icons notranslate">flash_on</i> Voting
-          Power
-          <i
-            :class="{ inactive: !isSortedBy(`votingPower`) }"
-            class="sorting-check material-icons notranslate"
-            >check</i
-          >
-        </li>
-        <li
-          :class="{ active: isSortedBy(`expectedReturns`) }"
-          @click="sortBy(`expectedReturns`)"
-        >
-          <i class="sorting-icon material-icons notranslate">emoji_events</i>
-          Most Rewards
-          <i
-            :class="{ inactive: !isSortedBy(`expectedReturns`) }"
-            class="sorting-check material-icons notranslate"
-            >check</i
-          >
-        </li>
-      </ul>
-    </transition>
-    <table class="data-table">
-      <thead :class="{ shrinked: showMobileSorting }">
-        <PanelSort
-          :sort="sort"
-          :properties="properties"
-          :show-on-mobile="showOnMobile"
-        />
-      </thead>
-      <tbody
-        v-infinite-scroll="loadMore"
-        infinite-scroll-distance="400"
-        name="flip-list"
-      >
-        <LiValidator
-          v-for="(validator, index) in showingValidators"
-          :key="validator.operatorAddress"
-          :index="index"
-          :validator="validator"
-          :delegation="getDelegation(validator)"
-          :rewards="getRewards(validator)"
-          :show-on-mobile="showOnMobile"
-          :staking-denom="stakingDenom"
-        />
-      </tbody>
-    </table>
-  </div>
+  <table class="data-table">
+    <thead :class="{ shrinked: showMobileSorting }">
+      <PanelSort
+        :sort="sort"
+        :properties="properties"
+        :show-on-mobile="showOnMobile"
+      />
+    </thead>
+    <tbody
+      v-infinite-scroll="loadMore"
+      infinite-scroll-distance="400"
+      name="flip-list"
+    >
+      <LiValidator
+        v-for="(validator, index) in showingValidators"
+        :key="validator.operatorAddress"
+        :index="index"
+        :validator="validator"
+        :delegation="getDelegation(validator)"
+        :rewards="getRewards(validator)"
+        :show-on-mobile="showOnMobile"
+        :staking-denom="stakingDenom"
+      />
+    </tbody>
+  </table>
 </template>
 
 <script>

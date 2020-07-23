@@ -9,34 +9,54 @@
     >
       {{ option | capitalize }}
     </button>
-    <!-- <TmBtn
-      v-for="option in toggleOptions"
-      :key="option.name"
-      :value="option.name"
-      class="toggle-button"
-      :type="popularSort ? `active` : `secondary`"
-      @click.native="defaultSelectorsController(`popularSort`)"
-    /> -->
-    <!-- <TmBtn
-      value="All"
-      class="toggle-button"
-      :type="allValidators ? `active` : `secondary`"
-      @click.native="defaultSelectorsController(`allValidators`)"
-    />
-    <TmBtn
-      value="Active"
-      class="toggle-button"
-      :type="activeOnly ? `active` : `secondary`"
-      @click.native="defaultSelectorsController(`activeOnly`)"
-    />
-    <div class="show-mobile-sorting">
+    <!-- <div class="show-mobile-sorting">
       <i
         :class="{ active: showMobileSorting }"
         class="filter-toggle material-icons notranslate"
         @click="toggleMobileSorting"
         >filter_list</i
       >
-    </div> -->
+    </div>
+    <transition name="fade">
+      <ul v-if="showMobileSorting" class="sortingOptions">
+        <li
+          :class="{ active: isSortedBy(`popularity`) }"
+          @click="sortBy(`popularity`)"
+        >
+          <i class="sorting-icon material-icons notranslate">star_rate</i>
+          Popular on Lunie
+          <i
+            :class="{ inactive: !isSortedBy(`popularity`) }"
+            class="sorting-check material-icons notranslate"
+            >check</i
+          >
+        </li>
+        <li
+          :class="{ active: isSortedBy(`votingPower`) }"
+          @click="sortBy(`votingPower`)"
+        >
+          <i class="sorting-icon material-icons notranslate">flash_on</i> Voting
+          Power
+          <i
+            :class="{ inactive: !isSortedBy(`votingPower`) }"
+            class="sorting-check material-icons notranslate"
+            >check</i
+          >
+        </li>
+        <li
+          :class="{ active: isSortedBy(`expectedReturns`) }"
+          @click="sortBy(`expectedReturns`)"
+        >
+          <i class="sorting-icon material-icons notranslate">emoji_events</i>
+          Most Rewards
+          <i
+            :class="{ inactive: !isSortedBy(`expectedReturns`) }"
+            class="sorting-check material-icons notranslate"
+            >check</i
+          >
+        </li>
+      </ul>
+    </transition> -->
   </div>
 </template>
 
@@ -48,6 +68,9 @@ export default {
 	filters: {
 		capitalize,
 	},
+	data: () => ({
+		showMobileSorting: true,
+	}),
 	props: {
 		toggleOptions: {
 			type: Array,
@@ -64,6 +87,11 @@ export default {
 				return `three-options`
 			} else return ``
 		},
+	},
+	methods: {
+		toggleMobileSorting() {
+      this.showMobileSorting = !this.showMobileSorting
+		}
 	}
 }
 </script>
