@@ -2,9 +2,10 @@ const Sentry = require('@sentry/node')
 
 class GlobalStore {
   constructor(database) {
-    this.stores = []
     this.db = database
+    this.store = {}
     this.globalValidators = {}
+    this.validatorsLookup = {}
 
     this.dataReady = new Promise((resolve) => {
       this.resolveReady = resolve
@@ -12,13 +13,12 @@ class GlobalStore {
     this.dataReady.then(() => {
       console.log(`Global Store is ready`)
     })
-    this.getStores()
+    this.getReady()
   }
 
-  async getStores() {
-    const networks = await this.db.getNetworks()
-    if (networks.length !== this.stores.length) {
-      setTimeout(async () => await this.getStores(), 1000)
+  async getReady() {
+    if (Object.keys(this.store).length === 0) {
+      setTimeout(async () => await this.getReady(), 1000)
     } else {
       await this.getGlobalValidators()
       this.resolveReady()
@@ -26,43 +26,26 @@ class GlobalStore {
   }
 
   upsertStoreToGlobalStore(newStore) {
-    // first check if it is already there In that case update store
-    if (
-      this.stores.length > 0 &&
-      this.stores.find((store) => store.network.id === newStore.network.id)
-    ) {
-      this.stores = this.stores.reduce((updatedGlobalStores, store) => {
-        if (store.network.id === newStore.network.id) {
-          updatedGlobalStores.push(newStore)
-          return updatedGlobalStores
-        } else {
-          updatedGlobalStores.push(store)
-          return updatedGlobalStores
-        }
-      }, [])
-      // otherwise push to the list
-    } else {
-      this.stores.push(newStore)
-    }
+    this.store = newStore
   }
 
-  getGlobalValidators() {
-    const aggregatedValidators = this.stores
-      .map(({ validators }) => validators)
-      .reduce((validatorsAggregator, validators) => {
-        const validatorsKeys = Object.keys(validators)
-        validatorsKeys.forEach((key) => {
-          let validator = validators[key]
-          if (!validatorsAggregator[validator.name]) {
-            validatorsAggregator[validator.name] = this.globalValidatorReducer(
-              validator
-            )
-          }
-        })
-        return validatorsAggregator
-      }, {})
-    this.globalValidators = aggregatedValidators
-    return aggregatedValidators
+  createGlobalValidatorsLookup(premiumValidators) {
+    const validatorsKeys = Object.keys(this.store.validators)
+    validatorsKeys.forEach((key) => {
+      let validator = this.store.validators[key]
+      if (!this.validatorsLookup[validator.name]) {
+        return (this.validatorsLookup[validator.name] = [key])
+      } else {
+        return this.validatorsLookup[validator.name].push(key)
+      }
+    })
+  }
+
+  async getGlobalValidators() {
+    const premiumValidators = await this.db.getPremiumValidators()
+    this.globalValidators = premiumValidators
+    this.createGlobalValidatorsLookup(premiumValidators)
+    return premiumValidators
   }
 
   globalValidatorReducer(validator) {
