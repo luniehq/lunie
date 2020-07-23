@@ -11,7 +11,7 @@ function createDBInstance(networkId) {
 }
 
 // make persistent across networks
-const globalStore = new GlobalStore(this.db)
+const globalStore = new GlobalStore(database(config)(''))
 
 /*
   This class handles creation and management of each network.
