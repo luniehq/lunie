@@ -184,7 +184,7 @@ const transactionMetadata = (networks) => async (
   const accountDetails = await remoteFetch(
     dataSources,
     networkId
-  ).getAccountInfo(address, networkId)
+  ).getAccountInfo(address)
   return {
     gasEstimate: thisNetworkFees.gasEstimate,
     gasPrices: thisNetworkFees.gasPrices,
