@@ -1,11 +1,12 @@
 const Sentry = require('@sentry/node')
 
+let validatorsLookup = {}
+
 class GlobalStore {
   constructor(database) {
     this.db = database
     this.store = {}
     this.globalValidators = {}
-    this.validatorsLookup = {}
 
     this.dataReady = new Promise((resolve) => {
       this.resolveReady = resolve
@@ -29,14 +30,14 @@ class GlobalStore {
     this.store = newStore
   }
 
-  createGlobalValidatorsLookup(premiumValidators) {
+  createGlobalValidatorsLookup() {
     const validatorsKeys = Object.keys(this.store.validators)
     validatorsKeys.forEach((key) => {
       let validator = this.store.validators[key]
-      if (!this.validatorsLookup[validator.name]) {
-        return (this.validatorsLookup[validator.name] = [key])
+      if (!validatorsLookup[validator.name]) {
+        return (validatorsLookup[validator.name] = [key])
       } else {
-        return this.validatorsLookup[validator.name].push(key)
+        return validatorsLookup[validator.name].push(key)
       }
     })
   }
@@ -44,7 +45,7 @@ class GlobalStore {
   async getGlobalValidators() {
     const premiumValidators = await this.db.getPremiumValidators()
     this.globalValidators = premiumValidators
-    this.createGlobalValidatorsLookup(premiumValidators)
+    this.createGlobalValidatorsLookup()
     return premiumValidators
   }
 
