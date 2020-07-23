@@ -1,5 +1,5 @@
 <template>
-  <div class="toggle">
+  <div class="toggle" :class="buttonWidth">
     <button
       v-for="option in toggleOptions"
       :key="option"
@@ -45,8 +45,6 @@ import { capitalize } from "src/filters"
 
 export default {
 	name: `toggle`,
-	components: {
-	},
 	filters: {
 		capitalize,
 	},
@@ -60,6 +58,13 @@ export default {
 			required: true
 		}
 	},
+	computed: {
+		buttonWidth() {
+			if (this.toggleOptions.length === 3) {
+				return `three-options`
+			} else return ``
+		},
+	}
 }
 </script>
 
@@ -72,7 +77,6 @@ button {
   align-items: center;
   justify-content: center;
   width: auto;
-  min-width: 100px;
   margin: 0;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -96,12 +100,18 @@ button:hover {
   background: var(--app-fg);
   padding: 0.25rem;
   border-radius: 0.25rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 0.25rem 0;
+}
+
+.toggle.three-options .toggle-button {
+  width: 33%;
 }
 
 .toggle-button {
-  min-width: 120px;
   margin: 0 0.12rem;
-  width: 100%;
+  width: 50%;
   border-radius: 0.25rem;
 }
 
