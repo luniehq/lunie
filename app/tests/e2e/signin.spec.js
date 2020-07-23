@@ -24,6 +24,7 @@ module.exports = {
       30000,
       true
     )
+    await browser.pause(500)
     await browser.click(
       `.select-network-item[data-network=${browser.globals.network}]`
     )
