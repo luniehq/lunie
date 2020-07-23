@@ -9,9 +9,7 @@ async function totalBackedValueReducer(
   network
 ) {
   const aggregatingCurrency = `EUR`
-  const coinLookup = network.coinLookup.find(
-    ({ chainDenom }) => chainDenom === totalBackedValue.denom
-  )
+  const coinLookup = network.getCoinLookup(network, totalBackedValue.denom)
   const lunieCoin = reducers.coinReducer(totalBackedValue, coinLookup)
 
   // The total net EUR value of the token's total supply

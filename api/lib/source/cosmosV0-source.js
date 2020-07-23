@@ -335,9 +335,7 @@ class CosmosV0API extends RESTDataSource {
     const response = await this.query(`bank/balances/${address}`)
     let balances = response || []
     const coins = balances.map((coin) => {
-      const coinLookup = network.coinLookup.find(
-        ({ chainDenom }) => chainDenom === coin.denom
-      )
+      const coinLookup = network.getCoinLookup(network, coin.denom)
       return this.reducers.coinReducer(coin, coinLookup)
     })
     const fiatValues = await this.fiatValuesAPI.calculateFiatValues(
@@ -364,9 +362,7 @@ class CosmosV0API extends RESTDataSource {
     ])
     const balances = balancesResponse || []
     const coins = balances.map((coin) => {
-      const coinLookup = network.coinLookup.find(
-        ({ chainDenom }) => chainDenom === coin.denom
-      )
+      const coinLookup = network.getCoinLookup(network, coin.denom)
       return this.reducers.coinReducer(coin, coinLookup)
     })
     const hasStakingDenom = coins.find(

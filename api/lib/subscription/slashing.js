@@ -21,8 +21,10 @@ class SlashingMonitor {
   // to prevent adding a slash twice we filter the slashes
   storeSlashes(filterReason) {
     return (tendermintResponse) => {
-      const coinLookup = this.network.coinLookup.find(
-        ({ viewDenom }) => viewDenom === this.network.stakingDenom
+      const coinLookup = network.getCoinLookup(
+        network,
+        this.network.stakingDenom,
+        `viewDenom`
       )
       try {
         const slashes = tendermintResponse.events['slash.address']

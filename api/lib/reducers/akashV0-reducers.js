@@ -19,9 +19,7 @@ function setTransactionSuccess(transaction) {
 }
 
 function delegationReducer(delegation, validator, network) {
-  const coinLookup = network.coinLookup.find(
-    ({ chainDenom }) => chainDenom === delegation.balance.denom
-  )
+  const coinLookup = network.getCoinLookup(network, delegation.balance.denom)
   const delegationCoin = terraV3Reducers.coinReducer(
     delegation.balance,
     coinLookup

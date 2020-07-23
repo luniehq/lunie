@@ -330,14 +330,12 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
   const feeDenom = getFeeDenomFromMessage(message, network)
   const gasPrice = BigNumber(
     getNetworkGasPrices(network.id).find(({ denom }) => {
-      const coinLookup = network.coinLookup.find(
-        ({ chainDenom }) => chainDenom === denom
-      )
+      const coinLookup = network.getCoinLookup(network, denom)
       return coinLookup ? coinLookup.viewDenom === feeDenom : false
     }).price
   )
     .times(
-      network.coinLookup.find(({ viewDenom }) => viewDenom === feeDenom)
+      network.getCoinLookup(network, feeDenom, `viewDenom`)
         .chainToViewConversionFactor
     )
     .toNumber(6)

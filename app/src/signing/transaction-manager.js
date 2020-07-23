@@ -70,9 +70,7 @@ export default class TransactionManager {
         transactionMetadata: { accountNumber, accountSequence },
       },
     } = response
-    const coinLookup = network.coinLookup.find(
-      ({ viewDenom }) => viewDenom === fee.find(({ denom }) => denom).denom
-    )
+    const coinLookup = network.getCoinLookup(network, fee.find(({ denom }) => denom).denom, `viewDenom`)
     const convertedFee = [
       {
         amount: BigNumber(fee.find(({ amount }) => amount).amount)
