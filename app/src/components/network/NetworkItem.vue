@@ -1,5 +1,9 @@
 <template>
-  <div class="network-item" :class="{ disabled: disabled }">
+  <div
+    class="network-item"
+    :class="{ disabled: disabled }"
+    @click="goToNetwork()"
+  >
     <div class="network-icon">
       <img
         :src="`${networkItem.icon}`"
@@ -56,6 +60,14 @@ export default {
     ...mapGetters([`network`]),
     isCurrentNetwork() {
       return this.networkItem.id === this.network
+    },
+  },
+  methods: {
+    goToNetwork() {
+      this.$router.push({
+        name: "portfolio",
+        params: { networkId: this.networkItem.slug },
+      })
     },
   },
 }
