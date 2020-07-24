@@ -1,7 +1,7 @@
 import connectionModule from "src/vuex/modules/account.js"
 
 jest.mock("src/../config.js", () => ({
-  mobileApp: false
+  mobileApp: false,
 }))
 
 jest.mock("src/firebase.js", () => () => ({
@@ -10,9 +10,9 @@ jest.mock("src/firebase.js", () => () => ({
     isSignInWithEmailLink: () => true,
     signInWithEmailLink: () => {},
     currentUser: {
-      getIdToken: () => "idToken"
-    }
-  })
+      getIdToken: () => "idToken",
+    },
+  }),
 }))
 
 describe(`Module: Connection`, () => {
