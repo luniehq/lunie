@@ -288,6 +288,16 @@ export default (store) => {
           component: () => import(`./components/governance/PageProposal`),
           props: true,
         },
+        {
+          path: `proposals/v2/:proposalId`,
+          name: `proposal`,
+          meta: {
+            feature: "proposals",
+            networkSpecificRoute: true,
+          },
+          component: () => import(`./components/governance/PageProposal2`),
+          props: true,
+        },
         // for depredecated routes
         {
           path: `governance/proposals/:proposalId`,
