@@ -52,20 +52,21 @@ class GlobalStore {
 
   calculateAverageUptimePercentage(name) {
     let aggregatedUptimePercentage = 0
-    let validatorNetworks = 0
-    this.validatorsLookup[name].forEach((operatorAddress) => {
-      this.stores.forEach((store) => {
-        if (store.validators[operatorAddress]) {
-          let validator = store.validators[operatorAddress]
-          aggregatedUptimePercentage =
-            aggregatedUptimePercentage + validator.uptimePercentage
-          validatorNetworks++
-        }
-      })
+    const validatorNetworks = Object.keys(this.validatorsLookup[name])
+    validatorNetworks.map((network) => {
+      const networkStore = this.stores.find(
+        (store) => store.network.id === network
+      )
+      if (networkStore) {
+        const validator =
+          networkStore.validators[this.validatorsLookup[name][network]]
+        aggregatedUptimePercentage =
+          aggregatedUptimePercentage + validator.uptimePercentage
+      }
     })
     // divide aggregated uptimePercentage by number of networks
     const averageUptimePercentage =
-      aggregatedUptimePercentage / validatorNetworks
+      aggregatedUptimePercentage / validatorNetworks.length
     return averageUptimePercentage
   }
 
