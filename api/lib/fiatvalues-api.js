@@ -234,8 +234,11 @@ class fiatValueAPI {
           `${EMoneyFiatExchangeRateApi}base=${fiatCurrency}`
         )
           .then((r) => r.json())
-          .catch((error) => console.error(error))
-        all[fiatCurrency] = rates
+          .catch((error) => {
+            console.error(error)
+            return {}
+          })
+        all[fiatCurrency] = rates || {}
       })
     )
 
