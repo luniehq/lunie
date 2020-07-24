@@ -84,7 +84,7 @@ class GlobalStore {
       const networkStore = this.stores.find(
         (store) => store.network.id === network
       )
-      if (networkStore) {
+      if (networkStore && networkStore.stakingDenom.length > 0) {
         const validator =
           networkStore.validators[this.validatorsLookup[name][network]]
         const newTotalStakedAsset = {
