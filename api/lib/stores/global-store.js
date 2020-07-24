@@ -109,7 +109,24 @@ class GlobalStore {
     return aggregatedTotalStakedAssets
   }
 
-  getValidatorFeed() {} // should get the latest notifications concercing all validator's addresses
+  // should get the latest notifications (last 3 days) concercing all validator's addresses
+  async getValidatorFeed(name) {
+    const validatorNetworks = Object.keys(this.validatorsLookup[name])
+    return await Promise.all(
+      validatorNetworks.map(async (network) => {
+        const networkStore = this.stores.find(
+          (store) => store.network.id === network
+        )
+        if (networkStore) {
+          const validator =
+            networkStore.validators[this.validatorsLookup[name][network]]
+          return await this.db.getLatestValidatorNotifications(
+            validator.operatorAddress
+          )
+        }
+      })
+    )
+  }
 
   calculateAverageUptimePercentage(name) {
     let aggregatedUptimePercentage = 0
@@ -162,7 +179,7 @@ class GlobalStore {
       totalStaked: this.calculateTotalStaked(validator.name),
       totalStakedAssets: await this.calculateTotalStakedAssets(validator.name),
       uptime: this.calculateAverageUptimePercentage(validator.name),
-      feed: this.getValidatorFeed(validator.name)
+      feed: await this.getValidatorFeed(validator.name)
     }
   }
 }

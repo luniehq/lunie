@@ -1,5 +1,33 @@
 const { read, insert, query } = require('./helpers')
 
+const getLatestValidatorNotifications = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (validatorAddress, timestamp) => {
+  const dateOffset = 24 * 60 * 60 * 1000 * 3 //3 days
+  const limit = 20
+  return await read({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(
+    `notifications`,
+    `notifications`,
+    [
+      'topic',
+      'eventType',
+      'resourceType',
+      'resourceId',
+      'networkId',
+      'data',
+      'id',
+      'created_at'
+    ],
+    `where: { 
+      topic: {_in: ["${validatorAddress}"]},
+      created_at: {_lt: "${Date.now()}", _gt: "${Date.now() - dateOffset}"}
+    } limit: ${limit}, order_by: {created_at: desc}`
+  )
+}
+
 const incrementValidatorViews = ({
   hasura_url,
   hasura_admin_key
@@ -431,6 +459,7 @@ const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
 }
 
 module.exports = {
+  getLatestValidatorNotifications,
   incrementValidatorViews,
   getValidatorsViews,
   getValidatorsInfo,
