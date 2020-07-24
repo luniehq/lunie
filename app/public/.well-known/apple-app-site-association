@@ -3,7 +3,7 @@
         "apps": [],
         "details": [
             {
-                "appID": "${{ secrets.APPLE_APP_ID }}.org.lunie.lunie",
+                "appID": "1475911030.org.lunie.lunie",
                 "paths": ["*"]
             }
         ]
