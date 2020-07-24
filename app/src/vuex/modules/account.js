@@ -2,6 +2,8 @@ import getFirebase from "../../firebase.js"
 import config from "../../../config"
 import * as Sentry from "@sentry/browser"
 import gql from "graphql-tag"
+import { Plugins } from "@capacitor/core"
+const { App: CapacitorApp } = Plugins
 
 export default ({ apollo }) => {
   const state = {
@@ -129,7 +131,7 @@ export default ({ apollo }) => {
 }
 
 export async function getLaunchUrl(router) {
-  const urlOpen = await Plugins.App.getLaunchUrl()
+  const urlOpen = await CapacitorApp.getLaunchUrl()
   if (!urlOpen || !urlOpen.url) return
   handleDeeplink(urlOpen.url, router)
 }
