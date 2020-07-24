@@ -78,6 +78,7 @@ const getPremiumValidators = ({
   })('')(`premiumValidators`, `premiumValidators`, [
     'name',
     'networks',
+    'operatorAddresses',
     'rank',
     'teamMembers',
     'website',

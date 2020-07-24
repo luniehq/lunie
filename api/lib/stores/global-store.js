@@ -30,7 +30,7 @@ class GlobalStore {
   // checks if the particular network store already lives in this.stores.
   // If so, it will update it. Otherwise, it will just push it in.
   upsertStoreToGlobalStore(newStore) {
-    // first check if it is already there In that case update store
+    // first check if it is already there and in that case update store
     if (
       this.stores.length > 0 &&
       this.stores.find((store) => store.network.id === newStore.network.id)
@@ -69,12 +69,25 @@ class GlobalStore {
     return averageUptimePercentage
   }
 
+  createGlobalValidatorsLookup(premiumValidators) {
+    this.validatorsLookup = premiumValidators.reduce(
+      (validatorsLookup, validator, index) => {
+        return (validatorsLookup = {
+          ...validatorsLookup,
+          [validator.name]: JSON.parse(validator.operatorAddresses)
+        })
+      },
+      {}
+    )
+  }
+
   async getGlobalValidators() {
     const premiumValidators = await this.db.getPremiumValidators()
-    this.globalValidators = premiumValidators
-    return premiumValidators.map((validator) =>
+    this.createGlobalValidatorsLookup(premiumValidators)
+    this.globalValidators = premiumValidators.map((validator) =>
       this.globalValidatorReducer(validator)
     )
+    return this.globalValidators
   }
 
   globalValidatorReducer(validator) {
