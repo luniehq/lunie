@@ -1,3 +1,5 @@
+const FiatValuesAPI = require('../fiatvalues-api')
+
 class GlobalStore {
   constructor(database) {
     this.db = database
@@ -7,6 +9,9 @@ class GlobalStore {
       /* hardcode code coming */
     }
     this.globalValidators = {}
+    this.fiatValuesAPI = undefined
+
+    this.createFiatValuesAPI()
 
     this.dataReady = new Promise((resolve) => {
       this.resolveReady = resolve
@@ -25,6 +30,10 @@ class GlobalStore {
       await this.getGlobalValidators()
       this.resolveReady()
     }
+  }
+
+  createFiatValuesAPI() {
+    this.fiatValuesAPI = new FiatValuesAPI()
   }
 
   // checks if the particular network store already lives in this.stores.
@@ -50,6 +59,58 @@ class GlobalStore {
     }
   }
 
+  calculateNumberOfStakers() {} // help please ^^
+
+  calculateTotalStaked(name) {
+    let aggregatedTotalStaked = 0
+    const validatorNetworks = Object.keys(this.validatorsLookup[name])
+    validatorNetworks.map((network) => {
+      const networkStore = this.stores.find(
+        (store) => store.network.id === network
+      )
+      if (networkStore) {
+        const validator =
+          networkStore.validators[this.validatorsLookup[name][network]]
+        aggregatedTotalStaked = aggregatedTotalStaked + Number(validator.tokens)
+      }
+    })
+    return aggregatedTotalStaked
+  }
+
+  async calculateTotalStakedAssets(name, fiatCurrency) {
+    let aggregatedTotalStakedAssets = {}
+    const validatorNetworks = Object.keys(this.validatorsLookup[name])
+    validatorNetworks.map(async (network) => {
+      const networkStore = this.stores.find(
+        (store) => store.network.id === network
+      )
+      if (networkStore) {
+        const validator =
+          networkStore.validators[this.validatorsLookup[name][network]]
+        const newTotalStakedAsset = {
+          denom: networkStore.stakingDenom,
+          amount: Number(validator.tokens),
+          fiatValue: await this.fiatValuesAPI.calculateFiatValues(
+            [
+              {
+                denom: networkStore.stakingDenom,
+                amount: validator.tokens
+              }
+            ],
+            fiatCurrency
+          )
+        }
+        aggregatedTotalStakedAssets = {
+          ...aggregatedTotalStakedAssets,
+          ...newTotalStakedAsset
+        }
+      }
+    })
+    return aggregatedTotalStakedAssets
+  }
+
+  getValidatorFeed() {} // should get the latest notifications concercing all validator's addresses
+
   calculateAverageUptimePercentage(name) {
     let aggregatedUptimePercentage = 0
     const validatorNetworks = Object.keys(this.validatorsLookup[name])
@@ -72,7 +133,7 @@ class GlobalStore {
 
   createGlobalValidatorsLookup(premiumValidators) {
     this.validatorsLookup = premiumValidators.reduce(
-      (validatorsLookup, validator, index) => {
+      (validatorsLookup, validator) => {
         return (validatorsLookup = {
           ...validatorsLookup,
           [validator.name]: JSON.parse(validator.operatorAddresses)
@@ -85,17 +146,23 @@ class GlobalStore {
   async getGlobalValidators() {
     const premiumValidators = await this.db.getPremiumValidators()
     this.createGlobalValidatorsLookup(premiumValidators)
-    this.globalValidators = premiumValidators.map((validator) =>
-      this.globalValidatorReducer(validator)
+    this.globalValidators = await Promise.all(
+      premiumValidators.map(
+        async (validator) => await this.globalValidatorReducer(validator)
+      )
     )
     return this.globalValidators
   }
 
-  globalValidatorReducer(validator) {
+  async globalValidatorReducer(validator) {
     // add manually input validator data with on-chain calculated data
     return {
       ...validator,
-      uptimePercentage: this.calculateAverageUptimePercentage(validator.name)
+      numberStakers: this.calculateNumberOfStakers(validator.name),
+      totalStaked: this.calculateTotalStaked(validator.name),
+      totalStakedAssets: await this.calculateTotalStakedAssets(validator.name),
+      uptime: this.calculateAverageUptimePercentage(validator.name),
+      feed: this.getValidatorFeed(validator.name)
     }
   }
 }
