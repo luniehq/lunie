@@ -354,7 +354,7 @@ export default {
       this.$emit(`success`, event)
 
       // update registered topics for emails as the validator set changed
-      this.$store.dispatch("updateEmailRegistrations")
+      this.$store.dispatch("updateNotificationRegistrations")
     },
   },
   validations() {

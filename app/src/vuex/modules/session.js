@@ -172,8 +172,8 @@ export default ({ apollo }) => {
       const allSessionAddresses = await dispatch("getAllSessionAddresses")
       commit("setAllSessionAddresses", allSessionAddresses)
 
-      // update registered topics for emails
-      dispatch("updateEmailRegistrations")
+      // update registered topics for emails and push notifications
+      dispatch("updateNotificationRegistrations")
 
       state.externals.track(`event`, `session`, `sign-in`, sessionType)
     },
@@ -187,8 +187,8 @@ export default ({ apollo }) => {
       const allSessionAddresses = await dispatch("getAllSessionAddresses")
       commit("setAllSessionAddresses", allSessionAddresses)
 
-      // update registered topics for emails
-      dispatch("updateEmailRegistrations")
+      // update registered topics for emails and push notifications
+      dispatch("updateNotificationRegistrations")
     },
     resetSessionData({ commit, state }, networkId) {
       state.history = ["/"]

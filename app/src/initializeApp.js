@@ -10,6 +10,7 @@ import config from "src/../config"
 import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
+import { registerForPushNotifications } from "./scripts/pushNotifications"
 
 if (navigator && navigator.serviceWorker) {
   // remove any existing service worker
@@ -49,11 +50,13 @@ export default async function init(urlParams, env = process.env) {
   // we need to set url params before querying for networks because of experimental flag
   setOptions(urlParams, store)
 
-  // check if user is signed in
-  await store.dispatch(`listenToAuthChanges`)
-
-  // we load the networks first as we need them in the router
-  await store.dispatch(`preloadNetworkCapabilities`)
+  await Promise.all([
+    // check if user is signed in
+    store.dispatch(`listenToAuthChanges`),
+    // we load the networks first as we need them in the router
+    store.dispatch(`preloadNetworkCapabilities`)
+  ])
+  registerForPushNotifications(store)
 
   const router = Router(store)
   setGoogleAnalyticsPage(router.currentRoute.path)

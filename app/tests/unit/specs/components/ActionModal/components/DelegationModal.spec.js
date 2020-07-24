@@ -243,7 +243,7 @@ describe(`DelegationModal`, () => {
       }
       DelegationModal.methods.onSuccess.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(
-        "updateEmailRegistrations"
+        "updateNotificationRegistrations"
       )
     })
   })
