@@ -24,7 +24,7 @@ const getLatestValidatorNotifications = ({ hasura_url, hasura_admin_key }) => (
       'created_at'
     ],
     `where: { 
-      topic: {_in: ["${validatorAddress}"]},
+      topic: {_like: "${validatorAddress}%"},
       created_at: {_lt: "${now}", _gt: "${threeDaysAgo}"}
     } limit: ${limit}, order_by: {created_at: desc}`
   )
