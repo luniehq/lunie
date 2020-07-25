@@ -316,11 +316,6 @@ const typeDefs = gql`
     option: String
   }
 
-  type AccountInformation {
-    accountNumber: String
-    sequence: String
-  }
-
   type Powered {
     name: String
     providerAddress: String
