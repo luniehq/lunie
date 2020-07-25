@@ -40,23 +40,12 @@ export default {
   },
   computed: {
     ...mapGetters({ networkId: `network` }),
-    whichFlow() {
-      if (this.$route.name === "select-network-recover") {
-        return `/recover`
-      } else if (this.$route.name === "select-network-create") {
-        return `/create`
-      } else {
-        return ``
-      }
-    },
   },
   methods: {
     async selectNetworkHandler(network) {
       if (this.networkId !== network.id) {
         this.$store.dispatch(`setNetwork`, network)
       }
-
-      if (this.$route.name !== "networks") this.$router.push(this.whichFlow)
     },
   },
 }
