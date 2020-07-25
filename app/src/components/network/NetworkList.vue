@@ -9,14 +9,17 @@
         :data-network="network.id"
         @click="network.chain_id ? selectNetworkHandler(network) : false"
       >
-        <NetworkItem :network-item="network" :disabled="disabled" />
+        <NetworkItem
+          :network-item="network"
+          :disabled="disabled"
+        />
       </li>
     </ul>
   </section>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import NetworkItem from "./NetworkItem"
 
 export default {
@@ -39,12 +42,41 @@ export default {
     },
   },
   computed: {
+    ...mapState(["session"]),
     ...mapGetters({ networkId: `network` }),
+    whichFlow() {	
+      if (this.$route.name === "select-network-recover") {	
+        return `/recover`	
+      } else if (this.$route.name === "select-network-create") {	
+        return `/create`	
+      } else {	
+        return ``	
+      }	
+    },
   },
   methods: {
     async selectNetworkHandler(network) {
-      if (this.networkId !== network.id) {
-        this.$store.dispatch(`setNetwork`, network)
+      if (this.$route.name !== "networks") {
+        this.$router.push(this.whichFlow)
+        return
+      }
+
+      // enter the network
+      if (
+        this.session.allSessionAddresses.find(
+          ({ networkId }) => networkId === network.id
+        )
+      ) {
+        this.$router.push({
+          name: `portfolio`,
+          params: { networkId: network.slug },
+        })
+        // if no active session found then take to the validators table
+      } else {
+        this.$router.push({
+          name: `validators`,
+          params: { networkId: network.slug },
+        })
       }
     },
   },
