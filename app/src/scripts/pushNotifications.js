@@ -8,7 +8,10 @@ const PushNotificationTokenKey = "push-notification-token"
 
 export const registerForPushNotifications = async (store) => {
   if (!config.mobileApp) return
-  if (localStorage.getItem("push-notification-refused")) return
+  if (localStorage.getItem("push-notification-refused")) {
+    console.log("User already declined push notifications so not registering again")
+    return
+  }
 
   // Request permission to use push notifications
   // iOS will prompt user and return if they granted permission or not
@@ -26,7 +29,8 @@ export const registerForPushNotifications = async (store) => {
 
   // On success, we should be able to receive notifications
   PushNotifications.addListener('registration',
-    (token) => {
+    ({value:token}) => {
+      console.log("Push registration successful " + token)
       localStorage.setItem(PushNotificationTokenKey, token)
       store.dispatch("updatePushRegistrations")
     }
