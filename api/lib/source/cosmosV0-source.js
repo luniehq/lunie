@@ -19,7 +19,6 @@ class CosmosV0API extends RESTDataSource {
     this.gasPrices = getNetworkGasPrices(network.id)
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
-    this.viewDenom = network.coinLookup[0].viewDenom
 
     this.setReducers()
   }
@@ -73,10 +72,6 @@ class CosmosV0API extends RESTDataSource {
   // some endpoints /blocks and /txs have a different response format so they use this.get directly
   async query(url) {
     return this.getRetry(url)
-  }
-
-  getStakingViewDenom() {
-    return this.viewDenom
   }
 
   async getSignedBlockWindow() {

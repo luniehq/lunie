@@ -481,10 +481,6 @@ class polkadotAPI {
     return []
   }
 
-  getStakingViewDenom() {
-    return this.stakingViewDenom
-  }
-
   async getDelegationForValidator(delegatorAddress, validator) {
     // We always use stash address to query delegations
     delegatorAddress = await this.getStashAddress(delegatorAddress)
