@@ -48,8 +48,8 @@ function createSignMessage(jsonTx, { accountSequence, accountNumber, chainId }) 
       fee,
       memo: jsonTx.memo,
       msgs: jsonTx.msg, // weird msg vs. msgs
-      sequence: accountSequence,
-      account_number: accountNumber,
+      sequence: String(accountSequence),
+      account_number: String(accountNumber),
       chain_id: chainId,
     })
   )
