@@ -170,8 +170,9 @@ const transactionMetadata = (networks) => async (
   const thisNetworkFees = await networkFees(networks)(
     _,
     {
+      senderAddress: address,
       networkId,
-      transactionType
+      messageType: transactionType
     },
     { dataSources }
   )
