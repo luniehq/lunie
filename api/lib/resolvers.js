@@ -162,28 +162,16 @@ const networkFees = (networks) => async (
   }
 }
 
-const transactionMetadata = (networks) => async (
+const transactionMetadata = async (
   _,
-  { networkId, transactionType, address },
+  { networkId, address },
   { dataSources }
 ) => {
-  const thisNetworkFees = await networkFees(networks)(
-    _,
-    {
-      senderAddress: address,
-      networkId,
-      messageType: transactionType
-    },
-    { dataSources }
-  )
   const accountDetails = await remoteFetch(
     dataSources,
     networkId
   ).getAccountInfo(address, networkId)
   return {
-    gasEstimate: thisNetworkFees.gasEstimate,
-    gasPrices: thisNetworkFees.gasPrices,
-    chainAppliedFees: thisNetworkFees.chainAppliedFees,
     accountSequence: accountDetails.sequence,
     accountNumber: accountDetails.accountNumber
   }
@@ -424,7 +412,7 @@ const resolvers = (networkList) => ({
         pageNumber
       ),
     networkFees: networkFees(networkList),
-    transactionMetadata: transactionMetadata(networkList),
+    transactionMetadata,
     estimate: () => {
       try {
         const gasEstimate = 550000
