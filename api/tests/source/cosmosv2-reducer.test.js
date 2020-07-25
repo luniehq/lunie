@@ -5,9 +5,9 @@ describe('Cosmos V2 Reducer', function () {
     it('on partially failed txs', () => {
       const network = {
         id: `cosmos-hub-mainnet`,
-        coinLookup: [
-          { chainDenom: 'uatom', chainToViewConversionFactor: 0.000001 }
-        ]
+        getCoinLookup() {
+          return { chainDenom: 'uatom', chainToViewConversionFactor: 0.000001 }
+        }
       }
       //Arrange
       const transaction = {

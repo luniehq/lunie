@@ -27,7 +27,9 @@ jest.mock('apollo-datasource-rest', () => {
 })
 
 const network = {
-  coinLookup: [{ chainDenom: 'umuon', chainToViewConversionFactor: 0.000001 }]
+  getCoinLookup() {
+    return { chainDenom: 'umuon', chainToViewConversionFactor: 0.000001 }
+  }
 }
 
 describe('Cosmos V2 API', function () {
@@ -38,11 +40,11 @@ describe('Cosmos V2 API', function () {
       cosmosNetworkConfig = {
         bech32_prefix: 'cosmos', // DEPRECATE
         address_prefix: 'cosmos',
-        coinLookup: [
-          {
+        getCoinLookup() {
+          return {
             viewDenom: 'ATOM'
           }
-        ]
+        }
       }
       store = {
         validators: mockValidatorsDictionary
