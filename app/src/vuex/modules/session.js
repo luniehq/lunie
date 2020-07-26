@@ -196,7 +196,7 @@ export default ({ apollo }) => {
           })
         )
       }
-      if (networkId && currentNetwork.id !== networkId) {
+      if (networkId && currentNetwork) {
         await commit(`setNetworkId`, networkId)
         await dispatch(`persistNetwork`, { id: networkId })
       }

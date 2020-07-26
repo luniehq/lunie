@@ -11,8 +11,8 @@ describe(`HDPathOrCurve`, () => {
         network_type: "cosmos",
         address_prefix: "cosmos",
         testnet: false,
-        HDPaths: `["m/44'/118'/0'/0/0"]`,
-        curves: `["ed25519"]`,
+        HDPaths: `[{"value":"m/44'/118'/0'/0/0", "name":"Cosmos HD Path"}]`,
+        curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
       },
     }
     $store = {
@@ -43,7 +43,7 @@ describe(`HDPathOrCurve`, () => {
         address_prefix: "42",
         testnet: false,
         HDPaths: `[""]`,
-        curves: `["sr25519","ed25519"]`,
+        curves: `[{"value":"sr25519", "name":"Schnorrkel curve"},{"value":"ed25519", "name":"Edwards curve"}]`,
       },
     })
     wrapper.setProps({ attempt: 1 })

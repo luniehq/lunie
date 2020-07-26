@@ -130,23 +130,28 @@ describe(`Module: Session`, () => {
       const address = `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`
       const HDPath = `m/44'/118'/0'/0/0`
       const curve = `ed25519`
+      const rootState = {
+        connection: {
+          networks: [
+            {
+              id: `happy-net`,
+              defaultHDPath: `m/44'/118'/0'/0/0`,
+            },
+          ],
+        },
+      }
       await actions.signIn(
         {
           state,
-          getters: {
-            currentNetwork: {
-              id: "fabo-net",
-              network_type: "cosmos",
-            },
-          },
+          rootState,
           commit,
           dispatch,
         },
-        { address, sessionType, networkId: "not-fabo-net", HDPath, curve }
+        { address, sessionType, HDPath, curve, networkId: `happy-net` }
       )
-      expect(commit).toHaveBeenCalledWith(`setNetworkId`, `not-fabo-net`)
+      expect(commit).toHaveBeenCalledWith(`setNetworkId`, `happy-net`)
       expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
-        id: `not-fabo-net`,
+        id: `happy-net`,
       })
       expect(commit).toHaveBeenCalledWith(
         `setUserAddress`,
@@ -169,19 +174,24 @@ describe(`Module: Session`, () => {
       const curve = `ed25519`
       const commit = jest.fn()
       const dispatch = jest.fn()
+      const rootState = {
+        connection: {
+          networks: [
+            {
+              id: `fabo-net`,
+              defaultHDPath: `m/44'/118'/0'/0/0`,
+            },
+          ],
+        },
+      }
       await actions.signIn(
         {
           state,
-          getters: {
-            currentNetwork: {
-              id: "fabo-net",
-              network_type: "cosmos",
-            },
-          },
+          rootState,
           commit,
           dispatch,
         },
-        { sessionType: `ledger`, address, HDPath, curve }
+        { sessionType: `ledger`, address, HDPath, curve, networkId: `fabo-net` }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `ledger`)
@@ -199,19 +209,25 @@ describe(`Module: Session`, () => {
       const address = `cosmos1qpd4xgtqmxyf9ktjh757nkdfnzpnkamny3cpzv`
       const commit = jest.fn()
       const dispatch = jest.fn()
+      const rootState = {
+        connection: {
+          networks: [
+            {
+              id: `fabo-net`,
+              defaultHDPath: `m/44'/118'/0'/0/0`,
+              defaultCurve: `ed25519`,
+            },
+          ],
+        },
+      }
       await actions.signIn(
         {
           state,
-          getters: {
-            currentNetwork: {
-              id: "fabo-net",
-              network_type: "cosmos",
-            },
-          },
+          rootState,
           commit,
           dispatch,
         },
-        { sessionType: `explore`, address }
+        { sessionType: `explore`, address, networkId: `fabo-net` }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddress`, address)
       expect(commit).toHaveBeenCalledWith(`setSessionType`, `explore`)
@@ -220,8 +236,8 @@ describe(`Module: Session`, () => {
         `session`,
         `sign-in`,
         `explore`,
-        undefined, // HDPath
-        undefined // curve
+        `m/44'/118'/0'/0/0`,
+        `ed25519`
       )
     })
 
@@ -243,6 +259,16 @@ describe(`Module: Session`, () => {
           networkId: "not-fabo-net",
         },
       ]
+      const rootState = {
+        connection: {
+          networks: [
+            {
+              id: `fabo-net`,
+              defaultHDPath: `m/44'/118'/0'/0/0`,
+            },
+          ],
+        },
+      }
       localStorage.setItem(
         "session_fabo-net",
         JSON.stringify({ address, networkId: "not-fabo-net" })
@@ -250,12 +276,7 @@ describe(`Module: Session`, () => {
       await actions.signIn(
         {
           state,
-          getters: {
-            currentNetwork: {
-              id: "fabo-net",
-              network_type: "cosmos",
-            },
-          },
+          rootState,
           commit,
           dispatch,
         },
@@ -279,15 +300,21 @@ describe(`Module: Session`, () => {
           type: `ledger`,
         },
       ]
+      const rootState = {
+        connection: {
+          networks: [
+            {
+              id: `happy-net`,
+              defaultHDPath: `m/44'/118'/0'/0/0`,
+              defaultCurve: `ed25519`,
+            },
+          ],
+        },
+      }
       await actions.signIn(
         {
           state,
-          getters: {
-            currentNetwork: {
-              id: "fabo-net",
-              network_type: "cosmos",
-            },
-          },
+          rootState,
           commit,
           dispatch,
         },
@@ -305,15 +332,22 @@ describe(`Module: Session`, () => {
           },
         ],
       })
+      expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
+        id: "happy-net",
+      })
       expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
         sessionType: `explore`,
         networkId: "happy-net",
+        HDPath: `m/44'/118'/0'/0/0`,
+        curve: `ed25519`,
       })
       expect(dispatch).toHaveBeenCalledWith(`rememberAddress`, {
         address: `cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz`,
         sessionType: `explore`,
         networkId: `happy-net`,
+        HDPath: `m/44'/118'/0'/0/0`,
+        curve: `ed25519`,
       })
     })
 
@@ -530,15 +564,21 @@ describe(`Module: Session`, () => {
 
     it(`persists the session on sign in`, async () => {
       const dispatch = jest.fn()
+      const rootState = {
+        connection: {
+          networks: [
+            {
+              id: `happy-net`,
+              defaultHDPath: `m/44'/118'/0'/0/0`,
+              defaultCurve: `ed25519`,
+            },
+          ],
+        },
+      }
       await actions.signIn(
         {
           state,
-          getters: {
-            currentNetwork: {
-              id: "fabo-net",
-              network_type: "cosmos",
-            },
-          },
+          rootState,
           commit: jest.fn(),
           dispatch,
         },
@@ -548,22 +588,29 @@ describe(`Module: Session`, () => {
           networkId: `happy-net`,
         }
       )
-      expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
+      expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
+        id: "happy-net",
+      })
+      expect(dispatch).toHaveBeenCalledWith(`rememberAddress`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         sessionType: `local`,
         networkId: `happy-net`,
+        HDPath: `m/44'/118'/0'/0/0`,
+        curve: `ed25519`,
+      })
+      expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        sessionType: `local`,
+        networkId: "happy-net",
+        HDPath: `m/44'/118'/0'/0/0`,
+        curve: `ed25519`,
       })
 
       dispatch.mockClear()
       await actions.signIn(
         {
           state,
-          getters: {
-            currentNetwork: {
-              id: "fabo-net",
-              network_type: "cosmos",
-            },
-          },
+          rootState,
           commit: jest.fn(),
           dispatch,
         },
@@ -573,10 +620,22 @@ describe(`Module: Session`, () => {
           networkId: `happy-net`,
         }
       )
-      expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
+      expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
+        id: "happy-net",
+      })
+      expect(dispatch).toHaveBeenCalledWith(`rememberAddress`, {
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
         sessionType: `ledger`,
         networkId: `happy-net`,
+        HDPath: `m/44'/118'/0'/0/0`,
+        curve: `ed25519`,
+      })
+      expect(dispatch).toHaveBeenCalledWith(`persistSession`, {
+        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        sessionType: `ledger`,
+        networkId: "happy-net",
+        HDPath: `m/44'/118'/0'/0/0`,
+        curve: `ed25519`,
       })
     })
 

@@ -29,8 +29,8 @@ describe(`TmSessionImportName`, () => {
         network_type: "cosmos",
         address_prefix: "cosmos",
         testnet: false,
-        HDPaths: `["m/44'/118'/0'/0/0"]`,
-        curves: `["ed25519"]`,
+        HDPaths: `[{"value":"m/44'/118'/0'/0/0", "name":"Cosmos HD Path"}]`,
+        curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
       },
     }
     $store = {
@@ -105,7 +105,9 @@ describe(`TmSessionImportName`, () => {
 
   // case cosmos
   it(`should return the HDPaths from a network parsed as JSON`, () => {
-    expect(wrapper.vm.networkCryptoTypes).toEqual(["m/44'/118'/0'/0/0"])
+    expect(wrapper.vm.networkCryptoTypes).toEqual([
+      { value: "m/44'/118'/0'/0/0", name: "Cosmos HD Path" },
+    ])
   })
 
   // case polkadot
@@ -117,10 +119,12 @@ describe(`TmSessionImportName`, () => {
         address_prefix: "42",
         testnet: false,
         HDPaths: `[""]`,
-        curves: `["ed25519"]`,
+        curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
       },
     })
-    expect(wrapper.vm.networkCryptoTypes).toEqual(["ed25519"])
+    expect(wrapper.vm.networkCryptoTypes).toEqual([
+      { value: "ed25519", name: "Edwards curve" },
+    ])
   })
 
   // case cosmos
@@ -141,7 +145,7 @@ describe(`TmSessionImportName`, () => {
         address_prefix: "42",
         testnet: false,
         HDPaths: `[""]`,
-        curves: `["sr25519","ed25519","ecdsa"]`,
+        curves: `[{"value":"sr25519", "name":"Schnorrkel curve"},{"value":"ed25519", "name":"Edwards curve"},{"value":"ecdsa", "name":"ECDSA"}]`,
       },
       attempt: 1,
     })
