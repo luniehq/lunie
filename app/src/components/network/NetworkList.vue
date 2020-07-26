@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     ...mapState(["session"]),
-    ...mapGetters({ networkId: `network` }),
+    ...mapGetters([{ networkId: `network` }, `isExtension`]),
     whichFlow() {
       if (this.$route.name === "select-network-recover") {
         return `/recover`
@@ -53,6 +53,11 @@ export default {
   },
   methods: {
     async selectNetworkHandler(network) {
+      if (this.isExtension) {
+        if (this.networkId !== network.id) {
+          this.$store.dispatch(`setNetwork`, network)
+        }
+      }
       if (this.$route.name !== "networks") {
         this.$router.push(this.whichFlow)
         return
