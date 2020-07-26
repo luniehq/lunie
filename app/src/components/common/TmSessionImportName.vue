@@ -120,7 +120,7 @@ export default {
     },
     networkCryptoTypes() {
       if (this.currentNetwork.network_type === `cosmos`) {
-        return  JSON.parse(this.currentNetwork.HDPaths)
+        return JSON.parse(this.currentNetwork.HDPaths)
       } else if (this.currentNetwork.network_type === `polkadot`) {
         return JSON.parse(this.currentNetwork.curves)
       } else {

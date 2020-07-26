@@ -9,10 +9,7 @@
         :data-network="network.id"
         @click="network.chain_id ? selectNetworkHandler(network) : false"
       >
-        <NetworkItem
-          :network-item="network"
-          :disabled="disabled"
-        />
+        <NetworkItem :network-item="network" :disabled="disabled" />
       </li>
     </ul>
   </section>
@@ -44,14 +41,14 @@ export default {
   computed: {
     ...mapState(["session"]),
     ...mapGetters({ networkId: `network` }),
-    whichFlow() {	
-      if (this.$route.name === "select-network-recover") {	
-        return `/recover`	
-      } else if (this.$route.name === "select-network-create") {	
-        return `/create`	
-      } else {	
-        return ``	
-      }	
+    whichFlow() {
+      if (this.$route.name === "select-network-recover") {
+        return `/recover`
+      } else if (this.$route.name === "select-network-create") {
+        return `/create`
+      } else {
+        return ``
+      }
     },
   },
   methods: {
