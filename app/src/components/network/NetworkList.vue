@@ -43,19 +43,24 @@ export default {
   },
   computed: {
     ...mapState(["session"]),
-    ...mapGetters({ networkId: `network` }),
-    whichFlow() {	
-      if (this.$route.name === "select-network-recover") {	
-        return `/recover`	
-      } else if (this.$route.name === "select-network-create") {	
-        return `/create`	
-      } else {	
-        return ``	
-      }	
+    ...mapGetters([{ networkId: `network` }, `isExtension`]),
+    whichFlow() {
+      if (this.$route.name === "select-network-recover") {
+        return `/recover`
+      } else if (this.$route.name === "select-network-create") {
+        return `/create`
+      } else {
+        return ``
+      }
     },
   },
   methods: {
     async selectNetworkHandler(network) {
+      if (this.isExtension) {
+        if (this.networkId !== network.id) {
+          await this.$store.dispatch(`setNetwork`, network)
+        }
+      }
       if (this.$route.name !== "networks") {
         this.$router.push(this.whichFlow)
         return
