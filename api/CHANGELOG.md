@@ -1,11 +1,30 @@
 # Changelog
- 
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.38] - 2020-07-23
+
+### Added
+
+- [#4541](https://github.com/cosmos/lunie/issues/4541) Upgrade Polkadot js api to v1.25.1 @mariopino
+
+### Changed
+
+- [#4525](https://github.com/cosmos/lunie/issues/4525) Filter validator added notifications out @Bitcoinera
+- [#4525](https://github.com/cosmos/lunie/issues/4525) Fix voting power changes messages displaying less decimals and percentage symbols @Bitcoinera
+- [#4568](https://github.com/cosmos/lunie/pull/4568) Add DOT to supported fiatValues @Bitcoinera
+
+### Fixed
+
+- [#4537](https://github.com/cosmos/lunie/issues/4537) Fix Kava BNB SendModal by fixing gas price denom @Bitcoinera
+- [#4556](https://github.com/cosmos/lunie/pull/4556) Fix storing statistics due to invalid numeric type for amount @Bitcoinera
+- [#4568](https://github.com/cosmos/lunie/pull/4568) Fix transaction by making fee an iterable @Bitcoinera
+- [#4544](https://github.com/cosmos/lunie/issues/4544) Parse extrinsic result properly in polkadot @mariopino
 
 ## [1.0.37] - 2020-07-17
 

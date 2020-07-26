@@ -1,0 +1,11 @@
+{
+    "applinks": {
+        "apps": [],
+        "details": [
+            {
+                "appID": "1475911030.org.lunie.lunie",
+                "paths": ["*"]
+            }
+        ]
+    }
+}

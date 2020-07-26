@@ -32,9 +32,21 @@ function startBlockTriggers(networks) {
   networks.map((network) => network.initialize())
 }
 
+function getCoinLookup(network, denom, coinLookupDenomType = `chainDenom`) {
+  return network.coinLookup.find((coin) => coin[coinLookupDenomType] === denom)
+}
+
 async function createApolloServer(httpServer) {
   const networksFromDBList = await db.getNetworks()
-  const networkList = networksFromDBList.filter((network) => network.enabled)
+  const networkList = networksFromDBList
+    .filter((network) => network.enabled)
+    // add the getCoinLookup function
+    .map((network) => {
+      return {
+        ...network,
+        getCoinLookup
+      }
+    })
   const networks = networkList.map((network) => new NetworkContainer(network))
 
   if (config.env !== 'test') {
