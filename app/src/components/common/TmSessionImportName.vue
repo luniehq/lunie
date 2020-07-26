@@ -118,14 +118,9 @@ export default {
         this.$store.commit(`updateField`, { field: `name`, value })
       },
     },
-    networkHDPaths() {
-      return JSON.parse(this.currentNetwork.HDPaths).map((HDPath) =>
-        HDPath.replace(/''/g, "'")
-      ) // to store HDPaths in DB we need to add double single quotes, that is why we need to deserialize here
-    },
     networkCryptoTypes() {
       if (this.currentNetwork.network_type === `cosmos`) {
-        return this.networkHDPaths
+        return  JSON.parse(this.currentNetwork.HDPaths)
       } else if (this.currentNetwork.network_type === `polkadot`) {
         return JSON.parse(this.currentNetwork.curves)
       } else {
@@ -145,13 +140,13 @@ export default {
     currentHDPathOrCurve() {
       if (this.currentNetwork.network_type === `cosmos`) {
         return {
-          HDPath: this.networkCryptoTypes[this.attempt],
-          curve: JSON.parse(this.currentNetwork.curves)[0], // ed25519
+          HDPath: this.networkCryptoTypes[this.attempt].value,
+          curve: JSON.parse(this.currentNetwork.curves)[0].value, // ed25519
         }
       } else if (this.currentNetwork.network_type === `polkadot`) {
         return {
-          HDPath: this.networkHDPaths[0], // no clue
-          curve: this.networkCryptoTypes[this.attempt],
+          HDPath: JSON.parse(this.currentNetwork.HDPaths)[0].value, // no clue
+          curve: this.networkCryptoTypes[this.attempt].value,
         }
       } else {
         return {

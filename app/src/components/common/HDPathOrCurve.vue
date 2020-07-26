@@ -4,13 +4,6 @@
   </span>
 </template>
 <script>
-const cryptoDictionary = {
-  "m/44/118/0/0/0": `Cosmos HD Path`,
-  "m/44/330/0/0/0": `Terra HD Path`,
-  sr25519: `Schnorrkel curve`,
-  ed25519: `Edwards curve`,
-  ecdsa: `ECDSA curve`,
-}
 
 import { mapGetters } from "vuex"
 export default {
@@ -29,16 +22,9 @@ export default {
     ...mapGetters([`currentNetwork`]),
     currentCryptoView() {
       if (this.currentNetwork.network_type === `cosmos`) {
-        return cryptoDictionary[
-          JSON.parse(this.currentNetwork.HDPaths)[this.attempt].replace(
-            /\'/g,
-            ""
-          )
-        ]
+        return JSON.parse(this.currentNetwork.HDPaths)[this.attempt].name
       } else if (this.currentNetwork.network_type === `polkadot`) {
-        return cryptoDictionary[
-          JSON.parse(this.currentNetwork.curves)[this.attempt]
-        ]
+        return JSON.parse(this.currentNetwork.curves)[this.attempt].name
       } else {
         return ``
       }
