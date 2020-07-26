@@ -86,8 +86,11 @@ export default ({ apollo }) => {
         android: {
           packageName: `org.lunie.lunie`,
           installApp: true,
-          minimumVersion: `1.0.219`, // the first version with deep linking enabled
+          minimumVersion: `1.0.221`, // the first version with deep linking enabled
         },
+        iOS: {
+          bundleId: `1475911030.org.lunie.lunie`,
+        }
       }
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
