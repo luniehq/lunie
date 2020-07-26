@@ -170,32 +170,16 @@ export default ({ apollo }) => {
       const session = JSON.parse(
         localStorage.getItem(`cosmos-wallets-${address}`)
       )
-      if (!HDPath && !curve) {
-        if (
-          session &&
-          session.HDPath &&
-          session.curve &&
-          address === session.address
-        ) {
-          HDPath = session.HDPath
-          curve = session.curve
-        } else {
-          // set default if this is not defined
-          HDPath = currentNetwork.defaultHDPath
-          curve = currentNetwork.defaultCurve
-        }
-      }
-      // store in localStorage for later use
-      if (session) {
-        localStorage.setItem(
-          `cosmos-wallets-${address}`,
-          JSON.stringify({
-            ...session,
-            HDPath,
-            curve,
-          })
-        )
-      }
+      const finalCrypto = handleSessionCrypto({
+        HDPath,
+        curve,
+        address,
+        session,
+        currentNetwork,
+      })
+      // override crypto with right HDPath and curve
+      HDPath = finalCrypto.HDPath
+      curve = finalCrypto.curve
       if (networkId && currentNetwork) {
         await commit(`setNetworkId`, networkId)
         await dispatch(`persistNetwork`, { id: networkId })
@@ -382,4 +366,41 @@ export default ({ apollo }) => {
 
 function sessionKey(networkId) {
   return `session_${networkId}`
+}
+
+// exporting for tests
+export function handleSessionCrypto({
+  HDPath,
+  curve,
+  address,
+  session,
+  currentNetwork,
+}) {
+  if (!HDPath && !curve) {
+    if (
+      session &&
+      session.HDPath &&
+      session.curve &&
+      address === session.address
+    ) {
+      HDPath = session.HDPath
+      curve = session.curve
+    } else {
+      // set default if this is not defined
+      HDPath = currentNetwork.defaultHDPath
+      curve = currentNetwork.defaultCurve
+    }
+  }
+  // store in localStorage for later use
+  if (session) {
+    localStorage.setItem(
+      `cosmos-wallets-${address}`,
+      JSON.stringify({
+        ...session,
+        HDPath,
+        curve,
+      })
+    )
+  }
+  return { HDPath, curve }
 }

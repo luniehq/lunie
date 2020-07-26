@@ -1,4 +1,5 @@
 import sessionModule from "src/vuex/modules/session.js"
+import { handleSessionCrypto } from "src/vuex/modules/session.js"
 
 describe(`Module: Session`, () => {
   let module, state, actions, mutations
@@ -766,5 +767,30 @@ describe(`Module: Session`, () => {
         address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       },
     ])
+  })
+
+  it(`Handles crypto for a session`, () => {
+    // takes HDPath and curve from a pre-existing session
+    const session = {
+      address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
+      networkId: "fabo-net",
+      HDPath: "m/44'/118'/0'/0/0",
+      curve: "ed25519",
+    }
+    let finalCrypto = handleSessionCrypto({
+      session,
+      address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+    })
+    expect(finalCrypto.HDPath).toBe("m/44'/118'/0'/0/0")
+    expect(finalCrypto.curve).toBe("ed25519")
+
+    // takes HDPath and curve from currentNetwork defaults
+    const currentNetwork = {
+      defaultHDPath: "m/44'/118'/0'/0/0",
+      defaultCurve: "ed25519",
+    }
+    finalCrypto = handleSessionCrypto({ currentNetwork })
+    expect(finalCrypto.HDPath).toBe("m/44'/118'/0'/0/0")
+    expect(finalCrypto.curve).toBe("ed25519")
   })
 })
