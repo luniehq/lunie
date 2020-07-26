@@ -84,7 +84,8 @@ describe(`DelegationModal`, () => {
         },
       ],
       balance: {
-        amount: 1000,
+        total: 2000,
+        available: 1000,
         denom: "STAKE",
       },
       validators: validators,

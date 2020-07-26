@@ -56,11 +56,9 @@ export default class TransactionManager {
     const response = await this.apollo.query({
       query: gql`
         query signingInfo($networkId: String!, $senderAddress: String!) {
-          overview(networkId: $networkId, address: $senderAddress) {
-            accountInformation {
-              accountNumber
-              sequence
-            }
+          transactionMetadata(networkId: $networkId, address: $senderAddress) {
+            accountNumber
+            accountSequence
           }
         }
       `,
@@ -69,9 +67,7 @@ export default class TransactionManager {
     })
     const {
       data: {
-        overview: {
-          accountInformation: { accountNumber, sequence },
-        },
+        transactionMetadata: { accountNumber, accountSequence },
       },
     } = response
     const coinLookup = network.coinLookup.find(
@@ -87,7 +83,7 @@ export default class TransactionManager {
     ]
     return {
       accountNumber,
-      sequence,
+      accountSequence,
       chainId: network.chain_id,
       gasEstimate: String(gasEstimate),
       fee: convertedFee,

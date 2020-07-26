@@ -1,6 +1,6 @@
 {
   "name": "extension",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
   "licenses": [
@@ -53,9 +53,9 @@
     "@babel/runtime-corejs3": "^7.10.4",
     "@lunie/cosmos-api": "^0.0.23",
     "@lunie/cosmos-keys": "^0.2.3",
-    "@polkadot/api": "^1.24.1",
+    "@polkadot/api": "^1.25.1",
     "@sentry/browser": "^5.17.0",
-    "@sentry/integrations": "^5.15.5",
+    "@sentry/integrations": "^5.19.2",
     "apollo-boost": "^0.4.9",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "2.6.8",
@@ -88,7 +88,7 @@
     "webextension-polyfill": "^0.6.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.4",
+    "@babel/core": "^7.10.5",
     "@babel/plugin-proposal-optional-chaining": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.10.4",
     "@babel/preset-env": "^7.10.3",
@@ -117,7 +117,7 @@
     "file-loader": "^6.0.0",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
-    "lint-prepush": "^2.0.1",
+    "lint-prepush": "^2.1.0",
     "live-server": "^1.2.1",
     "mini-css-extract-plugin": "^0.9.0",
     "nightwatch": "^1.1.13",

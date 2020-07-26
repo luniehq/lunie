@@ -3,7 +3,7 @@
     class="li-proposal"
     @click="
       $router.push({
-        name: 'Proposal',
+        name: 'proposal',
         params: { proposalId: String(proposal.id) },
       })
     "

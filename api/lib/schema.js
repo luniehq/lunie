@@ -320,26 +320,10 @@ const typeDefs = gql`
     option: String
   }
 
-  type AccountInformation {
-    accountNumber: String
-    sequence: String
-  }
-
   type Powered {
     name: String
     providerAddress: String
     picture: String
-  }
-
-  type Overview {
-    networkId: String!
-    address: String!
-    totalStake: String!
-    totalStakeFiatValue: FiatValue
-    liquidStake: String!
-    totalRewards: String!
-    rewards: [Reward]
-    accountInformation: AccountInformation
   }
 
   enum EventType {
@@ -390,7 +374,7 @@ const typeDefs = gql`
   }
 
   type TransactionMetadata {
-    gasEstimate: Int!
+    gasEstimate: Int
     gasPrices: [GasPrice]
     chainAppliedFees: ChainAppliedFees
     accountSequence: Int
@@ -456,11 +440,6 @@ const typeDefs = gql`
       denom: String!
       fiatCurrency: String
     ): Balance
-    overview(
-      networkId: String!
-      address: String!
-      fiatCurrency: String
-    ): Overview
     delegation(
       networkId: String!
       delegatorAddress: String!

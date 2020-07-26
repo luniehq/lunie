@@ -54,7 +54,7 @@ export default {
   methods: {
     goToValidators() {
       this.$router.push({
-        name: "Validators",
+        name: "validators",
         params: {
           networkId: this.networks.find(
             (network) => network.id === this.network

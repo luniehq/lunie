@@ -253,7 +253,9 @@ function cropEraData(
 
 async function getMissingEras(lastStoredEra, currentEra) {
   const CLAIMABLE_REWARD_SPAN = 84
-  const desiredEras = Array.from(new Array(CLAIMABLE_REWARD_SPAN).keys()).map((index) => index + 1 + currentEra - CLAIMABLE_REWARD_SPAN)
+  const desiredEras = Array.from(new Array(CLAIMABLE_REWARD_SPAN).keys())
+    .map((index) => index + 1 + currentEra - CLAIMABLE_REWARD_SPAN)
+    .filter(era => era > 0)
 
   const minDesiredEra = _.min(desiredEras)
   const maxDesiredEra = _.max(desiredEras)
