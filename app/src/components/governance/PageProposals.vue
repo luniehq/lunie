@@ -175,7 +175,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.governanceParameters
+        return data.governanceParameters || {}
       },
     },
     $subscribe: {

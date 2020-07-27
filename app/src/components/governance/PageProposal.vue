@@ -181,7 +181,7 @@ import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
-import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
+import { ProposalFragment, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
 import Address from "common/Address"
 import gql from "graphql-tag"
@@ -202,7 +202,7 @@ export default {
     percent,
     date,
     fromNow,
-    lowerCase: (text) => text.toLowerCase(),
+    lowerCase: (text) => (text ? text.toLowerCase() : ""),
   },
   props: {
     proposalId: {
@@ -271,14 +271,13 @@ export default {
     },
   },
   apollo: {
-    proposals: {
+    proposal: {
       query() {
         /* istanbul ignore next */
         return gql`
           query proposals($networkId: String!) {
             proposals(networkId: $networkId) {
-              id
-              status
+              ${ProposalFragment}
             }
           }
         `
@@ -300,35 +299,13 @@ export default {
           )
         ) {
           this.found = true
+          this.loaded = true
+          return data.proposals.find(
+            (proposal) => proposal.id === parseInt(this.proposalId, 10)
+          )
         }
-        /* istanbul ignore next */
-        return data.proposals
-      },
-    },
-    proposal: {
-      query() {
-        /* istanbul ignore next */
-        return ProposalItem(this.network)
-      },
-      update(data) {
-        /* istanbul ignore next */
-        this.loaded = true
-        /* istanbul ignore next */
-        return data.proposal || {}
-      },
-      variables() {
-        /* istanbul ignore next */
-        return {
-          id: +this.proposalId,
-        }
-      },
-      skip() {
-        /* istanbul ignore next */
-        return !this.found
-      },
-      result(data) {
-        /* istanbul ignore next */
-        this.error = data.error
+        // /* istanbul ignore next */
+        // return data.proposals
       },
     },
     parameters: {
@@ -338,7 +315,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.governanceParameters
+        return data.governanceParameters || {}
       },
       skip() {
         /* istanbul ignore next */
