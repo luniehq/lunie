@@ -1,0 +1,3 @@
+[Fixed] [#4536](https://github.com/cosmos/lunie/issues/4536) Fix inaccurate Kava BNB balances @Bitcoinera
+[Changed] [#4558](https://github.com/cosmos/lunie/pull/4558) CoinReducer and rewardCoinReducer now work using coinLookup to get chainToViewConversionFactor @Bitcoinera
+[Deprecated] [#4558](https://github.com/cosmos/lunie/pull/4558) Deprecate overview query @Bitcoinera
