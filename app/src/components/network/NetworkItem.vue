@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters, mapState } from "vuex"
 import PoweredBy from "./PoweredBy"
 
 export default {
@@ -53,6 +53,7 @@ export default {
     },
   },
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`network`]),
     isCurrentNetwork() {
       return this.networkItem.id === this.network

@@ -270,7 +270,7 @@ function denomLookup(denom) {
   return lookup[denom] ? lookup[denom] : denom.toUpperCase()
 }
 
-function coinReducer(coin) {
+function coinReducer(coin, coinLookup) {
   if (!coin) {
     return {
       amount: 0,
@@ -282,7 +282,7 @@ function coinReducer(coin) {
   const denom = denomLookup(coin.denom)
   return {
     denom: denom,
-    amount: BigNumber(coin.amount).div(1000000) // Danger: this might not be the case for all future tokens
+    amount: BigNumber(coin.amount).times(coinLookup.chainToViewConversionFactor)
   }
 }
 
@@ -305,15 +305,18 @@ function gasPriceReducer(gasPrice) {
 // amount: {"15000umuon"}, or in multidenom networks they look like this:
 // amount: {"15000ungm,100000uchf,110000ueur,2000000ujpy"}
 // That is why we need this separate function to extract those amounts in this format
-function rewardCoinReducer(reward) {
+function rewardCoinReducer(reward, network) {
   const multiDenomRewardsArray = reward.split(`,`)
-  const mappedMultiDenomRewardsArray = multiDenomRewardsArray.map(
-    (reward) =>
-      (reward = {
-        denom: denomLookup(reward.match(/[a-z]+/gi)[0]),
-        amount: BigNumber(reward.match(/[0-9]+/gi)).div(1000000)
-      })
-  )
+  const mappedMultiDenomRewardsArray = multiDenomRewardsArray.map((reward) => {
+    const denom = denomLookup(reward.match(/[a-z]+/gi)[0])
+    const coinLookup = network.getCoinLookup(network, denom, `viewDenom`)
+    return {
+      denom,
+      amount: BigNumber(reward.match(/[0-9]+/gi)).times(
+        coinLookup.chainToViewConversionFactor
+      )
+    }
+  })
   return mappedMultiDenomRewardsArray
 }
 
@@ -404,11 +407,13 @@ async function reduceFormattedRewards(
   fiatCurrency,
   calculateFiatValue,
   reducers,
-  multiDenomRewardsArray
+  multiDenomRewardsArray,
+  network
 ) {
   await Promise.all(
     reward.map(async (denomReward) => {
-      const lunieCoin = reducers.coinReducer(denomReward)
+      const coinLookup = network.getCoinLookup(network, denomReward.denom)
+      const lunieCoin = reducers.coinReducer(denomReward, coinLookup)
       if (lunieCoin.amount < 0.000001) return
 
       const fiatValue = calculateFiatValue
@@ -430,7 +435,8 @@ async function rewardReducer(
   validatorsDictionary,
   fiatCurrency,
   calculateFiatValue,
-  reducers
+  reducers,
+  network
 ) {
   const formattedRewards = rewards.map((reward) => ({
     reward: reward.reward,
@@ -445,53 +451,12 @@ async function rewardReducer(
         fiatCurrency,
         calculateFiatValue,
         reducers,
-        multiDenomRewardsArray
+        multiDenomRewardsArray,
+        network
       )
     )
   )
   return multiDenomRewardsArray
-}
-
-async function overviewReducer(
-  balances,
-  delegations,
-  undelegations,
-  stakingDenom,
-  fiatValueAPI,
-  fiatCurrency,
-  reducers
-) {
-  stakingDenom = denomLookup(stakingDenom)
-  const liquidStake = BigNumber(
-    (
-      balances.find(({ denom }) => denomLookup(denom) === stakingDenom) || {
-        amount: 0
-      }
-    ).amount
-  )
-  const delegatedStake = delegations.reduce(
-    (sum, { amount }) => BigNumber(sum).plus(amount),
-    0
-  )
-  const undelegatingStake = undelegations.reduce(
-    (sum, { amount }) => BigNumber(sum).plus(amount),
-    0
-  )
-  const totalStake = liquidStake.plus(delegatedStake).plus(undelegatingStake)
-
-  return {
-    liquidStake: liquidStake,
-    totalStake,
-    totalStakeFiatValue: fiatValueAPI
-      ? totalStakeFiatValueReducer(
-          fiatValueAPI,
-          fiatCurrency,
-          totalStake,
-          stakingDenom,
-          reducers
-        )
-      : null
-  }
 }
 
 async function totalStakeFiatValueReducer(
@@ -543,7 +508,6 @@ module.exports = {
   balanceV2Reducer,
   undelegationReducer,
   rewardReducer,
-  overviewReducer,
   accountInfoReducer,
   calculateTokens,
 

@@ -40,7 +40,7 @@ describe("Transaction Manager", () => {
     },
     transactionData: {
       accountNumber: 1,
-      sequence: 1,
+      accountSequence: 1,
       chainId: "lunie-net",
       gasEstimate: "200000",
       fee: [

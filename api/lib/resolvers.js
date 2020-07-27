@@ -164,17 +164,27 @@ const networkFees = (networks) => async (
 
 const transactionMetadata = (networks) => async (
   _,
-  { networkId, transactionType, address },
+  { networkId, transactionType, address, message, memo },
   { dataSources }
 ) => {
-  const thisNetworkFees = await networkFees(networks)(_, {
-    networkId,
-    transactionType
-  })
+  let thisNetworkFees = {}
+  if (message) {
+    thisNetworkFees = await networkFees(networks)(
+      _,
+      {
+        networkId,
+        senderAddress: address,
+        messageType: transactionType,
+        message,
+        memo
+      },
+      { dataSources }
+    )
+  }
   const accountDetails = await remoteFetch(
     dataSources,
     networkId
-  ).getAccountInfo(address, networkId)
+  ).getAccountInfo(address)
   return {
     gasEstimate: thisNetworkFees.gasEstimate,
     gasPrices: thisNetworkFees.gasPrices,
@@ -184,44 +194,7 @@ const transactionMetadata = (networks) => async (
   }
 }
 
-const resolvers = (networkList, notificationController) => ({
-  Overview: {
-    accountInformation: (account, _, { dataSources }) =>
-      remoteFetch(dataSources, account.networkId).getAccountInfo(
-        account.address,
-        account.networkId
-      ),
-    rewards: async (
-      { networkId, address, fiatCurrency },
-      _,
-      { dataSources }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      return remoteFetch(dataSources, networkId).getRewards(
-        address,
-        fiatCurrency
-      )
-    },
-    totalRewards: async (
-      { networkId, address, fiatCurrency },
-      _,
-      { dataSources }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      const rewards = await remoteFetch(dataSources, networkId).getRewards(
-        address,
-        fiatCurrency
-      )
-      const stakingDenom = await remoteFetch(
-        dataSources,
-        networkId
-      ).getStakingViewDenom()
-      return rewards
-        .filter(({ denom }) => denom === stakingDenom)
-        .reduce((sum, { amount }) => BigNumber(sum).plus(amount), 0)
-        .toFixed(6)
-    }
-  },
+const resolvers = (networkList) => ({
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
       //
@@ -311,9 +284,11 @@ const resolvers = (networkList, notificationController) => ({
       { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      const network = networkList.find((network) => network.id === networkId)
       return remoteFetch(dataSources, networkId).getBalancesFromAddress(
         address,
-        fiatCurrency
+        fiatCurrency,
+        network
       )
     },
     balancesV2: async (
@@ -322,10 +297,12 @@ const resolvers = (networkList, notificationController) => ({
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      // needed to get coinLookups
+      const network = networkList.find((network) => network.id === networkId)
       const balances = await remoteFetch(
         dataSources,
         networkId
-      ).getBalancesV2FromAddress(address, fiatCurrency)
+      ).getBalancesV2FromAddress(address, fiatCurrency, network)
       const stakingDenomBalance = balances.find(({ type }) => type === `STAKE`)
       if (development !== 'true') {
         logBalances(
@@ -364,9 +341,12 @@ const resolvers = (networkList, notificationController) => ({
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      // needed to get coinLookups
+      const network = networkList.find((network) => network.id === networkId)
       let rewards = await remoteFetch(dataSources, networkId).getRewards(
         delegatorAddress,
-        fiatCurrency
+        fiatCurrency,
+        network
       )
       if (development !== 'true') {
         logRewards(
@@ -394,24 +374,6 @@ const resolvers = (networkList, notificationController) => ({
       }
 
       return rewards
-    },
-    overview: async (
-      _,
-      { networkId, address, fiatCurrency },
-      { dataSources }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      const validatorsDictionary = localStore(dataSources, networkId).validators
-      const overview = await remoteFetch(dataSources, networkId).getOverview(
-        address,
-        validatorsDictionary,
-        fiatCurrency
-      )
-      overview.id = address
-      overview.networkId = networkId
-      overview.address = address
-
-      return overview
     },
     transactionsV2: (_, { networkId, address, pageNumber }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getTransactionsV2(

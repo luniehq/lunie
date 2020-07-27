@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.220] - 2020-07-23
+
+### Added
+
+- Register clients for Email notifications @faboweb
+- [#4541](https://github.com/cosmos/lunie/issues/4541) Upgrade Polkadot js api to v1.25.1 @mariopino
+
+### Changed
+
+- [#4525](https://github.com/cosmos/lunie/issues/4525) CardSignIn is now a modal @Bitcoinera
+- [#4525](https://github.com/cosmos/lunie/issues/4525) Notifications page becomes landing page when user is signed in with email @Bitcoinera
+- [#4562](https://github.com/cosmos/lunie/pull/4562) Change close action in SessionFrame to make sense @Bitcoinera
+- [#4568](https://github.com/cosmos/lunie/pull/4568) Make block height in TmConnectedNetwork non-clickable if feature Activity is disabled @Bitcoinera
+- [#4525](https://github.com/cosmos/lunie/issues/4525) ux improvements for notifications page @jbibla
+
+### Fixed
+
+- [#4518](https://github.com/cosmos/lunie/issues/4518) Fix sending an expired idToken from localStorage to API (Apollo) @Bitcoinera
+- [#4534](https://github.com/cosmos/lunie/pull/4534) Fix the loading for notifications in PageNotifications bringing back the lunie SVG loader @Bitcoinera
+- [#4548](https://github.com/cosmos/lunie/pull/4548) Fix network item continuously displaying as loading @Bitcoinera
+- some route names were lowercase and some were uppercase and some router.push's were failing as a result @jbibla
+- router guard was sending user to an invalid route @jbibla
+
 ## [1.0.219] - 2020-07-16
 
 ### Added

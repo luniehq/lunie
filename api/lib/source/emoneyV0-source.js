@@ -25,7 +25,8 @@ class EMoneyV0API extends TerraV3API {
           this.reducers.totalBackedValueReducer(
             totalBackedValue,
             this.fiatValuesAPI.eMoneyExchangeRates,
-            this.reducers
+            this.reducers,
+            this.network
           )
         )
       )
