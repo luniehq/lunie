@@ -84,7 +84,8 @@ describe(`DelegationModal`, () => {
         },
       ],
       balance: {
-        amount: 1000,
+        total: 2000,
+        available: 1000,
         denom: "STAKE",
       },
       validators: validators,
@@ -184,17 +185,6 @@ describe(`DelegationModal`, () => {
         body: `You have successfully staked your STAKEs`,
       })
     })
-
-    it(`should send an event on success`, () => {
-      const self = {
-        $emit: jest.fn(),
-      }
-      DelegationModal.methods.onSuccess.call(self)
-      expect(self.$emit).toHaveBeenCalledWith(
-        "success",
-        expect.objectContaining({})
-      )
-    })
   })
 
   describe("Submission Data for Redelegating", () => {
@@ -234,11 +224,27 @@ describe(`DelegationModal`, () => {
     it(`should send an event on success`, () => {
       const self = {
         $emit: jest.fn(),
+        $store: {
+          dispatch: jest.fn(),
+        },
       }
       DelegationModal.methods.onSuccess.call(self)
       expect(self.$emit).toHaveBeenCalledWith(
         "success",
         expect.objectContaining({})
+      )
+    })
+
+    it(`re register notifications on success`, () => {
+      const self = {
+        $emit: jest.fn(),
+        $store: {
+          dispatch: jest.fn(),
+        },
+      }
+      DelegationModal.methods.onSuccess.call(self)
+      expect(self.$store.dispatch).toHaveBeenCalledWith(
+        "updateEmailRegistrations"
       )
     })
   })

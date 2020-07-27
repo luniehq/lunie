@@ -1,11 +1,62 @@
 # Changelog
- 
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.38] - 2020-07-23
+
+### Added
+
+- [#4541](https://github.com/cosmos/lunie/issues/4541) Upgrade Polkadot js api to v1.25.1 @mariopino
+
+### Changed
+
+- [#4525](https://github.com/cosmos/lunie/issues/4525) Filter validator added notifications out @Bitcoinera
+- [#4525](https://github.com/cosmos/lunie/issues/4525) Fix voting power changes messages displaying less decimals and percentage symbols @Bitcoinera
+- [#4568](https://github.com/cosmos/lunie/pull/4568) Add DOT to supported fiatValues @Bitcoinera
+
+### Fixed
+
+- [#4537](https://github.com/cosmos/lunie/issues/4537) Fix Kava BNB SendModal by fixing gas price denom @Bitcoinera
+- [#4556](https://github.com/cosmos/lunie/pull/4556) Fix storing statistics due to invalid numeric type for amount @Bitcoinera
+- [#4568](https://github.com/cosmos/lunie/pull/4568) Fix transaction by making fee an iterable @Bitcoinera
+- [#4544](https://github.com/cosmos/lunie/issues/4544) Parse extrinsic result properly in polkadot @mariopino
+
+## [1.0.37] - 2020-07-17
+
+### Added
+
+- Register users for email notifications and send email notifications @faboweb
+
+### Fixed
+
+- [#4532](https://github.com/cosmos/lunie/pull/4532) Fix dashboard/statistics for Substrate transactions @Bitcoinera
+
+### Code Improvements
+
+- [#4533](https://github.com/cosmos/lunie/pull/4533) Refactored accounts logic into own file @faboweb
+
+## [1.0.36] - 2020-07-16
+
+### Added
+
+- [#4524](https://github.com/cosmos/lunie/pull/4524) Reintroduce really disabling networks by filtering out (i.e. not running) disabled networks @Bitcoinera
+- Added slashing events @faboweb
+- [#4497](https://github.com/cosmos/lunie/issues/4497) Upgrade polkadot api to v1.24.1 @mariopino
+
+### Fixed
+
+- [#3512](https://github.com/cosmos/lunie/issues/3512) Fix dashboard by deprecating the overview query and using balances and rewards queries instead @Bitcoinera
+- [#4506](https://github.com/cosmos/lunie/pull/4506) Fix double balances in Tendermint networks @Bitcoinera
+- [#4470](https://github.com/cosmos/lunie/issues/4470) Takes always onchain names to fix amp; issue @faboweb
+- [#4515](https://github.com/cosmos/lunie/issues/4515) Show staking balance of 0 if user has no delegations and no tokens @faboweb
+- [#4490](https://github.com/cosmos/lunie/issues/4490) Total was not showing if no staking  denom in balances @faboweb
+- [#4511](https://github.com/cosmos/lunie/issues/4511) Added denom to rewards id to prevent caching issues @faboweb
+- [#4510](https://github.com/cosmos/lunie/issues/4510) Fix polkadot rewards @mariopino
 
 ## [1.0.35] - 2020-07-08
 
@@ -54,7 +105,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Remove Polkadot API disconnection as memory leak has been fixed @faboweb
-- Switch to Pengs node for Cosmos Hub @faboweb
+- Switch to Figment full node for Cosmos Hub and add Pengs as Tendermint @faboweb
 
 ### Fixed
 

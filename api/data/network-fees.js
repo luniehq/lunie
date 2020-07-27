@@ -182,7 +182,7 @@ const kavaGasPrices = [
     price: '0.1'
   },
   {
-    denom: 'ubnb',
+    denom: 'bnb',
     price: '0.1'
   },
 ]
@@ -326,18 +326,16 @@ const selectAlternativeFee = (balances, feeDenom, gasEstimate) => {
 
 const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, message, gasEstimate) => {
   // query for this address balances
-  const balances = await cosmosSource.getBalancesFromAddress(senderAddress)
+  const balances = await cosmosSource.getBalancesFromAddress(senderAddress, '',network)
   const feeDenom = getFeeDenomFromMessage(message, network)
   const gasPrice = BigNumber(
     getNetworkGasPrices(network.id).find(({ denom }) => {
-      const coinLookup = network.coinLookup.find(
-        ({ chainDenom }) => chainDenom === denom
-      )
+      const coinLookup = network.getCoinLookup(network, denom)
       return coinLookup ? coinLookup.viewDenom === feeDenom : false
     }).price
   )
     .times(
-      network.coinLookup.find(({ viewDenom }) => viewDenom === feeDenom)
+      network.getCoinLookup(network, feeDenom, `viewDenom`)
         .chainToViewConversionFactor
     )
     .toNumber(6)

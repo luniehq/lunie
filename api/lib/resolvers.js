@@ -1,5 +1,4 @@
 const { sortBy } = require('lodash')
-const Sentry = require('@sentry/node')
 const { UserInputError, withFilter } = require('apollo-server')
 const BigNumber = require('bignumber.js')
 const {
@@ -16,10 +15,10 @@ const {
   getCosmosFee
 } = require('../data/network-fees')
 const database = require('./database')
-const { getNotifications } = require('./notifications')
+const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
-const firebaseAdmin = require('./firebase')
+const { registerUser } = require('./accounts')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -165,17 +164,27 @@ const networkFees = (networks) => async (
 
 const transactionMetadata = (networks) => async (
   _,
-  { networkId, transactionType, address },
+  { networkId, transactionType, address, message, memo },
   { dataSources }
 ) => {
-  const thisNetworkFees = await networkFees(networks)(_, {
-    networkId,
-    transactionType
-  })
+  let thisNetworkFees = {}
+  if (message) {
+    thisNetworkFees = await networkFees(networks)(
+      _,
+      {
+        networkId,
+        senderAddress: address,
+        messageType: transactionType,
+        message,
+        memo
+      },
+      { dataSources }
+    )
+  }
   const accountDetails = await remoteFetch(
     dataSources,
     networkId
-  ).getAccountInfo(address, networkId)
+  ).getAccountInfo(address)
   return {
     gasEstimate: thisNetworkFees.gasEstimate,
     gasPrices: thisNetworkFees.gasPrices,
@@ -185,79 +194,7 @@ const transactionMetadata = (networks) => async (
   }
 }
 
-const registerUser = async (_, { idToken }) => {
-  try {
-    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
-    // get user record, with custom claims and creation & activity dates
-    const userRecord = await firebaseAdmin.auth().getUser(decodedToken.uid)
-    // check if user already exists in DB
-    const storedUser = await database(config)('').getUser(decodedToken.uid)
-    // check if user already has premium as a custom claim
-    if (!userRecord.customClaims) {
-      // set premium field
-      await firebaseAdmin
-        .auth()
-        .setCustomUserClaims(decodedToken.uid, { premium: false })
-    }
-    // we don't store user emails for now
-    const user = {
-      uid: decodedToken.uid,
-      premium: false,
-      createdAt: userRecord.metadata.creationTime,
-      lastActive: userRecord.metadata.lastSignInTime
-    }
-    if (!storedUser) {
-      database(config)('').storeUser(user)
-    } else {
-      database(config)('').upsert(`users`, user)
-    }
-  } catch (error) {
-    console.error(`In storeUser`, error)
-    Sentry.withScope(function (scope) {
-      scope.setExtra('storeUser resolver')
-      Sentry.captureException(error)
-    })
-  }
-}
-
 const resolvers = (networkList) => ({
-  Overview: {
-    accountInformation: (account, _, { dataSources }) =>
-      remoteFetch(dataSources, account.networkId).getAccountInfo(
-        account.address,
-        account.networkId
-      ),
-    rewards: async (
-      { networkId, address, fiatCurrency },
-      _,
-      { dataSources }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      return remoteFetch(dataSources, networkId).getRewards(
-        address,
-        fiatCurrency
-      )
-    },
-    totalRewards: async (
-      { networkId, address, fiatCurrency },
-      _,
-      { dataSources }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      const rewards = await remoteFetch(dataSources, networkId).getRewards(
-        address,
-        fiatCurrency
-      )
-      const stakingDenom = await remoteFetch(
-        dataSources,
-        networkId
-      ).getStakingViewDenom()
-      return rewards
-        .filter(({ denom }) => denom === stakingDenom)
-        .reduce((sum, { amount }) => BigNumber(sum).plus(amount), 0)
-        .toFixed(6)
-    }
-  },
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
       //
@@ -347,9 +284,11 @@ const resolvers = (networkList) => ({
       { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      const network = networkList.find((network) => network.id === networkId)
       return remoteFetch(dataSources, networkId).getBalancesFromAddress(
         address,
-        fiatCurrency
+        fiatCurrency,
+        network
       )
     },
     balancesV2: async (
@@ -358,10 +297,12 @@ const resolvers = (networkList) => ({
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      // needed to get coinLookups
+      const network = networkList.find((network) => network.id === networkId)
       const balances = await remoteFetch(
         dataSources,
         networkId
-      ).getBalancesV2FromAddress(address, fiatCurrency)
+      ).getBalancesV2FromAddress(address, fiatCurrency, network)
       const stakingDenomBalance = balances.find(({ type }) => type === `STAKE`)
       if (development !== 'true') {
         logBalances(
@@ -400,9 +341,12 @@ const resolvers = (networkList) => ({
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      // needed to get coinLookups
+      const network = networkList.find((network) => network.id === networkId)
       let rewards = await remoteFetch(dataSources, networkId).getRewards(
         delegatorAddress,
-        fiatCurrency
+        fiatCurrency,
+        network
       )
       if (development !== 'true') {
         logRewards(
@@ -430,27 +374,6 @@ const resolvers = (networkList) => ({
       }
 
       return rewards
-    },
-    overview: async (
-      _,
-      { networkId, address, fiatCurrency },
-      { dataSources, fingerprint, development }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      const validatorsDictionary = localStore(dataSources, networkId).validators
-      const overview = await remoteFetch(dataSources, networkId).getOverview(
-        address,
-        validatorsDictionary,
-        fiatCurrency
-      )
-      overview.id = address
-      overview.networkId = networkId
-      overview.address = address
-
-      if (development !== 'true') {
-        logOverview(networkList, overview, address, networkId, fingerprint)
-      }
-      return overview
     },
     transactionsV2: (_, { networkId, address, pageNumber }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getTransactionsV2(
@@ -483,7 +406,7 @@ const resolvers = (networkList) => ({
     }
   },
   Mutation: {
-    registerUser: registerUser
+    registerUser: (_, variables, { user: { uid } }) => registerUser(uid)
   },
   Subscription: {
     blockAdded: {

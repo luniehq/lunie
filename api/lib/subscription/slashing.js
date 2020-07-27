@@ -3,7 +3,10 @@ const Tendermint = require('./tendermint')
 const database = require('../database')
 const config = require('../../config')
 const { publishEvent } = require('../subscriptions')
-const { eventTypes, resourceTypes } = require('../notifications-types')
+const {
+  eventTypes,
+  resourceTypes
+} = require('../notifications/notifications-types')
 
 class SlashingMonitor {
   constructor(network, { api }) {
@@ -18,16 +21,24 @@ class SlashingMonitor {
   // to prevent adding a slash twice we filter the slashes
   storeSlashes(filterReason) {
     return (tendermintResponse) => {
+      const coinLookup = network.getCoinLookup(
+        network,
+        this.network.stakingDenom,
+        `viewDenom`
+      )
       try {
         const slashes = tendermintResponse.events['slash.address']
           .map((address, index) => ({
             networkId: this.networkId,
             operatorAddress: address,
             reason: tendermintResponse.events['slash.reason'][index],
-            amount: this.api.reducers.coinReducer({
-              amount: tendermintResponse.events['slash.power'][index],
-              denom: this.network.stakingDenom
-            }),
+            amount: this.api.reducers.coinReducer(
+              {
+                amount: tendermintResponse.events['slash.power'][index],
+                denom: this.network.stakingDenom
+              },
+              coinLookup
+            ),
             height:
               tendermintResponse.height ||
               tendermintResponse.data.value.header.height

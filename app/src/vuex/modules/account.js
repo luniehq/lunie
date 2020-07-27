@@ -1,5 +1,4 @@
 import getFirebase from "../../firebase.js"
-import config from "../../../config"
 import * as Sentry from "@sentry/browser"
 import gql from "graphql-tag"
 import { Plugins } from "@capacitor/core"
@@ -29,24 +28,47 @@ export default ({ apollo }) => {
   }
 
   const actions = {
-    async listenToAuthChanges({ commit }) {
+    async listenToAuthChanges({ dispatch, commit }) {
       const Auth = (await getFirebase()).auth()
-      await Auth.onAuthStateChanged(async (user) => {
-        if (user) {
-          commit(`userSignedIn`, true)
+      // start listening for idToken changes too
+      await dispatch(`listenToIdTokenChanges`)
+      await new Promise((resolve) =>
+        Auth.onAuthStateChanged(async (user) => {
+          if (user) {
+            commit(`userSignedIn`, true)
+            commit(`setUserInformation`, user)
+
+            const idToken = await user.getIdToken(/* forceRefresh */ true)
+            localStorage.setItem(`auth_token`, idToken)
+            // make sure new authorization token get added to header
+            apollo.cache.reset()
+          } else {
+            localStorage.removeItem(`auth_token`)
+            commit(`userSignedIn`, false)
+            commit(`setUserInformation`, null)
+          }
+          resolve()
+        })
+      )
+    },
+    async listenToIdTokenChanges({ commit }) {
+      const Auth = (await getFirebase()).auth()
+      await new Promise((resolve) =>
+        Auth.onIdTokenChanged(async (user) => {
           commit(`setUserInformation`, user)
+          // user is already signed in since we are handling that with onAuthStateChanged
+          if (user) {
+            // retrieving refreshed idToken
+            const idToken = await user.getIdToken(/* forceRefresh */ true)
 
-          await actions.updateProfilePicture()
-
-          const idToken = await user.getIdToken(/* forceRefresh */ true)
-          localStorage.setItem(`auth_token`, idToken)
-          // make sure new authorization token get added to header
-          apollo.cache.reset()
-        } else {
-          commit(`userSignedIn`, false)
-          commit(`setUserInformation`, null)
-        }
-      })
+            // really important part, store idToken in localstorage so Apollo gets the newest
+            localStorage.setItem(`auth_token`, idToken)
+            // make sure new authorization token get added to header
+            apollo.cache.reset()
+          }
+          resolve()
+        })
+      )
     },
     async signInUser({ commit }, url) {
       commit(`setSignInError`, undefined)
@@ -109,19 +131,6 @@ export default ({ apollo }) => {
         apollo.cache.reset()
       } catch (error) {
         commit(`setSignInError`, error)
-        Sentry.captureException(error)
-      }
-    },
-    // TODO: it should only run on sign up
-    async updateProfilePicture() {
-      const Auth = (await getFirebase()).auth()
-      try {
-        const user = Auth.currentUser
-        await user.updateProfile({
-          photoURL: `${config.digitalOceanURL}/users/${user.email}.png`,
-        })
-      } catch (error) {
-        console.error(error)
         Sentry.captureException(error)
       }
     },

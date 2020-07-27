@@ -1,0 +1,28 @@
+.lunie-light {
+  /* theme colors */
+  --primary: hsl(7, 88%, 70%);
+  --primary-hover: hsl(7, 88%, 65%);
+  --highlight: hsl(252, 100%, 75%);
+  --link: hsl(217, 100%, 70%);
+  --link-hover: hsl(217, 100%, 65%);
+
+  /* background-colors */
+  --app-fg: hsl(229, 100%, 98%);
+  --app-fg-hover: hsl(229, 100%, 96%);
+  --app-bg: #fff;
+
+  /* menu styles */
+  --app-nav: hsl(229, 20%, 11%);
+  --app-nav-hover: hsl(229, 20%, 16%);
+  --menu-link: var(--link);
+  --menu-link-hover: var(--link-hover);
+  --menu-border: hsl(229, 20%, 26%);
+
+  /* dark-theme typography */
+  --bright: hsl(227, 40%, 33%);
+  --txt: hsl(227, 40%, 28%);
+  --dim: hsl(227, 40%, 23%);
+  --bc: var(--app-fg);
+  --bc-dim: var(--app-bg);
+  --input-bc: var(--menu-border);
+}

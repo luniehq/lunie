@@ -26,6 +26,12 @@ jest.mock('apollo-datasource-rest', () => {
   }
 })
 
+const network = {
+  getCoinLookup() {
+    return { chainDenom: 'umuon', chainToViewConversionFactor: 0.000001 }
+  }
+}
+
 describe('Cosmos V2 API', function () {
   describe('getRewards()', function () {
     let api, cosmosNetworkConfig, store
@@ -34,11 +40,11 @@ describe('Cosmos V2 API', function () {
       cosmosNetworkConfig = {
         bech32_prefix: 'cosmos', // DEPRECATE
         address_prefix: 'cosmos',
-        coinLookup: [
-          {
+        getCoinLookup() {
+          return {
             viewDenom: 'ATOM'
           }
-        ]
+        }
       }
       store = {
         validators: mockValidatorsDictionary
@@ -49,7 +55,7 @@ describe('Cosmos V2 API', function () {
 
     it('When an existing delegator address is passed, it should return the calculated rewards', async () => {
       //Act
-      const result = await api.getRewards(delegatorAddress, "EUR")
+      const result = await api.getRewards(delegatorAddress, 'EUR', network)
 
       //Assert
       expect(result[0]).toHaveProperty('amount')
@@ -64,7 +70,9 @@ describe('Cosmos V2 API', function () {
       mockDelegatorRewards.result.rewards = []
 
       //Act & Assert
-      await expect(api.getRewards(delegatorAddress, "EUR")).resolves.toEqual([])
+      await expect(
+        api.getRewards(delegatorAddress, 'EUR', network)
+      ).resolves.toEqual([])
     })
 
     it('When an existing delegator address is passed with a reward 49000000 (umuon), it should return amount 49 (muon)', async () => {
@@ -72,7 +80,9 @@ describe('Cosmos V2 API', function () {
       mockDelegatorRewards.result.rewards[0].reward[0].amount = 49000000
 
       //Act & Assert
-      await expect(api.getRewards(delegatorAddress, "EUR")).resolves.toEqual([
+      await expect(
+        api.getRewards(delegatorAddress, 'EUR', network)
+      ).resolves.toEqual([
         {
           id: 'cosmos1fh44aqn7m4v570ujtjlmt3dytq80qyfwj07ckc_MUON_EUR',
           amount: '49',
@@ -88,7 +98,9 @@ describe('Cosmos V2 API', function () {
       mockDelegatorRewards.result.rewards[0].reward[0].amount = 0.05
 
       //Act & Assert
-      await expect(api.getRewards(delegatorAddress, "EUR")).resolves.toEqual([])
+      await expect(
+        api.getRewards(delegatorAddress, 'EUR', network)
+      ).resolves.toEqual([])
     })
   })
 })

@@ -22,20 +22,23 @@ const storeTransactions = (
     const baseRow = {
       network: networkId,
       address: senderAddress,
-      action: transaction.type,
-      hash: transaction.hash,
+      action: transaction.type || transaction.messageType,
+      hash: transaction.hash, // we are not getting this in Substrate networks for reasons explained below
       added: Date.now(),
       fingerprint
     }
-    if (!transaction.details.amounts && !transaction.details.amount) {
+    // since we are not polling to get the transaction from the blockchain itself for Polkadot, we are not running
+    // either the transactionReducer on it, so we need this hack for now
+    const message = transaction.details || transaction.message
+    if (!message.amounts && !message.amount) {
       store(baseRow)
       return
     }
-    const amounts = transaction.details.amounts || [transaction.details.amount]
+    const amounts = message.amounts || [message.amount]
     amounts.forEach(({ amount, denom }) => {
       store({
         ...baseRow,
-        value: amount,
+        value: Number(amount),
         denom
       })
     })

@@ -4,13 +4,14 @@ const Sentry = require('@sentry/node')
 
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
-const Notifications = require('./notifications')
+const Notifications = require('./notifications/notifications')
 const database = require('./database')
+const { validateIdToken } = require('./accounts')
 
 const NetworkContainer = require('./network-container')
 
-const firebaseAdmin = require('./firebase')
 const config = require('../config')
+const NotificationContoller = require('./notifications/notificationController')
 
 const db = database(config)('')
 
@@ -31,30 +32,32 @@ function startBlockTriggers(networks) {
   networks.map((network) => network.initialize())
 }
 
-async function checkIsValidIdToken(idToken) {
-  try {
-    const decodedToken = await firebaseAdmin.auth().verifyIdToken(idToken)
-    return decodedToken.uid
-  } catch (error) {
-    console.error(error)
-    Sentry.captureException(error)
-    return false
-  }
+function getCoinLookup(network, denom, coinLookupDenomType = `chainDenom`) {
+  return network.coinLookup.find((coin) => coin[coinLookupDenomType] === denom)
 }
 
 async function createApolloServer(httpServer) {
   const networksFromDBList = await db.getNetworks()
-  const networkList = networksFromDBList.filter((network) => network.enabled)
-  const networks = networkList
-    .map((network) => new NetworkContainer(network))
+  const networkList = networksFromDBList
+    .filter((network) => network.enabled)
+    // add the getCoinLookup function
+    .map((network) => {
+      return {
+        ...network,
+        getCoinLookup
+      }
+    })
+  const networks = networkList.map((network) => new NetworkContainer(network))
 
   if (config.env !== 'test') {
     startBlockTriggers(networks)
   }
 
+  const notificationController = new NotificationContoller(networkList)
+
   let options = {
     typeDefs,
-    resolvers: resolvers(networkList),
+    resolvers: resolvers(networkList, notificationController),
     dataSources: getDataSources(networks),
     cacheControl: {
       defaultMaxAge: 10
@@ -83,16 +86,14 @@ async function createApolloServer(httpServer) {
           }
         }
         const idToken = req.headers.authorization
-        let uid = undefined
+        let user = {}
         if (idToken) {
-          uid = await checkIsValidIdToken(idToken)
+          user = await validateIdToken(idToken)
         }
         return {
           fingerprint: req.headers.fingerprint,
           development: req.headers.development,
-          authorization: {
-            uid
-          }
+          user
         }
       }
     }

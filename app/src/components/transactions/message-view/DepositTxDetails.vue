@@ -6,7 +6,7 @@
       <span>On&nbsp;</span>
       <router-link
         :to="{
-          name: 'Proposal',
+          name: 'proposal',
           params: { proposalId: String(transaction.details.proposalId) },
         }"
         >Proposal &#35;{{ transaction.details.proposalId }}</router-link

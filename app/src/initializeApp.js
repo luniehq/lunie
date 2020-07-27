@@ -51,10 +51,12 @@ export default async function init(urlParams, env = process.env) {
   const store = Store({ apollo: apolloClient })
   // we need to set url params before querying for networks because of experimental flag
   setOptions(urlParams, store)
-  await store.dispatch(`preloadNetworkCapabilities`)
 
   // check if user is signed in
-  store.dispatch(`listenToAuthChanges`)
+  await store.dispatch(`listenToAuthChanges`)
+
+  // we load the networks first as we need them in the router
+  await store.dispatch(`preloadNetworkCapabilities`)
 
   const router = Router(store)
   setGoogleAnalyticsPage(router.currentRoute.path)

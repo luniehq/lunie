@@ -13,7 +13,7 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
     <!---->
      
     <div
-      class="session evenly"
+      class="session"
     >
       <div
         class="session-header"

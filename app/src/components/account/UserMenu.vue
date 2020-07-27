@@ -3,7 +3,7 @@
     <UserMenuAddress v-if="address" :address="address" />
     <router-link
       v-if="session.experimentalMode"
-      v-tooltip="`Your Notifications`"
+      v-tooltip="`Notifications`"
       :to="{ name: 'notifications' }"
       class="user-menu-icon-container notifications"
     >
@@ -67,7 +67,7 @@
           class="menu-list-item"
           @click="goToWelcome()"
         >
-          <span>Use a new address</span>
+          <span>Add an address</span>
           <i class="material-icons">add_circle</i>
         </div>
         <div v-if="account.userSignedIn">
@@ -326,7 +326,6 @@ h3 {
   border-radius: 50%;
   background: var(--app-fg);
   overflow: hidden;
-  border: 4px solid var(--app-fg);
 }
 
 .avatar {
@@ -356,8 +355,9 @@ h3 {
 
 .avatar.emoji {
   font-size: 26px;
-  transform: scale(0.75);
+  transform: scale(0.5);
   top: 0;
+  padding-bottom: 0.25rem;
 }
 
 .v-popover {

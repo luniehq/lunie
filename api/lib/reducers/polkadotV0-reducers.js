@@ -227,10 +227,12 @@ function parsePolkadotTransaction(
     ),
     timestamp: new Date().getTime(), // FIXME!: pass it from block, we should get current timestamp from blockchain for new blocks
     memo: ``,
-    fees: {
-      amount: `0`,
-      denom: network.coinLookup[0].viewDenom
-    }, // FIXME!
+    fees: [
+      {
+        amount: `0`,
+        denom: network.coinLookup[0].viewDenom
+      }
+    ], // FIXME!
     success,
     log: ``,
     involvedAddresses: reducers.extractInvolvedAddresses(
@@ -241,18 +243,15 @@ function parsePolkadotTransaction(
   }
 }
 
-function getExtrinsicSuccess(index, blockEvents) {
-  blockEvents.forEach((record) => {
-    const { event, phase } = record
-    if (
-      parseInt(phase.toHuman().ApplyExtrinsic) === index &&
+function getExtrinsicSuccess(extrinsicIndex, blockEvents) {
+  return blockEvents.find(
+    ({ event, phase }) =>
+      parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex &&
       event.section === `system` &&
-      event.method === `ExtrinsicFailed`
-    ) {
-      return false
-    }
-  })
-  return true
+      event.method === `ExtrinsicSuccess`
+  )
+    ? true
+    : false
 }
 
 function transactionReducerV2(
@@ -412,7 +411,7 @@ function extractInvolvedAddresses(lunieTransactionType, signer, message) {
 
 function rewardsReducer(network, validators, rewards, reducers) {
   const allRewards = []
-  const validatorsDict = _.keyBy(validators, "operatorAddress")
+  const validatorsDict = _.keyBy(validators, 'operatorAddress')
   rewards.forEach((reward) => {
     // reward reducer returns an array
     allRewards.push(
