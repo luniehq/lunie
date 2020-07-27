@@ -1,14 +1,5 @@
-[
-    {
-        "relation": [
-            "delegate_permission/common.handle_all_urls"
-        ],
-        "target": {
-            "namespace": "android_app",
-            "package_name": "org.lunie.lunie",
-            "sha256_cert_fingerprints": [
-                "5A:9B:FF:2C:61:61:43:8B:2E:77:D0:3A:B8:94:BA:75:DB:CD:0E:E5:ED:C5:05:82:88:40:52:4C:ED:14:FB:DF"
-            ]
-        }
-    }
-]
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target" : { "namespace": "android_app", "package_name": "org.lunie.lunie",
+                 "sha256_cert_fingerprints": ["D9:E5:7D:2D:A2:E9:FC:59:15:22:BE:52:28:09:F7:32:68:92:5C:EB:84:00:CF:06:07:C2:73:38:43:23:7C:7F"] }
+  }]
