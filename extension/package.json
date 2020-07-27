@@ -49,7 +49,7 @@
     }
   },
   "dependencies": {
-    "@babel/runtime": "^7.5.4",
+    "@babel/runtime": "^7.10.5",
     "@babel/runtime-corejs3": "^7.10.4",
     "@lunie/cosmos-api": "^0.0.23",
     "@lunie/cosmos-keys": "^0.2.3",
