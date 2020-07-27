@@ -110,13 +110,15 @@ h1 {
   font-size: 24px;
   color: var(--bright);
   font-weight: 400;
-  padding: 1rem 0 2rem;
+  padding-bottom: 2rem;
 }
 
 .table-container {
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
+  background: var(--app-fg);
+  padding: 4rem 0;
 }
 
 @media screen and (max-width: 667px) {
@@ -132,7 +134,7 @@ h1 {
 
 @media screen and (min-width: 667px) {
   .table-container {
-    padding: 2rem;
+    padding: 4rem 2rem;
   }
 }
 </style>
