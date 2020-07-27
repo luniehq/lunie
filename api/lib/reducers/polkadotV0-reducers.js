@@ -482,10 +482,7 @@ function democracyProposalReducer(
     statusBeginTime: undefined,
     statusEndTime: undefined,
     tally: undefined,
-    deposit: toViewDenom(
-      network,
-      proposal.balance
-    ),
+    deposit: toViewDenom(network, proposal.balance),
     proposer: proposal.proposer
   }
 }
@@ -507,23 +504,24 @@ function democracyReferendumReducer(
     statusBeginTime: undefined,
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
-    deposit: toViewDenom(
-      network,
-      proposal.status.tally.turnout
-    ),
+    deposit: toViewDenom(network, proposal.status.tally.turnout),
     proposer: undefined
   }
 }
 
-// function treasuryProposals(
-//   network,
-//   proposal,
-//   totalIssuance,
-//   blockHeight
-// ) {
-//   return {
-//   }
-// }
+function treasuryProposalReducer(network, proposal, totalCouncilMembers) {
+  return {
+    id: proposal.id,
+    network: network.id,
+    type: `text`,
+    title: `Treasury #${proposal.index}`,
+    status: `VotingPeriod`,
+    tally: treasuryTallyReducer(proposal.council[0].votes, totalCouncilMembers),
+    deposit: toViewDenom(network, Number(proposal.proposal.bond)),
+    proposer: proposal.proposal.proposer,
+    beneficiary: proposal.proposal.beneficiary // the account getting the tip
+  }
+}
 
 function councilProposalReducer(
   network,
@@ -531,7 +529,6 @@ function councilProposalReducer(
   councilMembers,
   blockHeight
 ) {
-
   // {
   //   "hash": "0x437283774530ccde4e9ca20ed3c8de486089c66c7c468f2830d6f8c7bddc5ad8",
   //   "proposal": {
@@ -574,7 +571,10 @@ function councilProposalReducer(
       abstain: 0,
       veto: 0,
       total: proposal.votes.ayes.length + proposal.votes.nays.length,
-      totalVotedPercentage: ((proposal.votes.ayes.length + proposal.votes.nays.length) * 100 / councilMembers.length).toFixed(2)
+      totalVotedPercentage: (
+        ((proposal.votes.ayes.length + proposal.votes.nays.length) * 100) /
+        councilMembers.length
+      ).toFixed(2)
     },
     deposit: undefined,
     proposer: undefined
@@ -582,7 +582,6 @@ function councilProposalReducer(
 }
 
 function tallyReducer(network, tally, totalIssuance) {
-
   //
   // tally chain format:
   //
@@ -606,29 +605,12 @@ function tallyReducer(network, tally, totalIssuance) {
 
   const turnout = BigNumber(tally.turnout)
 
-  const totalVoted = BigNumber(tally.ayes)
-    .plus(tally.nays)
-  const total = toViewDenom(
-    network,
-    totalVoted.toString(10)
-  )
-  const yes = toViewDenom(
-    network,
-    tally.ayes
-  )
-  const no = toViewDenom(
-    network,
-    tally.nays
-  )
+  const totalVoted = BigNumber(tally.ayes).plus(tally.nays)
+  const total = toViewDenom(network, totalVoted.toString(10))
+  const yes = toViewDenom(network, tally.ayes)
+  const no = toViewDenom(network, tally.nays)
   const totalVotedPercentage = (
-    (
-      turnout
-        .times(10000)
-        .div(
-          BigNumber(totalIssuance)
-        )
-        .toNumber()
-    ) / 100
+    turnout.times(10000).div(BigNumber(totalIssuance)).toNumber() / 100
   ).toFixed(2)
 
   return {
@@ -641,6 +623,18 @@ function tallyReducer(network, tally, totalIssuance) {
   }
 }
 
+function treasuryTallyReducer(votes, treasuryTallyReducer) {
+  const total = votes.ayes.length + votes.nays.length
+  return {
+    yes: votes.ayes.length,
+    no: votes.nays.length,
+    abstain: 0,
+    veto: 0,
+    total,
+    totalVotedPercentage: ((total * 100) / treasuryTallyReducer).toFixed(2)
+  }
+}
+
 function toViewDenom(network, chainDenomAmount) {
   return BigNumber(chainDenomAmount)
     .times(network.coinLookup[0].chainToViewConversionFactor)
@@ -649,7 +643,7 @@ function toViewDenom(network, chainDenomAmount) {
 
 function getStatusEndTime(blockHeight, endBlock) {
   return new Date(
-    new Date().getTime() + ((endBlock - blockHeight) * 6000)
+    new Date().getTime() + (endBlock - blockHeight) * 6000
   ).toUTCString()
 }
 
@@ -671,6 +665,7 @@ module.exports = {
   identityReducer,
   democracyProposalReducer,
   democracyReferendumReducer,
+  treasuryProposalReducer,
   councilProposalReducer,
   tallyReducer,
   toViewDenom

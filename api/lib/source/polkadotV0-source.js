@@ -533,13 +533,13 @@ class polkadotAPI {
 
   async getAllProposals() {
     const api = await this.getAPI()
-    
+
     const [
       blockHeight,
       totalIssuance,
       democracyProposals,
       democracyReferendums,
-      // treasuryProposals,
+      treasuryProposals,
       councilProposals,
       councilMembers
     ] = await Promise.all([
@@ -547,11 +547,11 @@ class polkadotAPI {
       api.query.balances.totalIssuance(),
       api.derive.democracy.proposals(),
       api.derive.democracy.referendums(),
-      // api.derive.treasury.proposals(),
+      api.derive.treasury.proposals(),
       api.derive.council.proposals(),
       api.query.council.members()
     ])
-    
+    const totalCouncilMembers = councilMembers.length
     const allProposals = democracyProposals
       .map((proposal) => {
         return this.reducers.democracyProposalReducer(
@@ -571,23 +571,22 @@ class polkadotAPI {
           )
         })
       )
-      // .concat(
-      //   treasuryProposals.map((proposal) => {
-      //     return this.reducers.treasuryProposalReducer(
-      //       this.network,
-      //       proposal,
-      //       totalIssuance,
-      //       blockHeight
-      //     )
-      //   })
-      // )
+      .concat(
+        treasuryProposals.proposals.map((proposal) => {
+          return this.reducers.treasuryProposalReducer(
+            this.network,
+            proposal,
+            totalCouncilMembers
+          )
+        })
+      )
       .concat(
         councilProposals.map((proposal) => {
           return this.reducers.councilProposalReducer(
             this.network,
             proposal,
             councilMembers,
-            blockHeight,
+            blockHeight
           )
         })
       )
