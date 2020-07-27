@@ -19,6 +19,7 @@ export const registerForPushNotifications = async (store) => {
   PushNotifications.requestPermission().then( result => {
     if (result.granted) {
       // Register with Apple / Google to receive push via APNS/FCM
+      console.log("User granted push notifications")
       PushNotifications.register();
     } else {
       // Show some error

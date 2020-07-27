@@ -194,7 +194,7 @@ const transactionMetadata = (networks) => async (
   }
 }
 
-const resolvers = (networkList) => ({
+const resolvers = (networkList, notificationController) => ({
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
       //

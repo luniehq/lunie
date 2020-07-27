@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "400633074595",
+    "firebase_url": "https://lunie-core.firebaseio.com",
+    "project_id": "lunie-core",
+    "storage_bucket": "lunie-core.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400633074595:android:21283055b1ab0cf7034016",
+        "android_client_info": {
+          "package_name": "org.lunie.lunie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "400633074595-ktpkbfbgkgdp3uvr30sdb0vunhq02t59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4QcoIjAwp4TO8jupzYYP41VBAlzbbYDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "400633074595-ktpkbfbgkgdp3uvr30sdb0vunhq02t59.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "400633074595-g02p2lt0l7f2ioqnie5cihtl2fb5mleb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.lunie.lunie"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -13,6 +13,9 @@
             ],
             "program": "${workspaceFolder}/api/index.js",
             "envFile": "${workspaceFolder}/api/.env",
+            "env": {
+                "RUN_ONLY_NETWORK": "cosmos-hub-testnet"
+            }
         },
         {
             "type": "node",

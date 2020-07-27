@@ -83,6 +83,7 @@ class NotificationController {
       ).map((topic) => ({ topic, type: 'push' }))
 
       this.db('').storePushRegistrations({uid, pushToken})
+      this.subscribeUserToPushNotificationTopics(pushToken, topics)
     }
     topics.forEach(({ topic, type }) => {
       if (!this.registrations[topic])
@@ -144,6 +145,15 @@ class NotificationController {
         Sentry.captureException(new Error(JSON.stringify(res.error)))
       }
     })
+  }
+
+  // users need to be registered individually per topic
+  subscribeUserToPushNotificationTopics(pushToken, topics) {
+    return Promise.all(
+      topics.map((topic) =>
+        firebaseAdmin.messaging().subscribeToTopic(pushToken, topic)
+      )
+    )
   }
 
   async sendPushNotification(notification) {
