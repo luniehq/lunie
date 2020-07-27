@@ -1,8 +1,9 @@
-import getFirebase from "../../firebase.js"
 import * as Sentry from "@sentry/browser"
 import gql from "graphql-tag"
 import { Plugins } from "@capacitor/core"
 const { App: CapacitorApp } = Plugins
+import getFirebase from "../../firebase.js"
+import config from "../../../config"
 
 export default ({ apollo }) => {
   const state = {
@@ -152,12 +153,11 @@ export async function getLaunchUrl(router) {
 export function handleDeeplink(url, router) {
   console.log("Received deeplink " + url)
 
-  // Example url: https://lunie.io/email-authentication
-  // slug = /email-authentication
-  const regexp = /https:\/\/[\w\d-\.]+\/([\w\d-\/]*)(\?(.+))?/
+  // Example url: https://app.lunie.io?link=www.google.com
+  const regexp = /^https:\/\/[\w\d-\.]+(\/([\w\d-\/]+))?(\?(.+))?/
   const matches = regexp.exec(url)
-  const path = matches[1]
-  const query = matches[3]
+  const path = matches[2]
+  const query = matches[4]
 
   const queryObject = query
     .split("&")
@@ -170,6 +170,7 @@ export function handleDeeplink(url, router) {
   // if we receive a deeplink for firebase authentication we follow that link
   if (queryObject.link) {
     window.open(unescape(queryObject.link), "_blank")
+    return
   }
 
   try {
