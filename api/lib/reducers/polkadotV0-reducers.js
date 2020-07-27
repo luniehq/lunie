@@ -527,32 +527,6 @@ function councilProposalReducer(
   councilMembers,
   blockHeight
 ) {
-  // {
-  //   "hash": "0x437283774530ccde4e9ca20ed3c8de486089c66c7c468f2830d6f8c7bddc5ad8",
-  //   "proposal": {
-  //     "callIndex": "0x1201",
-  //     "args": {
-  //       "proposal_id": 38
-  //     }
-  //   },
-  //   "votes": {
-  //     "index": 183,
-  //     "threshold": 11,
-  //     "ayes": [
-  //       "GLVeryFRbg5hEKvQZcAnLvXZEXhiYaBjzSDwrXBXrfPF7wj",
-  //       "J9nD3s7zssCX7bion1xctAF6xcVexcpy2uwy4jTm9JL8yuK",
-  //       "Hjuii5eGVttxjAqQrPLVN3atxBDXPc4hNpXF6cPhbwzvtis",
-  //       "EDkyLR1J19e9agASF6PK649jiheqD95tRweFNyzTg11Xug4",
-  //       "H9eSvWe34vQDJAWckeTHWSqSChRat8bgKHG39GC1fjvEm7y",
-  //       "DWUAQt9zcpnQt5dT48NwWbJuxQ78vKRK9PRkHDkGDn9TJ1j",
-  //       "DTLcUu92NoQw4gg6VmNgXeYQiNywDhfYMQBPYg2Y1W6AkJF",
-  //       "GcqKn3HHodwcFc3Pg3Evcbc43m7qJNMiMv744e5WMSS7TGn",
-  //       "DfiSM1qqP11ECaekbA64L2ENcsWEpGk8df8wf1LAfV2sBd4"
-  //     ],
-  //     "nays": [],
-  //     "end": 3312800
-  //   }
-  // },
   return {
     id: proposal.votes.index,
     network: network.id,
