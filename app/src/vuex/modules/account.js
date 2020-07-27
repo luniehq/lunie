@@ -112,7 +112,7 @@ export default ({ apollo }) => {
         },
         iOS: {
           bundleId: `1475911030.org.lunie.lunie`,
-        }
+        },
       }
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)

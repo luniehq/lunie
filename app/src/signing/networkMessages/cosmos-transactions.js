@@ -36,7 +36,10 @@ type StdSignMsg struct {
   Memo          string      `json:"memo"`
 }
 */
-function createSignMessage(jsonTx, { accountSequence, accountNumber, chainId }) {
+function createSignMessage(
+  jsonTx,
+  { accountSequence, accountNumber, chainId }
+) {
   // sign bytes need amount to be an array
   const fee = {
     amount: jsonTx.fee.amount || [],
