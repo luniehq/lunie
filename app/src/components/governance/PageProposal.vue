@@ -22,7 +22,9 @@
               Proposed by {{ proposal.validator.name }}:
               <Address :address="proposal.proposer" />
             </template>
-            <template v-else-if="proposal.proposer && proposal.proposer !== `unknown`">
+            <template
+              v-else-if="proposal.proposer && proposal.proposer !== `unknown`"
+            >
               Proposed by
               <Address :address="proposal.proposer" />
             </template>
@@ -127,14 +129,20 @@
         </li>
         <li>
           <h4>Submitted</h4>
-          <span>{{ proposal.creationTime ? (proposal.creationTime | date) : `--` }}</span>
+          <span v-if="proposal.creationTime">{{
+            proposal.creationTime | date
+          }}</span>
+          <span v-else>--</span>
         </li>
         <template
           v-if="['DepositPeriod', 'VotingPeriod'].includes(proposal.status)"
         >
           <li>
             <h4>{{ status.badge }} Start Date</h4>
-            <span>{{ proposal.statusBeginTime ? (proposal.statusBeginTime | date) : `--` }}</span>
+            <span v-if="proposal.statusBeginTime">{{
+              proposal.statusBeginTime | date
+            }}</span>
+            <span v-else>--</span>
           </li>
           <li>
             <h4>{{ status.badge }} End Date</h4>
@@ -228,7 +236,7 @@ export default {
     loaded: false,
   }),
   computed: {
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `network`, `currentNetwork`]),
     status() {
       return getProposalStatus(this.proposal)
     },
@@ -320,7 +328,8 @@ export default {
       },
       skip() {
         /* istanbul ignore next */
-        return !this.found
+        // only Tendermint networks have this network-wide "governance parameters" logic
+        return !this.found || this.currentNetwork.network_type !== `cosmos`
       },
       result(data) {
         /* istanbul ignore next */

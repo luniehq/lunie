@@ -593,8 +593,6 @@ class polkadotAPI {
     return orderBy(allProposals, 'id', 'desc')
   }
 
-  getGovernanceParameters() {}
-
   getProposalById() {}
 
   getDelegatorVote() {}
