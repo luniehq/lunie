@@ -10,6 +10,9 @@ import config from "src/../config"
 import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
+import { Plugins } from "@capacitor/core"
+const { App: CapacitorApp } = Plugins
+import { handleDeeplink, getLaunchUrl } from "./vuex/modules/account"
 
 if (navigator && navigator.serviceWorker) {
   // remove any existing service worker
@@ -62,6 +65,11 @@ export default async function init(urlParams, env = process.env) {
     /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
   })
+
+  CapacitorApp.addListener("appUrlOpen", function (data) {
+    handleDeeplink(data.url, router)
+  })
+  getLaunchUrl(router)
 
   store.dispatch(`loadLocalPreferences`)
   await store.dispatch(`checkForPersistedNetwork`) // wait until signin
