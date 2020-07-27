@@ -72,9 +72,9 @@ import TmDataLoading from "src/components/common/TmDataLoading"
 
 export default {
   name: `card-sign-in-required`,
-  components: { 
-    LiSession, 
-    SessionFrame 
+  components: {
+    LiSession,
+    SessionFrame,
   },
   data: () => ({
     isMobileApp: config.mobileApp,

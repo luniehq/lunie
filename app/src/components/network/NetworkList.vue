@@ -9,10 +9,7 @@
         :data-network="network.id"
         @click="network.chain_id ? selectNetworkHandler(network) : false"
       >
-        <NetworkItem
-          :network-item="network"
-          :disabled="disabled"
-        />
+        <NetworkItem :network-item="network" :disabled="disabled" />
       </li>
     </ul>
   </section>
