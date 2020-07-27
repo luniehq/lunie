@@ -471,7 +471,23 @@ function democracyProposalReducer(
   totalIssuance,
   blockHeight
 ) {
-  return {}
+  return {
+    id: proposal.index,
+    network: network.id,
+    type: `text`,
+    title: `Democracy #${proposal.index}`,
+    description: meta.documentation.toString(),
+    creationTime: undefined,
+    status: `DepositPeriod`, // trying to adjust to the Cosmos status
+    statusBeginTime: undefined,
+    statusEndTime: undefined,
+    tally: undefined,
+    deposit: toViewDenom(
+      network,
+      proposal.balance
+    ),
+    proposer: proposal.proposer
+  }
 }
 
 function democracyReferendumReducer(
