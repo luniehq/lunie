@@ -476,7 +476,7 @@ function democracyProposalReducer(
     network: network.id,
     type: `text`,
     title: `Democracy #${proposal.index}`,
-    description: meta.documentation.toString(),
+    description: undefined,
     creationTime: undefined,
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
     statusBeginTime: undefined,
