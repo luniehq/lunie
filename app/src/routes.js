@@ -232,7 +232,7 @@ export default (store) => {
     {
       path: `/careers`,
       beforeEnter() {
-        location.href = `https://lunie.io/careers`
+        location.href = `https://angel.co/company/lunie`
       },
     },
     {
