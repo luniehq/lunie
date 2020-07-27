@@ -595,7 +595,9 @@ class polkadotAPI {
 
   getGovernanceParameters() {}
 
-  getProposalById({ proposalId }) {}
+  getProposalById() {}
+
+  getDelegatorVote() {}
 }
 
 module.exports = polkadotAPI

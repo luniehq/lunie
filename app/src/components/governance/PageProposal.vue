@@ -22,7 +22,7 @@
               Proposed by {{ proposal.validator.name }}:
               <Address :address="proposal.proposer" />
             </template>
-            <template v-else-if="proposal.proposer !== `unknown`">
+            <template v-else-if="proposal.proposer && proposal.proposer !== `unknown`">
               Proposed by
               <Address :address="proposal.proposer" />
             </template>
@@ -50,7 +50,7 @@
         </div>
       </div>
 
-      <TextBlock :content="proposal.description" />
+      <TextBlock v-if="proposal.description" :content="proposal.description" />
 
       <ul v-if="proposal.status === 'DepositPeriod'" class="row">
         <li>
@@ -127,14 +127,14 @@
         </li>
         <li>
           <h4>Submitted</h4>
-          <span>{{ proposal.creationTime | date }}</span>
+          <span>{{ proposal.creationTime ? (proposal.creationTime | date) : `--` }}</span>
         </li>
         <template
           v-if="['DepositPeriod', 'VotingPeriod'].includes(proposal.status)"
         >
           <li>
             <h4>{{ status.badge }} Start Date</h4>
-            <span>{{ proposal.statusBeginTime | date }}</span>
+            <span>{{ proposal.statusBeginTime ? (proposal.statusBeginTime | date) : `--` }}</span>
           </li>
           <li>
             <h4>{{ status.badge }} End Date</h4>
@@ -153,6 +153,7 @@
       </ul>
 
       <ModalDeposit
+        v-if="parameters.depositDenom"
         ref="modalDeposit"
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
