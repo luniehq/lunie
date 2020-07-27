@@ -238,14 +238,23 @@ class CosmosV0API extends RESTDataSource {
       '/staking/pool'
     )
     if (!Array.isArray(response)) return []
-    const proposals = response.map((proposal) => {
-      return this.reducers.proposalReducer(
-        this.network.id,
-        proposal,
-        {},
-        totalBondedTokens
-      )
-    })
+    const proposals = await Promise.all(
+      response.map(async (proposal) => {
+        const tally = await this.query(`/gov/proposals/${proposal.id}/tally`)
+        const proposer = await this.query(
+          `gov/proposals/${proposal.id}/proposer`
+        ).catch(() => {
+          return { proposer: `unknown` }
+        })
+        return this.reducers.proposalReducer(
+          this.network.id,
+          proposal,
+          tally,
+          proposer,
+          totalBondedTokens
+        )
+      })
+    )
 
     return orderBy(proposals, 'id', 'desc')
   }
