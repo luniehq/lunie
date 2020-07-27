@@ -551,7 +551,6 @@ class polkadotAPI {
       api.derive.council.proposals(),
       api.query.council.members()
     ])
-    const totalCouncilMembers = councilMembers.length
     const allProposals = democracyProposals
       .map((proposal) => {
         return this.reducers.democracyProposalReducer(
@@ -576,7 +575,7 @@ class polkadotAPI {
           return this.reducers.treasuryProposalReducer(
             this.network,
             proposal,
-            totalCouncilMembers
+            councilMembers
           )
         })
       )

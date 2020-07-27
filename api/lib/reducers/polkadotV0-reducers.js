@@ -479,9 +479,7 @@ function democracyProposalReducer(
     description: undefined,
     creationTime: undefined,
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
-    statusBeginTime: undefined,
-    statusEndTime: undefined,
-    tally: undefined,
+    tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
     proposer: proposal.proposer
   }
@@ -509,14 +507,14 @@ function democracyReferendumReducer(
   }
 }
 
-function treasuryProposalReducer(network, proposal, totalCouncilMembers) {
+function treasuryProposalReducer(network, proposal, councilMembers) {
   return {
     id: proposal.id,
     network: network.id,
     type: `text`,
     title: `Treasury #${proposal.index}`,
     status: `VotingPeriod`,
-    tally: treasuryTallyReducer(proposal.council[0].votes, totalCouncilMembers),
+    tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
     deposit: toViewDenom(network, Number(proposal.proposal.bond)),
     proposer: proposal.proposal.proposer,
     beneficiary: proposal.proposal.beneficiary // the account getting the tip
@@ -565,17 +563,7 @@ function councilProposalReducer(
     status: `VotingPeriod`,
     statusBeginTime: undefined,
     statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
-    tally: {
-      yes: proposal.votes.ayes.length,
-      no: proposal.votes.nays.length,
-      abstain: 0,
-      veto: 0,
-      total: proposal.votes.ayes.length + proposal.votes.nays.length,
-      totalVotedPercentage: (
-        ((proposal.votes.ayes.length + proposal.votes.nays.length) * 100) /
-        councilMembers.length
-      ).toFixed(2)
-    },
+    tally: councilTallyReducer(proposal.votes, councilMembers),
     deposit: undefined,
     proposer: undefined
   }
@@ -623,7 +611,7 @@ function tallyReducer(network, tally, totalIssuance) {
   }
 }
 
-function treasuryTallyReducer(votes, treasuryTallyReducer) {
+function councilTallyReducer(votes, councilMembers) {
   const total = votes.ayes.length + votes.nays.length
   return {
     yes: votes.ayes.length,
@@ -631,7 +619,15 @@ function treasuryTallyReducer(votes, treasuryTallyReducer) {
     abstain: 0,
     veto: 0,
     total,
-    totalVotedPercentage: ((total * 100) / treasuryTallyReducer).toFixed(2)
+    totalVotedPercentage: ((total * 100) / councilMembers.length).toFixed(2)
+  }
+}
+
+function democracyTallyReducer(proposal) {
+  // if we consider democracyProposals like the parallel to Cosmos proposals in deposit periods, then
+  // we would have to turn the seconds concept into a deposit somehow
+  return {
+    yes: proposal.seconds.length
   }
 }
 
