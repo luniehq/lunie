@@ -126,6 +126,10 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
         lockUpPeriod
         powered
         erasPerDay
+        HDPaths
+        curves
+        defaultHDPath
+        defaultCurve
       }
       networksCapabilities: networksCapabilities {
         id
@@ -200,6 +204,10 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
         lockUpPeriod
         powered
         public_rpc_url
+        HDPaths
+        curves
+        defaultHDPath
+        defaultCurve
       }
       networksCapabilities: networksCapabilities(where: { 
         id: {_eq: "${id}"}
