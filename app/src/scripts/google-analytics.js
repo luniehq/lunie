@@ -85,5 +85,5 @@ module.exports = {
   disableGoogleAnalytics,
   sendEvent,
   track,
-  setGoogleAnalyticsPage
+  setGoogleAnalyticsPage,
 }
