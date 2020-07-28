@@ -132,7 +132,7 @@ export default {
     },
     fieldLabel() {
       if (this.networkCryptoTypes.length > 1 && this.attempt > 0) {
-        return `Your Address`.concat(` created using ${this.currentCryptoView}`)
+        return `Your Address created using` + this.currentCryptoView
       } else {
         return `Your Address`
       }
