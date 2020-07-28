@@ -301,11 +301,14 @@ class CosmosV0API extends RESTDataSource {
     // for now defaulting to pick the 5 largest voting powers
     const validatorsKeys = Object.keys(this.store.validators)
     const validatorsArray = validatorsKeys.reduce(
-      (validatorsAggregator, operatorAddress) => {
-        if (!validatorsAggregator[operatorAddress]) {
-          validatorsAggregator[operatorAddress] = this.store.validators[
-            operatorAddress
-          ]
+      (validatorsAggregator, validatorKey) => {
+        if (
+          validatorsAggregator.length === 0 ||
+          !validatorsAggregator.find(
+            ({ operatorAddress }) => operatorAddress === validatorKey
+          )
+        ) {
+          validatorsAggregator.push(this.store.validators[validatorKey])
         }
         return validatorsAggregator
       },
@@ -320,9 +323,10 @@ class CosmosV0API extends RESTDataSource {
     const { bonded_tokens: totalBondedTokens } = await this.query(
       '/staking/pool'
     )
-    const { amount: communityPool } = await this.query(
-      '/distribution/community_pool'
-    )
+    const communityPoolArray = await this.query('/distribution/community_pool')
+    const communityPool = communityPoolArray.find(
+      ({ denom }) => denom === this.network.coinLookup[0].chainDenom
+    ).amount
     return {
       totalStakedAssets: Number(totalBondedTokens),
       totalVoters: undefined, // TODO
