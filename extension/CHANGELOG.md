@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.29] - 2020-07-27
+
+### Changed
+
+- [#4595](https://github.com/cosmos/lunie/pull/4595) Upgrade to polkadot api 1.26.1 @Bitcoinera
+
+### Fixed
+
+- [#4591](https://github.com/cosmos/lunie/pull/4591) Fix extension adding setNetwork to the selectNetworkHandler @Bitcoinera
+
 ## [1.0.28] - 2020-07-23
 
 ### Added
