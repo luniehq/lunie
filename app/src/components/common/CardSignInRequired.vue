@@ -120,7 +120,7 @@ h3 {
 
 .card-sign-in {
   max-width: 600px;
-  padding: 3rem 1rem;
+  padding: 1rem 0;
   margin: 0 auto;
   width: 100%;
 }
