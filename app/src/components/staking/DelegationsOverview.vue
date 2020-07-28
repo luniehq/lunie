@@ -1,33 +1,35 @@
 <template>
-  <div class="table-container">
-    <div
-      v-if="$apollo.queries.delegations.loading && !delegationsLoaded"
-      class="loading-image-container"
-    >
-      <img
-        class="loading-image"
-        src="/img/portfolio-loading.svg"
-        alt="geometric placeholder shapes"
-      />
-    </div>
-    <div v-else-if="delegations.length > 0">
-      <h1>Your Validators</h1>
-      <TableValidators
-        :validators="delegations.map(({ validator }) => validator)"
-        :delegations="delegations"
-        show-on-mobile="expectedReturns"
-      />
-    </div>
-    <TmDataMsg
-      v-else-if="delegations.length === 0 && !$apollo.loading"
-      icon="sentiment_dissatisfied"
-    >
-      <div slot="title">No validators in your portfolio</div>
-      <div slot="subtitle">
-        Head over to the
-        <a @click="goToValidators()">validator list</a>&nbsp;to get staking!
+  <div class="delegations-overview">
+    <div class="table-container">
+      <div
+        v-if="$apollo.queries.delegations.loading && !delegationsLoaded"
+        class="loading-image-container"
+      >
+        <img
+          class="loading-image"
+          src="/img/portfolio-loading.svg"
+          alt="geometric placeholder shapes"
+        />
       </div>
-    </TmDataMsg>
+      <div v-else-if="delegations.length > 0">
+        <h1>Your Validators</h1>
+        <TableValidators
+          :validators="delegations.map(({ validator }) => validator)"
+          :delegations="delegations"
+          show-on-mobile="expectedReturns"
+        />
+      </div>
+      <TmDataMsg
+        v-else-if="delegations.length === 0 && !$apollo.loading"
+        icon="sentiment_dissatisfied"
+      >
+        <div slot="title">No validators in your portfolio</div>
+        <div slot="subtitle">
+          Head over to the
+          <a @click="goToValidators()">validator list</a>&nbsp;to get staking!
+        </div>
+      </TmDataMsg>
+    </div>
   </div>
 </template>
 
@@ -113,11 +115,14 @@ h1 {
   padding-bottom: 2rem;
 }
 
+.delegations-overview {
+  background: var(--app-fg);
+}
+
 .table-container {
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
-  background: var(--app-fg);
   padding: 4rem 0;
 }
 
