@@ -607,11 +607,9 @@ class polkadotAPI {
   async getRecentProposals() {
     // while we don't have proposals in DB this is the only way
     const proposals = await this.getAllProposals()
-    // get the 3 most recent proposals. TODO: the limit could be an additional parameter
     // the problem in Substrate is that right now we don't have all creationTimes yet
     return proposals
       .sort((a, b) => new Date(b.creationTime) - new Date(a.creationTime))
-      .slice(0, 3)
   }
 
   async getTopVoters() {
