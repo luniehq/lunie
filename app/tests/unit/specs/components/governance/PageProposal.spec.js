@@ -24,6 +24,9 @@ describe(`PageProposal`, () => {
   const getters = {
     connected: true,
     address: `cosmos1xxxx`,
+    currentNetwork: {
+      network_type: `cosmos`
+    }
   }
   let args
 
