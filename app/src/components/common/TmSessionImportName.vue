@@ -6,11 +6,7 @@
       </h2>
       <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
-        <TmFormGroup field-id="import-name" field-label="Your Address">
-          <HDPathOrCurve
-            :network-crypto-types="networkCryptoTypes"
-            :attempt="attempt"
-          />
+        <TmFormGroup field-id="import-name" :field-label="fieldLabel">
           <img
             v-if="importedAddress === undefined"
             class="tm-data-msg__icon"
@@ -76,7 +72,6 @@ import TmFormStruct from "common/TmFormStruct"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import SessionFrame from "common/SessionFrame"
-import HDPathOrCurve from "common/HDPathOrCurve"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 import { getWalletIndex } from "@lunie/cosmos-keys"
@@ -100,7 +95,6 @@ export default {
     TmFormGroup,
     TmFormMsg,
     TmFormStruct,
-    HDPathOrCurve,
     Steps,
   },
   data: () => ({
@@ -125,6 +119,22 @@ export default {
         return JSON.parse(this.currentNetwork.curves)
       } else {
         return []
+      }
+    },
+    currentCryptoView() {
+      if (this.currentNetwork.network_type === `cosmos`) {
+        return JSON.parse(this.currentNetwork.HDPaths)[this.attempt].name
+      } else if (this.currentNetwork.network_type === `polkadot`) {
+        return JSON.parse(this.currentNetwork.curves)[this.attempt].name
+      } else {
+        return ``
+      }
+    },
+    fieldLabel() {
+      if (this.networkCryptoTypes.length > 1 && this.attempt > 0) {
+        return `Your Address`.concat(` created using ${this.currentCryptoView}`)
+      } else {
+        return `Your Address`
       }
     },
   },

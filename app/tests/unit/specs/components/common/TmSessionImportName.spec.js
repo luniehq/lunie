@@ -152,4 +152,25 @@ describe(`TmSessionImportName`, () => {
     const curve = wrapper.vm.currentHDPathOrCurve()["curve"]
     expect(curve).toEqual("ed25519")
   })
+
+  // case cosmos
+  it(`should return a beautiful presentation for the curve to be displayed on modal`, () => {
+    expect(wrapper.vm.currentCryptoView).toEqual("Cosmos HD Path")
+  })
+
+  // case polkadot
+  it(`should return a beautiful presentation for the curve to be displayed on modal`, () => {
+    wrapper.setData({
+      currentNetwork: {
+        id: "polkadot-testnet",
+        network_type: "polkadot",
+        address_prefix: "42",
+        testnet: false,
+        HDPaths: `[""]`,
+        curves: `[{"value":"sr25519", "name":"Schnorrkel curve"},{"value":"ed25519", "name":"Edwards curve"}]`,
+      },
+      attempt: 1,
+    })
+    expect(wrapper.vm.currentCryptoView).toEqual("Edwards curve")
+  })
 })
