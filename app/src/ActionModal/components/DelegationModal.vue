@@ -355,6 +355,7 @@ export default {
 
       // update registered topics for emails as the validator set changed
       this.$store.dispatch("updateEmailRegistrations")
+      this.$store.dispatch("checkAddressRole")
     },
   },
   validations() {
