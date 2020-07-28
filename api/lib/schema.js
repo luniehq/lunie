@@ -328,7 +328,7 @@ const typeDefs = gql`
     totalVoters: Int
     treasurySize: Float
     recentProposals: [Proposal]
-    topVoters: [String]
+    topVoters: [Validator]
     links: [GovernanceLink]
   }
 
