@@ -291,8 +291,9 @@ class CosmosV0API extends RESTDataSource {
   async getRecentProposals() {
     // while we don't have proposals in DB this is the only way
     const proposals = await this.getAllProposals()
-    return proposals
-      .sort((a, b) => new Date(b.creationTime) - new Date(a.creationTime))
+    return proposals.sort(
+      (a, b) => new Date(b.creationTime) - new Date(a.creationTime)
+    )
   }
 
   async getTopVoters() {
@@ -314,7 +315,7 @@ class CosmosV0API extends RESTDataSource {
     )
     return validatorsArray
       .sort((a, b) => Number(b.votingPower) - Number(a.votingPower))
-      .slice(0, 5)
+      .map(({ operatorAddress }) => operatorAddress)
   }
 
   async getGovernanceOverview() {

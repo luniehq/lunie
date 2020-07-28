@@ -608,30 +608,31 @@ class polkadotAPI {
     // while we don't have proposals in DB this is the only way
     const proposals = await this.getAllProposals()
     // the problem in Substrate is that right now we don't have all creationTimes yet
-    return proposals
-      .sort((a, b) => new Date(b.creationTime) - new Date(a.creationTime))
+    return proposals.sort(
+      (a, b) => new Date(b.creationTime) - new Date(a.creationTime)
+    )
   }
 
   async getTopVoters() {
-    // for now defaulting to pick the 5 largest voting powers
-    const validatorsKeys = Object.keys(this.store.validators)
-    const validatorsArray = validatorsKeys.reduce(
-      (validatorsAggregator, validatorKey) => {
-        if (
-          validatorsAggregator.length === 0 ||
-          !validatorsAggregator.find(
-            ({ operatorAddress }) => operatorAddress === validatorKey
-          )
-        ) {
-          validatorsAggregator.push(this.store.validators[validatorKey])
+    // in Substrate we simply return council members
+    const api = await this.getAPI()
+    const councilMembers = await api.query.council.members()
+    const councilMembersWithStake = await Promise.all(
+      councilMembers.map(async (member) => {
+        const account = await api.query.system.account(member)
+        const totalBalance = account.data.free
+        const freeBalance = BigNumber(totalBalance.toString()).minus(
+          account.data.miscFrozen.toString()
+        )
+        return {
+          address: member,
+          stakedBalance: totalBalance - freeBalance
         }
-        return validatorsAggregator
-      },
-      []
+      })
     )
-    return validatorsArray
-      .sort((a, b) => Number(b.votingPower) - Number(a.votingPower))
-      .slice(0, 5)
+    return councilMembersWithStake
+      .sort((a, b) => Number(b.stakedBalance) - Number(a.stakedBalance))
+      .map(({ address }) => address)
   }
 
   async getGovernanceOverview() {
