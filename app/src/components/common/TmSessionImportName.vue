@@ -200,15 +200,11 @@ export default {
   }),
 }
 </script>
-<style>
+<style scoped>
 .address {
   word-break: break-all;
   font-size: 0.9rem;
   color: var(--txt);
-}
-
-.session-main p {
-  margin-bottom: 0;
 }
 
 .retry-link {
