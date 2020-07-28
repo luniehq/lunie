@@ -22,7 +22,7 @@
               v-if="networkCryptoTypes.length > 1"
               class="retry-link"
               @click="created(true)"
-              >Not your address?</span
+              >{{ incorrectAddressMessage }}</span
             >
           </div>
         </TmFormGroup>
@@ -99,10 +99,10 @@ export default {
   },
   data: () => ({
     importedAddress: undefined,
+    displayCryptoView: false,
     attempt: 0,
   }),
   computed: {
-    ...mapGetters([`connected`, `recover`]),
     ...mapGetters([`network`, `currentNetwork`]),
     name: {
       get() {
@@ -130,9 +130,17 @@ export default {
         return ``
       }
     },
+    incorrectAddressMessage() {
+      const messages = [
+        `Not your address?`,
+        `Maybe this one?`,
+        `Still not your address?`,
+      ]
+      return messages[this.attempt]
+    },
     fieldLabel() {
-      if (this.networkCryptoTypes.length > 1 && this.attempt > 0) {
-        return `Your Address created using` + this.currentCryptoView
+      if (this.displayCryptoView) {
+        return `Your Address created using ` + this.currentCryptoView
       } else {
         return `Your Address`
       }
@@ -166,7 +174,10 @@ export default {
       }
     },
     async created(retry = false) {
-      if (retry) this.attempt++
+      if (retry) {
+        this.attempt++
+        this.displayCryptoView = true
+      }
       this.attempt = this.numberAttemptsController(
         this.networkCryptoTypes,
         this.attempt
