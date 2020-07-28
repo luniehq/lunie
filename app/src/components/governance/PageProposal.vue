@@ -61,7 +61,7 @@
             {{ proposal.deposit }}
             /
             {{ parameters.depositThreshold }}
-            {{ parameters.depositDenom }}
+            {{ parameters.depositDenom || currentNetwork.stakingDenom }}
           </span>
         </li>
       </ul>
@@ -138,18 +138,19 @@
           v-if="['DepositPeriod', 'VotingPeriod'].includes(proposal.status)"
         >
           <li>
-            <h4>{{ status.badge }} Start Date</h4>
+            <h4>({{ status.badge }}) Start Date</h4>
             <span v-if="proposal.statusBeginTime">{{
               proposal.statusBeginTime | date
             }}</span>
             <span v-else>--</span>
           </li>
           <li>
-            <h4>{{ status.badge }} End Date</h4>
-            <span>
+            <h4>({{ status.badge }}) End Date</h4>
+            <span v-if="proposal.statusEndTime">
               {{ proposal.statusEndTime | date }} /
               {{ proposal.statusEndTime | fromNow }}
             </span>
+            <span v-else>--</span>
           </li>
         </template>
         <template v-else>
@@ -229,7 +230,7 @@ export default {
       validator: {},
     },
     parameters: {
-      depositDenom: "TESTCOIN",
+      depositDenom: "",
     },
     error: undefined,
     found: false,
