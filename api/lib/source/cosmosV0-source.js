@@ -288,6 +288,51 @@ class CosmosV0API extends RESTDataSource {
     )
   }
 
+  async getRecentProposals() {
+    // while we don't have proposals in DB this is the only way
+    const proposals = await this.getAllProposals()
+    // get the 3 most recent proposals. TODO: the limit could be an additional parameter
+    return proposals
+      .sort((a, b) => new Date(b.creationTime) - new Date(a.creationTime))
+      .slice(0, 3)
+  }
+
+  async getTopVoters() {
+    // for now defaulting to pick the 5 largest voting powers
+    const validatorsKeys = Object.keys(this.store.validators)
+    const validatorsArray = validatorsKeys.reduce(
+      (validatorsAggregator, operatorAddress) => {
+        if (!validatorsAggregator[operatorAddress]) {
+          validatorsAggregator[operatorAddress] = this.store.validators[
+            operatorAddress
+          ]
+        }
+        return validatorsAggregator
+      },
+      []
+    )
+    return validatorsArray
+      .sort((a, b) => Number(b.votingPower) - Number(a.votingPower))
+      .slice(0, 5)
+  }
+
+  async getGovernanceOverview() {
+    const { bonded_tokens: totalBondedTokens } = await this.query(
+      '/staking/pool'
+    )
+    const { amount: communityPool } = await this.query(
+      '/distribution/community_pool'
+    )
+    return {
+      totalStakedAssets: Number(totalBondedTokens),
+      totalVoters: undefined, // TODO
+      treasurySize: Number(communityPool).toFixed(2),
+      recentProposals: await this.getRecentProposals(),
+      topVoters: await this.getTopVoters(),
+      links: [] // TODO
+    }
+  }
+
   async getDelegatorVote({ proposalId, address }) {
     this.checkAddress(address)
     const response = await this.query(`gov/proposals/${proposalId}/votes`)
