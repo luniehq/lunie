@@ -473,7 +473,7 @@ function democracyProposalReducer(
 ) {
   return {
     id: proposal.index,
-    network: network.id,
+    networkId: network.id,
     type: `text`,
     title: `Democracy #${proposal.index}`,
     description: undefined,
@@ -510,7 +510,7 @@ function democracyReferendumReducer(
 function treasuryProposalReducer(network, proposal, councilMembers) {
   return {
     id: proposal.id,
-    network: network.id,
+    networkId: network.id,
     type: `text`,
     title: `Treasury #${proposal.index}`,
     status: `VotingPeriod`,
@@ -529,7 +529,7 @@ function councilProposalReducer(
 ) {
   return {
     id: proposal.votes.index,
-    network: network.id,
+    networkId: network.id,
     type: `text`,
     title: `Council proposal #${proposal.votes.index}`,
     description: undefined,

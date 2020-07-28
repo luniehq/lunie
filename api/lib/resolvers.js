@@ -207,7 +207,18 @@ const resolvers = (networkList) => ({
       // and attach it to proposal.
       //
       if (proposal.proposer && proposal.proposer !== `unknown`) {
-        const proposerValAddress = encodeB32(
+        let proposerValAddress = ''
+        if (
+          networkList.find(({ id }) => id === proposal.networkId) &&
+          networkList.find(({ id }) => id === proposal.networkId)
+            .network_type === `polkadot`
+        ) {
+          proposerValAddress = proposal.proposer.toHuman()
+          return localStore(dataSources, proposal.networkId).validators[
+            proposerValAddress
+          ]
+        }
+        proposerValAddress = encodeB32(
           decodeB32(proposal.proposer),
           `cosmosvaloper`,
           `hex`
