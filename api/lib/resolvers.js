@@ -194,6 +194,24 @@ const transactionMetadata = (networks) => async (
   }
 }
 
+const governanceOverview = (networks) => async (
+  _,
+  { networkId },
+  { dataSources }
+) => {
+  // for now skip for polkadot networks
+  if (networks.find(({ id }) => id === networkId).network_type === `polkadot`)
+    return
+  return {
+    totalStakedAssets,
+    totalVoters,
+    treasurySize,
+    recentProposals,
+    topVoters,
+    links
+  }
+}
+
 const resolvers = (networkList) => ({
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
@@ -403,7 +421,8 @@ const resolvers = (networkList) => ({
       if (!remoteFetch(dataSources, networkId).getAddressRole) return undefined
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
-    }
+    },
+    governanceOverview: governanceOverview(networkList)
   },
   Mutation: {
     registerUser: (_, variables, { user: { uid } }) => registerUser(uid)

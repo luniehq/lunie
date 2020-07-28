@@ -316,6 +316,22 @@ const typeDefs = gql`
     depositThreshold: String # BigNumber
   }
 
+  type GovernanceLink {
+    title: String
+    link: String
+    type: String
+    icon: String
+  }
+
+  type GovernanceOverview {
+    totalStakedAssets: Float
+    totalVoters: Int
+    treasurySize: Float
+    recentProposals: [Proposal]
+    topVoters: [String]
+    links: [GovernanceLink]
+  }
+
   type Vote {
     option: String
   }
