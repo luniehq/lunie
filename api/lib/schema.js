@@ -436,6 +436,7 @@ const typeDefs = gql`
     allDelegators(networkId: String!): [String]
     vote(networkId: String!, proposalId: Int!, address: String!): Vote
     governanceParameters(networkId: String!): GovernanceParameters
+    governanceOverview(networkId: String!): GovernanceOverview
     validator(networkId: String!, operatorAddress: String!): Validator
     networks(experimental: Boolean): [Network]
     network(id: String): Network
