@@ -199,9 +199,6 @@ const governanceOverview = (networks) => async (
   { networkId },
   { dataSources }
 ) => {
-  // for now skip for polkadot networks
-  if (networks.find(({ id }) => id === networkId).network_type === `polkadot`)
-    return
   const overview = await remoteFetch(
     dataSources,
     networkId

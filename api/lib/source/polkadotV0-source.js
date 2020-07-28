@@ -1,5 +1,5 @@
 const BigNumber = require('bignumber.js')
-const { uniqWith } = require('lodash')
+const { orderBy, uniqWith } = require('lodash')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -529,6 +529,127 @@ class polkadotAPI {
         active: delegationEnum.ACTIVE
       }
     )
+  }
+
+  async getAllProposals() {
+    const api = await this.getAPI()
+
+    const [
+      blockHeight,
+      totalIssuance,
+      democracyProposals,
+      democracyReferendums,
+      treasuryProposals,
+      councilProposals,
+      councilMembers
+    ] = await Promise.all([
+      this.getBlockHeight(),
+      api.query.balances.totalIssuance(),
+      api.derive.democracy.proposals(),
+      api.derive.democracy.referendums(),
+      api.derive.treasury.proposals(),
+      api.derive.council.proposals(),
+      api.query.council.members()
+    ])
+    const allProposals = democracyProposals
+      .map((proposal) => {
+        return this.reducers.democracyProposalReducer(
+          this.network,
+          proposal,
+          totalIssuance,
+          blockHeight
+        )
+      })
+      .concat(
+        democracyReferendums.map((proposal) => {
+          return this.reducers.democracyReferendumReducer(
+            this.network,
+            proposal,
+            totalIssuance,
+            blockHeight
+          )
+        })
+      )
+      .concat(
+        treasuryProposals.proposals.map((proposal) => {
+          return this.reducers.treasuryProposalReducer(
+            this.network,
+            proposal,
+            councilMembers
+          )
+        })
+      )
+      .concat(
+        councilProposals.map((proposal) => {
+          return this.reducers.councilProposalReducer(
+            this.network,
+            proposal,
+            councilMembers,
+            blockHeight
+          )
+        })
+      )
+
+    return orderBy(allProposals, 'id', 'desc')
+  }
+
+  getProposalById() {}
+
+  getDelegatorVote() {}
+
+  async getTotalActiveAccounts() {
+    const api = await this.getAPI()
+    const accountKeys = await api.query.system.account.keys()
+    const accounts = accountKeys.map((key) => key.args[0].toHuman())
+    return accounts.length || 0
+  }
+
+  async getRecentProposals() {
+    // while we don't have proposals in DB this is the only way
+    const proposals = await this.getAllProposals()
+    // get the 3 most recent proposals. TODO: the limit could be an additional parameter
+    // the problem in Substrate is that right now we don't have all creationTimes yet
+    return proposals
+      .sort((a, b) => new Date(b.creationTime) - new Date(a.creationTime))
+      .slice(0, 3)
+  }
+
+  async getTopVoters() {
+    // for now defaulting to pick the 5 largest voting powers
+    const validatorsKeys = Object.keys(this.store.validators)
+    const validatorsArray = validatorsKeys.reduce(
+      (validatorsAggregator, validatorKey) => {
+        if (
+          validatorsAggregator.length === 0 ||
+          !validatorsAggregator.find(
+            ({ operatorAddress }) => operatorAddress === validatorKey
+          )
+        ) {
+          validatorsAggregator.push(this.store.validators[validatorKey])
+        }
+        return validatorsAggregator
+      },
+      []
+    )
+    return validatorsArray
+      .sort((a, b) => Number(b.votingPower) - Number(a.votingPower))
+      .slice(0, 5)
+  }
+
+  async getGovernanceOverview() {
+    const api = await this.getAPI()
+
+    const activeEra = parseInt(
+      JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
+    )
+    return {
+      totalStakedAssets: await api.query.staking.erasTotalStake(activeEra),
+      totalVoters: await this.getTotalActiveAccounts(), // TODO
+      treasurySize: undefined, // I don't find this concept in Substrate
+      recentProposals: await this.getRecentProposals(),
+      topVoters: await this.getTopVoters(),
+      links: [] // TODO
+    }
   }
 }
 
