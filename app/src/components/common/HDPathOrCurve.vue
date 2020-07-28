@@ -1,6 +1,6 @@
 <template>
   <span v-if="networkCryptoTypes.length > 1 && attempt > 0" class="algo">
-    {{ currentCryptoView }}
+    created using {{ currentCryptoView }}
   </span>
 </template>
 <script>
@@ -37,12 +37,9 @@ export default {
   top: 0;
   left: 5.45rem;
   line-height: 2rem;
-  padding: 0.75rem 0;
-  font-size: var(--xs);
+  padding: 0.75rem 0 0 0.15rem;
+  font-size: 14px;
   color: var(--dim);
-  text-transform: uppercase;
   font-weight: 600;
-  border: 2px solid;
-  border-radius: 0.25rem;
 }
 </style>
