@@ -1,5 +1,5 @@
 <template>
-  <div v-if="undelegations.length" class="table-container">
+  <div v-if="undelegations.length > 0" class="table-container">
     <div
       v-if="$apollo.queries.undelegations.loading && !undelegationsLoaded"
       class="loading-image-container"
