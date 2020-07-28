@@ -572,8 +572,8 @@ function tallyReducer(network, tally, totalIssuance) {
   const yes = toViewDenom(network, tally.ayes)
   const no = toViewDenom(network, tally.nays)
   const totalVotedPercentage = (
-    turnout.times(10000).div(BigNumber(totalIssuance)).toNumber() / 100
-  ).toFixed(2)
+    turnout.div(BigNumber(totalIssuance)).toNumber()
+  ).toFixed(4) // the percent conversion is done in the FE. We just send the decimals here
 
   return {
     yes,
