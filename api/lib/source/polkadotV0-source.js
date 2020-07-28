@@ -198,9 +198,9 @@ class polkadotAPI {
   async getBalancesV2FromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
     const account = await api.query.system.account(address)
-    const totalBalance = account.data.free
+    const totalBalance = BigNumber(account.data.free).plus(account.data.miscFrozen)
     const freeBalance = BigNumber(totalBalance.toString()).minus(
-      account.data.miscFrozen.toString()
+      account.data.miscFrozen.toString()  
     )
     const fiatValueAPI = this.fiatValuesAPI
     return [
