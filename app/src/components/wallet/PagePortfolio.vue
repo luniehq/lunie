@@ -1,5 +1,5 @@
 <template>
-  <TmPage :sign-in-required="true" :dark-background="true">
+  <TmPage :sign-in-required="true">
     <template slot="signInRequired">
       <TmBalance />
       <DelegationsOverview />

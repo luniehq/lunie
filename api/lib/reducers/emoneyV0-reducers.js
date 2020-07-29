@@ -5,10 +5,12 @@ const _ = require('lodash')
 async function totalBackedValueReducer(
   totalBackedValue,
   exchangeRates,
-  reducers
+  reducers,
+  network
 ) {
   const aggregatingCurrency = `EUR`
-  const lunieCoin = reducers.coinReducer(totalBackedValue)
+  const coinLookup = network.getCoinLookup(network, totalBackedValue.denom)
+  const lunieCoin = reducers.coinReducer(totalBackedValue, coinLookup)
 
   // The total net EUR value of the token's total supply
   const fiatValue = BigNumber(lunieCoin.amount)

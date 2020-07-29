@@ -170,7 +170,7 @@ const transactionMetadata = async (
   const accountDetails = await remoteFetch(
     dataSources,
     networkId
-  ).getAccountInfo(address, networkId)
+  ).getAccountInfo(address)
   return {
     accountSequence: accountDetails.sequence,
     accountNumber: accountDetails.accountNumber
@@ -178,43 +178,6 @@ const transactionMetadata = async (
 }
 
 const resolvers = (networkList) => ({
-  Overview: {
-    accountInformation: (account, _, { dataSources }) =>
-      remoteFetch(dataSources, account.networkId).getAccountInfo(
-        account.address,
-        account.networkId
-      ),
-    rewards: async (
-      { networkId, address, fiatCurrency },
-      _,
-      { dataSources }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      return remoteFetch(dataSources, networkId).getRewards(
-        address,
-        fiatCurrency
-      )
-    },
-    totalRewards: async (
-      { networkId, address, fiatCurrency },
-      _,
-      { dataSources }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      const rewards = await remoteFetch(dataSources, networkId).getRewards(
-        address,
-        fiatCurrency
-      )
-      const stakingDenom = await remoteFetch(
-        dataSources,
-        networkId
-      ).getStakingViewDenom()
-      return rewards
-        .filter(({ denom }) => denom === stakingDenom)
-        .reduce((sum, { amount }) => BigNumber(sum).plus(amount), 0)
-        .toFixed(6)
-    }
-  },
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
       //
@@ -304,9 +267,11 @@ const resolvers = (networkList) => ({
       { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      const network = networkList.find((network) => network.id === networkId)
       return remoteFetch(dataSources, networkId).getBalancesFromAddress(
         address,
-        fiatCurrency
+        fiatCurrency,
+        network
       )
     },
     balancesV2: async (
@@ -315,10 +280,12 @@ const resolvers = (networkList) => ({
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      // needed to get coinLookups
+      const network = networkList.find((network) => network.id === networkId)
       const balances = await remoteFetch(
         dataSources,
         networkId
-      ).getBalancesV2FromAddress(address, fiatCurrency)
+      ).getBalancesV2FromAddress(address, fiatCurrency, network)
       const stakingDenomBalance = balances.find(({ type }) => type === `STAKE`)
       if (development !== 'true') {
         logBalances(
@@ -357,9 +324,12 @@ const resolvers = (networkList) => ({
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      // needed to get coinLookups
+      const network = networkList.find((network) => network.id === networkId)
       let rewards = await remoteFetch(dataSources, networkId).getRewards(
         delegatorAddress,
-        fiatCurrency
+        fiatCurrency,
+        network
       )
       if (development !== 'true') {
         logRewards(
@@ -387,24 +357,6 @@ const resolvers = (networkList) => ({
       }
 
       return rewards
-    },
-    overview: async (
-      _,
-      { networkId, address, fiatCurrency },
-      { dataSources }
-    ) => {
-      await localStore(dataSources, networkId).dataReady
-      const validatorsDictionary = localStore(dataSources, networkId).validators
-      const overview = await remoteFetch(dataSources, networkId).getOverview(
-        address,
-        validatorsDictionary,
-        fiatCurrency
-      )
-      overview.id = address
-      overview.networkId = networkId
-      overview.address = address
-
-      return overview
     },
     transactionsV2: (_, { networkId, address, pageNumber }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getTransactionsV2(

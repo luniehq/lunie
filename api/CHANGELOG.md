@@ -1,11 +1,30 @@
 # Changelog
- 
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.39] - 2020-07-27
+
+### Added
+
+- [#4596](https://github.com/cosmos/lunie/pull/4596) Add accountTypes array and defaultAccountType to the Network Object @Bitcoinera
+
+### Changed
+
+- [#4558](https://github.com/cosmos/lunie/pull/4558) CoinReducer and rewardCoinReducer now work using coinLookup to get chainToViewConversionFactor @Bitcoinera
+- [#4595](https://github.com/cosmos/lunie/pull/4595) Upgrade to polkadot api 1.26.1 @Bitcoinera
+
+### Fixed
+
+- [#4536](https://github.com/cosmos/lunie/issues/4536) Fix inaccurate Kava BNB balances @Bitcoinera
+
+### Deprecated
+
+- [#4558](https://github.com/cosmos/lunie/pull/4558) Deprecate overview query @Bitcoinera
 
 ## [1.0.38] - 2020-07-23
 

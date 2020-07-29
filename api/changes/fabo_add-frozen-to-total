@@ -1,0 +1,3 @@
+[Fixed] Total was not showing frozen token in Polkadot @faboweb
+[Changed] Limit missed blocks on Kava to min 5 as the chain is too fast @faboweb
+[Fixed] Handle failing fiat values query gracefully @faboweb

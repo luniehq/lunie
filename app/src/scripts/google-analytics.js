@@ -2,32 +2,33 @@
 /* global ga */
 "use strict"
 
-module.exports.enableGoogleAnalytics = function enableGoogleAnalytics(gaUID) {
-  // if set to true disables google analytics
-  window[`ga-disable-${gaUID}`] = false
-
-  window.ga =
-    window.ga ||
-    function () {
-      ;(ga.q = ga.q || []).push(arguments)
-    }
-  ga.l = +new Date()
-  module.exports.anonymize()
-  ga(`create`, gaUID, `auto`)
-}
-
-module.exports.anonymize = function anonymize(anonymize = true) {
+function anonymize(anonymize = true) {
   if (window.ga) {
     ga(`set`, `allowAdFeatures`, !anonymize)
     ga(`set`, `anonymizeIp`, anonymize)
   }
 }
 
-module.exports.deanonymize = function deanonymize() {
-  module.exports.anonymize(false)
+function enableGoogleAnalytics(gaUID) {
+  // if set to true disables google analytics
+  window[`ga-disable-${gaUID}`] = false
+
+  window.ga =
+    window.ga ||
+    function () {
+      ga.q = ga.q || []
+      ga.q.push(arguments)
+    }
+  ga.l = +new Date()
+  anonymize()
+  ga(`create`, gaUID, `auto`)
 }
 
-module.exports.disableGoogleAnalytics = function disableGoogleAnalytics(gaUID) {
+function deanonymize() {
+  anonymize(false)
+}
+
+function disableGoogleAnalytics(gaUID) {
   // if set to true disables google analytics
   window[`ga-disable-${gaUID}`] = true
 }
@@ -46,7 +47,7 @@ function customToNum(custom) {
   return false
 }
 
-module.exports.sendEvent = function event(customObject, ...args) {
+function sendEvent(customObject, ...args) {
   if (window.ga) {
     let newKey
     // converting customObject to ga metrics ids
@@ -64,15 +65,25 @@ module.exports.sendEvent = function event(customObject, ...args) {
   }
 }
 
-module.exports.track = function track(...args) {
+function track(...args) {
   if (window.ga) {
     window.ga(`send`, ...args)
   }
 }
 
-module.exports.setGoogleAnalyticsPage = function track(...args) {
+function setGoogleAnalyticsPage(...args) {
   if (window.ga) {
     window.ga(`set`, `page`, ...args)
     window.ga(`send`, `pageview`)
   }
+}
+
+module.exports = {
+  anonymize,
+  deanonymize,
+  enableGoogleAnalytics,
+  disableGoogleAnalytics,
+  sendEvent,
+  track,
+  setGoogleAnalyticsPage,
 }
