@@ -244,25 +244,20 @@ function parsePolkadotTransaction(
 }
 
 function getExtrinsicSuccess(extrinsicIndex, blockEvents, isBatch) {
-  const events = blockEvents
-  .filter(({ phase }) => {
+  const events = blockEvents.filter(({ phase }) => {
     return parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex // index is a string
   })
   // if tx is a batch, we need to check if all of the batched txs went through
   if (isBatch) {
-    return !!events
-      .find(
-        ({ event }) =>
-          event.section === `utility` &&
-          event.method === `BatchCompleted`
-      )
-  }
-  return !!events
-    .find(
+    return !!events.find(
       ({ event }) =>
-        event.section === `system` &&
-        event.method === `ExtrinsicSuccess`
+        event.section === `utility` && event.method === `BatchCompleted`
     )
+  }
+  return !!events.find(
+    ({ event }) =>
+      event.section === `system` && event.method === `ExtrinsicSuccess`
+  )
 }
 
 function transactionReducerV2(
@@ -277,9 +272,7 @@ function transactionReducerV2(
   const signer = extrinsic.signer.toString()
   const isBatch = extrinsic.method.meta.name.toString() === `batch`
   const messages = aggregateLunieStaking(
-    isBatch
-      ? extrinsic.method.args[0]
-      : [extrinsic.method]
+    isBatch ? extrinsic.method.args[0] : [extrinsic.method]
   )
   const success = reducers.getExtrinsicSuccess(index, blockEvents, isBatch)
   return messages.map((message, messageIndex) =>
@@ -492,5 +485,5 @@ module.exports = {
   rewardsReducer,
   dbRewardsReducer,
   identityReducer,
-  getExtrinsicSuccess,
+  getExtrinsicSuccess
 }
