@@ -7,6 +7,9 @@ jest.mock("@lunie/cosmos-keys", () => ({
   getWalletIndex: function () {
     return [{ name: `Happy Lunie User`, address: `xyz123` }]
   },
+  getNewWalletFromSeed: function () {
+    return { cosmosAddress: `cosmos1234` }
+  },
 }))
 const localVue = createLocalVue()
 localVue.use(Vuex)
@@ -21,6 +24,14 @@ describe(`TmSessionImportName`, () => {
     getters = {
       connected: () => true,
       network: "cosmos-hub-mainnet",
+      currentNetwork: {
+        id: "cosmos-hub-mainnet",
+        network_type: "cosmos",
+        address_prefix: "cosmos",
+        testnet: false,
+        HDPaths: `[{"value":"m/44'/118'/0'/0/0", "name":"Cosmos HD Path"}]`,
+        curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
+      },
     }
     $store = {
       state: {
@@ -90,5 +101,76 @@ describe(`TmSessionImportName`, () => {
     wrapper.vm.$store.state.recover.name = `Happy Lunie User 2`
     wrapper.vm.onSubmit()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith(`/recover/password`)
+  })
+
+  // case cosmos
+  it(`should return the HDPaths from a network parsed as JSON`, () => {
+    expect(wrapper.vm.networkCryptoTypes).toEqual([
+      { value: "m/44'/118'/0'/0/0", name: "Cosmos HD Path" },
+    ])
+  })
+
+  // case polkadot
+  it(`should return the curves from a network parsed as JSON`, () => {
+    wrapper.setData({
+      currentNetwork: {
+        id: "polkadot-testnet",
+        network_type: "polkadot",
+        address_prefix: "42",
+        testnet: false,
+        HDPaths: `[""]`,
+        curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
+      },
+    })
+    expect(wrapper.vm.networkCryptoTypes).toEqual([
+      { value: "ed25519", name: "Edwards curve" },
+    ])
+  })
+
+  // case cosmos
+  it(`should return the current HDPath we are creating the address from depending on the attempt number`, () => {
+    wrapper.setData({
+      attempt: 0,
+    })
+    const curve = wrapper.vm.currentHDPathOrCurve()["HDPath"]
+    expect(curve).toEqual("m/44'/118'/0'/0/0")
+  })
+
+  // case polkadot
+  it(`should return the current curve we are creating the address from depending on the attempt number`, () => {
+    wrapper.setData({
+      currentNetwork: {
+        id: "polkadot-testnet",
+        network_type: "polkadot",
+        address_prefix: "42",
+        testnet: false,
+        HDPaths: `[""]`,
+        curves: `[{"value":"sr25519", "name":"Schnorrkel curve"},{"value":"ed25519", "name":"Edwards curve"},{"value":"ecdsa", "name":"ECDSA"}]`,
+      },
+      attempt: 1,
+    })
+    const curve = wrapper.vm.currentHDPathOrCurve()["curve"]
+    expect(curve).toEqual("ed25519")
+  })
+
+  // case cosmos
+  it(`should return a beautiful presentation for the curve to be displayed on modal`, () => {
+    expect(wrapper.vm.currentCryptoView).toEqual("Cosmos HD Path")
+  })
+
+  // case polkadot
+  it(`should return a beautiful presentation for the curve to be displayed on modal`, () => {
+    wrapper.setData({
+      currentNetwork: {
+        id: "polkadot-testnet",
+        network_type: "polkadot",
+        address_prefix: "42",
+        testnet: false,
+        HDPaths: `[""]`,
+        curves: `[{"value":"sr25519", "name":"Schnorrkel curve"},{"value":"ed25519", "name":"Edwards curve"}]`,
+      },
+      attempt: 1,
+    })
+    expect(wrapper.vm.currentCryptoView).toEqual("Edwards curve")
   })
 })

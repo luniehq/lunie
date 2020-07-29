@@ -21,16 +21,24 @@ class SlashingMonitor {
   // to prevent adding a slash twice we filter the slashes
   storeSlashes(filterReason) {
     return (tendermintResponse) => {
+      const coinLookup = network.getCoinLookup(
+        network,
+        this.network.stakingDenom,
+        `viewDenom`
+      )
       try {
         const slashes = tendermintResponse.events['slash.address']
           .map((address, index) => ({
             networkId: this.networkId,
             operatorAddress: address,
             reason: tendermintResponse.events['slash.reason'][index],
-            amount: this.api.reducers.coinReducer({
-              amount: tendermintResponse.events['slash.power'][index],
-              denom: this.network.stakingDenom
-            }),
+            amount: this.api.reducers.coinReducer(
+              {
+                amount: tendermintResponse.events['slash.power'][index],
+                denom: this.network.stakingDenom
+              },
+              coinLookup
+            ),
             height:
               tendermintResponse.height ||
               tendermintResponse.data.value.header.height
@@ -66,8 +74,9 @@ class SlashingMonitor {
     )
 
     // requires some more logic to not spam the notifications if a validator is down for 1000 blocks
+    const minMissedBlocks = this.networkId === "kava-testnet" || this.networkId === "kava-mainnet" ? 5 : 1
     this.client.subscribe(
-      { query: `tm.event='NewBlockHeader' AND liveness.missed_blocks >= 1` },
+      { query: `tm.event='NewBlockHeader' AND liveness.missed_blocks >= ${minMissedBlocks}` },
       async (response) => {
         try {
           const missedBlocks = response.events['liveness.address'].map(

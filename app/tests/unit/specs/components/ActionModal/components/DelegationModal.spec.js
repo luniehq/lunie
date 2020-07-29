@@ -84,7 +84,8 @@ describe(`DelegationModal`, () => {
         },
       ],
       balance: {
-        amount: 1000,
+        total: 2000,
+        available: 1000,
         denom: "STAKE",
       },
       validators: validators,
@@ -226,6 +227,9 @@ describe(`DelegationModal`, () => {
         $store: {
           dispatch: jest.fn(),
         },
+        currentNetwork: {
+          network_type: "polkadot"
+        }
       }
       DelegationModal.methods.onSuccess.call(self)
       expect(self.$emit).toHaveBeenCalledWith(
@@ -240,6 +244,9 @@ describe(`DelegationModal`, () => {
         $store: {
           dispatch: jest.fn(),
         },
+        currentNetwork: {
+          network_type: "polkadot"
+        }
       }
       DelegationModal.methods.onSuccess.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(

@@ -221,6 +221,7 @@ class fiatValueAPI {
           scope.setExtra('fetch', `${url}rates.json`)
           Sentry.captureException(err)
         })
+        return {}
       })
     rates['NGM'] = { EUR: 0.5 }
     return rates
