@@ -342,7 +342,7 @@ export default (store) => {
           component: () => import(`./components/wallet/PageTransactions`),
           meta: {
             requiresAuth: true,
-            feature: "transactions",
+            feature: "activity",
             networkSpecificRoute: true,
           },
         },
