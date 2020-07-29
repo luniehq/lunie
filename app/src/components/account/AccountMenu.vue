@@ -52,8 +52,8 @@ export default {
   display: flex;
   align-items: center;
   position: absolute;
-  right: 0;
-  top: 0.75rem;
+  right: 0.5rem;
+  top: 0.5rem;
 }
 
 .account-balance {
@@ -86,8 +86,8 @@ export default {
 }
 
 .account-menu-button-span {
-  margin-top: 0.5em;
-  font-size: 0.75em;
+  margin-top: 0.5rem;
+  font-size: 10px;
   color: var(--faded-blue);
 }
 

@@ -15,26 +15,28 @@
             <h3>{{ account.name }}</h3>
             <Address :address="account.address" />
           </div>
-          <TmBtn
-            v-if="buttonAction"
-            class="account-button"
-            :value="buttonText"
-            color="primary"
-            @click.native="buttonAction(account)"
-          />
-          <div class="account-menu-toggle">
-            <i
-              v-if="!openAccount"
-              class="material-icons notranslate"
-              @click="openAccount = account"
-              >more_vert</i
-            >
-            <i
-              v-else
-              class="material-icons notranslate"
-              @click="openAccount = undefined"
-              >close</i
-            >
+          <div class="action-container">
+            <TmBtn
+              v-if="buttonAction"
+              class="account-button"
+              :value="buttonText"
+              color="primary"
+              @click.native="buttonAction(account)"
+            />
+            <div v-if="isExtension" class="account-menu-toggle">
+              <i
+                v-if="openAccount && openAccount.name === account.name"
+                class="material-icons notranslate"
+                @click="openAccount = undefined"
+                >close</i
+              >
+              <i
+                v-else
+                class="material-icons notranslate"
+                @click="openAccount = account"
+                >more_vert</i
+              >
+            </div>
           </div>
         </div>
       </li>
@@ -46,6 +48,7 @@
 import AccountMenu from "account/AccountMenu"
 import Address from "common/Address"
 import TmBtn from "common/TmBtn"
+import config from "src/../config"
 export default {
   name: `account-list`,
   components: {
@@ -69,6 +72,7 @@ export default {
   },
   data: () => ({
     openAccount: undefined,
+    isExtension: config.isExtension,
   }),
 }
 </script>
@@ -79,23 +83,23 @@ export default {
 
 .account {
   display: flex;
-  margin-top: 1em;
+  margin: 0.5rem 0;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem;
+  padding: 1rem;
   background: var(--app-fg);
   border-radius: 0.25rem;
   border: 2px solid var(--bc-dim);
   width: 100%;
-  transition: 0.6s;
+  transition: 0.5s;
 }
 
 .open {
-  border: solid var(--link) 3px;
+  border-color: var(--link);
 }
 
 .account.open {
-  transform: translate(-4rem);
+  transform: translate(-5rem);
 }
 
 .account h3 {
@@ -116,5 +120,20 @@ export default {
 .account-menu-toggle {
   cursor: pointer;
   color: #b0bade;
+  display: flex;
+}
+
+.copyable-address {
+  height: auto;
+  padding: 0;
+}
+
+.action-container {
+  display: flex;
+  align-items: center;
+}
+
+.account-menu-toggle {
+  margin-left: 1rem;
 }
 </style>
