@@ -46,6 +46,10 @@ export const NetworksAll = gql`
         chainToViewConversionFactor
       }
       rpc_url
+      HDPaths
+      curves
+      defaultHDPath
+      defaultCurve
     }
   }
 `
