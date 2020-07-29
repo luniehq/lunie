@@ -246,7 +246,7 @@ function parsePolkadotTransaction(
 function getExtrinsicSuccess(extrinsicIndex, blockEvents, isBatch) {
   const events = blockEvents
   .filter(({ phase }) => {
-    parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex // index is a string
+    return parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex // index is a string
   })
   // if tx is a batch, we need to check if all of the batched txs went through
   if (isBatch) {
@@ -297,7 +297,7 @@ function transactionReducerV2(
 }
 
 // we display staking as one tx where in Polkadot this can be 2
-// so we aggregate the messags into 1
+// so we aggregate the messages into 1
 // ATTENTION this could be weird for some users
 function aggregateLunieStaking(messages) {
   // lunie staking message
@@ -491,5 +491,6 @@ module.exports = {
   rewardReducer,
   rewardsReducer,
   dbRewardsReducer,
-  identityReducer
+  identityReducer,
+  getExtrinsicSuccess,
 }
