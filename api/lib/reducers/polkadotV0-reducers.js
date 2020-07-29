@@ -476,7 +476,7 @@ function democracyProposalReducer(
     networkId: network.id,
     type: `text`,
     title: `Democracy #${proposal.index}`,
-    description: undefined,
+    description: proposal.description,
     creationTime: undefined,
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
     tally: democracyTallyReducer(proposal),
@@ -571,9 +571,10 @@ function tallyReducer(network, tally, totalIssuance) {
   const total = toViewDenom(network, totalVoted.toString(10))
   const yes = toViewDenom(network, tally.ayes)
   const no = toViewDenom(network, tally.nays)
-  const totalVotedPercentage = (
-    turnout.div(BigNumber(totalIssuance)).toNumber()
-  ).toFixed(4) // the percent conversion is done in the FE. We just send the decimals here
+  const totalVotedPercentage = turnout
+    .div(BigNumber(totalIssuance))
+    .toNumber()
+    .toFixed(4) // the percent conversion is done in the FE. We just send the decimals here
 
   return {
     yes,

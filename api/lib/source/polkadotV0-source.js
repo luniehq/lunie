@@ -531,6 +531,37 @@ class polkadotAPI {
     )
   }
 
+  constructProposal = function (api, bytes) {
+    let proposal
+
+    try {
+      proposal = api.registry.createType('Proposal', bytes.toU8a(true))
+    } catch (error) {
+      console.log(error)
+    }
+
+    return proposal
+  }
+
+  async getProposalDescription(proposal) {
+    const api = await this.getAPI()
+
+    let description = ''
+    if (proposal.image) {
+      const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
+      const preimageRaw = await api.query.democracy.preimages.at(
+        blockHash,
+        proposal.imageHash
+      )
+      const preimage = preimageRaw.unwrapOr(null)
+      const { data } = preimage.asAvailable
+      proposal = this.constructProposal(api, data)
+      const { meta } = api.registry.findMetaCall(proposal.callIndex)
+      description = meta.documentation.toString()
+    }
+    return description
+  }
+
   async getAllProposals() {
     const api = await this.getAPI()
 
@@ -552,6 +583,13 @@ class polkadotAPI {
       api.query.council.members()
     ])
     const allProposals = democracyProposals
+      // add description
+      .map((proposal) => {
+        return {
+          ...proposal,
+          description: this.getProposalDescription(proposal)
+        }
+      })
       .map((proposal) => {
         return this.reducers.democracyProposalReducer(
           this.network,
