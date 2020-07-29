@@ -229,6 +229,9 @@ export default (store) => {
       path: `/feature-not-available/:feature`,
       component: () => import(`./components/common/PageFeatureNotAvailable`),
       props: true,
+      meta: {
+        networkSpecificRoute: true,
+      },
     },
     {
       path: `/feature-not-present/:feature`,
@@ -258,6 +261,9 @@ export default (store) => {
       path: `/welcome`,
       name: `welcome`,
       component: () => import(`./components/common/CardSignInRequired`),
+      meta: {
+        networkSpecificRoute: true
+      }
     },
     {
       path: `/:networkId`,
@@ -336,7 +342,7 @@ export default (store) => {
           component: () => import(`./components/wallet/PageTransactions`),
           meta: {
             requiresAuth: true,
-            feature: "activity",
+            feature: "transactions",
             networkSpecificRoute: true,
           },
         },

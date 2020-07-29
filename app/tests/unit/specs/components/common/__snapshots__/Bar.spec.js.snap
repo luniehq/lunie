@@ -7,13 +7,17 @@ exports[`Bar shows a primary bar 1`] = `
   <div
     class="bar primary"
   >
-    <p />
+    <div
+      class="left"
+    >
+      <p />
+       
+      <!---->
+    </div>
      
     <div
       class="right"
     >
-      <!---->
-       
       <i
         class="material-icons notranslate close-icon"
       >
