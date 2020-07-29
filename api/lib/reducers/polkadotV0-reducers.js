@@ -532,7 +532,7 @@ function councilProposalReducer(
     networkId: network.id,
     type: `text`,
     title: `Council proposal #${proposal.votes.index}`,
-    description: undefined,
+    description: proposal.description,
     creationTime: undefined,
     status: `VotingPeriod`,
     statusBeginTime: undefined,

@@ -559,6 +559,10 @@ class polkadotAPI {
       const { meta } = api.registry.findMetaCall(proposal.callIndex)
       description = meta.documentation.toString()
     }
+    if (proposal.proposal && proposal.proposal.callIndex) {
+      const { meta } = api.registry.findMetaCall(proposal.proposal.callIndex)
+      description = meta.documentation.toString()
+    }
     return description
   }
 
@@ -618,14 +622,24 @@ class polkadotAPI {
         })
       )
       .concat(
-        councilProposals.map((proposal) => {
-          return this.reducers.councilProposalReducer(
-            this.network,
-            proposal,
-            councilMembers,
-            blockHeight
+        councilProposals
+          .map((proposal) =>
+            // add description
+            {
+              return {
+                ...proposal,
+                description: this.getProposalDescription(proposal)
+              }
+            }
           )
-        })
+          .map((proposal) => {
+            return this.reducers.councilProposalReducer(
+              this.network,
+              proposal,
+              councilMembers,
+              blockHeight
+            )
+          })
       )
 
     return orderBy(allProposals, 'id', 'desc')
