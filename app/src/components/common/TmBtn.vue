@@ -7,6 +7,7 @@
         small: size === `small`,
         active: type === `active`,
         sidebar: type === `sidebar`,
+        centered: centered,
         loading: loading,
       }
     "
@@ -59,6 +60,10 @@ export default {
       default: null,
     },
     loading: {
+      type: Boolean,
+      default: false,
+    },
+    centered: {
       type: Boolean,
       default: false,
     },
@@ -139,6 +144,11 @@ export default {
 
 .button.small:hover {
   background: var(--app-nav-hover);
+}
+
+.button.centered {
+  text-align: center;
+  margin: 0 auto;
 }
 
 @media screen and (max-width: 1023px) {
