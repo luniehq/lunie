@@ -147,7 +147,6 @@ export default {
 }
 
 .button.centered {
-  text-align: center;
   margin: 0 auto;
 }
 
