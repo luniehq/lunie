@@ -200,6 +200,13 @@ describe(`ActionModal`, () => {
       session: {
         address: "cosmos1234",
       },
+      $store: {
+        state: {
+          session: {
+            accountType: "cosmosStandard",
+          },
+        },
+      },
       transactionManager: {
         createSignBroadcast: failingSendMock,
         getCosmosTransactionData: () => ({}),
