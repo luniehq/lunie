@@ -165,7 +165,6 @@ export default {
       })
     },
     signOut() {
-      this.$store.dispatch(`signOut`, this.network)
       this.$store.dispatch(`signOutUser`)
     },
     goToWelcome() {

@@ -246,12 +246,12 @@ async function switchToAccount(
   browser.globals.restakeAmount = restakeAmount
   // test if the test account was funded as we need the account to have funds in the tests
   const response = await axios.post(browser.globals.apiURI, {
-    query: `{overview(networkId: "${network}", address: "${address}") {totalStake}}`,
+    query: `{balancesV2(networkId: "${network}", address: "${address}") {total}}`,
   })
   if (response.data.errors) {
     throw new Error(JSON.stringify(response.data.errors))
   }
-  if (Number(response.data.data.overview.totalStake) === 0) {
+  if (Number(response.data.data.balancesV2.total) === 0) {
     throw new Error(`Account ${address} in ${network} has no funds`)
   }
   await browser.url(browser.launch_url + "?experimental=true")

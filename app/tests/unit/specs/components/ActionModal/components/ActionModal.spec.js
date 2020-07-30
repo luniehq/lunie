@@ -45,12 +45,6 @@ jest.mock(`src/../../common/polkadotApiConnector`, () => ({
 describe(`ActionModal`, () => {
   let wrapper, $store, $apollo
 
-  const overview = {
-    totalRewards: 100000,
-    liquidStake: 1230.0,
-    totalStake: 1430000000,
-  }
-
   const balances = [
     {
       denom: "STAKE",
@@ -105,9 +99,6 @@ describe(`ActionModal`, () => {
 
   $apollo = {
     queries: {
-      overview: {
-        refetch: jest.fn(),
-      },
       balances: {
         refetch: jest.fn(),
       },
@@ -128,7 +119,6 @@ describe(`ActionModal`, () => {
           browserWithLedgerSupport: null,
           currrentModalOpen: false,
         },
-        overview,
         balances,
         delegations,
       },
@@ -209,6 +199,13 @@ describe(`ActionModal`, () => {
       networkId: "cosmos-hub-testnet",
       session: {
         address: "cosmos1234",
+      },
+      $store: {
+        state: {
+          session: {
+            accountType: "cosmosStandard",
+          },
+        },
       },
       transactionManager: {
         createSignBroadcast: failingSendMock,
@@ -293,9 +290,6 @@ describe(`ActionModal`, () => {
         },
         $apollo: {
           queries: {
-            overview: {
-              loading: true,
-            },
             balances: {
               loading: true,
             },
@@ -850,11 +844,6 @@ describe(`ActionModal`, () => {
       },
       session: {
         address: "testaddress",
-      },
-      $apollo: {
-        queries: {
-          overview: { refetch: jest.fn() },
-        },
       },
     }
     const spy = jest.spyOn(self, `sendEvent`)

@@ -101,7 +101,7 @@
       field-id="amount"
       :field-label="`Amount${
         currentNetwork.network_type === 'polkadot' &&
-        totalStaked > 0 &&
+        balance.total > 0 &&
         session.addressRole !== `stash`
           ? ' (Optional)'
           : ''
@@ -132,7 +132,7 @@
         {{ stakingDenom }}s
       </span>
       <TmFormMsg
-        v-if="balance.amount === '0'"
+        v-if="balance.available === '0'"
         :msg="`doesn't have any ${stakingDenom}s`"
         name="Wallet"
         type="custom"
@@ -244,7 +244,7 @@ export default {
         // from wallet
         {
           address: this.address,
-          maximum: Number(this.balance.amount),
+          maximum: Number(this.balance.available),
           key: `My Wallet - ${formatAddress(this.address)}`,
           value: 0,
         },
@@ -355,6 +355,10 @@ export default {
 
       // update registered topics for emails as the validator set changed
       this.$store.dispatch("updateEmailRegistrations")
+      // update the role of the user as it might change after bonding the first time
+      if (this.currentNetwork.network_type === "polkadot") {
+        this.$store.dispatch("checkAddressRole")
+      }
     },
   },
   validations() {
@@ -464,13 +468,10 @@ export default {
     },
     balance: {
       query: gql`
-        query BalanceDelegationModal(
-          $networkId: String!
-          $address: String!
-          $denom: String!
-        ) {
-          balance(networkId: $networkId, address: $address, denom: $denom) {
-            amount
+        query balance($networkId: String!, $address: String!) {
+          balancesV2(networkId: $networkId, address: $address) {
+            total
+            available
             denom
           }
         }
@@ -489,44 +490,15 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          denom: this.stakingDenom,
         }
       },
       /* istanbul ignore next */
       update(data) {
-        return data.balance || { amount: 0 }
-      },
-    },
-    totalStaked: {
-      query: gql`
-        query overview($networkId: String!, $address: String!) {
-          overview(networkId: $networkId, address: $address) {
-            liquidStake
-            totalStake
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      skip() {
         return (
-          !this.address ||
-          !this.network ||
-          // only needed for polkadot to determine if user needs to set an amount
-          this.currentNetwork.network_type !== "polkadot" ||
-          !this.$refs.actionModal ||
-          !this.$refs.actionModal.show
+          data.balancesV2.find(({ denom }) => denom === this.stakingDenom) || {
+            amount: 0,
+          }
         )
-      },
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          address: this.address,
-        }
-      },
-      /* istanbul ignore next */
-      update({ overview: { totalStake, liquidStake } }) {
-        return totalStake - liquidStake
       },
     },
     $subscribe: {

@@ -198,10 +198,9 @@ class polkadotAPI {
   async getBalancesV2FromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
     const account = await api.query.system.account(address)
-    const totalBalance = account.data.free
-    const freeBalance = BigNumber(totalBalance.toString()).minus(
-      account.data.miscFrozen.toString()
-    )
+    const { free, feeFrozen } = account.data.toJSON()
+    const totalBalance = BigNumber(free)
+    const freeBalance = BigNumber(free).minus(feeFrozen)
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
@@ -384,30 +383,6 @@ class polkadotAPI {
     return delegators.map(([address]) => address.toHuman()[0])
   }
 
-  async getOverview(delegatorAddress, validatorsDictionary, fiatCurrency) {
-    const accountBalances = await this.getBalancesFromAddress(
-      delegatorAddress,
-      fiatCurrency
-    )
-    const totalStake = accountBalances[0] ? accountBalances[0].total : 0
-    const lunieCoin = {
-      denom: this.network.coinLookup[0].viewDenom,
-      amount: totalStake
-    }
-    const fiatValues = await this.fiatValuesAPI.calculateFiatValues(
-      [lunieCoin],
-      fiatCurrency
-    )
-    return {
-      networkId: this.networkId,
-      address: delegatorAddress,
-      totalStake,
-      totalStakeFiatValue: fiatValues[lunieCoin.denom],
-      liquidStake: accountBalances[0] ? accountBalances[0].amount : 0,
-      accountInformation: undefined
-    }
-  }
-
   getAccountInfo(address) {
     return {
       address,
@@ -503,10 +478,6 @@ class polkadotAPI {
   // TODO: find out how to get all undelegations in Polkadot
   getUndelegationsForDelegatorAddress() {
     return []
-  }
-
-  getStakingViewDenom() {
-    return this.stakingViewDenom
   }
 
   async getDelegationForValidator(delegatorAddress, validator) {

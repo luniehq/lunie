@@ -11,6 +11,10 @@
   align-items: center;
 }
 
+.session-frame:focus {
+  outline: none;
+}
+
 .session-outer-container {
   position: relative;
   padding: 3rem 0;
@@ -252,6 +256,10 @@
 
   .session-main .step--container {
     margin: 0.5rem 0;
+  }
+
+  .circle.modal-icon {
+    display: none;
   }
 }
 
