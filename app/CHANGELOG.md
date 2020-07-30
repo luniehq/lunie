@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.224] - 2020-07-30
+
+### Fixed
+
+- [#4626](https://github.com/cosmos/lunie/pull/4626) Fix navigation duplicated in recover flow by deleting duplicate goToNetwork logic @Bitcoinera
+- Handle account creation in extension not showing insecure warning @faboweb
+
 ## [1.0.223] - 2020-07-30
 
 ### Added
