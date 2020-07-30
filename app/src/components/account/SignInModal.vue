@@ -18,7 +18,11 @@
         <TmFormMsg
           v-if="signInError"
           type="custom"
-          :msg="account.signInError.message"
+          :msg="
+            account.signInEmailError
+              ? account.signInEmailError.message
+              : undefined
+          "
         />
       </div>
 
@@ -61,7 +65,7 @@ export default {
       await this.$store.dispatch(`sendUserMagicLink`, {
         user: { email: this.email },
       })
-      if (this.account.signInError) {
+      if (this.account.signInEmailError) {
         this.signInError = true
       } else {
         this.$router.push({ name: `magic-link-sent` })

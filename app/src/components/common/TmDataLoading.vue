@@ -18,7 +18,8 @@ export default {
   display: flex;
   justify-content: center;
   width: 100%;
-  margin: 1rem;
+  height: 100%;
+  padding: 1rem;
 }
 
 .spinner {

@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.40] - 2020-07-29
+
+### Added
+
+- added support for multiple curves or HD Paths for different networks @bitcoinera
+
+### Changed
+
+- Limit missed blocks on Kava to min 5 as the chain is too fast @faboweb
+
+### Fixed
+
+- [#4592](https://github.com/cosmos/lunie/issues/4592) Fix multi denom rewards not displaying correctly by taking rewards into account when querying for balances @Bitcoinera
+- Total was not showing frozen token in Polkadot @faboweb
+- Handle failing fiat values query gracefully @faboweb
+- Fix Transaction meta data query (missing parameter) @faboweb
+- Handle batch transactions failing @faboweb
+
+## [1.0.39] - 2020-07-27
+
+### Added
+
+- [#4596](https://github.com/cosmos/lunie/pull/4596) Add accountTypes array and defaultAccountType to the Network Object @Bitcoinera
+
+### Changed
+
+- [#4558](https://github.com/cosmos/lunie/pull/4558) CoinReducer and rewardCoinReducer now work using coinLookup to get chainToViewConversionFactor @Bitcoinera
+- [#4595](https://github.com/cosmos/lunie/pull/4595) Upgrade to polkadot api 1.26.1 @Bitcoinera
+
+### Fixed
+
+- [#4536](https://github.com/cosmos/lunie/issues/4536) Fix inaccurate Kava BNB balances @Bitcoinera
+
+### Deprecated
+
+- [#4558](https://github.com/cosmos/lunie/pull/4558) Deprecate overview query @Bitcoinera
+
 ## [1.0.38] - 2020-07-23
 
 ### Added

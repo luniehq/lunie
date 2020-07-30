@@ -12,6 +12,8 @@ export default ({ apollo }) => {
     mobile: config.mobileApp || false,
     signedIn: false,
     sessionType: null, // local, explore, ledger, extension
+    HDPath: undefined,
+    curve: undefined,
     pauseHistory: false,
     history: [],
     address: null, // Current address
@@ -44,11 +46,20 @@ export default ({ apollo }) => {
   }
 
   const mutations = {
+    updateField(state, payload) {
+      state[payload.field] = payload.value
+    },
     setSignIn(state, hasSignedIn) {
       state.signedIn = hasSignedIn
     },
     setSessionType(state, sessionType) {
       state.sessionType = sessionType
+    },
+    setHDPath(state, HDPath) {
+      state.HDPath = HDPath
+    },
+    setCurve(state, curve) {
+      state.curve = curve
     },
     setUserAddress(state, address) {
       state.address = address
@@ -95,8 +106,14 @@ export default ({ apollo }) => {
     }) {
       const session = localStorage.getItem(sessionKey(network))
       if (session) {
-        const { address, sessionType } = JSON.parse(session)
-        await dispatch(`signIn`, { address, sessionType, networkId: network })
+        const { address, sessionType, HDPath, curve } = JSON.parse(session)
+        await dispatch(`signIn`, {
+          address,
+          sessionType,
+          HDPath,
+          curve,
+          networkId: network,
+        })
       } else {
         commit(`setSignIn`, false)
       }
@@ -107,10 +124,13 @@ export default ({ apollo }) => {
         await commit(`setUserAddresses`, JSON.parse(addresses))
       }
     },
-    async persistSession(store, { address, sessionType, networkId }) {
+    async persistSession(
+      store,
+      { address, sessionType, HDPath, curve, networkId }
+    ) {
       localStorage.setItem(
         sessionKey(networkId),
-        JSON.stringify({ address, sessionType })
+        JSON.stringify({ address, sessionType, HDPath, curve })
       )
     },
     async persistAddresses(store, { addresses }) {
@@ -135,21 +155,53 @@ export default ({ apollo }) => {
       }
     },
     async signIn(
-      { state, getters: { currentNetwork }, commit, dispatch },
-      { address, sessionType = `ledger`, networkId }
+      {
+        state,
+        rootState: {
+          connection: { networks },
+        },
+        commit,
+        dispatch,
+      },
+      { address, sessionType = `ledger`, HDPath, curve, networkId }
     ) {
-      if (networkId && currentNetwork.id !== networkId) {
+      const currentNetwork = networks.find(({ id }) => id === networkId)
+      // first search in localStorage for the curve and derivation path
+      const session = JSON.parse(
+        localStorage.getItem(`cosmos-wallets-${address}`)
+      )
+      const finalCrypto = handleSessionCrypto({
+        HDPath,
+        curve,
+        address,
+        session,
+        currentNetwork,
+      })
+      // override crypto with right HDPath and curve
+      HDPath = finalCrypto.HDPath
+      curve = finalCrypto.curve
+      if (networkId && currentNetwork) {
         await commit(`setNetworkId`, networkId)
         await dispatch(`persistNetwork`, { id: networkId })
       }
       commit(`setSignIn`, true)
       commit(`setSessionType`, sessionType)
+      commit(`setHDPath`, HDPath)
+      commit(`setCurve`, curve)
       commit(`setUserAddress`, address)
-      await dispatch(`rememberAddress`, { address, sessionType, networkId })
+      await dispatch(`rememberAddress`, {
+        address,
+        sessionType,
+        HDPath,
+        curve,
+        networkId,
+      })
 
       dispatch(`persistSession`, {
         address,
         sessionType,
+        HDPath,
+        curve,
         networkId,
       })
       const addresses = state.addresses
@@ -175,7 +227,14 @@ export default ({ apollo }) => {
       // update registered topics for emails
       dispatch("updateEmailRegistrations")
 
-      state.externals.track(`event`, `session`, `sign-in`, sessionType)
+      state.externals.track(
+        `event`,
+        `session`,
+        `sign-in`,
+        sessionType,
+        HDPath,
+        curve
+      )
     },
     async signOut({ state, commit, dispatch }, networkId) {
       state.externals.track(`event`, `session`, `sign-out`)
@@ -287,6 +346,8 @@ export default ({ apollo }) => {
           title,
           address: JSON.parse(sessionEntry).address,
           sessionType: JSON.parse(sessionEntry).sessionType,
+          HDPath: JSON.parse(sessionEntry).HDPath,
+          curve: JSON.parse(sessionEntry).curve,
         })
       })
       return allSessionAddresses
@@ -305,4 +366,41 @@ export default ({ apollo }) => {
 
 function sessionKey(networkId) {
   return `session_${networkId}`
+}
+
+// exporting for tests
+export function handleSessionCrypto({
+  HDPath,
+  curve,
+  address,
+  session,
+  currentNetwork,
+}) {
+  if (!HDPath && !curve) {
+    if (
+      session &&
+      session.HDPath &&
+      session.curve &&
+      address === session.address
+    ) {
+      HDPath = session.HDPath
+      curve = session.curve
+    } else {
+      // set default if this is not defined
+      HDPath = currentNetwork.defaultHDPath
+      curve = currentNetwork.defaultCurve
+    }
+  }
+  // store in localStorage for later use
+  if (session) {
+    localStorage.setItem(
+      `cosmos-wallets-${address}`,
+      JSON.stringify({
+        ...session,
+        HDPath,
+        curve,
+      })
+    )
+  }
+  return { HDPath, curve }
 }

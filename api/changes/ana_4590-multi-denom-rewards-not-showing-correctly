@@ -1,0 +1,1 @@
+[Fixed] [#4592](https://github.com/cosmos/lunie/issues/4592) Fix multi denom rewards not displaying correctly by taking rewards into account when querying for balances @Bitcoinera
