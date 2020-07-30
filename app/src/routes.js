@@ -262,8 +262,8 @@ export default (store) => {
       name: `welcome`,
       component: () => import(`./components/common/CardSignInRequired`),
       meta: {
-        networkSpecificRoute: true
-      }
+        networkSpecificRoute: true,
+      },
     },
     {
       path: `/:networkId`,

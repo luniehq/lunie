@@ -125,6 +125,7 @@ export default {
   cursor: pointer;
   color: #b0bade;
   display: flex;
+  margin-left: 1rem;
 }
 
 .copyable-address {
@@ -135,9 +136,5 @@ export default {
 .action-container {
   display: flex;
   align-items: center;
-}
-
-.account-menu-toggle {
-  margin-left: 1rem;
 }
 </style>
