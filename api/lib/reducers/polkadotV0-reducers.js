@@ -496,14 +496,14 @@ function democracyReferendumReducer(
     network: network.id,
     type: `text`,
     title: `Referendum #${proposal.index}`,
-    description: undefined,
+    description: proposal.description,
     creationTime: undefined,
     status: `VotingPeriod`,
     statusBeginTime: undefined,
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
-    proposer: undefined
+    proposer: proposal.proposer
   }
 }
 

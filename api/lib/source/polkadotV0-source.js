@@ -547,6 +547,8 @@ class polkadotAPI {
     const api = await this.getAPI()
 
     let description = ''
+    let proposer = ''
+    // democracy
     if (proposal.image) {
       const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
       const preimageRaw = await api.query.democracy.preimages.at(
@@ -559,6 +561,20 @@ class polkadotAPI {
       const { meta } = api.registry.findMetaCall(proposal.callIndex)
       description = meta.documentation.toString()
     }
+    // referendum
+    if (proposal.index) {
+      const referendumBlockHeight = proposal.status.end - proposal.status.delay
+      const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
+      const block = await api.rpc.chain.getBlock(blockHash)
+      block.block.extrinsics.forEach((extrinsic) => {
+        const { meta } = api.registry.findMetaCall(extrinsic.method.callIndex)
+        if (meta.args.find(({ name }) => name == 'proposal_hash')) {
+          proposer = extrinsic.signer.toString() // TODO: add this one too
+          description = meta.documentation.toString()
+        }
+      })
+    }
+    // council
     if (proposal.proposal && proposal.proposal.callIndex) {
       const { meta } = api.registry.findMetaCall(proposal.proposal.callIndex)
       description = meta.documentation.toString()
@@ -603,14 +619,22 @@ class polkadotAPI {
         )
       })
       .concat(
-        democracyReferendums.map((proposal) => {
-          return this.reducers.democracyReferendumReducer(
-            this.network,
-            proposal,
-            totalIssuance,
-            blockHeight
-          )
-        })
+        democracyReferendums
+          // add description
+          .map((proposal) => {
+            return {
+              ...proposal,
+              description: this.getProposalDescription(proposal)
+            }
+          })
+          .map((proposal) => {
+            return this.reducers.democracyReferendumReducer(
+              this.network,
+              proposal,
+              totalIssuance,
+              blockHeight
+            )
+          })
       )
       .concat(
         treasuryProposals.proposals.map((proposal) => {
