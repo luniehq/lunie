@@ -1,4 +1,5 @@
 module.exports = {
+  "@disabled": true,
   "Validators search": async function (browser) {
     // move to according page
     await browser.url(browser.launch_url + browser.globals.slug + "/validators")
