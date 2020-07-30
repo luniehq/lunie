@@ -228,8 +228,8 @@ describe(`DelegationModal`, () => {
           dispatch: jest.fn(),
         },
         currentNetwork: {
-          network_type: "polkadot"
-        }
+          network_type: "polkadot",
+        },
       }
       DelegationModal.methods.onSuccess.call(self)
       expect(self.$emit).toHaveBeenCalledWith(
@@ -245,8 +245,8 @@ describe(`DelegationModal`, () => {
           dispatch: jest.fn(),
         },
         currentNetwork: {
-          network_type: "polkadot"
-        }
+          network_type: "polkadot",
+        },
       }
       DelegationModal.methods.onSuccess.call(self)
       expect(self.$store.dispatch).toHaveBeenCalledWith(
