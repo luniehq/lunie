@@ -77,6 +77,10 @@ export default {
 }
 </script>
 <style scoped>
+.account-list {
+  margin: 1rem 0;
+}
+
 .account-list li {
   position: relative;
 }
