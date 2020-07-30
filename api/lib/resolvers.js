@@ -213,9 +213,8 @@ const resolvers = (networkList) => ({
           networkList.find(({ id }) => id === proposal.networkId)
             .network_type === `polkadot`
         ) {
-          proposerValAddress = proposal.proposer.toHuman()
           return localStore(dataSources, proposal.networkId).validators[
-            proposerValAddress
+            proposal.proposer
           ]
         }
         proposerValAddress = encodeB32(

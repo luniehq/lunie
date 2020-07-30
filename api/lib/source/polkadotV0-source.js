@@ -543,7 +543,7 @@ class polkadotAPI {
     return proposal
   }
 
-  async getProposalDescription(proposal) {
+  async getProposalWithMetadata(proposal) {
     const api = await this.getAPI()
 
     let description = ''
@@ -557,12 +557,12 @@ class polkadotAPI {
       )
       const preimage = preimageRaw.unwrapOr(null)
       const { data } = preimage.asAvailable
-      proposal = this.constructProposal(api, data)
-      const { meta } = api.registry.findMetaCall(proposal.callIndex)
+      const proposalWithIndex = this.constructProposal(api, data)
+      const { meta } = api.registry.findMetaCall(proposalWithIndex.callIndex)
       description = meta.documentation.toString()
     }
     // referendum
-    if (proposal.index) {
+    if (proposal.index && proposal.status && !proposal.image) {
       const referendumBlockHeight = proposal.status.end - proposal.status.delay
       const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
       const block = await api.rpc.chain.getBlock(blockHash)
@@ -579,7 +579,11 @@ class polkadotAPI {
       const { meta } = api.registry.findMetaCall(proposal.proposal.callIndex)
       description = meta.documentation.toString()
     }
-    return description
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer // default to the already existing one if any
+    }
   }
 
   async getAllProposals() {
@@ -602,69 +606,46 @@ class polkadotAPI {
       api.derive.council.proposals(),
       api.query.council.members()
     ])
-    const allProposals = democracyProposals
-      // add description
-      .map((proposal) => {
-        return {
-          ...proposal,
-          description: this.getProposalDescription(proposal)
-        }
-      })
-      .map((proposal) => {
-        return this.reducers.democracyProposalReducer(
-          this.network,
-          proposal,
-          totalIssuance,
-          blockHeight
-        )
-      })
-      .concat(
-        democracyReferendums
-          // add description
-          .map((proposal) => {
-            return {
-              ...proposal,
-              description: this.getProposalDescription(proposal)
-            }
-          })
-          .map((proposal) => {
+    const allProposals = await Promise.all(
+      democracyProposals
+        .map(async (proposal) => {
+          return this.reducers.democracyProposalReducer(
+            this.network,
+            await this.getProposalWithMetadata(proposal),
+            totalIssuance,
+            blockHeight
+          )
+        })
+        .concat(
+          democracyReferendums.map(async (proposal) => {
             return this.reducers.democracyReferendumReducer(
               this.network,
-              proposal,
+              await this.getProposalWithMetadata(proposal),
               totalIssuance,
               blockHeight
             )
           })
-      )
-      .concat(
-        treasuryProposals.proposals.map((proposal) => {
-          return this.reducers.treasuryProposalReducer(
-            this.network,
-            proposal,
-            councilMembers
-          )
-        })
-      )
-      .concat(
-        councilProposals
-          .map((proposal) =>
-            // add description
-            {
-              return {
-                ...proposal,
-                description: this.getProposalDescription(proposal)
-              }
-            }
-          )
-          .map((proposal) => {
-            return this.reducers.councilProposalReducer(
+        )
+        .concat(
+          treasuryProposals.proposals.map((proposal) => {
+            return this.reducers.treasuryProposalReducer(
               this.network,
               proposal,
+              councilMembers
+            )
+          })
+        )
+        .concat(
+          councilProposals.map(async (proposal) => {
+            return this.reducers.councilProposalReducer(
+              this.network,
+              await this.getProposalWithMetadata(proposal),
               councilMembers,
               blockHeight
             )
           })
-      )
+        )
+    )
 
     return orderBy(allProposals, 'id', 'desc')
   }

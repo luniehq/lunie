@@ -472,12 +472,7 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
-function democracyProposalReducer(
-  network,
-  proposal,
-  totalIssuance,
-  blockHeight
-) {
+function democracyProposalReducer(network, proposal) {
   return {
     id: proposal.index,
     networkId: network.id,
@@ -488,7 +483,7 @@ function democracyProposalReducer(
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
-    proposer: proposal.proposer
+    proposer: proposal.proposer.toHuman()
   }
 }
 
@@ -500,7 +495,7 @@ function democracyReferendumReducer(
 ) {
   return {
     id: proposal.index,
-    network: network.id,
+    networkId: network.id,
     type: `text`,
     title: `Proposal #${proposal.index}`,
     description: proposal.description,
@@ -523,7 +518,7 @@ function treasuryProposalReducer(network, proposal, councilMembers) {
     status: `VotingPeriod`,
     tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
     deposit: toViewDenom(network, Number(proposal.proposal.bond)),
-    proposer: proposal.proposal.proposer,
+    proposer: proposal.proposal.proposer.toHuman(),
     beneficiary: proposal.proposal.beneficiary // the account getting the tip
   }
 }
