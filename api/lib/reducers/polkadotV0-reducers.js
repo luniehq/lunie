@@ -5,7 +5,7 @@ const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
-const proposalTypesEnum = {
+const proposalTypeEnum = {
   TEXT: 'TEXT',
   COUNCIL: 'COUNCIL',
   TREASURY: 'TREASURY',
@@ -513,7 +513,7 @@ function treasuryProposalReducer(network, proposal, councilMembers) {
   return {
     id: proposal.id,
     networkId: network.id,
-    type: proposalTypesEnum.TREASURY,
+    type: proposalTypeEnum.TREASURY,
     title: `Treasury Proposal #${proposal.index}`,
     status: `VotingPeriod`,
     tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
@@ -532,7 +532,7 @@ function councilProposalReducer(
   return {
     id: proposal.votes.index,
     networkId: network.id,
-    type: proposalTypesEnum.COUNCIL,
+    type: proposalTypeEnum.COUNCIL,
     title: `Council Proposal #${proposal.votes.index}`,
     description: proposal.description,
     creationTime: undefined,
