@@ -74,9 +74,14 @@ class SlashingMonitor {
     )
 
     // requires some more logic to not spam the notifications if a validator is down for 1000 blocks
-    const minMissedBlocks = this.networkId === "kava-testnet" || this.networkId === "kava-mainnet" ? 5 : 1
+    const minMissedBlocks =
+      this.networkId === 'kava-testnet' || this.networkId === 'kava-mainnet'
+        ? 5
+        : 1
     this.client.subscribe(
-      { query: `tm.event='NewBlockHeader' AND liveness.missed_blocks >= ${minMissedBlocks}` },
+      {
+        query: `tm.event='NewBlockHeader' AND liveness.missed_blocks >= ${minMissedBlocks}`
+      },
       async (response) => {
         try {
           const missedBlocks = response.events['liveness.address'].map(

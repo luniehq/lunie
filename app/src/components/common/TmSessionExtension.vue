@@ -32,8 +32,8 @@
 
       <div v-else class="session-main">
         <p class="extension-message">
-          Looks like you don't have any accounts yet. How about opening the
-          extension and creating an account right now?
+          Looks like you don't have any addresses in the Lunie extension yet.
+          Click on the extension icon in your browser and add an address now.
         </p>
       </div>
     </div>

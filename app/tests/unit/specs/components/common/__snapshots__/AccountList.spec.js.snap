@@ -24,21 +24,17 @@ exports[`AccountList has the expected html structure 1`] = `
           />
         </div>
          
-        <tmbtn-stub
-          class="account-button"
-          color="primary"
-          customclass=""
-          value="Button Text"
-        />
-         
         <div
-          class="account-menu-toggle"
+          class="action-container"
         >
-          <i
-            class="material-icons notranslate"
-          >
-            more_vert
-          </i>
+          <tmbtn-stub
+            class="account-button"
+            color="primary"
+            customclass=""
+            value="Button Text"
+          />
+           
+          <!---->
         </div>
       </div>
     </li>
@@ -61,21 +57,17 @@ exports[`AccountList has the expected html structure 1`] = `
           />
         </div>
          
-        <tmbtn-stub
-          class="account-button"
-          color="primary"
-          customclass=""
-          value="Button Text"
-        />
-         
         <div
-          class="account-menu-toggle"
+          class="action-container"
         >
-          <i
-            class="material-icons notranslate"
-          >
-            more_vert
-          </i>
+          <tmbtn-stub
+            class="account-button"
+            color="primary"
+            customclass=""
+            value="Button Text"
+          />
+           
+          <!---->
         </div>
       </div>
     </li>

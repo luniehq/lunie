@@ -119,7 +119,7 @@ export default {
           password: this.recover.password,
           name: this.recover.name,
           HDPath: this.session.HDPath,
-          curve: this.$store.state.session.curve,
+          curve: this.session.curve,
           network: this.network,
         })
         if (this.isExtension) {
