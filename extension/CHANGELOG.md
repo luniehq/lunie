@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.31] - 2020-07-30
+
+### Added
+
+- [#4630](https://github.com/cosmos/lunie/pull/4630) Add handle different algos in extension @Bitcoinera
+
+### Changed
+
+- [#4481](https://github.com/cosmos/lunie/pull/4481) Query in networks for crypto specs (HDPaths, curves, defaultHDPath... ) @Bitcoinera
+
+### Fixed
+
+- extension UI had a few issues @jbibla
+
 ## [1.0.30] - 2020-07-29
 
 ### Changed

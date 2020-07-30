@@ -32,11 +32,15 @@ export default (opts = {}) => {
       },
       session: {
         HDPath: undefined,
-        curve: undefined
+        curve: undefined,
+        allSessionAddresses: []
       },
       network: '',
       networkSlug: `cosmos-hub`,
-      networks: []
+      networks: [],
+      connection: {
+        network: ""
+      }
     },
     getters,
     actions: actions(opts),
