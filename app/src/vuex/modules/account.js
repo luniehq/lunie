@@ -2,6 +2,7 @@ import getFirebase from "../../firebase.js"
 import * as Sentry from "@sentry/browser"
 import gql from "graphql-tag"
 import { Plugins } from "@capacitor/core"
+import config from "src/../config"
 const { App: CapacitorApp } = Plugins
 
 export default ({ apollo }) => {

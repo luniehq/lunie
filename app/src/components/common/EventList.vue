@@ -33,7 +33,7 @@ const categories = [
 ]
 
 export default {
-  name: `transaction-list`,
+  name: `event-list`,
   props: {
     events: {
       type: Array,

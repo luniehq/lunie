@@ -18,7 +18,9 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
       <div
         class="session-header"
       >
-        <a>
+        <a
+          class=""
+        >
           <i
             class="material-icons notranslate circle back"
           >
