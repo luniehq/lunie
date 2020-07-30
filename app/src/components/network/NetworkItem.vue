@@ -2,7 +2,6 @@
   <div
     class="network-item"
     :class="{ disabled: disabled }"
-    @click="goToNetwork()"
   >
     <div class="network-icon">
       <img
@@ -61,27 +60,6 @@ export default {
     ...mapGetters([`network`]),
     isCurrentNetwork() {
       return this.networkItem.id === this.network
-    },
-  },
-  methods: {
-    goToNetwork() {
-      // search for an active session in the network we are switching to
-      if (
-        this.session.allSessionAddresses.find(
-          ({ networkId }) => networkId === this.networkItem.id
-        )
-      ) {
-        this.$router.push({
-          name: `portfolio`,
-          params: { networkId: this.networkItem.slug },
-        })
-        // if no active session found then take to the validators table
-      } else {
-        this.$router.push({
-          name: `validators`,
-          params: { networkId: this.networkItem.slug },
-        })
-      }
     },
   },
 }
