@@ -581,7 +581,7 @@ function tallyReducer(network, tally, totalIssuance) {
   const totalVotedPercentage = turnout
     .div(BigNumber(totalIssuance))
     .toNumber()
-    .toFixed(4) // the percent conversion is done in the FE. We just send the decimals here
+    .toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
 
   return {
     yes,
@@ -601,7 +601,7 @@ function councilTallyReducer(votes, councilMembers) {
     abstain: 0,
     veto: 0,
     total,
-    totalVotedPercentage: ((total * 100) / councilMembers.length).toFixed(2)
+    totalVotedPercentage: (total / councilMembers.length).toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
   }
 }
 
