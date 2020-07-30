@@ -1,11 +1,88 @@
 # Changelog
- 
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.223] - 2020-07-30
+
+### Added
+
+- [#3929](https://github.com/cosmos/lunie/issues/3929) It is possible to restore an account using different algos / derivation paths. In polkadot you sign transactions with it @Bitcoinera
+- added an apple app site association file @jbibla
+
+### Changed
+
+- [#4570](https://github.com/cosmos/lunie/pull/4570) When selecting a network in PageNetworks user is taken to that network's porfolio @Bitcoinera
+- Update the account role after bonding @faboweb
+- the account list styles were broken. the show seed option is hidden on web now. style improvements.  @jbibla
+- after a user clicks the magic link they will now see a modal instead of a page - also updated the copy @jbibla
+- cleaning up some style inconsistencies and side effects @jbibla
+
+### Deprecated
+
+- removing redundant content pages @jbibla
+
+## [1.0.222] - 2020-07-29
+
+### Added
+
+- [#3929](https://github.com/cosmos/lunie/issues/3929) It is possible to restore an account using different algos / derivation paths. In polkadot you sign transactions with it @Bitcoinera
+- added an apple app site association file @jbibla
+
+### Changed
+
+- [#4570](https://github.com/cosmos/lunie/pull/4570) When selecting a network in PageNetworks user is taken to that network's porfolio @Bitcoinera
+- Update the account role after bonding @faboweb
+- cleaning up some style inconsistencies and side effects @jbibla
+
+## [1.0.221] - 2020-07-27
+
+### Added
+
+- [#4496](https://github.com/cosmos/lunie/pull/4496) Enable deep linking to allow magic link signIn on app @Bitcoinera
+- added an apple app site association file @jbibla
+
+### Changed
+
+- [#4570](https://github.com/cosmos/lunie/pull/4570) When selecting a network in PageNetworks user is taken to that network's porfolio @Bitcoinera
+- [#4595](https://github.com/cosmos/lunie/pull/4595) Upgrade to polkadot api 1.26.1 @Bitcoinera
+
+### Fixed
+
+- [#4580](https://github.com/cosmos/lunie/issues/4580) Fix the NavigationDuplicated error @Bitcoinera
+- [#4591](https://github.com/cosmos/lunie/pull/4591) Fix extension adding setNetwork to the selectNetworkHandler @Bitcoinera
+- Fix issue in Safari about exports @faboweb
+
+### Deprecated
+
+- [#4558](https://github.com/cosmos/lunie/pull/4558) Deprecate overview in action modals @Bitcoinera
+
+## [1.0.220] - 2020-07-23
+
+### Added
+
+- Register clients for Email notifications @faboweb
+- [#4541](https://github.com/cosmos/lunie/issues/4541) Upgrade Polkadot js api to v1.25.1 @mariopino
+
+### Changed
+
+- [#4525](https://github.com/cosmos/lunie/issues/4525) CardSignIn is now a modal @Bitcoinera
+- [#4525](https://github.com/cosmos/lunie/issues/4525) Notifications page becomes landing page when user is signed in with email @Bitcoinera
+- [#4562](https://github.com/cosmos/lunie/pull/4562) Change close action in SessionFrame to make sense @Bitcoinera
+- [#4568](https://github.com/cosmos/lunie/pull/4568) Make block height in TmConnectedNetwork non-clickable if feature Activity is disabled @Bitcoinera
+- [#4525](https://github.com/cosmos/lunie/issues/4525) ux improvements for notifications page @jbibla
+
+### Fixed
+
+- [#4518](https://github.com/cosmos/lunie/issues/4518) Fix sending an expired idToken from localStorage to API (Apollo) @Bitcoinera
+- [#4534](https://github.com/cosmos/lunie/pull/4534) Fix the loading for notifications in PageNotifications bringing back the lunie SVG loader @Bitcoinera
+- [#4548](https://github.com/cosmos/lunie/pull/4548) Fix network item continuously displaying as loading @Bitcoinera
+- some route names were lowercase and some were uppercase and some router.push's were failing as a result @jbibla
+- router guard was sending user to an invalid route @jbibla
 
 ## [1.0.219] - 2020-07-16
 

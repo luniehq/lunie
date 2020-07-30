@@ -65,10 +65,11 @@ export async function getSignMessage(senderAddress, transaction, api) {
 const curvePrefixes = {
   ed25519: [0],
   sr25519: [1],
+  ecdsa: [2],
 }
 
-function formatSignature(rawSignature) {
-  const prefix = new Uint8Array(curvePrefixes["sr25519"])
+function formatSignature(rawSignature, curve) {
+  const prefix = new Uint8Array(curvePrefixes[curve])
   const signature = u8aToHex(u8aConcat(prefix, rawSignature))
   return signature
 }
@@ -80,9 +81,11 @@ export function getSignableObject(chainMessages) {
 export function getBroadcastableObject(
   chainMessages,
   transactionData,
-  { transaction, payload, rawSignature }
+  { transaction, payload, rawSignature },
+  HDPath,
+  curve
 ) {
-  const signature = formatSignature(rawSignature)
+  const signature = formatSignature(rawSignature, curve)
 
   transaction.addSignature(
     payload.address.toJSON(),

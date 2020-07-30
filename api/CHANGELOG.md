@@ -1,11 +1,86 @@
 # Changelog
- 
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.41] - 2020-07-30
+
+### Added
+
+- added support for multiple curves or HD Paths for different networks @bitcoinera
+
+### Changed
+
+- Limit missed blocks on Kava to min 5 as the chain is too fast @faboweb
+
+### Fixed
+
+- [#4592](https://github.com/cosmos/lunie/issues/4592) Fix multi denom rewards not displaying correctly by taking rewards into account when querying for balances @Bitcoinera
+- Total was not showing frozen token in Polkadot @faboweb
+- Handle failing fiat values query gracefully @faboweb
+- Catch firebase error if the uid is not registered @faboweb
+- Fix Transaction meta data query (missing parameter) @faboweb
+- Handle batch transactions failing @faboweb
+
+## [1.0.40] - 2020-07-29
+
+### Added
+
+- added support for multiple curves or HD Paths for different networks @bitcoinera
+
+### Changed
+
+- Limit missed blocks on Kava to min 5 as the chain is too fast @faboweb
+
+### Fixed
+
+- [#4592](https://github.com/cosmos/lunie/issues/4592) Fix multi denom rewards not displaying correctly by taking rewards into account when querying for balances @Bitcoinera
+- Total was not showing frozen token in Polkadot @faboweb
+- Handle failing fiat values query gracefully @faboweb
+- Fix Transaction meta data query (missing parameter) @faboweb
+- Handle batch transactions failing @faboweb
+
+## [1.0.39] - 2020-07-27
+
+### Added
+
+- [#4596](https://github.com/cosmos/lunie/pull/4596) Add accountTypes array and defaultAccountType to the Network Object @Bitcoinera
+
+### Changed
+
+- [#4558](https://github.com/cosmos/lunie/pull/4558) CoinReducer and rewardCoinReducer now work using coinLookup to get chainToViewConversionFactor @Bitcoinera
+- [#4595](https://github.com/cosmos/lunie/pull/4595) Upgrade to polkadot api 1.26.1 @Bitcoinera
+
+### Fixed
+
+- [#4536](https://github.com/cosmos/lunie/issues/4536) Fix inaccurate Kava BNB balances @Bitcoinera
+
+### Deprecated
+
+- [#4558](https://github.com/cosmos/lunie/pull/4558) Deprecate overview query @Bitcoinera
+
+## [1.0.38] - 2020-07-23
+
+### Added
+
+- [#4541](https://github.com/cosmos/lunie/issues/4541) Upgrade Polkadot js api to v1.25.1 @mariopino
+
+### Changed
+
+- [#4525](https://github.com/cosmos/lunie/issues/4525) Filter validator added notifications out @Bitcoinera
+- [#4525](https://github.com/cosmos/lunie/issues/4525) Fix voting power changes messages displaying less decimals and percentage symbols @Bitcoinera
+- [#4568](https://github.com/cosmos/lunie/pull/4568) Add DOT to supported fiatValues @Bitcoinera
+
+### Fixed
+
+- [#4537](https://github.com/cosmos/lunie/issues/4537) Fix Kava BNB SendModal by fixing gas price denom @Bitcoinera
+- [#4556](https://github.com/cosmos/lunie/pull/4556) Fix storing statistics due to invalid numeric type for amount @Bitcoinera
+- [#4568](https://github.com/cosmos/lunie/pull/4568) Fix transaction by making fee an iterable @Bitcoinera
+- [#4544](https://github.com/cosmos/lunie/issues/4544) Parse extrinsic result properly in polkadot @mariopino
 
 ## [1.0.37] - 2020-07-17
 

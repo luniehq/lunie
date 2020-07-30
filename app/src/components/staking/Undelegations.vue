@@ -1,20 +1,22 @@
 <template>
-  <div class="table-container">
-    <div
-      v-if="$apollo.queries.undelegations.loading && !undelegationsLoaded"
-      class="loading-image-container"
-    >
-      <img
-        class="loading-image"
-        src="/img/portfolio-loading.svg"
-        alt="geometric placeholder shapes"
-      />
-    </div>
-    <div v-else-if="undelegations.length > 0" class="undelegations">
-      <h1>
-        Pending
-      </h1>
-      <TableUndelegations :undelegations="undelegations" />
+  <div v-if="undelegations.length > 0" class="undelegations">
+    <div class="table-container">
+      <div
+        v-if="$apollo.queries.undelegations.loading && !undelegationsLoaded"
+        class="loading-image-container"
+      >
+        <img
+          class="loading-image"
+          src="/img/portfolio-loading.svg"
+          alt="geometric placeholder shapes"
+        />
+      </div>
+      <div v-else>
+        <h1>
+          Pending
+        </h1>
+        <TableUndelegations :undelegations="undelegations" />
+      </div>
     </div>
   </div>
 </template>
@@ -102,24 +104,20 @@ h1 {
 }
 
 .undelegations {
+  background: var(--app-fg);
+}
+
+.table-container {
   max-width: 1100px;
   margin: 0 auto;
+  width: 100%;
+  padding: 4rem 2rem;
 }
 
 @media screen and (max-width: 667px) {
   h1 {
     padding: 2rem;
     text-align: center;
-  }
-}
-
-@media screen and (min-width: 667px) {
-  .undelegations {
-    padding: 2rem;
-  }
-
-  .table-container {
-    padding: 2rem;
   }
 }
 </style>

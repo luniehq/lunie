@@ -1,0 +1,1 @@
+[Fixed] [#4626](https://github.com/cosmos/lunie/pull/4626) Fix navigation duplicated in recover flow by deleting duplicate goToNetwork logic @Bitcoinera
