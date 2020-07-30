@@ -118,7 +118,7 @@ export default {
           seedPhrase: this.recover.seed,
           password: this.recover.password,
           name: this.recover.name,
-          HDPath: this.session.HDPath,
+          HDPath: this.$store.state.session.HDPath,
           curve: this.$store.state.session.curve,
           network: this.network,
         })
