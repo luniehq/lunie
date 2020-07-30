@@ -22,7 +22,7 @@ class SlashingMonitor {
   storeSlashes(filterReason) {
     return (tendermintResponse) => {
       const coinLookup = this.network.getCoinLookup(
-        network,
+        this.network,
         this.network.stakingDenom,
         `viewDenom`
       )
