@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.41] - 2020-07-30
+
+### Added
+
+- added support for multiple curves or HD Paths for different networks @bitcoinera
+
+### Changed
+
+- Limit missed blocks on Kava to min 5 as the chain is too fast @faboweb
+
+### Fixed
+
+- [#4592](https://github.com/cosmos/lunie/issues/4592) Fix multi denom rewards not displaying correctly by taking rewards into account when querying for balances @Bitcoinera
+- Total was not showing frozen token in Polkadot @faboweb
+- Handle failing fiat values query gracefully @faboweb
+- Catch firebase error if the uid is not registered @faboweb
+- Fix Transaction meta data query (missing parameter) @faboweb
+- Handle batch transactions failing @faboweb
+
 ## [1.0.40] - 2020-07-29
 
 ### Added
