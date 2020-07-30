@@ -21,7 +21,7 @@ class SlashingMonitor {
   // to prevent adding a slash twice we filter the slashes
   storeSlashes(filterReason) {
     return (tendermintResponse) => {
-      const coinLookup = network.getCoinLookup(
+      const coinLookup = this.network.getCoinLookup(
         network,
         this.network.stakingDenom,
         `viewDenom`
