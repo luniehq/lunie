@@ -8,6 +8,7 @@ export const setAccounts = (state, accounts) => {
 
 export const setNetworkId = (state, networkId) => {
   state.network = networkId
+  state.connection.network = networkId
 }
 
 export const setNetworks = (state, networks) => {
