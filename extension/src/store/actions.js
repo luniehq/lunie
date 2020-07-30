@@ -23,7 +23,12 @@ export default ({ apollo }) => {
     commit('setNetworkId', network.id)
   }
 
-  const getWalletFromSandbox = async (seedPhrase, networkObject) => {
+  const getWalletFromSandbox = async (
+    seedPhrase,
+    networkObject,
+    HDPath,
+    curve
+  ) => {
     return new Promise((resolve) => {
       var iframe = document.getElementById('sandboxFrame')
       window.addEventListener(
@@ -36,21 +41,28 @@ export default ({ apollo }) => {
       var message = {
         type: 'getWallet',
         seedPhrase,
-        networkObject
+        networkObject,
+        HDPath,
+        curve
       }
       iframe.contentWindow.postMessage(message, '*')
     })
   }
 
-  const createKey = async (store, { seedPhrase, password, name, network }) => {
+  const createKey = async (
+    store,
+    { seedPhrase, password, name, HDPath, curve, network }
+  ) => {
     const networkObject = store.getters.networks.find(
       ({ id }) => id === network
     )
     const { result: wallet } = await getWalletFromSandbox(
       seedPhrase,
-      networkObject
+      networkObject,
+      HDPath,
+      curve
     )
-    storeWallet(wallet, name, password, network)
+    storeWallet(wallet, name, password, network, HDPath, curve)
     store.dispatch('loadAccounts')
   }
 

@@ -51,6 +51,12 @@ export const updateField = (state, payload) => {
   if (payload.field === `signUpSeed`) {
     state.signup.signUpSeed = payload.value
   }
+  if (payload.field === `HDPath`) {
+    state.session.HDPath = payload.value
+  }
+  if (payload.field === `curve`) {
+    state.session.curve = payload.value
+  }
 }
 
 export const resetSignUpData = (state) => {

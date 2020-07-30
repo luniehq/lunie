@@ -30,6 +30,10 @@ export default (opts = {}) => {
         password: ``,
         passwordConfirm: ``
       },
+      session: {
+        HDPath: undefined,
+        curve: undefined
+      },
       network: '',
       networkSlug: `cosmos-hub`,
       networks: []
