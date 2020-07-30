@@ -5,6 +5,13 @@ const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
+const proposalTypesEnum = {
+  TEXT: 'TEXT',
+  COUNCIL: 'COUNCIL',
+  TREASURY: 'TREASURY',
+  PARAMETER_CHANGE: 'PARAMETER_CHANGE'
+}
+
 function blockReducer(
   networkId,
   chainId,
@@ -475,7 +482,7 @@ function democracyProposalReducer(
     id: proposal.index,
     networkId: network.id,
     type: `text`,
-    title: `Democracy #${proposal.index}`,
+    title: `Preliminary Proposal #${proposal.index}`,
     description: proposal.description,
     creationTime: undefined,
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
@@ -495,7 +502,7 @@ function democracyReferendumReducer(
     id: proposal.index,
     network: network.id,
     type: `text`,
-    title: `Referendum #${proposal.index}`,
+    title: `Proposal #${proposal.index}`,
     description: proposal.description,
     creationTime: undefined,
     status: `VotingPeriod`,
@@ -511,8 +518,8 @@ function treasuryProposalReducer(network, proposal, councilMembers) {
   return {
     id: proposal.id,
     networkId: network.id,
-    type: `text`,
-    title: `Treasury #${proposal.index}`,
+    type: proposalTypesEnum.TREASURY,
+    title: `Treasury Proposal #${proposal.index}`,
     status: `VotingPeriod`,
     tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
     deposit: toViewDenom(network, Number(proposal.proposal.bond)),
@@ -530,8 +537,8 @@ function councilProposalReducer(
   return {
     id: proposal.votes.index,
     networkId: network.id,
-    type: `text`,
-    title: `Council proposal #${proposal.votes.index}`,
+    type: proposalTypesEnum.COUNCIL,
+    title: `Council Proposal #${proposal.votes.index}`,
     description: proposal.description,
     creationTime: undefined,
     status: `VotingPeriod`,
