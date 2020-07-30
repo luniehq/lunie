@@ -12,6 +12,20 @@ const proposalTypeEnum = {
   PARAMETER_CHANGE: 'PARAMETER_CHANGE'
 }
 
+const proposalTypeEnumDictionary = (key) => {
+  switch (key) {
+    case 'addRegistrar':
+    case 'setValidatorCount':
+    case 'scheduleNamed':
+    case 'setCode':
+    case 'killPrefix':
+    case 'setBalance':
+      return 'PARAMETER_CHANGE'
+    default:
+      return 'TEXT'
+  }
+}
+
 function blockReducer(
   networkId,
   chainId,
@@ -476,7 +490,7 @@ function democracyProposalReducer(network, proposal) {
   return {
     id: proposal.index,
     networkId: network.id,
-    type: `text`,
+    type: proposalTypeEnumDictionary(proposal.method),
     title: `Preliminary Proposal #${proposal.index}`,
     description: proposal.description,
     creationTime: undefined,
@@ -496,7 +510,7 @@ function democracyReferendumReducer(
   return {
     id: proposal.index,
     networkId: network.id,
-    type: `text`,
+    type: proposalTypeEnumDictionary(proposal.method),
     title: `Proposal #${proposal.index}`,
     description: proposal.description,
     creationTime: undefined,

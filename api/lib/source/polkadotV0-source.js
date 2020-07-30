@@ -548,6 +548,7 @@ class polkadotAPI {
 
     let description = ''
     let proposer = ''
+    let proposalMethod = ''
     // democracy
     if (proposal.image) {
       const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
@@ -558,8 +559,11 @@ class polkadotAPI {
       const preimage = preimageRaw.unwrapOr(null)
       const { data } = preimage.asAvailable
       const proposalWithIndex = this.constructProposal(api, data)
-      const { meta } = api.registry.findMetaCall(proposalWithIndex.callIndex)
+      const { meta, method } = api.registry.findMetaCall(
+        proposalWithIndex.callIndex
+      )
       description = meta.documentation.toString()
+      proposalMethod = method
     }
     // referendum
     if (proposal.index && proposal.status && !proposal.image) {
@@ -567,10 +571,13 @@ class polkadotAPI {
       const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
       const block = await api.rpc.chain.getBlock(blockHash)
       block.block.extrinsics.forEach((extrinsic) => {
-        const { meta } = api.registry.findMetaCall(extrinsic.method.callIndex)
+        const { meta, method } = api.registry.findMetaCall(
+          extrinsic.method.callIndex
+        )
         if (meta.args.find(({ name }) => name == 'proposal_hash')) {
           proposer = extrinsic.signer.toString() // TODO: add this one too
           description = meta.documentation.toString()
+          proposalMethod = method
         }
       })
     }
@@ -582,7 +589,8 @@ class polkadotAPI {
     return {
       ...proposal,
       description,
-      proposer: proposal.proposer || proposer // default to the already existing one if any
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod
     }
   }
 
