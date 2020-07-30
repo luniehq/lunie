@@ -8,7 +8,7 @@
         You're now signed in to Lunie with your email address. Head over to the
         notifications page to see some of your recent events.
       </p>
-      <TmBtn @click.native="goToNotifications" value="Let's Go!" centered />
+      <TmBtn value="Let's Go!" centered @click.native="goToNotifications" />
     </div>
 
     <template v-if="account.signInError || account.signInEmailError">
@@ -38,9 +38,8 @@ export default {
   },
   methods: {
     goToNotifications() {
-      this.$router.push({ name: "notifications" }).catch(err => {
-      })
-    }
-  }
+      this.$router.push({ name: "notifications" }).catch((err) => {})
+    },
+  },
 }
 </script>
