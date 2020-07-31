@@ -193,13 +193,15 @@ export default {
       this.errorOnApproval = null
       if (this.isValidInput('password')) {
         this.isTransactionBroadcasting = true
-        const thisAccount = this.accounts.find(({address}) => address === this.signRequest.senderAddress)
+        const thisAccount = this.accounts.find(
+          ({ address }) => address === this.signRequest.senderAddress
+        )
         await this.$store
           .dispatch('approveSignRequest', {
             ...this.signRequest,
             password: this.password,
             HDPath: thisAccount.HDPath,
-            curve: thisAccount.curve,
+            curve: thisAccount.curve
           })
           .catch((error) => {
             this.errorOnApproval = error

@@ -37,7 +37,7 @@ export default (opts = {}) => {
       networkSlug: `cosmos-hub`,
       networks: [],
       connection: {
-        network: ""
+        network: ''
       }
     },
     getters,
