@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import TmBtn from 'common/TmBtn'
 import TmFormGroup from 'common/TmFormGroup'
 import TmField from 'common/TmField'
@@ -114,6 +114,7 @@ export default {
     errorOnApproval: null
   }),
   computed: {
+    ...mapState([`session`, `accounts`]),
     ...mapGetters(['signRequest', 'networks']),
     tx() {
       if (!this.signRequest) return undefined
@@ -192,10 +193,18 @@ export default {
       this.errorOnApproval = null
       if (this.isValidInput('password')) {
         this.isTransactionBroadcasting = true
+        const thisAccount = this.accounts.find(
+          ({ address }) => address === this.signRequest.senderAddress
+        )
+        const network = this.networks.find(
+          ({ id }) => id === this.signRequest.network
+        )
         await this.$store
           .dispatch('approveSignRequest', {
             ...this.signRequest,
-            password: this.password
+            password: this.password,
+            HDPath: thisAccount.HDPath || network.defaultHDPath,
+            curve: thisAccount.curve || network.defaultCurve
           })
           .catch((error) => {
             this.errorOnApproval = error
