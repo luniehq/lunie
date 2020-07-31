@@ -99,6 +99,7 @@
     "babel-jest": "^26.0.1",
     "babel-loader": "^8.0.2",
     "chromedriver": "^81.0.0",
+    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^4.5.3",
     "cross-env": "^5.2.0",
     "css-loader": "^3.5.3",
