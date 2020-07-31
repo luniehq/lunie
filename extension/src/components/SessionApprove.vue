@@ -196,12 +196,15 @@ export default {
         const thisAccount = this.accounts.find(
           ({ address }) => address === this.signRequest.senderAddress
         )
+        const network = this.networks.find(
+          ({ id }) => id === this.signRequest.network
+        )
         await this.$store
           .dispatch('approveSignRequest', {
             ...this.signRequest,
             password: this.password,
-            HDPath: thisAccount.HDPath,
-            curve: thisAccount.curve
+            HDPath: thisAccount.HDPath || network.defaultHDPath,
+            curve: thisAccount.curve || network.defaultCurve
           })
           .catch((error) => {
             this.errorOnApproval = error
