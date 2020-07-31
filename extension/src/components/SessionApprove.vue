@@ -114,7 +114,7 @@ export default {
     errorOnApproval: null
   }),
   computed: {
-    ...mapState([`session`]),
+    ...mapState([`session`, `accounts`]),
     ...mapGetters(['signRequest', 'networks']),
     tx() {
       if (!this.signRequest) return undefined
@@ -193,12 +193,13 @@ export default {
       this.errorOnApproval = null
       if (this.isValidInput('password')) {
         this.isTransactionBroadcasting = true
+        const thisAccount = this.accounts.find(({address}) => address === this.signRequest.senderAddress)
         await this.$store
           .dispatch('approveSignRequest', {
             ...this.signRequest,
             password: this.password,
-            HDPath: this.session.HDPath,
-            curve: this.session.curve,
+            HDPath: thisAccount.HDPath,
+            curve: thisAccount.curve,
           })
           .catch((error) => {
             this.errorOnApproval = error

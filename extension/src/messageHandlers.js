@@ -122,7 +122,7 @@ export async function signMessageHandler(
 export async function walletMessageHandler(message, sender, sendResponse) {
   switch (message.type) {
     case 'GET_WALLETS': {
-      sendResponse(getWalletIndex())
+      sendResponse(getWalletIndex(true))
       break
     }
     case 'DELETE_WALLET': {
