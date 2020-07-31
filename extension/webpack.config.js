@@ -40,8 +40,7 @@ const config = {
       src: resolve('../app/src'),
       lunie: resolve('../app'),
       app: resolve('../app'),
-      scripts: resolve('../app/src/scripts'),
-      '/img': resolve('../app/public/img')
+      scripts: resolve('../app/src/scripts')
     },
     extensions: ['.js', '.vue', '.css']
   },
@@ -113,6 +112,7 @@ const config = {
     }),
     new CopyWebpackPlugin([
       { from: 'icons', to: 'icons', ignore: ['icon.xcf'] },
+      { from: '[...]/app/public/img', to: 'img' },
       {
         from: 'popup/popup.html',
         to: 'popup/popup.html',
