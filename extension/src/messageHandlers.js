@@ -67,7 +67,9 @@ export async function signMessageHandler(
         senderAddress,
         network,
         password,
-        id
+        id,
+        HDPath,
+        curve
       } = event.payload
 
       const transactionManager = new TransactionManager()
@@ -84,7 +86,9 @@ export async function signMessageHandler(
           network,
           'local',
           password,
-          polkadotAPI
+          polkadotAPI,
+          HDPath,
+          curve
         )
         const { tabID } = signRequestQueue.unqueueSignRequest(id)
         sendAsyncResponseToLunie(tabID, {

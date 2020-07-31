@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import TmBtn from 'common/TmBtn'
 import TmFormGroup from 'common/TmFormGroup'
 import TmField from 'common/TmField'
@@ -114,6 +114,7 @@ export default {
     errorOnApproval: null
   }),
   computed: {
+    ...mapState([`session`]),
     ...mapGetters(['signRequest', 'networks']),
     tx() {
       if (!this.signRequest) return undefined
@@ -195,7 +196,9 @@ export default {
         await this.$store
           .dispatch('approveSignRequest', {
             ...this.signRequest,
-            password: this.password
+            password: this.password,
+            HDPath: this.session.HDPath,
+            curve: this.session.curve,
           })
           .catch((error) => {
             this.errorOnApproval = error

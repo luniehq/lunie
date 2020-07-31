@@ -19,7 +19,7 @@ export async function getSignature(
 
   const keyring = new Keyring({
     ss58Format: Number(network.address_prefix),
-    type: curve,
+    type: curve || network.defaultCurve,
   })
   const keypair = keyring.createFromUri(wallet.seedPhrase)
 
