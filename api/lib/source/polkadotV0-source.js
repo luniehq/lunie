@@ -549,6 +549,7 @@ class polkadotAPI {
     let description = ''
     let proposer = ''
     let proposalMethod = ''
+    let creationTime = undefined
     // democracy
     if (proposal.image) {
       const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
@@ -564,6 +565,13 @@ class polkadotAPI {
       )
       description = meta.documentation.toString()
       proposalMethod = method
+
+      // get creationTime
+      const blockHash = await api.rpc.chain.getBlockHash(proposals[0].image.at)
+      const block = await api.rpc.chain.getBlock(blockHash)
+      const args = block.block.extrinsics.map(extrinsic => extrinsic.method.args.find(arg => arg))
+      const blockTimestamp = args[0]
+      creationTime = new Date(Number(blockTimestamp))
     }
     // referendum
     if (proposal.index && proposal.status && !proposal.image) {
@@ -575,7 +583,7 @@ class polkadotAPI {
           extrinsic.method.callIndex
         )
         if (meta.args.find(({ name }) => name == 'proposal_hash')) {
-          proposer = extrinsic.signer.toString() // TODO: add this one too
+          proposer = extrinsic.signer.toString()
           description = meta.documentation.toString()
           proposalMethod = method
         }
@@ -590,7 +598,8 @@ class polkadotAPI {
       ...proposal,
       description,
       proposer: proposal.proposer || proposer, // default to the already existing one if any
-      method: proposalMethod
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
     }
   }
 
