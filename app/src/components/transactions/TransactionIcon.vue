@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import config from "src/../config"
 export default {
   name: `transaction-icon`,
   props: {
@@ -14,14 +13,9 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    isExtension: config.isExtension,
-  }),
   computed: {
     icon() {
-      return this.isExtension
-        ? `/icons/activity/${this.transactionType}.svg`
-        : `/img/icons/activity/${this.transactionType}.svg`
+      return `/img/icons/activity/${this.transactionType}.svg`
     },
   },
 }
