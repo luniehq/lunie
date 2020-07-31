@@ -1,0 +1,2 @@
+[Fixed] [#4638](https://github.com/cosmos/lunie/pull/4638) Fix polkadot and westend transactions failing because of CSP in manifest @Bitcoinera
+[Fixed] [#4638](https://github.com/cosmos/lunie/pull/4638) Fix Substrate transactions with different algos logic getting algos from cosmos-keys @Bitcoinera

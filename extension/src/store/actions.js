@@ -179,7 +179,9 @@ export default ({ apollo }) => {
       messageType,
       message,
       transactionData,
-      network
+      network,
+      HDPath,
+      curve
     }
   ) => {
     return new Promise((resolve, reject) => {
@@ -193,7 +195,9 @@ export default ({ apollo }) => {
             senderAddress,
             password,
             id,
-            network: getters.networks.find(({ id }) => id === network)
+            network: getters.networks.find(({ id }) => id === network),
+            HDPath,
+            curve
           }
         },
         function (response) {
