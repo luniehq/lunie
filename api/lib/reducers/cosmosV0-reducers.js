@@ -392,7 +392,7 @@ function delegationReducer(delegation, validator, active) {
 
 function undelegationReducer(undelegation, validator) {
   return {
-    id: validator.operatorAddress,
+    id: `${validator.operatorAddress}_${undelegation.creation_height}`,
     delegatorAddress: undelegation.delegator_address,
     validator,
     amount: atoms(undelegation.balance),
