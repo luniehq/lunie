@@ -33,7 +33,7 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "@polkadot/api": "^1.27.1",
-    "@sentry/node": "^5.16.1",
+    "@sentry/node": "^5.20.1",
     "apollo-datasource-rest": "^0.9.3",
     "apollo-server": "^2.14.2",
     "apollo-server-cache-redis": "^1.2.2",
