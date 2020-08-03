@@ -262,6 +262,11 @@ const maxDecimals = (value, decimals) => {
 }
 
 const getFeeDenomFromMessage = (message, network) => {
+  // kava is an exception within Tendermint networks and all fees must be paid in KAVA
+  if (network.id.includes(`kava`)) {
+    return `KAVA`
+  }
+
   // check if there is a fee field (polkadot)
   if (message.fee) {
     return message.fee.denom
