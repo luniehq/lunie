@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.33] - 2020-07-31
+
+### Fixed
+
+- [#4638](https://github.com/cosmos/lunie/pull/4638) Fix polkadot and westend transactions failing because of CSP in manifest @Bitcoinera
+- [#4638](https://github.com/cosmos/lunie/pull/4638) Fix Substrate transactions with different algos logic getting algos from cosmos-keys @Bitcoinera
+
 ## [1.0.32] - 2020-07-30
 
 ### Fixed
