@@ -249,6 +249,21 @@ function getExtrinsicSuccess(extrinsicIndex, blockEvents, isBatch) {
   })
   // if tx is a batch, we need to check if all of the batched txs went through
   if (isBatch) {
+    // if batch fails/ is interrupted
+    if (
+      events.find(
+        ({ event }) =>
+          event.section === `utility` && event.method === `BatchInterrupted`
+      )
+    ) {
+      console.error(
+        events.find(
+          ({ event }) =>
+            event.section === `utility` && event.method === `BatchInterrupted`
+        )
+      )
+      return false
+    }
     return !!events.find(
       ({ event }) =>
         event.section === `utility` && event.method === `BatchCompleted`
