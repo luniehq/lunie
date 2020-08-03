@@ -85,7 +85,7 @@
     "vue-router": "3.1.6",
     "vuelidate": "0.7.5",
     "vuex": "3.4.0",
-    "web3-utils": "1.2.4"
+    "web3-utils": "1.2.11"
   },
   "devDependencies": {
     "@ascendancyy/vue-cli-plugin-stylelint": "1.1.2",
