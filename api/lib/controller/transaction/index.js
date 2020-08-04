@@ -181,6 +181,9 @@ function assertOk(res) {
 // as we broadcast transactions asynchronously we need to react to them failing once executed in a block
 // the simplest way to do this in Cosmos is to poll for the tx until it either succeeds or fails
 const MAX_POLL_ITERATIONS = 150 // 5mins
+function getCoinLookup(network, denom, coinLookupDenomType = `chainDenom`) {
+  return network.coinLookup.find((coin) => coin[coinLookupDenomType] === denom)
+}
 async function pollTransactionSuccess(
   networkId,
   senderAddress,
@@ -192,7 +195,10 @@ async function pollTransactionSuccess(
   development,
   iteration = 0
 ) {
-  const network = await db.getNetwork(networkId)
+  const network = {
+    ...(await db.getNetwork(networkId)),
+    getCoinLookup
+  }
   const NetworkApiClass = require('../../' + network.source_class_name)
   const store = {}
   const NetworkApi = new NetworkApiClass(network, store)
@@ -240,7 +246,7 @@ async function pollTransactionSuccess(
     // but also here as a fallback
     // TODO the client might now update twice as it receives the success twice, could be fine though
     const transactions = NetworkApi.reducers.transactionReducerV2(
-      networkId,
+      network,
       res,
       NetworkApi.reducers
     )
@@ -258,6 +264,7 @@ async function pollTransactionSuccess(
     let transactions
     if (res.tx) {
       transactions = NetworkApi.reducers.transactionReducerV2(
+        network,
         res,
         NetworkApi.reducers
       )
