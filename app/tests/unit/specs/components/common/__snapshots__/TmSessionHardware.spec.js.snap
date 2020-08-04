@@ -4,7 +4,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div tabindex="0" class="session-frame" name="component-fade" mode="out-in">
   <div class="session-outer-container"><i class="material-icons notranslate circle modal-icon">vpn_key</i>
     <div class="session">
-      <div class="session-header"><a><i class="material-icons notranslate circle back">arrow_back</i></a>
+      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
         <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
       </div>
       <h2 class="session-title">
@@ -35,7 +35,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div tabindex="0" class="session-frame" name="component-fade" mode="out-in">
   <div class="session-outer-container"><i class="material-icons notranslate circle modal-icon">vpn_key</i>
     <div class="session">
-      <div class="session-header"><a><i class="material-icons notranslate circle back">arrow_back</i></a>
+      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
         <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
       </div>
       <h2 class="session-title">
@@ -65,7 +65,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div tabindex="0" class="session-frame" name="component-fade" mode="out-in">
   <div class="session-outer-container"><i class="material-icons notranslate circle modal-icon">vpn_key</i>
     <div class="session">
-      <div class="session-header"><a><i class="material-icons notranslate circle back">arrow_back</i></a>
+      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
         <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
       </div>
       <h2 class="session-title">
@@ -109,7 +109,9 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
       <div
         class="session-header"
       >
-        <a>
+        <a
+          class=""
+        >
           <i
             class="material-icons notranslate circle back"
           >
@@ -205,7 +207,9 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
       <div
         class="session-header"
       >
-        <a>
+        <a
+          class=""
+        >
           <i
             class="material-icons notranslate circle back"
           >
@@ -277,7 +281,7 @@ exports[`TmSessionHardware sign in does show the instructions to enable HID on W
 <div tabindex="0" class="session-frame" name="component-fade" mode="out-in">
   <div class="session-outer-container"><i class="material-icons notranslate circle modal-icon">vpn_key</i>
     <div class="session">
-      <div class="session-header"><a><i class="material-icons notranslate circle back">arrow_back</i></a>
+      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
         <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
       </div>
       <h2 class="session-title">
@@ -306,7 +310,7 @@ exports[`TmSessionHardware sign in does show the instructions to fix connection 
 <div tabindex="0" class="session-frame" name="component-fade" mode="out-in">
   <div class="session-outer-container"><i class="material-icons notranslate circle modal-icon">vpn_key</i>
     <div class="session">
-      <div class="session-header"><a><i class="material-icons notranslate circle back">arrow_back</i></a>
+      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
         <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
       </div>
       <h2 class="session-title">

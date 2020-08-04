@@ -1,5 +1,8 @@
 <template>
-  <div class="network-item" :class="{ disabled: disabled }">
+  <div
+    class="network-item"
+    :class="{ disabled: disabled }"
+  >
     <div class="network-icon">
       <img
         :src="`${networkItem.icon}`"

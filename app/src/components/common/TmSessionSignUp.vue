@@ -5,7 +5,7 @@
         Create a new address
       </h2>
       <div
-        v-if="!session.insecureMode && !session.mobile && !isTestnet"
+        v-if="!isExtension && !session.insecureMode && !session.mobile && !isTestnet"
         class="session-main"
       >
         <InsecureModeWarning />
@@ -96,7 +96,7 @@ export default {
   },
   computed: {
     ...mapState([`session`, `signup`]),
-    ...mapGetters([`network`, `networks`]),
+    ...mapGetters([`network`, `networks`, `isExtension`]),
     fieldName: {
       get() {
         return this.$store.state.signup.signUpName

@@ -369,6 +369,19 @@ class CosmosV0API extends RESTDataSource {
       const coinLookup = network.getCoinLookup(network, coin.denom)
       return this.reducers.coinReducer(coin, coinLookup)
     })
+    // also check if there are any balances as rewards
+    const rewards = await this.getRewards(address, fiatCurrency, network)
+    const rewardsBalances = rewards.reduce((coinsAggregator, reward) => {
+      if (!coins.find((coin) => coin.denom === reward.denom)) {
+        coinsAggregator.push({
+          amount: 0,
+          denom: reward.denom
+        })
+      }
+      return coinsAggregator
+    }, [])
+    // join regular balances and rewards balances
+    coins.push(...rewardsBalances)
     const hasStakingDenom = coins.find(
       ({ denom }) => denom === this.network.stakingDenom
     )
@@ -485,25 +498,22 @@ class CosmosV0API extends RESTDataSource {
     return expectedReturns
   }
 
-  async getRewards(delegatorAddress) {
+  async getRewards(delegatorAddress, fiatCurrency, network) {
     this.checkAddress(delegatorAddress)
-    const delegations = await this.getDelegationsForDelegatorAddress(
-      delegatorAddress
+    const result = await this.query(
+      `distribution/delegators/${delegatorAddress}/rewards`
     )
-    const rewards = await Promise.all(
-      delegations.map(async ({ validatorAddress, validator }) => ({
-        validator,
-        rewards:
-          (await this.query(
-            `distribution/delegators/${delegatorAddress}/rewards/${validatorAddress}`
-          )) || []
-      }))
+    const rewards = (result.rewards || []).filter(
+      ({ reward }) => reward && reward.length > 0
     )
-    return rewards
-      .filter(({ rewards }) => rewards.length > 0)
-      .map(({ rewards, validator }) =>
-        this.reducers.rewardReducer(rewards[0], validator)
-      )
+    return this.reducers.rewardReducer(
+      rewards,
+      this.store.validators,
+      fiatCurrency,
+      this.calculateFiatValue && this.calculateFiatValue.bind(this),
+      this.reducers,
+      network
+    )
   }
 
   async getAllDelegators() {
