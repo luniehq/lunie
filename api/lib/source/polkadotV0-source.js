@@ -566,11 +566,12 @@ class polkadotAPI {
       proposalMethod = method
 
       // get creationTime
-      const blockHash = await api.rpc.chain.getBlockHash(proposals[0].image.at)
       const block = await api.rpc.chain.getBlock(blockHash)
-      const args = block.block.extrinsics.map(extrinsic => extrinsic.method.args.find(arg => arg))
+      const args = block.block.extrinsics.map((extrinsic) =>
+        extrinsic.method.args.find((arg) => arg)
+      )
       const blockTimestamp = args[0]
-      creationTime = new Date(Number(blockTimestamp))
+      creationTime = new Date(Number(blockTimestamp)).toUTCString()
     }
     // referendum
     if (proposal.index && proposal.status && !proposal.image) {
@@ -587,6 +588,13 @@ class polkadotAPI {
           proposalMethod = method
         }
       })
+
+      // get creationTime
+      const args = block.block.extrinsics.map((extrinsic) =>
+        extrinsic.method.args.find((arg) => arg)
+      )
+      const blockTimestamp = args[0]
+      creationTime = new Date(Number(blockTimestamp)).toUTCString()
     }
     // council
     if (proposal.proposal && proposal.proposal.callIndex) {
