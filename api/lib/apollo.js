@@ -1,19 +1,13 @@
 const { ApolloServer } = require('apollo-server-express')
 const responseCachePlugin = require('apollo-server-plugin-response-cache')
-const Sentry = require('@sentry/node')
 
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 const Notifications = require('./notifications/notifications')
-const database = require('./database')
 const { validateIdToken } = require('./accounts')
-
-const NetworkContainer = require('./network-container')
 
 const config = require('../config')
 const NotificationContoller = require('./notifications/notificationController')
-
-const db = database(config)('')
 
 function getDataSources(networks) {
   return () => {
@@ -32,23 +26,7 @@ function startBlockTriggers(networks) {
   networks.map((network) => network.initialize())
 }
 
-function getCoinLookup(network, denom, coinLookupDenomType = `chainDenom`) {
-  return network.coinLookup.find((coin) => coin[coinLookupDenomType] === denom)
-}
-
-async function createApolloServer(httpServer) {
-  const networksFromDBList = await db.getNetworks()
-  const networkList = networksFromDBList
-    .filter((network) => network.enabled)
-    // add the getCoinLookup function
-    .map((network) => {
-      return {
-        ...network,
-        getCoinLookup
-      }
-    })
-  const networks = networkList.map((network) => new NetworkContainer(network))
-
+async function createApolloServer(httpServer, networkList, networks) {
   if (config.env !== 'test') {
     startBlockTriggers(networks)
   }

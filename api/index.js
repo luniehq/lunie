@@ -3,8 +3,12 @@ const http = require('http')
 const cors = require('cors')
 const { createApolloServer } = require('./lib/apollo')
 const { transaction } = require('./lib/routes')
-
+const database = require('./lib/database')
 const config = require('./config')
+const NetworkContainer = require('./lib/network-container')
+
+const db = database(config)('')
+const NEW_NETWORKS_POLLING_INTERVAL = 600000 // 10min
 
 if (config.SENTRY_DSN) {
   const Sentry = require('@sentry/node')
@@ -14,14 +18,35 @@ if (config.SENTRY_DSN) {
   })
 }
 
-async function main() {
-  const app = express()
-  const httpServer = http.createServer(app)
+function getCoinLookup(network, denom, coinLookupDenomType = `chainDenom`) {
+  return network.coinLookup.find((coin) => coin[coinLookupDenomType] === denom)
+}
 
-  app.use(express.json())
-  app.use(config.transactionPath, cors(), transaction)
+async function getNetworks() {
+  const networksFromDBList = await db.getNetworks()
+  const networkList = networksFromDBList
+    .filter((network) => network.enabled)
+    // add the getCoinLookup function
+    .map((network) => {
+      return {
+        ...network,
+        getCoinLookup
+      }
+    })
+  return {
+    networkList,
+    networks: networkList.map((network) => new NetworkContainer(network))
+  }
+}
 
-  const apolloServer = await createApolloServer(httpServer)
+async function pollForNewNetworks(httpServer, app) {
+  const networksResponse = await getNetworks()
+
+  const apolloServer = await createApolloServer(
+    httpServer,
+    networksResponse.networkList,
+    networksResponse.networks
+  )
   app.use(
     apolloServer.getMiddleware({ app, path: config.queryPath, cors: true })
   )
@@ -33,6 +58,20 @@ async function main() {
     )
     console.log(`Transaction service ready at ${config.transactionPath}`)
   })
+  this.newNetworksPollingTimeout = setTimeout(async () => {
+    this.pollForNewNetworks()
+  }, NEW_NETWORKS_POLLING_INTERVAL)
+}
+
+async function main() {
+  const app = express()
+  const httpServer = http.createServer(app)
+
+  app.use(express.json())
+  app.use(config.transactionPath, cors(), transaction)
+
+  // start ten minute loop to search for new networks
+  pollForNewNetworks(httpServer, app)
 }
 
 main()
