@@ -235,9 +235,9 @@ class CosmosV0API extends RESTDataSource {
 
   async getDetailedVotes(proposal) {
     const [votes, deposits, links] = await Promise.all([
-      await this.query(`/gov/proposals/${proposal.id}/votes`),
-      await this.query(`/gov/proposals/${proposal.id}/deposits`),
-      await this.db.getNetworkLinks(this.network.id)
+      this.query(`/gov/proposals/${proposal.id}/votes`),
+      this.query(`/gov/proposals/${proposal.id}/deposits`),
+      this.db.getNetworkLinks(this.network.id)
     ])
     return {
       deposits: deposits
@@ -293,20 +293,23 @@ class CosmosV0API extends RESTDataSource {
     const [
       tally,
       proposer,
-      { bonded_tokens: totalBondedTokens }
+      { bonded_tokens: totalBondedTokens },
+      detailedVotes
     ] = await Promise.all([
       this.query(`/gov/proposals/${proposalId}/tally`),
       this.query(`gov/proposals/${proposalId}/proposer`).catch(() => {
         return { proposer: `unknown` }
       }),
-      this.query(`/staking/pool`)
+      this.query(`/staking/pool`),
+      this.getDetailedVotes(proposal)
     ])
     return this.reducers.proposalReducer(
       this.network.id,
       proposal,
       tally,
       proposer,
-      totalBondedTokens
+      totalBondedTokens,
+      detailedVotes
     )
   }
 
