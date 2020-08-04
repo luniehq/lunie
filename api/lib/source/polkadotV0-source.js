@@ -1,5 +1,9 @@
 const BigNumber = require('bignumber.js')
 const { orderBy, uniqWith } = require('lodash')
+const { stringToU8a } = require('@polkadot/util')
+
+const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
+
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -635,16 +639,40 @@ class polkadotAPI {
       .map(({ address }) => address)
   }
 
-  async getGovernanceOverview() {
+  async getTreasurySize() {
+    const api = await this.getAPI()
+
+    const TREASURY_ADDRESS = stringToU8a('modlpy/trsry'.padEnd(32, '\0'))
+    const treasuryAccount = await api.query.system.account(TREASURY_ADDRESS)
+    const totalBalance = treasuryAccount.data.free
+    const freeBalance = BigNumber(totalBalance.toString()).minus(
+      treasuryAccount.data.miscFrozen.toString()
+    )
+    return freeBalance.toString()
+  }
+
+  async getGovernanceOverview(network) {
     const api = await this.getAPI()
 
     const activeEra = parseInt(
       JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
     )
+    const erasTotalStake = await api.query.staking.erasTotalStake(activeEra)
+    const treasurySize = await this.getTreasurySize()
     return {
-      totalStakedAssets: await api.query.staking.erasTotalStake(activeEra),
-      totalVoters: await this.getTotalActiveAccounts(), // TODO
-      treasurySize: undefined, // I don't find this concept in Substrate
+      totalStakedAssets: fixDecimalsAndRoundUp(
+        BigNumber(erasTotalStake).times(
+          network.coinLookup[0].chainToViewConversionFactor
+        ),
+        6
+      ),
+      totalVoters: await this.getTotalActiveAccounts(),
+      treasurySize: fixDecimalsAndRoundUp(
+        BigNumber(treasurySize).times(
+          network.coinLookup[0].chainToViewConversionFactor
+        ),
+        6
+      ),
       recentProposals: await this.getRecentProposals(),
       topVoters: await this.getTopVoters(),
       links: [] // TODO

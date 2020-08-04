@@ -199,10 +199,11 @@ const governanceOverview = (networks) => async (
   { networkId },
   { dataSources }
 ) => {
+  const network = networks.find(({ id }) => id === networkId)
   const overview = await remoteFetch(
     dataSources,
     networkId
-  ).getGovernanceOverview()
+  ).getGovernanceOverview(network)
   return {
     totalStakedAssets: overview.totalStakedAssets,
     totalVoters: overview.totalVoters,
