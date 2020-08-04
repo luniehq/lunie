@@ -68,7 +68,12 @@ export const updatePushNotificationRegistration = async (addressObjects, apollo)
   // TODO check if the token is already available
   const pushToken = localStorage.getItem(PushNotificationTokenKey)
   if (!pushToken) return
-  registerDevice(pushToken, addressObjects, apollo)
+  try {
+    await registerDevice(pushToken, addressObjects, apollo)
+  } catch (error) {
+    console.error(error)
+    Sentry.captureException(error)
+  }
 }
 
 const registerDevice = async (pushToken, addressObjects, apollo) => {
@@ -86,5 +91,7 @@ const registerDevice = async (pushToken, addressObjects, apollo) => {
       pushToken,
       addressObjects,
     },
+  }).catch(error => {
+    console.error("ERROR" + error.message)
   })
 }

@@ -1,3 +1,5 @@
+const config = require('../../config')
+
 // in this file should be the formatting of the events to user readable content
 const eventTypes = {
   /* Block */
@@ -99,6 +101,12 @@ const getDefaultEMailSubscriptions = async (addresses, dataSources) => {
       `${eventTypes.PROPOSAL_CREATE}_${networkId}`,
       `${eventTypes.PROPOSAL_UPDATE}_${networkId}`
     )
+    // in development register for transaction send to test easier
+    if (config.env === "development") {
+      subscriptions.push(
+        `${address}_${eventTypes.TRANSACTION_SEND}_${networkId}`,
+      )
+    }
   }
 
   return subscriptions

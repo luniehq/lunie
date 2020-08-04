@@ -83,7 +83,7 @@ class NotificationController {
       ).map((topic) => ({ topic, type: 'push' }))
 
       this.db('').storePushRegistrations({uid, pushToken})
-      this.subscribeUserToPushNotificationTopics(pushToken, topics)
+      this.subscribeUserToPushNotificationTopics(pushToken, topics.map(({topic}) => topic))
     }
     topics.forEach(({ topic, type }) => {
       if (!this.registrations[topic])
