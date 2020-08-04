@@ -130,6 +130,7 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
         curves
         defaultHDPath
         defaultCurve
+        links
       }
       networksCapabilities: networksCapabilities {
         id
@@ -208,6 +209,7 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
         curves
         defaultHDPath
         defaultCurve
+        links
       }
       networksCapabilities: networksCapabilities(where: { 
         id: {_eq: "${id}"}
@@ -245,6 +247,27 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
     ...networksCapabilities[0],
     coinLookup: coinLookups
   }
+}
+
+const getNetworkLinks = ({ hasura_url, hasura_admin_key }) => () => async (
+  id
+) => {
+  const {
+    data: { networks }
+  } = await query({
+    hasura_url,
+    hasura_admin_key
+  })(`
+    query {
+      networks: networks(where: { 
+        id: {_eq: "${id}"}
+      }) {
+        links
+      }
+    }
+    `)
+  const network = networks[0]
+  return network.links
 }
 
 const storeCoinLookups = (
@@ -426,6 +449,7 @@ module.exports = {
   storeNetwork,
   getNetwork,
   getNetworks,
+  getNetworkLinks,
   storeUser,
   getUser,
   storeStore,

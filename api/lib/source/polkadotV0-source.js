@@ -659,6 +659,7 @@ class polkadotAPI {
     )
     const erasTotalStake = await api.query.staking.erasTotalStake(activeEra)
     const treasurySize = await this.getTreasurySize()
+    const links = await this.db.getNetworkLinks(this.network.id)
     return {
       totalStakedAssets: fixDecimalsAndRoundUp(
         BigNumber(erasTotalStake).times(
@@ -675,7 +676,7 @@ class polkadotAPI {
       ),
       recentProposals: await this.getRecentProposals(),
       topVoters: await this.getTopVoters(),
-      links: [] // TODO
+      links: JSON.parse(links)
     }
   }
 }

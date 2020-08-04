@@ -326,13 +326,14 @@ class CosmosV0API extends RESTDataSource {
     const communityPool = communityPoolArray.find(
       ({ denom }) => denom === this.network.coinLookup[0].chainDenom
     ).amount
+    const links = await this.db.getNetworkLinks(this.network.id)
     return {
       totalStakedAssets: Number(totalBondedTokens),
-      totalVoters: undefined, // TODO
+      totalVoters: undefined,
       treasurySize: Number(communityPool).toFixed(2),
       recentProposals: await this.getRecentProposals(),
       topVoters: await this.getTopVoters(),
-      links: [] // TODO
+      links: JSON.parse(links)
     }
   }
 

@@ -320,7 +320,6 @@ const typeDefs = gql`
     title: String
     link: String
     type: String
-    icon: String
   }
 
   type GovernanceOverview {
