@@ -1,7 +1,6 @@
 <template>
   <SessionFrame icon="account_box">
-    <TmDataLoading v-if="!loaded" />
-    <div v-else class="card-sign-in">
+    <div class="card-sign-in">
       <h2>Welcome to Lunie 👋</h2>
       <h3>How would you like to get started?</h3>
 
@@ -73,7 +72,10 @@ import TmDataLoading from "src/components/common/TmDataLoading"
 
 export default {
   name: `card-sign-in-required`,
-  components: { LiSession, TmDataLoading, SessionFrame },
+  components: {
+    LiSession,
+    SessionFrame,
+  },
   data: () => ({
     isMobileApp: config.mobileApp,
     isExtension: config.isExtension,
@@ -107,7 +109,7 @@ h2 {
 
 h2,
 h3 {
-  padding-left: 1.5rem;
+  text-align: center;
 }
 
 .footnote {
@@ -118,7 +120,7 @@ h3 {
 
 .card-sign-in {
   max-width: 600px;
-  padding: 0 1rem 5rem;
+  padding: 1rem 0;
   margin: 0 auto;
   width: 100%;
 }

@@ -100,10 +100,21 @@ class NotificationController {
 
   async getEmails(uids) {
     return await Promise.all(
-      uids.map(async (uid) => {
-        const user = await firebaseAdmin.auth().getUser(uid)
-        return user.email
-      })
+      uids
+        .map(async (uid) => {
+          try {
+            const user = await firebaseAdmin.auth().getUser(uid)
+            return user.email
+          } catch (error) {
+            Sentry.withScope(function (scope) {
+              console.error(error)
+              scope.setExtra('uid', uid)
+              Sentry.captureException(err)
+            })
+            return undefined
+          }
+        })
+        .filter((email) => !!email)
     )
   }
 

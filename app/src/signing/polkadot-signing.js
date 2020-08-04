@@ -1,6 +1,9 @@
-import { hexToU8a } from "@polkadot/util"
-
-export async function getSignature({ payload, transaction }, wallet, network) {
+export async function getSignature(
+  { transaction },
+  wallet,
+  network,
+  curve
+) {
   const [{ Keyring }] = await Promise.all([
     import("@polkadot/api"),
     import("@polkadot/wasm-crypto").then(async ({ waitReady }) => {
@@ -14,11 +17,11 @@ export async function getSignature({ payload, transaction }, wallet, network) {
 
   const keyring = new Keyring({
     ss58Format: Number(network.address_prefix),
-    type: "sr25519",
+    type: curve || network.defaultCurve,
   })
   const keypair = keyring.createFromUri(wallet.seedPhrase)
+  const signedMessage = (await transaction.signAsync(keypair)).toJSON()
+  console.log(signedMessage)
 
-  const rawSignature = keypair.sign(hexToU8a(payload.toRaw().data))
-
-  return { payload, transaction, rawSignature }
+  return { signedMessage }
 }

@@ -1,10 +1,10 @@
 <template>
   <div v-if="showMessage" class="bar-container">
     <div :class="`bar ${barType}`">
-      <p>
-        <slot />
-      </p>
-      <div class="right">
+      <div class="left">
+        <p>
+          <slot />
+        </p>
         <TmBtn
           v-if="link"
           class="button small"
@@ -12,6 +12,8 @@
           type="button"
           @click.native="goToLink(link)"
         />
+      </div>
+      <div class="right">
         <i class="material-icons notranslate close-icon" @click="close()"
           >close</i
         >
@@ -120,14 +122,36 @@ export default {
   cursor: pointer;
 }
 
-.bar .right {
+.right {
   display: flex;
   align-items: center;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .close-icon {
   cursor: pointer;
   font-size: 18px;
   padding-left: 1rem;
+}
+
+@media screen and (max-width: 667px) {
+  .bar {
+    align-items: baseline;
+  }
+
+  .left {
+    flex-direction: column;
+    align-items: baseline;
+  }
+
+  .left p {
+    padding-bottom: 1rem;
+  }
 }
 </style>

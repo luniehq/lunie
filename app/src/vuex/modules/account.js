@@ -2,6 +2,7 @@ import getFirebase from "../../firebase.js"
 import * as Sentry from "@sentry/browser"
 import gql from "graphql-tag"
 import { Plugins } from "@capacitor/core"
+import config from "src/../config"
 const { App: CapacitorApp } = Plugins
 
 export default ({ apollo }) => {
@@ -143,6 +144,7 @@ export default ({ apollo }) => {
   }
 }
 
+// Deep Linking: The app can receive a deep link. This link needs to be forwarded to the web app. https://capacitorjs.com/docs/guides/deep-links
 export async function getLaunchUrl(router) {
   const urlOpen = await CapacitorApp.getLaunchUrl()
   if (!urlOpen || !urlOpen.url) return
@@ -168,6 +170,7 @@ export function handleDeeplink(url, router) {
     }, {})
 
   // if we receive a deeplink for firebase authentication we follow that link
+  // the target will perform the authentication and then redirect back to lunie
   if (queryObject.link) {
     window.open(unescape(queryObject.link), "_blank")
   }

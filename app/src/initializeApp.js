@@ -13,6 +13,8 @@ import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider } from "src/gql/apollo.js"
 import { registerForPushNotifications } from "./scripts/pushNotifications"
+import { Plugins } from "@capacitor/core"
+const { App: CapacitorApp } = Plugins
 import { handleDeeplink, getLaunchUrl } from "./vuex/modules/account"
 
 if (navigator && navigator.serviceWorker) {

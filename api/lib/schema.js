@@ -172,6 +172,10 @@ const typeDefs = gql`
     lockUpPeriod: String
     erasPerDay: Int!
     source_class_name: String!
+    HDPaths: String!
+    curves: String!
+    defaultHDPath: String!
+    defaultCurve: String!
   }
 
   type Delegation {
