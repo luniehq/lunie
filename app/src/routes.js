@@ -207,28 +207,41 @@ export default (store) => {
     { path: `/404`, component: () => import(`./components/common/Page404`) },
     {
       path: `/privacy`,
-      component: () => import(`./components/common/PagePrivacy`),
+      beforeEnter() {
+        location.href = `https://lunie.io/privacy`
+      },
     },
     {
       path: `/terms`,
-      component: () => import(`./components/common/PageTerms`),
+      beforeEnter() {
+        location.href = `https://lunie.io/terms`
+      },
     },
     {
       path: `/security`,
-      component: () => import(`./components/common/PageSecurity`),
+      beforeEnter() {
+        location.href = `https://lunie.io/security`
+      },
     },
     {
       path: `/about`,
-      component: () => import(`./components/common/PageAbout`),
+      beforeEnter() {
+        location.href = `https://lunie.io/about`
+      },
     },
     {
       path: `/careers`,
-      component: () => import(`./components/common/PageCareers`),
+      beforeEnter() {
+        location.href = `https://angel.co/company/lunie`
+      },
     },
     {
       path: `/feature-not-available/:feature`,
       component: () => import(`./components/common/PageFeatureNotAvailable`),
       props: true,
+      meta: {
+        networkSpecificRoute: true,
+      },
     },
     {
       path: `/feature-not-present/:feature`,
@@ -258,6 +271,9 @@ export default (store) => {
       path: `/welcome`,
       name: `welcome`,
       component: () => import(`./components/common/CardSignInRequired`),
+      meta: {
+        networkSpecificRoute: true,
+      },
     },
     {
       path: `/:networkId`,

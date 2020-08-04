@@ -34,26 +34,12 @@ export default {
 }
 </script>
 <style scoped>
-/* Somehow this is not being detected in extension. Needs to be here */
-.material-icons {
-  font-weight: normal;
-  font-style: normal;
-  font-size: 24px;
-  display: inline-block;
-  line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-}
-
 .account-menu {
   display: flex;
   align-items: center;
   position: absolute;
-  right: 0;
-  top: 0.75rem;
+  right: 0.5rem;
+  top: 0.5rem;
 }
 
 .account-balance {
@@ -86,8 +72,8 @@ export default {
 }
 
 .account-menu-button-span {
-  margin-top: 0.5em;
-  font-size: 0.75em;
+  margin-top: 0.5rem;
+  font-size: 10px;
   color: var(--faded-blue);
 }
 

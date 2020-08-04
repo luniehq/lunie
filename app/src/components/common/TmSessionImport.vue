@@ -22,12 +22,6 @@
             @input="(val) => (seed = val)"
           />
           <TmFormMsg
-            v-if="isPolkadot"
-            type="custom"
-            class="tm-form-msg--desc"
-            msg="Currently only the Schnorrkel algorithm is supported"
-          />
-          <TmFormMsg
             v-if="$v.seed.$error && !$v.seed.required"
             name="Seed"
             type="required"
@@ -142,8 +136,3 @@ export default {
   },
 }
 </script>
-<style scoped>
-.schnorrkel-warning {
-  color: var(--warning);
-}
-</style>

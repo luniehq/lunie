@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.223] - 2020-07-30
+
+### Added
+
+- [#3929](https://github.com/cosmos/lunie/issues/3929) It is possible to restore an account using different algos / derivation paths. In polkadot you sign transactions with it @Bitcoinera
+- added an apple app site association file @jbibla
+
+### Changed
+
+- [#4570](https://github.com/cosmos/lunie/pull/4570) When selecting a network in PageNetworks user is taken to that network's porfolio @Bitcoinera
+- Update the account role after bonding @faboweb
+- the account list styles were broken. the show seed option is hidden on web now. style improvements.  @jbibla
+- after a user clicks the magic link they will now see a modal instead of a page - also updated the copy @jbibla
+- cleaning up some style inconsistencies and side effects @jbibla
+
+### Deprecated
+
+- removing redundant content pages @jbibla
+
+## [1.0.222] - 2020-07-29
+
+### Added
+
+- [#3929](https://github.com/cosmos/lunie/issues/3929) It is possible to restore an account using different algos / derivation paths. In polkadot you sign transactions with it @Bitcoinera
+- added an apple app site association file @jbibla
+
+### Changed
+
+- [#4570](https://github.com/cosmos/lunie/pull/4570) When selecting a network in PageNetworks user is taken to that network's porfolio @Bitcoinera
+- Update the account role after bonding @faboweb
+- cleaning up some style inconsistencies and side effects @jbibla
+
 ## [1.0.221] - 2020-07-27
 
 ### Added

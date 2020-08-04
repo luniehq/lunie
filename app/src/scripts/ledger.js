@@ -56,7 +56,7 @@ async function getLedgerConnector(networkId, store) {
     case "cosmos": {
       const { default: Ledger } = await import("@lunie/cosmos-ledger")
 
-      const HDPATH = [44, 118, 0, 0, 0]
+      const HDPATH = [44, 118, 0, 0, 0] // TODO: handle different algos
       const ledger = new Ledger(
         {
           testModeAllowed: config.testModeAllowed,

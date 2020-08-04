@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="page"
-    :class="{ 'dark-background': darkBackground && session.signedIn }"
-  >
+  <div class="page">
     <CardSignInRequired v-if="signInRequired && !session.signedIn" />
 
     <TmDataLoading v-else-if="loading && !loaderPath" />
@@ -69,10 +66,6 @@ export default {
       default: ``,
     },
     signInRequired: {
-      type: Boolean,
-      default: false,
-    },
-    darkBackground: {
       type: Boolean,
       default: false,
     },

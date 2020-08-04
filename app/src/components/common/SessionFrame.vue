@@ -24,7 +24,7 @@
         >
         <div class="session">
           <div class="session-header">
-            <a v-if="!hideBack" @click="goBack">
+            <a :class="{ invisible: hideBack }" @click="goBack">
               <i class="material-icons notranslate circle back">arrow_back</i>
             </a>
             <div v-if="!isExtension" class="session-close">
@@ -102,6 +102,10 @@ export default {
 
 <style>
 @import "../../styles/session.css";
+
+.invisible {
+  visibility: hidden;
+}
 
 .component-fade-enter-active,
 .component-fade-leave-active {
