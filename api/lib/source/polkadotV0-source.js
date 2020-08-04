@@ -1,7 +1,6 @@
 const BigNumber = require('bignumber.js')
 const { orderBy, uniqWith } = require('lodash')
 const { stringToU8a } = require('@polkadot/util')
-
 const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
 
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
@@ -665,14 +664,14 @@ class polkadotAPI {
         BigNumber(erasTotalStake).times(
           network.coinLookup[0].chainToViewConversionFactor
         ),
-        6
+        2
       ),
       totalVoters: await this.getTotalActiveAccounts(),
       treasurySize: fixDecimalsAndRoundUp(
         BigNumber(treasurySize).times(
           network.coinLookup[0].chainToViewConversionFactor
         ),
-        6
+        2
       ),
       recentProposals: await this.getRecentProposals(),
       topVoters: await this.getTopVoters(),

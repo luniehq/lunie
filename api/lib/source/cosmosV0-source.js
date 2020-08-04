@@ -4,11 +4,12 @@ const BigNumber = require('bignumber.js')
 const { orderBy, keyBy, uniqBy } = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
+const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
 const { getNetworkGasPrices } = require('../../data/network-fees')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 class CosmosV0API extends RESTDataSource {
-  constructor(network, store, fiatValuesAPI) {
+  constructor(network, store, fiatValuesAPI, db) {
     super()
     this.baseURL = network.api_url
     this.initialize({})
@@ -19,6 +20,7 @@ class CosmosV0API extends RESTDataSource {
     this.gasPrices = getNetworkGasPrices(network.id)
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
+    this.db = db
 
     this.setReducers()
   }
@@ -318,7 +320,7 @@ class CosmosV0API extends RESTDataSource {
       .map(({ operatorAddress }) => operatorAddress)
   }
 
-  async getGovernanceOverview() {
+  async getGovernanceOverview(network) {
     const { bonded_tokens: totalBondedTokens } = await this.query(
       '/staking/pool'
     )
@@ -328,9 +330,19 @@ class CosmosV0API extends RESTDataSource {
     ).amount
     const links = await this.db.getNetworkLinks(this.network.id)
     return {
-      totalStakedAssets: Number(totalBondedTokens),
+      totalStakedAssets: fixDecimalsAndRoundUp(
+        BigNumber(totalBondedTokens).times(
+          network.coinLookup[0].chainToViewConversionFactor
+        ),
+        2
+      ),
       totalVoters: undefined,
-      treasurySize: Number(communityPool).toFixed(2),
+      treasurySize: fixDecimalsAndRoundUp(
+        BigNumber(communityPool).times(
+          network.coinLookup[0].chainToViewConversionFactor
+        ),
+        2
+      ),
       recentProposals: await this.getRecentProposals(),
       topVoters: await this.getTopVoters(),
       links: JSON.parse(links)
