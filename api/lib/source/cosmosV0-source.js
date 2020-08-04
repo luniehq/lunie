@@ -234,11 +234,23 @@ class CosmosV0API extends RESTDataSource {
   }
 
   async getDetailedVotes(proposal) {
-    const [votes, deposits, links] = await Promise.all([
+    const [
+      votes,
+      deposits,
+      tally,
+      tallyingParameters,
+      links
+    ] = await Promise.all([
       this.query(`/gov/proposals/${proposal.id}/votes`),
       this.query(`/gov/proposals/${proposal.id}/deposits`),
+      this.query(`/gov/proposals/${proposal.id}/tally`),
+      this.query(`/gov/parameters/tallying`),
       this.db.getNetworkLinks(this.network.id)
     ])
+    const totalVotingAssets = BigNumber(tally.yes)
+      .plus(tally.abstain)
+      .plus(tally.no)
+      .plus(tally.no_with_veto)
     return {
       deposits: deposits
         ? deposits.map((deposit) => this.reducers.depositReducer(deposit))
@@ -249,8 +261,16 @@ class CosmosV0API extends RESTDataSource {
         ? votes.map((vote) => this.reducers.voteReducer(vote))
         : undefined,
       votesSum: votes ? votes.length : undefined,
-      votingThresholdYes: undefined,
-      votingThresholdNo: undefined,
+      votingThresholdYes: BigNumber(tally.yes)
+        .times(100)
+        .div(totalVotingAssets)
+        .toNumber()
+        .toFixed(2),
+      votingThresholdNo: BigNumber(tally.no)
+        .times(100)
+        .div(totalVotingAssets)
+        .toNumber()
+        .toFixed(2),
       links,
       timeline: undefined
     }
