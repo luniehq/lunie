@@ -134,7 +134,7 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
 function depositReducer(deposit) {
   return {
     amount: deposit.amount,
-    depositer: deposit.address
+    depositer: deposit.depositor
   }
 }
 
