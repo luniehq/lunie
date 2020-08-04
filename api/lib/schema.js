@@ -56,6 +56,29 @@ const typeDefs = gql`
     availableFiatValue: FiatValue
   }
 
+  type Deposit {
+    amount: String
+    depositer: String
+  }
+
+  type Vote {
+    id: Int
+    voter: String
+    option: String
+  }
+
+  type DetailedVotes {
+    deposits: [Deposit]
+    depositsSum: String
+    percentageDepositsNeeded: String
+    votes: [Vote]
+    votesSum: String
+    votingThresholdYes: String
+    votingThresholdNo: String
+    links: [GovernanceLink]
+    timeline: GovernanceTimeline
+  }
+
   type Proposal {
     id: Int
     networkId: String!
@@ -70,6 +93,7 @@ const typeDefs = gql`
     deposit: String # BigNumber
     proposer: String
     validator: Validator
+    detailedVotes: DetailedVotes
   }
 
   type Validator {
@@ -309,15 +333,22 @@ const typeDefs = gql`
     blockExplorerLink: String
   }
 
+  type GovernanceTimeline {
+    title: String
+    time: String
+  }
+
+  type GovernanceLink {
+    title: String
+    link: String
+    type: String
+  }
+
   type GovernanceParameters {
     depositDenom: String
     votingThreshold: Float
     vetoThreshold: Float
     depositThreshold: String # BigNumber
-  }
-
-  type Vote {
-    option: String
   }
 
   type Powered {

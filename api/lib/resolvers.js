@@ -189,7 +189,7 @@ const resolvers = (networkList) => ({
       // a validator, and in that case fetch the current validator object from datasource
       // and attach it to proposal.
       //
-      if (proposal.proposer !== `unknown`) {
+      if (proposal.proposer && proposal.proposer !== `unknown`) {
         const proposerValAddress = encodeB32(
           decodeB32(proposal.proposer),
           `cosmosvaloper`,

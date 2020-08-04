@@ -131,12 +131,28 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
   }
 }
 
+function depositReducer(deposit) {
+  return {
+    amount: deposit.amount,
+    depositer: deposit.address
+  }
+}
+
+function voteReducer(vote) {
+  return {
+    id: vote.proposal_id,
+    voter: vote.voter,
+    option: vote.option
+  }
+}
+
 function proposalReducer(
   networkId,
   proposal,
   tally,
   proposer,
-  totalBondedTokens
+  totalBondedTokens,
+  detailedVotes
 ) {
   return {
     id: Number(proposal.proposal_id),
@@ -150,7 +166,8 @@ function proposalReducer(
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal),
-    proposer: proposer.proposer
+    proposer: proposer.proposer,
+    detailedVotes
   }
 }
 
@@ -498,6 +515,8 @@ module.exports = {
   proposalReducer,
   governanceParameterReducer,
   tallyReducer,
+  depositReducer,
+  voteReducer,
   validatorReducer,
   blockReducer,
   delegationReducer,

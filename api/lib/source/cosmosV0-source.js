@@ -8,7 +8,7 @@ const { getNetworkGasPrices } = require('../../data/network-fees')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 class CosmosV0API extends RESTDataSource {
-  constructor(network, store, fiatValuesAPI) {
+  constructor(network, store, fiatValuesAPI, db) {
     super()
     this.baseURL = network.api_url
     this.initialize({})
@@ -19,6 +19,7 @@ class CosmosV0API extends RESTDataSource {
     this.gasPrices = getNetworkGasPrices(network.id)
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
+    this.db = db
 
     this.setReducers()
   }
@@ -232,20 +233,44 @@ class CosmosV0API extends RESTDataSource {
     )
   }
 
+  async getDetailedVotes(proposal) {
+    const votes = await this.query(`/gov/proposals/${proposal.id}/votes`)
+    const deposits = await this.query(`/gov/proposals/${proposal.id}/deposits`)
+    const links = await this.db.getNetworkLinks(this.network.id)
+    return {
+      deposits: deposits
+        ? deposits.map((deposit) => this.reducers.depositReducer(deposit))
+        : undefined,
+      depositsSum: deposits ? deposits.length : undefined,
+      percentageDepositsNeeded: undefined,
+      votes: votes
+        ? votes.map((vote) => this.reducers.voteReducer(vote))
+        : undefined,
+      votesSum: votes ? votes.length : undefined,
+      votingThresholdYes: undefined,
+      votingThresholdNo: undefined,
+      links,
+      timeline: undefined
+    }
+  }
+
   async getAllProposals() {
     const response = await this.query('gov/proposals')
     const { bonded_tokens: totalBondedTokens } = await this.query(
       '/staking/pool'
     )
     if (!Array.isArray(response)) return []
-    const proposals = response.map((proposal) => {
-      return this.reducers.proposalReducer(
-        this.network.id,
-        proposal,
-        {},
-        totalBondedTokens
-      )
-    })
+    const proposals = await Promise.all(
+      response.map(async (proposal) => {
+        return this.reducers.proposalReducer(
+          this.network.id,
+          proposal,
+          {},
+          totalBondedTokens,
+          await this.getDetailedVotes(proposal)
+        )
+      })
+    )
 
     return orderBy(proposals, 'id', 'desc')
   }
