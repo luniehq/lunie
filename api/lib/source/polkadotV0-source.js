@@ -542,6 +542,85 @@ class polkadotAPI {
     return proposal
   }
 
+  async getDemocracyProposalMetadata(
+    proposal,
+    description,
+    proposer,
+    proposalMethod,
+    creationTime
+  ) {
+    const api = await this.getAPI()
+
+    const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
+    const preimageRaw = await api.query.democracy.preimages.at(
+      blockHash,
+      proposal.imageHash
+    )
+    const preimage = preimageRaw.unwrapOr(null)
+    const { data } = preimage.asAvailable
+    const proposalWithIndex = this.constructProposal(api, data)
+    const { meta, method } = api.registry.findMetaCall(
+      proposalWithIndex.callIndex
+    )
+    description = meta.documentation.toString()
+    proposalMethod = method
+
+    // get creationTime
+    const block = await api.rpc.chain.getBlock(blockHash)
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
+    )
+    const blockTimestamp = args[0]
+    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
+    }
+  }
+
+  async getReferendumProposalMetada(
+    proposal,
+    description,
+    proposer,
+    proposalMethod,
+    creationTime
+  ) {
+    const api = await this.getAPI()
+
+    const referendumBlockHeight = proposal.status.end - proposal.status.delay
+    const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
+    const block = await api.rpc.chain.getBlock(blockHash)
+    block.block.extrinsics.forEach((extrinsic) => {
+      const { meta, method } = api.registry.findMetaCall(
+        extrinsic.method.callIndex
+      )
+      if (meta.args.find(({ name }) => name == 'proposal_hash')) {
+        proposer = extrinsic.signer.toString()
+        description = meta.documentation.toString()
+        proposalMethod = method
+      }
+    })
+
+    // get creationTime
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
+    )
+    const blockTimestamp = args[0]
+    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
+    }
+  }
+
   async getProposalWithMetadata(proposal) {
     const api = await this.getAPI()
 
@@ -551,50 +630,23 @@ class polkadotAPI {
     let creationTime = undefined
     // democracy
     if (proposal.image) {
-      const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
-      const preimageRaw = await api.query.democracy.preimages.at(
-        blockHash,
-        proposal.imageHash
+      return await this.getDemocracyProposalMetadata(
+        proposal,
+        description,
+        proposer,
+        proposalMethod,
+        creationTime
       )
-      const preimage = preimageRaw.unwrapOr(null)
-      const { data } = preimage.asAvailable
-      const proposalWithIndex = this.constructProposal(api, data)
-      const { meta, method } = api.registry.findMetaCall(
-        proposalWithIndex.callIndex
-      )
-      description = meta.documentation.toString()
-      proposalMethod = method
-
-      // get creationTime
-      const block = await api.rpc.chain.getBlock(blockHash)
-      const args = block.block.extrinsics.map((extrinsic) =>
-        extrinsic.method.args.find((arg) => arg)
-      )
-      const blockTimestamp = args[0]
-      creationTime = new Date(Number(blockTimestamp)).toUTCString()
     }
     // referendum
     if (proposal.index && proposal.status && !proposal.image) {
-      const referendumBlockHeight = proposal.status.end - proposal.status.delay
-      const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
-      const block = await api.rpc.chain.getBlock(blockHash)
-      block.block.extrinsics.forEach((extrinsic) => {
-        const { meta, method } = api.registry.findMetaCall(
-          extrinsic.method.callIndex
-        )
-        if (meta.args.find(({ name }) => name == 'proposal_hash')) {
-          proposer = extrinsic.signer.toString()
-          description = meta.documentation.toString()
-          proposalMethod = method
-        }
-      })
-
-      // get creationTime
-      const args = block.block.extrinsics.map((extrinsic) =>
-        extrinsic.method.args.find((arg) => arg)
+      return await this.getReferendumProposalMetada(
+        proposal,
+        description,
+        proposer,
+        proposalMethod,
+        creationTime
       )
-      const blockTimestamp = args[0]
-      creationTime = new Date(Number(blockTimestamp)).toUTCString()
     }
     // council
     if (proposal.proposal && proposal.proposal.callIndex) {
