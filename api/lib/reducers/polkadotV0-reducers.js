@@ -500,6 +500,7 @@ function democracyProposalReducer(network, proposal) {
     description: proposal.description,
     creationTime: proposal.creationTime,
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
+    statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
     proposer: proposal.proposer.toHuman()
@@ -520,6 +521,7 @@ function democracyReferendumReducer(
     description: proposal.description,
     creationTime: proposal.creationTime,
     status: `VotingPeriod`,
+    statusBeginTime: proposal.creationTime,
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
@@ -556,6 +558,7 @@ function councilProposalReducer(
     description: proposal.description,
     creationTime: proposal.creationTime,
     status: `VotingPeriod`,
+    statusBeginTime: proposal.creationTime,
     statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
     tally: councilTallyReducer(proposal.votes, councilMembers),
     deposit: undefined,
