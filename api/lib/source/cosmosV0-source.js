@@ -234,9 +234,11 @@ class CosmosV0API extends RESTDataSource {
   }
 
   async getDetailedVotes(proposal) {
-    const votes = await this.query(`/gov/proposals/${proposal.id}/votes`)
-    const deposits = await this.query(`/gov/proposals/${proposal.id}/deposits`)
-    const links = await this.db.getNetworkLinks(this.network.id)
+    const [votes, deposits, links] = await Promise.all([
+      await this.query(`/gov/proposals/${proposal.id}/votes`),
+      await this.query(`/gov/proposals/${proposal.id}/deposits`),
+      await this.db.getNetworkLinks(this.network.id)
+    ])
     return {
       deposits: deposits
         ? deposits.map((deposit) => this.reducers.depositReducer(deposit))
@@ -262,12 +264,17 @@ class CosmosV0API extends RESTDataSource {
     if (!Array.isArray(response)) return []
     const proposals = await Promise.all(
       response.map(async (proposal) => {
+        const proposer = await this.query(
+          `/gov/proposals/${proposal.id}/proposer`
+        )
+        const detailedVotes = await this.getDetailedVotes(proposal)
         return this.reducers.proposalReducer(
           this.network.id,
           proposal,
           {},
+          proposer,
           totalBondedTokens,
-          await this.getDetailedVotes(proposal)
+          detailedVotes
         )
       })
     )

@@ -57,7 +57,7 @@ const typeDefs = gql`
   }
 
   type Deposit {
-    amount: String
+    amount: [Coin]
     depositer: String
   }
 
