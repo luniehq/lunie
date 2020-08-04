@@ -707,7 +707,8 @@ class polkadotAPI {
             return this.reducers.treasuryProposalReducer(
               this.network,
               proposal,
-              councilMembers
+              councilMembers,
+              blockHeight
             )
           })
         )

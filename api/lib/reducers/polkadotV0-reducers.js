@@ -529,14 +529,20 @@ function democracyReferendumReducer(
   }
 }
 
-function treasuryProposalReducer(network, proposal, councilMembers) {
+function treasuryProposalReducer(
+  network,
+  proposal,
+  councilMembers,
+  blockHeight
+) {
   return {
     id: proposal.id,
     networkId: network.id,
     type: proposalTypeEnum.TREASURY,
-    title: `Treasury Proposal #${proposal.index}`,
+    title: `Treasury Proposal #${proposal.id}`,
     creationTime: proposal.creationTime,
     status: `VotingPeriod`,
+    statusEndTime: getStatusEndTime(blockHeight, proposal.council[0].votes.end),
     tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
     deposit: toViewDenom(network, Number(proposal.proposal.bond)),
     proposer: proposal.proposal.proposer.toHuman(),
