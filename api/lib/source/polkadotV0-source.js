@@ -621,15 +621,15 @@ class polkadotAPI {
     }
   }
 
-  async getProposalWithMetadata(proposal) {
+  async getProposalWithMetadata(proposal, type) {
     const api = await this.getAPI()
 
     let description = ''
     let proposer = ''
     let proposalMethod = ''
     let creationTime = undefined
-    // democracy
-    if (proposal.image) {
+
+    if (type === `democracy`) {
       return await this.getDemocracyProposalMetadata(
         proposal,
         description,
@@ -638,8 +638,7 @@ class polkadotAPI {
         creationTime
       )
     }
-    // referendum
-    if (proposal.index && proposal.status && !proposal.image) {
+    if (type === `referendum`) {
       return await this.getReferendumProposalMetada(
         proposal,
         description,
@@ -648,8 +647,7 @@ class polkadotAPI {
         creationTime
       )
     }
-    // council
-    if (proposal.proposal && proposal.proposal.callIndex) {
+    if (type === `council`) {
       const { meta } = api.registry.findMetaCall(proposal.proposal.callIndex)
       description = meta.documentation.toString()
     }
@@ -742,7 +740,7 @@ class polkadotAPI {
         .map(async (proposal) => {
           return this.reducers.democracyProposalReducer(
             this.network,
-            await this.getProposalWithMetadata(proposal),
+            await this.getProposalWithMetadata(proposal, `democracy`),
             totalIssuance,
             blockHeight,
             await this.getDetailedVotes(proposal, `democracy`)
@@ -752,7 +750,7 @@ class polkadotAPI {
           democracyReferendums.map(async (proposal) => {
             return this.reducers.democracyReferendumReducer(
               this.network,
-              await this.getProposalWithMetadata(proposal),
+              await this.getProposalWithMetadata(proposal, `referendum`),
               totalIssuance,
               blockHeight,
               await this.getDetailedVotes(proposal, `referendum`)
@@ -774,7 +772,7 @@ class polkadotAPI {
           councilProposals.map(async (proposal) => {
             return this.reducers.councilProposalReducer(
               this.network,
-              await this.getProposalWithMetadata(proposal),
+              await this.getProposalWithMetadata(proposal, `council`),
               councilMembers,
               blockHeight,
               await this.getDetailedVotes(proposal, `council`)
