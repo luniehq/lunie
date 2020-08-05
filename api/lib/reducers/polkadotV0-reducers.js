@@ -505,7 +505,7 @@ function democracyProposalReducer(network, proposal) {
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
-    deposit: toViewDenom(network, proposal.balance, network.stakingDenom),
+    deposit: toViewDenom(proposal.balance, network),
     proposer: proposal.proposer.toHuman()
   }
 }
@@ -527,11 +527,7 @@ function democracyReferendumReducer(
     statusBeginTime: proposal.creationTime,
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
-    deposit: toViewDenom(
-      network,
-      proposal.status.tally.turnout,
-      network.stakingDenom
-    ),
+    deposit: toViewDenom(proposal.status.tally.turnout, network),
     proposer: proposal.proposer
   }
 }
@@ -551,11 +547,7 @@ function treasuryProposalReducer(
     status: `VotingPeriod`,
     statusEndTime: getStatusEndTime(blockHeight, proposal.council[0].votes.end),
     tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
-    deposit: toViewDenom(
-      network,
-      Number(proposal.proposal.bond),
-      network.stakingDenom
-    ),
+    deposit: toViewDenom(Number(proposal.proposal.bond), network),
     proposer: proposal.proposal.proposer.toHuman(),
     beneficiary: proposal.proposal.beneficiary // the account getting the tip
   }
@@ -608,13 +600,9 @@ function tallyReducer(network, tally, totalIssuance) {
   const turnout = BigNumber(tally.turnout)
 
   const totalVoted = BigNumber(tally.ayes).plus(tally.nays)
-  const total = toViewDenom(
-    network,
-    totalVoted.toString(10),
-    network.stakingDenom
-  )
-  const yes = toViewDenom(network, tally.ayes, network.stakingDenom)
-  const no = toViewDenom(network, tally.nays, network.stakingDenom)
+  const total = toViewDenom(totalVoted.toString(10), network)
+  const yes = toViewDenom(tally.ayes, network)
+  const no = toViewDenom(tally.nays, network)
   const totalVotedPercentage = turnout
     .div(BigNumber(totalIssuance))
     .toNumber()
