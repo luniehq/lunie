@@ -5,6 +5,7 @@ const { orderBy, keyBy, uniqBy } = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
 const { getNetworkGasPrices } = require('../../data/network-fees')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 class CosmosV0API extends RESTDataSource {
@@ -239,36 +240,57 @@ class CosmosV0API extends RESTDataSource {
       deposits,
       tally,
       tallyingParameters,
+      depositParameters,
       links
     ] = await Promise.all([
       this.query(`/gov/proposals/${proposal.id}/votes`),
       this.query(`/gov/proposals/${proposal.id}/deposits`),
       this.query(`/gov/proposals/${proposal.id}/tally`),
       this.query(`/gov/parameters/tallying`),
+      this.query(`/gov/parameters/deposit`),
       this.db.getNetworkLinks(this.network.id)
     ])
-    const totalVotingAssets = BigNumber(tally.yes)
+    const totalVotingParticipation = BigNumber(tally.yes)
       .plus(tally.abstain)
       .plus(tally.no)
       .plus(tally.no_with_veto)
+    const formattedDeposits = deposits
+      ? deposits.map((deposit) => this.reducers.depositReducer(deposit))
+      : undefined
+    const depositsSum = formattedDeposits
+      ? formattedDeposits.reduce((depositAmountAggregator, deposit) => {
+          return (depositAmountAggregator += Number(deposit.amount[0].amount))
+        }, 0)
+      : undefined
     return {
-      deposits: deposits
-        ? deposits.map((deposit) => this.reducers.depositReducer(deposit))
+      deposits: formattedDeposits,
+      depositsSum: depositsSum,
+      percentageDepositsNeeded: deposits
+        ? fixDecimalsAndRoundUpBigNumbers(
+            (depositsSum * 100) /
+              fixDecimalsAndRoundUpBigNumbers(
+                depositParameters.min_deposit[0].amount,
+                6,
+                this.network
+              ),
+            2,
+            this.network
+          )
         : undefined,
-      depositsSum: deposits ? deposits.length : undefined,
-      percentageDepositsNeeded: undefined,
       votes: votes
         ? votes.map((vote) => this.reducers.voteReducer(vote))
         : undefined,
       votesSum: votes ? votes.length : undefined,
-      votingThresholdYes: BigNumber(tally.yes)
+      votingThresholdYes: tallyingParameters.threshold,
+      votingThresholdNo: 1 - tallyingParameters.threshold,
+      votingPercentageYes: BigNumber(tally.yes)
         .times(100)
-        .div(totalVotingAssets)
+        .div(totalVotingParticipation)
         .toNumber()
         .toFixed(2),
-      votingThresholdNo: BigNumber(tally.no)
+      votingPercentagedNo: BigNumber(tally.no)
         .times(100)
-        .div(totalVotingAssets)
+        .div(totalVotingParticipation)
         .toNumber()
         .toFixed(2),
       links,
