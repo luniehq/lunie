@@ -177,16 +177,11 @@ const transactionMetadata = async (
   }
 }
 
-const governanceOverview = (networks) => async (
-  _,
-  { networkId },
-  { dataSources }
-) => {
-  const network = networks.find(({ id }) => id === networkId)
+const governanceOverview = () => async (_, { networkId }, { dataSources }) => {
   const overview = await remoteFetch(
     dataSources,
     networkId
-  ).getGovernanceOverview(network)
+  ).getGovernanceOverview()
   return {
     totalStakedAssets: overview.totalStakedAssets,
     totalVoters: overview.totalVoters,
@@ -407,7 +402,7 @@ const resolvers = (networkList) => ({
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
     },
-    governanceOverview: governanceOverview(networkList)
+    governanceOverview: governanceOverview()
   },
   Mutation: {
     registerUser: (_, variables, { user: { uid } }) => registerUser(uid)

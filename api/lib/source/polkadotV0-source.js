@@ -1,7 +1,7 @@
 const BigNumber = require('bignumber.js')
 const { orderBy, uniqWith } = require('lodash')
 const { stringToU8a } = require('@polkadot/util')
-const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
@@ -649,31 +649,44 @@ class polkadotAPI {
     return freeBalance.toString()
   }
 
-  async getGovernanceOverview(network) {
+  async getGovernanceOverview() {
     const api = await this.getAPI()
 
-    const activeEra = parseInt(
-      JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
-    )
-    const erasTotalStake = await api.query.staking.erasTotalStake(activeEra)
-    const treasurySize = await this.getTreasurySize()
-    const links = await this.db.getNetworkLinks(this.network.id)
+    const [
+      activeEra,
+      erasTotalStake,
+      treasurySize,
+      links,
+      totalVoters,
+      recentProposals,
+      topVoters
+    ] = await Promise.all([
+      parseInt(
+        JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
+      ),
+      api.query.staking.erasTotalStake(activeEra),
+      this.getTreasurySize(),
+      this.db.getNetworkLinks(this.network.id),
+      this.getTotalActiveAccounts(),
+      this.getRecentProposals(),
+      this.getTopVoters()
+    ])
     return {
-      totalStakedAssets: fixDecimalsAndRoundUp(
-        BigNumber(erasTotalStake).times(
-          network.coinLookup[0].chainToViewConversionFactor
-        ),
-        2
+      totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
+        erasTotalStake,
+        2,
+        this.network,
+        this.network.stakingDenom
       ),
-      totalVoters: await this.getTotalActiveAccounts(),
-      treasurySize: fixDecimalsAndRoundUp(
-        BigNumber(treasurySize).times(
-          network.coinLookup[0].chainToViewConversionFactor
-        ),
-        2
+      totalVoters,
+      treasurySize: fixDecimalsAndRoundUpBigNumbers(
+        treasurySize,
+        2,
+        this.network,
+        this.network.stakingDenom
       ),
-      recentProposals: await this.getRecentProposals(),
-      topVoters: await this.getTopVoters(),
+      recentProposals,
+      topVoters,
       links: JSON.parse(links)
     }
   }

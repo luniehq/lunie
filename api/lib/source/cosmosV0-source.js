@@ -1,10 +1,10 @@
 const { RESTDataSource, HTTPCache } = require('apollo-datasource-rest')
 const { InMemoryLRUCache } = require('apollo-server-caching')
 const BigNumber = require('bignumber.js')
-const { orderBy, keyBy, uniqBy } = require('lodash')
+const { orderBy, keyBy, uniqBy, sortBy, take } = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
-const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const { getNetworkGasPrices } = require('../../data/network-fees')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
@@ -300,51 +300,50 @@ class CosmosV0API extends RESTDataSource {
 
   async getTopVoters() {
     // for now defaulting to pick the 5 largest voting powers
-    const validatorsKeys = Object.keys(this.store.validators)
-    const validatorsArray = validatorsKeys.reduce(
-      (validatorsAggregator, validatorKey) => {
-        if (
-          validatorsAggregator.length === 0 ||
-          !validatorsAggregator.find(
-            ({ operatorAddress }) => operatorAddress === validatorKey
-          )
-        ) {
-          validatorsAggregator.push(this.store.validators[validatorKey])
+    return take(
+      sortBy(this.store.validators, [
+        (validator) => {
+          return validator.votingPower
         }
-        return validatorsAggregator
-      },
-      []
-    )
-    return validatorsArray
-      .sort((a, b) => Number(b.votingPower) - Number(a.votingPower))
-      .map(({ operatorAddress }) => operatorAddress)
+      ]),
+      5
+    ).map(({ operatorAddress }) => operatorAddress)
   }
 
-  async getGovernanceOverview(network) {
+  async getGovernanceOverview() {
     const { bonded_tokens: totalBondedTokens } = await this.query(
       '/staking/pool'
     )
-    const communityPoolArray = await this.query('/distribution/community_pool')
+    const [
+      communityPoolArray,
+      links,
+      recentProposals,
+      topVoters
+    ] = await Promise.all([
+      this.query('/distribution/community_pool'),
+      this.db.getNetworkLinks(this.network.id),
+      this.getRecentProposals(),
+      this.getTopVoters()
+    ])
     const communityPool = communityPoolArray.find(
       ({ denom }) => denom === this.network.coinLookup[0].chainDenom
     ).amount
-    const links = await this.db.getNetworkLinks(this.network.id)
     return {
-      totalStakedAssets: fixDecimalsAndRoundUp(
-        BigNumber(totalBondedTokens).times(
-          network.coinLookup[0].chainToViewConversionFactor
-        ),
-        2
+      totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
+        totalBondedTokens,
+        2,
+        this.network,
+        this.network.stakingDenom
       ),
       totalVoters: undefined,
-      treasurySize: fixDecimalsAndRoundUp(
-        BigNumber(communityPool).times(
-          network.coinLookup[0].chainToViewConversionFactor
-        ),
-        2
+      treasurySize: fixDecimalsAndRoundUpBigNumbers(
+        communityPool,
+        2,
+        this.network,
+        this.network.stakingDenom
       ),
-      recentProposals: await this.getRecentProposals(),
-      topVoters: await this.getTopVoters(),
+      recentProposals,
+      topVoters,
       links: JSON.parse(links)
     }
   }
