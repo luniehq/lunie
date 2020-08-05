@@ -6,7 +6,6 @@ node_modules
 /lunie-backend
 
 /tests/e2e/reports/
-/android/ANDROID-DEEP-LINK.keystore
 selenium-debug.log
 chromedriver.log
 debug.log
