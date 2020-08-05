@@ -26,25 +26,19 @@ function database(dbConfig) {
       upsert: insert(dbConfig, true)(schema),
       read: read(dbConfig)(schema),
       query: query(dbConfig),
-      getValidatorsInfo: getValidatorsInfo(dbConfig)(
-        schema
-      ),
-      getNotifications: getNotifications(dbConfig)(
-        schema
-      ),
+      getValidatorsInfo: getValidatorsInfo(dbConfig)(schema),
+      getNotifications: getNotifications(dbConfig)(schema),
       getValidatorInfoByAddress: async (validatorId) => {
-        const validatorInfo = await getValidatorsInfo(dbConfig)(schema)(validatorId)
+        const validatorInfo = await getValidatorsInfo(dbConfig)(schema)(
+          validatorId
+        )
         return validatorInfo[0]
       },
       getNetwork: getNetwork(dbConfig)(schema),
       getNetworks: getNetworks(dbConfig)(schema),
       storeNetwork: storeNetwork(dbConfig)(schema),
-      storeStatistics: storeStatistics(dbConfig)(
-        schema
-      ),
-      storeNotification: storeNotification(dbConfig)(
-        schema
-      ),
+      storeStatistics: storeStatistics(dbConfig)(schema),
+      storeNotification: storeNotification(dbConfig)(schema),
       getMaintenance: getMaintenance(dbConfig)(schema),
       incrementValidatorViews: incrementValidatorViews(dbConfig)(schema),
       getValidatorsViews: getValidatorsViews(dbConfig)(schema),
@@ -52,8 +46,12 @@ function database(dbConfig) {
       getUser: getUser(dbConfig)(schema),
       storeStore: storeStore(dbConfig)(schema),
       getStore: getStore(dbConfig)(schema),
-      storeNotificationRegistrations: storeNotificationRegistrations(dbConfig)(schema),
-      getNotificationRegistrations: getNotificationRegistrations(dbConfig)(schema),
+      storeNotificationRegistrations: storeNotificationRegistrations(dbConfig)(
+        schema
+      ),
+      getNotificationRegistrations: getNotificationRegistrations(dbConfig)(
+        schema
+      ),
       storePushRegistrations: storePushRegistrations(dbConfig)(schema)
     }
 

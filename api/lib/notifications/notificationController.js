@@ -1,7 +1,12 @@
 const database = require('../database')
 const config = require('../../config')
 const { eventSubscription } = require('../subscriptions')
-const { getTopic, getMessageTitle, getPushLink, getIcon } = require('./notifications')
+const {
+  getTopic,
+  getMessageTitle,
+  getPushLink,
+  getIcon
+} = require('./notifications')
 const { getDefaultEMailSubscriptions } = require('./notifications-types')
 const firebaseAdmin = require('./firebase')
 const Sentry = require('@sentry/node')
@@ -38,7 +43,10 @@ class NotificationController {
   }
 
   async onNotificationSendPushNotifications(notification) {
-    const pushNotificationUsers = await this.getRegisteredUsers(notification, 'push')
+    const pushNotificationUsers = await this.getRegisteredUsers(
+      notification,
+      'push'
+    )
     if (pushNotificationUsers.length > 0) {
       this.sendPushNotification(notification)
     }
@@ -82,15 +90,18 @@ class NotificationController {
         await getDefaultEMailSubscriptions(addressObjects, dataSources)
       ).map((topic) => ({ topic, type: 'push' }))
 
-      this.db('').storePushRegistrations({uid, pushToken})
-      this.subscribeUserToPushNotificationTopics(pushToken, topics.map(({topic}) => topic))
+      this.db('').storePushRegistrations({ uid, pushToken })
+      this.subscribeUserToPushNotificationTopics(
+        pushToken,
+        topics.map(({ topic }) => topic)
+      )
     }
     topics.forEach(({ topic, type }) => {
       if (!this.registrations[topic])
         this.registrations[topic] = { email: {}, push: {} }
       this.registrations[topic][type][uid] = true
     })
-    
+
     const rows = topics.map((topic) => ({
       ...topic,
       uid

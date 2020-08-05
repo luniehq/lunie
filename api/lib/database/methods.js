@@ -353,10 +353,13 @@ const getNotificationRegistrations = ({ hasura_url, hasura_admin_key }) => (
 const storePushRegistrations = ({ hasura_url, hasura_admin_key }) => (
   schema
 ) => async (payload) => {
-  return await insert({
-    hasura_url,
-    hasura_admin_key
-  }, true)("")(`pushRegistrations`, payload, undefined, undefined, [
+  return await insert(
+    {
+      hasura_url,
+      hasura_admin_key
+    },
+    true
+  )('')(`pushRegistrations`, payload, undefined, undefined, [
     'uid',
     'pushToken'
   ])
