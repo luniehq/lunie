@@ -18,4 +18,11 @@ function fixDecimalsAndRoundUpBigNumbers(bignumber, decimalsNumber, network, den
   )
 }
 
-module.exports = { fixDecimalsAndRoundUp, fixDecimalsAndRoundUpBigNumbers }
+function toViewDenom(chainDenomAmount, network, denom) {
+  const coinLookup = network.coinLookup.find(coinLookup => coinLookup.chainDenom === denom || coinLookup.viewDenom === denom)
+  return BigNumber(chainDenomAmount)
+    .times(coinLookup ? coinLookup.chainToViewConversionFactor : network.coinLookup[0].chainToViewConversionFactor)
+    .toFixed(6)
+}
+
+module.exports = { fixDecimalsAndRoundUp, fixDecimalsAndRoundUpBigNumbers, toViewDenom }

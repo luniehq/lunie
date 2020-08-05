@@ -5,7 +5,10 @@ const { orderBy, keyBy, uniqBy } = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
 const { getNetworkGasPrices } = require('../../data/network-fees')
-const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
+const {
+  fixDecimalsAndRoundUpBigNumbers,
+  toViewDenom
+} = require('../../common/numbers.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 class CosmosV0API extends RESTDataSource {
@@ -264,7 +267,7 @@ class CosmosV0API extends RESTDataSource {
       : undefined
     return {
       deposits: formattedDeposits,
-      depositsSum: depositsSum,
+      depositsSum: toViewDenom(depositsSum, this.network),
       percentageDepositsNeeded: deposits
         ? fixDecimalsAndRoundUpBigNumbers(
             (depositsSum * 100) /
@@ -281,8 +284,8 @@ class CosmosV0API extends RESTDataSource {
         ? votes.map((vote) => this.reducers.voteReducer(vote))
         : undefined,
       votesSum: votes ? votes.length : undefined,
-      votingThresholdYes: tallyingParameters.threshold,
-      votingThresholdNo: 1 - tallyingParameters.threshold,
+      votingThresholdYes: Number(tallyingParameters.threshold).toFixed(2),
+      votingThresholdNo: (1 - tallyingParameters.threshold).toFixed(2),
       votingPercentageYes: BigNumber(tally.yes)
         .times(100)
         .div(totalVotingParticipation)

@@ -75,6 +75,8 @@ const typeDefs = gql`
     votesSum: String
     votingThresholdYes: String
     votingThresholdNo: String
+    votingPercentageYes: String
+    votingPercentageNo: String
     links: [GovernanceLink]
     timeline: GovernanceTimeline
   }
