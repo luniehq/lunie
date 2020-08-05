@@ -58,8 +58,9 @@ async function pollForNewNetworks(httpServer, app) {
     )
     console.log(`Transaction service ready at ${config.transactionPath}`)
   })
-  this.newNetworksPollingTimeout = setTimeout(async () => {
-    this.pollForNewNetworks()
+  newNetworksPollingTimeout = setTimeout(async () => {
+    httpServer.close({ port: config.port })
+    pollForNewNetworks(httpServer, app)
   }, NEW_NETWORKS_POLLING_INTERVAL)
 }
 
