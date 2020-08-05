@@ -23,6 +23,7 @@
       />
     </div>
     <ModalPropose
+      v-if="parameters && Object.keys(parameters).length > 0"
       ref="modalPropose"
       :denom="parameters.depositDenom"
       @success="() => afterPropose()"
@@ -123,7 +124,7 @@ export default {
   }),
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `currentNetwork`]),
   },
   methods: {
     onPropose() {
@@ -175,7 +176,12 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.governanceParameters
+        return data.governanceParameters || {}
+      },
+      skip() {
+        /* istanbul ignore next */
+        // only Tendermint networks have this network-wide "governance parameters" logic
+        return this.currentNetwork.network_type !== `cosmos`
       },
     },
     $subscribe: {

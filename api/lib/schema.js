@@ -10,6 +10,13 @@ const typeDefs = gql`
     CURRENCY
   }
 
+  enum proposalTypeEnum {
+    TEXT
+    COUNCIL
+    TREASURY
+    PARAMETER_CHANGE
+  }
+
   type Tally {
     yes: String # BigNumber
     no: String # BigNumber
@@ -84,7 +91,7 @@ const typeDefs = gql`
   type Proposal {
     id: Int
     networkId: String!
-    type: String
+    type: proposalTypeEnum
     title: String
     description: String
     status: String

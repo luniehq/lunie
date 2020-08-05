@@ -22,7 +22,9 @@
               Proposed by {{ proposal.validator.name }}:
               <Address :address="proposal.proposer" />
             </template>
-            <template v-else-if="proposal.proposer !== `unknown`">
+            <template
+              v-else-if="proposal.proposer && proposal.proposer !== `unknown`"
+            >
               Proposed by
               <Address :address="proposal.proposer" />
             </template>
@@ -50,7 +52,7 @@
         </div>
       </div>
 
-      <TextBlock :content="proposal.description" />
+      <TextBlock v-if="proposal.description" :content="proposal.description" />
 
       <ul v-if="proposal.status === 'DepositPeriod'" class="row">
         <li>
@@ -59,7 +61,7 @@
             {{ proposal.deposit }}
             /
             {{ parameters.depositThreshold }}
-            {{ parameters.depositDenom }}
+            {{ parameters.depositDenom || currentNetwork.stakingDenom }}
           </span>
         </li>
       </ul>
@@ -127,21 +129,28 @@
         </li>
         <li>
           <h4>Submitted</h4>
-          <span>{{ proposal.creationTime | date }}</span>
+          <span v-if="proposal.creationTime">{{
+            proposal.creationTime | date
+          }}</span>
+          <span v-else>--</span>
         </li>
         <template
           v-if="['DepositPeriod', 'VotingPeriod'].includes(proposal.status)"
         >
           <li>
-            <h4>{{ status.badge }} Start Date</h4>
-            <span>{{ proposal.statusBeginTime | date }}</span>
+            <h4>({{ status.badge }}) Start Date</h4>
+            <span v-if="proposal.statusBeginTime">{{
+              proposal.statusBeginTime | date
+            }}</span>
+            <span v-else>--</span>
           </li>
           <li>
-            <h4>{{ status.badge }} End Date</h4>
-            <span>
+            <h4>({{ status.badge }}) End Date</h4>
+            <span v-if="proposal.statusEndTime">
               {{ proposal.statusEndTime | date }} /
               {{ proposal.statusEndTime | fromNow }}
             </span>
+            <span v-else>--</span>
           </li>
         </template>
         <template v-else>
@@ -153,6 +162,7 @@
       </ul>
 
       <ModalDeposit
+        v-if="parameters.depositDenom"
         ref="modalDeposit"
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
@@ -181,7 +191,7 @@ import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
-import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
+import { ProposalFragment, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
 import Address from "common/Address"
 import gql from "graphql-tag"
@@ -202,7 +212,7 @@ export default {
     percent,
     date,
     fromNow,
-    lowerCase: (text) => text.toLowerCase(),
+    lowerCase: (text) => (text ? text.toLowerCase() : ""),
   },
   props: {
     proposalId: {
@@ -220,14 +230,14 @@ export default {
       validator: {},
     },
     parameters: {
-      depositDenom: "TESTCOIN",
+      depositDenom: "",
     },
     error: undefined,
     found: false,
     loaded: false,
   }),
   computed: {
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `network`, `currentNetwork`]),
     status() {
       return getProposalStatus(this.proposal)
     },
@@ -271,14 +281,13 @@ export default {
     },
   },
   apollo: {
-    proposals: {
+    proposal: {
       query() {
         /* istanbul ignore next */
         return gql`
           query proposals($networkId: String!) {
             proposals(networkId: $networkId) {
-              id
-              status
+              ${ProposalFragment}
             }
           }
         `
@@ -300,35 +309,13 @@ export default {
           )
         ) {
           this.found = true
+          this.loaded = true
+          return data.proposals.find(
+            (proposal) => proposal.id === parseInt(this.proposalId, 10)
+          )
         }
-        /* istanbul ignore next */
-        return data.proposals
-      },
-    },
-    proposal: {
-      query() {
-        /* istanbul ignore next */
-        return ProposalItem(this.network)
-      },
-      update(data) {
-        /* istanbul ignore next */
-        this.loaded = true
-        /* istanbul ignore next */
-        return data.proposal || {}
-      },
-      variables() {
-        /* istanbul ignore next */
-        return {
-          id: +this.proposalId,
-        }
-      },
-      skip() {
-        /* istanbul ignore next */
-        return !this.found
-      },
-      result(data) {
-        /* istanbul ignore next */
-        this.error = data.error
+        // /* istanbul ignore next */
+        // return data.proposals
       },
     },
     parameters: {
@@ -338,11 +325,12 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        return data.governanceParameters
+        return data.governanceParameters || {}
       },
       skip() {
         /* istanbul ignore next */
-        return !this.found
+        // only Tendermint networks have this network-wide "governance parameters" logic
+        return !this.found || this.currentNetwork.network_type !== `cosmos`
       },
       result(data) {
         /* istanbul ignore next */

@@ -1,9 +1,33 @@
 const _ = require('lodash')
 const BigNumber = require('bignumber.js')
-const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
+const {
+  fixDecimalsAndRoundUp,
+  toViewDenom
+} = require('../../common/numbers.js')
 const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
+
+const proposalTypeEnum = {
+  TEXT: 'TEXT',
+  COUNCIL: 'COUNCIL',
+  TREASURY: 'TREASURY',
+  PARAMETER_CHANGE: 'PARAMETER_CHANGE'
+}
+
+const proposalTypeEnumDictionary = (key) => {
+  switch (key) {
+    case 'addRegistrar':
+    case 'setValidatorCount':
+    case 'scheduleNamed':
+    case 'setCode':
+    case 'killPrefix':
+    case 'setBalance':
+      return 'PARAMETER_CHANGE'
+    default:
+      return 'TEXT'
+  }
+}
 
 function blockReducer(
   networkId,
@@ -470,6 +494,169 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
+function democracyProposalReducer(network, proposal) {
+  return {
+    id: proposal.index,
+    networkId: network.id,
+    type: proposalTypeEnumDictionary(proposal.method),
+    title: `Preliminary Proposal #${proposal.index}`,
+    description: proposal.description,
+    creationTime: proposal.creationTime,
+    status: `DepositPeriod`, // trying to adjust to the Cosmos status
+    statusBeginTime: proposal.creationTime,
+    tally: democracyTallyReducer(proposal),
+    deposit: toViewDenom(network, proposal.balance, network.stakingDenom),
+    proposer: proposal.proposer.toHuman()
+  }
+}
+
+function democracyReferendumReducer(
+  network,
+  proposal,
+  totalIssuance,
+  blockHeight
+) {
+  return {
+    id: proposal.index,
+    networkId: network.id,
+    type: proposalTypeEnumDictionary(proposal.method),
+    title: `Proposal #${proposal.index}`,
+    description: proposal.description,
+    creationTime: proposal.creationTime,
+    status: `VotingPeriod`,
+    statusBeginTime: proposal.creationTime,
+    statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
+    tally: tallyReducer(network, proposal.status.tally, totalIssuance),
+    deposit: toViewDenom(
+      network,
+      proposal.status.tally.turnout,
+      network.stakingDenom
+    ),
+    proposer: proposal.proposer
+  }
+}
+
+function treasuryProposalReducer(
+  network,
+  proposal,
+  councilMembers,
+  blockHeight
+) {
+  return {
+    id: proposal.id,
+    networkId: network.id,
+    type: proposalTypeEnum.TREASURY,
+    title: `Treasury Proposal #${proposal.id}`,
+    creationTime: proposal.creationTime,
+    status: `VotingPeriod`,
+    statusEndTime: getStatusEndTime(blockHeight, proposal.council[0].votes.end),
+    tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
+    deposit: toViewDenom(
+      network,
+      Number(proposal.proposal.bond),
+      network.stakingDenom
+    ),
+    proposer: proposal.proposal.proposer.toHuman(),
+    beneficiary: proposal.proposal.beneficiary // the account getting the tip
+  }
+}
+
+function councilProposalReducer(
+  network,
+  proposal,
+  councilMembers,
+  blockHeight
+) {
+  return {
+    id: proposal.votes.index,
+    networkId: network.id,
+    type: proposalTypeEnum.COUNCIL,
+    title: `Council Proposal #${proposal.votes.index}`,
+    description: proposal.description,
+    creationTime: proposal.creationTime,
+    status: `VotingPeriod`,
+    statusBeginTime: proposal.creationTime,
+    statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
+    tally: councilTallyReducer(proposal.votes, councilMembers),
+    deposit: undefined,
+    proposer: undefined
+  }
+}
+
+function tallyReducer(network, tally, totalIssuance) {
+  //
+  // tally chain format:
+  //
+  // "tally": {
+  //   "ayes": "0x0000000000000000001e470441298100",
+  //   "nays": "0x00000000000000000186de726fc56000",
+  //   "turnout": "0x000000000000000000dc3dd9ad3d0800"
+  // }
+  //
+  // turnout is the real amount deposited by voters
+  // in polkadot you can vote with "conviction", that means
+  // ayes and nays are amplified by the selected lockup period:
+  //
+  // 1x voting balance, locked for 1x enactment (8.00 days)
+  // 2x voting balance, locked for 2x enactment (16.00 days)
+  // 3x voting balance, locked for 4x enactment (32.00 days)
+  // 4x voting balance, locked for 8x enactment (64.00 days)
+  // 5x voting balance, locked for 16x enactment (128.00 days)
+  // 6x voting balance, locked for 32x enactment (256.00 days)
+  //
+
+  const turnout = BigNumber(tally.turnout)
+
+  const totalVoted = BigNumber(tally.ayes).plus(tally.nays)
+  const total = toViewDenom(
+    network,
+    totalVoted.toString(10),
+    network.stakingDenom
+  )
+  const yes = toViewDenom(network, tally.ayes, network.stakingDenom)
+  const no = toViewDenom(network, tally.nays, network.stakingDenom)
+  const totalVotedPercentage = turnout
+    .div(BigNumber(totalIssuance))
+    .toNumber()
+    .toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
+
+  return {
+    yes,
+    no,
+    abstain: 0,
+    veto: 0,
+    total,
+    totalVotedPercentage
+  }
+}
+
+function councilTallyReducer(votes, councilMembers) {
+  const total = votes.ayes.length + votes.nays.length
+  return {
+    yes: votes.ayes.length,
+    no: votes.nays.length,
+    abstain: 0,
+    veto: 0,
+    total,
+    totalVotedPercentage: (total / councilMembers.length).toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
+  }
+}
+
+function democracyTallyReducer(proposal) {
+  // if we consider democracyProposals like the parallel to Cosmos proposals in deposit periods, then
+  // we would have to turn the seconds concept into a deposit somehow
+  return {
+    yes: proposal.seconds.length
+  }
+}
+
+// the status end time is a time "so and so days from the creation of the proposal opening"
+function getStatusEndTime(blockHeight, endBlock) {
+  return new Date(
+    new Date().getTime() + (endBlock - blockHeight) * 6000
+  ).toUTCString()
+}
+
 module.exports = {
   blockReducer,
   validatorReducer,
@@ -484,6 +671,11 @@ module.exports = {
   rewardReducer,
   rewardsReducer,
   dbRewardsReducer,
+  getExtrinsicSuccess,
   identityReducer,
-  getExtrinsicSuccess
+  democracyProposalReducer,
+  democracyReferendumReducer,
+  treasuryProposalReducer,
+  councilProposalReducer,
+  tallyReducer
 }

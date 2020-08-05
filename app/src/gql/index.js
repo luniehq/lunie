@@ -149,7 +149,7 @@ export const NetworksAll = gql`
 
 export const NetworksResult = (data) => data.networks
 
-const ProposalFragment = `
+export const ProposalFragment = `
   id
   type
   title
