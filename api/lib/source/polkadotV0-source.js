@@ -651,9 +651,10 @@ class polkadotAPI {
 
   async getGovernanceOverview() {
     const api = await this.getAPI()
-
+    const activeEra = parseInt(
+      JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
+    )
     const [
-      activeEra,
       erasTotalStake,
       treasurySize,
       links,
@@ -661,9 +662,6 @@ class polkadotAPI {
       recentProposals,
       topVoters
     ] = await Promise.all([
-      parseInt(
-        JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
-      ),
       api.query.staking.erasTotalStake(activeEra),
       this.getTreasurySize(),
       this.db.getNetworkLinks(this.network.id),
