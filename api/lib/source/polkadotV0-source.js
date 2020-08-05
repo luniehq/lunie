@@ -662,6 +662,61 @@ class polkadotAPI {
     }
   }
 
+  getDemocracyProposalDetailedVotes(proposal, deposits, depositsSum) {
+    depositsSum = proposal.balance
+    deposits = [] // TODO
+  }
+
+  getReferendumProposalDetailedVotes(proposal, deposits, depositsSum, votes) {
+    const allDeposits = proposal.allAye.concat(proposal.allNay)
+    depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
+      return (balanceAggregator += deposit.balance)
+    }, 0)
+    deposits = allDeposits.map((deposit) =>
+      this.reducers.depositReducer(deposit)
+    )
+    votes = proposal.votes.map((vote) => this.reducers.voteReducer(vote))
+    votesSum = proposal.voteCount
+  }
+
+  async getDetailedVotes(proposal, type) {
+    let deposits = []
+    let depositsSum = 0
+    let votes = []
+    let votesSum = 0
+    const [links] = await Promise.all([
+      this.db.getNetworkLinks(this.network.id)
+    ])
+    if (type === `democracy`) {
+      return this.getDemocracyProposalDetailedVotes(
+        proposal,
+        deposits,
+        depositsSum
+      )
+    }
+    if (type === `referendum`) {
+      return this.getReferendumProposalDetailedVotes(
+        proposal,
+        deposits,
+        depositsSum,
+        votes
+      )
+    }
+    return {
+      deposits,
+      depositsSum,
+      percentageDepositsNeeded: undefined,
+      votes,
+      votesSum,
+      votingThresholdYes: undefined,
+      votingThresholdNo: undefined,
+      votingPercentageYes: undefined,
+      votingPercentagedNo: undefined,
+      links,
+      timeline: undefined
+    }
+  }
+
   async getAllProposals() {
     const api = await this.getAPI()
 
@@ -689,7 +744,8 @@ class polkadotAPI {
             this.network,
             await this.getProposalWithMetadata(proposal),
             totalIssuance,
-            blockHeight
+            blockHeight,
+            await this.getDetailedVotes(proposal, `democracy`)
           )
         })
         .concat(
@@ -698,17 +754,19 @@ class polkadotAPI {
               this.network,
               await this.getProposalWithMetadata(proposal),
               totalIssuance,
-              blockHeight
+              blockHeight,
+              await this.getDetailedVotes(proposal, `referendum`)
             )
           })
         )
         .concat(
-          treasuryProposals.proposals.map((proposal) => {
+          treasuryProposals.proposals.map(async (proposal) => {
             return this.reducers.treasuryProposalReducer(
               this.network,
               proposal,
               councilMembers,
-              blockHeight
+              blockHeight,
+              await this.getDetailedVotes(proposal, `treasury`)
             )
           })
         )
@@ -718,7 +776,8 @@ class polkadotAPI {
               this.network,
               await this.getProposalWithMetadata(proposal),
               councilMembers,
-              blockHeight
+              blockHeight,
+              await this.getDetailedVotes(proposal, `council`)
             )
           })
         )
