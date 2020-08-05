@@ -5,10 +5,7 @@ const { orderBy, keyBy, uniqBy } = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
 const { getNetworkGasPrices } = require('../../data/network-fees')
-const {
-  fixDecimalsAndRoundUpBigNumbers,
-  toViewDenom
-} = require('../../common/numbers.js')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 class CosmosV0API extends RESTDataSource {
@@ -258,7 +255,9 @@ class CosmosV0API extends RESTDataSource {
       .plus(tally.no)
       .plus(tally.no_with_veto)
     const formattedDeposits = deposits
-      ? deposits.map((deposit) => this.reducers.depositReducer(deposit))
+      ? deposits.map((deposit) =>
+          this.reducers.depositReducer(deposit, this.network)
+        )
       : undefined
     const depositsSum = formattedDeposits
       ? formattedDeposits.reduce((depositAmountAggregator, deposit) => {
@@ -267,7 +266,7 @@ class CosmosV0API extends RESTDataSource {
       : undefined
     return {
       deposits: formattedDeposits,
-      depositsSum: toViewDenom(depositsSum, this.network),
+      depositsSum: deposits ? Number(depositsSum).toFixed(6) : undefined,
       percentageDepositsNeeded: deposits
         ? fixDecimalsAndRoundUpBigNumbers(
             (depositsSum * 100) /

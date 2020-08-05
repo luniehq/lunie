@@ -131,9 +131,9 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
   }
 }
 
-function depositReducer(deposit) {
+function depositReducer(deposit, network) {
   return {
-    amount: deposit.amount,
+    amount: [coinReducer(deposit.amount[0], undefined, network)],
     depositer: deposit.depositor
   }
 }
@@ -287,7 +287,7 @@ function denomLookup(denom) {
   return lookup[denom] ? lookup[denom] : denom.toUpperCase()
 }
 
-function coinReducer(coin, coinLookup) {
+function coinReducer(coin, coinLookup, network) {
   if (!coin) {
     return {
       amount: 0,
@@ -299,7 +299,13 @@ function coinReducer(coin, coinLookup) {
   const denom = denomLookup(coin.denom)
   return {
     denom: denom,
-    amount: BigNumber(coin.amount).times(coinLookup.chainToViewConversionFactor)
+    amount: BigNumber(coin.amount).times(
+      coinLookup
+        ? coinLookup.chainToViewConversionFactor
+        : network
+        ? network.coinLookup[0].chainToViewConversionFactor
+        : 6
+    )
   }
 }
 
