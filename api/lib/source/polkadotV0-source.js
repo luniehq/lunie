@@ -628,7 +628,7 @@ class polkadotAPI {
         )
         return {
           address: member,
-          stakedBalance: totalBalance - freeBalance
+          stakedBalance: Number(account.data.miscFrozen.toString())
         }
       })
     )
