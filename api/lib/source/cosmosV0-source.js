@@ -1,7 +1,7 @@
 const { RESTDataSource, HTTPCache } = require('apollo-datasource-rest')
 const { InMemoryLRUCache } = require('apollo-server-caching')
 const BigNumber = require('bignumber.js')
-const { orderBy, keyBy, uniqBy, sortBy, take } = require('lodash')
+const _ = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
@@ -199,14 +199,14 @@ class CosmosV0API extends RESTDataSource {
     ])
 
     // create a dictionary to reduce array lookups
-    const consensusValidators = keyBy(validatorSet.validators, 'address')
+    const consensusValidators = _.keyBy(validatorSet.validators, 'address')
     const totalVotingPower = validatorSet.validators.reduce(
       (sum, { voting_power }) => sum.plus(voting_power),
       BigNumber(0)
     )
 
     // query for signing info
-    const signingInfos = keyBy(
+    const signingInfos = _.keyBy(
       await this.getValidatorSigningInfos(validators),
       'address'
     )
@@ -249,7 +249,7 @@ class CosmosV0API extends RESTDataSource {
       )
     })
 
-    return orderBy(proposals, 'id', 'desc')
+    return _.orderBy(proposals, 'id', 'desc')
   }
 
   async getProposalById({ proposalId }) {
@@ -300,12 +300,14 @@ class CosmosV0API extends RESTDataSource {
 
   async getTopVoters() {
     // for now defaulting to pick the 5 largest voting powers
-    return take(
-      sortBy(this.store.validators, [
-        (validator) => {
-          return validator.votingPower
-        }
-      ]),
+    return _.take(
+      _.reverse(
+        _.sortBy(this.store.validators, [
+          (validator) => {
+            return validator.votingPower
+          }
+        ])
+      ),
       5
     ).map(({ operatorAddress }) => operatorAddress)
   }
@@ -577,7 +579,7 @@ class CosmosV0API extends RESTDataSource {
       },
       []
     )
-    return uniqBy(allDelegations, 'delegator_address').map(
+    return _.uniqBy(allDelegations, 'delegator_address').map(
       ({ delegator_address }) => delegator_address
     )
   }
