@@ -6,7 +6,7 @@ const { PushNotifications } = Plugins;
 
 const PushNotificationTokenKey = "push-notification-token"
 
-export const registerForPushNotifications = async (store) => {
+export const registerForPushNotifications = async (store, router) => {
   if (!config.mobileApp) return
   if (localStorage.getItem("push-notification-refused")) {
     console.log("User already declined push notifications so not registering again")
@@ -49,17 +49,20 @@ export const registerForPushNotifications = async (store) => {
     }
   );
 
+  /* Leaving following code in as a reference but not needed for now */
   // Show us the notification payload if the app is open on our device
-  PushNotifications.addListener('pushNotificationReceived',
-    (notification) => {
-      alert('Push received: ' + JSON.stringify(notification));
-    }
-  );
+  // PushNotifications.addListener('pushNotificationReceived',
+  //   (notification) => {
+  //     alert('Push received: ' + JSON.stringify(notification));
+  //   }
+  // );
 
   // Method called when tapping on a notification
   PushNotifications.addListener('pushNotificationActionPerformed',
-    (notification) => {
+    ({notification}) => {
       alert('Push action performed: ' + JSON.stringify(notification));
+      const link = notification.data.link
+      router.push(link)
     }
   );
 }

@@ -179,10 +179,8 @@ class NotificationController {
           'https://lunie.fra1.digitaloceanspaces.com/lunie-push-notification.PNG'
       },
       topic,
-      webpush: {
-        fcm_options: {
-          link: getPushLink(this.networks, notification)
-        }
+      data: {
+        link: getPushLink(this.networks, notification)
       }
     }
 

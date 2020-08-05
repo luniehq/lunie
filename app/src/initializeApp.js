@@ -59,8 +59,7 @@ export default async function init(urlParams, env = process.env) {
     // we load the networks first as we need them in the router
     store.dispatch(`preloadNetworkCapabilities`)
   ])
-  registerForPushNotifications(store)
-
+  
   const router = Router(store)
   setGoogleAnalyticsPage(router.currentRoute.path)
   router.beforeEach(routeGuard(store))
@@ -68,6 +67,8 @@ export default async function init(urlParams, env = process.env) {
     /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
   })
+  
+  registerForPushNotifications(store, router)
 
   CapacitorApp.addListener("appUrlOpen", function (data) {
     handleDeeplink(data.url, router)
