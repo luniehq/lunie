@@ -725,7 +725,10 @@ class polkadotAPI {
     return orderBy(allProposals, 'id', 'desc')
   }
 
-  getProposalById() {}
+  async getProposalById(proposalId) {
+    const proposals = await this.getAllProposals()
+    return proposals.find((proposal) => proposal.id === proposalId)
+  }
 
   getDelegatorVote() {}
 }

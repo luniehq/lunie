@@ -496,7 +496,7 @@ function rewardReducer(network, validators, reward, reducers) {
 
 function democracyProposalReducer(network, proposal) {
   return {
-    id: proposal.index,
+    id: Number(proposal.index),
     networkId: network.id,
     type: proposalTypeEnumDictionary(proposal.method),
     title: `Preliminary Proposal #${proposal.index}`,
@@ -517,7 +517,7 @@ function democracyReferendumReducer(
   blockHeight
 ) {
   return {
-    id: proposal.index,
+    id: Number(proposal.index),
     networkId: network.id,
     type: proposalTypeEnumDictionary(proposal.method),
     title: `Proposal #${proposal.index}`,
@@ -543,7 +543,7 @@ function treasuryProposalReducer(
   blockHeight
 ) {
   return {
-    id: proposal.id,
+    id: Number(proposal.id),
     networkId: network.id,
     type: proposalTypeEnum.TREASURY,
     title: `Treasury Proposal #${proposal.id}`,
@@ -568,7 +568,7 @@ function councilProposalReducer(
   blockHeight
 ) {
   return {
-    id: proposal.votes.index,
+    id: Number(proposal.votes.index),
     networkId: network.id,
     type: proposalTypeEnum.COUNCIL,
     title: `Council Proposal #${proposal.votes.index}`,

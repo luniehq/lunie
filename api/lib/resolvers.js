@@ -228,10 +228,8 @@ const resolvers = (networkList) => ({
   Query: {
     proposals: (_, { networkId }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getAllProposals(),
-    proposal: (_, { networkId, id }, { dataSources }) =>
-      remoteFetch(dataSources, networkId).getProposalById({
-        proposalId: id
-      }),
+    proposal: async (_, { networkId, id }, { dataSources }) =>
+      await remoteFetch(dataSources, networkId).getProposalById(id),
     vote: (_, { networkId, proposalId, address }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getDelegatorVote({
         proposalId,
