@@ -191,7 +191,7 @@ import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
-import { ProposalFragment, GovernanceParameters, Vote } from "src/gql"
+import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
 import Address from "common/Address"
 import gql from "graphql-tag"
@@ -282,96 +282,82 @@ export default {
   },
   apollo: {
     proposal: {
+      /* istanbul ignore next */
       query() {
-        /* istanbul ignore next */
-        return gql`
-          query proposals($networkId: String!) {
-            proposals(networkId: $networkId) {
-              ${ProposalFragment}
-            }
-          }
-        `
+        return ProposalItem(this.network)
       },
-      variables() {
-        /* istanbul ignore next */
-        return {
-          networkId: this.network,
-        }
-      },
+      /* istanbul ignore next */
       update(data) {
-        if (!data.proposals) {
-          return []
+        this.loaded = true
+        if (data.proposal) this.found = true
+        return data.proposal || {}
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          id: Number(this.proposalId),
         }
-        /* istanbul ignore next */
-        if (
-          data.proposals.find(
-            (proposal) => proposal.id === parseInt(this.proposalId, 10)
-          )
-        ) {
-          this.found = true
-          this.loaded = true
-          return data.proposals.find(
-            (proposal) => proposal.id === parseInt(this.proposalId, 10)
-          )
-        }
-        // /* istanbul ignore next */
-        // return data.proposals
+      },
+      /* istanbul ignore next */
+      result(data) {
+        if (data.proposal) this.found = true
+        this.error = data.error
       },
     },
     parameters: {
+      /* istanbul ignore next */
       query() {
-        /* istanbul ignore next */
         return GovernanceParameters(this.network)
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.governanceParameters || {}
       },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         // only Tendermint networks have this network-wide "governance parameters" logic
         return !this.found || this.currentNetwork.network_type !== `cosmos`
       },
+      /* istanbul ignore next */
       result(data) {
-        /* istanbul ignore next */
         this.error = data.error
       },
     },
     vote: {
+      /* istanbul ignore next */
       query() {
-        /* istanbul ignore next */
         return Vote(this.network)
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           proposalId: +this.proposalId,
           address: this.address,
         }
       },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address || !this.found
       },
       update(data) {
         if (data.vote) return data.vote.option
         return undefined
       },
+      /* istanbul ignore next */
       result(data) {
-        /* istanbul ignore next */
         this.error = data.error
       },
     },
     $subscribe: {
       blockAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network,
           }
         },
+        /* istanbul ignore next */
         query() {
-          /* istanbul ignore next */
           return gql`
             subscription($networkId: String!) {
               blockAdded(networkId: $networkId) {
@@ -380,12 +366,12 @@ export default {
             }
           `
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.found
         },
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           if (
             // Don't update passed or rejected proposals
             this.proposal.status !== "Passed" &&

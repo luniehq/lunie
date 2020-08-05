@@ -259,7 +259,7 @@ class CosmosV0API extends RESTDataSource {
     return orderBy(proposals, 'id', 'desc')
   }
 
-  async getProposalById({ proposalId }) {
+  async getProposalById(proposalId) {
     const proposal = await this.query(`gov/proposals/${proposalId}`).catch(
       () => {
         throw new UserInputError(
