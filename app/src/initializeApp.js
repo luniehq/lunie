@@ -57,9 +57,9 @@ export default async function init(urlParams, env = process.env) {
     // check if user is signed in
     store.dispatch(`listenToAuthChanges`),
     // we load the networks first as we need them in the router
-    store.dispatch(`preloadNetworkCapabilities`)
+    store.dispatch(`preloadNetworkCapabilities`),
   ])
-  
+
   const router = Router(store)
   setGoogleAnalyticsPage(router.currentRoute.path)
   router.beforeEach(routeGuard(store))
@@ -67,7 +67,7 @@ export default async function init(urlParams, env = process.env) {
     /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
   })
-  
+
   registerForPushNotifications(store, router)
 
   CapacitorApp.addListener("appUrlOpen", function (data) {
