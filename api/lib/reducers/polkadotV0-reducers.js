@@ -641,6 +641,7 @@ function toViewDenom(network, chainDenomAmount) {
     .toFixed(6)
 }
 
+// the status end time is a time "so and so days from the creation of the proposal opening"
 function getStatusEndTime(blockHeight, endBlock) {
   return new Date(
     new Date().getTime() + (endBlock - blockHeight) * 6000

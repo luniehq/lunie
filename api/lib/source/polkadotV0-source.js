@@ -530,7 +530,7 @@ class polkadotAPI {
     )
   }
 
-  constructProposal = function (api, bytes) {
+  constructProposal(api, bytes) {
     let proposal
 
     try {
