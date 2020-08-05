@@ -1,6 +1,9 @@
 const _ = require('lodash')
 const BigNumber = require('bignumber.js')
-const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
+const {
+  fixDecimalsAndRoundUp,
+  toViewDenom
+} = require('../../common/numbers.js')
 const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -502,7 +505,7 @@ function democracyProposalReducer(network, proposal) {
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
-    deposit: toViewDenom(network, proposal.balance),
+    deposit: toViewDenom(network, proposal.balance, network.stakingDenom),
     proposer: proposal.proposer.toHuman()
   }
 }
@@ -524,7 +527,11 @@ function democracyReferendumReducer(
     statusBeginTime: proposal.creationTime,
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
-    deposit: toViewDenom(network, proposal.status.tally.turnout),
+    deposit: toViewDenom(
+      network,
+      proposal.status.tally.turnout,
+      network.stakingDenom
+    ),
     proposer: proposal.proposer
   }
 }
@@ -544,7 +551,11 @@ function treasuryProposalReducer(
     status: `VotingPeriod`,
     statusEndTime: getStatusEndTime(blockHeight, proposal.council[0].votes.end),
     tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
-    deposit: toViewDenom(network, Number(proposal.proposal.bond)),
+    deposit: toViewDenom(
+      network,
+      Number(proposal.proposal.bond),
+      network.stakingDenom
+    ),
     proposer: proposal.proposal.proposer.toHuman(),
     beneficiary: proposal.proposal.beneficiary // the account getting the tip
   }
@@ -597,9 +608,13 @@ function tallyReducer(network, tally, totalIssuance) {
   const turnout = BigNumber(tally.turnout)
 
   const totalVoted = BigNumber(tally.ayes).plus(tally.nays)
-  const total = toViewDenom(network, totalVoted.toString(10))
-  const yes = toViewDenom(network, tally.ayes)
-  const no = toViewDenom(network, tally.nays)
+  const total = toViewDenom(
+    network,
+    totalVoted.toString(10),
+    network.stakingDenom
+  )
+  const yes = toViewDenom(network, tally.ayes, network.stakingDenom)
+  const no = toViewDenom(network, tally.nays, network.stakingDenom)
   const totalVotedPercentage = turnout
     .div(BigNumber(totalIssuance))
     .toNumber()
@@ -635,12 +650,6 @@ function democracyTallyReducer(proposal) {
   }
 }
 
-function toViewDenom(network, chainDenomAmount) {
-  return BigNumber(chainDenomAmount)
-    .times(network.coinLookup[0].chainToViewConversionFactor)
-    .toFixed(6)
-}
-
 // the status end time is a time "so and so days from the creation of the proposal opening"
 function getStatusEndTime(blockHeight, endBlock) {
   return new Date(
@@ -668,6 +677,5 @@ module.exports = {
   democracyReferendumReducer,
   treasuryProposalReducer,
   councilProposalReducer,
-  tallyReducer,
-  toViewDenom
+  tallyReducer
 }
