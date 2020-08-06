@@ -6,7 +6,7 @@ import {
   enableGoogleAnalytics,
   setGoogleAnalyticsPage,
 } from "scripts/google-analytics"
-import * as config from "src/../config"
+import config from "src/../config"
 import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
 import { createApolloProvider, routerErrorHandler } from "src/gql/apollo.js"
