@@ -24,7 +24,7 @@ export default ({ apollo }) => {
         `,
         variables: {
           addressObjects,
-        },
+        }
       })
     },
   }

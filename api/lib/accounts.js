@@ -1,18 +1,16 @@
 const firebaseAdmin = require('./notifications/firebase')
 const Sentry = require('@sentry/node')
 const database = require('./database')
+const config = require("../config")
+const { AuthenticationError } = require('apollo-server')
+const db = database(config)('')
 
-const registerUser = async (uid) => {
+const registerUser = async (idToken) => {
   try {
+    // verify that the submitted tokens is valid
+    const { uid } = await firebaseAdmin.auth().verifyIdToken(idToken)
     // get user record, with custom claims and creation & activity dates
     const userRecord = await firebaseAdmin.auth().getUser(uid)
-    // check if user already exists in DB
-    const storedUser = await database(config)('').getUser(uid)
-    // check if user already has premium as a custom claim
-    if (!userRecord.customClaims) {
-      // set premium field
-      await firebaseAdmin.auth().setCustomUserClaims(uid, { premium: false })
-    }
     // we don't store user emails for now
     const user = {
       uid,
@@ -20,10 +18,12 @@ const registerUser = async (uid) => {
       createdAt: userRecord.metadata.creationTime,
       lastActive: userRecord.metadata.lastSignInTime
     }
-    if (!storedUser) {
-      database(config)('').storeUser(user)
-    } else {
-      database(config)('').upsert(`users`, user)
+    database(config)('').upsert(`users`, user)
+    const session = await db.getNewSession(uid)
+
+    return {
+      validUntil: session.valid_until,
+      sessionToken: session.session_token
     }
   } catch (error) {
     console.error(`In storeUser`, error)
@@ -32,6 +32,22 @@ const registerUser = async (uid) => {
       Sentry.captureException(error)
     })
   }
+}
+
+const sessionCache = {}
+async function validateSession(sessionToken) {
+  let session
+  if (sessionCache[sessionToken]) {
+    session = sessionCache[sessionToken]
+  } else {
+    session = await db.getSession(sessionToken)
+  }
+  if (!session || new Date(session.valid_until).getTime() - new Date().getTime() <= 0) {
+    delete sessionCache[sessionToken]
+    throw new AuthenticationError("Session is outdated")
+  }
+
+  return session
 }
 
 async function validateIdToken(idToken) {
@@ -50,5 +66,6 @@ async function validateIdToken(idToken) {
 
 module.exports = {
   registerUser,
-  validateIdToken
+  validateIdToken,
+  validateSession
 }

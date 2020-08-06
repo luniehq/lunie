@@ -15,12 +15,33 @@ import { split } from "apollo-link"
 import { getMainDefinition } from "apollo-utilities"
 import VueApollo from "vue-apollo"
 import { getGraphqlHost } from "scripts/url"
-import * as Sentry from "@sentry/browser"
 import config from "src/../config"
 import introspectionQueryResultData from "src/../fragmentTypes.json"
 import { getFingerprint } from "scripts/fingerprint"
 
 Vue.use(VueApollo)
+
+// to avoid circular dependencies we use this error handler, for errors happening in the router
+// those errors should trigger things in the store (that needs the router)
+class DeferredErrorHandler {
+  constructor() {
+      this.errors = []
+  }
+  error(error) {
+      if (this.errorCallback) {
+          this.errorCallback(error)
+      } else {
+          this.errors.push(error)
+      }
+  }
+  onError(callback) {
+      this.errorCallback = callback
+      if (this.errors.length > 0) {
+          this.errors.forEach(error => this.error(error))
+      }
+  }
+}
+export const routerErrorHandler = new DeferredErrorHandler()
 
 const makeHttpLink = () => {
   const host = getGraphqlHost()
@@ -48,11 +69,11 @@ const createApolloClient = async () => {
   const fingerprint = await getFingerprint()
   const middleware = new ApolloLink((operation, forward) => {
     // Retrieve the authorization token from local storage.
-    const token = localStorage.getItem("auth_token")
+    const {sessionToken} = localStorage.getItem("session") ? JSON.parse(localStorage.getItem("session")) : {}
 
     operation.setContext({
       headers: {
-        authorization: token ? `${token}` : "",
+        authorization: sessionToken ? `${sessionToken}` : "",
         fingerprint,
         development: config.development,
       },
@@ -70,24 +91,19 @@ const createApolloClient = async () => {
             if (!result.errors) {
               observer.next(result)
             } else {
-              result.errors.map((err) => {
-                // if sentry is enabled pass all error directly to sentry
-                if (config.sentryDSN) {
-                  // pass errors to sentry
-                  Sentry.captureException(err)
-                } else {
-                  throw err
-                }
+              result.errors.map((error) => {
+                routerErrorHandler.error(error)
               })
             }
           },
-          error: (err) => {
-            // pass errors to sentry
-            if (config.sentryDSN) {
-              Sentry.captureException(err)
-            } else {
-              throw err
+          error: (response) => {
+            if (!response.result) {
+              routerErrorHandler(response)
+              return
             }
+            response.result.errors.map((error) => {
+              routerErrorHandler.error(error)
+            })  
           },
           complete: observer.complete.bind(observer),
         })
