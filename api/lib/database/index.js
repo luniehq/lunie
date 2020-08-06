@@ -15,8 +15,7 @@ const {
   storeStore,
   getStore,
   storeNotificationRegistrations,
-  getNotificationRegistrations,
-  storePushRegistrations
+  getNotificationRegistrations
 } = require('./methods')
 
 function database(dbConfig) {
@@ -51,8 +50,7 @@ function database(dbConfig) {
       ),
       getNotificationRegistrations: getNotificationRegistrations(dbConfig)(
         schema
-      ),
-      storePushRegistrations: storePushRegistrations(dbConfig)(schema)
+      )
     }
 
     return {

@@ -90,18 +90,19 @@ class NotificationController {
         await getDefaultEMailSubscriptions(addressObjects, dataSources)
       ).map((topic) => ({ topic, type: 'push' }))
 
-      this.db('').storePushRegistrations({ uid, pushToken })
       this.subscribeUserToPushNotificationTopics(
         pushToken,
         topics.map(({ topic }) => topic)
       )
     }
+    // set the topics locally (in memory)
     topics.forEach(({ topic, type }) => {
       if (!this.registrations[topic])
         this.registrations[topic] = { email: {}, push: {} }
       this.registrations[topic][type][uid] = true
     })
 
+    // set topics in database for persistence
     const rows = topics.map((topic) => ({
       ...topic,
       uid
