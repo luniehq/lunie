@@ -85,7 +85,7 @@ const typeDefs = gql`
     votingPercentageYes: String
     votingPercentageNo: String
     links: [GovernanceLink]
-    timeline: GovernanceTimeline
+    timeline: [GovernanceTimeline]
   }
 
   type Proposal {
