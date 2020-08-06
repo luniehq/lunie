@@ -59,7 +59,6 @@ export const registerForPushNotifications = async (store, router) => {
   PushNotifications.addListener(
     "pushNotificationActionPerformed",
     ({ notification }) => {
-      alert("Push action performed: " + JSON.stringify(notification))
       const link = notification.data.link
       router.push(link)
     }
