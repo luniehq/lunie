@@ -1,6 +1,7 @@
 const BigNumber = require('bignumber.js')
 const { orderBy, uniqWith } = require('lodash')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
+const { toViewDenom } = require('../../common/numbers')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
@@ -660,12 +661,41 @@ class polkadotAPI {
     }
   }
 
-  getDemocracyProposalDetailedVotes(proposal, deposits, depositsSum) {
-    depositsSum = proposal.balance
+  getDemocracyProposalDetailedVotes(
+    proposal,
+    deposits,
+    depositsSum,
+    votes,
+    votesSum,
+    links
+  ) {
+    depositsSum = toViewDenom(proposal.balance, this.network)
     deposits = [] // TODO
+    votes = proposal.seconds.map((secondAddress) => ({
+      voter: secondAddress,
+      option: `Yes`
+    }))
+    votesSum = proposal.seconds.length
+    return {
+      deposits,
+      depositsSum,
+      percentageDepositsNeeded: undefined,
+      votes,
+      votesSum,
+      votingPercentageYes: `100`,
+      votingPercentagedNo: `0`,
+      links
+    }
   }
 
-  getReferendumProposalDetailedVotes(proposal, deposits, depositsSum, votes) {
+  getReferendumProposalDetailedVotes(
+    proposal,
+    deposits,
+    depositsSum,
+    votes,
+    votesSum,
+    links
+  ) {
     const allDeposits = proposal.allAye.concat(proposal.allNay)
     depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
       return (balanceAggregator += deposit.balance)
@@ -675,6 +705,14 @@ class polkadotAPI {
     )
     votes = proposal.votes.map((vote) => this.reducers.voteReducer(vote))
     votesSum = proposal.voteCount
+    return {
+      deposits,
+      depositsSum,
+      percentageDepositsNeeded: undefined,
+      votes,
+      votesSum,
+      links
+    }
   }
 
   async getDetailedVotes(proposal, type) {
@@ -689,7 +727,10 @@ class polkadotAPI {
       return this.getDemocracyProposalDetailedVotes(
         proposal,
         deposits,
-        depositsSum
+        depositsSum,
+        votes,
+        votesSum,
+        links
       )
     }
     if (type === `referendum`) {
@@ -697,7 +738,9 @@ class polkadotAPI {
         proposal,
         deposits,
         depositsSum,
-        votes
+        votes,
+        votesSum,
+        links
       )
     }
     return {

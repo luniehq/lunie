@@ -268,7 +268,7 @@ const getNetworkLinks = ({ hasura_url, hasura_admin_key }) => () => async (
     }
     `)
   const network = networks[0]
-  return network.links
+  return JSON.parse(network.links)
 }
 
 const storeCoinLookups = (
