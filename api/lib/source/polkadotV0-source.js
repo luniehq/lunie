@@ -690,10 +690,19 @@ class polkadotAPI {
     const totalIssuance = await api.query.balances.totalIssuance()
     const naysWithoutConviction = new BN(0) // TODO
     // case public referenda
-    if (proposal.status.threshold === `Supermajorityapproval`) {
+    if (
+      JSON.stringify(proposal.status.threshold) ===
+      JSON.stringify(`Supermajorityapproval`)
+    ) {
       const { f, fp } = getFAndFp({
         totalIssuance,
-        votes: proposal.allNay,
+        votes: new BN(
+          proposal.allNay
+            .map(({ balance }) => balance)
+            .reduce((naysBalanceAggregator, nay) => {
+              return (naysBalanceAggregator += nay.balance)
+            }, 0)
+        ),
         votesWithoutConviction: naysWithoutConviction
       })
       const result = raphsonIterations(f, fp)

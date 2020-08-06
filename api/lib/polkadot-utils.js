@@ -25,6 +25,64 @@ const getFAndFp = ({ totalIssuance, votes, votesWithoutConviction }) => {
   }
 }
 
+const newtonRaphson = (f, fp, x0, options) => {
+  let x1, y, yp, tol, maxIter, iter, verbose, eps
+
+  tol =
+    !options || options.tolerance === undefined
+      ? new BN(1e-7)
+      : options.tolerance
+  eps =
+    !options || options.epsilon === undefined
+      ? new BN(2.220446049250313e-16)
+      : options.epsilon
+  maxIter =
+    !options || options.maxIterations === undefined ? 20 : options.maxIterations
+  verbose = !options || options.verbose === undefined ? false : options.verbose
+
+  iter = 0
+  while (iter++ < maxIter) {
+    // Compute the value of the function:
+    y = f(x0)
+    yp = fp(x0)
+
+    if (yp.abs().lte(eps.mul(y.abs()))) {
+      if (verbose) {
+        console.log(
+          'Newton-Raphson: failed to converged due to nearly zero first derivative'
+        )
+      }
+      return { foundRoot: false }
+    }
+
+    // Update the guess:
+    x1 = x0.sub(y.div(yp))
+
+    // Check for convergence:
+    if (x1.sub(x0).abs().lte(tol.mul(x1.abs()))) {
+      if (verbose) {
+        console.log(
+          'Newton-Raphson: converged to x = ' +
+            x1.toString() +
+            ' after ' +
+            iter +
+            ' iterations'
+        )
+      }
+      return { foundRoot: true, result: x1 }
+    }
+
+    // Transfer update to the new guess:
+    x0 = x1
+  }
+
+  if (verbose) {
+    console.log('Newton-Raphson: Maximum iterations reached (' + maxIter + ')')
+  }
+
+  return { foundRoot: false }
+}
+
 const raphsonIterations = (f, fp) => {
   const initialGuess = ONE
   let result = { foundRoot: false }
