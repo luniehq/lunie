@@ -39,7 +39,7 @@ class NotificationController {
     const emailUsers = await this.getRegisteredUsers(notification, 'email')
     const emails = await this.getEmails(emailUsers)
     const { content, subject } = this.getEmailContent(notification)
-    this.sendEmail(emails, subject, content)
+    this.sendEmails(emails, subject, content)
   }
 
   async onNotificationSendPushNotifications(notification) {
@@ -144,7 +144,7 @@ class NotificationController {
     }
   }
 
-  sendEmail(emails, subject, content) {
+  sendEmails(emails, subject, content) {
     emails.forEach(async (email) => {
       const res = await fetch(`https://api.pepipost.com/v5/mail/send`, {
         method: 'POST',
