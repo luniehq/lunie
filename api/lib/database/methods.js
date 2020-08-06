@@ -403,13 +403,10 @@ const getNewSession = ({ hasura_url, hasura_admin_key }) => () => async (
   const sessions = await insert({
     hasura_url,
     hasura_admin_key
-  })('')(
-    `sessions`,
-    payload,
-    undefined,
-    undefined,
-    [`session_token`, `valid_until`]
-  )
+  })('')(`sessions`, payload, undefined, undefined, [
+    `session_token`,
+    `valid_until`
+  ])
   return sessions[0] // insert always returns an array
 }
 

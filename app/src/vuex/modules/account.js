@@ -74,10 +74,10 @@ export default ({ apollo }) => {
                 }
               }
             `,
-            update(cache, {data}) {
+            update(cache, { data }) {
               const session = data.registerUser
               dispatch("storeSession", session)
-            }
+            },
           })
         }
       } catch (error) {
@@ -96,7 +96,9 @@ export default ({ apollo }) => {
       commit("userSignedIn", !!session)
     },
     checkSession({ dispatch }) {
-      const session = localStorage.getItem("session") ? JSON.parse(localStorage.getItem("session")) : undefined
+      const session = localStorage.getItem("session")
+        ? JSON.parse(localStorage.getItem("session"))
+        : undefined
       dispatch("storeSession", session)
     },
     async sendUserMagicLink({ commit }, { user }) {

@@ -25,20 +25,20 @@ Vue.use(VueApollo)
 // those errors should trigger things in the store (that needs the router)
 class DeferredErrorHandler {
   constructor() {
-      this.errors = []
+    this.errors = []
   }
   error(error) {
-      if (this.errorCallback) {
-          this.errorCallback(error)
-      } else {
-          this.errors.push(error)
-      }
+    if (this.errorCallback) {
+      this.errorCallback(error)
+    } else {
+      this.errors.push(error)
+    }
   }
   onError(callback) {
-      this.errorCallback = callback
-      if (this.errors.length > 0) {
-          this.errors.forEach(error => this.error(error))
-      }
+    this.errorCallback = callback
+    if (this.errors.length > 0) {
+      this.errors.forEach((error) => this.error(error))
+    }
   }
 }
 export const routerErrorHandler = new DeferredErrorHandler()
@@ -69,7 +69,9 @@ const createApolloClient = async () => {
   const fingerprint = await getFingerprint()
   const middleware = new ApolloLink((operation, forward) => {
     // Retrieve the authorization token from local storage.
-    const {sessionToken} = localStorage.getItem("session") ? JSON.parse(localStorage.getItem("session")) : {}
+    const { sessionToken } = localStorage.getItem("session")
+      ? JSON.parse(localStorage.getItem("session"))
+      : {}
 
     operation.setContext({
       headers: {
@@ -103,7 +105,7 @@ const createApolloClient = async () => {
             }
             response.result.errors.map((error) => {
               routerErrorHandler.error(error)
-            })  
+            })
           },
           complete: observer.complete.bind(observer),
         })

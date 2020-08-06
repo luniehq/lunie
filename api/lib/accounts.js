@@ -1,7 +1,7 @@
 const firebaseAdmin = require('./notifications/firebase')
 const Sentry = require('@sentry/node')
 const database = require('./database')
-const config = require("../config")
+const config = require('../config')
 const { AuthenticationError } = require('apollo-server')
 const db = database(config)('')
 
@@ -42,9 +42,12 @@ async function validateSession(sessionToken) {
   } else {
     session = await db.getSession(sessionToken)
   }
-  if (!session || new Date(session.valid_until).getTime() - new Date().getTime() <= 0) {
+  if (
+    !session ||
+    new Date(session.valid_until).getTime() - new Date().getTime() <= 0
+  ) {
     delete sessionCache[sessionToken]
-    throw new AuthenticationError("Session is outdated")
+    throw new AuthenticationError('Session is outdated')
   }
 
   return session
