@@ -296,7 +296,18 @@ class CosmosV0API extends RESTDataSource {
         .toNumber()
         .toFixed(2),
       links,
-      timeline: undefined
+      timeline: [
+        { title: `Proposal created`, time: proposal.submit_time },
+        {
+          title: `Proposal deposit period ends`,
+          time: proposal.deposit_end_time
+        },
+        {
+          title: `Proposal voting period starts`,
+          time: proposal.voting_start_time
+        },
+        { title: `Proposal voting period ends`, time: proposal.voting_end_time }
+      ]
     }
   }
 

@@ -3,11 +3,7 @@ const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 const { toViewDenom } = require('../../common/numbers')
-const {
-  constructProposal,
-  getFAndFp,
-  raphsonIterations
-} = require('../polkadot-utils')
+const { constructProposal, blockToDate } = require('../polkadot-utils')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
@@ -586,6 +582,7 @@ class polkadotAPI {
   ) {
     const api = await this.getAPI()
 
+    // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
     const referendumBlockHeight = proposal.status.end - proposal.status.delay
     const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
     const block = await api.rpc.chain.getBlock(blockHash)
@@ -692,37 +689,14 @@ class polkadotAPI {
       votesSum,
       votingPercentageYes: `100`,
       votingPercentagedNo: `0`,
-      links
+      links,
+      timeline: [{ title: `Proposal created`, time: proposal.creationTime }]
     }
   }
 
-  async getReferendaThreshold(proposal) {
-    const api = await this.getAPI()
-
+  async getReferendumThreshold(proposal) {
     let votingThresholdYes
     let votingThresholdNo
-    const totalIssuance = await api.query.balances.totalIssuance()
-    const naysWithoutConviction = new BN(0) // TODO
-    // case public referenda
-    if (
-      JSON.stringify(proposal.status.threshold) ===
-      JSON.stringify(`Supermajorityapproval`)
-    ) {
-      const { f, fp } = getFAndFp({
-        totalIssuance,
-        votes: new BN(
-          proposal.allNay
-            .map(({ balance }) => balance)
-            .reduce((naysBalanceAggregator, nay) => {
-              return (naysBalanceAggregator += nay.balance)
-            }, 0)
-        ),
-        votesWithoutConviction: naysWithoutConviction
-      })
-      const result = raphsonIterations(f, fp)
-      votingThresholdYes = result.result.toNumber()
-      votingThresholdNo = 1 - votingThresholdYes
-    }
     return {
       votingThresholdYes,
       votingThresholdNo
@@ -744,7 +718,7 @@ class polkadotAPI {
         proposal.allNay.map((nay) => ({ voter: nay.accountId, option: `No` }))
       )
     const votesSum = proposal.voteCount
-    const threshold = await this.getReferendaThreshold(proposal)
+    const threshold = await this.getReferendumThreshold(proposal)
     return {
       deposits,
       depositsSum: toViewDenom(depositsSum, this.network),
@@ -753,7 +727,21 @@ class polkadotAPI {
       votesSum,
       votingThresholdYes: threshold.votingThresholdYes,
       votingThresholdNo: threshold.votingThresholdNo,
-      links
+      links,
+      timeline: [
+        // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
+        {
+          title: `Proposal created`,
+          time: blockToDate(
+            proposal.status.end - proposal.status.delay,
+            this.network
+          )
+        },
+        {
+          title: `Proposal voting period ends`,
+          time: blockToDate(proposal.status.end, this.network)
+        }
+      ]
     }
   }
 
