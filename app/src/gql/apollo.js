@@ -100,7 +100,7 @@ const createApolloClient = async () => {
           },
           error: (response) => {
             if (!response.result) {
-              routerErrorHandler(response)
+              routerErrorHandler.error(response)
               return
             }
             response.result.errors.map((error) => {
