@@ -1,7 +1,13 @@
 const BigNumber = require('bignumber.js')
+const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 const { toViewDenom } = require('../../common/numbers')
+const {
+  constructProposal,
+  getFAndFp,
+  raphsonIterations
+} = require('../polkadot-utils')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
@@ -531,18 +537,6 @@ class polkadotAPI {
     )
   }
 
-  constructProposal(api, bytes) {
-    let proposal
-
-    try {
-      proposal = api.registry.createType('Proposal', bytes.toU8a(true))
-    } catch (error) {
-      console.log(error)
-    }
-
-    return proposal
-  }
-
   async getDemocracyProposalMetadata(
     proposal,
     description,
@@ -559,7 +553,7 @@ class polkadotAPI {
     )
     const preimage = preimageRaw.unwrapOr(null)
     const { data } = preimage.asAvailable
-    const proposalWithIndex = this.constructProposal(api, data)
+    const proposalWithIndex = constructProposal(api, data)
     const { meta, method } = api.registry.findMetaCall(
       proposalWithIndex.callIndex
     )
@@ -688,7 +682,31 @@ class polkadotAPI {
     }
   }
 
-  getReferendumProposalDetailedVotes(
+  async getReferendaThreshold(proposal) {
+    const api = await this.getAPI()
+
+    let votingThresholdYes
+    let votingThresholdNo
+    const totalIssuance = await api.query.balances.totalIssuance()
+    const naysWithoutConviction = new BN(0) // TODO
+    // case public referenda
+    if (proposal.status.threshold === `Supermajorityapproval`) {
+      const { f, fp } = getFAndFp({
+        totalIssuance,
+        votes: proposal.allNay,
+        votesWithoutConviction: naysWithoutConviction
+      })
+      const result = raphsonIterations(f, fp)
+      votingThresholdYes = result.result.toNumber()
+      votingThresholdNo = 1 - votingThresholdYes
+    }
+    return {
+      votingThresholdYes,
+      votingThresholdNo
+    }
+  }
+
+  async getReferendumProposalDetailedVotes(
     proposal,
     deposits,
     depositsSum,
@@ -698,19 +716,24 @@ class polkadotAPI {
   ) {
     const allDeposits = proposal.allAye.concat(proposal.allNay)
     depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
-      return (balanceAggregator += deposit.balance)
+      return (balanceAggregator += Number(deposit.balance))
     }, 0)
     deposits = allDeposits.map((deposit) =>
-      this.reducers.depositReducer(deposit)
+      this.reducers.depositReducer(deposit, this.network)
     )
-    votes = proposal.votes.map((vote) => this.reducers.voteReducer(vote))
+    votes = proposal.votes.map((vote) =>
+      this.reducers.voteReducer(proposal, vote)
+    )
     votesSum = proposal.voteCount
+    const threshold = await this.getReferendaThreshold(proposal)
     return {
       deposits,
-      depositsSum,
+      depositsSum: toViewDenom(depositsSum, this.network),
       percentageDepositsNeeded: undefined,
       votes,
       votesSum,
+      votingThresholdYes: threshold.votingThresholdYes,
+      votingThresholdNo: threshold.votingThresholdNo,
       links
     }
   }
@@ -734,7 +757,7 @@ class polkadotAPI {
       )
     }
     if (type === `referendum`) {
-      return this.getReferendumProposalDetailedVotes(
+      return await this.getReferendumProposalDetailedVotes(
         proposal,
         deposits,
         depositsSum,

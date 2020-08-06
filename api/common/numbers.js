@@ -22,7 +22,7 @@ function toViewDenom(chainDenomAmount, network, denom) {
   const coinLookup = network.coinLookup.find(coinLookup => coinLookup.chainDenom === denom || coinLookup.viewDenom === denom)
   return BigNumber(chainDenomAmount)
     .times(coinLookup ? coinLookup.chainToViewConversionFactor : network.coinLookup[0].chainToViewConversionFactor)
-    .toFixed(6)
+    .toFixed(2)
 }
 
 module.exports = { fixDecimalsAndRoundUp, fixDecimalsAndRoundUpBigNumbers, toViewDenom }
