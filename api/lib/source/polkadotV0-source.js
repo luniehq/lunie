@@ -655,25 +655,39 @@ class polkadotAPI {
     }
   }
 
-  getDemocracyProposalDetailedVotes(
-    proposal,
-    deposits,
-    depositsSum,
-    votes,
-    votesSum,
-    links
-  ) {
-    depositsSum = toViewDenom(proposal.balance, this.network)
-    deposits = [] // TODO
-    votes = proposal.seconds.map((secondAddress) => ({
+  getDemocracyProposalDetailedVotes(proposal, links) {
+    const depositsSum = toViewDenom(proposal.balance, this.network)
+    // in democracy proposals there is the first opening deposit made by the proposer
+    // afterwards every account that seconds the proposal must deposit the same amount from the initial deposit
+    const deposits = [
+      {
+        depositer: proposal.proposer,
+        amount: [
+          {
+            amount: toViewDenom(proposal.balance, this.network),
+            denom: this.network.stakingDenom
+          }
+        ]
+      }
+    ].concat(
+      proposal.seconds.map((second) => ({
+        depositer: second,
+        amount: [
+          {
+            amount: toViewDenom(proposal.balance, this.network),
+            denom: this.network.stakingDenom
+          }
+        ]
+      }))
+    )
+    const votes = proposal.seconds.map((secondAddress) => ({
       voter: secondAddress,
       option: `Yes`
     }))
-    votesSum = proposal.seconds.length
+    const votesSum = proposal.seconds.length
     return {
       deposits,
       depositsSum,
-      percentageDepositsNeeded: undefined,
       votes,
       votesSum,
       votingPercentageYes: `100`,
@@ -715,25 +729,21 @@ class polkadotAPI {
     }
   }
 
-  async getReferendumProposalDetailedVotes(
-    proposal,
-    deposits,
-    depositsSum,
-    votes,
-    votesSum,
-    links
-  ) {
+  async getReferendumProposalDetailedVotes(proposal, links) {
+    // votes involve depositing & locking some amount for referendum proposals
     const allDeposits = proposal.allAye.concat(proposal.allNay)
-    depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
+    const depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
       return (balanceAggregator += Number(deposit.balance))
     }, 0)
-    deposits = allDeposits.map((deposit) =>
+    const deposits = allDeposits.map((deposit) =>
       this.reducers.depositReducer(deposit, this.network)
     )
-    votes = proposal.votes.map((vote) =>
-      this.reducers.voteReducer(proposal, vote)
-    )
-    votesSum = proposal.voteCount
+    const votes = proposal.allAye
+      .map((aye) => ({ voter: aye.accountId, option: `Yes` }))
+      .concat(
+        proposal.allNay.map((nay) => ({ voter: nay.accountId, option: `No` }))
+      )
+    const votesSum = proposal.voteCount
     const threshold = await this.getReferendaThreshold(proposal)
     return {
       deposits,
@@ -747,46 +757,37 @@ class polkadotAPI {
     }
   }
 
+  getCouncilProposalDetailedVotes(proposal, links) {
+    const votes = proposal.votes.ayes
+      .map((aye) => ({ voter: aye, option: `Yes` }))
+      .concat(proposal.votes.nays.map((nay) => ({ voter: nay, option: `No` })))
+    return {
+      votes,
+      votesSum: votes.length,
+      votingThresholdYes: proposal.votes.threshold,
+      votingPercentageYes: (proposal.votes.ayes.length * 100) / votes.length,
+      votingPercentagedNo: (proposal.votes.nays.length * 100) / votes.length,
+      links
+    }
+  }
+
   async getDetailedVotes(proposal, type) {
-    let deposits = []
-    let depositsSum = 0
-    let votes = []
-    let votesSum = 0
-    const [links] = await Promise.all([
-      this.db.getNetworkLinks(this.network.id)
-    ])
+    const links = await this.db.getNetworkLinks(this.network.id)
     if (type === `democracy`) {
-      return this.getDemocracyProposalDetailedVotes(
-        proposal,
-        deposits,
-        depositsSum,
-        votes,
-        votesSum,
-        links
-      )
+      return this.getDemocracyProposalDetailedVotes(proposal, links)
     }
     if (type === `referendum`) {
-      return await this.getReferendumProposalDetailedVotes(
-        proposal,
-        deposits,
-        depositsSum,
-        votes,
-        votesSum,
-        links
-      )
+      return await this.getReferendumProposalDetailedVotes(proposal, links)
+    }
+    if (type === `council`) {
+      return this.getCouncilProposalDetailedVotes(proposal, links)
+    }
+    if (type === `treasury`) {
+      proposal = proposal.council[0]
+      return this.getCouncilProposalDetailedVotes(proposal, links)
     }
     return {
-      deposits,
-      depositsSum,
-      percentageDepositsNeeded: undefined,
-      votes,
-      votesSum,
-      votingThresholdYes: undefined,
-      votingThresholdNo: undefined,
-      votingPercentageYes: undefined,
-      votingPercentagedNo: undefined,
-      links,
-      timeline: undefined
+      links
     }
   }
 

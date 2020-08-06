@@ -507,14 +507,6 @@ function depositReducer(deposit, network) {
   }
 }
 
-function voteReducer(proposal, vote) {
-  return {
-    id: proposal.index,
-    voter: vote.accountId,
-    option: vote.vote // TODO
-  }
-}
-
 function democracyProposalReducer(
   network,
   proposal,
@@ -694,7 +686,6 @@ module.exports = {
   rewardsReducer,
   dbRewardsReducer,
   depositReducer,
-  voteReducer,
   getExtrinsicSuccess,
   identityReducer,
   democracyProposalReducer,
