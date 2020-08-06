@@ -53,7 +53,7 @@ export default async function init(urlParams, env = process.env) {
   // we need to use this custom error handler as we want to use the store in there
   // we can't pass the store as it would create a circular dependency
   routerErrorHandler.onError((error) => {
-    if (error.extensions.code === "UNAUTHENTICATED") {
+    if (error.extensions && error.extensions.code === "UNAUTHENTICATED") {
       store.dispatch("signOutUser")
       return
     }
