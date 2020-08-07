@@ -89,7 +89,6 @@ export default async function init(urlParams, env = process.env) {
   })
   // handling deeplinks when app is opening
   getLaunchUrl(router)
-  // also handle deeplink on desktop
 
   store.dispatch(`loadLocalPreferences`)
   await store.dispatch(`checkForPersistedNetwork`) // wait until signin

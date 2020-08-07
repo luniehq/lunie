@@ -109,14 +109,14 @@ export default ({ apollo }) => {
           ? `https://app.lunie.io/email-authentication`
           : `${window.location.protocol}//${window.location.host}/email-authentication`,
         handleCodeInApp: true,
-        // android: {
-        //   packageName: `org.lunie.lunie`,
-        //   installApp: true,
-        //   minimumVersion: `1.0.221`, // the first version with deep linking enabled
-        // },
-        // iOS: {
-        //   bundleId: `1475911030.org.lunie.lunie`,
-        // },
+        android: {
+          packageName: `org.lunie.lunie`,
+          installApp: true,
+          minimumVersion: `1.0.221`, // the first version with deep linking enabled
+        },
+        iOS: {
+          bundleId: `1475911030.org.lunie.lunie`,
+        },
       }
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
@@ -174,8 +174,9 @@ export function handleDeeplink(url, router) {
 
   // if we receive a deeplink for firebase authentication we follow that link
   // the target will perform the authentication and then redirect back to lunie
-  if (queryObject.link) {
-    window.open(unescape(queryObject.link), "_blank")
+  if (queryObject.link || queryObject.ifl) {
+    window.open(unescape(queryObject.link || queryObject.ifl), "_blank")
+    return
   }
 
   try {
