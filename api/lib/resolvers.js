@@ -304,10 +304,11 @@ const resolvers = (networkList) => ({
       { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      const network = networkList.find((network) => network.id === networkId)
       const balances = await remoteFetch(
         dataSources,
         networkId
-      ).getBalancesFromAddress(address, fiatCurrency)
+      ).getBalancesFromAddress(address, fiatCurrency, network)
       const balance = balances.find((balance) => balance.denom === denom)
       return balance || { denom, amount: 0 }
     },
