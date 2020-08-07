@@ -628,7 +628,7 @@ class polkadotAPI {
       councilMembers.map(async (member) => {
         const totalBackingBalance = totalVotesValues.reduce(
           (totalVoteAggregator, vote) => {
-            if (vote.votes.find((vote) => vote === member)) {
+            if (vote.votes.includes(member)) {
               totalVoteAggregator = BigNumber(totalVoteAggregator).plus(
                 Number(vote.stake)
               )
