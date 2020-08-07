@@ -54,10 +54,9 @@
           </div>
           <i
             v-if="
-              address.address === selectedAddress &&
-              address.networkId === selectedNetwork.id
+              address.address === currentAddress
             "
-            class="material-icons"
+            class="material-icons notranslate"
             >check</i
           >
         </div>
@@ -141,6 +140,9 @@ export default {
     addresses() {
       return this.session.allSessionAddresses
     },
+    currentAddress() {
+      return this.address
+    }
   },
   methods: {
     openSignInModal() {
