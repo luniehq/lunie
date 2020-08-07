@@ -18,7 +18,6 @@ class polkadotAPI {
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
     this.db = db
-    this.topVoters = []
   }
 
   setReducers() {
@@ -620,22 +619,32 @@ class polkadotAPI {
   async pollForTopVoters() {
     // in Substrate we simply return council members
     const api = await this.getAPI()
-    const councilMembers = await api.query.council.members()
+    const [councilMembers, allCouncilVotes] = await Promise.all([
+      await api.query.council.members(),
+      await api.derive.council.votes()
+    ])
+    const totalVotesValues = allCouncilVotes.map((vote) => vote[1])
     const councilMembersWithStake = await Promise.all(
       councilMembers.map(async (member) => {
-        const account = await api.query.system.account(member)
-        const totalBalance = account.data.free
-        const freeBalance = BigNumber(totalBalance.toString()).minus(
-          account.data.miscFrozen.toString()
+        const totalBackingBalance = totalVotesValues.reduce(
+          (totalVoteAggregator, vote) => {
+            if (vote.votes.find((vote) => vote === member)) {
+              totalVoteAggregator = BigNumber(totalVoteAggregator).plus(
+                Number(vote.stake)
+              )
+            }
+            return totalVoteAggregator
+          },
+          0
         )
         return {
           address: member,
-          stakedBalance: Number(account.data.miscFrozen.toString())
+          backingBalance: Number(totalBackingBalance)
         }
       })
     )
-    this.topVoters = councilMembersWithStake
-      .sort((a, b) => Number(b.stakedBalance) - Number(a.stakedBalance))
+    this.store.topVoters = councilMembersWithStake
+      .sort((a, b) => Number(b.backingBalance) - Number(a.backingBalance))
       .map(({ address }) => address)
 
     this.pollForTopVotersTimeout = setTimeout(() => {
@@ -674,7 +683,7 @@ class polkadotAPI {
       this.getRecentProposals()
     ])
     // start 10 min loop to poll for the council members if not currently present
-    if (this.topVoters.length === 0) await this.pollForTopVoters()
+    if (this.store.topVoters.length === 0) await this.pollForTopVoters()
     return {
       totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
         erasTotalStake,
@@ -690,7 +699,7 @@ class polkadotAPI {
         this.network.stakingDenom
       ),
       recentProposals,
-      topVoters: this.topVoters,
+      topVoters: this.store.topVoters,
       links: JSON.parse(links)
     }
   }
