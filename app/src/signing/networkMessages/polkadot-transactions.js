@@ -28,7 +28,7 @@ export async function getSignMessage(senderAddress, transaction, api) {
   }
 
   return {
-    transaction
+    transaction,
   }
 }
 
