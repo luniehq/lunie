@@ -109,14 +109,14 @@ export default ({ apollo }) => {
           ? `https://app.lunie.io/email-authentication`
           : `${window.location.protocol}//${window.location.host}/email-authentication`,
         handleCodeInApp: true,
-        android: {
-          packageName: `org.lunie.lunie`,
-          installApp: true,
-          minimumVersion: `1.0.221`, // the first version with deep linking enabled
-        },
-        iOS: {
-          bundleId: `1475911030.org.lunie.lunie`,
-        },
+        // android: {
+        //   packageName: `org.lunie.lunie`,
+        //   installApp: true,
+        //   minimumVersion: `1.0.221`, // the first version with deep linking enabled
+        // },
+        // iOS: {
+        //   bundleId: `1475911030.org.lunie.lunie`,
+        // },
       }
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
