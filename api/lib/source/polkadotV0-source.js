@@ -619,33 +619,11 @@ class polkadotAPI {
   async pollForTopVoters() {
     // in Substrate we simply return council members
     const api = await this.getAPI()
-    const [councilMembers, allCouncilVotes] = await Promise.all([
-      await api.query.council.members(),
-      await api.derive.council.votes()
-    ])
-    const totalVotesValues = allCouncilVotes.map((vote) => vote[1])
-    const councilMembersWithStake = await Promise.all(
-      councilMembers.map(async (member) => {
-        const totalBackingBalance = totalVotesValues.reduce(
-          (totalVoteAggregator, vote) => {
-            if (vote.votes.includes(member)) {
-              totalVoteAggregator = BigNumber(totalVoteAggregator).plus(
-                Number(vote.stake)
-              )
-            }
-            return totalVoteAggregator
-          },
-          0
-        )
-        return {
-          address: member,
-          backingBalance: Number(totalBackingBalance)
-        }
-      })
+    const electionInfo = await api.derive.elections.info()
+    const councilMembersInRelevanceOrder = electionInfo.members.map(
+      (runnerUp) => runnerUp[0]
     )
-    this.store.topVoters = councilMembersWithStake
-      .sort((a, b) => Number(b.backingBalance) - Number(a.backingBalance))
-      .map(({ address }) => address)
+    this.store.topVoters = councilMembersInRelevanceOrder
 
     this.pollForTopVotersTimeout = setTimeout(() => {
       this.pollForTopVoters()
