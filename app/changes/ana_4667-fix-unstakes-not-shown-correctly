@@ -1,0 +1,1 @@
+[Fixed] [#4667](https://github.com/cosmos/lunie/issues/4667) Fix undelegations not correctly displayed in Polkadot as they appear as regular delegations until session changes @Bitcoinera
