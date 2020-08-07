@@ -42,11 +42,15 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
         Your Validators
       </h1>
        
+      <!---->
+       
       <tablevalidators-stub
-        delegations="[object Object],[object Object],[object Object]"
+        delegations=""
         showonmobile="expectedReturns"
-        validators="[object Object],[object Object],[object Object]"
+        validators=""
       />
+       
+      <!---->
     </div>
   </div>
 </div>
