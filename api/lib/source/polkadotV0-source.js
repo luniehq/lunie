@@ -653,9 +653,12 @@ class polkadotAPI {
   }
 
   getDemocracyProposalDetailedVotes(proposal, links) {
-    const depositsSum = toViewDenom(proposal.balance, this.network)
     // in democracy proposals there is the first opening deposit made by the proposer
     // afterwards every account that seconds the proposal must deposit the same amount from the initial deposit
+    const depositsSum = toViewDenom(
+      BigNumber(proposal.balance).times(proposal.seconds.length).toNumber(),
+      this.network
+    )
     const deposits = [
       {
         depositer: proposal.proposer,
@@ -732,10 +735,12 @@ class polkadotAPI {
         // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
         {
           title: `Proposal created`,
-          time: proposal.creationTime || blockToDate(
-            proposal.status.end - proposal.status.delay,
-            this.network
-          )
+          time:
+            proposal.creationTime ||
+            blockToDate(
+              proposal.status.end - proposal.status.delay,
+              this.network
+            )
         },
         {
           title: `Proposal voting period ends`,
