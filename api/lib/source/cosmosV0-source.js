@@ -1,7 +1,7 @@
 const { RESTDataSource, HTTPCache } = require('apollo-datasource-rest')
 const { InMemoryLRUCache } = require('apollo-server-caching')
 const BigNumber = require('bignumber.js')
-const { orderBy, keyBy, uniqBy } = require('lodash')
+const { orderBy, keyBy, uniqBy, uniqWith } = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
 const { getNetworkGasPrices } = require('../../data/network-fees')
@@ -449,11 +449,15 @@ class CosmosV0API extends RESTDataSource {
         ),
       []
     )
-    return flattenedUndelegations.map((undelegation) =>
-      this.reducers.undelegationReducer(
-        undelegation,
-        this.store.validators[undelegation.validator_address]
-      )
+    // remove duplicates
+    return uniqWith(
+      flattenedUndelegations.map((undelegation) =>
+        this.reducers.undelegationReducer(
+          undelegation,
+          this.store.validators[undelegation.validator_address]
+        )
+      ),
+      (a, b) => a.validator.operatorAddress === b.validator.operatorAddress
     )
   }
 
