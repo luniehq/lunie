@@ -31,7 +31,7 @@ const blockToDate = (block, network) => {
   }
   const dayNumberInYear = secondsToDhm(block * blocktime)
   const year = new Date().getFullYear()
-  return new Date(year, 0, dayNumberInYear - 22).toUTCString() // there is a 22 days offset, no idea why
+  return new Date(year, 0, dayNumberInYear - 23).toUTCString() // there is a 23 days offset, no idea why
 }
 
 module.exports = {

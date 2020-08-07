@@ -732,7 +732,7 @@ class polkadotAPI {
         // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
         {
           title: `Proposal created`,
-          time: blockToDate(
+          time: proposal.creationTime || blockToDate(
             proposal.status.end - proposal.status.delay,
             this.network
           )
@@ -802,44 +802,60 @@ class polkadotAPI {
     const allProposals = await Promise.all(
       democracyProposals
         .map(async (proposal) => {
+          const proposalWithMetadata = await this.getProposalWithMetadata(
+            proposal,
+            `democracy`
+          )
           return this.reducers.democracyProposalReducer(
             this.network,
-            await this.getProposalWithMetadata(proposal, `democracy`),
+            proposalWithMetadata,
             totalIssuance,
             blockHeight,
-            await this.getDetailedVotes(proposal, `democracy`)
+            await this.getDetailedVotes(proposalWithMetadata, `democracy`)
           )
         })
         .concat(
           democracyReferendums.map(async (proposal) => {
+            const proposalWithMetadata = await this.getProposalWithMetadata(
+              proposal,
+              `referendum`
+            )
             return this.reducers.democracyReferendumReducer(
               this.network,
-              await this.getProposalWithMetadata(proposal, `referendum`),
+              proposalWithMetadata,
               totalIssuance,
               blockHeight,
-              await this.getDetailedVotes(proposal, `referendum`)
+              await this.getDetailedVotes(proposalWithMetadata, `referendum`)
             )
           })
         )
         .concat(
           treasuryProposals.proposals.map(async (proposal) => {
+            const proposalWithMetadata = await this.getProposalWithMetadata(
+              proposal.council[0],
+              `council`
+            ) // need to try this
             return this.reducers.treasuryProposalReducer(
               this.network,
-              proposal,
+              proposalWithMetadata,
               councilMembers,
               blockHeight,
-              await this.getDetailedVotes(proposal, `treasury`)
+              await this.getDetailedVotes(proposalWithMetadata, `treasury`)
             )
           })
         )
         .concat(
           councilProposals.map(async (proposal) => {
+            const proposalWithMetadata = await this.getProposalWithMetadata(
+              proposal,
+              `council`
+            )
             return this.reducers.councilProposalReducer(
               this.network,
-              await this.getProposalWithMetadata(proposal, `council`),
+              proposalWithMetadata,
               councilMembers,
               blockHeight,
-              await this.getDetailedVotes(proposal, `council`)
+              await this.getDetailedVotes(proposalWithMetadata, `council`)
             )
           })
         )
