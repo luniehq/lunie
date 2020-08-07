@@ -698,12 +698,49 @@ class polkadotAPI {
   }
 
   async getReferendumThreshold(proposal) {
+    const api = await this.getAPI()
     let votingThresholdYes
-    let votingThresholdNo
-    return {
-      votingThresholdYes,
-      votingThresholdNo
+
+    const electorate = await api.query.balances.totalIssuance()
+    const current_approve = proposal.allAye.reduce((ayeAggregator, aye) => {
+      return (ayeAggregator += Number(aye.balance))
+    }, 0)
+    const current_against = proposal.allNay.reduce((nayAggregator, nay) => {
+      return (nayAggregator += Number(nay.balance))
+    }, 0)
+    const turnout = proposal.status.tally.turnout
+    if (
+      JSON.stringify(proposal.status.threshold) ===
+      JSON.stringify(`Supermajorityapproval`)
+    ) {
+      const approve = BigNumber(current_against)
+        .times(Math.sqrt(electorate))
+        .div(Math.sqrt(turnout))
+      const futureNo = BigNumber(current_against).div(Math.sqrt(turnout))
+      votingThresholdYes = BigNumber(approve).div(futureNo).div(10000) // ok, this is very random
     }
+    if (
+      JSON.stringify(proposal.status.threshold) ===
+      JSON.stringify(`Supermajorityagainst`)
+    ) {
+      const against = BigNumber(current_approve)
+        .times(Math.sqrt(electorate))
+        .div(Math.sqrt(turnout))
+      const futureYes = BigNumber(current_approve).div(Math.sqrt(electorate))
+      votingThresholdYes = BigNumber(against).div(futureYes).div(10000) // ok, this is very random
+    }
+    if (
+      JSON.stringify(proposal.status.threshold) ===
+      JSON.stringify(`Simplemajority`)
+    ) {
+      votingThresholdYes = BigNumber(current_against)
+        .times(Math.sqrt(electorate))
+        .div(Math.sqrt(turnout))
+    }
+
+    return votingThresholdYes
+      ? votingThresholdYes.toNumber().toFixed(2)
+      : undefined
   }
 
   async getReferendumProposalDetailedVotes(proposal, links) {
@@ -728,8 +765,7 @@ class polkadotAPI {
       percentageDepositsNeeded: undefined,
       votes,
       votesSum,
-      votingThresholdYes: threshold.votingThresholdYes,
-      votingThresholdNo: threshold.votingThresholdNo,
+      votingThresholdYes: threshold,
       links,
       timeline: [
         // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
