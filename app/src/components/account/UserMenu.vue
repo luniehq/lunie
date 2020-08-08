@@ -58,7 +58,10 @@
             </div>
           </div>
           <i
-            v-if="address.address === currentAddress"
+            v-if="
+              address.address === currentAddress &&
+              (address.networkId || address.network) === network
+            "
             class="material-icons notranslate"
             >check</i
           >
@@ -136,8 +139,8 @@ export default {
     selectedOption: "",
   }),
   computed: {
-    ...mapState([`session`, `account`, `keystore`]),
-    ...mapGetters([`address`, `networks`]),
+    ...mapState([`session`, `account`, `keystore`, `extension`]),
+    ...mapGetters([`address`, `network`, `networks`]),
     user() {
       return this.account.userSignedIn ? this.account.user : {}
     },
@@ -148,7 +151,9 @@ export default {
       )
       // active sessions will likely overlap with the ones stored locally / in extension
       return uniqWith(
-        this.session.allSessionAddresses.concat(localAccounts),
+        this.session.allSessionAddresses
+          .concat(localAccounts)
+          .concat(this.extension.accounts),
         (a, b) => a.address === b.address
       )
     },
@@ -157,11 +162,15 @@ export default {
     },
   },
   created() {
+    this.getAddressesFromExtension()
     this.$store.dispatch(`loadAccounts`).then(() => {
       this.loaded = true
     })
   },
   methods: {
+    getAddressesFromExtension() {
+      this.$store.dispatch(`getAddressesFromExtension`)
+    },
     openSignInModal() {
       this.$router.push({ name: `sign-in-modal` })
     },
