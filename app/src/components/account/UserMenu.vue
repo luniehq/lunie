@@ -55,6 +55,11 @@
                   : `Unknown`
               }}</span>
               <span class="address">{{ address.address | formatAddress }}</span>
+              <span
+                v-if="address.sessionType === `extension`"
+                class="address"
+                >{{ address.sessionType }}</span
+              >
             </div>
           </div>
           <i
@@ -152,8 +157,18 @@ export default {
       // active sessions will likely overlap with the ones stored locally / in extension
       return uniqWith(
         this.session.allSessionAddresses
-          .concat(localAccounts)
-          .concat(this.extension.accounts),
+          .concat(
+            localAccounts.map((account) => ({
+              ...account,
+              sessionType: `local`,
+            }))
+          )
+          .concat(
+            this.extension.accounts.map((account) => ({
+              ...account,
+              sessionType: `extension`,
+            }))
+          ),
         (a, b) => a.address === b.address
       )
     },
