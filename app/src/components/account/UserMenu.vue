@@ -30,24 +30,24 @@
         </div>
         <div
           v-for="address in addresses"
-          :key="address.address.concat(`-${address.networkId}`)"
+          :key="address.address.concat(`-${address.networkId || address.network}`)"
           class="menu-list-item address-list"
           :class="{
             selected:
               address.address === selectedAddress &&
-              address.networkId === selectedNetwork.id,
+              (address.networkId === selectedNetwork.id || address.network === selectedNetwork.id),
           }"
           @click="selectAddress(address)"
         >
           <div class="address-item">
             <img
               class="network-icon"
-              :src="address.icon"
+              :src="address.icon || `/img/networks/${address.network}.png`"
               alt="little circle with network logo"
             />
             <div>
               <span class="address-network">{{
-                getAddressNetwork(address).title
+                getAddressNetwork(address) ? getAddressNetwork(address).title : `Unknown`
               }}</span>
               <span class="address">{{ address.address | formatAddress }}</span>
             </div>
@@ -117,6 +117,7 @@ import Avatar from "common/Avatar"
 import UserMenuAddress from "account/UserMenuAddress"
 import { formatAddress } from "src/filters"
 import { mapGetters, mapState } from "vuex"
+import { uniqWith } from "lodash"
 export default {
   name: `user-menu`,
   filters: {
@@ -132,17 +133,25 @@ export default {
     selectedOption: "",
   }),
   computed: {
-    ...mapState([`session`, `account`]),
+    ...mapState([`session`, `account`, `keystore`]),
     ...mapGetters([`address`, `networks`]),
     user() {
       return this.account.userSignedIn ? this.account.user : {}
     },
     addresses() {
-      return this.session.allSessionAddresses
+      // filter local accounts to make sure they all have an address
+      const localAccounts = this.keystore.accounts.filter(({address}) => address)
+      // active sessions will likely overlap with the ones stored locally / in extension
+      return uniqWith(this.session.allSessionAddresses.concat(localAccounts), (a, b) => (a.address === b.address))
     },
     currentAddress() {
       return this.address
     }
+  },
+  created() {
+    this.$store.dispatch(`loadAccounts`).then(() => {
+      this.loaded = true
+    })
   },
   methods: {
     openSignInModal() {
@@ -151,7 +160,7 @@ export default {
     selectAddress(address) {
       this.selectedAddress = address.address
       this.selectedNetwork = this.networks.find(
-        (network) => network.id === address.networkId
+        (network) => network.id === address.networkId || address.network
       )
       this.$store.dispatch(`setNetwork`, this.selectedNetwork)
       this.$router.push({
@@ -163,7 +172,7 @@ export default {
       this.$store.dispatch(`signIn`, {
         sessionType: address.sessionType,
         address: this.selectedAddress,
-        networkId: address.networkId,
+        networkId: address.networkId || address.network,
       })
     },
     signOut() {
@@ -180,7 +189,7 @@ export default {
       }
     },
     getAddressNetwork(address) {
-      return this.networks.find((network) => network.id === address.networkId)
+      return this.networks.find((network) => network.id === address.networkId || network.id === address.network)
     },
   },
 }
