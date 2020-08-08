@@ -30,12 +30,15 @@
         </div>
         <div
           v-for="address in addresses"
-          :key="address.address.concat(`-${address.networkId || address.network}`)"
+          :key="
+            address.address.concat(`-${address.networkId || address.network}`)
+          "
           class="menu-list-item address-list"
           :class="{
             selected:
               address.address === selectedAddress &&
-              (address.networkId === selectedNetwork.id || address.network === selectedNetwork.id),
+              (address.networkId === selectedNetwork.id ||
+                address.network === selectedNetwork.id),
           }"
           @click="selectAddress(address)"
         >
@@ -47,15 +50,15 @@
             />
             <div>
               <span class="address-network">{{
-                getAddressNetwork(address) ? getAddressNetwork(address).title : `Unknown`
+                getAddressNetwork(address)
+                  ? getAddressNetwork(address).title
+                  : `Unknown`
               }}</span>
               <span class="address">{{ address.address | formatAddress }}</span>
             </div>
           </div>
           <i
-            v-if="
-              address.address === currentAddress
-            "
+            v-if="address.address === currentAddress"
             class="material-icons notranslate"
             >check</i
           >
@@ -140,13 +143,18 @@ export default {
     },
     addresses() {
       // filter local accounts to make sure they all have an address
-      const localAccounts = this.keystore.accounts.filter(({address}) => address)
+      const localAccounts = this.keystore.accounts.filter(
+        ({ address }) => address
+      )
       // active sessions will likely overlap with the ones stored locally / in extension
-      return uniqWith(this.session.allSessionAddresses.concat(localAccounts), (a, b) => (a.address === b.address))
+      return uniqWith(
+        this.session.allSessionAddresses.concat(localAccounts),
+        (a, b) => a.address === b.address
+      )
     },
     currentAddress() {
       return this.address
-    }
+    },
   },
   created() {
     this.$store.dispatch(`loadAccounts`).then(() => {
@@ -189,7 +197,10 @@ export default {
       }
     },
     getAddressNetwork(address) {
-      return this.networks.find((network) => network.id === address.networkId || network.id === address.network)
+      return this.networks.find(
+        (network) =>
+          network.id === address.networkId || network.id === address.network
+      )
     },
   },
 }
