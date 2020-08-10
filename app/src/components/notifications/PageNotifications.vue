@@ -1,6 +1,12 @@
 <template>
   <div class="notifications-container">
     <h2>Notifications</h2>
+    <p class="banner">
+      Lunie notifications are simple: add an address on any network and you'll
+      start to receive a stream of events on this page below. We'll send you
+      emails for important topics like slashes, proposals, and validator
+      downtime.
+    </p>
     <TmPage
       data-title="My alerts"
       :loading="$apollo.queries.notifications.loading && !firstLoaded"
@@ -9,7 +15,6 @@
       "
       :empty="notifications.length === 0"
       :empty-title="`You don't have any notifications yet`"
-      :empty-subtitle="`To start receiving notifications, all you have to do is use an address on any Lunie supported network. We'll take care of the rest!`"
     >
       <template>
         <EventList
@@ -239,5 +244,13 @@ img {
 .title {
   font-weight: 400;
   overflow-wrap: anywhere; /** Important. Otherwise awful style bug */
+}
+
+.banner {
+  padding: 1rem;
+  margin: 1rem 0 0;
+  border-radius: 0.25rem;
+  background: var(--app-fg);
+  border: 2px solid var(--app-fg-hover);
 }
 </style>
