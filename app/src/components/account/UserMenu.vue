@@ -30,22 +30,19 @@
         </div>
         <div
           v-for="address in addresses"
-          :key="
-            address.address.concat(`-${address.networkId || address.network}`)
-          "
+          :key="address.address.concat(`-${address.networkId}`)"
           class="menu-list-item address-list"
           :class="{
             selected:
               address.address === selectedAddress &&
-              (address.networkId === selectedNetwork.id ||
-                address.network === selectedNetwork.id),
+              address.networkId === selectedNetwork.id,
           }"
           @click="selectAddress(address)"
         >
           <div class="address-item">
             <img
               class="network-icon"
-              :src="address.icon || `/img/networks/${address.network}.png`"
+              :src="address.icon || `/img/networks/${address.networkId}.png`"
               alt="little circle with network logo"
             />
             <div>
@@ -65,7 +62,7 @@
           <i
             v-if="
               address.address === currentAddress &&
-              (address.networkId || address.network) === network
+              address.networkId === network
             "
             class="material-icons notranslate"
             >check</i
@@ -128,7 +125,7 @@ import Avatar from "common/Avatar"
 import UserMenuAddress from "account/UserMenuAddress"
 import { formatAddress } from "src/filters"
 import { mapGetters, mapState } from "vuex"
-import { uniqWith } from "lodash"
+import { uniqWith, sortBy } from "lodash"
 export default {
   name: `user-menu`,
   filters: {
@@ -155,21 +152,28 @@ export default {
         ({ address }) => address
       )
       // active sessions will likely overlap with the ones stored locally / in extension
-      return uniqWith(
-        this.session.allSessionAddresses
-          .concat(
-            localAccounts.map((account) => ({
-              ...account,
-              sessionType: `local`,
-            }))
-          )
-          .concat(
-            this.extension.accounts.map((account) => ({
-              ...account,
-              sessionType: `extension`,
-            }))
-          ),
-        (a, b) => a.address === b.address
+      return sortBy(
+        uniqWith(
+          this.session.allSessionAddresses
+            .concat(
+              localAccounts.map((account) => ({
+                ...account,
+                networkId: account.network || account.networkId,
+                sessionType: `local`,
+              }))
+            )
+            .concat(
+              this.extension.accounts.map((account) => ({
+                ...account,
+                networkId: account.network || account.networkId,
+                sessionType: `extension`,
+              }))
+            ),
+          (a, b) => a.address === b.address
+        ),
+        (account) => {
+          return account.networkId
+        }
       )
     },
     currentAddress() {
@@ -192,7 +196,7 @@ export default {
     selectAddress(address) {
       this.selectedAddress = address.address
       this.selectedNetwork = this.networks.find(
-        (network) => network.id === address.networkId || address.network
+        (network) => network.id === address.networkId
       )
       this.$store.dispatch(`setNetwork`, this.selectedNetwork)
       this.$router.push({
@@ -204,7 +208,7 @@ export default {
       this.$store.dispatch(`signIn`, {
         sessionType: address.sessionType,
         address: this.selectedAddress,
-        networkId: address.networkId || address.network,
+        networkId: address.networkId,
       })
     },
     signOut() {
@@ -221,10 +225,7 @@ export default {
       }
     },
     getAddressNetwork(address) {
-      return this.networks.find(
-        (network) =>
-          network.id === address.networkId || network.id === address.network
-      )
+      return this.networks.find((network) => network.id === address.networkId)
     },
   },
 }
