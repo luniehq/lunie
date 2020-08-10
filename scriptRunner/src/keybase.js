@@ -28,7 +28,7 @@ module.exports.getKeybaseImages = async () => {
             return {
               name,
               operator_address,
-              picture: result.list[0].keybase.picture_url
+              picture: result.list[0].keybase.picture_url.replace('http://', 'https://')
             }
           }
           return {

@@ -15,7 +15,10 @@ export default (opts = {}) => {
       accounts: [],
       signRequest: null,
       session: {
-        insecureMode: true
+        insecureMode: true,
+        HDPath: undefined,
+        curve: undefined,
+        allSessionAddresses: []
       },
       signup: {
         signUpName: ``,
@@ -30,13 +33,12 @@ export default (opts = {}) => {
         password: ``,
         passwordConfirm: ``
       },
-      session: {
-        HDPath: undefined,
-        curve: undefined
-      },
       network: '',
       networkSlug: `cosmos-hub`,
-      networks: []
+      networks: [],
+      connection: {
+        network: ''
+      }
     },
     getters,
     actions: actions(opts),

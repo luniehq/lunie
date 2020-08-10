@@ -53,7 +53,16 @@ describe(`SessionApprove`, () => {
         .fn()
         .mockResolvedValueOnce('approved')
         .mockRejectedValueOnce('rejected'),
-      getters
+      getters,
+      state: {
+        accounts: [
+          {
+            address: 'cosmos1234',
+            HDPath: "m/44'/118'/0'/0/0",
+            curve: 'ed25519'
+          }
+        ]
+      }
     }
 
     wrapper = shallowMount(SessionApprove, {
@@ -92,7 +101,9 @@ describe(`SessionApprove`, () => {
         'approveSignRequest',
         {
           password: '1234',
-          ...$store.getters.signRequest
+          ...$store.getters.signRequest,
+          HDPath: "m/44'/118'/0'/0/0",
+          curve: "ed25519",
         }
       )
       await wrapper.vm.$nextTick()
