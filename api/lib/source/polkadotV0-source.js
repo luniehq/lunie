@@ -3,7 +3,7 @@ const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 const { toViewDenom } = require('../../common/numbers')
-const { constructProposal, blockToDate } = require('../polkadot-utils')
+const { constructProposal } = require('../polkadot-utils')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
@@ -761,6 +761,13 @@ class polkadotAPI {
       )
     const votesSum = proposal.voteCount
     const threshold = await this.getReferendumThreshold(proposal)
+    const proposalDurationInDays = Math.floor(
+      /* proposal duration in seconds. 6s is the average block duration for both Kusama and Polkadot */ (proposal
+        .status.delay *
+        6) /
+        (3600 * 24)
+    )
+    console.log(`\n PROPOSAL DURARIN IN DAYS`, proposalDurationInDays)
     return {
       deposits,
       depositsSum: toViewDenom(depositsSum, this.network),
@@ -773,16 +780,14 @@ class polkadotAPI {
         // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
         {
           title: `Proposal created`,
-          time:
-            proposal.creationTime ||
-            blockToDate(
-              proposal.status.end - proposal.status.delay,
-              this.network
-            )
+          time: proposal.creationTime
         },
         {
           title: `Proposal voting period ends`,
-          time: blockToDate(proposal.status.end, this.network)
+          time: new Date(
+            new Date(proposal.creationTime).getTime() +
+              (proposalDurationInDays - 1) * 24 * 60 * 60 * 1000
+          ).toUTCString()
         }
       ]
     }
