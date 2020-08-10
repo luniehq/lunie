@@ -726,22 +726,46 @@ class polkadotAPI {
       JSON.stringify(`Supermajorityapproval`)
     ) {
       votingThresholdYes = getPassingThreshold({
-        nays: new BN(naysVotes),
-        naysWithoutConviction: new BN(nayVotesWithoutConviction),
-        totalIssuance: new BN(electorate),
+        nays: new BN(
+          BigNumber(naysVotes)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
+        naysWithoutConviction: new BN(
+          BigNumber(nayVotesWithoutConviction)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
+        totalIssuance: new BN(
+          BigNumber(nayVotesWithoutConviction)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
         threshold: `Supermajorityapproval`
-      })
+      }).passingThreshold
     }
     if (
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Supermajorityagainst`)
     ) {
       votingThresholdYes = getFailingThreshold({
-        ayes: new BN(ayesVotes),
-        ayesWithoutConviction: new BN(ayeVotesWithoutConviction),
-        totalIssuance: new BN(electorate),
+        ayes: new BN(
+          BigNumber(ayesVotes)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
+        ayesWithoutConviction: new BN(
+          BigNumber(ayesVotesWithoutConviction)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
+        totalIssuance: new BN(
+          BigNumber(nayVotesWithoutConviction)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
         threshold: `Supermajorityagainst`
-      })
+      }).passingThreshold
     }
     if (
       JSON.stringify(proposal.status.threshold) ===
@@ -750,9 +774,7 @@ class polkadotAPI {
       votingThresholdYes = BigNumber(naysVotes)
     }
 
-    return votingThresholdYes
-      ? votingThresholdYes.toNumber().toFixed(2)
-      : undefined
+    return votingThresholdYes ? votingThresholdYes.toString() : undefined
   }
 
   async getReferendumProposalDetailedVotes(proposal, links) {
