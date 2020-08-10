@@ -4,6 +4,10 @@ const { orderBy, uniqWith } = require('lodash')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 const { toViewDenom } = require('../../common/numbers')
 const { constructProposal } = require('../polkadot-utils')
+const {
+  getPassingThreshold,
+  getFailingThreshold
+} = require('@polkassembly/util')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
@@ -721,17 +725,23 @@ class polkadotAPI {
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Supermajorityapproval`)
     ) {
-      votingThresholdYes = BigNumber(naysVotes)
-        .times(Math.sqrt(electorate))
-        .div(Math.sqrt(turnout)) // TODO
+      votingThresholdYes = getPassingThreshold({
+        nays: new BN(naysVotes),
+        naysWithoutConviction: new BN(nayVotesWithoutConviction),
+        totalIssuance: new BN(electorate),
+        threshold: `Supermajorityapproval`
+      })
     }
     if (
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Supermajorityagainst`)
     ) {
-      votingThresholdYes = BigNumber(ayesVotes)
-        .times(Math.sqrt(electorate))
-        .div(Math.sqrt(turnout)) // TODO
+      votingThresholdYes = getFailingThreshold({
+        ayes: new BN(ayesVotes),
+        ayesWithoutConviction: new BN(ayeVotesWithoutConviction),
+        totalIssuance: new BN(electorate),
+        threshold: `Supermajorityagainst`
+      })
     }
     if (
       JSON.stringify(proposal.status.threshold) ===
