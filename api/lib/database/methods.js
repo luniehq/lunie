@@ -390,7 +390,7 @@ const getUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
 }
 
 // write and return a new session
-const getNewSession = ({ hasura_url, hasura_admin_key }) => () => async (
+const storeAndGetNewSession = ({ hasura_url, hasura_admin_key }) => () => async (
   uid
 ) => {
   const now = new Date()
