@@ -702,40 +702,42 @@ class polkadotAPI {
     let votingThresholdYes
 
     const electorate = await api.query.balances.totalIssuance()
-    const current_approve = proposal.allAye.reduce((ayeAggregator, aye) => {
-      return (ayeAggregator += Number(aye.balance))
-    }, 0)
-    const current_against = proposal.allNay.reduce((nayAggregator, nay) => {
-      return (nayAggregator += Number(nay.balance))
-    }, 0)
+    const ayeVotesWithoutConviction = proposal.allAye.reduce(
+      (ayeAggregator, aye) => {
+        return (ayeAggregator += Number(aye.balance))
+      },
+      0
+    )
+    const nayVotesWithoutConviction = proposal.allNay.reduce(
+      (nayAggregator, nay) => {
+        return (nayAggregator += Number(nay.balance))
+      },
+      0
+    )
+    const ayesVotes = Number(proposal.status.tally.ayes)
+    const naysVotes = Number(proposal.status.tally.nays)
     const turnout = proposal.status.tally.turnout
     if (
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Supermajorityapproval`)
     ) {
-      const approve = BigNumber(current_against)
+      votingThresholdYes = BigNumber(naysVotes)
         .times(Math.sqrt(electorate))
-        .div(Math.sqrt(turnout))
-      const futureNo = BigNumber(current_against).div(Math.sqrt(turnout))
-      votingThresholdYes = BigNumber(approve).div(futureNo).div(10000) // ok, this is very random
+        .div(Math.sqrt(turnout)) // TODO
     }
     if (
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Supermajorityagainst`)
     ) {
-      const against = BigNumber(current_approve)
+      votingThresholdYes = BigNumber(ayesVotes)
         .times(Math.sqrt(electorate))
-        .div(Math.sqrt(turnout))
-      const futureYes = BigNumber(current_approve).div(Math.sqrt(electorate))
-      votingThresholdYes = BigNumber(against).div(futureYes).div(10000) // ok, this is very random
+        .div(Math.sqrt(turnout)) // TODO
     }
     if (
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Simplemajority`)
     ) {
-      votingThresholdYes = BigNumber(current_against)
-        .times(Math.sqrt(electorate))
-        .div(Math.sqrt(turnout))
+      votingThresholdYes = BigNumber(naysVotes)
     }
 
     return votingThresholdYes
