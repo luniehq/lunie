@@ -720,7 +720,6 @@ class polkadotAPI {
     )
     const ayesVotes = Number(proposal.status.tally.ayes)
     const naysVotes = Number(proposal.status.tally.nays)
-    const turnout = proposal.status.tally.turnout
     if (
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Supermajorityapproval`)
@@ -737,7 +736,7 @@ class polkadotAPI {
             .toNumber()
         ),
         totalIssuance: new BN(
-          BigNumber(nayVotesWithoutConviction)
+          BigNumber(electorate)
             .times(this.network.coinLookup[0].chainToViewConversionFactor)
             .toNumber()
         ),
@@ -760,7 +759,7 @@ class polkadotAPI {
             .toNumber()
         ),
         totalIssuance: new BN(
-          BigNumber(nayVotesWithoutConviction)
+          BigNumber(electorate)
             .times(this.network.coinLookup[0].chainToViewConversionFactor)
             .toNumber()
         ),
