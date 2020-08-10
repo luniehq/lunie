@@ -390,9 +390,10 @@ const getUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
 }
 
 // write and return a new session
-const storeAndGetNewSession = ({ hasura_url, hasura_admin_key }) => () => async (
-  uid
-) => {
+const storeAndGetNewSession = ({
+  hasura_url,
+  hasura_admin_key
+}) => () => async (uid) => {
   const now = new Date()
   const validUntil = new Date()
   validUntil.setDate(now.getDate() + 21) // valid for 3 weeks
@@ -471,6 +472,6 @@ module.exports = {
   getStore,
   storeNotificationRegistrations,
   getNotificationRegistrations,
-  getNewSession,
+  storeAndGetNewSession,
   getSession
 }
