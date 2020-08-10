@@ -16231,7 +16231,7 @@ schema-utils@^1.0.0:
     ajv-errors "^1.0.0"
     ajv-keywords "^3.1.0"
 
-schema-utils@^2.0.0, schema-utils@^2.1.0, schema-utils@^2.5.0, schema-utils@^2.6.1, schema-utils@^2.6.5, schema-utils@^2.6.6:
+schema-utils@^2.0.0, schema-utils@^2.1.0, schema-utils@^2.5.0, schema-utils@^2.6.5, schema-utils@^2.6.6, schema-utils@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-2.7.0.tgz#17151f76d8eae67fbbf77960c33c676ad9f4efc7"
   integrity sha512-0ilKFI6QQF5nxDZLFn2dMjvc4hjg/Wkg7rHd3jK6/A4a1Hl9VFdQWvgB1UMGoU94pad1P/8N7fMcEnLnSiju8A==
@@ -17239,14 +17239,14 @@ stylelint-config-standard@^18.3.0:
   dependencies:
     stylelint-config-recommended "^2.2.0"
 
-stylelint-webpack-plugin@1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/stylelint-webpack-plugin/-/stylelint-webpack-plugin-1.1.2.tgz#43cad5a03643d84650ba6c579717e52def3a1acc"
-  integrity sha512-PvxFM8z614xNZW+opA733X8NkROCkH1ZkZZ7EBWwm7J+7Rwk/bIHiAqUqlM4VueXECPsCjrzxqDZnCE+EOYZxQ==
+stylelint-webpack-plugin@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/stylelint-webpack-plugin/-/stylelint-webpack-plugin-2.1.0.tgz#ea4727d83a6d5e3c8784f2bb147bbd9de8e88ec3"
+  integrity sha512-nx6pF+s4kWuXj2pAhPiMjAsRZqsPphamy2rwUuPiKmb1FRYtXZL0jl+iwoqc/W3hMaia+UMiGJBzkjXKLXmSmA==
   dependencies:
     arrify "^2.0.1"
     micromatch "^4.0.2"
-    schema-utils "^2.6.1"
+    schema-utils "^2.7.0"
 
 stylelint-webpack-plugin@^0.10.5:
   version "0.10.5"
