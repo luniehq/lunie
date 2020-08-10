@@ -354,7 +354,7 @@ class CosmosV0API extends RESTDataSource {
     const [balancesResponse, delegations, undelegations] = await Promise.all([
       this.query(`bank/balances/${address}`),
       this.getDelegationsForDelegatorAddress(address),
-      this.getUndelegationsForDelegatorAddress(address),
+      this.getUndelegationsForDelegatorAddress(address)
     ])
     const balances = balancesResponse || []
     const coins = balances.map((coin) => {
