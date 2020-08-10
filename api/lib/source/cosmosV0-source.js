@@ -290,14 +290,6 @@ class CosmosV0API extends RESTDataSource {
     )
   }
 
-  async getRecentProposals() {
-    // while we don't have proposals in DB this is the only way
-    const proposals = await this.getAllProposals()
-    return proposals.sort(
-      (a, b) => new Date(b.creationTime) - new Date(a.creationTime)
-    )
-  }
-
   async getTopVoters() {
     // for now defaulting to pick the 5 largest voting powers
     return _.take(
@@ -319,12 +311,12 @@ class CosmosV0API extends RESTDataSource {
     const [
       communityPoolArray,
       links,
-      recentProposals,
+      proposals,
       topVoters
     ] = await Promise.all([
       this.query('/distribution/community_pool'),
       this.db.getNetworkLinks(this.network.id),
-      this.getRecentProposals(),
+      this.getAllProposals(),
       this.getTopVoters()
     ])
     const communityPool = communityPoolArray.find(
@@ -344,7 +336,9 @@ class CosmosV0API extends RESTDataSource {
         this.network,
         this.network.stakingDenom
       ),
-      recentProposals,
+      recentProposals: proposals.sort(
+        (a, b) => new Date(b.creationTime) - new Date(a.creationTime)
+      ),
       topVoters,
       links: JSON.parse(links)
     }
