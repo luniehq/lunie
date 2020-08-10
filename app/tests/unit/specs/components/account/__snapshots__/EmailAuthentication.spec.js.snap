@@ -9,8 +9,8 @@ exports[`EmailAuthentication should show the EmailAuthentication page 1`] = `
     class="session-title"
   >
     
-    Magic link success!
-  
+      Magic link success! 👍
+    
   </h2>
    
   <div
@@ -20,9 +20,9 @@ exports[`EmailAuthentication should show the EmailAuthentication page 1`] = `
       class="session-subtitle"
     >
       
-      You're now signed in to Lunie with your email address. Head over to the
-      notifications page to see some of your recent events.
-    
+        You're now signed in to Lunie with your email address. Head over to
+        the notifications page to see some recent events.
+      
     </p>
      
     <tmbtn-stub
@@ -31,7 +31,5 @@ exports[`EmailAuthentication should show the EmailAuthentication page 1`] = `
       value="Let's Go!"
     />
   </div>
-   
-  <!---->
 </sessionframe-stub>
 `;
