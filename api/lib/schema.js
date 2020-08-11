@@ -327,7 +327,7 @@ const typeDefs = gql`
     totalVoters: Int
     treasurySize: Float
     recentProposals: [Proposal]
-    topVoters: [String]
+    topVoters: [String] @cacheControl(maxAge: 21600)
     links: [GovernanceLink]
   }
 

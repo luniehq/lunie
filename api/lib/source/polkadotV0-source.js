@@ -7,7 +7,6 @@ const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
-const TOP_VOTERS_POLLING_INTERVAL = 600000 // 1min
 
 class polkadotAPI {
   constructor(network, store, fiatValuesAPI, db) {
@@ -616,18 +615,14 @@ class polkadotAPI {
     )
   }
 
-  async pollForTopVoters() {
+  async getTopVoters() {
     // in Substrate we simply return council members
     const api = await this.getAPI()
     const electionInfo = await api.derive.elections.info()
     const councilMembersInRelevanceOrder = electionInfo.members.map(
       (runnerUp) => runnerUp[0]
     )
-    this.store.topVoters = councilMembersInRelevanceOrder
-
-    this.pollForTopVotersTimeout = setTimeout(() => {
-      this.pollForTopVoters()
-    }, TOP_VOTERS_POLLING_INTERVAL)
+    return councilMembersInRelevanceOrder
   }
 
   async getTreasurySize() {
@@ -652,16 +647,16 @@ class polkadotAPI {
       treasurySize,
       links,
       totalVoters,
+      topVoters,
       recentProposals
     ] = await Promise.all([
       api.query.staking.erasTotalStake(activeEra),
       this.getTreasurySize(),
       this.db.getNetworkLinks(this.network.id),
       this.getTotalActiveAccounts(),
+      this.getTopVoters(),
       this.getRecentProposals()
     ])
-    // start 10 min loop to poll for the council members if not currently present
-    if (this.store.topVoters.length === 0) await this.pollForTopVoters()
     return {
       totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
         erasTotalStake,
@@ -677,7 +672,7 @@ class polkadotAPI {
         this.network.stakingDenom
       ),
       recentProposals,
-      topVoters: this.store.topVoters,
+      topVoters,
       links: JSON.parse(links)
     }
   }
