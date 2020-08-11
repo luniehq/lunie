@@ -1,6 +1,7 @@
 /* istanbul ignore file: really just integrations */
 
 import { Plugins } from "@capacitor/core"
+import Sentry from "@sentry/browser"
 const { App: CapacitorApp } = Plugins
 import { listenToExtensionMessages } from "scripts/extension-utils"
 import { checkForNewLunieVersions } from "scripts/check-for-new-lunie-versions"
