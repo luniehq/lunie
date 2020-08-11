@@ -50,15 +50,32 @@ export default async function init(urlParams, env = process.env) {
   const apolloClient = apolloProvider.clients.defaultClient
 
   const store = Store({ apollo: apolloClient })
+
+  // we need to use this custom error handler as we want to use the store in there
+  // we can't pass the store as it would create a circular dependency
+  routerErrorHandler.onError((error) => {
+    if (error.extensions && error.extensions.code === "UNAUTHENTICATED") {
+      store.dispatch("signOutUser")
+      return
+    }
+    // if sentry is enabled pass all error directly to sentry
+    if (config.sentryDSN) {
+      // pass errors to sentry
+      Sentry.captureException(error)
+    } else {
+      console.error(error)
+    }
+  })
+
   // we need to set url params before querying for networks because of experimental flag
   setOptions(urlParams, store)
 
-  await Promise.all([
-    // check if user is signed in
-    store.dispatch(`listenToAuthChanges`),
-    // we load the networks first as we need them in the router
-    store.dispatch(`preloadNetworkCapabilities`),
-  ])
+  // check if user is signed in
+  store.dispatch(`listenToAuthChanges`) // handles Google OAuth changes we are not influencing
+  await store.dispatch(`checkSession`)
+
+  // we load the networks first as we need them in the router
+  await store.dispatch(`preloadNetworkCapabilities`)
 
   const router = Router(store)
   setGoogleAnalyticsPage(router.currentRoute.path)
@@ -73,6 +90,7 @@ export default async function init(urlParams, env = process.env) {
   CapacitorApp.addListener("appUrlOpen", function (data) {
     handleDeeplink(data.url, router)
   })
+  // handling deeplinks when app is opening
   getLaunchUrl(router)
 
   store.dispatch(`loadLocalPreferences`)
