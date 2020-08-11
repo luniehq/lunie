@@ -164,13 +164,13 @@ export function handleDeeplink(url, router) {
   const path = matches[1]
   const query = matches[3]
 
-  const queryObject = query
+  const queryObject = query ? query
     .split("&")
     .map((keyValue) => keyValue.split("="))
     .reduce((query, [key, value]) => {
       query[key] = value
       return query
-    }, {})
+    }, {}) : {}
 
   // if we receive a deeplink for firebase authentication we follow that link
   // the target will perform the authentication and then redirect back to lunie
