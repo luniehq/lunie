@@ -11,7 +11,7 @@ import {
 import config from "src/../config"
 import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
-import { createApolloProvider } from "src/gql/apollo.js"
+import { createApolloProvider, routerErrorHandler } from "src/gql/apollo.js"
 import { registerForPushNotifications } from "./scripts/pushNotifications"
 import { handleDeeplink, getLaunchUrl } from "./vuex/modules/account"
 
