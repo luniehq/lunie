@@ -41,7 +41,7 @@ class DeferredErrorHandler {
     }
   }
 }
-export const routerErrorHandler = new DeferredErrorHandler()
+export const apolloErrorHandler = new DeferredErrorHandler()
 
 const makeHttpLink = () => {
   const host = getGraphqlHost()
@@ -94,17 +94,17 @@ const createApolloClient = async () => {
               observer.next(result)
             } else {
               result.errors.map((error) => {
-                routerErrorHandler.error(error)
+                apolloErrorHandler.error(error)
               })
             }
           },
           error: (response) => {
             if (!response.result) {
-              routerErrorHandler.error(response)
+              apolloErrorHandler.error(response)
               return
             }
             response.result.errors.map((error) => {
-              routerErrorHandler.error(error)
+              apolloErrorHandler.error(error)
             })
           },
           complete: observer.complete.bind(observer),

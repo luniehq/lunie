@@ -115,7 +115,7 @@ export default ({ apollo }) => {
           minimumVersion: `1.0.221`, // the first version with deep linking enabled
         },
         iOS: {
-          bundleId: `1475911030.org.lunie.lunie`,
+          bundleId: `org.lunie.lunie`,
         },
       }
       try {

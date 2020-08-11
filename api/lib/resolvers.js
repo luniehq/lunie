@@ -177,7 +177,7 @@ const transactionMetadata = async (
   }
 }
 
-const resolvers = (networkList) => ({
+const resolvers = (networkList, notificationController) => ({
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
       //
@@ -389,7 +389,23 @@ const resolvers = (networkList) => ({
     }
   },
   Mutation: {
-    registerUser: (_, { idToken }) => registerUser(idToken)
+    registerUser: (_, variables, { user: { uid } }) => registerUser(uid),
+    notifications: async (
+      _,
+      { addressObjects, notificationType, pushToken },
+      { dataSources, user: { uid } }
+    ) => {
+      await Promise.all(
+        addressObjects.map(({ networkId }) => dataSources[networkId].dataReady)
+      )
+      notificationController.updateRegistrations(
+        uid,
+        addressObjects,
+        notificationType,
+        dataSources,
+        pushToken
+      )
+    }
   },
   Subscription: {
     blockAdded: {

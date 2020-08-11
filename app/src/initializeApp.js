@@ -1,5 +1,7 @@
 /* istanbul ignore file: really just integrations */
 
+import { Plugins } from "@capacitor/core"
+const { App: CapacitorApp } = Plugins
 import { listenToExtensionMessages } from "scripts/extension-utils"
 import { checkForNewLunieVersions } from "scripts/check-for-new-lunie-versions"
 import {
@@ -9,9 +11,8 @@ import {
 import config from "src/../config"
 import Router, { routeGuard } from "./router"
 import Store from "./vuex/store"
-import { createApolloProvider, routerErrorHandler } from "src/gql/apollo.js"
-import { Plugins } from "@capacitor/core"
-const { App: CapacitorApp } = Plugins
+import { createApolloProvider, apolloErrorHandler } from "src/gql/apollo.js"
+import { registerForPushNotifications } from "./scripts/pushNotifications"
 import { handleDeeplink, getLaunchUrl } from "./vuex/modules/account"
 
 if (navigator && navigator.serviceWorker) {
@@ -52,7 +53,7 @@ export default async function init(urlParams, env = process.env) {
 
   // we need to use this custom error handler as we want to use the store in there
   // we can't pass the store as it would create a circular dependency
-  routerErrorHandler.onError((error) => {
+  apolloErrorHandler.onError((error) => {
     if (error.extensions && error.extensions.code === "UNAUTHENTICATED") {
       store.dispatch("signOutUser")
       return
@@ -83,6 +84,8 @@ export default async function init(urlParams, env = process.env) {
     /* istanbul ignore next */
     setGoogleAnalyticsPage(to.path)
   })
+
+  registerForPushNotifications(store, router)
 
   CapacitorApp.addListener("appUrlOpen", function (data) {
     handleDeeplink(data.url, router)
