@@ -8,8 +8,8 @@
         session.addressRole &&
         session.addressRole !== `stash/controller` &&
         session.addressRole !== `none`
-        ? capitalizeFirstLetter(session.addressRole)
-        : undefined
+          ? capitalizeFirstLetter(session.addressRole)
+          : undefined
       "
     />
     <div
@@ -56,7 +56,7 @@ export default {
         )
       }
       return `Your Address`
-    }
+    },
   },
   methods: {
     async showAddressOnLedger() {

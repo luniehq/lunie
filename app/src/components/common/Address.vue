@@ -1,18 +1,18 @@
 <template>
-  <div v-tooltip="tooltipText" class="copyable-address" :class="{
-    'with-type': !!addressType
-  }">
+  <div
+    v-tooltip="tooltipText"
+    class="copyable-address"
+    :class="{
+      'with-type': !!addressType,
+    }"
+  >
     <div
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
       class="address"
     >
       <div class="address-section">
-        <span class="type"
-          v-if="addressType"
-        >
-          {{ addressType }} Address
-        </span>
+        <span v-if="addressType" class="type"> {{ addressType }} Address </span>
         <span>{{ address | formatAddress }}</span>
       </div>
       <div :class="{ active: copySuccess }" class="icon-container">
@@ -42,8 +42,8 @@ export default {
     },
     addressType: {
       type: String,
-      default: undefined
-    }
+      default: undefined,
+    },
   },
   data: () => ({
     copySuccess: false,

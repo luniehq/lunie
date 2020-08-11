@@ -137,8 +137,7 @@ export default {
   width: 2rem;
   height: 2rem;
   transform: scaleX(-1);
-  filter:
-    invert(85%) sepia(9%) saturate(18%) hue-rotate(6deg) brightness(85%)
+  filter: invert(85%) sepia(9%) saturate(18%) hue-rotate(6deg) brightness(85%)
     contrast(87%); /* converts to same than var(--dim) */
 }
 </style>
