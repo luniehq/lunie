@@ -87,11 +87,15 @@ export default async function init(urlParams, env = process.env) {
 
   registerForPushNotifications(store, router)
 
-  CapacitorApp.addListener("appUrlOpen", function (data) {
-    handleDeeplink(data.url, router)
-  })
-  // handling deeplinks when app is opening
-  getLaunchUrl(router)
+  if (config.mobileApp) {
+    CapacitorApp.addListener("appUrlOpen", function (data) {
+      handleDeeplink(data.url, router)
+    })
+    // handling deeplinks when app is opening
+    getLaunchUrl(router)
+  } else {
+    handleDeeplink(window.location, router)
+  }
 
   store.dispatch(`loadLocalPreferences`)
   await store.dispatch(`checkForPersistedNetwork`) // wait until signin
