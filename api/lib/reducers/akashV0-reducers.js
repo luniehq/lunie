@@ -18,12 +18,10 @@ function setTransactionSuccess(transaction) {
   return transaction.code ? false : true
 }
 
-function delegationReducer(delegation, validator, network) {
-  const coinLookup = network.getCoinLookup(network, delegation.balance.denom)
-  const delegationCoin = terraV3Reducers.coinReducer(
-    delegation.balance,
-    coinLookup
-  )
+function delegationReducer(delegation, validator) {
+  const delegationCoin = delegation.balance
+    ? terraV3Reducers.atoms(delegation.balance.amount)
+    : 0
   return {
     id: delegation.validator_address,
     validatorAddress: delegation.validator_address,
