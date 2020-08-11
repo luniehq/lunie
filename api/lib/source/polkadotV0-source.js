@@ -533,6 +533,136 @@ class polkadotAPI {
     )
   }
 
+  constructProposal(api, bytes) {
+    let proposal
+
+    try {
+      proposal = api.registry.createType('Proposal', bytes.toU8a(true))
+    } catch (error) {
+      console.log(error)
+    }
+
+    return proposal
+  }
+
+  async getDemocracyProposalMetadata(
+    proposal,
+    description,
+    proposer,
+    proposalMethod,
+    creationTime
+  ) {
+    const api = await this.getAPI()
+
+    const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
+    const preimageRaw = await api.query.democracy.preimages.at(
+      blockHash,
+      proposal.imageHash
+    )
+    const preimage = preimageRaw.unwrapOr(null)
+    const { data } = preimage.asAvailable
+    const proposalWithIndex = this.constructProposal(api, data)
+    const { meta, method } = api.registry.findMetaCall(
+      proposalWithIndex.callIndex
+    )
+    description = meta.documentation.toString()
+    proposalMethod = method
+
+    // get creationTime
+    const block = await api.rpc.chain.getBlock(blockHash)
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
+    )
+    const blockTimestamp = args[0]
+    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
+    }
+  }
+
+  async getReferendumProposalMetada(
+    proposal,
+    description,
+    proposer,
+    proposalMethod,
+    creationTime
+  ) {
+    const api = await this.getAPI()
+
+    const referendumBlockHeight = proposal.status.end - proposal.status.delay
+    const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
+    const block = await api.rpc.chain.getBlock(blockHash)
+    block.block.extrinsics.forEach((extrinsic) => {
+      const { meta, method } = api.registry.findMetaCall(
+        extrinsic.method.callIndex
+      )
+      if (meta.args.find(({ name }) => name == 'proposal_hash')) {
+        proposer = extrinsic.signer.toString()
+        description = meta.documentation.toString()
+        proposalMethod = method
+      }
+    })
+
+    // get creationTime
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
+    )
+    const blockTimestamp = args[0]
+    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
+    }
+  }
+
+  async getProposalWithMetadata(proposal, type) {
+    const api = await this.getAPI()
+
+    let description = ''
+    let proposer = ''
+    let proposalMethod = ''
+    let creationTime = undefined
+
+    if (type === `democracy`) {
+      return await this.getDemocracyProposalMetadata(
+        proposal,
+        description,
+        proposer,
+        proposalMethod,
+        creationTime
+      )
+    }
+    if (type === `referendum`) {
+      return await this.getReferendumProposalMetada(
+        proposal,
+        description,
+        proposer,
+        proposalMethod,
+        creationTime
+      )
+    }
+    if (type === `council`) {
+      const { meta } = api.registry.findMetaCall(proposal.proposal.callIndex)
+      description = meta.documentation.toString()
+    }
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
+    }
+  }
+
   async getAllProposals() {
     const api = await this.getAPI()
 
@@ -553,49 +683,60 @@ class polkadotAPI {
       api.derive.council.proposals(),
       api.query.council.members()
     ])
-    const allProposals = democracyProposals
-      .map((proposal) => {
-        return this.reducers.democracyProposalReducer(
-          this.network,
-          proposal,
-          totalIssuance,
-          blockHeight
-        )
-      })
-      .concat(
-        democracyReferendums.map((proposal) => {
-          return this.reducers.democracyReferendumReducer(
+    const allProposals = await Promise.all(
+      democracyProposals
+        .map(async (proposal) => {
+          return this.reducers.democracyProposalReducer(
             this.network,
-            proposal,
+            await this.getProposalWithMetadata(proposal, `democracy`),
             totalIssuance,
             blockHeight
           )
         })
-      )
-      .concat(
-        treasuryProposals.proposals.map((proposal) => {
-          return this.reducers.treasuryProposalReducer(
-            this.network,
-            proposal,
-            councilMembers
-          )
-        })
-      )
-      .concat(
-        councilProposals.map((proposal) => {
-          return this.reducers.councilProposalReducer(
-            this.network,
-            proposal,
-            councilMembers,
-            blockHeight
-          )
-        })
-      )
+        .concat(
+          democracyReferendums.map(async (proposal) => {
+            return this.reducers.democracyReferendumReducer(
+              this.network,
+              await this.getProposalWithMetadata(proposal, `referendum`),
+              totalIssuance,
+              blockHeight
+            )
+          })
+        )
+        .concat(
+          treasuryProposals.proposals.map(async (proposal) => {
+            // should work. treasury and council proposals are virtually the same object
+            const proposalWithMetadata = await this.getProposalWithMetadata(
+              proposal.council[0],
+              `council`
+            )
+            return this.reducers.treasuryProposalReducer(
+              this.network,
+              proposalWithMetadata,
+              councilMembers,
+              blockHeight
+            )
+          })
+        )
+        .concat(
+          councilProposals.map(async (proposal) => {
+            return this.reducers.councilProposalReducer(
+              this.network,
+              await this.getProposalWithMetadata(proposal, `council`),
+              councilMembers,
+              blockHeight
+            )
+          })
+        )
+    )
 
     return orderBy(allProposals, 'id', 'desc')
   }
 
-  getProposalById() {}
+  async getProposalById(proposalId) {
+    const proposals = await this.getAllProposals()
+    return proposals.find((proposal) => proposal.id === proposalId)
+  }
 
   getDelegatorVote() {}
 

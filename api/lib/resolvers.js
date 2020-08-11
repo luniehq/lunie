@@ -204,8 +204,18 @@ const resolvers = (networkList) => ({
       // a validator, and in that case fetch the current validator object from datasource
       // and attach it to proposal.
       //
-      if (proposal.proposer !== `unknown`) {
-        const proposerValAddress = encodeB32(
+      if (proposal.proposer && proposal.proposer !== `unknown`) {
+        let proposerValAddress = ''
+        if (
+          networkList.find(({ id }) => id === proposal.networkId) &&
+          networkList.find(({ id }) => id === proposal.networkId)
+            .network_type === `polkadot`
+        ) {
+          return localStore(dataSources, proposal.networkId).validators[
+            proposal.proposer
+          ]
+        }
+        proposerValAddress = encodeB32(
           decodeB32(proposal.proposer),
           `cosmosvaloper`,
           `hex`
@@ -233,10 +243,8 @@ const resolvers = (networkList) => ({
   Query: {
     proposals: (_, { networkId }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getAllProposals(),
-    proposal: (_, { networkId, id }, { dataSources }) =>
-      remoteFetch(dataSources, networkId).getProposalById({
-        proposalId: id
-      }),
+    proposal: async (_, { networkId, id }, { dataSources }) =>
+      await remoteFetch(dataSources, networkId).getProposalById(id),
     vote: (_, { networkId, proposalId, address }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getDelegatorVote({
         proposalId,

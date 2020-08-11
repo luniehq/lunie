@@ -1,9 +1,19 @@
 const _ = require('lodash')
 const BigNumber = require('bignumber.js')
-const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
+const {
+  fixDecimalsAndRoundUp,
+  toViewDenom
+} = require('../../common/numbers.js')
 const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
+
+const proposalTypeEnum = {
+  TEXT: 'TEXT',
+  COUNCIL: 'COUNCIL',
+  TREASURY: 'TREASURY',
+  PARAMETER_CHANGE: 'PARAMETER_CHANGE'
+}
 
 function blockReducer(
   networkId,
@@ -470,23 +480,19 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
-function democracyProposalReducer(
-  network,
-  proposal,
-  totalIssuance,
-  blockHeight
-) {
+function democracyProposalReducer(network, proposal) {
   return {
-    id: proposal.index,
+    id: `Democracy-`.concat(proposal.index),
     networkId: network.id,
-    type: `text`,
-    title: `Democracy #${proposal.index}`,
-    description: undefined,
-    creationTime: undefined,
+    type: proposalTypeEnum.PARAMETER_CHANGE,
+    title: `Preliminary Proposal #${proposal.index}`,
+    description: proposal.description,
+    creationTime: proposal.creationTime,
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
+    statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
-    deposit: toViewDenom(network, proposal.balance),
-    proposer: proposal.proposer
+    deposit: toViewDenom(network, proposal.balance, network.stakingDenom),
+    proposer: proposal.proposer.toHuman()
   }
 }
 
@@ -497,31 +503,46 @@ function democracyReferendumReducer(
   blockHeight
 ) {
   return {
-    id: proposal.index,
-    network: network.id,
-    type: `text`,
-    title: `Referendum #${proposal.index}`,
-    description: undefined,
-    creationTime: undefined,
+    id: `Referendum-`.concat(proposal.index),
+    networkId: network.id,
+    type: proposalTypeEnum.PARAMETER_CHANGE,
+    title: `Proposal #${proposal.index}`,
+    description: proposal.description,
+    creationTime: proposal.creationTime,
     status: `VotingPeriod`,
-    statusBeginTime: undefined,
+    statusBeginTime: proposal.creationTime,
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
-    deposit: toViewDenom(network, proposal.status.tally.turnout),
-    proposer: undefined
+    deposit: toViewDenom(
+      network,
+      proposal.status.tally.turnout,
+      network.stakingDenom
+    ),
+    proposer: proposal.proposer
   }
 }
 
-function treasuryProposalReducer(network, proposal, councilMembers) {
+function treasuryProposalReducer(
+  network,
+  proposal,
+  councilMembers,
+  blockHeight
+) {
   return {
-    id: proposal.id,
+    id: `Treasury-`.concat(proposal.id),
     networkId: network.id,
-    type: `text`,
-    title: `Treasury #${proposal.index}`,
+    type: proposalTypeEnum.TREASURY,
+    title: `Treasury Proposal #${proposal.id}`,
+    creationTime: proposal.creationTime,
     status: `VotingPeriod`,
+    statusEndTime: getStatusEndTime(blockHeight, proposal.council[0].votes.end),
     tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
-    deposit: toViewDenom(network, Number(proposal.proposal.bond)),
-    proposer: proposal.proposal.proposer,
+    deposit: toViewDenom(
+      network,
+      Number(proposal.proposal.bond),
+      network.stakingDenom
+    ),
+    proposer: proposal.proposal.proposer.toHuman(),
     beneficiary: proposal.proposal.beneficiary // the account getting the tip
   }
 }
@@ -533,14 +554,14 @@ function councilProposalReducer(
   blockHeight
 ) {
   return {
-    id: proposal.votes.index,
+    id: `Council-`.concat(proposal.votes.index),
     networkId: network.id,
-    type: `text`,
-    title: `Council proposal #${proposal.votes.index}`,
-    description: undefined,
-    creationTime: undefined,
+    type: proposalTypeEnum.COUNCIL,
+    title: `Council Proposal #${proposal.votes.index}`,
+    description: proposal.description,
+    creationTime: proposal.creationTime,
     status: `VotingPeriod`,
-    statusBeginTime: undefined,
+    statusBeginTime: proposal.creationTime,
     statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
     tally: councilTallyReducer(proposal.votes, councilMembers),
     deposit: undefined,
@@ -599,7 +620,7 @@ function councilTallyReducer(votes, councilMembers) {
     abstain: 0,
     veto: 0,
     total,
-    totalVotedPercentage: ((total * 100) / councilMembers.length).toFixed(2)
+    totalVotedPercentage: (total / councilMembers.length).toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
   }
 }
 
@@ -611,12 +632,7 @@ function democracyTallyReducer(proposal) {
   }
 }
 
-function toViewDenom(network, chainDenomAmount) {
-  return BigNumber(chainDenomAmount)
-    .times(network.coinLookup[0].chainToViewConversionFactor)
-    .toFixed(6)
-}
-
+// the status end time is a time "so and so days from the creation of the proposal opening"
 function getStatusEndTime(blockHeight, endBlock) {
   return new Date(
     new Date().getTime() + (endBlock - blockHeight) * 6000
@@ -643,6 +659,5 @@ module.exports = {
   democracyReferendumReducer,
   treasuryProposalReducer,
   councilProposalReducer,
-  tallyReducer,
-  toViewDenom
+  tallyReducer
 }
