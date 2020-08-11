@@ -64,7 +64,7 @@ const typeDefs = gql`
   }
 
   type Proposal {
-    id: Int
+    id: String
     networkId: String!
     type: proposalTypeEnum
     title: String

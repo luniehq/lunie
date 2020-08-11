@@ -482,7 +482,7 @@ function rewardReducer(network, validators, reward, reducers) {
 
 function democracyProposalReducer(network, proposal) {
   return {
-    id: Number(proposal.index),
+    id: `Democracy-`.concat(proposal.index),
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Preliminary Proposal #${proposal.index}`,
@@ -503,7 +503,7 @@ function democracyReferendumReducer(
   blockHeight
 ) {
   return {
-    id: Number(proposal.index),
+    id: `Referendum-`.concat(proposal.index),
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Proposal #${proposal.index}`,
@@ -529,7 +529,7 @@ function treasuryProposalReducer(
   blockHeight
 ) {
   return {
-    id: Number(proposal.id),
+    id: `Treasury-`.concat(proposal.id),
     networkId: network.id,
     type: proposalTypeEnum.TREASURY,
     title: `Treasury Proposal #${proposal.id}`,
@@ -554,7 +554,7 @@ function councilProposalReducer(
   blockHeight
 ) {
   return {
-    id: Number(proposal.votes.index),
+    id: `Council-`.concat(proposal.votes.index),
     networkId: network.id,
     type: proposalTypeEnum.COUNCIL,
     title: `Council Proposal #${proposal.votes.index}`,
