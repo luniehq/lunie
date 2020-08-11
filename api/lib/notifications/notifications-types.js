@@ -81,7 +81,7 @@ const getDefaultSubscriptions = async (addresses, dataSources) => {
   return subscriptions
 }
 
-const getDefaultEMailSubscriptions = async (addresses, dataSources) => {
+const getDefaultEmailSubscriptions = async (addresses, dataSources) => {
   let subscriptions = []
 
   for (const { address, networkId } of addresses) {
@@ -141,6 +141,6 @@ module.exports = {
   eventTypes,
   resourceTypes,
   getDefaultSubscriptions,
-  getDefaultEMailSubscriptions,
+  getDefaultEmailSubscriptions,
   getDefaultPushSubscriptions
 }

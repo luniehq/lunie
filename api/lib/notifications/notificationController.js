@@ -7,7 +7,7 @@ const {
   getPushLink,
   getIcon
 } = require('./notifications')
-const { getDefaultEMailSubscriptions } = require('./notifications-types')
+const { getDefaultEmailSubscriptions } = require('./notifications-types')
 const firebaseAdmin = require('./firebase')
 const Sentry = require('@sentry/node')
 
@@ -83,11 +83,11 @@ class NotificationController {
     let topics = []
     if (notificationType === 'email') {
       topics = (
-        await getDefaultEMailSubscriptions(addressObjects, dataSources)
+        await getDefaultEmailSubscriptions(addressObjects, dataSources)
       ).map((topic) => ({ topic, type: 'email' }))
     } else {
       topics = (
-        await getDefaultEMailSubscriptions(addressObjects, dataSources)
+        await getDefaultEmailSubscriptions(addressObjects, dataSources)
       ).map((topic) => ({ topic, type: 'push' }))
 
       this.subscribeUserToPushNotificationTopics(
