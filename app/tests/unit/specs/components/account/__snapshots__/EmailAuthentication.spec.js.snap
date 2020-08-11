@@ -25,11 +25,15 @@ exports[`EmailAuthentication should show the EmailAuthentication page 1`] = `
       
     </p>
      
-    <tmbtn-stub
-      centered="true"
-      customclass=""
-      value="Let's Go!"
-    />
+    <router-link-stub
+      to="notifications"
+    >
+      <tmbtn-stub
+        centered="true"
+        customclass=""
+        value="Let's Go!"
+      />
+    </router-link-stub>
   </div>
 </sessionframe-stub>
 `;
