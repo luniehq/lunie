@@ -1,7 +1,7 @@
 <template>
-  <SessionFrame :icon="`verified_user`">
+  <SessionFrame :icon="`notifications`">
     <TmFormStruct :submit="sendMagicLink">
-      <h2 class="session-title">Sign up for premium features!</h2>
+      <h2 class="session-title">Sign up to start recieving notifications!</h2>
 
       <div class="session-main">
         <p class="session-subtitle">

@@ -1,6 +1,7 @@
 <template>
   <div class="notifications-container">
     <h2>Notifications</h2>
+
     <TmPage
       data-title="My alerts"
       :loading="$apollo.queries.notifications.loading && !firstLoaded"
