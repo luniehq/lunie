@@ -2,7 +2,6 @@
   <div class="user-menu">
     <UserMenuAddress v-if="address" :address="address" />
     <router-link
-      v-if="session.experimentalMode"
       v-tooltip="`Notifications`"
       :to="{ name: 'notifications' }"
       class="user-menu-icon-container notifications"
