@@ -8,7 +8,10 @@ function fixDecimalsAndRoundUp(number, decimalsNumber) {
 }
 
 function fixDecimalsAndRoundUpBigNumbers(bignumber, decimalsNumber, network, denom) {
-  const coinLookup = network.coinLookup.find(({ viewDenom }) => viewDenom === denom)
+  let coinLookup = network.coinLookup.find(({viewDenom}) => viewDenom === network.stakingDenom)
+  if (denom) {
+    coinLookup = network.coinLookup.find(coinLookup => coinLookup.chainDenom === denom || coinLookup.viewDenom === denom)
+  }
   return fixDecimalsAndRoundUp(
     BigNumber(bignumber).times(
       coinLookup.chainToViewConversionFactor
@@ -18,11 +21,9 @@ function fixDecimalsAndRoundUpBigNumbers(bignumber, decimalsNumber, network, den
 }
 
 function toViewDenom(network, chainDenomAmount, denom) {
-  let coinLookup
+  let coinLookup = network.coinLookup.find(({viewDenom}) => viewDenom === network.stakingDenom)
   if (denom) {
     coinLookup = network.coinLookup.find(coinLookup => coinLookup.chainDenom === denom || coinLookup.viewDenom === denom)
-  } else {
-    coinLookup = network.coinLookup.find(({viewDenom}) => viewDenom === network.stakingDenom)
   }
   return BigNumber(chainDenomAmount)
     .times(coinLookup.chainToViewConversionFactor)
