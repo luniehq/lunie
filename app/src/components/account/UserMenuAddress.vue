@@ -5,6 +5,7 @@
       :address="address || ''"
       :tooltip-text="addressType"
       :address-type="
+        network.network_type === 'polkadot' &&
         session.addressRole &&
         session.addressRole !== `stash/controller` &&
         session.addressRole !== `none`
