@@ -30,12 +30,12 @@ class NotificationController {
 
   listenToNotifications() {
     eventSubscription((notification) => {
-      this.onNotificationSendEMails(notification)
+      this.onNotificationSendEmails(notification)
       this.onNotificationSendPushNotifications(notification)
     })
   }
 
-  async onNotificationSendEMails(notification) {
+  async onNotificationSendEmails(notification) {
     const emailUsers = await this.getRegisteredUsers(notification, 'email')
     const emails = await this.getEmails(emailUsers)
     const { content, subject } = this.getEmailContent(notification)
