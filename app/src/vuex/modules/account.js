@@ -17,6 +17,9 @@ export default ({ apollo }) => {
     userSignedIn(state, hasSignedIn) {
       state.userSignedIn = hasSignedIn
     },
+    setSession(state, session) {
+      state.session = session
+    },
     setUserInformation(state, user) {
       state.user = user
     },
@@ -31,47 +34,25 @@ export default ({ apollo }) => {
   const actions = {
     async listenToAuthChanges({ dispatch, commit }) {
       const Auth = (await getFirebase()).auth()
-      // start listening for idToken changes too
-      await dispatch(`listenToIdTokenChanges`)
       await new Promise((resolve) =>
         Auth.onAuthStateChanged(async (user) => {
           if (user) {
-            commit(`userSignedIn`, true)
+            // we only sign the user in, if we get a session from the API
+            // commit(`userSignedIn`, true)
             commit(`setUserInformation`, user)
 
-            const idToken = await user.getIdToken(/* forceRefresh */ true)
-            localStorage.setItem(`auth_token`, idToken)
             // make sure new authorization token get added to header
             apollo.cache.reset()
           } else {
-            localStorage.removeItem(`auth_token`)
-            commit(`userSignedIn`, false)
+            // user signed out
+            dispatch(`storeSession`, null)
             commit(`setUserInformation`, null)
           }
           resolve()
         })
       )
     },
-    async listenToIdTokenChanges({ commit }) {
-      const Auth = (await getFirebase()).auth()
-      await new Promise((resolve) =>
-        Auth.onIdTokenChanged(async (user) => {
-          commit(`setUserInformation`, user)
-          // user is already signed in since we are handling that with onAuthStateChanged
-          if (user) {
-            // retrieving refreshed idToken
-            const idToken = await user.getIdToken(/* forceRefresh */ true)
-
-            // really important part, store idToken in localstorage so Apollo gets the newest
-            localStorage.setItem(`auth_token`, idToken)
-            // make sure new authorization token get added to header
-            apollo.cache.reset()
-          }
-          resolve()
-        })
-      )
-    },
-    async signInUser({ commit }, url) {
+    async signInUser({ commit, dispatch }, url) {
       commit(`setSignInError`, undefined)
       const Auth = (await getFirebase()).auth()
       try {
@@ -87,9 +68,16 @@ export default ({ apollo }) => {
           apollo.mutate({
             mutation: gql`
               mutation {
-                registerUser(idToken:"${idToken}")
+                registerUser(idToken:"${idToken}") {
+                  sessionToken
+                  validUntil
+                }
               }
             `,
+            update(cache, { data }) {
+              const session = data.registerUser
+              dispatch("storeSession", session)
+            },
           })
         }
       } catch (error) {
@@ -97,6 +85,21 @@ export default ({ apollo }) => {
         Sentry.captureException(error)
         commit(`setSignInError`, error)
       }
+    },
+    storeSession({ commit }, session) {
+      if (session) {
+        localStorage.setItem("session", JSON.stringify(session))
+      } else {
+        localStorage.removeItem("session")
+      }
+      commit("setSession", session)
+      commit("userSignedIn", !!session)
+    },
+    checkSession({ dispatch }) {
+      const session = localStorage.getItem("session")
+        ? JSON.parse(localStorage.getItem("session"))
+        : undefined
+      dispatch("storeSession", session)
     },
     async sendUserMagicLink({ commit }, { user }) {
       commit(`setSignInEmailError`, undefined)
@@ -127,7 +130,7 @@ export default ({ apollo }) => {
       const Auth = (await getFirebase()).auth()
       try {
         await Auth.signOut()
-        localStorage.removeItem(`auth_token`)
+        localStorage.removeItem(`session`)
         // get rid of cached token in header
         apollo.cache.reset()
       } catch (error) {
@@ -171,8 +174,9 @@ export function handleDeeplink(url, router) {
 
   // if we receive a deeplink for firebase authentication we follow that link
   // the target will perform the authentication and then redirect back to lunie
-  if (queryObject.link) {
-    window.open(unescape(queryObject.link), "_blank")
+  if (queryObject.link || queryObject.ifl) {
+    window.open(unescape(queryObject.link || queryObject.ifl), "_blank")
+    return
   }
 
   try {
