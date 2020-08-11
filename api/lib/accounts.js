@@ -19,7 +19,7 @@ const registerUser = async (idToken) => {
       lastActive: userRecord.metadata.lastSignInTime
     }
     database(config)('').upsert(`users`, user)
-    const session = await db.getNewSession(uid)
+    const session = await db.storeAndGetNewSession(uid)
 
     return {
       validUntil: session.valid_until,
@@ -41,6 +41,7 @@ async function validateSession(sessionToken) {
     session = sessionCache[sessionToken]
   } else {
     session = await db.getSession(sessionToken)
+    sessionCache[sessionToken] = session
   }
   if (
     !session ||
