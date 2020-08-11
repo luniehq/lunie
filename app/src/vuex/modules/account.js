@@ -159,7 +159,7 @@ export function handleDeeplink(url, router) {
 
   // Example url: https://lunie.io/email-authentication
   // slug = /email-authentication
-  const regexp = /https:\/\/[\w\d-\.]+\/([\w\d-\/]*)(\?(.+))?/
+  const regexp = /(https?:\/\/)?[\w\d-\.]+\/([\w\d-\/]*)(\?(.+))?/
   const matches = regexp.exec(url)
   const path = matches[1]
   const query = matches[3]
@@ -175,7 +175,12 @@ export function handleDeeplink(url, router) {
   // if we receive a deeplink for firebase authentication we follow that link
   // the target will perform the authentication and then redirect back to lunie
   if (queryObject.link || queryObject.ifl) {
-    window.open(unescape(queryObject.link || queryObject.ifl), "_blank")
+    const link = unescape(queryObject.link || queryObject.ifl)
+    if (config.mobileApp) {
+      window.open(link, "_blank")
+    } else {
+      window.location = link
+    }
     return
   }
 
