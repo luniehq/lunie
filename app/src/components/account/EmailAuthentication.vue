@@ -4,7 +4,9 @@
       <h2 class="session-title">Magic link error! 🙀</h2>
       <div class="session-main">
         <p class="session-subtitle">{{ account.signInError.message }}</p>
-        <TmBtn value="Try again" centered @click.native="goToSignInModal" />
+        <router-link to="sign-in-modal">
+          <TmBtn value="Try again" centered />
+        </router-link>
       </div>
     </template>
 
@@ -17,7 +19,9 @@
           You're now signed in to Lunie with your email address. Head over to
           the notifications page to see some recent events.
         </p>
-        <TmBtn value="Let's Go!" centered @click.native="goToNotifications" />
+        <router-link to="notifications">
+          <TmBtn value="Let's Go!" centered />
+        </router-link>
       </div>
     </template>
   </SessionFrame>
@@ -39,14 +43,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch(`signInUser`, window.location.href)
-  },
-  methods: {
-    goToNotifications() {
-      this.$router.push({ name: "notifications" }).catch((err) => {})
-    },
-    goToSignInModal() {
-      this.$router.push({ name: "sign-in-modal" }).catch((err) => {})
-    },
   },
 }
 </script>
