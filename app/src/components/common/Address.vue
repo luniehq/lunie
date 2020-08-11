@@ -68,6 +68,7 @@ export default {
   margin: 0;
   background: var(--app-fg);
 }
+
 .copyable-address.with-type {
   height: 2.5rem;
 }
