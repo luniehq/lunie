@@ -1,50 +1,6 @@
 <template>
   <menu class="app-menu">
     <div>
-      <div v-if="session.signedIn" class="user-box">
-        <div class="user-box-address">
-          <div class="user-box-inner-row">
-            <div>
-              <h3
-                v-if="
-                  session.addressRole &&
-                  session.addressRole !== `stash/controller` &&
-                  session.addressRole !== `none`
-                "
-              >
-                {{ capitalizeFirstLetter(session.addressRole) }} Address
-              </h3>
-              <h3 v-else>Your Address</h3>
-              <Address class="menu-address" :address="address || ''" />
-              <a
-                v-if="!session.isMobile && session.sessionType === 'ledger'"
-                class="show-on-ledger"
-                @click="showAddressOnLedger()"
-                >Show on Ledger</a
-              >
-              <TmFormMsg
-                v-if="ledgerAddressError"
-                :msg="ledgerAddressError"
-                type="custom"
-              />
-            </div>
-            <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-              <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
-                >exit_to_app</i
-              >
-            </a>
-          </div>
-        </div>
-      </div>
-      <TmBtn
-        v-else
-        id="sign-in"
-        class="session-link sidebar"
-        value="Sign In / Sign Up"
-        type="secondary"
-        size="small"
-        @click.native="signIn()"
-      />
       <router-link
         class="app-menu-item hide-s"
         :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
