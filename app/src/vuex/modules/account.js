@@ -5,7 +5,7 @@ import { Plugins } from "@capacitor/core"
 import config from "src/../config"
 const { App: CapacitorApp } = Plugins
 
-const mobileCodeBlocks = config.mobileApp
+const firebaseMobileCodeBlocks = config.mobileApp
   ? {
       android: {
         packageName: `org.lunie.lunie`,
@@ -16,7 +16,7 @@ const mobileCodeBlocks = config.mobileApp
         bundleId: `org.lunie.lunie`,
       },
     }
-  : null
+  : {}
 
 export default ({ apollo }) => {
   const state = {
@@ -122,7 +122,7 @@ export default ({ apollo }) => {
           ? `https://app.lunie.io/email-authentication`
           : `${window.location.protocol}//${window.location.host}/email-authentication`,
         handleCodeInApp: true,
-        ...mobileCodeBlocks,
+        ...firebaseMobileCodeBlocks,
       }
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
