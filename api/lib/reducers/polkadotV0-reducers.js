@@ -503,7 +503,7 @@ function democracyReferendumReducer(
   blockHeight
 ) {
   return {
-    id: `Referendum-`.concat(proposal.index),
+    id: `referendum-`.concat(proposal.index),
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Proposal #${proposal.index}`,
