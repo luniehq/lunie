@@ -529,7 +529,7 @@ function treasuryProposalReducer(
   blockHeight
 ) {
   return {
-    id: `Treasury-`.concat(proposal.id),
+    id: `treasury-`.concat(proposal.id),
     networkId: network.id,
     type: proposalTypeEnum.TREASURY,
     title: `Treasury Proposal #${proposal.id}`,
