@@ -22,9 +22,7 @@
               Proposed by {{ proposal.validator.name }}:
               <Address :address="proposal.proposer" />
             </template>
-            <template
-              v-else-if="proposal.proposer && proposal.proposer !== `unknown`"
-            >
+            <template v-else-if="proposal.proposer">
               Proposed by
               <Address :address="proposal.proposer" />
             </template>
