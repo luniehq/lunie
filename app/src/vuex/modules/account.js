@@ -59,12 +59,13 @@ export default ({ apollo }) => {
         if (Auth.isSignInWithEmailLink(url)) {
           const user = JSON.parse(localStorage.getItem(`user`))
           if (!user)
-            throw new Error("Sign in flow broken. User E-Mail is unknown.")
+            throw new Error("Sign in flow broken. User email is unknown.")
           await Auth.signInWithEmailLink(user.email, url)
 
           const idToken = await Auth.currentUser.getIdToken(
             /* forceRefresh */ true
           )
+
           apollo.mutate({
             mutation: gql`
               mutation {
@@ -184,15 +185,5 @@ export function handleDeeplink(url, router) {
       window.location = link
     }
     return
-  }
-
-  try {
-    // change the route to the route we got from the deeplink
-    router.push({
-      path: "/" + path,
-      query: queryObject,
-    })
-  } catch (error) {
-    console.error(error)
   }
 }
