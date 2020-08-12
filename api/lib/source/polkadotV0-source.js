@@ -639,7 +639,7 @@ class polkadotAPI {
       )
     }
     if (type === `referendum`) {
-      return await this.getReferendumProposalMetada(
+      return await this.getReferendumProposalMetadata(
         proposal,
         description,
         proposer,
