@@ -582,7 +582,7 @@ class polkadotAPI {
     }
   }
 
-  async getReferendumProposalMetada(
+  async getReferendumProposalMetadata(
     proposal,
     description,
     proposer,
