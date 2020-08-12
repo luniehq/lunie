@@ -20,11 +20,11 @@ function getMessageTitle(networks, notification) {
     case eventTypes.TRANSACTION_RECEIVE:
       return `You received ${data.details.amount.amount} ${
         data.details.amount.denom
-        }${data.details.amount.amount !== 1 ? 's' : ''} on ${networkTitle}`
+      }${data.details.amount.amount !== 1 ? 's' : ''} on ${networkTitle}`
     case eventTypes.TRANSACTION_SEND:
       return `You sent ${data.details.amount.amount} ${
         data.details.amount.denom
-        }${data.details.amount.amount !== 1 ? 's' : ''} on ${networkTitle}`
+      }${data.details.amount.amount !== 1 ? 's' : ''} on ${networkTitle}`
     case eventTypes.PROPOSAL_CREATE:
       return `New proposal created for ${networkTitle}: '${data.title}'`
     case eventTypes.PROPOSAL_UPDATE:
@@ -47,7 +47,7 @@ function getMessageTitle(networks, notification) {
         2
       )}% (${percentageDifference.toFixed(3)}% increase) for ${
         data.nextValidator.name
-        } on ${networkTitle}`
+      } on ${networkTitle}`
     }
 
     case eventTypes.VALIDATOR_VOTING_POWER_DECREASE: {
@@ -63,11 +63,13 @@ function getMessageTitle(networks, notification) {
         2
       )}% (${percentageDifference.toFixed(2)}% decrease) for ${
         data.nextValidator.name
-        } on ${networkTitle}`
+      } on ${networkTitle}`
     }
 
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
-      return `Max commission fee for ${data.nextValidator.name} has changed from ${Number(
+      return `Max commission fee for ${
+        data.nextValidator.name
+      } has changed from ${Number(
         data.prevValidator.maxChangeCommission
       ).toFixed(3)} to ${Number(data.nextValidator.maxChangeCommission).toFixed(
         3
@@ -81,9 +83,7 @@ function getMessageTitle(networks, notification) {
     case eventTypes.VALIDATOR_WEBSITE:
       return `${data.nextValidator.name} updated their website to: ${data.nextValidator.website} on ${networkTitle}`
     case eventTypes.VALIDATOR_ADDED:
-      return `New validator ${
-        data.nextValidator.name
-        } just became an active validator on ${networkTitle}`
+      return `New validator ${data.nextValidator.name} just became an active validator on ${networkTitle}`
 
     case eventTypes.LUNIE_UPDATE:
       return data.title
@@ -169,7 +169,7 @@ function getIcon({ eventType, data, properties }) {
       return `${
         notificationData.nextValidator.picture ||
         `/img/icons/currencies/lunie.png`
-        }`
+      }`
     case eventTypes.LUNIE_UPDATE:
       return `/img/icons/currencies/lunie.png`
     default:
