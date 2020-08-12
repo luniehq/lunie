@@ -4,6 +4,14 @@
       class="menu-address"
       :address="address || ''"
       :tooltip-text="addressType"
+      :address-type="
+        network.network_type === 'polkadot' &&
+        session.addressRole &&
+        session.addressRole !== `stash/controller` &&
+        session.addressRole !== `none`
+          ? capitalizeFirstLetter(session.addressRole)
+          : undefined
+      "
     />
     <div
       v-if="!session.isMobile && session.sessionType === 'ledger'"

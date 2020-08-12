@@ -351,9 +351,10 @@ class CosmosV0API extends RESTDataSource {
 
   async getBalancesV2FromAddress(address, fiatCurrency, network) {
     this.checkAddress(address)
-    const [balancesResponse, delegations] = await Promise.all([
+    const [balancesResponse, delegations, undelegations] = await Promise.all([
       this.query(`bank/balances/${address}`),
-      this.getDelegationsForDelegatorAddress(address)
+      this.getDelegationsForDelegatorAddress(address),
+      this.getUndelegationsForDelegatorAddress(address)
     ])
     const balances = balancesResponse || []
     const coins = balances.map((coin) => {
@@ -391,6 +392,7 @@ class CosmosV0API extends RESTDataSource {
           coin,
           this.network.stakingDenom,
           delegations,
+          undelegations,
           fiatValueAPI,
           fiatCurrency
         )

@@ -255,8 +255,11 @@ const startNotificationService = (networks) => {
 const getNotifications = (networks) => async (
   _,
   { timestamp = '', addressObjects },
-  { dataSources }
+  { dataSources, user: { uid } }
 ) => {
+  // if user is not signed in, he is not allowed to receive notifications
+  if (!uid) return []
+
   if (timestamp === '') timestamp = new Date().toISOString()
 
   if (!isISODate(timestamp))

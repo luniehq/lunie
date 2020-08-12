@@ -46,9 +46,7 @@ class AkashV0API extends TerraV3API {
       .map((delegation) =>
         this.reducers.delegationReducer(
           delegation,
-          this.store.validators[delegation.validator_address],
-          delegationEnum.ACTIVE,
-          this.network
+          this.store.validators[delegation.validator_address]
         )
       )
   }

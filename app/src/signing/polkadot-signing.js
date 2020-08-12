@@ -1,9 +1,4 @@
-export async function getSignature(
-  { transaction },
-  wallet,
-  network,
-  curve
-) {
+export async function getSignature({ transaction }, wallet, network, curve) {
   const [{ Keyring }] = await Promise.all([
     import("@polkadot/api"),
     import("@polkadot/wasm-crypto").then(async ({ waitReady }) => {

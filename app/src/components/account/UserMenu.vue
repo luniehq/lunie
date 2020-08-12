@@ -2,23 +2,25 @@
   <div class="user-menu">
     <UserMenuAddress v-if="address" :address="address" />
     <router-link
-      v-if="session.experimentalMode"
       v-tooltip="`Notifications`"
       :to="{ name: 'notifications' }"
       class="user-menu-icon-container notifications"
+      :class="{ 'with-address-type': hasAddressType }"
     >
       <i class="material-icons">notifications</i>
     </router-link>
     <v-popover open-class="user-menu-popover">
       <!-- This will be the popover target (for the events and position) -->
-      <div id="open-user-menu" class="avatar-container">
-        <span v-if="!account.userSignedIn" class="avatar emoji tooltip-target"
-          >👻</span
-        >
+      <div
+        id="open-user-menu"
+        class="avatar-container"
+        :class="{ 'with-address-type': hasAddressType }"
+      >
+        <span v-if="!user" class="avatar emoji tooltip-target">👻</span>
         <Avatar
-          v-if="account.userSignedIn"
+          v-if="user"
           class="avatar tooltip-target"
-          :address="account.user.email"
+          :address="user ? user.email : ''"
           :human="true"
         />
       </div>
@@ -26,7 +28,7 @@
       <!-- This will be the content of the popover -->
       <template slot="popover">
         <div class="user-popover">
-          <h3 class="email">{{ user.email || `Anonymous User` }}</h3>
+          <h3 class="email">{{ (user && user.email) || `Anonymous User` }}</h3>
         </div>
         <div
           v-for="address in addresses"
@@ -136,10 +138,19 @@ export default {
     ...mapState([`session`, `account`]),
     ...mapGetters([`address`, `networks`]),
     user() {
-      return this.account.userSignedIn ? this.account.user : {}
+      return this.account.userSignedIn && this.account.user
+        ? this.account.user
+        : undefined
     },
     addresses() {
       return this.session.allSessionAddresses
+    },
+    hasAddressType() {
+      return (
+        this.session.addressRole &&
+        this.session.addressRole !== `stash/controller` &&
+        this.session.addressRole !== `none`
+      )
     },
   },
   methods: {
@@ -314,6 +325,11 @@ h3 {
 
 .address-network {
   color: black;
+}
+
+/* with an address type the addres box is a bit bigger so the rest needs to be centered */
+.with-address-type {
+  margin-top: 4px;
 }
 
 .avatar-container {

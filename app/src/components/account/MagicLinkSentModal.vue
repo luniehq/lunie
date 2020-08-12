@@ -15,9 +15,5 @@ export default {
   components: {
     SessionFrame,
   },
-  data: () => ({
-    email: "",
-    errorOnAuthentication: false,
-  }),
 }
 </script>

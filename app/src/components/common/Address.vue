@@ -1,11 +1,20 @@
 <template>
-  <div v-tooltip="tooltipText" class="copyable-address">
+  <div
+    v-tooltip="tooltipText"
+    class="copyable-address"
+    :class="{
+      'with-type': !!addressType,
+    }"
+  >
     <div
       v-clipboard:copy="address"
       v-clipboard:success="() => onCopy()"
       class="address"
     >
-      <span>{{ address | formatAddress }}</span>
+      <div class="address-section">
+        <span v-if="addressType" class="type"> {{ addressType }} Address </span>
+        <span>{{ address | formatAddress }}</span>
+      </div>
       <div :class="{ active: copySuccess }" class="icon-container">
         <i class="material-icons notranslate success">check</i>
       </div>
@@ -31,6 +40,10 @@ export default {
       type: String,
       default: ``,
     },
+    addressType: {
+      type: String,
+      default: undefined,
+    },
   },
   data: () => ({
     copySuccess: false,
@@ -49,12 +62,22 @@ export default {
 .copyable-address {
   font-size: 14px;
   display: inline-flex;
-  align-items: center;
   height: 2rem;
   padding: 0 1rem;
   border-radius: 1rem;
   margin: 0;
   background: var(--app-fg);
+}
+
+.copyable-address.with-type {
+  height: 2.5rem;
+}
+
+.copyable-address .type {
+  font-size: 10px;
+  line-height: 10px;
+  color: var(--dim);
+  margin-top: 1px;
 }
 
 .copyable-address .address {
@@ -63,6 +86,12 @@ export default {
   align-items: center;
   cursor: pointer;
   color: var(--link);
+}
+
+.copyable-address .address-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .menu-address .address {
