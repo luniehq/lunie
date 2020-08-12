@@ -50,7 +50,7 @@
         </div>
       </div>
 
-      <TextBlock v-if="proposal.description" :content="proposal.description" />
+      <TextBlock :content="proposal.description" />
 
       <ul v-if="proposal.status === 'DepositPeriod'" class="row">
         <li>

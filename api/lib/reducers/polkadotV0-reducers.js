@@ -529,21 +529,22 @@ function treasuryProposalReducer(
   blockHeight
 ) {
   return {
-    id: `treasury-`.concat(proposal.id),
+    id: `treasury-`.concat(proposal.votes.index),
     networkId: network.id,
     type: proposalTypeEnum.TREASURY,
-    title: `Treasury Proposal #${proposal.id}`,
+    title: `Treasury Proposal #${proposal.votes.index}`,
+    description: proposal.description,
     creationTime: proposal.creationTime,
     status: `VotingPeriod`,
-    statusEndTime: getStatusEndTime(blockHeight, proposal.council[0].votes.end),
-    tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
+    statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
+    tally: councilTallyReducer(proposal.votes, councilMembers),
     deposit: toViewDenom(
       network,
-      Number(proposal.proposal.bond),
+      Number(proposal.deposit),
       network.stakingDenom
     ),
-    proposer: proposal.proposal.proposer.toHuman(),
-    beneficiary: proposal.proposal.beneficiary // the account getting the tip
+    proposer: proposal.proposer ? proposal.proposer.toHuman() : undefined,
+    beneficiary: proposal.beneficiary // the account getting the tip
   }
 }
 
