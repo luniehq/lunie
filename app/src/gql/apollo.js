@@ -61,7 +61,6 @@ const makeHttpLink = () => {
 const makeWebSocketLink = () => {
   const host = getGraphqlHost()
   const uri = `${host.replace("http", "ws")}/graphql`
-  console.log("ws", uri)
   return new WebSocketLink({ uri })
 }
 
