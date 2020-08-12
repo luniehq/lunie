@@ -293,7 +293,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          id: Number(this.proposalId),
+          id: this.proposalId,
         }
       },
       /* istanbul ignore next */
@@ -329,7 +329,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          proposalId: +this.proposalId,
+          proposalId: this.proposalId,
           address: this.address,
         }
       },

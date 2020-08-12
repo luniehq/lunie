@@ -704,7 +704,7 @@ class polkadotAPI {
           treasuryProposals.proposals.map(async (proposal) => {
             // should work. treasury and council proposals are virtually the same object
             const proposalWithMetadata = await this.getProposalWithMetadata(
-              proposal.council[0],
+              proposal.council[0].proposal,
               `council`
             )
             return this.reducers.treasuryProposalReducer(

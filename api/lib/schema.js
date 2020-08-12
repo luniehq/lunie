@@ -416,7 +416,7 @@ const typeDefs = gql`
 
   type Query {
     blockV2(networkId: String!, height: Int): BlockV2
-    proposal(networkId: String!, id: Int!): Proposal
+    proposal(networkId: String!, id: String!): Proposal
     proposals(networkId: String!): [Proposal]
     validators(
       networkId: String!
@@ -425,7 +425,7 @@ const typeDefs = gql`
       popularSort: Boolean
     ): [Validator]
     allDelegators(networkId: String!): [String]
-    vote(networkId: String!, proposalId: Int!, address: String!): Vote
+    vote(networkId: String!, proposalId: String!, address: String!): Vote
     governanceParameters(networkId: String!): GovernanceParameters
     validator(networkId: String!, operatorAddress: String!): Validator
     networks(experimental: Boolean): [Network]
