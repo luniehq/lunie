@@ -1,5 +1,6 @@
 const BigNumber = require('bignumber.js')
 const { uniqWith } = require('lodash')
+const { useInactives } = require('../polkadot-utils')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -454,30 +455,43 @@ class polkadotAPI {
 
   async getInactiveDelegationsForDelegatorAddress(delegatorAddress) {
     const api = await this.getAPI()
-    let inactiveDelegations = []
 
     // We always use stash address to query delegations
     delegatorAddress = await this.getStashAddress(delegatorAddress)
 
     const stakingInfo = await api.query.staking.nominators(delegatorAddress)
-    const allDelegations =
-      stakingInfo && stakingInfo.toJSON() ? stakingInfo.toJSON().targets : []
-    allDelegations.forEach((nomination) => {
-      inactiveDelegations.push(
-        this.reducers.delegationReducer(
-          this.network,
-          { who: nomination, value: 0 }, // we don't know the value for inactive delegations
-          this.store.validators[nomination],
-          delegationEnum.INACTIVE
-        )
+    const nominees = JSON.parse(stakingInfo).targets
+    const allDelegations = await useInactives(api, delegatorAddress, nominees)
+    const inactiveDelegations = allDelegations.nomsWaiting.concat(
+      allDelegations.nomsChilled
+    )
+    return inactiveDelegations.map((nomination) => {
+      return this.reducers.delegationReducer(
+        this.network,
+        { who: nomination, value: 0 }, // we don't know the value for inactive delegations
+        this.store.validators[nomination],
+        delegationEnum.INACTIVE
       )
     })
-    return inactiveDelegations
   }
 
-  // TODO: find out how to get all undelegations in Polkadot
-  getUndelegationsForDelegatorAddress() {
-    return []
+  async getUndelegationsForDelegatorAddress() {
+    const api = await this.getAPI()
+
+    // We always use stash address to query delegations
+    delegatorAddress = await this.getStashAddress(delegatorAddress)
+
+    const stakingInfo = await api.query.staking.nominators(delegatorAddress)
+    const nominees = JSON.parse(stakingInfo).targets
+    const allDelegations = await useInactives(delegatorAddress, nominees)
+    return allDelegations.nomsInactive.map((nomination) => {
+      return this.reducers.undelegationReducer(
+        this.network,
+        { who: nomination, value: 0 }, // we don't know the value for inactive delegations
+        this.store.validators[nomination],
+        delegationEnum.INACTIVE
+      )
+    })
   }
 
   async getDelegationForValidator(delegatorAddress, validator) {

@@ -167,6 +167,13 @@ function delegationReducer(network, delegation, validator, active) {
   }
 }
 
+function undelegationReducer(network, delegation, validator, active) {
+  return {
+    ...delegationReducer(network, delegation, validator, active),
+    endTime: ``
+  }
+}
+
 function transactionsReducerV2(
   network,
   extrinsics,
@@ -476,6 +483,7 @@ module.exports = {
   balanceReducer,
   balanceV2Reducer,
   delegationReducer,
+  undelegationReducer,
   extractInvolvedAddresses,
   transactionsReducerV2,
   transactionDetailsReducer,
