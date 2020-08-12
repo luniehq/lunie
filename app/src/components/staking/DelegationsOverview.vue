@@ -13,35 +13,11 @@
       </div>
       <div v-else-if="delegations.length > 0">
         <h1>Your Validators</h1>
-        <h2 v-if="delegations.find(({ active }) => active === 'INACTIVE')">
-          Active Delegations
-        </h2>
         <TableValidators
-          :validators="
-            delegations
-              .filter(({ active }) => active === 'ACTIVE')
-              .map(({ validator }) => validator)
-          "
+          :validators="delegations.map(({ validator }) => validator)"
           :delegations="delegations.filter(({ active }) => active === 'ACTIVE')"
           show-on-mobile="expectedReturns"
         />
-        <div
-          v-if="delegations.find(({ active }) => active === 'INACTIVE')"
-          class="table-subcontainer"
-        >
-          <h2>Inactive delegations</h2>
-          <TableValidators
-            :validators="
-              delegations
-                .filter(({ active }) => active === 'INACTIVE')
-                .map(({ validator }) => validator)
-            "
-            :delegations="
-              delegations.filter(({ active }) => active === 'INACTIVE')
-            "
-            show-on-mobile="expectedReturns"
-          />
-        </div>
       </div>
       <TmDataMsg
         v-else-if="delegations.length === 0 && !$apollo.loading"
@@ -148,10 +124,6 @@ h1 {
   margin: 0 auto;
   width: 100%;
   padding: 4rem 0;
-}
-
-.table-subcontainer {
-  margin-top: 2rem;
 }
 
 @media screen and (max-width: 667px) {
