@@ -482,7 +482,7 @@ function rewardReducer(network, validators, reward, reducers) {
 
 function democracyProposalReducer(network, proposal) {
   return {
-    id: `Democracy-`.concat(proposal.index),
+    id: `democracy-`.concat(proposal.index),
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Preliminary Proposal #${proposal.index}`,
