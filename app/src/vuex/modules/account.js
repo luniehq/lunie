@@ -5,6 +5,19 @@ import { Plugins } from "@capacitor/core"
 import config from "src/../config"
 const { App: CapacitorApp } = Plugins
 
+const mobileCodeBlocks = config.mobileApp
+  ? {
+      android: {
+        packageName: `org.lunie.lunie`,
+        installApp: true,
+        minimumVersion: `1.0.221`, // the first version with deep linking enabled
+      },
+      iOS: {
+        bundleId: `org.lunie.lunie`,
+      },
+    }
+  : null
+
 export default ({ apollo }) => {
   const state = {
     userSignedIn: false,
@@ -109,14 +122,7 @@ export default ({ apollo }) => {
           ? `https://app.lunie.io/email-authentication`
           : `${window.location.protocol}//${window.location.host}/email-authentication`,
         handleCodeInApp: true,
-        android: {
-          packageName: `org.lunie.lunie`,
-          installApp: true,
-          minimumVersion: `1.0.221`, // the first version with deep linking enabled
-        },
-        iOS: {
-          bundleId: `org.lunie.lunie`,
-        },
+        ...mobileCodeBlocks,
       }
       try {
         await Auth.sendSignInLinkToEmail(user.email, actionCodeSettings)
