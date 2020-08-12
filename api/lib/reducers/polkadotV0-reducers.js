@@ -554,7 +554,7 @@ function councilProposalReducer(
   blockHeight
 ) {
   return {
-    id: `Council-`.concat(proposal.votes.index),
+    id: `council-`.concat(proposal.votes.index),
     networkId: network.id,
     type: proposalTypeEnum.COUNCIL,
     title: `Council Proposal #${proposal.votes.index}`,
