@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.224] - 2020-08-13
+
+### Added
+
+- [#4496](https://github.com/cosmos/lunie/pull/4496) Enable deep linking to allow magic link signIn on app @Bitcoinera
+- Add Polkadot account type to user menu address @faboweb
+- [#4518](https://github.com/cosmos/lunie/issues/4518) Add sessions to allow multiple sign ins @faboweb
+
+### Changed
+
+- [#4684](https://github.com/cosmos/lunie/issues/4684) Remove AppMenu Sign In/Sign Up button @Bitcoinera
+- [#4685](https://github.com/cosmos/lunie/issues/4685) Remove experimentalMode wall for notification & UserMenu @Bitcoinera
+- [#4691](https://github.com/cosmos/lunie/pull/4691) Update to @polkadot/api 1.28.1 @Bitcoinera
+- [#4646](https://github.com/cosmos/lunie/pull/4646) Update to @polkadot/api-1.27.1 @Bitcoinera
+- [#4701](https://github.com/cosmos/lunie/pull/4701) Deactivate transactions notifications links @Bitcoinera
+- [#4701](https://github.com/cosmos/lunie/pull/4701) Watch immediately for userSignedIn in Paywall @Bitcoinera
+- fixes for email auth modal showing more than one message at a time @jbibla
+
+### Fixed
+
+- [#4626](https://github.com/cosmos/lunie/pull/4626) Fix navigation duplicated in recover flow by deleting duplicate goToNetwork logic @Bitcoinera
+- Handle account creation in extension not showing insecure warning @faboweb
+- Magic links were not handled on desktop @faboweb
+- Use Polkadot API signing to fix signing on mainet @faboweb
+- the magic link error modal button redirected to the wrong modal @jbibla
+- removed emoji in favour of more standardized material-icon @jbibla
+
+### Security
+
+- [#4639](https://github.com/cosmos/lunie/pull/4639) Twitter images should come from HTTPS @Bitcoinera
+- [#4639](https://github.com/cosmos/lunie/pull/4639) Add upgrade-insecure-requests directive to CSP @Bitcoinera
+
+### Deprecated
+
+- [#4659](https://github.com/cosmos/lunie/pull/4659) Remove web3-utils module @Bitcoinera
+
 ## [1.0.223] - 2020-07-30
 
 ### Added
