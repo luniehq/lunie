@@ -193,9 +193,6 @@ export default {
         })
       }
     },
-    handleIntercom() {
-      this.$store.dispatch(`displayMessenger`)
-    },
   },
   apollo: {
     transactions: {
