@@ -21,13 +21,22 @@
           @loadMore="loadMore"
         >
           <template slot-scope="event">
-            <router-link :key="event.id" class="notification" :to="event.link">
+            <router-link
+              :key="event.id"
+              class="notification"
+              :to="event.link.includes('transactions') ? '' : event.link"
+              :class="{ disabled: event.link.includes('transactions') }"
+            >
               <div class="content">
                 <img :src="event.icon" />
                 <div>
                   <h3 class="title">{{ event.title }}</h3>
                 </div>
-                <i class="material-icons notranslate">chevron_right</i>
+                <i
+                  v-if="!event.link.includes('transactions')"
+                  class="material-icons notranslate"
+                  >chevron_right</i
+                >
               </div>
             </router-link>
           </template>
@@ -255,6 +264,10 @@ img {
   color: var(--txt);
   text-align: center;
   padding: 4rem 0 2rem;
+}
+
+.disabled {
+  cursor: unset;
 }
 
 @media screen and (max-width: 667px) {
