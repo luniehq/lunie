@@ -19,13 +19,22 @@
           @loadMore="loadMore"
         >
           <template slot-scope="event">
-            <router-link :key="event.id" class="notification" :to="event.link">
+            <router-link
+              :key="event.id"
+              class="notification"
+              :to="event.link.includes('transactions') ? '' : event.link"
+              :class="{ disabled: event.link.includes('transactions') }"
+            >
               <div class="content">
                 <img :src="event.icon" />
                 <div>
                   <h3 class="title">{{ event.title }}</h3>
                 </div>
-                <i class="material-icons notranslate">chevron_right</i>
+                <i
+                  v-if="!event.link.includes('transactions')"
+                  class="material-icons notranslate"
+                  >chevron_right</i
+                >
               </div>
             </router-link>
           </template>
@@ -240,5 +249,9 @@ img {
 .title {
   font-weight: 400;
   overflow-wrap: anywhere; /** Important. Otherwise awful style bug */
+}
+
+.disabled {
+  cursor: unset;
 }
 </style>
