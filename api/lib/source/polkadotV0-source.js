@@ -1,6 +1,6 @@
 const BigNumber = require('bignumber.js')
 const { uniqWith } = require('lodash')
-const { useInactives } = require('../polkadot-utils')
+const { getAllDelegationsByType } = require('../polkadot-utils')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -461,11 +461,12 @@ class polkadotAPI {
 
     const stakingInfo = await api.query.staking.nominators(delegatorAddress)
     const nominees = JSON.parse(stakingInfo).targets
-    const allDelegations = await useInactives(api, delegatorAddress, nominees)
-    const inactiveDelegations = allDelegations.nomsWaiting.concat(
-      allDelegations.nomsChilled
+    const allDelegations = await getAllDelegationsByType(
+      api,
+      delegatorAddress,
+      nominees
     )
-    return inactiveDelegations.map((nomination) => {
+    return allDelegations.nomsWaiting.map((nomination) => {
       return this.reducers.delegationReducer(
         this.network,
         { who: nomination, value: 0 }, // we don't know the value for inactive delegations
@@ -483,8 +484,14 @@ class polkadotAPI {
 
     const stakingInfo = await api.query.staking.nominators(delegatorAddress)
     const nominees = JSON.parse(stakingInfo).targets
-    const allDelegations = await useInactives(delegatorAddress, nominees)
-    return allDelegations.nomsInactive.map((nomination) => {
+    const allDelegations = await getAllDelegationsByType(
+      delegatorAddress,
+      nominees
+    )
+    const allUndelegations = await allDelegations.nomsInactive.concat(
+      allDelegations.nomsChilled
+    )
+    return allUndelegations.map((nomination) => {
       return this.reducers.undelegationReducer(
         this.network,
         { who: nomination, value: 0 }, // we don't know the value for inactive delegations

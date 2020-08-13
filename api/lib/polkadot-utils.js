@@ -58,12 +58,12 @@ function extractState(
   }
 }
 
-async function useInactives(api, stashId, nominees) {
+async function getAllDelegationsByType(api, stashId, nominees) {
   const indexes = await api.derive.session.indexes()
   let nominationsOverview
 
   if (nominees && nominees.length && indexes) {
-    await api.queryMulti(
+    const [optNominators, ...exposuresAndSpans] = await api.queryMulti(
       [[api.query.staking.nominators, stashId]]
         .concat(
           api.query.staking.erasStakers
@@ -73,23 +73,21 @@ async function useInactives(api, stashId, nominees) {
               ])
             : nominees.map((id) => [api.query.staking.stakers, id])
         )
-        .concat(nominees.map((id) => [api.query.staking.slashingSpans, id])),
-      ([optNominators, ...exposuresAndSpans]) => {
-        const exposures = exposuresAndSpans.slice(0, nominees.length)
-        const slashes = exposuresAndSpans.slice(nominees.length)
+        .concat(nominees.map((id) => [api.query.staking.slashingSpans, id]))
+    )
+    const exposures = exposuresAndSpans.slice(0, nominees.length)
+    const slashes = exposuresAndSpans.slice(nominees.length)
 
-        nominationsOverview = extractState(
-          stashId,
-          slashes,
-          nominees,
-          indexes.activeEra,
-          optNominators.unwrapOrDefault().submittedIn,
-          exposures
-        )
-      }
+    nominationsOverview = extractState(
+      stashId,
+      slashes,
+      nominees,
+      indexes.activeEra,
+      optNominators.unwrapOrDefault().submittedIn,
+      exposures
     )
     return nominationsOverview
   }
 }
 
-module.exports = { useInactives }
+module.exports = { getAllDelegationsByType }
