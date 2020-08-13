@@ -186,13 +186,18 @@ export function handleDeeplink(url, router) {
     return
   }
 
-  try {
-    // change the route to the route we got from the deeplink
-    router.push({
-      path: "/" + path,
-      query: queryObject,
-    })
-  } catch (error) {
-    console.error(error)
+  // in the browser we don't need to handle deeplinks as the url is handled automatically
+  // in apps the path is not in the URL but comes from a different source
+  // so we need to forward the app to tht route
+  if (config.mobileApp) {
+    try {
+      // change the route to the route we got from the deeplink
+      router.push({
+        path: "/" + path,
+        query: queryObject,
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
