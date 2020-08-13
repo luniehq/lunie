@@ -22,9 +22,7 @@
               Proposed by {{ proposal.validator.name }}:
               <Address :address="proposal.proposer" />
             </template>
-            <template
-              v-else-if="proposal.proposer && proposal.proposer !== `unknown`"
-            >
+            <template v-else-if="proposal.proposer">
               Proposed by
               <Address :address="proposal.proposer" />
             </template>
@@ -52,7 +50,7 @@
         </div>
       </div>
 
-      <TextBlock v-if="proposal.description" :content="proposal.description" />
+      <TextBlock :content="proposal.description" />
 
       <ul v-if="proposal.status === 'DepositPeriod'" class="row">
         <li>
@@ -295,7 +293,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          id: Number(this.proposalId),
+          id: this.proposalId,
         }
       },
       /* istanbul ignore next */
@@ -331,7 +329,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          proposalId: +this.proposalId,
+          proposalId: this.proposalId,
           address: this.address,
         }
       },

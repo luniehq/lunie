@@ -585,7 +585,7 @@ class polkadotAPI {
     }
   }
 
-  async getReferendumProposalMetada(
+  async getReferendumProposalMetadata(
     proposal,
     description,
     proposer,
@@ -642,7 +642,7 @@ class polkadotAPI {
       )
     }
     if (type === `referendum`) {
-      return await this.getReferendumProposalMetada(
+      return await this.getReferendumProposalMetadata(
         proposal,
         description,
         proposer,
@@ -659,7 +659,8 @@ class polkadotAPI {
       description,
       proposer: proposal.proposer || proposer, // default to the already existing one if any
       method: proposalMethod,
-      creationTime: proposal.creationTime || creationTime
+      creationTime: proposal.creationTime || creationTime,
+      beneficiary: proposal.beneficiary
     }
   }
 
@@ -705,14 +706,21 @@ class polkadotAPI {
         )
         .concat(
           treasuryProposals.proposals.map(async (proposal) => {
-            // should work. treasury and council proposals are virtually the same object
+            const treasuryProposal = proposal.council[0]
+              ? proposal.council[0]
+              : undefined
+            if (!treasuryProposal) return
             const proposalWithMetadata = await this.getProposalWithMetadata(
-              proposal.council[0],
+              treasuryProposal,
               `council`
             )
             return this.reducers.treasuryProposalReducer(
               this.network,
-              proposalWithMetadata,
+              {
+                ...proposalWithMetadata,
+                deposit: proposal.proposal.bond,
+                beneficiary: proposal.proposal.beneficiary
+              },
               councilMembers,
               blockHeight
             )

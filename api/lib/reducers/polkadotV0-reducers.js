@@ -482,7 +482,7 @@ function rewardReducer(network, validators, reward, reducers) {
 
 function democracyProposalReducer(network, proposal) {
   return {
-    id: `Democracy-`.concat(proposal.index),
+    id: `democracy-`.concat(proposal.index),
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Preliminary Proposal #${proposal.index}`,
@@ -503,7 +503,7 @@ function democracyReferendumReducer(
   blockHeight
 ) {
   return {
-    id: `Referendum-`.concat(proposal.index),
+    id: `referendum-`.concat(proposal.index),
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Proposal #${proposal.index}`,
@@ -529,21 +529,22 @@ function treasuryProposalReducer(
   blockHeight
 ) {
   return {
-    id: `Treasury-`.concat(proposal.id),
+    id: `treasury-`.concat(proposal.votes.index),
     networkId: network.id,
     type: proposalTypeEnum.TREASURY,
-    title: `Treasury Proposal #${proposal.id}`,
+    title: `Treasury Proposal #${proposal.votes.index}`,
+    description: proposal.description,
     creationTime: proposal.creationTime,
     status: `VotingPeriod`,
-    statusEndTime: getStatusEndTime(blockHeight, proposal.council[0].votes.end),
-    tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
+    statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
+    tally: councilTallyReducer(proposal.votes, councilMembers),
     deposit: toViewDenom(
       network,
-      Number(proposal.proposal.bond),
+      Number(proposal.deposit),
       network.stakingDenom
     ),
-    proposer: proposal.proposal.proposer.toHuman(),
-    beneficiary: proposal.proposal.beneficiary // the account getting the tip
+    proposer: proposal.proposer ? proposal.proposer.toHuman() : undefined,
+    beneficiary: proposal.beneficiary // the account getting the tip
   }
 }
 
@@ -554,7 +555,7 @@ function councilProposalReducer(
   blockHeight
 ) {
   return {
-    id: `Council-`.concat(proposal.votes.index),
+    id: `council-`.concat(proposal.votes.index),
     networkId: network.id,
     type: proposalTypeEnum.COUNCIL,
     title: `Council Proposal #${proposal.votes.index}`,
