@@ -98,7 +98,7 @@ export default {
 <style scoped>
 h1 {
   font-size: 24px;
-  color: white;
+  color: var(--bright);
   font-weight: 400;
   padding: 1rem 0 2rem;
 }
