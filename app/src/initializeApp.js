@@ -44,6 +44,8 @@ export default async function init(urlParams, env = process.env) {
     checkForNewLunieVersions()
     enableGoogleAnalytics(config.google_analytics_uid)
   }
+  
+  console.log(`Expecting backend at: ${config.graphqlHost}`)
 
   const apolloProvider = await createApolloProvider()
   const apolloClient = apolloProvider.clients.defaultClient
