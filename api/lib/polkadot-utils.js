@@ -1,4 +1,12 @@
-function extractState(
+/* it extracts the delegations states, returning them in the 4 Polkadot types for delegations:
+   {
+    nomsActive: active nominations,
+    nomsChilled: chilled nominations,
+    nomsInactive: inactive nominations,
+    nomsWaiting: waiting/incoming nominations
+  }
+*/
+function getDelegationsState(
   stashId,
   slashes,
   nominees,
@@ -78,7 +86,7 @@ async function getAllDelegationsByType(api, stashId, nominees) {
     const exposures = exposuresAndSpans.slice(0, nominees.length)
     const slashes = exposuresAndSpans.slice(nominees.length)
 
-    nominationsOverview = extractState(
+    nominationsOverview = getDelegationsState(
       stashId,
       slashes,
       nominees,
