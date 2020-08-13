@@ -16,7 +16,9 @@
         class="avatar-container"
         :class="{ 'with-address-type': hasAddressType }"
       >
-        <span v-if="!user" class="avatar emoji tooltip-target">👻</span>
+        <span v-if="!user" class="user-menu-icon-container tooltip-target"
+          ><i class="material-icons">person</i></span
+        >
         <Avatar
           v-if="user"
           class="avatar tooltip-target"
@@ -341,12 +343,14 @@ h3 {
   border-radius: 50%;
   background: var(--app-fg);
   overflow: hidden;
+  color: var(--link);
 }
 
 .avatar {
   width: 100%;
   position: relative;
-  top: 0.25rem;
+  top: 2px;
+  padding: 6px;
 }
 
 .testnet-icon-container {
@@ -366,13 +370,6 @@ h3 {
   max-width: 0.75rem;
   transform: scaleX(-1);
   filter: invert(1);
-}
-
-.avatar.emoji {
-  font-size: 26px;
-  transform: scale(0.5);
-  top: 0;
-  padding-bottom: 0.25rem;
 }
 
 .v-popover {

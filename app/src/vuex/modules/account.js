@@ -155,8 +155,6 @@ export async function getLaunchUrl(router) {
 }
 
 export function handleDeeplink(url, router) {
-  console.log("Received deeplink " + url)
-
   // Example url: https://lunie.io/email-authentication
   // slug = /email-authentication
   const regexp = /(https?:\/\/)?[\w\d-\.]+\/([\w\d-\/]*)(\?(.+))?/

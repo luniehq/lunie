@@ -307,10 +307,8 @@ export default ({ apollo }) => {
 
       if (state.analyticsCollection) {
         state.externals.deanonymize()
-        console.log(`Analytics collection has been enabled`)
       } else {
         state.externals.anonymize()
-        console.log(`Analytics collection has been disabled`)
       }
     },
     setPreferredCurrency({ state, dispatch }, currency) {
