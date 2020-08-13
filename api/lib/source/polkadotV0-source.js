@@ -466,10 +466,10 @@ class polkadotAPI {
       delegatorAddress,
       nominees
     )
-    // waiting nominations are the incoming / future delegations
+    // waiting delegations are the incoming / future delegations
     // inactive delegations can be just inactive delegations or delegations that are unbonding
-    const allInactiveDelegations = allDelegations.nomsWaiting.concat(
-      allDelegations.nomsInactive
+    const allInactiveDelegations = allDelegations.waitingDelegations.concat(
+      allDelegations.inactiveDelegations
     )
     return allInactiveDelegations.map((nomination) => {
       return this.reducers.delegationReducer(
@@ -495,7 +495,7 @@ class polkadotAPI {
       nominees
     )
     // chilled delegations are undelegations
-    return allDelegations.nomsChilled.map((nomination) => {
+    return allDelegations.chilledDelegations.map((nomination) => {
       return this.reducers.undelegationReducer(
         this.network,
         { who: nomination, value: 0 }, // we don't know the value for inactive delegations

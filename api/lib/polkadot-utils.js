@@ -1,9 +1,9 @@
 /* it extracts the delegations states, returning them in the 4 Polkadot types for delegations:
    {
-    nomsActive: active nominations,
-    nomsChilled: chilled nominations,
-    nomsInactive: inactive nominations,
-    nomsWaiting: waiting/incoming nominations
+    activeDelegations: active nominations,
+    chilledDelegations: chilled nominations,
+    inactiveDelegations: inactive nominations,
+    waitingDelegations: waiting/incoming nominations
   }
 */
 function getDelegationsState(
@@ -15,7 +15,7 @@ function getDelegationsState(
   exposures
 ) {
   // chilled
-  const nomsChilled = nominees.filter((_, index) => {
+  const chilledDelegations = nominees.filter((_, index) => {
     if (slashes[index].isNone) {
       return false
     }
@@ -26,7 +26,7 @@ function getDelegationsState(
   })
 
   // first a blanket find of nominations not in the active set
-  let nomsInactive = exposures
+  let inactiveDelegations = exposures
     .map((exposure, index) =>
       exposure.others.some(({ who }) => who.eq(stashId))
         ? null
@@ -35,34 +35,34 @@ function getDelegationsState(
     .filter((inactiveId) => !!inactiveId)
 
   // waiting if validator is inactive or we have not submitted long enough ago
-  const nomsWaiting = exposures
+  const waitingDelegations = exposures
     .map((exposure, index) =>
       exposure.total.unwrap().isZero() ||
-      (nomsInactive.includes(nominees[index]) &&
+      (inactiveDelegations.includes(nominees[index]) &&
         activeEra.sub(submittedIn).lten(2))
         ? nominees[index]
         : null
     )
     .filter((waitingId) => !!waitingId)
-    .filter((nominee) => !nomsChilled.includes(nominee))
+    .filter((nominee) => !chilledDelegations.includes(nominee))
 
   // filter based on all inactives
-  const nomsActive = nominees.filter(
+  const activeDelegations = nominees.filter(
     (nominee) =>
-      !nomsInactive.includes(nominee) && !nomsChilled.includes(nominee)
+      !inactiveDelegations.includes(nominee) && !chilledDelegations.includes(nominee)
   )
 
   // inactive also contains waiting, remove those
-  nomsInactive = nomsInactive.filter(
+  inactiveDelegations = inactiveDelegations.filter(
     (nominee) =>
-      !nomsWaiting.includes(nominee) && !nomsChilled.includes(nominee)
+      !waitingDelegations.includes(nominee) && !chilledDelegations.includes(nominee)
   )
 
   return {
-    nomsActive,
-    nomsChilled,
-    nomsInactive,
-    nomsWaiting
+    activeDelegations,
+    chilledDelegations,
+    inactiveDelegations,
+    waitingDelegations
   }
 }
 
