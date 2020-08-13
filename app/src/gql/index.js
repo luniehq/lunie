@@ -135,6 +135,7 @@ export const NetworksAll = gql`
         chainDenom
         viewDenom
         chainToViewConversionFactor
+        icon
       }
       rpc_url
       HDPaths
