@@ -158,8 +158,8 @@ export default {
   watch: {
     userSignedIn: {
       immediate: true,
-      function() {
-        if (this.userSignedIn) {
+      handler(userSignedIn) {
+        if (userSignedIn) {
           this.$router.push({
             name: `notifications`,
           })
