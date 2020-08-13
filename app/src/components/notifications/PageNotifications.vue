@@ -19,7 +19,7 @@
           @loadMore="loadMore"
         >
           <template slot-scope="event">
-            <router-link :key="event.id" class="notification" :to="event.link">
+            <router-link :key="event.id" class="notification" :to="event.link.includes('transactions') ? '' : event.link">
               <div class="content">
                 <img :src="event.icon" />
                 <div>
