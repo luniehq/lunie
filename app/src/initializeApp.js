@@ -59,13 +59,8 @@ export default async function init(urlParams, env = process.env) {
       store.dispatch("signOutUser")
       return
     }
-    // if sentry is enabled pass all error directly to sentry
-    if (config.sentryDSN) {
-      // pass errors to sentry
-      Sentry.captureException(error)
-    } else {
-      console.error(error)
-    }
+    Sentry.captureException(error)
+    console.error(error)
   })
 
   // we need to set url params before querying for networks because of experimental flag
