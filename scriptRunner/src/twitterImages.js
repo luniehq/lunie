@@ -34,7 +34,7 @@ module.exports.getTwitterImages = async () => {
           return {
             name,
             operator_address,
-            picture: result.profile_image_url.replace('http', 'https')
+            picture: result.profile_image_url.replace('http://', 'https://')
           }
         } else {
           console.log(JSON.stringify(result.errors, null, 2))

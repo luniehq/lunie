@@ -6,7 +6,7 @@ const typeDefs = require('./schema')
 const resolvers = require('./resolvers')
 const Notifications = require('./notifications/notifications')
 const database = require('./database')
-const { validateIdToken } = require('./accounts')
+const { validateSession } = require('./accounts')
 
 const NetworkContainer = require('./network-container')
 
@@ -85,15 +85,16 @@ async function createApolloServer(httpServer) {
             throw new Error(`Access Forbidden`)
           }
         }
-        const idToken = req.headers.authorization
-        let user = {}
-        if (idToken) {
-          user = await validateIdToken(idToken)
+
+        const sessionToken = req.headers.authorization
+        let session
+        if (sessionToken) {
+          session = await validateSession(sessionToken) // throws if session is outdated
         }
         return {
           fingerprint: req.headers.fingerprint,
           development: req.headers.development,
-          user
+          user: session
         }
       }
     }

@@ -156,12 +156,15 @@ export default {
     },
   },
   watch: {
-    userSignedIn: function () {
-      if (this.userSignedIn) {
-        this.$router.push({
-          name: `notifications`,
-        })
-      }
+    userSignedIn: {
+      immediate: true,
+      handler(userSignedIn) {
+        if (userSignedIn) {
+          this.$router.push({
+            name: `notifications`,
+          })
+        }
+      },
     },
   },
   methods: {

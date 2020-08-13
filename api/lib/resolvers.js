@@ -192,7 +192,7 @@ const governanceOverview = () => async (_, { networkId }, { dataSources }) => {
   }
 }
 
-const resolvers = (networkList) => ({
+const resolvers = (networkList, notificationController) => ({
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
       //
@@ -413,7 +413,23 @@ const resolvers = (networkList) => ({
     governanceOverview: governanceOverview()
   },
   Mutation: {
-    registerUser: (_, variables, { user: { uid } }) => registerUser(uid)
+    registerUser: (_, { idToken }) => registerUser(idToken),
+    notifications: async (
+      _,
+      { addressObjects, notificationType, pushToken },
+      { dataSources, user: { uid } }
+    ) => {
+      await Promise.all(
+        addressObjects.map(({ networkId }) => dataSources[networkId].dataReady)
+      )
+      notificationController.updateRegistrations(
+        uid,
+        addressObjects,
+        notificationType,
+        dataSources,
+        pushToken
+      )
+    }
   },
   Subscription: {
     blockAdded: {
