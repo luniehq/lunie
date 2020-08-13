@@ -199,6 +199,7 @@ export default {
 .notifications-container {
   padding: 0 2rem 2rem;
   max-width: 900px;
+  width: 100%;
   margin: 0 auto;
 }
 
