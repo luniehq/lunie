@@ -179,6 +179,8 @@ export function handleDeeplink(url, router) {
     if (config.mobileApp) {
       window.open(link, "_blank")
     } else {
+      // on desktop you can't programmatically open a popup without user interaction
+      // so we need to use the link on the same tab
       window.location = link
     }
     return
