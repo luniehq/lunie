@@ -30,7 +30,11 @@
                 <div>
                   <h3 class="title">{{ event.title }}</h3>
                 </div>
-                <i class="material-icons notranslate">chevron_right</i>
+                <i
+                  v-if="!event.link.includes('transactions')"
+                  class="material-icons notranslate"
+                  >chevron_right</i
+                >
               </div>
             </router-link>
           </template>
