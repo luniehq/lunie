@@ -15,7 +15,7 @@
         <h1>Your Validators</h1>
         <TableValidators
           :validators="delegations.map(({ validator }) => validator)"
-          :delegations="delegations.filter(({ active }) => active === 'ACTIVE')"
+          :delegations="delegations"
           show-on-mobile="expectedReturns"
         />
       </div>
