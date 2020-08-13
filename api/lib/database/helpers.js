@@ -135,7 +135,7 @@ const insert = ({ hasura_url, hasura_admin_key }, upsert = false) => (
     `
   const response = await graphQLQuery({ hasura_url, hasura_admin_key })(query)
   // return the inserted object
-  if (returnKeys.length > 0) {
+  if (response.data && returnKeys.length > 0) {
     return response.data[`insert_${schema_prefix}${table}`].returning
   }
 }
