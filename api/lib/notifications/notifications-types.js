@@ -59,8 +59,8 @@ const getDefaultSubscriptions = async (addresses, dataSources) => {
       subscriptions.push(
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_COMMISSION}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_STATUS}_${networkId}`,
-        `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_INCREASE}_${networkId}`,
-        `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_DECREASE}_${networkId}`,
+        // `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_INCREASE}_${networkId}`,
+        // `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_DECREASE}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_PICTURE}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_WEBSITE}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION}_${networkId}`,
