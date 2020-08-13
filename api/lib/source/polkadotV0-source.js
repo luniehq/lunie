@@ -466,7 +466,12 @@ class polkadotAPI {
       delegatorAddress,
       nominees
     )
-    return allDelegations.nomsWaiting.map((nomination) => {
+    // waiting nominations are the incoming / future delegations
+    // inactive delegations can be just inactive delegations or delegations that are unbonding
+    const allInactiveDelegations = allDelegations.nomsWaiting.concat(
+      allDelegations.nomsInactive
+    )
+    return allInactiveDelegations.map((nomination) => {
       return this.reducers.delegationReducer(
         this.network,
         { who: nomination, value: 0 }, // we don't know the value for inactive delegations
@@ -476,7 +481,7 @@ class polkadotAPI {
     })
   }
 
-  async getUndelegationsForDelegatorAddress() {
+  async getUndelegationsForDelegatorAddress(delegatorAddress) {
     const api = await this.getAPI()
 
     // We always use stash address to query delegations
@@ -485,18 +490,16 @@ class polkadotAPI {
     const stakingInfo = await api.query.staking.nominators(delegatorAddress)
     const nominees = JSON.parse(stakingInfo).targets
     const allDelegations = await getAllDelegationsByType(
+      api,
       delegatorAddress,
       nominees
     )
-    const allUndelegations = await allDelegations.nomsInactive.concat(
-      allDelegations.nomsChilled
-    )
-    return allUndelegations.map((nomination) => {
+    // chilled delegations are undelegations
+    return allDelegations.nomsChilled.map((nomination) => {
       return this.reducers.undelegationReducer(
         this.network,
         { who: nomination, value: 0 }, // we don't know the value for inactive delegations
-        this.store.validators[nomination],
-        delegationEnum.INACTIVE
+        this.store.validators[nomination]
       )
     })
   }

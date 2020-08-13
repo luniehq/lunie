@@ -170,7 +170,8 @@ function delegationReducer(network, delegation, validator, active) {
 function undelegationReducer(network, delegation, validator, active) {
   return {
     ...delegationReducer(network, delegation, validator, active),
-    endTime: ``
+    endTime: ``,
+    startHeight: ``
   }
 }
 
