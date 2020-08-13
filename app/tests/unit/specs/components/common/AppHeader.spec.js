@@ -31,7 +31,7 @@ describe(`AppHeader`, () => {
         $route: { meta: true },
       },
       methods: {
-        watchWindowSize: () => { }, // overwriting to not cause side effects when setting the data in tests
+        watchWindowSize: () => {}, // overwriting to not cause side effects when setting the data in tests
       },
       stubs: [`router-link`],
     })

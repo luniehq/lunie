@@ -23,9 +23,9 @@ describe(`SessionFrame`, () => {
         },
         $route: {
           meta: {
-            requiresAuth: true
+            requiresAuth: true,
           },
-        }
+        },
       },
       stubs: [`router-link`],
     })
@@ -43,7 +43,7 @@ describe(`SessionFrame`, () => {
   it(`should go to validators page of the current network`, () => {
     wrapper.vm.closeModal()
     expect(wrapper.vm.$router.push).toHaveBeenCalledWith({
-      name: "Validators",
+      name: "validators",
       params: {
         networkId: `cosmos-hub`,
       },

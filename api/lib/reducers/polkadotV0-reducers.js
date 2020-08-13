@@ -227,10 +227,12 @@ function parsePolkadotTransaction(
     ),
     timestamp: new Date().getTime(), // FIXME!: pass it from block, we should get current timestamp from blockchain for new blocks
     memo: ``,
-    fees: {
-      amount: `0`,
-      denom: network.coinLookup[0].viewDenom
-    }, // FIXME!
+    fees: [
+      {
+        amount: `0`,
+        denom: network.coinLookup[0].viewDenom
+      }
+    ], // FIXME!
     success,
     log: ``,
     involvedAddresses: reducers.extractInvolvedAddresses(
@@ -241,15 +243,21 @@ function parsePolkadotTransaction(
   }
 }
 
-function getExtrinsicSuccess(extrinsicIndex, blockEvents) {
-  return blockEvents.find(
-    ({ event, phase }) =>
-      parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex &&
-      event.section === `system` &&
-      event.method === `ExtrinsicSuccess`
+function getExtrinsicSuccess(extrinsicIndex, blockEvents, isBatch) {
+  const events = blockEvents.filter(({ phase }) => {
+    return parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex // index is a string
+  })
+  // if tx is a batch, we need to check if all of the batched txs went through
+  if (isBatch) {
+    return !!events.find(
+      ({ event }) =>
+        event.section === `utility` && event.method === `BatchCompleted`
+    )
+  }
+  return !!events.find(
+    ({ event }) =>
+      event.section === `system` && event.method === `ExtrinsicSuccess`
   )
-    ? true
-    : false
 }
 
 function transactionReducerV2(
@@ -262,12 +270,11 @@ function transactionReducerV2(
 ) {
   const hash = extrinsic.hash.toHex()
   const signer = extrinsic.signer.toString()
+  const isBatch = extrinsic.method.meta.name.toString() === `batch`
   const messages = aggregateLunieStaking(
-    extrinsic.method.meta.name.toString() === `batch`
-      ? extrinsic.method.args[0]
-      : [extrinsic.method]
+    isBatch ? extrinsic.method.args[0] : [extrinsic.method]
   )
-  const success = reducers.getExtrinsicSuccess(index, blockEvents)
+  const success = reducers.getExtrinsicSuccess(index, blockEvents, isBatch)
   return messages.map((message, messageIndex) =>
     parsePolkadotTransaction(
       hash,
@@ -283,7 +290,7 @@ function transactionReducerV2(
 }
 
 // we display staking as one tx where in Polkadot this can be 2
-// so we aggregate the messags into 1
+// so we aggregate the messages into 1
 // ATTENTION this could be weird for some users
 function aggregateLunieStaking(messages) {
   // lunie staking message
@@ -477,6 +484,6 @@ module.exports = {
   rewardReducer,
   rewardsReducer,
   dbRewardsReducer,
-  getExtrinsicSuccess,
-  identityReducer
+  identityReducer,
+  getExtrinsicSuccess
 }

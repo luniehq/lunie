@@ -17,6 +17,7 @@ describe(`EmailAuthentication`, () => {
       mocks: {
         $store,
       },
+      stubs: [`router-link`],
     })
   })
 

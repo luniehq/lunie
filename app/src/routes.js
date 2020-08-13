@@ -207,28 +207,41 @@ export default (store) => {
     { path: `/404`, component: () => import(`./components/common/Page404`) },
     {
       path: `/privacy`,
-      component: () => import(`./components/common/PagePrivacy`),
+      beforeEnter() {
+        location.href = `https://lunie.io/privacy`
+      },
     },
     {
       path: `/terms`,
-      component: () => import(`./components/common/PageTerms`),
+      beforeEnter() {
+        location.href = `https://lunie.io/terms`
+      },
     },
     {
       path: `/security`,
-      component: () => import(`./components/common/PageSecurity`),
+      beforeEnter() {
+        location.href = `https://lunie.io/security`
+      },
     },
     {
       path: `/about`,
-      component: () => import(`./components/common/PageAbout`),
+      beforeEnter() {
+        location.href = `https://lunie.io/about`
+      },
     },
     {
       path: `/careers`,
-      component: () => import(`./components/common/PageCareers`),
+      beforeEnter() {
+        location.href = `https://angel.co/company/lunie`
+      },
     },
     {
       path: `/feature-not-available/:feature`,
       component: () => import(`./components/common/PageFeatureNotAvailable`),
       props: true,
+      meta: {
+        networkSpecificRoute: true,
+      },
     },
     {
       path: `/feature-not-present/:feature`,
@@ -258,6 +271,9 @@ export default (store) => {
       path: `/welcome`,
       name: `welcome`,
       component: () => import(`./components/common/CardSignInRequired`),
+      meta: {
+        networkSpecificRoute: true,
+      },
     },
     {
       path: `/:networkId`,
@@ -266,10 +282,10 @@ export default (store) => {
       children: [
         {
           path: `proposals`,
-          name: `Proposals`,
+          name: `proposals`,
           meta: {
             feature: "proposals",
-            networkSpecificRoute: true
+            networkSpecificRoute: true,
           },
           component: () => import(`./components/governance/PageProposals`),
         },
@@ -280,10 +296,10 @@ export default (store) => {
         },
         {
           path: `proposals/:proposalId`,
-          name: `Proposal`,
+          name: `proposal`,
           meta: {
             feature: "proposals",
-            networkSpecificRoute: true
+            networkSpecificRoute: true,
           },
           component: () => import(`./components/governance/PageProposal`),
           props: true,
@@ -295,10 +311,10 @@ export default (store) => {
         },
         {
           path: `validators`,
-          name: `Validators`,
+          name: `validators`,
           meta: {
             feature: "validators",
-            networkSpecificRoute: true
+            networkSpecificRoute: true,
           },
           component: () => import(`./components/staking/PageValidators`),
         },
@@ -312,7 +328,7 @@ export default (store) => {
           name: `validator`,
           meta: {
             feature: "validators",
-            networkSpecificRoute: true
+            networkSpecificRoute: true,
           },
           component: () => import(`./components/staking/PageValidator`),
         },
@@ -327,7 +343,7 @@ export default (store) => {
           meta: {
             requiresAuth: true,
             feature: "portfolio",
-            networkSpecificRoute: true
+            networkSpecificRoute: true,
           },
         },
         {
@@ -337,7 +353,7 @@ export default (store) => {
           meta: {
             requiresAuth: true,
             feature: "activity",
-            networkSpecificRoute: true
+            networkSpecificRoute: true,
           },
         },
         {
@@ -346,7 +362,7 @@ export default (store) => {
           component: () => import(`./components/network/PageBlock`),
           meta: {
             feature: "blocks",
-            networkSpecificRoute: true
+            networkSpecificRoute: true,
           },
         },
         { path: `*`, component: () => import(`./components/common/Page404`) },

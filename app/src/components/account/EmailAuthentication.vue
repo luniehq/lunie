@@ -1,39 +1,48 @@
 <template>
-  <TmPage data-title="email-authentication">
-    <div class="card">
-      <h1 v-if="account.userSignedIn" class="authentication-title">
-        You are now signed in! &#128640;
-      </h1>
-      <h1 v-else class="authentication-title">
-        Good bye, see you soon! &#128075;
-      </h1>
-    </div>
-  </TmPage>
+  <SessionFrame hide-back>
+    <template v-if="account.signInError || account.signInEmailError">
+      <h2 class="session-title">Magic link error! 🙀</h2>
+      <div class="session-main">
+        <p class="session-subtitle">{{ account.signInError.message }}</p>
+        <router-link to="sign-up-email">
+          <TmBtn value="Try again" centered />
+        </router-link>
+      </div>
+    </template>
+
+    <template v-else>
+      <h2 class="session-title">
+        Magic link success! 👍
+      </h2>
+      <div class="session-main">
+        <p class="session-subtitle">
+          You're now signed in to Lunie with your email address. Head over to
+          the notifications page to see some recent events.
+        </p>
+        <router-link to="notifications">
+          <TmBtn value="Let's Go!" centered />
+        </router-link>
+      </div>
+    </template>
+  </SessionFrame>
 </template>
 
 <script>
-import TmPage from "common/TmPage"
+import SessionFrame from "common/SessionFrame"
+import TmBtn from "common/TmBtn"
 import { mapState } from "vuex"
+
 export default {
   name: `email-authentication`,
   components: {
-    TmPage,
+    SessionFrame,
+    TmBtn,
   },
   computed: {
     ...mapState([`account`]),
   },
   mounted() {
-    this.$store.dispatch(`signInUser`)
+    this.$store.dispatch(`signInUser`, window.location.href)
   },
 }
 </script>
-<style scoped>
-.card {
-  padding: 1rem 1.5rem;
-  margin: 1.5rem auto;
-}
-
-.authentication-title {
-  font-size: 2em;
-}
-</style>

@@ -4,7 +4,6 @@ import gql from "graphql-tag"
 import store from "../vuex/store"
 
 function getCurrentNetwork() {
-  // console.log(store())
   return store().state.connection.network
 }
 
@@ -40,7 +39,6 @@ export const ValidatorFragment = `
 
 export const AllValidators = () => {
   const currentNetwork = getCurrentNetwork()
-  // console.log(`currentNetwork`, currentNetwork)
   return gql`
     query AllValidators {
       validators(networkId: "${currentNetwork}") {
@@ -139,6 +137,10 @@ export const NetworksAll = gql`
         chainToViewConversionFactor
       }
       rpc_url
+      HDPaths
+      curves
+      defaultHDPath
+      defaultCurve
     }
   }
 `

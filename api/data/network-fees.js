@@ -262,6 +262,11 @@ const maxDecimals = (value, decimals) => {
 }
 
 const getFeeDenomFromMessage = (message, network) => {
+  // kava is an exception within Tendermint networks and all fees must be paid in KAVA
+  if (network.id === "kava-mainnet" || network.id === "kava-testnet") {
+    return `KAVA`
+  }
+
   // check if there is a fee field (polkadot)
   if (message.fee) {
     return message.fee.denom
@@ -326,18 +331,16 @@ const selectAlternativeFee = (balances, feeDenom, gasEstimate) => {
 
 const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, message, gasEstimate) => {
   // query for this address balances
-  const balances = await cosmosSource.getBalancesFromAddress(senderAddress)
+  const balances = await cosmosSource.getBalancesFromAddress(senderAddress, '',network)
   const feeDenom = getFeeDenomFromMessage(message, network)
   const gasPrice = BigNumber(
     getNetworkGasPrices(network.id).find(({ denom }) => {
-      const coinLookup = network.coinLookup.find(
-        ({ chainDenom }) => chainDenom === denom
-      )
+      const coinLookup = network.getCoinLookup(network, denom)
       return coinLookup ? coinLookup.viewDenom === feeDenom : false
     }).price
   )
     .times(
-      network.coinLookup.find(({ viewDenom }) => viewDenom === feeDenom)
+      network.getCoinLookup(network, feeDenom, `viewDenom`)
         .chainToViewConversionFactor
     )
     .toNumber(6)

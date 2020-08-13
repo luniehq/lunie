@@ -1,11 +1,76 @@
 # Changelog
-
+ 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.35] - 2020-08-13
+
+### Changed
+
+- [#4691](https://github.com/cosmos/lunie/pull/4691) Update to @polkadot/api 1.28.1 @Bitcoinera
+
+## [1.0.34] - 2020-08-03
+
+### Changed
+
+- [#4646](https://github.com/cosmos/lunie/pull/4646) Update to @polkadot/api-1.27.1 @Bitcoinera
+
+### Fixed
+
+- Use Polkadot API signing to fix signing on mainet @faboweb
+
+## [1.0.33] - 2020-07-31
+
+### Fixed
+
+- [#4638](https://github.com/cosmos/lunie/pull/4638) Fix polkadot and westend transactions failing because of CSP in manifest @Bitcoinera
+- [#4638](https://github.com/cosmos/lunie/pull/4638) Fix Substrate transactions with different algos logic getting algos from cosmos-keys @Bitcoinera
+
+## [1.0.32] - 2020-07-30
+
+### Fixed
+
+- Account creation would break and end up in the insecure warning @faboweb
+
+## [1.0.31] - 2020-07-30
+
+### Added
+
+- [#4630](https://github.com/cosmos/lunie/pull/4630) Add handle different algos in extension @Bitcoinera
+
+### Changed
+
+- [#4481](https://github.com/cosmos/lunie/pull/4481) Query in networks for crypto specs (HDPaths, curves, defaultHDPath... ) @Bitcoinera
+
+### Fixed
+
+- extension UI had a few issues @jbibla
+
+## [1.0.30] - 2020-07-29
+
+### Changed
+
+- [#4481](https://github.com/cosmos/lunie/pull/4481) Query in networks for crypto specs (HDPaths, curves, defaultHDPath... ) @Bitcoinera
+
+## [1.0.29] - 2020-07-27
+
+### Changed
+
+- [#4595](https://github.com/cosmos/lunie/pull/4595) Upgrade to polkadot api 1.26.1 @Bitcoinera
+
+### Fixed
+
+- [#4591](https://github.com/cosmos/lunie/pull/4591) Fix extension adding setNetwork to the selectNetworkHandler @Bitcoinera
+
+## [1.0.28] - 2020-07-23
+
+### Added
+
+- [#4541](https://github.com/cosmos/lunie/issues/4541) Upgrade Polkadot js api to v1.25.1 @mariopino
 
 ## [1.0.27] - 2020-07-16
 

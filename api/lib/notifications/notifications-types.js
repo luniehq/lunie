@@ -1,3 +1,5 @@
+const config = require('../../config')
+
 // in this file should be the formatting of the events to user readable content
 const eventTypes = {
   /* Block */
@@ -57,8 +59,8 @@ const getDefaultSubscriptions = async (addresses, dataSources) => {
       subscriptions.push(
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_COMMISSION}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_STATUS}_${networkId}`,
-        `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_INCREASE}_${networkId}`,
-        `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_DECREASE}_${networkId}`,
+        // `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_INCREASE}_${networkId}`,
+        // `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_DECREASE}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_PICTURE}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_WEBSITE}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION}_${networkId}`,
@@ -79,7 +81,38 @@ const getDefaultSubscriptions = async (addresses, dataSources) => {
   return subscriptions
 }
 
-const getDefaultEMailSubscriptions = async (addresses, dataSources) => {
+const getDefaultEmailSubscriptions = async (addresses, dataSources) => {
+  let subscriptions = []
+
+  for (const { address, networkId } of addresses) {
+    const delegations = await dataSources[
+      networkId
+    ].api.getDelegationsForDelegatorAddress(address)
+
+    delegations.forEach((delegation) => {
+      subscriptions.push(
+        `${delegation.validatorAddress}_${eventTypes.VALIDATOR_COMMISSION}_${networkId}`,
+        `${delegation.validatorAddress}_${eventTypes.VALIDATOR_STATUS}_${networkId}`,
+        `${delegation.validatorAddress}_${eventTypes.SLASH}_${networkId}`,
+        `${delegation.validatorAddress}_${eventTypes.LIVENESS}_${networkId}`
+      )
+    })
+    subscriptions.push(
+      `${eventTypes.PROPOSAL_CREATE}_${networkId}`,
+      `${eventTypes.PROPOSAL_UPDATE}_${networkId}`
+    )
+    // in development register for transaction send to test easier
+    if (config.env === 'development') {
+      subscriptions.push(
+        `${address}_${eventTypes.TRANSACTION_SEND}_${networkId}`
+      )
+    }
+  }
+
+  return subscriptions
+}
+
+const getDefaultPushSubscriptions = async (addresses, dataSources) => {
   let subscriptions = []
 
   for (const { address, networkId } of addresses) {
@@ -108,5 +141,6 @@ module.exports = {
   eventTypes,
   resourceTypes,
   getDefaultSubscriptions,
-  getDefaultEMailSubscriptions
+  getDefaultEmailSubscriptions,
+  getDefaultPushSubscriptions
 }

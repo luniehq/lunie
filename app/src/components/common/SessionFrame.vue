@@ -24,7 +24,7 @@
         >
         <div class="session">
           <div class="session-header">
-            <a v-if="!hideBack" @click="goBack">
+            <a :class="{ invisible: hideBack }" @click="goBack">
               <i class="material-icons notranslate circle back">arrow_back</i>
             </a>
             <div v-if="!isExtension" class="session-close">
@@ -42,7 +42,7 @@
 
 <script>
 import config from "src/../config"
-import { mapGetters } from "vuex"
+import { mapState, mapGetters } from "vuex"
 
 export default {
   name: `session-frame`,
@@ -61,6 +61,7 @@ export default {
     isExtension: config.isExtension,
   }),
   computed: {
+    ...mapState([`session`]),
     ...mapGetters([`networkSlug`]),
   },
   methods: {
@@ -76,13 +77,23 @@ export default {
     closeModal() {
       if (this.$route.meta.requiresAuth) {
         this.$router.push({
-          name: "Validators",
+          name: "validators",
           params: {
             networkId: this.networkSlug,
           },
         })
       } else {
-        this.goBack()
+        // if user is signed in with address
+        if (this.session.address) {
+          this.$router.push({
+            name: `portfolio`,
+          })
+          // if user is not signed in with address
+        } else {
+          this.$router.push({
+            name: `validators`,
+          })
+        }
       }
     },
   },
@@ -91,6 +102,10 @@ export default {
 
 <style>
 @import "../../styles/session.css";
+
+.invisible {
+  visibility: hidden;
+}
 
 .component-fade-enter-active,
 .component-fade-leave-active {

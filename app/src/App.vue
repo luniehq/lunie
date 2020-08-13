@@ -8,7 +8,7 @@
         <MaintenanceBar />
         <DisconnectedBar />
       </div>
-      <UserMenu v-if="!isMobileApp && session.experimentalMode" />
+      <UserMenu v-if="!isMobileApp" />
       <router-view name="session" />
       <router-view />
     </div>
@@ -45,7 +45,9 @@ export default {
       return this.session.mobile
     },
     themeClass() {
-      return !this.$route.meta.networkSpecificRoute ? `lunie-light` : this.network
+      return !this.$route.meta.networkSpecificRoute
+        ? `lunie-light`
+        : this.network
     },
   },
   store,

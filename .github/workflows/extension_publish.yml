@@ -5,7 +5,7 @@ on:
     branches:
       - "master"
     paths:
-      - 'extension/CHANGELOG.md'
+      - 'extension/*'
 env:
   WORKING_DIRECTORY: ./extension
 jobs:

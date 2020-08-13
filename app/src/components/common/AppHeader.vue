@@ -51,7 +51,7 @@
         </router-link>
         <div class="header-menu-section">
           <template v-if="!desktop">
-            <UserMenu v-if="isMobileApp && isDevelopmentMode" />
+            <UserMenu v-if="isMobileApp" />
             <div v-if="open" class="close-menu" @click="close()">
               <i class="material-icons notranslate mobile-menu-action">close</i>
             </div>
@@ -88,14 +88,8 @@ export default {
     isMobileApp() {
       return this.session.mobile
     },
-    isDevelopmentMode() {
-      return this.session.developmentMode
-    },
     hideSidebarMenu() {
-      return (
-        !this.$route.meta.networkSpecificRoute &&
-        this.desktop
-      )
+      return !this.$route.meta.networkSpecificRoute && this.desktop
     },
   },
   mounted: async function () {

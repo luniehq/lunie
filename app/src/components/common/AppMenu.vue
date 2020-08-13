@@ -1,50 +1,6 @@
 <template>
   <menu class="app-menu">
     <div>
-      <div v-if="session.signedIn" class="user-box">
-        <div class="user-box-address">
-          <div class="user-box-inner-row">
-            <div>
-              <h3
-                v-if="
-                  session.addressRole &&
-                  session.addressRole !== `stash/controller` &&
-                  session.addressRole !== `none`
-                "
-              >
-                {{ capitalizeFirstLetter(session.addressRole) }} Address
-              </h3>
-              <h3 v-else>Your Address</h3>
-              <Address class="menu-address" :address="address || ''" />
-              <a
-                v-if="!session.isMobile && session.sessionType === 'ledger'"
-                class="show-on-ledger"
-                @click="showAddressOnLedger()"
-                >Show on Ledger</a
-              >
-              <TmFormMsg
-                v-if="ledgerAddressError"
-                :msg="ledgerAddressError"
-                type="custom"
-              />
-            </div>
-            <a v-if="session.signedIn" id="sign-out" @click="signOut()">
-              <i v-tooltip.top="'Sign Out'" class="material-icons notranslate"
-                >exit_to_app</i
-              >
-            </a>
-          </div>
-        </div>
-      </div>
-      <TmBtn
-        v-else
-        id="sign-in"
-        class="session-link sidebar"
-        value="Sign In / Sign Up"
-        type="secondary"
-        size="small"
-        @click.native="signIn()"
-      />
       <router-link
         class="app-menu-item hide-s"
         :to="{ name: 'portfolio', params: { networkId: networkSlug } }"
@@ -57,7 +13,7 @@
       </router-link>
       <router-link
         class="app-menu-item hide-s"
-        :to="{ name: 'Validators', params: { networkId: networkSlug } }"
+        :to="{ name: 'validators', params: { networkId: networkSlug } }"
         title="Validators"
         @click.native="handleClick()"
       >
@@ -67,7 +23,7 @@
 
       <router-link
         class="app-menu-item hide-s"
-        :to="{ name: 'Proposals', params: { networkId: networkSlug } }"
+        :to="{ name: 'proposals', params: { networkId: networkSlug } }"
         title="Proposals"
         @click.native="handleClick()"
       >
@@ -141,31 +97,20 @@
 </template>
 
 <script>
-import Address from "common/Address"
-import TmFormMsg from "common/TmFormMsg"
-import TmBtn from "src/components/common/TmBtn"
 import ConnectedNetwork from "common/TmConnectedNetwork"
 import { mapGetters, mapState } from "vuex"
 import { shortDecimals } from "scripts/num.js"
-import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `app-menu`,
   components: {
     ConnectedNetwork,
-    TmFormMsg,
-    Address,
-    TmBtn,
   },
   filters: {
     shortDecimals,
   },
-  data: () => ({
-    ledgerAddressError: undefined,
-    showAddressOnLedgerFn: showAddressOnLedger,
-  }),
   computed: {
-    ...mapState([`session`, `connection`]),
-    ...mapGetters([`address`, `network`]),
+    ...mapState([`connection`]),
+    ...mapGetters([`network`]),
     networkSlug() {
       return this.connection.networkSlug
     },
@@ -174,35 +119,6 @@ export default {
     handleClick() {
       this.$emit(`close`)
       window.scrollTo(0, 0)
-    },
-    signOut() {
-      this.$emit(`close`)
-      this.$store.dispatch(`signOut`, this.network)
-    },
-    signIn() {
-      if (this.$route.name !== `portfolio`) {
-        this.$router.push({
-          name: `portfolio`,
-          params: { networkId: this.networkSlug },
-        })
-      }
-      this.$emit(`close`)
-    },
-    async showAddressOnLedger() {
-      if (this.messageTimeout) {
-        clearTimeout(this.messageTimeout)
-        this.messageTimeout = undefined
-      }
-      this.ledgerAddressError = undefined
-      try {
-        await this.showAddressOnLedgerFn(this.network, this.$store)
-      } catch (error) {
-        this.ledgerAddressError = error.message
-        this.messageTimeout = setTimeout(
-          () => (this.ledgerAddressError = undefined),
-          8000
-        )
-      }
     },
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
@@ -264,43 +180,6 @@ export default {
   border-color: var(--menu-border);
 }
 
-.user-box {
-  font-size: 12px;
-  margin: 1rem;
-  padding: 0.5rem 0.75rem;
-  border: 2px solid var(--menu-border);
-  border-radius: 0.25rem;
-  display: block;
-}
-
-.user-box-address {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--menu-text);
-}
-
-.user-box i {
-  color: var(--menu-link);
-  font-size: var(--m);
-  display: flex;
-  align-items: center;
-  padding: 0.5rem;
-  border-radius: 50%;
-  background: var(--app-nav-hover);
-}
-
-.user-box-inner-row {
-  display: flex;
-  align-items: center;
-}
-
-.user-box i:hover {
-  color: var(--menu-link-hover);
-  cursor: pointer;
-}
-
 .app-menu .app-menu-item--link:hover {
   color: var(--menu-link-hover);
 }
@@ -316,11 +195,6 @@ export default {
 .app-menu .app-menu-item.router-link-active h2 {
   color: var(--menu-bright);
   font-weight: 500;
-}
-
-.menu-address {
-  background: none;
-  padding: 0 1rem 0 0;
 }
 
 @media screen and (min-width: 1024px) {

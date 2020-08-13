@@ -36,11 +36,19 @@
         <router-link
           v-if="block.height"
           v-tooltip.top="'Block Height'"
-          class="block-number"
-          :to="{
-            name: `block`,
-            params: { height: block.height, networkId: networkSlug },
-          }"
+          :class="
+            `block-number` && {
+              noClickable: !currentNetwork.feature_activity,
+            }
+          "
+          :to="
+            !currentNetwork.feature_activity
+              ? ``
+              : {
+                  name: `block`,
+                  params: { height: block.height, networkId: networkSlug },
+                }
+          "
           @click.native="handleClick()"
         >
           #{{ block.height | prettyInt }}
@@ -171,6 +179,14 @@ export default {
   margin: 0.5rem;
   padding: 0.5rem;
   background: var(--app-nav);
+}
+
+.noClickable {
+  cursor: unset;
+}
+
+.noClickable:hover {
+  color: var(--link);
 }
 
 button.small.intercom-button {

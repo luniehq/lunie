@@ -39,7 +39,8 @@ const denomToCoinGeckoIDDictionary = {
   KAVA: 'kava',
   BNB: 'binancecoin',
   // USDX: 'usdx', // not on coin gecko yet
-  KSM: 'kusama'
+  KSM: 'kusama',
+  DOT: 'polkadot'
 }
 
 const geckoIDToDenomDictionary = {
@@ -50,7 +51,8 @@ const geckoIDToDenomDictionary = {
   kava: 'KAVA',
   binancecoin: 'BNB',
   // usdx: 'USDX', // not on coin gecko yet
-  kusama: 'KSM'
+  kusama: 'KSM',
+  polkadot: 'DOT'
 }
 
 const fiatCurrenciesSymbolsDictionary = {
@@ -76,7 +78,7 @@ class fiatValueAPI {
     this.fiatValuesAPIDictionary = denomToCoinGeckoIDDictionary
     this.fiatValuesAPIReverseDictionary = geckoIDToDenomDictionary
     this.fiatCurrenciesSymbolsDictionary = fiatCurrenciesSymbolsDictionary
-    this.coins = ['ATOM', 'LUNA', 'KRT', 'SDT', 'KAVA', 'BNB', 'KSM'] // Lunie coins currently being traded in the open
+    this.coins = ['ATOM', 'LUNA', 'KRT', 'SDT', 'KAVA', 'BNB', 'KSM', 'DOT'] // Lunie coins currently being traded in the open
     this.priceFeed = {}
 
     this.pollNewPriceFeed()
@@ -219,6 +221,7 @@ class fiatValueAPI {
           scope.setExtra('fetch', `${url}rates.json`)
           Sentry.captureException(err)
         })
+        return {}
       })
     rates['NGM'] = { EUR: 0.5 }
     return rates
@@ -232,8 +235,11 @@ class fiatValueAPI {
           `${EMoneyFiatExchangeRateApi}base=${fiatCurrency}`
         )
           .then((r) => r.json())
-          .catch((error) => console.error(error))
-        all[fiatCurrency] = rates
+          .catch((error) => {
+            console.error(error)
+            return {}
+          })
+        all[fiatCurrency] = rates || {}
       })
     )
 

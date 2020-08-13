@@ -19,13 +19,14 @@ function setTransactionSuccess(transaction) {
 }
 
 function delegationReducer(delegation, validator) {
-  const delegationCoin = terraV3Reducers.coinReducer(delegation.balance)
   return {
     id: delegation.validator_address,
     validatorAddress: delegation.validator_address,
     delegatorAddress: delegation.delegator_address,
     validator,
-    amount: delegationCoin.amount
+    amount: delegation.balance
+      ? terraV3Reducers.atoms(delegation.balance.amount)
+      : 0
   }
 }
 

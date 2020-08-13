@@ -95,7 +95,8 @@ class NetworkStore {
     }
 
     // when the data is available signal readyness so the resolver stop blocking the requests
-    if (this.validators) {
+    // we assume existance of validators in most queries so we wait for the validators to be there
+    if (Object.keys(this.validators).length > 0) {
       this.resolveReady()
     }
     // save store in DB to improve API perfomance on startup. Deactivated for now

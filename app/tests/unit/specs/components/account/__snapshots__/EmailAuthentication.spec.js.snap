@@ -1,22 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EmailAuthentication should show the EmailAuthentication page 1`] = `
-<tmpage-stub
-  data-title="email-authentication"
-  emptysubtitle=""
-  emptytitle="No data"
-  loaderpath=""
+<sessionframe-stub
+  hideback="true"
+  icon=""
 >
-  <div
-    class="card"
+  <h2
+    class="session-title"
   >
-    <h1
-      class="authentication-title"
+    
+      Magic link success! 👍
+    
+  </h2>
+   
+  <div
+    class="session-main"
+  >
+    <p
+      class="session-subtitle"
     >
       
-      You are now signed in! 🚀
-    
-    </h1>
+        You're now signed in to Lunie with your email address. Head over to
+        the notifications page to see some recent events.
+      
+    </p>
+     
+    <router-link-stub
+      to="notifications"
+    >
+      <tmbtn-stub
+        centered="true"
+        customclass=""
+        value="Let's Go!"
+      />
+    </router-link-stub>
   </div>
-</tmpage-stub>
+</sessionframe-stub>
 `;

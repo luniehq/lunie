@@ -42,7 +42,7 @@ You can simply start the frontend:
 yarn serve
 ```
 
-The front end will run on its own, however if you want to feed it data to interact with, please read on below.
+The front end will run on its own, however if you want to interact with real data, please read on below.
 
 #### Lunie Backend
 
@@ -102,6 +102,8 @@ To run the Android version of Lunie in development:
 
 ```bash
 $ yarn build:mobile
+$ yarn remove @capacitor/core @capacitor/android @capacitor-community/intercom
+$ npm install @capacitor/core @capacitor/android @capacitor-community/intercom
 $ npx cap sync android
 $ npx cap open android
 ```

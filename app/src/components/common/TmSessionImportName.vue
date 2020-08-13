@@ -6,14 +6,25 @@
       </h2>
       <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
-        <TmFormGroup field-id="import-name" field-label="Your Address">
+        <TmFormGroup field-id="import-name" :field-label="fieldLabel">
           <img
             v-if="importedAddress === undefined"
             class="tm-data-msg__icon"
             src="~assets/images/loader.svg"
             alt="a small spinning circle to display loading"
           />
-          <p v-else class="address">{{ importedAddress }}</p>
+          <div v-else>
+            <p class="address">
+              {{ importedAddress }}
+            </p>
+            <!-- only show the retry option if the networks supports more than one algo -->
+            <span
+              v-if="networkCryptoTypes.length > 1"
+              class="retry-link"
+              @click="created(true)"
+              >{{ incorrectAddressMessage }}</span
+            >
+          </div>
         </TmFormGroup>
         <TmFormGroup
           :error="$v.$error && $v.name.$invalid"
@@ -64,6 +75,7 @@ import SessionFrame from "common/SessionFrame"
 import { mapGetters } from "vuex"
 import Steps from "../../ActionModal/components/Steps"
 import { getWalletIndex } from "@lunie/cosmos-keys"
+import { getWallet } from "../../vuex/modules/wallet"
 
 const nameExists = (value) => {
   const walletIndex = getWalletIndex()
@@ -87,10 +99,11 @@ export default {
   },
   data: () => ({
     importedAddress: undefined,
+    displayCryptoView: false,
+    attempt: 0,
   }),
   computed: {
-    ...mapGetters([`recover`]),
-    ...mapGetters([`network`]),
+    ...mapGetters([`network`, `currentNetwork`]),
     name: {
       get() {
         return this.$store.state.recover.name
@@ -99,18 +112,98 @@ export default {
         this.$store.commit(`updateField`, { field: `name`, value })
       },
     },
+    networkCryptoTypes() {
+      if (this.currentNetwork.network_type === `cosmos`) {
+        return JSON.parse(this.currentNetwork.HDPaths)
+      } else if (this.currentNetwork.network_type === `polkadot`) {
+        return JSON.parse(this.currentNetwork.curves)
+      } else {
+        return []
+      }
+    },
+    currentCryptoView() {
+      if (this.currentNetwork.network_type === `cosmos`) {
+        return JSON.parse(this.currentNetwork.HDPaths)[this.attempt].name
+      } else if (this.currentNetwork.network_type === `polkadot`) {
+        return JSON.parse(this.currentNetwork.curves)[this.attempt].name
+      } else {
+        return ``
+      }
+    },
+    incorrectAddressMessage() {
+      const messages = [
+        `Not your address?`,
+        `Maybe this one?`,
+        `Still not your address?`,
+      ]
+      return messages[this.attempt]
+    },
+    fieldLabel() {
+      if (this.displayCryptoView) {
+        return `Your Address created using ` + this.currentCryptoView
+      } else {
+        return `Your Address`
+      }
+    },
   },
-  async created() {
-    this.importedAddress = await this.$store.dispatch(`getAddressFromSeed`, {
-      seedPhrase: this.$store.state.recover.seed,
-      network: this.network,
-    })
+  mounted() {
+    this.created()
   },
   methods: {
     onSubmit() {
       this.$v.$touch()
       if (this.$v.name.$invalid) return
       this.$router.push("/recover/password")
+    },
+    currentHDPathOrCurve() {
+      if (this.currentNetwork.network_type === `cosmos`) {
+        return {
+          HDPath: this.networkCryptoTypes[this.attempt].value,
+          curve: JSON.parse(this.currentNetwork.curves)[0].value, // ed25519
+        }
+      } else if (this.currentNetwork.network_type === `polkadot`) {
+        return {
+          HDPath: JSON.parse(this.currentNetwork.HDPaths)[0].value, // no clue
+          curve: this.networkCryptoTypes[this.attempt].value,
+        }
+      } else {
+        return {
+          HDPath: ``,
+          curve: ``,
+        }
+      }
+    },
+    async created(retry = false) {
+      if (retry) {
+        this.attempt++
+        this.displayCryptoView = true
+      }
+      this.attempt = this.numberAttemptsController(
+        this.networkCryptoTypes,
+        this.attempt
+      )
+      const wallet = await getWallet(
+        this.$store.state.recover.seed,
+        this.currentNetwork,
+        this.currentHDPathOrCurve()[`HDPath`],
+        this.currentHDPathOrCurve()[`curve`]
+      )
+      this.importedAddress = wallet.cosmosAddress
+      this.$store.commit(`updateField`, {
+        field: `HDPath`,
+        value: this.currentHDPathOrCurve()[`HDPath`],
+      })
+      this.$store.commit(`updateField`, {
+        field: `curve`,
+        value: this.currentHDPathOrCurve()[`curve`],
+      })
+    },
+    numberAttemptsController(networkCryptoTypes, attempt) {
+      if (attempt >= networkCryptoTypes.length) {
+        return attempt - networkCryptoTypes.length
+      } else {
+        return attempt
+      }
     },
   },
   validations: () => ({
@@ -123,5 +216,19 @@ export default {
   word-break: break-all;
   font-size: 0.9rem;
   color: var(--txt);
+}
+
+.retry-link {
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--link);
+}
+
+.retry-link:hover {
+  color: var(--link-hover);
+}
+
+.tm-form-group__field {
+  position: unset !important;
 }
 </style>

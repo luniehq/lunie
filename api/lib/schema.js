@@ -175,6 +175,10 @@ const typeDefs = gql`
     lockUpPeriod: String
     erasPerDay: Int!
     source_class_name: String!
+    HDPaths: String!
+    curves: String!
+    defaultHDPath: String!
+    defaultCurve: String!
   }
 
   type Delegation {
@@ -319,26 +323,10 @@ const typeDefs = gql`
     option: String
   }
 
-  type AccountInformation {
-    accountNumber: String
-    sequence: String
-  }
-
   type Powered {
     name: String
     providerAddress: String
     picture: String
-  }
-
-  type Overview {
-    networkId: String!
-    address: String!
-    totalStake: String!
-    totalStakeFiatValue: FiatValue
-    liquidStake: String!
-    totalRewards: String!
-    rewards: [Reward]
-    accountInformation: AccountInformation
   }
 
   enum EventType {
@@ -355,6 +343,11 @@ const typeDefs = gql`
     properties: String # JSON encoded as it is general purpose and GraphQL doesn't allow for "Object"
   }
 
+  type Session {
+    sessionToken: String!
+    validUntil: String!
+  }
+
   type Subscription {
     blockAdded(networkId: String!): BlockV2
     notificationAdded(addressObjects: [NotificationInput]!): Notification
@@ -364,10 +357,11 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    registerUser(idToken: String!): Boolean
+    registerUser(idToken: String!): Session
     notifications(
       addressObjects: [NotificationInput]!
       notificationType: String
+      pushToken: String
     ): Boolean
   }
 
@@ -389,7 +383,7 @@ const typeDefs = gql`
   }
 
   type TransactionMetadata {
-    gasEstimate: Int!
+    gasEstimate: Int
     gasPrices: [GasPrice]
     chainAppliedFees: ChainAppliedFees
     accountSequence: Int
@@ -473,11 +467,6 @@ const typeDefs = gql`
       denom: String!
       fiatCurrency: String
     ): Balance
-    overview(
-      networkId: String!
-      address: String!
-      fiatCurrency: String
-    ): Overview
     delegation(
       networkId: String!
       delegatorAddress: String!
