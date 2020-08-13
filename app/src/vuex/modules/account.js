@@ -167,12 +167,12 @@ export function handleDeeplink(url, router) {
 
   const queryObject = query
     ? query
-        .split("&")
-        .map((keyValue) => keyValue.split("="))
-        .reduce((query, [key, value]) => {
-          query[key] = value
-          return query
-        }, {})
+      .split("&")
+      .map((keyValue) => keyValue.split("="))
+      .reduce((query, [key, value]) => {
+        query[key] = value
+        return query
+      }, {})
     : {}
 
   // if we receive a deeplink for firebase authentication we follow that link
@@ -185,5 +185,15 @@ export function handleDeeplink(url, router) {
       window.location = link
     }
     return
+  }
+
+  try {
+    // change the route to the route we got from the deeplink
+    router.push({
+      path: "/" + path,
+      query: queryObject,
+    })
+  } catch (error) {
+    console.error(error)
   }
 }
