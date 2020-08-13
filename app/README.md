@@ -1,5 +1,5 @@
 ![Lunie logo — right half circle with dotted left circle](/public/img/readme-header.svg)
- 
+
 # Welcome to [Lunie.io](https://lunie.io)!
 
 [![CircleCI](https://circleci.com/gh/luniehq/lunie/tree/develop.svg?style=svg)](https://circleci.com/gh/luniehq/lunie/tree/develop)
@@ -42,7 +42,7 @@ You can simply start the frontend:
 yarn serve
 ```
 
-The front end will run on its own, however if you want to feed it data to interact with, please read on below.
+The front end will run on its own, however if you want to interact with real data, please read on below.
 
 #### Lunie Backend
 

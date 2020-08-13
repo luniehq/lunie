@@ -68,7 +68,6 @@ export default {
   border-radius: 0.25rem;
   background: var(--app-fg);
   border: 2px solid var(--app-fg-hover);
-  margin: 1rem;
 }
 
 .tm-data-msg__icon {

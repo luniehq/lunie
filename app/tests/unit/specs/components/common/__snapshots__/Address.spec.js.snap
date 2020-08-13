@@ -7,9 +7,15 @@ exports[`Address Component should show a short address 1`] = `
   <div
     class="address"
   >
-    <span>
-      cosmos…4v9e
-    </span>
+    <div
+      class="address-section"
+    >
+      <!---->
+       
+      <span>
+        cosmos…4v9e
+      </span>
+    </div>
      
     <div
       class="icon-container"

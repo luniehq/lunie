@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.42] - 2020-08-03
+
+### Changed
+
+- [#4646](https://github.com/cosmos/lunie/pull/4646) Update to @polkadot/api-1.27.1 @Bitcoinera
+
+### Fixed
+
+- [#4641](https://github.com/cosmos/lunie/issues/4641) Fix sending BNB transactions in Kava failing due to fees @Bitcoinera
+
 ## [1.0.41] - 2020-07-30
 
 ### Added

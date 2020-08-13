@@ -1,11 +1,15 @@
 const database = require('../database')
 const config = require('../../config')
 const { eventSubscription } = require('../subscriptions')
-const { getTopic, getMessageTitle, getPushLink } = require('./notifications')
-const { getDefaultEMailSubscriptions } = require('./notifications-types')
+const {
+  getTopic,
+  getMessageTitle,
+  getPushLink,
+  getIcon
+} = require('./notifications')
+const { getDefaultEmailSubscriptions } = require('./notifications-types')
 const firebaseAdmin = require('./firebase')
 const Sentry = require('@sentry/node')
-const { UserInputError } = require('apollo-server')
 
 class NotificationController {
   constructor(networks) {
@@ -26,15 +30,26 @@ class NotificationController {
 
   listenToNotifications() {
     eventSubscription((notification) => {
-      this.onNotification(notification)
+      this.onNotificationSendEmails(notification)
+      this.onNotificationSendPushNotifications(notification)
     })
   }
 
-  async onNotification(notification) {
+  async onNotificationSendEmails(notification) {
     const emailUsers = await this.getRegisteredUsers(notification, 'email')
     const emails = await this.getEmails(emailUsers)
     const { content, subject } = this.getEmailContent(notification)
-    this.sendEmail(emails, subject, content)
+    this.sendEmails(emails, subject, content)
+  }
+
+  async onNotificationSendPushNotifications(notification) {
+    const pushNotificationUsers = await this.getRegisteredUsers(
+      notification,
+      'push'
+    )
+    if (pushNotificationUsers.length > 0) {
+      this.sendPushNotification(notification)
+    }
   }
 
   getRegistrationsFromDB() {
@@ -62,23 +77,32 @@ class NotificationController {
     uid,
     addressObjects,
     notificationType,
-    dataSources
+    dataSources,
+    pushToken
   ) {
     let topics = []
     if (notificationType === 'email') {
       topics = (
-        await getDefaultEMailSubscriptions(addressObjects, dataSources)
+        await getDefaultEmailSubscriptions(addressObjects, dataSources)
       ).map((topic) => ({ topic, type: 'email' }))
     } else {
-      throw new UserInputError(
-        'Only Email notification registration is supported on this endpoint'
+      topics = (
+        await getDefaultEmailSubscriptions(addressObjects, dataSources)
+      ).map((topic) => ({ topic, type: 'push' }))
+
+      this.subscribeUserToPushNotificationTopics(
+        pushToken,
+        topics.map(({ topic }) => topic)
       )
     }
+    // set the topics locally (in memory)
     topics.forEach(({ topic, type }) => {
       if (!this.registrations[topic])
         this.registrations[topic] = { email: {}, push: {} }
       this.registrations[topic][type][uid] = true
     })
+
+    // set topics in database for persistence
     const rows = topics.map((topic) => ({
       ...topic,
       uid
@@ -121,7 +145,7 @@ class NotificationController {
     }
   }
 
-  sendEmail(emails, subject, content) {
+  sendEmails(emails, subject, content) {
     emails.forEach(async (email) => {
       const res = await fetch(`https://api.pepipost.com/v5/mail/send`, {
         method: 'POST',
@@ -144,6 +168,40 @@ class NotificationController {
         Sentry.captureException(new Error(JSON.stringify(res.error)))
       }
     })
+  }
+
+  // users need to be registered individually per topic
+  subscribeUserToPushNotificationTopics(pushToken, topics) {
+    return Promise.all(
+      topics.map((topic) =>
+        firebaseAdmin.messaging().subscribeToTopic(pushToken, topic)
+      )
+    )
+  }
+
+  async sendPushNotification(notification) {
+    const topic = getTopic(notification)
+    const body = getMessageTitle(this.networks, notification)
+    // const image = getIcon(notification) // should we use an icon per notification or just use the Lunie logo?
+
+    const message = {
+      notification: {
+        body,
+        image:
+          'https://lunie.fra1.digitaloceanspaces.com/lunie-push-notification.PNG'
+      },
+      topic,
+      data: {
+        link: getPushLink(this.networks, notification)
+      }
+    }
+
+    try {
+      await firebaseAdmin.messaging().send(message)
+    } catch (error) {
+      console.error('Error sending message:', error, message)
+      Sentry.captureException(error)
+    }
   }
 }
 

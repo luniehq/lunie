@@ -354,7 +354,7 @@ export default {
       this.$emit(`success`, event)
 
       // update registered topics for emails as the validator set changed
-      this.$store.dispatch("updateEmailRegistrations")
+      this.$store.dispatch("updateNotificationRegistrations")
       // update the role of the user as it might change after bonding the first time
       if (this.currentNetwork.network_type === "polkadot") {
         this.$store.dispatch("checkAddressRole")
@@ -521,7 +521,6 @@ export default {
         query: UserTransactionAdded,
         /* istanbul ignore next */
         result() {
-          console.log(`userTransactionAdded`)
           this.$apollo.queries.balance.refetch()
           this.$apollo.queries.delegations.refetch()
         },
