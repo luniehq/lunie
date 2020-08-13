@@ -1,1 +1,2 @@
 [Fixed] [#4668](https://github.com/cosmos/lunie/pull/4668) Fix coinLookup for old balance query @Bitcoinera
+[Added] [#4668](https://github.com/cosmos/lunie/pull/4668) Get all delegations types for Polkadot (chilled, waiting and inactive) and handle them as Delegations or Undelegations @Bitcoinera
