@@ -159,8 +159,8 @@ export function handleDeeplink(url, router) {
   // slug = /email-authentication
   const regexp = /(https?:\/\/)?[\w\d-\.]+\/([\w\d-\/]*)(\?(.+))?/
   const matches = regexp.exec(url)
-  const path = matches[1]
-  const query = matches[3]
+  const path = matches[2]
+  const query = matches[4]
 
   const queryObject = query
     ? query

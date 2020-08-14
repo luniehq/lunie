@@ -206,7 +206,7 @@ const startNotificationService = (networks) => {
       if (event.eventType === eventTypes.LIVENESS) return
 
       const topic = getTopic(event)
-      const response = await database(config)('').storeNotification({
+      const insertedNotifications = await database(config)('').storeNotification({
         topic,
         eventType: event.eventType,
         resourceType: event.resourceType,
@@ -215,8 +215,7 @@ const startNotificationService = (networks) => {
         data: event.properties
       })
 
-      const notificationResponse =
-        response.data.insert_notifications.returning[0]
+      const notificationResponse = insertedNotifications[0]
       try {
         const notification = {
           id: notificationResponse.id,

@@ -1,6 +1,9 @@
 <template>
   <div class="user-menu">
-    <UserMenuAddress v-if="address" :address="address" />
+    <UserMenuAddress
+      v-if="address && $route.name !== `notifications`"
+      :address="address"
+    />
     <router-link
       v-tooltip="`Notifications`"
       :to="{ name: 'notifications' }"
