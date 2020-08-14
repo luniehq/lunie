@@ -755,15 +755,6 @@ class polkadotAPI {
     return accounts.length || 0
   }
 
-  async getRecentProposals() {
-    // while we don't have proposals in DB this is the only way
-    const proposals = await this.getAllProposals()
-    // the problem in Substrate is that right now we don't have all creationTimes yet
-    return proposals.sort(
-      (a, b) => new Date(b.creationTime) - new Date(a.creationTime)
-    )
-  }
-
   async getTopVoters() {
     // in Substrate we simply return council members
     const api = await this.getAPI()
@@ -796,15 +787,13 @@ class polkadotAPI {
       treasurySize,
       links,
       totalVoters,
-      topVoters,
-      recentProposals
+      topVoters
     ] = await Promise.all([
       api.query.staking.erasTotalStake(activeEra),
       this.getTreasurySize(),
       this.db.getNetworkLinks(this.network.id),
       this.getTotalActiveAccounts(),
-      this.getTopVoters(),
-      this.getRecentProposals()
+      this.getTopVoters()
     ])
     return {
       totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
@@ -820,7 +809,6 @@ class polkadotAPI {
         this.network,
         this.network.stakingDenom
       ),
-      recentProposals,
       topVoters,
       links: JSON.parse(links)
     }

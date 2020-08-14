@@ -330,12 +330,11 @@ const typeDefs = gql`
     type: String
   }
 
-  type GovernanceOverview {
+  type GovernanceOverview @cacheControl(maxAge: 21600) {
     totalStakedAssets: Float
     totalVoters: Int
     treasurySize: Float
-    recentProposals: [Proposal]
-    topVoters: [String] @cacheControl(maxAge: 21600)
+    topVoters: [String]
     links: [GovernanceLink]
   }
 

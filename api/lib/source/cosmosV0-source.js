@@ -317,15 +317,9 @@ class CosmosV0API extends RESTDataSource {
     const { bonded_tokens: totalBondedTokens } = await this.query(
       '/staking/pool'
     )
-    const [
-      communityPoolArray,
-      links,
-      proposals,
-      topVoters
-    ] = await Promise.all([
+    const [communityPoolArray, links, topVoters] = await Promise.all([
       this.query('/distribution/community_pool'),
       this.db.getNetworkLinks(this.network.id),
-      this.getAllProposals(),
       this.getTopVoters()
     ])
     const communityPool = communityPoolArray.find(
@@ -344,9 +338,6 @@ class CosmosV0API extends RESTDataSource {
         2,
         this.network,
         this.network.stakingDenom
-      ),
-      recentProposals: proposals.sort(
-        (a, b) => new Date(b.creationTime) - new Date(a.creationTime)
       ),
       topVoters,
       links: JSON.parse(links)
