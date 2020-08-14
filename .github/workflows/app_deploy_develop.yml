@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Use Node.js
         uses: actions/setup-node@v1
-      - uses: bahmutov/npm-install@v1.1
+      - uses: bahmutov/npm-install@v1.1.0
       - name: Build
         run: yarn buildsentry
         env:
