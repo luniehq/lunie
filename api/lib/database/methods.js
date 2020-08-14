@@ -237,7 +237,6 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
         chainDenom
         viewDenom
         chainToViewConversionFactor
-        icon
       }
     }
   `)
