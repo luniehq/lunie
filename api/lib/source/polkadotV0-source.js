@@ -706,8 +706,6 @@ class polkadotAPI {
         .concat(
           treasuryProposals.proposals.map(async (proposal) => {
             const treasuryProposal = proposal.council[0]
-              ? proposal.council[0]
-              : undefined
             if (!treasuryProposal) return
             const proposalWithMetadata = await this.getProposalWithMetadata(
               treasuryProposal,
