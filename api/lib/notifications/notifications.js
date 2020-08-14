@@ -267,7 +267,6 @@ const getNotifications = (networks) => async (
   )
 
   const notifications = relevantNotifications
-    .filter(({ eventType }) => eventType !== eventTypes.VALIDATOR_ADDED)
     .map((notification) => ({
       id: notification.id, // used for correctly handling cache in Apollo
       networkId: notification.networkId, // used for filtering per network
