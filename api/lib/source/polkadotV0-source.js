@@ -594,21 +594,17 @@ class polkadotAPI {
   ) {
     const api = await this.getAPI()
 
-    const referendumBlockHeight = proposal.status.end - proposal.status.delay
-    const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
-    const block = await api.rpc.chain.getBlock(blockHash)
-    block.block.extrinsics.forEach((extrinsic) => {
-      const { meta, method } = api.registry.findMetaCall(
-        extrinsic.method.callIndex
-      )
-      if (meta.args.find(({ name }) => name == 'proposal_hash')) {
-        proposer = extrinsic.signer.toString()
-        description = meta.documentation.toString()
-        proposalMethod = method
-      }
-    })
+    const { meta, method } = api.registry.findMetaCall(
+      proposal.image.proposal.callIndex
+    )
+    proposer = proposal.image.proposer
+    description = meta.documentation.toString()
+    proposalMethod = method
 
     // get creationTime
+    const referendumBlockHeight = proposal.image.at
+    const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
+    const block = await api.rpc.chain.getBlock(blockHash)
     const args = block.block.extrinsics.map((extrinsic) =>
       extrinsic.method.args.find((arg) => arg)
     )
@@ -707,27 +703,38 @@ class polkadotAPI {
           })
         )
         .concat(
-          treasuryProposals.proposals.map(async (proposal) => {
-            const treasuryProposal = proposal.council[0]
-              ? proposal.council[0]
-              : undefined
-            if (!treasuryProposal) return
-            const proposalWithMetadata = await this.getProposalWithMetadata(
-              treasuryProposal,
-              `council`
-            )
-            return this.reducers.treasuryProposalReducer(
-              this.network,
-              {
-                ...proposalWithMetadata,
-                deposit: proposal.proposal.bond,
-                beneficiary: proposal.proposal.beneficiary
-              },
-              councilMembers,
-              blockHeight,
-              electionInfo
-            )
-          })
+          treasuryProposals.proposals
+            .filter((proposal) => {
+              // make sure that the treasury proposals haven't been passed as motions to Council
+              if (
+                !councilProposals.find(
+                  (councilProposal) =>
+                    JSON.stringify(councilProposal) ===
+                    JSON.stringify(proposal.council[0])
+                )
+              ) {
+                return proposal
+              }
+            })
+            .map(async (proposal) => {
+              const treasuryProposal = proposal.council[0]
+              if (!treasuryProposal) return
+              const proposalWithMetadata = await this.getProposalWithMetadata(
+                treasuryProposal,
+                `council`
+              )
+              return this.reducers.treasuryProposalReducer(
+                this.network,
+                {
+                  ...proposalWithMetadata,
+                  deposit: proposal.proposal.bond,
+                  beneficiary: proposal.proposal.beneficiary
+                },
+                councilMembers,
+                blockHeight,
+                electionInfo
+              )
+            })
         )
         .concat(
           councilProposals.map(async (proposal) => {
