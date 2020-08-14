@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Use Node.js
         uses: actions/setup-node@v1
-      - uses: bahmutov/npm-install@v1
+      - uses: bahmutov/npm-install@v1.1.0
       - name: Build
         run: yarn build
         working-directory: ${{env.WORKING_DIRECTORY}}
@@ -44,7 +44,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Use Node.js
         uses: actions/setup-node@v1
-      - uses: bahmutov/npm-install@v1
+      - uses: bahmutov/npm-install@v1.1.0
       - name: Run E2E tests
         run: |
           yarn test:e2e:browserstack --fe=${{needs.deploy.outputs.deploy-url}} --api=https://production-api.lunie.io
@@ -60,7 +60,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Use Node.js
         uses: actions/setup-node@v1
-      - uses: bahmutov/npm-install@v1
+      - uses: bahmutov/npm-install@v1.1.0
       - name: Run Polkadot E2E tests
         run: |
           yarn test:e2e:browserstack --fe=${{needs.deploy.outputs.deploy-url}} --api=https://production-api.lunie.io --network="polkadot-testnet"
