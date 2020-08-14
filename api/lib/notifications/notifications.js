@@ -14,35 +14,25 @@ const config = require('../../config.js')
 
 function getMessageTitle(networks, notification) {
   const data = notification.properties || JSON.parse(notification.data)
+  const networkTitle = findNetworkTitle(networks, notification.networkId)
+
   switch (notification.eventType) {
     case eventTypes.TRANSACTION_RECEIVE:
-      return `You have received ${data.details.amount.amount} ${
+      return `You received ${data.details.amount.amount} ${
         data.details.amount.denom
-      }${data.details.amount.amount !== 1 ? 's' : ''} on ${findNetworkTitle(
-        networks,
-        notification.networkId
-      )}`
+      }${data.details.amount.amount !== 1 ? 's' : ''} on ${networkTitle}`
     case eventTypes.TRANSACTION_SEND:
       return `You sent ${data.details.amount.amount} ${
         data.details.amount.denom
-      }${data.details.amount.amount !== 1 ? 's' : ''} on ${findNetworkTitle(
-        networks,
-        notification.networkId
-      )}`
+      }${data.details.amount.amount !== 1 ? 's' : ''} on ${networkTitle}`
     case eventTypes.PROPOSAL_CREATE:
-      return `New proposal created for ${findNetworkTitle(
-        networks,
-        notification.networkId
-      )}: '${data.title}'`
+      return `New proposal created for ${networkTitle}: '${data.title}'`
     case eventTypes.PROPOSAL_UPDATE:
-      return `Proposal status changed to '${data.status}' on ${findNetworkTitle(
-        networks,
-        notification.networkId
-      )} for ${data.title}`
+      return `${networkTitle} proposal status changed to '${data.status}' for ${data.title}`
 
     /* validator changes */
     case eventTypes.VALIDATOR_COMMISSION:
-      return `Commission change for ${notification.resourceId} from ${data.prevValidator.commission} to ${data.nextValidator.commission}`
+      return `${notification.resourceId} changed their commission rate from ${data.prevValidator.commission} to ${data.nextValidator.commission} on ${networkTitle}`
 
     case eventTypes.VALIDATOR_VOTING_POWER_INCREASE: {
       const prevVotingPower = Number(data.prevValidator.votingPower)
@@ -57,7 +47,7 @@ function getMessageTitle(networks, notification) {
         2
       )}% (${percentageDifference.toFixed(3)}% increase) for ${
         data.nextValidator.name
-      }`
+      } on ${networkTitle}`
     }
 
     case eventTypes.VALIDATOR_VOTING_POWER_DECREASE: {
@@ -73,37 +63,34 @@ function getMessageTitle(networks, notification) {
         2
       )}% (${percentageDifference.toFixed(2)}% decrease) for ${
         data.nextValidator.name
-      }`
+      } on ${networkTitle}`
     }
 
     case eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION:
-      return `Max change for commisions has been updated from ${Number(
+      return `Max commission fee for ${
+        data.nextValidator.name
+      } has changed from ${Number(
         data.prevValidator.maxChangeCommission
       ).toFixed(3)} to ${Number(data.nextValidator.maxChangeCommission).toFixed(
         3
-      )}`
+      )} on ${networkTitle}`
     case eventTypes.VALIDATOR_DESCRIPTION:
-      return `Validator description changed for ${data.nextValidator.name}, click to find out!`
+      return `${data.nextValidator.name} changed their description on ${networkTitle}`
     case eventTypes.VALIDATOR_PICTURE:
-      return `Validator picture changed for ${data.nextValidator.name}, click to find out!`
+      return `${data.nextValidator.name} changed their profile picture on ${networkTitle}`
     case eventTypes.VALIDATOR_STATUS:
-      return `Validator status changed for ${data.nextValidator.name} from ${data.prevValidator.status} to ${data.nextValidator.status}`
+      return `${data.nextValidator.name} had a status change from ${data.prevValidator.status} to ${data.nextValidator.status} on ${networkTitle}`
     case eventTypes.VALIDATOR_WEBSITE:
-      return `Validator ${data.nextValidator.name} updated its website to: ${data.nextValidator.website}`
+      return `${data.nextValidator.name} updated their website to: ${data.nextValidator.website} on ${networkTitle}`
     case eventTypes.VALIDATOR_ADDED:
-      return `New validator ${
-        data.nextValidator.name
-      } entered the validator list on ${findNetworkTitle(
-        networks,
-        notification.networkId
-      )}`
+      return `New validator ${data.nextValidator.name} just became an active validator on ${networkTitle}`
 
     case eventTypes.LUNIE_UPDATE:
       return data.title
     case eventTypes.SLASH:
-      return `Validator ${data.operatorAddress} got slashed ${data.amount.amount} ${data.amount.denom}s.`
+      return `${data.operatorAddress} got slashed ${data.amount.amount} ${data.amount.denom}s on ${networkTitle}.`
     case eventTypes.LIVENESS:
-      return `Validator ${data.operatorAddress} was offline for ${data.blocks} blocks.`
+      return `${data.operatorAddress} was offline for ${data.blocks} blocks on ${networkTitle}.`
     default:
       return 'Check it out! 👋'
   }
@@ -219,7 +206,7 @@ const startNotificationService = (networks) => {
       if (event.eventType === eventTypes.LIVENESS) return
 
       const topic = getTopic(event)
-      const response = await database(config)('').storeNotification({
+      const insertedNotifications = await database(config)('').storeNotification({
         topic,
         eventType: event.eventType,
         resourceType: event.resourceType,
@@ -228,8 +215,7 @@ const startNotificationService = (networks) => {
         data: event.properties
       })
 
-      const notificationResponse =
-        response.data.insert_notifications.returning[0]
+      const notificationResponse = insertedNotifications[0]
       try {
         const notification = {
           id: notificationResponse.id,

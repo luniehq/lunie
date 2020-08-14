@@ -1,5 +1,5 @@
 ![Lunie logo — right half circle with dotted left circle](/public/img/readme-header.svg)
-
+ 
 # Welcome to [Lunie.io](https://lunie.io)!
 
 [![CircleCI](https://circleci.com/gh/luniehq/lunie/tree/develop.svg?style=svg)](https://circleci.com/gh/luniehq/lunie/tree/develop)

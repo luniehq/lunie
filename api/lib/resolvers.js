@@ -389,7 +389,7 @@ const resolvers = (networkList, notificationController) => ({
     }
   },
   Mutation: {
-    registerUser: (_, variables, { user: { uid } }) => registerUser(uid),
+    registerUser: (_, { idToken }) => registerUser(idToken),
     notifications: async (
       _,
       { addressObjects, notificationType, pushToken },
