@@ -491,7 +491,7 @@ function democracyProposalReducer(network, proposal) {
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
-    deposit: toViewDenom(network, proposal.balance, network.stakingDenom),
+    deposit: toViewDenom(network, proposal.balance),
     proposer: proposal.proposer.toHuman()
   }
 }
@@ -513,11 +513,7 @@ function democracyReferendumReducer(
     statusBeginTime: proposal.creationTime,
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
-    deposit: toViewDenom(
-      network,
-      proposal.status.tally.turnout,
-      network.stakingDenom
-    ),
+    deposit: toViewDenom(network, proposal.status.tally.turnout),
     proposer: proposal.proposer
   }
 }
@@ -539,11 +535,7 @@ function treasuryProposalReducer(
     status: `VotingPeriod`,
     statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
     tally: councilTallyReducer(proposal.votes, councilMembers, electionInfo),
-    deposit: toViewDenom(
-      network,
-      Number(proposal.deposit),
-      network.stakingDenom
-    ),
+    deposit: toViewDenom(network, Number(proposal.deposit)),
     proposer: proposal.proposer ? proposal.proposer.toHuman() : undefined,
     beneficiary: proposal.beneficiary // the account getting the tip
   }
@@ -619,7 +611,7 @@ function councilTallyReducer(votes, councilMembers, electionInfo) {
   const total = votes.ayes.length + votes.nays.length
   // to calculated the totalVotedPercentage we need to add up the voting power of the council members that did vote on the proposal
   // first of all we need to calculate the total voting power of the council
-  // we also need to take into account the Prime council member vote
+  // TODO: we also need to take into account the Prime council member vote
   const totalCouncilVotingPower = electionInfo.members.reduce(
     (votingPowerAggregator, member) => {
       return (votingPowerAggregator = BigNumber(votingPowerAggregator).plus(
@@ -661,6 +653,28 @@ function democracyTallyReducer(proposal) {
   }
 }
 
+function topVoterReducer(
+  topVoterAddress,
+  electionInfo,
+  accountInfo,
+  validators,
+  network
+) {
+  const { identity, nickname } = accountInfo || {}
+  const councilMemberInfo = electionInfo.members.find(
+    (electionInfoMember) =>
+      electionInfoMember[0].toHuman() === topVoterAddress.toHuman()
+  )
+  return {
+    name: nickname || identity.display,
+    address: topVoterAddress,
+    votingPower: councilMemberInfo
+      ? toViewDenom(network, councilMemberInfo[1])
+      : '',
+    validator: validators[topVoterAddress]
+  }
+}
+
 // the status end time is a time "so and so days from the creation of the proposal opening"
 function getStatusEndTime(blockHeight, endBlock) {
   return new Date(
@@ -688,5 +702,6 @@ module.exports = {
   democracyReferendumReducer,
   treasuryProposalReducer,
   councilProposalReducer,
-  tallyReducer
+  tallyReducer,
+  topVoterReducer
 }

@@ -759,10 +759,8 @@ class polkadotAPI {
     return accounts.length || 0
   }
 
-  async getTopVoters() {
+  async getTopVoters(electionInfo) {
     // in Substrate we simply return council members
-    const api = await this.getAPI()
-    const electionInfo = await api.derive.elections.info()
     const councilMembersInRelevanceOrder = electionInfo.members.map(
       (runnerUp) => runnerUp[0]
     )
@@ -786,6 +784,7 @@ class polkadotAPI {
     const activeEra = parseInt(
       JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
     )
+    const electionInfo = await api.derive.elections.info()
     const [
       erasTotalStake,
       treasurySize,
@@ -797,7 +796,7 @@ class polkadotAPI {
       this.getTreasurySize(),
       this.db.getNetworkLinks(this.network.id),
       this.getTotalActiveAccounts(),
-      this.getTopVoters()
+      this.getTopVoters(electionInfo)
     ])
     return {
       totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
@@ -813,7 +812,18 @@ class polkadotAPI {
         this.network,
         this.network.stakingDenom
       ),
-      topVoters,
+      topVoters: await Promise.all(
+        topVoters.map(async (topVoterAddress) => {
+          const accountInfo = await api.derive.accounts.info(topVoterAddress)
+          return this.reducers.topVoterReducer(
+            topVoterAddress,
+            electionInfo,
+            accountInfo,
+            this.store.validators,
+            this.network
+          )
+        })
+      ),
       links: JSON.parse(links)
     }
   }

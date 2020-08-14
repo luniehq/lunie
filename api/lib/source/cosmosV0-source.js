@@ -339,7 +339,9 @@ class CosmosV0API extends RESTDataSource {
         this.network,
         this.network.stakingDenom
       ),
-      topVoters,
+      topVoters: topVoters.map((topVoter) =>
+        this.reducers.topVoterReducer(topVoter)
+      ),
       links: JSON.parse(links)
     }
   }

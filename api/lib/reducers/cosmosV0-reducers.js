@@ -166,6 +166,15 @@ function governanceParameterReducer(depositParameters, tallyingParamers) {
   }
 }
 
+function topVoterReducer(topVoter) {
+  return {
+    name: topVoter.name,
+    address: topVoter.operatorAddress,
+    votingPower: topVoter.votingPower,
+    validator: topVoter
+  }
+}
+
 function getValidatorStatus(validator) {
   if (validator.status === 2) {
     return {
@@ -502,6 +511,7 @@ function extractInvolvedAddresses(transaction) {
 module.exports = {
   proposalReducer,
   governanceParameterReducer,
+  topVoterReducer,
   tallyReducer,
   validatorReducer,
   blockReducer,

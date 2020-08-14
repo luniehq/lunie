@@ -317,6 +317,13 @@ const typeDefs = gql`
     blockExplorerLink: String
   }
 
+  type TopVoter {
+    name: String!
+    address: String!
+    votingPower: String!
+    validator: Validator
+  }
+
   type GovernanceParameters {
     depositDenom: String
     votingThreshold: Float
@@ -334,7 +341,7 @@ const typeDefs = gql`
     totalStakedAssets: Float
     totalVoters: Int
     treasurySize: Float
-    topVoters: [String]
+    topVoters: [TopVoter]
     links: [GovernanceLink]
   }
 
