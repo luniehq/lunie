@@ -58,6 +58,10 @@
                   ? getAddressNetwork(address).title
                   : `Unknown`
               }}</span>
+              <span
+                v-if="getAddressNetwork(address).network_type === `polkadot`"
+                >{{ session.addressRole }}</span
+              >
               <span class="address">{{ address.address | formatAddress }}</span>
               <span
                 v-if="address.sessionType === `extension`"
