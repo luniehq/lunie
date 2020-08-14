@@ -1,4 +1,4 @@
-name: API Jobs
+name: API Testing Workflow
 
 on:
   pull_request:

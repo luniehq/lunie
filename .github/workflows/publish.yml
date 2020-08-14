@@ -1,4 +1,4 @@
-name: Publish Jobs
+name: Publishing Workflow
 
 on:
   push:

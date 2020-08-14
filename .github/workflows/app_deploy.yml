@@ -1,4 +1,4 @@
-name: Deploy on Netlify
+name: App Deployment Workflow
 on:
   push:
     branches:

@@ -1,4 +1,4 @@
-name: App Jobs
+name: App Testing Workflow
 
 on:
   pull_request:
