@@ -700,25 +700,38 @@ class polkadotAPI {
           })
         )
         .concat(
-          treasuryProposals.proposals.map(async (proposal) => {
-            const treasuryProposal = proposal.council[0]
-            if (!treasuryProposal) return
-            const proposalWithMetadata = await this.getProposalWithMetadata(
-              treasuryProposal,
-              `council`
-            )
-            return this.reducers.treasuryProposalReducer(
-              this.network,
-              {
-                ...proposalWithMetadata,
-                deposit: proposal.proposal.bond,
-                beneficiary: proposal.proposal.beneficiary
-              },
-              councilMembers,
-              blockHeight,
-              electionInfo
-            )
-          })
+          treasuryProposals.proposals
+            .filter((proposal) => {
+              // make sure that the treasury proposals haven't been passed as motions to Council
+              if (
+                !councilProposals.find(
+                  (councilProposal) =>
+                    JSON.stringify(councilProposal) ===
+                    JSON.stringify(proposal.council[0])
+                )
+              ) {
+                return proposal
+              }
+            })
+            .map(async (proposal) => {
+              const treasuryProposal = proposal.council[0]
+              if (!treasuryProposal) return
+              const proposalWithMetadata = await this.getProposalWithMetadata(
+                treasuryProposal,
+                `council`
+              )
+              return this.reducers.treasuryProposalReducer(
+                this.network,
+                {
+                  ...proposalWithMetadata,
+                  deposit: proposal.proposal.bond,
+                  beneficiary: proposal.proposal.beneficiary
+                },
+                councilMembers,
+                blockHeight,
+                electionInfo
+              )
+            })
         )
         .concat(
           councilProposals.map(async (proposal) => {
