@@ -671,7 +671,8 @@ class polkadotAPI {
       democracyReferendums,
       treasuryProposals,
       councilProposals,
-      councilMembers
+      councilMembers,
+      electionInfo
     ] = await Promise.all([
       this.getBlockHeight(),
       api.query.balances.totalIssuance(),
@@ -679,7 +680,8 @@ class polkadotAPI {
       api.derive.democracy.referendums(),
       api.derive.treasury.proposals(),
       api.derive.council.proposals(),
-      api.query.council.members()
+      api.query.council.members(),
+      api.derive.elections.info()
     ])
     const allProposals = await Promise.all(
       democracyProposals
@@ -719,7 +721,8 @@ class polkadotAPI {
                 beneficiary: proposal.proposal.beneficiary
               },
               councilMembers,
-              blockHeight
+              blockHeight,
+              electionInfo
             )
           })
         )
@@ -729,7 +732,8 @@ class polkadotAPI {
               this.network,
               await this.getProposalWithMetadata(proposal, `council`),
               councilMembers,
-              blockHeight
+              blockHeight,
+              electionInfo
             )
           })
         )
