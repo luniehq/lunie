@@ -1,4 +1,4 @@
-name: Publish to master
+name: Publish Jobs
 
 on:
   push:
@@ -12,14 +12,15 @@ on:
 
 jobs:
     publish:
-        name: publish
+        name: Publish
         runs-on: ubuntu-latest
         timeout-minutes: 3
         steps:
+        - name: Checkout
         - uses: actions/checkout@v1
-        - name: Use Node.js
+        - name: Setup Node.js
           uses: actions/setup-node@v1
-        - name: publish to master
+        - name: Commit, Checkout Master, Push
           run: COMMIT_MESSAGE=$(git log --format=%B -n 1) &&
             if [[ $COMMIT_MESSAGE == "release-"* || $COMMIT_MESSAGE == "[Simsala] automatic release"* ]];
             then

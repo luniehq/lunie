@@ -1,4 +1,4 @@
-name: App testing
+name: App Jobs
 
 on:
   pull_request:
@@ -11,35 +11,40 @@ env:
   VUE_APP_FIREBASE_CONFIG: ${{ secrets.VUE_APP_FIREBASE_CONFIG }}
 jobs:
   test:
-    name: test
+    name: Unit Tests
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
       - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v1
+      - name: Setup NPM
       - uses: bahmutov/npm-install@v1
-      - name: Test
+      - name: Run Unit Tests and Submit Coverage
         run: |
           yarn test:unit --coverage
           bash <(curl -s https://codecov.io/bash)
         working-directory: ${{env.WORKING_DIRECTORY}}
   lint:
-    name: lint
+    name: Linter
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
       - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v1
+      - name: Setup NPM
       - uses: bahmutov/npm-install@v1
-      - name: Lint
-        run: yarn lint 
+      - name: Run Lint Fixer
+        run: yarn lint --fix
         working-directory: ${{env.WORKING_DIRECTORY}}
   checkChangelog:
-    name: checkChangelog
+    name: Changelog
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
       - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v1
-      - name: Check if changelog was updated
+      - name: Check Changelog
         run: npx simsala check --pending-path ./app/changes
