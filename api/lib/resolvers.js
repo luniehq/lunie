@@ -205,11 +205,10 @@ const resolvers = (networkList, notificationController) => ({
       //
       if (proposal.proposer) {
         let proposerValAddress = ''
-        if (
-          networkList.find(({ id }) => id === proposal.networkId) &&
-          networkList.find(({ id }) => id === proposal.networkId)
-            .network_type === `polkadot`
-        ) {
+        const proposalNetwork = networkList.find(
+          ({ id }) => id === proposal.networkId
+        )
+        if (proposalNetwork && proposalNetwork.network_type === `polkadot`) {
           return localStore(dataSources, proposal.networkId).validators[
             proposal.proposer
           ]
