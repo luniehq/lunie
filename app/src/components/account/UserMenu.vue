@@ -53,10 +53,8 @@
               alt="little circle with network logo"
             />
             <div>
-              <span class="address-network">{{
-                getAddressNetwork(address)
-                  ? getAddressNetwork(address).title
-                  : `Unknown`
+              <span class="address-name">{{
+                getSessionName({ sessionType: "explore" }) || `Unknown`
               }}</span>
               <span
                 v-if="getAddressNetwork(address).network_type === `polkadot`"
@@ -247,6 +245,19 @@ export default {
     getAddressNetwork(address) {
       return this.networks.find((network) => network.id === address.networkId)
     },
+    getSessionName(session) {
+      switch (session.sessionType) {
+        case `local`:
+          return session.name
+        case `extension`:
+          return session.name
+        default:
+          return session.sessionType
+            .charAt(0)
+            .toUpperCase()
+            .concat(session.sessionType.slice(1))
+      }
+    },
   },
 }
 </script>
@@ -379,7 +390,7 @@ h3 {
   color: hsl(0, 0%, 40%);
 }
 
-.address-network {
+.address-name {
   color: black;
 }
 
