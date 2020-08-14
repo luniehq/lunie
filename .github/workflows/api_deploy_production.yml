@@ -5,7 +5,7 @@ on:
     branches:
       - 'master'
     paths:
-      - 'api/*'
+      - 'api/CHANGELOG.md'
 env:
   WORKING_DIRECTORY: ./api
   HASURA_URL: "https://production-db.lunie.io/v1/graphql"

@@ -206,7 +206,9 @@ const startNotificationService = (networks) => {
       if (event.eventType === eventTypes.LIVENESS) return
 
       const topic = getTopic(event)
-      const insertedNotifications = await database(config)('').storeNotification({
+      const insertedNotifications = await database(config)(
+        ''
+      ).storeNotification({
         topic,
         eventType: event.eventType,
         resourceType: event.resourceType,
@@ -265,7 +267,6 @@ const getNotifications = (networks) => async (
   )
 
   const notifications = relevantNotifications
-    .filter(({ eventType }) => eventType !== eventTypes.VALIDATOR_ADDED)
     .map((notification) => ({
       id: notification.id, // used for correctly handling cache in Apollo
       networkId: notification.networkId, // used for filtering per network

@@ -73,7 +73,7 @@ const getDefaultSubscriptions = async (addresses, dataSources) => {
       `${address}_${eventTypes.TRANSACTION_SEND}_${networkId}`,
       `${eventTypes.PROPOSAL_CREATE}_${networkId}`,
       `${eventTypes.PROPOSAL_UPDATE}_${networkId}`,
-      `${eventTypes.VALIDATOR_ADDED}_${networkId}`,
+      // `${eventTypes.VALIDATOR_ADDED}_${networkId}`,
       `${eventTypes.LUNIE_UPDATE}`
     )
   }
