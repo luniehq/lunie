@@ -17,6 +17,9 @@ export default ({ apollo }) => {
     userSignedIn(state, hasSignedIn) {
       state.userSignedIn = hasSignedIn
     },
+    setSession(state, session) {
+      state.session = session
+    },
     setUserInformation(state, user) {
       state.user = user
     },
@@ -31,47 +34,25 @@ export default ({ apollo }) => {
   const actions = {
     async listenToAuthChanges({ dispatch, commit }) {
       const Auth = (await getFirebase()).auth()
-      // start listening for idToken changes too
-      await dispatch(`listenToIdTokenChanges`)
       await new Promise((resolve) =>
         Auth.onAuthStateChanged(async (user) => {
           if (user) {
-            commit(`userSignedIn`, true)
+            // we only sign the user in, if we get a session from the API
+            // commit(`userSignedIn`, true)
             commit(`setUserInformation`, user)
 
-            const idToken = await user.getIdToken(/* forceRefresh */ true)
-            localStorage.setItem(`auth_token`, idToken)
             // make sure new authorization token get added to header
             apollo.cache.reset()
           } else {
-            localStorage.removeItem(`auth_token`)
-            commit(`userSignedIn`, false)
+            // user signed out
+            dispatch(`storeSession`, null)
             commit(`setUserInformation`, null)
           }
           resolve()
         })
       )
     },
-    async listenToIdTokenChanges({ commit }) {
-      const Auth = (await getFirebase()).auth()
-      await new Promise((resolve) =>
-        Auth.onIdTokenChanged(async (user) => {
-          commit(`setUserInformation`, user)
-          // user is already signed in since we are handling that with onAuthStateChanged
-          if (user) {
-            // retrieving refreshed idToken
-            const idToken = await user.getIdToken(/* forceRefresh */ true)
-
-            // really important part, store idToken in localstorage so Apollo gets the newest
-            localStorage.setItem(`auth_token`, idToken)
-            // make sure new authorization token get added to header
-            apollo.cache.reset()
-          }
-          resolve()
-        })
-      )
-    },
-    async signInUser({ commit }, url) {
+    async signInUser({ commit, dispatch }, url) {
       commit(`setSignInError`, undefined)
       const Auth = (await getFirebase()).auth()
       try {
@@ -87,9 +68,16 @@ export default ({ apollo }) => {
           apollo.mutate({
             mutation: gql`
               mutation {
-                registerUser(idToken:"${idToken}")
+                registerUser(idToken:"${idToken}") {
+                  sessionToken
+                  validUntil
+                }
               }
             `,
+            update(cache, { data }) {
+              const session = data.registerUser
+              dispatch("storeSession", session)
+            },
           })
         }
       } catch (error) {
@@ -97,6 +85,21 @@ export default ({ apollo }) => {
         Sentry.captureException(error)
         commit(`setSignInError`, error)
       }
+    },
+    storeSession({ commit }, session) {
+      if (session) {
+        localStorage.setItem("session", JSON.stringify(session))
+      } else {
+        localStorage.removeItem("session")
+      }
+      commit("setSession", session)
+      commit("userSignedIn", !!session)
+    },
+    checkSession({ dispatch }) {
+      const session = localStorage.getItem("session")
+        ? JSON.parse(localStorage.getItem("session"))
+        : undefined
+      dispatch("storeSession", session)
     },
     async sendUserMagicLink({ commit }, { user }) {
       commit(`setSignInEmailError`, undefined)
@@ -112,7 +115,7 @@ export default ({ apollo }) => {
           minimumVersion: `1.0.221`, // the first version with deep linking enabled
         },
         iOS: {
-          bundleId: `1475911030.org.lunie.lunie`,
+          bundleId: `org.lunie.lunie`,
         },
       }
       try {
@@ -127,7 +130,7 @@ export default ({ apollo }) => {
       const Auth = (await getFirebase()).auth()
       try {
         await Auth.signOut()
-        localStorage.removeItem(`auth_token`)
+        localStorage.removeItem(`session`)
         // get rid of cached token in header
         apollo.cache.reset()
       } catch (error) {
@@ -152,36 +155,49 @@ export async function getLaunchUrl(router) {
 }
 
 export function handleDeeplink(url, router) {
-  console.log("Received deeplink " + url)
-
   // Example url: https://lunie.io/email-authentication
   // slug = /email-authentication
-  const regexp = /https:\/\/[\w\d-\.]+\/([\w\d-\/]*)(\?(.+))?/
+  const regexp = /(https?:\/\/)?[\w\d-\.]+\/([\w\d-\/]*)(\?(.+))?/
   const matches = regexp.exec(url)
-  const path = matches[1]
-  const query = matches[3]
+  const path = matches[2]
+  const query = matches[4]
 
   const queryObject = query
-    .split("&")
-    .map((keyValue) => keyValue.split("="))
-    .reduce((query, [key, value]) => {
-      query[key] = value
-      return query
-    }, {})
+    ? query
+        .split("&")
+        .map((keyValue) => keyValue.split("="))
+        .reduce((query, [key, value]) => {
+          query[key] = value
+          return query
+        }, {})
+    : {}
 
   // if we receive a deeplink for firebase authentication we follow that link
   // the target will perform the authentication and then redirect back to lunie
-  if (queryObject.link) {
-    window.open(unescape(queryObject.link), "_blank")
+  if (queryObject.link || queryObject.ifl) {
+    const link = unescape(queryObject.link || queryObject.ifl)
+    if (config.mobileApp) {
+      window.open(link, "_blank")
+    } else {
+      // on desktop you can't programmatically open a popup without user interaction
+      // so we need to use the link on the same tab
+      window.location = link
+    }
+    return
   }
 
-  try {
-    // change the route to the route we got from the deeplink
-    router.push({
-      path: "/" + path,
-      query: queryObject,
-    })
-  } catch (error) {
-    console.error(error)
+  // in the browser we don't need to handle deeplinks as the url is handled automatically
+  // in apps the path is not in the URL but comes from a different source
+  // so we need to forward the app to tht route
+  if (config.mobileApp) {
+    try {
+      // change the route to the route we got from the deeplink
+      router.push({
+        path: "/" + path,
+        query: queryObject,
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 }

@@ -133,7 +133,7 @@ async function broadcastCosmosTransaction(
     .then(assertOk)
 
   const network = {
-    ...await db.getNetwork(networkId),
+    ...(await db.getNetwork(networkId)),
     getCoinLookup
   }
   // check if tx is successful when executed vs when broadcasted

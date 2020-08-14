@@ -29,7 +29,7 @@ describe(`TmSessionSignUp`, () => {
       },
       getters: {
         network: `cosmos-hub-mainnet`,
-        isExtension: false
+        isExtension: false,
       },
     }
 

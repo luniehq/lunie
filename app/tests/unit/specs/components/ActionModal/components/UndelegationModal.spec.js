@@ -140,7 +140,7 @@ describe(`UndelegationModal`, () => {
     }
     UndelegationModal.methods.onSuccess.call(self)
     expect(self.$store.dispatch).toHaveBeenCalledWith(
-      "updateEmailRegistrations"
+      "updateNotificationRegistrations"
     )
   })
 
