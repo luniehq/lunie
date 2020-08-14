@@ -526,7 +526,8 @@ function treasuryProposalReducer(
   network,
   proposal,
   councilMembers,
-  blockHeight
+  blockHeight,
+  electionInfo
 ) {
   return {
     id: `treasury-`.concat(proposal.votes.index),
@@ -537,7 +538,7 @@ function treasuryProposalReducer(
     creationTime: proposal.creationTime,
     status: `VotingPeriod`,
     statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
-    tally: councilTallyReducer(proposal.votes, councilMembers),
+    tally: councilTallyReducer(proposal.votes, councilMembers, electionInfo),
     deposit: toViewDenom(
       network,
       Number(proposal.deposit),
@@ -552,7 +553,8 @@ function councilProposalReducer(
   network,
   proposal,
   councilMembers,
-  blockHeight
+  blockHeight,
+  electionInfo
 ) {
   return {
     id: `council-`.concat(proposal.votes.index),
@@ -564,7 +566,7 @@ function councilProposalReducer(
     status: `VotingPeriod`,
     statusBeginTime: proposal.creationTime,
     statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
-    tally: councilTallyReducer(proposal.votes, councilMembers),
+    tally: councilTallyReducer(proposal.votes, councilMembers, electionInfo),
     deposit: undefined,
     proposer: undefined
   }
@@ -613,15 +615,40 @@ function tallyReducer(network, tally, totalIssuance) {
   }
 }
 
-function councilTallyReducer(votes, councilMembers) {
+function councilTallyReducer(votes, councilMembers, electionInfo) {
   const total = votes.ayes.length + votes.nays.length
+  // to calculated the totalVotedPercentage we need to add up the voting power of the council members that did vote on the proposal
+  // first of all we need to calculate the total voting power of the council
+  // we also need to take into account the Prime council member vote
+  const totalCouncilVotingPower = electionInfo.members.reduce(
+    (votingPowerAggregator, member) => {
+      return (votingPowerAggregator = BigNumber(votingPowerAggregator).plus(
+        member[1]
+      ))
+    },
+    0
+  )
+  const totalVoted = councilMembers.reduce((totalVotedAggregator, member) => {
+    const memberElectionInfo = electionInfo.members.find(
+      (memberElectionInfo) => memberElectionInfo[0] === member.toHuman()
+    )
+    if (memberElectionInfo) {
+      totalVotedAggregator = BigNumber(totalVotedAggregator).plus(
+        memberElectionInfo[1]
+      )
+    }
+    return totalVotedAggregator
+  }, 0)
   return {
     yes: votes.ayes.length,
     no: votes.nays.length,
     abstain: 0,
     veto: 0,
     total,
-    totalVotedPercentage: (total / councilMembers.length).toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
+    totalVotedPercentage: BigNumber(totalCouncilVotingPower)
+      .div(totalVoted)
+      .toNumber()
+      .toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
   }
 }
 
