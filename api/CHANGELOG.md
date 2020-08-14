@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.43] - 2020-08-14
+
+### Added
+
+- Send push notification and register devices for push notifications @faboweb
+- [#	4518](https://github.com/cosmos/lunie/issues/	4518) Add sessions to allow multiple sign ins @faboweb
+
+### Changed
+
+- [#4691](https://github.com/cosmos/lunie/pull/4691) Update to @polkadot/api 1.28.1 @Bitcoinera
+- Disable voting power notifications @faboweb
+- change language for notification messages @jbibla
+
+### Fixed
+
+- [#4682](https://github.com/cosmos/lunie/pull/4682) Fix querying for single validator in Akash @Bitcoinera
+- Undelegations were not counted towards total balance in Cosmos @faboweb
+
+### Code Improvements
+
+- removed console logs as it's considered a best practice @jbibla
+
 ## [1.0.42] - 2020-08-03
 
 ### Changed
