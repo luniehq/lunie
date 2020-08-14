@@ -5,10 +5,8 @@
       :address="address || ''"
       :tooltip-text="addressType"
       :address-type="
-        network.network_type === 'polkadot' &&
-        session.addressRole &&
-        session.addressRole !== `stash/controller` &&
-        session.addressRole !== `none`
+        currentNetwork.network_type === 'polkadot' &&
+        session.addressRole
           ? capitalizeFirstLetter(session.addressRole)
           : undefined
       "
@@ -43,7 +41,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`, `connection`, `account`]),
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `currentNetwork`]),
     addressType() {
       if (
         this.session.addressRole &&
