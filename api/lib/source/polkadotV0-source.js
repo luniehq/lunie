@@ -591,21 +591,17 @@ class polkadotAPI {
   ) {
     const api = await this.getAPI()
 
-    const referendumBlockHeight = proposal.status.end - proposal.status.delay
-    const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
-    const block = await api.rpc.chain.getBlock(blockHash)
-    block.block.extrinsics.forEach((extrinsic) => {
-      const { meta, method } = api.registry.findMetaCall(
-        extrinsic.method.callIndex
-      )
-      if (meta.args.find(({ name }) => name == 'proposal_hash')) {
-        proposer = extrinsic.signer.toString()
-        description = meta.documentation.toString()
-        proposalMethod = method
-      }
-    })
+    const { meta, method } = api.registry.findMetaCall(
+      proposal.image.proposal.callIndex
+    )
+    proposer = proposal.image.proposer
+    description = meta.documentation.toString()
+    proposalMethod = method
 
     // get creationTime
+    const referendumBlockHeight = proposal.image.at
+    const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
+    const block = await api.rpc.chain.getBlock(blockHash)
     const args = block.block.extrinsics.map((extrinsic) =>
       extrinsic.method.args.find((arg) => arg)
     )
