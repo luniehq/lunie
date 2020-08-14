@@ -1,4 +1,4 @@
-name: Extension testing
+name: Extension Testing Workflow
 
 on:
   pull_request:
@@ -13,11 +13,13 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
       - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v1
+      - name: NPM Install
       - uses: bahmutov/npm-install@v1
-      - name: Test
+      - name: Run Unit Tests and Submit Coverage
         run: |
           yarn test:unit --coverage
           bash <(curl -s https://codecov.io/bash)
@@ -26,19 +28,22 @@ jobs:
     name: lint
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
       - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v1
+      - name: NPM Install
       - uses: bahmutov/npm-install@v1
-      - name: Lint
-        run: yarn lint 
+      - name: Fix Lint Issues
+        run: yarn lint --fix
         working-directory: ${{env.WORKING_DIRECTORY}}
   checkChangelog:
-    name: checkChangelog
+    name: Changelog
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
       - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v1
-      - name: Check if changlog was updated
+      - name: Check Changelog
         run: npx simsala check --pending-path ./extension/changes

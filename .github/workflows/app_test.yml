@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Setup Node.js
         uses: actions/setup-node@v1
-      - name: Setup NPM
+      - name: NPM Install
       - uses: bahmutov/npm-install@v1
       - name: Run Unit Tests and Submit Coverage
         run: |
@@ -33,9 +33,9 @@ jobs:
       - uses: actions/checkout@v1
       - name: Setup Node.js
         uses: actions/setup-node@v1
-      - name: Setup NPM
+      - name: NPM Install
       - uses: bahmutov/npm-install@v1
-      - name: Run Lint Fixer
+      - name: Fix Lint Issues
         run: yarn lint --fix
         working-directory: ${{env.WORKING_DIRECTORY}}
   checkChangelog:
