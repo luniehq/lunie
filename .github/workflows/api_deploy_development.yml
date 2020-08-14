@@ -1,4 +1,4 @@
-name: API DEVELOPMENT Update existing droplet in Digital Ocean
+name: API Development Deployment Workflow
 
 on:
   push:
@@ -17,17 +17,19 @@ jobs:
     name: Compile
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
     - uses: actions/checkout@v1
-    - name: Use Node.js
+    - name: Setup Node.js
       uses: actions/setup-node@v1
+      name: NPM Install
     - uses: bahmutov/npm-install@v1
-    - name: Build image
+    - name: Build Docker Image
       run: docker build -t lunieapi . 
       working-directory: ${{env.WORKING_DIRECTORY}}
-    - name: Save file
+    - name: Save and GZIP
       run: docker save lunieapi | gzip > lunieapi.tgz
       working-directory: ${{env.WORKING_DIRECTORY}}
-    - name: Copy file via scp
+    - name: Copy File via SCP
       uses: appleboy/scp-action@master
       with:
         source: "api/lunieapi.tgz,api/docker-compose.yml,api/Caddyfile"
@@ -36,7 +38,7 @@ jobs:
         host: ${{ secrets.HOST_STAGING }}
         username: root
         key: ${{ secrets.SSH_KEY_STAGING }}
-    - name: Install on instance
+    - name: SSH, Install, and Docker Deploy
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST_STAGING }}

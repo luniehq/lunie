@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Setup Node.js
         uses: actions/setup-node@v1
-      - name: Setup NPM
+      - name: NPM Install
       - uses: bahmutov/npm-install@v1
       - name: Run Unit Tests and Submit Coverage
         run: |
@@ -30,8 +30,9 @@ jobs:
     steps:
       - name: Checkout
       - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v1
+        name: NPM Install
       - uses: bahmutov/npm-install@v1
       - name: Lint Fix
         run: yarn lint --fix
@@ -40,8 +41,9 @@ jobs:
     name: Changelog
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
       - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v1
       - name: Check Changelog
         run: npx simsala check --pending-path ./api/changes
