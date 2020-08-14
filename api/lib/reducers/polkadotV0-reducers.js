@@ -630,7 +630,8 @@ function councilTallyReducer(votes, councilMembers, electionInfo) {
   )
   const totalVoted = councilMembers.reduce((totalVotedAggregator, member) => {
     const memberElectionInfo = electionInfo.members.find(
-      (memberElectionInfo) => memberElectionInfo[0] === member.toHuman()
+      (memberElectionInfo) =>
+        memberElectionInfo[0].toHuman() === member.toHuman()
     )
     if (memberElectionInfo) {
       totalVotedAggregator = BigNumber(totalVotedAggregator).plus(
