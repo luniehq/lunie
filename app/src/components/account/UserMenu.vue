@@ -1,24 +1,31 @@
 <template>
   <div class="user-menu">
-    <UserMenuAddress v-if="address" :address="address" />
+    <UserMenuAddress
+      v-if="address && $route.name !== `notifications`"
+      :address="address"
+    />
     <router-link
-      v-if="session.experimentalMode"
       v-tooltip="`Notifications`"
       :to="{ name: 'notifications' }"
       class="user-menu-icon-container notifications"
+      :class="{ 'with-address-type': hasAddressType }"
     >
       <i class="material-icons">notifications</i>
     </router-link>
     <v-popover open-class="user-menu-popover">
       <!-- This will be the popover target (for the events and position) -->
-      <div id="open-user-menu" class="avatar-container">
-        <span v-if="!account.userSignedIn" class="avatar emoji tooltip-target"
-          >👻</span
+      <div
+        id="open-user-menu"
+        class="avatar-container"
+        :class="{ 'with-address-type': hasAddressType }"
+      >
+        <span v-if="!user" class="user-menu-icon-container tooltip-target"
+          ><i class="material-icons">person</i></span
         >
         <Avatar
-          v-if="account.userSignedIn"
+          v-if="user"
           class="avatar tooltip-target"
-          :address="account.user.email"
+          :address="user ? user.email : ''"
           :human="true"
         />
       </div>
@@ -26,7 +33,7 @@
       <!-- This will be the content of the popover -->
       <template slot="popover">
         <div class="user-popover">
-          <h3 class="email">{{ user.email || `Anonymous User` }}</h3>
+          <h3 class="email">{{ (user && user.email) || `Anonymous User` }}</h3>
         </div>
         <div
           v-for="address in addresses"
@@ -144,7 +151,9 @@ export default {
     ...mapState([`session`, `account`, `keystore`, `extension`]),
     ...mapGetters([`address`, `network`, `networks`]),
     user() {
-      return this.account.userSignedIn ? this.account.user : {}
+      return this.account.userSignedIn && this.account.user
+        ? this.account.user
+        : undefined
     },
     addresses() {
       // filter local accounts to make sure they all have an address
@@ -178,6 +187,13 @@ export default {
     },
     currentAddress() {
       return this.address
+    },
+    hasAddressType() {
+      return (
+        this.session.addressRole &&
+        this.session.addressRole !== `stash/controller` &&
+        this.session.addressRole !== `none`
+      )
     },
   },
   created() {
@@ -363,6 +379,11 @@ h3 {
   color: black;
 }
 
+/* with an address type the addres box is a bit bigger so the rest needs to be centered */
+.with-address-type {
+  margin-top: 4px;
+}
+
 .avatar-container {
   display: flex;
   align-items: center;
@@ -372,12 +393,14 @@ h3 {
   border-radius: 50%;
   background: var(--app-fg);
   overflow: hidden;
+  color: var(--link);
 }
 
 .avatar {
   width: 100%;
   position: relative;
-  top: 0.25rem;
+  top: 2px;
+  padding: 6px;
 }
 
 .testnet-icon-container {
@@ -397,13 +420,6 @@ h3 {
   max-width: 0.75rem;
   transform: scaleX(-1);
   filter: invert(1);
-}
-
-.avatar.emoji {
-  font-size: 26px;
-  transform: scale(0.5);
-  top: 0;
-  padding-bottom: 0.25rem;
 }
 
 .v-popover {
