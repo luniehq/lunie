@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Use Node.js
       uses: actions/setup-node@v1
-    - uses: bahmutov/npm-install@v1.1
+    - uses: bahmutov/npm-install@v1.1.0
     - name: Build image
       run: cd ${{env.WORKING_DIRECTORY}} && yarn build 
     - name: Save file
