@@ -126,6 +126,7 @@ const typeDefs = gql`
     chainDenom: String!
     viewDenom: String!
     chainToViewConversionFactor: Float!
+    icon: String
   }
 
   enum CapabilityEnum {
