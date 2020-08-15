@@ -56,7 +56,25 @@ export default () => {
       // create a new key pair
       const wallet = await getWallet(seedPhrase, networkObject, HDPath, curve)
 
-      storeWallet(wallet, name, password, network, HDPath, curve)
+      // In Polkadot there are different account types for staking. To be able to signal allowed interactions
+      // for the user in Lunie we need to query for the type of the account.
+      // Here we store this address role together with other wallet's specs
+      if (networkObject.network_type === "polkadot") {
+        await store.dispatch(`checkAddressRole`, {
+          address: wallet.cosmosAddress,
+          networkId: networkObject.id,
+        })
+      }
+      // TODO: addressRole could just live in localStorage, and checkAddressRole would return it as a value
+      storeWallet(
+        wallet,
+        name,
+        password,
+        network,
+        HDPath,
+        curve,
+        store.rootState.session.addressRole
+      )
 
       store.state.externals.track(`event`, `session`, `create-keypair`)
 

@@ -58,7 +58,7 @@
               }}</span>
               <span
                 v-if="getAddressNetwork(address).network_type === `polkadot`"
-                >{{ session.addressRole }}</span
+                >{{ address.addressRole }}</span
               >
               <span class="address">{{ address.address | formatAddress }}</span>
               <span
