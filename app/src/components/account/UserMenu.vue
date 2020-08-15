@@ -54,7 +54,7 @@
             />
             <div>
               <span class="address-name">{{
-                getSessionName({ sessionType: "explore" }) || `Unknown`
+                getSessionName(address) || `Unknown`
               }}</span>
               <span
                 v-if="getAddressNetwork(address).network_type === `polkadot`"
@@ -165,21 +165,20 @@ export default {
       // active sessions will likely overlap with the ones stored locally / in extension
       return sortBy(
         uniqWith(
-          this.session.allSessionAddresses
-            .concat(
-              localAccounts.map((account) => ({
-                ...account,
-                networkId: account.network || account.networkId,
-                sessionType: `local`,
-              }))
-            )
+          localAccounts
+            .map((account) => ({
+              ...account,
+              networkId: account.network || account.networkId,
+              sessionType: `local`,
+            }))
             .concat(
               this.extension.accounts.map((account) => ({
                 ...account,
                 networkId: account.network || account.networkId,
                 sessionType: `extension`,
               }))
-            ),
+            )
+            .concat(this.session.allSessionAddresses),
           (a, b) => a.address === b.address
         ),
         (account) => {
