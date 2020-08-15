@@ -1,6 +1,6 @@
 import config from '../../config.js'
 import gql from 'graphql-tag'
-import { NetworksAll } from '../popup/gql'
+import { NetworksAll, AddressRole } from '../popup/gql'
 import { lunieMessageTypes, parseTx } from '../scripts/parsers'
 import { storeWallet } from '@lunie/cosmos-keys'
 
@@ -279,7 +279,7 @@ export default ({ apollo }) => {
     return wallet.cosmosAddress
   }
 
-  const checkAddressRole = async (store, { address, networkId }) => {
+  const checkAddressRole = async ({ address, networkId }) => {
     const { data } = await apollo.query({
       query: AddressRole,
       variables: { networkId, address },
