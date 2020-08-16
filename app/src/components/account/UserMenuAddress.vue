@@ -27,12 +27,14 @@
 </template>
 <script>
 import Address from "common/Address"
+import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `user-menu-address`,
   components: {
     Address,
+    TmFormMsg,
   },
   data: () => ({
     ledgerAddressError: undefined,
@@ -64,7 +66,7 @@ export default {
       }
       this.ledgerAddressError = undefined
       try {
-        await this.showAddressOnLedgerFn(this.network, this.$store)
+        await this.showAddressOnLedgerFn(this.currentNetwork.id, this.$store)
       } catch (error) {
         this.ledgerAddressError = error.message
         this.messageTimeout = setTimeout(
