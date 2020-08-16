@@ -37,7 +37,11 @@
         </div>
         <div
           v-for="address in addresses"
-          :key="address.address.concat(`-${address.networkId}`)"
+          :key="
+            address.address.concat(
+              `-${address.networkId}-${address.sessionType}`
+            )
+          "
           class="menu-list-item address-list"
           :class="{
             selected:
@@ -187,7 +191,7 @@ export default {
                 }))
               )
               .concat(this.session.allSessionAddresses),
-            (a, b) => a.address === b.address
+            (a, b) => a.address === b.address && a.sessionType === b.sessionType
           ),
           (account) => {
             return account.networkId
