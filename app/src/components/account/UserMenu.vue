@@ -62,7 +62,10 @@
               >
               <span class="address">{{ address.address | formatAddress }}</span>
               <span
-                v-if="address.sessionType === `extension`"
+                v-if="
+                  address.sessionType === `extension` ||
+                  address.sessionType === `ledger`
+                "
                 class="address"
                 >{{ address.sessionType }}</span
               >
@@ -135,6 +138,9 @@ import UserMenuAddress from "account/UserMenuAddress"
 import { formatAddress } from "src/filters"
 import { mapGetters, mapState } from "vuex"
 import { uniqWith, sortBy } from "lodash"
+
+const NEW_EXTENSION_ADDRESSES_POLLING_INTERVAL = 30000 // 30s
+
 export default {
   name: `user-menu`,
   filters: {
@@ -157,34 +163,37 @@ export default {
         ? this.account.user
         : undefined
     },
-    addresses() {
-      // filter local accounts to make sure they all have an address
-      const localAccounts = this.keystore.accounts.filter(
-        ({ address }) => address
-      )
-      // active sessions will likely overlap with the ones stored locally / in extension
-      return sortBy(
-        uniqWith(
-          localAccounts
-            .map((account) => ({
-              ...account,
-              networkId: account.network || account.networkId,
-              sessionType: `local`,
-            }))
-            .concat(
-              this.extension.accounts.map((account) => ({
+    addresses: {
+      cache: false,
+      get: function () {
+        // filter local accounts to make sure they all have an address
+        const localAccounts = this.keystore.accounts.filter(
+          ({ address }) => address
+        )
+        // active sessions will likely overlap with the ones stored locally / in extension
+        return sortBy(
+          uniqWith(
+            localAccounts
+              .map((account) => ({
                 ...account,
                 networkId: account.network || account.networkId,
-                sessionType: `extension`,
+                sessionType: `local`,
               }))
-            )
-            .concat(this.session.allSessionAddresses),
-          (a, b) => a.address === b.address
-        ),
-        (account) => {
-          return account.networkId
-        }
-      )
+              .concat(
+                this.extensionAccounts.map((account) => ({
+                  ...account,
+                  networkId: account.network || account.networkId,
+                  sessionType: `extension`,
+                }))
+              )
+              .concat(this.session.allSessionAddresses),
+            (a, b) => a.address === b.address
+          ),
+          (account) => {
+            return account.networkId
+          }
+        )
+      },
     },
     currentAddress() {
       return this.address
@@ -196,9 +205,17 @@ export default {
         this.session.addressRole !== `none`
       )
     },
+    extensionAccounts: {
+      cache: false,
+      get: function () {
+        return this.extension.accounts
+      },
+    },
   },
   created() {
-    this.getAddressesFromExtension()
+    // getAddressFromExtension needs some  time to grab the addresses from extension in the first load
+    setTimeout(() => this.getAddressesFromExtension(), 1000)
+    this.pollForNewExtensionAddresses()
     this.$store.dispatch(`loadAccounts`).then(() => {
       this.loaded = true
     })
@@ -256,6 +273,12 @@ export default {
             .toUpperCase()
             .concat(session.sessionType.slice(1))
       }
+    },
+    pollForNewExtensionAddresses() {
+      this.getAddressesFromExtension()
+      this.newExtensionAddressesPollingTimeout = setTimeout(() => {
+        this.pollForNewExtensionAddresses()
+      }, NEW_EXTENSION_ADDRESSES_POLLING_INTERVAL)
     },
   },
 }
