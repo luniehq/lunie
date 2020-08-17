@@ -5,7 +5,7 @@ on:
     branches:
       - 'master'
     paths:
-      - 'api/*'
+      - 'api/CHANGELOG.md'
 env:
   WORKING_DIRECTORY: ./api
   HASURA_URL: "https://production-db.lunie.io/v1/graphql"
@@ -20,7 +20,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Use Node.js
       uses: actions/setup-node@v1
-    - uses: bahmutov/npm-install@v1.1
+    - uses: bahmutov/npm-install@v1.1.0
     - name: Build image
       run: docker build -t lunieapi . 
       working-directory: ${{env.WORKING_DIRECTORY}}
