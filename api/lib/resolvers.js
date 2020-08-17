@@ -177,6 +177,21 @@ const transactionMetadata = async (
   }
 }
 
+const governanceOverview = () => async (_, { networkId }, { dataSources }) => {
+  const overview = await remoteFetch(
+    dataSources,
+    networkId
+  ).getGovernanceOverview()
+  return {
+    totalStakedAssets: overview.totalStakedAssets,
+    totalVoters: overview.totalVoters,
+    treasurySize: overview.treasurySize,
+    recentProposals: overview.recentProposals,
+    topVoters: overview.topVoters,
+    links: overview.links
+  }
+}
+
 const resolvers = (networkList, notificationController) => ({
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
@@ -190,11 +205,10 @@ const resolvers = (networkList, notificationController) => ({
       //
       if (proposal.proposer) {
         let proposerValAddress = ''
-        if (
-          networkList.find(({ id }) => id === proposal.networkId) &&
-          networkList.find(({ id }) => id === proposal.networkId)
-            .network_type === `polkadot`
-        ) {
+        const proposalNetwork = networkList.find(
+          ({ id }) => id === proposal.networkId
+        )
+        if (proposalNetwork && proposalNetwork.network_type === `polkadot`) {
           return localStore(dataSources, proposal.networkId).validators[
             proposal.proposer
           ]
@@ -393,7 +407,8 @@ const resolvers = (networkList, notificationController) => ({
       if (!remoteFetch(dataSources, networkId).getAddressRole) return undefined
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
-    }
+    },
+    governanceOverview: governanceOverview()
   },
   Mutation: {
     registerUser: (_, { idToken }) => registerUser(idToken),

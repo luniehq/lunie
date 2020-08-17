@@ -318,11 +318,32 @@ const typeDefs = gql`
     blockExplorerLink: String
   }
 
+  type TopVoter {
+    name: String!
+    address: String!
+    votingPower: String!
+    validator: Validator
+  }
+
   type GovernanceParameters {
     depositDenom: String
     votingThreshold: Float
     vetoThreshold: Float
     depositThreshold: String # BigNumber
+  }
+
+  type GovernanceLink {
+    title: String
+    link: String
+    type: String
+  }
+
+  type GovernanceOverview @cacheControl(maxAge: 21600) {
+    totalStakedAssets: Float
+    totalVoters: Int
+    treasurySize: Float
+    topVoters: [TopVoter]
+    links: [GovernanceLink]
   }
 
   type Vote {
@@ -435,6 +456,7 @@ const typeDefs = gql`
     allDelegators(networkId: String!): [String]
     vote(networkId: String!, proposalId: String!, address: String!): Vote
     governanceParameters(networkId: String!): GovernanceParameters
+    governanceOverview(networkId: String!): GovernanceOverview
     validator(networkId: String!, operatorAddress: String!): Validator
     networks(experimental: Boolean): [Network]
     network(id: String): Network

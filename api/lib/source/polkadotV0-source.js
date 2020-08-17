@@ -1,6 +1,9 @@
 const BigNumber = require('bignumber.js')
 const { orderBy, uniqWith } = require('lodash')
+const { stringToU8a } = require('@polkadot/util')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const Sentry = require('@sentry/node')
+
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -762,6 +765,82 @@ class polkadotAPI {
   }
 
   getDelegatorVote() {}
+
+  async getTotalActiveAccounts() {
+    const api = await this.getAPI()
+    const accountKeys = await api.query.system.account.keys()
+    const accounts = accountKeys.map((key) => key.args[0].toHuman())
+    return accounts.length || 0
+  }
+
+  async getTopVoters(electionInfo) {
+    // in Substrate we simply return council members
+    const councilMembersInRelevanceOrder = electionInfo.members.map(
+      (runnerUp) => runnerUp[0]
+    )
+    return councilMembersInRelevanceOrder
+  }
+
+  async getTreasurySize() {
+    const api = await this.getAPI()
+
+    const TREASURY_ADDRESS = stringToU8a('modlpy/trsry'.padEnd(32, '\0'))
+    const treasuryAccount = await api.query.system.account(TREASURY_ADDRESS)
+    const totalBalance = treasuryAccount.data.free
+    const freeBalance = BigNumber(totalBalance.toString()).minus(
+      treasuryAccount.data.miscFrozen.toString()
+    )
+    return freeBalance.toString()
+  }
+
+  async getGovernanceOverview() {
+    const api = await this.getAPI()
+    const activeEra = parseInt(
+      JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
+    )
+    const electionInfo = await api.derive.elections.info()
+    const [
+      erasTotalStake,
+      treasurySize,
+      links,
+      totalVoters,
+      topVoters
+    ] = await Promise.all([
+      api.query.staking.erasTotalStake(activeEra),
+      this.getTreasurySize(),
+      this.db.getNetworkLinks(this.network.id),
+      this.getTotalActiveAccounts(),
+      this.getTopVoters(electionInfo)
+    ])
+    return {
+      totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
+        erasTotalStake,
+        2,
+        this.network,
+        this.network.stakingDenom
+      ),
+      totalVoters,
+      treasurySize: fixDecimalsAndRoundUpBigNumbers(
+        treasurySize,
+        2,
+        this.network,
+        this.network.stakingDenom
+      ),
+      topVoters: await Promise.all(
+        topVoters.map(async (topVoterAddress) => {
+          const accountInfo = await api.derive.accounts.info(topVoterAddress)
+          return this.reducers.topVoterReducer(
+            topVoterAddress,
+            electionInfo,
+            accountInfo,
+            this.store.validators,
+            this.network
+          )
+        })
+      ),
+      links: JSON.parse(links)
+    }
+  }
 }
 
 module.exports = polkadotAPI

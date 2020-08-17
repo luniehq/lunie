@@ -1,14 +1,15 @@
 const { RESTDataSource, HTTPCache } = require('apollo-datasource-rest')
 const { InMemoryLRUCache } = require('apollo-server-caching')
 const BigNumber = require('bignumber.js')
-const { orderBy, keyBy, uniqBy } = require('lodash')
+const _ = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const { getNetworkGasPrices } = require('../../data/network-fees')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 class CosmosV0API extends RESTDataSource {
-  constructor(network, store, fiatValuesAPI) {
+  constructor(network, store, fiatValuesAPI, db) {
     super()
     this.baseURL = network.api_url
     this.initialize({})
@@ -19,6 +20,7 @@ class CosmosV0API extends RESTDataSource {
     this.gasPrices = getNetworkGasPrices(network.id)
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
+    this.db = db
 
     this.setReducers()
   }
@@ -197,14 +199,14 @@ class CosmosV0API extends RESTDataSource {
     ])
 
     // create a dictionary to reduce array lookups
-    const consensusValidators = keyBy(validatorSet.validators, 'address')
+    const consensusValidators = _.keyBy(validatorSet.validators, 'address')
     const totalVotingPower = validatorSet.validators.reduce(
       (sum, { voting_power }) => sum.plus(voting_power),
       BigNumber(0)
     )
 
     // query for signing info
-    const signingInfos = keyBy(
+    const signingInfos = _.keyBy(
       await this.getValidatorSigningInfos(validators),
       'address'
     )
@@ -256,7 +258,7 @@ class CosmosV0API extends RESTDataSource {
       })
     )
 
-    return orderBy(proposals, 'id', 'desc')
+    return _.orderBy(proposals, 'id', 'desc')
   }
 
   async getProposalById(proposalId) {
@@ -295,6 +297,53 @@ class CosmosV0API extends RESTDataSource {
       depositParameters,
       tallyingParamers
     )
+  }
+
+  async getTopVoters() {
+    // for now defaulting to pick the 5 largest voting powers
+    return _.take(
+      _.reverse(
+        _.sortBy(this.store.validators, [
+          (validator) => {
+            return validator.votingPower
+          }
+        ])
+      ),
+      5
+    ).map(({ operatorAddress }) => operatorAddress)
+  }
+
+  async getGovernanceOverview() {
+    const { bonded_tokens: totalBondedTokens } = await this.query(
+      '/staking/pool'
+    )
+    const [communityPoolArray, links, topVoters] = await Promise.all([
+      this.query('/distribution/community_pool'),
+      this.db.getNetworkLinks(this.network.id),
+      this.getTopVoters()
+    ])
+    const communityPool = communityPoolArray.find(
+      ({ denom }) => denom === this.network.coinLookup[0].chainDenom
+    ).amount
+    return {
+      totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
+        totalBondedTokens,
+        2,
+        this.network,
+        this.network.stakingDenom
+      ),
+      totalVoters: undefined,
+      treasurySize: fixDecimalsAndRoundUpBigNumbers(
+        communityPool,
+        2,
+        this.network,
+        this.network.stakingDenom
+      ),
+      topVoters: topVoters.map((topVoter) =>
+        this.reducers.topVoterReducer(topVoter)
+      ),
+      links: JSON.parse(links)
+    }
   }
 
   async getDelegatorVote({ proposalId, address }) {
@@ -528,7 +577,7 @@ class CosmosV0API extends RESTDataSource {
       },
       []
     )
-    return uniqBy(allDelegations, 'delegator_address').map(
+    return _.uniqBy(allDelegations, 'delegator_address').map(
       ({ delegator_address }) => delegator_address
     )
   }

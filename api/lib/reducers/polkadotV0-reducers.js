@@ -491,7 +491,7 @@ function democracyProposalReducer(network, proposal) {
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
-    deposit: toViewDenom(network, proposal.balance, network.stakingDenom),
+    deposit: toViewDenom(network, proposal.balance),
     proposer: proposal.proposer.toHuman()
   }
 }
@@ -513,11 +513,7 @@ function democracyReferendumReducer(
     statusBeginTime: proposal.creationTime,
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
-    deposit: toViewDenom(
-      network,
-      proposal.status.tally.turnout,
-      network.stakingDenom
-    ),
+    deposit: toViewDenom(network, proposal.status.tally.turnout),
     proposer: proposal.proposer
   }
 }
@@ -539,11 +535,7 @@ function treasuryProposalReducer(
     status: `VotingPeriod`,
     statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
     tally: councilTallyReducer(proposal.votes, councilMembers, electionInfo),
-    deposit: toViewDenom(
-      network,
-      Number(proposal.deposit),
-      network.stakingDenom
-    ),
+    deposit: toViewDenom(network, Number(proposal.deposit)),
     proposer: proposal.proposer ? proposal.proposer.toHuman() : undefined,
     beneficiary: proposal.beneficiary // the account getting the tip
   }
@@ -597,17 +589,13 @@ function tallyReducer(network, tally, totalIssuance) {
   const turnout = BigNumber(tally.turnout)
 
   const totalVoted = BigNumber(tally.ayes).plus(tally.nays)
-  const total = toViewDenom(
-    network,
-    totalVoted.toString(10),
-    network.stakingDenom
-  )
-  const yes = toViewDenom(network, tally.ayes, network.stakingDenom)
-  const no = toViewDenom(network, tally.nays, network.stakingDenom)
+  const total = toViewDenom(network, totalVoted.toString(10))
+  const yes = toViewDenom(network, tally.ayes)
+  const no = toViewDenom(network, tally.nays)
   const totalVotedPercentage = turnout
     .div(BigNumber(totalIssuance))
     .toNumber()
-    .toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
+    .toFixed(4) // the percent conversion is done in the FE. We just send the decimals here
 
   return {
     yes,
@@ -665,6 +653,28 @@ function democracyTallyReducer(proposal) {
   }
 }
 
+function topVoterReducer(
+  topVoterAddress,
+  electionInfo,
+  accountInfo,
+  validators,
+  network
+) {
+  const { identity, nickname } = accountInfo || {}
+  const councilMemberInfo = electionInfo.members.find(
+    (electionInfoMember) =>
+      electionInfoMember[0].toHuman() === topVoterAddress.toHuman()
+  )
+  return {
+    name: nickname || identity.display,
+    address: topVoterAddress,
+    votingPower: councilMemberInfo
+      ? toViewDenom(network, councilMemberInfo[1])
+      : '',
+    validator: validators[topVoterAddress]
+  }
+}
+
 // the status end time is a time "so and so days from the creation of the proposal opening"
 function getStatusEndTime(blockHeight, endBlock) {
   return new Date(
@@ -692,5 +702,6 @@ module.exports = {
   democracyReferendumReducer,
   treasuryProposalReducer,
   councilProposalReducer,
-  tallyReducer
+  tallyReducer,
+  topVoterReducer
 }
