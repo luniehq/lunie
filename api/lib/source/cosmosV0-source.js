@@ -290,7 +290,8 @@ class CosmosV0API extends RESTDataSource {
         .div(totalVotingParticipation)
         .toNumber()
         .toFixed(2),
-      votingPercentagedNo: BigNumber(tally.no)
+      votingPercentageNo: BigNumber(tally.no)
+        .plus(tally.no_with_veto)
         .times(100)
         .div(totalVotingParticipation)
         .toNumber()
