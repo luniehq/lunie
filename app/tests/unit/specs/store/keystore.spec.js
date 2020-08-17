@@ -148,8 +148,8 @@ describe(`Module: Keystore`, () => {
         },
         rootState: {
           session: {
-            addressRole: 'none'
-          }
+            addressRole: "none",
+          },
         },
       },
       {
@@ -181,8 +181,8 @@ describe(`Module: Keystore`, () => {
         },
         rootState: {
           session: {
-            addressRole: 'none'
-          }
+            addressRole: "none",
+          },
         },
       },
       {
@@ -209,8 +209,8 @@ describe(`Module: Keystore`, () => {
         },
         rootState: {
           session: {
-            addressRole: 'none'
-          }
+            addressRole: "none",
+          },
         },
       },
       {
