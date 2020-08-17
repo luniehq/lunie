@@ -42,7 +42,7 @@ You can simply start the frontend:
 yarn serve
 ```
 
-The front end will run on its own, however if you want to feed it data to interact with, please read on below.
+The front end will run on its own, however if you want to interact with real data, please read on below.
 
 #### Lunie Backend
 
@@ -116,12 +116,18 @@ Dependencies:
 - [Cocoapods](https://guides.cocoapods.org/using/getting-started.html#installation)
 
 To open Lunie in Xcode: 
-1. Build Lunie
+1. Build Lunie for production
 ```bash
 $ yarn build:mobile
 ```
+or ...
 
-2. After a new build, you need to run the following command. This step may take up to 20 minutes to complete if you've never used Cocoapods before.
+1. Build Lunie for development
+```bash
+$ yarn build:mobile:dev
+```
+
+2. After a new build, you need to run the following command. This step can take up to 20 minutes to complete if you've never used Cocoapods before.
 ```bash
 $ npx cap sync ios
 ```

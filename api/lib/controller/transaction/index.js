@@ -11,6 +11,11 @@ global.fetch = require('node-fetch')
 
 const polkadotAPIsDictionary = {}
 
+// TODO this is a dupe from api/lib/apollo.js. create a network getter file that does enrich the networks object always the same way to avoid missing erichments in different parts of the app
+function getCoinLookup(network, denom, coinLookupDenomType = `chainDenom`) {
+  return network.coinLookup.find((coin) => coin[coinLookupDenomType] === denom)
+}
+
 async function initPolkadotAPIs() {
   const networks = await db.getNetworks()
   return Promise.all(
@@ -127,9 +132,13 @@ async function broadcastCosmosTransaction(
     .then((res) => res.json())
     .then(assertOk)
 
+  const network = {
+    ...(await db.getNetwork(networkId)),
+    getCoinLookup
+  }
   // check if tx is successful when executed vs when broadcasted
   pollTransactionSuccess(
-    networkId,
+    network,
     senderAddress,
     url,
     res.txhash,
@@ -182,7 +191,7 @@ function assertOk(res) {
 // the simplest way to do this in Cosmos is to poll for the tx until it either succeeds or fails
 const MAX_POLL_ITERATIONS = 150 // 5mins
 async function pollTransactionSuccess(
-  networkId,
+  network,
   senderAddress,
   url,
   hash,
@@ -192,7 +201,6 @@ async function pollTransactionSuccess(
   development,
   iteration = 0
 ) {
-  const network = await db.getNetwork(networkId)
   const NetworkApiClass = require('../../' + network.source_class_name)
   const store = {}
   const NetworkApi = new NetworkApiClass(network, store)
@@ -212,7 +220,7 @@ async function pollTransactionSuccess(
       if (iteration < MAX_POLL_ITERATIONS) {
         await new Promise((resolve) => setTimeout(resolve, 2000))
         pollTransactionSuccess(
-          networkId,
+          network,
           senderAddress,
           url,
           hash,
@@ -240,17 +248,17 @@ async function pollTransactionSuccess(
     // but also here as a fallback
     // TODO the client might now update twice as it receives the success twice, could be fine though
     const transactions = NetworkApi.reducers.transactionReducerV2(
-      networkId,
+      network,
       res,
       NetworkApi.reducers
     )
     // store in db (will not happen if transaction is not successful)
     if (!development) {
-      storeTransactions(transactions, networkId, senderAddress, fingerprint)
+      storeTransactions(transactions, network.id, senderAddress, fingerprint)
     }
     // notify users
     transactions.forEach((transaction) =>
-      publishUserTransactionAddedV2(networkId, senderAddress, transaction)
+      publishUserTransactionAddedV2(network.id, senderAddress, transaction)
     )
   } catch (error) {
     console.error('TX failed:', hash, error)
@@ -258,6 +266,7 @@ async function pollTransactionSuccess(
     let transactions
     if (res.tx) {
       transactions = NetworkApi.reducers.transactionReducerV2(
+        network,
         res,
         NetworkApi.reducers
       )
@@ -283,6 +292,7 @@ async function pollTransactionSuccess(
     )
 
     Sentry.withScope((scope) => {
+      scope.setExtra('network', network.id)
       scope.setExtra('api_url', url)
       scope.setExtra('hash', hash)
       scope.setExtra('address', senderAddress)

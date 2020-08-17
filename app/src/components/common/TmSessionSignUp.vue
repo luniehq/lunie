@@ -5,7 +5,9 @@
         Create a new address
       </h2>
       <div
-        v-if="!isExtension && !session.insecureMode && !session.mobile && !isTestnet"
+        v-if="
+          !isExtension && !session.insecureMode && !session.mobile && !isTestnet
+        "
         class="session-main"
       >
         <InsecureModeWarning />

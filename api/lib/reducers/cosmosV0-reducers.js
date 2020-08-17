@@ -362,6 +362,7 @@ async function balanceV2Reducer(
   lunieCoin,
   stakingDenom,
   delegations,
+  undelegations,
   fiatValueAPI,
   fiatCurrency,
   address
@@ -371,8 +372,12 @@ async function balanceV2Reducer(
     (sum, { amount }) => BigNumber(sum).plus(amount),
     0
   )
+  const undelegatingStake = undelegations.reduce(
+    (sum, { amount }) => BigNumber(sum).plus(amount),
+    0
+  )
   const total = isStakingDenom
-    ? lunieCoin.amount.plus(delegatedStake)
+    ? lunieCoin.amount.plus(delegatedStake).plus(undelegatingStake)
     : lunieCoin.amount
   const fiatValue = await fiatValueAPI.calculateFiatValues(
     [
@@ -415,7 +420,7 @@ function delegationReducer(delegation, validator, active) {
 
 function undelegationReducer(undelegation, validator) {
   return {
-    id: validator.operatorAddress,
+    id: `${validator.operatorAddress}_${undelegation.creation_height}`,
     delegatorAddress: undelegation.delegator_address,
     validator,
     amount: atoms(undelegation.balance),

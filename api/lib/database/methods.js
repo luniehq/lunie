@@ -239,6 +239,7 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
         chainDenom
         viewDenom
         chainToViewConversionFactor
+        icon
       }
     }
   `)
@@ -412,6 +413,45 @@ const getUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   )
 }
 
+// write and return a new session
+const storeAndGetNewSession = ({
+  hasura_url,
+  hasura_admin_key
+}) => () => async (uid) => {
+  const now = new Date()
+  const validUntil = new Date()
+  validUntil.setDate(now.getDate() + 21) // valid for 3 weeks
+  const payload = {
+    uid,
+    valid_until: validUntil
+  }
+  const sessions = await insert({
+    hasura_url,
+    hasura_admin_key
+  })('')(`sessions`, payload, undefined, undefined, [
+    `session_token`,
+    `valid_until`
+  ])
+  return sessions[0] // insert always returns an array
+}
+
+const getSession = ({ hasura_url, hasura_admin_key }) => () => async (
+  sessionToken
+) => {
+  const response = await read({
+    hasura_url,
+    hasura_admin_key
+  })('')(
+    `sessions`,
+    `sessions`,
+    [`uid`, `valid_until`],
+    `where: {
+      session_token: { _eq: "${sessionToken}"}
+    }`
+  )
+  return response ? response[0] : undefined
+}
+
 const storeStore = ({ hasura_url, hasura_admin_key }) => () => async (
   payload
 ) => {
@@ -456,5 +496,7 @@ module.exports = {
   storeStore,
   getStore,
   storeNotificationRegistrations,
-  getNotificationRegistrations
+  getNotificationRegistrations,
+  storeAndGetNewSession,
+  getSession
 }

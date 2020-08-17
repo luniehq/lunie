@@ -160,6 +160,7 @@ const typeDefs = gql`
     chainDenom: String!
     viewDenom: String!
     chainToViewConversionFactor: Float!
+    icon: String
   }
 
   enum CapabilityEnum {
@@ -381,6 +382,11 @@ const typeDefs = gql`
     properties: String # JSON encoded as it is general purpose and GraphQL doesn't allow for "Object"
   }
 
+  type Session {
+    sessionToken: String!
+    validUntil: String!
+  }
+
   type Subscription {
     blockAdded(networkId: String!): BlockV2
     notificationAdded(addressObjects: [NotificationInput]!): Notification
@@ -390,10 +396,11 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    registerUser(idToken: String!): Boolean
+    registerUser(idToken: String!): Session
     notifications(
       addressObjects: [NotificationInput]!
       notificationType: String
+      pushToken: String
     ): Boolean
   }
 
