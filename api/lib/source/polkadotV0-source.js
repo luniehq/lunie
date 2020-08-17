@@ -421,10 +421,10 @@ class polkadotAPI {
   async getDelegationsForDelegatorAddress(delegatorAddress) {
     try {
       let activeDelegations = []
-  
+
       // We always use stash address to query delegations
       delegatorAddress = await this.getStashAddress(delegatorAddress)
-  
+
       // now we get nominations that are already active (from the validators)
       Object.values(this.store.validators).forEach((validator) => {
         validator.nominations.forEach((nomination) => {
