@@ -8,6 +8,7 @@ import com.getcapacitor.Plugin;
 import java.util.ArrayList;
 
 import com.getcapacitor.community.intercom.IntercomPlugin;
+import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends BridgeActivity {
   @Override
