@@ -2,6 +2,7 @@ const BigNumber = require('bignumber.js')
 const { orderBy, uniqWith } = require('lodash')
 const { stringToU8a } = require('@polkadot/util')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
+const Sentry = require('@sentry/node')
 
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
@@ -418,41 +419,47 @@ class polkadotAPI {
   }
 
   async getDelegationsForDelegatorAddress(delegatorAddress) {
-    let activeDelegations = []
-
-    // We always use stash address to query delegations
-    delegatorAddress = await this.getStashAddress(delegatorAddress)
-
-    // now we get nominations that are already active (from the validators)
-    Object.values(this.store.validators).forEach((validator) => {
-      validator.nominations.forEach((nomination) => {
-        if (delegatorAddress === nomination.who) {
-          activeDelegations.push(
-            this.reducers.delegationReducer(
-              this.network,
-              nomination,
-              validator,
-              delegationEnum.ACTIVE
+    try {
+      let activeDelegations = []
+  
+      // We always use stash address to query delegations
+      delegatorAddress = await this.getStashAddress(delegatorAddress)
+  
+      // now we get nominations that are already active (from the validators)
+      Object.values(this.store.validators).forEach((validator) => {
+        validator.nominations.forEach((nomination) => {
+          if (delegatorAddress === nomination.who) {
+            activeDelegations.push(
+              this.reducers.delegationReducer(
+                this.network,
+                nomination,
+                validator,
+                delegationEnum.ACTIVE
+              )
             )
-          )
-        }
+          }
+        })
       })
-    })
-    // in Polkadot nominations are inactive in the beginning until session change
-    // so we also need to check the user's inactive delegations
-    const inactiveDelegations = await this.getInactiveDelegationsForDelegatorAddress(
-      delegatorAddress
-    )
-    const allDelegations = [...activeDelegations, ...inactiveDelegations]
-    // filter empty validators
-    const filteredDelegations = allDelegations.filter(
-      (delegation) => delegation.validator
-    )
-    // remove duplicates
-    return uniqWith(
-      filteredDelegations,
-      (a, b) => a.validator.operatorAddress === b.validator.operatorAddress
-    )
+      // in Polkadot nominations are inactive in the beginning until session change
+      // so we also need to check the user's inactive delegations
+      const inactiveDelegations = await this.getInactiveDelegationsForDelegatorAddress(
+        delegatorAddress
+      )
+      const allDelegations = [...activeDelegations, ...inactiveDelegations]
+      // filter empty validators
+      const filteredDelegations = allDelegations.filter(
+        (delegation) => delegation.validator
+      )
+      // remove duplicates
+      return uniqWith(
+        filteredDelegations,
+        (a, b) => a.validator.operatorAddress === b.validator.operatorAddress
+      )
+    } catch (error) {
+      Sentry.captureException(error)
+      console.error(error)
+      return []
+    }
   }
 
   async getInactiveDelegationsForDelegatorAddress(delegatorAddress) {
