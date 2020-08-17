@@ -241,7 +241,7 @@ class CosmosV0API extends RESTDataSource {
     const proposals = await Promise.all(
       response.map(async (proposal) => {
         const [tally, proposer] = await Promise.all([
-          this.query(`/gov/proposals/${proposal.id}/tally`),
+          this.query(`gov/proposals/${proposal.id}/tally`),
           this.query(`gov/proposals/${proposal.id}/proposer`).catch(() => {
             return { proposer: undefined }
           })
@@ -272,7 +272,7 @@ class CosmosV0API extends RESTDataSource {
       proposer,
       { bonded_tokens: totalBondedTokens }
     ] = await Promise.all([
-      this.query(`/gov/proposals/${proposalId}/tally`),
+      this.query(`gov/proposals/${proposalId}/tally`),
       this.query(`gov/proposals/${proposalId}/proposer`).catch(() => {
         return { proposer: undefined }
       }),
