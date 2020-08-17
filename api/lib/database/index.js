@@ -38,9 +38,7 @@ function database(dbConfig) {
       },
       getNetwork: getNetwork(dbConfig)(schema),
       getNetworks: getNetworks(dbConfig)(schema),
-      getNetworkLinks: getNetworkLinks(dbConfig)(
-        schema
-      ),
+      getNetworkLinks: getNetworkLinks(dbConfig)(schema),
       storeNetwork: storeNetwork(dbConfig)(schema),
       storeStatistics: storeStatistics(dbConfig)(schema),
       storeNotification: storeNotification(dbConfig)(schema),
