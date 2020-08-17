@@ -285,17 +285,23 @@ class CosmosV0API extends RESTDataSource {
       votesSum: votes ? votes.length : undefined,
       votingThresholdYes: Number(tallyingParameters.threshold).toFixed(2),
       votingThresholdNo: (1 - tallyingParameters.threshold).toFixed(2),
-      votingPercentageYes: BigNumber(tally.yes)
-        .times(100)
-        .div(totalVotingParticipation)
-        .toNumber()
-        .toFixed(2),
-      votingPercentageNo: BigNumber(tally.no)
-        .plus(tally.no_with_veto)
-        .times(100)
-        .div(totalVotingParticipation)
-        .toNumber()
-        .toFixed(2),
+      votingPercentageYes:
+        totalVotingParticipation.toNumber() > 0
+          ? BigNumber(tally.yes)
+              .times(100)
+              .div(totalVotingParticipation)
+              .toNumber()
+              .toFixed(2)
+          : 0,
+      votingPercentageNo:
+        totalVotingParticipation.toNumber() > 0
+          ? BigNumber(tally.no)
+              .plus(tally.no_with_veto)
+              .times(100)
+              .div(totalVotingParticipation)
+              .toNumber()
+              .toFixed(2)
+          : 0,
       links,
       timeline: [
         { title: `Proposal created`, time: proposal.submit_time },
