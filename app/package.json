@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "1.0.223",
+  "version": "1.0.225",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
@@ -31,11 +31,11 @@
     "@capacitor/core": "2.2.1",
     "@capacitor/ios": "2.2.0",
     "@dicebear/avatars": "4.1.1",
-    "@dicebear/avatars-human-sprites": "4.2.0",
+    "@dicebear/avatars-human-sprites": "4.2.5",
     "@dicebear/avatars-jdenticon-sprites": "4.1.1",
     "@lunie/cosmos-keys": "0.3.1",
     "@lunie/cosmos-ledger": "0.1.8",
-    "@polkadot/api": "1.27.1",
+    "@polkadot/api": "1.28.1",
     "@polkadot/util-crypto": "2.18.1",
     "@sentry/browser": "5.17.0",
     "@sentry/integrations": "5.19.2",
@@ -54,11 +54,10 @@
     "bech32": "^1.1.4",
     "bignumber.js": "^9.0.0",
     "core-js": "^3.6.5",
-    "cross-env": "7.0.2",
     "cross-spawn": "7.0.1",
     "crypto-js": "^4.0.0",
     "fingerprintjs2": "2.1.0",
-    "firebase": "7.17.1",
+    "firebase": "7.17.2",
     "graphql": "15.1.0",
     "graphql-tag": "2.10.3",
     "https-proxy-agent": ">=3.0.0",
@@ -84,8 +83,7 @@
     "vue-reactive-refs": "0.0.2",
     "vue-router": "3.1.6",
     "vuelidate": "0.7.5",
-    "vuex": "3.4.0",
-    "web3-utils": "1.2.4"
+    "vuex": "3.4.0"
   },
   "devDependencies": {
     "@ascendancyy/vue-cli-plugin-stylelint": "1.1.2",
@@ -127,7 +125,7 @@
     "simsala": "0.0.21",
     "stylelint": "13.6.1",
     "stylelint-config-standard": "20.0.0",
-    "stylelint-webpack-plugin": "1.1.2",
+    "stylelint-webpack-plugin": "2.1.0",
     "vue-jest": "3.0.5",
     "vue-template-compiler": "^2.6.10",
     "webdriverio": "6.1.19",

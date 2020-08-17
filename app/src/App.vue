@@ -8,7 +8,7 @@
         <MaintenanceBar />
         <DisconnectedBar />
       </div>
-      <UserMenu v-if="!isMobileApp && session.experimentalMode" />
+      <UserMenu v-if="!isMobileApp" />
       <router-view name="session" />
       <router-view />
     </div>
