@@ -86,6 +86,8 @@
             <img
               class="currency-flag"
               :src="
+                currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom)
+                  .icon ||
                 '/img/icons/currencies/' + balance.denom.toLowerCase() + '.png'
               "
               :alt="`${balance.denom}` + ' currency'"
@@ -234,7 +236,13 @@ export default {
   },
   computed: {
     ...mapState([`connection`, `session`]),
-    ...mapGetters([`address`, `networks`, `network`, `stakingDenom`]),
+    ...mapGetters([
+      `address`,
+      `networks`,
+      `network`,
+      `currentNetwork`,
+      `stakingDenom`,
+    ]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
