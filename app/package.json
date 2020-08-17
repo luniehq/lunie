@@ -73,7 +73,7 @@
     "no-scroll": "^2.1.1",
     "serialize-javascript": ">=2.1.1",
     "subscriptions-transport-ws": "0.9.16",
-    "timezone-mock": "^1.1.0",
+    "timezone-mock": "^1.1.1",
     "v-tooltip": "2.0.3",
     "vue": "2.6.11",
     "vue-apollo": "3.0.3",
