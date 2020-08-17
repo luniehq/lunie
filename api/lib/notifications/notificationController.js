@@ -198,6 +198,7 @@ class NotificationController {
 
     try {
       await firebaseAdmin.messaging().send(message)
+      console.log("Send notification for topic", topic)
     } catch (error) {
       console.error('Error sending message:', error, message)
       Sentry.captureException(error)
