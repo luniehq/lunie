@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Deprecated
 
-- fixed manifest image routes for android @jbibla
+- fixed manifest image routes for Android @jbibla
 
 ## [1.0.224] - 2020-08-14
 
