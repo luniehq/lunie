@@ -181,15 +181,14 @@ const resolvers = (networkList, notificationController) => ({
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
       //
-      // Proposer value can be `unknown` (if proposal was issued in a previous chain),
-      // or standard address (i.e: cosmos19wlk8gkfjckqr8d73dyp4n0f0k89q4h7xr3uwj).
+      // Proposer value is a standard address (i.e: cosmos19wlk8gkfjckqr8d73dyp4n0f0k89q4h7xr3uwj).
       //
       // In some cases proposer address corresponds to a validator address, so we convert
       // it to an operator address. That way we can check and display if proposal comes from
       // a validator, and in that case fetch the current validator object from datasource
       // and attach it to proposal.
       //
-      if (proposal.proposer && proposal.proposer !== `unknown`) {
+      if (proposal.proposer) {
         let proposerValAddress = ''
         if (
           networkList.find(({ id }) => id === proposal.networkId) &&
