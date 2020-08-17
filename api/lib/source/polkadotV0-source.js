@@ -1,5 +1,5 @@
 const BigNumber = require('bignumber.js')
-const { uniqWith } = require('lodash')
+const { orderBy, uniqWith } = require('lodash')
 const Sentry = require('@sentry/node')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
@@ -418,10 +418,10 @@ class polkadotAPI {
   async getDelegationsForDelegatorAddress(delegatorAddress) {
     try {
       let activeDelegations = []
-  
+
       // We always use stash address to query delegations
       delegatorAddress = await this.getStashAddress(delegatorAddress)
-  
+
       // now we get nominations that are already active (from the validators)
       Object.values(this.store.validators).forEach((validator) => {
         validator.nominations.forEach((nomination) => {
@@ -536,6 +536,232 @@ class polkadotAPI {
       }
     )
   }
+
+  constructProposal(api, bytes) {
+    let proposal
+
+    try {
+      proposal = api.registry.createType('Proposal', bytes.toU8a(true))
+    } catch (error) {
+      console.log(error)
+    }
+
+    return proposal
+  }
+
+  async getDemocracyProposalMetadata(
+    proposal,
+    description,
+    proposer,
+    proposalMethod,
+    creationTime
+  ) {
+    const api = await this.getAPI()
+
+    const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
+    const preimageRaw = await api.query.democracy.preimages.at(
+      blockHash,
+      proposal.imageHash
+    )
+    const preimage = preimageRaw.unwrapOr(null)
+    const { data } = preimage.asAvailable
+    const proposalWithIndex = this.constructProposal(api, data)
+    const { meta, method } = api.registry.findMetaCall(
+      proposalWithIndex.callIndex
+    )
+    description = meta.documentation.toString()
+    proposalMethod = method
+
+    // get creationTime
+    const block = await api.rpc.chain.getBlock(blockHash)
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
+    )
+    const blockTimestamp = args[0]
+    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
+    }
+  }
+
+  async getReferendumProposalMetadata(
+    proposal,
+    description,
+    proposer,
+    proposalMethod,
+    creationTime
+  ) {
+    const api = await this.getAPI()
+
+    const { meta, method } = api.registry.findMetaCall(
+      proposal.image.proposal.callIndex
+    )
+    proposer = proposal.image.proposer
+    description = meta.documentation.toString()
+    proposalMethod = method
+
+    // get creationTime
+    const referendumBlockHeight = proposal.image.at
+    const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
+    const block = await api.rpc.chain.getBlock(blockHash)
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
+    )
+    const blockTimestamp = args[0]
+    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
+    }
+  }
+
+  async getProposalWithMetadata(proposal, type) {
+    const api = await this.getAPI()
+
+    let description = ''
+    let proposer = ''
+    let proposalMethod = ''
+    let creationTime = undefined
+
+    if (type === `democracy`) {
+      return await this.getDemocracyProposalMetadata(
+        proposal,
+        description,
+        proposer,
+        proposalMethod,
+        creationTime
+      )
+    }
+    if (type === `referendum`) {
+      return await this.getReferendumProposalMetadata(
+        proposal,
+        description,
+        proposer,
+        proposalMethod,
+        creationTime
+      )
+    }
+    if (type === `council`) {
+      const { meta } = api.registry.findMetaCall(proposal.proposal.callIndex)
+      description = meta.documentation.toString()
+    }
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime,
+      beneficiary: proposal.beneficiary
+    }
+  }
+
+  async getAllProposals() {
+    const api = await this.getAPI()
+
+    const [
+      blockHeight,
+      totalIssuance,
+      democracyProposals,
+      democracyReferendums,
+      treasuryProposals,
+      councilProposals,
+      councilMembers,
+      electionInfo
+    ] = await Promise.all([
+      this.getBlockHeight(),
+      api.query.balances.totalIssuance(),
+      api.derive.democracy.proposals(),
+      api.derive.democracy.referendums(),
+      api.derive.treasury.proposals(),
+      api.derive.council.proposals(),
+      api.query.council.members(),
+      api.derive.elections.info()
+    ])
+    const allProposals = await Promise.all(
+      democracyProposals
+        .map(async (proposal) => {
+          return this.reducers.democracyProposalReducer(
+            this.network,
+            await this.getProposalWithMetadata(proposal, `democracy`),
+            totalIssuance,
+            blockHeight
+          )
+        })
+        .concat(
+          democracyReferendums.map(async (proposal) => {
+            return this.reducers.democracyReferendumReducer(
+              this.network,
+              await this.getProposalWithMetadata(proposal, `referendum`),
+              totalIssuance,
+              blockHeight
+            )
+          })
+        )
+        .concat(
+          treasuryProposals.proposals
+            .filter((proposal) => {
+              // make sure that the treasury proposals haven't been passed as motions to Council
+              if (
+                !councilProposals.find(
+                  (councilProposal) =>
+                    JSON.stringify(councilProposal) ===
+                    JSON.stringify(proposal.council[0])
+                )
+              ) {
+                return proposal
+              }
+            })
+            .map(async (proposal) => {
+              const treasuryProposal = proposal.council[0]
+              if (!treasuryProposal) return
+              const proposalWithMetadata = await this.getProposalWithMetadata(
+                treasuryProposal,
+                `council`
+              )
+              return this.reducers.treasuryProposalReducer(
+                this.network,
+                {
+                  ...proposalWithMetadata,
+                  deposit: proposal.proposal.bond,
+                  beneficiary: proposal.proposal.beneficiary
+                },
+                councilMembers,
+                blockHeight,
+                electionInfo
+              )
+            })
+        )
+        .concat(
+          councilProposals.map(async (proposal) => {
+            return this.reducers.councilProposalReducer(
+              this.network,
+              await this.getProposalWithMetadata(proposal, `council`),
+              councilMembers,
+              blockHeight,
+              electionInfo
+            )
+          })
+        )
+    )
+
+    return orderBy(allProposals, 'id', 'desc')
+  }
+
+  async getProposalById(proposalId) {
+    const proposals = await this.getAllProposals()
+    return proposals.find((proposal) => proposal.id === proposalId)
+  }
+
+  getDelegatorVote() {}
 }
 
 module.exports = polkadotAPI

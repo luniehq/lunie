@@ -10,6 +10,13 @@ const typeDefs = gql`
     CURRENCY
   }
 
+  enum proposalTypeEnum {
+    TEXT
+    COUNCIL
+    TREASURY
+    PARAMETER_CHANGE
+  }
+
   type Tally {
     yes: String # BigNumber
     no: String # BigNumber
@@ -57,9 +64,9 @@ const typeDefs = gql`
   }
 
   type Proposal {
-    id: Int
+    id: String
     networkId: String!
-    type: String
+    type: proposalTypeEnum
     title: String
     description: String
     status: String
@@ -70,6 +77,7 @@ const typeDefs = gql`
     deposit: String # BigNumber
     proposer: String
     validator: Validator
+    beneficiary: String
   }
 
   type Validator {
@@ -416,7 +424,7 @@ const typeDefs = gql`
 
   type Query {
     blockV2(networkId: String!, height: Int): BlockV2
-    proposal(networkId: String!, id: Int!): Proposal
+    proposal(networkId: String!, id: String!): Proposal
     proposals(networkId: String!): [Proposal]
     validators(
       networkId: String!
@@ -425,7 +433,7 @@ const typeDefs = gql`
       popularSort: Boolean
     ): [Validator]
     allDelegators(networkId: String!): [String]
-    vote(networkId: String!, proposalId: Int!, address: String!): Vote
+    vote(networkId: String!, proposalId: String!, address: String!): Vote
     governanceParameters(networkId: String!): GovernanceParameters
     validator(networkId: String!, operatorAddress: String!): Validator
     networks(experimental: Boolean): [Network]
