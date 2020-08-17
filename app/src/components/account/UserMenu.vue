@@ -58,20 +58,19 @@
             />
             <div>
               <div class="address-name-role">
-                <span class="address-name">{{
-                  getSessionName(address) || `Unknown`
-                }}</span>
-                <span
+                <p class="address-name">
+                  {{ getSessionName(address) || `Unknown` }}
+                </p>
+                <p
                   v-if="
                     getAddressNetwork(address).network_type === `polkadot` &&
                     address.addressRole &&
                     address.addressRole !== `none` &&
                     address.addressRole !== `stash/controller`
                   "
-                  >{{
-                    address.addressRole.charAt(0).toUpperCase().slice(1)
-                  }}</span
                 >
+                  &nbsp;{{ capitalizeFirstLetter(address.addressRole) }}
+                </p>
               </div>
               <span class="address">{{ address.address | formatAddress }}</span>
               <span
@@ -80,7 +79,7 @@
                   address.sessionType === `ledger`
                 "
                 class="address"
-                >{{ address.sessionType }}</span
+                >{{ capitalizeFirstLetter(address.sessionType) }}</span
               >
             </div>
           </div>
@@ -234,6 +233,9 @@ export default {
     })
   },
   methods: {
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1)
+    },
     getAddressesFromExtension() {
       this.$store.dispatch(`getAddressesFromExtension`)
     },
@@ -431,6 +433,7 @@ h3 {
 
 .address-name-role {
   display: flex;
+  white-space: break-spaces;
 }
 
 /* with an address type the addres box is a bit bigger so the rest needs to be centered */
