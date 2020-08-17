@@ -57,13 +57,22 @@
               alt="little circle with network logo"
             />
             <div>
-              <span class="address-name">{{
-                getSessionName(address) || `Unknown`
-              }}</span>
-              <span
-                v-if="getAddressNetwork(address).network_type === `polkadot`"
-                >{{ address.addressRole }}</span
-              >
+              <div class="address-name-role">
+                <span class="address-name">{{
+                  getSessionName(address) || `Unknown`
+                }}</span>
+                <span
+                  v-if="
+                    getAddressNetwork(address).network_type === `polkadot` &&
+                    address.addressRole &&
+                    address.addressRole !== `none` &&
+                    address.addressRole !== `stash/controller`
+                  "
+                  >{{
+                    address.addressRole.charAt(0).toUpperCase().slice(1)
+                  }}</span
+                >
+              </div>
               <span class="address">{{ address.address | formatAddress }}</span>
               <span
                 v-if="
@@ -418,6 +427,10 @@ h3 {
 
 .address-name {
   color: black;
+}
+
+.address-name-role {
+  display: flex;
 }
 
 /* with an address type the addres box is a bit bigger so the rest needs to be centered */
