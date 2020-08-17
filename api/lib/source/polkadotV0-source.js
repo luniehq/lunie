@@ -850,7 +850,6 @@ class polkadotAPI {
       return this.getCouncilProposalDetailedVotes(proposal, links)
     }
     if (type === `treasury`) {
-      proposal = proposal.council[0]
       return this.getCouncilProposalDetailedVotes(proposal, links)
     }
     return {

@@ -568,11 +568,11 @@ function treasuryProposalReducer(
     title: `Treasury Proposal #${proposal.id}`,
     creationTime: proposal.creationTime,
     status: `VotingPeriod`,
-    statusEndTime: getStatusEndTime(blockHeight, proposal.council[0].votes.end),
-    tally: councilTallyReducer(proposal.council[0].votes, councilMembers),
+    statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
+    tally: councilTallyReducer(proposal.votes, councilMembers),
     deposit: toViewDenom(Number(proposal.proposal.bond), network),
-    proposer: proposal.proposal.proposer.toHuman(),
-    beneficiary: proposal.proposal.beneficiary, // the account getting the tip
+    proposer: proposal.proposer ? proposal.proposer.toHuman() : undefined,
+    beneficiary: proposal.beneficiary, // the account getting the tip
     detailedVotes
   }
 }
