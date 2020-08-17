@@ -175,7 +175,8 @@ class CosmosV0API extends RESTDataSource {
     return this.reducers.delegationReducer(
       selfDelegation,
       validator,
-      delegationEnum.ACTIVE
+      delegationEnum.ACTIVE,
+      this.network
     ).amount
   }
 
@@ -423,7 +424,8 @@ class CosmosV0API extends RESTDataSource {
         this.reducers.delegationReducer(
           delegation,
           this.store.validators[delegation.validator_address],
-          delegationEnum.ACTIVE
+          delegationEnum.ACTIVE,
+          this.network
         )
       )
   }
@@ -472,7 +474,8 @@ class CosmosV0API extends RESTDataSource {
     return this.reducers.delegationReducer(
       delegation,
       validator,
-      delegationEnum.ACTIVE
+      delegationEnum.ACTIVE,
+      this.network
     )
   }
 
