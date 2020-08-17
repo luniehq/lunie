@@ -8,7 +8,7 @@ import VueClipboard from "vue-clipboard2"
 import { DynamicReactiveRefs } from "vue-reactive-refs"
 import { focusElement, focusParentLast } from "src/directives"
 import App from "./App.vue"
-import init from "./initializeApp"
+import init, {bootError} from "./initializeApp"
 import { getURLParams } from "scripts/url"
 import { Plugins } from "@capacitor/core"
 import config from "src/../config"
@@ -39,7 +39,8 @@ Vue.directive(`focus`, focusElement)
 Vue.directive(`focus-last`, focusParentLast)
 
 const urlParams = getURLParams(window)
-init(urlParams).then(({ store, router, apolloProvider }) => {
+init(urlParams)
+.then(({ store, router, apolloProvider }) => {
   const { SplashScreen, StatusBar } = Plugins
 
   new Vue({
@@ -54,4 +55,8 @@ init(urlParams).then(({ store, router, apolloProvider }) => {
       }
     },
   }).$mount("#app")
+})
+.catch(error => {
+  Sentry.captureException(error)
+  bootError(error)
 })
