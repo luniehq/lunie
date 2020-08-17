@@ -38,7 +38,7 @@ function database(dbConfig) {
       },
       getNetwork: getNetwork(dbConfig)(schema),
       getNetworks: getNetworks(dbConfig)(schema),
-      getNetworkLinks: getNetworkLinks({ hasura_url, hasura_admin_key })(
+      getNetworkLinks: getNetworkLinks(dbConfig)(
         schema
       ),
       storeNetwork: storeNetwork(dbConfig)(schema),
