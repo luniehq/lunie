@@ -128,7 +128,7 @@
     "simsala": "^0.0.21",
     "stylelint": "^13.6.1",
     "stylelint-config-standard": "^18.3.0",
-    "vue-jest": "^3.0.5",
+    "vue-jest": "^3.0.6",
     "vue-loader": "^15.9.3",
     "vue-template-compiler": "^2.6.10",
     "web-ext-types": "^3.2.1",
