@@ -30,12 +30,14 @@
 </template>
 <script>
 import Address from "common/Address"
+import TmFormMsg from "src/components/common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { showAddressOnLedger } from "scripts/ledger"
 export default {
   name: `user-menu-address`,
   components: {
     Address,
+    TmFormMsg,
   },
   data: () => ({
     ledgerAddressError: undefined,
