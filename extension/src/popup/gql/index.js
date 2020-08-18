@@ -53,9 +53,3 @@ export const NetworksAll = gql`
     }
   }
 `
-
-export const AddressRole = gql`
-  query($networkId: String!, $address: String!) {
-    accountRole(networkId: $networkId, address: $address)
-  }
-`

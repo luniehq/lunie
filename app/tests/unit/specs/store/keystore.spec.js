@@ -146,11 +146,6 @@ describe(`Module: Keystore`, () => {
         getters: {
           networks,
         },
-        rootState: {
-          session: {
-            addressRole: "none",
-          },
-        },
       },
       {
         seedPhrase,
@@ -179,11 +174,6 @@ describe(`Module: Keystore`, () => {
         getters: {
           networks,
         },
-        rootState: {
-          session: {
-            addressRole: "none",
-          },
-        },
       },
       {
         seedPhrase,
@@ -206,11 +196,6 @@ describe(`Module: Keystore`, () => {
         state,
         getters: {
           networks,
-        },
-        rootState: {
-          session: {
-            addressRole: "none",
-          },
         },
       },
       {

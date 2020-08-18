@@ -1,6 +1,6 @@
 import config from '../../config.js'
 import gql from 'graphql-tag'
-import { NetworksAll, AddressRole } from '../popup/gql'
+import { NetworksAll } from '../popup/gql'
 import { lunieMessageTypes, parseTx } from '../scripts/parsers'
 import { storeWallet } from '@lunie/cosmos-keys'
 
@@ -62,17 +62,7 @@ export default ({ apollo }) => {
       HDPath,
       curve
     )
-    let addressRole
-    // In Polkadot there are different account types for staking. To be able to signal allowed interactions
-    // for the user in Lunie we need to query for the type of the account.
-    // Here we store this address role together with other wallet's specs
-    if (networkObject.network_type === 'polkadot') {
-      addressRole = await checkAddressRole({
-        address: wallet.cosmosAddress,
-        networkId: networkObject.id
-      })
-    }
-    storeWallet(wallet, name, password, network, HDPath, curve, addressRole)
+    storeWallet(wallet, name, password, network, HDPath, curve)
     store.dispatch('loadAccounts')
   }
 
@@ -277,15 +267,6 @@ export default ({ apollo }) => {
 
     // const wallet = await getWallet(seedPhrase, networkObject)
     return wallet.cosmosAddress
-  }
-
-  const checkAddressRole = async ({ address, networkId }) => {
-    const { data } = await apollo.query({
-      query: AddressRole,
-      variables: { networkId, address },
-      fetchPolicy: 'network-only'
-    })
-    return data.accountRole
   }
 
   return {
