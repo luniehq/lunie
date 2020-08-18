@@ -147,6 +147,7 @@
 <script>
 import Avatar from "common/Avatar"
 import UserMenuAddress from "account/UserMenuAddress"
+import { AddressRole } from "src/gql"
 import { formatAddress } from "src/filters"
 import { mapGetters, mapState } from "vuex"
 import { uniqWith, sortBy } from "lodash"
@@ -167,23 +168,16 @@ export default {
     selectedNetwork: "",
     selectedOption: "",
   }),
-  computed: {
-    ...mapState([`session`, `account`, `keystore`, `extension`]),
-    ...mapGetters([`address`, `network`, `networks`]),
-    user() {
-      return this.account.userSignedIn && this.account.user
-        ? this.account.user
-        : undefined
-    },
+  asyncComputed: {
     addresses: {
       cache: false,
-      get: function () {
+      get: async function () {
         // filter local accounts to make sure they all have an address
         const localAccounts = this.keystore.accounts.filter(
           ({ address }) => address
         )
         // active sessions will likely overlap with the ones stored locally / in extension
-        return sortBy(
+        const allAddresses = sortBy(
           uniqWith(
             localAccounts
               .map((account) => ({
@@ -205,7 +199,20 @@ export default {
             return account.networkId
           }
         )
+        const allAddressesWithAddressRole = await this.getAllAddressesRoles(
+          allAddresses
+        )
+        return allAddressesWithAddressRole
       },
+    },
+  },
+  computed: {
+    ...mapState([`session`, `account`, `keystore`, `extension`]),
+    ...mapGetters([`address`, `network`, `networks`]),
+    user() {
+      return this.account.userSignedIn && this.account.user
+        ? this.account.user
+        : undefined
     },
     currentAddress() {
       return this.address
@@ -294,6 +301,31 @@ export default {
       this.newExtensionAddressesPollingTimeout = setTimeout(() => {
         this.pollForNewExtensionAddresses()
       }, NEW_EXTENSION_ADDRESSES_POLLING_INTERVAL)
+    },
+    async getAllAddressesRoles(addresses) {
+      return await Promise.all(
+        addresses.map(async (address) => {
+          if (
+            address.networkId === "kusama" ||
+            address.networkId === "polkadot"
+          ) {
+            return await this.getAddressRole(address)
+          } else {
+            return address
+          }
+        })
+      )
+    },
+    async getAddressRole(address) {
+      const { data } = await this.$apollo.query({
+        query: AddressRole,
+        variables: { networkId: address.networkId, address: address.address },
+        fetchPolicy: "network-only",
+      })
+      return {
+        ...address,
+        addressRole: data.accountRole,
+      }
     },
   },
 }
