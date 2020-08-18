@@ -305,10 +305,7 @@ export default {
     async getAllAddressesRoles(addresses) {
       return await Promise.all(
         addresses.map(async (address) => {
-          if (
-            address.networkId === "kusama" ||
-            address.networkId === "polkadot"
-          ) {
+          if (this.getAddressNetwork(address).network_type === `polkadot`) {
             return await this.getAddressRole(address)
           } else {
             return address
