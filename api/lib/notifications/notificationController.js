@@ -175,8 +175,22 @@ class NotificationController {
     return Promise.all(
       topics.map((topic) =>
         firebaseAdmin.messaging().subscribeToTopic(pushToken, topic)
+        .then(() => undefined)
+        .catch(error => {
+          console.error(error)
+          Sentry.captureException(error)
+          return topic
+        })
       )
     )
+    .then(results => {
+      const failedTopics = results.filter(topic => !!topic)
+      if (failedTopics.length > 0) {
+        console.error(`Failed to register ${pushToken} for topics ${failedTopics}`)
+      } else {
+        console.log(`Successfully registered ${pushToken} for topics ${topics}`)
+      }
+    })
   }
 
   async sendPushNotification(notification) {
