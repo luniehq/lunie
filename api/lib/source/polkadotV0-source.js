@@ -1,5 +1,9 @@
 const BigNumber = require('bignumber.js')
-const { uniqWith } = require('lodash')
+const { orderBy, uniqWith } = require('lodash')
+const { stringToU8a } = require('@polkadot/util')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
+const Sentry = require('@sentry/node')
+
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -415,41 +419,47 @@ class polkadotAPI {
   }
 
   async getDelegationsForDelegatorAddress(delegatorAddress) {
-    let activeDelegations = []
+    try {
+      let activeDelegations = []
 
-    // We always use stash address to query delegations
-    delegatorAddress = await this.getStashAddress(delegatorAddress)
+      // We always use stash address to query delegations
+      delegatorAddress = await this.getStashAddress(delegatorAddress)
 
-    // now we get nominations that are already active (from the validators)
-    Object.values(this.store.validators).forEach((validator) => {
-      validator.nominations.forEach((nomination) => {
-        if (delegatorAddress === nomination.who) {
-          activeDelegations.push(
-            this.reducers.delegationReducer(
-              this.network,
-              nomination,
-              validator,
-              delegationEnum.ACTIVE
+      // now we get nominations that are already active (from the validators)
+      Object.values(this.store.validators).forEach((validator) => {
+        validator.nominations.forEach((nomination) => {
+          if (delegatorAddress === nomination.who) {
+            activeDelegations.push(
+              this.reducers.delegationReducer(
+                this.network,
+                nomination,
+                validator,
+                delegationEnum.ACTIVE
+              )
             )
-          )
-        }
+          }
+        })
       })
-    })
-    // in Polkadot nominations are inactive in the beginning until session change
-    // so we also need to check the user's inactive delegations
-    const inactiveDelegations = await this.getInactiveDelegationsForDelegatorAddress(
-      delegatorAddress
-    )
-    const allDelegations = [...activeDelegations, ...inactiveDelegations]
-    // filter empty validators
-    const filteredDelegations = allDelegations.filter(
-      (delegation) => delegation.validator
-    )
-    // remove duplicates
-    return uniqWith(
-      filteredDelegations,
-      (a, b) => a.validator.operatorAddress === b.validator.operatorAddress
-    )
+      // in Polkadot nominations are inactive in the beginning until session change
+      // so we also need to check the user's inactive delegations
+      const inactiveDelegations = await this.getInactiveDelegationsForDelegatorAddress(
+        delegatorAddress
+      )
+      const allDelegations = [...activeDelegations, ...inactiveDelegations]
+      // filter empty validators
+      const filteredDelegations = allDelegations.filter(
+        (delegation) => delegation.validator
+      )
+      // remove duplicates
+      return uniqWith(
+        filteredDelegations,
+        (a, b) => a.validator.operatorAddress === b.validator.operatorAddress
+      )
+    } catch (error) {
+      Sentry.captureException(error)
+      console.error(error)
+      return []
+    }
   }
 
   async getInactiveDelegationsForDelegatorAddress(delegatorAddress) {
@@ -528,6 +538,308 @@ class polkadotAPI {
         active: delegationEnum.ACTIVE
       }
     )
+  }
+
+  constructProposal(api, bytes) {
+    let proposal
+
+    try {
+      proposal = api.registry.createType('Proposal', bytes.toU8a(true))
+    } catch (error) {
+      console.log(error)
+    }
+
+    return proposal
+  }
+
+  async getDemocracyProposalMetadata(
+    proposal,
+    description,
+    proposer,
+    proposalMethod,
+    creationTime
+  ) {
+    const api = await this.getAPI()
+
+    const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
+    const preimageRaw = await api.query.democracy.preimages.at(
+      blockHash,
+      proposal.imageHash
+    )
+    const preimage = preimageRaw.unwrapOr(null)
+    const { data } = preimage.asAvailable
+    const proposalWithIndex = this.constructProposal(api, data)
+    const { meta, method } = api.registry.findMetaCall(
+      proposalWithIndex.callIndex
+    )
+    description = meta.documentation.toString()
+    proposalMethod = method
+
+    // get creationTime
+    const block = await api.rpc.chain.getBlock(blockHash)
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
+    )
+    const blockTimestamp = args[0]
+    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
+    }
+  }
+
+  async getReferendumProposalMetadata(
+    proposal,
+    description,
+    proposer,
+    proposalMethod,
+    creationTime
+  ) {
+    const api = await this.getAPI()
+
+    const { meta, method } = api.registry.findMetaCall(
+      proposal.image.proposal.callIndex
+    )
+    proposer = proposal.image.proposer
+    description = meta.documentation.toString()
+    proposalMethod = method
+
+    // get creationTime
+    const referendumBlockHeight = proposal.image.at
+    const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
+    const block = await api.rpc.chain.getBlock(blockHash)
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
+    )
+    const blockTimestamp = args[0]
+    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
+    }
+  }
+
+  async getProposalWithMetadata(proposal, type) {
+    const api = await this.getAPI()
+
+    let description = ''
+    let proposer = ''
+    let proposalMethod = ''
+    let creationTime = undefined
+
+    if (type === `democracy`) {
+      return await this.getDemocracyProposalMetadata(
+        proposal,
+        description,
+        proposer,
+        proposalMethod,
+        creationTime
+      )
+    }
+    if (type === `referendum`) {
+      return await this.getReferendumProposalMetadata(
+        proposal,
+        description,
+        proposer,
+        proposalMethod,
+        creationTime
+      )
+    }
+    if (type === `council`) {
+      const { meta } = api.registry.findMetaCall(proposal.proposal.callIndex)
+      description = meta.documentation.toString()
+    }
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime,
+      beneficiary: proposal.beneficiary
+    }
+  }
+
+  async getAllProposals() {
+    const api = await this.getAPI()
+
+    const [
+      blockHeight,
+      totalIssuance,
+      democracyProposals,
+      democracyReferendums,
+      treasuryProposals,
+      councilProposals,
+      councilMembers,
+      electionInfo
+    ] = await Promise.all([
+      this.getBlockHeight(),
+      api.query.balances.totalIssuance(),
+      api.derive.democracy.proposals(),
+      api.derive.democracy.referendums(),
+      api.derive.treasury.proposals(),
+      api.derive.council.proposals(),
+      api.query.council.members(),
+      api.derive.elections.info()
+    ])
+    const allProposals = await Promise.all(
+      democracyProposals
+        .map(async (proposal) => {
+          return this.reducers.democracyProposalReducer(
+            this.network,
+            await this.getProposalWithMetadata(proposal, `democracy`),
+            totalIssuance,
+            blockHeight
+          )
+        })
+        .concat(
+          democracyReferendums.map(async (proposal) => {
+            return this.reducers.democracyReferendumReducer(
+              this.network,
+              await this.getProposalWithMetadata(proposal, `referendum`),
+              totalIssuance,
+              blockHeight
+            )
+          })
+        )
+        .concat(
+          treasuryProposals.proposals
+            .filter((proposal) => {
+              // make sure that the treasury proposals haven't been passed as motions to Council
+              if (
+                !councilProposals.find(
+                  (councilProposal) =>
+                    JSON.stringify(councilProposal) ===
+                    JSON.stringify(proposal.council[0])
+                )
+              ) {
+                return proposal
+              }
+            })
+            .map(async (proposal) => {
+              const treasuryProposal = proposal.council[0]
+              if (!treasuryProposal) return
+              const proposalWithMetadata = await this.getProposalWithMetadata(
+                treasuryProposal,
+                `council`
+              )
+              return this.reducers.treasuryProposalReducer(
+                this.network,
+                {
+                  ...proposalWithMetadata,
+                  deposit: proposal.proposal.bond,
+                  beneficiary: proposal.proposal.beneficiary
+                },
+                councilMembers,
+                blockHeight,
+                electionInfo
+              )
+            })
+        )
+        .concat(
+          councilProposals.map(async (proposal) => {
+            return this.reducers.councilProposalReducer(
+              this.network,
+              await this.getProposalWithMetadata(proposal, `council`),
+              councilMembers,
+              blockHeight,
+              electionInfo
+            )
+          })
+        )
+    )
+
+    return orderBy(allProposals, 'id', 'desc')
+  }
+
+  async getProposalById(proposalId) {
+    const proposals = await this.getAllProposals()
+    return proposals.find((proposal) => proposal.id === proposalId)
+  }
+
+  getDelegatorVote() {}
+
+  async getTotalActiveAccounts() {
+    const api = await this.getAPI()
+    const accountKeys = await api.query.system.account.keys()
+    const accounts = accountKeys.map((key) => key.args[0].toHuman())
+    return accounts.length || 0
+  }
+
+  async getTopVoters(electionInfo) {
+    // in Substrate we simply return council members
+    const councilMembersInRelevanceOrder = electionInfo.members.map(
+      (runnerUp) => runnerUp[0]
+    )
+    return councilMembersInRelevanceOrder
+  }
+
+  async getTreasurySize() {
+    const api = await this.getAPI()
+
+    const TREASURY_ADDRESS = stringToU8a('modlpy/trsry'.padEnd(32, '\0'))
+    const treasuryAccount = await api.query.system.account(TREASURY_ADDRESS)
+    const totalBalance = treasuryAccount.data.free
+    const freeBalance = BigNumber(totalBalance.toString()).minus(
+      treasuryAccount.data.miscFrozen.toString()
+    )
+    return freeBalance.toString()
+  }
+
+  async getGovernanceOverview() {
+    const api = await this.getAPI()
+    const activeEra = parseInt(
+      JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
+    )
+    const electionInfo = await api.derive.elections.info()
+    const [
+      erasTotalStake,
+      treasurySize,
+      links,
+      totalVoters,
+      topVoters
+    ] = await Promise.all([
+      api.query.staking.erasTotalStake(activeEra),
+      this.getTreasurySize(),
+      this.db.getNetworkLinks(this.network.id),
+      this.getTotalActiveAccounts(),
+      this.getTopVoters(electionInfo)
+    ])
+    return {
+      totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
+        erasTotalStake,
+        2,
+        this.network,
+        this.network.stakingDenom
+      ),
+      totalVoters,
+      treasurySize: fixDecimalsAndRoundUpBigNumbers(
+        treasurySize,
+        2,
+        this.network,
+        this.network.stakingDenom
+      ),
+      topVoters: await Promise.all(
+        topVoters.map(async (topVoterAddress) => {
+          const accountInfo = await api.derive.accounts.info(topVoterAddress)
+          return this.reducers.topVoterReducer(
+            topVoterAddress,
+            electionInfo,
+            accountInfo,
+            this.store.validators,
+            this.network
+          )
+        })
+      ),
+      links: JSON.parse(links)
+    }
   }
 }
 

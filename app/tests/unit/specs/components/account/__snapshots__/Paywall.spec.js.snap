@@ -170,16 +170,11 @@ exports[`Paywall should show the Paywall page 1`] = `
       <div
         class="table-span"
       >
-        <span>
+        <a>
           
-          Have any ideas? Share them with us
-          
-          <i
-            class="material-icons notranslate"
-          >
-            launch
-          </i>
-        </span>
+          Have any ideas? Share them with us!
+        
+        </a>
       </div>
     </div>
   </div>

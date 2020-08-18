@@ -439,7 +439,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
         <img
           alt="MUON_2 currency"
           class="currency-flag"
-          src="/img/icons/currencies/muon_2.png"
+          src="/img/icons/currencies/muon.png"
         />
          
         <div

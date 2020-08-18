@@ -177,20 +177,43 @@ const transactionMetadata = async (
   }
 }
 
-const resolvers = (networkList) => ({
+const governanceOverview = () => async (_, { networkId }, { dataSources }) => {
+  const overview = await remoteFetch(
+    dataSources,
+    networkId
+  ).getGovernanceOverview()
+  return {
+    totalStakedAssets: overview.totalStakedAssets,
+    totalVoters: overview.totalVoters,
+    treasurySize: overview.treasurySize,
+    recentProposals: overview.recentProposals,
+    topVoters: overview.topVoters,
+    links: overview.links
+  }
+}
+
+const resolvers = (networkList, notificationController) => ({
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
       //
-      // Proposer value can be `unknown` (if proposal was issued in a previous chain),
-      // or standard address (i.e: cosmos19wlk8gkfjckqr8d73dyp4n0f0k89q4h7xr3uwj).
+      // Proposer value is a standard address (i.e: cosmos19wlk8gkfjckqr8d73dyp4n0f0k89q4h7xr3uwj).
       //
       // In some cases proposer address corresponds to a validator address, so we convert
       // it to an operator address. That way we can check and display if proposal comes from
       // a validator, and in that case fetch the current validator object from datasource
       // and attach it to proposal.
       //
-      if (proposal.proposer !== `unknown`) {
-        const proposerValAddress = encodeB32(
+      if (proposal.proposer) {
+        let proposerValAddress = ''
+        const proposalNetwork = networkList.find(
+          ({ id }) => id === proposal.networkId
+        )
+        if (proposalNetwork && proposalNetwork.network_type === `polkadot`) {
+          return localStore(dataSources, proposal.networkId).validators[
+            proposal.proposer
+          ]
+        }
+        proposerValAddress = encodeB32(
           decodeB32(proposal.proposer),
           `cosmosvaloper`,
           `hex`
@@ -218,10 +241,8 @@ const resolvers = (networkList) => ({
   Query: {
     proposals: (_, { networkId }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getAllProposals(),
-    proposal: (_, { networkId, id }, { dataSources }) =>
-      remoteFetch(dataSources, networkId).getProposalById({
-        proposalId: id
-      }),
+    proposal: async (_, { networkId, id }, { dataSources }) =>
+      await remoteFetch(dataSources, networkId).getProposalById(id),
     vote: (_, { networkId, proposalId, address }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getDelegatorVote({
         proposalId,
@@ -386,10 +407,27 @@ const resolvers = (networkList) => ({
       if (!remoteFetch(dataSources, networkId).getAddressRole) return undefined
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
-    }
+    },
+    governanceOverview: governanceOverview()
   },
   Mutation: {
-    registerUser: (_, variables, { user: { uid } }) => registerUser(uid)
+    registerUser: (_, { idToken }) => registerUser(idToken),
+    notifications: async (
+      _,
+      { addressObjects, notificationType, pushToken },
+      { dataSources, user: { uid } }
+    ) => {
+      await Promise.all(
+        addressObjects.map(({ networkId }) => dataSources[networkId].dataReady)
+      )
+      notificationController.updateRegistrations(
+        uid,
+        addressObjects,
+        notificationType,
+        dataSources,
+        pushToken
+      )
+    }
   },
   Subscription: {
     blockAdded: {

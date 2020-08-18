@@ -5,6 +5,10 @@
             {
                 "appID": "1475911030.org.lunie.lunie",
                 "paths": ["*"]
+            },
+            {
+                "appID": "PTRTA7T9GN.org.lunie.lunie",
+                "paths": ["*"]
             }
         ]
     }

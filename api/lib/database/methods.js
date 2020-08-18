@@ -130,6 +130,7 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
         curves
         defaultHDPath
         defaultCurve
+        links
       }
       networksCapabilities: networksCapabilities {
         id
@@ -209,6 +210,7 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
         curves
         defaultHDPath
         defaultCurve
+        links
       }
       networksCapabilities: networksCapabilities(where: { 
         id: {_eq: "${id}"}
@@ -237,6 +239,7 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
         chainDenom
         viewDenom
         chainToViewConversionFactor
+        icon
       }
     }
   `)
@@ -246,6 +249,27 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
     ...networksCapabilities[0],
     coinLookup: coinLookups
   }
+}
+
+const getNetworkLinks = ({ hasura_url, hasura_admin_key }) => () => async (
+  id
+) => {
+  const {
+    data: { networks }
+  } = await query({
+    hasura_url,
+    hasura_admin_key
+  })(`
+    query {
+      networks: networks(where: { 
+        id: {_eq: "${id}"}
+      }) {
+        links
+      }
+    }
+    `)
+  const network = networks[0]
+  return network.links
 }
 
 const storeCoinLookups = (
@@ -389,6 +413,45 @@ const getUser = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   )
 }
 
+// write and return a new session
+const storeAndGetNewSession = ({
+  hasura_url,
+  hasura_admin_key
+}) => () => async (uid) => {
+  const now = new Date()
+  const validUntil = new Date()
+  validUntil.setDate(now.getDate() + 21) // valid for 3 weeks
+  const payload = {
+    uid,
+    valid_until: validUntil
+  }
+  const sessions = await insert({
+    hasura_url,
+    hasura_admin_key
+  })('')(`sessions`, payload, undefined, undefined, [
+    `session_token`,
+    `valid_until`
+  ])
+  return sessions[0] // insert always returns an array
+}
+
+const getSession = ({ hasura_url, hasura_admin_key }) => () => async (
+  sessionToken
+) => {
+  const response = await read({
+    hasura_url,
+    hasura_admin_key
+  })('')(
+    `sessions`,
+    `sessions`,
+    [`uid`, `valid_until`],
+    `where: {
+      session_token: { _eq: "${sessionToken}"}
+    }`
+  )
+  return response ? response[0] : undefined
+}
+
 const storeStore = ({ hasura_url, hasura_admin_key }) => () => async (
   payload
 ) => {
@@ -427,10 +490,13 @@ module.exports = {
   storeNetwork,
   getNetwork,
   getNetworks,
+  getNetworkLinks,
   storeUser,
   getUser,
   storeStore,
   getStore,
   storeNotificationRegistrations,
-  getNotificationRegistrations
+  getNotificationRegistrations,
+  storeAndGetNewSession,
+  getSession
 }

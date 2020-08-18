@@ -22,7 +22,6 @@ export default {
   },
   methods: {
     reconnect() {
-      console.log("reconnect")
       this.$store.dispatch("reconnect")
     },
   },
