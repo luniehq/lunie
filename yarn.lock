@@ -1041,10 +1041,10 @@
   dependencies:
     tslib "^1.9.0"
 
-"@capacitor/ios@2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-2.2.0.tgz#e9fbf2cf1404fd08b251b7a63380f2ac199b912e"
-  integrity sha512-mMz09NG7PYygoAtPJEBRiCjANHRfFT5WcTrFxILRYsgrLct4LhZ7ejaj9En3NGCvwnTG/J+89U2nxxlw2WisOw==
+"@capacitor/ios@2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-2.4.0.tgz#41302eee5c0b232755b61f7a978550f191e2a030"
+  integrity sha512-G4WcQHS4RuK94Ncoi5K+r12DWPqkB8yZKupQrJaGT1S/Zyc3mcA9m1f4HwRPlYCwyxQ6lCd8+N9GYxLu7Kv+SA==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
