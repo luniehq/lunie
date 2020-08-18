@@ -4,7 +4,6 @@ const BigNumber = require('bignumber.js')
 const _ = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
-const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const { getNetworkGasPrices } = require('../../data/network-fees')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }

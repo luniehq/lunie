@@ -377,10 +377,6 @@ const typeDefs = gql`
     links: [GovernanceLink]
   }
 
-  type Vote {
-    option: String
-  }
-
   type Powered {
     name: String
     providerAddress: String
