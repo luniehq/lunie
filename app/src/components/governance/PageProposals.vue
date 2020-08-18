@@ -22,6 +22,7 @@
         @click.native="openTutorial()"
       />
     </div>
+    <!-- v-ifing ModalPropose until we enable the "propose" action in Substrate -->
     <ModalPropose
       v-if="parameters && Object.keys(parameters).length > 0"
       ref="modalPropose"

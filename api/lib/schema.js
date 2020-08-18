@@ -89,7 +89,7 @@ const typeDefs = gql`
   }
 
   type Proposal {
-    id: Int
+    id: String
     networkId: String!
     type: proposalTypeEnum
     title: String
@@ -355,11 +355,30 @@ const typeDefs = gql`
     type: String
   }
 
+  type TopVoter {
+    name: String!
+    address: String!
+    votingPower: String!
+    validator: Validator
+  }
+
   type GovernanceParameters {
     depositDenom: String
     votingThreshold: Float
     vetoThreshold: Float
     depositThreshold: String # BigNumber
+  }
+
+  type GovernanceOverview @cacheControl(maxAge: 21600) {
+    totalStakedAssets: Float
+    totalVoters: Int
+    treasurySize: Float
+    topVoters: [TopVoter]
+    links: [GovernanceLink]
+  }
+
+  type Vote {
+    option: String
   }
 
   type Powered {
@@ -457,7 +476,7 @@ const typeDefs = gql`
 
   type Query {
     blockV2(networkId: String!, height: Int): BlockV2
-    proposal(networkId: String!, id: Int!): Proposal
+    proposal(networkId: String!, id: String!): Proposal
     proposals(networkId: String!): [Proposal]
     validators(
       networkId: String!
@@ -466,8 +485,9 @@ const typeDefs = gql`
       popularSort: Boolean
     ): [Validator]
     allDelegators(networkId: String!): [String]
-    vote(networkId: String!, proposalId: Int!, address: String!): Vote
+    vote(networkId: String!, proposalId: String!, address: String!): Vote
     governanceParameters(networkId: String!): GovernanceParameters
+    governanceOverview(networkId: String!): GovernanceOverview
     validator(networkId: String!, operatorAddress: String!): Validator
     networks(experimental: Boolean): [Network]
     network(id: String): Network

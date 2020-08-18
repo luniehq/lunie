@@ -16,20 +16,6 @@ const proposalTypeEnum = {
   PARAMETER_CHANGE: 'PARAMETER_CHANGE'
 }
 
-const proposalTypeEnumDictionary = (key) => {
-  switch (key) {
-    case 'addRegistrar':
-    case 'setValidatorCount':
-    case 'scheduleNamed':
-    case 'setCode':
-    case 'killPrefix':
-    case 'setBalance':
-      return 'PARAMETER_CHANGE'
-    default:
-      return 'TEXT'
-  }
-}
-
 function blockReducer(
   networkId,
   chainId,
@@ -515,16 +501,16 @@ function democracyProposalReducer(
   detailedVotes
 ) {
   return {
-    id: proposal.index,
+    id: `democracy-`.concat(proposal.index),
     networkId: network.id,
-    type: proposalTypeEnumDictionary(proposal.method),
+    type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Preliminary Proposal #${proposal.index}`,
     description: proposal.description,
     creationTime: proposal.creationTime,
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
-    deposit: toViewDenom(proposal.balance, network),
+    deposit: toViewDenom(network, proposal.balance),
     proposer: proposal.proposer.toHuman(),
     detailedVotes
   }
@@ -538,9 +524,9 @@ function democracyReferendumReducer(
   detailedVotes
 ) {
   return {
-    id: proposal.index,
+    id: `referendum-`.concat(proposal.index),
     networkId: network.id,
-    type: proposalTypeEnumDictionary(proposal.method),
+    type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Proposal #${proposal.index}`,
     description: proposal.description,
     creationTime: proposal.creationTime,
@@ -548,7 +534,7 @@ function democracyReferendumReducer(
     statusBeginTime: proposal.creationTime,
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
-    deposit: toViewDenom(proposal.status.tally.turnout, network),
+    deposit: toViewDenom(network, proposal.status.tally.turnout),
     proposer: proposal.proposer,
     detailedVotes
   }
@@ -559,18 +545,20 @@ function treasuryProposalReducer(
   proposal,
   councilMembers,
   blockHeight,
+  electionInfo,
   detailedVotes
 ) {
   return {
-    id: proposal.id,
+    id: `treasury-`.concat(proposal.votes.index),
     networkId: network.id,
     type: proposalTypeEnum.TREASURY,
-    title: `Treasury Proposal #${proposal.id}`,
+    title: `Treasury Proposal #${proposal.votes.index}`,
+    description: proposal.description,
     creationTime: proposal.creationTime,
     status: `VotingPeriod`,
     statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
-    tally: councilTallyReducer(proposal.votes, councilMembers),
-    deposit: toViewDenom(Number(proposal.proposal.bond), network),
+    tally: councilTallyReducer(proposal.votes, councilMembers, electionInfo),
+    deposit: toViewDenom(network, Number(proposal.deposit)),
     proposer: proposal.proposer ? proposal.proposer.toHuman() : undefined,
     beneficiary: proposal.beneficiary, // the account getting the tip
     detailedVotes
@@ -582,10 +570,11 @@ function councilProposalReducer(
   proposal,
   councilMembers,
   blockHeight,
+  electionInfo,
   detailedVotes
 ) {
   return {
-    id: proposal.votes.index,
+    id: `council-`.concat(proposal.votes.index),
     networkId: network.id,
     type: proposalTypeEnum.COUNCIL,
     title: `Council Proposal #${proposal.votes.index}`,
@@ -594,7 +583,7 @@ function councilProposalReducer(
     status: `VotingPeriod`,
     statusBeginTime: proposal.creationTime,
     statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
-    tally: councilTallyReducer(proposal.votes, councilMembers),
+    tally: councilTallyReducer(proposal.votes, councilMembers, electionInfo),
     deposit: undefined,
     proposer: undefined,
     detailedVotes
@@ -626,13 +615,13 @@ function tallyReducer(network, tally, totalIssuance) {
   const turnout = BigNumber(tally.turnout)
 
   const totalVoted = BigNumber(tally.ayes).plus(tally.nays)
-  const total = toViewDenom(totalVoted.toString(10), network)
-  const yes = toViewDenom(tally.ayes, network)
-  const no = toViewDenom(tally.nays, network)
+  const total = toViewDenom(network, totalVoted.toString(10))
+  const yes = toViewDenom(network, tally.ayes)
+  const no = toViewDenom(network, tally.nays)
   const totalVotedPercentage = turnout
     .div(BigNumber(totalIssuance))
     .toNumber()
-    .toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
+    .toFixed(4) // the percent conversion is done in the FE. We just send the decimals here
 
   return {
     yes,
@@ -644,15 +633,41 @@ function tallyReducer(network, tally, totalIssuance) {
   }
 }
 
-function councilTallyReducer(votes, councilMembers) {
+function councilTallyReducer(votes, councilMembers, electionInfo) {
   const total = votes.ayes.length + votes.nays.length
+  // to calculated the totalVotedPercentage we need to add up the voting power of the council members that did vote on the proposal
+  // first of all we need to calculate the total voting power of the council
+  // TODO: we also need to take into account the Prime council member vote
+  const totalCouncilVotingPower = electionInfo.members.reduce(
+    (votingPowerAggregator, member) => {
+      return (votingPowerAggregator = BigNumber(votingPowerAggregator).plus(
+        member[1]
+      ))
+    },
+    0
+  )
+  const totalVoted = councilMembers.reduce((totalVotedAggregator, member) => {
+    const memberElectionInfo = electionInfo.members.find(
+      (memberElectionInfo) =>
+        memberElectionInfo[0].toHuman() === member.toHuman()
+    )
+    if (memberElectionInfo) {
+      totalVotedAggregator = BigNumber(totalVotedAggregator).plus(
+        memberElectionInfo[1]
+      )
+    }
+    return totalVotedAggregator
+  }, 0)
   return {
     yes: votes.ayes.length,
     no: votes.nays.length,
     abstain: 0,
     veto: 0,
     total,
-    totalVotedPercentage: (total / councilMembers.length).toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
+    totalVotedPercentage: BigNumber(totalCouncilVotingPower)
+      .div(totalVoted)
+      .toNumber()
+      .toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
   }
 }
 
@@ -661,6 +676,28 @@ function democracyTallyReducer(proposal) {
   // we would have to turn the seconds concept into a deposit somehow
   return {
     yes: proposal.seconds.length
+  }
+}
+
+function topVoterReducer(
+  topVoterAddress,
+  electionInfo,
+  accountInfo,
+  validators,
+  network
+) {
+  const { identity, nickname } = accountInfo || {}
+  const councilMemberInfo = electionInfo.members.find(
+    (electionInfoMember) =>
+      electionInfoMember[0].toHuman() === topVoterAddress.toHuman()
+  )
+  return {
+    name: nickname || identity.display,
+    address: topVoterAddress,
+    votingPower: councilMemberInfo
+      ? toViewDenom(network, councilMemberInfo[1])
+      : '',
+    validator: validators[topVoterAddress]
   }
 }
 
@@ -692,5 +729,6 @@ module.exports = {
   democracyReferendumReducer,
   treasuryProposalReducer,
   councilProposalReducer,
-  tallyReducer
+  tallyReducer,
+  topVoterReducer
 }
