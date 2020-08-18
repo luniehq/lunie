@@ -300,7 +300,7 @@ class CosmosV0API extends RESTDataSource {
   }
 
   async getTopVoters() {
-    // for now defaulting to pick the 5 largest voting powers
+    // for now defaulting to pick the 10 largest voting powers
     return _.take(
       _.reverse(
         _.sortBy(this.store.validators, [
@@ -309,8 +309,8 @@ class CosmosV0API extends RESTDataSource {
           }
         ])
       ),
-      5
-    ).map(({ operatorAddress }) => operatorAddress)
+      10
+    )
   }
 
   async getGovernanceOverview() {
