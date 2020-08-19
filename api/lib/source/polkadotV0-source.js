@@ -823,7 +823,6 @@ class polkadotAPI {
     return {
       deposits,
       depositsSum: toViewDenom(this.network, depositsSum),
-      percentageDepositsNeeded: undefined,
       votes,
       votesSum,
       votingThresholdYes: threshold,
