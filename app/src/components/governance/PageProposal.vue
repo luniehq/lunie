@@ -50,7 +50,7 @@
         </div>
       </div>
 
-      <TextBlock v-if="proposal.description" :content="proposal.description" />
+      <TextBlock :content="proposal.description" />
 
       <ul v-if="proposal.status === 'DepositPeriod'" class="row">
         <li>
@@ -189,7 +189,7 @@ import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
-import { ProposalFragment, GovernanceParameters, Vote } from "src/gql"
+import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
 import Address from "common/Address"
 import gql from "graphql-tag"
