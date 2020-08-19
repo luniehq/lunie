@@ -567,6 +567,9 @@ class polkadotAPI {
   ) {
     const api = await this.getAPI()
 
+    description = `This is a Democracy Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
+      proposal.proposer || proposer
+    }) is able to change them.`
     if (proposal.image) {
       const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
       const preimageRaw = await api.query.democracy.preimages.at(
