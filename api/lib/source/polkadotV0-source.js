@@ -485,9 +485,14 @@ class polkadotAPI {
     return inactiveDelegations
   }
 
-  // TODO: find out how to get all undelegations in Polkadot
-  getUndelegationsForDelegatorAddress() {
-    return []
+  async getUndelegationsForDelegatorAddress(address) {
+    const api = await this.getAPI()
+
+    const stakingledger = await api.query.staking.ledger(address)
+    const undelegations = stakingledger.toJSON().unlocking
+    return undelegations.map((undelegation) =>
+      this.reducers.undelegationReducer(undelegation, address, this.network)
+    )
   }
 
   async getDelegationForValidator(delegatorAddress, validator) {
