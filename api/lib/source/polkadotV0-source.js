@@ -996,8 +996,12 @@ class polkadotAPI {
           })
         )
     )
-
-    return orderBy(allProposals, 'id', 'desc')
+    // remove null proposals from filtered treasury proposals
+    return orderBy(
+      allProposals.filter((proposal) => proposal),
+      'id',
+      'desc'
+    )
   }
 
   async getProposalById(proposalId) {
