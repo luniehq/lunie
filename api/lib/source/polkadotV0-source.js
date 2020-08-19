@@ -817,6 +817,9 @@ class polkadotAPI {
         6) /
         (3600 * 24)
     )
+    const totalVotingPower = BigNumber(proposal.status.tally.ayes).plus(
+      proposal.status.tally.nays
+    )
     return {
       deposits,
       depositsSum: toViewDenom(this.network, depositsSum),
@@ -824,6 +827,22 @@ class polkadotAPI {
       votes,
       votesSum,
       votingThresholdYes: threshold,
+      votingPercentageYes:
+        totalVotingPower.toNumber() > 0
+          ? BigNumber(proposal.status.tally.ayes)
+              .times(100)
+              .div(totalVotingPower)
+              .toNumber()
+              .toFixed(2)
+          : 0,
+      votingPercentagedNo:
+        totalVotingPower.toNumber() > 0
+          ? BigNumber(proposal.status.tally.nays)
+              .times(100)
+              .div(totalVotingPower)
+              .toNumber()
+              .toFixed(2)
+          : 0,
       links,
       timeline: [
         // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
