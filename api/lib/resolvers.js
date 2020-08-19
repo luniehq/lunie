@@ -325,10 +325,12 @@ const resolvers = (networkList, notificationController) => ({
       { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      // needed to get coinLookups
+      const network = networkList.find((network) => network.id === networkId)
       const balances = await remoteFetch(
         dataSources,
         networkId
-      ).getBalancesFromAddress(address, fiatCurrency)
+      ).getBalancesFromAddress(address, fiatCurrency, network)
       const balance = balances.find((balance) => balance.denom === denom)
       return balance || { denom, amount: 0 }
     },
