@@ -488,9 +488,24 @@ class polkadotAPI {
   async getUndelegationsForDelegatorAddress(address) {
     const api = await this.getAPI()
 
-    const stakingledger = await api.query.staking.ledger(address)
-    const undelegations = stakingledger.toJSON().unlocking
-    return undelegations.map((undelegation) =>
+    const [stakingLedger, activeEra ] = await Promise.all([
+      api.query.staking.ledger(address),
+      api.query.staking.activeEra().then(async (era) => {
+        return era.toJSON().index
+      })
+    ])
+    const undelegations = stakingLedger.toJSON().unlocking
+    const erasForUndelegation = undelegations.map(({era}) => era - activeEra)
+
+    const undelegationsWithEndTime = undelegations.map((undelegation, index) => {
+      const totalMilliseconds = (erasForUndelegation[index] * 6) * 60 * 60 * 1000
+      return {
+        ...undelegation,
+        endTime: new Date((new Date().getTime() + totalMilliseconds)).toUTCString()
+      }
+    })
+
+    return undelegationsWithEndTime.map((undelegation) =>
       this.reducers.undelegationReducer(undelegation, address, this.network)
     )
   }

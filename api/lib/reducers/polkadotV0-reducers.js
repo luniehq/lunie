@@ -183,7 +183,7 @@ function undelegationReducer(undelegation, address, network) {
     delegatorAddress: address,
     amount: toViewDenom(network, undelegation.value),
     startHeight: '',
-    endTime: undelegation.era
+    endTime: undelegation.endTime
   }
 }
 
