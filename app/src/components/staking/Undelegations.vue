@@ -15,7 +15,15 @@
         <h1>
           Pending
         </h1>
-        <TableUndelegations :undelegations="undelegations" />
+        <TableBalances
+          v-if="currentNetwork.network_type === `polkadot`"
+          :balances="
+            undelegations.map((undelegation) => {
+              return { ...undelegation, denom: currentNetwork.stakingDenom }
+            })
+          "
+        />
+        <TableUndelegations v-else :undelegations="undelegations" />
       </div>
     </div>
   </div>
@@ -23,6 +31,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import TableBalances from "common/TableBalances"
 import TableUndelegations from "staking/TableUndelegations"
 import { ValidatorFragment, UserTransactionAdded } from "src/gql"
 import gql from "graphql-tag"
@@ -31,13 +40,14 @@ export default {
   name: `undelegations`,
   components: {
     TableUndelegations,
+    TableBalances,
   },
   data: () => ({
     undelegations: [],
     undelegationsLoaded: false,
   }),
   computed: {
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `network`, `currentNetwork`]),
   },
   apollo: {
     undelegations: {

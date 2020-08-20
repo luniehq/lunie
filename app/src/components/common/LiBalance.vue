@@ -46,15 +46,24 @@
         ><span>Send</span>
       </div>
     </div>
+
+    <!-- endTime span for Polkadot undelegations -->
+    <div :key="balance.denom + '_endtime'" class="table-cell endtime">
+      <span v-if="balance.endTime" class="">
+        {{ balance.endTime | fromNow }}
+      </span>
+    </div>
   </div>
 </template>
 <script>
 import { bigFigureOrShortDecimals } from "scripts/num"
+import { fromNow } from "src/filters"
 import { mapGetters, mapState } from "vuex"
 
 export default {
   filters: {
     bigFigureOrShortDecimals,
+    fromNow,
   },
   props: {
     balance: {
@@ -177,6 +186,10 @@ export default {
   }
 
   .rewards {
+    font-size: 12px;
+  }
+
+  .endtime {
     font-size: 12px;
   }
 }
