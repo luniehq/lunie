@@ -4,6 +4,24 @@ import LiBalance from "common/LiBalance"
 describe(`LiBalance`, () => {
   let wrapper, $store
 
+  const propsData = {
+    balance: {
+      type: "STAKE",
+      denom: "MUON",
+      available: "80.780405",
+      total: "100.780405",
+      fiatValue: {
+        amount: "10",
+        denom: "USD",
+        symbol: "$",
+      },
+    },
+    totalRewardsDenom: {
+      TOKEN1: 1,
+      MUON: 5,
+    },
+  }
+
   beforeEach(async () => {
     $store = {
       getters: {
@@ -28,25 +46,9 @@ describe(`LiBalance`, () => {
     }
 
     wrapper = shallowMount(LiBalance, {
+        props: propsData,
       mocks: {
         $store,
-      },
-    })
-    wrapper.setProps({
-      balance: {
-        type: "STAKE",
-        denom: "MUON",
-        available: "80.780405",
-        total: "100.780405",
-        fiatValue: {
-          amount: "10",
-          denom: "USD",
-          symbol: "$",
-        },
-      },
-      totalRewardsDenom: {
-        TOKEN1: 1,
-        MUON: 5,
       },
     })
   })
