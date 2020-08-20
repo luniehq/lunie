@@ -241,6 +241,8 @@ const typeDefs = gql`
     proposer: String
     initialDeposit: InputCoin
     voteOption: String
+    lockedBalance: Float
+    conviction: Int
     addressRole: String
   }
 
