@@ -65,7 +65,7 @@
       :key="balance.denom + '_endtime'"
       class="table-cell endtime"
     >
-      <span class="">
+      <span>
         {{ balance.endTime | fromNow }}
       </span>
     </div>

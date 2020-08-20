@@ -17,15 +17,7 @@
         </h1>
         <TableBalances
           v-if="currentNetwork.network_type === `polkadot`"
-          :balances="
-            undelegations.map((undelegation) => {
-              return {
-                ...undelegation,
-                total: undelegation.amount,
-                denom: currentNetwork.stakingDenom,
-              }
-            })
-          "
+          :balances="convertUndelegationsToBalances(undelegations)"
         />
         <TableUndelegations v-else :undelegations="undelegations" />
       </div>
@@ -52,6 +44,17 @@ export default {
   }),
   computed: {
     ...mapGetters([`address`, `network`, `currentNetwork`]),
+  },
+  methods: {
+    convertUndelegationsToBalances(undelegations) {
+      return undelegations.map((undelegation) => {
+        return {
+          ...undelegation,
+          total: undelegation.amount,
+          denom: this.currentNetwork.stakingDenom,
+        }
+      })
+    },
   },
   apollo: {
     undelegations: {
