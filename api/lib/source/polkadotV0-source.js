@@ -725,9 +725,8 @@ class polkadotAPI {
 
   async getReferendumThreshold(proposal) {
     const api = await this.getAPI()
-    let votingThresholdYes
-    let votingThresholdNo
 
+    const thresholdType = proposal.status.threshold
     const electorate = await api.query.balances.totalIssuance()
     const ayeVotesWithoutConviction = proposal.allAye.reduce(
       (ayeAggregator, aye) => {
@@ -743,95 +742,42 @@ class polkadotAPI {
     )
     const ayeVotes = Number(proposal.status.tally.ayes)
     const nayVotes = Number(proposal.status.tally.nays)
-    if (
-      JSON.stringify(proposal.status.threshold) ===
-      JSON.stringify(`Supermajorityapproval`)
-    ) {
-      votingThresholdYes = getPassingThreshold({
-        nays: new BN(
-          BigNumber(nayVotes)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        naysWithoutConviction: new BN(
-          BigNumber(nayVotesWithoutConviction)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        totalIssuance: new BN(
-          BigNumber(electorate)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        threshold: `Supermajorityapproval`
-      }).passingThreshold
-      votingThresholdNo = getFailingThreshold({
-        ayes: new BN(
-          BigNumber(ayeVotes)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        ayesWithoutConviction: new BN(
-          BigNumber(ayeVotesWithoutConviction)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        totalIssuance: new BN(
-          BigNumber(electorate)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        threshold: `Supermajorityapproval`
-      }).failingThreshold
-    }
-    if (
-      JSON.stringify(proposal.status.threshold) ===
-      JSON.stringify(`Supermajorityrejection`)
-    ) {
-      votingThresholdYes = getPassingThreshold({
-        nays: new BN(
-          BigNumber(nayVotes)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        naysWithoutConviction: new BN(
-          BigNumber(nayVotesWithoutConviction)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        totalIssuance: new BN(
-          BigNumber(electorate)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        threshold: `Supermajorityrejection`
-      }).passingThreshold
-      votingThresholdNo = getFailingThreshold({
-        ayes: new BN(
-          BigNumber(ayeVotes)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        ayesWithoutConviction: new BN(
-          BigNumber(ayeVotesWithoutConviction)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        totalIssuance: new BN(
-          BigNumber(electorate)
-            .times(this.network.coinLookup[0].chainToViewConversionFactor)
-            .toNumber()
-        ),
-        threshold: `Supermajorityrejection`
-      }).failingThreshold
-    }
-    if (
-      JSON.stringify(proposal.status.threshold) ===
-      JSON.stringify(`Simplemajority`)
-    ) {
-      votingThresholdYes = BigNumber(nayVotes)
-      votingThresholdNo = BigNumber(ayeVotes)
-    }
+    const votingThresholdYes = getPassingThreshold({
+      nays: new BN(
+        BigNumber(nayVotes)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      naysWithoutConviction: new BN(
+        BigNumber(nayVotesWithoutConviction)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      totalIssuance: new BN(
+        BigNumber(electorate)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      threshold: thresholdType
+    }).passingThreshold
+    const votingThresholdNo = getFailingThreshold({
+      ayes: new BN(
+        BigNumber(ayeVotes)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      ayesWithoutConviction: new BN(
+        BigNumber(ayeVotesWithoutConviction)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      totalIssuance: new BN(
+        BigNumber(electorate)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      threshold: thresholdType
+    }).failingThreshold
 
     return {
       votingThresholdYes: votingThresholdYes
