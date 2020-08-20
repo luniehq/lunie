@@ -119,20 +119,25 @@ export default {
   position: relative;
   white-space: nowrap;
 }
+
 .rewards {
   color: var(--success);
 }
+
 .fiat {
   color: var(--dim);
   padding-left: 1rem;
 }
+
 .total {
   color: var(--bright);
 }
+
 .total-and-fiat {
   display: flex;
   flex-direction: row;
 }
+
 .currency-flag {
   width: 2.5rem;
   height: 2.5rem;
@@ -141,13 +146,16 @@ export default {
   margin-right: 1rem;
   border-radius: 50%;
 }
+
 .table-cell.big {
   width: 40%;
   padding-left: 1rem;
 }
+
 .table-cell.big.title {
   padding-left: 0;
 }
+
 .icon-button-container span {
   display: block;
   font-size: 12px;
@@ -155,6 +163,7 @@ export default {
   color: var(--dim);
   padding-top: 2px;
 }
+
 .icon-button {
   border-radius: 50%;
   background: var(--link);
@@ -167,44 +176,55 @@ export default {
   justify-content: center;
   transition: background-color 0.25s ease;
 }
+
 .icon-button:hover {
   background: var(--link-hover);
   cursor: pointer;
 }
+
 .icon-button i {
   font-size: 14px;
   color: var(--menu-bright);
 }
+
 @media screen and (max-width: 667px) {
   .available {
     display: none;
   }
+
   .table {
     padding: 1rem;
   }
+
   .table-cell {
     width: 40%;
   }
+
   .rewards {
     font-size: 12px;
   }
+
   .endtime {
     font-size: 12px;
   }
 }
+
 @media screen and (min-width: 1254px) {
   .send-button {
     display: none;
   }
 }
+
 @media screen and (max-width: 1254px) {
   .actions {
     display: none;
   }
+
   .total-and-fiat {
     display: flex;
     flex-direction: column;
   }
+
   .fiat {
     padding: 0;
     font-size: 12px;

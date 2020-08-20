@@ -3,7 +3,7 @@ import { createLocalVue, shallowMount } from "@vue/test-utils"
 
 describe(`PageTransactions`, () => {
   const localVue = createLocalVue()
-  localVue.directive(`tooltip`, () => { })
+  localVue.directive(`tooltip`, () => {})
 
   const addresses = [
     `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
@@ -147,7 +147,7 @@ describe(`PageTransactions`, () => {
           $apollo,
         },
         directives: {
-          infiniteScroll: () => { },
+          infiniteScroll: () => {},
         },
       })
       wrapper.setProps({ transactions, validators })
@@ -166,7 +166,7 @@ describe(`PageTransactions`, () => {
         $apollo,
       },
       directives: {
-        infiniteScroll: () => { },
+        infiniteScroll: () => {},
       },
     })
     $store.state.session.signedIn = true
@@ -250,7 +250,7 @@ describe(`PageTransactions`, () => {
         $apollo,
       },
       directives: {
-        infiniteScroll: () => { },
+        infiniteScroll: () => {},
       },
     })
     wrapper.setData({
@@ -269,7 +269,7 @@ describe(`PageTransactions`, () => {
         $apollo,
       },
       directives: {
-        infiniteScroll: () => { },
+        infiniteScroll: () => {},
       },
     })
     wrapper.setData({ validators })

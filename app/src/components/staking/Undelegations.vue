@@ -19,7 +19,8 @@
           v-if="currentNetwork.network_type === `polkadot`"
           :balances="convertUndelegationsToBalances(undelegations)"
         />
-        <TableUndelegations v-else :undelegations="undelegations" />      </div>
+        <TableUndelegations v-else :undelegations="undelegations" />
+      </div>
     </div>
   </div>
 </template>
