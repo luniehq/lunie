@@ -566,27 +566,29 @@ class polkadotAPI {
   ) {
     const api = await this.getAPI()
 
-    const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
-    const preimageRaw = await api.query.democracy.preimages.at(
-      blockHash,
-      proposal.imageHash
-    )
-    const preimage = preimageRaw.unwrapOr(null)
-    const { data } = preimage.asAvailable
-    const proposalWithIndex = this.constructProposal(api, data)
-    const { meta, method } = api.registry.findMetaCall(
-      proposalWithIndex.callIndex
-    )
-    description = meta.documentation.toString()
-    proposalMethod = method
-
-    // get creationTime
-    const block = await api.rpc.chain.getBlock(blockHash)
-    const args = block.block.extrinsics.map((extrinsic) =>
-      extrinsic.method.args.find((arg) => arg)
-    )
-    const blockTimestamp = args[0]
-    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+    if (proposal.image) {
+      const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
+      const preimageRaw = await api.query.democracy.preimages.at(
+        blockHash,
+        proposal.imageHash
+      )
+      const preimage = preimageRaw.unwrapOr(null)
+      const { data } = preimage.asAvailable
+      const proposalWithIndex = this.constructProposal(api, data)
+      const { meta, method } = api.registry.findMetaCall(
+        proposalWithIndex.callIndex
+      )
+      description = meta.documentation.toString()
+      proposalMethod = method
+  
+      // get creationTime
+      const block = await api.rpc.chain.getBlock(blockHash)
+      const args = block.block.extrinsics.map((extrinsic) =>
+        extrinsic.method.args.find((arg) => arg)
+      )
+      const blockTimestamp = args[0]
+      creationTime = new Date(Number(blockTimestamp)).toUTCString()
+    }
 
     return {
       ...proposal,
