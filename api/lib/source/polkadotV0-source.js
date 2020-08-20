@@ -726,6 +726,7 @@ class polkadotAPI {
   async getReferendumThreshold(proposal) {
     const api = await this.getAPI()
     let votingThresholdYes
+    let votingThresholdNo
 
     const electorate = await api.query.balances.totalIssuance()
     const ayeVotesWithoutConviction = proposal.allAye.reduce(
@@ -740,15 +741,16 @@ class polkadotAPI {
       },
       0
     )
-    const ayesVotes = Number(proposal.status.tally.ayes)
-    const naysVotes = Number(proposal.status.tally.nays)
+    const ayeVotes = Number(proposal.status.tally.ayes)
+    const nayVotes = Number(proposal.status.tally.nays)
     if (
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Supermajorityapproval`)
     ) {
+      votingThresholdNo = 1
       votingThresholdYes = getPassingThreshold({
         nays: new BN(
-          BigNumber(naysVotes)
+          BigNumber(nayVotes)
             .times(this.network.coinLookup[0].chainToViewConversionFactor)
             .toNumber()
         ),
@@ -769,14 +771,15 @@ class polkadotAPI {
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Supermajorityagainst`)
     ) {
-      votingThresholdYes = getFailingThreshold({
+      votingThresholdYes = 1
+      votingThresholdNo = getFailingThreshold({
         ayes: new BN(
-          BigNumber(ayesVotes)
+          BigNumber(ayeVotes)
             .times(this.network.coinLookup[0].chainToViewConversionFactor)
             .toNumber()
         ),
         ayesWithoutConviction: new BN(
-          BigNumber(ayesVotesWithoutConviction)
+          BigNumber(ayeVotesWithoutConviction)
             .times(this.network.coinLookup[0].chainToViewConversionFactor)
             .toNumber()
         ),
@@ -792,7 +795,8 @@ class polkadotAPI {
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Simplemajority`)
     ) {
-      votingThresholdYes = BigNumber(naysVotes)
+      votingThresholdYes = BigNumber(nayVotes)
+      votingThresholdNo = BigNumber(nayVotes)
     }
 
     return votingThresholdYes ? votingThresholdYes.toString() : undefined
