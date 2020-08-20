@@ -17,16 +17,6 @@ describe(`TmBalance`, () => {
             testnet: false,
           },
         ],
-        currentNetwork: {
-          id: "test-network",
-          testnet: false,
-          coinLookup: [
-            {
-              viewDenom: `MUON`,
-              icon: `/img/icons/currencies/muon.png`,
-            },
-          ],
-        },
       },
       state: {
         connection: {
@@ -127,17 +117,6 @@ describe(`TmBalance`, () => {
     expect(wrapper.text()).toContain("Token")
     expect(wrapper.text()).not.toContain("Available ATOM")
     expect(wrapper.text()).not.toContain("Total Rewards")
-  })
-
-  it(`opens send modal`, () => {
-    const $refs = {
-      SendModal: {
-        open: jest.fn(),
-      },
-    }
-    wrapper.vm.$refs = $refs
-    wrapper.find(".table-cell.actions button").trigger("click")
-    expect($refs.SendModal.open).toHaveBeenCalled()
   })
 
   it(`opens claim rewards modal`, () => {
