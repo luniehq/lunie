@@ -747,7 +747,6 @@ class polkadotAPI {
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Supermajorityapproval`)
     ) {
-      votingThresholdNo = 1
       votingThresholdYes = getPassingThreshold({
         nays: new BN(
           BigNumber(nayVotes)
@@ -766,12 +765,6 @@ class polkadotAPI {
         ),
         threshold: `Supermajorityapproval`
       }).passingThreshold
-    }
-    if (
-      JSON.stringify(proposal.status.threshold) ===
-      JSON.stringify(`Supermajorityagainst`)
-    ) {
-      votingThresholdYes = 1
       votingThresholdNo = getFailingThreshold({
         ayes: new BN(
           BigNumber(ayeVotes)
@@ -788,18 +781,66 @@ class polkadotAPI {
             .times(this.network.coinLookup[0].chainToViewConversionFactor)
             .toNumber()
         ),
-        threshold: `Supermajorityagainst`
+        threshold: `Supermajorityapproval`
+      }).failingThreshold
+    }
+    if (
+      JSON.stringify(proposal.status.threshold) ===
+      JSON.stringify(`Supermajorityrejection`)
+    ) {
+      votingThresholdYes = getPassingThreshold({
+        nays: new BN(
+          BigNumber(nayVotes)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
+        naysWithoutConviction: new BN(
+          BigNumber(nayVotesWithoutConviction)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
+        totalIssuance: new BN(
+          BigNumber(electorate)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
+        threshold: `Supermajorityrejection`
       }).passingThreshold
+      votingThresholdNo = getFailingThreshold({
+        ayes: new BN(
+          BigNumber(ayeVotes)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
+        ayesWithoutConviction: new BN(
+          BigNumber(ayeVotesWithoutConviction)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
+        totalIssuance: new BN(
+          BigNumber(electorate)
+            .times(this.network.coinLookup[0].chainToViewConversionFactor)
+            .toNumber()
+        ),
+        threshold: `Supermajorityrejection`
+      }).failingThreshold
     }
     if (
       JSON.stringify(proposal.status.threshold) ===
       JSON.stringify(`Simplemajority`)
     ) {
       votingThresholdYes = BigNumber(nayVotes)
-      votingThresholdNo = BigNumber(nayVotes)
+      votingThresholdNo = BigNumber(ayeVotes)
     }
 
-    return votingThresholdYes ? votingThresholdYes.toString() : undefined
+    return {
+      votingThresholdYes: votingThresholdYes
+        ? votingThresholdYes.toString()
+        : undefined,
+      votingThresholdNo: votingThresholdNo
+        ? votingThresholdNo.toString()
+        : undefined
+    }
   }
 
   async getReferendumProposalDetailedVotes(proposal, links) {
@@ -832,7 +873,8 @@ class polkadotAPI {
       depositsSum: toViewDenom(this.network, depositsSum),
       votes,
       votesSum,
-      votingThresholdYes: threshold,
+      votingThresholdYes: threshold.votingThresholdYes,
+      votingThresholdNo: threshold.votingThresholdNo,
       votingPercentageYes:
         totalVotingPower.toNumber() > 0
           ? BigNumber(proposal.status.tally.ayes)
