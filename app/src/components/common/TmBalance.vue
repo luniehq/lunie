@@ -234,6 +234,9 @@ export default {
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
+    onSend(denom = undefined) {
+      this.$refs.SendModal.open(denom)
+    },
     openTutorial() {
       this.showTutorial = true
     },
