@@ -19,7 +19,11 @@
           v-if="currentNetwork.network_type === `polkadot`"
           :balances="
             undelegations.map((undelegation) => {
-              return { ...undelegation, denom: currentNetwork.stakingDenom }
+              return {
+                ...undelegation,
+                total: undelegation.amount,
+                denom: currentNetwork.stakingDenom,
+              }
             })
           "
         />
@@ -108,7 +112,7 @@ export default {
 <style scoped>
 h1 {
   font-size: 24px;
-  color: white;
+  color: var(--bright);
   font-weight: 400;
   padding: 1rem 0 2rem;
 }

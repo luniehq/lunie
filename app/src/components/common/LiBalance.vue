@@ -25,21 +25,33 @@
       </div>
     </div>
 
-    <div :key="balance.denom + '_rewards'" class="table-cell rewards">
-      <h2 v-if="totalRewardsDenom[balance.denom] > 0.001">
+    <div
+      v-if="!balance.endTime"
+      :key="balance.denom + '_rewards'"
+      class="table-cell rewards"
+    >
+      <h2 v-if="totalRewardsDenom && totalRewardsDenom[balance.denom] > 0.001">
         +{{ totalRewardsDenom[balance.denom] | bigFigureOrShortDecimals }}
         {{ balance.denom }}
       </h2>
       <h2 v-else>0</h2>
     </div>
 
-    <div :key="balance.denom + '_available'" class="table-cell available">
+    <div
+      v-if="!balance.endTime"
+      :key="balance.denom + '_available'"
+      class="table-cell available"
+    >
       <span v-if="balance.type === 'STAKE'" class="available-amount">
         {{ balance.available | bigFigureOrShortDecimals }}
       </span>
     </div>
 
-    <div :key="balance.denom + '_actions'" class="table-cell actions">
+    <div
+      v-if="!balance.endTime"
+      :key="balance.denom + '_actions'"
+      class="table-cell actions"
+    >
       <div class="icon-button-container">
         <button class="icon-button" @click="onSend(balance.denom)">
           <i class="material-icons">send</i></button
@@ -48,8 +60,12 @@
     </div>
 
     <!-- endTime span for Polkadot undelegations -->
-    <div :key="balance.denom + '_endtime'" class="table-cell endtime">
-      <span v-if="balance.endTime" class="">
+    <div
+      v-if="balance.endTime"
+      :key="balance.denom + '_endtime'"
+      class="table-cell endtime"
+    >
+      <span class="">
         {{ balance.endTime | fromNow }}
       </span>
     </div>
