@@ -114,36 +114,10 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       </div>
     </div>
      
-    <div
-      class="table four-columns"
-    >
-      <div
-        class="table-cell big title"
-      >
-        Token
-      </div>
-       
-      <div
-        class="table-cell title"
-      >
-        Rewards
-      </div>
-       
-      <div
-        class="table-cell title available"
-      >
-        Available
-      </div>
-       
-      <div
-        class="table-cell title actions"
-      />
-       
-      <tablebalances-stub
-        balances="[object Object]"
-        totalrewardsdenom="[object Object]"
-      />
-    </div>
+    <tablebalances-stub
+      balances="[object Object]"
+      totalrewardsdenom="[object Object]"
+    />
      
     <sendmodal-stub
       denoms="MUON"
@@ -270,36 +244,10 @@ exports[`TmBalance show the balance header when signed in 1`] = `
       </div>
     </div>
      
-    <div
-      class="table four-columns"
-    >
-      <div
-        class="table-cell big title"
-      >
-        Token
-      </div>
-       
-      <div
-        class="table-cell title"
-      >
-        Rewards
-      </div>
-       
-      <div
-        class="table-cell title available"
-      >
-        Available
-      </div>
-       
-      <div
-        class="table-cell title actions"
-      />
-       
-      <tablebalances-stub
-        balances="[object Object],[object Object]"
-        totalrewardsdenom="[object Object]"
-      />
-    </div>
+    <tablebalances-stub
+      balances="[object Object],[object Object]"
+      totalrewardsdenom="[object Object]"
+    />
      
     <sendmodal-stub
       denoms="MUON,MUON_2"

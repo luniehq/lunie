@@ -1,7 +1,7 @@
 import { shallowMount } from "@vue/test-utils"
-import LiBalance from "common/LiBalance"
+import BalanceRow from "common/BalanceRow"
 
-describe(`LiBalance`, () => {
+describe(`BalanceRow`, () => {
   let wrapper, $store
 
   const propsData = {
@@ -45,8 +45,8 @@ describe(`LiBalance`, () => {
       },
     }
 
-    wrapper = shallowMount(LiBalance, {
-        props: propsData,
+    wrapper = shallowMount(BalanceRow, {
+      props: propsData,
       mocks: {
         $store,
       },
