@@ -1,11 +1,15 @@
 <template>
-  <div>
+  <div class="table four-columns">
+    <div class="table-cell big title">Balances</div>
+    <div class="table-cell title">Rewards</div>
+    <div class="table-cell title available">Available</div>
+    <div class="table-cell title actions"></div>
+
     <table class="data-table">
       <tbody>
-        <LiBalance
+        <BalanceRow
           v-for="balance in balances"
           :key="balance.id"
-          class="li-balance"
           :balance="balance"
           :total-rewards-denom="totalRewardsDenom"
         />
@@ -15,11 +19,11 @@
 </template>
 
 <script>
-import LiBalance from "common/LiBalance"
+import BalanceRow from "common/BalanceRow"
 export default {
-  name: `table-proposals`,
+  name: `table-balances`,
   components: {
-    LiBalance,
+    BalanceRow,
   },
   props: {
     balances: {
@@ -40,7 +44,65 @@ export default {
 }
 </script>
 <style scoped>
-.li-balance {
+.table {
   display: flex;
+  flex-wrap: wrap;
+  padding: 1rem 2rem 3rem;
+  margin: 0 auto;
+}
+
+.table-cell {
+  flex-grow: 1;
+  padding: 0.5rem 0.5rem 0.5rem 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  width: 20%;
+  border-bottom: 1px solid var(--bc-dim);
+  font-family: "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  position: relative;
+  white-space: nowrap;
+}
+
+.table-cell.big {
+  width: 40%;
+  padding-left: 1rem;
+}
+
+.table-cell.big.title {
+  padding-left: 0;
+}
+
+.title {
+  color: var(--dim);
+  font-size: var(--sm);
+  padding-bottom: 1rem;
+  padding-left: 0;
+}
+
+@media screen and (max-width: 667px) {
+  .table {
+    padding: 1rem;
+  }
+
+  .table-cell.big {
+    width: 60%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .table-cell {
+    width: 40%;
+  }
+
+  .available {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1254px) {
+  .actions {
+    display: none;
+  }
 }
 </style>
