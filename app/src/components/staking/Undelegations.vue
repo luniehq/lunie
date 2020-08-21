@@ -15,11 +15,15 @@
         <h1>
           Pending
         </h1>
-        <TableBalances
-          v-if="currentNetwork.network_type === `polkadot`"
-          :balances="convertUndelegationsToBalances(undelegations)"
-        />
-        <TableUndelegations v-else :undelegations="undelegations" />
+        <template v-if="currentNetwork.network_type === `polkadot`">
+          <BalanceRow
+            v-for="balance in undelegations"
+            :key="balance.id"
+            :balance="balance"
+            :total-rewards-denom="totalRewardsDenom"
+          />
+        </template>
+        <TableUndelegations :undelegations="undelegations" />
       </div>
     </div>
   </div>
@@ -27,7 +31,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TableBalances from "common/TableBalances"
+import BalanceRow from "common/BalanceRow"
 import TableUndelegations from "staking/TableUndelegations"
 import { ValidatorFragment, UserTransactionAdded } from "src/gql"
 import gql from "graphql-tag"
@@ -36,7 +40,7 @@ export default {
   name: `undelegations`,
   components: {
     TableUndelegations,
-    TableBalances,
+    BalanceRow,
   },
   data: () => ({
     undelegations: [],
@@ -44,10 +48,8 @@ export default {
   }),
   computed: {
     ...mapGetters([`address`, `network`, `currentNetwork`]),
-  },
-  methods: {
-    convertUndelegationsToBalances(undelegations) {
-      return undelegations.map((undelegation) => {
+    balances() {
+      return this.undelegations.map((undelegation) => {
         return {
           ...undelegation,
           total: undelegation.amount,
