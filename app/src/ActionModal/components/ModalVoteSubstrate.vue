@@ -49,14 +49,17 @@
       >
       <div class="flex-row locking-options">
         <div
-          v-for="(lockingOption, index) in lockingOptions"
-          :key="lockingOption"
+          v-for="lockingOption in lockingOptions"
+          :key="lockingOption.display"
         >
-          <span class="locking-option">{{ lockingOption }}</span>
           <span
-            v-if="index === lockingOptions.length - 1"
+            :class="{
+              activeLocking:
+                lockingOption.display === selectedLockingOption.display,
+            }"
             class="locking-option"
-            >Set Max</span
+            @click="lockingOptionController(lockingOption)"
+            >{{ lockingOption.display }}</span
           >
         </div>
       </div>
@@ -64,13 +67,13 @@
     <div class="totals flex-row">
       <div class="card">
         <span class="card-title">Multiplier</span>
-        <span>3.019</span>
-        <span>{{ currentNetwork.stakingDenom }}</span>
+        <span>{{ selectedLockingOption.display }}</span>
+        <span>&nbsp;{{ currentNetwork.stakingDenom }}</span>
       </div>
-      <div class="card">
+      <div class="card" @click="totalVotingController()">
         <span class="card-title">Total</span>
-        <span>3.019</span>
-        <span>{{ currentNetwork.stakingDenom }}</span>
+        <span>{{ totalVotingPower }}</span>
+        <span>&nbsp;{{ currentNetwork.stakingDenom }}</span>
       </div>
     </div>
     <div class="buttons">
@@ -105,6 +108,10 @@ export default {
     TmBtn,
   },
   props: {
+    proposalId: {
+      type: [Number, String],
+      required: true,
+    },
     lastVoteOption: {
       default: undefined,
       type: String,
@@ -114,7 +121,18 @@ export default {
     balances: [],
     lockedBalance: 0,
     lockingPeriod: 0,
-    lockingOptions: ["0.1x", "1x", "2x", "3x", "4x", "5x", "6x"],
+    lockingOptions: [
+      { display: `0.1x`, multiplier: 0.1 },
+      { display: `1x`, multiplier: 1 },
+      { display: `2x`, multiplier: 2 },
+      { display: `3x`, multiplier: 3 },
+      { display: `4x`, multiplier: 4 },
+      { display: `5x`, multiplier: 5 },
+      { display: `6x`, multiplier: 6 },
+      { display: `Set Max`, multiplier: 6 },
+    ],
+    selectedLockingOption: { display: `0.1x`, multiplier: 0.1 },
+    totalVotingPower: 0,
     vote: null,
     messageType,
   }),
@@ -125,7 +143,7 @@ export default {
         type: messageType.VOTE,
         proposalId: this.proposalId,
         voteOption: this.vote,
-        lockedBalance: 0,
+        lockedBalance: this.lockedBalance || 0,
         conviction: 0,
       }
     },
@@ -172,6 +190,35 @@ export default {
     onSuccess(event) {
       this.$emit(`success`, event)
     },
+    lockingOptionController(lockingOption) {
+      this.selectedLockingOption = lockingOption
+      this.totalVotingController()
+      switch (lockingOption.display) {
+        case `0.1x`:
+          return (this.lockingPeriod = "0")
+        case `1x`:
+          return (this.lockingPeriod = "28")
+        case `2x`:
+          return (this.lockingPeriod = "56")
+        case `3x`:
+          return (this.lockingPeriod = "112")
+        case `4x`:
+          return (this.lockingPeriod = "224")
+        case `5x`:
+          return (this.lockingPeriod = "448")
+        case `6x`:
+          return (this.lockingPeriod = "896")
+        case `Set Max`:
+          return (this.lockingPeriod = "896")
+        default:
+          return (this.lockingPeriod = "0")
+      }
+    },
+    totalVotingController() {
+      this.totalVotingPower = (
+        this.lockedBalance * this.selectedLockingOption.multiplier
+      ).toFixed(6)
+    },
   },
   apollo: {
     balances: {
@@ -197,6 +244,10 @@ export default {
         return !this.address
       },
       update(result) {
+        this.lockedBalance = result.balancesV2.find(
+          ({ denom }) => denom === this.currentNetwork.stakingDenom
+        ).available
+        this.totalVotingPower = this.lockedBalance
         return result.balancesV2
       },
     },
@@ -257,6 +308,12 @@ export default {
   margin-right: 0.5rem;
   padding: 0.5rem;
   cursor: pointer;
+}
+
+.activeLocking {
+  background-color: var(--app-nav);
+  color: var(--app-bg);
+  border-radius: 1rem;
 }
 
 .locking-option:hover {
