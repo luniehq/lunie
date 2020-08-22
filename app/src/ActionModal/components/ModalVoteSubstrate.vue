@@ -42,7 +42,14 @@
       <p>
         Available to vote <span>{{ stakingDenomBalance.available }}</span>
       </p>
-      <span class="locked-balance">{{ lockedBalance }}</span>
+      <div class="locked-balance-container">
+        <input
+          v-model="lockedBalance"
+          class="locked-balance"
+          type="text"
+          @change="totalVotingController()"
+        />
+      </div>
       <span
         >{{ currentNetwork.stakingDenom.concat(`s`) }} locked for
         {{ lockingPeriod }} days</span
@@ -283,9 +290,14 @@ export default {
   justify-content: space-evenly;
 }
 
+.locked-balance-container {
+  border: solid 1px var(--app-fg-hover);
+}
+
 .locked-balance {
   color: var(--app-nav);
   font-size: var(--h1);
+  width: 8rem;
 }
 
 .locking-area {
