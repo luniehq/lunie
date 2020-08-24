@@ -23,6 +23,11 @@ export function enableExtension() {
   window.postMessage(message, '*')
 }
 
+export function sendNewAddressMessage() {
+  const message = wrapMessageForLunie('NEW_ADDRESS', {})
+  window.postMessage(message, '*')
+}
+
 // handles syncronous responses from extension
 const responseHandler = (type) => (response) => {
   const data = { responseType: `${type}_RESPONSE`, payload: response }

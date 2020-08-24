@@ -2,6 +2,7 @@ import config from '../../config.js'
 import gql from 'graphql-tag'
 import { NetworksAll } from '../popup/gql'
 import { lunieMessageTypes, parseTx } from '../scripts/parsers'
+import { sendNewAddressMessage } from '../contentScript'
 import { storeWallet } from '@lunie/cosmos-keys'
 
 export default ({ apollo }) => {
@@ -63,6 +64,8 @@ export default ({ apollo }) => {
       curve
     )
     storeWallet(wallet, name, password, network, HDPath, curve)
+    // send message to Lunie so it updates extension address list
+    sendNewAddressMessage()
     store.dispatch('loadAccounts')
   }
 
@@ -264,7 +267,8 @@ export default ({ apollo }) => {
       seedPhrase,
       networkObject
     )
-
+    // send message to Lunie so it updates extension address list
+    sendNewAddressMessage()
     // const wallet = await getWallet(seedPhrase, networkObject)
     return wallet.cosmosAddress
   }
