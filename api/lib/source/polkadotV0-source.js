@@ -580,7 +580,7 @@ class polkadotAPI {
       )
       description = meta.documentation.toString()
       proposalMethod = method
-  
+
       // get creationTime
       const block = await api.rpc.chain.getBlock(blockHash)
       const args = block.block.extrinsics.map((extrinsic) =>
@@ -763,7 +763,11 @@ class polkadotAPI {
         )
     )
 
-    return orderBy(allProposals, 'id', 'desc')
+    return orderBy(
+      allProposals.filter((proposal) => proposal),
+      'id',
+      'desc'
+    )
   }
 
   async getProposalById(proposalId) {
