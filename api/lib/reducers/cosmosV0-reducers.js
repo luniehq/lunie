@@ -303,17 +303,18 @@ function coinReducer(coin, coinLookup, network) {
       denom: ''
     }
   }
+  coinLookup =
+    coinLookup ||
+    network.coinLookup.find(
+      ({ viewDenom }) => viewDenom === network.stakingDenom
+    )
 
   // we want to show only atoms as this is what users know
   const denom = denomLookup(coin.denom)
   return {
     denom: denom,
     amount: BigNumber(coin.amount).times(
-      coinLookup
-        ? coinLookup.chainToViewConversionFactor
-        : network
-        ? network.coinLookup[0].chainToViewConversionFactor
-        : 6
+      coinLookup.chainToViewConversionFactor || 6
     )
   }
 }
