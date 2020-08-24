@@ -15,13 +15,13 @@
         <div class="buttons">
           <TmBtn
             v-if="currentNetwork.network_type === `polkadot`"
-            class="unstake-button"
+            class="action-button"
             value="Unstake"
             type="secondary"
             @click.native="onUnstake()"
           />
           <TmBtn
-            class="send-button"
+            class="action-button"
             value="Send"
             type="secondary"
             @click.native="onSend()"
@@ -665,6 +665,7 @@ select option {
 .icon-button i {
   font-size: 14px;
   color: var(--menu-bright);
+  font-weight: 900;
 }
 
 .total-and-fiat {
@@ -710,8 +711,7 @@ select option {
 }
 
 @media screen and (min-width: 1254px) {
-  .unstake-button,
-  .send-button {
+  .action-button {
     display: none;
   }
 }
