@@ -140,7 +140,10 @@
                 <i class="material-icons notranslate">send</i></button
               ><span>Send</span>
             </div>
-            <div v-if="currentNetwork.network_type === `polkadot`" class="icon-button-container">
+            <div
+              v-if="currentNetwork.network_type === `polkadot`"
+              class="icon-button-container"
+            >
               <button class="icon-button" @click="onUnstake()">
                 <i class="material-icons notranslate">arrow_upward</i></button
               ><span>Unstake</span>
@@ -288,9 +291,9 @@ export default {
     },
     allDelegationsStake() {
       return this.delegations.reduce((allDelegationsAggregator, delegation) => {
-        return allDelegationsAggregator += delegation.amount
+        return (allDelegationsAggregator += delegation.amount)
       })
-    }
+    },
   },
   watch: {
     totalRewards(totalRewards) {

@@ -183,7 +183,7 @@ export default {
     isGlobalUnstake: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   data: () => ({
     amount: 0,
@@ -239,14 +239,17 @@ export default {
       } else {
         if (
           isNaN(this.amount) ||
-          !this.sourceValidator.operatorAddress && this.currentNetwork.network_type !== `pokadot`||
+          (!this.sourceValidator.operatorAddress &&
+            this.currentNetwork.network_type !== `pokadot`) ||
           !this.stakingDenom
         ) {
           return {}
         }
         return {
           type: messageType.UNSTAKE,
-          from: this.sourceValidator ? [this.sourceValidator.operatorAddress] : null,
+          from: this.sourceValidator
+            ? [this.sourceValidator.operatorAddress]
+            : null,
           amount: {
             amount: this.amount,
             denom: this.stakingDenom,
