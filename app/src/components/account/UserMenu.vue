@@ -59,7 +59,7 @@
             <div>
               <div class="address-name-role">
                 <p class="address-name">
-                  {{ getSessionName(address) || `Unknown` }}
+                  {{ getSessionName(address) }}
                 </p>
                 <p
                   v-if="
