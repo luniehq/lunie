@@ -39,7 +39,7 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
   >
     <div>
       <h1>
-        Your Validators
+        Your Stake
       </h1>
        
       <tablevalidators-stub
