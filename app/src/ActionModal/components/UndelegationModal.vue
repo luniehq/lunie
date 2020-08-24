@@ -52,7 +52,7 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
-      v-if="!isGlobalUnstake || session.addressRole !== `stash`"
+      v-if="!isGlobalUnstake && session.addressRole !== `stash`"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
