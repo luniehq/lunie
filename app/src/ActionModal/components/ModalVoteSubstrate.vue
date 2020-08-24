@@ -43,12 +43,46 @@
         Available to vote <span>{{ stakingDenomBalance.available }}</span>
       </p>
       <div class="locked-balance-container">
-        <input
-          v-model="lockedBalance"
-          class="locked-balance"
-          type="text"
-          @change="totalVotingController()"
-        />
+        <TmFormGroup
+          :error="$v.lockedBalance.$error && $v.lockedBalance.$invalid"
+          class="action-modal-group"
+          field-id="lockedBalance"
+        >
+          <TmField
+            id="lockedBalance"
+            v-model="lockedBalance"
+            v-focus
+            class="locked-balance"
+            type="text"
+            :placeholder="lockedBalance"
+            @change="totalVotingController()"
+          />
+          <TmFormMsg
+            v-if="$v.lockedBalance.$error && !$v.lockedBalance.required"
+            name="Balance"
+            type="required"
+          />
+          <TmFormMsg
+            v-if="$v.lockedBalance.$error && !$v.lockedBalance.decimal"
+            name="Balance"
+            type="numeric"
+          />
+          <TmFormMsg
+            v-else-if="$v.lockedBalance.$error && !$v.lockedBalance.max"
+            type="custom"
+            :msg="`You don't have enough ${currentNetwork.stakingDenom}s to proceed.`"
+          />
+          <TmFormMsg
+            v-if="$v.lockedBalance.$error && !$v.lockedBalance.min"
+            name="Balance"
+            type="min"
+          />
+          <TmFormMsg
+            v-if="$v.lockedBalance.$error && !$v.lockedBalance.maxDecimals"
+            name="Balance"
+            type="maxDecimals"
+          />
+        </TmFormGroup>
       </div>
       <span
         >{{ currentNetwork.stakingDenom.concat(`s`) }} locked for
@@ -96,8 +130,11 @@
 </template>
 <script>
 import { mapGetters } from "vuex"
-import { required } from "vuelidate/lib/validators"
+import { required, decimal } from "vuelidate/lib/validators"
+import { SMALLEST } from "src/scripts/num"
 import ActionModal from "./ActionModal"
+import TmFormGroup from "src/components/common/TmFormGroup"
+import TmField from "src/components/common/TmField"
 // import SessionFrame from "common/SessionFrame"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
@@ -111,6 +148,8 @@ export default {
   components: {
     ActionModal,
     // SessionFrame,
+    TmFormGroup,
+    TmField,
     TmFormMsg,
     TmBtn,
   },
@@ -150,8 +189,10 @@ export default {
         type: messageType.VOTE,
         proposalId: this.proposalId,
         voteOption: this.vote,
-        lockedBalance: this.lockedBalance || 0,
-        conviction: 0,
+        lockedBalance: Number(this.lockedBalance) || 0,
+        conviction: this.selectedlockingOption
+          ? this.selectedlockingOption.multiplier
+          : 0,
       }
     },
     notifyMessage() {
@@ -174,6 +215,21 @@ export default {
   },
   validations() {
     return {
+      lockedBalance: {
+        required,
+        decimal,
+        max: (x) => Number(x) <= this.stakingDenomBalance.available,
+        min: (x) => Number(x) >= SMALLEST,
+        maxDecimals: (x) => {
+          if (x) {
+            return x.toString().split(".").length > 1
+              ? x.toString().split(".")[1].length <= 6
+              : true
+          } else {
+            return false
+          }
+        },
+      },
       vote: {
         required,
         isValid,
@@ -297,7 +353,7 @@ export default {
 .locked-balance {
   color: var(--app-nav);
   font-size: var(--h1);
-  width: 8rem;
+  width: 9rem;
 }
 
 .locking-area {
