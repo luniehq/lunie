@@ -5,7 +5,7 @@
       :address="address || ''"
       :tooltip-text="addressType"
       :address-type="
-        currentNetwork.network_type === 'polkadot' && session.addressRole
+        session.addressRole
           ? capitalizeFirstLetter(session.addressRole)
           : undefined
       "

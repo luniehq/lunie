@@ -63,7 +63,6 @@
                 </p>
                 <p
                   v-if="
-                    getAddressNetwork(address).network_type === `polkadot` &&
                     address.addressRole &&
                     address.addressRole !== `none` &&
                     address.addressRole !== `stash/controller`
@@ -74,10 +73,6 @@
               </div>
               <span class="address">{{ address.address | formatAddress }}</span>
               <span
-                v-if="
-                  address.sessionType === `extension` ||
-                  address.sessionType === `ledger`
-                "
                 class="address"
                 >{{ capitalizeFirstLetter(address.sessionType) }}</span
               >
@@ -290,10 +285,7 @@ export default {
         case `extension`:
           return session.name
         default:
-          return session.sessionType
-            .charAt(0)
-            .toUpperCase()
-            .concat(session.sessionType.slice(1))
+          return this.capitalizeFirstLetter(session.sessionType)
       }
     },
     pollForNewExtensionAddresses() {
