@@ -52,7 +52,7 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
-      v-if="session.addressRole !== `stash`"
+      v-if="!isGlobalUnstake || session.addressRole !== `stash`"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -178,8 +178,12 @@ export default {
   props: {
     sourceValidator: {
       type: Object,
-      required: true,
+      default: () => ({}),
     },
+    isGlobalUnstake: {
+      type: Boolean,
+      default: false,
+    }
   },
   data: () => ({
     amount: 0,
@@ -235,14 +239,14 @@ export default {
       } else {
         if (
           isNaN(this.amount) ||
-          !this.sourceValidator.operatorAddress ||
+          !this.sourceValidator.operatorAddress && this.currentNetwork.network_type !== `pokadot`||
           !this.stakingDenom
         ) {
           return {}
         }
         return {
           type: messageType.UNSTAKE,
-          from: [this.sourceValidator.operatorAddress],
+          from: this.sourceValidator ? [this.sourceValidator.operatorAddress] : null,
           amount: {
             amount: this.amount,
             denom: this.stakingDenom,

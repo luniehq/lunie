@@ -17,6 +17,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       <div
         class="buttons"
       >
+        <!---->
+         
         <tmbtn-stub
           class="send-button"
           customclass=""
@@ -197,7 +199,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
             class="icon-button"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               send
             </i>
@@ -206,6 +208,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
             Send
           </span>
         </div>
+         
+        <!---->
       </div>
     </div>
      
@@ -214,6 +218,11 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     />
      
     <modalwithdrawrewards-stub />
+     
+    <undelegationmodal-stub
+      isglobalunstake="true"
+      sourcevalidator="[object Object]"
+    />
      
     <!---->
   </div>
@@ -237,6 +246,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
       <div
         class="buttons"
       >
+        <!---->
+         
         <tmbtn-stub
           class="send-button"
           customclass=""
@@ -423,7 +434,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             class="icon-button"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               send
             </i>
@@ -432,6 +443,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             Send
           </span>
         </div>
+         
+        <!---->
       </div>
       <div
         class="table-cell big"
@@ -488,7 +501,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             class="icon-button"
           >
             <i
-              class="material-icons"
+              class="material-icons notranslate"
             >
               send
             </i>
@@ -497,6 +510,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
             Send
           </span>
         </div>
+         
+        <!---->
       </div>
     </div>
      
@@ -505,6 +520,11 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     />
      
     <modalwithdrawrewards-stub />
+     
+    <undelegationmodal-stub
+      isglobalunstake="true"
+      sourcevalidator="[object Object]"
+    />
      
     <!---->
   </div>

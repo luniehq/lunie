@@ -14,6 +14,13 @@
         <h1>Your Portfolio</h1>
         <div class="buttons">
           <TmBtn
+            v-if="currentNetwork.network_type === `polkadot`"
+            class="unstake-button"
+            value="Unstake"
+            type="secondary"
+            @click.native="onUnstake()"
+          />
+          <TmBtn
             class="send-button"
             value="Send"
             type="secondary"
@@ -130,8 +137,13 @@
           <div :key="balance.denom + '_actions'" class="table-cell actions">
             <div class="icon-button-container">
               <button class="icon-button" @click="onSend(balance.denom)">
-                <i class="material-icons">send</i></button
+                <i class="material-icons notranslate">send</i></button
               ><span>Send</span>
+            </div>
+            <div v-if="currentNetwork.network_type === `polkadot`" class="icon-button-container">
+              <button class="icon-button" @click="onUnstake()">
+                <i class="material-icons notranslate">arrow_upward</i></button
+              ><span>Unstake</span>
             </div>
           </div>
         </template>
@@ -139,6 +151,7 @@
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
+      <UndelegationModal ref="UnstakeModal" :is-global-unstake="true" />
       <ModalTutorial
         v-if="
           showTutorial &&
@@ -158,6 +171,7 @@ import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
+import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
 import { mapGetters, mapState } from "vuex"
@@ -170,6 +184,7 @@ export default {
   components: {
     TmBtn,
     SendModal,
+    UndelegationModal,
     ModalWithdrawRewards,
     ModalTutorial,
   },
@@ -271,6 +286,11 @@ export default {
       return this.networks.find((network) => network.id === this.network)
         .testnet
     },
+    allDelegationsStake() {
+      return this.delegations.reduce((allDelegationsAggregator, delegation) => {
+        return allDelegationsAggregator += delegation.amount
+      })
+    }
   },
   watch: {
     totalRewards(totalRewards) {
@@ -292,6 +312,9 @@ export default {
     },
     onSend(denom = undefined) {
       this.$refs.SendModal.open(denom)
+    },
+    onUnstake(amount) {
+      this.$refs.UnstakeModal.open()
     },
     openTutorial() {
       this.showTutorial = true
@@ -514,7 +537,7 @@ select option {
   width: 100%;
 }
 
-.header-container button:first-child {
+.header-container button {
   margin-right: 0.5rem;
 }
 
@@ -603,6 +626,13 @@ select option {
   padding-left: 1rem;
 }
 
+.icon-button-container {
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .icon-button-container span {
   display: block;
   font-size: 12px;
@@ -677,6 +707,7 @@ select option {
 }
 
 @media screen and (min-width: 1254px) {
+  .unstake-button,
   .send-button {
     display: none;
   }
