@@ -573,7 +573,7 @@ class polkadotAPI {
 
     description = `This is a Democracy Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
       proposal.proposer || proposer
-    }) is able to change them.`
+    }) is able to change it.`
     if (proposal.image) {
       const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
       const preimageRaw = await api.query.democracy.preimages.at(
@@ -671,6 +671,11 @@ class polkadotAPI {
     if (type === `council`) {
       const { meta } = api.registry.findMetaCall(proposal.proposal.callIndex)
       description = meta.documentation.toString()
+    }
+    if (type === `treasury`) {
+      description = `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
+        proposal.proposer || proposer
+      }) is able to change it.`
     }
     return {
       ...proposal,
@@ -884,9 +889,6 @@ class polkadotAPI {
     if (type === `council`) {
       return this.getCouncilProposalDetailedVotes(proposal, links)
     }
-    if (type === `treasury`) {
-      return this.getCouncilProposalDetailedVotes(proposal, links)
-    }
     return {
       links
     }
@@ -949,6 +951,7 @@ class polkadotAPI {
             .filter((proposal) => {
               // make sure that the treasury proposals haven't been passed as motions to Council
               if (
+                proposal.council.length === 0 ||
                 !councilProposals.find(
                   (councilProposal) =>
                     JSON.stringify(councilProposal) ===
@@ -959,22 +962,25 @@ class polkadotAPI {
               }
             })
             .map(async (proposal) => {
-              if (!proposal.council[0]) return
               const proposalWithMetadata = await this.getProposalWithMetadata(
-                proposal.council[0],
-                `council`
+                proposal.council[0] || proposal.proposal,
+                proposal.council[0] ? `council` : `treasury`
               )
               return this.reducers.treasuryProposalReducer(
                 this.network,
                 {
                   ...proposalWithMetadata,
+                  index: proposal.id,
                   deposit: proposal.proposal.bond,
                   beneficiary: proposal.proposal.beneficiary
                 },
                 councilMembers,
                 blockHeight,
                 electionInfo,
-                await this.getDetailedVotes(proposalWithMetadata, `treasury`)
+                await this.getDetailedVotes(
+                  proposalWithMetadata,
+                  proposal.council[0] ? `council` : `treasury`
+                )
               )
             })
         )

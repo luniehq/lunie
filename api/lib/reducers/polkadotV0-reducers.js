@@ -559,15 +559,19 @@ function treasuryProposalReducer(
   detailedVotes
 ) {
   return {
-    id: `treasury-`.concat(proposal.votes.index),
+    id: `treasury-`.concat(proposal.index || proposal.votes.index),
     networkId: network.id,
     type: proposalTypeEnum.TREASURY,
-    title: `Treasury Proposal #${proposal.votes.index}`,
+    title: `Treasury Proposal #${proposal.index || proposal.votes.index}`,
     description: proposal.description,
     creationTime: proposal.creationTime,
     status: `VotingPeriod`,
-    statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
-    tally: councilTallyReducer(proposal.votes, councilMembers, electionInfo),
+    statusEndTime: proposal.votes
+      ? getStatusEndTime(blockHeight, proposal.votes.end)
+      : null,
+    tally: proposal.votes
+      ? councilTallyReducer(proposal.votes, councilMembers, electionInfo)
+      : null,
     deposit: toViewDenom(network, Number(proposal.deposit)),
     proposer: proposal.proposer ? proposal.proposer.toHuman() : undefined,
     beneficiary: proposal.beneficiary, // the account getting the tip
