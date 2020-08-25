@@ -18,9 +18,6 @@ const processMessage = (store, type, payload) => {
     case "GET_WALLETS_RESPONSE":
       store.commit("setExtensionAccounts", payload)
       break
-    case "NEW_ADDRESS":
-      store.dispatch("getAddressesFromExtension")
-      break
     default:
       return
   }
@@ -37,7 +34,6 @@ const filterExtensionMessage = (callback) => (message) => {
 // exported for easier testing
 export const processLunieExtensionMessages = (store) =>
   filterExtensionMessage((data) => {
-    console.log(data)
     const message = unWrapMessageFromContentScript(data)
     processMessage(store, message.type, message.payload)
   })

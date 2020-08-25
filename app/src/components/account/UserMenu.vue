@@ -72,10 +72,9 @@
                 </p>
               </div>
               <span class="address">{{ address.address | formatAddress }}</span>
-              <span
-                class="address"
-                >{{ capitalizeFirstLetter(address.sessionType) }}</span
-              >
+              <span class="address">{{
+                capitalizeFirstLetter(address.sessionType)
+              }}</span>
             </div>
           </div>
           <i
@@ -146,8 +145,6 @@ import { AddressRole } from "src/gql"
 import { formatAddress } from "src/filters"
 import { mapGetters, mapState } from "vuex"
 import { uniqWith, sortBy } from "lodash"
-
-const NEW_EXTENSION_ADDRESSES_POLLING_INTERVAL = 30000 // 30s
 
 export default {
   name: `user-menu`,
@@ -228,8 +225,7 @@ export default {
   },
   created() {
     // getAddressFromExtension needs some  time to grab the addresses from extension in the first load
-    setTimeout(() => this.getAddressesFromExtension(), 1000)
-    this.pollForNewExtensionAddresses()
+    setTimeout(() => this.$store.dispatch(`getAddressesFromExtension`), 1000)
     this.$store.dispatch(`loadAccounts`).then(() => {
       this.loaded = true
     })
@@ -237,9 +233,6 @@ export default {
   methods: {
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1)
-    },
-    getAddressesFromExtension() {
-      this.$store.dispatch(`getAddressesFromExtension`)
     },
     openSignInModal() {
       this.$router.push({ name: `sign-in-modal` })
@@ -287,12 +280,6 @@ export default {
         default:
           return this.capitalizeFirstLetter(session.sessionType)
       }
-    },
-    pollForNewExtensionAddresses() {
-      this.getAddressesFromExtension()
-      this.newExtensionAddressesPollingTimeout = setTimeout(() => {
-        this.pollForNewExtensionAddresses()
-      }, NEW_EXTENSION_ADDRESSES_POLLING_INTERVAL)
     },
     async getAllAddressesRoles(addresses) {
       return await Promise.all(
