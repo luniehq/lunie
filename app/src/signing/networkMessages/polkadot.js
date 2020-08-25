@@ -163,7 +163,13 @@ export async function VoteTx(
 ) {
   const referendumId = proposalId.split("-")[1]
   const voteTx = await api.tx.democracy.vote(referendumId, {
-    Standard: { balance: lockedBalance, vote: { voteOption, conviction } },
+    Standard: {
+      balance: toChainAmount(
+        { amount: lockedBalance, denom: network.stakingDenom },
+        network.coinLookup
+      ),
+      vote: { aye: voteOption, conviction },
+    },
   })
   return await getSignMessage(senderAddress, voteTx, api)
 }
