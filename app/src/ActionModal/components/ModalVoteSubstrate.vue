@@ -211,6 +211,10 @@ export default {
     lockedBalance: {
       handler() {
         this.totalVotingController()
+        const input = document.querySelector(".tm-field")
+        if (input) {
+          input.style.width = input.value.length + 2 + "ch"
+        }
       },
     },
   },
@@ -350,7 +354,7 @@ export default {
 .locked-balance {
   color: var(--app-nav);
   font-size: var(--h1);
-  width: 9rem;
+  width: 7rem;
 }
 
 .locking-area {
@@ -404,5 +408,21 @@ export default {
 .vote-options button.active {
   background: var(--highlight);
   border-color: var(--highlight);
+}
+</style>
+<style>
+/* Hack to be able to change classes coming from other components */
+.tm-form-group__field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.action-modal-footer .tm-form-group .tm-form-group__field {
+  flex-direction: row;
+}
+
+.tm-field {
+  text-align: center;
 }
 </style>
