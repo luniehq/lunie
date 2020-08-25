@@ -73,7 +73,7 @@
     "graphql": "14.6.0",
     "graphql-tag": "2.10.1",
     "handlebars": ">=4.7.6",
-    "moment": "^2.25.3",
+    "moment": "^2.27.0",
     "regenerator-runtime": "^0.13.2",
     "serialize-javascript": ">=2.1.1",
     "subscriptions-transport-ws": "0.9.16",
