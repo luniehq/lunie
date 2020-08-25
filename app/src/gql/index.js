@@ -135,6 +135,7 @@ export const NetworksAll = gql`
         chainDenom
         viewDenom
         chainToViewConversionFactor
+        icon
       }
       rpc_url
       HDPaths
@@ -147,7 +148,7 @@ export const NetworksAll = gql`
 
 export const NetworksResult = (data) => data.networks
 
-const ProposalFragment = `
+export const ProposalFragment = `
   id
   type
   title
@@ -172,7 +173,7 @@ const ProposalFragment = `
 `
 
 export const ProposalItem = (schema) => gql`
-  query proposal($id: Int!) {
+  query proposal($id: String!) {
     proposal(networkId: "${schema}", id: $id) {
       ${ProposalFragment}
     }
@@ -191,7 +192,7 @@ query governanceParameters {
 `
 
 export const Vote = (schema) => gql`
-query vote($proposalId: Int!, $address: String!) {
+query vote($proposalId: String!, $address: String!) {
   vote(networkId: "${schema}", proposalId: $proposalId, address: $address) {
     option
   }

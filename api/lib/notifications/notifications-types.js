@@ -99,14 +99,9 @@ const getDefaultEmailSubscriptions = async (addresses, dataSources) => {
     })
     subscriptions.push(
       `${eventTypes.PROPOSAL_CREATE}_${networkId}`,
-      `${eventTypes.PROPOSAL_UPDATE}_${networkId}`
+      `${eventTypes.PROPOSAL_UPDATE}_${networkId}`,
+      `${address}_${eventTypes.TRANSACTION_RECEIVE}_${networkId}`
     )
-    // in development register for transaction send to test easier
-    if (config.env === 'development') {
-      subscriptions.push(
-        `${address}_${eventTypes.TRANSACTION_SEND}_${networkId}`
-      )
-    }
   }
 
   return subscriptions

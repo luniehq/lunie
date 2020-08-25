@@ -17,6 +17,16 @@ describe(`TmBalance`, () => {
             testnet: false,
           },
         ],
+        currentNetwork: {
+          id: "test-network",
+          testnet: false,
+          coinLookup: [
+            {
+              viewDenom: `MUON`,
+              icon: `/img/icons/currencies/muon.png`,
+            },
+          ],
+        },
       },
       state: {
         connection: {
