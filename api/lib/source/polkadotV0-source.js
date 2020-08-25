@@ -191,10 +191,9 @@ class polkadotAPI {
   async getBalancesFromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
     const account = await api.query.system.account(address)
-    const totalBalance = account.data.free
-    const freeBalance = BigNumber(totalBalance.toString()).minus(
-      account.data.miscFrozen.toString()
-    )
+    const { free, feeFrozen } = account.data.toJSON()
+    const totalBalance = BigNumber(free)
+    const freeBalance = BigNumber(free).minus(feeFrozen)
     const fiatValueAPI = this.fiatValuesAPI
     return this.reducers.balanceReducer(
       this.network,
@@ -491,9 +490,14 @@ class polkadotAPI {
     return inactiveDelegations
   }
 
-  // TODO: find out how to get all undelegations in Polkadot
-  getUndelegationsForDelegatorAddress() {
-    return []
+  async getUndelegationsForDelegatorAddress(address) {
+    const api = await this.getAPI()
+
+    const stakingledger = await api.query.staking.ledger(address)
+    const undelegations = stakingledger.toJSON().unlocking
+    return undelegations.map((undelegation) =>
+      this.reducers.undelegationReducer(undelegation, address, this.network)
+    )
   }
 
   async getDelegationForValidator(delegatorAddress, validator) {

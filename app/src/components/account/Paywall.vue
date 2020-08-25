@@ -61,7 +61,7 @@
           </ul>
         </div>
         <div class="table-span">
-          <a @click="handleIntercom()">
+          <a class="intercom-button" @click="handleIntercom()">
             Have any ideas? Share them with us!
           </a>
         </div>

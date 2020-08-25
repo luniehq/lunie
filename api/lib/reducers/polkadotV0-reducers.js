@@ -178,6 +178,16 @@ function delegationReducer(network, delegation, validator, active) {
   }
 }
 
+function undelegationReducer(undelegation, address, network) {
+  return {
+    id: `${address}_${undelegation.value}`,
+    delegatorAddress: address,
+    amount: toViewDenom(network, undelegation.value),
+    startHeight: '',
+    endTime: undelegation.era
+  }
+}
+
 function transactionsReducerV2(
   network,
   extrinsics,
@@ -714,6 +724,7 @@ module.exports = {
   balanceReducer,
   balanceV2Reducer,
   delegationReducer,
+  undelegationReducer,
   extractInvolvedAddresses,
   transactionsReducerV2,
   transactionDetailsReducer,
