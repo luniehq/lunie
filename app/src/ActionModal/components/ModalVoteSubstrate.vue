@@ -106,11 +106,6 @@
       </div>
     </div>
     <div class="totals flex-row">
-      <div class="card">
-        <span class="card-title">Multiplier</span>
-        <span>{{ selectedLockingOption.display }}</span>
-        <span>&nbsp;{{ currentNetwork.stakingDenom }}</span>
-      </div>
       <div class="card" @click="totalVotingController()">
         <span class="card-title">Total</span>
         <span>{{ totalVotingPower }}</span>
