@@ -64,15 +64,21 @@
           ><span>Send</span>
         </div>
       </div>
+
+      <SendModal ref="SendModal" :denoms="[balance.denom]" />
     </template>
   </div>
 </template>
 <script>
 import { bigFigureOrShortDecimals } from "scripts/num"
 import { fromNow } from "src/filters"
+import SendModal from "src/ActionModal/components/SendModal"
 import { mapGetters, mapState } from "vuex"
 export default {
   name: `balance-row`,
+  components: {
+    SendModal,
+  },
   filters: {
     bigFigureOrShortDecimals,
     fromNow,
