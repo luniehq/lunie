@@ -75,7 +75,7 @@
     "subscriptions-transport-ws": "0.9.16",
     "timezone-mock": "^1.1.1",
     "v-tooltip": "2.0.3",
-    "vue": "2.6.11",
+    "vue": "2.6.12",
     "vue-apollo": "3.0.3",
     "vue-async-computed": "3.8.2",
     "vue-clipboard2": "0.3.1",
@@ -127,7 +127,7 @@
     "stylelint-config-standard": "20.0.0",
     "stylelint-webpack-plugin": "2.1.0",
     "vue-jest": "3.0.5",
-    "vue-template-compiler": "^2.6.10",
+    "vue-template-compiler": "^2.6.12",
     "webdriverio": "6.1.19",
     "webpack": "4.44.0",
     "webpack-bundle-analyzer": "3.8.0"
