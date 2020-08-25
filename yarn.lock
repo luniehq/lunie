@@ -5786,6 +5786,11 @@ cli-width@^2.0.0:
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.2.1.tgz#b0433d0b4e9c847ef18868a4ef16fd5fc8271c48"
   integrity sha512-GRMWDxpOB6Dgk2E5Uo+3eEBvtOOlimMmpbFiKuLFnQzYDavtLFY3K5ona41jgN/WdRZtG7utuVSVTL4HbZHGkw==
 
+cli-width@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-3.0.0.tgz#a2f48437a2caa9a22436e794bf071ec9e61cedf6"
+  integrity sha512-FxqpkPPwu1HjuN93Omfm4h8uIanXofW0RxVEW3k5RKx+mJJYSthzNhp32Kzxxy3YAEZ/Dc/EWN1vZRY0+kOhbw==
+
 clipboard@^2.0.0:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.6.tgz#52921296eec0fdf77ead1749421b21c968647376"
@@ -9992,23 +9997,23 @@ inquirer@6.3.1:
     strip-ansi "^5.1.0"
     through "^2.3.6"
 
-inquirer@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-7.0.0.tgz#9e2b032dde77da1db5db804758b8fea3a970519a"
-  integrity sha512-rSdC7zelHdRQFkWnhsMu2+2SO41mpv2oF2zy4tMhmiLWkcKbOAs87fWAJhVXttKVwhdZvymvnuM95EyEXg2/tQ==
+inquirer@7.3.3, inquirer@^7.0.0:
+  version "7.3.3"
+  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-7.3.3.tgz#04d176b2af04afc157a83fd7c100e98ee0aad003"
+  integrity sha512-JG3eIAj5V9CwcGvuOmoo6LB9kbAYT8HXffUl6memuszlwDC/qvFAJw49XJ5NROSFNPxp3iQg1GqkFhaY/CR0IA==
   dependencies:
     ansi-escapes "^4.2.1"
-    chalk "^2.4.2"
+    chalk "^4.1.0"
     cli-cursor "^3.1.0"
-    cli-width "^2.0.0"
+    cli-width "^3.0.0"
     external-editor "^3.0.3"
     figures "^3.0.0"
-    lodash "^4.17.15"
+    lodash "^4.17.19"
     mute-stream "0.0.8"
-    run-async "^2.2.0"
-    rxjs "^6.4.0"
+    run-async "^2.4.0"
+    rxjs "^6.6.0"
     string-width "^4.1.0"
-    strip-ansi "^5.1.0"
+    strip-ansi "^6.0.0"
     through "^2.3.6"
 
 inquirer@^3.0.6:
@@ -10048,25 +10053,6 @@ inquirer@^6.2.1, inquirer@^6.2.2:
     rxjs "^6.4.0"
     string-width "^2.1.0"
     strip-ansi "^5.1.0"
-    through "^2.3.6"
-
-inquirer@^7.0.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-7.1.0.tgz#1298a01859883e17c7264b82870ae1034f92dd29"
-  integrity sha512-5fJMWEmikSYu0nv/flMc475MhGbB7TSPd/2IpFV4I4rMklboCH2rQjYY5kKiYGHqUF9gvaambupcJFFG9dvReg==
-  dependencies:
-    ansi-escapes "^4.2.1"
-    chalk "^3.0.0"
-    cli-cursor "^3.1.0"
-    cli-width "^2.0.0"
-    external-editor "^3.0.3"
-    figures "^3.0.0"
-    lodash "^4.17.15"
-    mute-stream "0.0.8"
-    run-async "^2.4.0"
-    rxjs "^6.5.3"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
     through "^2.3.6"
 
 internal-ip@^4.3.0:
@@ -16166,14 +16152,7 @@ rx-lite@*, rx-lite@^4.0.8:
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-4.0.8.tgz#0b1e11af8bc44836f04a6407e92da42467b79444"
   integrity sha1-Cx4Rr4vESDbwSmQH6S2kJGe3lEQ=
 
-rxjs@^6.3.3, rxjs@^6.4.0, rxjs@^6.5.2, rxjs@^6.5.3, rxjs@^6.5.5:
-  version "6.5.5"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.5.tgz#c5c884e3094c8cfee31bf27eb87e54ccfc87f9ec"
-  integrity sha512-WfQI+1gohdf0Dai/Bbmk5L5ItH5tYqm3ki2c5GdWhKjalzjg93N3avFjVStyZZz+A2Em+ZxKH5bNghw9UeylGQ==
-  dependencies:
-    tslib "^1.9.0"
-
-rxjs@^6.6.2:
+rxjs@^6.3.3, rxjs@^6.4.0, rxjs@^6.5.2, rxjs@^6.5.3, rxjs@^6.5.5, rxjs@^6.6.0, rxjs@^6.6.2:
   version "6.6.2"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.2.tgz#8096a7ac03f2cc4fe5860ef6e572810d9e01c0d2"
   integrity sha512-BHdBMVoWC2sL26w//BCu3YzKT4s2jip/WhwsGEDmeKYBhKDZeYezVUnHatYB7L85v5xs0BAQmg6BEYJEKxBabg==
