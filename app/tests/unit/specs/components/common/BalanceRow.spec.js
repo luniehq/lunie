@@ -2,7 +2,7 @@ import { shallowMount } from "@vue/test-utils"
 import BalanceRow from "common/BalanceRow"
 
 describe(`BalanceRow`, () => {
-  let wrapper, $store
+  let $store
 
   const propsData = {
     balance: {
@@ -15,6 +15,7 @@ describe(`BalanceRow`, () => {
         denom: "USD",
         symbol: "$",
       },
+      endTime: "",
     },
     totalRewardsDenom: {
       TOKEN1: 1,
@@ -22,42 +23,45 @@ describe(`BalanceRow`, () => {
     },
   }
 
-  beforeEach(async () => {
-    $store = {
-      getters: {
-        currentNetwork: {
-          id: "test-network",
-          testnet: false,
-          coinLookup: [
-            {
-              viewDenom: `MUON`,
-              icon: `/img/icons/currencies/muon.png`,
-            },
-          ],
-        },
-        stakingDenom: "MUON",
-        networks: [
+  $store = {
+    getters: {
+      currentNetwork: {
+        id: "test-network",
+        testnet: false,
+        coinLookup: [
           {
-            id: "test-network",
-            testnet: false,
+            viewDenom: `MUON`,
+            icon: `/img/icons/currencies/muon.png`,
           },
         ],
       },
-    }
+      stakingDenom: "MUON",
+      networks: [
+        {
+          id: "test-network",
+          testnet: false,
+        },
+      ],
+    },
+  }
 
-    wrapper = shallowMount(BalanceRow, {
-      props: propsData,
+  it(`it matches snapshot`, () => {
+    const wrapper = shallowMount(BalanceRow, {
+      propsData: propsData,
       mocks: {
         $store,
       },
     })
-  })
-
-  it.skip(`it matches snapshot`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it.skip(`opens send modal`, () => {
+  it(`opens send modal`, () => {
+    const wrapper = shallowMount(BalanceRow, {
+      propsData: propsData,
+      mocks: {
+        $store,
+      },
+    })
     const $refs = {
       SendModal: {
         open: jest.fn(),
