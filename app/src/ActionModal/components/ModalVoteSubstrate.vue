@@ -347,10 +347,6 @@ export default {
   justify-content: space-evenly;
 }
 
-.locked-balance-container {
-  border: solid 1px var(--app-fg-hover);
-}
-
 .locked-balance {
   color: var(--app-nav);
   font-size: var(--h1);
