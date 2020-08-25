@@ -168,7 +168,7 @@ export async function VoteTx(
         { amount: lockedBalance, denom: network.stakingDenom },
         network.coinLookup
       ),
-      vote: { aye: voteOption, conviction },
+      vote: { aye: voteOption === "Yes" ? true : false, conviction },
     },
   })
   return await getSignMessage(senderAddress, voteTx, api)
