@@ -55,7 +55,6 @@
             class="locked-balance"
             type="text"
             :placeholder="lockedBalance"
-            @change="totalVotingController()"
           />
           <TmFormMsg
             v-if="$v.lockedBalance.$error && !$v.lockedBalance.required"
@@ -106,7 +105,7 @@
       </div>
     </div>
     <div class="totals flex-row">
-      <div class="card" @click="totalVotingController()">
+      <div class="card">
         <span class="card-title">Total</span>
         <span>{{ totalVotingPower }}</span>
         <span>&nbsp;{{ currentNetwork.stakingDenom }}</span>
@@ -185,8 +184,8 @@ export default {
         proposalId: this.proposalId,
         voteOption: this.vote,
         lockedBalance: Number(this.lockedBalance) || 0,
-        conviction: this.selectedlockingOption
-          ? this.selectedlockingOption.multiplier
+        conviction: this.selectedLockingOption
+          ? this.selectedLockingOption.multiplier
           : 0,
       }
     },
@@ -206,6 +205,13 @@ export default {
           available: 0,
         }
       }
+    },
+  },
+  watch: {
+    lockedBalance: {
+      handler() {
+        this.totalVotingController()
+      },
     },
   },
   validations() {
