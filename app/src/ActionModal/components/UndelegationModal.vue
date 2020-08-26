@@ -52,7 +52,7 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
-      v-if="!isGlobalUnstake && session.addressRole !== `stash`"
+      v-if="!sourceValidator && session.addressRole !== `stash`"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -179,10 +179,6 @@ export default {
     sourceValidator: {
       type: Object,
       default: () => ({}),
-    },
-    isGlobalUnstake: {
-      type: Boolean,
-      default: false,
     },
   },
   data: () => ({

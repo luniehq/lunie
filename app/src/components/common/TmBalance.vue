@@ -89,7 +89,7 @@
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
-      <UndelegationModal ref="UnstakeModal" :is-global-unstake="true" />
+      <UndelegationModal ref="UnstakeModal" />
       <ModalTutorial
         v-if="
           showTutorial &&
@@ -224,11 +224,6 @@ export default {
     isTestnet() {
       return this.networks.find((network) => network.id === this.network)
         .testnet
-    },
-    allDelegationsStake() {
-      return this.delegations.reduce((allDelegationsAggregator, delegation) => {
-        return (allDelegationsAggregator += delegation.amount)
-      })
     },
   },
   watch: {

@@ -128,7 +128,6 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     <modalwithdrawrewards-stub />
      
     <undelegationmodal-stub
-      isglobalunstake="true"
       sourcevalidator="[object Object]"
     />
      
@@ -265,7 +264,6 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     <modalwithdrawrewards-stub />
      
     <undelegationmodal-stub
-      isglobalunstake="true"
       sourcevalidator="[object Object]"
     />
      
