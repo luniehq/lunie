@@ -240,7 +240,7 @@ export default {
         if (
           isNaN(this.amount) ||
           (!this.sourceValidator.operatorAddress &&
-            this.currentNetwork.network_type !== `pokadot`) ||
+            this.currentNetwork.network_type !== `polkadot`) ||
           !this.stakingDenom
         ) {
           return {}
@@ -373,6 +373,7 @@ export default {
   methods: {
     open() {
       this.$refs.actionModal.open()
+      this.$apollo.queries.balance.refetch()
       this.$apollo.queries.delegations.refetch()
     },
     validateForm() {
