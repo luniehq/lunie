@@ -58,9 +58,15 @@
           <i class="material-icons">send</i></button
         ><span>Send</span>
       </div>
+      <div class="icon-button-container">
+        <button class="icon-button" @click="onUnstake()">
+          <i class="material-icons notranslate">arrow_upward</i></button
+        ><span>Unstake</span>
+      </div>
     </div>
 
     <SendModal ref="SendModal" :denoms="[balance.denom]" />
+    <UndelegationModal ref="UnstakeModal" />
 
     <!-- endTime span for Polkadot undelegations -->
     <div
@@ -78,11 +84,13 @@
 import { bigFigureOrShortDecimals } from "scripts/num"
 import { fromNow } from "src/filters"
 import SendModal from "src/ActionModal/components/SendModal"
+import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import { mapGetters, mapState } from "vuex"
 export default {
   name: `balance-row`,
   components: {
     SendModal,
+    UndelegationModal,
   },
   filters: {
     bigFigureOrShortDecimals,
@@ -110,6 +118,9 @@ export default {
     bigFigureOrShortDecimals,
     onSend(denom = undefined) {
       this.$refs.SendModal.open(denom)
+    },
+    onUnstake() {
+      this.$refs.UnstakeModal.open()
     },
   },
 }
@@ -168,6 +179,13 @@ export default {
   padding-left: 0;
 }
 
+.icon-button-container {
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .icon-button-container span {
   display: block;
   font-size: 12px;
@@ -197,6 +215,7 @@ export default {
 .icon-button i {
   font-size: 14px;
   color: var(--menu-bright);
+  font-weight: 900;
 }
 
 @media screen and (max-width: 667px) {
