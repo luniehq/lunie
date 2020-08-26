@@ -144,7 +144,6 @@ import UserMenuAddress from "account/UserMenuAddress"
 import { AddressRole } from "src/gql"
 import { formatAddress } from "src/filters"
 import { mapGetters, mapState } from "vuex"
-import { uniqWith, sortBy } from "lodash"
 
 export default {
   name: `user-menu`,
@@ -164,42 +163,13 @@ export default {
     addresses: {
       cache: false,
       get: async function () {
-        // filter local accounts to make sure they all have an address
-        const localAccounts = this.keystore.accounts.filter(
-          ({ address }) => address
-        )
-        // active sessions will likely overlap with the ones stored locally / in extension
-        const allAddresses = sortBy(
-          uniqWith(
-            localAccounts
-              .map((account) => ({
-                ...account,
-                networkId: account.network || account.networkId,
-                sessionType: `local`,
-              }))
-              .concat(
-                this.extensionAccounts.map((account) => ({
-                  ...account,
-                  networkId: account.network || account.networkId,
-                  sessionType: `extension`,
-                }))
-              )
-              .concat(this.session.allSessionAddresses),
-            (a, b) => a.address === b.address && a.sessionType === b.sessionType
-          ),
-          (account) => {
-            return account.networkId
-          }
-        )
-        const allAddressesWithAddressRole = await this.getAllAddressesRoles(
-          allAddresses
-        )
-        return allAddressesWithAddressRole
+        await this.$store.dispatch(`getAllUsedAddresses`)
+        return this.session.allUsedAddresses
       },
     },
   },
   computed: {
-    ...mapState([`session`, `account`, `keystore`, `extension`]),
+    ...mapState([`session`, `account`]),
     ...mapGetters([`address`, `network`, `networks`]),
     user() {
       return this.account.userSignedIn && this.account.user
@@ -215,12 +185,6 @@ export default {
         this.session.addressRole !== `stash/controller` &&
         this.session.addressRole !== `none`
       )
-    },
-    extensionAccounts: {
-      cache: false,
-      get: function () {
-        return this.extension.accounts
-      },
     },
   },
   created() {
@@ -268,9 +232,6 @@ export default {
         this.$router.push({ name: `sign-in-modal` })
       }
     },
-    getAddressNetwork(address) {
-      return this.networks.find((network) => network.id === address.networkId)
-    },
     getSessionName(session) {
       switch (session.sessionType) {
         case `local`:
@@ -279,28 +240,6 @@ export default {
           return session.name
         default:
           return this.capitalizeFirstLetter(session.sessionType)
-      }
-    },
-    async getAllAddressesRoles(addresses) {
-      return await Promise.all(
-        addresses.map(async (address) => {
-          if (this.getAddressNetwork(address).network_type === `polkadot`) {
-            return await this.getAddressRole(address)
-          } else {
-            return address
-          }
-        })
-      )
-    },
-    async getAddressRole(address) {
-      const { data } = await this.$apollo.query({
-        query: AddressRole,
-        variables: { networkId: address.networkId, address: address.address },
-        fetchPolicy: "network-only",
-      })
-      return {
-        ...address,
-        addressRole: data.accountRole,
       }
     },
   },
