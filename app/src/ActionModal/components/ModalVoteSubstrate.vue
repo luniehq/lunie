@@ -1,5 +1,4 @@
 <template>
-  <!-- <SessionFrame :icon="`thumbs_up_down`"> -->
   <ActionModal
     id="modal-vote-substrate"
     ref="actionModal"
@@ -111,16 +110,12 @@
         <span>&nbsp;{{ currentNetwork.stakingDenom }}</span>
       </div>
     </div>
-    <div class="buttons">
-      <!-- <TmBtn value="Send your Vote" /> -->
-    </div>
     <TmFormMsg
       v-if="$v.vote.$error && !$v.vote.required"
       name="Vote"
       type="required"
     />
   </ActionModal>
-  <!-- </SessionFrame> -->
 </template>
 <script>
 import { mapGetters } from "vuex"
@@ -129,7 +124,6 @@ import { SMALLEST } from "src/scripts/num"
 import ActionModal from "./ActionModal"
 import TmFormGroup from "src/components/common/TmFormGroup"
 import TmField from "src/components/common/TmField"
-// import SessionFrame from "common/SessionFrame"
 import TmBtn from "src/components/common/TmBtn"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import { messageType } from "../../components/transactions/messageTypes"
@@ -141,7 +135,6 @@ export default {
   name: `modal-vote-substrate`,
   components: {
     ActionModal,
-    // SessionFrame,
     TmFormGroup,
     TmField,
     TmFormMsg,
@@ -172,7 +165,6 @@ export default {
       { display: `Set Max`, multiplier: 6 },
     ],
     selectedLockingOption: { display: `0.1x`, multiplier: 0.1 },
-    totalVotingPower: 0,
     vote: null,
     messageType,
   }),
@@ -206,11 +198,15 @@ export default {
         }
       }
     },
+    totalVotingPower() {
+      return (
+        this.lockedBalance * this.selectedLockingOption.multiplier
+      ).toFixed(6)
+    },
   },
   watch: {
     lockedBalance: {
       handler() {
-        this.totalVotingController()
         const input = document.querySelector(".tm-field")
         if (input) {
           input.style.width = input.value.length + 2 + "ch"
@@ -260,7 +256,6 @@ export default {
     },
     lockingOptionController(lockingOption) {
       this.selectedLockingOption = lockingOption
-      this.totalVotingController()
       switch (lockingOption.display) {
         case `0.1x`:
           return (this.lockingPeriod = "0")
@@ -281,11 +276,6 @@ export default {
         default:
           return (this.lockingPeriod = "0")
       }
-    },
-    totalVotingController() {
-      this.totalVotingPower = (
-        this.lockedBalance * this.selectedLockingOption.multiplier
-      ).toFixed(6)
     },
   },
   apollo: {
@@ -315,7 +305,6 @@ export default {
         this.lockedBalance = result.balancesV2.find(
           ({ denom }) => denom === this.currentNetwork.stakingDenom
         ).available
-        this.totalVotingPower = this.lockedBalance
         return result.balancesV2
       },
     },
