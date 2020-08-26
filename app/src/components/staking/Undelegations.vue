@@ -18,7 +18,6 @@
         <template v-if="currentNetwork.network_type === `polkadot`">
           <BalanceRow
             v-for="balance in balances"
-            class="balance-row"
             :key="balance.id"
             :balance="balance"
             :total-rewards-denom="totalRewardsDenom"

@@ -20,17 +20,17 @@ exports[`BalanceRow it matches snapshot 1`] = `
         class="total"
       >
         
-          100.78
-          MUON
-        
+        100.78
+        MUON
+      
       </span>
        
       <span
         class="fiat"
       >
         
-          10
-          USD
+        10
+        USD
       </span>
     </div>
   </div>
@@ -40,9 +40,9 @@ exports[`BalanceRow it matches snapshot 1`] = `
   >
     <h2>
       
-        +5
-        MUON
-      
+      +5
+      MUON
+    
     </h2>
   </div>
    
@@ -53,8 +53,8 @@ exports[`BalanceRow it matches snapshot 1`] = `
       class="available-amount"
     >
       
-        80.78
-      
+      80.78
+    
     </span>
   </div>
    
@@ -82,5 +82,7 @@ exports[`BalanceRow it matches snapshot 1`] = `
   <sendmodal-stub
     denoms="MUON"
   />
+   
+  <!---->
 </div>
 `;

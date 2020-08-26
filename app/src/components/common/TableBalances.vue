@@ -9,7 +9,6 @@
       <tbody>
         <BalanceRow
           v-for="balance in balances"
-          class="balance-row"
           :key="balance.id"
           :balance="balance"
           :total-rewards-denom="totalRewardsDenom"
@@ -79,10 +78,6 @@ export default {
   font-size: var(--sm);
   padding-bottom: 1rem;
   padding-left: 0;
-}
-
-.balance-row {
-  display: flex;
 }
 
 @media screen and (max-width: 667px) {

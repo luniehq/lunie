@@ -1,12 +1,13 @@
 <template>
-  <div>
+  <div class="balance-row">
     <div :key="balance.denom" class="table-cell big">
       <img
         class="currency-flag"
         :src="
-          currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom) ?
-            currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom).icon :
-          '/img/icons/currencies/' + balance.denom.toLowerCase() + '.png'
+          currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom)
+            ? currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom)
+                .icon
+            : '/img/icons/currencies/' + balance.denom.toLowerCase() + '.png'
         "
         :alt="`${balance.denom}` + ' currency'"
       />

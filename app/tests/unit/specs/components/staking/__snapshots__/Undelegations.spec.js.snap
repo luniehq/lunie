@@ -14,8 +14,6 @@ exports[`Undelegations should show unbonding validators 1`] = `
       
       </h1>
        
-      <!---->
-       
       <tableundelegations-stub
         undelegations="[object Object],[object Object],[object Object]"
       />
