@@ -17,13 +17,13 @@
         </h1>
         <template v-if="currentNetwork.network_type === `polkadot`">
           <BalanceRow
-            v-for="balance in undelegations"
+            v-for="balance in balances"
             :key="balance.id"
             :balance="balance"
             :total-rewards-denom="totalRewardsDenom"
           />
         </template>
-        <TableUndelegations :undelegations="undelegations" />
+        <TableUndelegations v-else :undelegations="undelegations" />
       </div>
     </div>
   </div>
@@ -44,6 +44,7 @@ export default {
   },
   data: () => ({
     undelegations: [],
+    rewards: [],
     undelegationsLoaded: false,
   }),
   computed: {
@@ -56,6 +57,14 @@ export default {
           denom: this.currentNetwork.stakingDenom,
         }
       })
+    },
+    totalRewardsDenom() {
+      return this.rewards.reduce((all, reward) => {
+        return {
+          ...all,
+          [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0),
+        }
+      }, {})
     },
   },
   apollo: {

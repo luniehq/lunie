@@ -1,72 +1,77 @@
 <template>
   <div class="balance-row">
-    <!-- if a balance has an endTime it's for substrate undelegations -->
-    <template v-if="balance.endTime">
-      <div
-        v-if="balance.endTime"
-        :key="balance.denom + '_endtime'"
-        class="table-cell endtime"
-      >
-        <span>
-          {{ balance.endTime | fromNow }}
-        </span>
-      </div>
-    </template>
-
-    <template v-else>
-      <div :key="balance.denom" class="table-cell big">
-        <img
-          class="currency-flag"
-          :src="
-            currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom)
-              .icon ||
-            '/img/icons/currencies/' + balance.denom.toLowerCase() + '.png'
-          "
-          :alt="`${balance.denom}` + ' currency'"
-        />
-        <div class="total-and-fiat">
-          <span class="total">
-            {{ balance.total | bigFigureOrShortDecimals }}
-            {{ balance.denom }}
-          </span>
-          <span
-            v-if="
-              balance.fiatValue && !isTestnet && balance.fiatValue.amount > 0
-            "
-            class="fiat"
-          >
-            {{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
-            {{ balance.fiatValue.denom }}</span
-          >
-        </div>
-      </div>
-
-      <div :key="balance.denom + '_rewards'" class="table-cell rewards">
-        <h2
-          v-if="totalRewardsDenom && totalRewardsDenom[balance.denom] > 0.001"
-        >
-          +{{ totalRewardsDenom[balance.denom] | bigFigureOrShortDecimals }}
+    <div :key="balance.denom" class="table-cell big">
+      <img
+        class="currency-flag"
+        :src="
+          currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom)
+            ? currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom)
+                .icon
+            : '/img/icons/currencies/' + balance.denom.toLowerCase() + '.png'
+        "
+        :alt="`${balance.denom}` + ' currency'"
+      />
+      <div class="total-and-fiat">
+        <span class="total">
+          {{ balance.total | bigFigureOrShortDecimals }}
           {{ balance.denom }}
-        </h2>
-        <h2 v-else>0</h2>
-      </div>
-
-      <div :key="balance.denom + '_available'" class="table-cell available">
-        <span v-if="balance.type === 'STAKE'" class="available-amount">
-          {{ balance.available | bigFigureOrShortDecimals }}
         </span>
+        <span
+          v-if="balance.fiatValue && !isTestnet && balance.fiatValue.amount > 0"
+          class="fiat"
+        >
+          {{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
+          {{ balance.fiatValue.denom }}</span
+        >
       </div>
+    </div>
 
-      <div :key="balance.denom + '_actions'" class="table-cell actions">
-        <div class="icon-button-container">
-          <button class="icon-button" @click="onSend(balance.denom)">
-            <i class="material-icons">send</i></button
-          ><span>Send</span>
-        </div>
+    <div
+      v-if="!balance.endTime"
+      :key="balance.denom + '_rewards'"
+      class="table-cell rewards"
+    >
+      <h2 v-if="totalRewardsDenom && totalRewardsDenom[balance.denom] > 0.001">
+        +{{ totalRewardsDenom[balance.denom] | bigFigureOrShortDecimals }}
+        {{ balance.denom }}
+      </h2>
+      <h2 v-else>0</h2>
+    </div>
+
+    <div
+      v-if="!balance.endTime"
+      :key="balance.denom + '_available'"
+      class="table-cell available"
+    >
+      <span v-if="balance.type === 'STAKE'" class="available-amount">
+        {{ balance.available | bigFigureOrShortDecimals }}
+      </span>
+    </div>
+
+    <div
+      v-if="!balance.endTime"
+      :key="balance.denom + '_actions'"
+      class="table-cell actions"
+    >
+      <div class="icon-button-container">
+        <button class="icon-button" @click="onSend(balance.denom)">
+          <i class="material-icons">send</i></button
+        ><span>Send</span>
       </div>
+    </div>
 
-      <SendModal ref="SendModal" :denoms="[balance.denom]" />
-    </template>
+    <SendModal ref="SendModal" :denoms="[balance.denom]" />
+
+    <!-- endTime span for Polkadot undelegations -->
+    <div
+      v-if="balance.endTime"
+      :key="balance.denom + '_endtime'"
+      class="table-cell endtime"
+    >
+      <span>
+        {{ balance.endTime | fromNow }}
+      </span>
+    </div>
   </div>
 </template>
 <script>
