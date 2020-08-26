@@ -2,7 +2,9 @@
   <div class="notifications-container">
     <div class="notifications-header">
       <h2>Notifications</h2>
-      <a @click="handleIntercom()">Questions or feedback?</a>
+      <a class="intercom-button" @click="handleIntercom()"
+        >Questions or feedback?</a
+      >
     </div>
     <TmPage
       data-title="My alerts"
