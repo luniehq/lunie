@@ -75,17 +75,10 @@
         </div>
       </div>
 
-      <div class="table four-columns">
-        <div class="table-cell big title">Token</div>
-        <div class="table-cell title">Rewards</div>
-        <div class="table-cell title available">Available</div>
-        <div class="table-cell title actions"></div>
-
-        <TableBalances
-          :balances="balances"
-          :total-rewards-denom="totalRewardsPerDenom"
-        />
-      </div>
+      <TableBalances
+        :balances="balances"
+        :total-rewards-denom="totalRewardsPerDenom"
+      />
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
@@ -498,42 +491,6 @@ select option {
   background-color: rgba(255, 255, 255, 0.02);
 }
 
-.table {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 1rem 2rem 3rem;
-  margin: 0 auto;
-}
-
-.table-cell {
-  flex-grow: 1;
-  padding: 0.5rem 0.5rem 0.5rem 0;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  width: 20%;
-  border-bottom: 1px solid var(--bc-dim);
-  font-family: "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  position: relative;
-  white-space: nowrap;
-}
-
-.table-cell.big {
-  width: 40%;
-  padding-left: 1rem;
-}
-
-.table-cell.big.title {
-  padding-left: 0;
-}
-
-.title {
-  color: var(--dim);
-  font-size: var(--sm);
-  padding-bottom: 1rem;
-  padding-left: 0;
-}
-
 @media screen and (max-width: 667px) {
   h1 {
     padding-bottom: 2rem;
@@ -547,34 +504,10 @@ select option {
     flex-direction: column;
     padding: 0 1rem;
   }
-
-  .available {
-    display: none;
-  }
-
-  .table {
-    padding: 1rem;
-  }
-
-  .table-cell.big {
-    width: 60%;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .table-cell {
-    width: 40%;
-  }
 }
 
 @media screen and (min-width: 1254px) {
   .send-button {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 1254px) {
-  .actions {
     display: none;
   }
 }

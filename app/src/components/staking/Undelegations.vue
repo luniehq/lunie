@@ -15,10 +15,15 @@
         <h1>
           Pending
         </h1>
-        <TableBalances
-          v-if="currentNetwork.network_type === `polkadot`"
-          :balances="convertUndelegationsToBalances(undelegations)"
-        />
+        <template v-if="currentNetwork.network_type === `polkadot`">
+          <BalanceRow
+            v-for="balance in balances"
+            class="balance-row"
+            :key="balance.id"
+            :balance="balance"
+            :total-rewards-denom="totalRewardsDenom"
+          />
+        </template>
         <TableUndelegations v-else :undelegations="undelegations" />
       </div>
     </div>
@@ -27,7 +32,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import TableBalances from "common/TableBalances"
+import BalanceRow from "common/BalanceRow"
 import TableUndelegations from "staking/TableUndelegations"
 import { ValidatorFragment, UserTransactionAdded } from "src/gql"
 import gql from "graphql-tag"
@@ -36,24 +41,31 @@ export default {
   name: `undelegations`,
   components: {
     TableUndelegations,
-    TableBalances,
+    BalanceRow,
   },
   data: () => ({
     undelegations: [],
+    rewards: [],
     undelegationsLoaded: false,
   }),
   computed: {
     ...mapGetters([`address`, `network`, `currentNetwork`]),
-  },
-  methods: {
-    convertUndelegationsToBalances(undelegations) {
-      return undelegations.map((undelegation) => {
+    balances() {
+      return this.undelegations.map((undelegation) => {
         return {
           ...undelegation,
           total: undelegation.amount,
           denom: this.currentNetwork.stakingDenom,
         }
       })
+    },
+    totalRewardsDenom() {
+      return this.rewards.reduce((all, reward) => {
+        return {
+          ...all,
+          [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0),
+        }
+      }, {})
     },
   },
   apollo: {
@@ -85,6 +97,34 @@ export default {
       update(data) {
         this.undelegationsLoaded = true
         return data.undelegations
+      },
+    },
+    rewards: {
+      query: gql`
+        query rewards(
+          $networkId: String!
+          $delegatorAddress: String!
+        ) {
+          rewards(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            id
+            amount
+            denom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.address,
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
       },
     },
     $subscribe: {
@@ -129,6 +169,10 @@ h1 {
   margin: 0 auto;
   width: 100%;
   padding: 4rem 2rem;
+}
+
+.balance-row {
+  display: flex;
 }
 
 @media screen and (max-width: 667px) {

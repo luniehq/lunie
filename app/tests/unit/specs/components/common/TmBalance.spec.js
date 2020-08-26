@@ -114,7 +114,6 @@ describe(`TmBalance`, () => {
       ],
     })
     expect(wrapper.element).toMatchSnapshot()
-    expect(wrapper.text()).toContain("Token")
     expect(wrapper.text()).not.toContain("Available ATOM")
     expect(wrapper.text()).not.toContain("Total Rewards")
   })
