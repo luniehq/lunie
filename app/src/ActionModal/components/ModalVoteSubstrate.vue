@@ -48,6 +48,7 @@
           field-id="lockedBalance"
         >
           <TmField
+            id="locked-balance"
             v-model="lockedBalance"
             v-focus
             class="locked-balance"
@@ -408,7 +409,7 @@ export default {
   flex-direction: row;
 }
 
-.tm-field {
+#locked-balance {
   text-align: center;
 }
 </style>
