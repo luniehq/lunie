@@ -25,8 +25,8 @@ describe(`PageProposal`, () => {
     connected: true,
     address: `cosmos1xxxx`,
     currentNetwork: {
-      network_type: `cosmos`
-    }
+      network_type: `cosmos`,
+    },
   }
   let args
 
@@ -94,7 +94,7 @@ describe(`PageProposal`, () => {
     wrapper = shallowMount(PageProposal, args)
     wrapper.setData({
       proposal: proposals[0],
-      found: true
+      found: true,
     })
     expect(wrapper.html()).toContain("Unknown proposer")
   })

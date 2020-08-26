@@ -1,5 +1,5 @@
-import { Keyring } from '@polkadot/keyring'
-import { cryptoWaitReady } from '@polkadot/util-crypto'
+import { Keyring } from "@polkadot/keyring"
+import { cryptoWaitReady } from "@polkadot/util-crypto"
 
 // creates a cosmos addres for the network desired
 function getCosmosAddressCreator(bech32Prefix, HDPath, curve) {
