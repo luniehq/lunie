@@ -411,6 +411,29 @@ class polkadotAPI {
     }
   }
 
+  async getBondedStake(address) {
+    const api = await this.getAPI()
+    const stakingledgerResponse = await api.query.staking.ledger(address)
+    const stakingLedger = stakingledgerResponse.toJSON()
+    const totalUnlockingStake = stakingLedger.unlocking.reduce(
+      (totalUnlockingAggregator, unlockingStake) => {
+        return (totalUnlockingAggregator = BigNumber(
+          totalUnlockingAggregator
+        ).plus(unlockingStake.value))
+      },
+      0
+    )
+    const totalStaleBondedStake = BigNumber(stakingLedger.total)
+      .minus(stakingLedger.active)
+      .minus(totalUnlockingStake)
+    return this.reducers.bondedStakeReducer(
+      stakingLedger,
+      totalStaleBondedStake,
+      totalUnlockingStake,
+      this.network
+    )
+  }
+
   async getStashAddress(address) {
     const api = await this.getAPI()
     const stakingLedger = await api.query.staking.ledger(address)

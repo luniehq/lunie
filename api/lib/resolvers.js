@@ -410,6 +410,12 @@ const resolvers = (networkList, notificationController) => ({
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
     },
+    bondedStake: async (_, { networkId, address }, { dataSources }) => {
+      await localStore(dataSources, networkId).dataReady
+      if (!remoteFetch(dataSources, networkId).getBondedStake) return undefined
+
+      return await remoteFetch(dataSources, networkId).getBondedStake(address)
+    },
     governanceOverview: governanceOverview()
   },
   Mutation: {

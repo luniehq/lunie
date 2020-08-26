@@ -490,6 +490,15 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
+function bondedStakeReducer(stakingLedger, stale, unlocking, network) {
+  return {
+    total: toViewDenom(network, stakingLedger.total),
+    active: toViewDenom(network, stakingLedger.active),
+    unlocking: toViewDenom(network, unlocking),
+    stale: toViewDenom(network, stale)
+  }
+}
+
 function democracyProposalReducer(network, proposal) {
   return {
     id: `democracy-`.concat(proposal.index),
@@ -706,6 +715,7 @@ module.exports = {
   coinReducer,
   rewardReducer,
   rewardsReducer,
+  bondedStakeReducer,
   dbRewardsReducer,
   getExtrinsicSuccess,
   identityReducer,

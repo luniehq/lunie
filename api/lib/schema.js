@@ -443,6 +443,13 @@ const typeDefs = gql`
     remove: Boolean
   }
 
+  type BondedStake {
+    total: String
+    active: String
+    unlocking: String
+    stale: String
+  }
+
   type Query {
     blockV2(networkId: String!, height: Int): BlockV2
     proposal(networkId: String!, id: String!): Proposal
@@ -516,6 +523,7 @@ const typeDefs = gql`
       addressObjects: [NotificationInput]!
     ): [Notification]!
     accountRole(networkId: String!, address: String!): String
+    bondedStake(networkId: String!, address: String!): BondedStake
   }
 `
 
