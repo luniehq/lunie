@@ -141,7 +141,6 @@
 <script>
 import Avatar from "common/Avatar"
 import UserMenuAddress from "account/UserMenuAddress"
-import { AddressRole } from "src/gql"
 import { formatAddress } from "src/filters"
 import { mapGetters, mapState } from "vuex"
 
