@@ -1,10 +1,16 @@
 const BigNumber = require('bignumber.js')
+const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
 const { stringToU8a } = require('@polkadot/util')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const Sentry = require('@sentry/node')
 
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
+const { toViewDenom } = require('../../common/numbers')
+const {
+  getPassingThreshold,
+  getFailingThreshold
+} = require('@polkassembly/util')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
@@ -185,10 +191,9 @@ class polkadotAPI {
   async getBalancesFromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
     const account = await api.query.system.account(address)
-    const totalBalance = account.data.free
-    const freeBalance = BigNumber(totalBalance.toString()).minus(
-      account.data.miscFrozen.toString()
-    )
+    const { free, feeFrozen } = account.data.toJSON()
+    const totalBalance = BigNumber(free)
+    const freeBalance = BigNumber(free).minus(feeFrozen)
     const fiatValueAPI = this.fiatValuesAPI
     return this.reducers.balanceReducer(
       this.network,
@@ -566,27 +571,32 @@ class polkadotAPI {
   ) {
     const api = await this.getAPI()
 
-    const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
-    const preimageRaw = await api.query.democracy.preimages.at(
-      blockHash,
-      proposal.imageHash
-    )
-    const preimage = preimageRaw.unwrapOr(null)
-    const { data } = preimage.asAvailable
-    const proposalWithIndex = this.constructProposal(api, data)
-    const { meta, method } = api.registry.findMetaCall(
-      proposalWithIndex.callIndex
-    )
-    description = meta.documentation.toString()
-    proposalMethod = method
+    description = `This is a Democracy Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
+      proposal.proposer || proposer
+    }) is able to change it.`
+    if (proposal.image) {
+      const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
+      const preimageRaw = await api.query.democracy.preimages.at(
+        blockHash,
+        proposal.imageHash
+      )
+      const preimage = preimageRaw.unwrapOr(null)
+      const { data } = preimage.asAvailable
+      const proposalWithIndex = this.constructProposal(api, data)
+      const { meta, method } = api.registry.findMetaCall(
+        proposalWithIndex.callIndex
+      )
+      description = meta.documentation.toString()
+      proposalMethod = method
 
-    // get creationTime
-    const block = await api.rpc.chain.getBlock(blockHash)
-    const args = block.block.extrinsics.map((extrinsic) =>
-      extrinsic.method.args.find((arg) => arg)
-    )
-    const blockTimestamp = args[0]
-    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+      // get creationTime
+      const block = await api.rpc.chain.getBlock(blockHash)
+      const args = block.block.extrinsics.map((extrinsic) =>
+        extrinsic.method.args.find((arg) => arg)
+      )
+      const blockTimestamp = args[0]
+      creationTime = new Date(Number(blockTimestamp)).toUTCString()
+    }
 
     return {
       ...proposal,
@@ -662,6 +672,11 @@ class polkadotAPI {
       const { meta } = api.registry.findMetaCall(proposal.proposal.callIndex)
       description = meta.documentation.toString()
     }
+    if (type === `treasury`) {
+      description = `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
+        proposal.proposer || proposer
+      }) is able to change it.`
+    }
     return {
       ...proposal,
       description,
@@ -669,6 +684,213 @@ class polkadotAPI {
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime,
       beneficiary: proposal.beneficiary
+    }
+  }
+
+  getDemocracyProposalDetailedVotes(proposal, links) {
+    // in democracy proposals there is the first opening deposit made by the proposer
+    // afterwards every account that seconds the proposal must deposit the same amount from the initial deposit
+    const depositsSum = toViewDenom(
+      this.network,
+      BigNumber(proposal.balance).times(proposal.seconds.length).toNumber()
+    )
+    const deposits = [
+      {
+        depositer: proposal.proposer,
+        amount: [
+          {
+            amount: toViewDenom(this.network, proposal.balance),
+            denom: this.network.stakingDenom
+          }
+        ]
+      }
+    ].concat(
+      proposal.seconds.map((second) => ({
+        depositer: second,
+        amount: [
+          {
+            amount: toViewDenom(this.network, proposal.balance),
+            denom: this.network.stakingDenom
+          }
+        ]
+      }))
+    )
+    const votes = proposal.seconds.map((secondAddress) => ({
+      voter: secondAddress,
+      option: `Yes`
+    }))
+    const votesSum = proposal.seconds.length
+    return {
+      deposits,
+      depositsSum,
+      votes,
+      votesSum,
+      votingPercentageYes: `100`,
+      votingPercentagedNo: `0`,
+      links,
+      timeline: [{ title: `Proposal created`, time: proposal.creationTime }]
+    }
+  }
+
+  async getReferendumThreshold(proposal) {
+    const api = await this.getAPI()
+
+    const thresholdType = proposal.status.threshold
+    const electorate = await api.query.balances.totalIssuance()
+    const ayeVotesWithoutConviction = proposal.allAye.reduce(
+      (ayeAggregator, aye) => {
+        return (ayeAggregator += Number(aye.balance))
+      },
+      0
+    )
+    const nayVotesWithoutConviction = proposal.allNay.reduce(
+      (nayAggregator, nay) => {
+        return (nayAggregator += Number(nay.balance))
+      },
+      0
+    )
+    const ayeVotes = Number(proposal.status.tally.ayes)
+    const nayVotes = Number(proposal.status.tally.nays)
+    const votingThresholdYes = getPassingThreshold({
+      nays: new BN(
+        BigNumber(nayVotes)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      naysWithoutConviction: new BN(
+        BigNumber(nayVotesWithoutConviction)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      totalIssuance: new BN(
+        BigNumber(electorate)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      threshold: thresholdType
+    }).passingThreshold
+    const votingThresholdNo = getFailingThreshold({
+      ayes: new BN(
+        BigNumber(ayeVotes)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      ayesWithoutConviction: new BN(
+        BigNumber(ayeVotesWithoutConviction)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      totalIssuance: new BN(
+        BigNumber(electorate)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      threshold: thresholdType
+    }).failingThreshold
+
+    return {
+      votingThresholdYes: votingThresholdYes
+        ? votingThresholdYes.toString()
+        : undefined,
+      votingThresholdNo: votingThresholdNo
+        ? votingThresholdNo.toString()
+        : undefined
+    }
+  }
+
+  async getReferendumProposalDetailedVotes(proposal, links) {
+    // votes involve depositing & locking some amount for referendum proposals
+    const allDeposits = proposal.allAye.concat(proposal.allNay)
+    const depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
+      return (balanceAggregator += Number(deposit.balance))
+    }, 0)
+    const deposits = allDeposits.map((deposit) =>
+      this.reducers.depositReducer(deposit, this.network)
+    )
+    const votes = proposal.allAye
+      .map((aye) => ({ voter: aye.accountId, option: `Yes` }))
+      .concat(
+        proposal.allNay.map((nay) => ({ voter: nay.accountId, option: `No` }))
+      )
+    const votesSum = proposal.voteCount
+    const threshold = await this.getReferendumThreshold(proposal)
+    const proposalDurationInDays = Math.floor(
+      /* proposal duration in seconds. 6s is the average block duration for both Kusama and Polkadot */ (proposal
+        .status.delay *
+        6) /
+        (3600 * 24)
+    )
+    const totalVotingPower = BigNumber(proposal.status.tally.ayes).plus(
+      proposal.status.tally.nays
+    )
+    return {
+      deposits,
+      depositsSum: toViewDenom(this.network, depositsSum),
+      votes,
+      votesSum,
+      votingThresholdYes: threshold.votingThresholdYes,
+      votingThresholdNo: threshold.votingThresholdNo,
+      votingPercentageYes:
+        totalVotingPower.toNumber() > 0
+          ? BigNumber(proposal.status.tally.ayes)
+              .times(100)
+              .div(totalVotingPower)
+              .toNumber()
+              .toFixed(2)
+          : 0,
+      votingPercentagedNo:
+        totalVotingPower.toNumber() > 0
+          ? BigNumber(proposal.status.tally.nays)
+              .times(100)
+              .div(totalVotingPower)
+              .toNumber()
+              .toFixed(2)
+          : 0,
+      links,
+      timeline: [
+        // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
+        {
+          title: `Proposal created`,
+          time: proposal.creationTime
+        },
+        {
+          title: `Proposal voting period ends`,
+          time: new Date(
+            new Date(proposal.creationTime).getTime() +
+              (proposalDurationInDays - 1) * 24 * 60 * 60 * 1000
+          ).toUTCString()
+        }
+      ]
+    }
+  }
+
+  getCouncilProposalDetailedVotes(proposal, links) {
+    const votes = proposal.votes.ayes
+      .map((aye) => ({ voter: aye, option: `Yes` }))
+      .concat(proposal.votes.nays.map((nay) => ({ voter: nay, option: `No` })))
+    return {
+      votes,
+      votesSum: votes.length,
+      votingThresholdYes: proposal.votes.threshold,
+      votingPercentageYes: (proposal.votes.ayes.length * 100) / votes.length,
+      votingPercentagedNo: (proposal.votes.nays.length * 100) / votes.length,
+      links
+    }
+  }
+
+  async getDetailedVotes(proposal, type) {
+    const links = await this.db.getNetworkLinks(this.network.id)
+    if (type === `democracy`) {
+      return this.getDemocracyProposalDetailedVotes(proposal, links)
+    }
+    if (type === `referendum`) {
+      return await this.getReferendumProposalDetailedVotes(proposal, links)
+    }
+    if (type === `council`) {
+      return this.getCouncilProposalDetailedVotes(proposal, links)
+    }
+    return {
+      links
     }
   }
 
@@ -697,20 +919,30 @@ class polkadotAPI {
     const allProposals = await Promise.all(
       democracyProposals
         .map(async (proposal) => {
+          const proposalWithMetadata = await this.getProposalWithMetadata(
+            proposal,
+            `democracy`
+          )
           return this.reducers.democracyProposalReducer(
             this.network,
-            await this.getProposalWithMetadata(proposal, `democracy`),
+            proposalWithMetadata,
             totalIssuance,
-            blockHeight
+            blockHeight,
+            await this.getDetailedVotes(proposalWithMetadata, `democracy`)
           )
         })
         .concat(
           democracyReferendums.map(async (proposal) => {
+            const proposalWithMetadata = await this.getProposalWithMetadata(
+              proposal,
+              `referendum`
+            )
             return this.reducers.democracyReferendumReducer(
               this.network,
-              await this.getProposalWithMetadata(proposal, `referendum`),
+              proposalWithMetadata,
               totalIssuance,
-              blockHeight
+              blockHeight,
+              await this.getDetailedVotes(proposalWithMetadata, `referendum`)
             )
           })
         )
@@ -719,6 +951,7 @@ class polkadotAPI {
             .filter((proposal) => {
               // make sure that the treasury proposals haven't been passed as motions to Council
               if (
+                proposal.council.length === 0 ||
                 !councilProposals.find(
                   (councilProposal) =>
                     JSON.stringify(councilProposal) ===
@@ -729,39 +962,51 @@ class polkadotAPI {
               }
             })
             .map(async (proposal) => {
-              const treasuryProposal = proposal.council[0]
-              if (!treasuryProposal) return
               const proposalWithMetadata = await this.getProposalWithMetadata(
-                treasuryProposal,
-                `council`
+                proposal.council[0] || proposal.proposal,
+                proposal.council[0] ? `council` : `treasury`
               )
               return this.reducers.treasuryProposalReducer(
                 this.network,
                 {
                   ...proposalWithMetadata,
+                  index: proposal.id,
                   deposit: proposal.proposal.bond,
                   beneficiary: proposal.proposal.beneficiary
                 },
                 councilMembers,
                 blockHeight,
-                electionInfo
+                electionInfo,
+                await this.getDetailedVotes(
+                  proposalWithMetadata,
+                  proposal.council[0] ? `council` : `treasury`
+                )
               )
             })
         )
         .concat(
           councilProposals.map(async (proposal) => {
+            const proposalWithMetadata = await this.getProposalWithMetadata(
+              proposal,
+              `council`
+            )
             return this.reducers.councilProposalReducer(
               this.network,
-              await this.getProposalWithMetadata(proposal, `council`),
+              proposalWithMetadata,
               councilMembers,
               blockHeight,
-              electionInfo
+              electionInfo,
+              await this.getDetailedVotes(proposalWithMetadata, `council`)
             )
           })
         )
     )
-
-    return orderBy(allProposals, 'id', 'desc')
+    // remove null proposals from filtered treasury proposals
+    return orderBy(
+      allProposals.filter((proposal) => proposal),
+      'id',
+      'desc'
+    )
   }
 
   async getProposalById(proposalId) {
