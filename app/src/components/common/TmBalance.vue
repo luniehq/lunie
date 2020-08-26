@@ -190,7 +190,13 @@ export default {
   },
   computed: {
     ...mapState([`connection`, `session`]),
-    ...mapGetters([`address`, `networks`, `network`, `stakingDenom`, `currentNetwork`]),
+    ...mapGetters([
+      `address`,
+      `networks`,
+      `network`,
+      `stakingDenom`,
+      `currentNetwork`,
+    ]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
