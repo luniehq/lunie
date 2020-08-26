@@ -59,7 +59,7 @@
             <div>
               <div class="address-name-role">
                 <p class="address-name">
-                  {{ getSessionName(address) }}
+                  {{ capitalizeFirstLetter(address.name) }}
                 </p>
                 <p
                   v-if="
@@ -230,16 +230,6 @@ export default {
     signUpForPremium() {
       if (this.$route.name !== `sign-in-modal`) {
         this.$router.push({ name: `sign-in-modal` })
-      }
-    },
-    getSessionName(session) {
-      switch (session.sessionType) {
-        case `local`:
-          return session.name
-        case `extension`:
-          return session.name
-        default:
-          return this.capitalizeFirstLetter(session.sessionType)
       }
     },
   },

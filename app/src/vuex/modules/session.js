@@ -386,10 +386,14 @@ export default ({ apollo }) => {
           return account.networkId
         }
       )
-      const allAddressesWithAddressRole = await getAllAddressesRoles(
+      let allAddressesWithAddressRole = await getAllAddressesRoles(
         store.rootState.connection.networks,
         allAddresses,
         apollo
+      )
+      // finally also add names
+      allAddressesWithAddressRole = allAddressesWithAddressRole.map(
+        (account) => ({ ...account, name: getSessionName(account) })
       )
       store.commit(`setAllUsedAddresses`, allAddressesWithAddressRole)
     },
@@ -469,4 +473,15 @@ async function getAllAddressesRoles(networks, addresses, apollo) {
       }
     })
   )
+}
+
+function getSessionName(session) {
+  switch (session.sessionType) {
+    case `local`:
+      return session.name
+    case `extension`:
+      return session.name
+    default:
+      return session.sessionType
+  }
 }
