@@ -175,7 +175,7 @@ export default {
         proposalId: this.proposalId,
         voteOption: this.vote,
         lockedBalance: Number(this.lockedBalance) || 0,
-        conviction: this.selectedVoteTokenTimeLock
+        timeLock: this.selectedVoteTokenTimeLock
           ? this.selectedVoteTokenTimeLock.multiplier
           : 0,
       }

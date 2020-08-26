@@ -268,7 +268,7 @@ const typeDefs = gql`
     initialDeposit: InputCoin
     voteOption: String
     lockedBalance: Float
-    conviction: Int
+    timeLock: Float
     addressRole: String
   }
 

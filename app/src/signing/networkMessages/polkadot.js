@@ -157,7 +157,7 @@ export async function ClaimRewardsTx(senderAddress, {}, network, api) {
 // Vote
 export async function VoteTx(
   senderAddress,
-  { proposalId, lockedBalance, voteOption, conviction },
+  { proposalId, lockedBalance, voteOption, timeLock },
   network,
   api
 ) {
@@ -168,7 +168,7 @@ export async function VoteTx(
         { amount: lockedBalance, denom: network.stakingDenom },
         network.coinLookup
       ),
-      vote: { aye: voteOption === "Yes" ? true : false, conviction },
+      vote: { aye: voteOption === "Yes" ? true : false, conviction: timeLock },
     },
   })
   return await getSignMessage(senderAddress, voteTx, api)
