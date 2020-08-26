@@ -2,6 +2,7 @@ const _ = require('lodash')
 const BigNumber = require('bignumber.js')
 const {
   fixDecimalsAndRoundUp,
+  fixDecimalsAndRoundUpBigNumbers,
   toViewDenom
 } = require('../../common/numbers.js')
 const { lunieMessageTypes } = require('../../lib/message-types')
@@ -490,7 +491,25 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
-function democracyProposalReducer(network, proposal) {
+function depositReducer(deposit, network) {
+  return {
+    amount: [
+      {
+        amount: fixDecimalsAndRoundUpBigNumbers(deposit.balance, 6, network),
+        denom: network.stakingDenom
+      }
+    ],
+    depositer: deposit.accountId
+  }
+}
+
+function democracyProposalReducer(
+  network,
+  proposal,
+  totalIssuance,
+  blockHeight,
+  detailedVotes
+) {
   return {
     id: `democracy-`.concat(proposal.index),
     networkId: network.id,
@@ -502,7 +521,8 @@ function democracyProposalReducer(network, proposal) {
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
-    proposer: proposal.proposer.toHuman()
+    proposer: proposal.proposer.toHuman(),
+    detailedVotes
   }
 }
 
@@ -510,7 +530,8 @@ function democracyReferendumReducer(
   network,
   proposal,
   totalIssuance,
-  blockHeight
+  blockHeight,
+  detailedVotes
 ) {
   return {
     id: `referendum-`.concat(proposal.index),
@@ -524,7 +545,8 @@ function democracyReferendumReducer(
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
-    proposer: proposal.proposer
+    proposer: proposal.proposer,
+    detailedVotes
   }
 }
 
@@ -533,21 +555,27 @@ function treasuryProposalReducer(
   proposal,
   councilMembers,
   blockHeight,
-  electionInfo
+  electionInfo,
+  detailedVotes
 ) {
   return {
-    id: `treasury-`.concat(proposal.votes.index),
+    id: `treasury-`.concat(proposal.index || proposal.votes.index),
     networkId: network.id,
     type: proposalTypeEnum.TREASURY,
-    title: `Treasury Proposal #${proposal.votes.index}`,
+    title: `Treasury Proposal #${proposal.index || proposal.votes.index}`,
     description: proposal.description,
     creationTime: proposal.creationTime,
     status: `VotingPeriod`,
-    statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
-    tally: councilTallyReducer(proposal.votes, councilMembers, electionInfo),
+    statusEndTime: proposal.votes
+      ? getStatusEndTime(blockHeight, proposal.votes.end)
+      : null,
+    tally: proposal.votes
+      ? councilTallyReducer(proposal.votes, councilMembers, electionInfo)
+      : null,
     deposit: toViewDenom(network, Number(proposal.deposit)),
     proposer: proposal.proposer ? proposal.proposer.toHuman() : undefined,
-    beneficiary: proposal.beneficiary // the account getting the tip
+    beneficiary: proposal.beneficiary, // the account getting the tip
+    detailedVotes
   }
 }
 
@@ -556,7 +584,8 @@ function councilProposalReducer(
   proposal,
   councilMembers,
   blockHeight,
-  electionInfo
+  electionInfo,
+  detailedVotes
 ) {
   return {
     id: `council-`.concat(proposal.votes.index),
@@ -570,7 +599,8 @@ function councilProposalReducer(
     statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
     tally: councilTallyReducer(proposal.votes, councilMembers, electionInfo),
     deposit: undefined,
-    proposer: undefined
+    proposer: undefined,
+    detailedVotes
   }
 }
 
@@ -707,6 +737,7 @@ module.exports = {
   rewardReducer,
   rewardsReducer,
   dbRewardsReducer,
+  depositReducer,
   getExtrinsicSuccess,
   identityReducer,
   democracyProposalReducer,
