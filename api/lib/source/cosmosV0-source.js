@@ -463,14 +463,22 @@ class CosmosV0API extends RESTDataSource {
 
   async getDelegationForValidator(delegatorAddress, validator) {
     this.checkAddress(delegatorAddress)
+    
     const operatorAddress = validator.operatorAddress
     const delegation = await this.query(
       `staking/delegators/${delegatorAddress}/delegations/${operatorAddress}`
-    ).catch(() => ({
-      validator_address: operatorAddress,
-      delegator_address: delegatorAddress,
-      shares: 0
-    }))
+      ).catch(() => {
+      const coinLookup = this.network.getCoinLookup(network, this.network.stakingDenom, "viewDenom")
+      return {
+        validator_address: operatorAddress,
+        delegator_address: delegatorAddress,
+        shares: 0,
+        balance: {
+          amount: 0,
+          denom: coinLookup.chainDenom
+        }
+      }
+    })
     return this.reducers.delegationReducer(
       delegation,
       validator,

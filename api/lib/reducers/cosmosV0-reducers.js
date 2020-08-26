@@ -41,7 +41,7 @@ function accountInfoReducer(accountValue, accountType) {
   return {
     address: accountValue.address,
     accountNumber: accountValue.account_number,
-    sequence: accountValue.sequence
+    sequence: accountValue.sequence || 0
   }
 }
 
@@ -249,6 +249,7 @@ function blockReducer(networkId, block, transactions, data = {}) {
 function denomLookup(denom) {
   const lookup = {
     uatom: 'ATOM',
+    stake: 'STAKE',
     umuon: 'MUON',
     uluna: 'LUNA',
     ukrw: 'KRT',
@@ -462,24 +463,6 @@ async function rewardReducer(
     )
   )
   return multiDenomRewardsArray
-}
-
-async function totalStakeFiatValueReducer(
-  fiatValueAPI,
-  fiatCurrency,
-  totalStake,
-  stakingDenom
-) {
-  const fiatValue = await fiatValueAPI.calculateFiatValues(
-    [
-      {
-        amount: totalStake,
-        denom: stakingDenom
-      }
-    ],
-    fiatCurrency
-  )
-  return fiatValue[stakingDenom]
 }
 
 function extractInvolvedAddresses(transaction) {

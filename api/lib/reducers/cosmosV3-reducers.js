@@ -59,7 +59,7 @@ function delegationReducer(delegation, validator, active, network) {
   const coinLookup = network.getCoinLookup(network, delegation.balance.denom)
   const {amount, denom} = coinReducer(delegation.balance, coinLookup)
 
-  return {
+  return {  
     id: delegation.delegation.validator_address.concat(`-${denom}`),
     validatorAddress: delegation.delegation.validator_address,
     delegatorAddress: delegation.delegation.delegator_address,

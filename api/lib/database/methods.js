@@ -95,6 +95,10 @@ const getNotifications = ({ hasura_url, hasura_admin_key }) => (
   )
 }
 
+
+function getCoinLookup(network, denom, coinLookupDenomType = `chainDenom`) {
+  return network.coinLookup.find((coin) => coin[coinLookupDenomType] === denom)
+}
 const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
   const {
     data: { networks, networksCapabilities, coinLookups }
@@ -162,13 +166,25 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
     ...networksCapabilities.find(({ id }) => id === network.id),
     coinLookup: coinLookups.filter(({ id }) => id === network.id)
   }))
+  let selectedNetworks
   // if the RUN_ONLY_NETWORK env variable is set, we only run the especified network
   if (process.env.RUN_ONLY_NETWORKS) {
-    return allNetworks.filter(({ id }) =>
+    selectedNetworks = allNetworks.filter(({ id }) =>
       process.env.RUN_ONLY_NETWORKS.split(',').includes(id)
     )
   }
-  return allNetworks
+  // only run networks that are set to be enabled
+  // if we want to run a specific network we ignore the enabled flag
+  else {
+    selectedNetworks = allNetworks.filter(({enabled}) => enabled)
+  }
+  return selectedNetworks
+  .map((network) => {
+    return {
+      ...network,
+      getCoinLookup
+    }
+  })
 }
 
 const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
@@ -244,7 +260,8 @@ const getNetwork = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
   return {
     ...network,
     ...networksCapabilities[0],
-    coinLookup: coinLookups
+    coinLookup: coinLookups,
+    getCoinLookup
   }
 }
 
