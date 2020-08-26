@@ -15,13 +15,13 @@
         <div class="buttons">
           <TmBtn
             v-if="currentNetwork.network_type === `polkadot`"
-            class="action-button"
+            class="unstake-button"
             value="Unstake"
             type="secondary"
             @click.native="onUnstake()"
           />
           <TmBtn
-            class="action-button"
+            class="send-button"
             value="Send"
             type="secondary"
             @click.native="onSend()"
@@ -711,7 +711,8 @@ select option {
 }
 
 @media screen and (min-width: 1254px) {
-  .action-button {
+  .unstake-button,
+  .send-button {
     display: none;
   }
 }
