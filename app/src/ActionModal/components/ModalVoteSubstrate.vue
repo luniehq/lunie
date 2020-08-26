@@ -18,21 +18,21 @@
       <div class="flex-row">
         <TmBtn
           id="vote-yes"
-          :class="{ active: vote === `Yes` }"
-          :disabled="lastVoteOption === `Yes`"
+          :class="{ active: vote === voteEnum.YES }"
+          :disabled="lastVoteOption === voteEnum.YES"
           color="secondary"
-          value="Yes"
+          :value="voteEnum.YES"
           size="md"
-          @click.native="vote = 'Yes'"
+          @click.native="vote = voteEnum.YES"
         />
         <TmBtn
           id="vote-no"
-          :class="{ active: vote === `No` }"
-          :disabled="lastVoteOption === `No`"
+          :class="{ active: vote === voteEnum.NO }"
+          :disabled="lastVoteOption === voteEnum.NO"
           color="secondary"
-          value="No"
+          :value="voteEnum.NO"
           size="md"
-          @click.native="vote = 'No'"
+          @click.native="vote = voteEnum.NO"
         />
       </div>
     </div>
@@ -48,7 +48,6 @@
           field-id="lockedBalance"
         >
           <TmField
-            id="lockedBalance"
             v-model="lockedBalance"
             v-focus
             class="locked-balance"
@@ -88,17 +87,17 @@
       >
       <div class="flex-row locking-options">
         <div
-          v-for="lockingOption in lockingOptions"
-          :key="lockingOption.display"
+          v-for="voteTokenTimeLock in voteTokenTimeLocks"
+          :key="voteTokenTimeLock.display"
         >
           <span
             :class="{
               activeLocking:
-                lockingOption.display === selectedLockingOption.display,
+                voteTokenTimeLock.display === selectedVoteTokenTimeLock.display,
             }"
             class="locking-option"
-            @click="lockingOptionController(lockingOption)"
-            >{{ lockingOption.display }}</span
+            @click="voteTokenTimeLockController(voteTokenTimeLock)"
+            >{{ voteTokenTimeLock.display }}</span
           >
         </div>
       </div>
@@ -129,8 +128,6 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import { messageType } from "../../components/transactions/messageTypes"
 import gql from "graphql-tag"
 
-const isValid = (option) => option === `Yes` || option === `No`
-
 export default {
   name: `modal-vote-substrate`,
   components: {
@@ -154,7 +151,8 @@ export default {
     balances: [],
     lockedBalance: 0,
     lockingPeriod: 0,
-    lockingOptions: [
+    voteEnum: { YES: `Yes`, NO: `No` },
+    voteTokenTimeLocks: [
       { display: `0.1x`, multiplier: 0.1 },
       { display: `1x`, multiplier: 1 },
       { display: `2x`, multiplier: 2 },
@@ -164,7 +162,7 @@ export default {
       { display: `6x`, multiplier: 6 },
       { display: `Set Max`, multiplier: 6 },
     ],
-    selectedLockingOption: { display: `0.1x`, multiplier: 0.1 },
+    selectedVoteTokenTimeLock: { display: `0.1x`, multiplier: 0.1 },
     vote: null,
     messageType,
   }),
@@ -176,8 +174,8 @@ export default {
         proposalId: this.proposalId,
         voteOption: this.vote,
         lockedBalance: Number(this.lockedBalance) || 0,
-        conviction: this.selectedLockingOption
-          ? this.selectedLockingOption.multiplier
+        conviction: this.selectedVoteTokenTimeLock
+          ? this.selectedVoteTokenTimeLock.multiplier
           : 0,
       }
     },
@@ -200,7 +198,7 @@ export default {
     },
     totalVotingPower() {
       return (
-        this.lockedBalance * this.selectedLockingOption.multiplier
+        this.lockedBalance * this.selectedVoteTokenTimeLock.multiplier
       ).toFixed(6)
     },
   },
@@ -233,7 +231,6 @@ export default {
       },
       vote: {
         required,
-        isValid,
       },
     }
   },
@@ -254,9 +251,9 @@ export default {
     onSuccess(event) {
       this.$emit(`success`, event)
     },
-    lockingOptionController(lockingOption) {
-      this.selectedLockingOption = lockingOption
-      switch (lockingOption.display) {
+    voteTokenTimeLockController(voteTokenTimeLock) {
+      this.selectedVoteTokenTimeLock = voteTokenTimeLock
+      switch (voteTokenTimeLock.display) {
         case `0.1x`:
           return (this.lockingPeriod = "0")
         case `1x`:
