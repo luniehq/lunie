@@ -143,7 +143,7 @@ export default ({ apollo }) => {
     },
     async rememberAddress(
       { state, commit },
-      { address, sessionType, networkId }
+      { address, name, sessionType, networkId, HDPath, curve }
     ) {
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
@@ -153,8 +153,11 @@ export default ({ apollo }) => {
       if (!sessionExist) {
         state.addresses.push({
           address,
-          type: sessionType,
+          name,
+          sessionType,
           networkId,
+          HDPath,
+          curve,
         })
         commit(`setUserAddresses`, state.addresses)
       }
@@ -197,6 +200,7 @@ export default ({ apollo }) => {
       await dispatch(`rememberAddress`, {
         address,
         sessionType,
+        name: session ? session.name : "",
         HDPath,
         curve,
         networkId,
@@ -379,7 +383,13 @@ export default ({ apollo }) => {
                 sessionType: `extension`,
               }))
             )
-            .concat(state.allSessionAddresses),
+            .concat(state.allSessionAddresses) // TODO: temporary to keep the names of the current active sessions
+            .concat(
+              state.addresses.map((address) => ({
+                ...address,
+                sessionType: address.type,
+              }))
+            ),
           (a, b) => a.address === b.address && a.sessionType === b.sessionType
         ),
         (account) => {
@@ -390,10 +400,6 @@ export default ({ apollo }) => {
         store.rootState.connection.networks,
         allAddresses,
         apollo
-      )
-      // finally also add names
-      allAddressesWithAddressRole = allAddressesWithAddressRole.map(
-        (account) => ({ ...account, name: getSessionName(account) })
       )
       store.commit(`setAllUsedAddresses`, allAddressesWithAddressRole)
     },
@@ -473,15 +479,4 @@ async function getAllAddressesRoles(networks, addresses, apollo) {
       }
     })
   )
-}
-
-function getSessionName(session) {
-  switch (session.sessionType) {
-    case `local`:
-      return session.name
-    case `extension`:
-      return session.name
-    default:
-      return session.sessionType
-  }
 }

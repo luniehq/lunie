@@ -7,7 +7,7 @@
     />
     <div class="address-infos">
       <div class="address-name-role">
-        <p class="address-name">
+        <p v-if="address.name" class="address-name">
           {{ capitalizeFirstLetter(address.name) }}
         </p>
         <p
