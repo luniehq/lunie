@@ -4,7 +4,7 @@
       <h2 class="session-title">Magic link error! 🙀</h2>
       <div class="session-main">
         <p class="session-subtitle">{{ account.signInError.message }}</p>
-        <router-link to="sign-in-modal">
+        <router-link to="sign-up-email">
           <TmBtn value="Try again" centered />
         </router-link>
       </div>

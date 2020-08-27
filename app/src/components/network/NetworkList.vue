@@ -53,10 +53,8 @@ export default {
   },
   methods: {
     async selectNetworkHandler(network) {
-      if (this.isExtension) {
-        if (this.networkId !== network.id) {
-          await this.$store.dispatch(`setNetwork`, network)
-        }
+      if (this.networkId !== network.id) {
+        await this.$store.dispatch(`setNetwork`, network)
       }
       if (this.$route.name !== "networks") {
         this.$router.push(this.whichFlow)

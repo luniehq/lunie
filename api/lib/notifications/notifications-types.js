@@ -59,8 +59,8 @@ const getDefaultSubscriptions = async (addresses, dataSources) => {
       subscriptions.push(
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_COMMISSION}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_STATUS}_${networkId}`,
-        `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_INCREASE}_${networkId}`,
-        `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_DECREASE}_${networkId}`,
+        // `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_INCREASE}_${networkId}`,
+        // `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_DECREASE}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_PICTURE}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_WEBSITE}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION}_${networkId}`,
@@ -73,7 +73,7 @@ const getDefaultSubscriptions = async (addresses, dataSources) => {
       `${address}_${eventTypes.TRANSACTION_SEND}_${networkId}`,
       `${eventTypes.PROPOSAL_CREATE}_${networkId}`,
       `${eventTypes.PROPOSAL_UPDATE}_${networkId}`,
-      `${eventTypes.VALIDATOR_ADDED}_${networkId}`,
+      // `${eventTypes.VALIDATOR_ADDED}_${networkId}`,
       `${eventTypes.LUNIE_UPDATE}`
     )
   }
@@ -99,14 +99,9 @@ const getDefaultEmailSubscriptions = async (addresses, dataSources) => {
     })
     subscriptions.push(
       `${eventTypes.PROPOSAL_CREATE}_${networkId}`,
-      `${eventTypes.PROPOSAL_UPDATE}_${networkId}`
+      `${eventTypes.PROPOSAL_UPDATE}_${networkId}`,
+      `${address}_${eventTypes.TRANSACTION_RECEIVE}_${networkId}`
     )
-    // in development register for transaction send to test easier
-    if (config.env === 'development') {
-      subscriptions.push(
-        `${address}_${eventTypes.TRANSACTION_SEND}_${networkId}`
-      )
-    }
   }
 
   return subscriptions

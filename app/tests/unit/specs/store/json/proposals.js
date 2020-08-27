@@ -18,7 +18,7 @@ export const proposals = [
       __typename: "Tally",
     },
     deposit: "0",
-    proposer: "unknown",
+    proposer: undefined,
     validator: undefined,
     __typename: "Proposal",
   },

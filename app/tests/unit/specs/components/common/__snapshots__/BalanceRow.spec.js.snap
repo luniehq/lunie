@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BalanceRow it matches snapshot 1`] = `
+<div
+  class="balance-row"
+>
+  <div
+    class="table-cell big"
+  >
+    <img
+      alt="MUON currency"
+      class="currency-flag"
+      src="/img/icons/currencies/muon.png"
+    />
+     
+    <div
+      class="total-and-fiat"
+    >
+      <span
+        class="total"
+      >
+        
+        100.78
+        MUON
+      
+      </span>
+       
+      <span
+        class="fiat"
+      >
+        
+        10
+        USD
+      </span>
+    </div>
+  </div>
+   
+  <div
+    class="table-cell rewards"
+  >
+    <h2>
+      
+      +5
+      MUON
+    
+    </h2>
+  </div>
+   
+  <div
+    class="table-cell available"
+  >
+    <span
+      class="available-amount"
+    >
+      
+      80.78
+    
+    </span>
+  </div>
+   
+  <div
+    class="table-cell actions"
+  >
+    <div
+      class="icon-button-container"
+    >
+      <button
+        class="icon-button"
+      >
+        <i
+          class="material-icons"
+        >
+          send
+        </i>
+      </button>
+      <span>
+        Send
+      </span>
+    </div>
+  </div>
+   
+  <sendmodal-stub
+    denoms="MUON"
+  />
+   
+  <!---->
+</div>
+`;

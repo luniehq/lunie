@@ -1,7 +1,11 @@
 <template>
   <div class="notifications-container">
-    <h2>Notifications</h2>
-
+    <div class="notifications-header">
+      <h2>Notifications</h2>
+      <a class="intercom-button" @click="handleIntercom()"
+        >Questions or feedback?</a
+      >
+    </div>
     <TmPage
       data-title="My alerts"
       :loading="$apollo.queries.notifications.loading && !firstLoaded"
@@ -19,13 +23,22 @@
           @loadMore="loadMore"
         >
           <template slot-scope="event">
-            <router-link :key="event.id" class="notification" :to="event.link">
+            <router-link
+              :key="event.id"
+              class="notification"
+              :to="event.link.includes('transactions') ? '' : event.link"
+              :class="{ disabled: event.link.includes('transactions') }"
+            >
               <div class="content">
                 <img :src="event.icon" />
                 <div>
                   <h3 class="title">{{ event.title }}</h3>
                 </div>
-                <i class="material-icons notranslate">chevron_right</i>
+                <i
+                  v-if="!event.link.includes('transactions')"
+                  class="material-icons notranslate"
+                  >chevron_right</i
+                >
               </div>
             </router-link>
           </template>
@@ -110,6 +123,9 @@ export default {
           },
         })
       }
+    },
+    handleIntercom() {
+      this.$store.dispatch(`displayMessenger`)
     },
   },
   apollo: {
@@ -199,7 +215,14 @@ export default {
 .notifications-container {
   padding: 0 2rem 2rem;
   max-width: 900px;
+  width: 100%;
   margin: 0 auto;
+}
+
+.notifications-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 h2 {
@@ -240,5 +263,26 @@ img {
 .title {
   font-weight: 400;
   overflow-wrap: anywhere; /** Important. Otherwise awful style bug */
+}
+
+.end {
+  color: var(--txt);
+  text-align: center;
+  padding: 4rem 0 2rem;
+}
+
+.disabled {
+  cursor: unset;
+}
+
+@media screen and (max-width: 667px) {
+  .notifications-container {
+    padding: 0 1rem;
+  }
+
+  .notifications-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 </style>

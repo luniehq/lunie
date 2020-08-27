@@ -22,7 +22,7 @@
               Proposed by {{ proposal.validator.name }}:
               <Address :address="proposal.proposer" />
             </template>
-            <template v-else-if="proposal.proposer !== `unknown`">
+            <template v-else-if="proposal.proposer">
               Proposed by
               <Address :address="proposal.proposer" />
             </template>
@@ -59,7 +59,7 @@
             {{ proposal.deposit }}
             /
             {{ parameters.depositThreshold }}
-            {{ parameters.depositDenom }}
+            {{ parameters.depositDenom || currentNetwork.stakingDenom }}
           </span>
         </li>
       </ul>
@@ -127,21 +127,28 @@
         </li>
         <li>
           <h4>Submitted</h4>
-          <span>{{ proposal.creationTime | date }}</span>
+          <span v-if="proposal.creationTime">{{
+            proposal.creationTime | date
+          }}</span>
+          <span v-else>--</span>
         </li>
         <template
           v-if="['DepositPeriod', 'VotingPeriod'].includes(proposal.status)"
         >
           <li>
-            <h4>{{ status.badge }} Start Date</h4>
-            <span>{{ proposal.statusBeginTime | date }}</span>
+            <h4>({{ status.badge }}) Start Date</h4>
+            <span v-if="proposal.statusBeginTime">{{
+              proposal.statusBeginTime | date
+            }}</span>
+            <span v-else>--</span>
           </li>
           <li>
-            <h4>{{ status.badge }} End Date</h4>
-            <span>
+            <h4>({{ status.badge }}) End Date</h4>
+            <span v-if="proposal.statusEndTime">
               {{ proposal.statusEndTime | date }} /
               {{ proposal.statusEndTime | fromNow }}
             </span>
+            <span v-else>--</span>
           </li>
         </template>
         <template v-else>
@@ -153,6 +160,7 @@
       </ul>
 
       <ModalDeposit
+        v-if="parameters.depositDenom"
         ref="modalDeposit"
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
@@ -202,7 +210,7 @@ export default {
     percent,
     date,
     fromNow,
-    lowerCase: (text) => text.toLowerCase(),
+    lowerCase: (text) => (text ? text.toLowerCase() : ""),
   },
   props: {
     proposalId: {
@@ -220,14 +228,14 @@ export default {
       validator: {},
     },
     parameters: {
-      depositDenom: "TESTCOIN",
+      depositDenom: "",
     },
     error: undefined,
     found: false,
     loaded: false,
   }),
   computed: {
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `network`, `currentNetwork`]),
     status() {
       return getProposalStatus(this.proposal)
     },
@@ -271,119 +279,83 @@ export default {
     },
   },
   apollo: {
-    proposals: {
-      query() {
-        /* istanbul ignore next */
-        return gql`
-          query proposals($networkId: String!) {
-            proposals(networkId: $networkId) {
-              id
-              status
-            }
-          }
-        `
-      },
-      variables() {
-        /* istanbul ignore next */
-        return {
-          networkId: this.network,
-        }
-      },
-      update(data) {
-        if (!data.proposals) {
-          return []
-        }
-        /* istanbul ignore next */
-        if (
-          data.proposals.find(
-            (proposal) => proposal.id === parseInt(this.proposalId, 10)
-          )
-        ) {
-          this.found = true
-        }
-        /* istanbul ignore next */
-        return data.proposals
-      },
-    },
     proposal: {
+      /* istanbul ignore next */
       query() {
-        /* istanbul ignore next */
         return ProposalItem(this.network)
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         this.loaded = true
-        /* istanbul ignore next */
+        if (data.proposal) this.found = true
         return data.proposal || {}
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
-          id: +this.proposalId,
+          id: this.proposalId,
         }
       },
-      skip() {
-        /* istanbul ignore next */
-        return !this.found
-      },
+      /* istanbul ignore next */
       result(data) {
-        /* istanbul ignore next */
+        if (data.proposal) this.found = true
         this.error = data.error
       },
     },
     parameters: {
+      /* istanbul ignore next */
       query() {
-        /* istanbul ignore next */
         return GovernanceParameters(this.network)
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
-        return data.governanceParameters
+        return data.governanceParameters || {}
       },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
-        return !this.found
+        // only Tendermint networks have this network-wide "governance parameters" logic
+        return !this.found || this.currentNetwork.network_type !== `cosmos`
       },
+      /* istanbul ignore next */
       result(data) {
-        /* istanbul ignore next */
         this.error = data.error
       },
     },
     vote: {
+      /* istanbul ignore next */
       query() {
-        /* istanbul ignore next */
         return Vote(this.network)
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
-          proposalId: +this.proposalId,
+          proposalId: this.proposalId,
           address: this.address,
         }
       },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         return !this.address || !this.found
       },
       update(data) {
         if (data.vote) return data.vote.option
         return undefined
       },
+      /* istanbul ignore next */
       result(data) {
-        /* istanbul ignore next */
         this.error = data.error
       },
     },
     $subscribe: {
       blockAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.network,
           }
         },
+        /* istanbul ignore next */
         query() {
-          /* istanbul ignore next */
           return gql`
             subscription($networkId: String!) {
               blockAdded(networkId: $networkId) {
@@ -392,12 +364,12 @@ export default {
             }
           `
         },
+        /* istanbul ignore next */
         skip() {
-          /* istanbul ignore next */
           return !this.found
         },
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           if (
             // Don't update passed or rejected proposals
             this.proposal.status !== "Passed" &&

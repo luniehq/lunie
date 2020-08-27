@@ -59,12 +59,13 @@ export default ({ apollo }) => {
         if (Auth.isSignInWithEmailLink(url)) {
           const user = JSON.parse(localStorage.getItem(`user`))
           if (!user)
-            throw new Error("Sign in flow broken. User E-Mail is unknown.")
+            throw new Error("Sign in flow broken. User email is unknown.")
           await Auth.signInWithEmailLink(user.email, url)
 
           const idToken = await Auth.currentUser.getIdToken(
             /* forceRefresh */ true
           )
+
           apollo.mutate({
             mutation: gql`
               mutation {
@@ -155,14 +156,12 @@ export async function getLaunchUrl(router) {
 }
 
 export function handleDeeplink(url, router) {
-  console.log("Received deeplink " + url)
-
   // Example url: https://lunie.io/email-authentication
   // slug = /email-authentication
   const regexp = /(https?:\/\/)?[\w\d-\.]+\/([\w\d-\/]*)(\?(.+))?/
   const matches = regexp.exec(url)
-  const path = matches[1]
-  const query = matches[3]
+  const path = matches[2]
+  const query = matches[4]
 
   const queryObject = query
     ? query
@@ -181,18 +180,25 @@ export function handleDeeplink(url, router) {
     if (config.mobileApp) {
       window.open(link, "_blank")
     } else {
+      // on desktop you can't programmatically open a popup without user interaction
+      // so we need to use the link on the same tab
       window.location = link
     }
     return
   }
 
-  try {
-    // change the route to the route we got from the deeplink
-    router.push({
-      path: "/" + path,
-      query: queryObject,
-    })
-  } catch (error) {
-    console.error(error)
+  // in the browser we don't need to handle deeplinks as the url is handled automatically
+  // in apps the path is not in the URL but comes from a different source
+  // so we need to forward the app to tht route
+  if (config.mobileApp) {
+    try {
+      // change the route to the route we got from the deeplink
+      router.push({
+        path: "/" + path,
+        query: queryObject,
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 }

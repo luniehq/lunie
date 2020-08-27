@@ -1,5 +1,5 @@
 ![Lunie logo — right half circle with dotted left circle](/public/img/readme-header.svg)
-
+ 
 # Welcome to [Lunie.io](https://lunie.io)!
 
 [![CircleCI](https://circleci.com/gh/luniehq/lunie/tree/develop.svg?style=svg)](https://circleci.com/gh/luniehq/lunie/tree/develop)
@@ -116,12 +116,18 @@ Dependencies:
 - [Cocoapods](https://guides.cocoapods.org/using/getting-started.html#installation)
 
 To open Lunie in Xcode: 
-1. Build Lunie
+1. Build Lunie for production
 ```bash
 $ yarn build:mobile
 ```
+or ...
 
-2. After a new build, you need to run the following command. This step may take up to 20 minutes to complete if you've never used Cocoapods before.
+1. Build Lunie for development
+```bash
+$ yarn build:mobile:dev
+```
+
+2. After a new build, you need to run the following command. This step can take up to 20 minutes to complete if you've never used Cocoapods before.
 ```bash
 $ npx cap sync ios
 ```

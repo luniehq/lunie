@@ -521,7 +521,6 @@ export default {
         query: UserTransactionAdded,
         /* istanbul ignore next */
         result() {
-          console.log(`userTransactionAdded`)
           this.$apollo.queries.balance.refetch()
           this.$apollo.queries.delegations.refetch()
         },

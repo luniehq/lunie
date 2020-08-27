@@ -48,5 +48,5 @@ jobs:
         script: |
           docker image prune -a -f
           docker load < lunieapi.tgz
-          AUTHENTICATION_TOKEN=${{ secrets.AUTHENTICATION_TOKEN }} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} SENTRY_DSN=${{ secrets.SENTRY_DSN_API_STAGING }} SCRIPT_RUNNER_ENDPOINT=${{ secrets.SCRIPT_RUNNER_ENDPOINT }} docker stack deploy -c docker-compose.yml lunieapi
-          AUTHENTICATION_TOKEN=${{ secrets.AUTHENTICATION_TOKEN }} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} SENTRY_DSN=${{ secrets.SENTRY_DSN_API_STAGING }} SCRIPT_RUNNER_ENDPOINT=${{ secrets.SCRIPT_RUNNER_ENDPOINT }} docker service update --image lunieapi:latest --force lunieapi_lunieapi
+          PEPIPOST_API_KEY=${{secrets.PEPIPOST_API_KEY}} AUTHENTICATION_TOKEN=${{ secrets.AUTHENTICATION_TOKEN }} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} SENTRY_DSN=${{ secrets.SENTRY_DSN_API_STAGING }} SCRIPT_RUNNER_ENDPOINT=${{ secrets.SCRIPT_RUNNER_ENDPOINT }} docker stack deploy -c docker-compose.yml lunieapi
+          PEPIPOST_API_KEY=${{secrets.PEPIPOST_API_KEY}} AUTHENTICATION_TOKEN=${{ secrets.AUTHENTICATION_TOKEN }} LOKI_PASSWORD=${{ secrets.LOKI_PASSWORD }} SENTRY_DSN=${{ secrets.SENTRY_DSN_API_STAGING }} SCRIPT_RUNNER_ENDPOINT=${{ secrets.SCRIPT_RUNNER_ENDPOINT }} docker service update --image lunieapi:latest --force lunieapi_lunieapi

@@ -16,7 +16,6 @@ export async function getSignature({ transaction }, wallet, network, curve) {
   })
   const keypair = keyring.createFromUri(wallet.seedPhrase)
   const signedMessage = (await transaction.signAsync(keypair)).toJSON()
-  console.log(signedMessage)
 
   return { signedMessage }
 }
