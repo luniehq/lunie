@@ -1,4 +1,4 @@
-name: Publish on Netlify
+name: App E2E Testing Workflow
 on:
   pull_request:
     branches-ignore:
@@ -17,19 +17,22 @@ jobs:
       deploy-url: ${{ steps.deploy.outputs.deploy-url }}
 
     steps:
+      - name: Checkout
       - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v1
-      - uses: bahmutov/npm-install@v1.1.0
-      - name: Build
+      - name: NPM Install
+      - uses: bahmutov/npm-install@v1
+      - name: Build App
         run: yarn build
         working-directory: ${{env.WORKING_DIRECTORY}}
+      - name: Deploy for E2E Testing 
       - uses: nwtgck/actions-netlify@v1.1.4
         id: deploy
         with:
           publish-dir: './app/dist'
           github-token: ${{ secrets.GIT_BOT_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
+          deploy-message: "Deployed via GitHub Actions"
           enable-pull-request-comment: true
           enable-commit-comment: false
           overwrites-pull-request-comment: true
@@ -41,11 +44,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy
     steps:
+      - name: Checkout
       - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v1
-      - uses: bahmutov/npm-install@v1.1.0
-      - name: Run E2E tests
+      - name: NPM Install
+      - uses: bahmutov/npm-install@v1
+      - name: Run Cosmos E2E on Browserstack
         run: |
           yarn test:e2e:browserstack --fe=${{needs.deploy.outputs.deploy-url}} --api=https://production-api.lunie.io
         working-directory: ${{env.WORKING_DIRECTORY}}
