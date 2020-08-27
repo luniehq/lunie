@@ -158,7 +158,7 @@ export default {
   },
   created() {
     // getAddressFromExtension needs some  time to grab the addresses from extension in the first load
-    setTimeout(() => this.$store.dispatch(`getAddressesFromExtension`), 1000)
+    this.$store.dispatch(`getAddressesFromExtension`)
     this.$store.dispatch(`loadAccounts`).then(() => {
       this.loaded = true
     })
