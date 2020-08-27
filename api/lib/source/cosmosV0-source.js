@@ -4,8 +4,8 @@ const BigNumber = require('bignumber.js')
 const _ = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
-const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const { getNetworkGasPrices } = require('../../data/network-fees')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 class CosmosV0API extends RESTDataSource {
@@ -234,6 +234,90 @@ class CosmosV0API extends RESTDataSource {
     )
   }
 
+  async getDetailedVotes(proposal) {
+    const [
+      votes,
+      deposits,
+      tally,
+      tallyingParameters,
+      depositParameters,
+      links
+    ] = await Promise.all([
+      this.query(`/gov/proposals/${proposal.id}/votes`),
+      this.query(`/gov/proposals/${proposal.id}/deposits`),
+      this.query(`/gov/proposals/${proposal.id}/tally`),
+      this.query(`/gov/parameters/tallying`),
+      this.query(`/gov/parameters/deposit`),
+      this.db.getNetworkLinks(this.network.id)
+    ])
+    const totalVotingParticipation = BigNumber(tally.yes)
+      .plus(tally.abstain)
+      .plus(tally.no)
+      .plus(tally.no_with_veto)
+    const formattedDeposits = deposits
+      ? deposits.map((deposit) =>
+          this.reducers.depositReducer(deposit, this.network)
+        )
+      : undefined
+    const depositsSum = formattedDeposits
+      ? formattedDeposits.reduce((depositAmountAggregator, deposit) => {
+          return (depositAmountAggregator += Number(deposit.amount[0].amount))
+        }, 0)
+      : undefined
+    return {
+      deposits: formattedDeposits,
+      depositsSum: deposits ? Number(depositsSum).toFixed(6) : undefined,
+      percentageDepositsNeeded: deposits
+        ? fixDecimalsAndRoundUpBigNumbers(
+            (depositsSum * 100) /
+              fixDecimalsAndRoundUpBigNumbers(
+                depositParameters.min_deposit[0].amount,
+                6,
+                this.network
+              ),
+            2,
+            this.network
+          )
+        : undefined,
+      votes: votes
+        ? votes.map((vote) => this.reducers.voteReducer(vote))
+        : undefined,
+      votesSum: votes ? votes.length : undefined,
+      votingThresholdYes: Number(tallyingParameters.threshold).toFixed(2),
+      votingThresholdNo: (1 - tallyingParameters.threshold).toFixed(2),
+      votingPercentageYes:
+        totalVotingParticipation.toNumber() > 0
+          ? BigNumber(tally.yes)
+              .times(100)
+              .div(totalVotingParticipation)
+              .toNumber()
+              .toFixed(2)
+          : 0,
+      votingPercentageNo:
+        totalVotingParticipation.toNumber() > 0
+          ? BigNumber(tally.no)
+              .plus(tally.no_with_veto)
+              .times(100)
+              .div(totalVotingParticipation)
+              .toNumber()
+              .toFixed(2)
+          : 0,
+      links,
+      timeline: [
+        { title: `Proposal created`, time: proposal.submit_time },
+        {
+          title: `Proposal deposit period ends`,
+          time: proposal.deposit_end_time
+        },
+        {
+          title: `Proposal voting period starts`,
+          time: proposal.voting_start_time
+        },
+        { title: `Proposal voting period ends`, time: proposal.voting_end_time }
+      ]
+    }
+  }
+
   async getAllProposals() {
     const response = await this.query('gov/proposals')
     const { bonded_tokens: totalBondedTokens } = await this.query(
@@ -248,12 +332,14 @@ class CosmosV0API extends RESTDataSource {
             return { proposer: undefined }
           })
         ])
+        const detailedVotes = await this.getDetailedVotes(proposal)
         return this.reducers.proposalReducer(
           this.network.id,
           proposal,
           tally,
           proposer,
-          totalBondedTokens
+          totalBondedTokens,
+          detailedVotes
         )
       })
     )
@@ -272,20 +358,23 @@ class CosmosV0API extends RESTDataSource {
     const [
       tally,
       proposer,
-      { bonded_tokens: totalBondedTokens }
+      { bonded_tokens: totalBondedTokens },
+      detailedVotes
     ] = await Promise.all([
       this.query(`gov/proposals/${proposalId}/tally`),
       this.query(`gov/proposals/${proposalId}/proposer`).catch(() => {
         return { proposer: undefined }
       }),
-      this.query(`/staking/pool`)
+      this.query(`/staking/pool`),
+      this.getDetailedVotes(proposal)
     ])
     return this.reducers.proposalReducer(
       this.network.id,
       proposal,
       tally,
       proposer,
-      totalBondedTokens
+      totalBondedTokens,
+      detailedVotes
     )
   }
 
