@@ -161,7 +161,7 @@ export async function VoteTx(
   network,
   api
 ) {
-  const referendumId = proposalId.split("-")[1]
+  const referendumId = proposalId
   const voteTx = await api.tx.democracy.vote(referendumId, {
     Standard: {
       balance: toChainAmount(
