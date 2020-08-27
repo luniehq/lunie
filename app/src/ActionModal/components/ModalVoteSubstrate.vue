@@ -38,8 +38,13 @@
     </div>
     <div class="line"></div>
     <div class="locking-area">
-      <p>
-        Available to vote <span>{{ stakingDenomBalance.available }}</span>
+      <p class="available">
+        Available to vote
+        <span class="bold"
+          >{{ stakingDenomBalance.available }}&nbsp;{{
+            currentNetwork.stakingDenom.concat(`s`)
+          }}</span
+        >
       </p>
       <div class="locked-balance-container">
         <TmFormGroup
@@ -50,10 +55,10 @@
           <TmField
             id="locked-balance"
             v-model="lockedBalance"
-            v-focus
+            v-focus-last
             class="locked-balance"
             type="text"
-            :placeholder="lockedBalance"
+            :placeholder="`0`"
           />
           <TmFormMsg
             v-if="$v.lockedBalance.$error && !$v.lockedBalance.required"
@@ -82,32 +87,31 @@
           />
         </TmFormGroup>
       </div>
-      <span
+      <span class="available"
         >{{ currentNetwork.stakingDenom.concat(`s`) }} locked for
-        {{ lockingPeriod }} days</span
+        <span class="bold">{{ lockingPeriod }} days</span></span
       >
       <div class="flex-row locking-options">
-        <div
+        <span
           v-for="voteTokenTimeLock in voteTokenTimeLocks"
           :key="voteTokenTimeLock.display"
+          :class="{
+            activeLocking:
+              voteTokenTimeLock.display === selectedVoteTokenTimeLock.display,
+          }"
+          class="locking-option"
+          @click="voteTokenTimeLockController(voteTokenTimeLock)"
+          >{{ voteTokenTimeLock.display }}</span
         >
-          <span
-            :class="{
-              activeLocking:
-                voteTokenTimeLock.display === selectedVoteTokenTimeLock.display,
-            }"
-            class="locking-option"
-            @click="voteTokenTimeLockController(voteTokenTimeLock)"
-            >{{ voteTokenTimeLock.display }}</span
-          >
-        </div>
       </div>
     </div>
     <div class="totals flex-row">
       <div class="card">
-        <span class="card-title">Total</span>
-        <span>{{ totalVotingPower }}</span>
-        <span>&nbsp;{{ currentNetwork.stakingDenom }}</span>
+        <span class="card-title">Total Value of Vote</span>
+        <div class="card-value">
+          <span>{{ totalVotingPower }}</span>
+          <span>&nbsp;{{ currentNetwork.stakingDenom.concat(`s`) }}</span>
+        </div>
       </div>
     </div>
     <TmFormMsg
@@ -158,10 +162,6 @@ export default {
       { display: `1x`, timeLock: `locked1x`, multiplier: 1 },
       { display: `2x`, timeLock: `locked2x`, multiplier: 2 },
       { display: `3x`, timeLock: `locked3x`, multiplier: 3 },
-      { display: `4x`, timeLock: `locked4x`, multiplier: 4 },
-      { display: `5x`, timeLock: `locked5x`, multiplier: 5 },
-      { display: `6x`, timeLock: `locked6x`, multiplier: 6 },
-      { display: `Set Max`, timeLock: `locked6x`, multiplier: 6 },
     ],
     selectedVoteTokenTimeLock: {
       display: `0.1x`,
@@ -205,16 +205,6 @@ export default {
       return (
         this.lockedBalance * this.selectedVoteTokenTimeLock.multiplier
       ).toFixed(6)
-    },
-  },
-  watch: {
-    lockedBalance: {
-      handler() {
-        const input = document.querySelector(".tm-field")
-        if (input) {
-          input.style.width = input.value.length + 2 + "ch"
-        }
-      },
     },
   },
   validations() {
@@ -267,14 +257,6 @@ export default {
           return (this.lockingPeriod = "56")
         case `3x`:
           return (this.lockingPeriod = "112")
-        case `4x`:
-          return (this.lockingPeriod = "224")
-        case `5x`:
-          return (this.lockingPeriod = "448")
-        case `6x`:
-          return (this.lockingPeriod = "896")
-        case `Set Max`:
-          return (this.lockingPeriod = "896")
         default:
           return (this.lockingPeriod = "0")
       }
@@ -321,20 +303,24 @@ export default {
 }
 
 .card {
-  border: solid 1px var(--app-fg-hover);
-  padding: 1rem;
-  border-radius: 5px;
-  margin-right: 0.5rem;
+  border-top: solid 1px var(--bc);
+  padding: 2rem 1rem;
+  border-radius: 0.25rem;
+  width: 100%;
 }
 
 .card-title {
   display: block;
   font-size: var(--sm);
-  color: var(--input-bc);
+  color: var(--dim);
+  padding-bottom: 1rem;
+  text-align: center;
 }
 
-.line {
-  border: solid 1px var(--app-fg-hover);
+.card-value {
+  font-size: 18px;
+  text-align: center;
+  font-weight: 600;
 }
 
 .flex-row {
@@ -342,17 +328,19 @@ export default {
   justify-content: space-evenly;
 }
 
-.locked-balance {
-  color: var(--app-nav);
-  font-size: var(--h1);
-  width: 7rem;
+.available {
+  font-size: 14px;
+}
+
+.bold {
+  font-weight: 600;
 }
 
 .locking-area {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1rem;
+  margin: 1rem 0;
 }
 
 .locking-options {
@@ -365,9 +353,12 @@ export default {
 }
 
 .locking-option {
-  margin-right: 0.5rem;
-  padding: 0.5rem;
+  margin: 0 0.25rem;
+  padding: 0.25rem;
   cursor: pointer;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
 }
 
 .activeLocking {
@@ -382,38 +373,63 @@ export default {
   border-radius: 1rem;
 }
 
-.action-modal-group.vote-options {
+.vote-options {
   padding: 1rem 0;
   display: flex;
   flex-direction: column;
-  max-width: 75%;
   margin: 0 auto;
+  border-bottom: solid 1px var(--bc);
+}
+
+.vote-options h3 {
+  font-size: 12px;
+  padding-bottom: 1rem;
 }
 
 .vote-options button {
-  margin: 0.5rem;
-  height: 4rem;
+  height: 3.5rem;
+  color: var(--bright);
+  background: transparent;
   width: 100%;
+}
+
+.vote-options button:hover {
+  color: white;
+}
+
+.vote-options button:first-child {
+  margin-right: 0.5rem;
 }
 
 .vote-options button.active {
   background: var(--highlight);
-  border-color: var(--highlight);
+  color: white;
 }
 
-#locked-balance {
+input {
   text-align: center;
-}
-</style>
-<style>
-/* Hack to be able to change classes coming from other components */
-.tm-form-group__field {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100%;
+  color: var(--bright);
+  font-size: 40px;
+  outline: none;
+  border: none;
 }
 
-.action-modal-footer .tm-form-group .tm-form-group__field {
-  flex-direction: row;
+input:focus {
+  outline: none;
+  border: none;
+}
+
+.action-modal-group {
+  width: 100%;
+}
+
+.locked-balance-container {
+  width: 100%;
+}
+
+.tm-form-group {
+  padding: 2rem 0;
+  width: 100%;
 }
 </style>
