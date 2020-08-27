@@ -104,6 +104,7 @@ export const NetworksAll = gql`
       icon
       slug
       default
+      lockUpPeriod
       powered {
         name
         providerAddress
