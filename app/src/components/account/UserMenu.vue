@@ -50,33 +50,7 @@
           }"
           @click="selectAddress(address)"
         >
-          <div class="address-item">
-            <img
-              class="network-icon"
-              :src="address.icon || `/img/networks/${address.networkId}.png`"
-              alt="little circle with network logo"
-            />
-            <div>
-              <div class="address-name-role">
-                <p class="address-name">
-                  {{ capitalizeFirstLetter(address.name) }}
-                </p>
-                <p
-                  v-if="
-                    address.addressRole &&
-                    address.addressRole !== `none` &&
-                    address.addressRole !== `stash/controller`
-                  "
-                >
-                  &nbsp;{{ capitalizeFirstLetter(address.addressRole) }}
-                </p>
-              </div>
-              <span class="address">{{ address.address | formatAddress }}</span>
-              <span class="address">{{
-                capitalizeFirstLetter(address.sessionType)
-              }}</span>
-            </div>
-          </div>
+          <UserAccountRow :address="address" />
           <i
             v-if="
               address.address === currentAddress &&
@@ -141,17 +115,15 @@
 <script>
 import Avatar from "common/Avatar"
 import UserMenuAddress from "account/UserMenuAddress"
-import { formatAddress } from "src/filters"
+import UserAccountRow from "account/UserAccountRow"
 import { mapGetters, mapState } from "vuex"
 
 export default {
   name: `user-menu`,
-  filters: {
-    formatAddress,
-  },
   components: {
     Avatar,
     UserMenuAddress,
+    UserAccountRow,
   },
   data: () => ({
     selectedAddress: "",
@@ -194,9 +166,6 @@ export default {
     })
   },
   methods: {
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
-    },
     openSignInModal() {
       this.$router.push({ name: `sign-in-modal` })
     },
@@ -291,13 +260,6 @@ h3 {
   justify-content: space-between;
 }
 
-.address-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .menu-list-item {
   padding: 0.75rem;
   margin: 0.25rem 0;
@@ -332,17 +294,6 @@ h3 {
   background: #e6fae6;
 }
 
-.network-icon {
-  display: block;
-  position: relative;
-  max-height: 100%;
-  height: 2.5rem;
-  width: 2.5rem;
-  border-radius: 50%;
-  margin-right: 0.5rem;
-  padding: 0.25rem;
-}
-
 .address-list .material-icons {
   font-weight: 700;
   color: #00c700;
@@ -361,15 +312,6 @@ h3 {
 .address-type {
   margin-top: 0.25em;
   color: hsl(0, 0%, 40%);
-}
-
-.address-name {
-  color: black;
-}
-
-.address-name-role {
-  display: flex;
-  white-space: break-spaces;
 }
 
 /* with an address type the addres box is a bit bigger so the rest needs to be centered */
