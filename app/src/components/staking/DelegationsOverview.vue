@@ -56,13 +56,14 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`address`, `network`, `networks`]),
+    ...mapGetters([`address`, `currentNetwork`]),
     stakedBalance() {
+      const stakeBalance = this.balances.find(({denom}) => denom === this.currentNetwork.stakingDenom)
       const liquidBalance =
-        Number(this.balances[0].total) - Number(this.balances[0].available)
+        Number(stakeBalance.total) - Number(stakeBalance.available)
       return {
         total: liquidBalance.toFixed(3),
-        denom: this.balances[0].denom,
+        denom: this.currentNetwork.stakingDenom,
       }
     },
   },
@@ -71,9 +72,7 @@ export default {
       this.$router.push({
         name: "validators",
         params: {
-          networkId: this.networks.find(
-            (network) => network.id === this.network
-          ).slug,
+          networkId: this.currentNetwork.slug,
         },
       })
     },
@@ -94,7 +93,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.network,
+          networkId: this.currentNetwork.id,
           address: this.address,
         }
       },
@@ -109,13 +108,13 @@ export default {
     delegations: {
       query() {
         /* istanbul ignore next */
-        return DelegationsForDelegator(this.network)
+        return DelegationsForDelegator(this.currentNetwork.id)
       },
       variables() {
         /* istanbul ignore next */
         return {
           delegatorAddress: this.address,
-          networkId: this.network,
+          networkId: this.currentNetwork.id,
         }
       },
       /* istanbul ignore next */
@@ -128,7 +127,7 @@ export default {
       userTransactionAdded: {
         variables() {
           return {
-            networkId: this.network,
+            networkId: this.currentNetwork.id,
             address: this.address,
           }
         },
