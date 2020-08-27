@@ -7,21 +7,17 @@
     />
     <div class="address-infos">
       <div class="address-name-role">
-        <p v-if="address.name" class="address-name">
-          {{ capitalizeFirstLetter(address.name) }}
-        </p>
+        <p v-if="address.name" class="address-name">{{ capitalizeFirstLetter(address.name) }}</p>
         <p
           v-if="
             address.addressRole &&
             address.addressRole !== `none` &&
             address.addressRole !== `stash/controller`
           "
-        >
-          &nbsp;{{ capitalizeFirstLetter(address.addressRole) }}
-        </p>
+        >{{ address.name ? '&nbsp;' : ''}}{{ capitalizeFirstLetter(address.addressRole) }}</p>
       </div>
       <span class="address">{{ address.address | formatAddress }}</span>
-      <span class="address">{{
+      <span class="address" v-if="address.sessionType">{{
         capitalizeFirstLetter(address.sessionType)
       }}</span>
     </div>

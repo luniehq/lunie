@@ -35,30 +35,32 @@
         <div class="user-popover">
           <h3 class="email">{{ (user && user.email) || `Anonymous User` }}</h3>
         </div>
-        <div
-          v-for="address in addresses"
-          :key="
-            address.address.concat(
-              `-${address.networkId}-${address.sessionType}`
-            )
-          "
-          class="menu-list-item address-list"
-          :class="{
-            selected:
-              address.address === selectedAddress &&
-              address.networkId === selectedNetwork.id,
-          }"
-          @click="selectAddress(address)"
-        >
-          <UserAccountRow :address="address" />
-          <i
-            v-if="
-              address.address === currentAddress &&
-              address.networkId === network
+        <div class="address-list">
+          <div
+            v-for="address in addresses"
+            :key="
+              address.address.concat(
+                `-${address.networkId}-${address.sessionType}`
+              )
             "
-            class="material-icons notranslate"
-            >check</i
+            class="menu-list-item address-list-item"
+            :class="{
+              selected:
+                address.address === selectedAddress &&
+                address.networkId === selectedNetwork.id,
+            }"
+            @click="selectAddress(address)"
           >
+            <UserAccountRow :address="address" />
+            <i
+              v-if="
+                address.address === currentAddress &&
+                address.networkId === network
+              "
+              class="material-icons notranslate"
+              >check</i
+            >
+          </div>
         </div>
         <div
           id="create-new-account"
@@ -141,9 +143,7 @@ export default {
           ({ address }) => address
         )
         // active sessions will likely overlap with the ones stored locally / in extension
-        const allAddresses = sortBy(
-          uniqWith(
-            localAccounts
+        const addressesWithKeys = localAccounts
               .map((account) => ({
                 ...account,
                 networkId: account.network || account.networkId,
@@ -156,15 +156,18 @@ export default {
                   sessionType: `extension`,
                 }))
               )
-              .concat(this.session.allSessionAddresses) // TODO: temporary to keep the names of the current active sessions
-              .concat(
-                this.session.addresses.map((address) => ({
-                  ...address,
-                  sessionType: address.type,
-                }))
-              ),
-            (a, b) => a.address === b.address && a.sessionType === b.sessionType
-          ),
+        const sessionAddressesWithoutKeys = this.session.addresses
+          .filter(({address}) =>
+            // pick only addresses where there is no addres with key already
+            !addressesWithKeys.find(addressWithKey => addressWithKey.address === address)
+          )
+          .map((address) => ({
+            ...address,
+            sessionType: address.type,
+          }))
+        const allAddresses = sortBy(
+          addressesWithKeys
+            .concat(sessionAddressesWithoutKeys),
           (account) => {
             return account.networkId
           }
@@ -236,7 +239,7 @@ export default {
       }
     },
     getAddressNetwork(address) {
-      return this.networks.find((network) => network.id === address.networkId)
+      return this.networks.find((network) => network.id === address.networkId) || { type: "unknown" }
     },
     async getAddressRole(address) {
       const { data } = await this.$apollo.query({
@@ -312,6 +315,11 @@ h3 {
 }
 
 .address-list {
+  max-height: 18rem;
+  overflow: scroll;
+}
+
+.address-list-item {
   padding: 0 0 1rem 0;
   width: 100%;
   display: flex;
@@ -332,7 +340,7 @@ h3 {
   color: #324175;
 }
 
-.menu-list-item.address-list {
+.menu-list-item.address-list-item {
   padding: 0.25rem;
 }
 
