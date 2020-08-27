@@ -35,7 +35,7 @@
         +{{ totalRewardsDenom[balance.denom] | bigFigureOrShortDecimals }}
         {{ balance.denom }}
       </h2>
-      <h2 v-else>0</h2>
+      <h2 v-else-if="!unstake">0</h2>
     </div>
 
     <div
@@ -53,14 +53,14 @@
       :key="balance.denom + '_actions'"
       class="table-cell actions"
     >
-      <div class="icon-button-container">
+      <div v-if="send" class="icon-button-container">
         <button class="icon-button" @click="onSend(balance.denom)">
           <i class="material-icons">send</i></button
         ><span>Send</span>
       </div>
-      <div class="icon-button-container">
-        <button class="icon-button" @click="onUnstake()">
-          <i class="material-icons notranslate">arrow_upward</i></button
+      <div v-if="unstake" class="icon-button-container">
+        <button class="icon-button" @click="onSend(balance.denom)">
+          <i class="material-icons">arrow_downward</i></button
         ><span>Unstake</span>
       </div>
     </div>
@@ -105,6 +105,14 @@ export default {
       type: Object,
       default: () => {},
     },
+    unstake: {
+      type: Boolean,
+      default: false,
+    },
+    send: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapGetters([`networks`, `currentNetwork`, `stakingDenom`]),
@@ -128,6 +136,10 @@ export default {
 <style scoped>
 .balance-row {
   display: flex;
+  border: 1px solid var(--bc);
+  border-radius: 0.25rem;
+  background: var(--app-bg);
+  margin-top: -1px;
 }
 
 .table-cell {
@@ -137,7 +149,6 @@ export default {
   display: flex;
   align-items: center;
   width: 20%;
-  border-bottom: 1px solid var(--bc-dim);
   font-family: "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   position: relative;
   white-space: nowrap;
@@ -180,10 +191,11 @@ export default {
 }
 
 .icon-button-container {
-  margin-right: 0.5rem;
+  margin-right: 1rem;
   display: flex;
   align-items: center;
   flex-direction: column;
+  min-width: 3rem;
 }
 
 .icon-button-container span {

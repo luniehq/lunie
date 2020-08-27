@@ -13,7 +13,7 @@
       </div>
       <div v-else>
         <h1>
-          Pending
+          Unstaking
         </h1>
         <template v-if="currentNetwork.network_type === `polkadot`">
           <BalanceRow
@@ -139,13 +139,17 @@ h1 {
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
-  padding: 4rem 2rem;
+  padding: 0 2rem 8rem;
 }
 
 @media screen and (max-width: 667px) {
   h1 {
     padding: 2rem;
     text-align: center;
+  }
+
+  .table-container {
+    padding: 0 1rem 8rem;
   }
 }
 </style>

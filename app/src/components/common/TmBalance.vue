@@ -11,7 +11,7 @@
     </div>
     <div v-else class="balance-header">
       <div class="header-container">
-        <h1>Your Portfolio</h1>
+        <h1>Your Balances</h1>
         <div class="buttons">
           <TmBtn
             v-if="currentNetwork.network_type === `polkadot`"
@@ -522,6 +522,10 @@ select option {
   .header-container {
     flex-direction: column;
     padding: 0 1rem;
+  }
+
+  .currency-selector {
+    display: none;
   }
 }
 

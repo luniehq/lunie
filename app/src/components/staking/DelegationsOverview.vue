@@ -12,10 +12,12 @@
         />
       </div>
       <div v-else-if="delegations.length > 0">
-        <h1>Your Validators</h1>
+        <h1>Your Stake</h1>
+        <BalanceRow :balance="stakedBalance" :unstake="true" />
         <TableValidators
           :validators="delegations.map(({ validator }) => validator)"
           :delegations="delegations"
+          class="table-validators"
           show-on-mobile="expectedReturns"
         />
       </div>
@@ -35,13 +37,16 @@
 
 <script>
 import { mapGetters, mapState } from "vuex"
+import BalanceRow from "common/BalanceRow"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
 import { DelegationsForDelegator, UserTransactionAdded } from "src/gql"
+import gql from "graphql-tag"
 
 export default {
   name: `delegations-overview`,
   components: {
+    BalanceRow,
     TableValidators,
     TmDataMsg,
   },
@@ -52,6 +57,14 @@ export default {
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`address`, `network`, `networks`]),
+    stakedBalance() {
+      const liquidBalance =
+        Number(this.balances[0].total) - Number(this.balances[0].available)
+      return {
+        total: liquidBalance.toFixed(3),
+        denom: this.balances[0].denom,
+      }
+    },
   },
   methods: {
     goToValidators() {
@@ -66,6 +79,33 @@ export default {
     },
   },
   apollo: {
+    balances: {
+      query: gql`
+        query($networkId: String!, $address: String!) {
+          balancesV2(networkId: $networkId, address: $address) {
+            id
+            type
+            denom
+            available
+            total
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          address: this.address,
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
+      },
+      update(result) {
+        return result.balancesV2
+      },
+    },
     delegations: {
       query() {
         /* istanbul ignore next */
@@ -123,7 +163,11 @@ h1 {
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
-  padding: 4rem 0;
+  padding: 4rem 2rem;
+}
+
+.table-validators {
+  margin-top: 2rem;
 }
 
 @media screen and (max-width: 667px) {
@@ -135,11 +179,9 @@ h1 {
   .loading-image-container {
     padding: 2rem;
   }
-}
 
-@media screen and (min-width: 667px) {
   .table-container {
-    padding: 4rem 2rem;
+    padding: 4rem 1rem;
   }
 }
 </style>
