@@ -20,7 +20,6 @@
             v-for="balance in balances"
             :key="balance.id"
             :balance="balance"
-            :total-rewards-denom="totalRewardsDenom"
           />
         </template>
         <TableUndelegations v-else :undelegations="undelegations" />
@@ -44,7 +43,6 @@ export default {
   },
   data: () => ({
     undelegations: [],
-    rewards: [],
     undelegationsLoaded: false,
   }),
   computed: {
@@ -57,14 +55,6 @@ export default {
           denom: this.currentNetwork.stakingDenom,
         }
       })
-    },
-    totalRewardsDenom() {
-      return this.rewards.reduce((all, reward) => {
-        return {
-          ...all,
-          [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0),
-        }
-      }, {})
     },
   },
   apollo: {
@@ -140,6 +130,10 @@ h1 {
   margin: 0 auto;
   width: 100%;
   padding: 4rem 2rem;
+}
+
+.balance-row {
+  display: flex;
 }
 
 @media screen and (max-width: 667px) {

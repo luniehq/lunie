@@ -493,9 +493,30 @@ class polkadotAPI {
   async getUndelegationsForDelegatorAddress(address) {
     const api = await this.getAPI()
 
-    const stakingledger = await api.query.staking.ledger(address)
-    const undelegations = stakingledger.toJSON().unlocking
-    return undelegations.map((undelegation) =>
+    const [stakingLedger, progress] = await Promise.all([
+      api.query.staking.ledger(address),
+      api.derive.session.progress()
+    ])
+    const undelegations = stakingLedger.toJSON().unlocking
+    // each hour in both Kusama and Polkadot has 600 slots, one block per slot maximum
+    const eraBlocks = (24 * 600) / this.network.erasPerDay
+
+    const undelegationsWithEndTime = undelegations.map((undelegation) => {
+      const remainingEras = undelegation.era - progress.activeEra
+      const remainingBlocks = BigNumber(remainingEras)
+        .times(eraBlocks)
+        .minus(progress.eraProgress)
+        .toNumber()
+      const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
+      return {
+        ...undelegation,
+        endTime: new Date(
+          new Date().getTime() + totalMilliseconds
+        ).toUTCString()
+      }
+    })
+
+    return undelegationsWithEndTime.map((undelegation) =>
       this.reducers.undelegationReducer(undelegation, address, this.network)
     )
   }
