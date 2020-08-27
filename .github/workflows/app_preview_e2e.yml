@@ -21,14 +21,9 @@ jobs:
       - uses: actions/checkout@v1
       - name: Setup Node.js
         uses: actions/setup-node@v1
-<<<<<<< HEAD
       - name: NPM Install
       - uses: bahmutov/npm-install@v1
       - name: Build App
-=======
-      - uses: bahmutov/npm-install@v1.1.0
-      - name: Build
->>>>>>> develop
         run: yarn build
         working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Deploy for E2E Testing 

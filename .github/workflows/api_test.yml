@@ -34,8 +34,8 @@ jobs:
         uses: actions/setup-node@v1
         name: NPM Install
       - uses: bahmutov/npm-install@v1
-      - name: Lint Fix
-        run: yarn lint --fix
+      - name: Lint
+        run: yarn lint
         working-directory: ${{env.WORKING_DIRECTORY}}
   checkChangelog:
     name: Changelog
