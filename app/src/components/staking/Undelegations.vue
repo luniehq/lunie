@@ -43,7 +43,6 @@ export default {
   },
   data: () => ({
     undelegations: [],
-    rewards: [],
     undelegationsLoaded: false,
   }),
   computed: {
@@ -87,28 +86,6 @@ export default {
       update(data) {
         this.undelegationsLoaded = true
         return data.undelegations
-      },
-    },
-    rewards: {
-      query: gql`
-        query rewards($networkId: String!, $delegatorAddress: String!) {
-          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
-            id
-            amount
-            denom
-          }
-        }
-      `,
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.network,
-          delegatorAddress: this.address,
-        }
-      },
-      /* istanbul ignore next */
-      skip() {
-        return !this.address
       },
     },
     $subscribe: {
