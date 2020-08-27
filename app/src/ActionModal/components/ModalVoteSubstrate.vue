@@ -154,16 +154,20 @@ export default {
     lockingPeriod: 0,
     voteEnum: { YES: `Yes`, NO: `No` },
     voteTokenTimeLocks: [
-      { display: `0.1x`, multiplier: 0.1 },
-      { display: `1x`, multiplier: 1 },
-      { display: `2x`, multiplier: 2 },
-      { display: `3x`, multiplier: 3 },
-      { display: `4x`, multiplier: 4 },
-      { display: `5x`, multiplier: 5 },
-      { display: `6x`, multiplier: 6 },
-      { display: `Set Max`, multiplier: 6 },
+      { display: `0.1x`, timeLock: `none`, multiplier: 0.1 },
+      { display: `1x`, timeLock: `locked1x`, multiplier: 1 },
+      { display: `2x`, timeLock: `locked2x`, multiplier: 2 },
+      { display: `3x`, timeLock: `locked3x`, multiplier: 3 },
+      { display: `4x`, timeLock: `locked4x`, multiplier: 4 },
+      { display: `5x`, timeLock: `locked5x`, multiplier: 5 },
+      { display: `6x`, timeLock: `locked6x`, multiplier: 6 },
+      { display: `Set Max`, timeLock: `locked6x`, multiplier: 6 },
     ],
-    selectedVoteTokenTimeLock: { display: `0.1x`, multiplier: 0.1 },
+    selectedVoteTokenTimeLock: {
+      display: `0.1x`,
+      timeLock: `none`,
+      multiplier: 0.1,
+    },
     vote: null,
     messageType,
   }),
@@ -176,7 +180,7 @@ export default {
         voteOption: this.vote,
         lockedBalance: Number(this.lockedBalance) || 0,
         timeLock: this.selectedVoteTokenTimeLock
-          ? this.selectedVoteTokenTimeLock.multiplier
+          ? this.selectedVoteTokenTimeLock.timeLock
           : 0,
       }
     },
@@ -396,6 +400,10 @@ export default {
   background: var(--highlight);
   border-color: var(--highlight);
 }
+
+#locked-balance {
+  text-align: center;
+}
 </style>
 <style>
 /* Hack to be able to change classes coming from other components */
@@ -407,9 +415,5 @@ export default {
 
 .action-modal-footer .tm-form-group .tm-form-group__field {
   flex-direction: row;
-}
-
-#locked-balance {
-  text-align: center;
 }
 </style>
