@@ -1,14 +1,14 @@
-# codecov:
-#   notify:
-#     require_ci_to_pass: yes
+codecov:
+  notify:
+    require_ci_to_pass: yes
 
-# coverage:
-#   status:
-#     project: no
-#     patch: yes
-#     changes: no
+coverage:
+  status:
+    project: no
+    patch: yes
+    changes: no
 
-# comment:
-#   layout: "diff, files"
-#   behavior: default
-#   require_changes: yes
+comment:
+  layout: "diff, files"
+  behavior: default
+  require_changes: yes
