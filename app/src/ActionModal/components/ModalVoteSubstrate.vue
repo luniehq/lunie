@@ -144,7 +144,7 @@ export default {
   },
   props: {
     proposalId: {
-      type: [Number, String],
+      type: String,
       required: true,
     },
     lastVoteOption: {
