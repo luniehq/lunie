@@ -1,4 +1,4 @@
-name: API PRODUCTION Update existing droplet in Digital Ocean
+name: API Production Deployment Workflow
 
 on:
   push:
@@ -17,17 +17,19 @@ jobs:
     name: Compile
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
     - uses: actions/checkout@v1
-    - name: Use Node.js
+    - name: Setup Node.js
       uses: actions/setup-node@v1
-    - uses: bahmutov/npm-install@v1.1.0
-    - name: Build image
+    - name: NPM Install
+    - uses: bahmutov/npm-install@v1
+    - name: Build Docker Image
       run: docker build -t lunieapi . 
       working-directory: ${{env.WORKING_DIRECTORY}}
-    - name: Save file
+    - name: Save and GZIP
       run: docker save lunieapi | gzip > lunieapi.tgz
       working-directory: ${{env.WORKING_DIRECTORY}}
-    - name: Copy file via scp
+    - name: Copy Files
       uses: appleboy/scp-action@master
       with:
         source: "api/lunieapi.tgz,api/docker-compose.yml,api/Caddyfile.prod"
@@ -36,7 +38,7 @@ jobs:
         host: ${{ secrets.HOST_PRODUCTION }}
         username: root
         key: ${{ secrets.SSH_KEY_PRODUCTION }}
-    - name: Install on instance
+    - name: Deploy Production API
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST_PRODUCTION }}
