@@ -80,7 +80,7 @@ describe(`Module: Keystore`, () => {
 
   it(`should load accounts`, async () => {
     const commit = jest.fn()
-    await actions.loadAccounts({ commit, state })
+    await actions.loadLocalAccounts({ commit, state })
 
     expect(commit).toHaveBeenCalledWith(`setAccounts`, [
       {
@@ -182,7 +182,7 @@ describe(`Module: Keystore`, () => {
         network: "cosmos-hub-mainnet",
       }
     )
-    expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
+    expect(dispatch).toHaveBeenCalledWith(`loadLocalAccounts`)
   })
 
   it(`should sign in after account creation`, async () => {

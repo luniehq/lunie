@@ -63,10 +63,10 @@ export default ({ apollo }) => {
       curve
     )
     storeWallet(wallet, name, password, network, HDPath, curve)
-    store.dispatch('loadAccounts')
+    store.dispatch('loadLocalAccounts')
   }
 
-  const loadAccounts = ({ commit }) => {
+  const loadLocalAccounts = ({ commit }) => {
     chrome.runtime.sendMessage(
       {
         type: 'GET_WALLETS'
@@ -272,7 +272,7 @@ export default ({ apollo }) => {
   return {
     createSeed,
     createKey,
-    loadAccounts,
+    loadLocalAccounts,
     getWallet,
     getNetworkByAddress,
     testLogin,

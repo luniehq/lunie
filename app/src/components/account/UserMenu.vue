@@ -159,7 +159,7 @@ export default {
   created() {
     // getAddressFromExtension needs some  time to grab the addresses from extension in the first load
     this.$store.dispatch(`getAddressesFromExtension`)
-    this.$store.dispatch(`loadAccounts`).then(() => {
+    this.$store.dispatch(`loadLocalAccounts`).then(() => {
       this.loaded = true
     })
   },

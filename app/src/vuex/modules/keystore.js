@@ -26,7 +26,7 @@ export default () => {
         return error
       }
     },
-    async loadAccounts({ commit }) {
+    async loadLocalAccounts({ commit }) {
       const { getWalletIndex } = await import("@lunie/cosmos-keys")
       const keys = getWalletIndex()
       commit(`setAccounts`, keys)
@@ -61,7 +61,7 @@ export default () => {
       store.state.externals.track(`event`, `session`, `create-keypair`)
 
       // reload accounts as we just added a new one
-      store.dispatch("loadAccounts")
+      store.dispatch("loadLocalAccounts")
 
       await store.dispatch("signIn", {
         address: wallet.cosmosAddress,

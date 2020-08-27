@@ -79,7 +79,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("loadAccounts").then(() => {
+    this.$store.dispatch("loadLocalAccounts").then(() => {
       this.loaded = true
     })
   },
