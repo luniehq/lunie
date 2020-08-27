@@ -17,6 +17,9 @@ describe(`TmBalance`, () => {
             testnet: false,
           },
         ],
+        currentNetwork: {
+          network_type: "cosmos",
+        },
       },
       state: {
         connection: {

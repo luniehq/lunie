@@ -17,6 +17,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       <div
         class="buttons"
       >
+        <!---->
+         
         <tmbtn-stub
           class="send-button"
           customclass=""
@@ -125,6 +127,10 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
      
     <modalwithdrawrewards-stub />
      
+    <undelegationmodal-stub
+      sourcevalidator="[object Object]"
+    />
+     
     <!---->
   </div>
 </div>
@@ -147,6 +153,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
       <div
         class="buttons"
       >
+        <!---->
+         
         <tmbtn-stub
           class="send-button"
           customclass=""
@@ -254,6 +262,10 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     />
      
     <modalwithdrawrewards-stub />
+     
+    <undelegationmodal-stub
+      sourcevalidator="[object Object]"
+    />
      
     <!---->
   </div>

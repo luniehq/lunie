@@ -11,8 +11,15 @@
     </div>
     <div v-else class="balance-header">
       <div class="header-container">
-        <h1>Your Portfolio</h1>
+        <h1>Your Balances</h1>
         <div class="buttons">
+          <TmBtn
+            v-if="currentNetwork.network_type === `polkadot`"
+            class="unstake-button"
+            value="Unstake"
+            type="secondary"
+            @click.native="onUnstake()"
+          />
           <TmBtn
             class="send-button"
             value="Send"
@@ -82,6 +89,7 @@
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
+      <UndelegationModal ref="UnstakeModal" />
       <ModalTutorial
         v-if="
           showTutorial &&
@@ -101,6 +109,7 @@ import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
+import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
 import TableBalances from "common/TableBalances"
@@ -114,6 +123,7 @@ export default {
   components: {
     TmBtn,
     SendModal,
+    UndelegationModal,
     ModalWithdrawRewards,
     ModalTutorial,
     TableBalances,
@@ -180,7 +190,13 @@ export default {
   },
   computed: {
     ...mapState([`connection`, `session`]),
-    ...mapGetters([`address`, `networks`, `network`, `stakingDenom`]),
+    ...mapGetters([
+      `address`,
+      `networks`,
+      `network`,
+      `stakingDenom`,
+      `currentNetwork`,
+    ]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
@@ -229,6 +245,9 @@ export default {
     },
     onSend(denom = undefined) {
       this.$refs.SendModal.open(denom)
+    },
+    onUnstake(amount) {
+      this.$refs.UnstakeModal.open()
     },
     openTutorial() {
       this.showTutorial = true
@@ -451,7 +470,7 @@ select option {
   width: 100%;
 }
 
-.header-container button:first-child {
+.header-container button {
   margin-right: 0.5rem;
 }
 
@@ -504,9 +523,14 @@ select option {
     flex-direction: column;
     padding: 0 1rem;
   }
+
+  .currency-selector {
+    display: none;
+  }
 }
 
 @media screen and (min-width: 1254px) {
+  .unstake-button,
   .send-button {
     display: none;
   }
