@@ -117,6 +117,8 @@ import Avatar from "common/Avatar"
 import UserMenuAddress from "account/UserMenuAddress"
 import UserAccountRow from "account/UserAccountRow"
 import { mapGetters, mapState } from "vuex"
+import { uniqWith, sortBy } from "lodash"
+import { AddressRole } from "../../gql"
 
 export default {
   name: `user-menu`,
@@ -134,13 +136,48 @@ export default {
     addresses: {
       cache: false, // cache is false to update UserMenu when new extension accounts are added
       get: async function () {
-        await this.$store.dispatch(`getAllUsedAddresses`)
-        return this.session.allUsedAddresses
+        // filter local accounts to make sure they all have an address
+        const localAccounts = this.keystore.accounts.filter(
+          ({ address }) => address
+        )
+        // active sessions will likely overlap with the ones stored locally / in extension
+        const allAddresses = sortBy(
+          uniqWith(
+            localAccounts
+              .map((account) => ({
+                ...account,
+                networkId: account.network || account.networkId,
+                sessionType: `local`,
+              }))
+              .concat(
+                this.extension.accounts.map((account) => ({
+                  ...account,
+                  networkId: account.network || account.networkId,
+                  sessionType: `extension`,
+                }))
+              )
+              .concat(this.session.allSessionAddresses) // TODO: temporary to keep the names of the current active sessions
+              .concat(
+                this.session.addresses.map((address) => ({
+                  ...address,
+                  sessionType: address.type,
+                }))
+              ),
+            (a, b) => a.address === b.address && a.sessionType === b.sessionType
+          ),
+          (account) => {
+            return account.networkId
+          }
+        )
+        let allAddressesWithAddressRole = await this.getAllAddressesRoles(
+          allAddresses
+        )
+        return allAddressesWithAddressRole
       },
     },
   },
   computed: {
-    ...mapState([`session`, `account`]),
+    ...mapState([`session`, `account`, `keystore`, `extension`]),
     ...mapGetters([`address`, `network`, `networks`]),
     ...mapGetters({ currentAddress: `address` }),
     user() {
@@ -197,6 +234,31 @@ export default {
       if (this.$route.name !== `sign-in-modal`) {
         this.$router.push({ name: `sign-in-modal` })
       }
+    },
+    getAddressNetwork(address) {
+      return this.networks.find((network) => network.id === address.networkId)
+    },
+    async getAddressRole(address) {
+      const { data } = await this.$apollo.query({
+        query: AddressRole,
+        variables: { networkId: address.networkId, address: address.address },
+        fetchPolicy: "network-only",
+      })
+      return {
+        ...address,
+        addressRole: data.accountRole,
+      }
+    },
+    async getAllAddressesRoles(addresses) {
+      return await Promise.all(
+        addresses.map(async (address) => {
+          if (this.getAddressNetwork(address).network_type === `polkadot`) {
+            return await this.getAddressRole(address)
+          } else {
+            return address
+          }
+        })
+      )
     },
   },
 }

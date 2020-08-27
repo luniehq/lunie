@@ -1,7 +1,6 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import config from "src/../config"
 import { AddressRole } from "../../gql"
-import { uniqWith, sortBy } from "lodash"
 
 export default ({ apollo }) => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
@@ -362,47 +361,6 @@ export default ({ apollo }) => {
     setNotificationAvailable(store, { notificationAvailable }) {
       state.notificationAvailable = notificationAvailable
     },
-    async getAllUsedAddresses(store) {
-      // filter local accounts to make sure they all have an address
-      const localAccounts = store.rootState.keystore.accounts.filter(
-        ({ address }) => address
-      )
-      // active sessions will likely overlap with the ones stored locally / in extension
-      const allAddresses = sortBy(
-        uniqWith(
-          localAccounts
-            .map((account) => ({
-              ...account,
-              networkId: account.network || account.networkId,
-              sessionType: `local`,
-            }))
-            .concat(
-              store.rootState.extension.accounts.map((account) => ({
-                ...account,
-                networkId: account.network || account.networkId,
-                sessionType: `extension`,
-              }))
-            )
-            .concat(state.allSessionAddresses) // TODO: temporary to keep the names of the current active sessions
-            .concat(
-              state.addresses.map((address) => ({
-                ...address,
-                sessionType: address.type,
-              }))
-            ),
-          (a, b) => a.address === b.address && a.sessionType === b.sessionType
-        ),
-        (account) => {
-          return account.networkId
-        }
-      )
-      let allAddressesWithAddressRole = await getAllAddressesRoles(
-        store.rootState.connection.networks,
-        allAddresses,
-        apollo
-      )
-      store.commit(`setAllUsedAddresses`, allAddressesWithAddressRole)
-    },
   }
 
   return {
@@ -451,32 +409,4 @@ export function handleSessionCrypto({
     )
   }
   return { HDPath, curve }
-}
-
-function getAddressNetwork(networks, address) {
-  return networks.find((network) => network.id === address.networkId)
-}
-
-async function getAddressRole(address, apollo) {
-  const { data } = await apollo.query({
-    query: AddressRole,
-    variables: { networkId: address.networkId, address: address.address },
-    fetchPolicy: "network-only",
-  })
-  return {
-    ...address,
-    addressRole: data.accountRole,
-  }
-}
-
-async function getAllAddressesRoles(networks, addresses, apollo) {
-  return await Promise.all(
-    addresses.map(async (address) => {
-      if (getAddressNetwork(networks, address).network_type === `polkadot`) {
-        return await getAddressRole(address, apollo)
-      } else {
-        return address
-      }
-    })
-  )
 }
