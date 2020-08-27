@@ -170,11 +170,7 @@
       <ModalVoteSubstrate
         v-if="currentNetwork.network_type === `polkadot`"
         ref="modalVote"
-        :proposal-id="
-          currentNetwork.network_type === `polkadot`
-            ? proposal.proposalId
-            : proposalId
-        "
+        :proposal-id="proposal.proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
         @success="() => afterVote()"
