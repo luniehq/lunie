@@ -1,12 +1,19 @@
 <template>
   <TmPage
     data-title="Proposal"
-    class="readable-width"
+    class="proposal"
     :loading="$apollo.queries.proposal.loading"
   >
     <TmDataNotFound v-if="!found" />
     <template v-else>
-      <div class="proposal">
+      {{ proposal }}
+      <ProposalHeader
+        :title="proposal.title"
+        :summary="proposal.description"
+        :proposer="proposal.validator || proposal.proposer"
+        :status="proposal.status"
+      />
+      <!-- <div class="proposal">
         <div class="page-profile__header__info">
           <span :class="proposal.status | lowerCase" class="proposal-status">
             {{ status.badge }}
@@ -30,27 +37,11 @@
               Unknown proposer
             </template>
           </p>
-          <div class="button-container">
-            <TmBtn
-              v-if="proposal.status !== 'Passed'"
-              id="deposit-btn"
-              value="Deposit"
-              :disabled="proposal.status !== 'DepositPeriod'"
-              color="primary"
-              @click.native="onDeposit"
-            />
-            <TmBtn
-              id="vote-btn"
-              value="Vote"
-              :disabled="proposal.status !== 'VotingPeriod'"
-              color="primary"
-              @click.native="() => onVote()"
-            />
-          </div>
-        </div>
-      </div>
 
-      <TextBlock :content="proposal.description" />
+        </div>
+      </div> -->
+
+      <!-- <TextBlock :content="proposal.description" />
 
       <ul v-if="proposal.status === 'DepositPeriod'" class="row">
         <li>
@@ -157,7 +148,7 @@
             <span>{{ proposal.statusEndTime | date }}</span>
           </li>
         </template>
-      </ul>
+      </ul> -->
 
       <ModalDeposit
         v-if="parameters.depositDenom"
@@ -182,28 +173,30 @@
 import { mapGetters } from "vuex"
 import { percent, prettyInt } from "scripts/num"
 import { date, fromNow } from "src/filters"
-import TmBtn from "common/TmBtn"
+// import TmBtn from "common/TmBtn"
 import TmDataNotFound from "common/TmDataNotFound"
-import TextBlock from "common/TextBlock"
+// import TextBlock from "common/TextBlock"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import TmPage from "common/TmPage"
+import ProposalHeader from "governance/ProposalHeader"
 import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
-import Address from "common/Address"
+// import Address from "common/Address"
 import gql from "graphql-tag"
 
 export default {
   name: `page-proposal`,
   components: {
-    TmBtn,
+    // TmBtn,
     ModalDeposit,
     ModalVote,
     TmDataNotFound,
     TmPage,
-    TextBlock,
-    Address,
+    // TextBlock,
+    // Address,
+    ProposalHeader,
   },
   filters: {
     prettyInt,
@@ -389,6 +382,10 @@ export default {
 
 <style scoped>
 @import "../../styles/proposal-status.css";
+
+.proposal {
+  max-width: 1080px;
+}
 
 .proposal-title__row {
   color: var(--bright);
