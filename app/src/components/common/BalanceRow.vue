@@ -59,7 +59,7 @@
         ><span>Send</span>
       </div>
       <div v-if="unstake" class="icon-button-container">
-        <button class="icon-button" @click="onSend(balance.denom)">
+        <button class="icon-button" @click="onUnstake(balance.denom)">
           <i class="material-icons">arrow_downward</i></button
         ><span>Unstake</span>
       </div>
