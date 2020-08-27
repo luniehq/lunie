@@ -142,13 +142,11 @@ export default {
   computed: {
     ...mapState([`session`, `account`]),
     ...mapGetters([`address`, `network`, `networks`]),
+    ...mapGetters({ currentAddress: `address` }),
     user() {
       return this.account.userSignedIn && this.account.user
         ? this.account.user
         : undefined
-    },
-    currentAddress() {
-      return this.address
     },
     hasAddressType() {
       return (
