@@ -144,30 +144,32 @@ export default {
         )
         // active sessions will likely overlap with the ones stored locally / in extension
         const addressesWithKeys = localAccounts
-              .map((account) => ({
-                ...account,
-                networkId: account.network || account.networkId,
-                sessionType: `local`,
-              }))
-              .concat(
-                this.extension.accounts.map((account) => ({
-                  ...account,
-                  networkId: account.network || account.networkId,
-                  sessionType: `extension`,
-                }))
-              )
+          .map((account) => ({
+            ...account,
+            networkId: account.network || account.networkId,
+            sessionType: `local`,
+          }))
+          .concat(
+            this.extension.accounts.map((account) => ({
+              ...account,
+              networkId: account.network || account.networkId,
+              sessionType: `extension`,
+            }))
+          )
         const sessionAddressesWithoutKeys = this.session.addresses
-          .filter(({address}) =>
-            // pick only addresses where there is no addres with key already
-            !addressesWithKeys.find(addressWithKey => addressWithKey.address === address)
+          .filter(
+            ({ address }) =>
+              // pick only addresses where there is no addres with key already
+              !addressesWithKeys.find(
+                (addressWithKey) => addressWithKey.address === address
+              )
           )
           .map((address) => ({
             ...address,
             sessionType: address.type,
           }))
         const allAddresses = sortBy(
-          addressesWithKeys
-            .concat(sessionAddressesWithoutKeys),
+          addressesWithKeys.concat(sessionAddressesWithoutKeys),
           (account) => {
             return account.networkId
           }
@@ -239,7 +241,11 @@ export default {
       }
     },
     getAddressNetwork(address) {
-      return this.networks.find((network) => network.id === address.networkId) || { type: "unknown" }
+      return (
+        this.networks.find((network) => network.id === address.networkId) || {
+          type: "unknown",
+        }
+      )
     },
     async getAddressRole(address) {
       const { data } = await this.$apollo.query({
