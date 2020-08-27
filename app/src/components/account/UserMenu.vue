@@ -132,7 +132,7 @@ export default {
   }),
   asyncComputed: {
     addresses: {
-      cache: false,
+      cache: false, // cache is false to update UserMenu when new extension accounts are added
       get: async function () {
         await this.$store.dispatch(`getAllUsedAddresses`)
         return this.session.allUsedAddresses
