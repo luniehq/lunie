@@ -100,14 +100,8 @@ export default {
     },
     rewards: {
       query: gql`
-        query rewards(
-          $networkId: String!
-          $delegatorAddress: String!
-        ) {
-          rewards(
-            networkId: $networkId
-            delegatorAddress: $delegatorAddress
-          ) {
+        query rewards($networkId: String!, $delegatorAddress: String!) {
+          rewards(networkId: $networkId, delegatorAddress: $delegatorAddress) {
             id
             amount
             denom
