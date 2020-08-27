@@ -149,7 +149,7 @@ const cosmosGasPrices = [
     price: '0.65e-2'
   },
   {
-    denom: 'stake',
+    denom: 'muon',
     price: '0.65e-2'
   }
 ]
