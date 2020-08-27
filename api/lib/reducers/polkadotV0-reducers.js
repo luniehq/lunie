@@ -512,6 +512,7 @@ function democracyProposalReducer(
 ) {
   return {
     id: `democracy-`.concat(proposal.index),
+    proposalId: proposal.index,
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Preliminary Proposal #${proposal.index}`,
@@ -535,6 +536,7 @@ function democracyReferendumReducer(
 ) {
   return {
     id: `referendum-`.concat(proposal.index),
+    proposalId: proposal.index,
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Proposal #${proposal.index}`,
@@ -560,6 +562,7 @@ function treasuryProposalReducer(
 ) {
   return {
     id: `treasury-`.concat(proposal.index || proposal.votes.index),
+    proposalId: proposal.index || proposal.votes.index,
     networkId: network.id,
     type: proposalTypeEnum.TREASURY,
     title: `Treasury Proposal #${proposal.index || proposal.votes.index}`,
@@ -589,6 +592,7 @@ function councilProposalReducer(
 ) {
   return {
     id: `council-`.concat(proposal.votes.index),
+    proposalId: proposal.votes.index,
     networkId: network.id,
     type: proposalTypeEnum.COUNCIL,
     title: `Council Proposal #${proposal.votes.index}`,

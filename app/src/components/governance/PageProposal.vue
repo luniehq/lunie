@@ -167,7 +167,16 @@
         :denom="parameters.depositDenom"
         @success="() => afterDeposit()"
       />
+      <ModalVoteSubstrate
+        v-if="currentNetwork.network_type === `polkadot`"
+        ref="modalVote"
+        :proposal-id="proposal.proposalId"
+        :proposal-title="proposal.title || ''"
+        :last-vote-option="vote"
+        @success="() => afterVote()"
+      />
       <ModalVote
+        v-else
         ref="modalVote"
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
@@ -187,6 +196,7 @@ import TmDataNotFound from "common/TmDataNotFound"
 import TextBlock from "common/TextBlock"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
+import ModalVoteSubstrate from "src/ActionModal/components/ModalVoteSubstrate"
 import TmPage from "common/TmPage"
 import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
@@ -200,6 +210,7 @@ export default {
     TmBtn,
     ModalDeposit,
     ModalVote,
+    ModalVoteSubstrate,
     TmDataNotFound,
     TmPage,
     TextBlock,

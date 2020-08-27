@@ -151,6 +151,7 @@ export const NetworksResult = (data) => data.networks
 
 export const ProposalFragment = `
   id
+  proposalId
   type
   title
   description
