@@ -30,6 +30,7 @@ import Address from "common/Address"
 import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { showAddressOnLedger } from "scripts/ledger"
+import { capitalizeFirstLetter } from "scripts/common"
 export default {
   name: `user-menu-address`,
   components: {
@@ -59,6 +60,7 @@ export default {
     },
   },
   methods: {
+    capitalizeFirstLetter,
     async showAddressOnLedger() {
       if (this.messageTimeout) {
         clearTimeout(this.messageTimeout)
@@ -74,9 +76,6 @@ export default {
           8000
         )
       }
-    },
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
     },
   },
 }

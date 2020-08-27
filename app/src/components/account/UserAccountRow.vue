@@ -29,7 +29,7 @@
 </template>
 <script>
 import { formatAddress } from "src/filters"
-
+import { capitalizeFirstLetter } from "scripts/common"
 export default {
   name: `user-account-row`,
   filters: {
@@ -42,9 +42,7 @@ export default {
     },
   },
   methods: {
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
-    },
+    capitalizeFirstLetter,
   },
 }
 </script>
