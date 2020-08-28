@@ -37,10 +37,13 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
   <div
     class="table-container"
   >
-    <div>
-      <h1>
-        Your Stake
-      </h1>
+    <tmdatamsg-stub
+      icon="sentiment_dissatisfied"
+      iconcolor="var(--warning)"
+    >
+      <div>
+        No validators in your portfolio
+      </div>
        
       <balancerow-stub
         balance="[object Object]"

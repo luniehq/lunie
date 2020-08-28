@@ -38,6 +38,14 @@ describe(`DelegationsOverview`, () => {
     },
   ]
 
+  balances = [
+    {
+      total: 34,
+      available: 1,
+      denom: "ATOM",
+    },
+  ]
+
   beforeEach(() => {
     $store = {
       getters,
@@ -45,7 +53,6 @@ describe(`DelegationsOverview`, () => {
         connection: {
           network: "testnet",
         },
-        delegations,
         session: {
           addressRole: undefined,
         },
@@ -57,6 +64,10 @@ describe(`DelegationsOverview`, () => {
     $apollo = {
       queries: {
         delegations: {
+          loading: false,
+          error: false,
+        },
+        balances: {
           loading: false,
           error: false,
         },
@@ -86,7 +97,16 @@ describe(`DelegationsOverview`, () => {
   })
 
   it(`shows a sentiment of dissatisfaction when you have no such delegations`, async () => {
-    wrapper.setData({ delegations: [] })
+    wrapper.setData({
+      delegations: [],
+      balances: [
+        {
+          total: 34,
+          available: 1,
+          denom: "ATOM",
+        },
+      ],
+    })
     expect(wrapper.element).toMatchSnapshot()
   })
 })
