@@ -66,10 +66,10 @@ export default ({ apollo }) => {
       state.address = address
     },
     setUserAddresses(state, addresses) {
-      state.addresses = addresses.map(address => {
+      state.addresses = addresses.map((address) => {
         let storedAddress = {
           ...address,
-          sessionType: address.sessionType || address.type
+          sessionType: address.sessionType || address.type,
         }
         delete storedAddress.type
         return storedAddress

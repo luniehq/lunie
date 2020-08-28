@@ -89,24 +89,30 @@ describe(`Module: Session`, () => {
     })
 
     it(`should add user address to previously used addresses array`, () => {
-      let addresses = [{
-        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-        sessionType: `explore`,
-      }]
+      let addresses = [
+        {
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+          sessionType: `explore`,
+        },
+      ]
       mutations.setUserAddresses(state, addresses)
       expect(state.addresses).toEqual(addresses)
     })
 
     it(`should add user address respecting legacy entries`, () => {
-      let addresses = [{
-        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-        type: `explore`,
-      }]
+      let addresses = [
+        {
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+          type: `explore`,
+        },
+      ]
       mutations.setUserAddresses(state, addresses)
-      expect(state.addresses).toEqual([{
-        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-        sessionType: `explore`,
-      }])
+      expect(state.addresses).toEqual([
+        {
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+          sessionType: `explore`,
+        },
+      ])
     })
 
     it(`should activate experimental mode`, () => {
@@ -379,10 +385,13 @@ describe(`Module: Session`, () => {
       ]
       await actions.rememberAddress(
         { state, commit },
-        { sessionType: `explore`, address,
+        {
+          sessionType: `explore`,
+          address,
           networkId: "happy-net",
           HDPath: `m/44'/118'/0'/0/0`,
-          curve: `ed25519`, }
+          curve: `ed25519`,
+        }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
         {
@@ -398,7 +407,7 @@ describe(`Module: Session`, () => {
           networkId: "happy-net",
           HDPath: `m/44'/118'/0'/0/0`,
           curve: `ed25519`,
-          "name": undefined
+          name: undefined,
         },
       ])
     })
@@ -409,10 +418,14 @@ describe(`Module: Session`, () => {
       state.signedIn = true
       await actions.rememberAddress(
         { state, commit },
-        { sessionType: `explore`, address, networkId: "fabo-net",
-        name: "testaddress",
-        HDPath: `m/44'/118'/0'/0/0`,
-        curve: `ed25519`, }
+        {
+          sessionType: `explore`,
+          address,
+          networkId: "fabo-net",
+          name: "testaddress",
+          HDPath: `m/44'/118'/0'/0/0`,
+          curve: `ed25519`,
+        }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
         {
@@ -421,7 +434,7 @@ describe(`Module: Session`, () => {
           networkId: "fabo-net",
           name: "testaddress",
           HDPath: `m/44'/118'/0'/0/0`,
-          curve: `ed25519`
+          curve: `ed25519`,
         },
       ])
     })

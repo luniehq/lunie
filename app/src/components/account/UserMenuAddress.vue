@@ -5,7 +5,7 @@
       :address="address || ''"
       tooltip-text="Your Address"
       :address-type="
-        ['stash','controller'].includes(session.addressRole)
+        ['stash', 'controller'].includes(session.addressRole)
           ? capitalizeFirstLetter(session.addressRole)
           : undefined
       "
@@ -43,7 +43,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`address`, `currentNetwork`])
+    ...mapGetters([`address`, `currentNetwork`]),
   },
   methods: {
     capitalizeFirstLetter,
