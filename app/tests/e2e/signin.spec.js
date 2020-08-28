@@ -67,11 +67,6 @@ async function next(browser) {
   return browser.click(".session-footer .button")
 }
 
-async function openMenu(browser) {
-  await browser.waitForElementVisible(".open-menu", 20000, true)
-  await browser.click(".open-menu")
-}
-
 async function prepare(browser) {
   await browser.url(
     browser.launch_url +
@@ -116,7 +111,4 @@ async function prepare(browser) {
   // check if we are already signed in
   await browser.click(".session-close")
   await browser.waitForElementVisible("#open-user-menu", 20000, true)
-  await browser.click("#open-user-menu")
-  await browser.waitForElementVisible("#create-new-account", 20000, true)
-  await browser.click("#create-new-account")
 }
