@@ -2,7 +2,7 @@ const TerraV3API = require('./terraV3-source')
 const CosmosV0API = require('./cosmosV0-source')
 const BigNumber = require('bignumber.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
-
+ 
 class AkashV0API extends TerraV3API {
   setReducers() {
     this.reducers = require('../reducers/akashV0-reducers')
