@@ -62,10 +62,12 @@ describe("Routes", () => {
           networkSlug: "cosmos-hub",
         },
         session: {
-          allSessionAddresses: [{
-            networkId: "cosmos-hub-mainnet"
-          }]
-        }
+          allSessionAddresses: [
+            {
+              networkId: "cosmos-hub-mainnet",
+            },
+          ],
+        },
       },
       getters: {
         networks: [
@@ -104,10 +106,12 @@ describe("Routes", () => {
           networkSlug: "cosmos-hub",
         },
         session: {
-          allSessionAddresses: [{
-            networkId: "cosmos-hub-mainnet"
-          }]
-        }
+          allSessionAddresses: [
+            {
+              networkId: "cosmos-hub-mainnet",
+            },
+          ],
+        },
       },
       getters: {
         networks: [

@@ -9,9 +9,15 @@ export const setNetwork = async ({ to, next }, store) => {
 
   try {
     const networks = store.getters.networks
-    const targetNetwork = networks.find((network) => network.slug === to.params.networkId)
-    const defaultPath = store.state.session.allSessionAddresses.find(({networkId}) => targetNetwork.id === networkId) ? "/portfolio" : "/validators"
-    
+    const targetNetwork = networks.find(
+      (network) => network.slug === to.params.networkId
+    )
+    const defaultPath = store.state.session.allSessionAddresses.find(
+      ({ networkId }) => targetNetwork.id === networkId
+    )
+      ? "/portfolio"
+      : "/validators"
+
     let path = to.path
     if (path === "/") {
       path = defaultPath
