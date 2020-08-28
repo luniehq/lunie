@@ -37,17 +37,25 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
   <div
     class="table-container"
   >
-    <div>
-      <h1>
-        Your Stake
-      </h1>
+    <tmdatamsg-stub
+      icon="sentiment_dissatisfied"
+      iconcolor="var(--warning)"
+    >
+      <div>
+        No validators in your portfolio
+      </div>
        
-      <tablevalidators-stub
-        delegations="[object Object],[object Object],[object Object]"
-        showonmobile="expectedReturns"
-        validators="[object Object],[object Object],[object Object]"
-      />
-    </div>
+      <div>
+        
+        Head over to the
+        
+        <a>
+          validator list
+        </a>
+         to get staking!
+      
+      </div>
+    </tmdatamsg-stub>
   </div>
 </div>
 `;

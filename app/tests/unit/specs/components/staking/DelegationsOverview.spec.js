@@ -7,7 +7,7 @@ describe(`DelegationsOverview`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
 
-  let wrapper, $store, $apollo, delegations
+  let wrapper, $store, $apollo
 
   const getters = {
     committedDelegations: {
@@ -15,25 +15,11 @@ describe(`DelegationsOverview`, () => {
     },
     address: "cosmos1",
     network: "testnet",
+    currentNetwork: {
+      stakingDenom: "ATOM",
+      network_type: "cosmos",
+    },
   }
-
-  delegations = [
-    {
-      validator: validators[0],
-      delegatorAddress: `cosmos1`,
-      amount: 10,
-    },
-    {
-      validator: validators[1],
-      delegatorAddress: `cosmos1`,
-      amount: 12,
-    },
-    {
-      validator: validators[2],
-      delegatorAddress: `cosmos1`,
-      amount: 11,
-    },
-  ]
 
   beforeEach(() => {
     $store = {
@@ -42,7 +28,6 @@ describe(`DelegationsOverview`, () => {
         connection: {
           network: "testnet",
         },
-        delegations,
         session: {
           addressRole: undefined,
         },
@@ -54,6 +39,10 @@ describe(`DelegationsOverview`, () => {
     $apollo = {
       queries: {
         delegations: {
+          loading: false,
+          error: false,
+        },
+        balances: {
           loading: false,
           error: false,
         },
@@ -69,7 +58,30 @@ describe(`DelegationsOverview`, () => {
     })
 
     wrapper.setData({
-      delegations,
+      delegations: [
+        {
+          validator: validators[0],
+          delegatorAddress: `cosmos1`,
+          amount: 10,
+        },
+        {
+          validator: validators[1],
+          delegatorAddress: `cosmos1`,
+          amount: 12,
+        },
+        {
+          validator: validators[2],
+          delegatorAddress: `cosmos1`,
+          amount: 11,
+        },
+      ],
+      balances: [
+        {
+          total: 34,
+          available: 1,
+          denom: "ATOM",
+        },
+      ],
     })
   })
 
@@ -78,7 +90,16 @@ describe(`DelegationsOverview`, () => {
   })
 
   it(`shows a sentiment of dissatisfaction when you have no such delegations`, async () => {
-    wrapper.setData({ delegations: [] })
+    wrapper.setData({
+      delegations: [],
+      balances: [
+        {
+          total: 34,
+          available: 1,
+          denom: "ATOM",
+        },
+      ],
+    })
     expect(wrapper.element).toMatchSnapshot()
   })
 })
