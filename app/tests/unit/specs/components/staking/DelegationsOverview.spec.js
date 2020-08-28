@@ -2,7 +2,7 @@ import { shallowMount, createLocalVue } from "@vue/test-utils"
 import DelegationsOverview from "staking/DelegationsOverview"
 import validators from "../../store/json/validators.js"
 import Vuex from "vuex"
-
+ 
 describe(`DelegationsOverview`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
