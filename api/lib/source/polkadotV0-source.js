@@ -497,6 +497,9 @@ class polkadotAPI {
       api.query.staking.ledger(address),
       api.derive.session.progress()
     ])
+    if (!stakingLedger.toJSON()) {
+      return []
+    }
     const undelegations = stakingLedger.toJSON().unlocking
     // each hour in both Kusama and Polkadot has 600 slots, one block per slot maximum
     const eraBlocks = (24 * 600) / this.network.erasPerDay
