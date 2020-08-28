@@ -3,7 +3,7 @@ module.exports = {
     await prepare(browser)
 
     await browser.click("#open-user-menu")
-    await browser.click(`.address-list-item[data-address-name="${demo-account}"]`)
+    await browser.click(`.address-list-item[data-address-name="demo-account"]`)
     await browser.waitForElementVisible(".user-menu .address", 20000, true)
   },
   "Import local account": async function (browser) {
