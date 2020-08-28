@@ -60,6 +60,7 @@ export default {
   data: () => ({
     delegations: [],
     undelegations: [],
+    balances: [],
     delegationsLoaded: false,
     undelegationsLoaded: false,
   }),
