@@ -13,7 +13,10 @@
       </div>
       <div v-else-if="delegations.length > 0">
         <h1>Your Stake</h1>
-        <BalanceRow :balance="stakedBalance" :unstake="currentNetwork.network_type === 'polkadot'" />
+        <BalanceRow
+          :balance="stakedBalance"
+          :unstake="currentNetwork.network_type === 'polkadot'"
+        />
         <TableValidators
           :validators="delegations.map(({ validator }) => validator)"
           :delegations="delegations"
@@ -52,13 +55,16 @@ export default {
   },
   data: () => ({
     delegations: [],
+    balances: [],
     delegationsLoaded: false,
   }),
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`address`, `currentNetwork`]),
     stakedBalance() {
-      const stakeBalance = this.balances.find(({denom}) => denom === this.currentNetwork.stakingDenom)
+      const stakeBalance = this.balances.find(
+        ({ denom }) => denom === this.currentNetwork.stakingDenom
+      )
       const liquidBalance =
         Number(stakeBalance.total) - Number(stakeBalance.available)
       return {
