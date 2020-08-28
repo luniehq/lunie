@@ -263,6 +263,9 @@ async function switchToAccount(
         JSON.stringify({
           address: address,
           sessionType: "local",
+          HDPath: `m/44'/118'/0'/0/0`,
+          curve: `ed25519`,
+          networkId: network,
         })
       )
       // setting wallet
@@ -272,6 +275,8 @@ async function switchToAccount(
           name: name,
           wallet: wallet,
           address: address,
+          HDPath: `m/44'/118'/0'/0/0`,
+          curve: `ed25519`
         })
       )
       return true
