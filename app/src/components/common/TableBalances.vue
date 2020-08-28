@@ -13,6 +13,7 @@
           :balance="balance"
           :total-rewards-denom="totalRewardsDenom"
           :send="true"
+          :unstake="currentNetwork.network_type === 'polkadot'"
         />
       </tbody>
     </table>
@@ -21,6 +22,7 @@
 
 <script>
 import BalanceRow from "common/BalanceRow"
+import { mapGetters, mapState } from "vuex"
 export default {
   name: `table-balances`,
   components: {
@@ -42,6 +44,9 @@ export default {
       order: `desc`,
     },
   }),
+  computed: {
+    ...mapGetters([`currentNetwork`]),
+  },
 }
 </script>
 <style scoped>

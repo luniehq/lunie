@@ -54,13 +54,21 @@
       class="table-cell actions"
     >
       <div v-if="send" class="icon-button-container">
-        <button class="icon-button" @click="onSend(balance.denom)">
-          <i class="material-icons">send</i></button
+        <button
+          id="send-button"
+          class="icon-button"
+          @click="onSend(balance.denom)"
+        >
+          <i class="material-icons notranslate">send</i></button
         ><span>Send</span>
       </div>
       <div v-if="unstake" class="icon-button-container">
-        <button class="icon-button" @click="onUnstake(balance.denom)">
-          <i class="material-icons">arrow_downward</i></button
+        <button
+          id="unstake-button"
+          class="icon-button"
+          @click="onUnstake(balance.denom)"
+        >
+          <i class="material-icons notranslate">arrow_downward</i></button
         ><span>Unstake</span>
       </div>
     </div>
@@ -256,12 +264,6 @@ export default {
   }
 }
 
-@media screen and (min-width: 1254px) {
-  .send-button {
-    display: none;
-  }
-}
-
 @media screen and (max-width: 1254px) {
   .actions {
     display: none;
@@ -275,6 +277,10 @@ export default {
   .fiat {
     padding: 0;
     font-size: 12px;
+  }
+
+  .icon-button {
+    display: none;
   }
 }
 </style>
