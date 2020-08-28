@@ -5,7 +5,7 @@
       :address="address || ''"
       :tooltip-text="addressType"
       :address-type="
-        session.addressRole
+        session.addressRole && session.addressRole !== 'none'
           ? capitalizeFirstLetter(session.addressRole)
           : undefined
       "
