@@ -15,11 +15,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-      - uses: actions/checkout@v1
+        uses: actions/checkout@v1
       - name: Setup Node.js
         uses: actions/setup-node@v1
       - name: NPM Install
-      - uses: bahmutov/npm-install@v1
+        uses: bahmutov/npm-install@v1
       - name: Run Unit Tests and Submit Coverage
         run: |
           yarn test:unit --coverage
@@ -30,11 +30,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-      - uses: actions/checkout@v1
+        uses: actions/checkout@v1
       - name: Setup Node.js
         uses: actions/setup-node@v1
       - name: NPM Install
-      - uses: bahmutov/npm-install@v1
+        uses: bahmutov/npm-install@v1
       - name: Lint
         run: yarn lint
         working-directory: ${{env.WORKING_DIRECTORY}}
@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-      - uses: actions/checkout@v1
+        uses: actions/checkout@v1
       - name: Setup Node.js
         uses: actions/setup-node@v1
       - name: Check Changelog
