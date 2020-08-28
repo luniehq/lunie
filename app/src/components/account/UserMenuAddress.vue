@@ -3,7 +3,7 @@
     <Address
       class="menu-address"
       :address="address || ''"
-      :tooltip-text="addressType"
+      tooltip-text="Your Address"
       :address-type="
         ['stash','controller'].includes(session.addressRole)
           ? capitalizeFirstLetter(session.addressRole)
@@ -42,22 +42,8 @@ export default {
     showAddressOnLedgerFn: showAddressOnLedger,
   }),
   computed: {
-    ...mapState([`session`, `connection`, `account`]),
-    ...mapGetters([`address`, `currentNetwork`]),
-    addressType() {
-      if (
-        this.session.addressRole &&
-        this.session.addressRole !== `stash/controller` &&
-        this.session.addressRole !== `none`
-      ) {
-        return (
-          `Your` +
-          this.capitalizeFirstLetter(this.session.addressRole) +
-          `Address`
-        )
-      }
-      return `Your Address`
-    },
+    ...mapState([`session`]),
+    ...mapGetters([`address`, `currentNetwork`])
   },
   methods: {
     capitalizeFirstLetter,
