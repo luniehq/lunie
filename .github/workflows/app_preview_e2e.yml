@@ -18,16 +18,16 @@ jobs:
 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v1
+        uses: actions/checkout@v1
       - name: Setup Node.js
         uses: actions/setup-node@v1
       - name: NPM Install
-      - uses: bahmutov/npm-install@v1
+        uses: bahmutov/npm-install@v1
       - name: Build App
         run: yarn build
         working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Deploy for E2E Testing 
-      - uses: nwtgck/actions-netlify@v1.1.4
+        uses: nwtgck/actions-netlify@v1.1.4
         id: deploy
         with:
           publish-dir: './app/dist'
@@ -45,11 +45,11 @@ jobs:
     needs: deploy
     steps:
       - name: Checkout
-      - uses: actions/checkout@v1
+        uses: actions/checkout@v1
       - name: Setup Node.js
         uses: actions/setup-node@v1
       - name: NPM Install
-      - uses: bahmutov/npm-install@v1
+        uses: bahmutov/npm-install@v1
       - name: Run Cosmos E2E on Browserstack
         run: |
           yarn test:e2e:browserstack --fe=${{needs.deploy.outputs.deploy-url}} --api=https://production-api.lunie.io
@@ -62,10 +62,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v1
       - name: Use Node.js
         uses: actions/setup-node@v1
-      - uses: bahmutov/npm-install@v1.1.0
+      - name: NPM Install
+        uses: bahmutov/npm-install@v1.1.0
       - name: Run Polkadot E2E tests
         run: |
           yarn test:e2e:browserstack --fe=${{needs.deploy.outputs.deploy-url}} --api=https://production-api.lunie.io --network="polkadot-testnet"
