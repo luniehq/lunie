@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-    - uses: actions/checkout@v1
+      uses: actions/checkout@v1
     - name: Setup Node.js
       uses: actions/setup-node@v1
     - name: NPM Install
-    - uses: bahmutov/npm-install@v1
+      uses: bahmutov/npm-install@v1
     - name: Build Docker Image
       run: cd ${{env.WORKING_DIRECTORY}} && yarn build 
     - name: Save and GZIP
