@@ -261,7 +261,7 @@ async function switchToAccount(
       window.localStorage.setItem(
         `session_${network}`,
         JSON.stringify({
-          address: address,
+          address,
           sessionType: "local",
           HDPath: `m/44'/118'/0'/0/0`,
           curve: `ed25519`,
@@ -272,11 +272,12 @@ async function switchToAccount(
       window.localStorage.setItem(
         `cosmos-wallets-${address}`,
         JSON.stringify({
-          name: name,
-          wallet: wallet,
-          address: address,
+          name,
+          wallet,
+          address,
           HDPath: `m/44'/118'/0'/0/0`,
-          curve: `ed25519`
+          curve: `ed25519`,
+          network
         })
       )
       return true
