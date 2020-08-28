@@ -66,7 +66,14 @@ export default ({ apollo }) => {
       state.address = address
     },
     setUserAddresses(state, addresses) {
-      state.addresses = addresses
+      state.addresses = addresses.map(address => {
+        let storedAddress = {
+          ...address,
+          sessionType: address.sessionType || address.type
+        }
+        delete storedAddress.type
+        return storedAddress
+      })
     },
     setAllSessionAddresses(state, addresses) {
       state.allSessionAddresses = addresses
@@ -199,7 +206,7 @@ export default ({ apollo }) => {
       await dispatch(`rememberAddress`, {
         address,
         sessionType,
-        name: session ? session.name : "",
+        name: session ? session.name : undefined,
         HDPath,
         curve,
         networkId,
