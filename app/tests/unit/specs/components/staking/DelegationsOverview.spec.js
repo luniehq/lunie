@@ -7,7 +7,7 @@ describe(`DelegationsOverview`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
 
-  let wrapper, $store, $apollo, delegations
+  let wrapper, $store, $apollo, delegations, balances
 
   const getters = {
     committedDelegations: {
@@ -15,6 +15,10 @@ describe(`DelegationsOverview`, () => {
     },
     address: "cosmos1",
     network: "testnet",
+    currentNetwork: {
+      stakingDenom: "ATOM",
+      network_type: "cosmos",
+    },
   }
 
   delegations = [
@@ -35,6 +39,14 @@ describe(`DelegationsOverview`, () => {
     },
   ]
 
+  balances = [
+    {
+      total: 34,
+      available: 1,
+      denom: "ATOM",
+    },
+  ]
+
   beforeEach(() => {
     $store = {
       getters,
@@ -42,7 +54,6 @@ describe(`DelegationsOverview`, () => {
         connection: {
           network: "testnet",
         },
-        delegations,
         session: {
           addressRole: undefined,
         },
@@ -60,7 +71,7 @@ describe(`DelegationsOverview`, () => {
         balances: {
           loading: false,
           error: false,
-        }
+        },
       },
     }
 
@@ -74,6 +85,7 @@ describe(`DelegationsOverview`, () => {
 
     wrapper.setData({
       delegations,
+      balances,
     })
   })
 
@@ -82,7 +94,16 @@ describe(`DelegationsOverview`, () => {
   })
 
   it(`shows a sentiment of dissatisfaction when you have no such delegations`, async () => {
-    wrapper.setData({ delegations: [] })
+    wrapper.setData({
+      delegations: [],
+      balances: [
+        {
+          total: 34,
+          available: 1,
+          denom: "ATOM",
+        },
+      ],
+    })
     expect(wrapper.element).toMatchSnapshot()
   })
 })
