@@ -14,7 +14,10 @@ describe(`DelegationsOverview`, () => {
       [validators[0].operator_address]: validators[0],
     },
     address: "cosmos1",
-    network: "testnet",
+    currentNetwork: {
+      id: "testnet",
+      stakingDenom: "STAKE"
+    },
   }
 
   delegations = [
@@ -70,6 +73,11 @@ describe(`DelegationsOverview`, () => {
 
     wrapper.setData({
       delegations,
+      balances: [{
+        total: 10000,
+        liquid: 50,
+        denom: "STAKE"
+      }]
     })
   })
 

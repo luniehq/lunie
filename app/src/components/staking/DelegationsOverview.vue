@@ -68,15 +68,22 @@ export default {
     ...mapState([`session`]),
     ...mapGetters([`address`, `currentNetwork`]),
     stakedBalance() {
+      // balances not loaded yet
+      if (!this.balances.length) {
+        return {
+          total: 0,
+          denom: this.currentNetwork.stakingDenom,
+        }
+      }
       const stakingDenomBalance = this.balances.find(
         ({ denom }) => denom === this.currentNetwork.stakingDenom
       )
       let stakedAmount =
         Number(stakingDenomBalance.total) -
         Number(stakingDenomBalance.available)
-      // substract the already unbonding balance in the case of Substrate networks. There can be only one item in undelegations Array
+      // substract the already unbonding balance in the case of Substrate networks.
       if (this.undelegationsLoaded && this.undelegations.length > 0) {
-        stakedAmount -= Number(this.undelegations[0].amount)
+        stakedAmount = this.undelegations.reduce((stakedAmount, {amount}) => stakedAmount - Number(amount), stakedAmount)
       }
       return {
         total: stakedAmount.toFixed(3),
