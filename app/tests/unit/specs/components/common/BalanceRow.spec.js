@@ -68,7 +68,7 @@ describe(`BalanceRow`, () => {
       },
     }
     wrapper.vm.$refs = $refs
-    wrapper.find(".table-cell.actions button").trigger("click")
+    wrapper.find("#send-button").trigger("click")
     expect($refs.SendModal.open).toHaveBeenCalled()
   })
 })
