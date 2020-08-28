@@ -21,6 +21,7 @@ describe(`BalanceRow`, () => {
       TOKEN1: 1,
       MUON: 5,
     },
+    send: true,
   }
 
   $store = {

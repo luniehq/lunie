@@ -57,6 +57,10 @@ describe(`DelegationsOverview`, () => {
           loading: false,
           error: false,
         },
+        balances: {
+          loading: false,
+          error: false,
+        }
       },
     }
 
