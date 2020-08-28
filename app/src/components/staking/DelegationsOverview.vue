@@ -43,7 +43,11 @@ import { mapGetters, mapState } from "vuex"
 import BalanceRow from "common/BalanceRow"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
-import { DelegationsForDelegator, UserTransactionAdded } from "src/gql"
+import {
+  ValidatorFragment,
+  DelegationsForDelegator,
+  UserTransactionAdded,
+} from "src/gql"
 import gql from "graphql-tag"
 
 export default {
@@ -55,19 +59,34 @@ export default {
   },
   data: () => ({
     delegations: [],
+    undelegations: [],
+    balances: [],
     delegationsLoaded: false,
+    undelegationsLoaded: false,
   }),
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`address`, `currentNetwork`]),
     stakedBalance() {
-      const stakeBalance = this.balances.find(
+      // balances not loaded yet
+      if (!this.balances.length) {
+        return {
+          total: 0,
+          denom: this.currentNetwork.stakingDenom,
+        }
+      }
+      const stakingDenomBalance = this.balances.find(
         ({ denom }) => denom === this.currentNetwork.stakingDenom
       )
-      const liquidBalance =
-        Number(stakeBalance.total) - Number(stakeBalance.available)
+      let stakedAmount =
+        Number(stakingDenomBalance.total) -
+        Number(stakingDenomBalance.available)
+      // substract the already unbonding balance in the case of Substrate networks.
+      if (this.undelegationsLoaded && this.undelegations.length > 0) {
+        stakedAmount = this.undelegations.reduce((stakedAmount, {amount}) => stakedAmount - Number(amount), stakedAmount)
+      }
       return {
-        total: liquidBalance.toFixed(3),
+        total: stakedAmount.toFixed(3),
         denom: this.currentNetwork.stakingDenom,
       }
     },
@@ -126,6 +145,40 @@ export default {
       update(data) {
         this.delegationsLoaded = true
         return data.delegations || []
+      },
+    },
+    undelegations: {
+      query() {
+        /* istanbul ignore next */
+        return gql`
+        query undelegations($networkId: String!, $delegatorAddress: String!) {
+          undelegations(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            id
+            validator {
+              ${ValidatorFragment}
+            }
+            amount
+            startHeight
+            endTime
+          }
+        }
+      `
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.currentNetwork.id,
+          delegatorAddress: this.address,
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return this.currentNetwork.network_type !== `polkadot` // we only need undelegations for Polkadot networks
+      },
+      /* istanbul ignore next */
+      update(data) {
+        this.undelegationsLoaded = true
+        return data.undelegations
       },
     },
     $subscribe: {
