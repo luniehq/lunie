@@ -104,6 +104,7 @@ export const NetworksAll = gql`
       icon
       slug
       default
+      lockUpPeriod
       powered {
         name
         providerAddress
@@ -150,6 +151,7 @@ export const NetworksResult = (data) => data.networks
 
 export const ProposalFragment = `
   id
+  proposalId
   type
   title
   description

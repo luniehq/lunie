@@ -90,6 +90,7 @@ const typeDefs = gql`
 
   type Proposal {
     id: String
+    proposalId: String
     networkId: String!
     type: proposalTypeEnum
     title: String
@@ -267,6 +268,8 @@ const typeDefs = gql`
     proposer: String
     initialDeposit: InputCoin
     voteOption: String
+    lockedBalance: Float
+    timeLock: String
     addressRole: String
   }
 

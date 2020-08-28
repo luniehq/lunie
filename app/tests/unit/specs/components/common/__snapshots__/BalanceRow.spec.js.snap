@@ -77,10 +77,16 @@ exports[`BalanceRow it matches snapshot 1`] = `
         Send
       </span>
     </div>
+     
+    <!---->
   </div>
    
   <sendmodal-stub
     denoms="MUON"
+  />
+   
+  <undelegationmodal-stub
+    sourcevalidator="[object Object]"
   />
    
   <!---->

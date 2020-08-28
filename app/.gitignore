@@ -32,3 +32,4 @@ yarn-error.log*
 *.sw?
 
 public/version.json
+ios/App/App/GoogleService-Info.plist

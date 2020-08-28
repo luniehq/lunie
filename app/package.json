@@ -6,7 +6,7 @@
   "scripts": {
     "build": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa --mode production",
     "build:dev": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa --mode development",
-    "buildsentry": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa --modern --mode production && chmod 755 tasks/sentry.sh && ./tasks/sentry.sh",
+    "build:sentry": "vue-cli-service build --no-unsafe-inline --skip-plugins pwa --modern --mode production && chmod 755 tasks/sentry.sh && ./tasks/sentry.sh",
     "build:mobile": "cross-env MOBILE_APP=true yarn build",
     "build:mobile:dev": "cross-env MOBILE_APP=true yarn build:dev",
     "changelog": "simsala log --pending-path ./changes",
@@ -148,7 +148,7 @@
     "http-proxy": ">=1.18.1"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=10.19.0"
   },
   "homepage": "https://lunie.io",
   "license": "Apache-2.0",
