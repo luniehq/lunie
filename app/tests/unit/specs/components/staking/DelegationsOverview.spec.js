@@ -38,14 +38,6 @@ describe(`DelegationsOverview`, () => {
     },
   ]
 
-  balances = [
-    {
-      total: 34,
-      available: 1,
-      denom: "ATOM",
-    },
-  ]
-
   beforeEach(() => {
     $store = {
       getters,
