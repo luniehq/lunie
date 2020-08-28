@@ -61,39 +61,9 @@ exports[`BalanceRow it matches snapshot 1`] = `
   <div
     class="table-cell actions"
   >
-    <div
-      class="icon-button-container"
-    >
-      <button
-        class="icon-button"
-      >
-        <i
-          class="material-icons"
-        >
-          send
-        </i>
-      </button>
-      <span>
-        Send
-      </span>
-    </div>
+    <!---->
      
-    <div
-      class="icon-button-container"
-    >
-      <button
-        class="icon-button"
-      >
-        <i
-          class="material-icons notranslate"
-        >
-          arrow_upward
-        </i>
-      </button>
-      <span>
-        Unstake
-      </span>
-    </div>
+    <!---->
   </div>
    
   <sendmodal-stub
