@@ -44,6 +44,7 @@
               )
             "
             class="menu-list-item address-list-item"
+            :data-address-name="address.name"
             :class="{
               selected:
                 address.address === selectedAddress &&
