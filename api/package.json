@@ -14,7 +14,7 @@
     "build": "docker build . -t lunieapi",
     "lint": "eslint index.js config.js lib tests",
     "lint-fix": "yarn lint --fix",
-    "start": "node index.js ",
+    "start": "node --max-old-space-size=3500 index.js",
     "test:unit": "cross-env TEST=true jest",
     "changelog": "simsala log --pending-path ./changes"
   },
