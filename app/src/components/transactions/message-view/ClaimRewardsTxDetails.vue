@@ -9,7 +9,13 @@
           <router-link
             v-for="(validator, index) in getValidators"
             :key="validator.name.concat(`-${index}`)"
-            :to="`/staking/validators/${validator.operatorAddress}`"
+            :to="{
+              name: `validator`,
+              params: {
+                validator: validator.operatorAddress,
+                networkId: transaction.networkId,
+              },
+            }"
             class="validator-link"
           >
             <img
