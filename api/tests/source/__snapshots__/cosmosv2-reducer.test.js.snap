@@ -30,6 +30,7 @@ Array [
     "key": "8A5713CFA4A3106F7D17D945E661BA7509F7038B7960D2B078B972732BD6FEAD_0",
     "log": "",
     "memo": "",
+    "networkId": "cosmos-hub-mainnet",
     "success": true,
     "timestamp": "2020-04-16T21:55:10Z",
     "type": "ClaimRewardsTx",
