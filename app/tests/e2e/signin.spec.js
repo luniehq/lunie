@@ -85,7 +85,7 @@ async function prepare(browser) {
           {
             name: "demo",
             address,
-            network: browser.globals.network,
+            network,
             HDPath: `m/44'/118'/0'/0/0`,
             curve: `ed25519`,
           },
