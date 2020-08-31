@@ -44,6 +44,7 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
        
       <balancerow-stub
         balance="[object Object]"
+        totalrewardsdenom="[object Object]"
       />
        
       <tablevalidators-stub
