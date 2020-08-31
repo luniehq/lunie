@@ -58,7 +58,10 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
-      v-if="Object.keys(targetValidator).length > 0 && session.addressRole !== `stash`"
+      v-if="
+        Object.keys(targetValidator).length > 0 &&
+        session.addressRole !== `stash`
+      "
       class="action-modal-form-group"
       field-id="to"
       field-label="To"
@@ -81,7 +84,10 @@
     </TmFormGroup>
 
     <TmFormGroup
-      v-if="Object.keys(targetValidator).length > 0 && session.addressRole !== `stash`"
+      v-if="
+        Object.keys(targetValidator).length > 0 &&
+        session.addressRole !== `stash`
+      "
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
