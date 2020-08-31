@@ -53,7 +53,7 @@
     "@babel/runtime-corejs3": "^7.10.4",
     "@lunie/cosmos-api": "^0.0.23",
     "@lunie/cosmos-keys": "^0.3.1",
-    "@polkadot/api": "^1.30.1",
+    "@polkadot/api": "^1.31.2",
     "@sentry/browser": "^5.17.0",
     "@sentry/integrations": "^5.19.2",
     "apollo-boost": "^0.4.9",
