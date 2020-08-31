@@ -139,10 +139,7 @@ export default {
     addresses: {
       cache: false, // cache is false to update UserMenu when new extension accounts are added
       get: async function () {
-        // filter local accounts to make sure they all have an address
-        const localAccounts = this.keystore.accounts.filter(
-          ({ address }) => address
-        )
+        const localAccounts = this.keystore.accounts
         // active sessions will likely overlap with the ones stored locally / in extension
         const addressesWithKeys = localAccounts
           .map((account) => ({
@@ -167,7 +164,7 @@ export default {
           )
           .map((address) => ({
             ...address,
-            sessionType: address.type,
+            sessionType: address.type || 'explore',
           }))
         const allAddresses = sortBy(
           addressesWithKeys.concat(sessionAddressesWithoutKeys),
