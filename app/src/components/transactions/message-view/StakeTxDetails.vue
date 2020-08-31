@@ -19,7 +19,10 @@
           class="validator-image"
           :alt="`validator logo for ` + validator.name"
         />
-        {{ transaction.details.to[0] | resolveValidatorName(validators) }}
+        {{
+          formatAddress(transaction.details.to[0])
+            | resolveValidatorName(validators)
+        }}
       </router-link>
     </div>
     <div class="tx__content__right">
@@ -33,7 +36,7 @@
 
 <script>
 import { prettyLong } from "scripts/num.js"
-import { resolveValidatorName } from "src/filters"
+import { formatAddress, resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
