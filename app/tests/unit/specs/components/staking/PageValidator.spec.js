@@ -52,8 +52,8 @@ describe(`PageValidator`, () => {
       getters: {
         currentNetwork: {
           network_type: `cosmos`,
-        }
-      }
+        },
+      },
     }
     $apollo = {
       queries: {

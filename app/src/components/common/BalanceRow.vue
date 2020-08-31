@@ -31,7 +31,11 @@
       :key="balance.denom + '_rewards'"
       class="table-cell rewards"
     >
-      <h2 v-if="totalRewardsPerDenom && totalRewardsPerDenom[balance.denom] > 0.001">
+      <h2
+        v-if="
+          totalRewardsPerDenom && totalRewardsPerDenom[balance.denom] > 0.001
+        "
+      >
         +{{ totalRewardsPerDenom[balance.denom] | bigFigureOrShortDecimals }}
         {{ balance.denom }}
       </h2>
