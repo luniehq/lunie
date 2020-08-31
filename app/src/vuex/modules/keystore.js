@@ -26,10 +26,21 @@ export default () => {
         return error
       }
     },
-    async loadLocalAccounts({ commit }) {
+    async loadLocalAccounts({ commit, dispatch }) {
       const { getWalletIndex } = await import("@lunie/cosmos-keys")
-      const keys = getWalletIndex()
-      commit(`setAccounts`, keys)
+      const wallets = getWalletIndex()
+
+      const walletsWithNetworks = await Promise.all(wallets.map(async wallet => {
+        // old entries don't have the network property so we need to guess it
+        if (!wallet.network) {
+          const network = await dispatch("getNetworkByAccount", {
+            account: wallet
+          })
+          wallet.network = network ? network.id : undefined
+        }
+        return wallet
+      }))
+      commit(`setAccounts`, walletsWithNetworks)
     },
     async testLogin(store, { password, address }) {
       const { testPassword } = await import("@lunie/cosmos-keys")
