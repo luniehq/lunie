@@ -57,7 +57,7 @@ export default {
           msg = `can have maximum 6 decimals`
           break
         case `min`:
-          msg = `must be greater than ${prettyDecimals(this.min)}`
+          msg = `must be greater or equal than ${prettyDecimals(this.min)}`
           break
         case `date`:
           msg = `must be a valid date`
