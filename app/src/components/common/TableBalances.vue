@@ -1,6 +1,6 @@
 <template>
   <div class="table four-columns">
-    <div class="table-cell big title">Balances</div>
+    <div class="table-cell big title">Total</div>
     <div class="table-cell title">Rewards</div>
     <div class="table-cell title available">Available</div>
     <div class="table-cell title actions"></div>
@@ -12,6 +12,7 @@
           :key="balance.id"
           :balance="balance"
           :total-rewards-denom="totalRewardsDenom"
+          :send="true"
         />
       </tbody>
     </table>
@@ -58,7 +59,6 @@ export default {
   display: flex;
   align-items: center;
   width: 20%;
-  border-bottom: 1px solid var(--bc-dim);
   font-family: "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   position: relative;
   white-space: nowrap;

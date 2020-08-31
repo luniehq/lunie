@@ -154,6 +154,26 @@ export async function ClaimRewardsTx(senderAddress, {}, network, api) {
   return await getSignMessage(senderAddress, allClaimingTxs, api)
 }
 
+// Vote
+export async function VoteTx(
+  senderAddress,
+  { proposalId, lockedBalance, voteOption, timeLock },
+  network,
+  api
+) {
+  const referendumId = proposalId
+  const voteTx = await api.tx.democracy.vote(referendumId, {
+    Standard: {
+      balance: toChainAmount(
+        { amount: lockedBalance, denom: network.stakingDenom },
+        network.coinLookup
+      ),
+      vote: { aye: voteOption === "Yes" ? true : false, conviction: timeLock },
+    },
+  })
+  return await getSignMessage(senderAddress, voteTx, api)
+}
+
 function toChainAmount({ amount, denom }, coinLookup) {
   const lookup = coinLookup.find(({ viewDenom }) => viewDenom === denom)
   const chainAmount = BigNumber(amount)

@@ -147,7 +147,7 @@
     "http-proxy": ">=1.18.1"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=10.19.0"
   },
   "homepage": "https://lunie.io",
   "license": "Apache-2.0",

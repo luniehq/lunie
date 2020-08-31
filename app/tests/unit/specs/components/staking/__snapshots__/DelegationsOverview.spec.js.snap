@@ -39,10 +39,15 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
   >
     <div>
       <h1>
-        Your Validators
+        Your Stake
       </h1>
        
+      <balancerow-stub
+        balance="[object Object]"
+      />
+       
       <tablevalidators-stub
+        class="table-validators"
         delegations="[object Object],[object Object],[object Object]"
         showonmobile="expectedReturns"
         validators="[object Object],[object Object],[object Object]"
