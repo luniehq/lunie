@@ -106,7 +106,7 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="session.addressRole !== `controller`"
+      v-if="!isNomination && session.addressRole !== `controller`"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
@@ -217,6 +217,10 @@ export default {
     targetValidator: {
       type: Object,
       default: () => ({}),
+    },
+    isNomination: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({

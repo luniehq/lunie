@@ -78,17 +78,19 @@
 
       <div class="action-button-container">
         <TmBtn
-          v-if="currentNetwork.network_type !== `polkadot`"
           id="delegation-btn"
-          value="Stake"
+          :value="
+            currentNetwork.network_type === `polkadot` ? `Select` : `Stake`
+          "
           @click.native="onDelegation"
         />
         <TmBtn
-          v-if="currentNetwork.network_type !== `polkadot`"
           id="undelegation-btn"
           class="undelegation-btn"
           :disabled="!hasDelegation"
-          value="Unstake"
+          :value="
+            currentNetwork.network_type === `polkadot` ? `Deselect` : `Stake`
+          "
           type="secondary"
           @click.native="onUndelegation"
         />
@@ -175,10 +177,15 @@
         </li>
       </ul>
 
-      <DelegationModal ref="delegationModal" :target-validator="validator" />
+      <DelegationModal
+        ref="delegationModal"
+        :target-validator="validator"
+        :is-nomination="true"
+      />
       <UndelegationModal
         ref="undelegationModal"
         :source-validator="validator"
+        :is-unnomination="true"
       />
     </template>
 
