@@ -5,6 +5,7 @@
   >
     <div v-if="loaded" class="button-container">
       <TmBtn
+        v-if="currentNetwork.network_type !== `polkadot`"
         id="propose-btn"
         value="Create Proposal"
         type="secondary"
