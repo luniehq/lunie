@@ -58,6 +58,11 @@
           <i class="material-icons">send</i></button
         ><span>Send</span>
       </div>
+      <div v-if="stake" class="icon-button-container">
+        <button class="icon-button" @click="onStake(balance.denom)">
+          <i class="material-icons">arrow_upward</i></button
+        ><span>Stake</span>
+      </div>
       <div v-if="unstake" class="icon-button-container">
         <button class="icon-button" @click="onUnstake(balance.denom)">
           <i class="material-icons">arrow_downward</i></button
@@ -66,6 +71,7 @@
     </div>
 
     <SendModal ref="SendModal" :denoms="[balance.denom]" />
+    <DelegationModal ref="StakeModal" />
     <UndelegationModal ref="UnstakeModal" />
 
     <!-- endTime span for Polkadot undelegations -->
@@ -84,12 +90,14 @@
 import { bigFigureOrShortDecimals } from "scripts/num"
 import { fromNow } from "src/filters"
 import SendModal from "src/ActionModal/components/SendModal"
+import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import { mapGetters, mapState } from "vuex"
 export default {
   name: `balance-row`,
   components: {
     SendModal,
+    DelegationModal,
     UndelegationModal,
   },
   filters: {
@@ -104,6 +112,10 @@ export default {
     totalRewardsDenom: {
       type: Object,
       default: () => {},
+    },
+    stake: {
+      type: Boolean,
+      default: false,
     },
     unstake: {
       type: Boolean,
@@ -126,6 +138,9 @@ export default {
     bigFigureOrShortDecimals,
     onSend(denom = undefined) {
       this.$refs.SendModal.open(denom)
+    },
+    onStake(amount) {
+      this.$refs.StakeModal.open()
     },
     onUnstake() {
       this.$refs.UnstakeModal.open()

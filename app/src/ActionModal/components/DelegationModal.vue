@@ -58,7 +58,10 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
-      v-if="session.addressRole !== `stash`"
+      v-if="
+        Object.keys(targetValidator).length > 0 &&
+        session.addressRole !== `stash`
+      "
       class="action-modal-form-group"
       field-id="to"
       field-label="To"
@@ -81,7 +84,10 @@
     </TmFormGroup>
 
     <TmFormGroup
-      v-if="session.addressRole !== `stash`"
+      v-if="
+        Object.keys(targetValidator).length > 0 &&
+        session.addressRole !== `stash`
+      "
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -101,6 +107,7 @@
       field-id="amount"
       :field-label="`Amount${
         currentNetwork.network_type === 'polkadot' &&
+        Object.keys(targetValidator).length > 0 &&
         balance.total > 0 &&
         session.addressRole !== `stash`
           ? ' (Optional)'
@@ -204,7 +211,7 @@ export default {
   props: {
     targetValidator: {
       type: Object,
-      required: true,
+      default: () => ({}),
     },
   },
   data: () => ({
@@ -275,13 +282,16 @@ export default {
       return this.fromOptions[this.fromSelectedIndex].address
     },
     transactionData() {
-      if (!this.targetValidator.operatorAddress || isNaN(this.amount)) return {}
+      if (isNaN(this.amount)) return {}
 
       if (this.isRedelegation) {
         return {
           type: messageType.RESTAKE,
           from: [this.from],
-          to: [this.targetValidator.operatorAddress],
+          to:
+            Object.keys(this.targetValidator).length > 0
+              ? [this.targetValidator.operatorAddress]
+              : "",
           amount: {
             amount: this.amount,
             denom: this.stakingDenom,
