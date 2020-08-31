@@ -112,6 +112,7 @@ async function prepare(browser) {
   )
 
   // open user menu
+  await browser.click(".session-close")
   await browser.waitForElementVisible("#open-user-menu", 20000, true)
   await browser.click("#open-user-menu")
 }
