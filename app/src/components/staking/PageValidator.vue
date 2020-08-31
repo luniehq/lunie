@@ -77,8 +77,14 @@
       </tr>
 
       <div class="action-button-container">
-        <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
         <TmBtn
+          v-if="currentNetwork.network_type !== `polkadot`"
+          id="delegation-btn"
+          value="Stake"
+          @click.native="onDelegation"
+        />
+        <TmBtn
+          v-if="currentNetwork.network_type !== `polkadot`"
           id="undelegation-btn"
           class="undelegation-btn"
           :disabled="!hasDelegation"
