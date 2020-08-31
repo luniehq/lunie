@@ -20,7 +20,8 @@
           :alt="`validator logo for ` + validator.name"
         />
         {{
-          formatAddress(transaction.details.from[0])
+          transaction.details.from[0]
+            | formatAddress
             | resolveValidatorName(validators)
         }}
       </router-link>
@@ -43,6 +44,7 @@ export default {
   name: `unstake-tx-details`,
   filters: {
     prettyLong,
+    formatAddress,
     resolveValidatorName,
   },
   components: {

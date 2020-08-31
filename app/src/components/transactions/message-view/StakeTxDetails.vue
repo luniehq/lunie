@@ -20,7 +20,8 @@
           :alt="`validator logo for ` + validator.name"
         />
         {{
-          formatAddress(transaction.details.to[0])
+          transaction.details.to[0]
+            | formatAddress
             | resolveValidatorName(validators)
         }}
       </router-link>
@@ -43,6 +44,7 @@ export default {
   name: `stake-tx-details`,
   filters: {
     prettyLong,
+    formatAddress,
     resolveValidatorName,
   },
   components: {

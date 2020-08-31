@@ -1,5 +1,6 @@
 import { shallowMount } from "@vue/test-utils"
 import StakeTxDetails from "src/components/transactions/message-view/StakeTxDetails"
+import { formatAddress } from "src/filters"
 
 describe(`StakeTxDetails`, () => {
   let wrapper
@@ -32,6 +33,7 @@ describe(`StakeTxDetails`, () => {
         transaction: tx,
         validators: {},
       },
+      formatAddress,
       stubs: [`router-link`],
     })
     expect(wrapper.element).toMatchSnapshot()
