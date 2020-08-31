@@ -19,6 +19,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       >
         <!---->
          
+        <!---->
+         
         <tmbtn-stub
           class="send-button"
           customclass=""
@@ -118,7 +120,7 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
      
     <tablebalances-stub
       balances="[object Object]"
-      totalRewardsPerDenom="[object Object]"
+      totalrewardsperdenom="[object Object]"
     />
      
     <sendmodal-stub
@@ -126,6 +128,10 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
     />
      
     <modalwithdrawrewards-stub />
+     
+    <delegationmodal-stub
+      targetvalidator="[object Object]"
+    />
      
     <undelegationmodal-stub
       sourcevalidator="[object Object]"
@@ -153,6 +159,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
       <div
         class="buttons"
       >
+        <!---->
+         
         <!---->
          
         <tmbtn-stub
@@ -254,7 +262,7 @@ exports[`TmBalance show the balance header when signed in 1`] = `
      
     <tablebalances-stub
       balances="[object Object],[object Object]"
-      totalRewardsPerDenom="[object Object]"
+      totalrewardsperdenom="[object Object]"
     />
      
     <sendmodal-stub
@@ -262,6 +270,10 @@ exports[`TmBalance show the balance header when signed in 1`] = `
     />
      
     <modalwithdrawrewards-stub />
+     
+    <delegationmodal-stub
+      targetvalidator="[object Object]"
+    />
      
     <undelegationmodal-stub
       sourcevalidator="[object Object]"
