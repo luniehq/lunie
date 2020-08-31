@@ -3,7 +3,7 @@ module.exports = {
     await prepare(browser)
 
     await browser.click("#open-user-menu")
-    await browser.click(`.address-list-item[data-address-name="Demo"]`)
+    await browser.click(`.address-list-item[data-address-name="demo-account"]`)
     await browser.waitForElementVisible(".user-menu .address", 20000, true)
   },
   "Import local account": async function (browser) {
@@ -75,35 +75,6 @@ async function prepare(browser) {
   )
   browser.waitForElementVisible(`body`, 20000, true)
   browser.waitForElementVisible(`#app-content`, 20000, true)
-
-  // add a standard account to be used for signing in to an existing account
-  await browser.execute(
-    function (network, address, wallet) {
-      window.localStorage.setItem(
-        "cosmos-wallets-index",
-        JSON.stringify([
-          {
-            name: "demo",
-            address,
-            network,
-            HDPath: `m/44'/118'/0'/0/0`,
-            curve: `ed25519`,
-          },
-        ])
-      )
-      window.localStorage.setItem(
-        `cosmos-wallets-${address}`,
-        JSON.stringify({
-          name: `rich_account`,
-          address,
-          wallet,
-        })
-      )
-      window.localStorage.removeItem(`session_${network}`)
-      return true
-    },
-    [browser.globals.network, browser.globals.address, browser.globals.wallet]
-  )
 
   await browser.url(
     browser.launch_url +
