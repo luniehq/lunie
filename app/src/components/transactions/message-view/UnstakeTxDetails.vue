@@ -19,11 +19,7 @@
           class="validator-image"
           :alt="`validator logo for ` + validator.name"
         />
-        {{
-          transaction.details.from[0]
-            | formatAddress
-            | resolveValidatorName(validators)
-        }}
+        {{ transaction.details.from[0] | resolveValidatorName(validators) }}
       </router-link>
     </div>
     <div class="tx__content__right">
@@ -37,14 +33,13 @@
 
 <script>
 import { prettyLong } from "scripts/num.js"
-import { formatAddress, resolveValidatorName } from "src/filters"
+import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
 
 export default {
   name: `unstake-tx-details`,
   filters: {
     prettyLong,
-    formatAddress,
     resolveValidatorName,
   },
   components: {

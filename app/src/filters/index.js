@@ -45,7 +45,7 @@ export const formatAddress = (address, length = 4) => {
 }
 
 export const resolveValidatorName = (address, validators) => {
-  if (validators[address]) {
+  if (validators[address] && validators[address].name.length < 20) {
     return validators[address].name
   }
   return formatAddress(address)
