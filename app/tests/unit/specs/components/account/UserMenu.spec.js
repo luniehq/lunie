@@ -1,15 +1,18 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
+import VTooltip from "v-tooltip"
 import UserMenu from "src/components/account/UserMenu"
 
 const localVue = createLocalVue()
-localVue.directive(`close-popover`, () => {})
+localVue.use(VTooltip)
 
 describe(`UserMenu`, () => {
   let wrapper, $store
 
   beforeEach(() => {
     $store = {
-      dispatch: jest.fn(),
+      dispatch: jest.fn(() => Promise.resolve({
+        id: `cosmos-hub-mainnet`
+      })),
       getters: {
         network: `cosmos-hub-mainnet`,
         address: `cosmos1234`,
@@ -68,13 +71,15 @@ describe(`UserMenu`, () => {
       localVue,
       mocks: {
         $store,
+        $route: {
+          name: "validators"
+        }
       },
       stubs: [`router-link`],
     })
   })
 
-  // skipping due to missing v-popover component and close-popover directive
-  it.skip(`should show the UserMenu page`, async () => {
+  it(`should show the UserMenu page`, async () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })
