@@ -16,30 +16,32 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
 .status {
   text-transform: uppercase;
+  letter-spacing: 1.5px;
   font-size: 10px;
   font-weight: 600;
-  padding: 2px 4px;
-  border-radius: 0.25rem;
+  padding: 0.25rem 1rem;
+  border-radius: 1rem;
   color: var(--bright);
-  background: var(--bc-dim);
+  border: 2px solid;
+  width: fit-content;
 }
 
-.status.rejected {
-  background: var(--danger);
+.status.Rejected {
+  border-color: var(--danger);
 }
 
 .status.DepositPeriod {
-  background: var(--warning);
+  border-color: var(--warning);
 }
 
-.status.passed {
-  background: var(--success);
+.status.Passed {
+  border-color: var(--success);
 }
 
 .status.VotingPeriod {
-  background: var(--highlight);
+  border-color: var(--highlight);
 }
 </style>

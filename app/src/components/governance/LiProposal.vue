@@ -9,9 +9,7 @@
     "
   >
     <td>
-      <span :class="proposal.status | lowerCase" class="proposal-status">
-        {{ status.badge }}
-      </span>
+      <Status :status="proposal.status" />
       <h3 class="li-proposal-title">
         {{ proposal.title }}
       </h3>
@@ -28,8 +26,13 @@
 <script>
 import { mapState } from "vuex"
 import { getProposalStatus } from "scripts/proposal-status"
+import Status from "common/Status"
+
 export default {
   name: `li-proposal`,
+  components: {
+    Status,
+  },
   filters: {
     trim: function (text, length) {
       return text.length > length ? text.substring(0, length) + `…` : text
@@ -52,8 +55,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../styles/proposal-status.css";
-
 .li-proposal {
   margin: 1rem 1rem;
   padding: 1rem 0;

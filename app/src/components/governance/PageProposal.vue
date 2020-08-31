@@ -6,11 +6,11 @@
   >
     <TmDataNotFound v-if="!found" />
     <template v-else>
-      {{ proposal }}
+      <!-- {{ proposal }} -->
       <ProposalHeader
         :title="proposal.title"
         :summary="proposal.description"
-        :proposer="proposal.validator || proposal.proposer"
+        :proposer="proposal.proposer"
         :status="proposal.status"
       />
       <!-- <div class="proposal">
