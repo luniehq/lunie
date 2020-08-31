@@ -64,6 +64,7 @@ const txFields = `
   id
   type
   hash
+  networkId
   key
   height
   timestamp
