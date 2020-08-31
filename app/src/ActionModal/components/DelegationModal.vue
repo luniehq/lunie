@@ -11,7 +11,7 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="delegate"
-    :disabled="isInElection"
+    :disabled="isInElection || hasNoNominations"
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -44,6 +44,11 @@
         <span v-if="isInElection">
           There is currently an ongoing election for new validator candidates.
           Stake is not allowed by now.
+        </span>
+        <span v-if="hasNoNominations">
+          Before staking any tokens you need to select some validators to start
+          getting rewards. Select one by going to its profile page and clicking
+          on "Select"
         </span>
         <span v-else-if="!isRedelegation">
           It will take {{ undelegationPeriod }} to unlock your tokens after they
@@ -334,6 +339,13 @@ export default {
     },
     enhancedTargetValidator() {
       return validatorEntry(this.targetValidator)
+    },
+    hasNoNominations() {
+      // TODO: only temporary. Need to create a query to know if the address has any nomination
+      return (
+        this.currentNetwork.network_type === `polkadot` &&
+        this.session.addressRole === `none`
+      )
     },
   },
   methods: {
