@@ -4,7 +4,15 @@
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
       <span>With&nbsp;</span>
-      <router-link :to="`/staking/validators/${transaction.details.to[0]}`">
+      <router-link
+        :to="{
+          name: `validator`,
+          params: {
+            validator: transaction.details.to[0],
+            networkId: transaction.networkId,
+          },
+        }"
+      >
         <img
           v-if="validator && validator.picture"
           :src="validator.picture"
