@@ -1,2 +1,2 @@
 [Fixed] [#4784](https://github.com/cosmos/lunie/pull/4784) Fix transaction details validators links @Bitcoinera
-[Fixed] [#4784](https://github.com/cosmos/lunie/pull/4784) Display rewards on BalanceRow in Your Stake @Bitcoinera
+[Fixed] [#4784](https://github.com/cosmos/lunie/pull/4784) Fix transaction size too big due to Polkadot validators names @Bitcoinera
