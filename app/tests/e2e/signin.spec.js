@@ -2,14 +2,14 @@ module.exports = {
   "Sign in with local account": async function (browser) {
     await prepare(browser)
 
-    await browser.click("#open-user-menu")
     await browser.click(`.address-list-item[data-address-name="demo-account"]`)
     await browser.waitForElementVisible(".user-menu .address", 20000, true)
   },
   "Import local account": async function (browser) {
     await prepare(browser)
 
-    browser.waitForElementVisible("#recover-with-backup", 20000, true)
+    await browser.click("#create-new-account")
+    await browser.waitForElementVisible("#recover-with-backup", 20000, true)
     // scroll to bottom
     await browser.execute("window.scrollTo(0,document.body.scrollHeight);")
     browser.click("#recover-with-backup")
@@ -76,14 +76,7 @@ async function prepare(browser) {
   browser.waitForElementVisible(`body`, 20000, true)
   browser.waitForElementVisible(`#app-content`, 20000, true)
 
-  await browser.url(
-    browser.launch_url +
-      browser.globals.slug +
-      "?insecure=true&experimental=true"
-  )
-
-  // check if we are already signed in
-  await browser.waitForElementVisible(".session-close", 20000, true)
-  await browser.click(".session-close")
+  // open user menu
   await browser.waitForElementVisible("#open-user-menu", 20000, true)
+  await browser.click("#open-user-menu")
 }
