@@ -12,6 +12,7 @@
         :summary="proposal.description"
         :proposer="proposal.proposer"
         :status="proposal.status"
+        @open-vote-modal="onVote"
       />
       <!-- <div class="proposal">
         <div class="page-profile__header__info">
@@ -246,20 +247,6 @@ export default {
     noVotes() {
       return BigNumber(this.proposal.tally.total).eq(0)
     },
-    getNextProposalId() {
-      let id = this.getProposalIndex(-1)
-      return id
-    },
-    getPrevProposalId() {
-      let id = this.getProposalIndex(1)
-      return id
-    },
-  },
-  watch: {
-    // Needed to show data loading component when you are browsing from one proposal to another
-    $route: function () {
-      this.loaded = false
-    },
   },
   methods: {
     onVote() {
@@ -273,13 +260,6 @@ export default {
     },
     afterDeposit() {
       this.$apollo.queries.proposal.refetch()
-    },
-    getProposalIndex(num) {
-      let proposalsObj = this.proposals
-      let proposalsIdArr = Object.values(proposalsObj).map(
-        (proposal) => proposal.id
-      )
-      return proposalsIdArr[proposalsIdArr.indexOf(this.proposal.id) + num]
     },
   },
   apollo: {
