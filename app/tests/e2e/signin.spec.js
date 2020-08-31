@@ -112,6 +112,7 @@ async function prepare(browser) {
   )
 
   // check if we are already signed in
+  await browser.waitForElementVisible(".session-close", 20000, true)
   await browser.click(".session-close")
   await browser.waitForElementVisible("#open-user-menu", 20000, true)
 }
