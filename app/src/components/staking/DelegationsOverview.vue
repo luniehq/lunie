@@ -15,7 +15,7 @@
         <h1>Your Stake</h1>
         <BalanceRow
           :balance="stakedBalance"
-          :total-rewards-denom="totalRewardsPerDenom"
+          :total-rewards-per-denom="totalRewardsPerDenom"
           :stake="currentNetwork.network_type === 'polkadot'"
           :unstake="currentNetwork.network_type === 'polkadot'"
         />

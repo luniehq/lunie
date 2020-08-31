@@ -91,7 +91,7 @@
 
       <TableBalances
         :balances="balances"
-        :total-rewards-denom="totalRewardsPerDenom"
+        :total-rewards-per-denom="totalRewardsPerDenom"
       />
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
