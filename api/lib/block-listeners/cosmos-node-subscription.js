@@ -44,7 +44,12 @@ class CosmosNodeSubscription {
   async pollForProposalChanges() {
     // If you create this.cosmosAPI object in constructor, it will stay forever as it caches
     // Don't want this behaviour as this needs to be recreated with every new context
-    const cosmosAPI = new this.CosmosApiClass(this.network, this.store, new FiatValuesAPI(), this.db)
+    const cosmosAPI = new this.CosmosApiClass(
+      this.network,
+      this.store,
+      new FiatValuesAPI(),
+      this.db
+    )
 
     // set store upon start
     this.store.update({

@@ -83,7 +83,10 @@ export default {
         Number(stakingDenomBalance.available)
       // substract the already unbonding balance in the case of Substrate networks.
       if (this.undelegationsLoaded && this.undelegations.length > 0) {
-        stakedAmount = this.undelegations.reduce((stakedAmount, {amount}) => stakedAmount - Number(amount), stakedAmount)
+        stakedAmount = this.undelegations.reduce(
+          (stakedAmount, { amount }) => stakedAmount - Number(amount),
+          stakedAmount
+        )
       }
       return {
         total: stakedAmount.toFixed(3),
