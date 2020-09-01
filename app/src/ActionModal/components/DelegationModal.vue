@@ -67,8 +67,7 @@
         </span>
         <span v-else-if="isNomination">
           The validator will appear within your validator set once the next era
-          begins. An era lasts for {{ 24 / currentNetwork.erasPerDay }} hours in
-          the current network.
+          begins.
         </span>
       </div>
     </TmFormGroup>
