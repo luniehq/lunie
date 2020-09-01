@@ -303,6 +303,7 @@ function transactionReducerV2(network, transaction, reducers) {
       id: transaction.txhash,
       type: reducers.getMessageType(type),
       hash: transaction.txhash,
+      networkId: network.id,
       key: `${transaction.txhash}_${index}`,
       height: transaction.height,
       details: transactionDetailsReducer(

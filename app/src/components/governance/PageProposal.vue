@@ -42,7 +42,10 @@
             <TmBtn
               id="vote-btn"
               value="Vote"
-              :disabled="proposal.status !== 'VotingPeriod'"
+              :disabled="
+                proposal.status !== 'VotingPeriod' ||
+                proposal.type === 'COUNCIL'
+              "
               color="primary"
               @click.native="() => onVote()"
             />
