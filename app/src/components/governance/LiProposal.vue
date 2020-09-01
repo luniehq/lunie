@@ -50,6 +50,9 @@ export default {
     status() {
       return getProposalStatus(this.proposal)
     },
+    summary() {
+      return this.proposal.description.trim(200)
+    },
   },
 }
 </script>

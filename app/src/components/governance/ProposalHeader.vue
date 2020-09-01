@@ -35,10 +35,10 @@
 
       <div class="proposer-and-summary-container">
         <div class="proposer">
-          Proposer:
+          Proposed By:
           {{ proposer | formatAddress }}
         </div>
-        <p class="summary">{{ summary | trim(200) }}</p>
+        <p class="summary">{{ summary }}</p>
       </div>
     </div>
 
@@ -67,26 +67,35 @@ export default {
   },
   filters: {
     formatAddress,
-    trim: function (text, length) {
-      return text.length > length ? text.substring(0, length) + `…` : text
-    },
   },
   props: {
     title: {
       type: String,
       required: true,
     },
-    summary: {
+    type: {
       type: String,
       required: true,
     },
     proposer: {
       type: String,
-      required: true,
+      default: `n/a`,
     },
     status: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    summary() {
+      switch (this.type) {
+        case `PARAMETER_CHANGE`:
+          return `This is a parameter change proposal. Parameter change proposals can be proposed by anyone and include changes to the code of this network.`
+        case `COUNCIL`:
+          return `This is a council proposal. Council proposals are proposed by council members who hold a special status in this network.`
+        default:
+          return `Unknown proposal type`
+      }
     },
   },
 }
@@ -94,7 +103,8 @@ export default {
 
 <style scoped>
 .header {
-  padding: 2rem;
+  padding: 2rem 0;
+  border-bottom: 2px solid var(--bc-dim);
 }
 
 .header-top {
@@ -102,7 +112,7 @@ export default {
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  padding: 0 0 2rem;
+  padding: 0 0 4rem;
 }
 
 h2 {
@@ -138,8 +148,8 @@ h2 {
 }
 
 .summary {
-  padding-top: 2rem;
   font-size: 12px;
+  padding: 2rem 0 0 2px;
 }
 
 .share-button {

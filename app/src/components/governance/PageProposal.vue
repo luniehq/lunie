@@ -9,11 +9,22 @@
       <!-- {{ proposal }} -->
       <ProposalHeader
         :title="proposal.title"
-        :summary="proposal.description"
+        :type="proposal.type"
         :proposer="proposal.proposer"
         :status="status"
         @open-vote-modal="onVote"
         @open-deposit-modal="onDeposit"
+      />
+      <ProposalStatusBar
+        :status="status.badge"
+        :status-begin-time="proposal.statusBeginTime"
+        :total-votes="proposal.tally.total"
+        :proposal-id="proposal.id"
+        :vote-percentage="proposal.tally.totalVotedPercentage"
+        :yes-votes="Number(proposal.tally.yes)"
+        :no-votes="Number(proposal.tally.no)"
+        :veto-votes="Number(proposal.tally.veto)"
+        :abstain-votes="Number(proposal.tally.abstain)"
       />
       <!-- <div class="proposal">
         <div class="page-profile__header__info">
@@ -192,6 +203,7 @@ import ModalVote from "src/ActionModal/components/ModalVote"
 import ModalVoteSubstrate from "src/ActionModal/components/ModalVoteSubstrate"
 import TmPage from "common/TmPage"
 import ProposalHeader from "governance/ProposalHeader"
+import ProposalStatusBar from "governance/ProposalStatusBar"
 import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
@@ -210,6 +222,7 @@ export default {
     // TextBlock,
     // Address,
     ProposalHeader,
+    ProposalStatusBar,
   },
   filters: {
     prettyInt,
@@ -375,6 +388,7 @@ export default {
 <style scoped>
 .proposal {
   max-width: 1080px;
+  padding: 0 1rem;
 }
 
 .proposal-title__row {
