@@ -167,13 +167,9 @@ export default class TransactionManager {
     )
 
     // TODO need to get the transaction types from db
-    const { getSignableObject, getBroadcastableObject } = network.id === "cosmos-hub-4-testnet"
-      ? await import(
-          `./networkMessages/cosmos-transactions-V3.js`
-        )
-      : await import(
-          `./networkMessages/${network.network_type}-transactions.js`
-        )
+    const { getSignableObject, getBroadcastableObject } = await import(
+      `./networkMessages/${network.network_type}-transactions.js`
+    )
     const signableObject = await getSignableObject(messages, transactionData)
     const signedContext = await signer(signableObject)
     const broadcastableObject = await getBroadcastableObject(
