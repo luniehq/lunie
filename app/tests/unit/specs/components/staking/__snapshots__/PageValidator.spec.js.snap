@@ -109,7 +109,7 @@ exports[`PageValidator if uptimePercentage is blank 1`] = `
       customclass=""
       id="undelegation-btn"
       type="secondary"
-      value="Stake"
+      value="Unstake"
     />
   </div>
    
@@ -393,7 +393,7 @@ exports[`PageValidator if user has signed in 1`] = `
       customclass=""
       id="undelegation-btn"
       type="secondary"
-      value="Stake"
+      value="Unstake"
     />
   </div>
    
@@ -677,7 +677,7 @@ exports[`PageValidator if user hasn't signed in 1`] = `
       customclass=""
       id="undelegation-btn"
       type="secondary"
-      value="Stake"
+      value="Unstake"
     />
   </div>
    

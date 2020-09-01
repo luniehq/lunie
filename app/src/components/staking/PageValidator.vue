@@ -89,7 +89,7 @@
           class="undelegation-btn"
           :disabled="!hasDelegation"
           :value="
-            currentNetwork.network_type === `polkadot` ? `Deselect` : `Stake`
+            currentNetwork.network_type === `polkadot` ? `Deselect` : `Unstake`
           "
           type="secondary"
           @click.native="onUndelegation"
