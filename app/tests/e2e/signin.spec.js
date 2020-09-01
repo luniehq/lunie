@@ -30,11 +30,7 @@ module.exports = {
 
     browser.waitForElementVisible("#import-seed", 20000, true)
     await next(browser)
-    if (browser.globals.type === `polkadot`) {
-      browser.expect.elements(".tm-form-msg--error").count.to.equal(2)
-    } else {
-      browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
-    }
+    browser.expect.elements(".tm-form-msg--error").count.to.equal(1)
     browser.setValue("#import-seed", browser.globals.seed)
     await next(browser)
 
