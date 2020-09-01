@@ -38,11 +38,13 @@ function setOptions(urlParams, store) {
 }
 
 export const bootError = (error) => {
-  document.querySelector("#app").innerText = `
-    Lunie failed to start. Please contact us at http://help.lunie.io/
+  document.querySelector("#app").innerHTML = `
+  <div class="boot-error">
+    <h2>Uh oh. Lunie failed to start. Our team has been notified of the issue. Please try refreshing this page in a few minutes. If the error persists please contact us at http://help.lunie.io/</h2>
 
-    ${error}
-  `
+    <p class="error">${error}</p>
+  </div>
+    `
 }
 
 export default async function init(urlParams, env = process.env) {
