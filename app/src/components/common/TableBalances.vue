@@ -21,7 +21,7 @@
           v-for="balance in balances"
           :key="balance.id"
           :balance="balance"
-          :total-rewards-denom="totalRewardsDenom"
+          :total-rewards-per-denom="totalRewardsPerDenom"
           :send="true"
         />
       </tbody>
@@ -42,7 +42,7 @@ export default {
       type: Array,
       required: true,
     },
-    totalRewardsDenom: {
+    totalRewardsPerDenom: {
       type: Object,
       default: () => {},
     },

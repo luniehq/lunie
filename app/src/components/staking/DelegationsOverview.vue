@@ -15,6 +15,7 @@
         <h1>Your Stake</h1>
         <BalanceRow
           :balance="stakedBalance"
+          :stake="currentNetwork.network_type === 'polkadot'"
           :unstake="currentNetwork.network_type === 'polkadot'"
         />
         <TableValidators
