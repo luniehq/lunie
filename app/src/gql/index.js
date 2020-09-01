@@ -139,6 +139,7 @@ export const NetworksAll = gql`
         icon
       }
       rpc_url
+      erasPerDay
       HDPaths
       curves
       defaultHDPath

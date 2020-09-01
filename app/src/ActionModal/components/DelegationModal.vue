@@ -11,7 +11,10 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="delegate"
-    :disabled="isInElection || hasNoNominations"
+    :disabled="
+      isInElection ||
+      (hasNoNominations && Object.keys(targetValidator).length === 0)
+    "
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -45,20 +48,27 @@
           There is currently an ongoing election for new validator candidates.
           Stake is not allowed by now.
         </span>
-        <span v-if="hasNoNominations">
+        <span
+          v-if="hasNoNominations && Object.keys(targetValidator).length === 0"
+        >
           Before staking any tokens you need to select some validators to start
           getting rewards. Select one by going to its profile page and clicking
           on "Select"
         </span>
-        <span v-else-if="!isRedelegation">
+        <span v-else-if="!isRedelegation && !isNomination">
           It will take {{ undelegationPeriod }} to unlock your tokens after they
           are staked. There is a risk that some tokens will be lost depending on
           the behaviour of the validator you choose.
         </span>
-        <span v-else>
+        <span v-else-if="!isNomination && !isUnnomination">
           Voting power and rewards will change instantly upon restaking — but
           your tokens will still be subject to the risks associated with the
           original stake for the duration of the unstaking period.
+        </span>
+        <span v-else-if="isNomination">
+          The validator will appear within your validator set once the next era
+          begins. An era lasts for {{ 24 / currentNetwork.erasPerDay }} hours in
+          the current network.
         </span>
       </div>
     </TmFormGroup>
@@ -219,6 +229,10 @@ export default {
       default: () => ({}),
     },
     isNomination: {
+      type: Boolean,
+      default: false,
+    },
+    isUnnomination: {
       type: Boolean,
       default: false,
     },
