@@ -170,7 +170,42 @@ export const ProposalFragment = `
   deposit
   proposer,
   validator {
+    id
     name
+    details
+    identity
+    picture
+  }
+  beneficiary
+  detailedVotes {
+    deposits {
+      amount {
+        amount
+        denom
+      }
+      depositer
+    }
+    depositsSum
+    percentageDepositsNeeded
+    votes {
+      id
+      voter
+      option
+    }
+    votesSum
+    votingThresholdYes
+    votingThresholdNo
+    votingPercentageYes
+    votingPercentageNo
+    links {
+      title
+      link
+      type
+    }
+    timeline {
+      title 
+      time
+    }
   }
 `
 
