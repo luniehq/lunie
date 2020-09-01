@@ -166,11 +166,14 @@ export default {
             ...address,
             sessionType: address.type || "explore",
           }))
-        const allAddresses = sortBy(
-          addressesWithKeys.concat(sessionAddressesWithoutKeys),
-          (account) => {
-            return account.networkId
-          }
+        const allAddresses = uniqWith(
+          sortBy(
+            addressesWithKeys.concat(sessionAddressesWithoutKeys),
+            (account) => {
+              return account.networkId
+            }
+          ),
+          (a, b) => a.address === b.address && a.sessionType === b.sessionType
         )
         let allAddressesWithAddressRole = await this.getAllAddressesRoles(
           allAddresses
