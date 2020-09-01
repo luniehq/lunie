@@ -154,7 +154,7 @@
       />
       <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.min"
-        :min="isPolkadotController ? 0 : smallestAmount"
+        :min="smallestAmount"
         name="Amount"
         type="min"
       />
@@ -331,6 +331,16 @@ export default {
         ["controller", "stash/controller"].includes(this.session.addressRole)
       )
     },
+    smallestAmount() {
+      if (
+        this.currentNetwork.network_type === "polkadot" &&
+        ["controller", "stash/controller"].includes(this.session.addressRole)
+      ) {
+        return 0
+      } else {
+        return SMALLEST
+      }
+    }
   },
   methods: {
     open() {
@@ -385,13 +395,7 @@ export default {
         },
         decimal,
         max: (x) => Number(x) <= this.maxAmount,
-        min: (x) => {
-          // see required
-          if (this.isPolkadotController) {
-            return Number(x) >= 0
-          }
-          return Number(x) >= SMALLEST
-        },
+        min: (x) => Number(x) >= this.smallestAmount,
         maxDecimals: (x) => {
           return x.toString().split(".").length > 1
             ? x.toString().split(".")[1].length <= 6
