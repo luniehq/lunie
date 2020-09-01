@@ -177,10 +177,10 @@ export function handleDeeplink(url, router) {
   // the target will perform the authentication and then redirect back to lunie
   if (queryObject.link || queryObject.ifl) {
     const link = unescape(queryObject.link || queryObject.ifl)
-    const urlParts = url.replace('http://','').replace('https://','').split(/[/?#]/)
+    const urlParts = link.replace('http://','').replace('https://','').split(/[/?#]/)
     const domain = urlParts[0]
     // check if the link is actually from firebase to prevent phishing
-    if (!domain === "firebaseapp.com") {
+    if (domain !== config.firebaseConfig.authDomain) {
       throw new Error("Domain in url parameter not allowed")
     }
     if (config.mobileApp) {
