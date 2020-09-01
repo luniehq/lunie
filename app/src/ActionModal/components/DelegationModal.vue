@@ -217,7 +217,6 @@ export default {
     validators: [],
     delegations: [],
     messageType,
-    smallestAmount: SMALLEST,
     isInElection: false, // Handle election period in Polkadot
   }),
   computed: {
@@ -324,12 +323,6 @@ export default {
     },
     enhancedTargetValidator() {
       return validatorEntry(this.targetValidator)
-    },
-    isPolkadotController() {
-      return (
-        this.currentNetwork.network_type === "polkadot" &&
-        ["controller", "stash/controller"].includes(this.session.addressRole)
-      )
     },
     smallestAmount() {
       if (
