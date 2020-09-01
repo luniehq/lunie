@@ -6,7 +6,6 @@
   >
     <TmDataNotFound v-if="!found" />
     <template v-else>
-      <!-- {{ proposal }} -->
       <ProposalHeader
         :title="proposal.title"
         :type="proposal.type"
@@ -15,6 +14,7 @@
         @open-vote-modal="onVote"
         @open-deposit-modal="onDeposit"
       />
+
       <ProposalStatusBar
         :status="status.badge"
         :status-begin-time="proposal.statusBeginTime"
@@ -25,143 +25,15 @@
         :no-votes="Number(proposal.tally.no)"
         :veto-votes="Number(proposal.tally.veto)"
         :abstain-votes="Number(proposal.tally.abstain)"
+        :deposit-total="proposal.detailedVotes.depositsSum"
       />
-      <!-- <div class="proposal">
-        <div class="page-profile__header__info">
-          <span :class="proposal.status | lowerCase" class="proposal-status">
-            {{ status.badge }}
-          </span>
-          <div class="proposal-title__row">
-            <h2 class="proposal-title">{{ proposal.title }}</h2>
-          </div>
-        </div>
 
-        <div class="proposer-row">
-          <p class="proposer">
-            <template v-if="proposal.validator">
-              Proposed by {{ proposal.validator.name }}:
-              <Address :address="proposal.proposer" />
-            </template>
-            <template v-else-if="proposal.proposer">
-              Proposed by
-              <Address :address="proposal.proposer" />
-            </template>
-            <template v-else>
-              Unknown proposer
-            </template>
-          </p>
+      <!-- <Timeline /> -->
 
-        </div>
-      </div> -->
-
-      <!-- <TextBlock :content="proposal.description" />
-
-      <ul v-if="proposal.status === 'DepositPeriod'" class="row">
-        <li>
-          <h4>Deposit Count</h4>
-          <span>
-            {{ proposal.deposit }}
-            /
-            {{ parameters.depositThreshold }}
-            {{ parameters.depositDenom || currentNetwork.stakingDenom }}
-          </span>
-        </li>
-      </ul>
-
-      <ul v-if="proposal.status !== `DepositPeriod`" class="row">
-        <li v-if="proposal.status === `VotingPeriod`">
-          <h4>Total Vote Count</h4>
-          <span>
-            {{ proposal.tally.totalVotedPercentage | percent }} /
-            {{ proposal.tally.total | prettyInt }}
-          </span>
-        </li>
-        <li>
-          <h4>Yes</h4>
-          <span>
-            {{
-              noVotes
-                ? 0
-                : (proposal.tally.yes / proposal.tally.total) | percent
-            }}
-            /
-            {{ proposal.tally.yes | prettyInt }}
-          </span>
-        </li>
-        <li>
-          <h4>No</h4>
-          <span>
-            {{
-              noVotes ? 0 : (proposal.tally.no / proposal.tally.total) | percent
-            }}
-            /
-            {{ proposal.tally.no | prettyInt }}
-          </span>
-        </li>
-        <li>
-          <h4>Veto</h4>
-          <span>
-            {{
-              noVotes
-                ? 0
-                : (proposal.tally.veto / proposal.tally.total) | percent
-            }}
-            /
-            {{ proposal.tally.veto | prettyInt }}
-          </span>
-        </li>
-        <li>
-          <h4>Abstain</h4>
-          <span>
-            {{
-              noVotes
-                ? 0
-                : (proposal.tally.abstain / proposal.tally.total) | percent
-            }}
-            /
-            {{ proposal.tally.abstain | prettyInt }}
-          </span>
-        </li>
-      </ul>
-
-      <ul class="row">
-        <li>
-          <h4>Proposal ID</h4>
-          <span>{{ proposal.id }}</span>
-        </li>
-        <li>
-          <h4>Submitted</h4>
-          <span v-if="proposal.creationTime">{{
-            proposal.creationTime | date
-          }}</span>
-          <span v-else>--</span>
-        </li>
-        <template
-          v-if="['DepositPeriod', 'VotingPeriod'].includes(proposal.status)"
-        >
-          <li>
-            <h4>({{ status.badge }}) Start Date</h4>
-            <span v-if="proposal.statusBeginTime">{{
-              proposal.statusBeginTime | date
-            }}</span>
-            <span v-else>--</span>
-          </li>
-          <li>
-            <h4>({{ status.badge }}) End Date</h4>
-            <span v-if="proposal.statusEndTime">
-              {{ proposal.statusEndTime | date }} /
-              {{ proposal.statusEndTime | fromNow }}
-            </span>
-            <span v-else>--</span>
-          </li>
-        </template>
-        <template v-else>
-          <li>
-            <h4>Proposal Finalized ({{ status.badge }})</h4>
-            <span>{{ proposal.statusEndTime | date }}</span>
-          </li>
-        </template>
-      </ul> -->
+      <ProposalDescription
+        :description="proposal.description"
+        :type="proposal.type"
+      />
 
       <ModalDeposit
         v-if="parameters.depositDenom"
@@ -204,6 +76,8 @@ import ModalVoteSubstrate from "src/ActionModal/components/ModalVoteSubstrate"
 import TmPage from "common/TmPage"
 import ProposalHeader from "governance/ProposalHeader"
 import ProposalStatusBar from "governance/ProposalStatusBar"
+import ProposalDescription from "governance/ProposalDescription"
+// import Timeline from "governance/Timeline"
 import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
@@ -222,7 +96,9 @@ export default {
     // TextBlock,
     // Address,
     ProposalHeader,
+    ProposalDescription,
     ProposalStatusBar,
+    // Timeline,
   },
   filters: {
     prettyInt,

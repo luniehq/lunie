@@ -4,7 +4,7 @@
     <ProposalStatusBar />
     <!-- Refactor required to use toggle and validator table -->
     <!-- <ValidatorTable /> -->
-    <Timeline></Timeline>
+    <Timeline />
     <ProposalDescription />
   </div>
 </template>

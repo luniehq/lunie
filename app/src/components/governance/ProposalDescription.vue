@@ -2,9 +2,12 @@
   <div class="proposal-description">
     <section>
       <h4>Description</h4>
-      <p class="description">
-        {{ description }}
-      </p>
+      <div class="description">
+        <pre v-if="type === `PARAMETER_CHANGE`">
+          {{ description }}
+        </pre>
+        <p v-else>{{ description }}</p>
+      </div>
     </section>
     <aside class="supporting-links">
       <h4>Supporting Links</h4>
@@ -20,30 +23,31 @@
 <script>
 export default {
   name: `proposal-description`,
-  data: () => ({
-    description: `Stargate is our name for the process of ensuring that the widely integrated public network known as the Cosmos Hub is able to execute the cosmoshub-3 -> cosmoshub-4 upgrade with the minimum disruption to its existing ecosystem. This upgrade will also realize the Internet of Blockchains vision from the Cosmos whitepaper.
-Integrations from ecosystem partners are at risk of breaking changes due to the Stargate changes. These changes drive the need for substantial resource and time requirements to ensure successful migration. Stargate represents a unique set of circumstances and is not intended to set precedent for future upgrades which are expected to be less dramatic.
-There is a widespread consensus from many Cosmos stakeholders that these changes to core software components will enhance the performance and composability of the software and the value of the Cosmos Hub in a world of many blockchains.
-A Yes result on this proposal provides a clear signal that the Cosmos Hub accepts and understands the Stargate process and is prepared to approve an upgrade with proposed changes if the plan below is executed successfully.
-A No result would force a reconsideration of the tradeoffs in the Alternatives section and the forming a new plan to deliver IBC.
-See the full proposal here: https://ipfs.io/ipfs/Qmbo3fF54tX3JdoHZNVLcSBrdkXLie56Vh2u29wLfs4PnW`,
-    supportingLinks: [
-      {
-        title: `IPFS`,
-        url: `https://ipfs.io/ipfs/Qmbo3fF54tX3JdoHZNVLcSBrdkXLie56Vh2u29wLfs4PnW`,
-      },
-      {
-        title: `Cosmos Forum`,
-        url: `https://forum.cosmos.network/c/governance/16`,
-      },
-    ],
-  }),
+  props: {
+    description: {
+      type: String,
+      required: true,
+    },
+    supportingLinks: {
+      type: Array,
+      default: () => [],
+    },
+    type: {
+      type: String,
+      required: true,
+    },
+  },
 }
 </script>
 
 <style scoped>
+h4 {
+  font-size: 12px;
+  padding-bottom: 1rem;
+}
+
 .proposal-description {
-  padding: 2rem;
+  padding: 2rem 0;
   display: flex;
 }
 
@@ -56,7 +60,18 @@ See the full proposal here: https://ipfs.io/ipfs/Qmbo3fF54tX3JdoHZNVLcSBrdkXLie5
 
 .supporting-links {
   width: 100%;
+  max-width: 400px;
   padding: 0 0 4rem 0;
+}
+
+pre {
+  font-family: "Menlo", "Consolas", monospace;
+  background: var(--app-nav);
+  border-radius: 0.25rem;
+  color: var(--menu-text);
+  font-size: 14px;
+  padding: 1rem;
+  white-space: pre-line;
 }
 
 @media screen and (max-width: 1024px) {
