@@ -333,7 +333,7 @@ export default {
       } else {
         return SMALLEST
       }
-    }
+    },
   },
   methods: {
     open() {
