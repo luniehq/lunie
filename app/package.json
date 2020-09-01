@@ -56,7 +56,7 @@
     "core-js": "^3.6.5",
     "cross-spawn": "7.0.3",
     "crypto-js": "^4.0.0",
-    "fingerprintjs2": "2.1.0",
+    "fingerprintjs2": "2.1.2",
     "firebase": "7.17.2",
     "graphql": "15.1.0",
     "graphql-tag": "2.10.3",
