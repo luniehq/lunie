@@ -2,7 +2,13 @@ import { shallowMount } from "@vue/test-utils"
 import UnstakeTxDetails from "src/components/transactions/message-view/UnstakeTxDetails"
 
 describe(`UnstakeTxDetails`, () => {
-  let wrapper
+  let wrapper, $store
+
+  $store = {
+    getters: {
+      network: `cosmos-hub-testnet`,
+    },
+  }
 
   const tx = {
     type: "UnstakeTx",
@@ -31,6 +37,9 @@ describe(`UnstakeTxDetails`, () => {
       propsData: {
         transaction: tx,
         validators: {},
+      },
+      mocks: {
+        $store,
       },
       stubs: [`router-link`],
     })

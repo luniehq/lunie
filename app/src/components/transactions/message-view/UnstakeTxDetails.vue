@@ -9,7 +9,7 @@
           name: `validator`,
           params: {
             validator: transaction.details.from[0],
-            networkId: transaction.networkId,
+            networkId: network,
           },
         }"
       >
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import { prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
@@ -62,6 +63,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([`network`]),
     validator() {
       return this.validators[this.transaction.details.from[0]] || false
     },

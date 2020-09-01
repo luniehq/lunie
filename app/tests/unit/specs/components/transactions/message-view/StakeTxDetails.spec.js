@@ -2,7 +2,13 @@ import { shallowMount } from "@vue/test-utils"
 import StakeTxDetails from "src/components/transactions/message-view/StakeTxDetails"
 
 describe(`StakeTxDetails`, () => {
-  let wrapper
+  let wrapper, $store
+
+  $store = {
+    getters: {
+      network: `cosmos-hub-testnet`,
+    },
+  }
 
   const tx = {
     type: "StakeTx",
@@ -32,7 +38,9 @@ describe(`StakeTxDetails`, () => {
         transaction: tx,
         validators: {},
       },
-      formatAddress,
+      mocks: {
+        $store,
+      },
       stubs: [`router-link`],
     })
     expect(wrapper.element).toMatchSnapshot()

@@ -13,7 +13,7 @@
               name: `validator`,
               params: {
                 validator: validator.operatorAddress,
-                networkId: transaction.networkId,
+                networkId: network,
               },
             }"
             class="validator-link"
@@ -89,7 +89,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`isExtension`]),
+    ...mapGetters([`isExtension`, `network`]),
     getValidators() {
       if (this.validators && Object.keys(this.validators).length > 0) {
         return this.transaction.details.from.map((validatorAddress) => {
