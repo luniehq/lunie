@@ -14,18 +14,18 @@
           <i class="material-icons">link</i>
         </button>
         <TmBtn
-          v-if="status === 'DepositPeriod'"
+          v-if="status.badge === 'Deposit Period'"
           id="deposit-btn"
           value="Deposit"
           color="primary"
-          @click.native="onDeposit"
+          @click.native="$emit(`open-deposit-modal`)"
         />
         <TmBtn
-          v-if="status === 'VotingPeriod'"
+          v-if="status.badge === 'Voting Period'"
           id="vote-btn"
           value="Vote"
           color="primary"
-          @click.native="() => onVote()"
+          @click.native="$emit(`open-vote-modal`)"
         />
       </div>
     </div>
@@ -39,7 +39,7 @@
     </div>
     <nav>
       <ul class="supporting-links">
-        <li><a href="">Validators</a></li>
+        <li><a href="">Votes</a></li>
         <li><a href="">Timeline</a></li>
         <li><a href="">Description</a></li>
       </ul>
@@ -73,7 +73,7 @@ export default {
       required: true,
     },
     status: {
-      type: String,
+      type: Object,
       required: true,
     },
   },
@@ -91,10 +91,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 0 0 2rem;
-}
-
-.header-top div {
-  /* width: 33%; */
 }
 
 h2 {

@@ -11,8 +11,9 @@
         :title="proposal.title"
         :summary="proposal.description"
         :proposer="proposal.proposer"
-        :status="proposal.status"
+        :status="status"
         @open-vote-modal="onVote"
+        @open-deposit-modal="onDeposit"
       />
       <!-- <div class="proposal">
         <div class="page-profile__header__info">
@@ -372,8 +373,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../../styles/proposal-status.css";
-
 .proposal {
   max-width: 1080px;
 }

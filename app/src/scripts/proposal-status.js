@@ -18,7 +18,7 @@ export const getProposalStatus = (proposal) => {
     case `VotingPeriod`:
       return {
         badge: `Voting Period`,
-        color: `pink`,
+        color: `highlight`,
       }
     default:
       return {

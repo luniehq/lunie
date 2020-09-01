@@ -9,7 +9,7 @@
     "
   >
     <td>
-      <Status :status="proposal.status" />
+      <Status :status="status" />
       <h3 class="li-proposal-title">
         {{ proposal.title }}
       </h3>

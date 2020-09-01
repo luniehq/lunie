@@ -1,6 +1,6 @@
 <template>
-  <div class="status" :class="status">
-    {{ status }}
+  <div class="status" :class="status.color">
+    {{ status.badge }}
   </div>
 </template>
 
@@ -9,7 +9,7 @@ export default {
   name: `Status`,
   props: {
     status: {
-      type: String,
+      type: Object,
       required: true,
     },
   },
@@ -24,24 +24,28 @@ export default {
   font-weight: 600;
   padding: 0.25rem 1rem;
   border-radius: 1rem;
-  color: var(--bright);
+  color: var(--txt);
   border: 2px solid;
   width: fit-content;
 }
 
-.status.Rejected {
+.status.red {
   border-color: var(--danger);
 }
 
-.status.DepositPeriod {
+.status.orange {
   border-color: var(--warning);
 }
 
-.status.Passed {
+.status.green {
   border-color: var(--success);
 }
 
-.status.VotingPeriod {
+.status.highlight {
   border-color: var(--highlight);
+}
+
+.status.grey {
+  border-color: var(--dim);
 }
 </style>
