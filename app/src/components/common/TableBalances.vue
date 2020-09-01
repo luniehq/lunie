@@ -5,6 +5,16 @@
     <div class="table-cell title available">Available</div>
     <div class="table-cell title actions"></div>
 
+    <p
+      v-if="
+        delegationsLoaded &&
+        currentNetwork.network_type === `polkadot` &&
+        delegations.length === 0
+      "
+    >
+      You need to select at least one validator to start earning rewards
+    </p>
+
     <table class="data-table">
       <tbody>
         <BalanceRow
@@ -20,6 +30,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import BalanceRow from "common/BalanceRow"
 export default {
   name: `table-balances`,
@@ -41,7 +52,42 @@ export default {
       property: `id`,
       order: `desc`,
     },
+    delegationsLoaded: false,
   }),
+  computed: {
+    ...mapGetters([`address`, `currentNetwork`]),
+  },
+  apollo: {
+    /* istanbul ignore next */
+    delegations: {
+      query: gql`
+        query delegations($networkId: String!, $delegatorAddress: String!) {
+          delegations(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+          ) {
+            id
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.network,
+          delegatorAddress: this.currentNetwork.id,
+        }
+      },
+      /* istanbul ignore next */
+      update(data) {
+        this.delegationsLoaded = true
+        return data.delegations
+      },
+    },
+  },
 }
 </script>
 <style scoped>
