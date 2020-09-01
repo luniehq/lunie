@@ -87,7 +87,7 @@ describe(`Module: Keystore`, () => {
       {
         name: `def`,
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-        network: "cosmos-hub-testnet"
+        network: "cosmos-hub-testnet",
       },
     ])
   })

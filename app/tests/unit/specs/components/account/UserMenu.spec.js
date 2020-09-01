@@ -10,9 +10,11 @@ describe(`UserMenu`, () => {
 
   beforeEach(() => {
     $store = {
-      dispatch: jest.fn(() => Promise.resolve({
-        id: `cosmos-hub-mainnet`
-      })),
+      dispatch: jest.fn(() =>
+        Promise.resolve({
+          id: `cosmos-hub-mainnet`,
+        })
+      ),
       getters: {
         network: `cosmos-hub-mainnet`,
         address: `cosmos1234`,
@@ -72,8 +74,8 @@ describe(`UserMenu`, () => {
       mocks: {
         $store,
         $route: {
-          name: "validators"
-        }
+          name: "validators",
+        },
       },
       stubs: [`router-link`],
     })

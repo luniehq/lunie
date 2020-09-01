@@ -277,7 +277,7 @@ async function switchToAccount(
           address,
           HDPath: `m/44'/118'/0'/0/0`,
           curve: `ed25519`,
-          network
+          network,
         })
       )
       return true

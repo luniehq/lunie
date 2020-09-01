@@ -164,7 +164,7 @@ export default {
           )
           .map((address) => ({
             ...address,
-            sessionType: address.type || 'explore',
+            sessionType: address.type || "explore",
           }))
         const allAddresses = sortBy(
           addressesWithKeys.concat(sessionAddressesWithoutKeys),
