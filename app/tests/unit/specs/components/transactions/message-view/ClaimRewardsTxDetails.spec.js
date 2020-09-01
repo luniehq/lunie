@@ -2,7 +2,14 @@ import { shallowMount } from "@vue/test-utils"
 import ClaimRewardsTxDetails from "src/components/transactions/message-view/ClaimRewardsTxDetails"
 
 describe(`ClaimRewardsTxDetails`, () => {
-  let wrapper
+  let wrapper, $store
+
+  $store = {
+    getters: {
+      isExtension: false,
+      network: `cosmos-hub-testnet`,
+    },
+  }
 
   const tx = {
     type: "ClaimRewardsTx",
@@ -70,6 +77,9 @@ describe(`ClaimRewardsTxDetails`, () => {
         validators: validators,
         show: false,
       },
+      mocks: {
+        $store,
+      },
       stubs: [`router-link`],
     })
     expect(wrapper.element).toMatchSnapshot()
@@ -83,11 +93,7 @@ describe(`ClaimRewardsTxDetails`, () => {
         show: false,
       },
       mocks: {
-        $store: {
-          getters: {
-            isExtension: false,
-          },
-        },
+        $store,
       },
       stubs: [`router-link`],
     })

@@ -288,6 +288,7 @@ const typeDefs = gql`
     id: String!
     type: String!
     hash: String!
+    networkId: String
     key: String!
     height: Int!
     details: TransactionDetails!

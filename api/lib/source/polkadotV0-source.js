@@ -550,8 +550,8 @@ class polkadotAPI {
           delegationEnum.INACTIVE
         )
       }
-
       return {
+        id: validator.operatorAddress,
         delegatorAddress,
         amount: 0,
         validator,
