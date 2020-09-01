@@ -39,13 +39,9 @@
           <div
             v-for="address in addresses"
             :key="
-              address.address
-                ? address.address.concat(
-                    `-${address.networkId}-${address.sessionType}`
-                  )
-                : address.name.concat(
-                    `-${address.networkId}-${address.sessionType}`
-                  )
+              (address.address || address.name).concat(
+                `-${address.networkId}-${address.sessionType}`
+              )
             "
             class="menu-list-item address-list-item"
             :data-address-name="address.name"
