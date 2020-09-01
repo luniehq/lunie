@@ -120,7 +120,7 @@
     "jest": "^26.4.0",
     "lint-prepush": "^2.1.0",
     "live-server": "^1.2.1",
-    "mini-css-extract-plugin": "^0.10.0",
+    "mini-css-extract-plugin": "^0.11.0",
     "nightwatch": "^1.1.13",
     "node-sass": "^4.14.1",
     "sass-loader": "^7.1.0",
