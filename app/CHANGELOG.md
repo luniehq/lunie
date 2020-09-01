@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.226] - 2020-09-01
+
+### Added
+
+- [#4738](https://github.com/cosmos/lunie/issues/4738) Enable voting in Polkadot/Substrate @Bitcoinera
+- [#4760](https://github.com/cosmos/lunie/issues/4760) Add Unstake button for Substrate in Porfolio @Bitcoinera
+- added another app ID to app site association @jbibla
+
+### Changed
+
+- [#4667](https://github.com/cosmos/lunie/issues/4667) Display Polkadot undelegations with the LiBalance component @Bitcoinera
+- [#4679](https://github.com/cosmos/lunie/issues/4679) Redenominate DOT adding the icon field to coinLookup @Bitcoinera
+- [#4746](https://github.com/cosmos/lunie/issues/4746) Add LiBalance component @Bitcoinera
+- [#4775](https://github.com/cosmos/lunie/pull/4775) Avoid displaying staked balance in Your Stake that is already unbonding in Polkadot @Bitcoinera
+- [#4724](https://github.com/cosmos/lunie/pull/4724) Update to polkadot/api 1.29.1 @Bitcoinera
+- [#4756](https://github.com/cosmos/lunie/pull/4756) Update to polkadot/api 1.30.1 @Bitcoinera
+- [#4788](https://github.com/cosmos/lunie/pull/4788) Update to polkadot/api 1.31.2 @Bitcoinera
+- [#4507](https://github.com/cosmos/lunie/pull/4507) Accomodate Substrate proposals as new governance interface first step @Bitcoinera
+
+### Fixed
+
+- [#4774](https://github.com/cosmos/lunie/pull/4774) Fix lockUpPeriod missing from Network query @Bitcoinera
+- [#4744](https://github.com/cosmos/lunie/pull/4744) Fixes wasm-crypto not initialized in extension @Bitcoinera
+- [#4627](https://github.com/cosmos/lunie/pull/4627) Fix navigation duplicated in recover flow by deleting duplicate goToNetwork logic @Bitcoinera
+- Accounts would not be created in desired network @faboweb
+- [#4778](https://github.com/cosmos/lunie/issues/4778) Fix Polkadot e2e tests @mariopino
+- intercom links need a class for web!  @jbibla
+
+### Repository
+
+- setting up iOS push notifications @jbibla
+- changed a bunch of names of CI jobs and disabled polkadot e2e and codecov @jbibla
+
 ## [1.0.225] - 2020-08-14
 
 ### Added
