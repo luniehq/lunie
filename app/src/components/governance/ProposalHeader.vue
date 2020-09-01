@@ -29,14 +29,19 @@
         />
       </div>
     </div>
-    <h2>{{ title }}</h2>
-    <div>
-      <div>
-        Proposer:
-        {{ proposer }}
+
+    <div class="content-container">
+      <h2>{{ title }}</h2>
+
+      <div class="proposer-and-summary-container">
+        <div class="proposer">
+          Proposer:
+          {{ proposer | formatAddress }}
+        </div>
+        <p class="summary">{{ summary | trim(200) }}</p>
       </div>
-      <p>{{ summary }}</p>
     </div>
+
     <nav>
       <ul class="supporting-links">
         <li><a href="">Votes</a></li>
@@ -49,6 +54,7 @@
 
 <script>
 import BackButton from "common/BackButton"
+import { formatAddress } from "src/filters"
 import Status from "common/Status"
 import TmBtn from "common/TmBtn"
 
@@ -58,6 +64,12 @@ export default {
     BackButton,
     Status,
     TmBtn,
+  },
+  filters: {
+    formatAddress,
+    trim: function (text, length) {
+      return text.length > length ? text.substring(0, length) + `…` : text
+    },
   },
   props: {
     title: {
@@ -96,6 +108,7 @@ export default {
 h2 {
   font-size: 32px;
   margin-bottom: 2rem;
+  max-width: 500px;
 }
 
 .supporting-links li {
@@ -106,6 +119,27 @@ h2 {
 .buttons {
   display: flex;
   align-items: center;
+}
+
+.content-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.proposer-and-summary-container {
+  max-width: 320px;
+}
+
+.proposer {
+  font-size: 12px;
+  padding: 1rem;
+  border: 1px solid var(--bc-dim);
+  border-radius: 0.25rem;
+}
+
+.summary {
+  padding-top: 2rem;
+  font-size: 12px;
 }
 
 .share-button {

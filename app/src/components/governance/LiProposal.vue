@@ -14,7 +14,7 @@
         {{ proposal.title }}
       </h3>
       <p v-if="proposal.description" class="li-proposal-description">
-        {{ proposal.description | trim(200) }}
+        {{ summary }}
       </p>
       <router-link :to="`/proposals/` + proposal.id" class="read-more-link"
         >Read the full proposal...</router-link
