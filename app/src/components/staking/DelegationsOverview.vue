@@ -13,6 +13,15 @@
       </div>
       <div v-else-if="delegations.length > 0">
         <h1>Your Stake</h1>
+        <p
+          v-if="
+            delegationsLoaded &&
+            currentNetwork.network_type === `polkadot` &&
+            delegations.length === 0
+          "
+        >
+          You need to select at least one validator to start earning rewards
+        </p>
         <BalanceRow
           :balance="stakedBalance"
           :stake="currentNetwork.network_type === 'polkadot'"
