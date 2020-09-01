@@ -39,9 +39,13 @@
           <div
             v-for="address in addresses"
             :key="
-              address.address.concat(
-                `-${address.networkId}-${address.sessionType}`
-              )
+              address.address
+                ? address.address.concat(
+                    `-${address.networkId}-${address.sessionType}`
+                  )
+                : address.name.concat(
+                    `-${address.networkId}-${address.sessionType}`
+                  )
             "
             class="menu-list-item address-list-item"
             :data-address-name="address.name"
@@ -262,7 +266,10 @@ export default {
     async getAllAddressesRoles(addresses) {
       return await Promise.all(
         addresses.map(async (address) => {
-          if (this.getAddressNetwork(address).network_type === `polkadot`) {
+          if (
+            this.getAddressNetwork(address).network_type === `polkadot` &&
+            address.address
+          ) {
             return await this.getAddressRole(address)
           } else {
             return address
