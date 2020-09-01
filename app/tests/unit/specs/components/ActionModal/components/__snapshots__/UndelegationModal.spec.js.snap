@@ -33,18 +33,7 @@ exports[`UndelegationModal should display undelegation modal form 1`] = `
     </div>
   </tmformgroup-stub>
    
-  <tmformgroup-stub
-    class="action-modal-form-group"
-    fieldid="from"
-    fieldlabel="From"
-  >
-    <tmfield-stub
-      id="from"
-      readonly=""
-      type="text"
-      value="undefined - cosmosvaladdr…3p4mqpjyrm5ctplpn3au"
-    />
-  </tmformgroup-stub>
+  <!---->
    
   <tmformgroup-stub
     class="action-modal-form-group"

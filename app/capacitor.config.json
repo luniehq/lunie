@@ -10,6 +10,9 @@
       "android-appId": "yyyy",
       "ios-apiKey": "ios_sdk-xxxx",
       "ios-appId": "yyyy"
+    },
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
     }
   }
 }

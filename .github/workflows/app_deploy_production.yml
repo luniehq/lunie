@@ -1,4 +1,4 @@
-name: Publish on Netlify
+name: App Production Deployment Workflow
 on:
   push:
     branches:
@@ -20,22 +20,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Node.js
         uses: actions/setup-node@v1
-      - uses: bahmutov/npm-install@v1.1.0
-      - name: Build
-        run: yarn buildsentry
+      - name: NPM Install
+        uses: bahmutov/npm-install@v1
+      - name: Build App with Sentry CLI
+        run: yarn build:sentry
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_APP }}
         working-directory: ${{env.WORKING_DIRECTORY}}
-      - uses: nwtgck/actions-netlify@v1.1.4
+      - name: Deploy to Production
+        uses: nwtgck/actions-netlify@v1.1.4
         id: deploy
         with:
           production-branch: master
           publish-dir: './app/dist'
           github-token: ${{ secrets.GIT_BOT_TOKEN }}
-          deploy-message: "Deploy from GitHub Actions"
+          deploy-message: "Deployed via GitHub Actions"
           enable-pull-request-comment: true
           enable-commit-comment: true
           overwrites-pull-request-comment: true

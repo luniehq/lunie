@@ -131,12 +131,28 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
   }
 }
 
+function depositReducer(deposit, network) {
+  return {
+    amount: [coinReducer(deposit.amount[0], undefined, network)],
+    depositer: deposit.depositor
+  }
+}
+
+function voteReducer(vote) {
+  return {
+    id: vote.proposal_id,
+    voter: vote.voter,
+    option: vote.option
+  }
+}
+
 function proposalReducer(
   networkId,
   proposal,
   tally,
   proposer,
-  totalBondedTokens
+  totalBondedTokens,
+  detailedVotes
 ) {
   return {
     id: Number(proposal.proposal_id),
@@ -150,7 +166,8 @@ function proposalReducer(
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal),
-    proposer: proposer.proposer
+    proposer: proposer.proposer,
+    detailedVotes
   }
 }
 
@@ -163,6 +180,15 @@ function governanceParameterReducer(depositParameters, tallyingParamers) {
     depositThreshold: BigNumber(depositParameters.min_deposit[0].amount).div(
       1000000
     )
+  }
+}
+
+function topVoterReducer(topVoter) {
+  return {
+    name: topVoter.name,
+    address: topVoter.operatorAddress,
+    votingPower: topVoter.votingPower,
+    validator: topVoter
   }
 }
 
@@ -270,19 +296,26 @@ function denomLookup(denom) {
   return lookup[denom] ? lookup[denom] : denom.toUpperCase()
 }
 
-function coinReducer(coin, coinLookup) {
+function coinReducer(coin, coinLookup, network) {
   if (!coin) {
     return {
       amount: 0,
       denom: ''
     }
   }
+  coinLookup =
+    coinLookup ||
+    network.coinLookup.find(
+      ({ viewDenom }) => viewDenom === network.stakingDenom
+    )
 
   // we want to show only atoms as this is what users know
   const denom = denomLookup(coin.denom)
   return {
     denom: denom,
-    amount: BigNumber(coin.amount).times(coinLookup.chainToViewConversionFactor)
+    amount: BigNumber(coin.amount).times(
+      coinLookup.chainToViewConversionFactor || 6
+    )
   }
 }
 
@@ -502,7 +535,10 @@ function extractInvolvedAddresses(transaction) {
 module.exports = {
   proposalReducer,
   governanceParameterReducer,
+  topVoterReducer,
   tallyReducer,
+  depositReducer,
+  voteReducer,
   validatorReducer,
   blockReducer,
   delegationReducer,

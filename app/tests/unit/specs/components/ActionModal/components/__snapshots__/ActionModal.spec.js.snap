@@ -1450,6 +1450,7 @@ exports[`ActionModal shows a feature unavailable message 1`] = `
        
       <tmbtn-stub
         customclass=""
+        disabled="true"
         type="primary"
         value="Next"
       />
