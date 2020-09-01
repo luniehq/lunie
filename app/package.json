@@ -59,7 +59,7 @@
     "fingerprintjs2": "2.1.2",
     "firebase": "7.17.2",
     "graphql": "15.1.0",
-    "graphql-tag": "2.10.3",
+    "graphql-tag": "2.11.0",
     "https-proxy-agent": ">=3.0.0",
     "jdenticon": "2.2.0",
     "lodash.groupby": "4.6.0",

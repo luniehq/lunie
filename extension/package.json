@@ -71,7 +71,7 @@
     "concurrently": "^4.1.1",
     "core-js": "^3.6.5",
     "graphql": "14.6.0",
-    "graphql-tag": "2.10.1",
+    "graphql-tag": "2.11.0",
     "handlebars": ">=4.7.6",
     "moment": "^2.27.0",
     "regenerator-runtime": "^0.13.2",
