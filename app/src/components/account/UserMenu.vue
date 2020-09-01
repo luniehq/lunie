@@ -179,8 +179,9 @@ export default {
           ),
           (a, b) => a.address === b.address && a.sessionType === b.sessionType
         )
+        // filter out accounts without address as the checkAddressRole query will fail as well as account is then unusable
         let allAddressesWithAddressRole = await this.getAllAddressesRoles(
-          allAddresses
+          allAddresses.filter(({ address }) => address)
         )
         return allAddressesWithAddressRole
       },
@@ -266,10 +267,7 @@ export default {
     async getAllAddressesRoles(addresses) {
       return await Promise.all(
         addresses.map(async (address) => {
-          if (
-            this.getAddressNetwork(address).network_type === `polkadot` &&
-            address.address
-          ) {
+          if (this.getAddressNetwork(address).network_type === `polkadot`) {
             return await this.getAddressRole(address)
           } else {
             return address
