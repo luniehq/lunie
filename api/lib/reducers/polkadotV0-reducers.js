@@ -163,7 +163,6 @@ async function balanceV2Reducer(
 }
 
 function delegationReducer(network, delegation, validator, active) {
-  if (validator === undefined) return {} // TODO: once we can use the debugger on Polkadot, really debug why this happens
   return {
     id: validator.operatorAddress,
     validatorAddress: validator.operatorAddress,
