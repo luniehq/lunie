@@ -29,7 +29,7 @@ section {
 }
 
 .timeline {
-  max-width: 1080px;
+  max-width: 1024px;
   display: flex;
   justify-content: space-between;
   align-items: center;

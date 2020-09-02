@@ -116,7 +116,7 @@ export default {
   width: 100%;
   padding: 2rem 0;
   font-size: 14px;
-  max-width: 1080px;
+  max-width: 1024px;
   margin: 0 auto;
   width: 100%;
 }
@@ -134,6 +134,7 @@ export default {
 .row {
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
 }
 
 .votes div {

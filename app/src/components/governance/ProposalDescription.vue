@@ -61,7 +61,7 @@ h4 {
 }
 
 .description-content-container {
-  max-width: 1080px;
+  max-width: 1024px;
   margin: 0 auto;
   width: 100%;
   display: flex;
@@ -105,7 +105,11 @@ pre {
   white-space: pre-line;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1023px) {
+  .description-content-container {
+    flex-direction: column;
+  }
+
   .proposal-description {
     display: block;
     word-break: break-word;

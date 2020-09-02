@@ -45,7 +45,7 @@ export default {
 <style scoped>
 .participant-container {
   padding: 2rem 0 4rem;
-  max-width: 1080px;
+  max-width: 1024px;
   margin: 0 auto;
   width: 100%;
 }

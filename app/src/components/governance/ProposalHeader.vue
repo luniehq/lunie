@@ -43,7 +43,7 @@
     </div>
 
     <nav>
-      <ul class="supporting-links">
+      <ul class="page-links">
         <li><a href="">Votes</a></li>
         <li><a href="">Timeline</a></li>
         <li><a href="">Description</a></li>
@@ -109,7 +109,7 @@ export default {
 .header {
   padding: 2rem 0 0;
   border-bottom: 2px solid var(--bc-dim);
-  max-width: 1080px;
+  max-width: 1024px;
   margin: 0 auto;
   width: 100%;
 }
@@ -122,6 +122,16 @@ export default {
   padding: 0 0 4rem;
 }
 
+.header-top > div:first-child,
+.header-top > div:last-child {
+  width: 33%;
+  display: flex;
+}
+
+.header-top > div:last-child {
+  justify-content: flex-end;
+}
+
 h2 {
   font-size: 32px;
   margin-bottom: 2rem;
@@ -129,7 +139,11 @@ h2 {
   color: var(--bright);
 }
 
-.supporting-links li {
+.page-links {
+  display: flex;
+}
+
+.page-links li {
   display: inline-block;
   padding: 2rem 2rem 2rem 0;
 }
@@ -175,5 +189,21 @@ h2 {
   border: 2px solid rgb(122, 136, 184, 0.1);
   cursor: pointer;
   margin-right: 0.5rem;
+}
+
+@media screen and (max-width: 1023px) {
+  .content-container {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .page-links {
+    justify-content: center;
+  }
+
+  .page-links li {
+    padding: 2rem 2rem;
+  }
 }
 </style>

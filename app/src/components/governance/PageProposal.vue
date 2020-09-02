@@ -1,11 +1,7 @@
 <template>
-  <TmPage
-    data-title="Proposal"
-    class="proposal"
-    :loading="$apollo.queries.proposal.loading"
-  >
+  <TmPage data-title="Proposal" :loading="$apollo.queries.proposal.loading">
     <TmDataNotFound v-if="!found" />
-    <template v-else>
+    <div class="proposal" v-else>
       <ProposalHeader
         :title="proposal.title"
         :type="proposal.type"
@@ -64,7 +60,7 @@
         :last-vote-option="vote"
         @success="() => afterVote()"
       />
-    </template>
+    </div>
   </TmPage>
 </template>
 
@@ -261,83 +257,8 @@ export default {
   },
 }
 </script>
-
 <style scoped>
-.proposal-title__row {
-  color: var(--bright);
-}
-
-.proposal-title__row a {
-  color: var(--bright);
-  padding-top: 1rem;
-}
-
-.proposal-title__row a:hover {
-  color: var(--link-hover);
-  padding-top: 1rem;
-}
-
-.proposal-title {
-  color: var(--bright);
-  font-size: var(--h1);
-  line-height: 2.25rem;
-  font-weight: 500;
-  padding-top: 2rem;
-}
-
-.proposer {
-  font-size: 12px;
-  color: var(--txt);
-}
-
-.text-block {
-  padding: 0 1rem 3rem;
-}
-
-.proposer-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  margin: 2rem 0;
-}
-
-.button-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.page-profile__header__info {
-  padding: 1rem;
-}
-
-.button-container button:first-child {
-  margin-right: 0.5rem;
-}
-
-.read-more-link {
-  padding-top: 1rem;
-  font-size: 14px;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.read-more-link:hover {
-  color: var(--link);
-}
-
-@media screen and (max-width: 667px) {
-  .proposer-row {
-    flex-direction: column;
-  }
-
-  .button-container {
-    width: 100%;
-    padding: 1rem;
-  }
-
-  .button-container button {
-    width: 100%;
-  }
+.proposal {
+  padding: 0 1rem;
 }
 </style>
