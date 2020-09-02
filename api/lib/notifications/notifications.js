@@ -32,7 +32,7 @@ function getMessageTitle(networks, notification) {
 
     /* validator changes */
     case eventTypes.VALIDATOR_COMMISSION:
-      return `${notification.resourceId} changed their commission rate from ${data.prevValidator.commission} to ${data.nextValidator.commission} on ${networkTitle}`
+      return `${data.prevValidator.name} changed their commission rate from ${data.prevValidator.commission} to ${data.nextValidator.commission} on ${networkTitle}`
 
     case eventTypes.VALIDATOR_VOTING_POWER_INCREASE: {
       const prevVotingPower = Number(data.prevValidator.votingPower)
