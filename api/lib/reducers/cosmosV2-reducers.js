@@ -234,7 +234,8 @@ function proposalReducer(
   proposer,
   totalBondedTokens,
   detailedVotes,
-  reducers
+  reducers,
+  validators
 ) {
   return {
     networkId,
@@ -248,7 +249,7 @@ function proposalReducer(
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal, 'stake'), // TODO use denom lookup + use network config
-    proposer: reducers.networkAccountReducer(proposer.proposer),
+    proposer: reducers.networkAccountReducer(proposer.proposer, validators),
     detailedVotes
   }
 }

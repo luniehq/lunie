@@ -1,4 +1,5 @@
 const BigNumber = require('bignumber.js')
+const { encodeB32, decodeB32 } = require('../tools')
 const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
 /**
  * Modify the following reducers with care as they are used for ./cosmosV2-reducer.js as well
@@ -146,11 +147,17 @@ function voteReducer(vote) {
   }
 }
 
-function networkAccountReducer(address) {
+function networkAccountReducer(address, validators) {
+  const proposerValAddress = encodeB32(
+    decodeB32(address),
+    `cosmosvaloper`,
+    `hex`
+  )
+  const validator = validators[proposerValAddress]
   return {
-    name: address || '',
+    name: validator ? validator.name : address || '',
     address: address || '',
-    picture: undefined
+    picture: validator ? validator.picture : address || ''
   }
 }
 
@@ -160,7 +167,9 @@ function proposalReducer(
   tally,
   proposer,
   totalBondedTokens,
-  detailedVotes
+  detailedVotes,
+  reducers,
+  validators
 ) {
   return {
     id: Number(proposal.proposal_id),
@@ -174,7 +183,7 @@ function proposalReducer(
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal),
-    proposer: networkAccountReducer(proposer.proposer),
+    proposer: networkAccountReducer(proposer.proposer, validators),
     detailedVotes
   }
 }
