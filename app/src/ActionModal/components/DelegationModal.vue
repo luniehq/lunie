@@ -116,8 +116,10 @@
     </TmFormGroup>
     <TmFormGroup
       v-if="
-        (!isNomination || stakedBalance.total === 0) &&
-        session.addressRole !== `controller`
+        currentNetwork.network_type === `polkadot`
+          ? (!isNomination || stakedBalance.total === 0) &&
+            session.addressRole !== `controller`
+          : true
       "
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"

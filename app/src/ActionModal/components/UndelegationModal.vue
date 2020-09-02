@@ -84,7 +84,11 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="!isUnnomination && session.addressRole !== `stash`"
+      v-if="
+        currentNetwork.network_type === `polkadot`
+          ? !isUnnomination && session.addressRole !== `stash`
+          : true
+      "
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
