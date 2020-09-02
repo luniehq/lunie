@@ -42,7 +42,7 @@ section {
   text-align: center;
 }
 
-.phase:before {
+.phase::before {
   display: block;
   content: "";
   width: 1rem;

@@ -118,7 +118,6 @@ export default {
   font-size: 14px;
   max-width: 1024px;
   margin: 0 auto;
-  width: 100%;
 }
 
 .top {

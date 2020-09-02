@@ -1,7 +1,7 @@
 <template>
   <TmPage data-title="Proposal" :loading="$apollo.queries.proposal.loading">
     <TmDataNotFound v-if="!found" />
-    <div class="proposal" v-else>
+    <div v-else class="proposal">
       <ProposalHeader
         :title="proposal.title"
         :type="proposal.type"
