@@ -692,10 +692,6 @@ class polkadotAPI {
         creationTime
       )
     }
-    if (type === `council`) {
-      const { meta } = api.registry.findMetaCall(proposal.proposal.callIndex)
-      description = meta.documentation.toString()
-    }
     if (type === `treasury`) {
       description = `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
         proposal.proposer || proposer
@@ -752,7 +748,8 @@ class polkadotAPI {
       votingPercentageYes: `100`,
       votingPercentagedNo: `0`,
       links,
-      timeline: [{ title: `Proposal created`, time: proposal.creationTime }]
+      timeline: [{ title: `Proposal created`, time: proposal.creationTime }],
+      council: false
     }
   }
 
@@ -884,7 +881,8 @@ class polkadotAPI {
               (proposalDurationInDays - 1) * 24 * 60 * 60 * 1000
           ).toUTCString()
         }
-      ]
+      ],
+      council: false
     }
   }
 
@@ -898,7 +896,8 @@ class polkadotAPI {
       votingThresholdYes: proposal.votes.threshold,
       votingPercentageYes: (proposal.votes.ayes.length * 100) / votes.length,
       votingPercentagedNo: (proposal.votes.nays.length * 100) / votes.length,
-      links
+      links,
+      council: true
     }
   }
 
@@ -927,7 +926,6 @@ class polkadotAPI {
       democracyProposals,
       democracyReferendums,
       treasuryProposals,
-      councilProposals,
       councilMembers,
       electionInfo
     ] = await Promise.all([
@@ -936,7 +934,6 @@ class polkadotAPI {
       api.derive.democracy.proposals(),
       api.derive.democracy.referendums(),
       api.derive.treasury.proposals(),
-      api.derive.council.proposals(),
       api.query.council.members(),
       api.derive.elections.info()
     ])
@@ -972,23 +969,10 @@ class polkadotAPI {
         )
         .concat(
           treasuryProposals.proposals
-            .filter((proposal) => {
-              // make sure that the treasury proposals haven't been passed as motions to Council
-              if (
-                proposal.council.length === 0 ||
-                !councilProposals.find(
-                  (councilProposal) =>
-                    JSON.stringify(councilProposal) ===
-                    JSON.stringify(proposal.council[0])
-                )
-              ) {
-                return proposal
-              }
-            })
             .map(async (proposal) => {
               const proposalWithMetadata = await this.getProposalWithMetadata(
-                proposal.council[0] || proposal.proposal,
-                proposal.council[0] ? `council` : `treasury`
+                proposal.proposal,
+                `treasury`
               )
               return this.reducers.treasuryProposalReducer(
                 this.network,
@@ -1001,28 +985,23 @@ class polkadotAPI {
                 councilMembers,
                 blockHeight,
                 electionInfo,
+                proposal.council[0] ?
+                // proposal gets voted on by council
+                await this.getDetailedVotes(
+                  {
+                    ...proposal,
+                    votes: proposal.council[0].votes
+                  },
+                  `council`
+                )
+                : 
+                // proposal gets voted on by delegators
                 await this.getDetailedVotes(
                   proposalWithMetadata,
-                  proposal.council[0] ? `council` : `treasury`
+                  `treasury`
                 )
               )
             })
-        )
-        .concat(
-          councilProposals.map(async (proposal) => {
-            const proposalWithMetadata = await this.getProposalWithMetadata(
-              proposal,
-              `council`
-            )
-            return this.reducers.councilProposalReducer(
-              this.network,
-              proposalWithMetadata,
-              councilMembers,
-              blockHeight,
-              electionInfo,
-              await this.getDetailedVotes(proposalWithMetadata, `council`)
-            )
-          })
         )
     )
     // remove null proposals from filtered treasury proposals
