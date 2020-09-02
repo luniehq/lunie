@@ -253,7 +253,7 @@ export default {
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`network`, `address`, `stakingDenom`, `currentNetwork`]),
+    ...mapGetters([`network`, `address`, `currentNetwork`]),
     stakedBalance() {
       // balances not loaded yet
       if (!this.balance) {
@@ -273,7 +273,7 @@ export default {
         )
       }
       return {
-        total: stakedAmount.toFixed(3),
+        total: Number(stakedAmount),
         denom: this.currentNetwork.stakingDenom,
       }
     },
@@ -341,7 +341,7 @@ export default {
               : "",
           amount: {
             amount: this.amount,
-            denom: this.stakingDenom,
+            denom: this.currentNetwork.stakingDenom,
           },
           addressRole: this.session.addressRole,
         }
@@ -351,7 +351,7 @@ export default {
           to: [this.targetValidator.operatorAddress],
           amount: {
             amount: this.amount,
-            denom: this.stakingDenom,
+            denom: this.currentNetwork.stakingDenom,
           },
           addressRole: this.session.addressRole,
         }
@@ -361,12 +361,12 @@ export default {
       if (this.isRedelegation) {
         return {
           title: `Successfully restaked!`,
-          body: `You have successfully restaked your ${this.stakingDenom}s`,
+          body: `You have successfully restaked your ${this.currentNetwork.stakingDenom}s`,
         }
       } else {
         return {
           title: `Successfully staked!`,
-          body: `You have successfully staked your ${this.stakingDenom}s`,
+          body: `You have successfully staked your ${this.currentNetwork.stakingDenom}s`,
         }
       }
     },
@@ -547,7 +547,7 @@ export default {
       skip() {
         return (
           !this.address ||
-          !this.stakingDenom ||
+          !this.currentNetwork.stakingDenom ||
           !this.$refs.actionModal ||
           !this.$refs.actionModal.show
         )
@@ -562,7 +562,7 @@ export default {
       /* istanbul ignore next */
       update(data) {
         return (
-          data.balancesV2.find(({ denom }) => denom === this.stakingDenom) || {
+          data.balancesV2.find(({ denom }) => denom === this.currentNetwork.stakingDenom) || {
             amount: 0,
           }
         )
