@@ -132,6 +132,7 @@
         >To learn more about how to use the memo field, read
         <a
           href=" https://intercom.help/lunie/en/articles/3776563-using-the-memo-option-when-sending-tokens-to-and-from-exchanges"
+          rel="noopener norefferer"
           target="_blank"
           >our guide</a
         >.</span
