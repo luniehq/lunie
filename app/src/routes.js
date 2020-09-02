@@ -289,7 +289,7 @@ export default (store) => {
           },
           component: () => import(`./components/governance/PageProposals`),
         },
-        // for depredecated routes
+        // for deprecated routes
         {
           path: `governance/proposals`,
           redirect: `/proposals`,
@@ -304,17 +304,7 @@ export default (store) => {
           component: () => import(`./components/governance/PageProposal`),
           props: true,
         },
-        {
-          path: `proposals/v2/:proposalId`,
-          name: `proposal`,
-          meta: {
-            feature: "proposals",
-            networkSpecificRoute: true,
-          },
-          component: () => import(`./components/governance/PageProposal2`),
-          props: true,
-        },
-        // for depredecated routes
+        // for deprecated routes
         {
           path: `governance/proposals/:proposalId`,
           redirect: `/proposals/:proposalId`,
@@ -328,7 +318,7 @@ export default (store) => {
           },
           component: () => import(`./components/staking/PageValidators`),
         },
-        // for depredecated routes
+        // for deprecated routes
         {
           path: `staking/validators`,
           redirect: `/validators`,
