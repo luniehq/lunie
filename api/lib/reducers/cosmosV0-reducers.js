@@ -134,15 +134,23 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
 function depositReducer(deposit, network) {
   return {
     amount: [coinReducer(deposit.amount[0], undefined, network)],
-    depositer: deposit.depositor
+    depositer: networkAccountReducer(deposit.depositor)
   }
 }
 
 function voteReducer(vote) {
   return {
     id: vote.proposal_id,
-    voter: vote.voter,
+    voter: networkAccountReducer(vote.voter),
     option: vote.option
+  }
+}
+
+function networkAccountReducer(address) {
+  return {
+    name: address || '',
+    address: address || '',
+    picture: undefined
   }
 }
 
@@ -166,7 +174,7 @@ function proposalReducer(
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal),
-    proposer: proposer.proposer,
+    proposer: networkAccountReducer(proposer.proposer),
     detailedVotes
   }
 }
@@ -534,6 +542,7 @@ function extractInvolvedAddresses(transaction) {
 
 module.exports = {
   proposalReducer,
+  networkAccountReducer,
   governanceParameterReducer,
   topVoterReducer,
   tallyReducer,

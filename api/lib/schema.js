@@ -265,7 +265,7 @@ const typeDefs = gql`
     proposalId: String
     proposalTitle: String
     proposalDescription: String
-    proposer: NetworkAccount
+    proposer: InputNetworkAccount
     initialDeposit: InputCoin
     voteOption: String
     lockedBalance: Float
@@ -357,6 +357,12 @@ const typeDefs = gql`
     title: String
     link: String
     type: String
+  }
+
+  input InputNetworkAccount {
+    name: String!
+    address: String!
+    picture: String
   }
 
   type NetworkAccount {

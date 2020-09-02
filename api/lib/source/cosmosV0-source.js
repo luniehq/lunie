@@ -339,7 +339,8 @@ class CosmosV0API extends RESTDataSource {
           tally,
           proposer,
           totalBondedTokens,
-          detailedVotes
+          detailedVotes,
+          this.reducers
         )
       })
     )
@@ -374,7 +375,8 @@ class CosmosV0API extends RESTDataSource {
       tally,
       proposer,
       totalBondedTokens,
-      detailedVotes
+      detailedVotes,
+      this.reducers
     )
   }
 
