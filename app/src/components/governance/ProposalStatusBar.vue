@@ -116,6 +116,9 @@ export default {
   width: 100%;
   padding: 2rem 0;
   font-size: 14px;
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .top {
@@ -124,7 +127,7 @@ export default {
 
 .bottom {
   padding-top: 1rem;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 400;
 }
 
@@ -135,5 +138,6 @@ export default {
 
 .votes div {
   padding-left: 1.5rem;
+  font-size: 14px;
 }
 </style>

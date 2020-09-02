@@ -107,7 +107,7 @@ export default {
 
 <style scoped>
 .header {
-  padding: 2rem 0;
+  padding: 2rem 0 0;
   border-bottom: 2px solid var(--bc-dim);
   max-width: 1080px;
   margin: 0 auto;

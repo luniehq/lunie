@@ -28,7 +28,11 @@
         :deposit-total="proposal.detailedVotes.depositsSum"
       />
 
-      <Timeline :timeline="proposal.detailedVotes.timeline" />
+      <ParticipantList :participants="proposal.detailedVotes.votes" />
+
+      <template v-if="proposal.detailedVotes.timeline">
+        <Timeline :timeline="proposal.detailedVotes.timeline" />
+      </template>
 
       <ProposalDescription
         :description="proposal.description"
@@ -73,6 +77,7 @@ import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import ModalVoteSubstrate from "src/ActionModal/components/ModalVoteSubstrate"
 import TmPage from "common/TmPage"
+import ParticipantList from "governance/ParticipantList"
 import ProposalHeader from "governance/ProposalHeader"
 import ProposalStatusBar from "governance/ProposalStatusBar"
 import ProposalDescription from "governance/ProposalDescription"
@@ -90,6 +95,7 @@ export default {
     ModalVoteSubstrate,
     TmDataNotFound,
     TmPage,
+    ParticipantList,
     ProposalHeader,
     ProposalDescription,
     ProposalStatusBar,

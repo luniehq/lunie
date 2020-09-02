@@ -4,7 +4,7 @@
       <section>
         <h4>Description</h4>
         <div class="description">
-          <pre v-if="type === `PARAMETER_CHANGE`">
+          <pre v-if="type === `PARAMETER_CHANGE` || `COUNCIL`">
           {{ description }}
         </pre
           >
@@ -13,7 +13,7 @@
       </section>
       <aside class="supporting-links">
         <h4>Supporting Links</h4>
-        <ul>
+        <ul v-if="supportingLinks">
           <li v-for="link in supportingLinks" :key="link.url">
             <a :href="link.link" target="_blank" rel="noopener norefferer">{{
               link.title
@@ -21,6 +21,7 @@
             <i class="material-icons notranslate">link</i>
           </li>
         </ul>
+        <p v-else>No supporting links are currently available.</p>
       </aside>
     </div>
   </div>
@@ -78,12 +79,12 @@ h4 {
   width: 100%;
   max-width: 400px;
   padding: 0 0 4rem 0;
+  font-size: 14px;
 }
 
 .supporting-links li {
   border-bottom: 2px solid var(--bc-dim);
   padding: 1rem 0;
-  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
