@@ -115,7 +115,7 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="!isNomination && session.addressRole !== `controller`"
+      v-if="(!isNomination || stakedBalance.total === 0) && session.addressRole !== `controller`"
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
@@ -207,7 +207,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import { messageType } from "../../components/transactions/messageTypes"
 import { formatAddress, validatorEntry } from "src/filters"
-import { UserTransactionAdded } from "src/gql"
+import { ValidatorFragment, UserTransactionAdded } from "src/gql"
 
 export default {
   name: `delegation-modal`,
@@ -245,6 +245,8 @@ export default {
     },
     validators: [],
     delegations: [],
+    undelegations: [],
+    undelegationsLoaded: false,
     messageType,
     smallestAmount: SMALLEST,
     isInElection: false, // Handle election period in Polkadot
@@ -252,6 +254,29 @@ export default {
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`network`, `address`, `stakingDenom`, `currentNetwork`]),
+    stakedBalance() {
+      // balances not loaded yet
+      if (!this.balance) {
+        return {
+          total: 0,
+          denom: this.currentNetwork.stakingDenom,
+        }
+      }
+      let stakedAmount =
+        Number(this.balance.total) -
+        Number(this.balance.available)
+      // substract the already unbonding balance in the case of Substrate networks.
+      if (this.undelegationsLoaded && this.undelegations.length > 0) {
+        stakedAmount = this.undelegations.reduce(
+          (stakedAmount, { amount }) => stakedAmount - Number(amount),
+          stakedAmount
+        )
+      }
+      return {
+        total: stakedAmount.toFixed(3),
+        denom: this.currentNetwork.stakingDenom,
+      }
+    },
     toOptions() {
       return this.validators
         .filter(
@@ -538,6 +563,40 @@ export default {
             amount: 0,
           }
         )
+      },
+    },
+    undelegations: {
+      query() {
+        /* istanbul ignore next */
+        return gql`
+        query undelegations($networkId: String!, $delegatorAddress: String!) {
+          undelegations(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            id
+            validator {
+              ${ValidatorFragment}
+            }
+            amount
+            startHeight
+            endTime
+          }
+        }
+      `
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.currentNetwork.id,
+          delegatorAddress: this.address,
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return this.currentNetwork.network_type !== `polkadot` // we only need undelegations for Polkadot networks
+      },
+      /* istanbul ignore next */
+      update(data) {
+        this.undelegationsLoaded = true
+        return data.undelegations
       },
     },
     $subscribe: {
