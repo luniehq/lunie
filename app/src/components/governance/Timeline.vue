@@ -1,48 +1,60 @@
 <template>
-  <ul class="timeline">
-    <li v-for="phase in timeline" :key="phase.title" class="phase">
-      <h4>{{ phase.title }}</h4>
-      <span>{{ phase.date }}</span>
-    </li>
-  </ul>
+  <section>
+    <ul class="timeline">
+      <li v-for="phase in timeline" :key="phase.title" class="phase">
+        <h4>{{ phase.title }}</h4>
+        <span class="time">{{ phase.time }}</span>
+      </li>
+    </ul>
+  </section>
 </template>
 
 <script>
 export default {
   name: `timeline`,
-  data: () => ({
-    timeline: [
-      {
-        title: `Created`,
-        date: `July 12th, 2020`,
-        completed: true,
-      },
-      {
-        title: `Deposit Period`,
-        date: `July 12th, 2020`,
-        completed: true,
-      },
-      {
-        title: `Voting Period`,
-        date: `July 12th, 2020`,
-        completed: true,
-      },
-      {
-        title: `Decision`,
-        date: `July 26th, 2020 @ 21:37`,
-        completed: false,
-      },
-    ],
-  }),
+  props: {
+    timeline: {
+      type: Array,
+      required: true,
+    },
+  },
 }
 </script>
 
 <style scoped>
+section {
+  padding: 2rem 0;
+  margin: 2rem 0;
+  border-top: 2px solid var(--bc);
+}
+
 .timeline {
-  padding: 2rem;
+  max-width: 1080px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0 auto;
   width: 100%;
+}
+
+.phase {
+  font-size: 14px;
+  text-align: center;
+}
+
+.phase:before {
+  display: block;
+  content: "";
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--bc);
+  border-radius: 50%;
+  margin: -2.7rem auto 1rem;
+  background: var(--app-bg);
+}
+
+.time {
+  font-size: 12px;
+  color: var(--dim);
 }
 </style>

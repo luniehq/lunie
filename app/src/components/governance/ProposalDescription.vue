@@ -1,22 +1,28 @@
 <template>
   <div class="proposal-description">
-    <section>
-      <h4>Description</h4>
-      <div class="description">
-        <pre v-if="type === `PARAMETER_CHANGE`">
+    <div class="description-content-container">
+      <section>
+        <h4>Description</h4>
+        <div class="description">
+          <pre v-if="type === `PARAMETER_CHANGE`">
           {{ description }}
-        </pre>
-        <p v-else>{{ description }}</p>
-      </div>
-    </section>
-    <aside class="supporting-links">
-      <h4>Supporting Links</h4>
-      <ul>
-        <li v-for="link in supportingLinks" :key="link.url">
-          <a href="link.url">{{ link.title }}</a>
-        </li>
-      </ul>
-    </aside>
+        </pre
+          >
+          <p v-else>{{ description }}</p>
+        </div>
+      </section>
+      <aside class="supporting-links">
+        <h4>Supporting Links</h4>
+        <ul>
+          <li v-for="link in supportingLinks" :key="link.url">
+            <a :href="link.link" target="_blank" rel="noopener norefferer">{{
+              link.title
+            }}</a>
+            <i class="material-icons notranslate">link</i>
+          </li>
+        </ul>
+      </aside>
+    </div>
   </div>
 </template>
 
@@ -44,10 +50,19 @@ export default {
 h4 {
   font-size: 12px;
   padding-bottom: 1rem;
+  color: var(--dim);
 }
 
 .proposal-description {
-  padding: 2rem 0;
+  padding: 2rem;
+  background: var(--app-fg);
+  width: 100%;
+}
+
+.description-content-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
   display: flex;
 }
 
@@ -56,12 +71,27 @@ h4 {
   margin: 0 4rem 0 0;
   padding: 0 0 4rem 0;
   white-space: pre-wrap;
+  color: var(--txt);
 }
 
 .supporting-links {
   width: 100%;
   max-width: 400px;
   padding: 0 0 4rem 0;
+}
+
+.supporting-links li {
+  border-bottom: 2px solid var(--bc-dim);
+  padding: 1rem 0;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.supporting-links i {
+  font-size: 18px;
+  color: var(--dim);
 }
 
 pre {

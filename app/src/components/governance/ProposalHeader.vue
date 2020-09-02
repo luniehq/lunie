@@ -109,6 +109,9 @@ export default {
 .header {
   padding: 2rem 0;
   border-bottom: 2px solid var(--bc-dim);
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .header-top {
@@ -123,6 +126,7 @@ h2 {
   font-size: 32px;
   margin-bottom: 2rem;
   max-width: 500px;
+  color: var(--bright);
 }
 
 .supporting-links li {

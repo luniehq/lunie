@@ -28,11 +28,12 @@
         :deposit-total="proposal.detailedVotes.depositsSum"
       />
 
-      <!-- <Timeline /> -->
+      <Timeline :timeline="proposal.detailedVotes.timeline" />
 
       <ProposalDescription
         :description="proposal.description"
         :type="proposal.type"
+        :supporting-links="proposal.detailedVotes.links"
       />
 
       <ModalDeposit
@@ -67,9 +68,7 @@
 import { mapGetters } from "vuex"
 import { percent, prettyInt } from "scripts/num"
 import { date, fromNow } from "src/filters"
-// import TmBtn from "common/TmBtn"
 import TmDataNotFound from "common/TmDataNotFound"
-// import TextBlock from "common/TextBlock"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import ModalVoteSubstrate from "src/ActionModal/components/ModalVoteSubstrate"
@@ -77,28 +76,24 @@ import TmPage from "common/TmPage"
 import ProposalHeader from "governance/ProposalHeader"
 import ProposalStatusBar from "governance/ProposalStatusBar"
 import ProposalDescription from "governance/ProposalDescription"
-// import Timeline from "governance/Timeline"
+import Timeline from "governance/Timeline"
 import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
-// import Address from "common/Address"
 import gql from "graphql-tag"
 
 export default {
   name: `page-proposal`,
   components: {
-    // TmBtn,
     ModalDeposit,
     ModalVote,
     ModalVoteSubstrate,
     TmDataNotFound,
     TmPage,
-    // TextBlock,
-    // Address,
     ProposalHeader,
     ProposalDescription,
     ProposalStatusBar,
-    // Timeline,
+    Timeline,
   },
   filters: {
     prettyInt,
@@ -262,11 +257,6 @@ export default {
 </script>
 
 <style scoped>
-.proposal {
-  max-width: 1080px;
-  padding: 0 1rem;
-}
-
 .proposal-title__row {
   color: var(--bright);
 }
