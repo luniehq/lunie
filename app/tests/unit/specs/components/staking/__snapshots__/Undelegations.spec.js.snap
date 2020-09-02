@@ -10,7 +10,7 @@ exports[`Undelegations should show unbonding validators 1`] = `
     <div>
       <h1>
         
-        Pending
+        Unstaking
       
       </h1>
        

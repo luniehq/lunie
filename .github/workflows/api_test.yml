@@ -1,4 +1,4 @@
-name: API testing
+name: API Testing Workflow
 
 on:
   pull_request:
@@ -10,35 +10,40 @@ env:
   WORKING_DIRECTORY: ./api
 jobs:
   test:
-    name: test
+    name: Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Node.js
         uses: actions/setup-node@v1
-      - uses: bahmutov/npm-install@v1.1.0
-      - name: Test
+      - name: NPM Install
+        uses: bahmutov/npm-install@v1
+      - name: Run Unit Tests and Submit Coverage
         run: |
           yarn test:unit --coverage
           bash <(curl -s https://codecov.io/bash)
         working-directory: ${{env.WORKING_DIRECTORY}}
   lint:
-    name: lint
+    name: Linter
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Node.js
         uses: actions/setup-node@v1
-      - uses: bahmutov/npm-install@v1.1.0
+      - name: NPM Install
+        uses: bahmutov/npm-install@v1
       - name: Lint
-        run: yarn lint 
+        run: yarn lint
         working-directory: ${{env.WORKING_DIRECTORY}}
   checkChangelog:
-    name: checkChangelog
+    name: Changelog
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Node.js
         uses: actions/setup-node@v1
-      - name: Check if changlog was updated
+      - name: Check Changelog
         run: npx simsala check --pending-path ./api/changes

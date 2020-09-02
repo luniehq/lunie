@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.36] - 2020-09-01
+
+### Changed
+
+- [#4724](https://github.com/cosmos/lunie/pull/4724) Update to polkadot/api 1.29.1 @Bitcoinera
+- [#4756](https://github.com/cosmos/lunie/pull/4756) Update to polkadot/api 1.30.1 @Bitcoinera
+- [#4788](https://github.com/cosmos/lunie/pull/4788) Update to polkadot/api-1.31.2 @Bitcoinera
+
 ## [1.0.35] - 2020-08-13
 
 ### Changed

@@ -1,0 +1,1 @@
+[Fixed] [#4744](https://github.com/cosmos/lunie/pull/4744) Fixes wasm-crypto not initialized in extension @Bitcoinera

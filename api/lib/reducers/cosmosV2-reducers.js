@@ -12,6 +12,12 @@ const {
   coinReducer
 } = cosmosV0Reducers
 
+const proposalTypeEnumDictionary = {
+  'cosmos-sdk/TextProposal': 'TEXT',
+  'cosmos-sdk/CommunityPoolSpendProposal': 'TREASURY',
+  'cosmos-sdk/ParameterChangeProposal': 'PARAMETER_CHANGE'
+}
+
 // map Cosmos SDK message types to Lunie message types
 function getMessageType(type) {
   // different networks use different prefixes for the transaction types like cosmos/MsgSend vs core/MsgSend in Terra
@@ -226,12 +232,13 @@ function proposalReducer(
   proposal,
   tally,
   proposer,
-  totalBondedTokens
+  totalBondedTokens,
+  detailedVotes
 ) {
   return {
     networkId,
     id: Number(proposal.id),
-    type: proposal.content.type,
+    type: proposalTypeEnumDictionary[proposal.content.type],
     title: proposal.content.value.title,
     description: proposal.content.value.description,
     creationTime: proposal.submit_time,
@@ -240,7 +247,8 @@ function proposalReducer(
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal, 'stake'), // TODO use denom lookup + use network config
-    proposer: proposer.proposer
+    proposer: proposer.proposer,
+    detailedVotes
   }
 }
 
@@ -295,6 +303,7 @@ function transactionReducerV2(network, transaction, reducers) {
       id: transaction.txhash,
       type: reducers.getMessageType(type),
       hash: transaction.txhash,
+      networkId: network.id,
       key: `${transaction.txhash}_${index}`,
       height: transaction.height,
       details: transactionDetailsReducer(
