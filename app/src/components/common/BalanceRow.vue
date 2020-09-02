@@ -27,7 +27,7 @@
     </div>
 
     <div
-      v-if="!balance.endTime"
+      v-if="!unstakingBalance"
       :key="balance.denom + '_rewards'"
       class="table-cell rewards"
     >
@@ -43,7 +43,7 @@
     </div>
 
     <div
-      v-if="!balance.endTime"
+      v-if="!unstakingBalance"
       :key="balance.denom + '_available'"
       class="table-cell available"
     >
@@ -53,7 +53,7 @@
     </div>
 
     <div
-      v-if="!balance.endTime"
+      v-if="!unstakingBalance"
       :key="balance.denom + '_actions'"
       class="table-cell actions"
     >
@@ -80,7 +80,7 @@
 
     <!-- endTime span for Polkadot undelegations -->
     <div
-      v-if="balance.endTime"
+      v-if="unstakingBalance"
       :key="balance.denom + '_endtime'"
       class="table-cell endtime"
     >
@@ -137,6 +137,9 @@ export default {
         (network) => network.id === this.currentNetwork.id
       ).testnet
     },
+    unstakingBalance() {
+      return this.balance.endTime ? true : false
+    }
   },
   methods: {
     bigFigureOrShortDecimals,
