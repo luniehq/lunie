@@ -131,7 +131,9 @@
           : ''
       }`"
     >
-      <span class="input-suffix max-button">{{ currentNetwork.stakingDenom }}</span>
+      <span class="input-suffix max-button">{{
+        currentNetwork.stakingDenom
+      }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
