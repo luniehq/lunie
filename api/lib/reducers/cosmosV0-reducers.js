@@ -153,7 +153,7 @@ function networkAccountReducer(address, validators) {
     `cosmosvaloper`,
     `hex`
   )
-  const validator = validators[proposerValAddress]
+  const validator = validators ? validators[proposerValAddress] : undefined
   return {
     name: validator ? validator.name : address || '',
     address: address || '',
