@@ -24,6 +24,9 @@ describe(`PageProposal`, () => {
   const getters = {
     connected: true,
     address: `cosmos1xxxx`,
+    currentNetwork: {
+      network_type: `cosmos`,
+    },
   }
   let args
 
@@ -87,9 +90,11 @@ describe(`PageProposal`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should shows Unknown proposer if proposer is unknown`, () => {
+  it(`should show Unknown proposer if proposer is unknown`, () => {
+    wrapper = shallowMount(PageProposal, args)
     wrapper.setData({
       proposal: proposals[0],
+      found: true,
     })
     expect(wrapper.html()).toContain("Unknown proposer")
   })

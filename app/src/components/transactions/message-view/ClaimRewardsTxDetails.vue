@@ -9,7 +9,13 @@
           <router-link
             v-for="(validator, index) in getValidators"
             :key="validator.name.concat(`-${index}`)"
-            :to="`/staking/validators/${validator.operatorAddress}`"
+            :to="{
+              name: `validator`,
+              params: {
+                validator: validator.operatorAddress,
+                networkId: network,
+              },
+            }"
             class="validator-link"
           >
             <img
@@ -83,7 +89,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([`isExtension`]),
+    ...mapGetters([`isExtension`, `network`]),
     getValidators() {
       if (this.validators && Object.keys(this.validators).length > 0) {
         return this.transaction.details.from.map((validatorAddress) => {

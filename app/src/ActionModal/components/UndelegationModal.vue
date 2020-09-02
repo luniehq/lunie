@@ -52,7 +52,7 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
-      v-if="session.addressRole !== `stash`"
+      v-if="!sourceValidator && session.addressRole !== `stash`"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -178,7 +178,7 @@ export default {
   props: {
     sourceValidator: {
       type: Object,
-      required: true,
+      default: () => ({}),
     },
   },
   data: () => ({
@@ -235,14 +235,17 @@ export default {
       } else {
         if (
           isNaN(this.amount) ||
-          !this.sourceValidator.operatorAddress ||
+          (!this.sourceValidator.operatorAddress &&
+            this.currentNetwork.network_type !== `polkadot`) ||
           !this.stakingDenom
         ) {
           return {}
         }
         return {
           type: messageType.UNSTAKE,
-          from: [this.sourceValidator.operatorAddress],
+          from: this.sourceValidator
+            ? [this.sourceValidator.operatorAddress]
+            : null,
           amount: {
             amount: this.amount,
             denom: this.stakingDenom,
@@ -366,6 +369,7 @@ export default {
   methods: {
     open() {
       this.$refs.actionModal.open()
+      this.$apollo.queries.balance.refetch()
       this.$apollo.queries.delegations.refetch()
     },
     validateForm() {

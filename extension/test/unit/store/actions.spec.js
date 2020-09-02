@@ -19,7 +19,7 @@ let store = {
 const {
   createKey,
   getAddressFromSeed,
-  loadAccounts,
+  loadLocalAccounts,
   testLogin,
   getSignRequest,
   approveSignRequest,
@@ -63,12 +63,12 @@ describe('actions', () => {
       name: 'TEST',
       network: 'localnet'
     })
-    expect(store.dispatch).toHaveBeenCalledWith('loadAccounts')
+    expect(store.dispatch).toHaveBeenCalledWith('loadLocalAccounts')
   })
 
   it('Request wallets from extension', async () => {
     const commit = jest.fn()
-    loadAccounts({ commit })
+    loadLocalAccounts({ commit })
     expect(window.chrome.runtime.sendMessage).toHaveBeenCalledWith(
       { type: 'GET_WALLETS' },
       expect.any(Function)

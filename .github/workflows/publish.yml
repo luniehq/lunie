@@ -1,25 +1,21 @@
-name: Publish to master
+name: Publishing Workflow
 
 on:
   push:
     branches:
       - develop
-    paths:
-      - 'api/CHANGELOG.md'
-      - 'app/CHANGELOG.md'
-      - 'extension/CHANGELOG.md'
-      - 'scriptRunner/CHANGELOG.md'
 
 jobs:
     publish:
-        name: publish
+        name: Publish All The Things
         runs-on: ubuntu-latest
         timeout-minutes: 3
         steps:
-        - uses: actions/checkout@v1
-        - name: Use Node.js
+        - name: Checkout
+          uses: actions/checkout@v1
+        - name: Setup Node.js
           uses: actions/setup-node@v1
-        - name: publish to master
+        - name: Merge Develop Into Master
           run: COMMIT_MESSAGE=$(git log --format=%B -n 1) &&
             if [[ $COMMIT_MESSAGE == "release-"* || $COMMIT_MESSAGE == "[Simsala] automatic release"* ]];
             then

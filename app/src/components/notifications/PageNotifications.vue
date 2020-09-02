@@ -2,7 +2,9 @@
   <div class="notifications-container">
     <div class="notifications-header">
       <h2>Notifications</h2>
-      <a @click="$store.dispatch(`displayMessenger`)">Questions or feedback?</a>
+      <a class="intercom-button" @click="handleIntercom()"
+        >Questions or feedback?</a
+      >
     </div>
     <TmPage
       data-title="My alerts"
@@ -121,6 +123,9 @@ export default {
           },
         })
       }
+    },
+    handleIntercom() {
+      this.$store.dispatch(`displayMessenger`)
     },
   },
   apollo: {

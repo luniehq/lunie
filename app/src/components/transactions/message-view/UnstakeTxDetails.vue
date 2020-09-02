@@ -4,7 +4,15 @@
     <div class="tx__content__left">
       <h3>{{ caption }}</h3>
       <span>from&nbsp;</span>
-      <router-link :to="`/staking/validators/${transaction.details.from[0]}`">
+      <router-link
+        :to="{
+          name: `validator`,
+          params: {
+            validator: transaction.details.from[0],
+            networkId: network,
+          },
+        }"
+      >
         <img
           v-if="validator && validator.picture"
           :src="validator.picture"
@@ -24,6 +32,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import { prettyLong } from "scripts/num.js"
 import { resolveValidatorName } from "src/filters"
 import TransactionIcon from "../TransactionIcon"
@@ -54,6 +63,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters([`network`]),
     validator() {
       return this.validators[this.transaction.details.from[0]] || false
     },

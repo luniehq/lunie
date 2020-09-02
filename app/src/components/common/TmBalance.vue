@@ -11,8 +11,15 @@
     </div>
     <div v-else class="balance-header">
       <div class="header-container">
-        <h1>Your Portfolio</h1>
+        <h1>Your Balances</h1>
         <div class="buttons">
+          <TmBtn
+            v-if="currentNetwork.network_type === `polkadot`"
+            class="unstake-button"
+            value="Unstake"
+            type="secondary"
+            @click.native="onUnstake()"
+          />
           <TmBtn
             class="send-button"
             value="Send"
@@ -75,68 +82,14 @@
         </div>
       </div>
 
-      <div class="table four-columns">
-        <div class="table-cell big title">Token</div>
-        <div class="table-cell title">Rewards</div>
-        <div class="table-cell title available">Available</div>
-        <div class="table-cell title actions"></div>
-
-        <template v-for="balance in balances">
-          <div :key="balance.denom" class="table-cell big">
-            <img
-              class="currency-flag"
-              :src="
-                '/img/icons/currencies/' + balance.denom.toLowerCase() + '.png'
-              "
-              :alt="`${balance.denom}` + ' currency'"
-            />
-            <div class="total-and-fiat">
-              <span class="total">
-                {{ balance.total | bigFigureOrShortDecimals }}
-                {{ balance.denom }}
-              </span>
-              <span
-                v-if="
-                  balance.fiatValue &&
-                  !isTestnet &&
-                  balance.fiatValue.amount > 0
-                "
-                class="fiat"
-              >
-                {{ bigFigureOrShortDecimals(balance.fiatValue.amount) }}
-                {{ balance.fiatValue.denom }}</span
-              >
-            </div>
-          </div>
-
-          <div :key="balance.denom + '_rewards'" class="table-cell rewards">
-            <h2 v-if="totalRewardsPerDenom[balance.denom] > 0.001">
-              +{{
-                totalRewardsPerDenom[balance.denom] | bigFigureOrShortDecimals
-              }}
-              {{ balance.denom }}
-            </h2>
-            <h2 v-else>0</h2>
-          </div>
-
-          <div :key="balance.denom + '_available'" class="table-cell available">
-            <span v-if="balance.type === 'STAKE'" class="available-amount">
-              {{ balance.available | bigFigureOrShortDecimals }}
-            </span>
-          </div>
-
-          <div :key="balance.denom + '_actions'" class="table-cell actions">
-            <div class="icon-button-container">
-              <button class="icon-button" @click="onSend(balance.denom)">
-                <i class="material-icons">send</i></button
-              ><span>Send</span>
-            </div>
-          </div>
-        </template>
-      </div>
+      <TableBalances
+        :balances="balances"
+        :total-rewards-denom="totalRewardsPerDenom"
+      />
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
+      <UndelegationModal ref="UnstakeModal" />
       <ModalTutorial
         v-if="
           showTutorial &&
@@ -156,8 +109,10 @@ import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
+import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
+import TableBalances from "common/TableBalances"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
@@ -168,11 +123,12 @@ export default {
   components: {
     TmBtn,
     SendModal,
+    UndelegationModal,
     ModalWithdrawRewards,
     ModalTutorial,
+    TableBalances,
   },
   filters: {
-    bigFigureOrShortDecimals,
     noBlanks,
   },
   data() {
@@ -234,7 +190,13 @@ export default {
   },
   computed: {
     ...mapState([`connection`, `session`]),
-    ...mapGetters([`address`, `networks`, `network`, `stakingDenom`]),
+    ...mapGetters([
+      `address`,
+      `networks`,
+      `network`,
+      `stakingDenom`,
+      `currentNetwork`,
+    ]),
     // only be ready to withdraw of the validator rewards are loaded and the user has rewards to withdraw
     // the validator rewards are needed to filter the top 5 validators to withdraw from
     readyToWithdraw() {
@@ -278,12 +240,14 @@ export default {
     }
   },
   methods: {
-    bigFigureOrShortDecimals,
     onWithdrawal() {
       this.$refs.ModalWithdrawRewards.open()
     },
     onSend(denom = undefined) {
       this.$refs.SendModal.open(denom)
+    },
+    onUnstake(amount) {
+      this.$refs.UnstakeModal.open()
     },
     openTutorial() {
       this.showTutorial = true
@@ -506,7 +470,7 @@ select option {
   width: 100%;
 }
 
-.header-container button:first-child {
+.header-container button {
   margin-right: 0.5rem;
 }
 
@@ -546,91 +510,6 @@ select option {
   background-color: rgba(255, 255, 255, 0.02);
 }
 
-.table {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 1rem 2rem 3rem;
-  margin: 0 auto;
-}
-
-.table-cell {
-  flex-grow: 1;
-  padding: 0.5rem 0.5rem 0.5rem 0;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  width: 20%;
-  border-bottom: 1px solid var(--bc-dim);
-  font-family: "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-  position: relative;
-  white-space: nowrap;
-}
-
-.table-cell.big {
-  width: 40%;
-  padding-left: 1rem;
-}
-
-.table-cell.big.title {
-  padding-left: 0;
-}
-
-.title {
-  color: var(--dim);
-  font-size: var(--sm);
-  padding-bottom: 1rem;
-  padding-left: 0;
-}
-
-.total {
-  color: var(--bright);
-}
-
-.rewards {
-  color: var(--success);
-}
-
-.fiat {
-  color: var(--dim);
-  padding-left: 1rem;
-}
-
-.icon-button-container span {
-  display: block;
-  font-size: 12px;
-  text-align: center;
-  color: var(--dim);
-  padding-top: 2px;
-}
-
-.icon-button {
-  border-radius: 50%;
-  background: var(--link);
-  border: none;
-  outline: none;
-  height: 2rem;
-  width: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.25s ease;
-}
-
-.icon-button:hover {
-  background: var(--link-hover);
-  cursor: pointer;
-}
-
-.icon-button i {
-  font-size: 14px;
-  color: var(--menu-bright);
-}
-
-.total-and-fiat {
-  display: flex;
-  flex-direction: row;
-}
-
 @media screen and (max-width: 667px) {
   h1 {
     padding-bottom: 2rem;
@@ -645,48 +524,15 @@ select option {
     padding: 0 1rem;
   }
 
-  .available {
+  .currency-selector {
     display: none;
-  }
-
-  .table {
-    padding: 1rem;
-  }
-
-  .table-cell.big {
-    width: 60%;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .table-cell {
-    width: 40%;
-  }
-
-  .rewards {
-    font-size: 12px;
   }
 }
 
 @media screen and (min-width: 1254px) {
+  .unstake-button,
   .send-button {
     display: none;
-  }
-}
-
-@media screen and (max-width: 1254px) {
-  .actions {
-    display: none;
-  }
-
-  .total-and-fiat {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .fiat {
-    padding: 0;
-    font-size: 12px;
   }
 }
 </style>

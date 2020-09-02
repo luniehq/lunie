@@ -13,9 +13,16 @@
       </div>
       <div v-else>
         <h1>
-          Pending
+          Unstaking
         </h1>
-        <TableUndelegations :undelegations="undelegations" />
+        <template v-if="currentNetwork.network_type === `polkadot`">
+          <BalanceRow
+            v-for="balance in balances"
+            :key="balance.id"
+            :balance="balance"
+          />
+        </template>
+        <TableUndelegations v-else :undelegations="undelegations" />
       </div>
     </div>
   </div>
@@ -23,6 +30,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import BalanceRow from "common/BalanceRow"
 import TableUndelegations from "staking/TableUndelegations"
 import { ValidatorFragment, UserTransactionAdded } from "src/gql"
 import gql from "graphql-tag"
@@ -31,13 +39,23 @@ export default {
   name: `undelegations`,
   components: {
     TableUndelegations,
+    BalanceRow,
   },
   data: () => ({
     undelegations: [],
     undelegationsLoaded: false,
   }),
   computed: {
-    ...mapGetters([`address`, `network`]),
+    ...mapGetters([`address`, `network`, `currentNetwork`]),
+    balances() {
+      return this.undelegations.map((undelegation) => {
+        return {
+          ...undelegation,
+          total: undelegation.amount,
+          denom: this.currentNetwork.stakingDenom,
+        }
+      })
+    },
   },
   apollo: {
     undelegations: {
@@ -98,7 +116,7 @@ export default {
 <style scoped>
 h1 {
   font-size: 24px;
-  color: white;
+  color: var(--bright);
   font-weight: 400;
   padding: 1rem 0 2rem;
 }
@@ -111,13 +129,21 @@ h1 {
   max-width: 1100px;
   margin: 0 auto;
   width: 100%;
-  padding: 4rem 2rem;
+  padding: 0 2rem 8rem;
+}
+
+.balance-row {
+  display: flex;
 }
 
 @media screen and (max-width: 667px) {
   h1 {
     padding: 2rem;
     text-align: center;
+  }
+
+  .table-container {
+    padding: 0 1rem 8rem;
   }
 }
 </style>

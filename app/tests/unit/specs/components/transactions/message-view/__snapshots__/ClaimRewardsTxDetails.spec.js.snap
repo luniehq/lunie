@@ -27,7 +27,7 @@ exports[`ClaimRewardsTxDetails renders a claim rewards transaction message 1`] =
          
         <router-link-stub
           class="validator-link"
-          to="/staking/validators/cosmosvaloper123"
+          to="[object Object]"
         >
           <avatar-stub
             address="cosmosvaloper123"
@@ -80,7 +80,7 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
          
         <router-link-stub
           class="validator-link"
-          to="/staking/validators/cosmosvaloper123"
+          to="[object Object]"
         >
           <avatar-stub
             address="cosmosvaloper123"
@@ -90,7 +90,7 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
         </router-link-stub>
         <router-link-stub
           class="validator-link"
-          to="/staking/validators/cosmosvaloper456"
+          to="[object Object]"
         >
           <avatar-stub
             address="cosmosvaloper456"
@@ -100,7 +100,7 @@ exports[`ClaimRewardsTxDetails renders a multi claim rewards transaction message
         </router-link-stub>
         <router-link-stub
           class="validator-link"
-          to="/staking/validators/cosmosvaloper789"
+          to="[object Object]"
         >
           <avatar-stub
             address="cosmosvaloper789"

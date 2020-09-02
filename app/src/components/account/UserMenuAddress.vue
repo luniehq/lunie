@@ -3,12 +3,9 @@
     <Address
       class="menu-address"
       :address="address || ''"
-      :tooltip-text="addressType"
+      tooltip-text="Your Address"
       :address-type="
-        network.network_type === 'polkadot' &&
-        session.addressRole &&
-        session.addressRole !== `stash/controller` &&
-        session.addressRole !== `none`
+        ['stash', 'controller'].includes(session.addressRole)
           ? capitalizeFirstLetter(session.addressRole)
           : undefined
       "
@@ -30,36 +27,26 @@
 </template>
 <script>
 import Address from "common/Address"
+import TmFormMsg from "common/TmFormMsg"
 import { mapGetters, mapState } from "vuex"
 import { showAddressOnLedger } from "scripts/ledger"
+import { capitalizeFirstLetter } from "scripts/common"
 export default {
   name: `user-menu-address`,
   components: {
     Address,
+    TmFormMsg,
   },
   data: () => ({
     ledgerAddressError: undefined,
     showAddressOnLedgerFn: showAddressOnLedger,
   }),
   computed: {
-    ...mapState([`session`, `connection`, `account`]),
-    ...mapGetters([`address`, `network`]),
-    addressType() {
-      if (
-        this.session.addressRole &&
-        this.session.addressRole !== `stash/controller` &&
-        this.session.addressRole !== `none`
-      ) {
-        return (
-          `Your` +
-          this.capitalizeFirstLetter(this.session.addressRole) +
-          `Address`
-        )
-      }
-      return `Your Address`
-    },
+    ...mapState([`session`]),
+    ...mapGetters([`address`, `currentNetwork`]),
   },
   methods: {
+    capitalizeFirstLetter,
     async showAddressOnLedger() {
       if (this.messageTimeout) {
         clearTimeout(this.messageTimeout)
@@ -67,7 +54,7 @@ export default {
       }
       this.ledgerAddressError = undefined
       try {
-        await this.showAddressOnLedgerFn(this.network, this.$store)
+        await this.showAddressOnLedgerFn(this.currentNetwork.id, this.$store)
       } catch (error) {
         this.ledgerAddressError = error.message
         this.messageTimeout = setTimeout(
@@ -75,9 +62,6 @@ export default {
           8000
         )
       }
-    },
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
     },
   },
 }

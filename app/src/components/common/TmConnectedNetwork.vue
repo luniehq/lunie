@@ -103,7 +103,7 @@ export default {
     block: {},
   }),
   computed: {
-    ...mapState([`intercom`, `connection`]),
+    ...mapState([`connection`]),
     ...mapGetters([`network`, `currentNetwork`]),
     networkSlug() {
       return this.connection.networkSlug
