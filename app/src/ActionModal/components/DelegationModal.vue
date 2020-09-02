@@ -131,7 +131,7 @@
           : ''
       }`"
     >
-      <span class="input-suffix max-button">{{ stakingDenom }}</span>
+      <span class="input-suffix max-button">{{ currentNetwork.stakingDenom }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -153,11 +153,11 @@
       <span class="form-message">
         Available to stake:
         {{ maxAmount }}
-        {{ stakingDenom }}s
+        {{ currentNetwork.stakingDenom }}s
       </span>
       <TmFormMsg
         v-if="balance.available === '0'"
-        :msg="`doesn't have any ${stakingDenom}s`"
+        :msg="`doesn't have any ${currentNetwork.stakingDenom}s`"
         name="Wallet"
         type="custom"
       />
@@ -174,7 +174,7 @@
       <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.max"
         type="custom"
-        :msg="`You don't have enough ${stakingDenom}s to proceed.`"
+        :msg="`You don't have enough ${currentNetwork.stakingDenom}s to proceed.`"
       />
       <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.min"
