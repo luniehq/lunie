@@ -214,6 +214,7 @@
                 :loading="step === feeStep && !networkFeesLoaded"
                 :disabled="
                   disabled ||
+                  !balancesLoaded ||
                   (step === feeStep && $v.invoiceTotal.$invalid) ||
                   (step === feeStep && !networkFeesLoaded)
                 "

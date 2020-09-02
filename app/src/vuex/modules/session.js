@@ -19,6 +19,7 @@ export default ({ apollo }) => {
     address: null, // Current address
     addresses: [], // Array of previously used addresses
     allSessionAddresses: [],
+    allUsedAddresses: [],
     addressRole: undefined, // Polkadot: 'stash/controller', 'stash', 'controller' or 'none'
     errorCollection: false,
     analyticsCollection: false,
@@ -65,10 +66,20 @@ export default ({ apollo }) => {
       state.address = address
     },
     setUserAddresses(state, addresses) {
-      state.addresses = addresses
+      state.addresses = addresses.map((address) => {
+        let storedAddress = {
+          ...address,
+          sessionType: address.sessionType || address.type,
+        }
+        delete storedAddress.type
+        return storedAddress
+      })
     },
     setAllSessionAddresses(state, addresses) {
       state.allSessionAddresses = addresses
+    },
+    setAllUsedAddresses(state, addresses) {
+      state.allUsedAddresses = addresses
     },
     setExperimentalMode(state) {
       state.experimentalMode = true
@@ -138,7 +149,7 @@ export default ({ apollo }) => {
     },
     async rememberAddress(
       { state, commit },
-      { address, sessionType, networkId }
+      { address, name, sessionType, networkId, HDPath, curve }
     ) {
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
@@ -148,8 +159,11 @@ export default ({ apollo }) => {
       if (!sessionExist) {
         state.addresses.push({
           address,
-          type: sessionType,
+          name,
+          sessionType,
           networkId,
+          HDPath,
+          curve,
         })
         commit(`setUserAddresses`, state.addresses)
       }
@@ -192,6 +206,7 @@ export default ({ apollo }) => {
       await dispatch(`rememberAddress`, {
         address,
         sessionType,
+        name: session ? session.name : undefined,
         HDPath,
         curve,
         networkId,
