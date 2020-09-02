@@ -115,7 +115,10 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="(!isNomination || stakedBalance.total === 0) && session.addressRole !== `controller`"
+      v-if="
+        (!isNomination || stakedBalance.total === 0) &&
+        session.addressRole !== `controller`
+      "
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
@@ -263,8 +266,7 @@ export default {
         }
       }
       let stakedAmount =
-        Number(this.balance.total) -
-        Number(this.balance.available)
+        Number(this.balance.total) - Number(this.balance.available)
       // substract the already unbonding balance in the case of Substrate networks.
       if (this.undelegationsLoaded && this.undelegations.length > 0) {
         stakedAmount = this.undelegations.reduce(
@@ -562,7 +564,9 @@ export default {
       /* istanbul ignore next */
       update(data) {
         return (
-          data.balancesV2.find(({ denom }) => denom === this.currentNetwork.stakingDenom) || {
+          data.balancesV2.find(
+            ({ denom }) => denom === this.currentNetwork.stakingDenom
+          ) || {
             amount: 0,
           }
         )
