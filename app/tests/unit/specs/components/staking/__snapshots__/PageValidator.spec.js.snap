@@ -11,18 +11,7 @@ exports[`PageValidator if uptimePercentage is blank 1`] = `
   <div
     class="button-container"
   >
-    <button
-      class="back-button"
-    >
-      <i
-        class="material-icons notranslate arrow"
-      >
-        arrow_back
-      </i>
-      
-        Back
-      
-    </button>
+    <backbutton-stub />
      
     <!---->
   </div>
@@ -293,18 +282,7 @@ exports[`PageValidator if user has signed in 1`] = `
   <div
     class="button-container"
   >
-    <button
-      class="back-button"
-    >
-      <i
-        class="material-icons notranslate arrow"
-      >
-        arrow_back
-      </i>
-      
-        Back
-      
-    </button>
+    <backbutton-stub />
      
     <!---->
   </div>
@@ -575,18 +553,7 @@ exports[`PageValidator if user hasn't signed in 1`] = `
   <div
     class="button-container"
   >
-    <button
-      class="back-button"
-    >
-      <i
-        class="material-icons notranslate arrow"
-      >
-        arrow_back
-      </i>
-      
-        Back
-      
-    </button>
+    <backbutton-stub />
      
     <!---->
   </div>

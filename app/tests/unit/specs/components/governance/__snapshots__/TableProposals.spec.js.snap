@@ -10,13 +10,13 @@ exports[`TableProposals has the expected html structure 1`] = `
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -46,13 +46,13 @@ exports[`TableProposals has the expected html structure 1`] = `
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -82,13 +82,13 @@ exports[`TableProposals has the expected html structure 1`] = `
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -118,13 +118,13 @@ exports[`TableProposals has the expected html structure 1`] = `
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -141,7 +141,7 @@ exports[`TableProposals has the expected html structure 1`] = `
       this is the description 
 blah blah blah
 it's really long
-Instrument cultivated alteration any favourable expression law far nor. Both new like tore but year. An from mean on with when sing pain. Oh to…
+Instrument cultivated alteration any favourable expression law far nor. Both new like tore but year. An from mean on with when sing pain. Oh to as principles devonshire companions insatiable an delightfu…
     
           </p>
            
@@ -157,13 +157,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -193,13 +193,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -229,13 +229,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -265,13 +265,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -301,13 +301,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -337,13 +337,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -373,13 +373,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -409,13 +409,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -445,13 +445,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -481,13 +481,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -517,13 +517,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -553,13 +553,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
@@ -589,13 +589,13 @@ Instrument cultivated alteration any favourable expression law far nor. Both new
         class="li-proposal"
       >
         <td>
-          <span
-            class="proposal-status rejected"
+          <div
+            class="status red"
           >
             
-      Rejected
-    
-          </span>
+  Rejected
+
+          </div>
            
           <h3
             class="li-proposal-title"
