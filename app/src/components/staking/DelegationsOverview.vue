@@ -11,23 +11,26 @@
           alt="geometric placeholder shapes"
         />
       </div>
-      <div v-else-if="delegations.length > 0">
+      <div v-else-if="delegations.length > 0 || stakedBalance.total > 0">
         <h1>Your Stake</h1>
-        <p
+        <Bar
           v-if="
             delegationsLoaded &&
             currentNetwork.network_type === `polkadot` &&
             delegations.length === 0
           "
-        >
-          You need to select at least one validator to start earning rewards
-        </p>
+          :show="true"
+          link="validators"
+          link-caption="Select a Validator"
+          >You need to select at least one validator to start earning rewards
+        </Bar>
         <BalanceRow
           :balance="stakedBalance"
           :stake="currentNetwork.network_type === 'polkadot'"
           :unstake="currentNetwork.network_type === 'polkadot'"
         />
         <TableValidators
+          v-if="delegations.length > 0"
           :validators="delegations.map(({ validator }) => validator)"
           :delegations="delegations"
           class="table-validators"
@@ -52,6 +55,7 @@
 import { mapGetters, mapState } from "vuex"
 import BalanceRow from "common/BalanceRow"
 import TmDataMsg from "common/TmDataMsg"
+import Bar from "common/Bar"
 import TableValidators from "staking/TableValidators"
 import {
   ValidatorFragment,
@@ -66,6 +70,7 @@ export default {
     BalanceRow,
     TableValidators,
     TmDataMsg,
+    Bar,
   },
   data: () => ({
     delegations: [],
@@ -238,6 +243,10 @@ h1 {
 
 .table-validators {
   margin-top: 2rem;
+}
+
+.tm-form-msg--desc {
+  padding-bottom: 1rem;
 }
 
 @media screen and (max-width: 667px) {
