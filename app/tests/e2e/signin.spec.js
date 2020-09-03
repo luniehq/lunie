@@ -2,19 +2,14 @@ module.exports = {
   "Sign in with local account": async function (browser) {
     await prepare(browser)
 
-    await browser.waitForElementVisible("#sign-in-with-account", 20000, true)
-    await browser.click("#sign-in-with-account")
-    await browser.waitForElementVisible("#sign-in-name", 20000, true)
-    browser.setValue("#sign-in-password", "1234567890")
-    await next(browser)
-    // check if signed in
-    await browser.waitForElementNotPresent(".session", 20000, true)
+    await browser.click(`.address-list-item[data-address-name="demo-account"]`)
     await browser.waitForElementVisible(".user-menu .address", 20000, true)
   },
   "Import local account": async function (browser) {
     await prepare(browser)
 
-    browser.waitForElementVisible("#recover-with-backup", 20000, true)
+    await browser.click("#create-new-account")
+    await browser.waitForElementVisible("#recover-with-backup", 20000, true)
     // scroll to bottom
     await browser.execute("window.scrollTo(0,document.body.scrollHeight);")
     browser.click("#recover-with-backup")
@@ -68,11 +63,6 @@ async function next(browser) {
   return browser.click(".session-footer .button")
 }
 
-async function openMenu(browser) {
-  await browser.waitForElementVisible(".open-menu", 20000, true)
-  await browser.click(".open-menu")
-}
-
 async function prepare(browser) {
   await browser.url(
     browser.launch_url +
@@ -89,8 +79,11 @@ async function prepare(browser) {
         "cosmos-wallets-index",
         JSON.stringify([
           {
-            name: "demo",
+            name: "demo-account",
             address,
+            network,
+            HDPath: `m/44'/118'/0'/0/0`,
+            curve: `ed25519`,
           },
         ])
       )
@@ -114,10 +107,8 @@ async function prepare(browser) {
       "?insecure=true&experimental=true"
   )
 
-  // check if we are already signed in
+  // open user menu
   await browser.click(".session-close")
   await browser.waitForElementVisible("#open-user-menu", 20000, true)
   await browser.click("#open-user-menu")
-  await browser.waitForElementVisible("#create-new-account", 20000, true)
-  await browser.click("#create-new-account")
 }
