@@ -693,9 +693,14 @@ class polkadotAPI {
       )
     }
     if (type === `treasury`) {
-      description = `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
-        proposal.proposer || proposer
-      }) is able to change it.`
+      const { meta } = proposal.council[0]
+        ? api.registry.findMetaCall(proposal.council[0].proposal.callIndex)
+        : null
+      description = meta
+        ? meta.documentation.toString()
+        : `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
+            proposal.proposal.proposer || proposer
+          }) is able to change it.`
     }
     return {
       ...proposal,
@@ -970,7 +975,7 @@ class polkadotAPI {
         .concat(
           treasuryProposals.proposals.map(async (proposal) => {
             const proposalWithMetadata = await this.getProposalWithMetadata(
-              proposal.proposal,
+              proposal,
               `treasury`
             )
             return this.reducers.treasuryProposalReducer(
