@@ -139,7 +139,7 @@ export default {
     },
     unstakingBalance() {
       return this.balance.endTime ? true : false
-    }
+    },
   },
   methods: {
     bigFigureOrShortDecimals,
