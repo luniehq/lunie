@@ -490,7 +490,7 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
-function depositReducer(deposit, network) {
+function depositReducer(deposit, depositerInfo, network) {
   return {
     amount: [
       {
@@ -498,7 +498,18 @@ function depositReducer(deposit, network) {
         denom: network.stakingDenom
       }
     ],
-    depositer: deposit.accountId
+    depositer: networkAccountReducer(depositerInfo)
+  }
+}
+
+function networkAccountReducer(account) {
+  return {
+    name:
+      account && account.identity && account.identity.display
+        ? account.identity.display
+        : '',
+    address: account && account.accountId ? account.accountId : '',
+    picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
   }
 }
 
@@ -507,7 +518,8 @@ function democracyProposalReducer(
   proposal,
   totalIssuance,
   blockHeight,
-  detailedVotes
+  detailedVotes,
+  proposerInfo
 ) {
   return {
     id: `democracy-`.concat(proposal.index),
@@ -521,7 +533,7 @@ function democracyProposalReducer(
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
-    proposer: proposal.proposer.toHuman(),
+    proposer: networkAccountReducer(proposerInfo),
     detailedVotes
   }
 }
@@ -531,7 +543,8 @@ function democracyReferendumReducer(
   proposal,
   totalIssuance,
   blockHeight,
-  detailedVotes
+  detailedVotes,
+  proposerInfo
 ) {
   return {
     id: `referendum-`.concat(proposal.index),
@@ -546,7 +559,7 @@ function democracyReferendumReducer(
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
-    proposer: proposal.proposer,
+    proposer: networkAccountReducer(proposerInfo),
     detailedVotes
   }
 }
@@ -557,7 +570,8 @@ function treasuryProposalReducer(
   councilMembers,
   blockHeight,
   electionInfo,
-  detailedVotes
+  detailedVotes,
+  proposerInfo
 ) {
   return {
     id: `treasury-`.concat(proposal.index || proposal.votes.index),
@@ -575,7 +589,7 @@ function treasuryProposalReducer(
       ? councilTallyReducer(proposal.votes, councilMembers, electionInfo)
       : {},
     deposit: toViewDenom(network, Number(proposal.deposit)),
-    proposer: proposal.proposer ? proposal.proposer.toHuman() : undefined,
+    proposer: networkAccountReducer(proposerInfo),
     beneficiary: proposal.beneficiary, // the account getting the tip
     detailedVotes
   }
@@ -741,6 +755,7 @@ module.exports = {
   rewardsReducer,
   dbRewardsReducer,
   depositReducer,
+  networkAccountReducer,
   getExtrinsicSuccess,
   identityReducer,
   democracyProposalReducer,
