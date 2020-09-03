@@ -1,4 +1,5 @@
 const BigNumber = require('bignumber.js')
+const { encodeB32, decodeB32 } = require('../tools')
 const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
 /**
  * Modify the following reducers with care as they are used for ./cosmosV2-reducer.js as well
@@ -134,15 +135,30 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
 function depositReducer(deposit, network) {
   return {
     amount: [coinReducer(deposit.amount[0], undefined, network)],
-    depositer: deposit.depositor
+    depositer: networkAccountReducer(deposit.depositor)
   }
 }
 
 function voteReducer(vote) {
   return {
     id: vote.proposal_id,
-    voter: vote.voter,
+    voter: networkAccountReducer(vote.voter),
     option: vote.option
+  }
+}
+
+function networkAccountReducer(address, validators) {
+  const proposerValAddress = address
+    ? encodeB32(decodeB32(address), `cosmosvaloper`, `hex`)
+    : ''
+  const validator =
+    validators && proposerValAddress.length > 0
+      ? validators[proposerValAddress]
+      : undefined
+  return {
+    name: validator ? validator.name : address || '',
+    address: address || '',
+    picture: validator ? validator.picture : ''
   }
 }
 
@@ -152,7 +168,9 @@ function proposalReducer(
   tally,
   proposer,
   totalBondedTokens,
-  detailedVotes
+  detailedVotes,
+  reducers,
+  validators
 ) {
   return {
     id: Number(proposal.proposal_id),
@@ -166,7 +184,7 @@ function proposalReducer(
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal),
-    proposer: proposer.proposer,
+    proposer: networkAccountReducer(proposer.proposer, validators),
     detailedVotes
   }
 }
@@ -534,6 +552,7 @@ function extractInvolvedAddresses(transaction) {
 
 module.exports = {
   proposalReducer,
+  networkAccountReducer,
   governanceParameterReducer,
   topVoterReducer,
   tallyReducer,
