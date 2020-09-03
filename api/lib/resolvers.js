@@ -239,10 +239,20 @@ const resolvers = (networkList, notificationController) => ({
     }
   },
   Query: {
-    proposals: (_, { networkId }, { dataSources }) =>
-      remoteFetch(dataSources, networkId).getAllProposals(),
-    proposal: async (_, { networkId, id }, { dataSources }) =>
-      await remoteFetch(dataSources, networkId).getProposalById(id),
+    proposals: async (_, { networkId }, { dataSources }) => {
+      await localStore(dataSources, networkId).dataReady
+      let validators = Object.values(
+        localStore(dataSources, networkId).validators
+      )
+      return remoteFetch(dataSources, networkId).getAllProposals(validators)
+    },
+    proposal: async (_, { networkId, id }, { dataSources }) => {
+      await localStore(dataSources, networkId).dataReady
+      let validators = Object.values(
+        localStore(dataSources, networkId).validators
+      )
+      await remoteFetch(dataSources, networkId).getProposalById(id, validators)
+    },
     vote: (_, { networkId, proposalId, address }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getDelegatorVote({
         proposalId,
