@@ -711,7 +711,9 @@ class polkadotAPI {
     }
   }
 
-  getDemocracyProposalDetailedVotes(proposal, links) {
+  async getDemocracyProposalDetailedVotes(proposal, links) {
+    const api = await this.getAPI()
+
     // in democracy proposals there is the first opening deposit made by the proposer
     // afterwards every account that seconds the proposal must deposit the same amount from the initial deposit
     const depositsSum = toViewDenom(
@@ -739,10 +741,15 @@ class polkadotAPI {
         ]
       }))
     )
-    const votes = proposal.seconds.map((secondAddress) => ({
-      voter: secondAddress,
-      option: `Yes`
-    }))
+    const votes = await Promise.all(
+      proposal.seconds.map(async (secondAddress) => {
+        const voterInfo = await api.derive.accounts.info(secondAddress)
+        return {
+          voter: this.reducers.networkAccountReducer(voterInfo),
+          option: `Yes`
+        }
+      })
+    )
     const votesSum = proposal.seconds.length
     return {
       deposits,
@@ -836,11 +843,23 @@ class polkadotAPI {
         this.reducers.depositReducer(deposit, depositerInfo, this.network)
       })
     )
-    const votes = proposal.allAye
-      .map((aye) => ({ voter: aye.accountId, option: `Yes` }))
-      .concat(
-        proposal.allNay.map((nay) => ({ voter: nay.accountId, option: `No` }))
-      )
+    const votes = await Promise.all(
+      proposal.allAye
+        .map(async (aye) => {
+          return {
+            voter: this.reducers.networkAccountReducer(aye.accountId),
+            option: `Yes`
+          }
+        })
+        .concat(
+          proposal.allNay.map(async (nay) => {
+            return {
+              voter: this.reducers.networkAccountReducer(nay.accountId),
+              option: `No`
+            }
+          })
+        )
+    )
     const votesSum = proposal.voteCount
     const threshold = await this.getReferendumThreshold(proposal)
     const proposalDurationInDays = Math.floor(
@@ -893,10 +912,20 @@ class polkadotAPI {
     }
   }
 
-  getCouncilProposalDetailedVotes(proposal, links) {
-    const votes = proposal.votes.ayes
-      .map((aye) => ({ voter: aye, option: `Yes` }))
-      .concat(proposal.votes.nays.map((nay) => ({ voter: nay, option: `No` })))
+  async getCouncilProposalDetailedVotes(proposal, links) {
+    const votes = await Promise.all(
+      proposal.votes.ayes
+        .map(async (aye) => ({
+          voter: this.reducers.networkAccountReducer(aye),
+          option: `Yes`
+        }))
+        .concat(
+          proposal.votes.nays.map((nay) => ({
+            voter: this.reducers.networkAccountReducer(nay),
+            option: `No`
+          }))
+        )
+    )
     return {
       votes,
       votesSum: votes.length,
@@ -910,13 +939,13 @@ class polkadotAPI {
   async getDetailedVotes(proposal, type) {
     const links = await this.db.getNetworkLinks(this.network.id)
     if (type === `democracy`) {
-      return this.getDemocracyProposalDetailedVotes(proposal, links)
+      return await this.getDemocracyProposalDetailedVotes(proposal, links)
     }
     if (type === `referendum`) {
       return await this.getReferendumProposalDetailedVotes(proposal, links)
     }
     if (type === `council`) {
-      return this.getCouncilProposalDetailedVotes(proposal, links)
+      return await this.getCouncilProposalDetailedVotes(proposal, links)
     }
     return {
       links
