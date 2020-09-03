@@ -148,16 +148,17 @@ function voteReducer(vote) {
 }
 
 function networkAccountReducer(address, validators) {
-  const proposerValAddress = encodeB32(
-    decodeB32(address),
-    `cosmosvaloper`,
-    `hex`
-  )
-  const validator = validators ? validators[proposerValAddress] : undefined
+  const proposerValAddress = address
+    ? encodeB32(decodeB32(address), `cosmosvaloper`, `hex`)
+    : ''
+  const validator =
+    validators && proposerValAddress.length > 0
+      ? validators[proposerValAddress]
+      : undefined
   return {
     name: validator ? validator.name : address || '',
     address: address || '',
-    picture: validator ? validator.picture : address || ''
+    picture: validator ? validator.picture : ''
   }
 }
 
