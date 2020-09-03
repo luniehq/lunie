@@ -968,40 +968,35 @@ class polkadotAPI {
           })
         )
         .concat(
-          treasuryProposals.proposals
-            .map(async (proposal) => {
-              const proposalWithMetadata = await this.getProposalWithMetadata(
-                proposal.proposal,
-                `treasury`
-              )
-              return this.reducers.treasuryProposalReducer(
-                this.network,
-                {
-                  ...proposalWithMetadata,
-                  index: proposal.id,
-                  deposit: proposal.proposal.bond,
-                  beneficiary: proposal.proposal.beneficiary
-                },
-                councilMembers,
-                blockHeight,
-                electionInfo,
-                proposal.council[0] ?
-                // proposal gets voted on by council
-                await this.getDetailedVotes(
-                  {
-                    ...proposal,
-                    votes: proposal.council[0].votes
-                  },
-                  `council`
-                )
-                : 
-                // proposal gets voted on by delegators
-                await this.getDetailedVotes(
-                  proposalWithMetadata,
-                  `treasury`
-                )
-              )
-            })
+          treasuryProposals.proposals.map(async (proposal) => {
+            const proposalWithMetadata = await this.getProposalWithMetadata(
+              proposal.proposal,
+              `treasury`
+            )
+            return this.reducers.treasuryProposalReducer(
+              this.network,
+              {
+                ...proposalWithMetadata,
+                index: proposal.id,
+                deposit: proposal.proposal.bond,
+                beneficiary: proposal.proposal.beneficiary
+              },
+              councilMembers,
+              blockHeight,
+              electionInfo,
+              proposal.council[0]
+                ? // proposal gets voted on by council
+                  await this.getDetailedVotes(
+                    {
+                      ...proposal,
+                      votes: proposal.council[0].votes
+                    },
+                    `council`
+                  )
+                : // proposal gets voted on by delegators
+                  await this.getDetailedVotes(proposalWithMetadata, `treasury`)
+            )
+          })
         )
     )
     // remove null proposals from filtered treasury proposals
