@@ -207,6 +207,10 @@ class polkadotAPI {
   async getBalancesV2FromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
     const account = await api.query.system.account(address)
+    // -> Free balance is NOT transferable balance
+    // -> Total balance is equal to reserved plus free balance
+    // -> Locks (due to staking o voting) are set over free balance, they overlap rather than add
+    // -> Reserved balance (due to identity set) can not be used for anything
     // See https://wiki.polkadot.network/docs/en/build-protocol-info#free-vs-reserved-vs-locked-vs-vesting-balance
     const { free, reserved, feeFrozen } = account.data.toJSON()
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
