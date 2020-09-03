@@ -6,7 +6,7 @@
           <slot />
         </p>
         <TmBtn
-          v-if="link || action"
+          v-if="linkCaption"
           class="button small"
           :value="linkCaption"
           type="button"
