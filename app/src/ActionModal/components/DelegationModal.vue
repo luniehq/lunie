@@ -357,7 +357,10 @@ export default {
       this.$store.dispatch("updateNotificationRegistrations")
       // update the role of the user as it might change after bonding the first time
       if (this.currentNetwork.network_type === "polkadot") {
-        this.$store.dispatch("checkAddressRole")
+        this.$store.dispatch("checkAddressRole", {
+          address: this.address,
+          networkId: this.currentNetwork.id,
+        })
       }
     },
   },

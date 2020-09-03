@@ -37,7 +37,18 @@ function setOptions(urlParams, store) {
   }
 }
 
+export const bootError = (error) => {
+  document.querySelector("#app").innerHTML = `
+  <div class="boot-error">
+    <h2>Uh oh. Lunie failed to start. Our team has been notified of the issue. Please try refreshing this page in a few minutes. If the error persists please contact us at http://help.lunie.io/</h2>
+
+    <p class="error">${error}</p>
+  </div>
+    `
+}
+
 export default async function init(urlParams, env = process.env) {
+  let initialized = false
   // add error handlers in production
   if (env.NODE_ENV === `production`) {
     // check every minute if new Lunie versions have been deployed
@@ -61,6 +72,10 @@ export default async function init(urlParams, env = process.env) {
     }
     Sentry.captureException(error)
     console.error(error)
+
+    if (!initialized) {
+      bootError(new Error("Failed to connect to API: " + error.message))
+    }
   })
 
   // we need to set url params before querying for networks because of experimental flag
@@ -98,6 +113,8 @@ export default async function init(urlParams, env = process.env) {
   store.dispatch(`checkForPersistedAddresses`)
 
   listenToExtensionMessages(store)
+
+  initialized = true
 
   return { store, router, apolloProvider }
 }

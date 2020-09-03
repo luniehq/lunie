@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - develop
-    paths:
-      - 'api/CHANGELOG.md'
-      - 'app/CHANGELOG.md'
-      - 'extension/CHANGELOG.md'
-      - 'scriptRunner/CHANGELOG.md'
 
 jobs:
     publish:
