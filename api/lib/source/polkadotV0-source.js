@@ -191,8 +191,8 @@ class polkadotAPI {
   async getBalancesFromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
     const account = await api.query.system.account(address)
-    const { free, feeFrozen } = account.data.toJSON()
-    const totalBalance = BigNumber(free)
+    const { free, reserved, feeFrozen } = account.data.toJSON()
+    const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
     const fiatValueAPI = this.fiatValuesAPI
     return this.reducers.balanceReducer(
@@ -207,8 +207,8 @@ class polkadotAPI {
   async getBalancesV2FromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
     const account = await api.query.system.account(address)
-    const { free, feeFrozen } = account.data.toJSON()
-    const totalBalance = BigNumber(free)
+    const { free, reserved, feeFrozen } = account.data.toJSON()
+    const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
     const fiatValueAPI = this.fiatValuesAPI
     return [
