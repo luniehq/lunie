@@ -573,7 +573,7 @@ function treasuryProposalReducer(
       : null,
     tally: proposal.votes
       ? councilTallyReducer(proposal.votes, councilMembers, electionInfo)
-      : null,
+      : {},
     deposit: toViewDenom(network, Number(proposal.deposit)),
     proposer: proposal.proposer ? proposal.proposer.toHuman() : undefined,
     beneficiary: proposal.beneficiary, // the account getting the tip
