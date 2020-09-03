@@ -6,11 +6,11 @@
           <slot />
         </p>
         <TmBtn
-          v-if="link"
+          v-if="link || action"
           class="button small"
           :value="linkCaption"
           type="button"
-          @click.native="goToLink(link)"
+          @click.native="link ? goToLink(link) : action()"
         />
       </div>
       <div class="right">
@@ -43,6 +43,10 @@ export default {
     linkCaption: {
       type: String,
       default: "",
+    },
+    action: {
+      type: Function,
+      default: () => {},
     },
   },
   data: function () {

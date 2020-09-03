@@ -24,6 +24,17 @@
           link-caption="Select a Validator"
           >You need to select at least one validator to start earning rewards
         </Bar>
+        <Bar
+          v-if="
+            delegationsLoaded &&
+            currentNetwork.network_type === `polkadot` &&
+            delegations.length === 0
+          "
+          :show="true"
+          :action="openUnstakeModal"
+          link-caption="Unstake"
+          >Or unstake instead if you prefer to have your funds liquid
+        </Bar>
         <BalanceRow
           :balance="stakedBalance"
           :stake="currentNetwork.network_type === 'polkadot'"
@@ -47,6 +58,7 @@
           <a @click="goToValidators()">validator list</a>&nbsp;to get staking!
         </div>
       </TmDataMsg>
+      <UndelegationModal ref="UnstakeModal" />
     </div>
   </div>
 </template>
@@ -57,6 +69,7 @@ import BalanceRow from "common/BalanceRow"
 import TmDataMsg from "common/TmDataMsg"
 import Bar from "common/Bar"
 import TableValidators from "staking/TableValidators"
+import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import {
   ValidatorFragment,
   DelegationsForDelegator,
@@ -69,6 +82,7 @@ export default {
   components: {
     BalanceRow,
     TableValidators,
+    UndelegationModal,
     TmDataMsg,
     Bar,
   },
@@ -117,6 +131,9 @@ export default {
           networkId: this.currentNetwork.slug,
         },
       })
+    },
+    openUnstakeModal() {
+      this.$refs.UnstakeModal.open()
     },
   },
   apollo: {
