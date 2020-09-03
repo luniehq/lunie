@@ -4,6 +4,7 @@ exports[`MaintenanceBar has the expected html structure 1`] = `
 <div>
   <div>
     <bar-stub
+      action="() => {}"
       bartype="primary"
       link=""
       linkcaption=""
