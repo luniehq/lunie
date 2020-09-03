@@ -693,7 +693,7 @@ class polkadotAPI {
       )
     }
     if (type === `treasury`) {
-      const { meta } = proposal.council[0]
+      const { meta } = proposal.council[0] && proposal.council[0].proposal
         ? api.registry.findMetaCall(proposal.council[0].proposal.callIndex)
         : null
       description = meta
