@@ -71,7 +71,15 @@
         </TmDataMsg>
       </div>
     </div>
-    <TableProposals v-else :proposals="proposals" class="proposal-list" />
+
+    <template v-else>
+      <h4>Proposals</h4>
+      <LiProposal
+        v-for="proposal in proposals"
+        :key="proposal.id"
+        :proposal="proposal"
+      />
+    </template>
 
     <ParticipantList
       :title="participantListTitle"
@@ -94,7 +102,7 @@
 
 <script>
 import ModalPropose from "src/ActionModal/components/ModalPropose"
-import TableProposals from "governance/TableProposals"
+import LiProposal from "governance/LiProposal"
 import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
 import TmDataMsg from "common/TmDataMsg"
@@ -109,7 +117,7 @@ export default {
   name: `page-proposals`,
   components: {
     ModalPropose,
-    TableProposals,
+    LiProposal,
     TmDataMsg,
     TmBtn,
     TmPage,
@@ -305,6 +313,8 @@ export default {
 <style scoped>
 .proposals {
   padding: 0 1rem;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 h1 {
@@ -320,9 +330,7 @@ h4 {
 }
 
 .overview-header {
-  max-width: 1024px;
-  margin: 0 auto;
-  padding: 0 0 2rem;
+  padding: 0 0 4rem;
   width: 100%;
 }
 
@@ -368,7 +376,19 @@ h4 {
   margin-right: 0;
 }
 
-.proposal-list {
-  margin: 1rem 0 3rem 0;
+@media screen and (max-width: 1023px) {
+  .overview-top {
+    justify-content: center;
+    padding-top: 2rem;
+  }
+
+  .data-row {
+    flex-direction: column;
+  }
+
+  .data-row div {
+    margin: -2px 0 0;
+    border-radius: 0;
+  }
 }
 </style>

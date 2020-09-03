@@ -54,7 +54,12 @@ export default {
   display: block;
   cursor: pointer;
   max-width: 1024px;
+  width: 100%;
   border-bottom: 2px solid var(--bc-dim);
+}
+
+.li-proposal:first-child {
+  border-top: 2px solid var(--bc-dim);
 }
 
 .li-proposal:hover {
@@ -71,7 +76,7 @@ export default {
 }
 
 .title {
-  font-size: 18px;
+  font-size: 22px;
   color: var(--bright);
   font-weight: 500;
 }
@@ -84,5 +89,17 @@ export default {
 .time {
   align-self: flex-end;
   color: var(--dim);
+  font-size: 14px;
+}
+
+@media screen and (max-width: 1023px) {
+  .proposal-content {
+    flex-direction: column;
+  }
+
+  .time {
+    align-self: auto;
+    padding-top: 1rem;
+  }
 }
 </style>

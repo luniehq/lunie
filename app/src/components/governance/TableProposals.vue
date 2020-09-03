@@ -1,13 +1,8 @@
 <template>
-  <div>
+  <div class="proposals">
+    <h4>Proposals</h4>
     <table class="data-table">
-      <tbody>
-        <LiProposal
-          v-for="proposal in proposals"
-          :key="proposal.id"
-          :proposal="proposal"
-        />
-      </tbody>
+      <tbody></tbody>
     </table>
   </div>
 </template>
@@ -33,3 +28,12 @@ export default {
   }),
 }
 </script>
+<style scoped>
+.proposals {
+}
+h4 {
+  font-size: 12px;
+  padding-bottom: 1rem;
+  color: var(--dim);
+}
+</style>
