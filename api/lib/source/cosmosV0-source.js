@@ -318,7 +318,7 @@ class CosmosV0API extends RESTDataSource {
     }
   }
 
-  async getAllProposals() {
+  async getAllProposals(validators) {
     const response = await this.query('gov/proposals')
     const { bonded_tokens: totalBondedTokens } = await this.query(
       '/staking/pool'
@@ -339,7 +339,9 @@ class CosmosV0API extends RESTDataSource {
           tally,
           proposer,
           totalBondedTokens,
-          detailedVotes
+          detailedVotes,
+          this.reducers,
+          validators
         )
       })
     )
@@ -347,7 +349,7 @@ class CosmosV0API extends RESTDataSource {
     return _.orderBy(proposals, 'id', 'desc')
   }
 
-  async getProposalById(proposalId) {
+  async getProposalById(proposalId, validators) {
     const proposal = await this.query(`gov/proposals/${proposalId}`).catch(
       () => {
         throw new UserInputError(
@@ -374,7 +376,9 @@ class CosmosV0API extends RESTDataSource {
       tally,
       proposer,
       totalBondedTokens,
-      detailedVotes
+      detailedVotes,
+      this.reducers,
+      validators
     )
   }
 

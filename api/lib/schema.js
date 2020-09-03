@@ -65,12 +65,12 @@ const typeDefs = gql`
 
   type Deposit {
     amount: [Coin]
-    depositer: String
+    depositer: NetworkAccount
   }
 
   type Vote {
     id: Int
-    voter: String
+    voter: NetworkAccount
     option: String
   }
 
@@ -101,7 +101,7 @@ const typeDefs = gql`
     statusEndTime: String
     tally: Tally
     deposit: String # BigNumber
-    proposer: String
+    proposer: NetworkAccount
     validator: Validator
     beneficiary: String
     detailedVotes: DetailedVotes
@@ -265,7 +265,7 @@ const typeDefs = gql`
     proposalId: String
     proposalTitle: String
     proposalDescription: String
-    proposer: String
+    proposer: InputNetworkAccount
     initialDeposit: InputCoin
     voteOption: String
     lockedBalance: Float
@@ -359,9 +359,22 @@ const typeDefs = gql`
     type: String
   }
 
+  input InputNetworkAccount {
+    name: String!
+    address: String!
+    picture: String
+  }
+
+  type NetworkAccount {
+    name: String!
+    address: String!
+    picture: String
+  }
+
   type TopVoter {
     name: String!
     address: String!
+    picture: String
     votingPower: String!
     validator: Validator
   }

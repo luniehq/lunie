@@ -823,13 +823,18 @@ class polkadotAPI {
   }
 
   async getReferendumProposalDetailedVotes(proposal, links) {
+    const api = await this.getAPI()
+
     // votes involve depositing & locking some amount for referendum proposals
     const allDeposits = proposal.allAye.concat(proposal.allNay)
     const depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
       return (balanceAggregator += Number(deposit.balance))
     }, 0)
-    const deposits = allDeposits.map((deposit) =>
-      this.reducers.depositReducer(deposit, this.network)
+    const deposits = await Promise.all(
+      allDeposits.map(async (deposit) => {
+        const depositerInfo = await api.derive.accounts.info(deposit.accountId)
+        this.reducers.depositReducer(deposit, depositerInfo, this.network)
+      })
     )
     const votes = proposal.allAye
       .map((aye) => ({ voter: aye.accountId, option: `Yes` }))
@@ -947,12 +952,16 @@ class polkadotAPI {
             proposal,
             `democracy`
           )
+          const proposerInfo = await api.derive.accounts.info(
+            proposal.proposer.toHuman()
+          )
           return this.reducers.democracyProposalReducer(
             this.network,
             proposalWithMetadata,
             totalIssuance,
             blockHeight,
-            await this.getDetailedVotes(proposalWithMetadata, `democracy`)
+            await this.getDetailedVotes(proposalWithMetadata, `democracy`),
+            proposerInfo
           )
         })
         .concat(
@@ -961,12 +970,16 @@ class polkadotAPI {
               proposal,
               `referendum`
             )
+            const proposerInfo = await api.derive.accounts.info(
+              proposal.proposer
+            )
             return this.reducers.democracyReferendumReducer(
               this.network,
               proposalWithMetadata,
               totalIssuance,
               blockHeight,
-              await this.getDetailedVotes(proposalWithMetadata, `referendum`)
+              await this.getDetailedVotes(proposalWithMetadata, `referendum`),
+              proposerInfo
             )
           })
         )
@@ -990,6 +1003,9 @@ class polkadotAPI {
                 proposal.council[0] || proposal.proposal,
                 proposal.council[0] ? `council` : `treasury`
               )
+              const proposerInfo = proposal.proposer
+                ? await api.derive.accounts(proposal.proposer.toHuman())
+                : undefined
               return this.reducers.treasuryProposalReducer(
                 this.network,
                 {
@@ -1004,7 +1020,8 @@ class polkadotAPI {
                 await this.getDetailedVotes(
                   proposalWithMetadata,
                   proposal.council[0] ? `council` : `treasury`
-                )
+                ),
+                proposerInfo
               )
             })
         )
