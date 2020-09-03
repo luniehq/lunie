@@ -73,7 +73,6 @@
     </div>
 
     <template v-else>
-      <h4>Proposals</h4>
       <LiProposal
         v-for="proposal in proposals"
         :key="proposal.id"
@@ -85,6 +84,8 @@
       :title="participantListTitle"
       :participants="governanceOverview.topVoters"
     />
+
+    <ProposalDescription :supporting-links="governanceOverview.links" />
 
     <ModalTutorial
       v-if="
@@ -107,6 +108,7 @@ import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
 import TmDataMsg from "common/TmDataMsg"
 import ParticipantList from "governance/ParticipantList"
+import ProposalDescription from "governance/ProposalDescription"
 import { mapGetters, mapState } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
@@ -122,6 +124,7 @@ export default {
     TmBtn,
     TmPage,
     ModalTutorial,
+    ProposalDescription,
     ParticipantList,
   },
   filters: {
@@ -313,8 +316,6 @@ export default {
 <style scoped>
 .proposals {
   padding: 0 1rem;
-  max-width: 1024px;
-  margin: 0 auto;
 }
 
 h1 {
@@ -330,6 +331,8 @@ h4 {
 }
 
 .overview-header {
+  max-width: 1024px;
+  margin: 0 auto;
   padding: 0 0 4rem;
   width: 100%;
 }
@@ -377,8 +380,17 @@ h4 {
 }
 
 @media screen and (max-width: 1023px) {
+  .tutorial-btn {
+    display: none;
+  }
+
+  #propose-btn {
+    margin: 2rem 0 0;
+  }
+
   .overview-top {
     justify-content: center;
+    flex-direction: column;
     padding-top: 2rem;
   }
 

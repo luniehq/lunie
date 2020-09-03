@@ -1,10 +1,14 @@
 <template>
   <div class="proposal-description">
     <div class="description-content-container">
-      <section>
+      <section v-if="description">
         <h4>Description</h4>
         <div class="description">
-          <pre v-if="type === `PARAMETER_CHANGE` || `COUNCIL`">
+          <pre
+            v-if="
+              (type === `PARAMETER_CHANGE` || `COUNCIL`) && type !== `UNKNOWN`
+            "
+          >
           {{ description }}
         </pre
           >
@@ -33,7 +37,7 @@ export default {
   props: {
     description: {
       type: String,
-      required: true,
+      default: null,
     },
     supportingLinks: {
       type: Array,
@@ -41,7 +45,7 @@ export default {
     },
     type: {
       type: String,
-      required: true,
+      default: `UNKNOWN`,
     },
   },
 }
