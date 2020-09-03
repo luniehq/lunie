@@ -1,5 +1,5 @@
 <template>
-  <tr
+  <div
     class="li-proposal"
     @click="
       $router.push({
@@ -8,19 +8,18 @@
       })
     "
   >
-    <td>
-      <Status :status="status" />
-      <h3 class="li-proposal-title">
-        {{ proposal.title }}
-      </h3>
-      <p v-if="proposal.description" class="li-proposal-description">
-        {{ summary | trim(260) }}
-      </p>
-      <router-link :to="`/proposals/` + proposal.id" class="read-more-link"
-        >Read the full proposal...</router-link
-      >
-    </td>
-  </tr>
+    <div class="proposal-content">
+      <div>
+        <div class="status-and-id">
+          <Status :status="status" />
+        </div>
+        <h3 class="title">
+          {{ proposal.title }}
+        </h3>
+      </div>
+      <span class="time">{{ proposal.creationTime }}</span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -33,12 +32,6 @@ export default {
   components: {
     Status,
   },
-  filters: {
-    trim: function (text, length) {
-      return text.length > length ? text.substring(0, length) + `…` : text
-    },
-    lowerCase: (text) => text.toLowerCase(),
-  },
   props: {
     proposal: {
       type: Object,
@@ -50,53 +43,46 @@ export default {
     status() {
       return getProposalStatus(this.proposal)
     },
-    summary() {
-      return this.proposal.description.trim(200)
-    },
   },
 }
 </script>
 
 <style scoped>
 .li-proposal {
-  margin: 1rem 1rem;
-  padding: 1rem 0;
+  padding: 2rem 0;
+  margin: 0 auto;
   display: block;
   cursor: pointer;
-  max-width: 680px;
-  background: var(--app-fg);
-  border-radius: 0.25rem;
+  max-width: 1024px;
+  border-bottom: 2px solid var(--bc-dim);
 }
 
 .li-proposal:hover {
   cursor: pointer;
-  background: var(--app-fg-hover);
 }
 
-.li-proposal-title {
-  font-size: var(--xl);
-  line-height: 32px;
+.li-proposal:hover .title {
+  color: var(--link);
+}
+
+.proposal-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 18px;
   color: var(--bright);
   font-weight: 500;
-  display: block;
-  padding: 1rem 0 0.5rem 0;
 }
 
-.li-proposal-description {
-  word-break: break-word;
-  color: var(--txt);
-  font-size: 14px;
+.status-and-id {
+  display: flex;
+  padding-bottom: 1rem;
 }
 
-.read-more-link {
-  padding-top: 1rem;
-  font-size: 14px;
-  display: inline-block;
-}
-
-@media screen and (min-width: 667px) {
-  .li-proposal {
-    margin: 1rem auto;
-  }
+.time {
+  align-self: flex-end;
+  color: var(--dim);
 }
 </style>

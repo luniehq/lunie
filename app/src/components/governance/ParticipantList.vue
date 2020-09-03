@@ -1,20 +1,22 @@
 <template>
   <div class="participant-container">
-    <h4>Votes</h4>
+    <h4>{{ title }}</h4>
     <ul>
       <li
         v-for="(participant, index) in participants"
         :key="index"
         class="participant"
       >
-        <div>
+        <div class="first-column">
           <span class="icon">
             <img src="https://lunie.fra1.digitaloceanspaces.com/polkadot.png" />
             <!-- {{ participant.icon || `n/a` }} -->
           </span>
           <span class="name">{{ participant.name || `n/a` }}</span>
         </div>
-        <span class="voter">{{ participant.voter | formatAddress }}</span>
+        <span class="voter">{{
+          participant.voter || participant.address | formatAddress
+        }}</span>
         <div>
           <span class="option">{{ participant.option || `n/a` }}</span>
           <span class="amount">{{ participant.amount || `n/a` }}</span>
@@ -34,6 +36,10 @@ export default {
     formatAddress,
   },
   props: {
+    title: {
+      type: String,
+      default: `Participant List`,
+    },
     participants: {
       type: Array,
       required: true,
@@ -54,6 +60,10 @@ h4 {
   font-size: 12px;
   padding-bottom: 1rem;
   color: var(--dim);
+}
+
+.first-column {
+  min-width: 30%;
 }
 
 .participant {

@@ -2,27 +2,54 @@
   <TmPage
     data-title="Proposals"
     :loading="$apollo.queries.proposals.loading && !loaded"
+    class="proposals"
   >
-    <div v-if="loaded" class="button-container">
-      <TmBtn
-        v-if="currentNetwork.network_type !== `polkadot`"
-        id="propose-btn"
-        value="Create Proposal"
-        type="secondary"
-        @click.native="onPropose"
-      />
-      <TmBtn
-        v-if="
-          connection.network === 'cosmos-hub-mainnet' ||
-          connection.network === 'cosmos-hub-testnet'
-        "
-        id="tutorial-btn"
-        class="tutorial-btn"
-        value="Want to learn how governance works?"
-        type="secondary"
-        @click.native="openTutorial()"
-      />
+    <div class="overview-header">
+      <div v-if="loaded" class="overview-top">
+        <h1>Governance Overview</h1>
+        <div>
+          <TmBtn
+            v-if="network !== `polkadot`"
+            id="propose-btn"
+            value="Create Proposal"
+            type="secondary"
+            @click.native="onPropose"
+          />
+          <TmBtn
+            v-if="
+              network === 'cosmos-hub-mainnet' ||
+              network === 'cosmos-hub-testnet'
+            "
+            id="tutorial-btn"
+            class="tutorial-btn"
+            value="Want to learn how governance works?"
+            type="secondary"
+            @click.native="openTutorial()"
+          />
+        </div>
+      </div>
+
+      <div class="data-row">
+        <div>
+          <h4>{{ fundTitle }}</h4>
+          <p>
+            {{ governanceOverview.treasurySize | prettyInt }} {{ stakingDenom }}
+          </p>
+        </div>
+        <div>
+          <h4>Total Staked</h4>
+          <p>
+            {{ governanceOverview.totalStakedAssets | prettyInt }}
+            {{ stakingDenom }}
+          </p>
+        </div>
+        <div v-if="governanceOverview.totalVoters">
+          <h4>Total Eligible Voters</h4>
+          <p>{{ governanceOverview.totalVoters | prettyInt }}</p>
+        </div>
+      </div>
     </div>
+
     <!-- v-ifing ModalPropose until we enable the "propose" action in Substrate -->
     <ModalPropose
       v-if="parameters && Object.keys(parameters).length > 0"
@@ -30,6 +57,7 @@
       :denom="parameters.depositDenom"
       @success="() => afterPropose()"
     />
+
     <div v-if="!$apollo.loading && proposals.length === 0">
       <div>
         <TmDataMsg icon="gavel">
@@ -43,7 +71,13 @@
         </TmDataMsg>
       </div>
     </div>
-    <TableProposals v-else :proposals="proposals" />
+    <TableProposals v-else :proposals="proposals" class="proposal-list" />
+
+    <ParticipantList
+      :title="participantListTitle"
+      :participants="governanceOverview.topVoters"
+    />
+
     <ModalTutorial
       v-if="
         showTutorial &&
@@ -64,10 +98,12 @@ import TableProposals from "governance/TableProposals"
 import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
 import TmDataMsg from "common/TmDataMsg"
+import ParticipantList from "governance/ParticipantList"
 import { mapGetters, mapState } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
 import ModalTutorial from "common/ModalTutorial"
+import { prettyInt } from "src/scripts/num"
 
 export default {
   name: `page-proposals`,
@@ -78,11 +114,16 @@ export default {
     TmBtn,
     TmPage,
     ModalTutorial,
+    ParticipantList,
+  },
+  filters: {
+    prettyInt,
   },
   data: () => ({
     proposals: [],
+    governanceOverview: [],
     parameters: {
-      depositDenom: "xxx",
+      depositDenom: "",
     },
     loaded: false,
     showTutorial: false,
@@ -126,7 +167,13 @@ export default {
   }),
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`network`, `currentNetwork`]),
+    ...mapGetters([`network`, `currentNetwork`, `stakingDenom`]),
+    fundTitle() {
+      return this.network === `polkadot` ? `Treasury` : `Community Pool`
+    },
+    participantListTitle() {
+      return this.network === `polkadot` ? `Council Members` : `Top Voters`
+    },
   },
   methods: {
     onPropose() {
@@ -150,10 +197,11 @@ export default {
           query proposals($networkId: String!) {
             proposals(networkId: $networkId) {
               id
+              proposalId
               type
               title
-              description
               status
+              creationTime
             }
           }
         `
@@ -169,6 +217,46 @@ export default {
         this.loaded = true
         /* istanbul ignore next */
         return data.proposals
+      },
+    },
+    governanceOverview: {
+      query() {
+        /* istanbul ignore next */
+        return gql`
+          query governanceOverview($networkId: String!) {
+            governanceOverview(networkId: $networkId) {
+              totalStakedAssets
+              totalVoters
+              treasurySize
+              topVoters {
+                name
+                address
+                votingPower
+                validator {
+                  name
+                  picture
+                  operatorAddress
+                }
+              }
+              links {
+                title
+                link
+              }
+            }
+          }
+        `
+      },
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.network,
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        this.loaded = true
+        /* istanbul ignore next */
+        return data.governanceOverview
       },
     },
     parameters: {
@@ -215,25 +303,72 @@ export default {
 </script>
 
 <style scoped>
-.button-container {
+.proposals {
+  padding: 0 1rem;
+}
+
+h1 {
+  font-size: 32px;
+  max-width: 500px;
+  color: var(--bright);
+}
+
+h4 {
+  font-size: 12px;
+  color: var(--dim);
+  font-weight: 400;
+}
+
+.overview-header {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 0 2rem;
+  width: 100%;
+}
+
+.overview-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  padding: 1rem 1rem 0 1rem;
-  max-width: 680px;
-  margin: 0 auto;
+  margin-bottom: 2rem;
 }
 
-@media screen and (max-width: 667px) {
-  .button-container {
-    padding-top: 0;
-    justify-content: center;
-    flex-direction: column-reverse;
-  }
+.overview-top div {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
 
-  .button-container .tutorial-btn {
-    margin-bottom: 0.5rem;
-  }
+.overview-top .button {
+  margin-left: 1rem;
+}
+
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.data-row div {
+  font-size: 22px;
+  color: var(--txt);
+  padding: 1rem;
+  border: 2px solid var(--bc);
+  border-radius: 0.25rem;
+  width: 100%;
+  margin: 0 0.5rem;
+}
+
+.data-row div:first-child {
+  margin-left: 0;
+  min-width: 50%;
+}
+
+.data-row div:last-child {
+  margin-right: 0;
+}
+
+.proposal-list {
+  margin: 1rem 0 3rem 0;
 }
 </style>
