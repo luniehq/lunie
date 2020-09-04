@@ -245,6 +245,10 @@ h1 {
   padding-bottom: 1rem;
 }
 
+.tm-data-msg {
+  margin-top: 1rem;
+}
+
 @media screen and (max-width: 667px) {
   h1 {
     padding: 2rem;
