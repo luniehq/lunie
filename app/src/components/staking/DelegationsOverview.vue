@@ -33,7 +33,10 @@
         <div slot="title">No validators in your portfolio</div>
         <div slot="subtitle">
           Head over to the
-          <a @click="goToValidators()">validator list</a>&nbsp;to {{ stakedBalance.total > 0 ? `start earning rewards` : `get staking`}}!
+          <a @click="goToValidators()">validator list</a>&nbsp;to
+          {{
+            stakedBalance.total > 0 ? `start earning rewards` : `get staking`
+          }}!
         </div>
       </TmDataMsg>
       <UndelegationModal ref="UnstakeModal" />
