@@ -213,13 +213,8 @@ const resolvers = (networkList, notificationController) => ({
             proposal.proposer
           ]
         }
-        proposerValAddress = encodeB32(
-          decodeB32(proposal.proposer),
-          `cosmosvaloper`,
-          `hex`
-        )
         return localStore(dataSources, proposal.networkId).validators[
-          proposerValAddress
+          proposal.proposer.address
         ]
       } else {
         return undefined
