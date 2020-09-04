@@ -11,6 +11,7 @@
           v-for="balance in balances"
           :key="balance.id"
           :balance="balance"
+          :stake="currentNetwork.network_type === 'polkadot'"
           :total-rewards-per-denom="totalRewardsPerDenom"
           :send="true"
         />
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from "vuex"
 import BalanceRow from "common/BalanceRow"
 export default {
   name: `table-balances`,
@@ -42,6 +44,9 @@ export default {
       order: `desc`,
     },
   }),
+  computed: {
+    ...mapGetters([`currentNetwork`]),
+  },
 }
 </script>
 <style scoped>
