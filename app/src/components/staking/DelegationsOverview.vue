@@ -24,17 +24,6 @@
           link-caption="Select a Validator"
           >You need to select at least one validator to start earning rewards
         </Bar>
-        <Bar
-          v-if="
-            delegationsLoaded &&
-            currentNetwork.network_type === `polkadot` &&
-            delegations.length === 0
-          "
-          :show="true"
-          :action="openUnstakeModal"
-          link-caption="Unstake"
-          >Or unstake instead if you prefer to have your funds liquid
-        </Bar>
         <BalanceRow
           :balance="stakedBalance"
           :stake="currentNetwork.network_type === 'polkadot'"
