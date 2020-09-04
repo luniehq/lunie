@@ -693,9 +693,10 @@ class polkadotAPI {
       )
     }
     if (type === `treasury`) {
-      const { meta } = proposal.council[0] && proposal.council[0].proposal
-        ? api.registry.findMetaCall(proposal.council[0].proposal.callIndex)
-        : null
+      const { meta } =
+        proposal.council[0] && proposal.council[0].proposal
+          ? api.registry.findMetaCall(proposal.council[0].proposal.callIndex)
+          : null
       description = meta
         ? meta.documentation.toString()
         : `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
@@ -896,7 +897,7 @@ class polkadotAPI {
     }
   }
 
-  getCouncilProposalDetailedVotes(proposal, links) {
+  getTreasuryProposalDetailedVotes(proposal, links) {
     const votes = proposal.votes.ayes
       .map((aye) => ({ voter: aye, option: `Yes` }))
       .concat(proposal.votes.nays.map((nay) => ({ voter: nay, option: `No` })))
@@ -919,8 +920,8 @@ class polkadotAPI {
     if (type === `referendum`) {
       return await this.getReferendumProposalDetailedVotes(proposal, links)
     }
-    if (type === `council`) {
-      return this.getCouncilProposalDetailedVotes(proposal, links)
+    if (type === `treasury`) {
+      return this.getTreasuryProposalDetailedVotes(proposal, links)
     }
     return {
       links
@@ -1012,7 +1013,7 @@ class polkadotAPI {
                       ...proposal,
                       votes: proposal.council[0].votes
                     },
-                    `council`
+                    `treasury`
                   )
                 : // proposal gets voted on by delegators
                   await this.getDetailedVotes(proposalWithMetadata, `treasury`),

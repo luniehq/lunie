@@ -11,7 +11,6 @@ const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
 const proposalTypeEnum = {
   TEXT: 'TEXT',
-  COUNCIL: 'COUNCIL',
   TREASURY: 'TREASURY',
   PARAMETER_CHANGE: 'PARAMETER_CHANGE'
 }
@@ -595,32 +594,6 @@ function treasuryProposalReducer(
   }
 }
 
-function councilProposalReducer(
-  network,
-  proposal,
-  councilMembers,
-  blockHeight,
-  electionInfo,
-  detailedVotes
-) {
-  return {
-    id: `council-`.concat(proposal.votes.index),
-    proposalId: proposal.votes.index,
-    networkId: network.id,
-    type: proposalTypeEnum.COUNCIL,
-    title: `Council Proposal #${proposal.votes.index}`,
-    description: proposal.description,
-    creationTime: proposal.creationTime,
-    status: `VotingPeriod`,
-    statusBeginTime: proposal.creationTime,
-    statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
-    tally: councilTallyReducer(proposal.votes, councilMembers, electionInfo),
-    deposit: undefined,
-    proposer: undefined,
-    detailedVotes
-  }
-}
-
 function tallyReducer(network, tally, totalIssuance) {
   //
   // tally chain format:
@@ -761,7 +734,6 @@ module.exports = {
   democracyProposalReducer,
   democracyReferendumReducer,
   treasuryProposalReducer,
-  councilProposalReducer,
   tallyReducer,
   topVoterReducer
 }

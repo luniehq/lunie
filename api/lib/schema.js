@@ -12,7 +12,6 @@ const typeDefs = gql`
 
   enum proposalTypeEnum {
     TEXT
-    COUNCIL
     TREASURY
     PARAMETER_CHANGE
   }
