@@ -3,9 +3,9 @@ name: Extension Deployment Workflow
 on:
   push:
     branches:
-      - "master"
+      - "*"
     paths:
-      - 'extension/CHANGELOG.md'
+      - 'extension/**'
 env:
   WORKING_DIRECTORY: ./extension
 jobs:
@@ -28,12 +28,3 @@ jobs:
       - name: Zip Build Files
         run: yarn build-zip
         working-directory: ${{env.WORKING_DIRECTORY}}
-      - name: Deploy to Extension Store
-        run: sh ./scripts/deploy.sh ./dist-zip/extension.zip
-        working-directory: ${{env.WORKING_DIRECTORY}}
-        env:
-          GAPI_CLIENT_ID: ${{ secrets.GAPI_CLIENT_ID }}
-          GAPI_CLIENT_SECRET: ${{ secrets.GAPI_CLIENT_SECRET }}
-          GAPI_REFRESH_TOKEN: ${{ secrets.GAPI_REFRESH_TOKEN }}
-          ACCESS_TOKEN: ${{ secrets.GAPI_ACCESS_TOKEN }}
-          APP_ID: ${{ secrets.EXTENSION_APP_ID }}
