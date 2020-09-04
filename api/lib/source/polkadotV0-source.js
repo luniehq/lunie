@@ -191,8 +191,8 @@ class polkadotAPI {
   async getBalancesFromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
     const account = await api.query.system.account(address)
-    const { free, feeFrozen } = account.data.toJSON()
-    const totalBalance = BigNumber(free)
+    const { free, reserved, feeFrozen } = account.data.toJSON()
+    const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
     const fiatValueAPI = this.fiatValuesAPI
     return this.reducers.balanceReducer(
@@ -207,8 +207,13 @@ class polkadotAPI {
   async getBalancesV2FromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
     const account = await api.query.system.account(address)
-    const { free, feeFrozen } = account.data.toJSON()
-    const totalBalance = BigNumber(free)
+    // -> Free balance is NOT transferable balance
+    // -> Total balance is equal to reserved plus free balance
+    // -> Locks (due to staking o voting) are set over free balance, they overlap rather than add
+    // -> Reserved balance (due to identity set) can not be used for anything
+    // See https://wiki.polkadot.network/docs/en/build-protocol-info#free-vs-reserved-vs-locked-vs-vesting-balance
+    const { free, reserved, feeFrozen } = account.data.toJSON()
+    const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
     const fiatValueAPI = this.fiatValuesAPI
     return [
@@ -493,31 +498,39 @@ class polkadotAPI {
   async getUndelegationsForDelegatorAddress(address) {
     const api = await this.getAPI()
 
-    const [stakingLedger, progress] = await Promise.all([
+    const [stakingLedger, progress, currentEra] = await Promise.all([
       api.query.staking.ledger(address),
-      api.derive.session.progress()
+      api.derive.session.progress(),
+      api.query.staking.activeEra().then(async (era) => {
+        return era.toJSON().index
+      })
     ])
     if (!stakingLedger.toJSON()) {
       return []
     }
-    const undelegations = stakingLedger.toJSON().unlocking
+    const allUndelegations = stakingLedger.toJSON().unlocking
+    const currentUndelegations = allUndelegations.filter(
+      ({ era }) => era >= currentEra
+    )
     // each hour in both Kusama and Polkadot has 600 slots, one block per slot maximum
     const eraBlocks = (24 * 600) / this.network.erasPerDay
 
-    const undelegationsWithEndTime = undelegations.map((undelegation) => {
-      const remainingEras = undelegation.era - progress.activeEra
-      const remainingBlocks = BigNumber(remainingEras)
-        .times(eraBlocks)
-        .minus(progress.eraProgress)
-        .toNumber()
-      const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
-      return {
-        ...undelegation,
-        endTime: new Date(
-          new Date().getTime() + totalMilliseconds
-        ).toUTCString()
+    const undelegationsWithEndTime = currentUndelegations.map(
+      (undelegation) => {
+        const remainingEras = undelegation.era - progress.activeEra
+        const remainingBlocks = BigNumber(remainingEras)
+          .times(eraBlocks)
+          .minus(progress.eraProgress)
+          .toNumber()
+        const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
+        return {
+          ...undelegation,
+          endTime: new Date(
+            new Date().getTime() + totalMilliseconds
+          ).toUTCString()
+        }
       }
-    })
+    )
 
     return undelegationsWithEndTime.map((undelegation) =>
       this.reducers.undelegationReducer(undelegation, address, this.network)

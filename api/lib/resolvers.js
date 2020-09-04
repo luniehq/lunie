@@ -251,7 +251,10 @@ const resolvers = (networkList, notificationController) => ({
       let validators = Object.values(
         localStore(dataSources, networkId).validators
       )
-      await remoteFetch(dataSources, networkId).getProposalById(id, validators)
+      return await remoteFetch(dataSources, networkId).getProposalById(
+        id,
+        validators
+      )
     },
     vote: (_, { networkId, proposalId, address }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getDelegatorVote({
