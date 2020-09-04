@@ -204,7 +204,6 @@ const resolvers = (networkList, notificationController) => ({
       // and attach it to proposal.
       //
       if (proposal.proposer) {
-        let proposerValAddress = ''
         const proposalNetwork = networkList.find(
           ({ id }) => id === proposal.networkId
         )
