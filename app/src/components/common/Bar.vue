@@ -10,7 +10,7 @@
           class="button small"
           :value="linkCaption"
           type="button"
-          @click.native="link ? goToLink(link) : action()"
+          @click.native="goToLink(link)"
         />
       </div>
       <div class="right">
@@ -43,10 +43,6 @@ export default {
     linkCaption: {
       type: String,
       default: "",
-    },
-    action: {
-      type: Function,
-      default: () => {},
     },
   },
   data: function () {
