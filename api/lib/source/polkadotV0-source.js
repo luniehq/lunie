@@ -498,31 +498,39 @@ class polkadotAPI {
   async getUndelegationsForDelegatorAddress(address) {
     const api = await this.getAPI()
 
-    const [stakingLedger, progress] = await Promise.all([
+    const [stakingLedger, progress, currentEra] = await Promise.all([
       api.query.staking.ledger(address),
-      api.derive.session.progress()
+      api.derive.session.progress(),
+      api.query.staking.activeEra().then(async (era) => {
+        return era.toJSON().index
+      })
     ])
     if (!stakingLedger.toJSON()) {
       return []
     }
-    const undelegations = stakingLedger.toJSON().unlocking
+    const allUndelegations = stakingLedger.toJSON().unlocking
+    const currentUndelegations = allUndelegations.filter(
+      ({ era }) => era >= currentEra
+    )
     // each hour in both Kusama and Polkadot has 600 slots, one block per slot maximum
     const eraBlocks = (24 * 600) / this.network.erasPerDay
 
-    const undelegationsWithEndTime = undelegations.map((undelegation) => {
-      const remainingEras = undelegation.era - progress.activeEra
-      const remainingBlocks = BigNumber(remainingEras)
-        .times(eraBlocks)
-        .minus(progress.eraProgress)
-        .toNumber()
-      const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
-      return {
-        ...undelegation,
-        endTime: new Date(
-          new Date().getTime() + totalMilliseconds
-        ).toUTCString()
+    const undelegationsWithEndTime = currentUndelegations.map(
+      (undelegation) => {
+        const remainingEras = undelegation.era - progress.activeEra
+        const remainingBlocks = BigNumber(remainingEras)
+          .times(eraBlocks)
+          .minus(progress.eraProgress)
+          .toNumber()
+        const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
+        return {
+          ...undelegation,
+          endTime: new Date(
+            new Date().getTime() + totalMilliseconds
+          ).toUTCString()
+        }
       }
-    })
+    )
 
     return undelegationsWithEndTime.map((undelegation) =>
       this.reducers.undelegationReducer(undelegation, address, this.network)
