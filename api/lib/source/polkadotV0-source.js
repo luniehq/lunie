@@ -1001,9 +1001,10 @@ class polkadotAPI {
         )
         .concat(
           treasuryProposals.proposals.map(async (proposal) => {
-            const proposerInfo = proposal.proposer
-              ? await api.derive.accounts(proposal.proposer.toHuman())
-              : undefined
+            const proposerInfo =
+              proposal.proposal && proposal.proposal.proposer
+                ? await api.derive.accounts.info(proposal.proposal.proposer)
+                : undefined
             const proposalWithMetadata = await this.getProposalWithMetadata(
               proposal,
               `treasury`
