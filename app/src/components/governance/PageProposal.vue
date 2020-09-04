@@ -44,7 +44,8 @@
               value="Vote"
               :disabled="
                 proposal.status !== 'VotingPeriod' ||
-                proposal.type === 'COUNCIL'
+                proposal.type === 'COUNCIL' ||
+                proposal.type === 'TREASURY'
               "
               color="primary"
               @click.native="() => onVote()"
