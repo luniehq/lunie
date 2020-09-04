@@ -13,7 +13,7 @@
 <script>
 export default {
   name: `session-success`
-}
+} 
 </script>
 
 <style scoped>
