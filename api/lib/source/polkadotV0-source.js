@@ -720,9 +720,10 @@ class polkadotAPI {
       this.network,
       BigNumber(proposal.balance).times(proposal.seconds.length).toNumber()
     )
+    const depositerInfo = await api.derive.accounts.info(proposal.proposer)
     const deposits = [
       {
-        depositer: proposal.proposer,
+        depositer: this.reducers.networkAccountReducer(depositerInfo),
         amount: [
           {
             amount: toViewDenom(this.network, proposal.balance),
@@ -731,15 +732,20 @@ class polkadotAPI {
         ]
       }
     ].concat(
-      proposal.seconds.map((second) => ({
-        depositer: second,
-        amount: [
-          {
-            amount: toViewDenom(this.network, proposal.balance),
-            denom: this.network.stakingDenom
+      Promise.all(
+        proposal.seconds.map(async (second) => {
+          const secondDepositerInfo = await api.derive.accounts.info(second)
+          return {
+            depositer: this.reducers.networkAccountReducer(secondDepositerInfo),
+            amount: [
+              {
+                amount: toViewDenom(this.network, proposal.balance),
+                denom: this.network.stakingDenom
+              }
+            ]
           }
-        ]
-      }))
+        })
+      )
     )
     const votes = await Promise.all(
       proposal.seconds.map(async (secondAddress) => {
@@ -840,7 +846,11 @@ class polkadotAPI {
     const deposits = await Promise.all(
       allDeposits.map(async (deposit) => {
         const depositerInfo = await api.derive.accounts.info(deposit.accountId)
-        this.reducers.depositReducer(deposit, depositerInfo, this.network)
+        return this.reducers.depositReducer(
+          deposit,
+          depositerInfo,
+          this.network
+        )
       })
     )
     const votes = await Promise.all(
