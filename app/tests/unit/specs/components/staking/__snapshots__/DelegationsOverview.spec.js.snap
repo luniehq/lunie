@@ -12,14 +12,32 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
         Your Stake
       </h1>
        
-      <!---->
-       
       <balancerow-stub
         balance="[object Object]"
       />
        
       <!---->
     </div>
+     
+    <tmdatamsg-stub
+      icon="sentiment_dissatisfied"
+      iconcolor="var(--warning)"
+    >
+      <div>
+        No validators in your portfolio
+      </div>
+       
+      <div>
+        
+        Head over to the
+        
+        <a>
+          validator list
+        </a>
+         to start earning rewards!
+      
+      </div>
+    </tmdatamsg-stub>
      
     <undelegationmodal-stub
       sourcevalidator="[object Object]"
@@ -40,8 +58,6 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
         Your Stake
       </h1>
        
-      <!---->
-       
       <balancerow-stub
         balance="[object Object]"
       />
@@ -53,6 +69,8 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
         validators="[object Object],[object Object],[object Object]"
       />
     </div>
+     
+    <!---->
      
     <undelegationmodal-stub
       sourcevalidator="[object Object]"

@@ -13,17 +13,6 @@
       </div>
       <div v-else-if="delegations.length > 0 || stakedBalance.total > 0">
         <h1>Your Stake</h1>
-        <Bar
-          v-if="
-            delegationsLoaded &&
-            currentNetwork.network_type === `polkadot` &&
-            delegations.length === 0
-          "
-          :show="true"
-          link="validators"
-          link-caption="Select a Validator"
-          >You need to select at least one validator to start earning rewards
-        </Bar>
         <BalanceRow
           :balance="stakedBalance"
           :stake="currentNetwork.network_type === 'polkadot'"
@@ -38,13 +27,13 @@
         />
       </div>
       <TmDataMsg
-        v-else-if="delegations.length === 0 && !$apollo.loading"
+        v-if="!$apollo.loading && delegations.length === 0"
         icon="sentiment_dissatisfied"
       >
         <div slot="title">No validators in your portfolio</div>
         <div slot="subtitle">
           Head over to the
-          <a @click="goToValidators()">validator list</a>&nbsp;to get staking!
+          <a @click="goToValidators()">validator list</a>&nbsp;to {{ stakedBalance.total > 0 ? `start earning rewards` : `get staking`}}!
         </div>
       </TmDataMsg>
       <UndelegationModal ref="UnstakeModal" />
@@ -56,7 +45,6 @@
 import { mapGetters, mapState } from "vuex"
 import BalanceRow from "common/BalanceRow"
 import TmDataMsg from "common/TmDataMsg"
-import Bar from "common/Bar"
 import TableValidators from "staking/TableValidators"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import {
@@ -73,7 +61,6 @@ export default {
     TableValidators,
     UndelegationModal,
     TmDataMsg,
-    Bar,
   },
   data: () => ({
     delegations: [],
