@@ -236,6 +236,18 @@ export default ({ apollo }) => {
         curve
       )
     },
+    async signOutAddress({commit, dispatch}, signOutAddress) {
+      const allSessionAddresses = await dispatch("getAllSessionAddresses")
+      if (
+        allSessionAddresses
+          .find(({networkId, address}) => networkId === signOutAddress.networkId && address === signOutAddress.address)
+      ) {
+        dispatch("signOut", signOutAddress.networkId)
+      }
+      commit("setAllSessionAddresses", allSessionAddresses
+        .filter(({networkId, address}) => networkId === signOutAddress.networkId && address === signOutAddress.address)
+      )
+    },
     async signOut({ state, commit, dispatch }, networkId) {
       state.externals.track(`event`, `session`, `sign-out`)
 

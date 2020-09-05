@@ -44,9 +44,8 @@
               address.address === selectedAddress &&
               address.networkId === selectedNetwork.id,
           }"
-          @click="selectAddress(address)"
         >
-          <div class="address-item">
+          <div class="address-item"  @click="selectAddress(address)">
             <img
               class="network-icon"
               :src="address.icon"
@@ -59,13 +58,19 @@
               <span class="address">{{ address.address | formatAddress }}</span>
             </div>
           </div>
-          <i
+          <!-- <i
             v-if="
               address.address === selectedAddress &&
               address.networkId === selectedNetwork.id
             "
             class="material-icons"
             >check</i
+          > -->
+          <i
+            v-if="['ledger', 'explore'].includes(address.sessionType)"
+            @click.prevent="signOutOfAddress(address, $event)"
+            class="material-icons"
+            >close</i
           >
         </div>
         <div
@@ -179,6 +184,9 @@ export default {
         address: this.selectedAddress,
         networkId: address.networkId,
       })
+    },
+    signOutOfAddress(address) {
+      this.$store.dispatch(`signOutAddress`, address)
     },
     signOut() {
       this.$store.dispatch(`signOutUser`)
