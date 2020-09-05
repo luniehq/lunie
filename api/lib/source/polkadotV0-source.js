@@ -615,11 +615,8 @@ class polkadotAPI {
 
       // get creationTime
       const block = await api.rpc.chain.getBlock(blockHash)
-      const args = block.block.extrinsics.map((extrinsic) =>
-        extrinsic.method.args.find((arg) => arg)
-      )
-      const blockTimestamp = args[0]
-      creationTime = new Date(Number(blockTimestamp)).toUTCString()
+      const blockCreationTime = await getBlockTime(block)
+      creationTime = blockCreationTime.toUTCString()
     }
 
     return {
@@ -886,7 +883,16 @@ class polkadotAPI {
     }
   }
 
-  getCouncilProposalDetailedVotes(proposal, links) {
+  getTreasuryProposalDetailedVotes(proposal, links) {
+    const height = this.store.height
+    const spendPeriod = api.consts.treasury.spendPeriod // every x blocks treasury is spend
+    const nextSpendingBlockHeightDiff = height % spendPeriod // % is the modulo operator
+    const nextSpendingBlockTime = new Date(
+      Date.now().getTime() + Math.floor(
+        /* 6s is the average block duration for both Kusama and Polkadot */ 
+        (nextSpendingBlockHeightDiff * 6) / (3600 * 24)
+      )
+    )
     const votes = proposal.votes.ayes
       .map((aye) => ({ voter: aye, option: `Yes` }))
       .concat(proposal.votes.nays.map((nay) => ({ voter: nay, option: `No` })))
@@ -897,6 +903,12 @@ class polkadotAPI {
       votingPercentageYes: (proposal.votes.ayes.length * 100) / votes.length,
       votingPercentagedNo: (proposal.votes.nays.length * 100) / votes.length,
       links,
+      timeline: [
+        {
+          title: `Voting Period Ends`,
+          time: nextSpendingBlockTime
+        }
+      ],
       council: true
     }
   }
@@ -909,8 +921,8 @@ class polkadotAPI {
     if (type === `referendum`) {
       return await this.getReferendumProposalDetailedVotes(proposal, links)
     }
-    if (type === `council`) {
-      return this.getCouncilProposalDetailedVotes(proposal, links)
+    if (type === `treasury`) {
+      return this.getTreasuryProposalDetailedVotes(proposal, links)
     }
     return {
       links
@@ -985,19 +997,11 @@ class polkadotAPI {
                 councilMembers,
                 blockHeight,
                 electionInfo,
-                proposal.council[0] ?
-                // proposal gets voted on by council
                 await this.getDetailedVotes(
                   {
                     ...proposal,
                     votes: proposal.council[0].votes
                   },
-                  `council`
-                )
-                : 
-                // proposal gets voted on by delegators
-                await this.getDetailedVotes(
-                  proposalWithMetadata,
                   `treasury`
                 )
               )
@@ -1094,6 +1098,14 @@ class polkadotAPI {
       links: JSON.parse(links)
     }
   }
+}
+
+async function getBlockTime(block) {
+  const args = block.block.extrinsics.map((extrinsic) =>
+    extrinsic.method.args.find((arg) => arg)
+  )
+  const blockTimestamp = args[0]
+  return new Date(Number(blockTimestamp))
 }
 
 module.exports = polkadotAPI
