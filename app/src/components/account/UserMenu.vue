@@ -51,11 +51,14 @@
                 address.networkId === selectedNetwork.id,
             }"
           >
-            <UserAccountRow :address="address" @click="selectAddress(address)" />
+            <UserAccountRow
+              :address="address"
+              @click="selectAddress(address)"
+            />
             <i
               v-if="['ledger', 'explore'].includes(address.sessionType)"
-              @click="signOutOfAddress(address)"
               class="material-icons notranslate"
+              @click="signOutOfAddress(address)"
               >close</i
             >
           </div>
@@ -128,12 +131,12 @@ export default {
     UserMenuAddress,
     UserAccountRow,
   },
+  filters: { formatAddress },
   data: () => ({
     selectedAddress: "",
     selectedNetwork: "",
     selectedOption: "",
   }),
-  filters: {formatAddress},
   asyncComputed: {
     addresses: {
       cache: false, // cache is false to update UserMenu when new extension accounts are added

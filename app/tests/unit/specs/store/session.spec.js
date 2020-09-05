@@ -339,7 +339,7 @@ describe(`Module: Session`, () => {
         },
         { sessionType: `explore`, address, networkId: "happy-net" }
       )
-      expect(dispatch).toHaveBeenCalledWith(`persistAddresses`,[
+      expect(dispatch).toHaveBeenCalledWith(`persistAddresses`, [
         {
           address: `123`,
           type: `explore`,

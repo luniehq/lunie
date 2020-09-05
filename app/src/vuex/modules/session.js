@@ -220,9 +220,7 @@ export default ({ apollo }) => {
         networkId,
       })
       const addresses = state.addresses
-      dispatch(`persistAddresses`,
-        addresses,
-      )
+      dispatch(`persistAddresses`, addresses)
 
       // In Polkadot there are different account types for staking. To be able to signal allowed interactions
       // for the user in Lunie we need to query for the type of the account.
@@ -251,16 +249,26 @@ export default ({ apollo }) => {
         curve
       )
     },
-    async signOutAddress({commit, dispatch}, signOutAddress) {
+    async signOutAddress({ commit, dispatch }, signOutAddress) {
       const allSessionAddresses = await dispatch("getAllSessionAddresses")
       if (
-        allSessionAddresses
-          .find(({networkId, address}) => networkId === signOutAddress.networkId && address === signOutAddress.address)
+        allSessionAddresses.find(
+          ({ networkId, address }) =>
+            networkId === signOutAddress.networkId &&
+            address === signOutAddress.address
+        )
       ) {
         dispatch("signOut", signOutAddress.networkId)
       }
-      commit("setUserAddresses", state.addresses
-        .filter(({networkId, address}) => !(networkId === signOutAddress.networkId && address === signOutAddress.address))
+      commit(
+        "setUserAddresses",
+        state.addresses.filter(
+          ({ networkId, address }) =>
+            !(
+              networkId === signOutAddress.networkId &&
+              address === signOutAddress.address
+            )
+        )
       )
       dispatch("persistAddresses", state.addresses)
     },
