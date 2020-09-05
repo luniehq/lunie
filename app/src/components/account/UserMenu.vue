@@ -377,7 +377,6 @@ h3 {
 
 .address-list .material-icons {
   font-weight: 700;
-  color: #00c700;
 }
 
 .address-list span {
