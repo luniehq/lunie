@@ -339,18 +339,16 @@ describe(`Module: Session`, () => {
         },
         { sessionType: `explore`, address, networkId: "happy-net" }
       )
-      expect(dispatch).toHaveBeenCalledWith(`persistAddresses`, {
-        addresses: [
-          {
-            address: `123`,
-            type: `explore`,
-          },
-          {
-            address: `456`,
-            type: `ledger`,
-          },
-        ],
-      })
+      expect(dispatch).toHaveBeenCalledWith(`persistAddresses`,[
+        {
+          address: `123`,
+          type: `explore`,
+        },
+        {
+          address: `456`,
+          type: `ledger`,
+        },
+      ])
       expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
         id: "happy-net",
       })
@@ -747,7 +745,7 @@ describe(`Module: Session`, () => {
         type: `explore`,
       },
     ]
-    await actions.persistAddresses({}, { addresses: state.addresses })
+    await actions.persistAddresses({}, state.addresses)
     expect(localStorage.getItem(`addresses`)).toEqual(
       JSON.stringify([
         {
