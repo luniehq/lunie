@@ -35,43 +35,30 @@
         <div class="user-popover">
           <h3 class="email">{{ (user && user.email) || `Anonymous User` }}</h3>
         </div>
-        <div
-          v-for="address in addresses"
-          :key="address.address.concat(`-${address.networkId}`)"
-          class="menu-list-item address-list"
-          :class="{
-            selected:
-              address.address === selectedAddress &&
-              address.networkId === selectedNetwork.id,
-          }"
-        >
-          <div class="address-item"  @click="selectAddress(address)">
-            <img
-              class="network-icon"
-              :src="address.icon"
-              alt="little circle with network logo"
-            />
-            <div>
-              <span class="address-network">{{
-                getAddressNetwork(address).title
-              }}</span>
-              <span class="address">{{ address.address | formatAddress }}</span>
-            </div>
-          </div>
-          <!-- <i
-            v-if="
-              address.address === selectedAddress &&
-              address.networkId === selectedNetwork.id
+        <div class="address-list">
+          <div
+            v-for="address in addresses"
+            :key="
+              (address.address || address.name).concat(
+                `-${address.networkId}-${address.sessionType}`
+              )
             "
-            class="material-icons"
-            >check</i
-          > -->
-          <i
-            v-if="['ledger', 'explore'].includes(address.sessionType)"
-            @click.prevent="signOutOfAddress(address, $event)"
-            class="material-icons"
-            >close</i
+            class="menu-list-item address-list-item"
+            :data-address-name="address.name"
+            :class="{
+              selected:
+                address.address === selectedAddress &&
+                address.networkId === selectedNetwork.id,
+            }"
           >
+            <UserAccountRow :address="address" @click="selectAddress(address)" />
+            <i
+              v-if="['ledger', 'explore'].includes(address.sessionType)"
+              @click="signOutOfAddress(address)"
+              class="material-icons notranslate"
+              >close</i
+            >
+          </div>
         </div>
         <div
           id="create-new-account"
@@ -128,32 +115,81 @@
 <script>
 import Avatar from "common/Avatar"
 import UserMenuAddress from "account/UserMenuAddress"
-import { formatAddress } from "src/filters"
+import UserAccountRow from "account/UserAccountRow"
 import { mapGetters, mapState } from "vuex"
+import { uniqWith, sortBy } from "lodash"
+import { AddressRole } from "../../gql"
+import { formatAddress } from "src/filters"
+
 export default {
   name: `user-menu`,
-  filters: {
-    formatAddress,
-  },
   components: {
     Avatar,
     UserMenuAddress,
+    UserAccountRow,
   },
   data: () => ({
     selectedAddress: "",
     selectedNetwork: "",
     selectedOption: "",
   }),
+  filters: {formatAddress},
+  asyncComputed: {
+    addresses: {
+      cache: false, // cache is false to update UserMenu when new extension accounts are added
+      get: async function () {
+        const localAccounts = this.keystore.accounts
+        // active sessions will likely overlap with the ones stored locally / in extension
+        const addressesWithKeys = localAccounts
+          .map((account) => ({
+            ...account,
+            networkId: account.network || account.networkId,
+            sessionType: `local`,
+          }))
+          .concat(
+            this.extension.accounts.map((account) => ({
+              ...account,
+              networkId: account.network || account.networkId,
+              sessionType: `extension`,
+            }))
+          )
+        const sessionAddressesWithoutKeys = this.session.addresses
+          .filter(
+            ({ address }) =>
+              // pick only addresses where there is no addres with key already
+              !addressesWithKeys.find(
+                (addressWithKey) => addressWithKey.address === address
+              )
+          )
+          .map((address) => ({
+            ...address,
+            sessionType: address.type || "explore",
+          }))
+        const allAddresses = uniqWith(
+          sortBy(
+            addressesWithKeys.concat(sessionAddressesWithoutKeys),
+            (account) => {
+              return account.networkId
+            }
+          ),
+          (a, b) => a.address === b.address && a.sessionType === b.sessionType
+        )
+        // filter out accounts without address as the checkAddressRole query will fail as well as account is then unusable
+        let allAddressesWithAddressRole = await this.getAllAddressesRoles(
+          allAddresses.filter(({ address }) => address)
+        )
+        return allAddressesWithAddressRole
+      },
+    },
+  },
   computed: {
-    ...mapState([`session`, `account`]),
-    ...mapGetters([`address`, `networks`]),
+    ...mapState([`session`, `account`, `keystore`, `extension`]),
+    ...mapGetters([`address`, `network`, `networks`]),
+    ...mapGetters({ currentAddress: `address` }),
     user() {
       return this.account.userSignedIn && this.account.user
         ? this.account.user
         : undefined
-    },
-    addresses() {
-      return this.session.allSessionAddresses
     },
     hasAddressType() {
       return (
@@ -162,6 +198,13 @@ export default {
         this.session.addressRole !== `none`
       )
     },
+  },
+  created() {
+    // getAddressFromExtension needs some  time to grab the addresses from extension in the first load
+    this.$store.dispatch(`getAddressesFromExtension`)
+    this.$store.dispatch(`loadLocalAccounts`).then(() => {
+      this.loaded = true
+    })
   },
   methods: {
     openSignInModal() {
@@ -202,7 +245,33 @@ export default {
       }
     },
     getAddressNetwork(address) {
-      return this.networks.find((network) => network.id === address.networkId)
+      return (
+        this.networks.find((network) => network.id === address.networkId) || {
+          type: "unknown",
+        }
+      )
+    },
+    async getAddressRole(address) {
+      const { data } = await this.$apollo.query({
+        query: AddressRole,
+        variables: { networkId: address.networkId, address: address.address },
+        fetchPolicy: "network-only",
+      })
+      return {
+        ...address,
+        addressRole: data.accountRole,
+      }
+    },
+    async getAllAddressesRoles(addresses) {
+      return await Promise.all(
+        addresses.map(async (address) => {
+          if (this.getAddressNetwork(address).network_type === `polkadot`) {
+            return await this.getAddressRole(address)
+          } else {
+            return address
+          }
+        })
+      )
     },
   },
 }
@@ -256,17 +325,15 @@ h3 {
 }
 
 .address-list {
+  max-height: 18rem;
+  overflow: scroll;
+}
+
+.address-list-item {
   padding: 0 0 1rem 0;
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.address-item {
-  position: relative;
-  display: flex;
   align-items: center;
   justify-content: space-between;
 }
@@ -283,7 +350,7 @@ h3 {
   color: #324175;
 }
 
-.menu-list-item.address-list {
+.menu-list-item.address-list-item {
   padding: 0.25rem;
 }
 
@@ -305,17 +372,6 @@ h3 {
   background: #e6fae6;
 }
 
-.network-icon {
-  display: block;
-  position: relative;
-  max-height: 100%;
-  height: 2.5rem;
-  width: 2.5rem;
-  border-radius: 50%;
-  margin-right: 0.5rem;
-  padding: 0.25rem;
-}
-
 .address-list .material-icons {
   font-weight: 700;
   color: #00c700;
@@ -334,10 +390,6 @@ h3 {
 .address-type {
   margin-top: 0.25em;
   color: hsl(0, 0%, 40%);
-}
-
-.address-network {
-  color: black;
 }
 
 /* with an address type the addres box is a bit bigger so the rest needs to be centered */

@@ -1,0 +1,104 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserMenu should show the UserMenu page 1`] = `
+<div
+  class="user-menu"
+>
+  <usermenuaddress-stub
+    address="cosmos1234"
+  />
+   
+  <router-link-stub
+    class="user-menu-icon-container notifications has-tooltip"
+    data-original-title="null"
+    to="[object Object]"
+  >
+    <i
+      class="material-icons"
+    >
+      notifications
+    </i>
+  </router-link-stub>
+   
+  <v-popover-stub
+    autohide="true"
+    container="body"
+    delay="0"
+    handleresize="true"
+    offset="0"
+    openclass="user-menu-popover"
+    placement="bottom"
+    popoverarrowclass="tooltip-arrow popover-arrow"
+    popoverbaseclass="tooltip popover"
+    popoverclass="vue-popover-theme"
+    popoverinnerclass="tooltip-inner popover-inner"
+    popoverwrapperclass="wrapper"
+    popperoptions="[object Object]"
+    trigger="click"
+  >
+    <div
+      class="avatar-container"
+      id="open-user-menu"
+    >
+      <!---->
+       
+      <avatar-stub
+        address="email@.mail.com"
+        class="avatar tooltip-target"
+        human="true"
+      />
+    </div>
+     
+    <template>
+      <div
+        class="user-popover"
+      >
+        <h3
+          class="email"
+        >
+          email@.mail.com
+        </h3>
+      </div>
+       
+      <div
+        class="address-list"
+      />
+       
+      <div
+        class="menu-list-item"
+        id="create-new-account"
+      >
+        <span>
+          Add an address
+        </span>
+         
+        <i
+          class="material-icons"
+        >
+          add_circle
+        </i>
+      </div>
+       
+      <div>
+        <!---->
+         
+        <!---->
+         
+        <div
+          class="menu-list-item outline"
+        >
+          <span>
+            Logout
+          </span>
+           
+          <i
+            class="material-icons"
+          >
+            exit_to_app
+          </i>
+        </div>
+      </div>
+    </template>
+  </v-popover-stub>
+</div>
+`;

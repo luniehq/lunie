@@ -80,12 +80,14 @@ describe(`Module: Keystore`, () => {
 
   it(`should load accounts`, async () => {
     const commit = jest.fn()
-    await actions.loadAccounts({ commit, state })
+    const dispatch = jest.fn(() => ({ id: "cosmos-hub-testnet" }))
+    await actions.loadLocalAccounts({ commit, dispatch, state })
 
     expect(commit).toHaveBeenCalledWith(`setAccounts`, [
       {
         name: `def`,
         address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+        network: "cosmos-hub-testnet",
       },
     ])
   })
@@ -182,7 +184,7 @@ describe(`Module: Keystore`, () => {
         network: "cosmos-hub-mainnet",
       }
     )
-    expect(dispatch).toHaveBeenCalledWith(`loadAccounts`)
+    expect(dispatch).toHaveBeenCalledWith(`loadLocalAccounts`)
   })
 
   it(`should sign in after account creation`, async () => {
@@ -252,7 +254,6 @@ describe(`Module: Wallet (getWallet)`, () => {
       `m/44'/118'/0'/0/0`, // HDPath
       `ed25519` // curve
     )
-    console.log(wallet)
     expect(wallet.cosmosAddress).toBe(`cosmos1234`)
   })
 
