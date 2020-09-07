@@ -1181,7 +1181,7 @@ class polkadotAPI {
           )
         })
       ),
-      links: JSON.parse(links)
+      links
     }
   }
 }
