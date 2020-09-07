@@ -354,7 +354,10 @@ export default {
       } else {
         return {
           type: messageType.STAKE,
-          to: [this.targetValidator.operatorAddress],
+          to:
+            Object.keys(this.targetValidator).length > 0
+              ? [this.targetValidator.operatorAddress]
+              : "",
           amount: {
             amount: this.amount,
             denom: this.currentNetwork.stakingDenom,

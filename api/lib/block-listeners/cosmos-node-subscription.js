@@ -52,7 +52,7 @@ class CosmosNodeSubscription {
 
     // set store upon start
     this.store.update({
-      proposals: await cosmosAPI.getAllProposals()
+      proposals: await cosmosAPI.getAllProposals(this.validators)
     })
 
     this.proposalPollingTimeout = setTimeout(async () => {
