@@ -15,7 +15,7 @@
         :status="status.badge"
         :status-begin-time="proposal.statusBeginTime"
         :total-votes="proposal.tally.total"
-        :proposal-id="proposal.id"
+        :proposal-id="proposal.proposalId"
         :vote-percentage="proposal.tally.totalVotedPercentage"
         :yes-votes="Number(proposal.tally.yes)"
         :no-votes="Number(proposal.tally.no)"
@@ -24,7 +24,7 @@
         :deposit-total="proposal.detailedVotes.depositsSum"
       />
 
-      <ParticipantList :participants="proposal.detailedVotes.votes" />
+      <ParticipantList :participants="proposal.detailedVotes.votes || []" />
 
       <template v-if="proposal.detailedVotes.timeline">
         <Timeline :timeline="proposal.detailedVotes.timeline" />

@@ -2,39 +2,115 @@
 
 exports[`PageProposals shows a message if still loading 1`] = `
 <tmpage-stub
+  class="proposals"
   data-title="Proposals"
   emptysubtitle=""
   emptytitle="No data"
   loaderpath=""
   loading="true"
 >
-  <!---->
-   
-  <modalpropose-stub
-    denom="xxx"
-  />
-   
-  <div>
-    <div>
-      <tmdatamsg-stub
-        icon="gavel"
-        iconcolor="var(--warning)"
-      >
-        <div>
-          
-          No Governance Proposals
-        
-        </div>
+  <div
+    class="overview-header"
+  >
+    <!---->
+     
+    <div
+      class="data-row"
+    >
+      <div>
+        <h4>
+          Community Pool
+        </h4>
          
-        <div>
+        <p>
           
-          There are currently no governance proposals to display. Click the
-          'Create Proposal' button to submit the first network proposal!
+          0 ATOM
         
-        </div>
-      </tmdatamsg-stub>
+        </p>
+      </div>
+       
+      <div>
+        <h4>
+          Total Staked
+        </h4>
+         
+        <p>
+          
+          0
+          ATOM
+        
+        </p>
+      </div>
+       
+      <!---->
     </div>
   </div>
+   
+  <modalpropose-stub
+    denom="ATOM"
+  />
+   
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+   
+  <participantlist-stub
+    participants="[object Object],[object Object]"
+    title="Top Voters"
+  />
+   
+  <proposaldescription-stub
+    supportinglinks=""
+    type="UNKNOWN"
+  />
    
   <!---->
 </tmpage-stub>
@@ -42,15 +118,52 @@ exports[`PageProposals shows a message if still loading 1`] = `
 
 exports[`PageProposals shows a message if there is nothing to display 1`] = `
 <tmpage-stub
+  class="proposals"
   data-title="Proposals"
   emptysubtitle=""
   emptytitle="No data"
   loaderpath=""
+  loading="true"
 >
-  <!---->
+  <div
+    class="overview-header"
+  >
+    <!---->
+     
+    <div
+      class="data-row"
+    >
+      <div>
+        <h4>
+          Community Pool
+        </h4>
+         
+        <p>
+          
+          0 ATOM
+        
+        </p>
+      </div>
+       
+      <div>
+        <h4>
+          Total Staked
+        </h4>
+         
+        <p>
+          
+          0
+          ATOM
+        
+        </p>
+      </div>
+       
+      <!---->
+    </div>
+  </div>
    
   <modalpropose-stub
-    denom="xxx"
+    denom="ATOM"
   />
    
   <div>
@@ -75,25 +188,129 @@ exports[`PageProposals shows a message if there is nothing to display 1`] = `
     </div>
   </div>
    
+  <participantlist-stub
+    participants="[object Object],[object Object]"
+    title="Top Voters"
+  />
+   
+  <proposaldescription-stub
+    supportinglinks=""
+    type="UNKNOWN"
+  />
+   
   <!---->
 </tmpage-stub>
 `;
 
 exports[`PageProposals shows a proposals table 1`] = `
 <tmpage-stub
+  class="proposals"
   data-title="Proposals"
   emptysubtitle=""
   emptytitle="No data"
   loaderpath=""
 >
-  <!---->
+  <div
+    class="overview-header"
+  >
+    <!---->
+     
+    <div
+      class="data-row"
+    >
+      <div>
+        <h4>
+          Community Pool
+        </h4>
+         
+        <p>
+          
+          0 ATOM
+        
+        </p>
+      </div>
+       
+      <div>
+        <h4>
+          Total Staked
+        </h4>
+         
+        <p>
+          
+          0
+          ATOM
+        
+        </p>
+      </div>
+       
+      <!---->
+    </div>
+  </div>
    
   <modalpropose-stub
-    denom="lunies"
+    denom="ATOM"
   />
    
-  <tableproposals-stub
-    proposals="[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]"
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+  <liproposal-stub
+    proposal="[object Object]"
+  />
+   
+  <participantlist-stub
+    participants="[object Object],[object Object]"
+    title="Top Voters"
+  />
+   
+  <proposaldescription-stub
+    supportinglinks=""
+    type="UNKNOWN"
   />
    
   <!---->

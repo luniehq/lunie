@@ -3,50 +3,71 @@ import PageProposals from "governance/PageProposals"
 import { proposals } from "../../store/json/proposals"
 
 describe(`PageProposals`, () => {
-  let wrapper, $store, $apollo
+  let wrapper, $store, $apollo, governanceOverview
+
+  governanceOverview = {
+    topVoters: [
+      {
+        name: "Ohnename",
+      },
+      {
+        name: "DemocraticActivePerson",
+      },
+    ],
+    links: [],
+  }
+
+  $store = {
+    commit: jest.fn(),
+    dispatch: jest.fn(),
+    state: {
+      connection: {
+        network: "cosmos-hub-mainnet",
+      },
+      session: {
+        experimentalMode: true,
+      },
+    },
+    getters: {
+      network: "cosmos-hub-mainnet",
+      stakingDenom: "ATOM",
+    },
+  }
+
+  $apollo = {
+    queries: {
+      proposals: {
+        loading: false,
+        error: undefined,
+      },
+      parameters: {
+        loading: false,
+        error: undefined,
+      },
+      governanceOverview: {
+        loading: false,
+        error: undefined,
+      },
+    },
+  }
 
   beforeEach(() => {
-    $store = {
-      commit: jest.fn(),
-      dispatch: jest.fn(),
-      state: {
-        connection: {
-          network: "cosmos-hub-mainnet",
-        },
-        session: {
-          experimentalMode: true,
-        },
-      },
-      getters: {},
-    }
-    $apollo = {
-      queries: {
-        proposals: {
-          loading: false,
-          error: undefined,
-        },
-        parameters: {
-          loading: false,
-          error: undefined,
-        },
-      },
-    }
-    const args = {
+    wrapper = shallowMount(PageProposals, {
       mocks: {
         $store,
         $apollo,
       },
-    }
-    wrapper = shallowMount(PageProposals, args)
-  })
-
-  it(`shows a proposals table`, async () => {
+    })
     wrapper.setData({
       proposals,
       parameters: {
-        depositDenom: "lunies",
+        depositDenom: "ATOM",
       },
+      governanceOverview,
     })
+  })
+
+  it(`shows a proposals table`, async () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
@@ -58,6 +79,7 @@ describe(`PageProposals`, () => {
   it(`shows a message if there is nothing to display`, async () => {
     wrapper.setData({
       proposals: [],
+      governanceOverview,
     })
     expect(wrapper.element).toMatchSnapshot()
   })
@@ -65,6 +87,7 @@ describe(`PageProposals`, () => {
   it(`opens a create proposal modal`, () => {
     wrapper.setData({
       loaded: true,
+      governanceOverview,
     })
     const $refs = { modalPropose: { open: jest.fn() } }
     wrapper.vm.$refs = $refs
@@ -81,6 +104,7 @@ describe(`PageProposals`, () => {
   it(`should show How Cosmos Governance Works tutorial`, () => {
     wrapper.setData({
       showTutorial: false,
+      governanceOverview,
     })
     wrapper.vm.openTutorial()
     expect(wrapper.vm.showTutorial).toBe(true)
@@ -89,6 +113,7 @@ describe(`PageProposals`, () => {
   it(`should hide How Cosmos Governance Works tutorial`, () => {
     wrapper.setData({
       showTutorial: true,
+      governanceOverview,
     })
     wrapper.vm.hideTutorial()
     expect(wrapper.vm.showTutorial).toBe(false)

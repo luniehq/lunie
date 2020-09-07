@@ -29,8 +29,6 @@ export default {
 }
 </script>
 <style scoped>
-.proposals {
-}
 h4 {
   font-size: 12px;
   padding-bottom: 1rem;

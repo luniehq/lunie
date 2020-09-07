@@ -90,15 +90,6 @@ describe(`PageProposal`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should show Unknown proposer if proposer is unknown`, () => {
-    wrapper = shallowMount(PageProposal, args)
-    wrapper.setData({
-      proposal: proposals[0],
-      found: true,
-    })
-    expect(wrapper.html()).toContain("Unknown proposer")
-  })
-
   it(`should show proposer`, () => {
     wrapper.setData({
       proposal: proposals[1],

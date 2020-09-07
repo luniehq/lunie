@@ -83,7 +83,15 @@ exports[`PageProposal Modal onVote enables voting if the proposal is on the 'Vot
 
 exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
 <tmpage-stub loaderpath="" emptytitle="No data" emptysubtitle="" data-title="Proposal">
-  <tmdatanotfound-stub></tmdatanotfound-stub>
+  <div class="proposal">
+    <proposalheader-stub title="test" type="cosmos-sdk/TextProposal" proposer="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz" status="[object Object]"></proposalheader-stub>
+    <proposalstatusbar-stub status="Rejected" statusbegintime="2019-08-25T08:46:16.394157593Z" proposalid="n/a" depositpercentage="0" votepercentage="0" deposittotal="1" votetotal="n/a" yesvotes="0" novotes="0" vetovotes="0" abstainvotes="0" total-votes="0"></proposalstatusbar-stub>
+    <participantlist-stub title="Participant List" participants=""></participantlist-stub>
+    <timeline-stub timeline="[object Object]"></timeline-stub>
+    <proposaldescription-stub description="test" supportinglinks="" type="cosmos-sdk/TextProposal"></proposaldescription-stub>
+    <!---->
+    <modalvote-stub proposalid="33" proposaltitle="test" lastvoteoption="Yes"></modalvote-stub>
+  </div>
 </tmpage-stub>
 `;
 
@@ -93,8 +101,55 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
   emptysubtitle=""
   emptytitle="No data"
   loaderpath=""
+  loading="true"
 >
-  <tmdatanotfound-stub />
+  <div
+    class="proposal"
+  >
+    <proposalheader-stub
+      proposer="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
+      status="[object Object]"
+      title="test"
+      type="cosmos-sdk/TextProposal"
+    />
+     
+    <proposalstatusbar-stub
+      abstainvotes="0"
+      depositpercentage="0"
+      deposittotal="1"
+      novotes="0"
+      proposalid="n/a"
+      status="Rejected"
+      statusbegintime="2019-08-25T08:46:16.394157593Z"
+      total-votes="0"
+      vetovotes="0"
+      votepercentage="0"
+      votetotal="n/a"
+      yesvotes="0"
+    />
+     
+    <participantlist-stub
+      participants=""
+      title="Participant List"
+    />
+     
+    <timeline-stub
+      timeline="[object Object]"
+    />
+     
+    <proposaldescription-stub
+      description="test"
+      supportinglinks=""
+      type="cosmos-sdk/TextProposal"
+    />
+     
+    <!---->
+     
+    <modalvote-stub
+      proposalid="33"
+      proposaltitle="test"
+    />
+  </div>
 </tmpage-stub>
 `;
 

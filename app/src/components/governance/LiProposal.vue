@@ -48,6 +48,12 @@ export default {
 </script>
 
 <style scoped>
+.title {
+  font-size: 22px;
+  color: var(--bright);
+  font-weight: 500;
+}
+
 .li-proposal {
   padding: 2rem 0;
   margin: 0 auto;
@@ -73,12 +79,6 @@ export default {
 .proposal-content {
   display: flex;
   justify-content: space-between;
-}
-
-.title {
-  font-size: 22px;
-  color: var(--bright);
-  font-weight: 500;
 }
 
 .status-and-id {
