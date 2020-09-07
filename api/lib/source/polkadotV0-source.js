@@ -937,7 +937,9 @@ class polkadotAPI {
   }
 
   async getTreasuryProposalDetailedVotes(proposal, links) {
-    let votes
+    const api = await this.getAPI()
+
+    let votes, timeline = []
     if (proposal.votes) {
       votes = await Promise.all(
         proposal.votes.ayes
@@ -952,6 +954,25 @@ class polkadotAPI {
             }))
           )
       )
+
+      // mimicing the spend period in polkadot UI (not sure this is correct)
+      const height = this.store.latestHeight
+      const spendPeriod = api.consts.treasury.spendPeriod // every x blocks treasury is spend
+      const nextSpendingBlockHeightDiff = spendPeriod.toNumber() - (height % spendPeriod.toNumber()) // % is the modulo operator
+      const nextSpendingBlockTime = new Date(
+        new Date().getTime() +
+          /* 6s is the average block duration for both Kusama and Polkadot */ 
+          nextSpendingBlockHeightDiff * 6 * 1000
+      )
+      console.log(height, spendPeriod.toNumber(), nextSpendingBlockHeightDiff, nextSpendingBlockTime)
+      timeline.push({
+        title: `Voting Period Ends`,
+        time: nextSpendingBlockTime.toUTCString()
+      })
+    } else {
+      timeline.push({
+        title: `Waiting for Council voting`
+      })
     }
     return {
       votes,
@@ -964,7 +985,7 @@ class polkadotAPI {
         ? (proposal.votes.nays.length * 100) / votes.length
         : undefined,
       links,
-      timeline: [],
+      timeline,
       council: true
     } 
   }
