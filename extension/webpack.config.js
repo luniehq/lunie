@@ -41,7 +41,8 @@ const config = {
       src: resolve('../app/src'),
       lunie: resolve('../app'),
       app: resolve('../app'),
-      scripts: resolve('../app/src/scripts')
+      scripts: resolve('../app/src/scripts'),
+      '/img/tutorials': resolve('../app/public/img/tutorials')
     },
     extensions: ['.js', '.vue', '.css']
   },
