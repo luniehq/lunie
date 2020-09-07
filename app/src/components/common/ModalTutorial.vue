@@ -223,7 +223,7 @@ export default {
 
 .modal-tutorial .top-bg {
   margin-top: 0.6rem;
-  background-image: url("/img/tutorials/bg-red.png");
+  background-image: url("../../../public/img/tutorials/bg-red.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -234,23 +234,23 @@ export default {
 }
 
 .modal-tutorial .top-bg.yellow {
-  background-image: url("/img/tutorials/bg-yellow.png");
+  background-image: url("../../../public/img/tutorials/bg-yellow.png");
 }
 
 .modal-tutorial .top-bg.green {
-  background-image: url("/img/tutorials/bg-green.png");
+  background-image: url("../../../public/img/tutorials/bg-green.png");
 }
 
 .modal-tutorial .top-bg.blue {
-  background-image: url("/img/tutorials/bg-blue.png");
+  background-image: url("../../../public/img/tutorials/bg-blue.png");
 }
 
 .modal-tutorial .top-bg.lightblue {
-  background-image: url("/img/tutorials/bg-lightblue.png");
+  background-image: url("../../../public/img/tutorials/bg-lightblue.png");
 }
 
 .modal-tutorial .top-bg.red {
-  background-image: url("/img/tutorials/bg-red.png");
+  background-image: url("../../../public/img/tutorials/bg-red.png");
 }
 
 .modal-tutorial .content {
