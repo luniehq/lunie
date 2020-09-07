@@ -498,7 +498,7 @@ function depositReducer(deposit, depositerInfo, network) {
         denom: network.stakingDenom
       }
     ],
-    depositer: networkAccountReducer(depositerInfo)
+    depositer: depositerInfo.identity ? networkAccountReducer(depositerInfo) : depositerInfo
   }
 }
 
@@ -533,7 +533,7 @@ function democracyProposalReducer(
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
-    proposer: networkAccountReducer(proposerInfo),
+    proposer: proposerInfo.identity ? networkAccountReducer(proposerInfo) : proposerInfo,
     detailedVotes
   }
 }
@@ -559,7 +559,7 @@ function democracyReferendumReducer(
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
-    proposer: networkAccountReducer(proposerInfo),
+    proposer: proposerInfo.identity ? networkAccountReducer(proposerInfo) : proposerInfo,
     detailedVotes
   }
 }
@@ -589,7 +589,7 @@ function treasuryProposalReducer(
       ? councilTallyReducer(proposal.votes, councilMembers, electionInfo)
       : null,
     deposit: toViewDenom(network, Number(proposal.deposit)),
-    proposer: networkAccountReducer(proposerInfo),
+    proposer: proposerInfo.identity ? networkAccountReducer(proposerInfo) : proposerInfo,
     beneficiary: proposal.beneficiary, // the account getting the tip
     detailedVotes
   }
