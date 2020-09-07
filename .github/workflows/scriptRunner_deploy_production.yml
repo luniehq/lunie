@@ -6,6 +6,7 @@ on:
       - 'master'
     paths:
       - 'scriptRunner/CHANGELOG.md'
+      - 'api/CHANGELOG.md'
 env:
   WORKING_DIRECTORY: ./scriptRunner
   HASURA_URL: "https://production-db.lunie.io/v1/graphql"
