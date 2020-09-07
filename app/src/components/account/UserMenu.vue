@@ -168,7 +168,7 @@ export default {
             ...address,
             sessionType: address.sessionType
               ? address.sessionType
-              : address.type || "explore",
+              : "explore",
           }))
         const allAddresses = uniqWith(
           sortBy(

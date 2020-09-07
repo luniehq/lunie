@@ -12,7 +12,6 @@ const typeDefs = gql`
 
   enum proposalTypeEnum {
     TEXT
-    COUNCIL
     TREASURY
     PARAMETER_CHANGE
   }
@@ -86,6 +85,7 @@ const typeDefs = gql`
     votingPercentageNo: String
     links: [GovernanceLink]
     timeline: [GovernanceTimeline]
+    council: Boolean
   }
 
   type Proposal {

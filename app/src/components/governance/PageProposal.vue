@@ -20,11 +20,13 @@
           <p class="proposer">
             <template v-if="proposal.validator">
               Proposed by {{ proposal.validator.name }}:
-              <Address :address="proposal.proposer" />
+              <Address :address="proposal.proposer.address" />
             </template>
             <template v-else-if="proposal.proposer">
               Proposed by
-              <Address :address="proposal.proposer" />
+              <Address
+                :address="proposal.proposer.name || proposal.proposer.address"
+              />
             </template>
             <template v-else>
               Unknown proposer

@@ -52,7 +52,7 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
-      v-if="!sourceValidator && session.addressRole !== `stash`"
+      v-if="isUnnomination && session.addressRole !== `stash`"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -84,7 +84,11 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="session.addressRole !== `stash`"
+      v-if="
+        currentNetwork.network_type === `polkadot`
+          ? !isUnnomination && session.addressRole !== `stash`
+          : true
+      "
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
@@ -179,6 +183,10 @@ export default {
     sourceValidator: {
       type: Object,
       default: () => ({}),
+    },
+    isUnnomination: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({
