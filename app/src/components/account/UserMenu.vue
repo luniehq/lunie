@@ -166,7 +166,9 @@ export default {
           )
           .map((address) => ({
             ...address,
-            sessionType: address.type || "explore",
+            sessionType: address.sessionType
+              ? address.sessionType
+              : address.type || "explore",
           }))
         const allAddresses = uniqWith(
           sortBy(
