@@ -509,7 +509,7 @@ function networkAccountReducer(account) {
         ? account.identity.display
         : '',
     address: account && account.accountId ? account.accountId : '',
-    picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
+    picture: account && account.identity ? account.identity.twitter : '' // TODO: get the twitter picture using scriptRunner
   }
 }
 
