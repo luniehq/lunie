@@ -17,12 +17,12 @@ module.exports = {
     browser.click("#recover-with-backup")
 
     await browser.waitForElementVisible(
-      `.select-network-item[data-network=${browser.globals.network}]`,
+      `.select-network-item[data-network=${browser.globals.network}] .address-item`,
       20000,
       true
     )
     await browser.click(
-      `.select-network-item[data-network=${browser.globals.network}]`
+      `.select-network-item[data-network=${browser.globals.network}] .address-item`
     )
 
     browser.waitForElementVisible("#import-seed", 20000, true)
