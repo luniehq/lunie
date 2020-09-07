@@ -11,7 +11,10 @@
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
     feature-flag="delegate"
-    :disabled="isInElection"
+    :disabled="
+      isInElection ||
+      (hasNoNominations && Object.keys(targetValidator).length === 0)
+    "
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -45,15 +48,26 @@
           There is currently an ongoing election for new validator candidates.
           Stake is not allowed by now.
         </span>
-        <span v-else-if="!isRedelegation">
+        <span
+          v-if="hasNoNominations && Object.keys(targetValidator).length === 0"
+        >
+          Before staking any tokens you need to select some validators to start
+          getting rewards. Select one by going to its profile page and clicking
+          on "Select"
+        </span>
+        <span v-else-if="!isRedelegation && !isNomination">
           It will take {{ undelegationPeriod }} to unlock your tokens after they
           are staked. There is a risk that some tokens will be lost depending on
           the behaviour of the validator you choose.
         </span>
-        <span v-else>
+        <span v-else-if="!isNomination && !isUnnomination">
           Voting power and rewards will change instantly upon restaking — but
           your tokens will still be subject to the risks associated with the
           original stake for the duration of the unstaking period.
+        </span>
+        <span v-else-if="isNomination">
+          The validator will appear within your validator set once the next era
+          begins.
         </span>
       </div>
     </TmFormGroup>
@@ -101,19 +115,27 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="session.addressRole !== `controller`"
+      v-if="
+        currentNetwork.network_type === `polkadot`
+          ? (!isNomination || stakedBalance.total === 0) &&
+            session.addressRole !== `controller`
+          : true
+      "
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
       :field-label="`Amount${
         currentNetwork.network_type === 'polkadot' &&
+        Object.keys(targetValidator).length > 0 &&
         balance.total > 0 &&
         session.addressRole !== `stash`
           ? ' (Optional)'
           : ''
       }`"
     >
-      <span class="input-suffix max-button">{{ stakingDenom }}</span>
+      <span class="input-suffix max-button">{{
+        currentNetwork.stakingDenom
+      }}</span>
       <TmFieldGroup>
         <TmField
           id="amount"
@@ -135,11 +157,11 @@
       <span class="form-message">
         Available to stake:
         {{ maxAmount }}
-        {{ stakingDenom }}s
+        {{ currentNetwork.stakingDenom }}s
       </span>
       <TmFormMsg
         v-if="balance.available === '0'"
-        :msg="`doesn't have any ${stakingDenom}s`"
+        :msg="`doesn't have any ${currentNetwork.stakingDenom}s`"
         name="Wallet"
         type="custom"
       />
@@ -156,7 +178,7 @@
       <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.max"
         type="custom"
-        :msg="`You don't have enough ${stakingDenom}s to proceed.`"
+        :msg="`You don't have enough ${currentNetwork.stakingDenom}s to proceed.`"
       />
       <TmFormMsg
         v-else-if="$v.amount.$error && !$v.amount.min"
@@ -192,7 +214,7 @@ import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import { messageType } from "../../components/transactions/messageTypes"
 import { formatAddress, validatorEntry } from "src/filters"
-import { UserTransactionAdded } from "src/gql"
+import { ValidatorFragment, UserTransactionAdded } from "src/gql"
 
 export default {
   name: `delegation-modal`,
@@ -212,6 +234,14 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    isNomination: {
+      type: Boolean,
+      default: false,
+    },
+    isUnnomination: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     amount: 0,
@@ -222,13 +252,37 @@ export default {
     },
     validators: [],
     delegations: [],
+    undelegations: [],
+    undelegationsLoaded: false,
     messageType,
     smallestAmount: SMALLEST,
     isInElection: false, // Handle election period in Polkadot
   }),
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`network`, `address`, `stakingDenom`, `currentNetwork`]),
+    ...mapGetters([`network`, `address`, `currentNetwork`]),
+    stakedBalance() {
+      // balances not loaded yet
+      if (!this.balance) {
+        return {
+          total: 0,
+          denom: this.currentNetwork.stakingDenom,
+        }
+      }
+      let stakedAmount =
+        Number(this.balance.total) - Number(this.balance.available)
+      // substract the already unbonding balance in the case of Substrate networks.
+      if (this.undelegationsLoaded && this.undelegations.length > 0) {
+        stakedAmount = this.undelegations.reduce(
+          (stakedAmount, { amount }) => stakedAmount - Number(amount),
+          stakedAmount
+        )
+      }
+      return {
+        total: Number(stakedAmount),
+        denom: this.currentNetwork.stakingDenom,
+      }
+    },
     toOptions() {
       return this.validators
         .filter(
@@ -287,10 +341,13 @@ export default {
         return {
           type: messageType.RESTAKE,
           from: [this.from],
-          to: [this.targetValidator.operatorAddress],
+          to:
+            Object.keys(this.targetValidator).length > 0
+              ? [this.targetValidator.operatorAddress]
+              : "",
           amount: {
             amount: this.amount,
-            denom: this.stakingDenom,
+            denom: this.currentNetwork.stakingDenom,
           },
           addressRole: this.session.addressRole,
         }
@@ -303,7 +360,7 @@ export default {
               : "",
           amount: {
             amount: this.amount,
-            denom: this.stakingDenom,
+            denom: this.currentNetwork.stakingDenom,
           },
           addressRole: this.session.addressRole,
         }
@@ -313,12 +370,12 @@ export default {
       if (this.isRedelegation) {
         return {
           title: `Successfully restaked!`,
-          body: `You have successfully restaked your ${this.stakingDenom}s`,
+          body: `You have successfully restaked your ${this.currentNetwork.stakingDenom}s`,
         }
       } else {
         return {
           title: `Successfully staked!`,
-          body: `You have successfully staked your ${this.stakingDenom}s`,
+          body: `You have successfully staked your ${this.currentNetwork.stakingDenom}s`,
         }
       }
     },
@@ -333,6 +390,13 @@ export default {
     },
     enhancedTargetValidator() {
       return validatorEntry(this.targetValidator)
+    },
+    hasNoNominations() {
+      // TODO: only temporary. Need to create a query to know if the address has any nomination
+      return (
+        this.currentNetwork.network_type === `polkadot` &&
+        this.session.addressRole === `none`
+      )
     },
   },
   methods: {
@@ -492,7 +556,7 @@ export default {
       skip() {
         return (
           !this.address ||
-          !this.stakingDenom ||
+          !this.currentNetwork.stakingDenom ||
           !this.$refs.actionModal ||
           !this.$refs.actionModal.show
         )
@@ -507,10 +571,46 @@ export default {
       /* istanbul ignore next */
       update(data) {
         return (
-          data.balancesV2.find(({ denom }) => denom === this.stakingDenom) || {
+          data.balancesV2.find(
+            ({ denom }) => denom === this.currentNetwork.stakingDenom
+          ) || {
             amount: 0,
           }
         )
+      },
+    },
+    undelegations: {
+      query() {
+        /* istanbul ignore next */
+        return gql`
+        query undelegations($networkId: String!, $delegatorAddress: String!) {
+          undelegations(networkId: $networkId, delegatorAddress: $delegatorAddress) {
+            id
+            validator {
+              ${ValidatorFragment}
+            }
+            amount
+            startHeight
+            endTime
+          }
+        }
+      `
+      },
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.currentNetwork.id,
+          delegatorAddress: this.address,
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return this.currentNetwork.network_type !== `polkadot` // we only need undelegations for Polkadot networks
+      },
+      /* istanbul ignore next */
+      update(data) {
+        this.undelegationsLoaded = true
+        return data.undelegations
       },
     },
     $subscribe: {
