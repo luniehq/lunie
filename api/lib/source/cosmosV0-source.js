@@ -515,7 +515,10 @@ class CosmosV0API extends RESTDataSource {
     // also check if there are any balances as rewards
     const rewards = await this.getRewards(address, fiatCurrency, network)
     const rewardsBalances = rewards.reduce((coinsAggregator, reward) => {
-      if (!coins.find((coin) => coin.denom === reward.denom)) {
+      if (
+        !coins.find((coin) => coin.denom === reward.denom)
+        && !coinsAggregator.find((coin) => coin.denom === reward.denom)
+      ) {
         coinsAggregator.push({
           amount: 0,
           denom: reward.denom
