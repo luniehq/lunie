@@ -937,16 +937,6 @@ class polkadotAPI {
   }
 
   async getTreasuryProposalDetailedVotes(proposal, links) {
-    const height = this.store.height
-    const spendPeriod = api.consts.treasury.spendPeriod // every x blocks treasury is spend
-    const nextSpendingBlockHeightDiff = height % spendPeriod // % is the modulo operator
-    const nextSpendingBlockTime = new Date(
-      Date.now().getTime() + Math.floor(
-        /* 6s is the average block duration for both Kusama and Polkadot */ 
-        (nextSpendingBlockHeightDiff * 6) / (3600 * 24)
-      )
-    )
-    
     let votes
     if (proposal.votes) {
       votes = await Promise.all(
@@ -974,14 +964,9 @@ class polkadotAPI {
         ? (proposal.votes.nays.length * 100) / votes.length
         : undefined,
       links,
-      timeline: [
-        {
-          title: `Voting Period Ends`,
-          time: nextSpendingBlockTime
-        }
-      ],
+      timeline: [],
       council: true
-    }
+    } 
   }
 
   async getDetailedVotes(proposal, type) {
