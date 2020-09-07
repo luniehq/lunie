@@ -82,10 +82,10 @@
 
     <ParticipantList
       :title="participantListTitle"
-      :participants="governanceOverview.topVoters"
+      :participants="governanceOverview.topVoters || []"
     />
 
-    <ProposalDescription :supporting-links="governanceOverview.links" />
+    <ProposalDescription :supporting-links="governanceOverview.links || []" />
 
     <ModalTutorial
       v-if="
