@@ -189,6 +189,12 @@ To run the e2e tests on multiple browsers use [Browserstack](https://www.browser
 yarn test:e2e:browserstack --fe=https://app.lunie.io --api=https://staging-api.lunie.io --filter=*send*
 ```
 
+To run the e2e tests on the Westend network (our chosen Substrate testnet network) it suffices to add the `network` flag to the prior command:
+
+```bash
+yarn test:e2e:browserstack --fe=https://app.lunie.io --api=https://staging-api.lunie.io --network="polkadot-testnet"
+```
+
 ## Flags
 
 A list of all environment variables and their purpose:

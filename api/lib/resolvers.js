@@ -204,7 +204,6 @@ const resolvers = (networkList, notificationController) => ({
       // and attach it to proposal.
       //
       if (proposal.proposer) {
-        let proposerValAddress = ''
         const proposalNetwork = networkList.find(
           ({ id }) => id === proposal.networkId
         )
@@ -213,13 +212,8 @@ const resolvers = (networkList, notificationController) => ({
             proposal.proposer
           ]
         }
-        proposerValAddress = encodeB32(
-          decodeB32(proposal.proposer),
-          `cosmosvaloper`,
-          `hex`
-        )
         return localStore(dataSources, proposal.networkId).validators[
-          proposerValAddress
+          proposal.proposer.address
         ]
       } else {
         return undefined
@@ -239,10 +233,23 @@ const resolvers = (networkList, notificationController) => ({
     }
   },
   Query: {
-    proposals: (_, { networkId }, { dataSources }) =>
-      remoteFetch(dataSources, networkId).getAllProposals(),
-    proposal: async (_, { networkId, id }, { dataSources }) =>
-      await remoteFetch(dataSources, networkId).getProposalById(id),
+    proposals: async (_, { networkId }, { dataSources }) => {
+      await localStore(dataSources, networkId).dataReady
+      let validators = Object.values(
+        localStore(dataSources, networkId).validators
+      )
+      return remoteFetch(dataSources, networkId).getAllProposals(validators)
+    },
+    proposal: async (_, { networkId, id }, { dataSources }) => {
+      await localStore(dataSources, networkId).dataReady
+      let validators = Object.values(
+        localStore(dataSources, networkId).validators
+      )
+      return await remoteFetch(dataSources, networkId).getProposalById(
+        id,
+        validators
+      )
+    },
     vote: (_, { networkId, proposalId, address }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getDelegatorVote({
         proposalId,

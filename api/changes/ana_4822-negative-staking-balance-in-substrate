@@ -1,0 +1,1 @@
+[Fixed] [#4822](https://github.com/cosmos/lunie/issues/4822) Fix negative staking balance in Substrate by filtering only active undelegations @Bitcoinera
