@@ -2,6 +2,11 @@ module.exports = {
   "Sign in with local account": async function (browser) {
     await prepare(browser)
 
+    await browser.waitForElementVisible(
+      `.address-list-item[data-address-name="demo-account"] .address-item`,
+      20000,
+      true
+    )
     await browser.click(
       `.address-list-item[data-address-name="demo-account"] .address-item`
     )
@@ -17,12 +22,12 @@ module.exports = {
     browser.click("#recover-with-backup")
 
     await browser.waitForElementVisible(
-      `.select-network-item[data-network=${browser.globals.network}] .address-item`,
+      `.select-network-item[data-network=${browser.globals.network}]`,
       20000,
       true
     )
     await browser.click(
-      `.select-network-item[data-network=${browser.globals.network}] .address-item`
+      `.select-network-item[data-network=${browser.globals.network}]`
     )
 
     browser.waitForElementVisible("#import-seed", 20000, true)
