@@ -134,7 +134,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("loadAccounts")
+    this.$store.dispatch("loadLocalAccounts")
   },
   mounted() {
     this.setDefaultAccount(this.accounts)

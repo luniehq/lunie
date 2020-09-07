@@ -331,7 +331,7 @@ const selectAlternativeFee = (balances, feeDenom, gasEstimate) => {
 
 const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, message, gasEstimate) => {
   // query for this address balances
-  const balances = await cosmosSource.getBalancesFromAddress(senderAddress, '',network)
+  const balances = await cosmosSource.getBalancesFromAddress(senderAddress, '', network)
   const feeDenom = getFeeDenomFromMessage(message, network)
   const gasPrice = BigNumber(
     getNetworkGasPrices(network.id).find(({ denom }) => {

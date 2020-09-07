@@ -18,7 +18,7 @@ Vue.prototype.$browser = global.browser
 const apolloProvider = createApolloProvider()
 const apolloClient = apolloProvider.clients.defaultClient
 const store = Store({ apollo: apolloClient })
-store.dispatch('loadAccounts')
+store.dispatch('loadLocalAccounts')
 store.dispatch(`preloadNetworkCapabilities`)
 const router = Router(store)
 

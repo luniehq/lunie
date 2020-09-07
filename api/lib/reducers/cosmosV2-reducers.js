@@ -233,7 +233,9 @@ function proposalReducer(
   tally,
   proposer,
   totalBondedTokens,
-  detailedVotes
+  detailedVotes,
+  reducers,
+  validators
 ) {
   return {
     networkId,
@@ -247,7 +249,7 @@ function proposalReducer(
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal, 'stake'), // TODO use denom lookup + use network config
-    proposer: proposer.proposer,
+    proposer: reducers.networkAccountReducer(proposer.proposer, validators),
     detailedVotes
   }
 }
@@ -303,6 +305,7 @@ function transactionReducerV2(network, transaction, reducers) {
       id: transaction.txhash,
       type: reducers.getMessageType(type),
       hash: transaction.txhash,
+      networkId: network.id,
       key: `${transaction.txhash}_${index}`,
       height: transaction.height,
       details: transactionDetailsReducer(
