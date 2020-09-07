@@ -50,16 +50,16 @@
                 address.address === selectedAddress &&
                 address.networkId === selectedNetwork.id,
             }"
-            @click="selectAddress(address)"
           >
-            <UserAccountRow :address="address" />
+            <UserAccountRow
+              :address="address"
+              @click="selectAddress(address)"
+            />
             <i
-              v-if="
-                address.address === currentAddress &&
-                address.networkId === network
-              "
+              v-if="['ledger', 'explore'].includes(address.sessionType)"
               class="material-icons notranslate"
-              >check</i
+              @click="signOutOfAddress(address)"
+              >close</i
             >
           </div>
         </div>
@@ -122,6 +122,7 @@ import UserAccountRow from "account/UserAccountRow"
 import { mapGetters, mapState } from "vuex"
 import { uniqWith, sortBy } from "lodash"
 import { AddressRole } from "../../gql"
+import { formatAddress } from "src/filters"
 
 export default {
   name: `user-menu`,
@@ -130,6 +131,7 @@ export default {
     UserMenuAddress,
     UserAccountRow,
   },
+  filters: { formatAddress },
   data: () => ({
     selectedAddress: "",
     selectedNetwork: "",
@@ -164,7 +166,9 @@ export default {
           )
           .map((address) => ({
             ...address,
-            sessionType: address.type || "explore",
+            sessionType: address.sessionType
+              ? address.sessionType
+              : "explore",
           }))
         const allAddresses = uniqWith(
           sortBy(
@@ -228,6 +232,9 @@ export default {
         address: this.selectedAddress,
         networkId: address.networkId,
       })
+    },
+    signOutOfAddress(address) {
+      this.$store.dispatch(`signOutAddress`, address)
     },
     signOut() {
       this.$store.dispatch(`signOutUser`)
@@ -372,7 +379,6 @@ h3 {
 
 .address-list .material-icons {
   font-weight: 700;
-  color: #00c700;
 }
 
 .address-list span {
