@@ -168,7 +168,11 @@ export const ProposalFragment = `
     totalVotedPercentage
   }
   deposit
-  proposer
+  proposer {
+    name
+    address
+    picture
+  }
   validator {
     id
     name
@@ -183,13 +187,21 @@ export const ProposalFragment = `
         amount
         denom
       }
-      depositer
+      depositer {
+        name
+        address
+        picture
+      }
     }
     depositsSum
     percentageDepositsNeeded
     votes {
       id
-      voter
+      voter {
+        name
+        address
+        picture
+      }
       option
     }
     votesSum
