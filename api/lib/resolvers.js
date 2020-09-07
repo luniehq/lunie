@@ -204,7 +204,6 @@ const resolvers = (networkList, notificationController) => ({
       // and attach it to proposal.
       //
       if (proposal.proposer) {
-        let proposerValAddress = ''
         const proposalNetwork = networkList.find(
           ({ id }) => id === proposal.networkId
         )
@@ -213,13 +212,8 @@ const resolvers = (networkList, notificationController) => ({
             proposal.proposer
           ]
         }
-        proposerValAddress = encodeB32(
-          decodeB32(proposal.proposer),
-          `cosmosvaloper`,
-          `hex`
-        )
         return localStore(dataSources, proposal.networkId).validators[
-          proposerValAddress
+          proposal.proposer.address
         ]
       } else {
         return undefined
