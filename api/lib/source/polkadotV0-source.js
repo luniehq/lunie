@@ -709,7 +709,7 @@ class polkadotAPI {
       const { meta } =
         proposal.council[0] && proposal.council[0].proposal
           ? api.registry.findMetaCall(proposal.council[0].proposal.callIndex)
-          : null
+          : { meta: undefined }
       description = meta
         ? meta.documentation.toString()
         : `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
