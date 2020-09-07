@@ -14,6 +14,7 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
        
       <balancerow-stub
         balance="[object Object]"
+        totalrewardsperdenom="[object Object]"
       />
        
       <!---->
