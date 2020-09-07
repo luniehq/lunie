@@ -19,7 +19,6 @@ export default ({ apollo }) => {
     address: null, // Current address
     addresses: [], // Array of previously used addresses
     allSessionAddresses: [],
-    allUsedAddresses: [],
     addressRole: undefined, // Polkadot: 'stash/controller', 'stash', 'controller' or 'none'
     errorCollection: false,
     analyticsCollection: false,
@@ -77,9 +76,6 @@ export default ({ apollo }) => {
     },
     setAllSessionAddresses(state, addresses) {
       state.allSessionAddresses = addresses
-    },
-    setAllUsedAddresses(state, addresses) {
-      state.allUsedAddresses = addresses
     },
     setExperimentalMode(state) {
       state.experimentalMode = true
