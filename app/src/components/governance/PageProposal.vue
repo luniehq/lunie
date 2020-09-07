@@ -44,7 +44,6 @@
               value="Vote"
               :disabled="
                 proposal.status !== 'VotingPeriod' ||
-                proposal.type === 'COUNCIL' ||
                 proposal.type === 'TREASURY'
               "
               color="primary"
