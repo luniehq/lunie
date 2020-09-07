@@ -940,25 +940,32 @@ class polkadotAPI {
   }
 
   async getTreasuryProposalDetailedVotes(proposal, links) {
-    const votes = await Promise.all(
-      proposal.votes.ayes
-        .map(async (aye) => ({
-          voter: this.reducers.networkAccountReducer(aye),
-          option: `Yes`
-        }))
-        .concat(
-          proposal.votes.nays.map((nay) => ({
-            voter: this.reducers.networkAccountReducer(nay),
-            option: `No`
+    let votes
+    if (proposal.votes) {
+      votes = await Promise.all(
+        proposal.votes.ayes
+          .map(async (aye) => ({
+            voter: this.reducers.networkAccountReducer(aye),
+            option: `Yes`
           }))
-        )
-    )
+          .concat(
+            proposal.votes.nays.map((nay) => ({
+              voter: this.reducers.networkAccountReducer(nay),
+              option: `No`
+            }))
+          )
+      )
+    }
     return {
       votes,
-      votesSum: votes.length,
-      votingThresholdYes: proposal.votes.threshold,
-      votingPercentageYes: (proposal.votes.ayes.length * 100) / votes.length,
-      votingPercentagedNo: (proposal.votes.nays.length * 100) / votes.length,
+      votesSum: votes ? votes.length : undefined,
+      votingThresholdYes: proposal.votes ? proposal.votes.threshold : undefined,
+      votingPercentageYes: proposal.votes
+        ? (proposal.votes.ayes.length * 100) / votes.length
+        : undefined,
+      votingPercentagedNo: proposal.votes
+        ? (proposal.votes.nays.length * 100) / votes.length
+        : undefined,
       links,
       council: true
     }
