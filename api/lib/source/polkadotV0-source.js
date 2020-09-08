@@ -482,11 +482,13 @@ class polkadotAPI {
     const stakingInfo = await api.query.staking.nominators(delegatorAddress)
     const allDelegations =
       stakingInfo && stakingInfo.toJSON() ? stakingInfo.toJSON().targets : []
-    allDelegations.forEach((nomination) => {
+    allDelegations
+    .filter((nomination) => !!this.store.validators[nomination])
+    .forEach((nomination) => {
       inactiveDelegations.push(
         this.reducers.delegationReducer(
           this.network,
-          { who: nomination, value: 0 }, // we don't know the value for inactive delegations
+          { who: delegatorAddress, value: 0 }, // we don't know the value for inactive delegations
           this.store.validators[nomination],
           delegationEnum.INACTIVE
         )
