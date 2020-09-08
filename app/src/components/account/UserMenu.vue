@@ -364,9 +364,13 @@ h3 {
   margin: 0.25rem 0;
 }
 
-.menu-list-item:hover {
+.menu-list-item:hover:not(.address-list-item) {
   cursor: pointer;
   background: #eee;
+}
+
+.menu-list-item:hover i {
+  cursor: pointer;
 }
 
 .menu-list-item.outline {
