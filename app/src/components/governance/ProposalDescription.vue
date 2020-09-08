@@ -6,7 +6,7 @@
         <div class="description">
           <pre
             v-if="
-              (type === `PARAMETER_CHANGE` || `COUNCIL`) && type !== `UNKNOWN`
+              type === `PARAMETER_CHANGE` && type !== `UNKNOWN`
             "
           >
           {{ description }}
