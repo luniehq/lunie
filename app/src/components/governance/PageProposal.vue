@@ -5,7 +5,7 @@
       <ProposalHeader
         :title="proposal.title"
         :type="proposal.type"
-        :proposer="proposal.proposer"
+        :proposer="proposal.proposer.address"
         :status="status"
         @open-vote-modal="onVote"
         @open-deposit-modal="onDeposit"
