@@ -248,7 +248,7 @@ export default {
         }
         return {
           type: messageType.UNSTAKE,
-          from: this.sourceValidator
+          from: this.sourceValidator && this.sourceValidator.operatorAddress
             ? [this.sourceValidator.operatorAddress]
             : null,
           amount: {
