@@ -23,7 +23,6 @@
           title="Ledger Nano"
           route="/ledger"
         />
-        </LiSession>
         <LiSession
           id="explore-with-address"
           icon="language"
