@@ -483,17 +483,17 @@ class polkadotAPI {
     const allDelegations =
       stakingInfo && stakingInfo.toJSON() ? stakingInfo.toJSON().targets : []
     allDelegations
-    .filter((nomination) => !!this.store.validators[nomination])
-    .forEach((nomination) => {
-      inactiveDelegations.push(
-        this.reducers.delegationReducer(
-          this.network,
-          { who: delegatorAddress, value: 0 }, // we don't know the value for inactive delegations
-          this.store.validators[nomination],
-          delegationEnum.INACTIVE
+      .filter((nomination) => !!this.store.validators[nomination])
+      .forEach((nomination) => {
+        inactiveDelegations.push(
+          this.reducers.delegationReducer(
+            this.network,
+            { who: delegatorAddress, value: 0 }, // we don't know the value for inactive delegations
+            this.store.validators[nomination],
+            delegationEnum.INACTIVE
+          )
         )
-      )
-    })
+      })
     return inactiveDelegations
   }
 
@@ -968,7 +968,7 @@ class polkadotAPI {
       links,
       timeline: [],
       council: true
-    } 
+    }
   }
 
   async getDetailedVotes(proposal, type) {
