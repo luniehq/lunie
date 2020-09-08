@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.46] - 2020-09-08
+
+### Changed
+
+- [#4812](https://github.com/cosmos/lunie/issues/4812) Proposer, voter and depositer have new type NetworkAccount @Bitcoinera
+- [#4834](https://github.com/cosmos/lunie/pull/4834) Update to @polkadot/api-1.32.1 @Bitcoinera
+- [#4791](https://github.com/cosmos/lunie/issues/4791) Disable liveness events as not used rn @faboweb
+- Remove council proposals and handle council voting for treasury propsals @faboweb
+
+### Fixed
+
+- [#4822](https://github.com/cosmos/lunie/issues/4822) Fix negative staking balance in Substrate by filtering only active undelegations @Bitcoinera
+- [#4824](https://github.com/cosmos/lunie/pull/4824) Fix voter as Object in the proposal query @Bitcoinera
+- [#4823](https://github.com/cosmos/lunie/pull/4823) Fix single proposal query missing return @Bitcoinera
+- [#4813](https://github.com/cosmos/lunie/issues/4813) Show validator name in commission change notification @faboweb
+- [#4832](https://github.com/cosmos/lunie/issues/4832) Terra balances show double denoms for some rewards @faboweb
+- [#4799](https://github.com/cosmos/lunie/issues/4799) Fix polkadot total balance @mariopino
+
 ## [1.0.45] - 2020-09-01
 
 ### Added
