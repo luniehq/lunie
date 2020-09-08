@@ -23,14 +23,6 @@ exports[`CardSignInRequired shows a sign in required card 1`] = `
       <!---->
        
       <lisession-stub
-        icon="laptop"
-        id="use-extension"
-        img=""
-        route="/extension"
-        title="Lunie Browser Extension"
-      />
-       
-      <lisession-stub
         icon="language"
         id="explore-with-address"
         img=""
