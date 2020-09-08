@@ -75,45 +75,45 @@ class SlashingMonitor {
 
     // DISABLED as it creates a lot of noise and is not used
     // requires some more logic to not spam the notifications if a validator is down for 1000 blocks
-  //   const minMissedBlocks =
-  //     this.networkId === 'kava-testnet' || this.networkId === 'kava-mainnet'
-  //       ? 5
-  //       : 1
-  //   this.client.subscribe(
-  //     {
-  //       query: `tm.event='NewBlockHeader' AND liveness.missed_blocks >= ${minMissedBlocks}`
-  //     },
-  //     async (response) => {
-  //       try {
-  //         const missedBlocks = response.events['liveness.address'].map(
-  //           (address, index) => ({
-  //             networkId: this.networkId,
-  //             operatorAddress: address,
-  //             blocks: response.events['liveness.missed_blocks'][index],
-  //             reason: 'missed_blocks',
-  //             height: response.data.value.header.height
-  //           })
-  //         )
-  //         const rows = await Promise.all(
-  //           missedBlocks.map(async (missedBlockEvent) => {
-  //             const lastMissedBlockEvent = await getLastMissedBlock(
-  //               this.networkId,
-  //               missedBlockEvent.operatorAddress
-  //             )
-  //             return aggregateMissedBlocks(
-  //               lastMissedBlockEvent,
-  //               missedBlockEvent
-  //             )
-  //           })
-  //         )
-  //         database(config)('').upsert('slashes', rows)
-  //         // console.log('Wrote missed block events', rows.length)
-  //       } catch (error) {
-  //         console.error('Failed to write missed block events', error)
-  //         Sentry.captureException(error)
-  //       }
-  //     }
-  //   )
+    //   const minMissedBlocks =
+    //     this.networkId === 'kava-testnet' || this.networkId === 'kava-mainnet'
+    //       ? 5
+    //       : 1
+    //   this.client.subscribe(
+    //     {
+    //       query: `tm.event='NewBlockHeader' AND liveness.missed_blocks >= ${minMissedBlocks}`
+    //     },
+    //     async (response) => {
+    //       try {
+    //         const missedBlocks = response.events['liveness.address'].map(
+    //           (address, index) => ({
+    //             networkId: this.networkId,
+    //             operatorAddress: address,
+    //             blocks: response.events['liveness.missed_blocks'][index],
+    //             reason: 'missed_blocks',
+    //             height: response.data.value.header.height
+    //           })
+    //         )
+    //         const rows = await Promise.all(
+    //           missedBlocks.map(async (missedBlockEvent) => {
+    //             const lastMissedBlockEvent = await getLastMissedBlock(
+    //               this.networkId,
+    //               missedBlockEvent.operatorAddress
+    //             )
+    //             return aggregateMissedBlocks(
+    //               lastMissedBlockEvent,
+    //               missedBlockEvent
+    //             )
+    //           })
+    //         )
+    //         database(config)('').upsert('slashes', rows)
+    //         // console.log('Wrote missed block events', rows.length)
+    //       } catch (error) {
+    //         console.error('Failed to write missed block events', error)
+    //         Sentry.captureException(error)
+    //       }
+    //     }
+    //   )
   }
 }
 
