@@ -26,6 +26,10 @@ const { getTwitterImages } = require("./twitterImages")
 getTwitterImages()
 setInterval(getTwitterImages, 1000 * 60 * 5) // check once every 5 minutes for new validators (throttled by 24 after an update)
 
+const { cleanEvents } = require("./cleanEvents")
+cleanEvents()
+setInterval(cleanEvents, 1000 * 60 * 60 * 25) // check once every 24h to delete old events
+
 app.use(bodyParser.json())
 app.use(timeout(120000))
 app.use(morgan('combined'))
