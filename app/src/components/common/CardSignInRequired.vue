@@ -24,6 +24,14 @@
           route="/ledger"
         />
         <LiSession
+          v-if="!isMobileApp"
+          id="use-extension"
+          icon="laptop"
+          title="Lunie Browser Extension"
+          route="/extension"
+        >
+        </LiSession>
+        <LiSession
           id="explore-with-address"
           icon="language"
           title="Explore with any address"
