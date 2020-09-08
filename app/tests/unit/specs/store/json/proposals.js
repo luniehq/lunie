@@ -54,7 +54,11 @@ export const proposals = [
       __typename: "Tally",
     },
     deposit: "0",
-    proposer: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+    proposer: {
+      name: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+      address: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+      picture: null
+    },
     detailedVotes: {
       depositsSum: "1",
       votesSum: "2",
@@ -89,7 +93,11 @@ export const proposals = [
       __typename: "Tally",
     },
     deposit: "0",
-    proposer: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+    proposer: {
+      name: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+      address: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+      picture: null,
+    },
     validator: {
       name: "Big Daddy Validator",
       __typename: "Validator",

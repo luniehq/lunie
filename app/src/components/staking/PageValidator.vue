@@ -74,12 +74,20 @@
       </tr>
 
       <div class="action-button-container">
-        <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
+        <TmBtn
+          id="delegation-btn"
+          :value="
+            currentNetwork.network_type === `polkadot` ? `Select` : `Stake`
+          "
+          @click.native="onDelegation"
+        />
         <TmBtn
           id="undelegation-btn"
           class="undelegation-btn"
           :disabled="!hasDelegation"
-          value="Unstake"
+          :value="
+            currentNetwork.network_type === `polkadot` ? `Deselect` : `Unstake`
+          "
           type="secondary"
           @click.native="onUndelegation"
         />
@@ -166,10 +174,15 @@
         </li>
       </ul>
 
-      <DelegationModal ref="delegationModal" :target-validator="validator" />
+      <DelegationModal
+        ref="delegationModal"
+        :target-validator="validator"
+        :is-nomination="true"
+      />
       <UndelegationModal
         ref="undelegationModal"
         :source-validator="validator"
+        :is-unnomination="true"
       />
     </template>
 

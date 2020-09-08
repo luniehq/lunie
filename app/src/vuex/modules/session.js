@@ -19,7 +19,6 @@ export default ({ apollo }) => {
     address: null, // Current address
     addresses: [], // Array of previously used addresses
     allSessionAddresses: [],
-    allUsedAddresses: [],
     addressRole: undefined, // Polkadot: 'stash/controller', 'stash', 'controller' or 'none'
     errorCollection: false,
     analyticsCollection: false,
@@ -77,9 +76,6 @@ export default ({ apollo }) => {
     },
     setAllSessionAddresses(state, addresses) {
       state.allSessionAddresses = addresses
-    },
-    setAllUsedAddresses(state, addresses) {
-      state.allUsedAddresses = addresses
     },
     setExperimentalMode(state) {
       state.experimentalMode = true
@@ -144,7 +140,7 @@ export default ({ apollo }) => {
         JSON.stringify({ address, sessionType, HDPath, curve })
       )
     },
-    async persistAddresses(store, { addresses }) {
+    async persistAddresses(store, addresses) {
       localStorage.setItem(`addresses`, JSON.stringify(addresses))
     },
     async rememberAddress(
@@ -220,9 +216,7 @@ export default ({ apollo }) => {
         networkId,
       })
       const addresses = state.addresses
-      dispatch(`persistAddresses`, {
-        addresses,
-      })
+      dispatch(`persistAddresses`, addresses)
 
       // In Polkadot there are different account types for staking. To be able to signal allowed interactions
       // for the user in Lunie we need to query for the type of the account.
@@ -250,6 +244,29 @@ export default ({ apollo }) => {
         HDPath,
         curve
       )
+    },
+    async signOutAddress({ commit, dispatch }, signOutAddress) {
+      const allSessionAddresses = await dispatch("getAllSessionAddresses")
+      if (
+        allSessionAddresses.find(
+          ({ networkId, address }) =>
+            networkId === signOutAddress.networkId &&
+            address === signOutAddress.address
+        )
+      ) {
+        dispatch("signOut", signOutAddress.networkId)
+      }
+      commit(
+        "setUserAddresses",
+        state.addresses.filter(
+          ({ networkId, address }) =>
+            !(
+              networkId === signOutAddress.networkId &&
+              address === signOutAddress.address
+            )
+        )
+      )
+      dispatch("persistAddresses", state.addresses)
     },
     async signOut({ state, commit, dispatch }, networkId) {
       state.externals.track(`event`, `session`, `sign-out`)

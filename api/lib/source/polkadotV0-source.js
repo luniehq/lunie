@@ -628,11 +628,8 @@ class polkadotAPI {
 
       // get creationTime
       const block = await api.rpc.chain.getBlock(blockHash)
-      const args = block.block.extrinsics.map((extrinsic) =>
-        extrinsic.method.args.find((arg) => arg)
-      )
-      const blockTimestamp = args[0]
-      creationTime = new Date(Number(blockTimestamp)).toUTCString()
+      const blockCreationTime = await getBlockTime(block)
+      creationTime = blockCreationTime.toUTCString()
     }
 
     return {
@@ -705,14 +702,16 @@ class polkadotAPI {
         creationTime
       )
     }
-    if (type === `council`) {
-      const { meta } = api.registry.findMetaCall(proposal.proposal.callIndex)
-      description = meta.documentation.toString()
-    }
     if (type === `treasury`) {
-      description = `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
-        proposal.proposer || proposer
-      }) is able to change it.`
+      const { meta } =
+        proposal.council[0] && proposal.council[0].proposal
+          ? api.registry.findMetaCall(proposal.council[0].proposal.callIndex)
+          : { meta: undefined }
+      description = meta
+        ? meta.documentation.toString()
+        : `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
+            proposal.proposal.proposer || proposer
+          }) is able to change it.`
     }
     return {
       ...proposal,
@@ -778,7 +777,8 @@ class polkadotAPI {
       votingPercentageYes: `100`,
       votingPercentagedNo: `0`,
       links,
-      timeline: [{ title: `Proposal created`, time: proposal.creationTime }]
+      timeline: [{ title: `Proposal created`, time: proposal.creationTime }],
+      council: false
     }
   }
 
@@ -931,32 +931,42 @@ class polkadotAPI {
               (proposalDurationInDays - 1) * 24 * 60 * 60 * 1000
           ).toUTCString()
         }
-      ]
+      ],
+      council: false
     }
   }
 
-  async getCouncilProposalDetailedVotes(proposal, links) {
-    const votes = await Promise.all(
-      proposal.votes.ayes
-        .map(async (aye) => ({
-          voter: this.reducers.networkAccountReducer(aye),
-          option: `Yes`
-        }))
-        .concat(
-          proposal.votes.nays.map((nay) => ({
-            voter: this.reducers.networkAccountReducer(nay),
-            option: `No`
+  async getTreasuryProposalDetailedVotes(proposal, links) {
+    let votes
+    if (proposal.votes) {
+      votes = await Promise.all(
+        proposal.votes.ayes
+          .map(async (aye) => ({
+            voter: this.reducers.networkAccountReducer(aye),
+            option: `Yes`
           }))
-        )
-    )
+          .concat(
+            proposal.votes.nays.map((nay) => ({
+              voter: this.reducers.networkAccountReducer(nay),
+              option: `No`
+            }))
+          )
+      )
+    }
     return {
       votes,
-      votesSum: votes.length,
-      votingThresholdYes: proposal.votes.threshold,
-      votingPercentageYes: (proposal.votes.ayes.length * 100) / votes.length,
-      votingPercentagedNo: (proposal.votes.nays.length * 100) / votes.length,
-      links
-    }
+      votesSum: votes ? votes.length : undefined,
+      votingThresholdYes: proposal.votes ? proposal.votes.threshold : undefined,
+      votingPercentageYes: proposal.votes
+        ? (proposal.votes.ayes.length * 100) / votes.length
+        : undefined,
+      votingPercentagedNo: proposal.votes
+        ? (proposal.votes.nays.length * 100) / votes.length
+        : undefined,
+      links,
+      timeline: [],
+      council: true
+    } 
   }
 
   async getDetailedVotes(proposal, type) {
@@ -967,8 +977,8 @@ class polkadotAPI {
     if (type === `referendum`) {
       return await this.getReferendumProposalDetailedVotes(proposal, links)
     }
-    if (type === `council`) {
-      return await this.getCouncilProposalDetailedVotes(proposal, links)
+    if (type === `treasury`) {
+      return await this.getTreasuryProposalDetailedVotes(proposal, links)
     }
     return {
       links
@@ -984,7 +994,6 @@ class polkadotAPI {
       democracyProposals,
       democracyReferendums,
       treasuryProposals,
-      councilProposals,
       councilMembers,
       electionInfo
     ] = await Promise.all([
@@ -993,7 +1002,6 @@ class polkadotAPI {
       api.derive.democracy.proposals(),
       api.derive.democracy.referendums(),
       api.derive.treasury.proposals(),
-      api.derive.council.proposals(),
       api.query.council.members(),
       api.derive.elections.info()
     ])
@@ -1036,60 +1044,38 @@ class polkadotAPI {
           })
         )
         .concat(
-          treasuryProposals.proposals
-            .filter((proposal) => {
-              // make sure that the treasury proposals haven't been passed as motions to Council
-              if (
-                proposal.council.length === 0 ||
-                !councilProposals.find(
-                  (councilProposal) =>
-                    JSON.stringify(councilProposal) ===
-                    JSON.stringify(proposal.council[0])
-                )
-              ) {
-                return proposal
-              }
-            })
-            .map(async (proposal) => {
-              const proposalWithMetadata = await this.getProposalWithMetadata(
-                proposal.council[0] || proposal.proposal,
-                proposal.council[0] ? `council` : `treasury`
-              )
-              const proposerInfo = proposal.proposer
-                ? await api.derive.accounts(proposal.proposer.toHuman())
+          treasuryProposals.proposals.map(async (proposal) => {
+            const proposerInfo =
+              proposal.proposal && proposal.proposal.proposer
+                ? await api.derive.accounts.info(proposal.proposal.proposer)
                 : undefined
-              return this.reducers.treasuryProposalReducer(
-                this.network,
-                {
-                  ...proposalWithMetadata,
-                  index: proposal.id,
-                  deposit: proposal.proposal.bond,
-                  beneficiary: proposal.proposal.beneficiary
-                },
-                councilMembers,
-                blockHeight,
-                electionInfo,
-                await this.getDetailedVotes(
-                  proposalWithMetadata,
-                  proposal.council[0] ? `council` : `treasury`
-                ),
-                proposerInfo
-              )
-            })
-        )
-        .concat(
-          councilProposals.map(async (proposal) => {
             const proposalWithMetadata = await this.getProposalWithMetadata(
               proposal,
-              `council`
+              `treasury`
             )
-            return this.reducers.councilProposalReducer(
+            return this.reducers.treasuryProposalReducer(
               this.network,
-              proposalWithMetadata,
+              {
+                ...proposalWithMetadata,
+                index: proposal.id,
+                deposit: proposal.proposal.bond,
+                beneficiary: proposal.proposal.beneficiary
+              },
               councilMembers,
               blockHeight,
               electionInfo,
-              await this.getDetailedVotes(proposalWithMetadata, `council`)
+              proposal.council[0]
+                ? // proposal gets voted on by council
+                  await this.getDetailedVotes(
+                    {
+                      ...proposal,
+                      votes: proposal.council[0].votes
+                    },
+                    `treasury`
+                  )
+                : // proposal gets voted on by delegators
+                  await this.getDetailedVotes(proposalWithMetadata, `treasury`),
+              proposerInfo
             )
           })
         )
@@ -1184,6 +1170,14 @@ class polkadotAPI {
       links
     }
   }
+}
+
+async function getBlockTime(block) {
+  const args = block.block.extrinsics.map((extrinsic) =>
+    extrinsic.method.args.find((arg) => arg)
+  )
+  const blockTimestamp = args[0]
+  return new Date(Number(blockTimestamp))
 }
 
 module.exports = polkadotAPI

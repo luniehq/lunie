@@ -260,10 +260,12 @@ exports[`PageValidator if uptimePercentage is blank 1`] = `
   </ul>
    
   <delegationmodal-stub
+    isnomination="true"
     targetvalidator="[object Object]"
   />
    
   <undelegationmodal-stub
+    isunnomination="true"
     sourcevalidator="[object Object]"
   />
    
@@ -531,10 +533,12 @@ exports[`PageValidator if user has signed in 1`] = `
   </ul>
    
   <delegationmodal-stub
+    isnomination="true"
     targetvalidator="[object Object]"
   />
    
   <undelegationmodal-stub
+    isunnomination="true"
     sourcevalidator="[object Object]"
   />
    
@@ -802,10 +806,12 @@ exports[`PageValidator if user hasn't signed in 1`] = `
   </ul>
    
   <delegationmodal-stub
+    isnomination="true"
     targetvalidator="[object Object]"
   />
    
   <undelegationmodal-stub
+    isunnomination="true"
     sourcevalidator="[object Object]"
   />
    
