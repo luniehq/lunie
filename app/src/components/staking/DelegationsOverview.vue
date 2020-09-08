@@ -11,13 +11,16 @@
           alt="geometric placeholder shapes"
         />
       </div>
-      <div v-else-if="delegations.length > 0">
+      <div v-else-if="delegations.length > 0 || stakedBalance.total > 0">
         <h1>Your Stake</h1>
         <BalanceRow
           :balance="stakedBalance"
+          :total-rewards-per-denom="totalRewardsPerDenom"
+          :stake="currentNetwork.network_type === 'polkadot'"
           :unstake="currentNetwork.network_type === 'polkadot'"
         />
         <TableValidators
+          v-if="delegations.length > 0"
           :validators="delegations.map(({ validator }) => validator)"
           :delegations="delegations"
           class="table-validators"
@@ -25,15 +28,19 @@
         />
       </div>
       <TmDataMsg
-        v-else-if="delegations.length === 0 && !$apollo.loading"
+        v-if="!$apollo.loading && delegations.length === 0"
         icon="sentiment_dissatisfied"
       >
         <div slot="title">No validators in your portfolio</div>
         <div slot="subtitle">
           Head over to the
-          <a @click="goToValidators()">validator list</a>&nbsp;to get staking!
+          <a @click="goToValidators()">validator list</a>&nbsp;to
+          {{
+            stakedBalance.total > 0 ? `start earning rewards` : `get staking`
+          }}!
         </div>
       </TmDataMsg>
+      <UndelegationModal ref="UnstakeModal" />
     </div>
   </div>
 </template>
@@ -43,6 +50,7 @@ import { mapGetters, mapState } from "vuex"
 import BalanceRow from "common/BalanceRow"
 import TmDataMsg from "common/TmDataMsg"
 import TableValidators from "staking/TableValidators"
+import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import {
   ValidatorFragment,
   DelegationsForDelegator,
@@ -55,14 +63,17 @@ export default {
   components: {
     BalanceRow,
     TableValidators,
+    UndelegationModal,
     TmDataMsg,
   },
   data: () => ({
     delegations: [],
     undelegations: [],
     balances: [],
+    rewards: [],
     delegationsLoaded: false,
     undelegationsLoaded: false,
+    preferredCurrency: "USD",
   }),
   computed: {
     ...mapState([`session`]),
@@ -93,6 +104,20 @@ export default {
         denom: this.currentNetwork.stakingDenom,
       }
     },
+    totalRewardsPerDenom() {
+      return this.rewards.reduce((all, reward) => {
+        return {
+          ...all,
+          [reward.denom]: parseFloat(reward.amount) + (all[reward.denom] || 0),
+        }
+      }, {})
+    },
+  },
+  mounted: function () {
+    const persistedPreferredCurrency = this.session.preferredCurrency
+    if (persistedPreferredCurrency) {
+      this.preferredCurrency = persistedPreferredCurrency
+    }
   },
   methods: {
     goToValidators() {
@@ -102,6 +127,9 @@ export default {
           networkId: this.currentNetwork.slug,
         },
       })
+    },
+    openUnstakeModal() {
+      this.$refs.UnstakeModal.open()
     },
   },
   apollo: {
@@ -184,6 +212,37 @@ export default {
         return data.undelegations
       },
     },
+    rewards: {
+      query: gql`
+        query rewards(
+          $networkId: String!
+          $delegatorAddress: String!
+          $fiatCurrency: String
+        ) {
+          rewards(
+            networkId: $networkId
+            delegatorAddress: $delegatorAddress
+            fiatCurrency: $fiatCurrency
+          ) {
+            id
+            amount
+            denom
+          }
+        }
+      `,
+      /* istanbul ignore next */
+      variables() {
+        return {
+          networkId: this.currentNetwork.id,
+          delegatorAddress: this.address,
+          fiatCurrency: this.preferredCurrency,
+        }
+      },
+      /* istanbul ignore next */
+      skip() {
+        return !this.address
+      },
+    },
     $subscribe: {
       userTransactionAdded: {
         variables() {
@@ -228,6 +287,14 @@ h1 {
 
 .table-validators {
   margin-top: 2rem;
+}
+
+.tm-form-msg--desc {
+  padding-bottom: 1rem;
+}
+
+.tm-data-msg {
+  margin-top: 1rem;
 }
 
 @media screen and (max-width: 667px) {

@@ -97,7 +97,7 @@ describe(`DelegationsOverview`, () => {
         {
           total: 34,
           available: 1,
-          denom: "ATOM",
+          denom: "STAKE",
         },
       ],
     })

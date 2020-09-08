@@ -24,21 +24,6 @@
           route="/ledger"
         />
         <LiSession
-          v-if="!isMobileApp"
-          id="use-extension"
-          icon="laptop"
-          title="Lunie Browser Extension"
-          route="/extension"
-        >
-        </LiSession>
-        <LiSession
-          v-if="accountExists && (session.insecureMode || isMobileApp)"
-          id="sign-in-with-account"
-          icon="lock"
-          title="Sign in with account"
-          route="/login"
-        />
-        <LiSession
           id="explore-with-address"
           icon="language"
           title="Explore with any address"
@@ -94,7 +79,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("loadAccounts").then(() => {
+    this.$store.dispatch("loadLocalAccounts").then(() => {
       this.loaded = true
     })
   },

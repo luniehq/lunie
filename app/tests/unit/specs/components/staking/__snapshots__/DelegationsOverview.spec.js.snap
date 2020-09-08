@@ -7,6 +7,19 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
   <div
     class="table-container"
   >
+    <div>
+      <h1>
+        Your Stake
+      </h1>
+       
+      <balancerow-stub
+        balance="[object Object]"
+        totalrewardsperdenom="[object Object]"
+      />
+       
+      <!---->
+    </div>
+     
     <tmdatamsg-stub
       icon="sentiment_dissatisfied"
       iconcolor="var(--warning)"
@@ -22,10 +35,15 @@ exports[`DelegationsOverview shows a sentiment of dissatisfaction when you have 
         <a>
           validator list
         </a>
-         to get staking!
+         to
+        start earning rewards!
       
       </div>
     </tmdatamsg-stub>
+     
+    <undelegationmodal-stub
+      sourcevalidator="[object Object]"
+    />
   </div>
 </div>
 `;
@@ -44,6 +62,7 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
        
       <balancerow-stub
         balance="[object Object]"
+        totalrewardsperdenom="[object Object]"
       />
        
       <tablevalidators-stub
@@ -53,6 +72,12 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
         validators="[object Object],[object Object],[object Object]"
       />
     </div>
+     
+    <!---->
+     
+    <undelegationmodal-stub
+      sourcevalidator="[object Object]"
+    />
   </div>
 </div>
 `;

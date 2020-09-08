@@ -15,6 +15,13 @@
         <div class="buttons">
           <TmBtn
             v-if="currentNetwork.network_type === `polkadot`"
+            class="stake-button"
+            value="Stake"
+            type="secondary"
+            @click.native="onStake()"
+          />
+          <TmBtn
+            v-if="currentNetwork.network_type === `polkadot`"
             class="unstake-button"
             value="Unstake"
             type="secondary"
@@ -84,11 +91,12 @@
 
       <TableBalances
         :balances="balances"
-        :total-rewards-denom="totalRewardsPerDenom"
+        :total-rewards-per-denom="totalRewardsPerDenom"
       />
 
       <SendModal ref="SendModal" :denoms="getAllDenoms" />
       <ModalWithdrawRewards ref="ModalWithdrawRewards" />
+      <DelegationModal ref="StakeModal" />
       <UndelegationModal ref="UnstakeModal" />
       <ModalTutorial
         v-if="
@@ -109,6 +117,7 @@ import { bigFigureOrShortDecimals } from "scripts/num"
 import { noBlanks } from "src/filters"
 import TmBtn from "common/TmBtn"
 import SendModal from "src/ActionModal/components/SendModal"
+import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
@@ -123,6 +132,7 @@ export default {
   components: {
     TmBtn,
     SendModal,
+    DelegationModal,
     UndelegationModal,
     ModalWithdrawRewards,
     ModalTutorial,
@@ -245,6 +255,9 @@ export default {
     },
     onSend(denom = undefined) {
       this.$refs.SendModal.open(denom)
+    },
+    onStake(amount) {
+      this.$refs.StakeModal.open()
     },
     onUnstake(amount) {
       this.$refs.UnstakeModal.open()
@@ -530,6 +543,7 @@ select option {
 }
 
 @media screen and (min-width: 1254px) {
+  .stake-button,
   .unstake-button,
   .send-button {
     display: none;

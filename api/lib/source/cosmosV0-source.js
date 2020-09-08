@@ -318,7 +318,7 @@ class CosmosV0API extends RESTDataSource {
     }
   }
 
-  async getAllProposals() {
+  async getAllProposals(validators) {
     const response = await this.query('gov/proposals')
     const { bonded_tokens: totalBondedTokens } = await this.query(
       '/staking/pool'
@@ -339,7 +339,9 @@ class CosmosV0API extends RESTDataSource {
           tally,
           proposer,
           totalBondedTokens,
-          detailedVotes
+          detailedVotes,
+          this.reducers,
+          validators
         )
       })
     )
@@ -347,7 +349,7 @@ class CosmosV0API extends RESTDataSource {
     return _.orderBy(proposals, 'id', 'desc')
   }
 
-  async getProposalById(proposalId) {
+  async getProposalById(proposalId, validators) {
     const proposal = await this.query(`gov/proposals/${proposalId}`).catch(
       () => {
         throw new UserInputError(
@@ -374,7 +376,9 @@ class CosmosV0API extends RESTDataSource {
       tally,
       proposer,
       totalBondedTokens,
-      detailedVotes
+      detailedVotes,
+      this.reducers,
+      validators
     )
   }
 
@@ -511,7 +515,10 @@ class CosmosV0API extends RESTDataSource {
     // also check if there are any balances as rewards
     const rewards = await this.getRewards(address, fiatCurrency, network)
     const rewardsBalances = rewards.reduce((coinsAggregator, reward) => {
-      if (!coins.find((coin) => coin.denom === reward.denom)) {
+      if (
+        !coins.find((coin) => coin.denom === reward.denom) &&
+        !coinsAggregator.find((coin) => coin.denom === reward.denom)
+      ) {
         coinsAggregator.push({
           amount: 0,
           denom: reward.denom

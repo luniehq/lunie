@@ -8,10 +8,19 @@ export const setNetwork = async ({ to, next }, store) => {
   }
 
   try {
-    let networks = store.getters.networks
+    const networks = store.getters.networks
+    const targetNetwork = networks.find(
+      (network) => network.slug === to.params.networkId
+    )
+    const defaultPath = store.state.session.allSessionAddresses.find(
+      ({ networkId }) => targetNetwork.id === networkId
+    )
+      ? "/portfolio"
+      : "/validators"
+
     let path = to.path
     if (path === "/") {
-      path = "/portfolio"
+      path = defaultPath
     }
 
     // if the url is of the form /cosmos-hub/portfolio the path we want to add later is /portfolio and not the whole thing
@@ -23,7 +32,7 @@ export const setNetwork = async ({ to, next }, store) => {
         path = match[1]
       } else {
         // the path is is of form /cosmos-hub so we forward to portfolio
-        path = "/portfolio"
+        path = defaultPath
       }
     }
 

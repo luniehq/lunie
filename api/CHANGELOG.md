@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.45] - 2020-09-01
+
+### Added
+
+- [#4445](https://github.com/cosmos/lunie/issues/4445) Add detailedVotes to the proposal object @Bitcoinera
+- [#4445](https://github.com/cosmos/lunie/issues/4445) Add the governance overview endpoint @Bitcoinera
+- [#4667](https://github.com/cosmos/lunie/issues/4667) Add undelegations to Polkadot @Bitcoinera
+- [#4445](https://github.com/cosmos/lunie/issues/4445) Polkadot api governance endpoints @mariopino
+
+### Changed
+
+- [#4667](https://github.com/cosmos/lunie/issues/4667) Undelegations in Polkadot now display correct endTime in human date @Bitcoinera
+- [#4752](https://github.com/cosmos/lunie/pull/4752) Add lockedBalance and conviction fields in TransactionDetailsInput @Bitcoinera
+- [#4808](https://github.com/cosmos/lunie/pull/4808) erasPerDay field is not required in type Network @Bitcoinera
+- [#4784](https://github.com/cosmos/lunie/pull/4784) Add networkId field to TransactionV2 @Bitcoinera
+- [#4724](https://github.com/cosmos/lunie/pull/4724) Update to polkadot/api 1.29.1 @Bitcoinera
+- [#4756](https://github.com/cosmos/lunie/pull/4756) Update to polkadot/api 1.30.1 @Bitcoinera
+- [#4788](https://github.com/cosmos/lunie/pull/4788) Update to polkadot/api-1.31.2 @Bitcoinera
+- Add transaction receive to the topics for pushed notifications @faboweb
+
+### Fixed
+
+- [#4743](https://github.com/cosmos/lunie/pull/4743) Fix available balance in Polkadot by removing miscFrozen @Bitcoinera
+- [#4737](https://github.com/cosmos/lunie/pull/4737) Fix balance query getCoinLookup @Bitcoinera
+- [#4740](https://github.com/cosmos/lunie/pull/4740) Fixes topVoters for GovernanceOverview in Cosmos @Bitcoinera
+- Notifications were not showing in some cases @faboweb
+- Fix transaction reducer in polling for tx success failing @faboweb
+- Id was not unique for undelegations @faboweb
+
 ## [1.0.44] - 2020-08-14
 
 ### Changed

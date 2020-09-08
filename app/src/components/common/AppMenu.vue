@@ -120,9 +120,6 @@ export default {
       this.$emit(`close`)
       window.scrollTo(0, 0)
     },
-    capitalizeFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1)
-    },
   },
 }
 </script>
