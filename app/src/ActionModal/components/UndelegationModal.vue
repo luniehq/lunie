@@ -52,7 +52,7 @@
       </div>
     </TmFormGroup>
     <TmFormGroup
-      v-if="!sourceValidator && session.addressRole !== `stash`"
+      v-if="isUnnomination && session.addressRole !== `stash`"
       class="action-modal-form-group"
       field-id="from"
       field-label="From"
@@ -84,7 +84,11 @@
       />
     </TmFormGroup>
     <TmFormGroup
-      v-if="session.addressRole !== `stash`"
+      v-if="
+        currentNetwork.network_type === `polkadot`
+          ? !isUnnomination && session.addressRole !== `stash`
+          : true
+      "
       :error="$v.amount.$error && $v.amount.$invalid"
       class="action-modal-form-group"
       field-id="amount"
@@ -180,6 +184,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    isUnnomination: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     amount: 0,
@@ -187,8 +195,8 @@ export default {
     validators: [],
     toSelectedIndex: `0`,
     balance: {
-      amount: 0,
-      denom: ``,
+      total: 0,
+      available: 0,
     },
     messageType,
     smallestAmount: SMALLEST,
@@ -199,10 +207,7 @@ export default {
     ...mapGetters([`network`, `address`, `stakingDenom`, `currentNetwork`]),
     maximum() {
       if (this.currentNetwork.network_type === `polkadot`) {
-        const totalStaked = this.delegations.reduce(
-          (accum, delegation) => (accum += parseFloat(delegation.amount)),
-          0
-        )
+        const totalStaked = this.balance.total - this.balance.available
         return totalStaked.toFixed(6) || 0
       } else {
         const delegation = this.delegations.find(
@@ -243,7 +248,7 @@ export default {
         }
         return {
           type: messageType.UNSTAKE,
-          from: this.sourceValidator
+          from: this.sourceValidator && this.sourceValidator.operatorAddress
             ? [this.sourceValidator.operatorAddress]
             : null,
           amount: {
@@ -435,10 +440,10 @@ export default {
     },
     balance: {
       query: gql`
-        query Balance($networkId: String!, $address: String!, $denom: String!) {
-          balance(networkId: $networkId, address: $address, denom: $denom) {
-            amount
-            denom
+        query Balances($networkId: String!, $address: String!) {
+          balancesV2(networkId: $networkId, address: $address) {
+            total
+            available
           }
         }
       `,
@@ -454,13 +459,12 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.address,
-          denom: this.stakingDenom,
+          address: this.address
         }
       },
       /* istanbul ignore next */
       update(data) {
-        return data.balance || { amount: 0 }
+        return data.balancesV2.find(({denom}) => this.stakingDenom) || { total: 0, available: 0 }
       },
     },
     validators: {

@@ -17,7 +17,7 @@ describe(`BalanceRow`, () => {
       },
       endTime: "",
     },
-    totalRewardsDenom: {
+    totalRewardsPerDenom: {
       TOKEN1: 1,
       MUON: 5,
     },

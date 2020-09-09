@@ -89,12 +89,30 @@ describe(`Module: Session`, () => {
     })
 
     it(`should add user address to previously used addresses array`, () => {
-      let address = {
-        address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
-        sessionType: `explore`,
-      }
-      mutations.setUserAddresses(state, address)
-      expect(state.addresses).toEqual(address)
+      let addresses = [
+        {
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+          sessionType: `explore`,
+        },
+      ]
+      mutations.setUserAddresses(state, addresses)
+      expect(state.addresses).toEqual(addresses)
+    })
+
+    it(`should add user address respecting legacy entries`, () => {
+      let addresses = [
+        {
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+          type: `explore`,
+        },
+      ]
+      mutations.setUserAddresses(state, addresses)
+      expect(state.addresses).toEqual([
+        {
+          address: `cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9`,
+          sessionType: `explore`,
+        },
+      ])
     })
 
     it(`should activate experimental mode`, () => {
@@ -321,18 +339,16 @@ describe(`Module: Session`, () => {
         },
         { sessionType: `explore`, address, networkId: "happy-net" }
       )
-      expect(dispatch).toHaveBeenCalledWith(`persistAddresses`, {
-        addresses: [
-          {
-            address: `123`,
-            type: `explore`,
-          },
-          {
-            address: `456`,
-            type: `ledger`,
-          },
-        ],
-      })
+      expect(dispatch).toHaveBeenCalledWith(`persistAddresses`, [
+        {
+          address: `123`,
+          type: `explore`,
+        },
+        {
+          address: `456`,
+          type: `ledger`,
+        },
+      ])
       expect(dispatch).toHaveBeenCalledWith(`persistNetwork`, {
         id: "happy-net",
       })
@@ -359,21 +375,37 @@ describe(`Module: Session`, () => {
       state.addresses = [
         {
           address: `123`,
-          type: `explore`,
+          sessionType: `explore`,
+          networkId: "happy-net",
+          HDPath: `m/44'/118'/0'/0/0`,
+          curve: `ed25519`,
         },
       ]
       await actions.rememberAddress(
         { state, commit },
-        { sessionType: `explore`, address }
+        {
+          sessionType: `explore`,
+          address,
+          networkId: "happy-net",
+          HDPath: `m/44'/118'/0'/0/0`,
+          curve: `ed25519`,
+        }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
         {
           address: `123`,
-          type: `explore`,
+          sessionType: `explore`,
+          networkId: "happy-net",
+          HDPath: `m/44'/118'/0'/0/0`,
+          curve: `ed25519`,
         },
         {
           address,
-          type: `explore`,
+          sessionType: `explore`,
+          networkId: "happy-net",
+          HDPath: `m/44'/118'/0'/0/0`,
+          curve: `ed25519`,
+          name: undefined,
         },
       ])
     })
@@ -384,13 +416,23 @@ describe(`Module: Session`, () => {
       state.signedIn = true
       await actions.rememberAddress(
         { state, commit },
-        { sessionType: `explore`, address, networkId: "fabo-net" }
+        {
+          sessionType: `explore`,
+          address,
+          networkId: "fabo-net",
+          name: "testaddress",
+          HDPath: `m/44'/118'/0'/0/0`,
+          curve: `ed25519`,
+        }
       )
       expect(commit).toHaveBeenCalledWith(`setUserAddresses`, [
         {
-          type: `explore`,
+          sessionType: `explore`,
           address,
           networkId: "fabo-net",
+          name: "testaddress",
+          HDPath: `m/44'/118'/0'/0/0`,
+          curve: `ed25519`,
         },
       ])
     })
@@ -703,7 +745,7 @@ describe(`Module: Session`, () => {
         type: `explore`,
       },
     ]
-    await actions.persistAddresses({}, { addresses: state.addresses })
+    await actions.persistAddresses({}, state.addresses)
     expect(localStorage.getItem(`addresses`)).toEqual(
       JSON.stringify([
         {
@@ -772,6 +814,7 @@ describe(`Module: Session`, () => {
   it(`Handles crypto for a session`, () => {
     // takes HDPath and curve from a pre-existing session
     const session = {
+      name: "testaddress",
       address: "cosmos15ky9du8a2wlstz6fpx3p4mqpjyrm5ctpesxxn9",
       networkId: "fabo-net",
       HDPath: "m/44'/118'/0'/0/0",

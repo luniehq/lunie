@@ -11,7 +11,6 @@ const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
 const proposalTypeEnum = {
   TEXT: 'TEXT',
-  COUNCIL: 'COUNCIL',
   TREASURY: 'TREASURY',
   PARAMETER_CHANGE: 'PARAMETER_CHANGE'
 }
@@ -127,11 +126,13 @@ async function balanceV2Reducer(
   network,
   balance,
   total,
+  staked,
   fiatValueAPI,
   fiatCurrency
 ) {
   const availableLunieCoin = coinReducer(network, balance, 6)
   const totalLunieCoin = coinReducer(network, total, 6)
+  const stakedLunieCoin = coinReducer(network, staked, 6)
   const availableFiatValue = (
     await fiatValueAPI.calculateFiatValues([availableLunieCoin], fiatCurrency)
   )[availableLunieCoin.denom]
@@ -145,6 +146,7 @@ async function balanceV2Reducer(
       type: 'STAKE',
       available: 0,
       total: 0,
+      staked: 0,
       denom: availableLunieCoin.denom,
       availableFiatValue,
       fiatValue: totalFiatValue
@@ -156,6 +158,7 @@ async function balanceV2Reducer(
     type: 'STAKE', // just a staking denom on Kusama for now
     available: availableLunieCoin.amount,
     total: totalLunieCoin.amount,
+    staked: stakedLunieCoin.amount,
     denom: availableLunieCoin.denom,
     availableFiatValue,
     fiatValue: totalFiatValue
@@ -490,7 +493,7 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
-function depositReducer(deposit, network) {
+function depositReducer(deposit, depositerInfo, network) {
   return {
     amount: [
       {
@@ -498,7 +501,18 @@ function depositReducer(deposit, network) {
         denom: network.stakingDenom
       }
     ],
-    depositer: deposit.accountId
+    depositer: networkAccountReducer(depositerInfo)
+  }
+}
+
+function networkAccountReducer(account) {
+  return {
+    name:
+      account && account.identity && account.identity.display
+        ? account.identity.display
+        : '',
+    address: account && account.accountId ? account.accountId : '',
+    picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
   }
 }
 
@@ -507,7 +521,8 @@ function democracyProposalReducer(
   proposal,
   totalIssuance,
   blockHeight,
-  detailedVotes
+  detailedVotes,
+  proposerInfo
 ) {
   return {
     id: `democracy-`.concat(proposal.index),
@@ -521,7 +536,7 @@ function democracyProposalReducer(
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
-    proposer: proposal.proposer.toHuman(),
+    proposer: networkAccountReducer(proposerInfo),
     detailedVotes
   }
 }
@@ -531,7 +546,8 @@ function democracyReferendumReducer(
   proposal,
   totalIssuance,
   blockHeight,
-  detailedVotes
+  detailedVotes,
+  proposerInfo
 ) {
   return {
     id: `referendum-`.concat(proposal.index),
@@ -546,7 +562,7 @@ function democracyReferendumReducer(
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
-    proposer: proposal.proposer,
+    proposer: networkAccountReducer(proposerInfo),
     detailedVotes
   }
 }
@@ -557,7 +573,8 @@ function treasuryProposalReducer(
   councilMembers,
   blockHeight,
   electionInfo,
-  detailedVotes
+  detailedVotes,
+  proposerInfo
 ) {
   return {
     id: `treasury-`.concat(proposal.index || proposal.votes.index),
@@ -573,36 +590,10 @@ function treasuryProposalReducer(
       : null,
     tally: proposal.votes
       ? councilTallyReducer(proposal.votes, councilMembers, electionInfo)
-      : null,
+      : {},
     deposit: toViewDenom(network, Number(proposal.deposit)),
-    proposer: proposal.proposer ? proposal.proposer.toHuman() : undefined,
+    proposer: networkAccountReducer(proposerInfo),
     beneficiary: proposal.beneficiary, // the account getting the tip
-    detailedVotes
-  }
-}
-
-function councilProposalReducer(
-  network,
-  proposal,
-  councilMembers,
-  blockHeight,
-  electionInfo,
-  detailedVotes
-) {
-  return {
-    id: `council-`.concat(proposal.votes.index),
-    proposalId: proposal.votes.index,
-    networkId: network.id,
-    type: proposalTypeEnum.COUNCIL,
-    title: `Council Proposal #${proposal.votes.index}`,
-    description: proposal.description,
-    creationTime: proposal.creationTime,
-    status: `VotingPeriod`,
-    statusBeginTime: proposal.creationTime,
-    statusEndTime: getStatusEndTime(blockHeight, proposal.votes.end),
-    tally: councilTallyReducer(proposal.votes, councilMembers, electionInfo),
-    deposit: undefined,
-    proposer: undefined,
     detailedVotes
   }
 }
@@ -741,12 +732,12 @@ module.exports = {
   rewardsReducer,
   dbRewardsReducer,
   depositReducer,
+  networkAccountReducer,
   getExtrinsicSuccess,
   identityReducer,
   democracyProposalReducer,
   democracyReferendumReducer,
   treasuryProposalReducer,
-  councilProposalReducer,
   tallyReducer,
   topVoterReducer
 }
