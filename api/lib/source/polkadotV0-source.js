@@ -1052,17 +1052,12 @@ class polkadotAPI {
               proposal,
               `referendum`
             )
-            const proposerInfo = await this.getNetworkAccountInfo(
-              proposal.proposer,
-              api
-            )
             return this.reducers.democracyReferendumReducer(
               this.network,
               proposalWithMetadata,
               totalIssuance,
               blockHeight,
-              await this.getDetailedVotes(proposalWithMetadata, `referendum`),
-              proposerInfo
+              await this.getDetailedVotes(proposalWithMetadata, `referendum`)
             )
           })
         )

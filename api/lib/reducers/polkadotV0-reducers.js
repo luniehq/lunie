@@ -542,12 +542,12 @@ function democracyReferendumReducer(
   proposal,
   totalIssuance,
   blockHeight,
-  detailedVotes,
-  proposerInfo
+  detailedVotes
 ) {
   return {
     id: `referendum-`.concat(proposal.index),
     proposalId: proposal.index,
+    proposer: proposal.proposer,
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Proposal #${proposal.index}`,
@@ -558,7 +558,6 @@ function democracyReferendumReducer(
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
-    proposer: networkAccountReducer(proposerInfo),
     detailedVotes
   }
 }
