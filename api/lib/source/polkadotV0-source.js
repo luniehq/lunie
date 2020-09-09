@@ -215,12 +215,16 @@ class polkadotAPI {
     const { free, reserved, feeFrozen } = account.data.toJSON()
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
+    const stakedBalance = totalBalance
+      .minus(freeBalance)
+      .minus(BigNumber(reserved))
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
         this.network,
         freeBalance.toString(),
         totalBalance.toString(),
+        stakedBalance.toString(),
         fiatValueAPI,
         fiatCurrency
       )
@@ -966,7 +970,7 @@ class polkadotAPI {
       links,
       timeline: [],
       council: true
-    } 
+    }
   }
 
   async getDetailedVotes(proposal, type) {
