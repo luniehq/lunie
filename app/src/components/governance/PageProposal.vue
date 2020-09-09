@@ -25,8 +25,11 @@
       />
 
       <ParticipantList
-        v-if="proposal.detailedVotes.votes"
-        :participants="proposal.detailedVotes.votes || []"
+        v-if="
+          proposal.detailedVotes.votes &&
+          proposal.detailedVotes.votes.length > 0
+        "
+        :participants="proposal.detailedVotes.votes.map(({ voter }) => voter)"
       />
 
       <template v-if="proposal.detailedVotes.timeline">

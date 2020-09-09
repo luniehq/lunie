@@ -138,7 +138,7 @@ export default {
   },
   data: () => ({
     proposals: [],
-    governanceOverview: [],
+    governanceOverview: {},
     parameters: {
       depositDenom: "",
     },
