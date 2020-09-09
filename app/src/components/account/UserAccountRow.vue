@@ -1,5 +1,5 @@
 <template>
-  <div class="address-item">
+  <div class="address-item" @click="$emit('click')">
     <img
       class="network-icon"
       :src="address.icon || `/img/networks/${address.networkId}.png`"
@@ -52,6 +52,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .network-icon {

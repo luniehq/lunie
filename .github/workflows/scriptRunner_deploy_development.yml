@@ -6,6 +6,7 @@ on:
       - 'develop'
     paths:
       - 'scriptRunner/**'
+      - 'api/**'
 env:
   WORKING_DIRECTORY: ./scriptRunner
 jobs:

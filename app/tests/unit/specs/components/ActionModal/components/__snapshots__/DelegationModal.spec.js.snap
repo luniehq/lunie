@@ -5,7 +5,8 @@ exports[`DelegationModal Submission Data for Redelegating should set the subtota
   <!---->
   <!---->
   <tmformgroup-stub class="action-modal-form-group">
-    <div class="form-message notice"><span>
+    <div class="form-message notice">
+      <!----> <span>
         Voting power and rewards will change instantly upon restaking — but
         your tokens will still be subject to the risks associated with the
         original stake for the duration of the unstaking period.
@@ -58,6 +59,8 @@ exports[`DelegationModal should display the delegation modal form 1`] = `
     <div
       class="form-message notice"
     >
+      <!---->
+       
       <span>
         
         It will take 21 days to unlock your tokens after they

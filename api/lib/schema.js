@@ -57,6 +57,7 @@ const typeDefs = gql`
     type: TokenType!
     denom: String!
     total: String!
+    staked: String!
     fiatValue: FiatValue
     available: String
     availableFiatValue: FiatValue

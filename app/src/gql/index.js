@@ -168,7 +168,11 @@ export const ProposalFragment = `
     totalVotedPercentage
   }
   deposit
-  proposer,
+  proposer {
+    name
+    address
+    picture
+  }
   validator {
     name
   }
