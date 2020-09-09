@@ -80,11 +80,14 @@
 
     <!-- endTime span for Polkadot undelegations -->
     <div
-      v-if="unstakingBalance"
+      v-if="unstakingBalance" 
       :key="balance.denom + '_endtime'"
       class="table-cell endtime"
     >
-      <span>
+      <span v-if="unstakeClaimable">
+        Claimable
+      </span>
+      <span v-else>
         {{ balance.endTime | fromNow }}
       </span>
     </div>
@@ -140,6 +143,9 @@ export default {
     unstakingBalance() {
       return this.balance.endTime ? true : false
     },
+    unstakeClaimable() {
+      return new Date(this.balance.endTime) <= new Date()
+    }
   },
   methods: {
     bigFigureOrShortDecimals,
