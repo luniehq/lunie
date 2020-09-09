@@ -1,11 +1,33 @@
 # Changelog
- 
+  
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.227] - 2020-09-08
+
+### Added
+
+- [#4665](https://github.com/cosmos/lunie/issues/4665) UserMenu now displays also local and extension accounts @Bitcoinera
+- [#4828](https://github.com/cosmos/lunie/issues/4828) Allow signout from ledger and explore addresses @faboweb
+- Handle errors in boot process to make debugging easier for us and users @faboweb
+
+### Changed
+
+- [#4773](https://github.com/cosmos/lunie/issues/4773) Display Stake button on Portfolio for Substrate networks @Bitcoinera
+- [#4787](https://github.com/cosmos/lunie/pull/4787) Make sure stake button displays properly on Portfolio for Substrate networks @Bitcoinera
+- [#4783](https://github.com/cosmos/lunie/pull/4783) Show Select and Deselect on PageValidator instead of Stake and Unstake for Substrate networks @Bitcoinera
+- [#4819](https://github.com/cosmos/lunie/pull/4819) Proposer is now an Object ({address, name, picture}) @Bitcoinera
+- [#4807](https://github.com/cosmos/lunie/pull/4807) Document the use of the network flag for E2E tests @Bitcoinera
+- [#4826](https://github.com/cosmos/lunie/pull/4826) Disable Vote button for treasury proposals @Bitcoinera
+- [#4834](https://github.com/cosmos/lunie/pull/4834) Update to @polkadot/api-1.32.1 @Bitcoinera
+
+### Security
+
+- Check sign in redirect links for correct domain @faboweb
 
 ## [1.0.226] - 2020-09-01
 

@@ -73,76 +73,77 @@ class SlashingMonitor {
       this.storeSlashes('missing_signature')
     )
 
+    // DISABLED as it creates a lot of noise and is not used
     // requires some more logic to not spam the notifications if a validator is down for 1000 blocks
-    const minMissedBlocks =
-      this.networkId === 'kava-testnet' || this.networkId === 'kava-mainnet'
-        ? 5
-        : 1
-    this.client.subscribe(
-      {
-        query: `tm.event='NewBlockHeader' AND liveness.missed_blocks >= ${minMissedBlocks}`
-      },
-      async (response) => {
-        try {
-          const missedBlocks = response.events['liveness.address'].map(
-            (address, index) => ({
-              networkId: this.networkId,
-              operatorAddress: address,
-              blocks: response.events['liveness.missed_blocks'][index],
-              reason: 'missed_blocks',
-              height: response.data.value.header.height
-            })
-          )
-          const rows = await Promise.all(
-            missedBlocks.map(async (missedBlockEvent) => {
-              const lastMissedBlockEvent = await getLastMissedBlock(
-                this.networkId,
-                missedBlockEvent.operatorAddress
-              )
-              return aggregateMissedBlocks(
-                lastMissedBlockEvent,
-                missedBlockEvent
-              )
-            })
-          )
-          database(config)('').upsert('slashes', rows)
-          // console.log('Wrote missed block events', rows.length)
-        } catch (error) {
-          console.error('Failed to write missed block events', error)
-          Sentry.captureException(error)
-        }
-      }
-    )
+    //   const minMissedBlocks =
+    //     this.networkId === 'kava-testnet' || this.networkId === 'kava-mainnet'
+    //       ? 5
+    //       : 1
+    //   this.client.subscribe(
+    //     {
+    //       query: `tm.event='NewBlockHeader' AND liveness.missed_blocks >= ${minMissedBlocks}`
+    //     },
+    //     async (response) => {
+    //       try {
+    //         const missedBlocks = response.events['liveness.address'].map(
+    //           (address, index) => ({
+    //             networkId: this.networkId,
+    //             operatorAddress: address,
+    //             blocks: response.events['liveness.missed_blocks'][index],
+    //             reason: 'missed_blocks',
+    //             height: response.data.value.header.height
+    //           })
+    //         )
+    //         const rows = await Promise.all(
+    //           missedBlocks.map(async (missedBlockEvent) => {
+    //             const lastMissedBlockEvent = await getLastMissedBlock(
+    //               this.networkId,
+    //               missedBlockEvent.operatorAddress
+    //             )
+    //             return aggregateMissedBlocks(
+    //               lastMissedBlockEvent,
+    //               missedBlockEvent
+    //             )
+    //           })
+    //         )
+    //         database(config)('').upsert('slashes', rows)
+    //         // console.log('Wrote missed block events', rows.length)
+    //       } catch (error) {
+    //         console.error('Failed to write missed block events', error)
+    //         Sentry.captureException(error)
+    //       }
+    //     }
+    //   )
   }
 }
 
-async function getLastMissedBlock(networkId, operatorAddress) {
-  // get last liveness issue
-  const { data } = await database(config)('').query(`
-    query {
-      slashes(where:{networkId:{_eq:"${networkId}"}, operatorAddress:{_eq:"${operatorAddress}"}, reason:{_eq:"missed_blocks"}}, order_by:{id:desc}, limit: 1) {
-        height
-        id
-        reason
-      }
-    }
-  `)
+// async function getLastMissedBlock(networkId, operatorAddress) {
+//   // get last liveness issue
+//   const { data } = await database(config)('').query(`
+//     query {
+//       slashes(where:{networkId:{_eq:"${networkId}"}, operatorAddress:{_eq:"${operatorAddress}"}, reason:{_eq:"missed_blocks"}}, order_by:{id:desc}, limit: 1) {
+//         height
+//         id
+//         reason
+//       }
+//     }
+//   `)
 
-  return data.slashes[0]
-}
+//   return data.slashes[0]
+// }
 
-function aggregateMissedBlocks(lastMissedBlockEvent, newMissedBlockEvent) {
-  if (!lastMissedBlockEvent) return newMissedBlockEvent
-  if (
-    newMissedBlockEvent.height - newMissedBlockEvent.blocks <=
-    lastMissedBlockEvent.height
-  ) {
-    return {
-      ...newMissedBlockEvent,
-      id: lastMissedBlockEvent.id // overwrite old entry
-    }
-  }
-  return newMissedBlockEvent
-}
+// function aggregateMissedBlocks(lastMissedBlockEvent, newMissedBlockEvent) {
+//   if (!lastMissedBlockEvent) return newMissedBlockEvent
+//   if (
+//     newMissedBlockEvent.height - newMissedBlockEvent.blocks <=
+//     lastMissedBlockEvent.height
+//   ) {
+//     return {
+//       ...newMissedBlockEvent,
+//       id: lastMissedBlockEvent.id // overwrite old entry
+//     }
+//   }
+//   return newMissedBlockEvent
+// }
 
 module.exports = SlashingMonitor

@@ -1,6 +1,6 @@
 {
   "name": "app",
-  "version": "1.0.226",
+  "version": "1.0.227",
   "description": "Lunie is the staking and governance platform for proof-of-stake blockchains.",
   "author": "Lunie International Software Systems Inc. <hello@lunie.io>",
   "scripts": {
@@ -121,7 +121,7 @@
     "numeral": "^2.0.6",
     "prettier": "^2.0.5",
     "sass": "^1.26.10",
-    "sass-loader": "8.0.0",
+    "sass-loader": "10.0.2",
     "simsala": "0.0.21",
     "stylelint": "13.6.1",
     "stylelint-config-standard": "20.0.0",
