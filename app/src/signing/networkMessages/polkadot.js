@@ -78,7 +78,8 @@ export async function UnstakeTx(
   // validator you are undelegating from
   // Disable if address is a controller account
   if (
-    from && from.length > 0 &&
+    from &&
+    from.length > 0 &&
     ["controller", "stash/controller"].includes(addressRole)
   ) {
     const stakingLedger = await api.query.staking.ledger(senderAddress)
