@@ -57,7 +57,7 @@ export const proposals = [
     proposer: {
       name: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
       address: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
-      picture: null
+      picture: null,
     },
     detailedVotes: {
       depositsSum: "1",
