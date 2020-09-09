@@ -1010,10 +1010,10 @@
   resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-2.4.0.tgz#e75b01b5ce5b60f4ef400c7867e81fd2c1782b47"
   integrity sha512-5sJicZjtuBRgtmBuV1kvWnIjlu7bnw2TGGp62UXf0ZrjvMUCYSFHBqIHZ8neffW7a3xM5cdGMUlxJ+HfA9ntAg==
 
-"@capacitor/cli@2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@capacitor/cli/-/cli-2.2.1.tgz#0d818bd14e5ddc88560722308b6a15c885993015"
-  integrity sha512-5x6BTiWg5/d1roBDM/eNrJGwj/x/WGWCcqkzgxsZQRxZKs/fX2uyjhhFgGCoeTFiYDeQMOKnHwVzHI9nERisZw==
+"@capacitor/cli@2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/cli/-/cli-2.4.0.tgz#f4b46d894eb0147fab2f2ed88dfd843baa9bf19d"
+  integrity sha512-zThbRb83odSVhPfGmR6dAsNx4yDKSJ6N11eClh5NGYiY4UR4uMoE0QicU0VSp+n62ggONmQjQl9Zhadl7ZQHwQ==
   dependencies:
     chalk "^2.3.0"
     commander "^4.1.1"
