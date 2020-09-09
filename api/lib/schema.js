@@ -68,7 +68,7 @@ const typeDefs = gql`
   }
 
   type Vote {
-    id: Int
+    id: String
     voter: NetworkAccount
     option: String
   }

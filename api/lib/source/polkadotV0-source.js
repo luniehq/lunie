@@ -781,6 +781,7 @@ class polkadotAPI {
       proposal.seconds.map(async (secondAddress) => {
         const voter = await this.getNetworkAccountInfo(secondAddress, api)
         return {
+          id: voter.address,
           voter,
           option: `Yes`
         }
@@ -888,6 +889,7 @@ class polkadotAPI {
         .map(async (aye) => {
           const voter = await this.getNetworkAccountInfo(aye.accountId, api)
           return {
+            id: voter.address,
             voter,
             option: `Yes`
           }
@@ -896,6 +898,7 @@ class polkadotAPI {
           proposal.allNay.map(async (nay) => {
             const voter = await this.getNetworkAccountInfo(nay.accountId, api)
             return {
+              id: voter.address,
               voter,
               option: `No`
             }
@@ -962,15 +965,23 @@ class polkadotAPI {
     if (proposal.votes) {
       votes = await Promise.all(
         proposal.votes.ayes
-          .map(async (aye) => ({
-            voter: await this.getNetworkAccountInfo(aye, api),
-            option: `Yes`
-          }))
+          .map(async (aye) => {
+            const voter = await this.getNetworkAccountInfo(aye, api)
+            return {
+              id: voter.address,
+              voter,
+              option: `Yes`
+            }
+          })
           .concat(
-            proposal.votes.nays.map(async (nay) => ({
-              voter: await this.getNetworkAccountInfo(nay, api),
-              option: `No`
-            }))
+            proposal.votes.nays.map(async (nay) => {
+              const voter = await this.getNetworkAccountInfo(nay, api)
+              return {
+                id: voter.address,
+                voter,
+                option: `No`
+              }
+            })
           )
       )
     }
@@ -1191,7 +1202,7 @@ class polkadotAPI {
           )
         })
       ),
-      links: JSON.parse(links)
+      links
     }
   }
 }
