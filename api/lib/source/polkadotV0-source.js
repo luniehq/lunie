@@ -769,6 +769,16 @@ class polkadotAPI {
       })
     )
     const votesSum = proposal.seconds.length
+
+    // mimicing the spend period in polkadot UI (not sure this is correct)
+    const height = this.store.latestHeight
+    const launchPeriod = api.consts.democracy.launchPeriod // every x blocks the chain is upgraded
+    const nextUpradeBlockHeightDiff = launchPeriod.toNumber() - (height % launchPeriod.toNumber()) // % is the modulo operator
+    const nextUpradeBlockTime = new Date(
+      new Date().getTime() +
+        /* 6s is the average block duration for both Kusama and Polkadot */ 
+        nextUpradeBlockHeightDiff * 6 * 1000
+    )
     return {
       deposits,
       depositsSum,
@@ -777,7 +787,15 @@ class polkadotAPI {
       votingPercentageYes: `100`,
       votingPercentagedNo: `0`,
       links,
-      timeline: [{ title: `Proposal created`, time: proposal.creationTime }],
+      timeline: [
+        {
+          title: `Proposal created`, time: proposal.creationTime
+        }, 
+        {
+          title: `Voting Period Ends`,
+          time: nextUpradeBlockTime.toUTCString()
+        }
+      ],
       council: false
     }
   }
