@@ -10,9 +10,16 @@
       </div>
 
       <div class="buttons">
-        <button class="share-button">
+        <button
+          v-clipboard:copy="currentRoute"
+          v-clipboard:success="() => onCopy()"
+          class="share-button"
+        >
           <i class="material-icons">link</i>
         </button>
+        <div :class="{ active: copySuccess }" class="icon-container">
+          <i class="material-icons notranslate success">check</i>
+        </div>
         <TmBtn
           v-if="status.badge === 'Deposit Period'"
           id="deposit-btn"
@@ -86,7 +93,13 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    copySuccess: false,
+  }),
   computed: {
+    currentRoute() {
+      return location.href
+    },
     summary() {
       switch (this.type) {
         case `TEXT`:
@@ -98,6 +111,14 @@ export default {
         default:
           return `Unknown proposal type`
       }
+    },
+  },
+  methods: {
+    onCopy() {
+      this.copySuccess = true
+      setTimeout(() => {
+        this.copySuccess = false
+      }, 2500)
     },
   },
 }
@@ -186,7 +207,19 @@ h2 {
   color: #7a88b8;
   border: 2px solid rgb(122, 136, 184, 0.1);
   cursor: pointer;
-  margin-right: 0.5rem;
+}
+
+.icon-container {
+  margin: 0 0.5rem 0 0;
+}
+
+.icon-container .success {
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.icon-container.active .success {
+  opacity: 1;
 }
 
 @media screen and (max-width: 1023px) {
