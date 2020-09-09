@@ -56,7 +56,7 @@ describe(`BalanceRow`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`it showes an unstaking balance`, () => {
+  it(`it shows an unstaking balance`, () => {
     const endTime = new Date()
     endTime.setDate(endTime.getDate() + 1)
     const wrapper = shallowMount(BalanceRow, {
