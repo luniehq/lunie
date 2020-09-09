@@ -84,9 +84,7 @@
       :key="balance.denom + '_endtime'"
       class="table-cell endtime"
     >
-      <span v-if="unstakeClaimable">
-        Claimable
-      </span>
+      <span v-if="unstakeClaimable">Claimable</span>
       <span v-else>
         {{ balance.endTime | fromNow }}
       </span>
