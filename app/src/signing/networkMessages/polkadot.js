@@ -78,6 +78,7 @@ export async function UnstakeTx(
   // validator you are undelegating from
   // Disable if address is a controller account
   if (
+    from &&
     from.length > 0 &&
     ["controller", "stash/controller"].includes(addressRole)
   ) {
