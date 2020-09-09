@@ -24,7 +24,10 @@
         :deposit-total="proposal.detailedVotes.depositsSum"
       />
 
-      <ParticipantList :participants="proposal.detailedVotes.votes || []" />
+      <ParticipantList
+        v-if="proposal.detailedVotes.votes"
+        :participants="proposal.detailedVotes.votes || []"
+      />
 
       <template v-if="proposal.detailedVotes.timeline">
         <Timeline :timeline="proposal.detailedVotes.timeline" />
