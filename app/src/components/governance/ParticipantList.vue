@@ -14,9 +14,7 @@
           </span>
           <span class="name">{{ participant.name || `n/a` }}</span>
         </div>
-        <span class="voter">{{
-          participant.voter.address || participant.address | formatAddress
-        }}</span>
+        <span class="voter">{{ participant.address | formatAddress }}</span>
         <div>
           <span class="option">{{ participant.option || `n/a` }}</span>
           <span class="amount">{{ participant.amount || `n/a` }}</span>
@@ -44,9 +42,6 @@ export default {
       type: Array,
       required: true,
     },
-  },
-  mounted() {
-    console.log(this.participants)
   },
 }
 </script>

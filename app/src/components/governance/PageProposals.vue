@@ -81,11 +81,17 @@
     </template>
 
     <ParticipantList
+      v-if="
+        governanceOverview.topVoters && governanceOverview.topVoters.length > 0
+      "
       :title="participantListTitle"
-      :participants="governanceOverview.topVoters || []"
+      :participants="governanceOverview.topVoters"
     />
 
-    <ProposalDescription :supporting-links="governanceOverview.links || []" />
+    <ProposalDescription
+      v-if="governanceOverview.links && governanceOverview.links.length > 0"
+      :supporting-links="governanceOverview.links"
+    />
 
     <ModalTutorial
       v-if="
