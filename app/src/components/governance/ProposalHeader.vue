@@ -1,39 +1,45 @@
 <template>
   <header class="header">
-    <div class="header-top">
-      <div>
-        <BackButton />
-      </div>
-
-      <div>
-        <Status :status="status" />
-      </div>
-
-      <div class="buttons">
-        <button
-          v-clipboard:copy="currentRoute"
-          v-clipboard:success="() => onCopy()"
-          class="share-button"
-        >
-          <i class="material-icons">link</i>
-        </button>
-        <div :class="{ active: copySuccess }" class="icon-container">
-          <i class="material-icons notranslate success">check</i>
+    <div class="header-top-column">
+      <div class="header-top-row">
+        <div>
+          <BackButton />
         </div>
-        <TmBtn
-          v-if="status.badge === 'Deposit Period'"
-          id="deposit-btn"
-          value="Deposit"
-          color="primary"
-          @click.native="$emit(`open-deposit-modal`)"
-        />
-        <TmBtn
-          v-if="status.badge === 'Voting Period'"
-          id="vote-btn"
-          value="Vote"
-          color="primary"
-          @click.native="$emit(`open-vote-modal`)"
-        />
+
+        <div class="inner-status">
+          <Status :status="status" />
+        </div>
+
+        <div class="buttons">
+          <button
+            v-clipboard:copy="currentRoute"
+            v-clipboard:success="() => onCopy()"
+            class="share-button"
+          >
+            <i class="material-icons">link</i>
+          </button>
+          <div :class="{ active: copySuccess }" class="icon-container">
+            <i class="material-icons notranslate success">check</i>
+          </div>
+          <TmBtn
+            v-if="status.badge === 'Deposit Period'"
+            id="deposit-btn"
+            value="Deposit"
+            color="primary"
+            @click.native="$emit(`open-deposit-modal`)"
+          />
+          <TmBtn
+            v-if="status.badge === 'Voting Period'"
+            id="vote-btn"
+            value="Vote"
+            color="primary"
+            @click.native="$emit(`open-vote-modal`)"
+          />
+        </div>
+      </div>
+
+      <div class="outer-status">
+        <Status :status="status" />
       </div>
     </div>
 
@@ -133,7 +139,7 @@ export default {
   width: 100%;
 }
 
-.header-top {
+.header-top-row {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -141,13 +147,19 @@ export default {
   padding: 0 0 4rem;
 }
 
-.header-top > div:first-child,
-.header-top > div:last-child {
+.header-top-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-top-row > div:first-child,
+.header-top-row > div:last-child {
   width: 33%;
   display: flex;
 }
 
-.header-top > div:last-child {
+.header-top-row > div:last-child {
   justify-content: flex-end;
 }
 
@@ -220,6 +232,28 @@ h2 {
 
 .icon-container.active .success {
   opacity: 1;
+}
+
+.outer-status {
+  display: none;
+}
+
+@media screen and (max-width: 667px) {
+  .inner-status {
+    display: none;
+  }
+
+  .outer-status {
+    display: initial;
+  }
+
+  .header-top-row {
+    padding: 0 0 2rem;
+  }
+
+  .header-top-column {
+    padding: 0 0 4rem;
+  }
 }
 
 @media screen and (max-width: 1023px) {
