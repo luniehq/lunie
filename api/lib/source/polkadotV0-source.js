@@ -660,7 +660,7 @@ class polkadotAPI {
     const { meta, method } = api.registry.findMetaCall(
       proposal.image.proposal.callIndex
     )
-    proposer = proposal.image.proposer
+    proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
     description = meta.documentation.toString()
     proposalMethod = method
 
@@ -677,7 +677,7 @@ class polkadotAPI {
     return {
       ...proposal,
       description,
-      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      proposer: this.reducers.networkAccountReducer(proposer),
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime
     }
@@ -885,15 +885,20 @@ class polkadotAPI {
     const votes = await Promise.all(
       proposal.allAye
         .map(async (aye) => {
+          const voterInfo = await this.getNetworkAccountInfo(aye.accountId, api)
           return {
-            voter: this.reducers.networkAccountReducer(aye.accountId),
+            voter: this.reducers.networkAccountReducer(voterInfo),
             option: `Yes`
           }
         })
         .concat(
           proposal.allNay.map(async (nay) => {
+            const voterInfo = await this.getNetworkAccountInfo(
+              nay.accountId,
+              api
+            )
             return {
-              voter: this.reducers.networkAccountReducer(nay.accountId),
+              voter: this.reducers.networkAccountReducer(voterInfo),
               option: `No`
             }
           })
