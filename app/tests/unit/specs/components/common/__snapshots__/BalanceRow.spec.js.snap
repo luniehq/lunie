@@ -221,9 +221,7 @@ exports[`BalanceRow it shows an unstaking balance ready to claim 1`] = `
     class="table-cell endtime"
   >
     <span>
-      
       Claimable
-    
     </span>
   </div>
 </div>

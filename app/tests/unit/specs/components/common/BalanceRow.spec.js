@@ -62,8 +62,8 @@ describe(`BalanceRow`, () => {
     const wrapper = shallowMount(BalanceRow, {
       propsData: Object.assign({}, propsData, {
         balance: Object.assign({}, propsData.balance, {
-          endTime
-        })
+          endTime,
+        }),
       }),
       mocks: {
         $store,
@@ -77,8 +77,8 @@ describe(`BalanceRow`, () => {
     const wrapper = shallowMount(BalanceRow, {
       propsData: Object.assign({}, propsData, {
         balance: Object.assign({}, propsData.balance, {
-          endTime
-        })
+          endTime,
+        }),
       }),
       mocks: {
         $store,

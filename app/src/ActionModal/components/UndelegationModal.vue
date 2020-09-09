@@ -248,9 +248,10 @@ export default {
         }
         return {
           type: messageType.UNSTAKE,
-          from: this.sourceValidator && this.sourceValidator.operatorAddress
-            ? [this.sourceValidator.operatorAddress]
-            : null,
+          from:
+            this.sourceValidator && this.sourceValidator.operatorAddress
+              ? [this.sourceValidator.operatorAddress]
+              : null,
           amount: {
             amount: this.amount,
             denom: this.stakingDenom,
@@ -459,12 +460,17 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.address
+          address: this.address,
         }
       },
       /* istanbul ignore next */
       update(data) {
-        return data.balancesV2.find(({denom}) => this.stakingDenom) || { total: 0, available: 0 }
+        return (
+          data.balancesV2.find(({ denom }) => this.stakingDenom) || {
+            total: 0,
+            available: 0,
+          }
+        )
       },
     },
     validators: {
