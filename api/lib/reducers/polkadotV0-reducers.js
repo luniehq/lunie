@@ -510,7 +510,7 @@ function networkAccountReducer(account) {
     name:
       account && account.identity && account.identity.display
         ? account.identity.display
-        : '',
+        : account.accountId || '',
     address: account && account.accountId ? account.accountId : '',
     picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
   }
