@@ -44,7 +44,7 @@ class polkadotAPI {
     this.store.identities[address] = this.reducers.networkAccountReducer(
       accountInfo
     )
-    return this.reducers.networkAccountReducer(accountInfo)
+    return this.store.identities[address]
   }
 
   async getBlockHeight() {
