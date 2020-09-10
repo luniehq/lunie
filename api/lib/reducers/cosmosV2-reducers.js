@@ -240,6 +240,7 @@ function proposalReducer(
   return {
     networkId,
     id: Number(proposal.id),
+    proposalId: String(proposal.id),
     type: proposalTypeEnumDictionary[proposal.content.type],
     title: proposal.content.value.title,
     description: proposal.content.value.description,

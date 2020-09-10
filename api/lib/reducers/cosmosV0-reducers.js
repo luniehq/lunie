@@ -102,7 +102,9 @@ function getTotalVotePercentage(proposal, totalBondedTokens, totalVoted) {
   if (proposalFinalized(proposal)) return -1
   if (BigNumber(totalVoted).eq(0)) return 0
   if (!totalBondedTokens) return -1
-  return BigNumber(totalVoted).div(atoms(totalBondedTokens)).toNumber()
+  return Number(
+    BigNumber(totalVoted).div(atoms(totalBondedTokens)).toNumber().toFixed(6)
+  )
 }
 
 function tallyReducer(proposal, tally, totalBondedTokens) {
