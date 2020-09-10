@@ -160,21 +160,34 @@ async function RestakeTx(senderAddress, api, { to, from, addressRole }) {
   return await getSignMessage(senderAddress, transactions, api)
 }
 
-async function ClaimRewardsTx(senderAddress, api, message, network, networkSource) {
+async function ClaimRewardsTx(
+  senderAddress,
+  api,
+  message,
+  network,
+  networkSource
+) {
   let allClaimingTxs = []
 
-  const rewards = await networkSource.getRewards(delegatorAddress, fiatCurrency, withHeight)
+  const rewards = await networkSource.getRewards(
+    delegatorAddress,
+    fiatCurrency,
+    withHeight
+  )
 
   if (rewards.length === 0) {
     allClaimingTxs = []
   } else {
     rewards
-    .sortBy((a,b) => a.height - b.height)
-    .forEach((reward) => {
-      allClaimingTxs.push(
-        api.tx.staking.payoutStakers(reward.validator.operatorAddress, reward.height)
-      )
-    })
+      .sortBy((a, b) => a.height - b.height)
+      .forEach((reward) => {
+        allClaimingTxs.push(
+          api.tx.staking.payoutStakers(
+            reward.validator.operatorAddress,
+            reward.height
+          )
+        )
+      })
   }
 
   if (allClaimingTxs.length === 0) {

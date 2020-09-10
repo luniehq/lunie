@@ -350,7 +350,13 @@ const resolvers = (networkList, notificationController) => ({
       remoteFetch(dataSources, networkId).getAnnualProvision(),
     rewards: async (
       _,
-      { networkId, delegatorAddress, operatorAddress, fiatCurrency, withHeight = false },
+      {
+        networkId,
+        delegatorAddress,
+        operatorAddress,
+        fiatCurrency,
+        withHeight = false
+      },
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady

@@ -490,7 +490,7 @@ function rewardReducer(network, validators, reward, reducers) {
     const validator = validators[validatorReward[0]]
     if (!validator) return
     const lunieReward = {
-      id: validatorReward[0] + (reward.era ? ('_' + reward.era) : ''),
+      id: validatorReward[0] + (reward.era ? '_' + reward.era : ''),
       ...reducers.coinReducer(network, validatorReward[1].toString(10)),
       height: reward.era,
       address: reward.address,

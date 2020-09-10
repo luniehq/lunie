@@ -51,7 +51,7 @@ class PolkadotNodeSubscription {
     this.store.polkadotRPC = this.api
     this.store.polkadotRPCOpened = Date.now()
     await this.api.isReady
-    console.log(this.network.id +' API initialized')
+    console.log(this.network.id + ' API initialized')
   }
 
   async subscribeForNewBlock() {
