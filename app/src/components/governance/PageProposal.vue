@@ -13,7 +13,7 @@
 
       <ProposalStatusBar
         :status="status.badge"
-        :status-begin-time="proposal.statusBeginTime"
+        :status-begin-time="new Date(proposal.statusBeginTime).toUTCString()"
         :total-votes="proposal.tally.total"
         :proposal-id="proposal.proposalId"
         :vote-percentage="proposal.tally.totalVotedPercentage"
@@ -29,7 +29,7 @@
           proposal.detailedVotes.votes &&
           proposal.detailedVotes.votes.length > 0
         "
-        :participants="proposal.detailedVotes.votes.map(({ voter }) => voter)"
+        :participants="proposal.detailedVotes.votes"
       />
 
       <template v-if="proposal.detailedVotes.timeline">

@@ -12,9 +12,13 @@
             <img src="https://lunie.fra1.digitaloceanspaces.com/polkadot.png" />
             <!-- {{ participant.icon || `n/a` }} -->
           </span>
-          <span class="name">{{ participant.name || `n/a` }}</span>
+          <span class="name">{{
+            participant.name || participant.voter.name || `n/a`
+          }}</span>
         </div>
-        <span class="voter">{{ participant.address | formatAddress }}</span>
+        <span class="voter">{{
+          participant.address || participant.voter.address | formatAddress
+        }}</span>
         <div>
           <span v-if="!isProposalsPage" class="option">{{
             participant.option || `n/a`
