@@ -93,7 +93,7 @@
         :show="true"
         bar-type="info"
         >
-        Rewards in Polkadot are usually claimed by the validators for their delegators
+        Rewards in Polkadot are typically distributed by your validator. You may not need to claim them.
       </Bar>
 
       <TableBalances
