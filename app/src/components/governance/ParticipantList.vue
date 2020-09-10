@@ -16,10 +16,16 @@
         </div>
         <span class="voter">{{ participant.address | formatAddress }}</span>
         <div>
-          <span class="option">{{ participant.option || `n/a` }}</span>
-          <span class="amount">{{ participant.amount || `n/a` }}</span>
+          <span v-if="!isProposalsPage" class="option">{{
+            participant.option || `n/a`
+          }}</span>
+          <span v-if="!isProposalsPage" class="amount">{{
+            participant.amount || `n/a`
+          }}</span>
         </div>
-        <span class="time">{{ participant.time || `n/a` }}</span>
+        <span v-if="!isProposalsPage" class="time">{{
+          participant.time || `n/a`
+        }}</span>
       </li>
     </ul>
   </div>
@@ -41,6 +47,13 @@ export default {
     participants: {
       type: Array,
       required: true,
+    },
+  },
+  computed: {
+    isProposalsPage() {
+      return ["Council Members", "Top Voters"].includes(this.title)
+        ? true
+        : false
     },
   },
 }
