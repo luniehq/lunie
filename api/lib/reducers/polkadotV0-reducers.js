@@ -45,12 +45,12 @@ function validatorReducer(network, validator) {
     networkId: network.id,
     chainId: network.chain_id,
     operatorAddress: validator.accountId,
-    website:
-      validator.identity.web && validator.identity.web !== ``
-        ? validator.identity.web
-        : ``,
+    website: validator.identity.web ? validator.identity.web : ``,
     identity: validator.identity.twitter,
-    name: identityReducer(validator.accountId, validator.identity),
+    name:
+      validator.identity && validator.accountId
+        ? identityReducer(validator.accountId, validator.identity)
+        : undefined,
     votingPower: validator.votingPower.toFixed(6),
     startHeight: undefined,
     uptimePercentage: undefined,
@@ -493,7 +493,7 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
-function depositReducer(deposit, depositerInfo, network) {
+function depositReducer(deposit, depositer, network) {
   return {
     amount: [
       {
@@ -501,7 +501,7 @@ function depositReducer(deposit, depositerInfo, network) {
         denom: network.stakingDenom
       }
     ],
-    depositer: networkAccountReducer(depositerInfo)
+    depositer
   }
 }
 
@@ -522,7 +522,7 @@ function democracyProposalReducer(
   totalIssuance,
   blockHeight,
   detailedVotes,
-  proposerInfo
+  proposer
 ) {
   return {
     id: `democracy-`.concat(proposal.index),
@@ -536,7 +536,7 @@ function democracyProposalReducer(
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
-    proposer: networkAccountReducer(proposerInfo),
+    proposer,
     detailedVotes
   }
 }
@@ -546,12 +546,12 @@ function democracyReferendumReducer(
   proposal,
   totalIssuance,
   blockHeight,
-  detailedVotes,
-  proposerInfo
+  detailedVotes
 ) {
   return {
     id: `referendum-`.concat(proposal.index),
     proposalId: proposal.index,
+    proposer: proposal.proposer,
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Proposal #${proposal.index}`,
@@ -562,7 +562,6 @@ function democracyReferendumReducer(
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
-    proposer: networkAccountReducer(proposerInfo),
     detailedVotes
   }
 }
@@ -574,7 +573,7 @@ function treasuryProposalReducer(
   blockHeight,
   electionInfo,
   detailedVotes,
-  proposerInfo
+  proposer
 ) {
   return {
     id: `treasury-`.concat(proposal.index || proposal.votes.index),
@@ -592,7 +591,7 @@ function treasuryProposalReducer(
       ? councilTallyReducer(proposal.votes, councilMembers, electionInfo)
       : {},
     deposit: toViewDenom(network, Number(proposal.deposit)),
-    proposer: networkAccountReducer(proposerInfo),
+    proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
     detailedVotes
   }
