@@ -9,17 +9,14 @@
         <h1>Governance Overview</h1>
         <div>
           <TmBtn
-            v-if="network !== `polkadot`"
+            v-if="currentNetwork.network_type === `cosmos`"
             id="propose-btn"
             value="Create Proposal"
             type="secondary"
             @click.native="onPropose"
           />
           <TmBtn
-            v-if="
-              network === 'cosmos-hub-mainnet' ||
-              network === 'cosmos-hub-testnet'
-            "
+            v-if="currentNetwork.network_type === `cosmos`"
             id="tutorial-btn"
             class="tutorial-btn"
             value="Want to learn how governance works?"
@@ -94,11 +91,7 @@
     />
 
     <ModalTutorial
-      v-if="
-        showTutorial &&
-        (connection.network === 'cosmos-hub-mainnet' ||
-          connection.network === 'cosmos-hub-testnet')
-      "
+      v-if="showTutorial && currentNetwork.network_type === `cosmos`"
       :steps="cosmosGovernanceTutorial.steps"
       :fullguide="cosmosGovernanceTutorial.fullguide"
       :background="cosmosGovernanceTutorial.background"
@@ -184,12 +177,16 @@ export default {
   }),
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`network`, `currentNetwork`, `stakingDenom`]),
+    ...mapGetters([`currentNetwork`, `stakingDenom`]),
     fundTitle() {
-      return this.network === `polkadot` ? `Treasury` : `Community Pool`
+      return this.currentNetwork.id === `polkadot`
+        ? `Treasury`
+        : `Community Pool`
     },
     participantListTitle() {
-      return this.network === `polkadot` ? `Council Members` : `Top Voters`
+      return this.currentNetwork.id === `polkadot`
+        ? `Council Members`
+        : `Top Voters`
     },
   },
   methods: {
@@ -226,7 +223,7 @@ export default {
       variables() {
         /* istanbul ignore next */
         return {
-          networkId: this.network,
+          networkId: this.currentNetwork.id,
         }
       },
       update(data) {
@@ -266,7 +263,7 @@ export default {
       variables() {
         /* istanbul ignore next */
         return {
-          networkId: this.network,
+          networkId: this.currentNetwork.id,
         }
       },
       update(data) {
@@ -279,7 +276,7 @@ export default {
     parameters: {
       query() {
         /* istanbul ignore next */
-        return GovernanceParameters(this.network)
+        return GovernanceParameters(this.currentNetwork.id)
       },
       update(data) {
         /* istanbul ignore next */
@@ -296,7 +293,7 @@ export default {
         variables() {
           /* istanbul ignore next */
           return {
-            networkId: this.network,
+            networkId: this.currentNetwork.id,
           }
         },
         query() {
