@@ -363,7 +363,10 @@ class polkadotAPI {
     return filteredRewards
   }
 
-  async getRewards(delegatorAddress) {
+  async getRewards(delegatorAddress, fiatCurrency, withHeight) {
+    if (this.network.network_type !== "polkadot" && withHeight) {
+      throw new Error("Rewards are only queryable per height in Polkadot networks")
+    }
     const schema_prefix = this.network.id.replace(/-/, '_')
     const table = 'rewards'
     // TODO would be cool to aggregate the rows in the db already, didn't find how to
@@ -388,7 +391,8 @@ class polkadotAPI {
 
     const rewards = this.reducers.dbRewardsReducer(
       this.store.validators,
-      filteredRewards
+      filteredRewards,
+      withHeight
     )
 
     return rewards

@@ -350,18 +350,16 @@ const resolvers = (networkList, notificationController) => ({
       remoteFetch(dataSources, networkId).getAnnualProvision(),
     rewards: async (
       _,
-      { networkId, delegatorAddress, operatorAddress, fiatCurrency },
+      { networkId, delegatorAddress, operatorAddress, fiatCurrency, withHeight = false },
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
-      // needed to get coinLookups
-      const network = networkList.find((network) => network.id === networkId)
       let rewards = await remoteFetch(dataSources, networkId).getRewards(
         delegatorAddress,
         fiatCurrency,
-        network
+        withHeight
       )
-      if (development !== 'true') {
+      if (development !== 'true' && !withHeight) {
         logRewards(
           networkList,
           rewards,
