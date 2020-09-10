@@ -731,7 +731,7 @@ class polkadotAPI {
       proposer: proposal.proposer || proposer, // default to the already existing one if any
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime,
-      beneficiary: proposal.beneficiary
+      beneficiary: await this.getNetworkAccountInfo(proposal.beneficiary, api)
     }
   }
 
@@ -1080,7 +1080,10 @@ class polkadotAPI {
                 ...proposalWithMetadata,
                 index: proposal.id,
                 deposit: proposal.proposal.bond,
-                beneficiary: proposal.proposal.beneficiary
+                beneficiary: await this.getNetworkAccountInfo(
+                  proposal.beneficiary,
+                  api
+                )
               },
               councilMembers,
               blockHeight,
