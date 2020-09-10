@@ -696,8 +696,7 @@ export default {
           password: this.password,
           polkadotAPI,
           HDPath,
-          curve,
-          apolloClient: this.$apollo
+          curve
         })
 
         const { hash } = hashResult

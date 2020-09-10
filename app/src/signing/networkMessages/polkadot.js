@@ -126,24 +126,9 @@ export async function RestakeTx(
   return await getSignMessage(senderAddress, transactions, api)
 }
 
-export async function ClaimRewardsTx(senderAddress, { }, network, api, apolloClient) {
+export async function ClaimRewardsTx(senderAddress, { rewards }, network, api) {
   let allClaimingTxs = []
-
-  const { data: { rewards } } = await apolloClient.query({
-    query: gql`
-      query {
-        rewards(
-          networkId:"${network.id}"
-          delegatorAddress:"${senderAddress}") {
-          id
-          denom
-          amount
-          validator { operatorAddress }
-          height
-        }
-      }
-    `
-  })
+  
   if (rewards.length === 0) {
     allClaimingTxs = []
   } else {

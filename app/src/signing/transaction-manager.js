@@ -101,8 +101,7 @@ export default class TransactionManager {
     password,
     polkadotAPI,
     HDPath,
-    curve,
-    apolloClient
+    curve
   }) {
     let broadcastableObject
     if (signingType === "extension") {
@@ -124,8 +123,7 @@ export default class TransactionManager {
         password,
         polkadotAPI,
         HDPath,
-        curve,
-        apolloClient
+        curve
       )
     }
     return this.broadcastTransaction(
@@ -147,16 +145,14 @@ export default class TransactionManager {
     password,
     polkadotAPI,
     HDPath,
-    curve,
-    apolloClient
+    curve
   ) {
     const messages = await getMessage(
       network,
       messageType,
       senderAddress,
       message,
-      polkadotAPI,
-      apolloClient
+      polkadotAPI
     )
     const signer = await getSigner(
       signingType,
