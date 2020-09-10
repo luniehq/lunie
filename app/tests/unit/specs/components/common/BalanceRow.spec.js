@@ -46,9 +46,40 @@ describe(`BalanceRow`, () => {
     },
   }
 
-  it(`it matches snapshot`, () => {
+  it(`it shows a balance row`, () => {
     const wrapper = shallowMount(BalanceRow, {
       propsData: propsData,
+      mocks: {
+        $store,
+      },
+    })
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`it shows an unstaking balance`, () => {
+    const endTime = new Date()
+    endTime.setDate(endTime.getDate() + 1)
+    const wrapper = shallowMount(BalanceRow, {
+      propsData: Object.assign({}, propsData, {
+        balance: Object.assign({}, propsData.balance, {
+          endTime,
+        }),
+      }),
+      mocks: {
+        $store,
+      },
+    })
+    expect(wrapper.element).toMatchSnapshot()
+  })
+
+  it(`it shows an unstaking balance ready to claim`, () => {
+    const endTime = new Date()
+    const wrapper = shallowMount(BalanceRow, {
+      propsData: Object.assign({}, propsData, {
+        balance: Object.assign({}, propsData.balance, {
+          endTime,
+        }),
+      }),
       mocks: {
         $store,
       },

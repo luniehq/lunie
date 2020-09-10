@@ -215,12 +215,16 @@ class polkadotAPI {
     const { free, reserved, feeFrozen } = account.data.toJSON()
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
+    const stakedBalance = totalBalance
+      .minus(freeBalance)
+      .minus(BigNumber(reserved))
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
         this.network,
         freeBalance.toString(),
         totalBalance.toString(),
+        stakedBalance.toString(),
         fiatValueAPI,
         fiatCurrency
       )
@@ -482,16 +486,18 @@ class polkadotAPI {
     const stakingInfo = await api.query.staking.nominators(delegatorAddress)
     const allDelegations =
       stakingInfo && stakingInfo.toJSON() ? stakingInfo.toJSON().targets : []
-    allDelegations.forEach((nomination) => {
-      inactiveDelegations.push(
-        this.reducers.delegationReducer(
-          this.network,
-          { who: nomination, value: 0 }, // we don't know the value for inactive delegations
-          this.store.validators[nomination],
-          delegationEnum.INACTIVE
+    allDelegations
+      .filter((nomination) => !!this.store.validators[nomination])
+      .forEach((nomination) => {
+        inactiveDelegations.push(
+          this.reducers.delegationReducer(
+            this.network,
+            { who: delegatorAddress, value: 0 }, // we don't know the value for inactive delegations
+            this.store.validators[nomination],
+            delegationEnum.INACTIVE
+          )
         )
-      )
-    })
+      })
     return inactiveDelegations
   }
 
@@ -966,7 +972,7 @@ class polkadotAPI {
       links,
       timeline: [],
       council: true
-    } 
+    }
   }
 
   async getDetailedVotes(proposal, type) {
