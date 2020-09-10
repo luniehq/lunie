@@ -20,15 +20,15 @@
           participant.address || participant.voter.address | formatAddress
         }}</span>
         <div>
-          <span v-if="!isProposalsPage" class="option">{{
-            participant.option || `n/a`
+          <span v-if="!isProposalsPage && participant.option" class="option">{{
+            participant.option
           }}</span>
-          <span v-if="!isProposalsPage" class="amount">{{
-            participant.amount || `n/a`
+          <span v-if="!isProposalsPage && participant.amount" class="amount">{{
+            participant.amount
           }}</span>
         </div>
-        <span v-if="!isProposalsPage" class="time">{{
-          participant.time || `n/a`
+        <span v-if="!isProposalsPage && participant.time" class="time">{{
+          participant.time
         }}</span>
       </li>
     </ul>
