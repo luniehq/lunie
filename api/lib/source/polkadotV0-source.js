@@ -1024,12 +1024,6 @@ class polkadotAPI {
 
           nextSpendingBlockHeightDiff * 6 * 1000
       )
-      console.log(
-        height,
-        spendPeriod.toNumber(),
-        nextSpendingBlockHeightDiff,
-        nextSpendingBlockTime
-      )
       timeline.push({
         title: `Voting Period Ends`,
         time: nextSpendingBlockTime.toUTCString()
