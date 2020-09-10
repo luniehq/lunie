@@ -57,9 +57,10 @@
 
     <nav>
       <ul class="page-links">
-        <li><a href="">Votes</a></li>
-        <li><a href="">Timeline</a></li>
-        <li><a href="">Description</a></li>
+        <!-- TODO -->
+        <li><a href="#">Votes</a></li>
+        <li><a href="#">Timeline</a></li>
+        <li><a href="#">Description</a></li>
       </ul>
     </nav>
   </header>
