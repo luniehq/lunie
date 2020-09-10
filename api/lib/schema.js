@@ -72,6 +72,8 @@ const typeDefs = gql`
     id: String
     voter: NetworkAccount
     option: String
+    amount: Coin
+    time: String
   }
 
   type DetailedVotes {
