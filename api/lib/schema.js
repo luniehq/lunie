@@ -31,11 +31,12 @@ const typeDefs = gql`
   }
 
   type Reward {
-    id: String
-    validator: Validator
-    denom: String
-    amount: String
+    id: String!
+    validator: Validator!
+    denom: String!
+    amount: String!
     fiatValue: FiatValue
+    height: String
   }
 
   type FiatValue {
@@ -536,6 +537,7 @@ const typeDefs = gql`
       delegatorAddress: String!
       operatorAddress: String
       fiatCurrency: String
+      withHeight: Boolean
     ): [Reward]
     transactionsV2(
       networkId: String!

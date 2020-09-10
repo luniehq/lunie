@@ -449,7 +449,15 @@ function rewardsReducer(network, validators, rewards, reducers) {
   return allRewards
 }
 
-function dbRewardsReducer(validatorsDictionary, dbRewards) {
+function dbRewardsReducer(validatorsDictionary, dbRewards, withHeight) {
+  if (withHeight) {
+    return dbRewards.map((reward) => ({
+      id: `${reward.validator}_${reward.denom}_${reward.height}`,
+      ...reward,
+      validator: validatorsDictionary[reward.validator]
+    }))
+  }
+
   const aggregatedRewards = dbRewards.reduce((sum, reward) => {
     sum[reward.validator] = sum[reward.validator] || {}
     sum[reward.validator][reward.denom] =
@@ -470,6 +478,7 @@ function dbRewardsReducer(validatorsDictionary, dbRewards) {
     []
   )
   return flattenedAggregatedRewards.map((reward) => ({
+    id: `${reward.validator}_${reward.denom}`,
     ...reward,
     validator: validatorsDictionary[reward.validator]
   }))
@@ -481,7 +490,7 @@ function rewardReducer(network, validators, reward, reducers) {
     const validator = validators[validatorReward[0]]
     if (!validator) return
     const lunieReward = {
-      id: validatorReward[0],
+      id: validatorReward[0] + (reward.era ? ('_' + reward.era) : ''),
       ...reducers.coinReducer(network, validatorReward[1].toString(10)),
       height: reward.era,
       address: reward.address,
