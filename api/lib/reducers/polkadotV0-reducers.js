@@ -506,7 +506,7 @@ function networkAccountReducer(account) {
     name:
       account && account.identity && account.identity.display
         ? account.identity.display
-        : '',
+        : account.accountId,
     address: account && account.accountId ? account.accountId : '',
     picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
   }
@@ -689,6 +689,7 @@ function topVoterReducer(
   validators,
   network
 ) {
+  console.log('\n ACCOUNT INFO', accountInfo)
   const { identity, nickname } = accountInfo || {}
   const councilMemberInfo = electionInfo.members.find(
     (electionInfoMember) =>
