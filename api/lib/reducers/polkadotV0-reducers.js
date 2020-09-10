@@ -693,7 +693,6 @@ function topVoterReducer(
   validators,
   network
 ) {
-  console.log('\n ACCOUNT INFO', accountInfo)
   const { identity, nickname } = accountInfo || {}
   const councilMemberInfo = electionInfo.members.find(
     (electionInfoMember) =>
