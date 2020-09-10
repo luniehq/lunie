@@ -9,9 +9,11 @@ const unWrapMessageFromContentScript = (data) => data.message
 
 // processes incoming messages from the browser extension
 // eslint-disable-next-line no-unused-vars
+let extensionAvailable = false
 const processMessage = (store, type, payload) => {
   switch (type) {
     case "INIT_EXTENSION":
+      extensionAvailable = true
       store.commit("setExtensionAvailable")
       store.dispatch("getAddressesFromExtension")
       break
@@ -20,6 +22,14 @@ const processMessage = (store, type, payload) => {
       break
     default:
       return
+  }
+}
+
+const pollExtensionAvailability = async () => {
+  if (!extensionAvailable) {
+    await new Promise((resolve) => setTimeout(resolve, 500))
+    sendMessageToContentScript(undefined, true)
+    pollExtensionAvailability()
   }
 }
 
@@ -42,6 +52,7 @@ export const processLunieExtensionMessages = (store) =>
 export const listenToExtensionMessages = (store) => {
   const handler = processLunieExtensionMessages(store)
   window.addEventListener("message", handler)
+  pollExtensionAvailability()
 }
 
 // ---- Querying -----
