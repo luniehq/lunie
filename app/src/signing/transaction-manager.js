@@ -102,6 +102,7 @@ export default class TransactionManager {
     polkadotAPI,
     HDPath,
     curve,
+    apolloClient
   }) {
     let broadcastableObject
     if (signingType === "extension") {
@@ -123,7 +124,8 @@ export default class TransactionManager {
         password,
         polkadotAPI,
         HDPath,
-        curve
+        curve,
+        apolloClient
       )
     }
     return this.broadcastTransaction(
@@ -145,14 +147,16 @@ export default class TransactionManager {
     password,
     polkadotAPI,
     HDPath,
-    curve
+    curve,
+    apolloClient
   ) {
     const messages = await getMessage(
       network,
       messageType,
       senderAddress,
       message,
-      polkadotAPI
+      polkadotAPI,
+      apolloClient
     )
     const signer = await getSigner(
       signingType,
@@ -203,25 +207,6 @@ export default class TransactionManager {
     } else {
       throw Error("Broadcast was not successful: " + result.error)
     }
-  }
-
-  /* istanbul ignore next */
-  async getPolkadotFees({ messageType, message, senderAddress, network }) {
-    const chainMessage = await getMessage(
-      network,
-      messageType,
-      senderAddress,
-      message
-    )
-
-    const { partialFee } = await chainMessage.transaction.paymentInfo(
-      senderAddress
-    )
-    const chainFees = partialFee.toJSON()
-    const viewFees = BigNumber(chainFees)
-      .times(network.coinLookup[0].chainToViewConversionFactor)
-      .toNumber()
-    return viewFees
   }
 }
 

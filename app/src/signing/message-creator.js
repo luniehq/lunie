@@ -24,11 +24,12 @@ export async function getMessage(
   messageType,
   senderAddress,
   message,
-  polkadotAPI
+  polkadotAPI,
+  apolloClient
 ) {
   const messageFormatter = await getNetworkSpecificMessageCreator(
     network.id,
     messageType
   )
-  return await messageFormatter(senderAddress, message, network, polkadotAPI)
+  return await messageFormatter(senderAddress, message, network, polkadotAPI, apolloClient)
 }
