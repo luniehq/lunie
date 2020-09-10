@@ -61,7 +61,7 @@ export default {
   methods: {
     getParticipantName(participant) {
       const name = participant.name || participant.voter.name
-      return name.length > 25 ? formatAddress(name) : name
+      return name.length > 25 ? formatAddress(name) : name || `n/a`
     },
   },
 }
