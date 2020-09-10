@@ -33,6 +33,7 @@ const pollForNewFees = async () => {
       scope.setExtra('terra tax rate endpoint', TERRA_TAX_RATE_ENDPOINT)
       Sentry.captureException(err)
     })
+    return {}
   })
   const emoneyGasPricesResponse = await fetch(EMONEY_GAS_PRICES_ENDPOINT)
   .then((r) => r.json())
@@ -216,7 +217,7 @@ const getPolkadotMessage = async (messageType, senderAddress, message, network, 
   const messageFormatter = polkadotMessages[messageType]
   const api = networkSource.store.polkadotRPC
   await api.isReady
-  return messageFormatter && network ? await messageFormatter(senderAddress, api, message, network) : null
+  return messageFormatter && network ? await messageFormatter(senderAddress, api, message, network, networkSource) : null
 }
 
 const getPolkadotFee = async ({ messageType, message, senderAddress, network, networkSource }) => {
