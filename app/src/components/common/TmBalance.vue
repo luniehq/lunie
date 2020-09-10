@@ -88,6 +88,13 @@
           </div>
         </div>
       </div>
+      <Bar
+        v-if="currentNetwork.network_type === 'polkadot'"
+        :show="true"
+        bar-type="info"
+        >
+        Rewards in Polkadot are typically distributed by your validator. You may not need to claim them.
+      </Bar>
 
       <TableBalances
         :balances="balances"
@@ -122,6 +129,7 @@ import UndelegationModal from "src/ActionModal/components/UndelegationModal"
 import ModalWithdrawRewards from "src/ActionModal/components/ModalWithdrawRewards"
 import ModalTutorial from "common/ModalTutorial"
 import TableBalances from "common/TableBalances"
+import Bar from "common/Bar"
 import { mapGetters, mapState } from "vuex"
 import gql from "graphql-tag"
 import { sendEvent } from "scripts/google-analytics"
@@ -137,6 +145,7 @@ export default {
     ModalWithdrawRewards,
     ModalTutorial,
     TableBalances,
+    Bar
   },
   filters: {
     noBlanks,
