@@ -798,10 +798,12 @@ class polkadotAPI {
     // mimicing the spend period in polkadot UI (not sure this is correct)
     const height = this.store.latestHeight
     const launchPeriod = api.consts.democracy.launchPeriod // every x blocks the chain is upgraded
-    const nextUpradeBlockHeightDiff = launchPeriod.toNumber() - (height % launchPeriod.toNumber()) // % is the modulo operator
+    const nextUpradeBlockHeightDiff =
+      launchPeriod.toNumber() - (height % launchPeriod.toNumber()) // % is the modulo operator
     const nextUpradeBlockTime = new Date(
       new Date().getTime() +
-        /* 6s is the average block duration for both Kusama and Polkadot */ 
+        /* 6s is the average block duration for both Kusama and Polkadot */
+
         nextUpradeBlockHeightDiff * 6 * 1000
     )
     return {
@@ -814,8 +816,9 @@ class polkadotAPI {
       links,
       timeline: [
         {
-          title: `Proposal created`, time: proposal.creationTime
-        }, 
+          title: `Proposal created`,
+          time: proposal.creationTime
+        },
         {
           title: `Voting Period Ends`,
           time: nextUpradeBlockTime.toUTCString()
@@ -985,7 +988,8 @@ class polkadotAPI {
   async getTreasuryProposalDetailedVotes(proposal, links) {
     const api = await this.getAPI()
 
-    let votes, timeline = []
+    let votes,
+      timeline = []
     if (proposal.votes) {
       votes = await Promise.all(
         proposal.votes.ayes
@@ -1012,13 +1016,20 @@ class polkadotAPI {
       // mimicing the spend period in polkadot UI (not sure this is correct)
       const height = this.store.latestHeight
       const spendPeriod = api.consts.treasury.spendPeriod // every x blocks treasury is spend
-      const nextSpendingBlockHeightDiff = spendPeriod.toNumber() - (height % spendPeriod.toNumber()) // % is the modulo operator
+      const nextSpendingBlockHeightDiff =
+        spendPeriod.toNumber() - (height % spendPeriod.toNumber()) // % is the modulo operator
       const nextSpendingBlockTime = new Date(
         new Date().getTime() +
-          /* 6s is the average block duration for both Kusama and Polkadot */ 
+          /* 6s is the average block duration for both Kusama and Polkadot */
+
           nextSpendingBlockHeightDiff * 6 * 1000
       )
-      console.log(height, spendPeriod.toNumber(), nextSpendingBlockHeightDiff, nextSpendingBlockTime)
+      console.log(
+        height,
+        spendPeriod.toNumber(),
+        nextSpendingBlockHeightDiff,
+        nextSpendingBlockTime
+      )
       timeline.push({
         title: `Voting Period Ends`,
         time: nextSpendingBlockTime.toUTCString()
@@ -1041,7 +1052,7 @@ class polkadotAPI {
       links,
       timeline,
       council: true
-    } 
+    }
   }
 
   async getDetailedVotes(proposal, type) {
