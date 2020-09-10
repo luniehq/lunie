@@ -12,6 +12,7 @@
       />
 
       <ProposalStatusBar
+        v-if="tallyHasValues"
         :status="status.badge"
         :status-begin-time="new Date(proposal.statusBeginTime).toUTCString()"
         :total-votes="proposal.tally.total"
@@ -139,6 +140,11 @@ export default {
     },
     noVotes() {
       return BigNumber(this.proposal.tally.total).eq(0)
+    },
+    tallyHasValues() {
+      return Object.values(this.proposal.tally)
+        .filter((value) => value !== `Tally`)
+        .find((value) => value)
     },
   },
   methods: {
