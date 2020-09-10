@@ -12,9 +12,7 @@
             <img src="https://lunie.fra1.digitaloceanspaces.com/polkadot.png" />
             <!-- {{ participant.icon || `n/a` }} -->
           </span>
-          <span class="name">{{
-            participant.name || participant.voter.name || `n/a`
-          }}</span>
+          <span class="name">{{ getParticipantName(participant) }}</span>
         </div>
         <span class="voter">{{
           participant.address || participant.voter.address | formatAddress
@@ -58,6 +56,12 @@ export default {
       return ["Council Members", "Top Voters"].includes(this.title)
         ? true
         : false
+    },
+  },
+  methods: {
+    getParticipantName(participant) {
+      const name = participant.name || participant.voter.name
+      return name.length > 25 ? formatAddress(name) : name
     },
   },
 }
