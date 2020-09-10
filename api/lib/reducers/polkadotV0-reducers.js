@@ -126,11 +126,13 @@ async function balanceV2Reducer(
   network,
   balance,
   total,
+  staked,
   fiatValueAPI,
   fiatCurrency
 ) {
   const availableLunieCoin = coinReducer(network, balance, 6)
   const totalLunieCoin = coinReducer(network, total, 6)
+  const stakedLunieCoin = coinReducer(network, staked, 6)
   const availableFiatValue = (
     await fiatValueAPI.calculateFiatValues([availableLunieCoin], fiatCurrency)
   )[availableLunieCoin.denom]
@@ -144,6 +146,7 @@ async function balanceV2Reducer(
       type: 'STAKE',
       available: 0,
       total: 0,
+      staked: 0,
       denom: availableLunieCoin.denom,
       availableFiatValue,
       fiatValue: totalFiatValue
@@ -155,6 +158,7 @@ async function balanceV2Reducer(
     type: 'STAKE', // just a staking denom on Kusama for now
     available: availableLunieCoin.amount,
     total: totalLunieCoin.amount,
+    staked: stakedLunieCoin.amount,
     denom: availableLunieCoin.denom,
     availableFiatValue,
     fiatValue: totalFiatValue

@@ -195,8 +195,8 @@ export default {
     validators: [],
     toSelectedIndex: `0`,
     balance: {
-      amount: 0,
-      denom: ``,
+      total: 0,
+      available: 0,
     },
     messageType,
     smallestAmount: SMALLEST,
@@ -207,10 +207,7 @@ export default {
     ...mapGetters([`network`, `address`, `stakingDenom`, `currentNetwork`]),
     maximum() {
       if (this.currentNetwork.network_type === `polkadot`) {
-        const totalStaked = this.delegations.reduce(
-          (accum, delegation) => (accum += parseFloat(delegation.amount)),
-          0
-        )
+        const totalStaked = this.balance.total - this.balance.available
         return totalStaked.toFixed(6) || 0
       } else {
         const delegation = this.delegations.find(
@@ -251,9 +248,10 @@ export default {
         }
         return {
           type: messageType.UNSTAKE,
-          from: this.sourceValidator
-            ? [this.sourceValidator.operatorAddress]
-            : null,
+          from:
+            this.sourceValidator && this.sourceValidator.operatorAddress
+              ? [this.sourceValidator.operatorAddress]
+              : null,
           amount: {
             amount: this.amount,
             denom: this.stakingDenom,
@@ -443,10 +441,10 @@ export default {
     },
     balance: {
       query: gql`
-        query Balance($networkId: String!, $address: String!, $denom: String!) {
-          balance(networkId: $networkId, address: $address, denom: $denom) {
-            amount
-            denom
+        query Balances($networkId: String!, $address: String!) {
+          balancesV2(networkId: $networkId, address: $address) {
+            total
+            available
           }
         }
       `,
@@ -463,12 +461,16 @@ export default {
         return {
           networkId: this.network,
           address: this.address,
-          denom: this.stakingDenom,
         }
       },
       /* istanbul ignore next */
       update(data) {
-        return data.balance || { amount: 0 }
+        return (
+          data.balancesV2.find(({ denom }) => this.stakingDenom) || {
+            total: 0,
+            available: 0,
+          }
+        )
       },
     },
     validators: {

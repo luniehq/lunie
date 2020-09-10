@@ -44,7 +44,7 @@ class polkadotAPI {
     this.store.identities[address] = this.reducers.networkAccountReducer(
       accountInfo
     )
-    return this.reducers.networkAccountReducer(accountInfo)
+    return this.store.identities[address]
   }
 
   async getBlockHeight() {
@@ -227,12 +227,16 @@ class polkadotAPI {
     const { free, reserved, feeFrozen } = account.data.toJSON()
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
+    const stakedBalance = totalBalance
+      .minus(freeBalance)
+      .minus(BigNumber(reserved))
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
         this.network,
         freeBalance.toString(),
         totalBalance.toString(),
+        stakedBalance.toString(),
         fiatValueAPI,
         fiatCurrency
       )
@@ -494,16 +498,18 @@ class polkadotAPI {
     const stakingInfo = await api.query.staking.nominators(delegatorAddress)
     const allDelegations =
       stakingInfo && stakingInfo.toJSON() ? stakingInfo.toJSON().targets : []
-    allDelegations.forEach((nomination) => {
-      inactiveDelegations.push(
-        this.reducers.delegationReducer(
-          this.network,
-          { who: nomination, value: 0 }, // we don't know the value for inactive delegations
-          this.store.validators[nomination],
-          delegationEnum.INACTIVE
+    allDelegations
+      .filter((nomination) => !!this.store.validators[nomination])
+      .forEach((nomination) => {
+        inactiveDelegations.push(
+          this.reducers.delegationReducer(
+            this.network,
+            { who: delegatorAddress, value: 0 }, // we don't know the value for inactive delegations
+            this.store.validators[nomination],
+            delegationEnum.INACTIVE
+          )
         )
-      )
-    })
+      })
     return inactiveDelegations
   }
 
@@ -781,6 +787,7 @@ class polkadotAPI {
       proposal.seconds.map(async (secondAddress) => {
         const voter = await this.getNetworkAccountInfo(secondAddress, api)
         return {
+          id: voter.address,
           voter,
           option: `Yes`
         }
@@ -888,6 +895,7 @@ class polkadotAPI {
         .map(async (aye) => {
           const voter = await this.getNetworkAccountInfo(aye.accountId, api)
           return {
+            id: voter.address,
             voter,
             option: `Yes`
           }
@@ -896,6 +904,7 @@ class polkadotAPI {
           proposal.allNay.map(async (nay) => {
             const voter = await this.getNetworkAccountInfo(nay.accountId, api)
             return {
+              id: voter.address,
               voter,
               option: `No`
             }
@@ -962,15 +971,23 @@ class polkadotAPI {
     if (proposal.votes) {
       votes = await Promise.all(
         proposal.votes.ayes
-          .map(async (aye) => ({
-            voter: await this.getNetworkAccountInfo(aye, api),
-            option: `Yes`
-          }))
+          .map(async (aye) => {
+            const voter = await this.getNetworkAccountInfo(aye, api)
+            return {
+              id: voter.address,
+              voter,
+              option: `Yes`
+            }
+          })
           .concat(
-            proposal.votes.nays.map(async (nay) => ({
-              voter: await this.getNetworkAccountInfo(nay, api),
-              option: `No`
-            }))
+            proposal.votes.nays.map(async (nay) => {
+              const voter = await this.getNetworkAccountInfo(nay, api)
+              return {
+                id: voter.address,
+                voter,
+                option: `No`
+              }
+            })
           )
       )
     }
@@ -1181,7 +1198,10 @@ class polkadotAPI {
       ),
       topVoters: await Promise.all(
         topVoters.map(async (topVoterAddress) => {
-          const accountInfo = await api.derive.accounts.info(topVoterAddress)
+          const accountInfo = await this.getNetworkAccountInfo(
+            topVoterAddress,
+            api
+          )
           return this.reducers.topVoterReducer(
             topVoterAddress,
             electionInfo,

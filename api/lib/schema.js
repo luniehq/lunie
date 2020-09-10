@@ -57,6 +57,7 @@ const typeDefs = gql`
     type: TokenType!
     denom: String!
     total: String!
+    staked: String!
     fiatValue: FiatValue
     available: String
     availableFiatValue: FiatValue
@@ -68,7 +69,7 @@ const typeDefs = gql`
   }
 
   type Vote {
-    id: Int
+    id: String
     voter: NetworkAccount
     option: String
   }

@@ -166,9 +166,7 @@ export default {
           )
           .map((address) => ({
             ...address,
-            sessionType: address.sessionType
-              ? address.sessionType
-              : "explore",
+            sessionType: address.sessionType ? address.sessionType : "explore",
           }))
         const allAddresses = uniqWith(
           sortBy(
@@ -205,8 +203,6 @@ export default {
     },
   },
   created() {
-    // getAddressFromExtension needs some  time to grab the addresses from extension in the first load
-    this.$store.dispatch(`getAddressesFromExtension`)
     this.$store.dispatch(`loadLocalAccounts`).then(() => {
       this.loaded = true
     })
@@ -364,9 +360,13 @@ h3 {
   margin: 0.25rem 0;
 }
 
-.menu-list-item:hover {
+.menu-list-item:hover:not(.address-list-item) {
   cursor: pointer;
   background: #eee;
+}
+
+.menu-list-item:hover i {
+  cursor: pointer;
 }
 
 .menu-list-item.outline {
