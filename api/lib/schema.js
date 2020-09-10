@@ -327,6 +327,7 @@ const typeDefs = gql`
   type ClaimRewardsTx {
     amounts: [Coin]!
     from: [String]!
+    rewards: [Reward] # Polkadot only
   }
 
   type SubmitProposalTx {

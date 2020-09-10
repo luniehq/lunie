@@ -163,17 +163,9 @@ async function RestakeTx(senderAddress, api, { to, from, addressRole }) {
 async function ClaimRewardsTx(
   senderAddress,
   api,
-  message,
-  network,
-  networkSource
+  { rewards }
 ) {
   let allClaimingTxs = []
-
-  const rewards = await networkSource.getRewards(
-    delegatorAddress,
-    fiatCurrency,
-    withHeight
-  )
 
   if (rewards.length === 0) {
     allClaimingTxs = []
