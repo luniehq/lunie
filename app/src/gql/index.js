@@ -180,7 +180,11 @@ export const ProposalFragment = `
     identity
     picture
   }
-  beneficiary
+  beneficiary {
+    name
+    address
+    picture
+  }
   detailedVotes {
     deposits {
       amount {
