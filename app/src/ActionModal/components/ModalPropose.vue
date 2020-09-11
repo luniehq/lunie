@@ -187,8 +187,8 @@ export default {
           denom: this.denom,
         },
         proposer: {
-          name: '',
-          address: this.userAddress
+          name: "",
+          address: this.userAddress,
         },
       }
     },
