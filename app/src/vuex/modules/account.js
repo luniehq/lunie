@@ -96,11 +96,12 @@ export default ({ apollo }) => {
       commit("setSession", session)
       commit("userSignedIn", !!session)
     },
-    checkSession({ dispatch }) {
+    async checkSession({ dispatch }) {
       const session = localStorage.getItem("session")
         ? JSON.parse(localStorage.getItem("session"))
         : undefined
-      dispatch("storeSession", session)
+      await dispatch("storeSession", session)
+      return !!session
     },
     async sendUserMagicLink({ commit }, { user }) {
       commit(`setSignInEmailError`, undefined)

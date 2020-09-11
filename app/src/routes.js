@@ -11,7 +11,14 @@ export default (store) => {
   return [
     {
       path: `/`,
-      redirect: `/cosmos-hub/portfolio`,
+      beforeEnter: async (to, from, next) => {
+        const userSignedIn = await store.dispatch("checkSession")
+        if (userSignedIn) {
+          next("/notifications")
+        } else {
+          next("/cosmos-hub/portfolio")
+        }
+      },
     },
     {
       path: `/networks`,
