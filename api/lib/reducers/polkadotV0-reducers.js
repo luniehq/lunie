@@ -693,13 +693,12 @@ function topVoterReducer(
   validators,
   network
 ) {
-  const { identity, nickname } = accountInfo || {}
   const councilMemberInfo = electionInfo.members.find(
     (electionInfoMember) =>
       electionInfoMember[0].toHuman() === topVoterAddress.toHuman()
   )
   return {
-    name: nickname || identity.display,
+    name: accountInfo.name,
     address: topVoterAddress,
     votingPower: councilMemberInfo
       ? toViewDenom(network, councilMemberInfo[1])
