@@ -207,6 +207,11 @@ export const ProposalFragment = `
         picture
       }
       option
+      amount {
+        amount
+        denom
+      }
+      time
     }
     votesSum
     votingThresholdYes

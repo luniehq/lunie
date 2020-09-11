@@ -21,8 +21,15 @@
           <span v-if="!isProposalsPage && participant.option" class="option">{{
             participant.option
           }}</span>
-          <span v-if="!isProposalsPage && participant.amount" class="amount">{{
-            participant.amount
+        </div>
+        <div>
+          <span
+            v-if="!isProposalsPage && participant.amount.amount"
+            class="amount"
+            >{{ participant.amount.amount }}</span
+          >
+          <span v-if="!isProposalsPage && participant.amount.denom">{{
+            participant.amount.denom.concat(`s`)
           }}</span>
         </div>
         <span v-if="!isProposalsPage && participant.time" class="time">{{
@@ -103,6 +110,7 @@ h4 {
 .option,
 .amount {
   color: var(--bright);
+  margin-right: 0.5rem;
 }
 
 .voter,
