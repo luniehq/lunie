@@ -24,13 +24,20 @@
         </div>
         <div>
           <span
-            v-if="!isProposalsPage && participant.amount.amount"
+            v-if="
+              !isProposalsPage &&
+              participant.amount &&
+              participant.amount.amount
+            "
             class="amount"
             >{{ participant.amount.amount }}</span
           >
-          <span v-if="!isProposalsPage && participant.amount.denom">{{
-            participant.amount.denom.concat(`s`)
-          }}</span>
+          <span
+            v-if="
+              !isProposalsPage && participant.amount && participant.amount.denom
+            "
+            >{{ participant.amount.denom.concat(`s`) }}</span
+          >
         </div>
         <span v-if="!isProposalsPage && participant.time" class="time">{{
           participant.time
