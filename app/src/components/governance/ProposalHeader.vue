@@ -22,16 +22,28 @@
             <i class="material-icons notranslate success">check</i>
           </div>
           <TmBtn
-            v-if="status.badge === 'Deposit Period'"
+            v-if="
+              status.badge === 'Deposit Period' &&
+              currentNetwork.network_type === 'cosmos'
+            "
             id="deposit-btn"
             value="Deposit"
             color="primary"
             @click.native="$emit(`open-deposit-modal`)"
           />
           <TmBtn
-            v-if="status.badge === 'Voting Period'"
+            v-if="
+              type !== `TREASURY` &&
+              (status.badge === 'Voting Period' ||
+                currentNetwork.network_type === 'polkadot')
+            "
             id="vote-btn"
-            value="Vote"
+            :value="
+              currentNetwork.network_type === `polkadot` &&
+              status.badge === 'Deposit Period'
+                ? `Second`
+                : `Vote`
+            "
             color="primary"
             @click.native="$emit(`open-vote-modal`)"
           />
@@ -67,6 +79,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import BackButton from "common/BackButton"
 import { formatAddress } from "src/filters"
 import Status from "common/Status"
@@ -104,6 +117,7 @@ export default {
     copySuccess: false,
   }),
   computed: {
+    ...mapGetters([`currentNetwork`]),
     currentRoute() {
       return location.href
     },
