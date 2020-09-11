@@ -160,11 +160,7 @@ async function RestakeTx(senderAddress, api, { to, from, addressRole }) {
   return await getSignMessage(senderAddress, transactions, api)
 }
 
-async function ClaimRewardsTx(
-  senderAddress,
-  api,
-  { rewards }
-) {
+async function ClaimRewardsTx(senderAddress, api, { rewards }) {
   let allClaimingTxs = []
 
   if (rewards.length === 0) {
