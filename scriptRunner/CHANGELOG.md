@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.6] - 2020-09-11
+
+### Added
+
+- [#4804](https://github.com/cosmos/lunie/issues/4804) Remove 30 day old events @faboweb
+
 ## [1.0.5] - 2020-07-28
 
 ### Changed
