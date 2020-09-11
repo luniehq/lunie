@@ -17,7 +17,7 @@
       <div>
         <TmBtn
           id="vote-yes"
-          :class="{ active: vote === `Yes` }"
+          :class="{ active: vote === `Yes`, second: isSecond }"
           :disabled="lastVoteOption === `Yes`"
           color="secondary"
           value="Yes"
@@ -25,6 +25,7 @@
           @click.native="vote = 'Yes'"
         />
         <TmBtn
+          v-if="!isSecond"
           id="vote-veto"
           :class="{ active: vote === `NoWithVeto` }"
           :disabled="lastVoteOption === `NoWithVeto`"
@@ -36,6 +37,7 @@
       </div>
       <div>
         <TmBtn
+          v-if="!isSecond"
           id="vote-no"
           :class="{ active: vote === `No` }"
           :disabled="lastVoteOption === `No`"
@@ -45,6 +47,7 @@
           @click.native="vote = 'No'"
         />
         <TmBtn
+          v-if="!isSecond"
           id="vote-abstain"
           :class="{ active: vote === `Abstain` }"
           :disabled="lastVoteOption === `Abstain`"
@@ -94,8 +97,12 @@ export default {
       required: true,
     },
     lastVoteOption: {
-      default: undefined,
       type: String,
+      default: undefined,
+    },
+    isSecond: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({
@@ -168,5 +175,12 @@ export default {
 .vote-options button.active {
   background: var(--highlight);
   border-color: var(--highlight);
+}
+
+#vote-yes.second {
+  position: absolute;
+  width: inherit;
+  top: 11rem;
+  left: 8rem;
 }
 </style>

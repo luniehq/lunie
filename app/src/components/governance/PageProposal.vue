@@ -52,7 +52,10 @@
         @success="() => afterDeposit()"
       />
       <ModalVoteSubstrate
-        v-if="currentNetwork.network_type === `polkadot`"
+        v-if="
+          currentNetwork.network_type === `polkadot` &&
+          status.badge !== `Deposit Period`
+        "
         ref="modalVote"
         :proposal-id="proposal.proposalId"
         :proposal-title="proposal.title || ''"
@@ -65,6 +68,10 @@
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
+        :is-second="
+          currentNetwork.network_type === `polkadot` &&
+          status.badge === `Deposit Period`
+        "
         @success="() => afterVote()"
       />
     </div>
