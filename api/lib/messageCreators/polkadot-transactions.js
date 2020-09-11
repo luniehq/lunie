@@ -171,7 +171,7 @@ async function ClaimRewardsTx(senderAddress, api, { rewards }) {
       .forEach((reward) => {
         allClaimingTxs.push(
           api.tx.staking.payoutStakers(
-            reward.validator.operatorAddress,
+            reward.validator,
             reward.height
           )
         )
