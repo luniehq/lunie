@@ -37,6 +37,32 @@ class polkadotAPI {
     return api
   }
 
+  async getNetworkAccountInfo(address, api) {
+    if (typeof address === `object`) address = address.toHuman()
+    if (this.store.identities[address]) return this.store.identities[address]
+    const accountInfo = await api.derive.accounts.info(address)
+    this.store.identities[address] = this.reducers.networkAccountReducer(
+      accountInfo
+    )
+    return this.store.identities[address]
+  }
+
+  getBlockTime(block) {
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
+    )
+    const blockTimestamp = args[0]
+    return new Date(Number(blockTimestamp)).toUTCString()
+  }
+
+  async getDateForBlockHeight(blockHeight) {
+    const api = await this.getAPI()
+
+    const blockHash = await api.rpc.chain.getBlockHash(blockHeight)
+    const block = await api.rpc.chain.getBlock(blockHash)
+    return this.getBlockTime(block)
+  }
+
   async getBlockHeight() {
     const api = await this.getAPI()
     const block = await api.rpc.chain.getBlock()
@@ -136,8 +162,8 @@ class polkadotAPI {
 
     // Fetch identity info
     let allValidatorsIdentity = await Promise.all(
-      allStashAddresses.map((authorityId) =>
-        api.derive.accounts.info(authorityId)
+      allStashAddresses.map(
+        async (authorityId) => await api.derive.accounts.info(authorityId)
       )
     )
     allValidatorsIdentity = JSON.parse(JSON.stringify(allValidatorsIdentity))
@@ -159,11 +185,13 @@ class polkadotAPI {
       } else {
         validator.status = `INACTIVE`
       }
-      const identity = allValidatorsIdentity.find(
+      const validatorIdentity = allValidatorsIdentity.find(
         (validatorIdentity) =>
           validatorIdentity.accountId === validator.accountId
       )
-      validator.identity = JSON.parse(JSON.stringify(identity.identity))
+      validator.identity = JSON.parse(
+        JSON.stringify(validatorIdentity.identity)
+      )
       if (validator.exposure) {
         const validatorStake = new BigNumber(validator.exposure.total)
         validator.votingPower =
@@ -634,8 +662,7 @@ class polkadotAPI {
 
       // get creationTime
       const block = await api.rpc.chain.getBlock(blockHash)
-      const blockCreationTime = await getBlockTime(block)
-      creationTime = blockCreationTime.toUTCString()
+      creationTime = await this.getBlockTime(block)
     }
 
     return {
@@ -659,24 +686,18 @@ class polkadotAPI {
     const { meta, method } = api.registry.findMetaCall(
       proposal.image.proposal.callIndex
     )
-    proposer = proposal.image.proposer
+    proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
     description = meta.documentation.toString()
     proposalMethod = method
 
     // get creationTime
     const referendumBlockHeight = proposal.image.at
-    const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
-    const block = await api.rpc.chain.getBlock(blockHash)
-    const args = block.block.extrinsics.map((extrinsic) =>
-      extrinsic.method.args.find((arg) => arg)
-    )
-    const blockTimestamp = args[0]
-    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+    creationTime = await this.getDateForBlockHeight(referendumBlockHeight)
 
     return {
       ...proposal,
       description,
-      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      proposer,
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime
     }
@@ -738,10 +759,13 @@ class polkadotAPI {
       this.network,
       BigNumber(proposal.balance).times(proposal.seconds.length).toNumber()
     )
-    const depositerInfo = await api.derive.accounts.info(proposal.proposer)
+    const depositer = await this.getNetworkAccountInfo(
+      proposal.proposer.toHuman(),
+      api
+    )
     const deposits = [
       {
-        depositer: this.reducers.networkAccountReducer(depositerInfo),
+        depositer,
         amount: [
           {
             amount: toViewDenom(this.network, proposal.balance),
@@ -752,9 +776,12 @@ class polkadotAPI {
     ].concat(
       Promise.all(
         proposal.seconds.map(async (second) => {
-          const secondDepositerInfo = await api.derive.accounts.info(second)
+          const secondDepositer = await this.getNetworkAccountInfo(
+            second.toHuman(),
+            api
+          )
           return {
-            depositer: this.reducers.networkAccountReducer(secondDepositerInfo),
+            depositer: secondDepositer,
             amount: [
               {
                 amount: toViewDenom(this.network, proposal.balance),
@@ -767,9 +794,10 @@ class polkadotAPI {
     )
     const votes = await Promise.all(
       proposal.seconds.map(async (secondAddress) => {
-        const voterInfo = await api.derive.accounts.info(secondAddress)
+        const voter = await this.getNetworkAccountInfo(secondAddress, api)
         return {
-          voter: this.reducers.networkAccountReducer(voterInfo),
+          id: voter.address,
+          voter,
           option: `Yes`
         }
       })
@@ -864,26 +892,29 @@ class polkadotAPI {
     }, 0)
     const deposits = await Promise.all(
       allDeposits.map(async (deposit) => {
-        const depositerInfo = await api.derive.accounts.info(deposit.accountId)
-        return this.reducers.depositReducer(
-          deposit,
-          depositerInfo,
-          this.network
+        const depositer = await this.getNetworkAccountInfo(
+          deposit.accountId,
+          api
         )
+        return this.reducers.depositReducer(deposit, depositer, this.network)
       })
     )
     const votes = await Promise.all(
       proposal.allAye
         .map(async (aye) => {
+          const voter = await this.getNetworkAccountInfo(aye.accountId, api)
           return {
-            voter: this.reducers.networkAccountReducer(aye.accountId),
+            id: voter.address,
+            voter,
             option: `Yes`
           }
         })
         .concat(
           proposal.allNay.map(async (nay) => {
+            const voter = await this.getNetworkAccountInfo(nay.accountId, api)
             return {
-              voter: this.reducers.networkAccountReducer(nay.accountId),
+              id: voter.address,
+              voter,
               option: `No`
             }
           })
@@ -891,12 +922,20 @@ class polkadotAPI {
     )
     const votesSum = proposal.voteCount
     const threshold = await this.getReferendumThreshold(proposal)
-    const proposalDurationInDays = Math.floor(
-      /* proposal duration in seconds. 6s is the average block duration for both Kusama and Polkadot */ (proposal
-        .status.delay *
-        6) /
-        (3600 * 24)
+    const proposalDelayInDays = Math.floor(
+      /* proposal delay is the time that takes for the proposal to open for the voting period.
+        6s is the average block duration for both Kusama and Polkadot */
+      (proposal.status.delay * 6) / (3600 * 24)
     )
+    const proposalTimeSpanInNumberOfBlocks =
+      proposal.status.end - proposal.image.at
+    const proposalTimeSpanInDays = Math.floor(
+      (proposalTimeSpanInNumberOfBlocks * 6) / (3600 * 24)
+    )
+    const proposalEndTime = new Date(
+      new Date(proposal.creationTime).getTime() +
+        proposalTimeSpanInDays * 24 * 60 * 60 * 1000
+    ).toUTCString()
     const totalVotingPower = BigNumber(proposal.status.tally.ayes).plus(
       proposal.status.tally.nays
     )
@@ -931,11 +970,15 @@ class polkadotAPI {
           time: proposal.creationTime
         },
         {
-          title: `Proposal voting period ends`,
+          title: `Voting period opens`,
           time: new Date(
             new Date(proposal.creationTime).getTime() +
-              (proposalDurationInDays - 1) * 24 * 60 * 60 * 1000
+              proposalDelayInDays * 24 * 60 * 60 * 1000
           ).toUTCString()
+        },
+        {
+          title: `Proposal voting period ends`,
+          time: proposalEndTime
         }
       ],
       council: false
@@ -943,19 +986,29 @@ class polkadotAPI {
   }
 
   async getTreasuryProposalDetailedVotes(proposal, links) {
+    const api = await this.getAPI()
     let votes
+
     if (proposal.votes) {
       votes = await Promise.all(
         proposal.votes.ayes
-          .map(async (aye) => ({
-            voter: this.reducers.networkAccountReducer(aye),
-            option: `Yes`
-          }))
+          .map(async (aye) => {
+            const voter = await this.getNetworkAccountInfo(aye, api)
+            return {
+              id: voter.address,
+              voter,
+              option: `Yes`
+            }
+          })
           .concat(
-            proposal.votes.nays.map((nay) => ({
-              voter: this.reducers.networkAccountReducer(nay),
-              option: `No`
-            }))
+            proposal.votes.nays.map(async (nay) => {
+              const voter = await this.getNetworkAccountInfo(nay, api)
+              return {
+                id: voter.address,
+                voter,
+                option: `No`
+              }
+            })
           )
       )
     }
@@ -1018,8 +1071,9 @@ class polkadotAPI {
             proposal,
             `democracy`
           )
-          const proposerInfo = await api.derive.accounts.info(
-            proposal.proposer.toHuman()
+          const proposer = await this.getNetworkAccountInfo(
+            proposal.proposer.toHuman(),
+            api
           )
           return this.reducers.democracyProposalReducer(
             this.network,
@@ -1027,7 +1081,7 @@ class polkadotAPI {
             totalIssuance,
             blockHeight,
             await this.getDetailedVotes(proposalWithMetadata, `democracy`),
-            proposerInfo
+            proposer
           )
         })
         .concat(
@@ -1036,24 +1090,23 @@ class polkadotAPI {
               proposal,
               `referendum`
             )
-            const proposerInfo = await api.derive.accounts.info(
-              proposal.proposer
-            )
             return this.reducers.democracyReferendumReducer(
               this.network,
               proposalWithMetadata,
               totalIssuance,
               blockHeight,
-              await this.getDetailedVotes(proposalWithMetadata, `referendum`),
-              proposerInfo
+              await this.getDetailedVotes(proposalWithMetadata, `referendum`)
             )
           })
         )
         .concat(
           treasuryProposals.proposals.map(async (proposal) => {
-            const proposerInfo =
+            const proposer =
               proposal.proposal && proposal.proposal.proposer
-                ? await api.derive.accounts.info(proposal.proposal.proposer)
+                ? await this.getNetworkAccountInfo(
+                    proposal.proposal.proposer,
+                    api
+                  )
                 : undefined
             const proposalWithMetadata = await this.getProposalWithMetadata(
               proposal,
@@ -1081,7 +1134,7 @@ class polkadotAPI {
                   )
                 : // proposal gets voted on by delegators
                   await this.getDetailedVotes(proposalWithMetadata, `treasury`),
-              proposerInfo
+              proposer
             )
           })
         )
@@ -1163,7 +1216,10 @@ class polkadotAPI {
       ),
       topVoters: await Promise.all(
         topVoters.map(async (topVoterAddress) => {
-          const accountInfo = await api.derive.accounts.info(topVoterAddress)
+          const accountInfo = await this.getNetworkAccountInfo(
+            topVoterAddress,
+            api
+          )
           return this.reducers.topVoterReducer(
             topVoterAddress,
             electionInfo,
@@ -1173,17 +1229,9 @@ class polkadotAPI {
           )
         })
       ),
-      links: JSON.parse(links)
+      links
     }
   }
-}
-
-async function getBlockTime(block) {
-  const args = block.block.extrinsics.map((extrinsic) =>
-    extrinsic.method.args.find((arg) => arg)
-  )
-  const blockTimestamp = args[0]
-  return new Date(Number(blockTimestamp))
 }
 
 module.exports = polkadotAPI

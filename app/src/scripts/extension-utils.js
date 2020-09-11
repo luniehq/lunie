@@ -27,7 +27,7 @@ const processMessage = (store, type, payload) => {
 
 const pollExtensionAvailability = async () => {
   if (!extensionAvailable) {
-    await new Promise(resolve => setTimeout(resolve, 500))
+    await new Promise((resolve) => setTimeout(resolve, 500))
     sendMessageToContentScript(undefined, true)
     pollExtensionAvailability()
   }
