@@ -833,10 +833,6 @@ export default {
             denom,
           }))
         }
-        if (message.rewards) {
-          // hack since it is cumbersome to add rewards in TransactionDetailsInput schema
-          delete message.rewards
-        }
         return {
           networkId: this.networkId,
           messageType: type,

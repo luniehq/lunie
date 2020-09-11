@@ -85,7 +85,6 @@ export default {
         type: messageType.CLAIM_REWARDS,
         amounts: this.totalRewards,
         from: this.top5Validators,
-        rewards: this.rewards,
       }
     },
     top5Validators() {

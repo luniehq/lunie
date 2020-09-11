@@ -125,24 +125,30 @@ export async function RestakeTx(
   return await getSignMessage(senderAddress, transactions, api)
 }
 
-export async function ClaimRewardsTx(senderAddress, { rewards }, network, api) {
+export async function ClaimRewardsTx(senderAddress, {}, network, api) {
   let allClaimingTxs = []
-
-  if (rewards.length === 0) {
+  const stakerRewards = await api.derive.staking.stakerRewards(senderAddress)
+  const newStakerRewards = stakerRewards.filter(({ era }) => era.toJSON() > 718)
+  if (newStakerRewards.length === 0) {
     allClaimingTxs = []
   } else {
-    rewards
-      .sort((a, b) => a.height - b.height)
-      .forEach((reward) => {
-        allClaimingTxs.push(
-          api.tx.staking.payoutStakers(
-            reward.validator.operatorAddress,
-            reward.height
+    newStakerRewards.forEach((reward) => {
+      reward.nominating.forEach((nomination) => {
+        if (reward.isStakerPayout) {
+          allClaimingTxs.push(
+            api.tx.staking.payoutStakers(nomination.validatorId, reward.era)
           )
-        )
+        } else {
+          const validators = reward.nominating.map(
+            ({ validatorId, validatorIndex }) => [validatorId, validatorIndex]
+          )
+          allClaimingTxs.push(
+            api.tx.staking.payoutNominator(reward.era, validators)
+          )
+        }
       })
+    })
   }
-
   if (allClaimingTxs.length === 0) {
     throw new Error("There are no claimable rewards")
   }
