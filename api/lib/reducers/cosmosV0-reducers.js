@@ -141,7 +141,7 @@ function depositReducer(deposit, network) {
 
 function voteReducer(vote) {
   return {
-    id: vote.proposal_id,
+    id: String(vote.proposal_id),
     voter: networkAccountReducer(vote.voter),
     option: vote.option
   }

@@ -1,0 +1,1 @@
+[Changed] Ping the frontend until it replys to make sure events are triggered after all required listeners are setup @faboweb
