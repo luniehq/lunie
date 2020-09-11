@@ -364,8 +364,10 @@ class polkadotAPI {
   }
 
   async getRewards(delegatorAddress, fiatCurrency, withHeight) {
-    if (this.network.network_type !== "polkadot" && withHeight) {
-      throw new Error("Rewards are only queryable per height in Polkadot networks")
+    if (this.network.network_type !== 'polkadot' && withHeight) {
+      throw new Error(
+        'Rewards are only queryable per height in Polkadot networks'
+      )
     }
     const schema_prefix = this.network.id.replace(/-/, '_')
     const table = 'rewards'
