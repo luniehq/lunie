@@ -159,21 +159,21 @@ export default {
             rewards(
               networkId:"${network.id}"
               delegatorAddress:"${senderAddress}") {
-              id
-              denom
-              amount
               validator { operatorAddress }
               height
             }
           }
         `
       })
-      return rewards
+      return rewards.map(({ height, validator: { operatorAddress }}) => ({
+        height,
+        validator: operatorAddress
+      }))
     },
     getPolkadotValidators(rewards) {
       const allValidators = rewards.reduce((allValidators, reward) => {
-        if (!allValidators.includes(reward.validator.operatorAddress)) {
-          allValidators.push(reward.validator.operatorAddress)
+        if (!allValidators.includes(reward.validator)) {
+          allValidators.push(reward.validator)
         }
         return allValidators
       }, [])

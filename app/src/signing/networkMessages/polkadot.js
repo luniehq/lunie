@@ -133,10 +133,10 @@ export async function ClaimRewardsTx(senderAddress, { rewards }, network, api) {
     allClaimingTxs = []
   } else {
     rewards
-    .sortBy((a,b) => a.height - b.height)
+    .sort((a,b) => a.height - b.height)
     .forEach((reward) => {
       allClaimingTxs.push(
-        api.tx.staking.payoutStakers(reward.validator.operatorAddress, reward.height)
+        api.tx.staking.payoutStakers(reward.validator, reward.height)
       )
     })
   }
