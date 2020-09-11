@@ -167,7 +167,7 @@ async function ClaimRewardsTx(senderAddress, api, { rewards }) {
     allClaimingTxs = []
   } else {
     rewards
-      .sortBy((a, b) => a.height - b.height)
+      .sort((a, b) => a.height - b.height)
       .forEach((reward) => {
         allClaimingTxs.push(
           api.tx.staking.payoutStakers(
