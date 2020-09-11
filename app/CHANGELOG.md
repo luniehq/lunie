@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.228] - 2020-09-11
+
+### Added
+
+- [#4870](https://github.com/cosmos/lunie/issues/4870) Added message about rewards being automatically claimed by validators @faboweb
+
+### Changed
+
+- [#4857](https://github.com/cosmos/lunie/pull/4857) Recover Browser Extension sign in for now on CardSignInRequired @Bitcoinera
+- [#4805](https://github.com/cosmos/lunie/issues/4805) Notifications are now the homepage when user is signed in @faboweb
+
+### Fixed
+
+- [#4858](https://github.com/cosmos/lunie/issues/4858) Show that unstaking balance is claimable @faboweb
+- [#4849](https://github.com/cosmos/lunie/issues/4849) Change Westend RPC @mariopino
+
 ## [1.0.227] - 2020-09-08
 
 ### Added
