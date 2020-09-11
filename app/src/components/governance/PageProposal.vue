@@ -65,12 +65,11 @@
       <ModalVote
         v-else
         ref="modalVote"
-        :proposal-id="proposalId"
+        :proposal-id="isSecond ? proposal.id : proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
-        :is-second="
-          currentNetwork.network_type === `polkadot` &&
-          status.badge === `Deposit Period`
+        :number-of-seconds="
+          isSecond ? Number(proposal.detailedVotes.votesSum) : 0
         "
         @success="() => afterVote()"
       />
@@ -152,6 +151,12 @@ export default {
       return Object.values(this.proposal.tally)
         .filter((value) => value !== `Tally`)
         .find((value) => value)
+    },
+    isSecond() {
+      return (
+        this.currentNetwork.network_type === `polkadot` &&
+        this.status.badge === `Deposit Period`
+      )
     },
   },
   methods: {

@@ -17,7 +17,7 @@
       <div>
         <TmBtn
           id="vote-yes"
-          :class="{ active: vote === `Yes`, second: isSecond }"
+          :class="{ active: vote === `Yes`, second: numberOfSeconds !== 0 }"
           :disabled="lastVoteOption === `Yes`"
           color="secondary"
           value="Yes"
@@ -25,7 +25,7 @@
           @click.native="vote = 'Yes'"
         />
         <TmBtn
-          v-if="!isSecond"
+          v-if="numberOfSeconds === 0"
           id="vote-veto"
           :class="{ active: vote === `NoWithVeto` }"
           :disabled="lastVoteOption === `NoWithVeto`"
@@ -37,7 +37,7 @@
       </div>
       <div>
         <TmBtn
-          v-if="!isSecond"
+          v-if="numberOfSeconds === 0"
           id="vote-no"
           :class="{ active: vote === `No` }"
           :disabled="lastVoteOption === `No`"
@@ -47,7 +47,7 @@
           @click.native="vote = 'No'"
         />
         <TmBtn
-          v-if="!isSecond"
+          v-if="numberOfSeconds === 0"
           id="vote-abstain"
           :class="{ active: vote === `Abstain` }"
           :disabled="lastVoteOption === `Abstain`"
@@ -100,9 +100,9 @@ export default {
       type: String,
       default: undefined,
     },
-    isSecond: {
-      type: Boolean,
-      default: false,
+    numberOfSeconds: {
+      type: Number,
+      default: 0,
     },
   },
   data: () => ({
@@ -115,6 +115,7 @@ export default {
         type: messageType.VOTE,
         proposalId: this.proposalId,
         voteOption: this.vote,
+        numberOfSeconds: this.numberOfSeconds,
       }
     },
     notifyMessage() {
