@@ -1,92 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PageProposal Modal onVote enables voting if the proposal is on the 'VotingPeriod' 1`] = `
-<tmpage-stub loaderpath="" emptytitle="No data" emptysubtitle="" data-title="Proposal" class="readable-width">
-  <div class="proposal">
-    <div class="page-profile__header__info"><span class="proposal-status votingperiod">
-          Voting Period
-        </span>
-      <div class="proposal-title__row">
-        <h2 class="proposal-title">test</h2>
-      </div>
-    </div>
-    <div class="proposer-row">
-      <p class="proposer">
-        Proposed by Big Daddy Validator:
-        <address-stub address="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz" tooltiptext=""></address-stub>
-      </p>
-      <div class="button-container">
-        <tmbtn-stub value="Deposit" disabled="true" customclass="" id="deposit-btn" color="primary"></tmbtn-stub>
-        <tmbtn-stub value="Vote" customclass="" id="vote-btn" color="primary"></tmbtn-stub>
-      </div>
-    </div>
-  </div>
-  <textblock-stub content="test"></textblock-stub>
-  <!---->
-  <ul class="row">
-    <li>
-      <h4>Total Vote Count</h4> <span>
-          0.00% /
-          0
-        </span>
-    </li>
-    <li>
-      <h4>Yes</h4> <span>
-          0.00%
-          /
-          0
-        </span>
-    </li>
-    <li>
-      <h4>No</h4> <span>
-          0.00%
-          /
-          0
-        </span>
-    </li>
-    <li>
-      <h4>Veto</h4> <span>
-          0.00%
-          /
-          0
-        </span>
-    </li>
-    <li>
-      <h4>Abstain</h4> <span>
-          0.00%
-          /
-          0
-        </span>
-    </li>
-  </ul>
-  <ul class="row">
-    <li>
-      <h4>Proposal ID</h4> <span>33</span>
-    </li>
-    <li>
-      <h4>Submitted</h4> <span>August 23rd 2019, 08:46</span>
-    </li>
-    <li>
-      <h4>(Voting Period) Start Date</h4> <span>August 25th 2019, 08:46</span>
-    </li>
-    <li>
-      <h4>(Voting Period) End Date</h4> <span>
-            August 25th 2019, 08:46 /
-            in 50 years
-          </span>
-    </li>
-  </ul>
-  <!---->
-  <modalvote-stub proposalid="33" proposaltitle="test"></modalvote-stub>
-</tmpage-stub>
-`;
-
 exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
 <tmpage-stub loaderpath="" emptytitle="No data" emptysubtitle="" data-title="Proposal">
   <div class="proposal">
     <proposalheader-stub title="test" type="cosmos-sdk/TextProposal" proposer="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz" status="[object Object]"></proposalheader-stub>
-    <proposalstatusbar-stub status="Rejected" statusbegintime="2019-08-25T08:46:16.394157593Z" proposalid="n/a" depositpercentage="0" votepercentage="0" deposittotal="1" votetotal="n/a" yesvotes="0" novotes="0" vetovotes="0" abstainvotes="0" total-votes="0"></proposalstatusbar-stub>
-    <participantlist-stub title="Participant List" participants=""></participantlist-stub>
+    <proposalstatusbar-stub status="Rejected" statusbegintime="Sun, 25 Aug 2019 08:46:16 GMT" proposalid="n/a" depositpercentage="0" votepercentage="0" deposittotal="1" votetotal="n/a" yesvotes="0" novotes="0" vetovotes="0" abstainvotes="0" total-votes="0"></proposalstatusbar-stub>
+    <!---->
     <timeline-stub timeline="[object Object]"></timeline-stub>
     <proposaldescription-stub description="test" supportinglinks="" type="cosmos-sdk/TextProposal"></proposaldescription-stub>
     <!---->
@@ -120,7 +39,7 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
       novotes="0"
       proposalid="n/a"
       status="Rejected"
-      statusbegintime="2019-08-25T08:46:16.394157593Z"
+      statusbegintime="Sun, 25 Aug 2019 08:46:16 GMT"
       total-votes="0"
       vetovotes="0"
       votepercentage="0"
@@ -128,10 +47,7 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
       yesvotes="0"
     />
      
-    <participantlist-stub
-      participants=""
-      title="Participant List"
-    />
+    <!---->
      
     <timeline-stub
       timeline="[object Object]"

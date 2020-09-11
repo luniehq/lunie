@@ -25,6 +25,7 @@ describe(`PageProposal`, () => {
     connected: true,
     address: `cosmos1xxxx`,
     currentNetwork: {
+      id: "cosmos-hub-mainnet",
       network_type: `cosmos`,
     },
   }
@@ -70,6 +71,9 @@ describe(`PageProposal`, () => {
       stubs: [`router-link`],
     }
     wrapper = shallowMount(PageProposal, args)
+    proposals[2].creationTime = 1566549976394
+    proposals[2].statusBeginTime = 1566722776394
+    proposals[2].statusEndTime = 1566722836394
     wrapper.setData({
       proposal: proposals[2],
       found: true,
@@ -91,6 +95,9 @@ describe(`PageProposal`, () => {
   })
 
   it(`should show proposer`, () => {
+    proposals[1].creationTime = 1566549976394
+    proposals[1].statusBeginTime = 1566722776394
+    proposals[1].statusEndTime = 1566722836394
     wrapper.setData({
       proposal: proposals[1],
     })
@@ -100,27 +107,9 @@ describe(`PageProposal`, () => {
   })
 
   it(`should show moniker if proposer address is a validator address`, () => {
-    wrapper.setData({
-      proposal: proposals[2],
-    })
     expect(wrapper.html()).toContain(
       "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
     )
-    expect(wrapper.html()).toContain("Big Daddy Validator")
-  })
-
-  it(`should return the index within the array of a proposal`, () => {
-    wrapper.setData({
-      proposals: proposals,
-    })
-    expect(wrapper.vm.getProposalIndex(1)).toEqual(32)
-  })
-
-  it(`should set loaded to false on route change`, () => {
-    wrapper.vm.loaded = true
-    // Call directly watcher function
-    wrapper.vm.$options.watch.$route.call(wrapper.vm, { path: "xxxx" })
-    expect(wrapper.vm.loaded).toBe(false)
   })
 
   describe(`Proposal status`, () => {
@@ -152,7 +141,7 @@ describe(`PageProposal`, () => {
       wrapper.vm.proposal.status = `VotingPeriod`
       expect(wrapper.vm.status).toMatchObject({
         badge: `Voting Period`,
-        color: `pink`,
+        color: `highlight`,
       })
     })
 
@@ -166,22 +155,6 @@ describe(`PageProposal`, () => {
   })
 
   describe(`Modal onVote`, () => {
-    it(`enables voting if the proposal is on the 'VotingPeriod'`, async () => {
-      wrapper.vm.$refs.modalVote.open = jest.fn()
-      wrapper.find("#vote-btn").trigger("click")
-      expect(wrapper.vm.$refs.modalVote.open).not.toHaveBeenCalled()
-
-      wrapper.setData({
-        proposal: {
-          ...wrapper.vm.proposal,
-          status: "VotingPeriod",
-        },
-      })
-      expect(wrapper.html()).toMatchSnapshot()
-      wrapper.find("#vote-btn").trigger("click")
-      expect(wrapper.vm.$refs.modalVote.open).toHaveBeenCalled()
-    })
-
     it(`shows the last valid vote`, async () => {
       wrapper.setData({ vote: "Yes" })
       expect(wrapper.html()).toMatchSnapshot()

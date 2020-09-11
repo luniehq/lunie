@@ -31,6 +31,10 @@ describe(`PageProposals`, () => {
     getters: {
       network: "cosmos-hub-mainnet",
       stakingDenom: "ATOM",
+      currentNetwork: {
+        id: "cosmos-hub-mainnet",
+        network_type: "cosmos",
+      },
     },
   }
 
