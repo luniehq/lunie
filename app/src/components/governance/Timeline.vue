@@ -3,7 +3,7 @@
     <ul class="timeline">
       <li v-for="phase in timeline" :key="phase.title" class="phase">
         <h4>{{ phase.title }}</h4>
-        <span class="time">{{ phase.time }}</span>
+        <span class="time">{{ new Date(phase.time).toUTCString() }}</span>
       </li>
     </ul>
   </section>
