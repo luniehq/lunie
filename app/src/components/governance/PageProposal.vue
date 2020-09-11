@@ -25,13 +25,7 @@
         :deposit-total="proposal.detailedVotes.depositsSum"
       />
 
-      <ParticipantList
-        v-if="
-          proposal.detailedVotes.votes &&
-          proposal.detailedVotes.votes.length > 0
-        "
-        :participants="proposal.detailedVotes.votes"
-      />
+      <ParticipantList v-if="participants" :participants="participants" />
 
       <template v-if="proposal.detailedVotes.timeline">
         <Timeline :timeline="proposal.detailedVotes.timeline" />
@@ -157,6 +151,28 @@ export default {
         this.currentNetwork.network_type === `polkadot` &&
         this.status.badge === `Deposit Period`
       )
+    },
+    participants() {
+      if (
+        this.proposal.detailedVotes.votes &&
+        this.proposal.detailedVotes.votes.length > 0
+      ) {
+        return this.proposal.detailedVotes.votes.map((vote) => ({
+          ...vote.voter,
+          amount: vote.amount,
+          option: vote.option,
+        }))
+      } else if (
+        this.proposal.detailedVotes.deposits &&
+        this.proposal.detailedVotes.deposits.length > 0
+      ) {
+        // a bit hacky but working
+        return this.proposal.detailedVotes.deposits.map((deposit) => ({
+          ...deposit.depositer,
+          amount: deposit.amount[0],
+        }))
+      }
+      return undefined
     },
   },
   methods: {

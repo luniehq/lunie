@@ -14,9 +14,7 @@
           </span>
           <span class="name">{{ getParticipantName(participant) }}</span>
         </div>
-        <span class="voter">{{
-          participant.address || participant.voter.address | formatAddress
-        }}</span>
+        <span class="voter">{{ participant.address | formatAddress }}</span>
         <div>
           <span v-if="!isProposalsPage && participant.option" class="option">{{
             participant.option
@@ -74,7 +72,7 @@ export default {
   },
   methods: {
     getParticipantName(participant) {
-      const name = participant.name || participant.voter.name
+      const name = participant.name
       return name.length > 25 ? formatAddress(name) : name || `n/a`
     },
   },
