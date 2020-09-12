@@ -170,7 +170,7 @@ export default {
       })
       return rewards
       .sort((a,b) => a.height - b.height)
-      .slice(0, 20) // only claiming 5 eras at a time to not exhaust limits
+      .slice(0, 10) // only claiming 10 eras at a time to not exhaust limits
       .map(({ height, validator: { operatorAddress }}) => ({
         height,
         validator: operatorAddress
