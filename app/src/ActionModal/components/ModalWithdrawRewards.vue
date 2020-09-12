@@ -76,10 +76,8 @@ export default {
     getTop5RewardsValidators,
     messageType,
   }),
-  computed: {
-    ...mapGetters([`address`, `network`, `stakingDenom`, `currentNetwork`]),
-    ...mapGetters({ userAddress: `address` }),
-    transactionData() {
+  asyncComputed: {
+    async transactionData() {
       if (this.totalRewards.length === 0) return {}
       if (this.currentNetwork.network_type === 'cosmos') {
         return {
@@ -98,6 +96,9 @@ export default {
         }
       }
     },
+  },
+  computed: {
+    ...mapGetters([`address`, `network`, `stakingDenom`, `currentNetwork`]),
     top5Validators() {
       if (this.rewards && this.rewards.length > 0) {
         const top5Validators = this.getTop5RewardsValidators(this.rewards)
@@ -152,20 +153,25 @@ export default {
     open() {
       this.$refs.actionModal.open()
     },
-    getPolkadotRewards() {
-      const { data: { rewards } } = await apolloClient.query({
+    async getPolkadotRewards() {
+      const { data: { rewards } } = await this.$apollo.query({
         query: gql`
           query {
             rewards(
-              networkId:"${network.id}"
-              delegatorAddress:"${senderAddress}") {
+              networkId:"${this.currentNetwork.id}"
+              delegatorAddress:"${this.address}"
+              withHeight: true
+            ) {
               validator { operatorAddress }
               height
             }
           }
         `
       })
-      return rewards.map(({ height, validator: { operatorAddress }}) => ({
+      return rewards
+      .sort((a,b) => a.height - b.height)
+      .slice(0, 20) // only claiming 5 eras at a time to not exhaust limits
+      .map(({ height, validator: { operatorAddress }}) => ({
         height,
         validator: operatorAddress
       }))
@@ -227,7 +233,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         return (
-          !this.userAddress ||
+          !this.address ||
           !this.$refs.actionModal ||
           !this.$refs.actionModal.show
         )
@@ -236,7 +242,7 @@ export default {
       variables() {
         return {
           networkId: this.network,
-          address: this.userAddress,
+          address: this.address,
         }
       },
       update(data) {
