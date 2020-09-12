@@ -259,7 +259,7 @@ const typeDefs = gql`
 
   input RewardInput {
     validator: String! # just the address
-    height: Int!
+    height: String!
   }
 
   input TransactionDetailsInput {

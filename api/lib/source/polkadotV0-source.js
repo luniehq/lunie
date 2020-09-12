@@ -13,7 +13,6 @@ const {
 } = require('@polkassembly/util')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
-const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
 
 class polkadotAPI {
   constructor(network, store, fiatValuesAPI, db) {
@@ -333,32 +332,26 @@ class polkadotAPI {
       allStakingLedgers[stashId] = result.stakingLedger.claimedRewards
     }
 
+    // console.log(JSON.stringify(allStakingLedgers, null, 2))
     return allStakingLedgers
   }
 
-  async filterRewards(rewards, delegatorAddress) {
-    const api = await this.getAPI()
+  async filterRewards(rewards) {
     if (rewards.length === 0) {
       return []
     }
     const allValidators = rewards.map(({ validator }) => validator)
-    // DEPRECATE at era 718 + 84
-    const userClaimedRewards = (
-      await api.derive.staking.account(delegatorAddress)
-    ).stakingLedger.claimedRewards
     const stakingLedgers = await this.loadClaimedRewardsForValidators(
       allValidators
     )
 
     const filteredRewards = rewards.filter(({ height: era, validator }) => {
-      if (Number(era) <= MIGRATION_HEIGHT) {
-        return !userClaimedRewards.includes(Number(era))
-      }
       return (
         !stakingLedgers[validator] ||
         !stakingLedgers[validator].includes(Number(era))
       )
     })
+    // console.log(rewards, filteredRewards)
 
     return filteredRewards
   }
@@ -387,8 +380,7 @@ class polkadotAPI {
     const dbRewards = data[`${schema_prefix}_${table}`] || [] // TODO: add a backup plan. If it is not in DB, run the actual function
 
     const filteredRewards = await this.filterRewards(
-      dbRewards,
-      delegatorAddress
+      dbRewards
     )
 
     const rewards = this.reducers.dbRewardsReducer(
