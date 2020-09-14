@@ -23,15 +23,14 @@
           <span
             v-if="
               !isProposalsPage &&
-              participant.amount &&
-              participant.amount.amount
+              participant.amount
             "
             class="amount"
             >{{ participant.amount.amount }}</span
           >
           <span
             v-if="
-              !isProposalsPage && participant.amount && participant.amount.denom
+              !isProposalsPage && participant.amount
             "
             >{{ participant.amount.denom.concat(`s`) }}</span
           >
