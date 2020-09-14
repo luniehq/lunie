@@ -23,6 +23,7 @@
         :veto-votes="Number(proposal.tally.veto)"
         :abstain-votes="Number(proposal.tally.abstain)"
         :deposit-total="proposal.detailedVotes.depositsSum"
+        :deposit-percentage="proposal.detailedVotes.percentageDepositsNeeded"
       />
 
       <ParticipantList v-if="participants" :participants="participants" />
