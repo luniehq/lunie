@@ -3,15 +3,20 @@
     <ul class="timeline">
       <li v-for="phase in timeline" :key="phase.title" class="phase">
         <h4>{{ phase.title }}</h4>
-        <span class="time">{{ new Date(phase.time).toUTCString() }}</span>
+        <span class="time">{{ phase.time | moment }}</span>
       </li>
     </ul>
   </section>
 </template>
 
 <script>
+import moment from "moment"
+
 export default {
   name: `timeline`,
+  filters: {
+    moment,
+  },
   props: {
     timeline: {
       type: Array,
