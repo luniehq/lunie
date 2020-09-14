@@ -74,7 +74,7 @@ export default {
     },
     depositPercentage: {
       type: String,
-      default: '0',
+      default: "0",
     },
     votePercentage: {
       type: Number,
