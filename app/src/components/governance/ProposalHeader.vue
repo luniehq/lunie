@@ -23,7 +23,7 @@
           </div>
           <TmBtn
             v-if="
-              status.badge === 'Deposit Period' &&
+              status.caption === 'Deposit Period' &&
               currentNetwork.network_type === 'cosmos'
             "
             id="deposit-btn"
@@ -34,13 +34,13 @@
           <TmBtn
             v-if="
               type !== `TREASURY` &&
-              (status.badge === 'Voting Period' ||
+              (status.caption === 'Voting Period' ||
                 currentNetwork.network_type === 'polkadot')
             "
             id="vote-btn"
             :value="
               currentNetwork.network_type === `polkadot` &&
-              status.badge === 'Deposit Period'
+              status.caption === 'Deposit Period'
                 ? `Second`
                 : `Vote`
             "

@@ -1,6 +1,6 @@
 <template>
   <div class="status" :class="status.color">
-    {{ status.badge }}
+    {{ status.caption }}
   </div>
 </template>
 

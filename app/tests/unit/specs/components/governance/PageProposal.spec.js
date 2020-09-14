@@ -116,7 +116,7 @@ describe(`PageProposal`, () => {
     it(`displays correctly a proposal that 'Passed'`, () => {
       wrapper.vm.proposal.status = `Passed`
       expect(wrapper.vm.status).toMatchObject({
-        badge: `Passed`,
+        caption: `Passed`,
         color: `green`,
       })
     })
@@ -124,7 +124,7 @@ describe(`PageProposal`, () => {
     it(`displays correctly a 'Rejected' proposal`, () => {
       wrapper.vm.proposal.status = `Rejected`
       expect(wrapper.vm.status).toMatchObject({
-        badge: `Rejected`,
+        caption: `Rejected`,
         color: `red`,
       })
     })
@@ -132,7 +132,7 @@ describe(`PageProposal`, () => {
     it(`displays correctly a proposal on 'DepositPeriod'`, () => {
       wrapper.vm.proposal.status = `DepositPeriod`
       expect(wrapper.vm.status).toMatchObject({
-        badge: `Deposit Period`,
+        caption: `Deposit Period`,
         color: `orange`,
       })
     })
@@ -140,7 +140,7 @@ describe(`PageProposal`, () => {
     it(`displays correctly a proposal on 'VotingPeriod'`, () => {
       wrapper.vm.proposal.status = `VotingPeriod`
       expect(wrapper.vm.status).toMatchObject({
-        badge: `Voting Period`,
+        caption: `Voting Period`,
         color: `highlight`,
       })
     })
@@ -148,7 +148,7 @@ describe(`PageProposal`, () => {
     it(`shows error status`, () => {
       wrapper.vm.proposal.status = ``
       expect(wrapper.vm.status).toMatchObject({
-        badge: `Error`,
+        caption: `Error`,
         color: `grey`,
       })
     })

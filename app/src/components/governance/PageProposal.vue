@@ -13,7 +13,7 @@
 
       <ProposalStatusBar
         v-if="tallyHasValues"
-        :status="status.badge"
+        :status="status.caption"
         :status-begin-time="new Date(proposal.statusBeginTime).toUTCString()"
         :total-votes="proposal.tally.total"
         :proposal-id="proposal.proposalId"
@@ -49,7 +49,7 @@
       <ModalVoteSubstrate
         v-if="
           currentNetwork.network_type === `polkadot` &&
-          status.badge !== `Deposit Period`
+          status.caption !== `Deposit Period`
         "
         ref="modalVote"
         :proposal-id="proposal.proposalId"
@@ -150,7 +150,7 @@ export default {
     isSecond() {
       return (
         this.currentNetwork.network_type === `polkadot` &&
-        this.status.badge === `Deposit Period`
+        this.status.caption === `Deposit Period`
       )
     },
     participants() {

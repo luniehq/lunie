@@ -4,12 +4,12 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
 <tmpage-stub loaderpath="" emptytitle="No data" emptysubtitle="" data-title="Proposal">
   <div class="proposal">
     <proposalheader-stub title="test" type="cosmos-sdk/TextProposal" proposer="cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz" status="[object Object]"></proposalheader-stub>
-    <proposalstatusbar-stub status="Rejected" statusbegintime="Sun, 25 Aug 2019 08:46:16 GMT" proposalid="n/a" depositpercentage="0" votepercentage="0" deposittotal="1" votetotal="n/a" yesvotes="0" novotes="0" vetovotes="0" abstainvotes="0" total-votes="0"></proposalstatusbar-stub>
+    <proposalstatusbar-stub status="Rejected" statusbegintime="Sun, 25 Aug 2019 08:46:16 GMT" proposalid="n/a" depositpercentage="50" votepercentage="0" deposittotal="1" votetotal="n/a" yesvotes="0" novotes="0" vetovotes="0" abstainvotes="0" total-votes="0"></proposalstatusbar-stub>
     <!---->
     <timeline-stub timeline="[object Object]"></timeline-stub>
     <proposaldescription-stub description="test" supportinglinks="" type="cosmos-sdk/TextProposal"></proposaldescription-stub>
     <!---->
-    <modalvote-stub proposalid="33" proposaltitle="test" lastvoteoption="Yes"></modalvote-stub>
+    <modalvote-stub proposaltitle="test" numberofseconds="0" lastvoteoption="Yes"></modalvote-stub>
   </div>
 </tmpage-stub>
 `;
@@ -34,7 +34,7 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
      
     <proposalstatusbar-stub
       abstainvotes="0"
-      depositpercentage="0"
+      depositpercentage="50"
       deposittotal="1"
       novotes="0"
       proposalid="n/a"
@@ -62,7 +62,7 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
     <!---->
      
     <modalvote-stub
-      proposalid="33"
+      numberofseconds="0"
       proposaltitle="test"
     />
   </div>

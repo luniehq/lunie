@@ -39,7 +39,7 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      badge: `Passed`,
+      caption: `Passed`,
       color: `green`,
     })
   })
@@ -52,7 +52,7 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      badge: `Rejected`,
+      caption: `Rejected`,
       color: `red`,
     })
   })
@@ -65,7 +65,7 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      badge: `Voting Period`,
+      caption: `Voting Period`,
       color: `highlight`,
     })
   })
@@ -78,7 +78,7 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      badge: `Deposit Period`,
+      caption: `Deposit Period`,
       color: `orange`,
     })
   })
@@ -91,7 +91,7 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      badge: `Error`,
+      caption: `Error`,
       color: `grey`,
     })
   })
