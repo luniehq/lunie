@@ -43,7 +43,7 @@
           status.value !== governanceStatusEnum.DEPOSITING
         "
         ref="modalVote"
-        :proposal-id="proposal.proposalId"
+        :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
         @success="() => afterVote()"
@@ -51,7 +51,7 @@
       <ModalVote
         v-else
         ref="modalVote"
-        :proposal-id="proposal.proposalId"
+        :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
         :number-of-seconds="

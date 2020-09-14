@@ -39,7 +39,8 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      caption: `Passed`,
+      title: `Passed`,
+      value: `PASSED`,
       color: `green`,
     })
   })
@@ -52,7 +53,8 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      caption: `Rejected`,
+      title: `Rejected`,
+      value: `REJECTED`,
       color: `red`,
     })
   })
@@ -65,7 +67,8 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      caption: `Voting Period`,
+      title: `Voting Period`,
+      value: `VOTING`,
       color: `highlight`,
     })
   })
@@ -78,7 +81,8 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      caption: `Deposit Period`,
+      title: `Deposit Period`,
+      value: `DEPOSITING`,
       color: `orange`,
     })
   })
@@ -91,7 +95,8 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      caption: `Error`,
+      title: `Error`,
+      value: `UNKNOWN`,
       color: `grey`,
     })
   })

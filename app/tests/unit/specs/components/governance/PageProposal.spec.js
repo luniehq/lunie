@@ -71,9 +71,6 @@ describe(`PageProposal`, () => {
       stubs: [`router-link`],
     }
     wrapper = shallowMount(PageProposal, args)
-    proposals[2].creationTime = 1566549976394
-    proposals[2].statusBeginTime = 1566722776394
-    proposals[2].statusEndTime = 1566722836394
     wrapper.setData({
       proposal: proposals[2],
       found: true,
@@ -94,29 +91,12 @@ describe(`PageProposal`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should show proposer`, () => {
-    proposals[1].creationTime = 1566549976394
-    proposals[1].statusBeginTime = 1566722776394
-    proposals[1].statusEndTime = 1566722836394
-    wrapper.setData({
-      proposal: proposals[1],
-    })
-    expect(wrapper.html()).toContain(
-      "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
-    )
-  })
-
-  it(`should show moniker if proposer address is a validator address`, () => {
-    expect(wrapper.html()).toContain(
-      "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
-    )
-  })
-
   describe(`Proposal status`, () => {
     it(`displays correctly a proposal that 'Passed'`, () => {
       wrapper.vm.proposal.status = `Passed`
       expect(wrapper.vm.status).toMatchObject({
-        caption: `Passed`,
+        title: `Passed`,
+        value: `PASSED`,
         color: `green`,
       })
     })
@@ -124,7 +104,8 @@ describe(`PageProposal`, () => {
     it(`displays correctly a 'Rejected' proposal`, () => {
       wrapper.vm.proposal.status = `Rejected`
       expect(wrapper.vm.status).toMatchObject({
-        caption: `Rejected`,
+        title: `Rejected`,
+        value: `REJECTED`,
         color: `red`,
       })
     })
@@ -132,7 +113,8 @@ describe(`PageProposal`, () => {
     it(`displays correctly a proposal on 'DepositPeriod'`, () => {
       wrapper.vm.proposal.status = `DepositPeriod`
       expect(wrapper.vm.status).toMatchObject({
-        caption: `Deposit Period`,
+        title: `Deposit Period`,
+        value: `DEPOSITING`,
         color: `orange`,
       })
     })
@@ -140,7 +122,7 @@ describe(`PageProposal`, () => {
     it(`displays correctly a proposal on 'VotingPeriod'`, () => {
       wrapper.vm.proposal.status = `VotingPeriod`
       expect(wrapper.vm.status).toMatchObject({
-        caption: `Voting Period`,
+        title: `Voting Period`,
         color: `highlight`,
       })
     })
@@ -148,7 +130,7 @@ describe(`PageProposal`, () => {
     it(`shows error status`, () => {
       wrapper.vm.proposal.status = ``
       expect(wrapper.vm.status).toMatchObject({
-        caption: `Error`,
+        title: `Error`,
         color: `grey`,
       })
     })
@@ -171,6 +153,7 @@ describe(`PageProposal`, () => {
     it(`opens deposit modal`, async () => {
       const self = {
         $refs: { modalDeposit: { open: jest.fn() } },
+        proposalId: `666`,
       }
 
       await PageProposal.methods.onDeposit.call(self)
