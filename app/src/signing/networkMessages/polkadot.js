@@ -180,7 +180,7 @@ export async function VoteTx(
     })
     // it is democracy
   } else {
-    voteTx = await api.tx.democracy.second(6, numberOfSeconds + 1)
+    voteTx = await api.tx.democracy.second(Number(proposalId), numberOfSeconds)
   }
   return await getSignMessage(senderAddress, voteTx, api)
 }

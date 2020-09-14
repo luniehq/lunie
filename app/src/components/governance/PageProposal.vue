@@ -60,7 +60,7 @@
       <ModalVote
         v-else
         ref="modalVote"
-        :proposal-id="isSecond ? proposal.id : proposalId"
+        :proposal-id="proposal.proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
         :number-of-seconds="
