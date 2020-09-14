@@ -211,7 +211,6 @@ export const ProposalFragment = `
         amount
         denom
       }
-      time
     }
     votesSum
     votingThresholdYes
