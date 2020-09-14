@@ -3,9 +3,7 @@
     <TmDataNotFound v-if="!found" />
     <div v-else class="proposal">
       <ProposalHeader
-        :title="proposal.title"
-        :type="proposal.type"
-        :proposer="proposal.proposer.address"
+        :proposal="proposal"
         :status="status"
         @open-vote-modal="onVote"
         @open-deposit-modal="onDeposit"

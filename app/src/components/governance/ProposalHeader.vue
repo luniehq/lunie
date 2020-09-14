@@ -52,14 +52,14 @@
     </div>
 
     <div class="content-container">
-      <h2>{{ title }}</h2>
+      <h2>{{ proposal.title }}</h2>
 
       <div class="proposer-and-summary-container">
         <div class="proposer">
           Proposed By:
-          {{ proposer | formatAddress }}
+          {{ proposal.proposer.address | formatAddress }}
         </div>
-        <p class="summary">{{ summary }}</p>
+        <p class="summary">{{ proposal.summary }}</p>
       </div>
     </div>
 
@@ -93,17 +93,9 @@ export default {
     formatAddress,
   },
   props: {
-    title: {
-      type: String,
+    proposal: {
+      type: Object,
       required: true,
-    },
-    type: {
-      type: String,
-      required: true,
-    },
-    proposer: {
-      type: String,
-      default: `n/a`,
     },
     status: {
       type: Object,
@@ -119,23 +111,11 @@ export default {
     currentRoute() {
       return location.href
     },
-    summary() {
-      switch (this.type) {
-        case `TEXT`:
-          return `This is a text proposal. Text proposals can be proposed by anyone and are used as a signalling mechanism for this community. If this proposal is accepted, nothing will change without community coordination.`
-        case `PARAMETER_CHANGE`:
-          return `This is a parameter change proposal. Parameter change proposals can be proposed by anyone and include changes to the code of this network. If this proposal is approved the underlying code will change.`
-        case `TREASURY`:
-          return `This is a treasury proposal. Treasury proposals can be proposed by anyone and are a request for funds from the treasury / community pool.`
-        default:
-          return `Unknown proposal type`
-      }
-    },
     showVoteButton() {
       // when the proposal is a Treasury proposal we won't show the Vote button
       // for all Polkadot proposals we display the Vote button except for treasuries
       // in Cosmos only for the ones in Voting Period (we consider Polkadot democracies proposals as Deposit Period)
-      return this.type !== `TREASURY` &&
+      return this.proposal.type !== `TREASURY` &&
               (this.status.value === this.governanceStatusEnum.VOTING ||
                 this.currentNetwork.network_type === 'polkadot')
     }

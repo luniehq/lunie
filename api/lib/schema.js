@@ -106,6 +106,7 @@ const typeDefs = gql`
     proposer: NetworkAccount
     validator: Validator
     beneficiary: NetworkAccount
+    summary: String
     detailedVotes: DetailedVotes
   }
 
