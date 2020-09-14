@@ -2,7 +2,9 @@
   <section class="status-bar">
     <div v-if="status.value === governanceStatusEnum.DEPOSITING">
       <div class="top row">
-        <div class="time">Entered {{ status.title }} on {{ statusBeginTime }}</div>
+        <div class="time">
+          Entered {{ status.title }} on {{ statusBeginTime }}
+        </div>
         <div>ID: {{ proposal.proposalId }}</div>
       </div>
       <div v-if="depositCount">{{ depositCount }} Deposits</div>

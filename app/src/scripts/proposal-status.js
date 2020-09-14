@@ -1,9 +1,9 @@
 export const governanceStatusEnum = {
-  PASSED: 'PASSED',
-  REJECTED: 'REJECTED',
-  DEPOSITING: 'DEPOSITING',
-  VOTING: 'VOTING',
-  UNKNOWN: 'UNKNOWN'
+  PASSED: "PASSED",
+  REJECTED: "REJECTED",
+  DEPOSITING: "DEPOSITING",
+  VOTING: "VOTING",
+  UNKNOWN: "UNKNOWN",
 }
 
 export const getProposalStatus = (proposal) => {
