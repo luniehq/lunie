@@ -9,8 +9,7 @@
       >
         <div class="first-column">
           <span class="icon">
-            <img src="https://lunie.fra1.digitaloceanspaces.com/polkadot.png" />
-            <!-- {{ participant.icon || `n/a` }} -->
+            <img :src="currentNetwork.icon" />
           </span>
           <span class="name">{{ getParticipantName(participant) }}</span>
         </div>
@@ -46,6 +45,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import { formatAddress } from "src/filters"
 
 export default {
@@ -64,6 +64,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters([`currentNetwork`]),
     isProposalsPage() {
       return ["Council Members", "Top Voters"].includes(this.title)
         ? true
