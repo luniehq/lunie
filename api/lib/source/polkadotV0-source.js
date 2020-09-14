@@ -378,9 +378,7 @@ class polkadotAPI {
     const { data } = await this.db.query(query)
     const dbRewards = data[`${schema_prefix}_${table}`] || [] // TODO: add a backup plan. If it is not in DB, run the actual function
 
-    const filteredRewards = await this.filterRewards(
-      dbRewards
-    )
+    const filteredRewards = await this.filterRewards(dbRewards)
 
     const rewards = this.reducers.dbRewardsReducer(
       this.store.validators,

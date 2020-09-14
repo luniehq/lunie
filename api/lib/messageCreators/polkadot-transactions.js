@@ -170,10 +170,7 @@ async function ClaimRewardsTx(senderAddress, api, { rewards }) {
       .sort((a, b) => a.height - b.height)
       .forEach((reward) => {
         allClaimingTxs.push(
-          api.tx.staking.payoutStakers(
-            reward.validator,
-            reward.height
-          )
+          api.tx.staking.payoutStakers(reward.validator, reward.height)
         )
       })
   }
