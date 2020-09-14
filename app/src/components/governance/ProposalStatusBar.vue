@@ -19,7 +19,9 @@
     </div>
     <div v-if="status === `Voting Period`">
       <div class="top row">
-        <div class="time">Entered Voting Period on {{ new Date(statusBeginTime).toUTCString() }}</div>
+        <div class="time">
+          Entered Voting Period on {{ new Date(statusBeginTime).toUTCString() }}
+        </div>
         <div>ID: {{ proposal.proposalId }}</div>
       </div>
       <div v-if="voteCount">{{ voteCount }} Votes</div>
@@ -34,8 +36,12 @@
         <div class="row votes">
           <div>Yes Votes: {{ proposal.tally.yes }} {{ stakingDenom }}s</div>
           <div>No Votes: {{ proposal.tally.no }} {{ stakingDenom }}s</div>
-          <div v-if="proposal.tally.veto > 0">Veto Votes: {{ proposal.tally.veto }}</div>
-          <div v-if="proposal.tally.abstain > 0">Abstain Votes: {{ proposal.tally.abstain }}</div>
+          <div v-if="proposal.tally.veto > 0">
+            Veto Votes: {{ proposal.tally.veto }}
+          </div>
+          <div v-if="proposal.tally.abstain > 0">
+            Abstain Votes: {{ proposal.tally.abstain }}
+          </div>
         </div>
       </div>
     </div>
@@ -63,7 +69,7 @@ export default {
     proposal: {
       type: Object,
       required: true,
-    }
+    },
   },
   computed: {
     ...mapGetters([`stakingDenom`]),
@@ -81,7 +87,7 @@ export default {
     },
     depositPercentage() {
       return this.proposal.detailedVotes.percentageDepositsNeeded
-    }
+    },
   },
 }
 </script>
