@@ -13,7 +13,10 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
-    <div class="action-modal-group vote-options">
+    <div
+      class="action-modal-group vote-options"
+      :class="{ secondContainer: numberOfSeconds !== 0 }"
+    >
       <div>
         <TmBtn
           id="vote-yes"
@@ -178,10 +181,20 @@ export default {
   border-color: var(--highlight);
 }
 
+.secondContainer {
+  display: flex !important;
+  justify-content: center;
+  padding: 0 !important;
+  margin: 0 !important;
+  max-width: unset !important;
+}
+
+.action-modal-group.vote-options.secondContainer > div {
+  width: unset;
+  margin: unset;
+}
+
 #vote-yes.second {
-  position: absolute;
-  width: inherit;
-  top: 11rem;
-  left: 8rem;
+  min-width: 15rem;
 }
 </style>
