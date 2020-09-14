@@ -901,7 +901,8 @@ class polkadotAPI {
           return {
             id: voter.address,
             voter,
-            option: `Yes`
+            option: `Yes`,
+            amount: this.reducers.coinReducer(this.network, aye.balance)
           }
         })
         .concat(
@@ -910,7 +911,8 @@ class polkadotAPI {
             return {
               id: voter.address,
               voter,
-              option: `No`
+              option: `No`,
+              amount: this.reducers.coinReducer(this.network, nay.balance)
             }
           })
         )
@@ -1214,10 +1216,7 @@ class polkadotAPI {
       ),
       topVoters: await Promise.all(
         topVoters.map(async (topVoterAddress) => {
-          const accountInfo = await this.getNetworkAccountInfo(
-            topVoterAddress,
-            api
-          )
+          const accountInfo = await api.derive.accounts.info(topVoterAddress)
           return this.reducers.topVoterReducer(
             topVoterAddress,
             electionInfo,
