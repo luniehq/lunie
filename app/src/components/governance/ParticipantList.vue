@@ -35,9 +35,6 @@
             >{{ participant.amount.denom.concat(`s`) }}</span
           >
         </div>
-        <span v-if="!isProposalsPage && participant.time" class="time">{{
-          participant.time
-        }}</span>
       </li>
     </ul>
   </div>
