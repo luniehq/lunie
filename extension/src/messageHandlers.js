@@ -88,7 +88,7 @@ export async function signMessageHandler(
           password,
           polkadotAPI,
           HDPath,
-          curve 
+          curve
         )
         const { tabID } = signRequestQueue.unqueueSignRequest(id)
         sendAsyncResponseToLunie(tabID, {
