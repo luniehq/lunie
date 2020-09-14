@@ -3,7 +3,7 @@
     <div v-if="status.value === governanceStatusEnum.DEPOSITING">
       <div class="top row">
         <div class="time">
-          Entered {{ status.title }} on {{ statusBeginTime }}
+          Entered {{ status.title }} on {{ statusBeginTime | moment }}
         </div>
         <div>ID: {{ proposal.proposalId }}</div>
       </div>
@@ -52,6 +52,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import moment from "moment"
 import { governanceStatusEnum } from "scripts/proposal-status"
 import ProgressBar from "vue-simple-progress"
 
@@ -59,6 +60,9 @@ export default {
   name: `proposal-status-bar`,
   components: {
     ProgressBar,
+  },
+  filters: {
+    moment,
   },
   props: {
     status: {
