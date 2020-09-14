@@ -179,12 +179,12 @@ export default {
     ...mapState([`connection`]),
     ...mapGetters([`currentNetwork`, `stakingDenom`]),
     fundTitle() {
-      return this.currentNetwork.id === `polkadot`
+      return this.currentNetwork.network_type === `polkadot`
         ? `Treasury`
         : `Community Pool`
     },
     participantListTitle() {
-      return this.currentNetwork.id === `polkadot`
+      return this.currentNetwork.network_type === `polkadot`
         ? `Council Members`
         : `Top Voters`
     },
