@@ -57,7 +57,7 @@
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
         :number-of-seconds="
-          isSecond ? Number(proposal.detailedVotes.votesSum) : 0
+          isPolkadotDemocracy ? Number(proposal.detailedVotes.votesSum) : 0
         "
         @success="() => afterVote()"
       />
@@ -140,7 +140,7 @@ export default {
         .filter((value) => value !== `Tally`)
         .find((value) => value)
     },
-    isSecond() {
+    isPolkadotDemocracy() {
       return (
         this.currentNetwork.network_type === `polkadot` &&
         this.status.caption === `Deposit Period`
