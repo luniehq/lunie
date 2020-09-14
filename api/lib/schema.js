@@ -31,11 +31,12 @@ const typeDefs = gql`
   }
 
   type Reward {
-    id: String
-    validator: Validator
-    denom: String
-    amount: String
+    id: String!
+    validator: Validator!
+    denom: String!
+    amount: String!
     fiatValue: FiatValue
+    height: String
   }
 
   type FiatValue {
@@ -256,6 +257,11 @@ const typeDefs = gql`
     denom: String
   }
 
+  input RewardInput {
+    validator: String! # just the address
+    height: Int!
+  }
+
   input TransactionDetailsInput {
     amount: InputCoin
     amounts: [InputCoin]
@@ -272,6 +278,7 @@ const typeDefs = gql`
     lockedBalance: Float
     timeLock: String
     addressRole: String
+    rewards: [RewardInput]
   }
 
   union TransactionDetails =
@@ -326,6 +333,7 @@ const typeDefs = gql`
   type ClaimRewardsTx {
     amounts: [Coin]!
     from: [String]!
+    rewards: [Reward] # Polkadot only
   }
 
   type SubmitProposalTx {
@@ -536,6 +544,7 @@ const typeDefs = gql`
       delegatorAddress: String!
       operatorAddress: String
       fiatCurrency: String
+      withHeight: Boolean
     ): [Reward]
     transactionsV2(
       networkId: String!
