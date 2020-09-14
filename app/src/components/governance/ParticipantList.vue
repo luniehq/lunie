@@ -15,12 +15,12 @@
         </div>
         <span class="voter">{{ participant.address | formatAddress }}</span>
         <div>
-          <span v-if="!isProposalsPage && participant.option" class="option">{{
+          <span v-if="!showAmounts && participant.option" class="option">{{
             participant.option
           }}</span>
         </div>
         <div v-if="
-              !isProposalsPage &&
+              !showAmounts &&
               participant.amount
             ">
           <span class="amount">{{ participant.amount.amount }}</span>
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     ...mapGetters([`currentNetwork`]),
-    isProposalsPage() {
+    showAmounts() {
       return ["Council Members", "Top Voters"].includes(this.title)
         ? true
         : false
