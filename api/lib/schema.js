@@ -64,6 +64,7 @@ const typeDefs = gql`
   }
 
   type Deposit {
+    id: String!
     amount: [Coin]
     depositer: NetworkAccount
   }

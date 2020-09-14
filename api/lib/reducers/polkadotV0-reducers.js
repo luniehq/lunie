@@ -495,6 +495,7 @@ function rewardReducer(network, validators, reward, reducers) {
 
 function depositReducer(deposit, depositer, network) {
   return {
+    id: depositer.address,
     amount: [
       {
         amount: fixDecimalsAndRoundUpBigNumbers(deposit.balance, 6, network),
