@@ -104,7 +104,7 @@ const typeDefs = gql`
     deposit: String # BigNumber
     proposer: NetworkAccount
     validator: Validator
-    beneficiary: String
+    beneficiary: NetworkAccount
     detailedVotes: DetailedVotes
   }
 

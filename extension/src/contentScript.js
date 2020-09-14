@@ -16,7 +16,7 @@ const wrapMessageForLunie = (type, payload) => {
 }
 
 // signal extension availability to Lunie.io
-export function enableExtension() {
+export function signalExtensionAvailable() {
   const message = wrapMessageForLunie('INIT_EXTENSION', {
     extension_enabled: true
   })
@@ -77,23 +77,24 @@ let listener = (event) => {
     window.removeEventListener('message', listener, false)
   }
 }
-function main() {
-  enableExtension()
-  // removing listener
-  window.removeEventListener('message', listener, false)
-  window.addEventListener('message', listener, false)
-}
 const checkIfRequestReceived = () => {
   // retrying in no messages received
-  if (!initExtensionMessageReceived) {
-    main()
-    setTimeout(checkIfRequestReceived, 100)
-  } else {
+  if (initExtensionMessageReceived) {
+    // removing listener
+    window.removeEventListener('message', listener, false)
+
     // initialize default listeners
     listenToExtensionMessages()
     listenToWebsiteMessages()
+
+    // we signal that the extension is available so Lunie knows it can start sending requests
+    signalExtensionAvailable()
+  } else {
+    // if there was no request from Lunie yet, we wait until there is
+    setTimeout(checkIfRequestReceived, 100)
   }
 }
 window.onload = () => {
+  window.addEventListener('message', listener, false)
   checkIfRequestReceived()
 }

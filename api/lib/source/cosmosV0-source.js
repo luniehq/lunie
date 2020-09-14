@@ -435,7 +435,7 @@ class CosmosV0API extends RESTDataSource {
       topVoters: topVoters.map((topVoter) =>
         this.reducers.topVoterReducer(topVoter)
       ),
-      links: JSON.parse(links)
+      links
     }
   }
 

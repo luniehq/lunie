@@ -47,6 +47,22 @@ class polkadotAPI {
     return this.store.identities[address]
   }
 
+  getBlockTime(block) {
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
+    )
+    const blockTimestamp = args[0]
+    return new Date(Number(blockTimestamp)).toUTCString()
+  }
+
+  async getDateForBlockHeight(blockHeight) {
+    const api = await this.getAPI()
+
+    const blockHash = await api.rpc.chain.getBlockHash(blockHeight)
+    const block = await api.rpc.chain.getBlock(blockHash)
+    return this.getBlockTime(block)
+  }
+
   async getBlockHeight() {
     const api = await this.getAPI()
     const block = await api.rpc.chain.getBlock()
@@ -646,8 +662,7 @@ class polkadotAPI {
 
       // get creationTime
       const block = await api.rpc.chain.getBlock(blockHash)
-      const blockCreationTime = await getBlockTime(block)
-      creationTime = blockCreationTime.toUTCString()
+      creationTime = await this.getBlockTime(block)
     }
 
     return {
@@ -677,13 +692,7 @@ class polkadotAPI {
 
     // get creationTime
     const referendumBlockHeight = proposal.image.at
-    const blockHash = await api.rpc.chain.getBlockHash(referendumBlockHeight)
-    const block = await api.rpc.chain.getBlock(blockHash)
-    const args = block.block.extrinsics.map((extrinsic) =>
-      extrinsic.method.args.find((arg) => arg)
-    )
-    const blockTimestamp = args[0]
-    creationTime = new Date(Number(blockTimestamp)).toUTCString()
+    creationTime = await this.getDateForBlockHeight(referendumBlockHeight)
 
     return {
       ...proposal,
@@ -737,7 +746,7 @@ class polkadotAPI {
       proposer: proposal.proposer || proposer, // default to the already existing one if any
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime,
-      beneficiary: proposal.beneficiary
+      beneficiary: await this.getNetworkAccountInfo(proposal.beneficiary, api)
     }
   }
 
@@ -913,12 +922,20 @@ class polkadotAPI {
     )
     const votesSum = proposal.voteCount
     const threshold = await this.getReferendumThreshold(proposal)
-    const proposalDurationInDays = Math.floor(
-      /* proposal duration in seconds. 6s is the average block duration for both Kusama and Polkadot */ (proposal
-        .status.delay *
-        6) /
-        (3600 * 24)
+    const proposalDelayInDays = Math.floor(
+      /* proposal delay is the time that takes for the proposal to open for the voting period.
+        6s is the average block duration for both Kusama and Polkadot */
+      (proposal.status.delay * 6) / (3600 * 24)
     )
+    const proposalTimeSpanInNumberOfBlocks =
+      proposal.status.end - proposal.image.at
+    const proposalTimeSpanInDays = Math.floor(
+      (proposalTimeSpanInNumberOfBlocks * 6) / (3600 * 24)
+    )
+    const proposalEndTime = new Date(
+      new Date(proposal.creationTime).getTime() +
+        proposalTimeSpanInDays * 24 * 60 * 60 * 1000
+    ).toUTCString()
     const totalVotingPower = BigNumber(proposal.status.tally.ayes).plus(
       proposal.status.tally.nays
     )
@@ -953,11 +970,15 @@ class polkadotAPI {
           time: proposal.creationTime
         },
         {
-          title: `Proposal voting period ends`,
+          title: `Voting period opens`,
           time: new Date(
             new Date(proposal.creationTime).getTime() +
-              (proposalDurationInDays - 1) * 24 * 60 * 60 * 1000
+              proposalDelayInDays * 24 * 60 * 60 * 1000
           ).toUTCString()
+        },
+        {
+          title: `Proposal voting period ends`,
+          time: proposalEndTime
         }
       ],
       council: false
@@ -1097,7 +1118,10 @@ class polkadotAPI {
                 ...proposalWithMetadata,
                 index: proposal.id,
                 deposit: proposal.proposal.bond,
-                beneficiary: proposal.proposal.beneficiary
+                beneficiary: await this.getNetworkAccountInfo(
+                  proposal.beneficiary,
+                  api
+                )
               },
               councilMembers,
               blockHeight,
@@ -1211,14 +1235,6 @@ class polkadotAPI {
       links
     }
   }
-}
-
-async function getBlockTime(block) {
-  const args = block.block.extrinsics.map((extrinsic) =>
-    extrinsic.method.args.find((arg) => arg)
-  )
-  const blockTimestamp = args[0]
-  return new Date(Number(blockTimestamp))
 }
 
 module.exports = polkadotAPI

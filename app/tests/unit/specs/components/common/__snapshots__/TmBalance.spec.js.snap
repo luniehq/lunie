@@ -118,6 +118,8 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
       </div>
     </div>
      
+    <!---->
+     
     <tablebalances-stub
       balances="[object Object]"
       totalrewardsperdenom="[object Object]"
@@ -259,6 +261,8 @@ exports[`TmBalance show the balance header when signed in 1`] = `
         </div>
       </div>
     </div>
+     
+    <!---->
      
     <tablebalances-stub
       balances="[object Object],[object Object]"
