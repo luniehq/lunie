@@ -14,7 +14,7 @@
       <aside class="supporting-links">
         <h4>Supporting Links</h4>
         <ul v-if="supportingLinks">
-          <li v-for="link in supportingLinks" :key="link.url">
+          <li v-for="link in supportingLinks" :key="link.link">
             <a :href="link.link" target="_blank" rel="noopener norefferer">{{
               link.title
             }}</a>
