@@ -14,16 +14,9 @@
       <ProposalStatusBar
         v-if="tallyHasValues"
         :status="status.caption"
-        :status-begin-time="new Date(proposal.statusBeginTime).toUTCString()"
+        :status-begin-time="proposal.statusBeginTime"
         :total-votes="proposal.tally.total"
-        :proposal-id="proposal.proposalId"
-        :vote-percentage="proposal.tally.totalVotedPercentage"
-        :yes-votes="Number(proposal.tally.yes)"
-        :no-votes="Number(proposal.tally.no)"
-        :veto-votes="Number(proposal.tally.veto)"
-        :abstain-votes="Number(proposal.tally.abstain)"
-        :deposit-total="proposal.detailedVotes.depositsSum"
-        :deposit-percentage="proposal.detailedVotes.percentageDepositsNeeded"
+        :proposal="proposal"
       />
 
       <ParticipantList v-if="participants" :participants="participants" />

@@ -3,7 +3,7 @@
     <div v-if="status === `Deposit Period`">
       <div class="top row">
         <div class="time">Entered Deposit Period on {{ statusBeginTime }}</div>
-        <div>ID: {{ proposalId }}</div>
+        <div>ID: {{ proposal.proposalId }}</div>
       </div>
       <div v-if="depositCount">{{ depositCount }} Deposits</div>
       <ProgressBar
@@ -19,8 +19,8 @@
     </div>
     <div v-if="status === `Voting Period`">
       <div class="top row">
-        <div class="time">Entered Voting Period on {{ statusBeginTime }}</div>
-        <div>ID: {{ proposalId }}</div>
+        <div class="time">Entered Voting Period on {{ new Date(statusBeginTime).toUTCString() }}</div>
+        <div>ID: {{ proposal.proposalId }}</div>
       </div>
       <div v-if="voteCount">{{ voteCount }} Votes</div>
       <ProgressBar
@@ -32,10 +32,10 @@
       <div class="bottom row">
         <div>{{ votePercentage + `%` }} of {{ stakingDenom }}s</div>
         <div class="row votes">
-          <div>Yes Votes: {{ yesVotes }} {{ stakingDenom }}s</div>
-          <div>No Votes: {{ noVotes }} {{ stakingDenom }}s</div>
-          <div v-if="vetoVotes > 0">Veto Votes: {{ vetoVotes }}</div>
-          <div v-if="abstainVotes > 0">Abstain Votes: {{ abstainVotes }}</div>
+          <div>Yes Votes: {{ proposal.tally.yes }} {{ stakingDenom }}s</div>
+          <div>No Votes: {{ proposal.tally.no }} {{ stakingDenom }}s</div>
+          <div v-if="proposal.tally.veto > 0">Veto Votes: {{ proposal.tally.veto }}</div>
+          <div v-if="proposal.tally.abstain > 0">Abstain Votes: {{ proposal.tally.abstain }}</div>
         </div>
       </div>
     </div>
@@ -60,53 +60,28 @@ export default {
       type: String,
       default: `n/a`,
     },
-    proposalId: {
-      type: String,
-      default: `n/a`,
-    },
-    depositCount: {
-      type: String,
-      default: null,
-    },
-    voteCount: {
-      type: String,
-      default: null,
-    },
-    depositPercentage: {
-      type: String,
-      default: "0",
-    },
-    votePercentage: {
-      type: Number,
-      default: 0,
-    },
-    depositTotal: {
-      type: String,
-      default: `n/a`,
-    },
-    voteTotal: {
-      type: String,
-      default: `n/a`,
-    },
-    yesVotes: {
-      type: Number,
+    proposal: {
+      type: Object,
       required: true,
-    },
-    noVotes: {
-      type: Number,
-      required: true,
-    },
-    vetoVotes: {
-      type: Number,
-      default: 0,
-    },
-    abstainVotes: {
-      type: Number,
-      default: 0,
-    },
+    }
   },
   computed: {
     ...mapGetters([`stakingDenom`]),
+    voteCount() {
+      return this.proposal.detailedVotes.votesSum
+    },
+    votePercentage() {
+      return this.proposal.tally.totalVotedPercentage
+    },
+    depositCount() {
+      return this.proposal.detailedVotes.deposits.length
+    },
+    depositTotal() {
+      return this.proposal.detailedVotes.depositsSum
+    },
+    depositPercentage() {
+      return this.proposal.detailedVotes.percentageDepositsNeeded
+    }
   },
 }
 </script>
