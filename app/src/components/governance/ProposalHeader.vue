@@ -23,7 +23,7 @@
           </div>
           <TmBtn
             v-if="
-              status.caption === 'Deposit Period' &&
+              status.value === governanceStatusEnum.DEPOSITING &&
               currentNetwork.network_type === 'cosmos'
             "
             id="deposit-btn"
@@ -34,13 +34,13 @@
           <TmBtn
             v-if="
               type !== `TREASURY` &&
-              (status.caption === 'Voting Period' ||
+              (status.value === governanceStatusEnum.VOTING ||
                 currentNetwork.network_type === 'polkadot')
             "
             id="vote-btn"
             :value="
               currentNetwork.network_type === `polkadot` &&
-              status.caption === 'Deposit Period'
+              status.value === governanceStatusEnum.DEPOSITING
                 ? `Second`
                 : `Vote`
             "
@@ -80,6 +80,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { governanceStatusEnum } from "scripts/proposal-status"
 import BackButton from "common/BackButton"
 import { formatAddress } from "src/filters"
 import Status from "common/Status"
@@ -115,6 +116,7 @@ export default {
   },
   data: () => ({
     copySuccess: false,
+    governanceStatusEnum,
   }),
   computed: {
     ...mapGetters([`currentNetwork`]),

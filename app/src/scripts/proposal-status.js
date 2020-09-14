@@ -1,28 +1,41 @@
+export const governanceStatusEnum = {
+  PASSED: 'PASSED',
+  REJECTED: 'REJECTED',
+  DEPOSITING: 'DEPOSITING',
+  VOTING: 'VOTING',
+  UNKNOWN: 'UNKNOWN'
+}
+
 export const getProposalStatus = (proposal) => {
   switch (proposal.status) {
     case `Passed`:
       return {
-        caption: `Passed`,
+        title: `Passed`,
+        value: governanceStatusEnum.PASSED,
         color: `green`,
       }
     case `Rejected`:
       return {
-        caption: `Rejected`,
+        title: `Rejected`,
+        value: governanceStatusEnum.REJECTED,
         color: `red`,
       }
     case `DepositPeriod`:
       return {
-        caption: `Deposit Period`,
+        title: `Deposit Period`,
+        value: governanceStatusEnum.DEPOSITING,
         color: `orange`,
       }
     case `VotingPeriod`:
       return {
-        caption: `Voting Period`,
+        title: `Voting Period`,
+        value: governanceStatusEnum.VOTING,
         color: `highlight`,
       }
     default:
       return {
-        caption: `Error`,
+        title: `Error`,
+        value: governanceStatusEnum.UNKNOWN,
         color: `grey`,
       }
   }

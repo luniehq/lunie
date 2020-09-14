@@ -13,7 +13,7 @@
 
       <ProposalStatusBar
         v-if="tallyHasValues"
-        :status="status.caption"
+        :status="status"
         :status-begin-time="proposal.statusBeginTime"
         :total-votes="proposal.tally.total"
         :proposal="proposal"
@@ -42,7 +42,7 @@
       <ModalVoteSubstrate
         v-if="
           currentNetwork.network_type === `polkadot` &&
-          status.caption !== `Deposit Period`
+          status.value !== governanceStatusEnum.DEPOSITING
         "
         ref="modalVote"
         :proposal-id="proposal.proposalId"
@@ -68,6 +68,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { percent, prettyInt } from "scripts/num"
+import { governanceStatusEnum } from "scripts/proposal-status"
 import { date, fromNow } from "src/filters"
 import TmDataNotFound from "common/TmDataNotFound"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
@@ -126,6 +127,7 @@ export default {
     error: undefined,
     found: false,
     loaded: false,
+    governanceStatusEnum,
   }),
   computed: {
     ...mapGetters([`address`, `network`, `currentNetwork`]),
@@ -143,7 +145,7 @@ export default {
     isPolkadotDemocracy() {
       return (
         this.currentNetwork.network_type === `polkadot` &&
-        this.status.caption === `Deposit Period`
+        this.status.value === governanceStatusEnum.DEPOSITING
       )
     },
     participants() {

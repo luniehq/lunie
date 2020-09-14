@@ -1,6 +1,6 @@
 <template>
   <section class="status-bar">
-    <div v-if="status === `Deposit Period`">
+    <div v-if="status.value === governanceStatusEnum.DEPOSITING">
       <div class="top row">
         <div class="time">Entered Deposit Period on {{ statusBeginTime }}</div>
         <div>ID: {{ proposal.proposalId }}</div>
@@ -50,6 +50,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { governanceStatusEnum } from "scripts/proposal-status"
 import ProgressBar from "vue-simple-progress"
 
 export default {
@@ -59,7 +60,7 @@ export default {
   },
   props: {
     status: {
-      type: String,
+      type: Object,
       required: true,
     },
     statusBeginTime: {
@@ -71,6 +72,9 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    governanceStatusEnum,
+  }),
   computed: {
     ...mapGetters([`stakingDenom`]),
     voteCount() {
