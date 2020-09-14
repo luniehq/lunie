@@ -137,14 +137,17 @@ describe(`ModalWithdrawRewards`, () => {
   })
 
   describe("Submission Data for Delegating", () => {
-    it("should return correct transaction data for delegating", () => {
+    it("should return correct transaction data for withdrawing in Cosmos", async () => {
       expect(
-        ModalWithdrawRewards.computed.transactionData.call({
+        await ModalWithdrawRewards.asyncComputed.transactionData.call({
           totalRewards: [
             { amount: 4, denom: "NOTSTAKE" },
             { amount: 1.5, denom: "STAKE" },
           ],
           top5Validators: ["cosmosvaloper12", "cosmosvaloper13"],
+          currentNetwork: {
+            network_type: "cosmos"
+          }
         })
       ).toEqual({
         type: "ClaimRewardsTx",
@@ -162,11 +165,44 @@ describe(`ModalWithdrawRewards`, () => {
       })
     })
 
+    it("should return correct transaction data for withdrawing in Polkadot", async () => {
+      expect(
+        await ModalWithdrawRewards.asyncComputed.transactionData.call({
+          totalRewards: [
+            { amount: 1.5, denom: "STAKE" },
+          ],
+          currentNetwork: {
+            network_type: "polkadot"
+          },
+          getPolkadotRewards() {
+            return [{ validator: "12345", height: "87"}]
+          },
+          getPolkadotValidators: ModalWithdrawRewards.methods.getPolkadotValidators
+        })
+      ).toEqual({
+        type: "ClaimRewardsTx",
+        amounts: [
+          {
+            amount: 1.5,
+            denom: "STAKE",
+          },
+        ],
+        from: ["12345"],
+        rewards: [{ validator: "12345", height: "87"}]
+      })
+    })
+
     it("should return correct notification message for delegating", () => {
       expect(wrapper.vm.notifyMessage).toEqual({
         title: `Successful withdrawal!`,
         body: `You have successfully withdrawn your rewards.`,
       })
+    })
+
+    it("should get validators from rewards objects", () => {
+      expect(ModalWithdrawRewards.methods.getPolkadotValidators(
+        [{ validator: "12345", height: "87"}, { validator: "AB345", height: "88"}]
+      )).toEqual(["12345", "AB345"])
     })
   })
 })
