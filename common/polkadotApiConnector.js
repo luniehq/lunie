@@ -4,10 +4,11 @@ let polkadotAPIs = {}
 
 export async function getPolkadotAPI(polkadotNetwork) {
   if (!polkadotAPIs[polkadotNetwork.id]) {
-    const { WsProvider, ApiPromise } = await import('@polkadot/api')
+    const { ApiPromise } = await import('@polkadot/api')
+    const { HttpProvider } = await import('@polkadot/rpc-provider')
     const endpoint = polkadotNetwork.rpc_url
-    const polkadotAPI = new ApiPromise({
-      provider: new WsProvider(endpoint)
+    const polkadotAPI = ApiPromise.create({
+      provider: new HttpProvider(endpoint.replace('wss', 'https').replace('/rpc', '/httprpc'))
     })
     // store it in the polkadotAPIs Object for a later use
     polkadotAPIs[polkadotNetwork.id] = polkadotAPI
