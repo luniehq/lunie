@@ -360,7 +360,6 @@ class polkadotAPI {
       allStakingLedgers[stashId] = result.stakingLedger.claimedRewards
     }
 
-    // console.log(JSON.stringify(allStakingLedgers, null, 2))
     return allStakingLedgers
   }
 
@@ -379,7 +378,6 @@ class polkadotAPI {
         !stakingLedgers[validator].includes(Number(era))
       )
     })
-    // console.log(rewards, filteredRewards)
 
     return filteredRewards
   }
