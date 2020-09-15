@@ -18,6 +18,7 @@ const config = require('../../config.js')
 
 const POLLING_INTERVAL = 1000
 const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
+const PROPOSAL_POLLING_INTERVAL = 600000 // 10min
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
@@ -35,9 +36,11 @@ class PolkadotNodeSubscription {
     this.currentEra = 0
     this.blockQueue = []
     this.chainId = this.network.chain_id
+
     this.subscribeForNewBlock()
     // start one minute loop to update networks
     this.pollForUpdateNetworks()
+    if (network.feature_proposals === 'ENABLED') this.pollForProposalChanges()
   }
 
   // here we init the polkadot rpc once for all processes
@@ -120,6 +123,18 @@ class PolkadotNodeSubscription {
     this.updateNetworksPollingTimeout = setTimeout(async () => {
       this.pollForUpdateNetworks()
     }, UPDATE_NETWORKS_POLLING_INTERVAL)
+  }
+
+  async pollForProposalChanges() {
+    if (this.validators.length > 0) {
+      this.store.update({
+        proposals: await this.polkadotAPI.getAllProposals(this.validators)
+      })
+    }
+
+    this.proposalPollingTimeout = setTimeout(async () => {
+      this.pollForProposalChanges()
+    }, PROPOSAL_POLLING_INTERVAL)
   }
 
   // For each block event, we fetch the block information and publish a message.
