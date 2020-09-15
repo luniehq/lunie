@@ -1,6 +1,7 @@
 const BigNumber = require('bignumber.js')
 const { encodeB32, decodeB32 } = require('../tools')
 const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
+const { getProposalSummary } = require('./common')
 /**
  * Modify the following reducers with care as they are used for ./cosmosV2-reducer.js as well
  * [proposalBeginTime, proposalEndTime, getDeposit, tallyReducer, atoms, getValidatorStatus, coinReducer]
@@ -190,6 +191,7 @@ function proposalReducer(
 ) {
   return {
     id: Number(proposal.proposal_id),
+    proposalId: String(proposal.proposal_id),
     networkId,
     type: proposal.proposal_content.type,
     title: proposal.proposal_content.value.title,

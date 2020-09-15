@@ -35,7 +35,7 @@
     "@dicebear/avatars-jdenticon-sprites": "4.1.1",
     "@lunie/cosmos-keys": "0.3.1",
     "@lunie/cosmos-ledger": "0.1.8",
-    "@polkadot/api": "1.32.1",
+    "@polkadot/api": "1.33.1",
     "@polkadot/util-crypto": "3.3.1",
     "@sentry/browser": "5.17.0",
     "@sentry/integrations": "5.19.2",
@@ -129,8 +129,8 @@
     "stylelint-webpack-plugin": "2.1.0",
     "vue-jest": "3.0.5",
     "vue-template-compiler": "^2.6.12",
-    "webdriverio": "6.1.19",
-    "webpack": "4.44.0",
+    "webdriverio": "6.5.0",
+    "webpack": "4.44.1",
     "webpack-bundle-analyzer": "3.8.0"
   },
   "husky": {
