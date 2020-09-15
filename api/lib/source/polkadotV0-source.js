@@ -389,23 +389,7 @@ class polkadotAPI {
         'Rewards are only queryable per height in Polkadot networks'
       )
     }
-    const schema_prefix = this.network.id.replace(/-/, '_')
-    const table = 'rewards'
-    // TODO would be cool to aggregate the rows in the db already, didn't find how to
-    const query = `
-        query {
-          ${schema_prefix}_${table}(where:{address:{_eq: "${delegatorAddress}"}}) {
-            address
-            validator
-            amount
-            denom
-            height
-          }
-        }
-      `
-    const { data } = await this.db.query(query)
-    const dbRewards = data[`${schema_prefix}_${table}`] || [] // TODO: add a backup plan. If it is not in DB, run the actual function
-
+    const dbRewards = await this.db.getRewards(delegatorAddress) || []
     const filteredRewards = await this.filterRewards(dbRewards)
 
     const rewards = this.reducers.dbRewardsReducer(

@@ -218,6 +218,8 @@ function getMessageType(section, method) {
   switch (`${section}.${method}`) {
     case 'balances.transfer':
       return lunieMessageTypes.SEND
+    case 'staking.payoutStakers':
+      return lunieMessageTypes.CLAIM_REWARDS
     case 'lunie.staking':
       return lunieMessageTypes.STAKE
     default:
@@ -426,12 +428,22 @@ function stakeDetailsReducer(network, message, reducers) {
   }
 }
 
-function extractInvolvedAddresses(lunieTransactionType, signer, message) {
+function extractInvolvedAddresses(lunieTransactionType, signer, message, db) {
   let involvedAddresses = []
   if (lunieTransactionType === lunieMessageTypes.SEND) {
     involvedAddresses = involvedAddresses.concat([signer, message.args[0]])
   } else if (lunieTransactionType === lunieMessageTypes.STAKE) {
     involvedAddresses = involvedAddresses.concat([signer], message.validators)
+  } else if (lunieTransactionType === lunieMessageTypes.CLAIM_REWARDS) {
+    // the rewards claiming happens for all delegators so we get the rewards for the claimed era and extract all addresses from there
+    const dbRewards = await db.getRewards(delegatorAddress) || []
+    const involvedRwards = dbRewards.filter(({height, validator}) => {
+      return height === String(message.args[1]) && validator === message.args[0]
+    })
+    involvedAddresses = involvedAddresses.concat([signer], involvedRwards.map(({address}) => address))
+    if (involvedRwards.length > 0) {
+      involvedAddresses = involvedAddresses.concat(involvedRwards[0].validator)
+    }
   } else {
     involvedAddresses = involvedAddresses.concat([signer])
   }

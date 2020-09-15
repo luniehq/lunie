@@ -6,7 +6,7 @@ const {
   publishEvent: publishEvent
 } = require('../subscriptions')
 const {
-  lunieMessageTypes: { SEND }
+  lunieMessageTypes: { SEND, CLAIM_REWARDS }
 } = require('../message-types.js')
 const {
   eventTypes,
@@ -209,6 +209,16 @@ class PolkadotNodeSubscription {
               this.network.id,
               resourceTypes.TRANSACTION,
               eventType,
+              involvedAddress,
+              tx
+            )
+          }
+
+          if (tx.type === CLAIM_REWARDS) {
+            publishEvent(
+              this.network.id,
+              resourceTypes.TRANSACTION,
+              eventTypes.TRANSACTION_CLAIM,
               involvedAddress,
               tx
             )

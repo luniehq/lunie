@@ -479,6 +479,19 @@ const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
   return data[0]
 }
 
+const getRewards = ({ hasura_url, hasura_admin_key }) => (schema) => async (delegatorAddress) => {
+  const data = await read({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(
+    `rewards`,
+    `rewards`,
+    ['address', 'validator', 'amount', 'denom', 'height'],
+    `where:{address:{_eq: "${delegatorAddress}"}}`
+  )
+  return data
+}
+
 module.exports = {
   incrementValidatorViews,
   getValidatorsViews,
@@ -498,5 +511,6 @@ module.exports = {
   storeNotificationRegistrations,
   getNotificationRegistrations,
   storeAndGetNewSession,
-  getSession
+  getSession,
+  getRewards
 }

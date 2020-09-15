@@ -8,6 +8,7 @@ const eventTypes = {
   /* Transactions */
   TRANSACTION_RECEIVE: 'transactionReceive',
   TRANSACTION_SEND: 'transactionSend',
+  TRANSACTION_CLAIM: 'transactionClaim',
 
   /* Validators */
   VALIDATOR_ADDED: 'validatorAdded',
