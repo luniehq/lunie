@@ -7,7 +7,7 @@ const Sentry = require('@sentry/node')
 const database = require('../database')
 const config = require('../../config.js')
 const {
-  lunieMessageTypes: { SEND }
+  lunieMessageTypes: { SEND, CLAIM_REWARDS }
 } = require('../message-types.js')
 const {
   eventTypes,
