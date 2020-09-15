@@ -530,12 +530,9 @@ class polkadotAPI {
   async getUndelegationsForDelegatorAddress(address) {
     const api = await this.getAPI()
 
-    const [stakingLedger, progress, currentEra] = await Promise.all([
+    const [stakingLedger, progress] = await Promise.all([
       api.query.staking.ledger(address),
-      api.derive.session.progress(),
-      api.query.staking.activeEra().then(async (era) => {
-        return era.toJSON().index
-      })
+      api.derive.session.progress()
     ])
     if (!stakingLedger.toJSON()) {
       return []
