@@ -1,10 +1,5 @@
 <template>
-  <div
-    v-infinite-scroll="loadMore"
-    infinite-scroll-disabled="doNotLoad"
-    infinite-scroll-distance="80"
-    class="participant-container"
-  >
+  <div class="participant-container">
     <h4>{{ title }}</h4>
     <ul>
       <li
@@ -35,7 +30,7 @@
         id="loadMoreBtn"
         value="Load More"
         type="secondary"
-        @click.native="loadABit"
+        @click.native="loadMore"
       />
     </div>
   </div>
@@ -67,7 +62,6 @@ export default {
   data: () => ({
     showing: 5,
     maxReached: false,
-    doNotLoad: true,
   }),
   computed: {
     ...mapGetters([`currentNetwork`]),
@@ -98,19 +92,7 @@ export default {
         ) {
           this.maxReached = true
         }
-
-        // preload next transactions before scroll end and check if last loading loads new records
-        if (
-          this.showing > this.participants.length - 100 &&
-          this.moreAvailable
-        ) {
-          this.$emit("loadMore")
-        }
       }
-    },
-    loadABit() {
-      this.doNotLoad = false
-      setTimeout(() => (this.doNotLoad = true), 10)
     },
   },
 }
