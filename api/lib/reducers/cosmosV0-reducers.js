@@ -433,6 +433,7 @@ async function balanceV2Reducer(
     denom: lunieCoin.denom,
     fiatValue: fiatValue[lunieCoin.denom],
     available: lunieCoin.amount,
+    staked: delegatedStake.amount,
     availableFiatValue: availableFiatValue[stakingDenom]
   }
 }
