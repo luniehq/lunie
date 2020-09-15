@@ -30,12 +30,14 @@
         </div>
       </li>
     </ul>
-    <TmBtn
-      id="loadMoreBtn"
-      value="Load More"
-      type="secondary"
-      @click.native="loadABit"
-    />
+    <div v-if="moreAvailable" class="loadmore-button-container">
+      <TmBtn
+        id="loadMoreBtn"
+        value="Load More"
+        type="secondary"
+        @click.native="loadABit"
+      />
+    </div>
   </div>
 </template>
 
@@ -174,5 +176,10 @@ h4 {
 .icon,
 .option {
   margin-right: 1rem;
+}
+
+.loadmore-button-container {
+  display: flex;
+  justify-content: center;
 }
 </style>
