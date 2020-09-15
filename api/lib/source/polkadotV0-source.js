@@ -798,6 +798,10 @@ class polkadotAPI {
       })
     )
     const votesSum = proposal.seconds.length
+    const percentageDepositsNeeded = BigNumber(depositsSum)
+      .times(100)
+      .div(toViewDenom(this.network, api.consts.democracy.minimumDeposit))
+      .toNumber()
     return {
       deposits,
       depositsSum,
@@ -805,6 +809,7 @@ class polkadotAPI {
       votesSum,
       votingPercentageYes: `100`,
       votingPercentagedNo: `0`,
+      percentageDepositsNeeded,
       links,
       timeline: [{ title: `Proposal created`, time: proposal.creationTime }],
       council: false
