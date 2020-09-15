@@ -428,7 +428,7 @@ function stakeDetailsReducer(network, message, reducers) {
   }
 }
 
-function extractInvolvedAddresses(lunieTransactionType, signer, message, db) {
+async function extractInvolvedAddresses(lunieTransactionType, signer, message, db) {
   let involvedAddresses = []
   if (lunieTransactionType === lunieMessageTypes.SEND) {
     involvedAddresses = involvedAddresses.concat([signer, message.args[0]])
