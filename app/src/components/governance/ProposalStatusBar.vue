@@ -15,7 +15,7 @@
         bar-color="var(--highlight)"
       />
       <div class="bottom row">
-        <div>{{ depositPercentage + `%` }}</div>
+        <div>{{ depositPercentage ? depositPercentage + `%` : '' }}</div>
         <div>{{ depositTotal }}</div>
       </div>
     </div>
