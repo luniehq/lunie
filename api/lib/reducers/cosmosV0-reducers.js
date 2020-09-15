@@ -137,6 +137,7 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
 
 function depositReducer(deposit, network) {
   return {
+    id: deposit.depositor,
     amount: [coinReducer(deposit.amount[0], undefined, network)],
     depositer: networkAccountReducer(deposit.depositor)
   }
@@ -144,7 +145,7 @@ function depositReducer(deposit, network) {
 
 function voteReducer(vote) {
   return {
-    id: String(vote.proposal_id),
+    id: String(vote.proposal_id.concat(`_${vote.voter}`)),
     voter: networkAccountReducer(vote.voter),
     option: vote.option
   }
