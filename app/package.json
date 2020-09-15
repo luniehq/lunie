@@ -129,7 +129,7 @@
     "vue-jest": "3.0.5",
     "vue-template-compiler": "^2.6.12",
     "webdriverio": "6.1.19",
-    "webpack": "4.44.0",
+    "webpack": "4.44.1",
     "webpack-bundle-analyzer": "3.8.0"
   },
   "husky": {
