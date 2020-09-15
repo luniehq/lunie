@@ -163,5 +163,6 @@ h4 {
 .loadmore-button-container {
   display: flex;
   justify-content: center;
+  margin: 2rem 0 0;
 }
 </style>
