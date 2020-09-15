@@ -25,12 +25,12 @@ const PROPOSAL_POLLING_INTERVAL = 600000 // 10min
 class PolkadotNodeSubscription {
   constructor(network, PolkadotApiClass, store) {
     this.network = network
-    this.polkadotAPI = new PolkadotApiClass(network, store)
     this.store = store
     this.validators = []
     this.sessionValidators = []
     const networkSchemaName = this.network.id.replace(/-/g, '_')
     this.db = new database(config)(networkSchemaName)
+    this.polkadotAPI = new PolkadotApiClass(network, store, undefined, this.db)
     this.height = 0
     this.currentSessionIndex = 0
     this.currentEra = 0
@@ -40,7 +40,10 @@ class PolkadotNodeSubscription {
     this.subscribeForNewBlock()
     // start one minute loop to update networks
     this.pollForUpdateNetworks()
-    if (network.feature_proposals === 'ENABLED') this.pollForProposalChanges()
+    this.store.dataReady.then(() => {
+      // we need to wait to poll for proposals as they need the validators
+      if (network.feature_proposals === 'ENABLED') this.pollForProposalChanges()
+    })
   }
 
   // here we init the polkadot rpc once for all processes
@@ -126,11 +129,9 @@ class PolkadotNodeSubscription {
   }
 
   async pollForProposalChanges() {
-    if (this.validators.length > 0) {
-      this.store.update({
-        proposals: await this.polkadotAPI.getAllProposals(this.validators)
-      })
-    }
+    this.store.update({
+      proposals: await this.polkadotAPI.getAllProposals(this.validators)
+    })
 
     this.proposalPollingTimeout = setTimeout(async () => {
       this.pollForProposalChanges()
