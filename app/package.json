@@ -128,7 +128,7 @@
     "stylelint-webpack-plugin": "2.1.0",
     "vue-jest": "3.0.5",
     "vue-template-compiler": "^2.6.12",
-    "webdriverio": "6.1.19",
+    "webdriverio": "6.5.0",
     "webpack": "4.44.0",
     "webpack-bundle-analyzer": "3.8.0"
   },
