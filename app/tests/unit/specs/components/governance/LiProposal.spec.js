@@ -39,7 +39,8 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      badge: `Passed`,
+      title: `Passed`,
+      value: `PASSED`,
       color: `green`,
     })
   })
@@ -52,7 +53,8 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      badge: `Rejected`,
+      title: `Rejected`,
+      value: `REJECTED`,
       color: `red`,
     })
   })
@@ -65,8 +67,9 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      badge: `Voting Period`,
-      color: `pink`,
+      title: `Voting Period`,
+      value: `VOTING`,
+      color: `highlight`,
     })
   })
 
@@ -78,7 +81,8 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      badge: `Deposit Period`,
+      title: `Deposit Period`,
+      value: `DEPOSITING`,
       color: `orange`,
     })
   })
@@ -91,31 +95,10 @@ describe(`LiProposal`, () => {
       },
     })
     expect(wrapper.vm.status).toEqual({
-      badge: `Error`,
+      title: `Error`,
+      value: `UNKNOWN`,
       color: `grey`,
     })
-  })
-
-  it(`should not truncate the description or add an ellipsis`, () => {
-    wrapper.setProps({
-      proposal: {
-        ...proposal,
-        description: `Proposal description`,
-      },
-    })
-    expect(wrapper.html()).toContain(`Proposal description`)
-  })
-
-  it(`should truncate the description and add an ellipsis`, () => {
-    wrapper.setProps({
-      proposal: {
-        ...proposal,
-        description: `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation.`,
-      },
-    })
-    expect(wrapper.html()).toContain(
-      `This is some kind of long description. longer than 200 characters for optimum-maximum-ideal truncation. This is some kind of long description. longer than 200 characters for optimum-maximum-ideal trun…`
-    )
   })
 
   it(`should survive the tally result not being present yet`, () => {

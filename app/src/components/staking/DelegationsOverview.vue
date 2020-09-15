@@ -14,6 +14,7 @@
       <div v-else-if="delegations.length > 0 || stakedBalance.total > 0">
         <h1>Your Stake</h1>
         <BalanceRow
+          v-if="stakedBalance.total > 0"
           :balance="stakedBalance"
           :total-rewards-per-denom="totalRewardsPerDenom"
           :stake="currentNetwork.network_type === 'polkadot'"
