@@ -1,7 +1,7 @@
 <template>
   <section class="status-bar">
     <div v-if="status.value === governanceStatusEnum.DEPOSITING">
-      <div class="top row">
+      <div v-if="statusBeginTime" class="top row">
         <div class="time">
           Entered {{ status.title }} on {{ statusBeginTime | moment }}
         </div>
