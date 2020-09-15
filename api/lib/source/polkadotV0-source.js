@@ -13,7 +13,6 @@ const {
 } = require('@polkassembly/util')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
-const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
 
 class polkadotAPI {
   constructor(network, store, fiatValuesAPI, db) {
@@ -538,13 +537,10 @@ class polkadotAPI {
       return []
     }
     const allUndelegations = stakingLedger.toJSON().unlocking
-    const currentUndelegations = allUndelegations.filter(
-      ({ era }) => era >= currentEra
-    )
     // each hour in both Kusama and Polkadot has 600 slots, one block per slot maximum
     const eraBlocks = (24 * 600) / this.network.erasPerDay
 
-    const undelegationsWithEndTime = currentUndelegations.map(
+    const undelegationsWithEndTime = allUndelegations.map(
       (undelegation) => {
         const remainingEras = undelegation.era - progress.activeEra
         const remainingBlocks = BigNumber(remainingEras)
