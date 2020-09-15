@@ -2,15 +2,16 @@ const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
 const { stringToU8a } = require('@polkadot/util')
-const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const Sentry = require('@sentry/node')
-
-const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
-const { toViewDenom } = require('../../common/numbers')
+const fetch = require('node-fetch')
 const {
   getPassingThreshold,
   getFailingThreshold
 } = require('@polkassembly/util')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
+const config = require('../../config.js')
+const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
+const { toViewDenom } = require('../../common/numbers')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
@@ -34,6 +35,44 @@ class polkadotAPI {
     const api = this.store.polkadotRPC
     await api.isReady
     return api
+  }
+
+  async newBlockHandler() {
+    const api = await this.getAPI()
+    const era = await api.query.staking.activeEra().then(async (era) => {
+      return era.toJSON().index
+    })
+    const { era: currentEra } = this.store.data
+    if (currentEra < era || !currentEra) {
+      console.log(
+        `\x1b[36mCurrent staking era is ${era}, fetching rewards!\x1b[0m`
+      )
+      this.store.update({
+        data: {
+          era
+        }
+      })
+
+      console.log(
+        'Starting Polkadot rewards script on',
+        config.scriptRunnerEndpoint
+      )
+      // runs async, we don't need to wait for this
+      fetch(`${config.scriptRunnerEndpoint}/polkadotrewards`, {
+        method: 'POST',
+        headers: {
+          Authorization: config.scriptRunnerAuthenticationToken,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          era,
+          networkId: this.network.id
+        })
+      }).catch((error) => {
+        console.error('Failed running Polkadot rewards script', error)
+        Sentry.captureException(error)
+      })
+    }
   }
 
   async getNetworkAccountInfo(address, api) {
