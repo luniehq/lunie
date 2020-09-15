@@ -1,9 +1,13 @@
 <template>
-  <div class="participant-container">
+  <div
+    v-infinite-scroll="loadMore"
+    infinite-scroll-distance="80"
+    class="participant-container"
+  >
     <h4>{{ title }}</h4>
     <ul>
       <li
-        v-for="(participant, index) in participants"
+        v-for="(participant, index) in showingParticipants"
         :key="index"
         class="participant"
       >
@@ -47,18 +51,48 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    showing: 30,
+    maxReached: false,
+  }),
   computed: {
     ...mapGetters([`currentNetwork`]),
+    showingParticipants() {
+      return this.participants.slice(0, this.showing)
+    },
     showAmounts() {
       return ["Council Members", "Top Voters"].includes(this.title)
         ? true
         : false
+    },
+    moreAvailable() {
+      return this.showingParticipants.length < this.participants.length
     },
   },
   methods: {
     getParticipantName(participant) {
       const name = participant.name
       return name.length > 25 ? formatAddress(name) : name || `n/a`
+    },
+    loadMore() {
+      if (!this.maxReached) {
+        this.showing += 30
+
+        if (
+          this.showing > this.participants.length - 100 &&
+          !this.moreAvailable
+        ) {
+          this.maxReached = true
+        }
+
+        // preload next transactions before scroll end and check if last loading loads new records
+        if (
+          this.showing > this.participants.length - 100 &&
+          this.moreAvailable
+        ) {
+          this.$emit("loadMore")
+        }
+      }
     },
   },
 }
@@ -94,7 +128,7 @@ h4 {
 .participant div {
   display: flex;
   align-items: center;
-  width: 2rem;
+  width: 5rem;
 }
 
 .name,
