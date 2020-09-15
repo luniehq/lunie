@@ -1,6 +1,7 @@
 <template>
   <div
     v-infinite-scroll="loadMore"
+    infinite-scroll-disabled="doNotLoad"
     infinite-scroll-distance="80"
     class="participant-container"
   >
@@ -29,15 +30,25 @@
         </div>
       </li>
     </ul>
+    <TmBtn
+      id="loadMoreBtn"
+      value="Load More"
+      type="secondary"
+      @click.native="loadABit"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import { formatAddress } from "src/filters"
+import TmBtn from "src/components/common/TmBtn"
 
 export default {
   name: `participant-list`,
+  components: {
+    TmBtn,
+  },
   filters: {
     formatAddress,
   },
@@ -52,8 +63,9 @@ export default {
     },
   },
   data: () => ({
-    showing: 30,
+    showing: 5,
     maxReached: false,
+    doNotLoad: true,
   }),
   computed: {
     ...mapGetters([`currentNetwork`]),
@@ -76,7 +88,7 @@ export default {
     },
     loadMore() {
       if (!this.maxReached) {
-        this.showing += 30
+        this.showing += 5
 
         if (
           this.showing > this.participants.length - 100 &&
@@ -93,6 +105,10 @@ export default {
           this.$emit("loadMore")
         }
       }
+    },
+    loadABit() {
+      this.doNotLoad = false
+      setTimeout(() => (this.doNotLoad = true), 10)
     },
   },
 }
