@@ -161,6 +161,17 @@ class CosmosNodeSubscription {
               tx
             )
           }
+          
+          // TODO add claim events based on block events as claiming can happen also when undelegating/redelegating
+          if (tx.type === CLAIM_REWARDS) {
+            publishEvent(
+              this.network.id,
+              resourceTypes.TRANSACTION,
+              eventTypes.TRANSACTION_CLAIM,
+              involvedAddress,
+              tx
+            )
+          }
         })
       })
     } catch (error) {
