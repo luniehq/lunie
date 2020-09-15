@@ -541,14 +541,14 @@ class polkadotAPI {
     const currentUndelegations = allUndelegations.filter(
       ({ era }) => era >= currentEra
     )
-    // each hour in both Kusama and Polkadot has 600 slots, one block per slot maximum
-    const eraBlocks = (24 * 600) / this.network.erasPerDay
 
     const undelegationsWithEndTime = currentUndelegations.map(
       (undelegation) => {
         const remainingEras = undelegation.era - progress.activeEra
         const remainingBlocks = BigNumber(remainingEras)
-          .times(eraBlocks)
+          .minus(BigNumber(1))
+          .times(progress.eraLength)
+          .plus(progress.eraLength)
           .minus(progress.eraProgress)
           .toNumber()
         const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
