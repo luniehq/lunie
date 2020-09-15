@@ -360,9 +360,11 @@ const resolvers = (networkList, notificationController) => ({
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      const network = networkList.find((network) => network.id === id)
       let rewards = await remoteFetch(dataSources, networkId).getRewards(
         delegatorAddress,
         fiatCurrency,
+        network,
         withHeight
       )
       if (development !== 'true' && !withHeight) {
