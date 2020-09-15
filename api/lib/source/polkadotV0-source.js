@@ -1217,8 +1217,8 @@ class polkadotAPI {
       topVoters: await Promise.all(
         topVoters.map(async (topVoterAddress) => {
           const accountInfo = await this.getNetworkAccountInfo(
-            topVoterAddress,	
-            api	
+            topVoterAddress,
+            api
           )
           return this.reducers.topVoterReducer(
             topVoterAddress,
