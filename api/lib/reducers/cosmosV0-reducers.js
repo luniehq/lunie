@@ -1,6 +1,7 @@
 const BigNumber = require('bignumber.js')
 const { encodeB32, decodeB32 } = require('../tools')
 const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
+const { getProposalSummary } = require('./common')
 /**
  * Modify the following reducers with care as they are used for ./cosmosV2-reducer.js as well
  * [proposalBeginTime, proposalEndTime, getDeposit, tallyReducer, atoms, getValidatorStatus, coinReducer]
@@ -102,7 +103,9 @@ function getTotalVotePercentage(proposal, totalBondedTokens, totalVoted) {
   if (proposalFinalized(proposal)) return -1
   if (BigNumber(totalVoted).eq(0)) return 0
   if (!totalBondedTokens) return -1
-  return BigNumber(totalVoted).div(atoms(totalBondedTokens)).toNumber()
+  return Number(
+    BigNumber(totalVoted).div(atoms(totalBondedTokens)).toNumber().toFixed(6)
+  )
 }
 
 function tallyReducer(proposal, tally, totalBondedTokens) {
@@ -134,6 +137,7 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
 
 function depositReducer(deposit, network) {
   return {
+    id: deposit.depositor,
     amount: [coinReducer(deposit.amount[0], undefined, network)],
     depositer: networkAccountReducer(deposit.depositor)
   }
@@ -141,7 +145,7 @@ function depositReducer(deposit, network) {
 
 function voteReducer(vote) {
   return {
-    id: vote.proposal_id,
+    id: String(vote.proposal_id.concat(`_${vote.voter}`)),
     voter: networkAccountReducer(vote.voter),
     option: vote.option
   }
@@ -174,6 +178,7 @@ function proposalReducer(
 ) {
   return {
     id: Number(proposal.proposal_id),
+    proposalId: String(proposal.proposal_id),
     networkId,
     type: proposal.proposal_content.type,
     title: proposal.proposal_content.value.title,
@@ -185,6 +190,7 @@ function proposalReducer(
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal),
     proposer: networkAccountReducer(proposer.proposer, validators),
+    summary: getProposalSummary(proposal.proposal_content.type),
     detailedVotes
   }
 }
@@ -579,5 +585,6 @@ module.exports = {
   getValidatorStatus,
   expectedRewardsPerToken,
   denomLookup,
-  extractInvolvedAddresses
+  extractInvolvedAddresses,
+  getProposalSummary
 }

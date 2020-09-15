@@ -240,6 +240,7 @@ function proposalReducer(
   return {
     networkId,
     id: Number(proposal.id),
+    proposalId: String(proposal.id),
     type: proposalTypeEnumDictionary[proposal.content.type],
     title: proposal.content.value.title,
     description: proposal.content.value.description,
@@ -250,6 +251,9 @@ function proposalReducer(
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal, 'stake'), // TODO use denom lookup + use network config
     proposer: reducers.networkAccountReducer(proposer.proposer, validators),
+    summary: reducers.getProposalSummary(
+      proposalTypeEnumDictionary[proposal.content.type]
+    ),
     detailedVotes
   }
 }

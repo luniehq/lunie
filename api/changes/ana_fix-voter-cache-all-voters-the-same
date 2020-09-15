@@ -1,0 +1,1 @@
+[Fixed] [#4812](https://github.com/cosmos/lunie/issues/4812) Fix voter cache in proposal -> detailedVotes query for FE by adding a distinct ID @Bitcoinera

@@ -5,6 +5,7 @@ const {
   fixDecimalsAndRoundUpBigNumbers,
   toViewDenom
 } = require('../../common/numbers.js')
+const { getProposalSummary } = require('./common')
 const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -45,12 +46,12 @@ function validatorReducer(network, validator) {
     networkId: network.id,
     chainId: network.chain_id,
     operatorAddress: validator.accountId,
-    website:
-      validator.identity.web && validator.identity.web !== ``
-        ? validator.identity.web
-        : ``,
+    website: validator.identity.web ? validator.identity.web : ``,
     identity: validator.identity.twitter,
-    name: identityReducer(validator.accountId, validator.identity),
+    name:
+      validator.identity && validator.accountId
+        ? identityReducer(validator.accountId, validator.identity)
+        : undefined,
     votingPower: validator.votingPower.toFixed(6),
     startHeight: undefined,
     uptimePercentage: undefined,
@@ -502,15 +503,16 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
-function depositReducer(deposit, depositerInfo, network) {
+function depositReducer(deposit, depositer, network) {
   return {
+    id: depositer.address,
     amount: [
       {
         amount: fixDecimalsAndRoundUpBigNumbers(deposit.balance, 6, network),
         denom: network.stakingDenom
       }
     ],
-    depositer: networkAccountReducer(depositerInfo)
+    depositer
   }
 }
 
@@ -519,7 +521,7 @@ function networkAccountReducer(account) {
     name:
       account && account.identity && account.identity.display
         ? account.identity.display
-        : '',
+        : account.accountId || '',
     address: account && account.accountId ? account.accountId : '',
     picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
   }
@@ -531,7 +533,7 @@ function democracyProposalReducer(
   totalIssuance,
   blockHeight,
   detailedVotes,
-  proposerInfo
+  proposer
 ) {
   return {
     id: `democracy-`.concat(proposal.index),
@@ -545,7 +547,8 @@ function democracyProposalReducer(
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
-    proposer: networkAccountReducer(proposerInfo),
+    summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
+    proposer,
     detailedVotes
   }
 }
@@ -555,12 +558,12 @@ function democracyReferendumReducer(
   proposal,
   totalIssuance,
   blockHeight,
-  detailedVotes,
-  proposerInfo
+  detailedVotes
 ) {
   return {
     id: `referendum-`.concat(proposal.index),
     proposalId: proposal.index,
+    proposer: proposal.proposer,
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Proposal #${proposal.index}`,
@@ -571,7 +574,7 @@ function democracyReferendumReducer(
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
-    proposer: networkAccountReducer(proposerInfo),
+    summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
     detailedVotes
   }
 }
@@ -583,7 +586,7 @@ function treasuryProposalReducer(
   blockHeight,
   electionInfo,
   detailedVotes,
-  proposerInfo
+  proposer
 ) {
   return {
     id: `treasury-`.concat(proposal.index || proposal.votes.index),
@@ -601,8 +604,9 @@ function treasuryProposalReducer(
       ? councilTallyReducer(proposal.votes, councilMembers, electionInfo)
       : {},
     deposit: toViewDenom(network, Number(proposal.deposit)),
-    proposer: networkAccountReducer(proposerInfo),
+    proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
+    summary: getProposalSummary(proposalTypeEnum.TREASURY),
     detailedVotes
   }
 }
@@ -703,13 +707,12 @@ function topVoterReducer(
   validators,
   network
 ) {
-  const { identity, nickname } = accountInfo || {}
   const councilMemberInfo = electionInfo.members.find(
     (electionInfoMember) =>
       electionInfoMember[0].toHuman() === topVoterAddress.toHuman()
   )
   return {
-    name: nickname || identity.display,
+    name: accountInfo.name,
     address: topVoterAddress,
     votingPower: councilMemberInfo
       ? toViewDenom(network, councilMemberInfo[1])
@@ -748,5 +751,7 @@ module.exports = {
   democracyReferendumReducer,
   treasuryProposalReducer,
   tallyReducer,
-  topVoterReducer
+  topVoterReducer,
+
+  getProposalSummary
 }

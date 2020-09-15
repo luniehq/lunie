@@ -65,14 +65,16 @@ const typeDefs = gql`
   }
 
   type Deposit {
+    id: String!
     amount: [Coin]
     depositer: NetworkAccount
   }
 
   type Vote {
-    id: Int
+    id: String
     voter: NetworkAccount
     option: String
+    amount: Coin # Polkadot only
   }
 
   type DetailedVotes {
@@ -105,7 +107,8 @@ const typeDefs = gql`
     deposit: String # BigNumber
     proposer: NetworkAccount
     validator: Validator
-    beneficiary: String
+    beneficiary: NetworkAccount
+    summary: String
     detailedVotes: DetailedVotes
   }
 
@@ -259,7 +262,7 @@ const typeDefs = gql`
 
   input RewardInput {
     validator: String! # just the address
-    height: String!
+    height: Int!
   }
 
   input TransactionDetailsInput {
@@ -277,6 +280,7 @@ const typeDefs = gql`
     voteOption: String
     lockedBalance: Float
     timeLock: String
+    numberOfSeconds: Int
     addressRole: String
     rewards: [RewardInput]
   }

@@ -268,16 +268,14 @@ class CosmosV0API extends RESTDataSource {
       deposits: formattedDeposits,
       depositsSum: deposits ? Number(depositsSum).toFixed(6) : undefined,
       percentageDepositsNeeded: deposits
-        ? fixDecimalsAndRoundUpBigNumbers(
+        ? (
             (depositsSum * 100) /
-              fixDecimalsAndRoundUpBigNumbers(
-                depositParameters.min_deposit[0].amount,
-                6,
-                this.network
-              ),
-            2,
-            this.network
-          )
+            fixDecimalsAndRoundUpBigNumbers(
+              depositParameters.min_deposit[0].amount,
+              6,
+              this.network
+            )
+          ).toFixed(2)
         : undefined,
       votes: votes
         ? votes.map((vote) => this.reducers.voteReducer(vote))
@@ -435,7 +433,7 @@ class CosmosV0API extends RESTDataSource {
       topVoters: topVoters.map((topVoter) =>
         this.reducers.topVoterReducer(topVoter)
       ),
-      links: JSON.parse(links)
+      links
     }
   }
 
