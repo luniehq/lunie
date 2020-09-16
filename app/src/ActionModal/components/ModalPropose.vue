@@ -186,7 +186,10 @@ export default {
           amount: this.amount,
           denom: this.denom,
         },
-        proposer: this.userAddress,
+        proposer: {
+          name: "",
+          address: this.userAddress,
+        },
       }
     },
     notifyMessage() {

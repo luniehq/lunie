@@ -1,168 +1,33 @@
 <template>
-  <TmPage
-    data-title="Proposal"
-    class="readable-width"
-    :loading="$apollo.queries.proposal.loading"
-  >
+  <TmPage data-title="Proposal" :loading="$apollo.queries.proposal.loading">
     <TmDataNotFound v-if="!found" />
-    <template v-else>
-      <div class="proposal">
-        <div class="page-profile__header__info">
-          <span :class="proposal.status | lowerCase" class="proposal-status">
-            {{ status.badge }}
-          </span>
-          <div class="proposal-title__row">
-            <h2 class="proposal-title">{{ proposal.title }}</h2>
-          </div>
-        </div>
+    <div v-else class="proposal">
+      <ProposalHeader
+        :proposal="proposal"
+        :status="status"
+        @open-vote-modal="onVote"
+        @open-deposit-modal="onDeposit"
+      />
 
-        <div class="proposer-row">
-          <p class="proposer">
-            <template v-if="proposal.validator">
-              Proposed by {{ proposal.validator.name }}:
-              <Address :address="proposal.proposer.address" />
-            </template>
-            <template v-else-if="proposal.proposer">
-              Proposed by
-              <Address
-                :address="proposal.proposer.name || proposal.proposer.address"
-              />
-            </template>
-            <template v-else>
-              Unknown proposer
-            </template>
-          </p>
-          <div class="button-container">
-            <TmBtn
-              v-if="proposal.status !== 'Passed'"
-              id="deposit-btn"
-              value="Deposit"
-              :disabled="proposal.status !== 'DepositPeriod'"
-              color="primary"
-              @click.native="onDeposit"
-            />
-            <TmBtn
-              id="vote-btn"
-              value="Vote"
-              :disabled="
-                proposal.status !== 'VotingPeriod' ||
-                proposal.type === 'TREASURY'
-              "
-              color="primary"
-              @click.native="() => onVote()"
-            />
-          </div>
-        </div>
-      </div>
+      <ProposalStatusBar
+        v-if="tallyHasValues"
+        :status="status"
+        :status-begin-time="proposal.statusBeginTime"
+        :total-votes="proposal.tally.total"
+        :proposal="proposal"
+      />
 
-      <TextBlock :content="proposal.description" />
+      <ParticipantList v-if="participants" :participants="participants" />
 
-      <ul v-if="proposal.status === 'DepositPeriod'" class="row">
-        <li>
-          <h4>Deposit Count</h4>
-          <span>
-            {{ proposal.deposit }}
-            /
-            {{ parameters.depositThreshold }}
-            {{ parameters.depositDenom || currentNetwork.stakingDenom }}
-          </span>
-        </li>
-      </ul>
+      <template v-if="proposal.detailedVotes.timeline">
+        <Timeline :timeline="proposal.detailedVotes.timeline" />
+      </template>
 
-      <ul v-if="proposal.status !== `DepositPeriod`" class="row">
-        <li v-if="proposal.status === `VotingPeriod`">
-          <h4>Total Vote Count</h4>
-          <span>
-            {{ proposal.tally.totalVotedPercentage | percent }} /
-            {{ proposal.tally.total | prettyInt }}
-          </span>
-        </li>
-        <li>
-          <h4>Yes</h4>
-          <span>
-            {{
-              noVotes
-                ? 0
-                : (proposal.tally.yes / proposal.tally.total) | percent
-            }}
-            /
-            {{ proposal.tally.yes | prettyInt }}
-          </span>
-        </li>
-        <li>
-          <h4>No</h4>
-          <span>
-            {{
-              noVotes ? 0 : (proposal.tally.no / proposal.tally.total) | percent
-            }}
-            /
-            {{ proposal.tally.no | prettyInt }}
-          </span>
-        </li>
-        <li>
-          <h4>Veto</h4>
-          <span>
-            {{
-              noVotes
-                ? 0
-                : (proposal.tally.veto / proposal.tally.total) | percent
-            }}
-            /
-            {{ proposal.tally.veto | prettyInt }}
-          </span>
-        </li>
-        <li>
-          <h4>Abstain</h4>
-          <span>
-            {{
-              noVotes
-                ? 0
-                : (proposal.tally.abstain / proposal.tally.total) | percent
-            }}
-            /
-            {{ proposal.tally.abstain | prettyInt }}
-          </span>
-        </li>
-      </ul>
-
-      <ul class="row">
-        <li>
-          <h4>Proposal ID</h4>
-          <span>{{ proposal.id }}</span>
-        </li>
-        <li>
-          <h4>Submitted</h4>
-          <span v-if="proposal.creationTime">{{
-            proposal.creationTime | date
-          }}</span>
-          <span v-else>--</span>
-        </li>
-        <template
-          v-if="['DepositPeriod', 'VotingPeriod'].includes(proposal.status)"
-        >
-          <li>
-            <h4>({{ status.badge }}) Start Date</h4>
-            <span v-if="proposal.statusBeginTime">{{
-              proposal.statusBeginTime | date
-            }}</span>
-            <span v-else>--</span>
-          </li>
-          <li>
-            <h4>({{ status.badge }}) End Date</h4>
-            <span v-if="proposal.statusEndTime">
-              {{ proposal.statusEndTime | date }} /
-              {{ proposal.statusEndTime | fromNow }}
-            </span>
-            <span v-else>--</span>
-          </li>
-        </template>
-        <template v-else>
-          <li>
-            <h4>Proposal Finalized ({{ status.badge }})</h4>
-            <span>{{ proposal.statusEndTime | date }}</span>
-          </li>
-        </template>
-      </ul>
+      <ProposalDescription
+        :description="proposal.description"
+        :type="proposal.type"
+        :supporting-links="proposal.detailedVotes.links"
+      />
 
       <ModalDeposit
         v-if="parameters.depositDenom"
@@ -173,9 +38,12 @@
         @success="() => afterDeposit()"
       />
       <ModalVoteSubstrate
-        v-if="currentNetwork.network_type === `polkadot`"
+        v-if="
+          currentNetwork.network_type === `polkadot` &&
+          status.value !== governanceStatusEnum.DEPOSITING
+        "
         ref="modalVote"
-        :proposal-id="proposal.proposalId"
+        :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
         @success="() => afterVote()"
@@ -186,40 +54,48 @@
         :proposal-id="proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
+        :number-of-seconds="
+          isPolkadotDemocracy ? Number(proposal.detailedVotes.votesSum) : 0
+        "
         @success="() => afterVote()"
       />
-    </template>
+    </div>
   </TmPage>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import { percent, prettyInt } from "scripts/num"
+import { governanceStatusEnum } from "scripts/proposal-status"
 import { date, fromNow } from "src/filters"
-import TmBtn from "common/TmBtn"
 import TmDataNotFound from "common/TmDataNotFound"
-import TextBlock from "common/TextBlock"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import ModalVoteSubstrate from "src/ActionModal/components/ModalVoteSubstrate"
 import TmPage from "common/TmPage"
+import ParticipantList from "governance/ParticipantList"
+import ProposalHeader from "governance/ProposalHeader"
+import ProposalStatusBar from "governance/ProposalStatusBar"
+import ProposalDescription from "governance/ProposalDescription"
+import Timeline from "governance/Timeline"
 import { getProposalStatus } from "scripts/proposal-status"
 import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
-import Address from "common/Address"
 import gql from "graphql-tag"
 
 export default {
   name: `page-proposal`,
   components: {
-    TmBtn,
     ModalDeposit,
     ModalVote,
     ModalVoteSubstrate,
     TmDataNotFound,
     TmPage,
-    TextBlock,
-    Address,
+    ParticipantList,
+    ProposalHeader,
+    ProposalDescription,
+    ProposalStatusBar,
+    Timeline,
   },
   filters: {
     prettyInt,
@@ -249,6 +125,7 @@ export default {
     error: undefined,
     found: false,
     loaded: false,
+    governanceStatusEnum,
   }),
   computed: {
     ...mapGetters([`address`, `network`, `currentNetwork`]),
@@ -258,19 +135,38 @@ export default {
     noVotes() {
       return BigNumber(this.proposal.tally.total).eq(0)
     },
-    getNextProposalId() {
-      let id = this.getProposalIndex(-1)
-      return id
+    tallyHasValues() {
+      return Object.values(this.proposal.tally)
+        .filter((value) => value !== `Tally`)
+        .find((value) => value)
     },
-    getPrevProposalId() {
-      let id = this.getProposalIndex(1)
-      return id
+    isPolkadotDemocracy() {
+      return (
+        this.currentNetwork.network_type === `polkadot` &&
+        this.status.value === governanceStatusEnum.DEPOSITING
+      )
     },
-  },
-  watch: {
-    // Needed to show data loading component when you are browsing from one proposal to another
-    $route: function () {
-      this.loaded = false
+    participants() {
+      if (
+        this.proposal.detailedVotes.votes &&
+        this.proposal.detailedVotes.votes.length > 0
+      ) {
+        return this.proposal.detailedVotes.votes.map((vote) => ({
+          ...vote.voter,
+          amount: vote.amount,
+          option: vote.option,
+        }))
+      } else if (
+        this.proposal.detailedVotes.deposits &&
+        this.proposal.detailedVotes.deposits.length > 0
+      ) {
+        // a bit hacky but working
+        return this.proposal.detailedVotes.deposits.map((deposit) => ({
+          ...deposit.depositer,
+          amount: deposit.amount[0],
+        }))
+      }
+      return undefined
     },
   },
   methods: {
@@ -285,13 +181,6 @@ export default {
     },
     afterDeposit() {
       this.$apollo.queries.proposal.refetch()
-    },
-    getProposalIndex(num) {
-      let proposalsObj = this.proposals
-      let proposalsIdArr = Object.values(proposalsObj).map(
-        (proposal) => proposal.id
-      )
-      return proposalsIdArr[proposalsIdArr.indexOf(this.proposal.id) + num]
     },
   },
   apollo: {
@@ -402,85 +291,8 @@ export default {
   },
 }
 </script>
-
 <style scoped>
-@import "../../styles/proposal-status.css";
-
-.proposal-title__row {
-  color: var(--bright);
-}
-
-.proposal-title__row a {
-  color: var(--bright);
-  padding-top: 1rem;
-}
-
-.proposal-title__row a:hover {
-  color: var(--link-hover);
-  padding-top: 1rem;
-}
-
-.proposal-title {
-  color: var(--bright);
-  font-size: var(--h1);
-  line-height: 2.25rem;
-  font-weight: 500;
-  padding-top: 2rem;
-}
-
-.proposer {
-  font-size: 12px;
-  color: var(--txt);
-}
-
-.text-block {
-  padding: 0 1rem 3rem;
-}
-
-.proposer-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  margin: 2rem 0;
-}
-
-.button-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.page-profile__header__info {
-  padding: 1rem;
-}
-
-.button-container button:first-child {
-  margin-right: 0.5rem;
-}
-
-.read-more-link {
-  padding-top: 1rem;
-  font-size: 14px;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.read-more-link:hover {
-  color: var(--link);
-}
-
-@media screen and (max-width: 667px) {
-  .proposer-row {
-    flex-direction: column;
-  }
-
-  .button-container {
-    width: 100%;
-    padding: 1rem;
-  }
-
-  .button-container button {
-    width: 100%;
-  }
+.proposal {
+  padding: 0 1rem;
 }
 </style>
