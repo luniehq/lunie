@@ -131,6 +131,7 @@ export default {
             denom
             available
             total
+            staked
           }
         }
       `,
