@@ -9,10 +9,7 @@
   >
     <template v-if="validator.operatorAddress">
       <div class="button-container">
-        <button class="back-button" @click="$router.go(-1)">
-          <i class="material-icons notranslate arrow">arrow_back</i>
-          Back
-        </button>
+        <BackButton />
         <button
           v-if="
             connection.network === 'cosmos-hub-mainnet' ||
@@ -208,6 +205,7 @@ import moment from "moment"
 import { mapGetters, mapState } from "vuex"
 import { shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
+import BackButton from "common/BackButton"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
@@ -237,6 +235,7 @@ export default {
   name: `page-validator`,
   components: {
     Address,
+    BackButton,
     DelegationModal,
     UndelegationModal,
     Avatar,

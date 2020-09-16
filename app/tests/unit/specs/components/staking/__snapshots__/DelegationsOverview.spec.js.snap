@@ -60,10 +60,7 @@ exports[`DelegationsOverview shows an overview over all delegations of the user 
         Your Stake
       </h1>
        
-      <balancerow-stub
-        balance="[object Object]"
-        totalrewardsperdenom="[object Object]"
-      />
+      <!---->
        
       <tablevalidators-stub
         class="table-validators"
