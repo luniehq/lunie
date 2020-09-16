@@ -94,7 +94,7 @@ h4 {
 .participant div {
   display: flex;
   align-items: center;
-  width: 2rem;
+  width: 5rem;
 }
 
 .name,
