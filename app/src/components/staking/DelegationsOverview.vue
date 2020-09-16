@@ -89,7 +89,9 @@ export default {
         ({ denom }) => denom === this.currentNetwork.stakingDenom
       )
       return {
-        total: stakingDenomBalance ? stakingDenomBalance.staked.toFixed(3) : 0,
+        total: stakingDenomBalance
+          ? Number(stakingDenomBalance.staked).toFixed(3)
+          : 0,
         denom: this.currentNetwork.stakingDenom,
       }
     },
