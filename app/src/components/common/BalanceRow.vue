@@ -137,12 +137,6 @@ export default {
   computed: {
     ...mapGetters([`networks`, `currentNetwork`, `stakingDenom`]),
     isTestnet() {
-      console.log(
-        "icon",
-        this.currentNetwork.coinLookup.find(
-          ({ viewDenom }) => this.balance.denom
-        ).icon
-      )
       return this.networks.find(
         (network) => network.id === this.currentNetwork.id
       ).testnet
