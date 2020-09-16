@@ -1,4 +1,6 @@
-const { ApiPromise, WsProvider } = require('@polkadot/api')
+
+const { ApiPromise } = require('@polkadot/api')
+const { HttpProvider } = require('@polkadot/rpc-provider')
 const fetch = require('node-fetch')
 const {
   publishBlockAdded,
@@ -18,40 +20,35 @@ const config = require('../../config.js')
 
 const POLLING_INTERVAL = 1000
 const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
-const PROPOSAL_POLLING_INTERVAL = 600000 // 10min
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
 class PolkadotNodeSubscription {
   constructor(network, PolkadotApiClass, store) {
     this.network = network
+    this.polkadotAPI = new PolkadotApiClass(network, store)
     this.store = store
     this.validators = []
     this.sessionValidators = []
     const networkSchemaName = this.network.id.replace(/-/g, '_')
     this.db = new database(config)(networkSchemaName)
-    this.polkadotAPI = new PolkadotApiClass(network, store, undefined, this.db)
     this.height = 0
     this.currentSessionIndex = 0
     this.currentEra = 0
     this.blockQueue = []
     this.chainId = this.network.chain_id
-
-    this.subscribeForNewBlock()
+    this.pollForNewBlock()
     // start one minute loop to update networks
     this.pollForUpdateNetworks()
-    this.store.dataReady.then(() => {
-      // we need to wait to poll for proposals as they need the validators
-      if (network.feature_proposals === 'ENABLED') this.pollForProposalChanges()
-    })
   }
 
   // here we init the polkadot rpc once for all processes
   // the class gets stored in the store to be used by all instances
   async initPolkadotRPC() {
-    this.api = new ApiPromise({
-      provider: new WsProvider(
-        this.network.rpc_url || this.network.public_rpc_url
+    this.api = ApiPromise.create({
+      provider: new HttpProvider(
+        this.network.rpc_url.replace('wss', 'https').replace('/ws', '/rpc') ||
+          this.network.public_rpc_url.replace('wss', 'https').replace('/ws', '/rpc')
       )
     })
     this.store.polkadotRPC = this.api
@@ -60,21 +57,21 @@ class PolkadotNodeSubscription {
     console.log(this.network.id + ' API initialized')
   }
 
-  async subscribeForNewBlock() {
-    // here we init the polkadot rpc once for all processes
-    if (!this.api) {
-      await this.initPolkadotRPC()
-    }
+  // async subscribeForNewBlock() {
+  //   // here we init the polkadot rpc once for all processes
+  //   if (!this.api) {
+  //     await this.initPolkadotRPC()
+  //   }
 
-    // Subscribe to new block headers
-    await this.api.rpc.chain.subscribeNewHeads(async (blockHeader) => {
-      const blockHeight = blockHeader.number.toNumber()
-      if (this.height < blockHeight) {
-        this.height = blockHeight
-        this.newBlockHandler(blockHeight) // do not await as this can take some seconds
-      }
-    })
-  }
+  //   // Subscribe to new block headers
+  //   await this.api.rpc.chain.subscribeNewHeads(async (blockHeader) => {
+  //     const blockHeight = blockHeader.number.toNumber()
+  //     if (this.height < blockHeight) {
+  //       this.height = blockHeight
+  //       this.newBlockHandler(blockHeight) // do not await as this can take some seconds
+  //     }
+  //   })
+  // }
 
   // Sometimes blocks get published unordered so we need to enqueue
   // them before publish to ensure correct order. This adds 3 blocks delay.
@@ -126,16 +123,6 @@ class PolkadotNodeSubscription {
     this.updateNetworksPollingTimeout = setTimeout(async () => {
       this.pollForUpdateNetworks()
     }, UPDATE_NETWORKS_POLLING_INTERVAL)
-  }
-
-  async pollForProposalChanges() {
-    this.store.update({
-      proposals: await this.polkadotAPI.getAllProposals(this.validators)
-    })
-
-    this.proposalPollingTimeout = setTimeout(async () => {
-      this.pollForProposalChanges()
-    }, PROPOSAL_POLLING_INTERVAL)
   }
 
   // For each block event, we fetch the block information and publish a message.
