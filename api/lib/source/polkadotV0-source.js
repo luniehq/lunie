@@ -246,8 +246,13 @@ class polkadotAPI {
     const { free, reserved, feeFrozen } = account.data.toJSON()
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
-    const totalUndelegations = undelegations.reduce((sum, {amount}) => sum + Number(amount), 0)
-    const stakedBalance = BigNumber(stakingLedger.total)
+    const totalUndelegations = undelegations.reduce(
+      (sum, { amount }) => sum + Number(amount),
+      0
+    )
+    const stakedBalance = BigNumber(
+      JSON.parse(JSON.stringify(stakingLedger)).total
+    )
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
@@ -539,24 +544,22 @@ class polkadotAPI {
     }
     const allUndelegations = stakingLedger.toJSON().unlocking
 
-    const undelegationsWithEndTime = allUndelegations.map(
-      (undelegation) => {
-        const remainingEras = undelegation.era - progress.activeEra
-        const remainingBlocks = BigNumber(remainingEras)
-          .minus(BigNumber(1))
-          .times(progress.eraLength)
-          .plus(progress.eraLength)
-          .minus(progress.eraProgress)
-          .toNumber()
-        const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
-        return {
-          ...undelegation,
-          endTime: new Date(
-            new Date().getTime() + totalMilliseconds
-          ).toUTCString()
-        }
+    const undelegationsWithEndTime = allUndelegations.map((undelegation) => {
+      const remainingEras = undelegation.era - progress.activeEra
+      const remainingBlocks = BigNumber(remainingEras)
+        .minus(BigNumber(1))
+        .times(progress.eraLength)
+        .plus(progress.eraLength)
+        .minus(progress.eraProgress)
+        .toNumber()
+      const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
+      return {
+        ...undelegation,
+        endTime: new Date(
+          new Date().getTime() + totalMilliseconds
+        ).toUTCString()
       }
-    )
+    })
 
     return undelegationsWithEndTime.map((undelegation) =>
       this.reducers.undelegationReducer(undelegation, address, this.network)
