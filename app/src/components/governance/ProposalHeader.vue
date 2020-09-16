@@ -37,7 +37,7 @@
             :value="
               currentNetwork.network_type === `polkadot` &&
               status.value === governanceStatusEnum.DEPOSITING
-                ? `Second`
+                ? `Back Proposal`
                 : `Vote`
             "
             color="primary"

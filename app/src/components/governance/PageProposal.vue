@@ -37,15 +37,28 @@
         :denom="parameters.depositDenom"
         @success="() => afterDeposit()"
       />
-      <ModalVoteSubstrate
+      <ModalVotePolkadot
         v-if="
           currentNetwork.network_type === `polkadot` &&
-          status.value !== governanceStatusEnum.DEPOSITING
+          status.value === governanceStatusEnum.VOTING
         "
         ref="modalVote"
-        :proposal-id="proposalId"
+        :proposal-id="proposal.proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
+        @success="() => afterVote()"
+      />
+      <ModalBackPolkadotProposal
+        v-if="
+          currentNetwork.network_type === `polkadot` &&
+          status.value === governanceStatusEnum.DEPOSITING
+        "
+        ref="modalVote"
+        :proposal-id="proposal.proposalId"
+        :proposal-title="proposal.title || ''"
+        :number-of-seconds="
+          isPolkadotDemocracy ? Number(proposal.detailedVotes.votesSum) : 0
+        "
         @success="() => afterVote()"
       />
       <ModalVote
@@ -71,7 +84,8 @@ import { date, fromNow } from "src/filters"
 import TmDataNotFound from "common/TmDataNotFound"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
-import ModalVoteSubstrate from "src/ActionModal/components/ModalVoteSubstrate"
+import ModalVotePolkadot from "src/ActionModal/components/ModalVotePolkadot"
+import ModalBackPolkadotProposal from "src/ActionModal/components/ModalBackPolkadotProposal"
 import TmPage from "common/TmPage"
 import ParticipantList from "governance/ParticipantList"
 import ProposalHeader from "governance/ProposalHeader"
@@ -88,7 +102,8 @@ export default {
   components: {
     ModalDeposit,
     ModalVote,
-    ModalVoteSubstrate,
+    ModalVotePolkadot,
+    ModalBackPolkadotProposal,
     TmDataNotFound,
     TmPage,
     ParticipantList,
