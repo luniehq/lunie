@@ -13,7 +13,6 @@ const {
 } = require('@polkassembly/util')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
-const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
 
 class polkadotAPI {
   constructor(network, store, fiatValuesAPI, db) {
@@ -234,7 +233,10 @@ class polkadotAPI {
 
   async getBalancesV2FromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
-    const account = await api.query.system.account(address)
+    const [account, stakingLedger] = await Promise.all([
+      api.query.system.account(address),
+      api.query.staking.ledger(address)
+    ])
     // -> Free balance is NOT transferable balance
     // -> Total balance is equal to reserved plus free balance
     // -> Locks (due to staking o voting) are set over free balance, they overlap rather than add
@@ -243,16 +245,16 @@ class polkadotAPI {
     const { free, reserved, feeFrozen } = account.data.toJSON()
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
-    const stakedBalance = totalBalance
-      .minus(freeBalance)
-      .minus(BigNumber(reserved))
+    const stakedBalance = BigNumber(
+      JSON.parse(JSON.stringify(stakingLedger)).active
+    )
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
         this.network,
         freeBalance.toString(),
         totalBalance.toString(),
-        stakedBalance.toString(),
+        stakedBalance,
         fiatValueAPI,
         fiatCurrency
       )
@@ -527,39 +529,31 @@ class polkadotAPI {
   async getUndelegationsForDelegatorAddress(address) {
     const api = await this.getAPI()
 
-    const [stakingLedger, progress, currentEra] = await Promise.all([
+    const [stakingLedger, progress] = await Promise.all([
       api.query.staking.ledger(address),
-      api.derive.session.progress(),
-      api.query.staking.activeEra().then(async (era) => {
-        return era.toJSON().index
-      })
+      api.derive.session.progress()
     ])
     if (!stakingLedger.toJSON()) {
       return []
     }
     const allUndelegations = stakingLedger.toJSON().unlocking
-    const currentUndelegations = allUndelegations.filter(
-      ({ era }) => era >= currentEra
-    )
-    // each hour in both Kusama and Polkadot has 600 slots, one block per slot maximum
-    const eraBlocks = (24 * 600) / this.network.erasPerDay
 
-    const undelegationsWithEndTime = currentUndelegations.map(
-      (undelegation) => {
-        const remainingEras = undelegation.era - progress.activeEra
-        const remainingBlocks = BigNumber(remainingEras)
-          .times(eraBlocks)
-          .minus(progress.eraProgress)
-          .toNumber()
-        const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
-        return {
-          ...undelegation,
-          endTime: new Date(
-            new Date().getTime() + totalMilliseconds
-          ).toUTCString()
-        }
+    const undelegationsWithEndTime = allUndelegations.map((undelegation) => {
+      const remainingEras = undelegation.era - progress.activeEra
+      const remainingBlocks = BigNumber(remainingEras)
+        .minus(BigNumber(1))
+        .times(progress.eraLength)
+        .plus(progress.eraLength)
+        .minus(progress.eraProgress)
+        .toNumber()
+      const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
+      return {
+        ...undelegation,
+        endTime: new Date(
+          new Date().getTime() + totalMilliseconds
+        ).toUTCString()
       }
-    )
+    })
 
     return undelegationsWithEndTime.map((undelegation) =>
       this.reducers.undelegationReducer(undelegation, address, this.network)
@@ -678,21 +672,22 @@ class polkadotAPI {
   ) {
     const api = await this.getAPI()
 
-    const { meta, method } = api.registry.findMetaCall(
-      proposal.image.proposal.callIndex
-    )
-    proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
-    description = meta.documentation.toString()
-    proposalMethod = method
+    if (proposal.image) {
+      const { meta, method } = api.registry.findMetaCall(
+        proposal.image.proposal.callIndex
+      )
+      proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
+      description = meta.documentation.toString()
+      proposalMethod = method
 
-    // get creationTime
-    const referendumBlockHeight = proposal.image.at
-    creationTime = await this.getDateForBlockHeight(referendumBlockHeight)
-
+      // get creationTime
+      const referendumBlockHeight = proposal.image.at
+      creationTime = await this.getDateForBlockHeight(referendumBlockHeight)
+    }
     return {
       ...proposal,
       description,
-      proposer,
+      proposer: proposer || { name: '', address: '' },
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime
     }
@@ -798,6 +793,10 @@ class polkadotAPI {
       })
     )
     const votesSum = proposal.seconds.length
+    const percentageDepositsNeeded = BigNumber(depositsSum)
+      .times(100)
+      .div(toViewDenom(this.network, api.consts.democracy.minimumDeposit))
+      .toNumber()
     return {
       deposits,
       depositsSum,
@@ -805,6 +804,7 @@ class polkadotAPI {
       votesSum,
       votingPercentageYes: `100`,
       votingPercentagedNo: `0`,
+      percentageDepositsNeeded,
       links,
       timeline: [{ title: `Proposal created`, time: proposal.creationTime }],
       council: false
@@ -880,6 +880,8 @@ class polkadotAPI {
   async getReferendumProposalDetailedVotes(proposal, links) {
     const api = await this.getAPI()
 
+    let proposalDelayInDays
+    let proposalEndTime
     // votes involve depositing & locking some amount for referendum proposals
     const allDeposits = proposal.allAye.concat(proposal.allNay)
     const depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
@@ -901,7 +903,8 @@ class polkadotAPI {
           return {
             id: voter.address,
             voter,
-            option: `Yes`
+            option: `Yes`,
+            amount: this.reducers.coinReducer(this.network, aye.balance)
           }
         })
         .concat(
@@ -910,30 +913,33 @@ class polkadotAPI {
             return {
               id: voter.address,
               voter,
-              option: `No`
+              option: `No`,
+              amount: this.reducers.coinReducer(this.network, nay.balance)
             }
           })
         )
     )
     const votesSum = proposal.voteCount
     const threshold = await this.getReferendumThreshold(proposal)
-    const proposalDelayInDays = Math.floor(
-      /* proposal delay is the time that takes for the proposal to open for the voting period.
-        6s is the average block duration for both Kusama and Polkadot */
-      (proposal.status.delay * 6) / (3600 * 24)
-    )
-    const proposalTimeSpanInNumberOfBlocks =
-      proposal.status.end - proposal.image.at
-    const proposalTimeSpanInDays = Math.floor(
-      (proposalTimeSpanInNumberOfBlocks * 6) / (3600 * 24)
-    )
-    const proposalEndTime = new Date(
-      new Date(proposal.creationTime).getTime() +
-        proposalTimeSpanInDays * 24 * 60 * 60 * 1000
-    ).toUTCString()
     const totalVotingPower = BigNumber(proposal.status.tally.ayes).plus(
       proposal.status.tally.nays
     )
+    if (proposal.image) {
+      proposalDelayInDays = Math.floor(
+        /* proposal delay is the time that takes for the proposal to open for the voting period.
+          6s is the average block duration for both Kusama and Polkadot */
+        (proposal.status.delay * 6) / (3600 * 24)
+      )
+      const proposalTimeSpanInNumberOfBlocks =
+        proposal.status.end - proposal.image.at
+      const proposalTimeSpanInDays = Math.floor(
+        (proposalTimeSpanInNumberOfBlocks * 6) / (3600 * 24)
+      )
+      proposalEndTime = new Date(
+        new Date(proposal.creationTime).getTime() +
+          proposalTimeSpanInDays * 24 * 60 * 60 * 1000
+      ).toUTCString()
+    }
     return {
       deposits,
       depositsSum: toViewDenom(this.network, depositsSum),
@@ -966,10 +972,12 @@ class polkadotAPI {
         },
         {
           title: `Voting period opens`,
-          time: new Date(
-            new Date(proposal.creationTime).getTime() +
-              proposalDelayInDays * 24 * 60 * 60 * 1000
-          ).toUTCString()
+          time: proposalDelayInDays
+            ? new Date(
+                new Date(proposal.creationTime).getTime() +
+                  proposalDelayInDays * 24 * 60 * 60 * 1000
+              ).toUTCString()
+            : undefined
         },
         {
           title: `Proposal voting period ends`,
