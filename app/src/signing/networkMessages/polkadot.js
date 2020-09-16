@@ -165,8 +165,7 @@ export async function VoteTx(
   let voteTx
   // it is referendum
   if (lockedBalance) {
-    const referendumId = proposalId
-    voteTx = await api.tx.democracy.vote(referendumId, {
+    voteTx = await api.tx.democracy.vote(Number(proposalId), {
       Standard: {
         balance: toChainAmount(
           { amount: lockedBalance, denom: network.stakingDenom },

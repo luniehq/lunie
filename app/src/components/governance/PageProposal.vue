@@ -50,7 +50,7 @@
           status.value !== governanceStatusEnum.DEPOSITING
         "
         ref="modalVote"
-        :proposal-id="proposalId"
+        :proposal-id="proposal.proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
         @success="() => afterVote()"
