@@ -696,7 +696,7 @@ export default {
           password: this.password,
           polkadotAPI,
           HDPath,
-          curve
+          curve,
         })
 
         const { hash } = hashResult

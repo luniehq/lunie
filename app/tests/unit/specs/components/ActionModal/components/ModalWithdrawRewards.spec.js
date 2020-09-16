@@ -146,8 +146,8 @@ describe(`ModalWithdrawRewards`, () => {
           ],
           top5Validators: ["cosmosvaloper12", "cosmosvaloper13"],
           currentNetwork: {
-            network_type: "cosmos"
-          }
+            network_type: "cosmos",
+          },
         })
       ).toEqual({
         type: "ClaimRewardsTx",
@@ -168,16 +168,15 @@ describe(`ModalWithdrawRewards`, () => {
     it("should return correct transaction data for withdrawing in Polkadot", async () => {
       expect(
         await ModalWithdrawRewards.asyncComputed.transactionData.call({
-          totalRewards: [
-            { amount: 1.5, denom: "STAKE" },
-          ],
+          totalRewards: [{ amount: 1.5, denom: "STAKE" }],
           currentNetwork: {
-            network_type: "polkadot"
+            network_type: "polkadot",
           },
           getPolkadotRewards() {
-            return [{ validator: "12345", height: "87"}]
+            return [{ validator: "12345", height: "87" }]
           },
-          getPolkadotValidators: ModalWithdrawRewards.methods.getPolkadotValidators
+          getPolkadotValidators:
+            ModalWithdrawRewards.methods.getPolkadotValidators,
         })
       ).toEqual({
         type: "ClaimRewardsTx",
@@ -188,7 +187,7 @@ describe(`ModalWithdrawRewards`, () => {
           },
         ],
         from: ["12345"],
-        rewards: [{ validator: "12345", height: "87"}]
+        rewards: [{ validator: "12345", height: "87" }],
       })
     })
 
@@ -200,9 +199,12 @@ describe(`ModalWithdrawRewards`, () => {
     })
 
     it("should get validators from rewards objects", () => {
-      expect(ModalWithdrawRewards.methods.getPolkadotValidators(
-        [{ validator: "12345", height: "87"}, { validator: "AB345", height: "88"}]
-      )).toEqual(["12345", "AB345"])
+      expect(
+        ModalWithdrawRewards.methods.getPolkadotValidators([
+          { validator: "12345", height: "87" },
+          { validator: "AB345", height: "88" },
+        ])
+      ).toEqual(["12345", "AB345"])
     })
   })
 })

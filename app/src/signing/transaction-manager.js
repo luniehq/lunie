@@ -101,7 +101,7 @@ export default class TransactionManager {
     password,
     polkadotAPI,
     HDPath,
-    curve
+    curve,
   }) {
     let broadcastableObject
     if (signingType === "extension") {

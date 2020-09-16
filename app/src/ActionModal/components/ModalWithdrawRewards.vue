@@ -79,20 +79,20 @@ export default {
   asyncComputed: {
     async transactionData() {
       if (this.totalRewards.length === 0) return {}
-      if (this.currentNetwork.network_type === 'cosmos') {
+      if (this.currentNetwork.network_type === "cosmos") {
         return {
           type: messageType.CLAIM_REWARDS,
           amounts: this.totalRewards,
           from: this.top5Validators,
         }
       }
-      if (this.currentNetwork.network_type === 'polkadot') {
+      if (this.currentNetwork.network_type === "polkadot") {
         const rewards = await this.getPolkadotRewards()
         return {
           type: messageType.CLAIM_REWARDS,
           amounts: this.totalRewards,
           from: this.getPolkadotValidators(rewards),
-          rewards
+          rewards,
         }
       }
     },
@@ -154,7 +154,9 @@ export default {
       this.$refs.actionModal.open()
     },
     async getPolkadotRewards() {
-      const { data: { rewards } } = await this.$apollo.query({
+      const {
+        data: { rewards },
+      } = await this.$apollo.query({
         query: gql`
           query {
             rewards(
@@ -166,15 +168,15 @@ export default {
               height
             }
           }
-        `
+        `,
       })
       return rewards
-      .sort((a,b) => a.height - b.height)
-      .slice(0, 10) // only claiming 10 eras at a time to not exhaust limits
-      .map(({ height, validator: { operatorAddress }}) => ({
-        height: Number(height),
-        validator: operatorAddress
-      }))
+        .sort((a, b) => a.height - b.height)
+        .slice(0, 10) // only claiming 10 eras at a time to not exhaust limits
+        .map(({ height, validator: { operatorAddress } }) => ({
+          height: Number(height),
+          validator: operatorAddress,
+        }))
     },
     getPolkadotValidators(rewards) {
       const allValidators = rewards.reduce((allValidators, reward) => {
@@ -184,7 +186,7 @@ export default {
         return allValidators
       }, [])
       return allValidators
-    }
+    },
   },
   apollo: {
     rewards: {

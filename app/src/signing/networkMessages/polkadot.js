@@ -128,17 +128,17 @@ export async function RestakeTx(
 
 export async function ClaimRewardsTx(senderAddress, { rewards }, network, api) {
   let allClaimingTxs = []
-  
+
   if (rewards.length === 0) {
     allClaimingTxs = []
   } else {
     rewards
-    .sort((a,b) => a.height - b.height)
-    .forEach((reward) => {
-      allClaimingTxs.push(
-        api.tx.staking.payoutStakers(reward.validator, reward.height)
-      )
-    })
+      .sort((a, b) => a.height - b.height)
+      .forEach((reward) => {
+        allClaimingTxs.push(
+          api.tx.staking.payoutStakers(reward.validator, reward.height)
+        )
+      })
   }
   if (allClaimingTxs.length === 0) {
     throw new Error("There are no claimable rewards")
