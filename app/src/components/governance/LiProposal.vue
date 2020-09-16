@@ -18,15 +18,15 @@
         </h3>
       </div>
       <span v-if="proposal.creationTime" class="time">{{
-        proposal.creationTime | moment
+        proposal.creationTime
       }}</span>
+      <span v-else class="time">n/a</span>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex"
-import moment from "moment"
 import { getProposalStatus } from "scripts/proposal-status"
 import Status from "common/Status"
 
@@ -34,9 +34,6 @@ export default {
   name: `li-proposal`,
   components: {
     Status,
-  },
-  filters: {
-    moment,
   },
   props: {
     proposal: {
@@ -58,6 +55,7 @@ export default {
   font-size: 22px;
   color: var(--bright);
   font-weight: 500;
+  max-width: 600px;
 }
 
 .li-proposal {
