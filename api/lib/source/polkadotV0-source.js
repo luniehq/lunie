@@ -233,10 +233,9 @@ class polkadotAPI {
 
   async getBalancesV2FromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
-    const [account, stakingLedger, undelegations] = await Promise.all([
+    const [account, stakingLedger] = await Promise.all([
       api.query.system.account(address),
-      api.query.staking.ledger(address),
-      this.getUndelegationsForDelegatorAddress(address)
+      api.query.staking.ledger(address)
     ])
     // -> Free balance is NOT transferable balance
     // -> Total balance is equal to reserved plus free balance
@@ -246,12 +245,8 @@ class polkadotAPI {
     const { free, reserved, feeFrozen } = account.data.toJSON()
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
-    const totalUndelegations = undelegations.reduce(
-      (sum, { amount }) => sum + Number(amount),
-      0
-    )
     const stakedBalance = BigNumber(
-      JSON.parse(JSON.stringify(stakingLedger)).total
+      JSON.parse(JSON.stringify(stakingLedger)).active
     )
     const fiatValueAPI = this.fiatValuesAPI
     return [
@@ -259,8 +254,7 @@ class polkadotAPI {
         this.network,
         freeBalance.toString(),
         totalBalance.toString(),
-        stakedBalance.toString(),
-        totalUndelegations,
+        stakedBalance,
         fiatValueAPI,
         fiatCurrency
       )
