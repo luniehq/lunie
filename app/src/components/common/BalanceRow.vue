@@ -4,9 +4,12 @@
       <img
         class="currency-flag"
         :src="
-          currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom)
-            ? currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom)
-                .icon
+          currentNetwork.coinLookup.find(
+            ({ viewDenom }) => viewDenom === balance.denom
+          )
+            ? currentNetwork.coinLookup.find(
+                ({ viewDenom }) => viewDenom === balance.denom
+              ).icon
             : '/img/icons/currencies/' + balance.denom.toLowerCase() + '.png'
         "
         :alt="`${balance.denom}` + ' currency'"
@@ -134,6 +137,12 @@ export default {
   computed: {
     ...mapGetters([`networks`, `currentNetwork`, `stakingDenom`]),
     isTestnet() {
+      console.log(
+        "icon",
+        this.currentNetwork.coinLookup.find(
+          ({ viewDenom }) => this.balance.denom
+        ).icon
+      )
       return this.networks.find(
         (network) => network.id === this.currentNetwork.id
       ).testnet
