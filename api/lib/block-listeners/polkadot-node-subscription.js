@@ -89,8 +89,8 @@ class PolkadotNodeSubscription {
       const blockHeight = await this.polkadotAPI.getBlockHeight()
 
       // if we get a newer block then expected query for all the outstanding blocks
-      while (blockHeight > this.height) {
-        this.height = this.height ? this.height++ : blockHeight
+      if (blockHeight > this.height) {
+        this.height = blockHeight
         this.newBlockHandler(this.height)
 
         // we are safe, that the chain produced a block so it didn't hang up
@@ -135,7 +135,8 @@ class PolkadotNodeSubscription {
       })
 
       const block = await this.polkadotAPI.getBlockByHeightV2(blockHeight)
-      this.enqueueAndPublishBlockAdded(block)
+      // this.enqueueAndPublishBlockAdded(block)
+      publishBlockAdded(this.network.id, block)
 
       // gives us the control to modify network parameters
       this.store.updateNetworkFromDB()
