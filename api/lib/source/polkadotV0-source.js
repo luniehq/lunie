@@ -677,21 +677,22 @@ class polkadotAPI {
   ) {
     const api = await this.getAPI()
 
-    const { meta, method } = api.registry.findMetaCall(
-      proposal.image.proposal.callIndex
-    )
-    proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
-    description = meta.documentation.toString()
-    proposalMethod = method
+    if (proposal.image) {
+      const { meta, method } = api.registry.findMetaCall(
+        proposal.image.proposal.callIndex
+      )
+      proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
+      description = meta.documentation.toString()
+      proposalMethod = method
 
-    // get creationTime
-    const referendumBlockHeight = proposal.image.at
-    creationTime = await this.getDateForBlockHeight(referendumBlockHeight)
-
+      // get creationTime
+      const referendumBlockHeight = proposal.image.at
+      creationTime = await this.getDateForBlockHeight(referendumBlockHeight)
+    }
     return {
       ...proposal,
       description,
-      proposer,
+      proposer: proposer || { name: '', address: '' },
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime
     }
@@ -879,6 +880,8 @@ class polkadotAPI {
   async getReferendumProposalDetailedVotes(proposal, links) {
     const api = await this.getAPI()
 
+    let proposalDelayInDays
+    let proposalEndTime
     // votes involve depositing & locking some amount for referendum proposals
     const allDeposits = proposal.allAye.concat(proposal.allNay)
     const depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
@@ -918,23 +921,25 @@ class polkadotAPI {
     )
     const votesSum = proposal.voteCount
     const threshold = await this.getReferendumThreshold(proposal)
-    const proposalDelayInDays = Math.floor(
-      /* proposal delay is the time that takes for the proposal to open for the voting period.
-        6s is the average block duration for both Kusama and Polkadot */
-      (proposal.status.delay * 6) / (3600 * 24)
-    )
-    const proposalTimeSpanInNumberOfBlocks =
-      proposal.status.end - proposal.image.at
-    const proposalTimeSpanInDays = Math.floor(
-      (proposalTimeSpanInNumberOfBlocks * 6) / (3600 * 24)
-    )
-    const proposalEndTime = new Date(
-      new Date(proposal.creationTime).getTime() +
-        proposalTimeSpanInDays * 24 * 60 * 60 * 1000
-    ).toUTCString()
     const totalVotingPower = BigNumber(proposal.status.tally.ayes).plus(
       proposal.status.tally.nays
     )
+    if (proposal.image) {
+      proposalDelayInDays = Math.floor(
+        /* proposal delay is the time that takes for the proposal to open for the voting period.
+          6s is the average block duration for both Kusama and Polkadot */
+        (proposal.status.delay * 6) / (3600 * 24)
+      )
+      const proposalTimeSpanInNumberOfBlocks =
+        proposal.status.end - proposal.image.at
+      const proposalTimeSpanInDays = Math.floor(
+        (proposalTimeSpanInNumberOfBlocks * 6) / (3600 * 24)
+      )
+      proposalEndTime = new Date(
+        new Date(proposal.creationTime).getTime() +
+          proposalTimeSpanInDays * 24 * 60 * 60 * 1000
+      ).toUTCString()
+    }
     return {
       deposits,
       depositsSum: toViewDenom(this.network, depositsSum),
@@ -967,10 +972,12 @@ class polkadotAPI {
         },
         {
           title: `Voting period opens`,
-          time: new Date(
-            new Date(proposal.creationTime).getTime() +
-              proposalDelayInDays * 24 * 60 * 60 * 1000
-          ).toUTCString()
+          time: proposalDelayInDays
+            ? new Date(
+                new Date(proposal.creationTime).getTime() +
+                  proposalDelayInDays * 24 * 60 * 60 * 1000
+              ).toUTCString()
+            : undefined
         },
         {
           title: `Proposal voting period ends`,
