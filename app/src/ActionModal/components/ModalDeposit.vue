@@ -25,7 +25,7 @@
         id="amount"
         v-model="amount"
         v-focus
-        :disabled="numberOfSeconds !== 0"
+        :disabled="currentNetwork.network_type === `polkadot`"
         type="number"
         placeholder="0"
       />
