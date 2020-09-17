@@ -17,14 +17,12 @@ const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 const hexToASCII = (hex) => {
   if (!hex) return
   const hexString = hex.toString()
-  let string = ''
-  for (
-    let i = 0;
-    i < hexString.length && hexString.substr(i, 2) !== '00';
-    i += 2
-  )
-    string += String.fromCharCode(parseInt(hexString.substr(i, 2), 16))
-  return string
+  return hexString
+    .match(/.{1,2}/g)
+    .map((char) => {
+      return String.fromCharCode(parseInt(char, 16))
+    })
+    .join('')
 }
 
 class polkadotAPI {
