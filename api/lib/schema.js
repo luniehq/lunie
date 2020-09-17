@@ -380,7 +380,7 @@ const typeDefs = gql`
   }
 
   type NetworkAccount {
-    name: String!
+    name: String
     address: String!
     picture: String
   }

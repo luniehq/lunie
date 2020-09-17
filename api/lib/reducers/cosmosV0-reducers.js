@@ -160,7 +160,7 @@ function networkAccountReducer(address, validators) {
       ? validators[proposerValAddress]
       : undefined
   return {
-    name: validator ? validator.name : address || '',
+    name: validator.name,
     address: address || '',
     picture: validator ? validator.picture : ''
   }
