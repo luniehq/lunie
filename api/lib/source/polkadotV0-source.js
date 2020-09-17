@@ -989,7 +989,7 @@ class polkadotAPI {
           : undefined,
         proposalEndTime
           ? {
-              title: `Voting Period Ends`,
+              title: `Voting Period Ended`,
               time: proposalEndTime
             }
           : undefined

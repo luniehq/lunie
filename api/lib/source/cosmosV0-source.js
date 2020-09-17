@@ -307,7 +307,7 @@ class CosmosV0API extends RESTDataSource {
           : undefined,
         proposal.deposit_end_time
           ? {
-              title: `Deposit Period Ends`,
+              title: `Deposit Period Ended`,
               time: proposal.deposit_end_time
             }
           : undefined,
@@ -319,7 +319,7 @@ class CosmosV0API extends RESTDataSource {
           : undefined,
         proposal.voting_end_time
           ? {
-              title: `Voting Period Ends`,
+              title: `Voting Period Ended`,
               time: proposal.voting_end_time
             }
           : undefined
