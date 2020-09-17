@@ -6,7 +6,7 @@
         <div class="description">
           <pre v-if="type === `PARAMETER_CHANGE` && type !== `UNKNOWN`">
           {{ description }}
-          <p v-if="parameter" class="parameter">Args: {{ parameter }}</p>
+          <p v-if="parameter" class="parameter">New Parameter: {{ parameter }}</p>
         </pre>
           <p v-else>{{ description }}</p>
         </div>
