@@ -25,8 +25,9 @@
         id="amount"
         v-model="amount"
         v-focus
+        :disabled="numberOfSeconds !== 0"
         type="number"
-        placeholder="0"
+        :placeholder="numberOfSeconds !== 0 ? '100' : '0'"
       />
       <TmFormMsg
         v-if="balance.amount === 0"
@@ -96,6 +97,10 @@ export default {
       type: String,
       required: true,
     },
+    numberOfSeconds: {
+      type: Number,
+      default: 0,
+    },
   },
   data: () => ({
     amount: null,
@@ -120,6 +125,7 @@ export default {
           amount: this.amount,
           denom: this.denom,
         },
+        numberOfSeconds: this.numberOfSeconds,
       }
     },
     notifyMessage() {
@@ -128,6 +134,11 @@ export default {
         body: `You have successfully deposited your ${this.denom}s on proposal #${this.proposalId}`,
       }
     },
+  },
+  mounted() {
+    if (this.numberOfSeconds !== 0) {
+      this.amount = 100
+    }
   },
   validations() {
     return {

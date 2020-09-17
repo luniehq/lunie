@@ -22,10 +22,7 @@
             <i class="material-icons notranslate success">check</i>
           </div>
           <TmBtn
-            v-if="
-              status.value === governanceStatusEnum.DEPOSITING &&
-              currentNetwork.network_type === 'cosmos'
-            "
+            v-if="status.value === governanceStatusEnum.DEPOSITING"
             id="deposit-btn"
             value="Deposit"
             color="primary"
@@ -34,12 +31,7 @@
           <TmBtn
             v-if="showVoteButton"
             id="vote-btn"
-            :value="
-              currentNetwork.network_type === `polkadot` &&
-              status.value === governanceStatusEnum.DEPOSITING
-                ? `Back Proposal`
-                : `Vote`
-            "
+            value="Vote"
             color="primary"
             @click.native="$emit(`open-vote-modal`)"
           />
@@ -117,8 +109,7 @@ export default {
       // in Cosmos only for the ones in Voting Period (we consider Polkadot democracies proposals as Deposit Period)
       return (
         this.proposal.type !== `TREASURY` &&
-        (this.status.value === this.governanceStatusEnum.VOTING ||
-          this.currentNetwork.network_type === "polkadot")
+        this.status.value === this.governanceStatusEnum.VOTING
       )
     },
   },

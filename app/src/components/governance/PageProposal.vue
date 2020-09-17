@@ -30,11 +30,7 @@
       />
 
       <ModalDeposit
-        v-if="
-          parameters.depositDenom ||
-          (currentNetwork.network_type === `polkadot` &&
-            status.value === governanceStatusEnum.DEPOSITING)
-        "
+        v-if="status.value === governanceStatusEnum.DEPOSITING"
         ref="modalDeposit"
         :proposal-id="
           currentNetwork.network_type === `polkadot`
@@ -43,10 +39,13 @@
         "
         :proposal-title="proposal.title || ''"
         :denom="parameters.depositDenom"
+        :number-of-seconds="
+          isPolkadotDemocracy ? Number(proposal.detailedVotes.votesSum) : 0
+        "
         @success="() => afterDeposit()"
       />
       <ModalVotePolkadot
-        v-else-if="
+        v-if="
           currentNetwork.network_type === `polkadot` &&
           status.value === governanceStatusEnum.VOTING
         "
@@ -56,19 +55,6 @@
         :last-vote-option="vote"
         @success="() => afterVote()"
       />
-      <!-- <ModalBackPolkadotProposal
-        v-if="
-          currentNetwork.network_type === `polkadot` &&
-          status.value === governanceStatusEnum.DEPOSITING
-        "
-        ref="modalVote"
-        :proposal-id="proposal.proposalId"
-        :proposal-title="proposal.title || ''"
-        :number-of-seconds="
-          isPolkadotDemocracy ? Number(proposal.detailedVotes.votesSum) : 0
-        "
-        @success="() => afterVote()"
-      /> -->
       <ModalVote
         v-else
         ref="modalVote"
@@ -93,7 +79,6 @@ import TmDataNotFound from "common/TmDataNotFound"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
 import ModalVotePolkadot from "src/ActionModal/components/ModalVotePolkadot"
-// import ModalBackPolkadotProposal from "src/ActionModal/components/ModalBackPolkadotProposal"
 import TmPage from "common/TmPage"
 import ParticipantList from "governance/ParticipantList"
 import ProposalHeader from "governance/ProposalHeader"
@@ -111,7 +96,6 @@ export default {
     ModalDeposit,
     ModalVote,
     ModalVotePolkadot,
-    // ModalBackPolkadotProposal,
     TmDataNotFound,
     TmPage,
     ParticipantList,

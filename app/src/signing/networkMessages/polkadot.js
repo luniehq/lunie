@@ -153,27 +153,33 @@ export async function VoteTx(
   network,
   api
 ) {
-  let voteTx
-  // it is referendum
-  if (lockedBalance) {
-    const referendumId = proposalId
-    voteTx = await api.tx.democracy.vote(referendumId, {
-      Standard: {
-        balance: toChainAmount(
-          { amount: lockedBalance, denom: network.stakingDenom },
-          network.coinLookup
-        ),
-        vote: {
-          aye: voteOption === "Yes" ? true : false,
-          conviction: timeLock,
-        },
+  const voteTx = await api.tx.democracy.vote(proposalId, {
+    Standard: {
+      balance: toChainAmount(
+        { amount: lockedBalance, denom: network.stakingDenom },
+        network.coinLookup
+      ),
+      vote: {
+        aye: voteOption === "Yes" ? true : false,
+        conviction: timeLock,
       },
-    })
-    // it is democracy
-  } else {
-    voteTx = await api.tx.democracy.second(Number(proposalId), numberOfSeconds)
-  }
+    },
+  })
   return await getSignMessage(senderAddress, voteTx, api)
+}
+
+// Deposit
+export async function DepositTx(
+  senderAddress,
+  { proposalId, numberOfSeconds },
+  network,
+  api
+) {
+  const depositTx = await api.tx.democracy.second(
+    Number(proposalId),
+    numberOfSeconds
+  )
+  return await getSignMessage(senderAddress, depositTx, api)
 }
 
 function toChainAmount({ amount, denom }, coinLookup) {
