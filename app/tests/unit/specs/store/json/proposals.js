@@ -28,7 +28,7 @@ export const proposals = [
       votingPercentageNo: "5",
       timeline: [
         {
-          title: `Created`,
+          title: `Proposal created`,
           time: `Mon Sep 07 2020 17:18:06 GMT+0200 (Central European Summer Time)`,
         },
       ],
@@ -67,7 +67,7 @@ export const proposals = [
       votingPercentageNo: "5",
       timeline: [
         {
-          title: `Created`,
+          title: `Proposal created`,
           time: `Mon Sep 07 2020 17:18:06 GMT+0200 (Central European Summer Time)`,
         },
       ],
@@ -110,7 +110,7 @@ export const proposals = [
       votingPercentageNo: "5",
       timeline: [
         {
-          title: `Created`,
+          title: `Proposal created`,
           time: `Mon Sep 07 2020 17:18:06 GMT+0200 (Central European Summer Time)`,
         },
       ],
