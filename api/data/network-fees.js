@@ -13,7 +13,8 @@ const transactionTypesSet = new Set([
   'SubmitProposalTx',
   'VoteTx',
   'DepositTx',
-  'UnknownTx'
+  'UnknownTx',
+  'WithdrawUnstakedTokensTx',
 ])
 
 const FEES_POLLING_INTERVAL = 3600000 // 1h

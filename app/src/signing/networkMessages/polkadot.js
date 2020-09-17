@@ -146,6 +146,16 @@ export async function ClaimRewardsTx(senderAddress, { rewards }, network, api) {
   return await getSignMessage(senderAddress, allClaimingTxs, api)
 }
 
+export async function WithdrawUnstakedTokensTx(
+  senderAddress,
+  {},
+  network,
+  api
+) {
+  const withdrawTx = await api.tx.staking.withdrawUnbonded(0)
+  return await getSignMessage(senderAddress, withdrawTx, api)
+}
+
 // Vote
 export async function VoteTx(
   senderAddress,

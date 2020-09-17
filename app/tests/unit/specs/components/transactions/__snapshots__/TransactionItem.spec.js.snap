@@ -251,3 +251,27 @@ exports[`TransactionItem renders a VoteTx transaction item 1`] = `
   <!---->
 </div>
 `;
+
+exports[`TransactionItem renders a WithdrawUnstakedTokensTx transaction item 1`] = `
+<div
+  class="tx-container"
+>
+  <div
+    class="tx"
+  >
+    <!---->
+     
+    <div
+      class="toggle"
+    >
+      <i
+        class="material-icons notranslate toggle-icon"
+      >
+        keyboard_arrow_down
+      </i>
+    </div>
+  </div>
+   
+  <!---->
+</div>
+`;
