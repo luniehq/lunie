@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section id="proposal-timeline">
     <ul class="timeline">
       <li
         v-for="phase in timeline"

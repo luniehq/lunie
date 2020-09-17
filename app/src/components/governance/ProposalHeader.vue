@@ -65,10 +65,11 @@
 
     <nav>
       <ul class="page-links">
-        <!-- TODO -->
-        <li><a href="#">Votes</a></li>
-        <li><a href="#">Timeline</a></li>
-        <li><a href="#">Description</a></li>
+        <li><a v-scroll-to="'#proposal-votes'" href="#">Votes</a></li>
+        <li><a v-scroll-to="'#proposal-timeline'" href="#">Timeline</a></li>
+        <li>
+          <a v-scroll-to="'#proposal-description'" href="#">Description</a>
+        </li>
       </ul>
     </nav>
   </header>
