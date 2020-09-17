@@ -189,7 +189,9 @@ function proposalReducer(
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal),
-    proposer: networkAccountReducer(proposer.proposer, validators),
+    proposer: proposer
+      ? networkAccountReducer(proposer.proposer, validators)
+      : undefined,
     summary: getProposalSummary(proposal.proposal_content.type),
     detailedVotes
   }
