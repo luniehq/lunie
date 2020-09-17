@@ -28,7 +28,7 @@ exports[`LiProposal has the expected html structure 1`] = `
     <span
       class="time"
     >
-      Sat Aug 24 2019 12:53:23 GMT+0000
+      August 24th, 2019 - 12:53 PM
     </span>
   </div>
 </div>
@@ -62,7 +62,7 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
     <span
       class="time"
     >
-      Sat Aug 24 2019 12:53:23 GMT+0000
+      August 24th, 2019 - 12:53 PM
     </span>
   </div>
 </div>
