@@ -806,7 +806,7 @@ class polkadotAPI {
       votingPercentagedNo: `0`,
       percentageDepositsNeeded,
       links,
-      timeline: [{ title: `Proposal created`, time: proposal.creationTime }],
+      timeline: [{ title: `Created`, time: proposal.creationTime }],
       council: false
     }
   }
@@ -967,11 +967,11 @@ class polkadotAPI {
       timeline: [
         // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
         {
-          title: `Proposal created`,
+          title: `Created`,
           time: proposal.creationTime
         },
         {
-          title: `Voting period opens`,
+          title: `Voting Period Started`,
           time: proposalDelayInDays
             ? new Date(
                 new Date(proposal.creationTime).getTime() +
@@ -980,7 +980,7 @@ class polkadotAPI {
             : undefined
         },
         {
-          title: `Proposal voting period ends`,
+          title: `Voting Period Ends`,
           time: proposalEndTime
         }
       ],
