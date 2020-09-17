@@ -27,7 +27,7 @@
         v-focus
         :disabled="numberOfSeconds !== 0"
         type="number"
-        :placeholder="numberOfSeconds !== 0 ? '100' : '0'"
+        placeholder="0"
       />
       <TmFormMsg
         v-if="balance.amount === 0"
@@ -135,11 +135,6 @@ export default {
       }
     },
   },
-  mounted() {
-    if (this.numberOfSeconds !== 0) {
-      this.amount = 100
-    }
-  },
   validations() {
     return {
       amount: {
@@ -161,6 +156,9 @@ export default {
   },
   methods: {
     open() {
+      if (this.numberOfSeconds !== 0) {
+        this.amount = 100
+      }
       this.$refs.actionModal.open()
     },
     validateForm() {
