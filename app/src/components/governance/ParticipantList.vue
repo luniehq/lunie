@@ -10,7 +10,7 @@
         <div class="first-column">
           <span class="icon">
             <img
-              v-if="participant.validator"
+              v-if="participant.validator && participant.validator.picture"
               :src="participant.validator.picture"
             />
             <img v-else :src="currentNetwork.icon" />
@@ -76,6 +76,10 @@ export default {
       type: Array,
       required: true,
     },
+    showAmounts: {
+      type: Boolean,
+      default: false
+    }
   },
   data: () => ({
     showing: 5,
@@ -85,11 +89,6 @@ export default {
     ...mapGetters([`currentNetwork`]),
     showingParticipants() {
       return this.participants.slice(0, this.showing)
-    },
-    showAmounts() {
-      return ["Council Members", "Top Voters"].includes(this.title)
-        ? true
-        : false
     },
     moreAvailable() {
       return this.showingParticipants.length < this.participants.length
