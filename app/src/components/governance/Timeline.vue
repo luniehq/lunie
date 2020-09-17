@@ -8,7 +8,7 @@
         :class="{ done: wasInThePast(phase.time) }"
       >
         <h4>{{ phase.title }}</h4>
-        <span class="time">{{ phase.time }}</span>
+        <span class="time">{{ phase.time | moment }}</span>
       </li>
     </ul>
   </section>
@@ -19,6 +19,11 @@ import moment from "moment"
 
 export default {
   name: `timeline`,
+  filters: {
+    moment: function (date) {
+      return moment(date).fromNow()
+    },
+  },
   props: {
     timeline: {
       type: Array,

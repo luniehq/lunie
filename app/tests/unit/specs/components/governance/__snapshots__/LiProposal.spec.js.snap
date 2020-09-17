@@ -28,7 +28,7 @@ exports[`LiProposal has the expected html structure 1`] = `
     <span
       class="time"
     >
-      2019-08-24T12:53:23.303750052Z
+      in 50 years
     </span>
   </div>
 </div>
@@ -62,7 +62,7 @@ exports[`LiProposal should survive the tally result not being present yet 1`] = 
     <span
       class="time"
     >
-      2019-08-24T12:53:23.303750052Z
+      in 50 years
     </span>
   </div>
 </div>
