@@ -63,7 +63,7 @@ export default {
   },
   filters: {
     moment: function (date) {
-      return moment(date).startOf("day").fromNow()
+      return moment(date).fromNow()
     },
   },
   props: {
