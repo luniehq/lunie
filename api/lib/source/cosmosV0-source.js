@@ -308,7 +308,10 @@ class CosmosV0API extends RESTDataSource {
         proposal.deposit_end_time
           ? {
               title: `Deposit Period Ended`,
-              time: proposal.deposit_end_time
+              // the deposit period can end before the time as the limit is reached already
+              time: new Date(proposal.voting_start_time) < new Date(proposal.deposit_end_time)
+                ? proposal.voting_start_time
+                : proposal.deposit_end_time
             }
           : undefined,
         proposal.voting_start_time
