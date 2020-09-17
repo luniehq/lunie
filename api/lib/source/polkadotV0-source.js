@@ -1052,7 +1052,7 @@ class polkadotAPI {
     if (proposal.image) {
       const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
       if (imageProposal.args.old) {
-        return `Old Ethereum Address ${imageProposal.args.old} | New Ethereum Address ${imageProposal.args.new}`
+        return `Old: ${imageProposal.args.old} | New: ${imageProposal.args.new}`
       } else if (imageProposal.args.code) {
         return hexToString(imageProposal.args.code)
       } else if (imageProposal.args.new) {
