@@ -15,7 +15,9 @@ import moment from "moment"
 export default {
   name: `timeline`,
   filters: {
-    moment,
+    moment: function (date) {
+      return moment(date).fromNow()
+    },
   },
   props: {
     timeline: {

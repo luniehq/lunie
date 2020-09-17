@@ -36,7 +36,9 @@ export default {
     Status,
   },
   filters: {
-    moment,
+    moment: function (date) {
+      return moment(date).fromNow()
+    },
   },
   props: {
     proposal: {
