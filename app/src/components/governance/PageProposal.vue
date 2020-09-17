@@ -19,9 +19,7 @@
 
       <ParticipantList v-if="participants" :participants="participants" />
 
-      <template
-        v-if="proposal.detailedVotes.timeline"
-      >
+      <template v-if="proposal.detailedVotes.timeline">
         <Timeline :timeline="proposal.detailedVotes.timeline" />
       </template>
 
