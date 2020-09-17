@@ -532,6 +532,7 @@ function democracyProposalReducer(
   proposal,
   totalIssuance,
   blockHeight,
+  parameter,
   detailedVotes,
   proposer
 ) {
@@ -548,6 +549,7 @@ function democracyProposalReducer(
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
     summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
+    parameter,
     proposer,
     detailedVotes
   }

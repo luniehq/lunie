@@ -1,7 +1,7 @@
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
-const { stringToU8a } = require('@polkadot/util')
+const { stringToU8a, hexToString } = require('@polkadot/util')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const Sentry = require('@sentry/node')
 
@@ -1057,6 +1057,20 @@ class polkadotAPI {
     }
   }
 
+  getProposalParameter(proposal) {
+    // democracy proposals in Polkadot contain a parameter which is what is going to be changed
+    if (proposal.image) {
+      const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
+      if (imageProposal.args.old) {
+        return `Old: ${imageProposal.args.old} | New: ${imageProposal.args.new}`
+      } else if (imageProposal.args.code) {
+        return hexToString(imageProposal.args.code)
+      } else if (imageProposal.args.new) {
+        return imageProposal.args.new
+      }
+    }
+  }
+
   async getAllProposals() {
     const api = await this.getAPI()
 
@@ -1093,6 +1107,7 @@ class polkadotAPI {
             proposalWithMetadata,
             totalIssuance,
             blockHeight,
+            this.getProposalParameter(proposal),
             await this.getDetailedVotes(proposalWithMetadata, `democracy`),
             proposer
           )

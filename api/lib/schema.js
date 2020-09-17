@@ -109,6 +109,7 @@ const typeDefs = gql`
     validator: Validator
     beneficiary: NetworkAccount
     summary: String
+    parameter: String
     detailedVotes: DetailedVotes
   }
 
