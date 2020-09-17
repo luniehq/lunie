@@ -22,7 +22,7 @@
     <div v-if="status.value === governanceStatusEnum.VOTING">
       <div class="top row">
         <div class="time">
-          Entered Voting Period on {{ new Date(statusBeginTime).toUTCString() }}
+          Entered Voting Period {{ new Date(statusBeginTime) | moment }}
         </div>
         <div>ID: {{ proposal.proposalId }}</div>
       </div>
@@ -62,7 +62,9 @@ export default {
     ProgressBar,
   },
   filters: {
-    moment,
+    moment: function (date) {
+      return moment(date).fromNow()
+    },
   },
   props: {
     status: {
