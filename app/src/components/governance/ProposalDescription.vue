@@ -1,5 +1,5 @@
 <template>
-  <div class="proposal-description">
+  <div id="proposal-description" class="proposal-description">
     <div class="description-content-container">
       <section v-if="description">
         <h4>Description</h4>

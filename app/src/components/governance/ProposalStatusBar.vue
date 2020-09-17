@@ -1,5 +1,5 @@
 <template>
-  <section class="status-bar">
+  <section id="proposal-votes" class="status-bar">
     <div v-if="status.value === governanceStatusEnum.DEPOSITING">
       <div v-if="statusBeginTime" class="top row">
         <div class="time">
