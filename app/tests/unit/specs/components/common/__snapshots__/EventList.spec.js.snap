@@ -6,6 +6,13 @@ exports[`EventList renders a list of event items 1`] = `
 >
   <div>
     <h3>
+      January 10th
+    </h3>
+     
+    <div />
+  </div>
+  <div>
+    <h3>
       January 9th
     </h3>
      
