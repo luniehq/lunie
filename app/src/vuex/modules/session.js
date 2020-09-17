@@ -65,7 +65,14 @@ export default ({ apollo }) => {
       state.address = address
     },
     setUserAddresses(state, addresses) {
-      state.addresses = addresses
+      state.addresses = addresses.map((address) => {
+        let storedAddress = {
+          ...address,
+          sessionType: address.sessionType || address.type,
+        }
+        delete storedAddress.type
+        return storedAddress
+      })
     },
     setAllSessionAddresses(state, addresses) {
       state.allSessionAddresses = addresses
@@ -133,12 +140,12 @@ export default ({ apollo }) => {
         JSON.stringify({ address, sessionType, HDPath, curve })
       )
     },
-    async persistAddresses(store, { addresses }) {
+    async persistAddresses(store, addresses) {
       localStorage.setItem(`addresses`, JSON.stringify(addresses))
     },
     async rememberAddress(
       { state, commit },
-      { address, sessionType, networkId }
+      { address, name, sessionType, networkId, HDPath, curve }
     ) {
       // Check if signin address was previously used
       const sessionExist = state.addresses.find(
@@ -148,8 +155,11 @@ export default ({ apollo }) => {
       if (!sessionExist) {
         state.addresses.push({
           address,
-          type: sessionType,
+          name,
+          sessionType,
           networkId,
+          HDPath,
+          curve,
         })
         commit(`setUserAddresses`, state.addresses)
       }
@@ -192,6 +202,7 @@ export default ({ apollo }) => {
       await dispatch(`rememberAddress`, {
         address,
         sessionType,
+        name: session ? session.name : undefined,
         HDPath,
         curve,
         networkId,
@@ -205,9 +216,7 @@ export default ({ apollo }) => {
         networkId,
       })
       const addresses = state.addresses
-      dispatch(`persistAddresses`, {
-        addresses,
-      })
+      dispatch(`persistAddresses`, addresses)
 
       // In Polkadot there are different account types for staking. To be able to signal allowed interactions
       // for the user in Lunie we need to query for the type of the account.
@@ -235,6 +244,29 @@ export default ({ apollo }) => {
         HDPath,
         curve
       )
+    },
+    async signOutAddress({ commit, dispatch }, signOutAddress) {
+      const allSessionAddresses = await dispatch("getAllSessionAddresses")
+      if (
+        allSessionAddresses.find(
+          ({ networkId, address }) =>
+            networkId === signOutAddress.networkId &&
+            address === signOutAddress.address
+        )
+      ) {
+        dispatch("signOut", signOutAddress.networkId)
+      }
+      commit(
+        "setUserAddresses",
+        state.addresses.filter(
+          ({ networkId, address }) =>
+            !(
+              networkId === signOutAddress.networkId &&
+              address === signOutAddress.address
+            )
+        )
+      )
+      dispatch("persistAddresses", state.addresses)
     },
     async signOut({ state, commit, dispatch }, networkId) {
       state.externals.track(`event`, `session`, `sign-out`)

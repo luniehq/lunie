@@ -1,0 +1,228 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BalanceRow it shows a balance row 1`] = `
+<div
+  class="balance-row"
+>
+  <div
+    class="table-cell big"
+  >
+    <img
+      alt="MUON currency"
+      class="currency-flag"
+      src="/img/icons/currencies/muon.png"
+    />
+     
+    <div
+      class="total-and-fiat"
+    >
+      <span
+        class="total"
+      >
+        
+        100.78
+        MUON
+      
+      </span>
+       
+      <span
+        class="fiat"
+      >
+        
+        10
+        USD
+      </span>
+    </div>
+  </div>
+   
+  <div
+    class="table-cell rewards"
+  >
+    <h2>
+      
+      +5
+      MUON
+    
+    </h2>
+  </div>
+   
+  <div
+    class="table-cell available"
+  >
+    <span
+      class="available-amount"
+    >
+      
+      80.78
+    
+    </span>
+  </div>
+   
+  <div
+    class="table-cell actions"
+  >
+    <div
+      class="icon-button-container"
+    >
+      <button
+        class="icon-button"
+      >
+        <i
+          class="material-icons"
+        >
+          send
+        </i>
+      </button>
+      <span>
+        Send
+      </span>
+    </div>
+     
+    <!---->
+     
+    <!---->
+  </div>
+   
+  <sendmodal-stub
+    denoms="MUON"
+  />
+   
+  <delegationmodal-stub
+    targetvalidator="[object Object]"
+  />
+   
+  <undelegationmodal-stub
+    sourcevalidator="[object Object]"
+  />
+   
+  <!---->
+</div>
+`;
+
+exports[`BalanceRow it shows an unstaking balance 1`] = `
+<div
+  class="balance-row"
+>
+  <div
+    class="table-cell big"
+  >
+    <img
+      alt="MUON currency"
+      class="currency-flag"
+      src="/img/icons/currencies/muon.png"
+    />
+     
+    <div
+      class="total-and-fiat"
+    >
+      <span
+        class="total"
+      >
+        
+        100.78
+        MUON
+      
+      </span>
+       
+      <span
+        class="fiat"
+      >
+        
+        10
+        USD
+      </span>
+    </div>
+  </div>
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+   
+  <sendmodal-stub
+    denoms="MUON"
+  />
+   
+  <delegationmodal-stub
+    targetvalidator="[object Object]"
+  />
+   
+  <undelegationmodal-stub
+    sourcevalidator="[object Object]"
+  />
+   
+  <div
+    class="table-cell endtime"
+  >
+    <span>
+      
+      in 51 years
+    
+    </span>
+  </div>
+</div>
+`;
+
+exports[`BalanceRow it shows an unstaking balance ready to claim 1`] = `
+<div
+  class="balance-row"
+>
+  <div
+    class="table-cell big"
+  >
+    <img
+      alt="MUON currency"
+      class="currency-flag"
+      src="/img/icons/currencies/muon.png"
+    />
+     
+    <div
+      class="total-and-fiat"
+    >
+      <span
+        class="total"
+      >
+        
+        100.78
+        MUON
+      
+      </span>
+       
+      <span
+        class="fiat"
+      >
+        
+        10
+        USD
+      </span>
+    </div>
+  </div>
+   
+  <!---->
+   
+  <!---->
+   
+  <!---->
+   
+  <sendmodal-stub
+    denoms="MUON"
+  />
+   
+  <delegationmodal-stub
+    targetvalidator="[object Object]"
+  />
+   
+  <undelegationmodal-stub
+    sourcevalidator="[object Object]"
+  />
+   
+  <div
+    class="table-cell endtime"
+  >
+    <span>
+      Claimable
+    </span>
+  </div>
+</div>
+`;

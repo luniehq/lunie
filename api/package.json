@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "1.0.42",
+  "version": "1.0.46",
   "description": "GraphQL API for Lunie.io",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
     "build": "docker build . -t lunieapi",
     "lint": "eslint index.js config.js lib tests",
     "lint-fix": "yarn lint --fix",
-    "start": "node index.js ",
+    "start": "node --max-old-space-size=3500 index.js",
     "test:unit": "cross-env TEST=true jest",
     "changelog": "simsala log --pending-path ./changes"
   },
@@ -32,8 +32,9 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
-    "@polkadot/api": "^1.28.1",
-    "@sentry/node": "^5.20.1",
+    "@polkadot/api": "^1.33.1",
+    "@polkassembly/util": "^0.2.0",
+    "@sentry/node": "^5.22.3",
     "apollo-datasource-rest": "^0.9.3",
     "apollo-server": "^2.16.1",
     "apollo-server-cache-redis": "^1.2.2",
@@ -45,7 +46,7 @@
     "firebase-admin": "^9.0.0",
     "graphql": "^15.1.0",
     "graphql-redis-subscriptions": "^2.2.1",
-    "lodash": "^4.17.19"
+    "lodash": "^4.17.20"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
@@ -53,8 +54,8 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
     "husky": "^4.2.5",
-    "jest": "^26.0.1",
-    "node-fetch": "^2.6.0",
+    "jest": "^26.4.0",
+    "node-fetch": "^2.6.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
     "simsala": "^0.0.21"

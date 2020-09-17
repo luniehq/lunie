@@ -1,14 +1,15 @@
 const { RESTDataSource, HTTPCache } = require('apollo-datasource-rest')
 const { InMemoryLRUCache } = require('apollo-server-caching')
 const BigNumber = require('bignumber.js')
-const { orderBy, keyBy, uniqBy } = require('lodash')
+const _ = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
 const { getNetworkGasPrices } = require('../../data/network-fees')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
 class CosmosV0API extends RESTDataSource {
-  constructor(network, store, fiatValuesAPI) {
+  constructor(network, store, fiatValuesAPI, db) {
     super()
     this.baseURL = network.api_url
     this.initialize({})
@@ -19,6 +20,7 @@ class CosmosV0API extends RESTDataSource {
     this.gasPrices = getNetworkGasPrices(network.id)
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
+    this.db = db
 
     this.setReducers()
   }
@@ -197,14 +199,14 @@ class CosmosV0API extends RESTDataSource {
     ])
 
     // create a dictionary to reduce array lookups
-    const consensusValidators = keyBy(validatorSet.validators, 'address')
+    const consensusValidators = _.keyBy(validatorSet.validators, 'address')
     const totalVotingPower = validatorSet.validators.reduce(
       (sum, { voting_power }) => sum.plus(voting_power),
       BigNumber(0)
     )
 
     // query for signing info
-    const signingInfos = keyBy(
+    const signingInfos = _.keyBy(
       await this.getValidatorSigningInfos(validators),
       'address'
     )
@@ -232,25 +234,131 @@ class CosmosV0API extends RESTDataSource {
     )
   }
 
-  async getAllProposals() {
+  async getDetailedVotes(proposal) {
+    const [
+      votes,
+      deposits,
+      tally,
+      tallyingParameters,
+      depositParameters,
+      links
+    ] = await Promise.all([
+      this.query(`/gov/proposals/${proposal.id}/votes`),
+      this.query(`/gov/proposals/${proposal.id}/deposits`),
+      this.query(`/gov/proposals/${proposal.id}/tally`),
+      this.query(`/gov/parameters/tallying`),
+      this.query(`/gov/parameters/deposit`),
+      this.db.getNetworkLinks(this.network.id)
+    ])
+    const totalVotingParticipation = BigNumber(tally.yes)
+      .plus(tally.abstain)
+      .plus(tally.no)
+      .plus(tally.no_with_veto)
+    const formattedDeposits = deposits
+      ? deposits.map((deposit) =>
+          this.reducers.depositReducer(deposit, this.network)
+        )
+      : undefined
+    const depositsSum = formattedDeposits
+      ? formattedDeposits.reduce((depositAmountAggregator, deposit) => {
+          return (depositAmountAggregator += Number(deposit.amount[0].amount))
+        }, 0)
+      : undefined
+    return {
+      deposits: formattedDeposits,
+      depositsSum: deposits ? Number(depositsSum).toFixed(6) : undefined,
+      percentageDepositsNeeded: deposits
+        ? (
+            (depositsSum * 100) /
+            fixDecimalsAndRoundUpBigNumbers(
+              depositParameters.min_deposit[0].amount,
+              6,
+              this.network
+            )
+          ).toFixed(2)
+        : undefined,
+      votes: votes
+        ? votes.map((vote) => this.reducers.voteReducer(vote))
+        : undefined,
+      votesSum: votes ? votes.length : undefined,
+      votingThresholdYes: Number(tallyingParameters.threshold).toFixed(2),
+      votingThresholdNo: (1 - tallyingParameters.threshold).toFixed(2),
+      votingPercentageYes:
+        totalVotingParticipation.toNumber() > 0
+          ? BigNumber(tally.yes)
+              .times(100)
+              .div(totalVotingParticipation)
+              .toNumber()
+              .toFixed(2)
+          : 0,
+      votingPercentageNo:
+        totalVotingParticipation.toNumber() > 0
+          ? BigNumber(tally.no)
+              .plus(tally.no_with_veto)
+              .times(100)
+              .div(totalVotingParticipation)
+              .toNumber()
+              .toFixed(2)
+          : 0,
+      links,
+      timeline: [
+        proposal.submit_time
+          ? { title: `Created`, time: proposal.submit_time }
+          : undefined,
+        proposal.deposit_end_time
+          ? {
+              title: `Deposit Period Ended`,
+              time: proposal.deposit_end_time
+            }
+          : undefined,
+        proposal.voting_start_time
+          ? {
+              title: `Voting Period Started`,
+              time: proposal.voting_start_time
+            }
+          : undefined,
+        proposal.voting_end_time
+          ? {
+              title: `Voting Period Ended`,
+              time: proposal.voting_end_time
+            }
+          : undefined
+      ]
+    }
+  }
+
+  async getAllProposals(validators) {
     const response = await this.query('gov/proposals')
     const { bonded_tokens: totalBondedTokens } = await this.query(
       '/staking/pool'
     )
     if (!Array.isArray(response)) return []
-    const proposals = response.map((proposal) => {
-      return this.reducers.proposalReducer(
-        this.network.id,
-        proposal,
-        {},
-        totalBondedTokens
-      )
-    })
+    const proposals = await Promise.all(
+      response.map(async (proposal) => {
+        const [tally, proposer] = await Promise.all([
+          this.query(`gov/proposals/${proposal.id}/tally`),
+          this.query(`gov/proposals/${proposal.id}/proposer`).catch(() => {
+            return { proposer: undefined }
+          })
+        ])
+        const detailedVotes = await this.getDetailedVotes(proposal)
+        return this.reducers.proposalReducer(
+          this.network.id,
+          proposal,
+          tally,
+          proposer,
+          totalBondedTokens,
+          detailedVotes,
+          this.reducers,
+          validators
+        )
+      })
+    )
 
-    return orderBy(proposals, 'id', 'desc')
+    return _.orderBy(proposals, 'id', 'desc')
   }
 
-  async getProposalById({ proposalId }) {
+  async getProposalById(proposalId, validators) {
     const proposal = await this.query(`gov/proposals/${proposalId}`).catch(
       () => {
         throw new UserInputError(
@@ -261,20 +369,25 @@ class CosmosV0API extends RESTDataSource {
     const [
       tally,
       proposer,
-      { bonded_tokens: totalBondedTokens }
+      { bonded_tokens: totalBondedTokens },
+      detailedVotes
     ] = await Promise.all([
-      this.query(`/gov/proposals/${proposalId}/tally`),
+      this.query(`gov/proposals/${proposalId}/tally`),
       this.query(`gov/proposals/${proposalId}/proposer`).catch(() => {
-        return { proposer: `unknown` }
+        return { proposer: undefined }
       }),
-      this.query(`/staking/pool`)
+      this.query(`/staking/pool`),
+      this.getDetailedVotes(proposal)
     ])
     return this.reducers.proposalReducer(
       this.network.id,
       proposal,
       tally,
       proposer,
-      totalBondedTokens
+      totalBondedTokens,
+      detailedVotes,
+      this.reducers,
+      validators
     )
   }
 
@@ -286,6 +399,53 @@ class CosmosV0API extends RESTDataSource {
       depositParameters,
       tallyingParamers
     )
+  }
+
+  async getTopVoters() {
+    // for now defaulting to pick the 10 largest voting powers
+    return _.take(
+      _.reverse(
+        _.sortBy(this.store.validators, [
+          (validator) => {
+            return validator.votingPower
+          }
+        ])
+      ),
+      10
+    )
+  }
+
+  async getGovernanceOverview() {
+    const { bonded_tokens: totalBondedTokens } = await this.query(
+      '/staking/pool'
+    )
+    const [communityPoolArray, links, topVoters] = await Promise.all([
+      this.query('/distribution/community_pool'),
+      this.db.getNetworkLinks(this.network.id),
+      this.getTopVoters()
+    ])
+    const communityPool = communityPoolArray.find(
+      ({ denom }) => denom === this.network.coinLookup[0].chainDenom
+    ).amount
+    return {
+      totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
+        totalBondedTokens,
+        2,
+        this.network,
+        this.network.stakingDenom
+      ),
+      totalVoters: undefined,
+      treasurySize: fixDecimalsAndRoundUpBigNumbers(
+        communityPool,
+        2,
+        this.network,
+        this.network.stakingDenom
+      ),
+      topVoters: topVoters.map((topVoter) =>
+        this.reducers.topVoterReducer(topVoter)
+      ),
+      links
+    }
   }
 
   async getDelegatorVote({ proposalId, address }) {
@@ -364,7 +524,10 @@ class CosmosV0API extends RESTDataSource {
     // also check if there are any balances as rewards
     const rewards = await this.getRewards(address, fiatCurrency, network)
     const rewardsBalances = rewards.reduce((coinsAggregator, reward) => {
-      if (!coins.find((coin) => coin.denom === reward.denom)) {
+      if (
+        !coins.find((coin) => coin.denom === reward.denom) &&
+        !coinsAggregator.find((coin) => coin.denom === reward.denom)
+      ) {
         coinsAggregator.push({
           amount: 0,
           denom: reward.denom
@@ -519,7 +682,7 @@ class CosmosV0API extends RESTDataSource {
       },
       []
     )
-    return uniqBy(allDelegations, 'delegator_address').map(
+    return _.uniqBy(allDelegations, 'delegator_address').map(
       ({ delegator_address }) => delegator_address
     )
   }

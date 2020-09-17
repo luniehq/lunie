@@ -5,7 +5,6 @@ const {
 } = require('../subscriptions')
 const Sentry = require('@sentry/node')
 const database = require('../database')
-const { orderBy } = require('lodash')
 const config = require('../../config.js')
 const {
   lunieMessageTypes: { SEND }
@@ -44,11 +43,16 @@ class CosmosNodeSubscription {
   async pollForProposalChanges() {
     // If you create this.cosmosAPI object in constructor, it will stay forever as it caches
     // Don't want this behaviour as this needs to be recreated with every new context
-    const cosmosAPI = new this.CosmosApiClass(this.network, this.store)
+    const cosmosAPI = new this.CosmosApiClass(
+      this.network,
+      this.store,
+      undefined,
+      this.db
+    )
 
     // set store upon start
     this.store.update({
-      proposals: await cosmosAPI.getAllProposals()
+      proposals: await cosmosAPI.getAllProposals(this.validators)
     })
 
     this.proposalPollingTimeout = setTimeout(async () => {
@@ -87,7 +91,12 @@ class CosmosNodeSubscription {
   }
 
   async pollForNewBlock() {
-    const cosmosAPI = new this.CosmosApiClass(this.network, this.store)
+    const cosmosAPI = new this.CosmosApiClass(
+      this.network,
+      this.store,
+      undefined,
+      this.db
+    )
     await this.checkForNewBlock(cosmosAPI)
 
     this.pollingTimeout = setTimeout(async () => {

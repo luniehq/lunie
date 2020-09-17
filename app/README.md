@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/luniehq/lunie/branch/develop/graph/badge.svg)](https://codecov.io/gh/luniehq/lunie)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
-👋 Welcome to Lunie. We're making staking easy and accessible for everyone. This is the repo for the Lunie web and mobile apps.
+👋  Welcome to Lunie. We're making staking easy and accessible for everyone. This is the repo for the Lunie web and mobile apps.
 
 ## Development Dependencies
 
@@ -116,12 +116,18 @@ Dependencies:
 - [Cocoapods](https://guides.cocoapods.org/using/getting-started.html#installation)
 
 To open Lunie in Xcode: 
-1. Build Lunie
+1. Build Lunie for production
 ```bash
 $ yarn build:mobile
 ```
+or ...
 
-2. After a new build, you need to run the following command. This step may take up to 20 minutes to complete if you've never used Cocoapods before.
+1. Build Lunie for development
+```bash
+$ yarn build:mobile:dev
+```
+
+2. After a new build, you need to run the following command. This step can take up to 20 minutes to complete if you've never used Cocoapods before.
 ```bash
 $ npx cap sync ios
 ```
@@ -181,6 +187,12 @@ To run the e2e tests on multiple browsers use [Browserstack](https://www.browser
 
 ```bash
 yarn test:e2e:browserstack --fe=https://app.lunie.io --api=https://staging-api.lunie.io --filter=*send*
+```
+
+To run the e2e tests on the Westend network (our chosen Substrate testnet network) it suffices to add the `network` flag to the prior command:
+
+```bash
+yarn test:e2e:browserstack --fe=https://app.lunie.io --api=https://staging-api.lunie.io --network="polkadot-testnet"
 ```
 
 ## Flags

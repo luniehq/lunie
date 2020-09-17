@@ -18,6 +18,7 @@ class NetworkStore {
     this.annualProvision = 0
     this.signedBlocksWindow = 0
     this.validators = {}
+    this.identities = {}
     this.proposals = []
     this.newValidators = {}
     this.db = database

@@ -184,34 +184,50 @@ const transactionMetadata = async (
   }
 }
 
-// TODO: should also work with identity
-async function getValidatorProfile(name, dataSources, networks) {
+const getValidatorProfile = async (name, dataSources, networks) => {
   await globalStore(dataSources, networks).dataReady
   const globalsStoreConst = globalStore(dataSources, networks)
   const globalValidators = await globalsStoreConst.getGlobalValidators()
   return globalValidators[name]
 }
 
+const governanceOverview = () => async (_, { networkId }, { dataSources }) => {
+  const overview = await remoteFetch(
+    dataSources,
+    networkId
+  ).getGovernanceOverview()
+  return {
+    totalStakedAssets: overview.totalStakedAssets,
+    totalVoters: overview.totalVoters,
+    treasurySize: overview.treasurySize,
+    recentProposals: overview.recentProposals,
+    topVoters: overview.topVoters,
+    links: overview.links
+  }
+}
+
 const resolvers = (networkList, notificationController) => ({
   Proposal: {
     validator: (proposal, _, { dataSources }) => {
       //
-      // Proposer value can be `unknown` (if proposal was issued in a previous chain),
-      // or standard address (i.e: cosmos19wlk8gkfjckqr8d73dyp4n0f0k89q4h7xr3uwj).
+      // Proposer value is a standard address (i.e: cosmos19wlk8gkfjckqr8d73dyp4n0f0k89q4h7xr3uwj).
       //
       // In some cases proposer address corresponds to a validator address, so we convert
       // it to an operator address. That way we can check and display if proposal comes from
       // a validator, and in that case fetch the current validator object from datasource
       // and attach it to proposal.
       //
-      if (proposal.proposer !== `unknown`) {
-        const proposerValAddress = encodeB32(
-          decodeB32(proposal.proposer),
-          `cosmosvaloper`,
-          `hex`
+      if (proposal.proposer) {
+        const proposalNetwork = networkList.find(
+          ({ id }) => id === proposal.networkId
         )
+        if (proposalNetwork && proposalNetwork.network_type === `polkadot`) {
+          return localStore(dataSources, proposal.networkId).validators[
+            proposal.proposer
+          ]
+        }
         return localStore(dataSources, proposal.networkId).validators[
-          proposerValAddress
+          proposal.proposer.address
         ]
       } else {
         return undefined
@@ -231,12 +247,23 @@ const resolvers = (networkList, notificationController) => ({
     }
   },
   Query: {
-    proposals: (_, { networkId }, { dataSources }) =>
-      remoteFetch(dataSources, networkId).getAllProposals(),
-    proposal: (_, { networkId, id }, { dataSources }) =>
-      remoteFetch(dataSources, networkId).getProposalById({
-        proposalId: id
-      }),
+    proposals: async (_, { networkId }, { dataSources }) => {
+      await localStore(dataSources, networkId).dataReady
+      let validators = Object.values(
+        localStore(dataSources, networkId).validators
+      )
+      return remoteFetch(dataSources, networkId).getAllProposals(validators)
+    },
+    proposal: async (_, { networkId, id }, { dataSources }) => {
+      await localStore(dataSources, networkId).dataReady
+      let validators = Object.values(
+        localStore(dataSources, networkId).validators
+      )
+      return await remoteFetch(dataSources, networkId).getProposalById(
+        id,
+        validators
+      )
+    },
     vote: (_, { networkId, proposalId, address }, { dataSources }) =>
       remoteFetch(dataSources, networkId).getDelegatorVote({
         proposalId,
@@ -319,10 +346,12 @@ const resolvers = (networkList, notificationController) => ({
       { dataSources }
     ) => {
       await localStore(dataSources, networkId).dataReady
+      // needed to get coinLookups
+      const network = networkList.find((network) => network.id === networkId)
       const balances = await remoteFetch(
         dataSources,
         networkId
-      ).getBalancesFromAddress(address, fiatCurrency)
+      ).getBalancesFromAddress(address, fiatCurrency, network)
       const balance = balances.find((balance) => balance.denom === denom)
       return balance || { denom, amount: 0 }
     },
@@ -335,18 +364,24 @@ const resolvers = (networkList, notificationController) => ({
       remoteFetch(dataSources, networkId).getAnnualProvision(),
     rewards: async (
       _,
-      { networkId, delegatorAddress, operatorAddress, fiatCurrency },
+      {
+        networkId,
+        delegatorAddress,
+        operatorAddress,
+        fiatCurrency,
+        withHeight = false
+      },
       { dataSources, fingerprint, development }
     ) => {
       await localStore(dataSources, networkId).dataReady
-      // needed to get coinLookups
       const network = networkList.find((network) => network.id === networkId)
       let rewards = await remoteFetch(dataSources, networkId).getRewards(
         delegatorAddress,
         fiatCurrency,
-        network
+        network,
+        withHeight
       )
-      if (development !== 'true') {
+      if (development !== 'true' && !withHeight) {
         logRewards(
           networkList,
           rewards,
@@ -404,7 +439,8 @@ const resolvers = (networkList, notificationController) => ({
     },
     validatorProfile: (_, { name }, { dataSources }) => {
       getValidatorProfile(name, dataSources, networkList)
-    }
+    },
+    governanceOverview: governanceOverview()
   },
   Mutation: {
     registerUser: (_, { idToken }) => registerUser(idToken),

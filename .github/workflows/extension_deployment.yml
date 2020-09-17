@@ -1,0 +1,37 @@
+name: Extension Deployment Workflow
+
+on:
+  push:
+    branches:
+      - 'master'
+    paths:
+      - 'extension/CHANGELOG.md'
+env:
+  WORKING_DIRECTORY: ./extension
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+      - name: NPM Install
+        uses: bahmutov/npm-install@v1
+      - name: Build Extension
+        run: LUNIE_API=${{ secrets.LUNIE_API }} yarn build
+        working-directory: ${{env.WORKING_DIRECTORY}}
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN_EXTENSION }}
+      - name: Zip Build Files
+        run: yarn build-zip
+        working-directory: ${{env.WORKING_DIRECTORY}}
+      - name: Deploy to Extension Store
+        run: sh ./scripts/deploy.sh ./dist-zip/extension.zip
+        working-directory: ${{env.WORKING_DIRECTORY}}
+        env:
+          GAPI_CLIENT_ID: ${{ secrets.GAPI_CLIENT_ID }}
+          GAPI_CLIENT_SECRET: ${{ secrets.GAPI_CLIENT_SECRET }}
+          GAPI_REFRESH_TOKEN: ${{ secrets.GAPI_REFRESH_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.GAPI_ACCESS_TOKEN }}
+          APP_ID: ${{ secrets.EXTENSION_APP_ID }}

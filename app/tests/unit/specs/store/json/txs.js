@@ -434,7 +434,11 @@ export const governanceTxs = [
           {
             type: `cosmos-sdk/MsgDeposit`,
             value: {
-              depositer: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+              depositer: {
+                name: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+                address: `cosmosvaladdr15ky9du8a2wlstz6fpx3p4mqpjyrm5ctqzh8yqw`,
+                picture: null,
+              },
               proposal_id: `1`,
               amount: [
                 {

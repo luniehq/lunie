@@ -61,6 +61,13 @@ describe("Routes", () => {
         connection: {
           networkSlug: "cosmos-hub",
         },
+        session: {
+          allSessionAddresses: [
+            {
+              networkId: "cosmos-hub-mainnet",
+            },
+          ],
+        },
       },
       getters: {
         networks: [
@@ -79,5 +86,49 @@ describe("Routes", () => {
       slug: `terra`,
     })
     expect(next).toHaveBeenCalledWith(`/terra/blocks/12345`)
+  })
+
+  it("should switch to validators if there is no session for the target network", async () => {
+    // would have been better to instantiate the router and test with actual routing but that caused issues
+    const next = jest.fn()
+    const to = {
+      params: {
+        networkId: "terra",
+      },
+      path: "/terra",
+    }
+    const store = {
+      dispatch: jest.fn(() => {
+        store.state.connection.networkSlug = "terra"
+      }),
+      state: {
+        connection: {
+          networkSlug: "cosmos-hub",
+        },
+        session: {
+          allSessionAddresses: [
+            {
+              networkId: "cosmos-hub-mainnet",
+            },
+          ],
+        },
+      },
+      getters: {
+        networks: [
+          {
+            id: `terra-testnet`,
+            slug: `terra`,
+          },
+        ],
+      },
+    }
+
+    await setNetwork({ to, next }, store)
+
+    expect(store.dispatch).toHaveBeenCalledWith("setNetwork", {
+      id: `terra-testnet`,
+      slug: `terra`,
+    })
+    expect(next).toHaveBeenCalledWith(`/terra/validators`)
   })
 })

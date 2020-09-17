@@ -6,6 +6,9 @@ describe(`Undelegations`, () => {
   let wrapper, $store, $apollo, undelegations
   const getters = {
     address: "cosmos1",
+    currentNetwork: {
+      network_type: "cosmos",
+    },
   }
 
   undelegations = [

@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.38] - 2020-09-11
+
+### Changed
+
+- Ping the frontend until it replys to make sure events are triggered after all required listeners are setup @faboweb
+
+### Fixed
+
+- [#4849](https://github.com/cosmos/lunie/issues/4849) Change Westend RPC @mariopino
+
+## [1.0.37] - 2020-09-08
+
+### Changed
+
+- [#4834](https://github.com/cosmos/lunie/pull/4834) Update to @polkadot/api-1.32.1 @Bitcoinera
+
+### Code Improvements
+
+- Changed some variable names for address management @faboweb
+
+## [1.0.36] - 2020-09-01
+
+### Changed
+
+- [#4724](https://github.com/cosmos/lunie/pull/4724) Update to polkadot/api 1.29.1 @Bitcoinera
+- [#4756](https://github.com/cosmos/lunie/pull/4756) Update to polkadot/api 1.30.1 @Bitcoinera
+- [#4788](https://github.com/cosmos/lunie/pull/4788) Update to polkadot/api-1.31.2 @Bitcoinera
+
 ## [1.0.35] - 2020-08-13
 
 ### Changed
@@ -21,7 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 
-- Use Polkadot API signing to fix signing on mainet @faboweb
+- Use Polkadot API signing to fix signing on mainnet @faboweb
 
 ## [1.0.33] - 2020-07-31
 

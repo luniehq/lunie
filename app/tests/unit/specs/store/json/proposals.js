@@ -18,8 +18,21 @@ export const proposals = [
       __typename: "Tally",
     },
     deposit: "0",
-    proposer: "unknown",
+    proposer: undefined,
     validator: undefined,
+    detailedVotes: {
+      depositsSum: "1",
+      votesSum: "2",
+      percentageDepositsNeeded: "50",
+      votingPercentageYes: "20",
+      votingPercentageNo: "5",
+      timeline: [
+        {
+          title: `Proposal created`,
+          time: `Mon Sep 07 2020 17:18:06 GMT+0200 (Central European Summer Time)`,
+        },
+      ],
+    },
     __typename: "Proposal",
   },
   {
@@ -41,7 +54,24 @@ export const proposals = [
       __typename: "Tally",
     },
     deposit: "0",
-    proposer: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+    proposer: {
+      name: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+      address: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+      picture: null,
+    },
+    detailedVotes: {
+      depositsSum: "1",
+      votesSum: "2",
+      percentageDepositsNeeded: "50",
+      votingPercentageYes: "20",
+      votingPercentageNo: "5",
+      timeline: [
+        {
+          title: `Proposal created`,
+          time: `Mon Sep 07 2020 17:18:06 GMT+0200 (Central European Summer Time)`,
+        },
+      ],
+    },
     __typename: "Proposal",
   },
   {
@@ -63,10 +93,27 @@ export const proposals = [
       __typename: "Tally",
     },
     deposit: "0",
-    proposer: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+    proposer: {
+      name: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+      address: "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz",
+      picture: null,
+    },
     validator: {
       name: "Big Daddy Validator",
       __typename: "Validator",
+    },
+    detailedVotes: {
+      depositsSum: "1",
+      votesSum: "2",
+      percentageDepositsNeeded: "50",
+      votingPercentageYes: "20",
+      votingPercentageNo: "5",
+      timeline: [
+        {
+          title: `Proposal created`,
+          time: `Mon Sep 07 2020 17:18:06 GMT+0200 (Central European Summer Time)`,
+        },
+      ],
     },
     __typename: "Proposal",
   },

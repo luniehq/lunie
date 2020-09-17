@@ -60,11 +60,10 @@
             <li class="table-cell check">Github Alerts</li>
           </ul>
         </div>
-        <div class="table-span" @click="handleIntercom()">
-          <span>
-            Have any ideas? Share them with us
-            <i class="material-icons notranslate">launch</i>
-          </span>
+        <div class="table-span">
+          <a class="intercom-button" @click="handleIntercom()">
+            Have any ideas? Share them with us!
+          </a>
         </div>
       </div>
     </div>

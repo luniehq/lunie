@@ -5,7 +5,6 @@
       class="session-frame"
       tabindex="0"
       @keyup.esc="closeModal()"
-      @click.self="closeModal()"
     >
       <div class="session-outer-container">
         <div

@@ -14,7 +14,10 @@ describe(`DelegationsOverview`, () => {
       [validators[0].operator_address]: validators[0],
     },
     address: "cosmos1",
-    network: "testnet",
+    currentNetwork: {
+      id: "testnet",
+      stakingDenom: "STAKE",
+    },
   }
 
   delegations = [
@@ -42,7 +45,6 @@ describe(`DelegationsOverview`, () => {
         connection: {
           network: "testnet",
         },
-        delegations,
         session: {
           addressRole: undefined,
         },
@@ -54,6 +56,10 @@ describe(`DelegationsOverview`, () => {
     $apollo = {
       queries: {
         delegations: {
+          loading: false,
+          error: false,
+        },
+        balances: {
           loading: false,
           error: false,
         },
@@ -70,6 +76,14 @@ describe(`DelegationsOverview`, () => {
 
     wrapper.setData({
       delegations,
+      balances: [
+        {
+          total: 10000,
+          liquid: 50,
+          staked: 9850, // 100 would be unstaking
+          denom: "STAKE",
+        },
+      ],
     })
   })
 
@@ -78,7 +92,17 @@ describe(`DelegationsOverview`, () => {
   })
 
   it(`shows a sentiment of dissatisfaction when you have no such delegations`, async () => {
-    wrapper.setData({ delegations: [] })
+    wrapper.setData({
+      delegations: [],
+      balances: [
+        {
+          total: 34,
+          available: 1,
+          staked: 33,
+          denom: "STAKE",
+        },
+      ],
+    })
     expect(wrapper.element).toMatchSnapshot()
   })
 })

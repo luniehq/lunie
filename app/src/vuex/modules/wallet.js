@@ -1,3 +1,6 @@
+import { Keyring } from "@polkadot/keyring"
+import { cryptoWaitReady } from "@polkadot/util-crypto"
+
 // creates a cosmos addres for the network desired
 function getCosmosAddressCreator(bech32Prefix, HDPath, curve) {
   return async (seedPhrase) => {
@@ -8,16 +11,7 @@ function getCosmosAddressCreator(bech32Prefix, HDPath, curve) {
 
 // creates a polkadot address
 async function createPolkadotAddress(seedPhrase, network, curve) {
-  const [{ Keyring }] = await Promise.all([
-    import("@polkadot/api"),
-    import("@polkadot/wasm-crypto").then(async ({ waitReady }) => {
-      await waitReady()
-    }),
-    import("@polkadot/util-crypto").then(async ({ cryptoWaitReady }) => {
-      // Wait for the promise to resolve, async WASM or `cryptoWaitReady().then(() => { ... })`
-      await cryptoWaitReady()
-    }),
-  ])
+  await cryptoWaitReady()
 
   const keyring = new Keyring({
     ss58Format: Number(network.address_prefix),

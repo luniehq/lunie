@@ -9,10 +9,7 @@
   >
     <template v-if="validator.operatorAddress">
       <div class="button-container">
-        <button class="back-button" @click="$router.go(-1)">
-          <i class="material-icons notranslate arrow">arrow_back</i>
-          Back
-        </button>
+        <BackButton />
         <button
           v-if="
             connection.network === 'cosmos-hub-mainnet' ||
@@ -77,12 +74,20 @@
       </tr>
 
       <div class="action-button-container">
-        <TmBtn id="delegation-btn" value="Stake" @click.native="onDelegation" />
+        <TmBtn
+          id="delegation-btn"
+          :value="
+            currentNetwork.network_type === `polkadot` ? `Select` : `Stake`
+          "
+          @click.native="onDelegation"
+        />
         <TmBtn
           id="undelegation-btn"
           class="undelegation-btn"
           :disabled="!hasDelegation"
-          value="Unstake"
+          :value="
+            currentNetwork.network_type === `polkadot` ? `Deselect` : `Unstake`
+          "
           type="secondary"
           @click.native="onUndelegation"
         />
@@ -169,10 +174,15 @@
         </li>
       </ul>
 
-      <DelegationModal ref="delegationModal" :target-validator="validator" />
+      <DelegationModal
+        ref="delegationModal"
+        :target-validator="validator"
+        :is-nomination="true"
+      />
       <UndelegationModal
         ref="undelegationModal"
         :source-validator="validator"
+        :is-unnomination="true"
       />
     </template>
 
@@ -195,6 +205,7 @@ import moment from "moment"
 import { mapGetters, mapState } from "vuex"
 import { shortDecimals, fullDecimals, percent } from "scripts/num"
 import { noBlanks, fromNow } from "src/filters"
+import BackButton from "common/BackButton"
 import TmBtn from "common/TmBtn"
 import DelegationModal from "src/ActionModal/components/DelegationModal"
 import UndelegationModal from "src/ActionModal/components/UndelegationModal"
@@ -224,6 +235,7 @@ export default {
   name: `page-validator`,
   components: {
     Address,
+    BackButton,
     DelegationModal,
     UndelegationModal,
     Avatar,

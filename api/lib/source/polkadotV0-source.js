@@ -1,9 +1,18 @@
 const BigNumber = require('bignumber.js')
-const { uniqWith } = require('lodash')
+const BN = require('bn.js')
+const { orderBy, uniqWith } = require('lodash')
+const { stringToU8a, hexToString } = require('@polkadot/util')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
+const Sentry = require('@sentry/node')
+
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
+const { toViewDenom } = require('../../common/numbers')
+const {
+  getPassingThreshold,
+  getFailingThreshold
+} = require('@polkassembly/util')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
-const MIGRATION_HEIGHT = 718 // https://polkadot.js.org/api/substrate/storage.html#migrateera-option-eraindex
 
 class polkadotAPI {
   constructor(network, store, fiatValuesAPI, db) {
@@ -25,6 +34,32 @@ class polkadotAPI {
     const api = this.store.polkadotRPC
     await api.isReady
     return api
+  }
+
+  async getNetworkAccountInfo(address, api) {
+    if (typeof address === `object`) address = address.toHuman()
+    if (this.store.identities[address]) return this.store.identities[address]
+    const accountInfo = await api.derive.accounts.info(address)
+    this.store.identities[address] = this.reducers.networkAccountReducer(
+      accountInfo
+    )
+    return this.store.identities[address]
+  }
+
+  getBlockTime(block) {
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
+    )
+    const blockTimestamp = args[0]
+    return new Date(Number(blockTimestamp)).toUTCString()
+  }
+
+  async getDateForBlockHeight(blockHeight) {
+    const api = await this.getAPI()
+
+    const blockHash = await api.rpc.chain.getBlockHash(blockHeight)
+    const block = await api.rpc.chain.getBlock(blockHash)
+    return this.getBlockTime(block)
   }
 
   async getBlockHeight() {
@@ -126,8 +161,8 @@ class polkadotAPI {
 
     // Fetch identity info
     let allValidatorsIdentity = await Promise.all(
-      allStashAddresses.map((authorityId) =>
-        api.derive.accounts.info(authorityId)
+      allStashAddresses.map(
+        async (authorityId) => await api.derive.accounts.info(authorityId)
       )
     )
     allValidatorsIdentity = JSON.parse(JSON.stringify(allValidatorsIdentity))
@@ -149,11 +184,13 @@ class polkadotAPI {
       } else {
         validator.status = `INACTIVE`
       }
-      const identity = allValidatorsIdentity.find(
+      const validatorIdentity = allValidatorsIdentity.find(
         (validatorIdentity) =>
           validatorIdentity.accountId === validator.accountId
       )
-      validator.identity = JSON.parse(JSON.stringify(identity.identity))
+      validator.identity = JSON.parse(
+        JSON.stringify(validatorIdentity.identity)
+      )
       if (validator.exposure) {
         const validatorStake = new BigNumber(validator.exposure.total)
         validator.votingPower =
@@ -181,10 +218,9 @@ class polkadotAPI {
   async getBalancesFromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
     const account = await api.query.system.account(address)
-    const totalBalance = account.data.free
-    const freeBalance = BigNumber(totalBalance.toString()).minus(
-      account.data.miscFrozen.toString()
-    )
+    const { free, reserved, feeFrozen } = account.data.toJSON()
+    const totalBalance = BigNumber(free).plus(BigNumber(reserved))
+    const freeBalance = BigNumber(free).minus(feeFrozen)
     const fiatValueAPI = this.fiatValuesAPI
     return this.reducers.balanceReducer(
       this.network,
@@ -197,16 +233,28 @@ class polkadotAPI {
 
   async getBalancesV2FromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
-    const account = await api.query.system.account(address)
-    const { free, feeFrozen } = account.data.toJSON()
-    const totalBalance = BigNumber(free)
+    const [account, stakingLedger] = await Promise.all([
+      api.query.system.account(address),
+      api.query.staking.ledger(address)
+    ])
+    // -> Free balance is NOT transferable balance
+    // -> Total balance is equal to reserved plus free balance
+    // -> Locks (due to staking o voting) are set over free balance, they overlap rather than add
+    // -> Reserved balance (due to identity set) can not be used for anything
+    // See https://wiki.polkadot.network/docs/en/build-protocol-info#free-vs-reserved-vs-locked-vs-vesting-balance
+    const { free, reserved, feeFrozen } = account.data.toJSON()
+    const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
+    const stakedBalance = BigNumber(
+      JSON.parse(JSON.stringify(stakingLedger)).active
+    )
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
         this.network,
         freeBalance.toString(),
         totalBalance.toString(),
+        stakedBalance,
         fiatValueAPI,
         fiatCurrency
       )
@@ -318,24 +366,16 @@ class polkadotAPI {
     return allStakingLedgers
   }
 
-  async filterRewards(rewards, delegatorAddress) {
-    const api = await this.getAPI()
+  async filterRewards(rewards) {
     if (rewards.length === 0) {
       return []
     }
     const allValidators = rewards.map(({ validator }) => validator)
-    // DEPRECATE at era 718 + 84
-    const userClaimedRewards = (
-      await api.derive.staking.account(delegatorAddress)
-    ).stakingLedger.claimedRewards
     const stakingLedgers = await this.loadClaimedRewardsForValidators(
       allValidators
     )
 
     const filteredRewards = rewards.filter(({ height: era, validator }) => {
-      if (Number(era) <= MIGRATION_HEIGHT) {
-        return !userClaimedRewards.includes(Number(era))
-      }
       return (
         !stakingLedgers[validator] ||
         !stakingLedgers[validator].includes(Number(era))
@@ -345,7 +385,12 @@ class polkadotAPI {
     return filteredRewards
   }
 
-  async getRewards(delegatorAddress) {
+  async getRewards(delegatorAddress, fiatCurrency, withHeight) {
+    if (this.network.network_type !== 'polkadot' && withHeight) {
+      throw new Error(
+        'Rewards are only queryable per height in Polkadot networks'
+      )
+    }
     const schema_prefix = this.network.id.replace(/-/, '_')
     const table = 'rewards'
     // TODO would be cool to aggregate the rows in the db already, didn't find how to
@@ -363,14 +408,12 @@ class polkadotAPI {
     const { data } = await this.db.query(query)
     const dbRewards = data[`${schema_prefix}_${table}`] || [] // TODO: add a backup plan. If it is not in DB, run the actual function
 
-    const filteredRewards = await this.filterRewards(
-      dbRewards,
-      delegatorAddress
-    )
+    const filteredRewards = await this.filterRewards(dbRewards)
 
     const rewards = this.reducers.dbRewardsReducer(
       this.store.validators,
-      filteredRewards
+      filteredRewards,
+      withHeight
     )
 
     return rewards
@@ -415,41 +458,47 @@ class polkadotAPI {
   }
 
   async getDelegationsForDelegatorAddress(delegatorAddress) {
-    let activeDelegations = []
+    try {
+      let activeDelegations = []
 
-    // We always use stash address to query delegations
-    delegatorAddress = await this.getStashAddress(delegatorAddress)
+      // We always use stash address to query delegations
+      delegatorAddress = await this.getStashAddress(delegatorAddress)
 
-    // now we get nominations that are already active (from the validators)
-    Object.values(this.store.validators).forEach((validator) => {
-      validator.nominations.forEach((nomination) => {
-        if (delegatorAddress === nomination.who) {
-          activeDelegations.push(
-            this.reducers.delegationReducer(
-              this.network,
-              nomination,
-              validator,
-              delegationEnum.ACTIVE
+      // now we get nominations that are already active (from the validators)
+      Object.values(this.store.validators).forEach((validator) => {
+        validator.nominations.forEach((nomination) => {
+          if (delegatorAddress === nomination.who) {
+            activeDelegations.push(
+              this.reducers.delegationReducer(
+                this.network,
+                nomination,
+                validator,
+                delegationEnum.ACTIVE
+              )
             )
-          )
-        }
+          }
+        })
       })
-    })
-    // in Polkadot nominations are inactive in the beginning until session change
-    // so we also need to check the user's inactive delegations
-    const inactiveDelegations = await this.getInactiveDelegationsForDelegatorAddress(
-      delegatorAddress
-    )
-    const allDelegations = [...activeDelegations, ...inactiveDelegations]
-    // filter empty validators
-    const filteredDelegations = allDelegations.filter(
-      (delegation) => delegation.validator
-    )
-    // remove duplicates
-    return uniqWith(
-      filteredDelegations,
-      (a, b) => a.validator.operatorAddress === b.validator.operatorAddress
-    )
+      // in Polkadot nominations are inactive in the beginning until session change
+      // so we also need to check the user's inactive delegations
+      const inactiveDelegations = await this.getInactiveDelegationsForDelegatorAddress(
+        delegatorAddress
+      )
+      const allDelegations = [...activeDelegations, ...inactiveDelegations]
+      // filter empty validators
+      const filteredDelegations = allDelegations.filter(
+        (delegation) => delegation.validator
+      )
+      // remove duplicates
+      return uniqWith(
+        filteredDelegations,
+        (a, b) => a.validator.operatorAddress === b.validator.operatorAddress
+      )
+    } catch (error) {
+      Sentry.captureException(error)
+      console.error(error)
+      return []
+    }
   }
 
   async getInactiveDelegationsForDelegatorAddress(delegatorAddress) {
@@ -462,22 +511,53 @@ class polkadotAPI {
     const stakingInfo = await api.query.staking.nominators(delegatorAddress)
     const allDelegations =
       stakingInfo && stakingInfo.toJSON() ? stakingInfo.toJSON().targets : []
-    allDelegations.forEach((nomination) => {
-      inactiveDelegations.push(
-        this.reducers.delegationReducer(
-          this.network,
-          { who: nomination, value: 0 }, // we don't know the value for inactive delegations
-          this.store.validators[nomination],
-          delegationEnum.INACTIVE
+    allDelegations
+      .filter((nomination) => !!this.store.validators[nomination])
+      .forEach((nomination) => {
+        inactiveDelegations.push(
+          this.reducers.delegationReducer(
+            this.network,
+            { who: delegatorAddress, value: 0 }, // we don't know the value for inactive delegations
+            this.store.validators[nomination],
+            delegationEnum.INACTIVE
+          )
         )
-      )
-    })
+      })
     return inactiveDelegations
   }
 
-  // TODO: find out how to get all undelegations in Polkadot
-  getUndelegationsForDelegatorAddress() {
-    return []
+  async getUndelegationsForDelegatorAddress(address) {
+    const api = await this.getAPI()
+
+    const [stakingLedger, progress] = await Promise.all([
+      api.query.staking.ledger(address),
+      api.derive.session.progress()
+    ])
+    if (!stakingLedger.toJSON()) {
+      return []
+    }
+    const allUndelegations = stakingLedger.toJSON().unlocking
+
+    const undelegationsWithEndTime = allUndelegations.map((undelegation) => {
+      const remainingEras = undelegation.era - progress.activeEra
+      const remainingBlocks = BigNumber(remainingEras)
+        .minus(BigNumber(1))
+        .times(progress.eraLength)
+        .plus(progress.eraLength)
+        .minus(progress.eraProgress)
+        .toNumber()
+      const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
+      return {
+        ...undelegation,
+        endTime: new Date(
+          new Date().getTime() + totalMilliseconds
+        ).toUTCString()
+      }
+    })
+
+    return undelegationsWithEndTime.map((undelegation) =>
+      this.reducers.undelegationReducer(undelegation, address, this.network)
+    )
   }
 
   async getDelegationForValidator(delegatorAddress, validator) {
@@ -506,8 +586,8 @@ class polkadotAPI {
           delegationEnum.INACTIVE
         )
       }
-
       return {
+        id: validator.operatorAddress,
         delegatorAddress,
         amount: 0,
         validator,
@@ -528,6 +608,660 @@ class polkadotAPI {
         active: delegationEnum.ACTIVE
       }
     )
+  }
+
+  constructProposal(api, bytes) {
+    let proposal
+
+    try {
+      proposal = api.registry.createType('Proposal', bytes.toU8a(true))
+    } catch (error) {
+      console.log(error)
+    }
+
+    return proposal
+  }
+
+  async getDemocracyProposalMetadata(
+    proposal,
+    description,
+    proposer,
+    proposalMethod,
+    creationTime
+  ) {
+    const api = await this.getAPI()
+
+    description = `This is a Democracy Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
+      proposal.proposer || proposer
+    }) is able to change it.`
+    if (proposal.image) {
+      const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
+      const preimageRaw = await api.query.democracy.preimages.at(
+        blockHash,
+        proposal.imageHash
+      )
+      const preimage = preimageRaw.unwrapOr(null)
+      const { data } = preimage.asAvailable
+      const proposalWithIndex = this.constructProposal(api, data)
+      const { meta, method } = api.registry.findMetaCall(
+        proposalWithIndex.callIndex
+      )
+      description = meta.documentation.toString()
+      proposalMethod = method
+
+      // get creationTime
+      const block = await api.rpc.chain.getBlock(blockHash)
+      creationTime = await this.getBlockTime(block)
+    }
+
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
+    }
+  }
+
+  async getReferendumProposalMetadata(
+    proposal,
+    description,
+    proposer,
+    proposalMethod,
+    creationTime
+  ) {
+    const api = await this.getAPI()
+
+    if (proposal.image) {
+      const { meta, method } = api.registry.findMetaCall(
+        proposal.image.proposal.callIndex
+      )
+      proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
+      description = meta.documentation.toString()
+      proposalMethod = method
+
+      // get creationTime
+      const referendumBlockHeight = proposal.image.at
+      creationTime = await this.getDateForBlockHeight(referendumBlockHeight)
+    }
+    return {
+      ...proposal,
+      description,
+      proposer: proposer || { name: '', address: '' },
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime
+    }
+  }
+
+  async getProposalWithMetadata(proposal, type) {
+    const api = await this.getAPI()
+
+    let description = ''
+    let proposer = ''
+    let proposalMethod = ''
+    let creationTime = undefined
+
+    if (type === `democracy`) {
+      return await this.getDemocracyProposalMetadata(
+        proposal,
+        description,
+        proposer,
+        proposalMethod,
+        creationTime
+      )
+    }
+    if (type === `referendum`) {
+      return await this.getReferendumProposalMetadata(
+        proposal,
+        description,
+        proposer,
+        proposalMethod,
+        creationTime
+      )
+    }
+    if (type === `treasury`) {
+      const { meta } =
+        proposal.council[0] && proposal.council[0].proposal
+          ? api.registry.findMetaCall(proposal.council[0].proposal.callIndex)
+          : { meta: undefined }
+      description = meta
+        ? meta.documentation.toString()
+        : `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
+            proposal.proposal.proposer || proposer
+          }) is able to change it.`
+    }
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime,
+      beneficiary: await this.getNetworkAccountInfo(proposal.beneficiary, api)
+    }
+  }
+
+  async getDemocracyProposalDetailedVotes(proposal, links) {
+    const api = await this.getAPI()
+
+    // in democracy proposals there is the first opening deposit made by the proposer
+    // afterwards every account that seconds the proposal must deposit the same amount from the initial deposit
+    const depositsSum = toViewDenom(
+      this.network,
+      BigNumber(proposal.balance).times(proposal.seconds.length).toNumber()
+    )
+    const depositer = await this.getNetworkAccountInfo(
+      proposal.proposer.toHuman(),
+      api
+    )
+    const deposits = [
+      {
+        depositer,
+        amount: [
+          {
+            amount: toViewDenom(this.network, proposal.balance),
+            denom: this.network.stakingDenom
+          }
+        ]
+      }
+    ].concat(
+      Promise.all(
+        proposal.seconds.map(async (second) => {
+          const secondDepositer = await this.getNetworkAccountInfo(
+            second.toHuman(),
+            api
+          )
+          return {
+            depositer: secondDepositer,
+            amount: [
+              {
+                amount: toViewDenom(this.network, proposal.balance),
+                denom: this.network.stakingDenom
+              }
+            ]
+          }
+        })
+      )
+    )
+    const votes = await Promise.all(
+      proposal.seconds.map(async (secondAddress) => {
+        const voter = await this.getNetworkAccountInfo(secondAddress, api)
+        return {
+          id: voter.address,
+          voter,
+          option: `Yes`
+        }
+      })
+    )
+    const votesSum = proposal.seconds.length
+    const percentageDepositsNeeded = BigNumber(depositsSum)
+      .times(100)
+      .div(toViewDenom(this.network, api.consts.democracy.minimumDeposit))
+      .toNumber()
+    return {
+      deposits,
+      depositsSum,
+      votes,
+      votesSum,
+      votingPercentageYes: `100`,
+      votingPercentagedNo: `0`,
+      percentageDepositsNeeded,
+      links,
+      timeline: proposal.creationTime
+        ? [{ title: `Created`, time: proposal.creationTime }]
+        : undefined,
+      council: false
+    }
+  }
+
+  async getReferendumThreshold(proposal) {
+    const api = await this.getAPI()
+
+    const thresholdType = proposal.status.threshold
+    const electorate = await api.query.balances.totalIssuance()
+    const ayeVotesWithoutConviction = proposal.allAye.reduce(
+      (ayeAggregator, aye) => {
+        return (ayeAggregator += Number(aye.balance))
+      },
+      0
+    )
+    const nayVotesWithoutConviction = proposal.allNay.reduce(
+      (nayAggregator, nay) => {
+        return (nayAggregator += Number(nay.balance))
+      },
+      0
+    )
+    const ayeVotes = Number(proposal.status.tally.ayes)
+    const nayVotes = Number(proposal.status.tally.nays)
+    const votingThresholdYes = getPassingThreshold({
+      nays: new BN(
+        BigNumber(nayVotes)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      naysWithoutConviction: new BN(
+        BigNumber(nayVotesWithoutConviction)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      totalIssuance: new BN(
+        BigNumber(electorate)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      threshold: thresholdType
+    }).passingThreshold
+    const votingThresholdNo = getFailingThreshold({
+      ayes: new BN(
+        BigNumber(ayeVotes)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      ayesWithoutConviction: new BN(
+        BigNumber(ayeVotesWithoutConviction)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      totalIssuance: new BN(
+        BigNumber(electorate)
+          .times(this.network.coinLookup[0].chainToViewConversionFactor)
+          .toNumber()
+      ),
+      threshold: thresholdType
+    }).failingThreshold
+
+    return {
+      votingThresholdYes: votingThresholdYes
+        ? votingThresholdYes.toString()
+        : undefined,
+      votingThresholdNo: votingThresholdNo
+        ? votingThresholdNo.toString()
+        : undefined
+    }
+  }
+
+  async getReferendumProposalDetailedVotes(proposal, links) {
+    const api = await this.getAPI()
+
+    let proposalDelayInDays
+    let proposalEndTime
+    let proposalVotingPeriodStarted
+    // votes involve depositing & locking some amount for referendum proposals
+    const allDeposits = proposal.allAye.concat(proposal.allNay)
+    const depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
+      return (balanceAggregator += Number(deposit.balance))
+    }, 0)
+    const deposits = await Promise.all(
+      allDeposits.map(async (deposit) => {
+        const depositer = await this.getNetworkAccountInfo(
+          deposit.accountId,
+          api
+        )
+        return this.reducers.depositReducer(deposit, depositer, this.network)
+      })
+    )
+    const votes = await Promise.all(
+      proposal.allAye
+        .map(async (aye) => {
+          const voter = await this.getNetworkAccountInfo(aye.accountId, api)
+          return {
+            id: voter.address,
+            voter,
+            option: `Yes`,
+            amount: this.reducers.coinReducer(this.network, aye.balance)
+          }
+        })
+        .concat(
+          proposal.allNay.map(async (nay) => {
+            const voter = await this.getNetworkAccountInfo(nay.accountId, api)
+            return {
+              id: voter.address,
+              voter,
+              option: `No`,
+              amount: this.reducers.coinReducer(this.network, nay.balance)
+            }
+          })
+        )
+    )
+    const votesSum = proposal.voteCount
+    const threshold = await this.getReferendumThreshold(proposal)
+    const totalVotingPower = BigNumber(proposal.status.tally.ayes).plus(
+      proposal.status.tally.nays
+    )
+    if (proposal.image) {
+      proposalDelayInDays = Math.floor(
+        /* proposal delay is the time that takes for the proposal to open for the voting period.
+          6s is the average block duration for both Kusama and Polkadot */
+        (proposal.status.delay * 6) / (3600 * 24)
+      )
+      const proposalTimeSpanInNumberOfBlocks =
+        proposal.status.end - proposal.image.at
+      const proposalTimeSpanInDays = Math.floor(
+        (proposalTimeSpanInNumberOfBlocks * 6) / (3600 * 24)
+      )
+      proposalEndTime = new Date(
+        new Date(proposal.creationTime).getTime() +
+          proposalTimeSpanInDays * 24 * 60 * 60 * 1000
+      ).toUTCString()
+      proposalVotingPeriodStarted = proposalDelayInDays
+        ? new Date(
+            new Date(proposal.creationTime).getTime() +
+              proposalDelayInDays * 24 * 60 * 60 * 1000
+          ).toUTCString()
+        : undefined
+    }
+    return {
+      deposits,
+      depositsSum: toViewDenom(this.network, depositsSum),
+      votes,
+      votesSum,
+      votingThresholdYes: threshold.votingThresholdYes,
+      votingThresholdNo: threshold.votingThresholdNo,
+      votingPercentageYes:
+        totalVotingPower.toNumber() > 0
+          ? BigNumber(proposal.status.tally.ayes)
+              .times(100)
+              .div(totalVotingPower)
+              .toNumber()
+              .toFixed(2)
+          : 0,
+      votingPercentagedNo:
+        totalVotingPower.toNumber() > 0
+          ? BigNumber(proposal.status.tally.nays)
+              .times(100)
+              .div(totalVotingPower)
+              .toNumber()
+              .toFixed(2)
+          : 0,
+      links,
+      timeline: [
+        // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
+        proposal.creationTime
+          ? {
+              title: `Created`,
+              time: proposal.creationTime
+            }
+          : undefined,
+        proposalVotingPeriodStarted
+          ? {
+              title: `Voting Period Started`,
+              time: proposalVotingPeriodStarted
+            }
+          : undefined,
+        proposalEndTime
+          ? {
+              title: `Voting Period Ended`,
+              time: proposalEndTime
+            }
+          : undefined
+      ],
+      council: false
+    }
+  }
+
+  async getTreasuryProposalDetailedVotes(proposal, links) {
+    const api = await this.getAPI()
+    let votes
+
+    if (proposal.votes) {
+      votes = await Promise.all(
+        proposal.votes.ayes
+          .map(async (aye) => {
+            const voter = await this.getNetworkAccountInfo(aye, api)
+            return {
+              id: voter.address,
+              voter,
+              option: `Yes`
+            }
+          })
+          .concat(
+            proposal.votes.nays.map(async (nay) => {
+              const voter = await this.getNetworkAccountInfo(nay, api)
+              return {
+                id: voter.address,
+                voter,
+                option: `No`
+              }
+            })
+          )
+      )
+    }
+    return {
+      votes,
+      votesSum: votes ? votes.length : undefined,
+      votingThresholdYes: proposal.votes ? proposal.votes.threshold : undefined,
+      votingPercentageYes: proposal.votes
+        ? (proposal.votes.ayes.length * 100) / votes.length
+        : undefined,
+      votingPercentagedNo: proposal.votes
+        ? (proposal.votes.nays.length * 100) / votes.length
+        : undefined,
+      links,
+      timeline: [],
+      council: true
+    }
+  }
+
+  async getDetailedVotes(proposal, type) {
+    const links = await this.db.getNetworkLinks(this.network.id)
+    if (type === `democracy`) {
+      return await this.getDemocracyProposalDetailedVotes(proposal, links)
+    }
+    if (type === `referendum`) {
+      return await this.getReferendumProposalDetailedVotes(proposal, links)
+    }
+    if (type === `treasury`) {
+      return await this.getTreasuryProposalDetailedVotes(proposal, links)
+    }
+    return {
+      links
+    }
+  }
+
+  getProposalParameter(proposal) {
+    // democracy proposals in Polkadot contain a parameter which is what is going to be changed
+    if (proposal.image) {
+      const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
+      if (imageProposal.args.old) {
+        return `Old: ${imageProposal.args.old} | New: ${imageProposal.args.new}`
+      } else if (imageProposal.args.code) {
+        return hexToString(imageProposal.args.code)
+      } else if (imageProposal.args.new) {
+        return imageProposal.args.new
+      }
+    }
+  }
+
+  async getAllProposals() {
+    const api = await this.getAPI()
+
+    const [
+      blockHeight,
+      totalIssuance,
+      democracyProposals,
+      democracyReferendums,
+      treasuryProposals,
+      councilMembers,
+      electionInfo
+    ] = await Promise.all([
+      this.getBlockHeight(),
+      api.query.balances.totalIssuance(),
+      api.derive.democracy.proposals(),
+      api.derive.democracy.referendums(),
+      api.derive.treasury.proposals(),
+      api.query.council.members(),
+      api.derive.elections.info()
+    ])
+    const allProposals = await Promise.all(
+      democracyProposals
+        .map(async (proposal) => {
+          const proposalWithMetadata = await this.getProposalWithMetadata(
+            proposal,
+            `democracy`
+          )
+          const proposer = await this.getNetworkAccountInfo(
+            proposal.proposer.toHuman(),
+            api
+          )
+          return this.reducers.democracyProposalReducer(
+            this.network,
+            proposalWithMetadata,
+            totalIssuance,
+            blockHeight,
+            this.getProposalParameter(proposal),
+            await this.getDetailedVotes(proposalWithMetadata, `democracy`),
+            proposer
+          )
+        })
+        .concat(
+          democracyReferendums.map(async (proposal) => {
+            const proposalWithMetadata = await this.getProposalWithMetadata(
+              proposal,
+              `referendum`
+            )
+            return this.reducers.democracyReferendumReducer(
+              this.network,
+              proposalWithMetadata,
+              totalIssuance,
+              blockHeight,
+              await this.getDetailedVotes(proposalWithMetadata, `referendum`)
+            )
+          })
+        )
+        .concat(
+          treasuryProposals.proposals.map(async (proposal) => {
+            const proposer =
+              proposal.proposal && proposal.proposal.proposer
+                ? await this.getNetworkAccountInfo(
+                    proposal.proposal.proposer,
+                    api
+                  )
+                : undefined
+            const proposalWithMetadata = await this.getProposalWithMetadata(
+              proposal,
+              `treasury`
+            )
+            return this.reducers.treasuryProposalReducer(
+              this.network,
+              {
+                ...proposalWithMetadata,
+                index: proposal.id,
+                deposit: proposal.proposal.bond,
+                beneficiary: await this.getNetworkAccountInfo(
+                  proposal.beneficiary,
+                  api
+                )
+              },
+              councilMembers,
+              blockHeight,
+              electionInfo,
+              proposal.council[0]
+                ? // proposal gets voted on by council
+                  await this.getDetailedVotes(
+                    {
+                      ...proposal,
+                      votes: proposal.council[0].votes
+                    },
+                    `treasury`
+                  )
+                : // proposal gets voted on by delegators
+                  await this.getDetailedVotes(proposalWithMetadata, `treasury`),
+              proposer
+            )
+          })
+        )
+    )
+    // remove null proposals from filtered treasury proposals
+    return orderBy(
+      allProposals.filter((proposal) => proposal),
+      'id',
+      'desc'
+    )
+  }
+
+  async getProposalById(proposalId) {
+    const proposals = await this.getAllProposals()
+    return proposals.find((proposal) => proposal.id === proposalId)
+  }
+
+  getDelegatorVote() {}
+
+  async getTotalActiveAccounts() {
+    const api = await this.getAPI()
+    const accountKeys = await api.query.system.account.keys()
+    const accounts = accountKeys.map((key) => key.args[0].toHuman())
+    return accounts.length || 0
+  }
+
+  async getTopVoters(electionInfo) {
+    // in Substrate we simply return council members
+    const councilMembersInRelevanceOrder = electionInfo.members.map(
+      (runnerUp) => runnerUp[0]
+    )
+    return councilMembersInRelevanceOrder
+  }
+
+  async getTreasurySize() {
+    const api = await this.getAPI()
+
+    const TREASURY_ADDRESS = stringToU8a('modlpy/trsry'.padEnd(32, '\0'))
+    const treasuryAccount = await api.query.system.account(TREASURY_ADDRESS)
+    const totalBalance = treasuryAccount.data.free
+    const freeBalance = BigNumber(totalBalance.toString()).minus(
+      treasuryAccount.data.miscFrozen.toString()
+    )
+    return freeBalance.toString()
+  }
+
+  async getGovernanceOverview() {
+    const api = await this.getAPI()
+    const activeEra = parseInt(
+      JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
+    )
+    const electionInfo = await api.derive.elections.info()
+    const [
+      erasTotalStake,
+      treasurySize,
+      links,
+      totalVoters,
+      topVoters
+    ] = await Promise.all([
+      api.query.staking.erasTotalStake(activeEra),
+      this.getTreasurySize(),
+      this.db.getNetworkLinks(this.network.id),
+      this.getTotalActiveAccounts(),
+      this.getTopVoters(electionInfo)
+    ])
+    return {
+      totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
+        erasTotalStake,
+        2,
+        this.network,
+        this.network.stakingDenom
+      ),
+      totalVoters,
+      treasurySize: fixDecimalsAndRoundUpBigNumbers(
+        treasurySize,
+        2,
+        this.network,
+        this.network.stakingDenom
+      ),
+      topVoters: await Promise.all(
+        topVoters.map(async (topVoterAddress) => {
+          const accountInfo = await this.getNetworkAccountInfo(
+            topVoterAddress,
+            api
+          )
+          return this.reducers.topVoterReducer(
+            topVoterAddress,
+            electionInfo,
+            accountInfo,
+            this.store.validators,
+            this.network
+          )
+        })
+      ),
+      links
+    }
   }
 }
 

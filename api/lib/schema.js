@@ -13,6 +13,12 @@ const typeDefs = gql`
     CURRENCY
   }
 
+  enum proposalTypeEnum {
+    TEXT
+    TREASURY
+    PARAMETER_CHANGE
+  }
+
   type Tally {
     yes: String # BigNumber
     no: String # BigNumber
@@ -28,11 +34,12 @@ const typeDefs = gql`
   }
 
   type Reward {
-    id: String
-    validator: Validator
-    denom: String
-    amount: String
+    id: String!
+    validator: Validator!
+    denom: String!
+    amount: String!
     fiatValue: FiatValue
+    height: String
   }
 
   type FiatValue {
@@ -54,15 +61,45 @@ const typeDefs = gql`
     type: TokenType!
     denom: String!
     total: String!
+    staked: String!
     fiatValue: FiatValue
     available: String
     availableFiatValue: FiatValue
   }
 
+  type Deposit {
+    id: String!
+    amount: [Coin]
+    depositer: NetworkAccount
+  }
+
+  type Vote {
+    id: String
+    voter: NetworkAccount
+    option: String
+    amount: Coin # Polkadot only
+  }
+
+  type DetailedVotes {
+    deposits: [Deposit]
+    depositsSum: String
+    percentageDepositsNeeded: String
+    votes: [Vote]
+    votesSum: String
+    votingThresholdYes: String
+    votingThresholdNo: String
+    votingPercentageYes: String
+    votingPercentageNo: String
+    links: [GovernanceLink]
+    timeline: [GovernanceTimeline]
+    council: Boolean
+  }
+
   type Proposal {
-    id: Int
+    id: String
+    proposalId: String
     networkId: String!
-    type: String
+    type: proposalTypeEnum
     title: String
     description: String
     status: String
@@ -71,8 +108,12 @@ const typeDefs = gql`
     statusEndTime: String
     tally: Tally
     deposit: String # BigNumber
-    proposer: String
+    proposer: NetworkAccount
     validator: Validator
+    beneficiary: NetworkAccount
+    summary: String
+    parameter: String
+    detailedVotes: DetailedVotes
   }
 
   type Validator {
@@ -129,6 +170,7 @@ const typeDefs = gql`
     chainDenom: String!
     viewDenom: String!
     chainToViewConversionFactor: Float!
+    icon: String
   }
 
   enum CapabilityEnum {
@@ -173,7 +215,7 @@ const typeDefs = gql`
     slug: String
     powered: Powered
     lockUpPeriod: String
-    erasPerDay: Int!
+    erasPerDay: Int
     source_class_name: String!
     HDPaths: String!
     curves: String!
@@ -222,6 +264,11 @@ const typeDefs = gql`
     denom: String
   }
 
+  input RewardInput {
+    validator: String! # just the address
+    height: Int!
+  }
+
   input TransactionDetailsInput {
     amount: InputCoin
     amounts: [InputCoin]
@@ -232,10 +279,14 @@ const typeDefs = gql`
     proposalId: String
     proposalTitle: String
     proposalDescription: String
-    proposer: String
+    proposer: InputNetworkAccount
     initialDeposit: InputCoin
     voteOption: String
+    lockedBalance: Float
+    timeLock: String
+    numberOfSeconds: Int
     addressRole: String
+    rewards: [RewardInput]
   }
 
   union TransactionDetails =
@@ -253,6 +304,7 @@ const typeDefs = gql`
     id: String!
     type: String!
     hash: String!
+    networkId: String
     key: String!
     height: Int!
     details: TransactionDetails!
@@ -289,6 +341,7 @@ const typeDefs = gql`
   type ClaimRewardsTx {
     amounts: [Coin]!
     from: [String]!
+    rewards: [Reward] # Polkadot only
   }
 
   type SubmitProposalTx {
@@ -312,6 +365,37 @@ const typeDefs = gql`
     blockExplorerLink: String
   }
 
+  type GovernanceTimeline {
+    title: String
+    time: String
+  }
+
+  type GovernanceLink {
+    title: String
+    link: String
+    type: String
+  }
+
+  input InputNetworkAccount {
+    name: String!
+    address: String!
+    picture: String
+  }
+
+  type NetworkAccount {
+    name: String
+    address: String!
+    picture: String
+  }
+
+  type TopVoter {
+    name: String!
+    address: String!
+    picture: String
+    votingPower: String!
+    validator: Validator
+  }
+
   type GovernanceParameters {
     depositDenom: String
     votingThreshold: Float
@@ -319,8 +403,12 @@ const typeDefs = gql`
     depositThreshold: String # BigNumber
   }
 
-  type Vote {
-    option: String
+  type GovernanceOverview @cacheControl(maxAge: 21600) {
+    totalStakedAssets: Float
+    totalVoters: Int
+    treasurySize: Float
+    topVoters: [TopVoter]
+    links: [GovernanceLink]
   }
 
   type Powered {
@@ -436,7 +524,7 @@ const typeDefs = gql`
 
   type Query {
     blockV2(networkId: String!, height: Int): BlockV2
-    proposal(networkId: String!, id: Int!): Proposal
+    proposal(networkId: String!, id: String!): Proposal
     proposals(networkId: String!): [Proposal]
     validators(
       networkId: String!
@@ -445,8 +533,9 @@ const typeDefs = gql`
       popularSort: Boolean
     ): [Validator]
     allDelegators(networkId: String!): [String]
-    vote(networkId: String!, proposalId: Int!, address: String!): Vote
+    vote(networkId: String!, proposalId: String!, address: String!): Vote
     governanceParameters(networkId: String!): GovernanceParameters
+    governanceOverview(networkId: String!): GovernanceOverview
     validator(networkId: String!, operatorAddress: String!): Validator
     networks(experimental: Boolean): [Network]
     network(id: String): Network
@@ -481,6 +570,7 @@ const typeDefs = gql`
       delegatorAddress: String!
       operatorAddress: String
       fiatCurrency: String
+      withHeight: Boolean
     ): [Reward]
     transactionsV2(
       networkId: String!

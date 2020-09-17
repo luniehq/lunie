@@ -32,7 +32,7 @@ function getMessageTitle(networks, notification) {
 
     /* validator changes */
     case eventTypes.VALIDATOR_COMMISSION:
-      return `${notification.resourceId} changed their commission rate from ${data.prevValidator.commission} to ${data.nextValidator.commission} on ${networkTitle}`
+      return `${data.prevValidator.name} changed their commission rate from ${data.prevValidator.commission} to ${data.nextValidator.commission} on ${networkTitle}`
 
     case eventTypes.VALIDATOR_VOTING_POWER_INCREASE: {
       const prevVotingPower = Number(data.prevValidator.votingPower)
@@ -206,7 +206,9 @@ const startNotificationService = (networks) => {
       if (event.eventType === eventTypes.LIVENESS) return
 
       const topic = getTopic(event)
-      const response = await database(config)('').storeNotification({
+      const insertedNotifications = await database(config)(
+        ''
+      ).storeNotification({
         topic,
         eventType: event.eventType,
         resourceType: event.resourceType,
@@ -215,8 +217,7 @@ const startNotificationService = (networks) => {
         data: event.properties
       })
 
-      const notificationResponse =
-        response.data.insert_notifications.returning[0]
+      const notificationResponse = insertedNotifications[0]
       try {
         const notification = {
           id: notificationResponse.id,
@@ -265,16 +266,14 @@ const getNotifications = (networks) => async (
     timestamp
   )
 
-  const notifications = relevantNotifications
-    .filter(({ eventType }) => eventType !== eventTypes.VALIDATOR_ADDED)
-    .map((notification) => ({
-      id: notification.id, // used for correctly handling cache in Apollo
-      networkId: notification.networkId, // used for filtering per network
-      timestamp: notification.created_at, // used for grouping / sorting
-      title: getMessageTitle(networks, notification), // title of notification
-      link: getPushLink(networks, notification), // link for click-through action
-      icon: getIcon(notification) // icon link
-    }))
+  const notifications = relevantNotifications.map((notification) => ({
+    id: notification.id, // used for correctly handling cache in Apollo
+    networkId: notification.networkId, // used for filtering per network
+    timestamp: notification.created_at, // used for grouping / sorting
+    title: getMessageTitle(networks, notification), // title of notification
+    link: getPushLink(networks, notification), // link for click-through action
+    icon: getIcon(notification) // icon link
+  }))
 
   return notifications
 }

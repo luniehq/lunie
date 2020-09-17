@@ -94,8 +94,8 @@ export default {
       required: true,
     },
     lastVoteOption: {
-      default: undefined,
       type: String,
+      default: undefined,
     },
   },
   data: () => ({

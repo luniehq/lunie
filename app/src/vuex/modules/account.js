@@ -59,12 +59,13 @@ export default ({ apollo }) => {
         if (Auth.isSignInWithEmailLink(url)) {
           const user = JSON.parse(localStorage.getItem(`user`))
           if (!user)
-            throw new Error("Sign in flow broken. User E-Mail is unknown.")
+            throw new Error("Sign in flow broken. User email is unknown.")
           await Auth.signInWithEmailLink(user.email, url)
 
           const idToken = await Auth.currentUser.getIdToken(
             /* forceRefresh */ true
           )
+
           apollo.mutate({
             mutation: gql`
               mutation {
@@ -95,11 +96,12 @@ export default ({ apollo }) => {
       commit("setSession", session)
       commit("userSignedIn", !!session)
     },
-    checkSession({ dispatch }) {
+    async checkSession({ dispatch }) {
       const session = localStorage.getItem("session")
         ? JSON.parse(localStorage.getItem("session"))
         : undefined
-      dispatch("storeSession", session)
+      await dispatch("storeSession", session)
+      return !!session
     },
     async sendUserMagicLink({ commit }, { user }) {
       commit(`setSignInEmailError`, undefined)
@@ -159,8 +161,8 @@ export function handleDeeplink(url, router) {
   // slug = /email-authentication
   const regexp = /(https?:\/\/)?[\w\d-\.]+\/([\w\d-\/]*)(\?(.+))?/
   const matches = regexp.exec(url)
-  const path = matches[1]
-  const query = matches[3]
+  const path = matches[2]
+  const query = matches[4]
 
   const queryObject = query
     ? query
@@ -176,6 +178,15 @@ export function handleDeeplink(url, router) {
   // the target will perform the authentication and then redirect back to lunie
   if (queryObject.link || queryObject.ifl) {
     const link = unescape(queryObject.link || queryObject.ifl)
+    const urlParts = link
+      .replace("http://", "")
+      .replace("https://", "")
+      .split(/[/?#]/)
+    const domain = urlParts[0]
+    // check if the link is actually from firebase to prevent phishing
+    if (domain !== config.firebaseConfig.authDomain) {
+      throw new Error("Domain in url parameter not allowed")
+    }
     if (config.mobileApp) {
       window.open(link, "_blank")
     } else {

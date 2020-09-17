@@ -1,5 +1,7 @@
 const BigNumber = require('bignumber.js')
+const { encodeB32, decodeB32 } = require('../tools')
 const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
+const { getProposalSummary } = require('./common')
 /**
  * Modify the following reducers with care as they are used for ./cosmosV2-reducer.js as well
  * [proposalBeginTime, proposalEndTime, getDeposit, tallyReducer, atoms, getValidatorStatus, coinReducer]
@@ -101,7 +103,9 @@ function getTotalVotePercentage(proposal, totalBondedTokens, totalVoted) {
   if (proposalFinalized(proposal)) return -1
   if (BigNumber(totalVoted).eq(0)) return 0
   if (!totalBondedTokens) return -1
-  return BigNumber(totalVoted).div(atoms(totalBondedTokens)).toNumber()
+  return Number(
+    BigNumber(totalVoted).div(atoms(totalBondedTokens)).toNumber().toFixed(6)
+  )
 }
 
 function tallyReducer(proposal, tally, totalBondedTokens) {
@@ -131,15 +135,50 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
   }
 }
 
+function depositReducer(deposit, network) {
+  return {
+    id: deposit.depositor,
+    amount: [coinReducer(deposit.amount[0], undefined, network)],
+    depositer: networkAccountReducer(deposit.depositor)
+  }
+}
+
+function voteReducer(vote) {
+  return {
+    id: String(vote.proposal_id.concat(`_${vote.voter}`)),
+    voter: networkAccountReducer(vote.voter),
+    option: vote.option
+  }
+}
+
+function networkAccountReducer(address, validators) {
+  const proposerValAddress = address
+    ? encodeB32(decodeB32(address), `cosmosvaloper`, `hex`)
+    : ''
+  const validator =
+    validators && proposerValAddress.length > 0
+      ? validators[proposerValAddress]
+      : undefined
+  return {
+    name: validator ? validator.name : undefined,
+    address: address || '',
+    picture: validator ? validator.picture : ''
+  }
+}
+
 function proposalReducer(
   networkId,
   proposal,
   tally,
   proposer,
-  totalBondedTokens
+  totalBondedTokens,
+  detailedVotes,
+  reducers,
+  validators
 ) {
   return {
     id: Number(proposal.proposal_id),
+    proposalId: String(proposal.proposal_id),
     networkId,
     type: proposal.proposal_content.type,
     title: proposal.proposal_content.value.title,
@@ -150,7 +189,9 @@ function proposalReducer(
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal),
-    proposer: proposer.proposer
+    proposer: networkAccountReducer(proposer.proposer, validators),
+    summary: getProposalSummary(proposal.proposal_content.type),
+    detailedVotes
   }
 }
 
@@ -163,6 +204,15 @@ function governanceParameterReducer(depositParameters, tallyingParamers) {
     depositThreshold: BigNumber(depositParameters.min_deposit[0].amount).div(
       1000000
     )
+  }
+}
+
+function topVoterReducer(topVoter) {
+  return {
+    name: topVoter.name,
+    address: topVoter.operatorAddress,
+    votingPower: topVoter.votingPower,
+    validator: topVoter
   }
 }
 
@@ -270,19 +320,26 @@ function denomLookup(denom) {
   return lookup[denom] ? lookup[denom] : denom.toUpperCase()
 }
 
-function coinReducer(coin, coinLookup) {
+function coinReducer(coin, coinLookup, network) {
   if (!coin) {
     return {
       amount: 0,
       denom: ''
     }
   }
+  coinLookup =
+    coinLookup ||
+    network.coinLookup.find(
+      ({ viewDenom }) => viewDenom === network.stakingDenom
+    )
 
   // we want to show only atoms as this is what users know
   const denom = denomLookup(coin.denom)
   return {
     denom: denom,
-    amount: BigNumber(coin.amount).times(coinLookup.chainToViewConversionFactor)
+    amount: BigNumber(coin.amount).times(
+      coinLookup.chainToViewConversionFactor || 6
+    )
   }
 }
 
@@ -376,6 +433,7 @@ async function balanceV2Reducer(
     denom: lunieCoin.denom,
     fiatValue: fiatValue[lunieCoin.denom],
     available: lunieCoin.amount,
+    staked: delegatedStake.amount || 0,
     availableFiatValue: availableFiatValue[stakingDenom]
   }
 }
@@ -397,7 +455,7 @@ function delegationReducer(delegation, validator, active) {
 
 function undelegationReducer(undelegation, validator) {
   return {
-    id: validator.operatorAddress,
+    id: `${validator.operatorAddress}_${undelegation.creation_height}`,
     delegatorAddress: undelegation.delegator_address,
     validator,
     amount: atoms(undelegation.balance),
@@ -501,8 +559,12 @@ function extractInvolvedAddresses(transaction) {
 
 module.exports = {
   proposalReducer,
+  networkAccountReducer,
   governanceParameterReducer,
+  topVoterReducer,
   tallyReducer,
+  depositReducer,
+  voteReducer,
   validatorReducer,
   blockReducer,
   delegationReducer,
@@ -524,5 +586,6 @@ module.exports = {
   getValidatorStatus,
   expectedRewardsPerToken,
   denomLookup,
-  extractInvolvedAddresses
+  extractInvolvedAddresses,
+  getProposalSummary
 }

@@ -1,9 +1,20 @@
 const _ = require('lodash')
 const BigNumber = require('bignumber.js')
-const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
+const {
+  fixDecimalsAndRoundUp,
+  fixDecimalsAndRoundUpBigNumbers,
+  toViewDenom
+} = require('../../common/numbers.js')
+const { getProposalSummary } = require('./common')
 const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
+
+const proposalTypeEnum = {
+  TEXT: 'TEXT',
+  TREASURY: 'TREASURY',
+  PARAMETER_CHANGE: 'PARAMETER_CHANGE'
+}
 
 function blockReducer(
   networkId,
@@ -35,12 +46,12 @@ function validatorReducer(network, validator) {
     networkId: network.id,
     chainId: network.chain_id,
     operatorAddress: validator.accountId,
-    website:
-      validator.identity.web && validator.identity.web !== ``
-        ? validator.identity.web
-        : ``,
+    website: validator.identity.web ? validator.identity.web : ``,
     identity: validator.identity.twitter,
-    name: identityReducer(validator.accountId, validator.identity),
+    name:
+      validator.identity && validator.accountId
+        ? identityReducer(validator.accountId, validator.identity)
+        : undefined,
     votingPower: validator.votingPower.toFixed(6),
     startHeight: undefined,
     uptimePercentage: undefined,
@@ -116,11 +127,13 @@ async function balanceV2Reducer(
   network,
   balance,
   total,
+  staked,
   fiatValueAPI,
   fiatCurrency
 ) {
   const availableLunieCoin = coinReducer(network, balance, 6)
   const totalLunieCoin = coinReducer(network, total, 6)
+  const stakedLunieCoin = coinReducer(network, staked, 6)
   const availableFiatValue = (
     await fiatValueAPI.calculateFiatValues([availableLunieCoin], fiatCurrency)
   )[availableLunieCoin.denom]
@@ -134,6 +147,7 @@ async function balanceV2Reducer(
       type: 'STAKE',
       available: 0,
       total: 0,
+      staked: 0,
       denom: availableLunieCoin.denom,
       availableFiatValue,
       fiatValue: totalFiatValue
@@ -145,6 +159,7 @@ async function balanceV2Reducer(
     type: 'STAKE', // just a staking denom on Kusama for now
     available: availableLunieCoin.amount,
     total: totalLunieCoin.amount,
+    staked: stakedLunieCoin.amount,
     denom: availableLunieCoin.denom,
     availableFiatValue,
     fiatValue: totalFiatValue
@@ -152,7 +167,6 @@ async function balanceV2Reducer(
 }
 
 function delegationReducer(network, delegation, validator, active) {
-  if (validator === undefined) return {} // TODO: once we can use the debugger on Polkadot, really debug why this happens
   return {
     id: validator.operatorAddress,
     validatorAddress: validator.operatorAddress,
@@ -164,6 +178,16 @@ function delegationReducer(network, delegation, validator, active) {
           .toFixed(6)
       : 0,
     active
+  }
+}
+
+function undelegationReducer(undelegation, address, network) {
+  return {
+    id: `${address}_${undelegation.value}`,
+    delegatorAddress: address,
+    amount: toViewDenom(network, undelegation.value),
+    startHeight: '',
+    endTime: undelegation.endTime
   }
 }
 
@@ -426,7 +450,15 @@ function rewardsReducer(network, validators, rewards, reducers) {
   return allRewards
 }
 
-function dbRewardsReducer(validatorsDictionary, dbRewards) {
+function dbRewardsReducer(validatorsDictionary, dbRewards, withHeight) {
+  if (withHeight) {
+    return dbRewards.map((reward) => ({
+      id: `${reward.validator}_${reward.denom}_${reward.height}`,
+      ...reward,
+      validator: validatorsDictionary[reward.validator]
+    }))
+  }
+
   const aggregatedRewards = dbRewards.reduce((sum, reward) => {
     sum[reward.validator] = sum[reward.validator] || {}
     sum[reward.validator][reward.denom] =
@@ -447,6 +479,7 @@ function dbRewardsReducer(validatorsDictionary, dbRewards) {
     []
   )
   return flattenedAggregatedRewards.map((reward) => ({
+    id: `${reward.validator}_${reward.denom}`,
     ...reward,
     validator: validatorsDictionary[reward.validator]
   }))
@@ -458,7 +491,7 @@ function rewardReducer(network, validators, reward, reducers) {
     const validator = validators[validatorReward[0]]
     if (!validator) return
     const lunieReward = {
-      id: validatorReward[0],
+      id: validatorReward[0] + (reward.era ? '_' + reward.era : ''),
       ...reducers.coinReducer(network, validatorReward[1].toString(10)),
       height: reward.era,
       address: reward.address,
@@ -470,12 +503,240 @@ function rewardReducer(network, validators, reward, reducers) {
   return parsedRewards
 }
 
+function depositReducer(deposit, depositer, network) {
+  return {
+    id: depositer.address,
+    amount: [
+      {
+        amount: fixDecimalsAndRoundUpBigNumbers(deposit.balance, 6, network),
+        denom: network.stakingDenom
+      }
+    ],
+    depositer
+  }
+}
+
+function networkAccountReducer(account) {
+  return {
+    name:
+      account && account.identity && account.identity.display
+        ? account.identity.display
+        : undefined,
+    address: account && account.accountId ? account.accountId : '',
+    picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
+  }
+}
+
+function democracyProposalReducer(
+  network,
+  proposal,
+  totalIssuance,
+  blockHeight,
+  parameter,
+  detailedVotes,
+  proposer
+) {
+  return {
+    id: `democracy-`.concat(proposal.index),
+    proposalId: proposal.index,
+    networkId: network.id,
+    type: proposalTypeEnum.PARAMETER_CHANGE,
+    title: `Preliminary Proposal #${proposal.index}`,
+    description: proposal.description,
+    creationTime: proposal.creationTime,
+    status: `DepositPeriod`, // trying to adjust to the Cosmos status
+    statusBeginTime: proposal.creationTime,
+    tally: democracyTallyReducer(proposal),
+    deposit: toViewDenom(network, proposal.balance),
+    summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
+    parameter,
+    proposer,
+    detailedVotes
+  }
+}
+
+function democracyReferendumReducer(
+  network,
+  proposal,
+  totalIssuance,
+  blockHeight,
+  detailedVotes
+) {
+  return {
+    id: `referendum-`.concat(proposal.index),
+    proposalId: proposal.index,
+    proposer: proposal.proposer,
+    networkId: network.id,
+    type: proposalTypeEnum.PARAMETER_CHANGE,
+    title: `Proposal #${proposal.index}`,
+    description: proposal.description,
+    creationTime: proposal.creationTime,
+    status: `VotingPeriod`,
+    statusBeginTime: proposal.creationTime,
+    statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
+    tally: tallyReducer(network, proposal.status.tally, totalIssuance),
+    deposit: toViewDenom(network, proposal.status.tally.turnout),
+    summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
+    detailedVotes
+  }
+}
+
+function treasuryProposalReducer(
+  network,
+  proposal,
+  councilMembers,
+  blockHeight,
+  electionInfo,
+  detailedVotes,
+  proposer
+) {
+  return {
+    id: `treasury-`.concat(proposal.index || proposal.votes.index),
+    proposalId: proposal.index || proposal.votes.index,
+    networkId: network.id,
+    type: proposalTypeEnum.TREASURY,
+    title: `Treasury Proposal #${proposal.index || proposal.votes.index}`,
+    description: proposal.description,
+    creationTime: proposal.creationTime,
+    status: `VotingPeriod`,
+    statusEndTime: proposal.votes
+      ? getStatusEndTime(blockHeight, proposal.votes.end)
+      : null,
+    tally: proposal.votes
+      ? councilTallyReducer(proposal.votes, councilMembers, electionInfo)
+      : {},
+    deposit: toViewDenom(network, Number(proposal.deposit)),
+    proposer,
+    beneficiary: proposal.beneficiary, // the account getting the tip
+    summary: getProposalSummary(proposalTypeEnum.TREASURY),
+    detailedVotes
+  }
+}
+
+function tallyReducer(network, tally, totalIssuance) {
+  //
+  // tally chain format:
+  //
+  // "tally": {
+  //   "ayes": "0x0000000000000000001e470441298100",
+  //   "nays": "0x00000000000000000186de726fc56000",
+  //   "turnout": "0x000000000000000000dc3dd9ad3d0800"
+  // }
+  //
+  // turnout is the real amount deposited by voters
+  // in polkadot you can vote with "conviction", that means
+  // ayes and nays are amplified by the selected lockup period:
+  //
+  // 1x voting balance, locked for 1x enactment (8.00 days)
+  // 2x voting balance, locked for 2x enactment (16.00 days)
+  // 3x voting balance, locked for 4x enactment (32.00 days)
+  // 4x voting balance, locked for 8x enactment (64.00 days)
+  // 5x voting balance, locked for 16x enactment (128.00 days)
+  // 6x voting balance, locked for 32x enactment (256.00 days)
+  //
+
+  const turnout = BigNumber(tally.turnout)
+
+  const totalVoted = BigNumber(tally.ayes).plus(tally.nays)
+  const total = toViewDenom(network, totalVoted.toString(10))
+  const yes = toViewDenom(network, tally.ayes)
+  const no = toViewDenom(network, tally.nays)
+  const totalVotedPercentage = turnout
+    .div(BigNumber(totalIssuance))
+    .toNumber()
+    .toFixed(4) // the percent conversion is done in the FE. We just send the decimals here
+
+  return {
+    yes,
+    no,
+    abstain: 0,
+    veto: 0,
+    total,
+    totalVotedPercentage
+  }
+}
+
+function councilTallyReducer(votes, councilMembers, electionInfo) {
+  const total = votes.ayes.length + votes.nays.length
+  // to calculated the totalVotedPercentage we need to add up the voting power of the council members that did vote on the proposal
+  // first of all we need to calculate the total voting power of the council
+  // TODO: we also need to take into account the Prime council member vote
+  const totalCouncilVotingPower = electionInfo.members.reduce(
+    (votingPowerAggregator, member) => {
+      return (votingPowerAggregator = BigNumber(votingPowerAggregator).plus(
+        member[1]
+      ))
+    },
+    0
+  )
+  const totalVoted = councilMembers.reduce((totalVotedAggregator, member) => {
+    const memberElectionInfo = electionInfo.members.find(
+      (memberElectionInfo) =>
+        memberElectionInfo[0].toHuman() === member.toHuman()
+    )
+    if (memberElectionInfo) {
+      totalVotedAggregator = BigNumber(totalVotedAggregator).plus(
+        memberElectionInfo[1]
+      )
+    }
+    return totalVotedAggregator
+  }, 0)
+  return {
+    yes: votes.ayes.length,
+    no: votes.nays.length,
+    abstain: 0,
+    veto: 0,
+    total,
+    totalVotedPercentage: BigNumber(totalCouncilVotingPower)
+      .div(totalVoted)
+      .toNumber()
+      .toFixed(4) // the percent conversion is done in the FE. No need to multiply by 100
+  }
+}
+
+function democracyTallyReducer(proposal) {
+  // if we consider democracyProposals like the parallel to Cosmos proposals in deposit periods, then
+  // we would have to turn the seconds concept into a deposit somehow
+  return {
+    yes: proposal.seconds.length
+  }
+}
+
+function topVoterReducer(
+  topVoterAddress,
+  electionInfo,
+  accountInfo,
+  validators,
+  network
+) {
+  const councilMemberInfo = electionInfo.members.find(
+    (electionInfoMember) =>
+      electionInfoMember[0].toHuman() === topVoterAddress.toHuman()
+  )
+  return {
+    name: accountInfo.name,
+    address: topVoterAddress,
+    votingPower: councilMemberInfo
+      ? toViewDenom(network, councilMemberInfo[1])
+      : '',
+    validator: validators[topVoterAddress]
+  }
+}
+
+// the status end time is a time "so and so days from the creation of the proposal opening"
+function getStatusEndTime(blockHeight, endBlock) {
+  return new Date(
+    new Date().getTime() + (endBlock - blockHeight) * 6000
+  ).toUTCString()
+}
+
 module.exports = {
   blockReducer,
   validatorReducer,
   balanceReducer,
   balanceV2Reducer,
   delegationReducer,
+  undelegationReducer,
   extractInvolvedAddresses,
   transactionsReducerV2,
   transactionDetailsReducer,
@@ -484,6 +745,15 @@ module.exports = {
   rewardReducer,
   rewardsReducer,
   dbRewardsReducer,
+  depositReducer,
+  networkAccountReducer,
+  getExtrinsicSuccess,
   identityReducer,
-  getExtrinsicSuccess
+  democracyProposalReducer,
+  democracyReferendumReducer,
+  treasuryProposalReducer,
+  tallyReducer,
+  topVoterReducer,
+
+  getProposalSummary
 }

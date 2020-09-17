@@ -1,11 +1,121 @@
 # Changelog
-
+  
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.227] - 2020-09-08
+
+### Added
+
+- [#4665](https://github.com/cosmos/lunie/issues/4665) UserMenu now displays also local and extension accounts @Bitcoinera
+- [#4828](https://github.com/cosmos/lunie/issues/4828) Allow signout from ledger and explore addresses @faboweb
+- Handle errors in boot process to make debugging easier for us and users @faboweb
+
+### Changed
+
+- [#4773](https://github.com/cosmos/lunie/issues/4773) Display Stake button on Portfolio for Substrate networks @Bitcoinera
+- [#4787](https://github.com/cosmos/lunie/pull/4787) Make sure stake button displays properly on Portfolio for Substrate networks @Bitcoinera
+- [#4783](https://github.com/cosmos/lunie/pull/4783) Show Select and Deselect on PageValidator instead of Stake and Unstake for Substrate networks @Bitcoinera
+- [#4819](https://github.com/cosmos/lunie/pull/4819) Proposer is now an Object ({address, name, picture}) @Bitcoinera
+- [#4807](https://github.com/cosmos/lunie/pull/4807) Document the use of the network flag for E2E tests @Bitcoinera
+- [#4826](https://github.com/cosmos/lunie/pull/4826) Disable Vote button for treasury proposals @Bitcoinera
+- [#4834](https://github.com/cosmos/lunie/pull/4834) Update to @polkadot/api-1.32.1 @Bitcoinera
+
+### Security
+
+- Check sign in redirect links for correct domain @faboweb
+
+## [1.0.226] - 2020-09-01
+
+### Added
+
+- [#4738](https://github.com/cosmos/lunie/issues/4738) Enable voting in Polkadot/Substrate @Bitcoinera
+- [#4760](https://github.com/cosmos/lunie/issues/4760) Add Unstake button for Substrate in Porfolio @Bitcoinera
+- added another app ID to app site association @jbibla
+
+### Changed
+
+- [#4667](https://github.com/cosmos/lunie/issues/4667) Display Polkadot undelegations with the LiBalance component @Bitcoinera
+- [#4679](https://github.com/cosmos/lunie/issues/4679) Redenominate DOT adding the icon field to coinLookup @Bitcoinera
+- [#4746](https://github.com/cosmos/lunie/issues/4746) Add LiBalance component @Bitcoinera
+- [#4775](https://github.com/cosmos/lunie/pull/4775) Avoid displaying staked balance in Your Stake that is already unbonding in Polkadot @Bitcoinera
+- [#4724](https://github.com/cosmos/lunie/pull/4724) Update to polkadot/api 1.29.1 @Bitcoinera
+- [#4756](https://github.com/cosmos/lunie/pull/4756) Update to polkadot/api 1.30.1 @Bitcoinera
+- [#4788](https://github.com/cosmos/lunie/pull/4788) Update to polkadot/api 1.31.2 @Bitcoinera
+- [#4507](https://github.com/cosmos/lunie/pull/4507) Accomodate Substrate proposals as new governance interface first step @Bitcoinera
+
+### Fixed
+
+- [#4774](https://github.com/cosmos/lunie/pull/4774) Fix lockUpPeriod missing from Network query @Bitcoinera
+- [#4744](https://github.com/cosmos/lunie/pull/4744) Fixes wasm-crypto not initialized in extension @Bitcoinera
+- [#4627](https://github.com/cosmos/lunie/pull/4627) Fix navigation duplicated in recover flow by deleting duplicate goToNetwork logic @Bitcoinera
+- [#4784](https://github.com/cosmos/lunie/pull/4784) Fix transaction details validators links @Bitcoinera
+- [#4784](https://github.com/cosmos/lunie/pull/4784) Fix transaction size too big due to Polkadot validators names @Bitcoinera
+- Accounts would not be created in desired network @faboweb
+- [#4778](https://github.com/cosmos/lunie/issues/4778) Fix Polkadot e2e tests @mariopino
+- intercom links need a class for web!  @jbibla
+
+### Repository
+
+- setting up iOS push notifications @jbibla
+- changed a bunch of names of CI jobs and disabled polkadot e2e and codecov @jbibla
+
+## [1.0.225] - 2020-08-14
+
+### Added
+
+- Added another App ID to app site association @jbibla
+
+### Fixed
+
+- [#4627](https://github.com/cosmos/lunie/pull/4627) Fix navigation duplicated in recover flow by deleting duplicate goToNetwork logic @Bitcoinera
+- Accounts would not be created in desired network @faboweb
+
+### Deprecated
+
+- fixed manifest image routes for Android @jbibla
+
+## [1.0.224] - 2020-08-14
+
+### Added
+
+- [#4496](https://github.com/cosmos/lunie/pull/4496) Enable deep linking to allow magic link signIn on app @Bitcoinera
+- Add Polkadot account type to user menu address @faboweb
+- [#4518](https://github.com/cosmos/lunie/issues/4518) Add sessions to allow multiple sign ins @faboweb
+
+### Changed
+
+- [#4679](https://github.com/cosmos/lunie/issues/4679) Rename the DOT icon file @Bitcoinera
+- [#4684](https://github.com/cosmos/lunie/issues/4684) Remove AppMenu Sign In/Sign Up button @Bitcoinera
+- [#4685](https://github.com/cosmos/lunie/issues/4685) Remove experimentalMode wall for notification & UserMenu @Bitcoinera
+- [#4691](https://github.com/cosmos/lunie/pull/4691) Update to @polkadot/api 1.28.1 @Bitcoinera
+- [#4646](https://github.com/cosmos/lunie/pull/4646) Update to @polkadot/api-1.27.1 @Bitcoinera
+- [#4701](https://github.com/cosmos/lunie/pull/4701) Deactivate transactions notifications links @Bitcoinera
+- [#4701](https://github.com/cosmos/lunie/pull/4701) Watch immediately for userSignedIn in Paywall @Bitcoinera
+- fixes for email auth modal showing more than one message at a time @jbibla
+- adjusted session frame click handler @jbibla
+
+### Fixed
+
+- [#4626](https://github.com/cosmos/lunie/pull/4626) Fix navigation duplicated in recover flow by deleting duplicate goToNetwork logic @Bitcoinera
+- Handle account creation in extension not showing insecure warning @faboweb
+- Magic links were not handled on desktop @faboweb
+- Use Polkadot API signing to fix signing on mainet @faboweb
+- the magic link error modal button redirected to the wrong modal @jbibla
+- removed emoji in favour of more standardized material-icon @jbibla
+
+### Security
+
+- [#4639](https://github.com/cosmos/lunie/pull/4639) Twitter images should come from HTTPS @Bitcoinera
+- [#4639](https://github.com/cosmos/lunie/pull/4639) Add upgrade-insecure-requests directive to CSP @Bitcoinera
+
+### Deprecated
+
+- [#4659](https://github.com/cosmos/lunie/pull/4659) Remove web3-utils module @Bitcoinera
 
 ## [1.0.223] - 2020-07-30
 
