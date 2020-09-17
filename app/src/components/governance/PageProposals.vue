@@ -16,7 +16,7 @@
             @click.native="onPropose"
           />
           <TmBtn
-            v-if="currentNetwork.network_type === `cosmos`"
+            v-if="currentNetwork.slug === `cosmos-hub`"
             id="tutorial-btn"
             class="tutorial-btn"
             value="Want to learn how governance works?"
@@ -41,7 +41,7 @@
           </p>
         </div>
         <div v-if="governanceOverview.totalVoters">
-          <h4>Total Eligible Voters</h4>
+          <h4>Total Voters</h4>
           <p>{{ governanceOverview.totalVoters | prettyInt }}</p>
         </div>
       </div>
@@ -70,6 +70,7 @@
     </div>
 
     <template v-else>
+      <h4>Proposals</h4>
       <LiProposal
         v-for="proposal in proposals"
         :key="proposal.id"
@@ -331,6 +332,9 @@ h4 {
   font-size: 12px;
   color: var(--dim);
   font-weight: 400;
+  max-width: 1024px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .overview-header {

@@ -1,7 +1,12 @@
 <template>
   <section>
     <ul class="timeline">
-      <li v-for="phase in timeline" :key="phase.title" class="phase">
+      <li
+        v-for="phase in timeline"
+        :key="phase.title"
+        class="phase"
+        :class="{ done: wasInThePast(phase.time) }"
+      >
         <h4>{{ phase.title }}</h4>
         <span class="time">{{ phase.time | moment }}</span>
       </li>
@@ -23,6 +28,11 @@ export default {
     timeline: {
       type: Array,
       required: true,
+    },
+  },
+  methods: {
+    wasInThePast(time) {
+      return moment(time).isBefore(Date.now().utc)
     },
   },
 }
@@ -47,17 +57,26 @@ section {
 .phase {
   font-size: 14px;
   text-align: center;
+  text-transform: capitalize;
 }
 
 .phase::before {
   display: block;
   content: "";
+  font-size: 10px;
   width: 1rem;
   height: 1rem;
   border: 2px solid var(--bc);
   border-radius: 50%;
   margin: -2.7rem auto 1rem;
   background: var(--app-bg);
+}
+
+.done.phase::before {
+  content: "\2714";
+  line-height: 18px;
+  color: var(--success);
+  border-color: var(--success);
 }
 
 .time {
