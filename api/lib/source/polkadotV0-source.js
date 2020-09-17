@@ -1,7 +1,7 @@
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
-const { stringToU8a } = require('@polkadot/util')
+const { stringToU8a, hexToString } = require('@polkadot/util')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const Sentry = require('@sentry/node')
 
@@ -13,17 +13,6 @@ const {
 } = require('@polkassembly/util')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
-
-const hexToASCII = (hex) => {
-  if (!hex) return
-  const hexString = hex.toString()
-  return hexString
-    .match(/.{1,2}/g)
-    .map((char) => {
-      return String.fromCharCode(parseInt(char, 16))
-    })
-    .join('')
-}
 
 class polkadotAPI {
   constructor(network, store, fiatValuesAPI, db) {
@@ -1063,7 +1052,7 @@ class polkadotAPI {
     if (proposal.image) {
       const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
       return imageProposal.args.new || imageProposal.args.code
-        ? hexToASCII(imageProposal.args.code)
+        ? hexToString(imageProposal.args.code)
         : undefined
     }
   }
