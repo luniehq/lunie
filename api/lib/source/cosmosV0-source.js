@@ -337,9 +337,11 @@ class CosmosV0API extends RESTDataSource {
       response.map(async (proposal) => {
         const [tally, proposer] = await Promise.all([
           this.query(`gov/proposals/${proposal.id}/tally`),
-          this.query(`gov/proposals/${proposal.id}/proposer`, true).catch(() => {
-            return { proposer: undefined }
-          })
+          this.query(`gov/proposals/${proposal.id}/proposer`, true).catch(
+            () => {
+              return { proposer: undefined }
+            }
+          )
         ])
         const detailedVotes = await this.getDetailedVotes(proposal)
         return this.reducers.proposalReducer(
@@ -425,9 +427,11 @@ class CosmosV0API extends RESTDataSource {
       this.getTopVoters()
     ])
     const communityPool = communityPoolArray.find(
-      ({ denom }) => denom === this.network.coinLookup
-        .find(({viewDenom}) => viewDenom === this.network.stakingDenom)
-        .chainDenom
+      ({ denom }) =>
+        denom ===
+        this.network.coinLookup.find(
+          ({ viewDenom }) => viewDenom === this.network.stakingDenom
+        ).chainDenom
     ).amount
     return {
       totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
