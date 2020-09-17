@@ -36,13 +36,19 @@
       <div class="bottom row">
         <div>{{ votePercentage | shortDecimals }}% of {{ stakingDenom }}s</div>
         <div class="row votes">
-          <div>Yes Votes: {{ proposal.tally.yes | prettyInt }} {{ stakingDenom }}s</div>
-          <div>No Votes: {{ proposal.tally.no | prettyInt }} {{ stakingDenom }}s</div>
+          <div>
+            Yes Votes: {{ proposal.tally.yes | prettyInt }} {{ stakingDenom }}s
+          </div>
+          <div>
+            No Votes: {{ proposal.tally.no | prettyInt }} {{ stakingDenom }}s
+          </div>
           <div v-if="proposal.tally.veto > 0">
-            Veto Votes: {{ proposal.tally.veto | prettyInt }} {{ stakingDenom }}s
+            Veto Votes: {{ proposal.tally.veto | prettyInt }}
+            {{ stakingDenom }}s
           </div>
           <div v-if="proposal.tally.abstain > 0">
-            Abstain Votes: {{ proposal.tally.abstain | prettyInt }} {{ stakingDenom }}s
+            Abstain Votes: {{ proposal.tally.abstain | prettyInt }}
+            {{ stakingDenom }}s
           </div>
         </div>
       </div>
