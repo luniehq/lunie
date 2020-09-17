@@ -14,6 +14,19 @@ const {
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
+const hexToASCII = (hex) => {
+  if (!hex) return
+  const hexString = hex.toString()
+  let string = ''
+  for (
+    let i = 0;
+    i < hexString.length && hexString.substr(i, 2) !== '00';
+    i += 2
+  )
+    string += String.fromCharCode(parseInt(hexString.substr(i, 2), 16))
+  return string
+}
+
 class polkadotAPI {
   constructor(network, store, fiatValuesAPI, db) {
     this.network = network
@@ -1047,6 +1060,16 @@ class polkadotAPI {
     }
   }
 
+  getProposalParameter(proposal) {
+    // democracy proposals in Polkadot contain a parameter which is what is going to be changed
+    if (proposal.image) {
+      const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
+      return imageProposal.args.new || imageProposal.args.code
+        ? hexToASCII(imageProposal.args.code)
+        : undefined
+    }
+  }
+
   async getAllProposals() {
     const api = await this.getAPI()
 
@@ -1083,6 +1106,7 @@ class polkadotAPI {
             proposalWithMetadata,
             totalIssuance,
             blockHeight,
+            this.getProposalParameter(proposal),
             await this.getDetailedVotes(proposalWithMetadata, `democracy`),
             proposer
           )
