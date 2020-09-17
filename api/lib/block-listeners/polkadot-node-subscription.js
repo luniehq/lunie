@@ -1,7 +1,6 @@
 const { ApiPromise, WsProvider } = require('@polkadot/api')
 const BaseNodeSubscription = require('./base-node-subscription')
 
-
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
 class PolkadotNodeSubscription extends BaseNodeSubscription {
