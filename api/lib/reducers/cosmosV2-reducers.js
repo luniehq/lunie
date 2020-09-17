@@ -13,9 +13,9 @@ const {
 } = cosmosV0Reducers
 
 const proposalTypeEnumDictionary = {
-  'cosmos-sdk/TextProposal': 'TEXT',
-  'cosmos-sdk/CommunityPoolSpendProposal': 'TREASURY',
-  'cosmos-sdk/ParameterChangeProposal': 'PARAMETER_CHANGE'
+  TextProposal: 'TEXT',
+  CommunityPoolSpendProposal: 'TREASURY',
+  ParameterChangeProposal: 'PARAMETER_CHANGE'
 }
 
 // map Cosmos SDK message types to Lunie message types
@@ -241,7 +241,7 @@ function proposalReducer(
     networkId,
     id: Number(proposal.id),
     proposalId: String(proposal.id),
-    type: proposalTypeEnumDictionary[proposal.content.type],
+    type: proposalTypeEnumDictionary[proposal.content.type.split('/')[1]],
     title: proposal.content.value.title,
     description: proposal.content.value.description,
     creationTime: proposal.submit_time,
@@ -252,7 +252,7 @@ function proposalReducer(
     deposit: getDeposit(proposal, 'stake'), // TODO use denom lookup + use network config
     proposer: reducers.networkAccountReducer(proposer.proposer, validators),
     summary: reducers.getProposalSummary(
-      proposalTypeEnumDictionary[proposal.content.type]
+      proposalTypeEnumDictionary[proposal.content.type.split('/')[1]]
     ),
     detailedVotes
   }
