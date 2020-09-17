@@ -811,7 +811,9 @@ class polkadotAPI {
       votingPercentagedNo: `0`,
       percentageDepositsNeeded,
       links,
-      timeline: [{ title: `Proposal created`, time: proposal.creationTime }],
+      timeline: proposal.creationTime
+        ? [{ title: `Proposal created`, time: proposal.creationTime }]
+        : undefined,
       council: false
     }
   }
@@ -887,6 +889,7 @@ class polkadotAPI {
 
     let proposalDelayInDays
     let proposalEndTime
+    let proposalVotingPeriodStarted
     // votes involve depositing & locking some amount for referendum proposals
     const allDeposits = proposal.allAye.concat(proposal.allNay)
     const depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
@@ -944,6 +947,12 @@ class polkadotAPI {
         new Date(proposal.creationTime).getTime() +
           proposalTimeSpanInDays * 24 * 60 * 60 * 1000
       ).toUTCString()
+      proposalVotingPeriodStarted = proposalDelayInDays
+        ? new Date(
+            new Date(proposal.creationTime).getTime() +
+              proposalDelayInDays * 24 * 60 * 60 * 1000
+          ).toUTCString()
+        : undefined
     }
     return {
       deposits,
@@ -971,23 +980,24 @@ class polkadotAPI {
       links,
       timeline: [
         // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
-        {
-          title: `Proposal created`,
-          time: proposal.creationTime
-        },
-        {
-          title: `Voting period opens`,
-          time: proposalDelayInDays
-            ? new Date(
-                new Date(proposal.creationTime).getTime() +
-                  proposalDelayInDays * 24 * 60 * 60 * 1000
-              ).toUTCString()
-            : undefined
-        },
-        {
-          title: `Proposal voting period ends`,
-          time: proposalEndTime
-        }
+        proposal.creationTime
+          ? {
+              title: `Proposal created`,
+              time: proposal.creationTime
+            }
+          : undefined,
+        proposalVotingPeriodStarted
+          ? {
+              title: `Voting period opens`,
+              time: proposalVotingPeriodStarted
+            }
+          : undefined,
+        proposalEndTime
+          ? {
+              title: `Proposal voting period ends`,
+              time: proposalEndTime
+            }
+          : undefined
       ],
       council: false
     }

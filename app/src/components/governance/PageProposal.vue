@@ -20,12 +20,7 @@
       <ParticipantList v-if="participants" :participants="participants" />
 
       <template
-        v-if="
-          proposal.detailedVotes.timeline &&
-          Object.values(proposal.detailedVotes.timeline).find(
-            ({ time }) => time
-          )
-        "
+        v-if="proposal.detailedVotes.timeline"
       >
         <Timeline :timeline="proposal.detailedVotes.timeline" />
       </template>
