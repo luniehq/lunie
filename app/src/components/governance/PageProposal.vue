@@ -26,6 +26,7 @@
       <ProposalDescription
         :description="proposal.description"
         :type="proposal.type"
+        :parameter="proposal.parameter"
         :supporting-links="proposal.detailedVotes.links"
       />
 
