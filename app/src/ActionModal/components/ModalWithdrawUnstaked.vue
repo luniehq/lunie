@@ -44,13 +44,13 @@ export default {
   },
   data: () => ({
     messageType,
-    undelegations: []
+    undelegations: [],
   }),
   asyncComputed: {
     async transactionData() {
       return {
         type: messageType.WITHDRAW_UNSTAKED,
-        amount: String(this.totalUnbondedTokens)
+        amount: String(this.totalUnbondedTokens),
       }
     },
   },
@@ -64,10 +64,13 @@ export default {
     },
     totalUnbondedTokens() {
       const now = new Date()
-      const readyUndelegations = this.undelegations.filter(({ endTime }) =>
-        new Date(endTime) <= now
+      const readyUndelegations = this.undelegations.filter(
+        ({ endTime }) => new Date(endTime) <= now
       )
-      return readyUndelegations.reduce((sum, {amount}) => sum + Number(amount), 0)
+      return readyUndelegations.reduce(
+        (sum, { amount }) => sum + Number(amount),
+        0
+      )
     },
   },
   methods: {
@@ -80,13 +83,16 @@ export default {
       query() {
         /* istanbul ignore next */
         return gql`
-        query undelegations($networkId: String!, $delegatorAddress: String!) {
-          undelegations(networkId: $networkId, delegatorAddress: $delegatorAddress) {
-            amount
-            endTime
+          query undelegations($networkId: String!, $delegatorAddress: String!) {
+            undelegations(
+              networkId: $networkId
+              delegatorAddress: $delegatorAddress
+            ) {
+              amount
+              endTime
+            }
           }
-        }
-      `
+        `
       },
       variables() {
         /* istanbul ignore next */

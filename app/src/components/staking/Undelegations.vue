@@ -73,10 +73,10 @@ export default {
     },
     readyUndelegations() {
       const now = new Date()
-      return !!this.undelegations.find(({endTime}) => {
+      return !!this.undelegations.find(({ endTime }) => {
         return new Date(endTime) <= now
       })
-    }
+    },
   },
   methods: {
     onWithdraw() {
