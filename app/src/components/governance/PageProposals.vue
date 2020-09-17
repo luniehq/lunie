@@ -84,7 +84,7 @@
       "
       :title="participantListTitle"
       :participants="governanceOverview.topVoters"
-      show-amounts="true"
+      :show-amounts="true"
     />
 
     <ProposalDescription
