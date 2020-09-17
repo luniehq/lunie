@@ -1,0 +1,1 @@
+[Fixed] Do not retry proposer queries as they usually fail @faboweb
