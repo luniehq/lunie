@@ -1,0 +1,1 @@
+[Changed] [#4903](https://github.com/cosmos/lunie/issues/4903) Use loadMore logic to load participants in batches in ParticipantList if the user clicks a button @Bitcoinera

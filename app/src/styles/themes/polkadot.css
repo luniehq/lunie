@@ -21,7 +21,7 @@
   /* light-theme typography */
   --bright: hsl(0, 0%, 0%);
   --txt: hsl(0, 0%, 10%);
-  --dim: hsl(0, 0%, 20%);
+  --dim: hsl(0, 0%, 30%);
   --bc: hsl(0, 0%, 90%);
   --bc-dim: hsl(0, 0%, 95%);
   --input-bc: hsl(0, 0%, 75%);

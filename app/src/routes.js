@@ -11,7 +11,14 @@ export default (store) => {
   return [
     {
       path: `/`,
-      redirect: `/cosmos-hub/portfolio`,
+      beforeEnter: async (to, from, next) => {
+        const userSignedIn = await store.dispatch("checkSession")
+        if (userSignedIn) {
+          next("/notifications")
+        } else {
+          next("/cosmos-hub/portfolio")
+        }
+      },
     },
     {
       path: `/networks`,
@@ -289,7 +296,7 @@ export default (store) => {
           },
           component: () => import(`./components/governance/PageProposals`),
         },
-        // for depredecated routes
+        // for deprecated routes
         {
           path: `governance/proposals`,
           redirect: `/proposals`,
@@ -304,7 +311,7 @@ export default (store) => {
           component: () => import(`./components/governance/PageProposal`),
           props: true,
         },
-        // for depredecated routes
+        // for deprecated routes
         {
           path: `governance/proposals/:proposalId`,
           redirect: `/proposals/:proposalId`,
@@ -318,7 +325,7 @@ export default (store) => {
           },
           component: () => import(`./components/staking/PageValidators`),
         },
-        // for depredecated routes
+        // for deprecated routes
         {
           path: `staking/validators`,
           redirect: `/validators`,

@@ -180,7 +180,10 @@ describe(`ModalPropose`, () => {
           amount: 10,
           denom: "ATOM",
         },
-        proposer: "cosmosguay",
+        proposer: {
+          address: "cosmosguay",
+          name: "",
+        },
       })
     })
 

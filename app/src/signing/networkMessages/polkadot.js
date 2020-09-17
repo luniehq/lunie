@@ -1,6 +1,7 @@
 import { getSignMessage } from "./polkadot-transactions"
 import uniqBy from "lodash.uniqby"
 import BigNumber from "bignumber.js"
+import gql from "graphql-tag"
 
 // Bank
 /* istanbul ignore next */
@@ -125,29 +126,19 @@ export async function RestakeTx(
   return await getSignMessage(senderAddress, transactions, api)
 }
 
-export async function ClaimRewardsTx(senderAddress, {}, network, api) {
+export async function ClaimRewardsTx(senderAddress, { rewards }, network, api) {
   let allClaimingTxs = []
-  const stakerRewards = await api.derive.staking.stakerRewards(senderAddress)
-  const newStakerRewards = stakerRewards.filter(({ era }) => era.toJSON() > 718)
-  if (newStakerRewards.length === 0) {
+
+  if (rewards.length === 0) {
     allClaimingTxs = []
   } else {
-    newStakerRewards.forEach((reward) => {
-      reward.nominating.forEach((nomination) => {
-        if (reward.isStakerPayout) {
-          allClaimingTxs.push(
-            api.tx.staking.payoutStakers(nomination.validatorId, reward.era)
-          )
-        } else {
-          const validators = reward.nominating.map(
-            ({ validatorId, validatorIndex }) => [validatorId, validatorIndex]
-          )
-          allClaimingTxs.push(
-            api.tx.staking.payoutNominator(reward.era, validators)
-          )
-        }
+    rewards
+      .sort((a, b) => a.height - b.height)
+      .forEach((reward) => {
+        allClaimingTxs.push(
+          api.tx.staking.payoutStakers(reward.validator, reward.height)
+        )
       })
-    })
   }
   if (allClaimingTxs.length === 0) {
     throw new Error("There are no claimable rewards")
@@ -167,17 +158,33 @@ export async function VoteTx(
   network,
   api
 ) {
-  const referendumId = proposalId
-  const voteTx = await api.tx.democracy.vote(referendumId, {
+  const voteTx = await api.tx.democracy.vote(Number(proposalId), {
     Standard: {
       balance: toChainAmount(
         { amount: lockedBalance, denom: network.stakingDenom },
         network.coinLookup
       ),
-      vote: { aye: voteOption === "Yes" ? true : false, conviction: timeLock },
+      vote: {
+        aye: voteOption === "Yes" ? true : false,
+        conviction: timeLock,
+      },
     },
   })
   return await getSignMessage(senderAddress, voteTx, api)
+}
+
+// Deposit
+export async function DepositTx(
+  senderAddress,
+  { proposalId, numberOfSeconds },
+  network,
+  api
+) {
+  const depositTx = await api.tx.democracy.second(
+    Number(proposalId),
+    numberOfSeconds
+  )
+  return await getSignMessage(senderAddress, depositTx, api)
 }
 
 function toChainAmount({ amount, denom }, coinLookup) {

@@ -2,7 +2,7 @@ name: App Production Deployment Workflow
 on:
   push:
     branches:
-      - "master"
+      - 'master'
     paths:
       - 'app/CHANGELOG.md'
 
