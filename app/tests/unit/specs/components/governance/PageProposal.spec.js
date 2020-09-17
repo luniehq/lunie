@@ -26,6 +26,7 @@ describe(`PageProposal`, () => {
     address: `cosmos1xxxx`,
     currentNetwork: {
       id: "cosmos-hub-mainnet",
+      stakingDenom: `ATOM`,
       network_type: `cosmos`,
     },
   }

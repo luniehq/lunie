@@ -16,6 +16,7 @@ import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
 import "material-design-icons-iconfont/dist/material-design-icons.css"
 import AsyncComputed from "vue-async-computed"
+import VueScrollTo from "vue-scrollto"
 
 if (config.sentryDSN) {
   Sentry.init({
@@ -34,6 +35,7 @@ Vue.use(VueClipboard)
 Vue.use(InfiniteScroll)
 Vue.use(AsyncComputed)
 Vue.use(DynamicReactiveRefs)
+Vue.use(VueScrollTo)
 
 Vue.directive(`focus`, focusElement)
 Vue.directive(`focus-last`, focusParentLast)

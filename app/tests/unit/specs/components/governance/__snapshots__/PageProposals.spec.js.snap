@@ -50,6 +50,10 @@ exports[`PageProposals shows a message if still loading 1`] = `
     denom="ATOM"
   />
    
+  <h4>
+    Proposals
+  </h4>
+   
   <liproposal-stub
     proposal="[object Object]"
   />
@@ -244,6 +248,10 @@ exports[`PageProposals shows a proposals table 1`] = `
   <modalpropose-stub
     denom="ATOM"
   />
+   
+  <h4>
+    Proposals
+  </h4>
    
   <liproposal-stub
     proposal="[object Object]"

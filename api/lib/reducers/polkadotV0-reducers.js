@@ -521,7 +521,7 @@ function networkAccountReducer(account) {
     name:
       account && account.identity && account.identity.display
         ? account.identity.display
-        : account.accountId || '',
+        : undefined,
     address: account && account.accountId ? account.accountId : '',
     picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
   }
@@ -532,6 +532,7 @@ function democracyProposalReducer(
   proposal,
   totalIssuance,
   blockHeight,
+  parameter,
   detailedVotes,
   proposer
 ) {
@@ -548,6 +549,7 @@ function democracyProposalReducer(
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
     summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
+    parameter,
     proposer,
     detailedVotes
   }

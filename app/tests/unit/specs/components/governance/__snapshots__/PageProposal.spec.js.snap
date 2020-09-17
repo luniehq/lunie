@@ -9,7 +9,7 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
     <timeline-stub timeline="[object Object]"></timeline-stub>
     <proposaldescription-stub description="test" supportinglinks="" type="cosmos-sdk/TextProposal"></proposaldescription-stub>
     <!---->
-    <modalvote-stub proposalid="33" proposaltitle="test" numberofseconds="0" lastvoteoption="Yes"></modalvote-stub>
+    <modalvote-stub proposalid="33" proposaltitle="test" number-of-seconds="0" lastvoteoption="Yes"></modalvote-stub>
   </div>
 </tmpage-stub>
 `;
@@ -52,7 +52,7 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
     <!---->
      
     <modalvote-stub
-      numberofseconds="0"
+      number-of-seconds="0"
       proposalid="33"
       proposaltitle="test"
     />

@@ -160,7 +160,7 @@ function networkAccountReducer(address, validators) {
       ? validators[proposerValAddress]
       : undefined
   return {
-    name: validator ? validator.name : address || '',
+    name: validator ? validator.name : undefined,
     address: address || '',
     picture: validator ? validator.picture : ''
   }
@@ -433,7 +433,7 @@ async function balanceV2Reducer(
     denom: lunieCoin.denom,
     fiatValue: fiatValue[lunieCoin.denom],
     available: lunieCoin.amount,
-    staked: delegatedStake.amount,
+    staked: delegatedStake.amount || 0,
     availableFiatValue: availableFiatValue[stakingDenom]
   }
 }

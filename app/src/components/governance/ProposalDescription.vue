@@ -1,13 +1,13 @@
 <template>
-  <div class="proposal-description">
+  <div id="proposal-description" class="proposal-description">
     <div class="description-content-container">
       <section v-if="description">
         <h4>Description</h4>
         <div class="description">
           <pre v-if="type === `PARAMETER_CHANGE` && type !== `UNKNOWN`">
           {{ description }}
-        </pre
-          >
+          <p v-if="parameter" class="parameter">New Parameter: {{ parameter }}</p>
+        </pre>
           <p v-else>{{ description }}</p>
         </div>
       </section>
@@ -42,6 +42,10 @@ export default {
     type: {
       type: String,
       default: `UNKNOWN`,
+    },
+    parameter: {
+      type: String,
+      default: undefined,
     },
   },
 }
@@ -103,6 +107,10 @@ pre {
   font-size: 14px;
   padding: 1rem;
   white-space: pre-line;
+}
+
+.parameter {
+  margin-top: 1rem;
 }
 
 @media screen and (max-width: 1023px) {

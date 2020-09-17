@@ -1,7 +1,7 @@
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
-const { stringToU8a } = require('@polkadot/util')
+const { stringToU8a, hexToString } = require('@polkadot/util')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const Sentry = require('@sentry/node')
 
@@ -807,7 +807,7 @@ class polkadotAPI {
       percentageDepositsNeeded,
       links,
       timeline: proposal.creationTime
-        ? [{ title: `Proposal created`, time: proposal.creationTime }]
+        ? [{ title: `Created`, time: proposal.creationTime }]
         : undefined,
       council: false
     }
@@ -977,19 +977,19 @@ class polkadotAPI {
         // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
         proposal.creationTime
           ? {
-              title: `Proposal created`,
+              title: `Created`,
               time: proposal.creationTime
             }
           : undefined,
         proposalVotingPeriodStarted
           ? {
-              title: `Voting period opens`,
+              title: `Voting Period Started`,
               time: proposalVotingPeriodStarted
             }
           : undefined,
         proposalEndTime
           ? {
-              title: `Proposal voting period ends`,
+              title: `Voting Period Ended`,
               time: proposalEndTime
             }
           : undefined
@@ -1057,6 +1057,20 @@ class polkadotAPI {
     }
   }
 
+  getProposalParameter(proposal) {
+    // democracy proposals in Polkadot contain a parameter which is what is going to be changed
+    if (proposal.image) {
+      const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
+      if (imageProposal.args.old) {
+        return `Old: ${imageProposal.args.old} | New: ${imageProposal.args.new}`
+      } else if (imageProposal.args.code) {
+        return hexToString(imageProposal.args.code)
+      } else if (imageProposal.args.new) {
+        return imageProposal.args.new
+      }
+    }
+  }
+
   async getAllProposals() {
     const api = await this.getAPI()
 
@@ -1093,6 +1107,7 @@ class polkadotAPI {
             proposalWithMetadata,
             totalIssuance,
             blockHeight,
+            this.getProposalParameter(proposal),
             await this.getDetailedVotes(proposalWithMetadata, `democracy`),
             proposer
           )
