@@ -37,7 +37,7 @@ export default {
   },
   filters: {
     moment: function (date) {
-      return moment(date).format('MMMM Do, YYYY - hh:mm A');
+      return moment(date).startOf("day").fromNow()
     },
   },
   props: {

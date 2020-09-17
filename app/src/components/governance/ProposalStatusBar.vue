@@ -22,7 +22,7 @@
     <div v-if="status.value === governanceStatusEnum.VOTING">
       <div class="top row">
         <div class="time">
-          Entered Voting Period on {{ new Date(statusBeginTime) | moment }}
+          Entered Voting Period {{ new Date(statusBeginTime) | moment }}
         </div>
         <div>ID: {{ proposal.proposalId }}</div>
       </div>
@@ -63,7 +63,7 @@ export default {
   },
   filters: {
     moment: function (date) {
-      return moment(date).format('MMMM Do, YYYY - hh:mm A');
+      return moment(date).startOf("day").fromNow()
     },
   },
   props: {
