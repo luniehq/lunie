@@ -64,7 +64,7 @@ export default {
   filters: {
     moment: function (date) {
       return moment(date).format('MMMM Do, YYYY - hh:mm A');
-    }
+    },
   },
   props: {
     status: {
