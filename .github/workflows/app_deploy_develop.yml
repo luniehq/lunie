@@ -2,9 +2,9 @@ name: App Development Deployment Workflow
 on:
   push:
     branches:
-      - "develop"
+      - 'develop'
     paths:
-      - 'app/CHANGELOG.md'
+      - 'app/**'
 
 env:
   WORKING_DIRECTORY: ./app
