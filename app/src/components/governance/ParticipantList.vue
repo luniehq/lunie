@@ -15,7 +15,12 @@
             />
             <img v-else :src="currentNetwork.icon" />
           </span>
-          <span class="name">{{ participant.name }}</span>
+          <span v-if="participant.name" class="name">{{
+            participant.name
+          }}</span>
+          <span v-else class="name">{{
+            participant.address | formatAddress
+          }}</span>
         </div>
         <template v-if="participant.votingPower">
           <div v-if="currentNetwork.network_type === `cosmos`">
@@ -48,6 +53,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { formatAddress } from "src/filters"
 import { bigFigure, bigFigureOrPercent } from "scripts/num"
 import TmBtn from "src/components/common/TmBtn"
 
@@ -57,6 +63,7 @@ export default {
     TmBtn,
   },
   filters: {
+    formatAddress,
     bigFigure,
     bigFigureOrPercent,
   },
