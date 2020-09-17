@@ -3,7 +3,7 @@
     <h4>{{ title }}</h4>
     <ul>
       <li
-        v-for="(participant, index) in participants"
+        v-for="(participant, index) in showingParticipants"
         :key="index"
         class="participant"
       >
@@ -25,15 +25,27 @@
         </div>
       </li>
     </ul>
+    <div v-if="moreAvailable" class="loadmore-button-container">
+      <TmBtn
+        id="loadMoreBtn"
+        value="Load More"
+        type="secondary"
+        @click.native="loadMore"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import { formatAddress } from "src/filters"
+import TmBtn from "src/components/common/TmBtn"
 
 export default {
   name: `participant-list`,
+  components: {
+    TmBtn,
+  },
   filters: {
     formatAddress,
   },
@@ -47,18 +59,40 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    showing: 5,
+    maxReached: false,
+  }),
   computed: {
     ...mapGetters([`currentNetwork`]),
+    showingParticipants() {
+      return this.participants.slice(0, this.showing)
+    },
     showAmounts() {
       return ["Council Members", "Top Voters"].includes(this.title)
         ? true
         : false
+    },
+    moreAvailable() {
+      return this.showingParticipants.length < this.participants.length
     },
   },
   methods: {
     getParticipantName(participant) {
       const name = participant.name
       return name.length > 25 ? formatAddress(name) : name || `n/a`
+    },
+    loadMore() {
+      if (!this.maxReached) {
+        this.showing += 5
+
+        if (
+          this.showing > this.participants.length - 100 &&
+          !this.moreAvailable
+        ) {
+          this.maxReached = true
+        }
+      }
     },
   },
 }
@@ -94,7 +128,7 @@ h4 {
 .participant div {
   display: flex;
   align-items: center;
-  width: 2rem;
+  width: 5rem;
 }
 
 .name,
@@ -124,5 +158,11 @@ h4 {
 .icon,
 .option {
   margin-right: 1rem;
+}
+
+.loadmore-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 0;
 }
 </style>

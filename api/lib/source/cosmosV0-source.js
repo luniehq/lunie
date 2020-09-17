@@ -302,16 +302,27 @@ class CosmosV0API extends RESTDataSource {
           : 0,
       links,
       timeline: [
-        { title: `Proposal created`, time: proposal.submit_time },
-        {
-          title: `Proposal deposit period ends`,
-          time: proposal.deposit_end_time
-        },
-        {
-          title: `Proposal voting period starts`,
-          time: proposal.voting_start_time
-        },
-        { title: `Proposal voting period ends`, time: proposal.voting_end_time }
+        proposal.submit_time
+          ? { title: `Created`, time: proposal.submit_time }
+          : undefined,
+        proposal.deposit_end_time
+          ? {
+              title: `Deposit Period Ended`,
+              time: proposal.deposit_end_time
+            }
+          : undefined,
+        proposal.voting_start_time
+          ? {
+              title: `Voting Period Started`,
+              time: proposal.voting_start_time
+            }
+          : undefined,
+        proposal.voting_end_time
+          ? {
+              title: `Voting Period Ended`,
+              time: proposal.voting_end_time
+            }
+          : undefined
       ]
     }
   }

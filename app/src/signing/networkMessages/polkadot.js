@@ -149,11 +149,11 @@ export async function ClaimRewardsTx(senderAddress, { rewards }, network, api) {
 // Vote
 export async function VoteTx(
   senderAddress,
-  { proposalId, lockedBalance, voteOption, timeLock, numberOfSeconds },
+  { proposalId, lockedBalance, voteOption, timeLock },
   network,
   api
 ) {
-  const voteTx = await api.tx.democracy.vote(proposalId, {
+  const voteTx = await api.tx.democracy.vote(Number(proposalId), {
     Standard: {
       balance: toChainAmount(
         { amount: lockedBalance, denom: network.stakingDenom },

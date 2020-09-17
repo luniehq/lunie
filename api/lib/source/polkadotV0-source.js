@@ -233,7 +233,10 @@ class polkadotAPI {
 
   async getBalancesV2FromAddress(address, fiatCurrency) {
     const api = await this.getAPI()
-    const account = await api.query.system.account(address)
+    const [account, stakingLedger] = await Promise.all([
+      api.query.system.account(address),
+      api.query.staking.ledger(address)
+    ])
     // -> Free balance is NOT transferable balance
     // -> Total balance is equal to reserved plus free balance
     // -> Locks (due to staking o voting) are set over free balance, they overlap rather than add
@@ -242,16 +245,16 @@ class polkadotAPI {
     const { free, reserved, feeFrozen } = account.data.toJSON()
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
-    const stakedBalance = totalBalance
-      .minus(freeBalance)
-      .minus(BigNumber(reserved))
+    const stakedBalance = BigNumber(
+      JSON.parse(JSON.stringify(stakingLedger)).active
+    )
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
         this.network,
         freeBalance.toString(),
         totalBalance.toString(),
-        stakedBalance.toString(),
+        stakedBalance,
         fiatValueAPI,
         fiatCurrency
       )
@@ -526,39 +529,31 @@ class polkadotAPI {
   async getUndelegationsForDelegatorAddress(address) {
     const api = await this.getAPI()
 
-    const [stakingLedger, progress, currentEra] = await Promise.all([
+    const [stakingLedger, progress] = await Promise.all([
       api.query.staking.ledger(address),
-      api.derive.session.progress(),
-      api.query.staking.activeEra().then(async (era) => {
-        return era.toJSON().index
-      })
+      api.derive.session.progress()
     ])
     if (!stakingLedger.toJSON()) {
       return []
     }
     const allUndelegations = stakingLedger.toJSON().unlocking
-    const currentUndelegations = allUndelegations.filter(
-      ({ era }) => era >= currentEra
-    )
 
-    const undelegationsWithEndTime = currentUndelegations.map(
-      (undelegation) => {
-        const remainingEras = undelegation.era - progress.activeEra
-        const remainingBlocks = BigNumber(remainingEras)
-          .minus(BigNumber(1))
-          .times(progress.eraLength)
-          .plus(progress.eraLength)
-          .minus(progress.eraProgress)
-          .toNumber()
-        const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
-        return {
-          ...undelegation,
-          endTime: new Date(
-            new Date().getTime() + totalMilliseconds
-          ).toUTCString()
-        }
+    const undelegationsWithEndTime = allUndelegations.map((undelegation) => {
+      const remainingEras = undelegation.era - progress.activeEra
+      const remainingBlocks = BigNumber(remainingEras)
+        .minus(BigNumber(1))
+        .times(progress.eraLength)
+        .plus(progress.eraLength)
+        .minus(progress.eraProgress)
+        .toNumber()
+      const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
+      return {
+        ...undelegation,
+        endTime: new Date(
+          new Date().getTime() + totalMilliseconds
+        ).toUTCString()
       }
-    )
+    })
 
     return undelegationsWithEndTime.map((undelegation) =>
       this.reducers.undelegationReducer(undelegation, address, this.network)
@@ -811,7 +806,9 @@ class polkadotAPI {
       votingPercentagedNo: `0`,
       percentageDepositsNeeded,
       links,
-      timeline: [{ title: `Proposal created`, time: proposal.creationTime }],
+      timeline: proposal.creationTime
+        ? [{ title: `Created`, time: proposal.creationTime }]
+        : undefined,
       council: false
     }
   }
@@ -887,6 +884,7 @@ class polkadotAPI {
 
     let proposalDelayInDays
     let proposalEndTime
+    let proposalVotingPeriodStarted
     // votes involve depositing & locking some amount for referendum proposals
     const allDeposits = proposal.allAye.concat(proposal.allNay)
     const depositsSum = allDeposits.reduce((balanceAggregator, deposit) => {
@@ -944,6 +942,12 @@ class polkadotAPI {
         new Date(proposal.creationTime).getTime() +
           proposalTimeSpanInDays * 24 * 60 * 60 * 1000
       ).toUTCString()
+      proposalVotingPeriodStarted = proposalDelayInDays
+        ? new Date(
+            new Date(proposal.creationTime).getTime() +
+              proposalDelayInDays * 24 * 60 * 60 * 1000
+          ).toUTCString()
+        : undefined
     }
     return {
       deposits,
@@ -971,23 +975,24 @@ class polkadotAPI {
       links,
       timeline: [
         // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
-        {
-          title: `Proposal created`,
-          time: proposal.creationTime
-        },
-        {
-          title: `Voting period opens`,
-          time: proposalDelayInDays
-            ? new Date(
-                new Date(proposal.creationTime).getTime() +
-                  proposalDelayInDays * 24 * 60 * 60 * 1000
-              ).toUTCString()
-            : undefined
-        },
-        {
-          title: `Proposal voting period ends`,
-          time: proposalEndTime
-        }
+        proposal.creationTime
+          ? {
+              title: `Created`,
+              time: proposal.creationTime
+            }
+          : undefined,
+        proposalVotingPeriodStarted
+          ? {
+              title: `Voting Period Started`,
+              time: proposalVotingPeriodStarted
+            }
+          : undefined,
+        proposalEndTime
+          ? {
+              title: `Voting Period Ended`,
+              time: proposalEndTime
+            }
+          : undefined
       ],
       council: false
     }
