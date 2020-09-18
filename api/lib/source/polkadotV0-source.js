@@ -41,7 +41,8 @@ class polkadotAPI {
     if (this.store.identities[address]) return this.store.identities[address]
     const accountInfo = await api.derive.accounts.info(address)
     this.store.identities[address] = this.reducers.networkAccountReducer(
-      accountInfo
+      accountInfo,
+      this.store
     )
     return this.store.identities[address]
   }

@@ -516,14 +516,16 @@ function depositReducer(deposit, depositer, network) {
   }
 }
 
-function networkAccountReducer(account) {
+function networkAccountReducer(account, store) {
+  const validator = account ? store.validators[account.accountId] : undefined
   return {
     name:
       account && account.identity && account.identity.display
         ? account.identity.display
         : undefined,
     address: account && account.accountId ? account.accountId : '',
-    picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
+    picture: validator ? validator.picture : account ? account.twitter : '',
+    validator
   }
 }
 

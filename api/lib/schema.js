@@ -384,6 +384,7 @@ const typeDefs = gql`
     name: String
     address: String!
     picture: String
+    validator: Validator
   }
 
   type TopVoter {
