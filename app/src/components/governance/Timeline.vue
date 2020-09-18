@@ -9,7 +9,7 @@
       >
         <h4>{{ phase.title }}</h4>
         <span class="time">
-          <template v-if="phase.time">{{ phase.time | moment }}</template>  
+          <template v-if="phase.time">{{ phase.time | moment }}</template>
           <template v-else>?</template>
         </span>
       </li>
