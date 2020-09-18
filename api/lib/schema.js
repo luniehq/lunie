@@ -110,7 +110,7 @@ const typeDefs = gql`
     beneficiary: NetworkAccount
     summary: String
     parameter: String
-    changes: Changes
+    changes: String
     detailedVotes: DetailedVotes
   }
 

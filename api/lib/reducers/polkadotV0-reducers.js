@@ -547,7 +547,7 @@ function democracyProposalReducer(
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
     summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
-    changes: parameter,
+    changes: String(parameter),
     proposer,
     detailedVotes
   }
@@ -575,7 +575,7 @@ function democracyReferendumReducer(
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
     summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
-    changes: parameter,
+    changes: String(parameter),
     proposer: proposal.proposer,
     detailedVotes
   }
@@ -610,8 +610,8 @@ function treasuryProposalReducer(
     proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
     summary: getProposalSummary(proposalTypeEnum.TREASURY),
-    detailedVotes,
-    changes: parameter
+    changes: String(parameter),
+    detailedVotes
   }
 }
 
