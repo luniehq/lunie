@@ -214,7 +214,7 @@ let networkGasPricesDictionary = {
 }
 
 const getPolkadotMessage = async (messageType, senderAddress, message, network, networkSource) => {
-  const polkadotMessages = require(`../lib/messageCreators/polkadot-transactions`)
+  const polkadotMessages = require(`../../app/src/signing/networkMessages/polkadot-transactions`)
   const messageFormatter = polkadotMessages[messageType]
   const api = networkSource.store.polkadotRPC
   await api.isReady

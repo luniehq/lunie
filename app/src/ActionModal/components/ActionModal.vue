@@ -240,7 +240,6 @@
 
 <script>
 import gql from "graphql-tag"
-import noScroll from "no-scroll"
 import * as Sentry from "@sentry/browser"
 import BigNumber from "bignumber.js"
 import { mapState, mapGetters } from "vuex"
@@ -558,10 +557,8 @@ export default {
       if (this.session.sessionType === sessionType.EXTENSION) {
         this.$store.dispatch(`getAddressesFromExtension`)
       }
-      noScroll.on()
     },
     close() {
-      noScroll.off()
       if (this.step == "sign") {
         // remove the request from any sign method to avoid orphaned transactions in the sign methods
         this.transactionManager.cancel(
