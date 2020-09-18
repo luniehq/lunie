@@ -1066,8 +1066,11 @@ class polkadotAPI {
       } else if (imageProposal.args.code) {
         return hexToString(imageProposal.args.code)
       } else if (imageProposal.args.new) {
-        return imageProposal.args.new
+        return String(imageProposal.args.new)
       }
+    }
+    if (proposal.council) {
+      return toViewDenom(this.network, proposal.proposal.value)
     }
   }
 
@@ -1121,6 +1124,7 @@ class polkadotAPI {
             return this.reducers.democracyReferendumReducer(
               this.network,
               proposalWithMetadata,
+              this.getProposalParameter(proposal),
               totalIssuance,
               blockHeight,
               await this.getDetailedVotes(proposalWithMetadata, `referendum`)
@@ -1151,6 +1155,7 @@ class polkadotAPI {
                   api
                 )
               },
+              this.getProposalParameter(proposal),
               councilMembers,
               blockHeight,
               electionInfo,
