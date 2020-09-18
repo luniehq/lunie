@@ -380,7 +380,7 @@ class CosmosV0API extends RESTDataSource {
       detailedVotes
     ] = await Promise.all([
       this.query(`gov/proposals/${proposalId}/tally`),
-      this.getRetry(`gov/proposals/${proposalId}/proposer`, 3).catch(() => {
+      this.query(`gov/proposals/${proposalId}/proposer`, true).catch(() => {
         return { proposer: undefined }
       }),
       this.query(`/staking/pool`),
