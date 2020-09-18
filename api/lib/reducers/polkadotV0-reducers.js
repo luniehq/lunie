@@ -610,7 +610,7 @@ function treasuryProposalReducer(
     proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
     summary: getProposalSummary(proposalTypeEnum.TREASURY),
-    changes: parameter,
+    changes: parameter.concat(` ${network.stakingDenom}s`),
     detailedVotes
   }
 }

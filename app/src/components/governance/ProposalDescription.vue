@@ -4,9 +4,9 @@
       <section v-if="description">
         <h4>Description</h4>
         <div class="description">
-          <pre v-if="type === `PARAMETER_CHANGE` && type !== `UNKNOWN`">
+          <pre v-if="type === `PARAMETER_CHANGE` || type === `TREASURY`">
           {{ description }}
-          <p v-if="parameter" class="parameter">New Parameter: {{ parameter }}</p>
+          <p class="parameter">New Parameter: {{ parameter }}</p>
         </pre>
           <p v-else>{{ description }}</p>
         </div>
