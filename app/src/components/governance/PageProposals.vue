@@ -2,8 +2,8 @@
   <TmPage
     data-title="Proposals"
     :loading="
-      $apollo.queries.proposals.loading &&
-      !proposalsLoaded &&
+      $apollo.queries.proposals.loading ||
+      !proposalsLoaded ||
       !governanceOverviewLoaded
     "
     class="proposals"
