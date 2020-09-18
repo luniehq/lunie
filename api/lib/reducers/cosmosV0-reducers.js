@@ -135,18 +135,18 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
   }
 }
 
-function depositReducer(deposit, network) {
+function depositReducer(deposit, network, store) {
   return {
     id: deposit.depositor,
     amount: [coinReducer(deposit.amount[0], undefined, network)],
-    depositer: networkAccountReducer(deposit.depositor)
+    depositer: networkAccountReducer(deposit.depositor, store.validators)
   }
 }
 
-function voteReducer(vote) {
+function voteReducer(vote, store) {
   return {
     id: String(vote.proposal_id.concat(`_${vote.voter}`)),
-    voter: networkAccountReducer(vote.voter),
+    voter: networkAccountReducer(vote.voter, store.validators),
     option: vote.option
   }
 }
@@ -173,7 +173,6 @@ function proposalReducer(
   proposer,
   totalBondedTokens,
   detailedVotes,
-  reducers,
   validators
 ) {
   return {
@@ -183,6 +182,7 @@ function proposalReducer(
     type: proposal.proposal_content.type,
     title: proposal.proposal_content.value.title,
     description: proposal.proposal_content.value.description,
+    changes: JSON.stringify(proposal.proposal_content.value.changes, null, 4),
     creationTime: proposal.submit_time,
     status: proposal.proposal_status,
     statusBeginTime: proposalBeginTime(proposal),

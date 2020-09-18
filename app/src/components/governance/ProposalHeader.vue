@@ -47,7 +47,7 @@
       <h2>{{ proposal.title }}</h2>
 
       <div class="proposer-and-summary-container">
-        <div class="proposer">
+        <div v-if="proposal.proposer" class="proposer">
           Proposed By:
           {{ proposal.proposer.address | formatAddress }}
         </div>
@@ -163,6 +163,7 @@ h2 {
   margin-bottom: 2rem;
   max-width: 500px;
   color: var(--bright);
+  padding-right: 2rem;
 }
 
 .page-links {
@@ -256,6 +257,10 @@ h2 {
 }
 
 @media screen and (max-width: 1023px) {
+  h2 {
+    padding-right: 0;
+  }
+
   .content-container {
     flex-direction: column;
     text-align: center;

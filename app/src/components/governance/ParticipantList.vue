@@ -9,10 +9,7 @@
       >
         <div class="first-column">
           <span class="icon">
-            <img
-              v-if="participant.validator && participant.validator.picture"
-              :src="participant.validator.picture"
-            />
+            <img v-if="participant.picture" :src="participant.picture" />
             <img v-else :src="currentNetwork.icon" />
           </span>
           <span v-if="participant.name" class="name">{{
@@ -35,8 +32,10 @@
           <span class="option">{{ participant.option }}</span>
         </div>
         <div v-if="showAmounts && participant.amount">
-          <span class="amount">{{ participant.amount.amount }}</span>
-          <span>{{ participant.amount.denom.concat(`s`) }}</span>
+          <span class="amount"
+            >{{ participant.amount.amount }}
+            {{ participant.amount.denom }}</span
+          >
         </div>
       </li>
     </ul>
@@ -88,7 +87,9 @@ export default {
   computed: {
     ...mapGetters([`currentNetwork`]),
     showingParticipants() {
-      return this.participants.slice(0, this.showing)
+      return JSON.parse(JSON.stringify(this.participants))
+      .sort((a,b) => !!b.picture - !!a.picture)
+      .slice(0, this.showing)
     },
     moreAvailable() {
       return this.showingParticipants.length < this.participants.length
@@ -141,7 +142,19 @@ h4 {
 .participant div {
   display: flex;
   align-items: center;
-  width: 7rem;
+  max-width: 33%;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.participant div:first-child {
+  justify-content: flex-start;
+}
+
+.name::-webkit-scrollbar,
+.option::-webkit-scrollbar,
+.amount::-webkit-scrollbar {
+  display: none;
 }
 
 .name,
@@ -149,6 +162,11 @@ h4 {
 .amount {
   color: var(--bright);
   margin-right: 0.5rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .voter,

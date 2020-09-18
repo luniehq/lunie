@@ -256,7 +256,7 @@ class CosmosV0API extends RESTDataSource {
       .plus(tally.no_with_veto)
     const formattedDeposits = deposits
       ? deposits.map((deposit) =>
-          this.reducers.depositReducer(deposit, this.network)
+          this.reducers.depositReducer(deposit, this.network, this.store)
         )
       : undefined
     const depositsSum = formattedDeposits
@@ -278,7 +278,7 @@ class CosmosV0API extends RESTDataSource {
           ).toFixed(2)
         : undefined,
       votes: votes
-        ? votes.map((vote) => this.reducers.voteReducer(vote))
+        ? votes.map((vote) => this.reducers.voteReducer(vote, this.store))
         : undefined,
       votesSum: votes ? votes.length : undefined,
       votingThresholdYes: Number(tallyingParameters.threshold).toFixed(2),
@@ -310,8 +310,9 @@ class CosmosV0API extends RESTDataSource {
               title: `Deposit Period Ended`,
               // the deposit period can end before the time as the limit is reached already
               time:
+                proposal.voting_start_time !== `0001-01-01T00:00:00Z` &&
                 new Date(proposal.voting_start_time) <
-                new Date(proposal.deposit_end_time)
+                  new Date(proposal.deposit_end_time)
                   ? proposal.voting_start_time
                   : proposal.deposit_end_time
             }
@@ -319,16 +320,22 @@ class CosmosV0API extends RESTDataSource {
         proposal.voting_start_time
           ? {
               title: `Voting Period Started`,
-              time: proposal.voting_start_time
+              time:
+                proposal.voting_start_time !== `0001-01-01T00:00:00Z`
+                  ? proposal.voting_start_time
+                  : undefined
             }
           : undefined,
         proposal.voting_end_time
           ? {
               title: `Voting Period Ended`,
-              time: proposal.voting_end_time
+              time:
+                proposal.voting_end_time !== `0001-01-01T00:00:00Z`
+                  ? proposal.voting_end_time
+                  : undefined
             }
           : undefined
-      ]
+      ].filter((x) => !!x)
     }
   }
 

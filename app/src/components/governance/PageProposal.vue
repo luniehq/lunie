@@ -30,7 +30,7 @@
       <ProposalDescription
         :description="proposal.description"
         :type="proposal.type"
-        :parameter="proposal.parameter"
+        :parameter="proposal.changes"
         :supporting-links="proposal.detailedVotes.links"
       />
 

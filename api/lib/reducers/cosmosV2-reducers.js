@@ -244,6 +244,7 @@ function proposalReducer(
     type: proposalTypeEnumDictionary[proposal.content.type.split('/')[1]],
     title: proposal.content.value.title,
     description: proposal.content.value.description,
+    changes: JSON.stringify(proposal.content.value.changes, null, 4),
     creationTime: proposal.submit_time,
     status: proposal.proposal_status,
     statusBeginTime: proposalBeginTime(proposal),
