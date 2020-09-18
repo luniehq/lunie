@@ -40,9 +40,7 @@
         "
         :proposal-title="proposal.title || ''"
         :denom="parameters.depositDenom || currentNetwork.stakingDenom"
-        :number-of-seconds="
-          isPolkadotDemocracy ? Number(proposal.detailedVotes.votesSum) : 0
-        "
+        :deposits="proposal.detailedVotes.deposits"
         @success="() => afterDeposit()"
       />
       <ModalVotePolkadot
