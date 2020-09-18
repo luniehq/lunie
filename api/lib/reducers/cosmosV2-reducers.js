@@ -244,6 +244,7 @@ function proposalReducer(
     type: proposalTypeEnumDictionary[proposal.content.type.split('/')[1]],
     title: proposal.content.value.title,
     description: proposal.content.value.description,
+    changes: proposal.content.value.changes,
     creationTime: proposal.submit_time,
     status: proposal.proposal_status,
     statusBeginTime: proposalBeginTime(proposal),
@@ -397,7 +398,7 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
           ? validator.signing_info.missed_blocks_counter
           : 0
       ) /
-        Number(signedBlocksWindow),
+      Number(signedBlocksWindow),
     tokens: atoms(validator.tokens),
     commissionUpdateTime: validator.commission.update_time,
     commission: Number(validator.commission.commission_rates.rate).toFixed(6),

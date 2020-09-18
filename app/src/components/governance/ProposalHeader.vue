@@ -49,7 +49,7 @@
       <div class="proposer-and-summary-container">
         <div class="proposer">
           Proposed By:
-          {{ proposal.proposer.address | formatAddress }}
+          {{ proposal.address | formatAddress }}
         </div>
         <p class="summary">{{ proposal.summary }}</p>
       </div>

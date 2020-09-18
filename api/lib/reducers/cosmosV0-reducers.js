@@ -173,7 +173,6 @@ function proposalReducer(
   proposer,
   totalBondedTokens,
   detailedVotes,
-  reducers,
   validators
 ) {
   return {
@@ -183,6 +182,7 @@ function proposalReducer(
     type: proposal.proposal_content.type,
     title: proposal.proposal_content.value.title,
     description: proposal.proposal_content.value.description,
+    changes: proposal.proposal_content.value.changes,
     creationTime: proposal.submit_time,
     status: proposal.proposal_status,
     statusBeginTime: proposalBeginTime(proposal),
@@ -271,7 +271,7 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
           ? validator.signing_info.missed_blocks_counter
           : 0
       ) /
-        Number(signedBlocksWindow),
+      Number(signedBlocksWindow),
     tokens: atoms(validator.tokens),
     commissionUpdateTime: validator.commission.update_time,
     commission: validator.commission.rate,
@@ -386,10 +386,10 @@ async function balanceReducer(coin, gasPrices, fiatValue) {
     fiatValue,
     gasPrice: gasPrices
       ? gasPriceReducer(
-          gasPrices.find(
-            (gasPrice) => denomLookup(gasPrice.denom) === coin.denom
-          )
-        ).price
+        gasPrices.find(
+          (gasPrice) => denomLookup(gasPrice.denom) === coin.denom
+        )
+      ).price
       : null
   }
 }

@@ -187,6 +187,7 @@ export const ProposalFragment = `
   }
   summary
   parameter
+  changes
   detailedVotes {
     deposits {
       amount {
