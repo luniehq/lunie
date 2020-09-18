@@ -11,9 +11,12 @@
           <p v-else>{{ description }}</p>
         </div>
       </section>
-      <aside class="supporting-links">
+      <aside
+        v-if="supportingLinks && supportingLinks.length > 0"
+        class="supporting-links"
+      >
         <h4>Supporting Links</h4>
-        <ul v-if="supportingLinks">
+        <ul>
           <li v-for="link in supportingLinks" :key="link.link">
             <a :href="link.link" target="_blank" rel="noopener norefferer">{{
               link.title
@@ -21,7 +24,6 @@
             <i class="material-icons notranslate">link</i>
           </li>
         </ul>
-        <p v-else>No supporting links are currently available.</p>
       </aside>
     </div>
   </div>
