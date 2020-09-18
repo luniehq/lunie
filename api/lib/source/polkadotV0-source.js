@@ -1070,7 +1070,9 @@ class polkadotAPI {
       }
     }
     if (proposal.council) {
-      return toViewDenom(this.network, proposal.proposal.value)
+      return Number(toViewDenom(this.network, proposal.proposal.value)).toFixed(
+        2
+      )
     }
   }
 
