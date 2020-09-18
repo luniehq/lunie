@@ -78,8 +78,8 @@ export default {
     },
     showAmounts: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     showing: 5,
