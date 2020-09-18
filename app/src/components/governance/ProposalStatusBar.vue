@@ -3,7 +3,7 @@
     <div v-if="status.value === governanceStatusEnum.DEPOSITING">
       <div v-if="statusBeginTime" class="top row">
         <div class="time">
-          Entered {{ status.title }} on {{ statusBeginTime | moment }}
+          Entered {{ status.title }} {{ statusBeginTime | moment }}
         </div>
         <div>ID: {{ proposal.proposalId }}</div>
       </div>
@@ -15,8 +15,8 @@
         bar-color="var(--highlight)"
       />
       <div class="bottom row">
-        <div>{{ depositPercentage ? depositPercentage + `%` : "" }}</div>
-        <div>{{ depositTotal }}</div>
+        <div>{{ depositPercentage | prettyInt }}%</div>
+        <div>{{ depositTotal }} {{ stakingDenom }}</div>
       </div>
     </div>
     <div v-if="status.value === governanceStatusEnum.VOTING">
@@ -36,45 +36,44 @@
         :bar-border-radius="8"
         bar-color="var(--highlight)"
       />
-      <div class="bottom row">
-        <div class="row votes">
-          <div class="yes vote-box">
+    </div>
+    <div class="bottom row">
+      <div class="row votes">
+        <div class="yes vote-box">
+          <div>
             <span class="dot">Yes</span>
-            <div class="vote-numbers">
-              <span
-                >{{ proposal.tally.yes | prettyInt }} {{ stakingDenom }}</span
-              >
-              <span>{{ percentageYes | percentInt }}</span>
-            </div>
+            <span>{{ percentageYes | percent }}</span>
           </div>
-          <div class="no vote-box">
+          <span class="bottom-row"
+            >{{ proposal.tally.yes | prettyInt }} {{ stakingDenom }}</span
+          >
+        </div>
+        <div class="no vote-box">
+          <div>
             <span class="dot">No</span>
-            <div class="vote-numbers">
-              <span
-                >{{ proposal.tally.no | prettyInt }} {{ stakingDenom }}</span
-              >
-              <span>{{ percentageNo | percentInt }}</span>
-            </div>
+            <span>{{ percentageNo | percent }}</span>
           </div>
-          <div v-if="proposal.tally.veto > 0" class="veto vote-box">
+          <span class="bottom-row"
+            >{{ proposal.tally.no | prettyInt }} {{ stakingDenom }}</span
+          >
+        </div>
+        <div v-if="proposal.tally.veto > 0" class="veto vote-box">
+          <div>
             <span class="dot">Veto</span>
-            <div class="vote-numbers">
-              <span
-                >{{ proposal.tally.veto | prettyInt }} {{ stakingDenom }}</span
-              >
-              <span>{{ percentageVeto | percentInt }}</span>
-            </div>
+            <span>{{ percentageVeto | percent }}</span>
           </div>
-          <div v-if="proposal.tally.abstain > 0" class="abstain vote-box">
+          <span class="bottom-row"
+            >{{ proposal.tally.veto | prettyInt }} {{ stakingDenom }}</span
+          >
+        </div>
+        <div v-if="proposal.tally.abstain > 0" class="abstain vote-box">
+          <div>
             <span class="dot">Abstain</span>
-            <div class="vote-numbers">
-              <span
-                >{{ proposal.tally.abstain | prettyInt }}
-                {{ stakingDenom }}</span
-              >
-              <span>{{ percentageAbstain | percentInt }}</span>
-            </div>
+            <span>{{ percentageAbstain | percent }}</span>
           </div>
+          <span class="bottom-row"
+            >{{ proposal.tally.abstain | prettyInt }} {{ stakingDenom }}</span
+          >
         </div>
       </div>
     </div>
@@ -86,7 +85,7 @@ import { mapGetters } from "vuex"
 import moment from "moment"
 import { governanceStatusEnum } from "scripts/proposal-status"
 import ProgressBar from "vue-simple-progress"
-import { prettyInt, percentInt } from "src/scripts/num"
+import { prettyInt, percentInt, percent } from "src/scripts/num"
 
 export default {
   name: `proposal-status-bar`,
@@ -99,6 +98,7 @@ export default {
     },
     prettyInt,
     percentInt,
+    percent,
   },
   props: {
     status: {
@@ -151,6 +151,10 @@ export default {
 </script>
 
 <style scoped>
+.time {
+  text-transform: capitalize;
+}
+
 .status-bar {
   width: 100%;
   padding: 2rem 0;
@@ -197,7 +201,9 @@ export default {
   padding: 0.5rem 0.75rem;
   margin-top: 2rem;
   margin-right: 1rem;
-  font-size: 14px;
+  color: var(--txt);
+  font-size: 12px;
+  letter-spacing: 0.5px;
   border: 2px solid var(--bc);
   border-radius: 0.25rem;
 }
@@ -212,17 +218,10 @@ export default {
   width: 100%;
 }
 
-.vote-numbers {
-  padding-top: 0.5rem;
-  color: var(--txt);
-  font-size: 12px;
-  letter-spacing: 0.5px;
-}
-
 .dot {
   color: var(--bright);
   font-weight: 500;
-  margin-bottom: 0.5rem;
+  font-size: 14px;
 }
 
 .dot:before {
@@ -248,5 +247,21 @@ export default {
 
 .abstain .dot:before {
   background: var(--dim);
+}
+
+.bottom-row {
+  padding-top: 0.5rem;
+  display: block;
+}
+
+@media screen and (max-width: 1023px) {
+  .votes {
+    flex-direction: column;
+  }
+
+  .vote-box,
+  .vote-box:last-child {
+    margin: 0.5rem 1rem;
+  }
 }
 </style>
