@@ -111,6 +111,7 @@ pre {
 
 .parameter {
   margin-top: 1rem;
+  word-break: break-word;
 }
 
 @media screen and (max-width: 1023px) {
