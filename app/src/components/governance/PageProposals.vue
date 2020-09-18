@@ -1,11 +1,15 @@
 <template>
   <TmPage
     data-title="Proposals"
-    :loading="$apollo.queries.proposals.loading && !loaded"
+    :loading="
+      $apollo.queries.proposals.loading &&
+      !proposalsLoaded &&
+      governanceOverviewLoaded
+    "
     class="proposals"
   >
     <div class="overview-header">
-      <div v-if="loaded" class="overview-top">
+      <div v-if="governanceOverviewLoaded" class="overview-top">
         <h1>Governance Overview</h1>
         <div>
           <TmBtn
@@ -137,7 +141,8 @@ export default {
     parameters: {
       depositDenom: "",
     },
-    loaded: false,
+    proposalsLoaded: false,
+    governanceOverviewLoaded: false,
     showTutorial: false,
     cosmosGovernanceTutorial: {
       fullguide: `https://lunie.io/guides/how-cosmos-governance-works/`,
@@ -230,7 +235,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        this.loaded = true
+        this.proposalsLoaded = true
         /* istanbul ignore next */
         return data.proposals
       },
@@ -270,7 +275,7 @@ export default {
       },
       update(data) {
         /* istanbul ignore next */
-        this.loaded = true
+        this.governanceOverviewLoaded = true
         /* istanbul ignore next */
         return data.governanceOverview
       },
