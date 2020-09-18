@@ -245,9 +245,9 @@ class polkadotAPI {
     const { free, reserved, feeFrozen } = account.data.toJSON()
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
-    const stakedBalance = BigNumber(
-      JSON.parse(JSON.stringify(stakingLedger)).active
-    )
+    const stakedBalance = stakingLedger
+      ? BigNumber(JSON.parse(JSON.stringify(stakingLedger)).active)
+      : 0
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
@@ -1066,8 +1066,13 @@ class polkadotAPI {
       } else if (imageProposal.args.code) {
         return hexToString(imageProposal.args.code)
       } else if (imageProposal.args.new) {
-        return imageProposal.args.new
+        return String(imageProposal.args.new)
       }
+    }
+    if (proposal.council) {
+      return Number(toViewDenom(this.network, proposal.proposal.value)).toFixed(
+        2
+      )
     }
   }
 
@@ -1105,8 +1110,6 @@ class polkadotAPI {
           return this.reducers.democracyProposalReducer(
             this.network,
             proposalWithMetadata,
-            totalIssuance,
-            blockHeight,
             this.getProposalParameter(proposal),
             await this.getDetailedVotes(proposalWithMetadata, `democracy`),
             proposer
@@ -1121,6 +1124,7 @@ class polkadotAPI {
             return this.reducers.democracyReferendumReducer(
               this.network,
               proposalWithMetadata,
+              this.getProposalParameter(proposal),
               totalIssuance,
               blockHeight,
               await this.getDetailedVotes(proposalWithMetadata, `referendum`)
@@ -1151,6 +1155,7 @@ class polkadotAPI {
                   api
                 )
               },
+              this.getProposalParameter(proposal),
               councilMembers,
               blockHeight,
               electionInfo,

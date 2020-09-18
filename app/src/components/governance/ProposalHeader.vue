@@ -47,7 +47,7 @@
       <h2>{{ proposal.title }}</h2>
 
       <div class="proposer-and-summary-container">
-        <div class="proposer">
+        <div v-if="proposal.proposer" class="proposer">
           Proposed By:
           {{ proposal.proposer.address | formatAddress }}
         </div>

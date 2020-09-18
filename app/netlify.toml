@@ -3,7 +3,7 @@
   [headers.values]
     Content-Security-Policy = '''
       default-src 'self' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://monitoring.lunie.io:9000 https://js.intercomcdn.com;
-      connect-src 'self' https://*.googleapis.com https://api-iam.intercom.io https://widget.intercom.io wss://*.intercom.io wss://production-api.lunie.io/graphql https://production-api.lunie.io wss://staging-api.lunie.io/graphql https://staging-api.lunie.io https://monitoring.lunie.io:9000 wss://kusama-rpc.polkadot.io/ wss://rpc.polkadot.io wss://westend-rpc.polkadot.io wss://westend.polkastats.io/rpc;
+      connect-src 'self' https://*.googleapis.com https://api-iam.intercom.io https://widget.intercom.io wss://*.intercom.io wss://production-api.lunie.io/graphql https://production-api.lunie.io wss://staging-api.lunie.io/graphql https://staging-api.lunie.io https://monitoring.lunie.io:9000 wss://kusama-rpc.polkadot.io/ wss://rpc.polkadot.io wss://westend-rpc.polkadot.io wss://*.polkastats.io/rpc wss://*.polkastats.io/ws;
       img-src 'self' data: https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://s3.amazonaws.com https://lunie.fra1.digitaloceanspaces.com https://abs.twimg.com https://pbs.twimg.com;
       script-src 'self' 'unsafe-eval' https://*.lunie.io https://*.netlify.app https://www.google-analytics.com https://api-iam.intercom.io https://js.intercomcdn.com https://widget.intercom.io https://www.gstatic.com 'nonce-4AEemGbGTJptoIGFP3Nd' 'nonce-HYjB4SnB0b0lHRlAzTmQ' 'nonce-YW5hbHl0aWNzLWx1bmll';
       style-src 'self' 'unsafe-inline' https://*.lunie.io https://*.netlify.app;
