@@ -271,7 +271,7 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
           ? validator.signing_info.missed_blocks_counter
           : 0
       ) /
-      Number(signedBlocksWindow),
+        Number(signedBlocksWindow),
     tokens: atoms(validator.tokens),
     commissionUpdateTime: validator.commission.update_time,
     commission: validator.commission.rate,
@@ -386,10 +386,10 @@ async function balanceReducer(coin, gasPrices, fiatValue) {
     fiatValue,
     gasPrice: gasPrices
       ? gasPriceReducer(
-        gasPrices.find(
-          (gasPrice) => denomLookup(gasPrice.denom) === coin.denom
-        )
-      ).price
+          gasPrices.find(
+            (gasPrice) => denomLookup(gasPrice.denom) === coin.denom
+          )
+        ).price
       : null
   }
 }

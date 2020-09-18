@@ -174,8 +174,8 @@ function delegationReducer(network, delegation, validator, active) {
     validator,
     amount: delegation.value
       ? BigNumber(delegation.value)
-        .times(network.coinLookup[0].chainToViewConversionFactor)
-        .toFixed(6)
+          .times(network.coinLookup[0].chainToViewConversionFactor)
+          .toFixed(6)
       : 0,
     active
   }
@@ -611,7 +611,7 @@ function treasuryProposalReducer(
     beneficiary: proposal.beneficiary, // the account getting the tip
     summary: getProposalSummary(proposalTypeEnum.TREASURY),
     detailedVotes,
-    changes: parameter,
+    changes: parameter
   }
 }
 
