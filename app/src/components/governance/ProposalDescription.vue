@@ -71,6 +71,7 @@ h4 {
   margin: 0 auto;
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .description {
