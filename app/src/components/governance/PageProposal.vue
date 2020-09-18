@@ -10,7 +10,7 @@
       />
 
       <ProposalStatusBar
-        v-if="tallyHasValues && !isPolkadotDemocracy"
+        v-if="tallyHasValues"
         :status="status"
         :status-begin-time="proposal.statusBeginTime"
         :total-votes="proposal.tally.total"
