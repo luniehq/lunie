@@ -1108,8 +1108,6 @@ class polkadotAPI {
           return this.reducers.democracyProposalReducer(
             this.network,
             proposalWithMetadata,
-            totalIssuance,
-            blockHeight,
             this.getProposalParameter(proposal),
             await this.getDetailedVotes(proposalWithMetadata, `democracy`),
             proposer
