@@ -135,18 +135,18 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
   }
 }
 
-function depositReducer(deposit, network) {
+function depositReducer(deposit, network, store) {
   return {
     id: deposit.depositor,
     amount: [coinReducer(deposit.amount[0], undefined, network)],
-    depositer: networkAccountReducer(deposit.depositor)
+    depositer: networkAccountReducer(deposit.depositor, store.validators)
   }
 }
 
-function voteReducer(vote) {
+function voteReducer(vote, store) {
   return {
     id: String(vote.proposal_id.concat(`_${vote.voter}`)),
-    voter: networkAccountReducer(vote.voter),
+    voter: networkAccountReducer(vote.voter, store.validators),
     option: vote.option
   }
 }

@@ -9,10 +9,7 @@
       >
         <div class="first-column">
           <span class="icon">
-            <img
-              v-if="participant.validator && participant.validator.picture"
-              :src="participant.validator.picture"
-            />
+            <img v-if="participant.picture" :src="participant.picture" />
             <img v-else :src="currentNetwork.icon" />
           </span>
           <span v-if="participant.name" class="name">{{
@@ -88,7 +85,9 @@ export default {
   computed: {
     ...mapGetters([`currentNetwork`]),
     showingParticipants() {
-      return this.participants.slice(0, this.showing)
+      return JSON.parse(JSON.stringify(this.participants))
+      .sort((a,b) => !!b.picture - !!a.picture)
+      .slice(0, this.showing)
     },
     moreAvailable() {
       return this.showingParticipants.length < this.participants.length

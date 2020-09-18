@@ -256,7 +256,7 @@ class CosmosV0API extends RESTDataSource {
       .plus(tally.no_with_veto)
     const formattedDeposits = deposits
       ? deposits.map((deposit) =>
-          this.reducers.depositReducer(deposit, this.network)
+          this.reducers.depositReducer(deposit, this.network, this.store)
         )
       : undefined
     const depositsSum = formattedDeposits
@@ -278,7 +278,7 @@ class CosmosV0API extends RESTDataSource {
           ).toFixed(2)
         : undefined,
       votes: votes
-        ? votes.map((vote) => this.reducers.voteReducer(vote))
+        ? votes.map((vote) => this.reducers.voteReducer(vote, this.store))
         : undefined,
       votesSum: votes ? votes.length : undefined,
       votingThresholdYes: Number(tallyingParameters.threshold).toFixed(2),
