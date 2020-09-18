@@ -4,7 +4,7 @@
     :loading="
       $apollo.queries.proposals.loading &&
       !proposalsLoaded &&
-      governanceOverviewLoaded
+      !governanceOverviewLoaded
     "
     class="proposals"
   >
