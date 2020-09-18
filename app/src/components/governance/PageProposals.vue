@@ -2,26 +2,51 @@
   <TmPage
     data-title="Proposals"
     :loading="$apollo.queries.proposals.loading && !loaded"
+    class="proposals"
   >
-    <div v-if="loaded" class="button-container">
-      <TmBtn
-        id="propose-btn"
-        value="Create Proposal"
-        type="secondary"
-        @click.native="onPropose"
-      />
-      <TmBtn
-        v-if="
-          connection.network === 'cosmos-hub-mainnet' ||
-          connection.network === 'cosmos-hub-testnet'
-        "
-        id="tutorial-btn"
-        class="tutorial-btn"
-        value="Want to learn how governance works?"
-        type="secondary"
-        @click.native="openTutorial()"
-      />
+    <div class="overview-header">
+      <div v-if="loaded" class="overview-top">
+        <h1>Governance Overview</h1>
+        <div>
+          <TmBtn
+            v-if="currentNetwork.network_type === `cosmos`"
+            id="propose-btn"
+            value="Create Proposal"
+            type="secondary"
+            @click.native="onPropose"
+          />
+          <TmBtn
+            v-if="currentNetwork.slug === `cosmos-hub`"
+            id="tutorial-btn"
+            class="tutorial-btn"
+            value="Want to learn how governance works?"
+            type="secondary"
+            @click.native="openTutorial()"
+          />
+        </div>
+      </div>
+
+      <div class="data-row">
+        <div>
+          <h4>{{ fundTitle }}</h4>
+          <p>
+            {{ governanceOverview.treasurySize | prettyInt }} {{ stakingDenom }}
+          </p>
+        </div>
+        <div>
+          <h4>Total Staked</h4>
+          <p>
+            {{ governanceOverview.totalStakedAssets | prettyInt }}
+            {{ stakingDenom }}
+          </p>
+        </div>
+        <div v-if="governanceOverview.totalVoters">
+          <h4>Total Voters</h4>
+          <p>{{ governanceOverview.totalVoters | prettyInt }}</p>
+        </div>
+      </div>
     </div>
+
     <!-- v-ifing ModalPropose until we enable the "propose" action in Substrate -->
     <ModalPropose
       v-if="parameters && Object.keys(parameters).length > 0"
@@ -29,6 +54,7 @@
       :denom="parameters.depositDenom"
       @success="() => afterPropose()"
     />
+
     <div v-if="!$apollo.loading && proposals.length === 0">
       <div>
         <TmDataMsg icon="gavel">
@@ -42,13 +68,32 @@
         </TmDataMsg>
       </div>
     </div>
-    <TableProposals v-else :proposals="proposals" />
-    <ModalTutorial
+
+    <template v-else>
+      <h4>Proposals</h4>
+      <LiProposal
+        v-for="proposal in proposals"
+        :key="proposal.id"
+        :proposal="proposal"
+      />
+    </template>
+
+    <ParticipantList
       v-if="
-        showTutorial &&
-        (connection.network === 'cosmos-hub-mainnet' ||
-          connection.network === 'cosmos-hub-testnet')
+        governanceOverview.topVoters && governanceOverview.topVoters.length > 0
       "
+      :title="participantListTitle"
+      :participants="governanceOverview.topVoters"
+      :show-amounts="true"
+    />
+
+    <ProposalDescription
+      v-if="governanceOverview.links && governanceOverview.links.length > 0"
+      :supporting-links="governanceOverview.links"
+    />
+
+    <ModalTutorial
+      v-if="showTutorial && currentNetwork.network_type === `cosmos`"
       :steps="cosmosGovernanceTutorial.steps"
       :fullguide="cosmosGovernanceTutorial.fullguide"
       :background="cosmosGovernanceTutorial.background"
@@ -59,29 +104,38 @@
 
 <script>
 import ModalPropose from "src/ActionModal/components/ModalPropose"
-import TableProposals from "governance/TableProposals"
+import LiProposal from "governance/LiProposal"
 import TmPage from "common/TmPage"
 import TmBtn from "common/TmBtn"
 import TmDataMsg from "common/TmDataMsg"
+import ParticipantList from "governance/ParticipantList"
+import ProposalDescription from "governance/ProposalDescription"
 import { mapGetters, mapState } from "vuex"
 import { GovernanceParameters } from "src/gql"
 import gql from "graphql-tag"
 import ModalTutorial from "common/ModalTutorial"
+import { prettyInt } from "src/scripts/num"
 
 export default {
   name: `page-proposals`,
   components: {
     ModalPropose,
-    TableProposals,
+    LiProposal,
     TmDataMsg,
     TmBtn,
     TmPage,
     ModalTutorial,
+    ProposalDescription,
+    ParticipantList,
+  },
+  filters: {
+    prettyInt,
   },
   data: () => ({
     proposals: [],
+    governanceOverview: {},
     parameters: {
-      depositDenom: "xxx",
+      depositDenom: "",
     },
     loaded: false,
     showTutorial: false,
@@ -125,7 +179,17 @@ export default {
   }),
   computed: {
     ...mapState([`connection`]),
-    ...mapGetters([`network`, `currentNetwork`]),
+    ...mapGetters([`currentNetwork`, `stakingDenom`]),
+    fundTitle() {
+      return this.currentNetwork.network_type === `polkadot`
+        ? `Treasury`
+        : `Community Pool`
+    },
+    participantListTitle() {
+      return this.currentNetwork.network_type === `polkadot`
+        ? `Council Members`
+        : `Top Voters`
+    },
   },
   methods: {
     onPropose() {
@@ -149,10 +213,11 @@ export default {
           query proposals($networkId: String!) {
             proposals(networkId: $networkId) {
               id
+              proposalId
               type
               title
-              description
               status
+              creationTime
             }
           }
         `
@@ -160,7 +225,7 @@ export default {
       variables() {
         /* istanbul ignore next */
         return {
-          networkId: this.network,
+          networkId: this.currentNetwork.id,
         }
       },
       update(data) {
@@ -170,10 +235,50 @@ export default {
         return data.proposals
       },
     },
+    governanceOverview: {
+      query() {
+        /* istanbul ignore next */
+        return gql`
+          query governanceOverview($networkId: String!) {
+            governanceOverview(networkId: $networkId) {
+              totalStakedAssets
+              totalVoters
+              treasurySize
+              topVoters {
+                name
+                address
+                votingPower
+                validator {
+                  name
+                  picture
+                  operatorAddress
+                }
+              }
+              links {
+                title
+                link
+              }
+            }
+          }
+        `
+      },
+      variables() {
+        /* istanbul ignore next */
+        return {
+          networkId: this.currentNetwork.id,
+        }
+      },
+      update(data) {
+        /* istanbul ignore next */
+        this.loaded = true
+        /* istanbul ignore next */
+        return data.governanceOverview
+      },
+    },
     parameters: {
       query() {
         /* istanbul ignore next */
-        return GovernanceParameters(this.network)
+        return GovernanceParameters(this.currentNetwork.id)
       },
       update(data) {
         /* istanbul ignore next */
@@ -190,7 +295,7 @@ export default {
         variables() {
           /* istanbul ignore next */
           return {
-            networkId: this.network,
+            networkId: this.currentNetwork.id,
           }
         },
         query() {
@@ -214,25 +319,96 @@ export default {
 </script>
 
 <style scoped>
-.button-container {
+.proposals {
+  padding: 0 1rem;
+}
+
+h1 {
+  font-size: 32px;
+  max-width: 500px;
+  color: var(--bright);
+}
+
+h4 {
+  font-size: 12px;
+  color: var(--dim);
+  font-weight: 400;
+  max-width: 1024px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.overview-header {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 0 4rem;
+  width: 100%;
+}
+
+.overview-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
-  padding: 1rem 1rem 0 1rem;
-  max-width: 680px;
-  margin: 0 auto;
+  margin-bottom: 2rem;
 }
 
-@media screen and (max-width: 667px) {
-  .button-container {
-    padding-top: 0;
-    justify-content: center;
-    flex-direction: column-reverse;
+.overview-top div {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.overview-top .button {
+  margin-left: 1rem;
+}
+
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.data-row div {
+  font-size: 22px;
+  color: var(--txt);
+  padding: 1rem;
+  border: 2px solid var(--bc);
+  border-radius: 0.25rem;
+  width: 100%;
+  margin: 0 0.5rem;
+}
+
+.data-row div:first-child {
+  margin-left: 0;
+  min-width: 50%;
+}
+
+.data-row div:last-child {
+  margin-right: 0;
+}
+
+@media screen and (max-width: 1023px) {
+  .tutorial-btn {
+    display: none;
   }
 
-  .button-container .tutorial-btn {
-    margin-bottom: 0.5rem;
+  #propose-btn {
+    margin: 2rem 0 0;
+  }
+
+  .overview-top {
+    justify-content: center;
+    flex-direction: column;
+    padding-top: 2rem;
+  }
+
+  .data-row {
+    flex-direction: column;
+  }
+
+  .data-row div {
+    margin: -2px 0 0;
+    border-radius: 0;
   }
 }
 </style>

@@ -5,6 +5,7 @@ const {
   fixDecimalsAndRoundUpBigNumbers,
   toViewDenom
 } = require('../../common/numbers.js')
+const { getProposalSummary } = require('./common')
 const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -504,6 +505,7 @@ function rewardReducer(network, validators, reward, reducers) {
 
 function depositReducer(deposit, depositer, network) {
   return {
+    id: depositer.address,
     amount: [
       {
         amount: fixDecimalsAndRoundUpBigNumbers(deposit.balance, 6, network),
@@ -519,7 +521,7 @@ function networkAccountReducer(account) {
     name:
       account && account.identity && account.identity.display
         ? account.identity.display
-        : account.accountId,
+        : undefined,
     address: account && account.accountId ? account.accountId : '',
     picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
   }
@@ -530,6 +532,7 @@ function democracyProposalReducer(
   proposal,
   totalIssuance,
   blockHeight,
+  parameter,
   detailedVotes,
   proposer
 ) {
@@ -545,6 +548,8 @@ function democracyProposalReducer(
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
+    summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
+    parameter,
     proposer,
     detailedVotes
   }
@@ -571,6 +576,7 @@ function democracyReferendumReducer(
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
+    summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
     detailedVotes
   }
 }
@@ -602,6 +608,7 @@ function treasuryProposalReducer(
     deposit: toViewDenom(network, Number(proposal.deposit)),
     proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
+    summary: getProposalSummary(proposalTypeEnum.TREASURY),
     detailedVotes
   }
 }
@@ -746,5 +753,7 @@ module.exports = {
   democracyReferendumReducer,
   treasuryProposalReducer,
   tallyReducer,
-  topVoterReducer
+  topVoterReducer,
+
+  getProposalSummary
 }
