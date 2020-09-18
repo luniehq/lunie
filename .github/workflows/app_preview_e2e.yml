@@ -27,7 +27,7 @@ jobs:
         run: yarn build
         working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Deploy for E2E Testing 
-        uses: nwtgck/actions-netlify@v1.1.4
+        uses: nwtgck/actions-netlify@v1.1.10
         id: deploy
         with:
           publish-dir: './app/dist'
