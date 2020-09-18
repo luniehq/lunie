@@ -282,7 +282,6 @@ const typeDefs = gql`
     voteOption: String
     lockedBalance: Float
     timeLock: String
-    numberOfSeconds: Int
     addressRole: String
     rewards: [RewardInput]
   }
