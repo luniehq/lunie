@@ -245,9 +245,9 @@ class polkadotAPI {
     const { free, reserved, feeFrozen } = account.data.toJSON()
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
-    const stakedBalance = BigNumber(
-      JSON.parse(JSON.stringify(stakingLedger)).active
-    )
+    const stakedBalance = stakingLedger
+      ? BigNumber(JSON.parse(JSON.stringify(stakingLedger)).active)
+      : 0
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
