@@ -88,8 +88,8 @@ export default {
     ...mapGetters([`currentNetwork`]),
     showingParticipants() {
       return JSON.parse(JSON.stringify(this.participants))
-      .sort((a,b) => !!b.picture - !!a.picture)
-      .slice(0, this.showing)
+        .sort((a, b) => !!b.picture - !!a.picture)
+        .slice(0, this.showing)
     },
     moreAvailable() {
       return this.showingParticipants.length < this.participants.length
