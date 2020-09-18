@@ -1,11 +1,15 @@
 <template>
   <TmPage
     data-title="Proposals"
-    :loading="$apollo.queries.proposals.loading && !loaded"
+    :loading="
+      $apollo.queries.proposals.loading ||
+      !proposalsLoaded ||
+      !governanceOverviewLoaded
+    "
     class="proposals"
   >
     <div class="overview-header">
-      <div v-if="loaded" class="overview-top">
+      <div v-if="governanceOverviewLoaded" class="overview-top">
         <h1>Governance Overview</h1>
         <div>
           <TmBtn
@@ -16,7 +20,7 @@
             @click.native="onPropose"
           />
           <TmBtn
-            v-if="currentNetwork.network_type === `cosmos`"
+            v-if="currentNetwork.slug === `cosmos-hub`"
             id="tutorial-btn"
             class="tutorial-btn"
             value="Want to learn how governance works?"
@@ -41,7 +45,7 @@
           </p>
         </div>
         <div v-if="governanceOverview.totalVoters">
-          <h4>Total Eligible Voters</h4>
+          <h4>Total Voters</h4>
           <p>{{ governanceOverview.totalVoters | prettyInt }}</p>
         </div>
       </div>
@@ -70,6 +74,7 @@
     </div>
 
     <template v-else>
+      <h4>Proposals</h4>
       <LiProposal
         v-for="proposal in proposals"
         :key="proposal.id"
@@ -83,6 +88,7 @@
       "
       :title="participantListTitle"
       :participants="governanceOverview.topVoters"
+      :show-amounts="true"
     />
 
     <ProposalDescription
@@ -135,7 +141,8 @@ export default {
     parameters: {
       depositDenom: "",
     },
-    loaded: false,
+    proposalsLoaded: false,
+    governanceOverviewLoaded: false,
     showTutorial: false,
     cosmosGovernanceTutorial: {
       fullguide: `https://lunie.io/guides/how-cosmos-governance-works/`,
@@ -205,8 +212,8 @@ export default {
   },
   apollo: {
     proposals: {
+      /* istanbul ignore next */
       query() {
-        /* istanbul ignore next */
         return gql`
           query proposals($networkId: String!) {
             proposals(networkId: $networkId) {
@@ -220,22 +227,21 @@ export default {
           }
         `
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.currentNetwork.id,
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
-        this.loaded = true
-        /* istanbul ignore next */
+        this.proposalsLoaded = true
         return data.proposals
       },
     },
     governanceOverview: {
+      /* istanbul ignore next */
       query() {
-        /* istanbul ignore next */
         return gql`
           query governanceOverview($networkId: String!) {
             governanceOverview(networkId: $networkId) {
@@ -260,44 +266,43 @@ export default {
           }
         `
       },
+      /* istanbul ignore next */
       variables() {
-        /* istanbul ignore next */
         return {
           networkId: this.currentNetwork.id,
         }
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
-        this.loaded = true
-        /* istanbul ignore next */
+        this.governanceOverviewLoaded = true
         return data.governanceOverview
       },
     },
     parameters: {
+      /* istanbul ignore next */
       query() {
-        /* istanbul ignore next */
         return GovernanceParameters(this.currentNetwork.id)
       },
+      /* istanbul ignore next */
       update(data) {
-        /* istanbul ignore next */
         return data.governanceParameters || {}
       },
+      /* istanbul ignore next */
       skip() {
-        /* istanbul ignore next */
         // only Tendermint networks have this network-wide "governance parameters" logic
         return this.currentNetwork.network_type !== `cosmos`
       },
     },
     $subscribe: {
       blockAdded: {
+        /* istanbul ignore next */
         variables() {
-          /* istanbul ignore next */
           return {
             networkId: this.currentNetwork.id,
           }
         },
+        /* istanbul ignore next */
         query() {
-          /* istanbul ignore next */
           return gql`
             subscription($networkId: String!) {
               blockAdded(networkId: $networkId) {
@@ -306,8 +311,8 @@ export default {
             }
           `
         },
+        /* istanbul ignore next */
         result() {
-          /* istanbul ignore next */
           this.$apollo.queries.proposals.refetch()
         },
       },
@@ -331,6 +336,9 @@ h4 {
   font-size: 12px;
   color: var(--dim);
   font-weight: 400;
+  max-width: 1024px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .overview-header {

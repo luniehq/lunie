@@ -521,7 +521,7 @@ function networkAccountReducer(account) {
     name:
       account && account.identity && account.identity.display
         ? account.identity.display
-        : account.accountId || '',
+        : undefined,
     address: account && account.accountId ? account.accountId : '',
     picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
   }
@@ -530,8 +530,7 @@ function networkAccountReducer(account) {
 function democracyProposalReducer(
   network,
   proposal,
-  totalIssuance,
-  blockHeight,
+  parameter,
   detailedVotes,
   proposer
 ) {
@@ -548,6 +547,7 @@ function democracyProposalReducer(
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
     summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
+    changes: parameter,
     proposer,
     detailedVotes
   }
@@ -556,6 +556,7 @@ function democracyProposalReducer(
 function democracyReferendumReducer(
   network,
   proposal,
+  parameter,
   totalIssuance,
   blockHeight,
   detailedVotes
@@ -563,7 +564,6 @@ function democracyReferendumReducer(
   return {
     id: `referendum-`.concat(proposal.index),
     proposalId: proposal.index,
-    proposer: proposal.proposer,
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Proposal #${proposal.index}`,
@@ -575,6 +575,8 @@ function democracyReferendumReducer(
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
     summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
+    changes: parameter,
+    proposer: proposal.proposer,
     detailedVotes
   }
 }
@@ -582,6 +584,7 @@ function democracyReferendumReducer(
 function treasuryProposalReducer(
   network,
   proposal,
+  parameter,
   councilMembers,
   blockHeight,
   electionInfo,
@@ -607,6 +610,7 @@ function treasuryProposalReducer(
     proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
     summary: getProposalSummary(proposalTypeEnum.TREASURY),
+    changes: parameter.concat(` ${network.stakingDenom}s`),
     detailedVotes
   }
 }
@@ -752,6 +756,5 @@ module.exports = {
   treasuryProposalReducer,
   tallyReducer,
   topVoterReducer,
-
   getProposalSummary
 }

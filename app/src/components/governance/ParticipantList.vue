@@ -3,21 +3,36 @@
     <h4>{{ title }}</h4>
     <ul>
       <li
-        v-for="(participant, index) in participants"
+        v-for="(participant, index) in showingParticipants"
         :key="index"
         class="participant"
       >
         <div class="first-column">
           <span class="icon">
-            <img :src="currentNetwork.icon" />
+            <img
+              v-if="participant.validator && participant.validator.picture"
+              :src="participant.validator.picture"
+            />
+            <img v-else :src="currentNetwork.icon" />
           </span>
-          <span class="name">{{ getParticipantName(participant) }}</span>
-        </div>
-        <span class="voter">{{ participant.address | formatAddress }}</span>
-        <div>
-          <span v-if="!showAmounts && participant.option" class="option">{{
-            participant.option
+          <span v-if="participant.name" class="name">{{
+            participant.name
           }}</span>
+          <span v-else class="name">{{
+            participant.address | formatAddress
+          }}</span>
+        </div>
+        <template v-if="participant.votingPower">
+          <div v-if="currentNetwork.network_type === `cosmos`">
+            {{ participant.votingPower | bigFigureOrPercent }}
+          </div>
+          <div v-else>
+            {{ participant.votingPower | bigFigure }}
+            {{ currentNetwork.stakingDenom }}
+          </div>
+        </template>
+        <div v-if="!showAmounts && participant.option">
+          <span class="option">{{ participant.option }}</span>
         </div>
         <div v-if="!showAmounts && participant.amount">
           <span class="amount">{{ participant.amount.amount }}</span>
@@ -25,17 +40,32 @@
         </div>
       </li>
     </ul>
+    <div v-if="moreAvailable" class="loadmore-button-container">
+      <TmBtn
+        id="loadMoreBtn"
+        value="Load More"
+        type="secondary"
+        @click.native="loadMore"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import { formatAddress } from "src/filters"
+import { bigFigure, bigFigureOrPercent } from "scripts/num"
+import TmBtn from "src/components/common/TmBtn"
 
 export default {
   name: `participant-list`,
+  components: {
+    TmBtn,
+  },
   filters: {
     formatAddress,
+    bigFigure,
+    bigFigureOrPercent,
   },
   props: {
     title: {
@@ -46,19 +76,36 @@ export default {
       type: Array,
       required: true,
     },
+    showAmounts: {
+      type: Boolean,
+      default: false,
+    },
   },
+  data: () => ({
+    showing: 5,
+    maxReached: false,
+  }),
   computed: {
     ...mapGetters([`currentNetwork`]),
-    showAmounts() {
-      return ["Council Members", "Top Voters"].includes(this.title)
-        ? true
-        : false
+    showingParticipants() {
+      return this.participants.slice(0, this.showing)
+    },
+    moreAvailable() {
+      return this.showingParticipants.length < this.participants.length
     },
   },
   methods: {
-    getParticipantName(participant) {
-      const name = participant.name
-      return name.length > 25 ? formatAddress(name) : name || `n/a`
+    loadMore() {
+      if (!this.maxReached) {
+        this.showing += 5
+
+        if (
+          this.showing > this.participants.length - 100 &&
+          !this.moreAvailable
+        ) {
+          this.maxReached = true
+        }
+      }
     },
   },
 }
@@ -94,7 +141,6 @@ h4 {
 .participant div {
   display: flex;
   align-items: center;
-  width: 2rem;
 }
 
 .name,
@@ -124,5 +170,11 @@ h4 {
 .icon,
 .option {
   margin-right: 1rem;
+}
+
+.loadmore-button-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 0;
 }
 </style>

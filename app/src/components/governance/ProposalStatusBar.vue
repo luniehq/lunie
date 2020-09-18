@@ -1,5 +1,5 @@
 <template>
-  <section class="status-bar">
+  <section id="proposal-votes" class="status-bar">
     <div v-if="status.value === governanceStatusEnum.DEPOSITING">
       <div v-if="statusBeginTime" class="top row">
         <div class="time">
@@ -22,7 +22,7 @@
     <div v-if="status.value === governanceStatusEnum.VOTING">
       <div class="top row">
         <div class="time">
-          Entered Voting Period on {{ new Date(statusBeginTime).toUTCString() }}
+          Entered Voting Period {{ new Date(statusBeginTime) | moment }}
         </div>
         <div>ID: {{ proposal.proposalId }}</div>
       </div>
@@ -34,15 +34,21 @@
         bar-color="var(--highlight)"
       />
       <div class="bottom row">
-        <div>{{ votePercentage + `%` }} of {{ stakingDenom }}s</div>
+        <div>{{ votePercentage | shortDecimals }}% of {{ stakingDenom }}s</div>
         <div class="row votes">
-          <div>Yes Votes: {{ proposal.tally.yes }} {{ stakingDenom }}s</div>
-          <div>No Votes: {{ proposal.tally.no }} {{ stakingDenom }}s</div>
+          <div>
+            Yes Votes: {{ proposal.tally.yes | prettyInt }} {{ stakingDenom }}s
+          </div>
+          <div>
+            No Votes: {{ proposal.tally.no | prettyInt }} {{ stakingDenom }}s
+          </div>
           <div v-if="proposal.tally.veto > 0">
-            Veto Votes: {{ proposal.tally.veto }}
+            Veto Votes: {{ proposal.tally.veto | prettyInt }}
+            {{ stakingDenom }}s
           </div>
           <div v-if="proposal.tally.abstain > 0">
-            Abstain Votes: {{ proposal.tally.abstain }}
+            Abstain Votes: {{ proposal.tally.abstain | prettyInt }}
+            {{ stakingDenom }}s
           </div>
         </div>
       </div>
@@ -55,6 +61,7 @@ import { mapGetters } from "vuex"
 import moment from "moment"
 import { governanceStatusEnum } from "scripts/proposal-status"
 import ProgressBar from "vue-simple-progress"
+import { prettyInt, shortDecimals } from "src/scripts/num"
 
 export default {
   name: `proposal-status-bar`,
@@ -62,7 +69,11 @@ export default {
     ProgressBar,
   },
   filters: {
-    moment,
+    moment: function (date) {
+      return moment(date).fromNow()
+    },
+    prettyInt,
+    shortDecimals,
   },
   props: {
     status: {

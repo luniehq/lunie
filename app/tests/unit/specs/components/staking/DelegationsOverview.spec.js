@@ -80,6 +80,7 @@ describe(`DelegationsOverview`, () => {
         {
           total: 10000,
           liquid: 50,
+          staked: 9850, // 100 would be unstaking
           denom: "STAKE",
         },
       ],
@@ -97,6 +98,7 @@ describe(`DelegationsOverview`, () => {
         {
           total: 34,
           available: 1,
+          staked: 33,
           denom: "STAKE",
         },
       ],

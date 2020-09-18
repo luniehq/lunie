@@ -3,7 +3,7 @@ name: Script Runner Release Workflow
 on:
   push:
     branches:
-      - release
+      - 'release'
     paths:
       - 'scriptRunner/**'
 env:

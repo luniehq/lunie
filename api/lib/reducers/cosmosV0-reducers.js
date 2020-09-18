@@ -160,7 +160,7 @@ function networkAccountReducer(address, validators) {
       ? validators[proposerValAddress]
       : undefined
   return {
-    name: validator ? validator.name : address || '',
+    name: validator ? validator.name : undefined,
     address: address || '',
     picture: validator ? validator.picture : ''
   }
@@ -173,7 +173,6 @@ function proposalReducer(
   proposer,
   totalBondedTokens,
   detailedVotes,
-  reducers,
   validators
 ) {
   return {
@@ -183,13 +182,16 @@ function proposalReducer(
     type: proposal.proposal_content.type,
     title: proposal.proposal_content.value.title,
     description: proposal.proposal_content.value.description,
+    changes: JSON.stringify(proposal.proposal_content.value.changes, null, 4),
     creationTime: proposal.submit_time,
     status: proposal.proposal_status,
     statusBeginTime: proposalBeginTime(proposal),
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal),
-    proposer: networkAccountReducer(proposer.proposer, validators),
+    proposer: proposer
+      ? networkAccountReducer(proposer.proposer, validators)
+      : undefined,
     summary: getProposalSummary(proposal.proposal_content.type),
     detailedVotes
   }
@@ -433,6 +435,7 @@ async function balanceV2Reducer(
     denom: lunieCoin.denom,
     fiatValue: fiatValue[lunieCoin.denom],
     available: lunieCoin.amount,
+    staked: delegatedStake.amount || 0,
     availableFiatValue: availableFiatValue[stakingDenom]
   }
 }

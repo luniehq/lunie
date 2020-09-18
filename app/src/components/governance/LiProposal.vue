@@ -20,6 +20,7 @@
       <span v-if="proposal.creationTime" class="time">{{
         proposal.creationTime | moment
       }}</span>
+      <span v-else class="time">n/a</span>
     </div>
   </div>
 </template>
@@ -36,7 +37,9 @@ export default {
     Status,
   },
   filters: {
-    moment,
+    moment: function (date) {
+      return moment(date).fromNow()
+    },
   },
   props: {
     proposal: {
@@ -58,6 +61,7 @@ export default {
   font-size: 22px;
   color: var(--bright);
   font-weight: 500;
+  max-width: 600px;
 }
 
 .li-proposal {

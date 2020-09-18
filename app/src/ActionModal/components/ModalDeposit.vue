@@ -25,6 +25,7 @@
         id="amount"
         v-model="amount"
         v-focus
+        :disabled="currentNetwork.network_type === `polkadot`"
         type="number"
         placeholder="0"
       />
@@ -66,6 +67,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import BigNumber from "bignumber.js"
 import gql from "graphql-tag"
 import { SMALLEST } from "src/scripts/num"
 import { decimal } from "vuelidate/lib/validators"
@@ -74,6 +76,7 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import { messageType } from "../../components/transactions/messageTypes"
+import { getPolkadotAPI } from "../../../../common/polkadotApiConnector"
 
 export default {
   name: `modal-deposit`,
@@ -96,6 +99,10 @@ export default {
       type: String,
       required: true,
     },
+    numberOfSeconds: {
+      type: Number,
+      default: 0,
+    },
   },
   data: () => ({
     amount: null,
@@ -106,8 +113,24 @@ export default {
     messageType,
     smallestAmount: SMALLEST,
   }),
+  asyncComputed: {
+    async minimumDeposit() {
+      if (this.currentNetwork.network_type === `polkadot`) {
+        const polkadotAPI = await getPolkadotAPI(this.currentNetwork)
+        return BigNumber(polkadotAPI.consts.democracy.minimumDeposit)
+          .times(
+            this.currentNetwork.coinLookup.find(
+              ({ viewDenom }) => viewDenom === this.currentNetwork.stakingDenom
+            ).chainToViewConversionFactor
+          )
+          .toNumber()
+      } else {
+        return undefined
+      }
+    },
+  },
   computed: {
-    ...mapGetters([`network`, `networks`]),
+    ...mapGetters([`currentNetwork`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
       if (isNaN(this.amount) || !this.proposalId || !this.denom) {
@@ -120,6 +143,7 @@ export default {
           amount: this.amount,
           denom: this.denom,
         },
+        numberOfSeconds: this.numberOfSeconds,
       }
     },
     notifyMessage() {
@@ -150,6 +174,9 @@ export default {
   },
   methods: {
     open() {
+      if (this.currentNetwork.network_type === `polkadot`) {
+        this.amount = this.minimumDeposit
+      }
       this.$refs.actionModal.open()
     },
     validateForm() {
@@ -191,7 +218,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.network,
+          networkId: this.currentNetwork.id,
           address: this.userAddress,
           denom: this.denom,
         }

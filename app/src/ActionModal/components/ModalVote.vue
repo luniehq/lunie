@@ -13,14 +13,11 @@
     @close="clear"
     @txIncluded="onSuccess"
   >
-    <div
-      class="action-modal-group vote-options"
-      :class="{ secondContainer: numberOfSeconds !== 0 }"
-    >
+    <div class="action-modal-group vote-options">
       <div>
         <TmBtn
           id="vote-yes"
-          :class="{ active: vote === `Yes`, second: numberOfSeconds !== 0 }"
+          :class="{ active: vote === `Yes` }"
           :disabled="lastVoteOption === `Yes`"
           color="secondary"
           value="Yes"
@@ -28,7 +25,6 @@
           @click.native="vote = 'Yes'"
         />
         <TmBtn
-          v-if="numberOfSeconds === 0"
           id="vote-veto"
           :class="{ active: vote === `NoWithVeto` }"
           :disabled="lastVoteOption === `NoWithVeto`"
@@ -40,7 +36,6 @@
       </div>
       <div>
         <TmBtn
-          v-if="numberOfSeconds === 0"
           id="vote-no"
           :class="{ active: vote === `No` }"
           :disabled="lastVoteOption === `No`"
@@ -50,7 +45,6 @@
           @click.native="vote = 'No'"
         />
         <TmBtn
-          v-if="numberOfSeconds === 0"
           id="vote-abstain"
           :class="{ active: vote === `Abstain` }"
           :disabled="lastVoteOption === `Abstain`"
@@ -103,10 +97,6 @@ export default {
       type: String,
       default: undefined,
     },
-    numberOfSeconds: {
-      type: Number,
-      default: 0,
-    },
   },
   data: () => ({
     vote: null,
@@ -118,7 +108,6 @@ export default {
         type: messageType.VOTE,
         proposalId: this.proposalId,
         voteOption: this.vote,
-        numberOfSeconds: this.numberOfSeconds,
       }
     },
     notifyMessage() {
@@ -179,22 +168,5 @@ export default {
 .vote-options button.active {
   background: var(--highlight);
   border-color: var(--highlight);
-}
-
-.secondContainer {
-  display: flex !important;
-  justify-content: center;
-  padding: 0 !important;
-  margin: 0 !important;
-  max-width: unset !important;
-}
-
-.action-modal-group.vote-options.secondContainer > div {
-  width: unset;
-  margin: unset;
-}
-
-#vote-yes.second {
-  min-width: 15rem;
 }
 </style>

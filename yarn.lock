@@ -5626,6 +5626,11 @@ bech32@^1.1.3, bech32@^1.1.4:
   resolved "https://registry.yarnpkg.com/bech32/-/bech32-1.1.4.tgz#e38c9f37bf179b8eb16ae3a772b40c356d4832e9"
   integrity sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==
 
+bezier-easing@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/bezier-easing/-/bezier-easing-2.1.0.tgz#c04dfe8b926d6ecaca1813d69ff179b7c2025d86"
+  integrity sha1-wE3+i5JtbsrKGBPWn/F5t8ICXYY=
+
 bfj@^6.1.1:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/bfj/-/bfj-6.1.2.tgz#325c861a822bcb358a41c78a33b8e6e2086dde7f"
@@ -19769,6 +19774,13 @@ vue-router@^3.0.1:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.3.2.tgz#0099de402edb2fe92f9711053ab5a2156f239cad"
   integrity sha512-5sEbcfb7MW8mY8lbUVbF4kgcipGXsagkM/X+pb6n0MhjP+RorWIUTPAPSqgPaiPOxVCXgAItBl8Vwz8vq78faA==
+
+vue-scrollto@2.18.2:
+  version "2.18.2"
+  resolved "https://registry.yarnpkg.com/vue-scrollto/-/vue-scrollto-2.18.2.tgz#113a3548341974d3a2560145f39fcc0378533821"
+  integrity sha512-LQOsuCfDJ5JXsRBb6frM85sCFABZdkwwwchLh4k3wbp8P6URRDcQvwp31U4cTnbyYEOo6JFP7+3p0wkvwy7MdA==
+  dependencies:
+    bezier-easing "2.1.0"
 
 vue-simple-progress@1.1.1:
   version "1.1.1"

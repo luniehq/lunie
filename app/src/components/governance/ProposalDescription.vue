@@ -1,19 +1,22 @@
 <template>
-  <div class="proposal-description">
+  <div id="proposal-description" class="proposal-description">
     <div class="description-content-container">
       <section v-if="description">
         <h4>Description</h4>
         <div class="description">
-          <pre v-if="type === `PARAMETER_CHANGE` && type !== `UNKNOWN`">
+          <pre v-if="type === `PARAMETER_CHANGE` || type === `TREASURY`">
           {{ description }}
-        </pre
-          >
+          <p class="parameter">New Parameter: {{ parameter }}</p>
+        </pre>
           <p v-else>{{ description }}</p>
         </div>
       </section>
-      <aside class="supporting-links">
+      <aside
+        v-if="supportingLinks && supportingLinks.length > 0"
+        class="supporting-links"
+      >
         <h4>Supporting Links</h4>
-        <ul v-if="supportingLinks">
+        <ul>
           <li v-for="link in supportingLinks" :key="link.link">
             <a :href="link.link" target="_blank" rel="noopener norefferer">{{
               link.title
@@ -21,7 +24,6 @@
             <i class="material-icons notranslate">link</i>
           </li>
         </ul>
-        <p v-else>No supporting links are currently available.</p>
       </aside>
     </div>
   </div>
@@ -42,6 +44,10 @@ export default {
     type: {
       type: String,
       default: `UNKNOWN`,
+    },
+    parameter: {
+      type: String,
+      default: undefined,
     },
   },
 }
@@ -65,6 +71,7 @@ h4 {
   margin: 0 auto;
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .description {
@@ -103,6 +110,11 @@ pre {
   font-size: 14px;
   padding: 1rem;
   white-space: pre-line;
+}
+
+.parameter {
+  margin-top: 1rem;
+  word-break: break-word;
 }
 
 @media screen and (max-width: 1023px) {

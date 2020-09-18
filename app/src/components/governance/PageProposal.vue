@@ -26,24 +26,32 @@
       <ProposalDescription
         :description="proposal.description"
         :type="proposal.type"
+        :parameter="proposal.changes"
         :supporting-links="proposal.detailedVotes.links"
       />
 
       <ModalDeposit
-        v-if="parameters.depositDenom"
+        v-if="status.value === governanceStatusEnum.DEPOSITING"
         ref="modalDeposit"
-        :proposal-id="proposalId"
+        :proposal-id="
+          currentNetwork.network_type === `polkadot`
+            ? proposal.proposalId
+            : proposalId
+        "
         :proposal-title="proposal.title || ''"
-        :denom="parameters.depositDenom"
+        :denom="parameters.depositDenom || currentNetwork.stakingDenom"
+        :number-of-seconds="
+          isPolkadotDemocracy ? Number(proposal.detailedVotes.votesSum) : 0
+        "
         @success="() => afterDeposit()"
       />
-      <ModalVoteSubstrate
+      <ModalVotePolkadot
         v-if="
           currentNetwork.network_type === `polkadot` &&
-          status.value !== governanceStatusEnum.DEPOSITING
+          status.value === governanceStatusEnum.VOTING
         "
         ref="modalVote"
-        :proposal-id="proposalId"
+        :proposal-id="proposal.proposalId"
         :proposal-title="proposal.title || ''"
         :last-vote-option="vote"
         @success="() => afterVote()"
@@ -71,7 +79,7 @@ import { date, fromNow } from "src/filters"
 import TmDataNotFound from "common/TmDataNotFound"
 import ModalDeposit from "src/ActionModal/components/ModalDeposit"
 import ModalVote from "src/ActionModal/components/ModalVote"
-import ModalVoteSubstrate from "src/ActionModal/components/ModalVoteSubstrate"
+import ModalVotePolkadot from "src/ActionModal/components/ModalVotePolkadot"
 import TmPage from "common/TmPage"
 import ParticipantList from "governance/ParticipantList"
 import ProposalHeader from "governance/ProposalHeader"
@@ -88,7 +96,7 @@ export default {
   components: {
     ModalDeposit,
     ModalVote,
-    ModalVoteSubstrate,
+    ModalVotePolkadot,
     TmDataNotFound,
     TmPage,
     ParticipantList,
