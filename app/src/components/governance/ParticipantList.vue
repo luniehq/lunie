@@ -31,10 +31,10 @@
             {{ currentNetwork.stakingDenom }}
           </div>
         </template>
-        <div v-if="!showAmounts && participant.option">
+        <div v-if="showAmounts && participant.option">
           <span class="option">{{ participant.option }}</span>
         </div>
-        <div v-if="!showAmounts && participant.amount">
+        <div v-if="showAmounts && participant.amount">
           <span class="amount">{{ participant.amount.amount }}</span>
           <span>{{ participant.amount.denom.concat(`s`) }}</span>
         </div>
@@ -78,8 +78,8 @@ export default {
     },
     showAmounts: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data: () => ({
     showing: 5,
