@@ -39,7 +39,7 @@ class polkadotAPI {
   async getNetworkAccountInfo(address, api) {
     if (typeof address === `object`) address = address.toHuman()
     if (this.store.identities[address]) return this.store.identities[address]
-    const accountInfo = await api.derive.accounts.info(address)
+    const accountInfo = !this.store.validators[address] ? await api.derive.accounts.info(address) : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
       accountInfo,
       this.store
