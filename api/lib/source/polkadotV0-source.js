@@ -41,6 +41,7 @@ class polkadotAPI {
     if (this.store.identities[address]) return this.store.identities[address]
     const accountInfo = !this.store.validators[address] ? await api.derive.accounts.info(address) : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
+      address,
       accountInfo,
       this.store
     )
@@ -734,10 +735,10 @@ class polkadotAPI {
     return {
       ...proposal,
       description,
-      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      proposer: proposal.proposal.proposer || proposer, // default to the already existing one if any
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime,
-      beneficiary: await this.getNetworkAccountInfo(proposal.beneficiary, api)
+      beneficiary: await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
     }
   }
 
@@ -1136,7 +1137,7 @@ class polkadotAPI {
                 index: proposal.id,
                 deposit: proposal.proposal.bond,
                 beneficiary: await this.getNetworkAccountInfo(
-                  proposal.beneficiary,
+                  proposal.proposal.beneficiary,
                   api
                 )
               },
