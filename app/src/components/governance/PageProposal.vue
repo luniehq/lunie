@@ -17,7 +17,11 @@
         :proposal="proposal"
       />
 
-      <ParticipantList v-if="participants" :participants="participants" />
+      <ParticipantList
+        v-if="participants"
+        :participants="participants"
+        :show-amounts="true"
+      />
 
       <template v-if="proposal.detailedVotes.timeline.length">
         <Timeline :timeline="proposal.detailedVotes.timeline" />

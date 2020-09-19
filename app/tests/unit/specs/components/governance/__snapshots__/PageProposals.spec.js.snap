@@ -108,7 +108,6 @@ exports[`PageProposals shows a message if still loading 1`] = `
    
   <participantlist-stub
     participants="[object Object],[object Object]"
-    showamounts="true"
     title="Top Voters"
   />
    
@@ -192,7 +191,6 @@ exports[`PageProposals shows a message if there is nothing to display 1`] = `
    
   <participantlist-stub
     participants="[object Object],[object Object]"
-    showamounts="true"
     title="Top Voters"
   />
    
@@ -310,7 +308,6 @@ exports[`PageProposals shows a proposals table 1`] = `
    
   <participantlist-stub
     participants="[object Object],[object Object]"
-    showamounts="true"
     title="Top Voters"
   />
    

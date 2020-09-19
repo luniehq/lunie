@@ -28,10 +28,10 @@
             {{ currentNetwork.stakingDenom }}
           </div>
         </template>
-        <div v-if="!showAmounts && participant.option">
+        <div v-if="showAmounts && participant.option">
           <span class="option">{{ participant.option }}</span>
         </div>
-        <div v-if="!showAmounts && participant.amount">
+        <div v-if="showAmounts && participant.amount">
           <span class="amount"
             >{{ participant.amount.amount }}
             {{ participant.amount.denom }}</span
