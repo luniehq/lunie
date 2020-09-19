@@ -174,8 +174,8 @@ function delegationReducer(network, delegation, validator, active) {
     validator,
     amount: delegation.value
       ? BigNumber(delegation.value)
-          .times(network.coinLookup[0].chainToViewConversionFactor)
-          .toFixed(6)
+        .times(network.coinLookup[0].chainToViewConversionFactor)
+        .toFixed(6)
       : 0,
     active
   }
@@ -541,7 +541,7 @@ function democracyProposalReducer(
     proposalId: proposal.index,
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
-    title: `Preliminary Proposal #${proposal.index}`,
+    title: `Democracy Proposal #${proposal.index}`,
     description: proposal.description,
     creationTime: proposal.creationTime,
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
