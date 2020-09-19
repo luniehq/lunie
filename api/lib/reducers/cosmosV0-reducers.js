@@ -162,7 +162,8 @@ function networkAccountReducer(address, validators) {
   return {
     name: validator ? validator.name : undefined,
     address: address || '',
-    picture: validator ? validator.picture : ''
+    picture: validator ? validator.picture : '',
+    validator
   }
 }
 
