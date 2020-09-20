@@ -3,7 +3,7 @@ name: Extension Deployment Workflow
 on:
   push:
     branches:
-      - "master"
+      - 'master'
     paths:
       - 'extension/CHANGELOG.md'
 env:

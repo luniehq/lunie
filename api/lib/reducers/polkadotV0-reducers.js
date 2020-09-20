@@ -5,6 +5,7 @@ const {
   fixDecimalsAndRoundUpBigNumbers,
   toViewDenom
 } = require('../../common/numbers.js')
+const { getProposalSummary } = require('./common')
 const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -449,7 +450,15 @@ function rewardsReducer(network, validators, rewards, reducers) {
   return allRewards
 }
 
-function dbRewardsReducer(validatorsDictionary, dbRewards) {
+function dbRewardsReducer(validatorsDictionary, dbRewards, withHeight) {
+  if (withHeight) {
+    return dbRewards.map((reward) => ({
+      id: `${reward.validator}_${reward.denom}_${reward.height}`,
+      ...reward,
+      validator: validatorsDictionary[reward.validator]
+    }))
+  }
+
   const aggregatedRewards = dbRewards.reduce((sum, reward) => {
     sum[reward.validator] = sum[reward.validator] || {}
     sum[reward.validator][reward.denom] =
@@ -470,6 +479,7 @@ function dbRewardsReducer(validatorsDictionary, dbRewards) {
     []
   )
   return flattenedAggregatedRewards.map((reward) => ({
+    id: `${reward.validator}_${reward.denom}`,
     ...reward,
     validator: validatorsDictionary[reward.validator]
   }))
@@ -481,7 +491,7 @@ function rewardReducer(network, validators, reward, reducers) {
     const validator = validators[validatorReward[0]]
     if (!validator) return
     const lunieReward = {
-      id: validatorReward[0],
+      id: validatorReward[0] + (reward.era ? '_' + reward.era : ''),
       ...reducers.coinReducer(network, validatorReward[1].toString(10)),
       height: reward.era,
       address: reward.address,
@@ -495,6 +505,7 @@ function rewardReducer(network, validators, reward, reducers) {
 
 function depositReducer(deposit, depositer, network) {
   return {
+    id: depositer.address,
     amount: [
       {
         amount: fixDecimalsAndRoundUpBigNumbers(deposit.balance, 6, network),
@@ -505,22 +516,29 @@ function depositReducer(deposit, depositer, network) {
   }
 }
 
-function networkAccountReducer(account) {
+function networkAccountReducer(address, account, store) {
+  const validator = address ? store.validators[address] : undefined
+  if (validator) {
+    return {
+      name: validator.name,
+      address,
+      picture: validator.picture,
+      validator
+    }
+  }
   return {
-    name:
-      account && account.identity && account.identity.display
+    name: account && account.identity && account.identity.display
         ? account.identity.display
-        : account.accountId,
-    address: account && account.accountId ? account.accountId : '',
-    picture: account ? account.twitter : '' // TODO: get the twitter picture using scriptRunner
+        : '',
+    address,
+    picture: account ? account.twitter : ''
   }
 }
 
 function democracyProposalReducer(
   network,
   proposal,
-  totalIssuance,
-  blockHeight,
+  parameter,
   detailedVotes,
   proposer
 ) {
@@ -536,6 +554,8 @@ function democracyProposalReducer(
     statusBeginTime: proposal.creationTime,
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
+    summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
+    changes: parameter,
     proposer,
     detailedVotes
   }
@@ -544,6 +564,7 @@ function democracyProposalReducer(
 function democracyReferendumReducer(
   network,
   proposal,
+  parameter,
   totalIssuance,
   blockHeight,
   detailedVotes
@@ -551,7 +572,6 @@ function democracyReferendumReducer(
   return {
     id: `referendum-`.concat(proposal.index),
     proposalId: proposal.index,
-    proposer: proposal.proposer,
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
     title: `Proposal #${proposal.index}`,
@@ -562,6 +582,9 @@ function democracyReferendumReducer(
     statusEndTime: getStatusEndTime(blockHeight, proposal.status.end),
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
+    summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
+    changes: parameter,
+    proposer: proposal.proposer,
     detailedVotes
   }
 }
@@ -569,6 +592,7 @@ function democracyReferendumReducer(
 function treasuryProposalReducer(
   network,
   proposal,
+  parameter,
   councilMembers,
   blockHeight,
   electionInfo,
@@ -593,6 +617,8 @@ function treasuryProposalReducer(
     deposit: toViewDenom(network, Number(proposal.deposit)),
     proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
+    summary: getProposalSummary(proposalTypeEnum.TREASURY),
+    changes: parameter.concat(` ${network.stakingDenom}s`),
     detailedVotes
   }
 }
@@ -737,5 +763,6 @@ module.exports = {
   democracyReferendumReducer,
   treasuryProposalReducer,
   tallyReducer,
-  topVoterReducer
+  topVoterReducer,
+  getProposalSummary
 }

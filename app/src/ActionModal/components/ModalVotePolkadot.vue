@@ -363,13 +363,13 @@ export default {
 
 .activeLocking {
   background-color: var(--app-nav);
-  color: var(--app-bg);
+  color: var(--bright);
   border-radius: 1rem;
 }
 
 .locking-option:hover {
   background-color: var(--app-nav);
-  color: var(--app-bg);
+  color: var(--bright);
   border-radius: 1rem;
 }
 

@@ -3,7 +3,7 @@ name: Extension Testing Workflow
 on:
   pull_request:
     branches:
-      - "*"
+      - '*'
     paths:
       - 'extension/**'
 env:

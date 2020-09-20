@@ -3,7 +3,7 @@ name: App Release Workflow
 on:
   push:
     branches:
-      - release
+      - 'release'
     paths:
       - 'app/**'
 env:

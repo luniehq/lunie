@@ -2,9 +2,9 @@ name: App Development Deployment Workflow
 on:
   push:
     branches:
-      - "develop"
+      - 'develop'
     paths:
-      - 'app/*'
+      - 'app/**'
 
 env:
   WORKING_DIRECTORY: ./app
@@ -32,7 +32,7 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_APP }}
         working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Deploy to Staging
-        uses: nwtgck/actions-netlify@v1.1.4
+        uses: nwtgck/actions-netlify@v1.1.10
         id: deploy
         with:
           alias: staging

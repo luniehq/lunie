@@ -18,26 +18,32 @@ const config = require('../../config.js')
 
 const POLLING_INTERVAL = 1000
 const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
+const PROPOSAL_POLLING_INTERVAL = 600000 // 10min
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
 class PolkadotNodeSubscription {
   constructor(network, PolkadotApiClass, store) {
     this.network = network
-    this.polkadotAPI = new PolkadotApiClass(network, store)
     this.store = store
     this.validators = []
     this.sessionValidators = []
     const networkSchemaName = this.network.id.replace(/-/g, '_')
     this.db = new database(config)(networkSchemaName)
+    this.polkadotAPI = new PolkadotApiClass(network, store, undefined, this.db)
     this.height = 0
     this.currentSessionIndex = 0
     this.currentEra = 0
     this.blockQueue = []
     this.chainId = this.network.chain_id
+
     this.subscribeForNewBlock()
     // start one minute loop to update networks
     this.pollForUpdateNetworks()
+    this.store.dataReady.then(() => {
+      // we need to wait to poll for proposals as they need the validators
+      if (network.feature_proposals === 'ENABLED') this.pollForProposalChanges()
+    })
   }
 
   // here we init the polkadot rpc once for all processes
@@ -51,7 +57,7 @@ class PolkadotNodeSubscription {
     this.store.polkadotRPC = this.api
     this.store.polkadotRPCOpened = Date.now()
     await this.api.isReady
-    console.log('Polkadot initialized')
+    console.log(this.network.id + ' API initialized')
   }
 
   async subscribeForNewBlock() {
@@ -120,6 +126,16 @@ class PolkadotNodeSubscription {
     this.updateNetworksPollingTimeout = setTimeout(async () => {
       this.pollForUpdateNetworks()
     }, UPDATE_NETWORKS_POLLING_INTERVAL)
+  }
+
+  async pollForProposalChanges() {
+    this.store.update({
+      proposals: await this.polkadotAPI.getAllProposals(this.validators)
+    })
+
+    this.proposalPollingTimeout = setTimeout(async () => {
+      this.pollForProposalChanges()
+    }, PROPOSAL_POLLING_INTERVAL)
   }
 
   // For each block event, we fetch the block information and publish a message.
