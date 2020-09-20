@@ -12,9 +12,19 @@
         />
       </div>
       <div v-else>
-        <h1>
-          Unstaking
-        </h1>
+        <div class="header-container">
+          <h1>
+            Unstaking
+          </h1>
+          <div class="buttons">
+            <TmBtn
+              v-if="currentNetwork.network_type === `polkadot`"
+              class="withdraw-button"
+              value="Withdraw Unstaked"
+              @click.native="onWithdraw()"
+            />
+          </div>
+        </div>
         <template v-if="currentNetwork.network_type === `polkadot`">
           <BalanceRow
             v-for="balance in balances"
@@ -25,13 +35,16 @@
         <TableUndelegations v-else :undelegations="undelegations" />
       </div>
     </div>
+    <ModalWithdrawUnstaked ref="WithdrawModal" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex"
 import BalanceRow from "common/BalanceRow"
+import TmBtn from "common/TmBtn"
 import TableUndelegations from "staking/TableUndelegations"
+import ModalWithdrawUnstaked from "src/ActionModal/components/ModalWithdrawUnstaked"
 import { ValidatorFragment, UserTransactionAdded } from "src/gql"
 import gql from "graphql-tag"
 
@@ -40,6 +53,8 @@ export default {
   components: {
     TableUndelegations,
     BalanceRow,
+    ModalWithdrawUnstaked,
+    TmBtn,
   },
   data: () => ({
     undelegations: [],
@@ -55,6 +70,17 @@ export default {
           denom: this.currentNetwork.stakingDenom,
         }
       })
+    },
+    readyUndelegations() {
+      const now = new Date()
+      return !!this.undelegations.find(({ endTime }) => {
+        return new Date(endTime) <= now
+      })
+    },
+  },
+  methods: {
+    onWithdraw() {
+      this.$refs.WithdrawModal.open()
     },
   },
   apollo: {
@@ -136,6 +162,24 @@ h1 {
   display: flex;
 }
 
+.header-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem 2rem 2rem;
+  width: 100%;
+}
+
+.header-container button {
+  margin-right: 0.5rem;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+}
+
 @media screen and (max-width: 667px) {
   h1 {
     padding: 2rem;
@@ -144,6 +188,11 @@ h1 {
 
   .table-container {
     padding: 0 1rem 8rem;
+  }
+
+  .header-container {
+    flex-direction: column;
+    padding: 0 1rem 1rem 0;
   }
 }
 </style>

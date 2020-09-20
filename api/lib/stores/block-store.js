@@ -84,7 +84,7 @@ class BlockStore {
 
     this.latestHeight = Number(height)
     this.block = block
-    this.data = data
+    this.data = Object.assign({}, this.data, data)
 
     if (proposals) {
       this.checkProposalsUpdate(this.proposals, proposals)

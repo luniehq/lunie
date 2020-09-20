@@ -8,16 +8,28 @@ exports[`Undelegations should show unbonding validators 1`] = `
     class="table-container"
   >
     <div>
-      <h1>
+      <div
+        class="header-container"
+      >
+        <h1>
+          
+          Unstaking
         
-        Unstaking
-      
-      </h1>
+        </h1>
+         
+        <div
+          class="buttons"
+        >
+          <!---->
+        </div>
+      </div>
        
       <tableundelegations-stub
         undelegations="[object Object],[object Object],[object Object]"
       />
     </div>
   </div>
+   
+  <modalwithdrawunstaked-stub />
 </div>
 `;

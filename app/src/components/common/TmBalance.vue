@@ -92,8 +92,9 @@
         v-if="currentNetwork.network_type === 'polkadot'"
         :show="true"
         bar-type="info"
-        >
-        Rewards in Polkadot are typically distributed by your validator. You may not need to claim them.
+      >
+        Rewards in Polkadot are typically distributed by your validator. You may
+        not need to claim them.
       </Bar>
 
       <TableBalances
@@ -145,7 +146,7 @@ export default {
     ModalWithdrawRewards,
     ModalTutorial,
     TableBalances,
-    Bar
+    Bar,
   },
   filters: {
     noBlanks,
