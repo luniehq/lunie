@@ -204,6 +204,10 @@ export default {
         return data.proposal || {}
       },
       /* istanbul ignore next */
+      skip() {
+        return this.found
+      },
+      /* istanbul ignore next */
       variables() {
         return {
           id: this.proposalId,
@@ -227,7 +231,12 @@ export default {
       /* istanbul ignore next */
       skip() {
         // only Tendermint networks have this network-wide "governance parameters" logic
-        return !this.found || this.currentNetwork.network_type !== `cosmos`
+        return (
+          !this.found ||
+          this.currentNetwork.network_type !== `cosmos` ||
+          this.currentNetwork.id === `emoney-mainnet` ||
+          this.currentNetwork.id === `emoney-testnet`
+        )
       },
       /* istanbul ignore next */
       result(data) {
