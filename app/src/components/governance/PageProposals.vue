@@ -383,7 +383,6 @@ h4 {
 
 .data-row div:first-child {
   margin-left: 0;
-  min-width: 360px;
 }
 
 .data-row div:last-child {
