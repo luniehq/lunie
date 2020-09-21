@@ -110,6 +110,7 @@ pre {
   font-size: 14px;
   padding: 1rem;
   white-space: pre-line;
+  word-break: break-word;
 }
 
 .parameter {
