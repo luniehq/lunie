@@ -541,7 +541,7 @@ function democracyProposalReducer(
     proposalId: proposal.index,
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
-    title: `Democracy Proposal #${proposal.index}`,
+    title: `Proposal #${proposal.index}`,
     description: proposal.description,
     creationTime: proposal.creationTime,
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
