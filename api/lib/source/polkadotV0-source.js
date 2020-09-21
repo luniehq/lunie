@@ -20,6 +20,7 @@ class polkadotAPI {
     this.network = network
     this.networkId = network.id
     this.stakingViewDenom = network.coinLookup[0].viewDenom
+    this.httpRPC = network.api_url
     this.setReducers()
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
@@ -110,45 +111,74 @@ class polkadotAPI {
   }
 
   async getBlockByHeightV2(blockHeight) {
-    const api = await this.getAPI()
+    // const api = await this.getAPI()
 
-    let blockHash
-    if (blockHeight) {
-      blockHash = await api.rpc.chain.getBlockHash(blockHeight)
-    } else {
-      blockHash = await api.rpc.chain.getFinalizedHead()
+    // let blockHash
+    // if (blockHeight) {
+    //   blockHash = await api.rpc.chain.getBlockHash(blockHeight)
+    // } else {
+    //   blockHash = await api.rpc.chain.getFinalizedHead()
+    // }
+    // // heavy nesting to provide optimal parallelization here
+    // const [
+    //   { author, number }, { block }, blockEvents,
+    //   sessionIndex
+    // ] = await Promise.all([
+    //   api.derive.chain.getHeader(blockHash),
+    //   api.rpc.chain.getBlock(blockHash),
+    //   api.query.system.events.at(blockHash),
+    //   api.query.babe.epochIndex()
+    // ])
+
+    // // in the case the height was not set
+    // blockHeight = number.toJSON()
+    // const transactions = await this.getTransactionsV2(
+    //   block.extrinsics,
+    //   blockEvents,
+    //   parseInt(blockHeight)
+    // )
+
+    // const eraElectionStatus = await api.query.staking.eraElectionStatus()
+    // const data = {
+    //   isInElection: eraElectionStatus.toString() === `Close` ? false : true
+    // }
+
+    // return this.reducers.blockReducer(
+    //   this.network.id,
+    //   this.network.chain_id,
+    //   blockHeight,
+    //   blockHash,
+    //   sessionIndex.toNumber(),
+    //   author,
+    //   transactions,
+    //   data
+    // )
+
+    const block = await this.get(`${this.httpRPC}/block/${blockHeight}`)
+    const { currentIndex } = await this.get(`${this.httpRPC}/pallets/session/storage/currentIndex`)
+    const { value } = await this.get(`${this.httpRPC}/pallets/staking/storage/eraElectionStatus`)
+    const data = {
+      isInElection: value === `Close` ? false : true
     }
-    // heavy nesting to provide optimal parallelization here
-    const [
-      { author, number }, { block }, blockEvents,
-      sessionIndex
-    ] = await Promise.all([
-      api.derive.chain.getHeader(blockHash),
-      api.rpc.chain.getBlock(blockHash),
-      api.query.system.events.at(blockHash),
-      api.query.babe.epochIndex()
-    ])
 
-    // in the case the height was not set
-    blockHeight = number.toJSON()
+    let blockEvents = []
+    block.extrinsics.forEach( extrinsic => {
+      blockEvents.concat(extrinsic.events)
+    })
+
     const transactions = await this.getTransactionsV2(
       block.extrinsics,
       blockEvents,
-      parseInt(blockHeight)
+      block.number
     )
-
-    const eraElectionStatus = await api.query.staking.eraElectionStatus()
-    const data = {
-      isInElection: eraElectionStatus.toString() === `Close` ? false : true
-    }
-
+  
     return this.reducers.blockReducer(
       this.network.id,
       this.network.chain_id,
-      blockHeight,
-      blockHash,
-      sessionIndex.toNumber(),
-      author,
+      block.number,
+      block.hash,
+      currentIndex,
+      block.authorId,
       transactions,
       data
     )
