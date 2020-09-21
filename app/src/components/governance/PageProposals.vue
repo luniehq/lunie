@@ -378,6 +378,7 @@ h4 {
   border-radius: 0.25rem;
   width: 100%;
   margin: 0 0.5rem;
+  white-space: nowrap;
 }
 
 .data-row div:first-child {
