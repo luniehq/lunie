@@ -442,12 +442,12 @@ async function extractInvolvedAddresses(
   } else if (lunieTransactionType === lunieMessageTypes.CLAIM_REWARDS) {
     // the rewards claiming happens for all delegators so we get the rewards for the claimed era and extract all addresses from there
     const dbRewards = (await db.getRewards(delegatorAddress)) || []
-    const involvedRwards = dbRewards.filter(({ height, validator }) => {
+    const involvedRewards = dbRewards.filter(({ height, validator }) => {
       return height === String(message.args[1]) && validator === message.args[0]
     })
     involvedAddresses = involvedAddresses.concat(
       [signer],
-      involvedRwards.map(({ address }) => address)
+      involvedRewards.map(({ address }) => address)
     )
     if (involvedRewards.length > 0) {
       involvedAddresses = involvedAddresses.concat(involvedRewards[0].validator)
