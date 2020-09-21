@@ -1,4 +1,5 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
+import * as Sentry from "@sentry/browser"
 import config from "src/../config"
 import { AddressRole } from "../../gql"
 
@@ -175,6 +176,8 @@ export default ({ apollo }) => {
       },
       { address, sessionType = `ledger`, HDPath, curve, networkId }
     ) {
+      Sentry.setContext("network", networkId)
+      Sentry.setContext("address", address)
       const currentNetwork = networks.find(({ id }) => id === networkId)
       // first search in localStorage for the curve and derivation path
       const session = JSON.parse(
