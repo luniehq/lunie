@@ -181,13 +181,13 @@ export async function VoteTx(
 // Deposit
 export async function DepositTx(
   senderAddress,
-  { proposalId, depositsSum },
+  { proposalId, depositsCount },
   network,
   api
 ) {
   const depositTx = await api.tx.democracy.second(
     Number(proposalId),
-    depositsSum
+    depositsCount
   )
   return await getSignMessage(senderAddress, depositTx, api)
 }
