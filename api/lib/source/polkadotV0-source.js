@@ -112,27 +112,25 @@ class polkadotAPI {
   async getBlockByHeightV2(blockHeight) {
     const api = await this.getAPI()
 
+    let blockHash
+    if (blockHeight) {
+      blockHash = await api.rpc.chain.getBlockHash(blockHeight)
+    } else {
+      blockHash = await api.rpc.chain.getFinalizedHead()
+    }
     // heavy nesting to provide optimal parallelization here
     const [
-      [{ author, number }, { block }, blockEvents, blockHash],
+      { author, number }, { block }, blockEvents,
       sessionIndex
     ] = await Promise.all([
-      // gets the latest block if height is not set
-      api.rpc.chain.getBlockHash(blockHeight).then(async (blockHash) => {
-        return [
-          ...await Promise.all([
-            api.derive.chain.getHeader(blockHash),
-            api.rpc.chain.getBlock(blockHash),
-            api.query.system.events.at(blockHash)
-          ]),
-          blockHash
-        ]
-      }),
+      api.derive.chain.getHeader(blockHash),
+      api.rpc.chain.getBlock(blockHash),
+      api.query.system.events.at(blockHash),
       api.query.babe.epochIndex()
     ])
 
     // in the case the height was not set
-    blockHeight = number
+    blockHeight = number.toJSON()
     const transactions = await this.getTransactionsV2(
       block.extrinsics,
       blockEvents,

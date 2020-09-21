@@ -134,18 +134,23 @@ class BaseNodeSubscription {
         scope.setExtra('height', block.height)
       })
 
+      this.store.update({
+        block,
+        height: block.height
+      })
+      publishBlockAdded(this.network.id, block)
+
       // allow for network specific block handlers
       if (dataSource.newBlockHandler) {
         await dataSource.newBlockHandler(block, this.store)
       }
 
-      const validators = await dataSource.getAllValidators(block.height)
-      await this.store.update({
-        height: block.height,
-        block,
-        validators: validators
+      dataSource.getAllValidators(block.height)
+      .then(validators => {
+        this.store.update({
+          validators: validators
+        })
       })
-      publishBlockAdded(this.network.id, block)
 
       // For each transaction listed in a block we extract the relevant addresses. This is published to the network.
       // A GraphQL resolver is listening for these messages and sends the
@@ -171,8 +176,6 @@ class BaseNodeSubscription {
           }
         })
       })
-
-      if (this.postNewBlockHandler) this.postNewBlockHandler(block)
     } catch (error) {
       console.error('newBlockHandler failed', error)
       Sentry.captureException(error)
