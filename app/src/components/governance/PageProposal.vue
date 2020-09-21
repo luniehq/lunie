@@ -89,7 +89,7 @@ import ProposalStatusBar from "governance/ProposalStatusBar"
 import ProposalDescription from "governance/ProposalDescription"
 import Timeline from "governance/Timeline"
 import { getProposalStatus } from "scripts/proposal-status"
-import { ProposalItem, GovernanceParameters, Vote } from "src/gql"
+import { ProposalFragment, GovernanceParameters, Vote } from "src/gql"
 import BigNumber from "bignumber.js"
 import gql from "graphql-tag"
 
@@ -138,7 +138,7 @@ export default {
     governanceStatusEnum,
   }),
   computed: {
-    ...mapGetters([`address`, `network`, `currentNetwork`]),
+    ...mapGetters([`address`, `currentNetwork`]),
     status() {
       return getProposalStatus(this.proposal)
     },
@@ -196,9 +196,13 @@ export default {
   apollo: {
     proposal: {
       /* istanbul ignore next */
-      query() {
-        return ProposalItem(this.network)
-      },
+      query: gql`
+        query proposal($id: String!,  $networkId: String!) {
+          proposal(networkId: $networkId, id: $id) {
+            ${ProposalFragment}
+          }
+        }
+      `,
       /* istanbul ignore next */
       update(data) {
         this.loaded = true
@@ -209,6 +213,7 @@ export default {
       variables() {
         return {
           id: this.proposalId,
+          networkId: this.currentNetwork.id
         }
       },
       /* istanbul ignore next */
@@ -220,7 +225,7 @@ export default {
     parameters: {
       /* istanbul ignore next */
       query() {
-        return GovernanceParameters(this.network)
+        return GovernanceParameters(this.currentNetwork.id)
       },
       /* istanbul ignore next */
       update(data) {
@@ -239,7 +244,7 @@ export default {
     vote: {
       /* istanbul ignore next */
       query() {
-        return Vote(this.network)
+        return Vote(this.currentNetwork.id)
       },
       /* istanbul ignore next */
       variables() {
@@ -266,7 +271,7 @@ export default {
         /* istanbul ignore next */
         variables() {
           return {
-            networkId: this.network,
+            networkId: this.currentNetwork.id,
           }
         },
         /* istanbul ignore next */

@@ -231,14 +231,6 @@ export const ProposalFragment = `
   }
 `
 
-export const ProposalItem = (schema) => gql`
-  query proposal($id: String!) {
-    proposal(networkId: "${schema}", id: $id) {
-      ${ProposalFragment}
-    }
-  }
-`
-
 export const GovernanceParameters = (schema) => gql`
 query governanceParameters {
   governanceParameters(networkId: "${schema}") {
