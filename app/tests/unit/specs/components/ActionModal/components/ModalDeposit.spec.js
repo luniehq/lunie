@@ -118,7 +118,7 @@ describe(`ModalDeposit`, () => {
         amount: 2,
         denom: "STAKE",
       },
-      depositsSum: 0,
+      depositsCount: 0,
     })
   })
 
