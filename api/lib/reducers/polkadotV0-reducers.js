@@ -428,7 +428,12 @@ function stakeDetailsReducer(network, message, reducers) {
   }
 }
 
-async function extractInvolvedAddresses(lunieTransactionType, signer, message, db) {
+async function extractInvolvedAddresses(
+  lunieTransactionType,
+  signer,
+  message,
+  db
+) {
   let involvedAddresses = []
   if (lunieTransactionType === lunieMessageTypes.SEND) {
     involvedAddresses = involvedAddresses.concat([signer, message.args[0]])
@@ -436,11 +441,14 @@ async function extractInvolvedAddresses(lunieTransactionType, signer, message, d
     involvedAddresses = involvedAddresses.concat([signer], message.validators)
   } else if (lunieTransactionType === lunieMessageTypes.CLAIM_REWARDS) {
     // the rewards claiming happens for all delegators so we get the rewards for the claimed era and extract all addresses from there
-    const dbRewards = await db.getRewards(delegatorAddress) || []
-    const involvedRwards = dbRewards.filter(({height, validator}) => {
+    const dbRewards = (await db.getRewards(delegatorAddress)) || []
+    const involvedRwards = dbRewards.filter(({ height, validator }) => {
       return height === String(message.args[1]) && validator === message.args[0]
     })
-    involvedAddresses = involvedAddresses.concat([signer], involvedRwards.map(({address}) => address))
+    involvedAddresses = involvedAddresses.concat(
+      [signer],
+      involvedRwards.map(({ address }) => address)
+    )
     if (involvedRwards.length > 0) {
       involvedAddresses = involvedAddresses.concat(involvedRwards[0].validator)
     }
@@ -539,7 +547,8 @@ function networkAccountReducer(address, account, store) {
     }
   }
   return {
-    name: account && account.identity && account.identity.display
+    name:
+      account && account.identity && account.identity.display
         ? account.identity.display
         : '',
     address,

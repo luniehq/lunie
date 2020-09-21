@@ -6,7 +6,7 @@ const Sentry = require('@sentry/node')
 const fetch = require('node-fetch')
 const {
   getPassingThreshold,
-  getFailingThreshold,
+  getFailingThreshold
 } = require('@polkassembly/util')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const config = require('../../config.js')
@@ -78,7 +78,9 @@ class polkadotAPI {
   async getNetworkAccountInfo(address, api) {
     if (typeof address === `object`) address = address.toHuman()
     if (this.store.identities[address]) return this.store.identities[address]
-    const accountInfo = !this.store.validators[address] ? await api.derive.accounts.info(address) : undefined
+    const accountInfo = !this.store.validators[address]
+      ? await api.derive.accounts.info(address)
+      : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
       address,
       accountInfo,
@@ -432,7 +434,7 @@ class polkadotAPI {
         'Rewards are only queryable per height in Polkadot networks'
       )
     }
-    const dbRewards = await this.db.getRewards(delegatorAddress) || []
+    const dbRewards = (await this.db.getRewards(delegatorAddress)) || []
     const filteredRewards = await this.filterRewards(dbRewards)
 
     const rewards = this.reducers.dbRewardsReducer(
@@ -761,7 +763,10 @@ class polkadotAPI {
       proposer: proposal.proposal.proposer || proposer, // default to the already existing one if any
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime,
-      beneficiary: await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
+      beneficiary: await this.getNetworkAccountInfo(
+        proposal.proposal.beneficiary,
+        api
+      )
     }
   }
 

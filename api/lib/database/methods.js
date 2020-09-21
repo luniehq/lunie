@@ -479,7 +479,9 @@ const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
   return data[0]
 }
 
-const getRewards = ({ hasura_url, hasura_admin_key }) => (schema) => async (delegatorAddress) => {
+const getRewards = ({ hasura_url, hasura_admin_key }) => (schema) => async (
+  delegatorAddress
+) => {
   const data = await read({
     hasura_url,
     hasura_admin_key
