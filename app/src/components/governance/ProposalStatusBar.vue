@@ -224,7 +224,7 @@ export default {
   font-size: 14px;
 }
 
-.dot:before {
+.dot::before {
   display: inline-block;
   content: "";
   width: 0.65rem;
@@ -233,19 +233,19 @@ export default {
   margin-right: 0.5rem;
 }
 
-.yes .dot:before {
+.yes .dot::before {
   background: var(--success);
 }
 
-.no .dot:before {
+.no .dot::before {
   background: var(--danger);
 }
 
-.veto .dot:before {
+.veto .dot::before {
   background: var(--warning);
 }
 
-.abstain .dot:before {
+.abstain .dot::before {
   background: var(--dim);
 }
 

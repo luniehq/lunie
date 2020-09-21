@@ -101,8 +101,8 @@ export default {
     },
     deposits: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   data: () => ({
     amount: null,
@@ -126,7 +126,7 @@ export default {
         amount: {
           amount: this.amount,
           denom: this.denom,
-        }
+        },
       }
     },
     notifyMessage() {
