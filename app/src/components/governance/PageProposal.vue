@@ -28,9 +28,7 @@
       </template>
 
       <ProposalDescription
-        :description="proposal.description"
-        :type="proposal.type"
-        :parameter="proposal.changes"
+        :proposal="proposal"
         :supporting-links="proposal.detailedVotes.links"
       />
 

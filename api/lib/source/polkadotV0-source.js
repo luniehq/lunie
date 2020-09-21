@@ -6,7 +6,7 @@ const Sentry = require('@sentry/node')
 const fetch = require('node-fetch')
 const {
   getPassingThreshold,
-  getFailingThreshold,
+  getFailingThreshold
 } = require('@polkassembly/util')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const config = require('../../config.js')
@@ -78,7 +78,9 @@ class polkadotAPI {
   async getNetworkAccountInfo(address, api) {
     if (typeof address === `object`) address = address.toHuman()
     if (this.store.identities[address]) return this.store.identities[address]
-    const accountInfo = !this.store.validators[address] ? await api.derive.accounts.info(address) : undefined
+    const accountInfo = !this.store.validators[address]
+      ? await api.derive.accounts.info(address)
+      : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
       address,
       accountInfo,
@@ -777,7 +779,10 @@ class polkadotAPI {
       proposer: proposal.proposal.proposer || proposer, // default to the already existing one if any
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime,
-      beneficiary: await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
+      beneficiary: await this.getNetworkAccountInfo(
+        proposal.proposal.beneficiary,
+        api
+      )
     }
   }
 
@@ -791,9 +796,9 @@ class polkadotAPI {
       BigNumber(proposal.balance).times(proposal.seconds.length).toNumber()
     )
     const deposits = await Promise.all(
-      proposal.seconds.map(async (second) => {
+      proposal.seconds.map(async (secondAddress) => {
         const secondDepositer = await this.getNetworkAccountInfo(
-          second.toHuman(),
+          secondAddress.toHuman(),
           api
         )
         return {
@@ -807,17 +812,6 @@ class polkadotAPI {
         }
       })
     )
-    const votes = await Promise.all(
-      proposal.seconds.map(async (secondAddress) => {
-        const voter = await this.getNetworkAccountInfo(secondAddress, api)
-        return {
-          id: voter.address,
-          voter,
-          option: `Yes`
-        }
-      })
-    )
-    const votesSum = proposal.seconds.length
     const percentageDepositsNeeded = BigNumber(depositsSum)
       .times(100)
       .div(toViewDenom(this.network, api.consts.democracy.minimumDeposit))
@@ -825,8 +819,6 @@ class polkadotAPI {
     return {
       deposits,
       depositsSum,
-      votes,
-      votesSum,
       votingPercentageYes: `100`,
       votingPercentagedNo: `0`,
       percentageDepositsNeeded,

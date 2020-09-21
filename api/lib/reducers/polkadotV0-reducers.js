@@ -527,7 +527,8 @@ function networkAccountReducer(address, account, store) {
     }
   }
   return {
-    name: account && account.identity && account.identity.display
+    name:
+      account && account.identity && account.identity.display
         ? account.identity.display
         : '',
     address,
