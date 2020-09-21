@@ -94,19 +94,33 @@ class BaseNodeSubscription {
     this.store.network.chain_id = block.chainId
     if (block && this.height !== block.height) {
       // get missed blocks
-      while (this.height < block.height) {
-        const currentBlock = this.height + 1 === block.height
-          ? block 
-          : await dataSource.getBlockByHeightV2(this.height + 1)
+      while (!this.height || this.height < block.height) {
+        const currentBlock = !this.height || this.height + 1 !== block.height
+          ? await dataSource.getBlockByHeightV2(this.height + 1) 
+          : block
         // apparently the cosmos db takes a while to serve the content after a block has been updated
         // if we don't do this, we run into errors as the data is not yet available
         setTimeout(() => this.newBlockHandler(currentBlock, dataSource), COSMOS_DB_DELAY)
-        this.height++
+        // TODO we should store the last analyzed block in the db to not forget to query missed blocks
+        if (!this.height) { 
+          this.height = block.height
+        } else {
+          this.height++
+        }
   
         // we are safe, that the chain produced a block so it didn't hang up
         if (this.chainHangup) clearTimeout(this.chainHangup)
       }
     }
+  }
+
+  async getValidators(block, dataSource) {
+    dataSource.getAllValidators(block.height)
+    .then(validators => {
+      this.store.update({
+        validators: validators
+      })
+    })
   }
 
   async pollForNewBlock() {
@@ -151,12 +165,7 @@ class BaseNodeSubscription {
         await dataSource.newBlockHandler(block, this.store)
       }
 
-      dataSource.getAllValidators(block.height)
-      .then(validators => {
-        this.store.update({
-          validators: validators
-        })
-      })
+      this.getValidators(block, dataSource)
 
       // For each transaction listed in a block we extract the relevant addresses. This is published to the network.
       // A GraphQL resolver is listening for these messages and sends the
