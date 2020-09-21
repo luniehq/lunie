@@ -33,7 +33,7 @@
         </div>
         <div v-if="showAmounts && participant.amount">
           <span class="amount"
-            >{{ participant.amount.amount }}
+            >{{ participant.amount.amount | prettyInt }}
             {{ participant.amount.denom }}</span
           >
         </div>
@@ -54,6 +54,7 @@
 import { mapGetters } from "vuex"
 import { formatAddress } from "src/filters"
 import { bigFigure, bigFigureOrPercent } from "scripts/num"
+import { prettyInt } from "src/scripts/num"
 import TmBtn from "src/components/common/TmBtn"
 
 export default {
@@ -65,6 +66,7 @@ export default {
     formatAddress,
     bigFigure,
     bigFigureOrPercent,
+    prettyInt,
   },
   props: {
     title: {
