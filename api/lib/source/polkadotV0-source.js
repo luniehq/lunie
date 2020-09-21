@@ -2,15 +2,16 @@ const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
 const { stringToU8a, hexToString } = require('@polkadot/util')
-const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const Sentry = require('@sentry/node')
-
-const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
-const { toViewDenom } = require('../../common/numbers')
+const fetch = require('node-fetch')
 const {
   getPassingThreshold,
   getFailingThreshold
 } = require('@polkassembly/util')
+const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
+const config = require('../../config.js')
+const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
+const { toViewDenom } = require('../../common/numbers')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
@@ -36,11 +37,52 @@ class polkadotAPI {
     return api
   }
 
+  async newBlockHandler() {
+    const api = await this.getAPI()
+    const era = await api.query.staking.activeEra().then(async (era) => {
+      return era.toJSON().index
+    })
+    const { era: currentEra } = this.store.data
+    if (currentEra < era || !currentEra) {
+      console.log(
+        `\x1b[36mCurrent staking era is ${era}, fetching rewards!\x1b[0m`
+      )
+      this.store.update({
+        data: {
+          era
+        }
+      })
+
+      console.log(
+        'Starting Polkadot rewards script on',
+        config.scriptRunnerEndpoint
+      )
+      // runs async, we don't need to wait for this
+      fetch(`${config.scriptRunnerEndpoint}/polkadotrewards`, {
+        method: 'POST',
+        headers: {
+          Authorization: config.scriptRunnerAuthenticationToken,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          era,
+          networkId: this.network.id
+        })
+      }).catch((error) => {
+        console.error('Failed running Polkadot rewards script', error)
+        Sentry.captureException(error)
+      })
+    }
+  }
+
   async getNetworkAccountInfo(address, api) {
     if (typeof address === `object`) address = address.toHuman()
     if (this.store.identities[address]) return this.store.identities[address]
-    const accountInfo = !this.store.validators[address] ? await api.derive.accounts.info(address) : undefined
+    const accountInfo = !this.store.validators[address]
+      ? await api.derive.accounts.info(address)
+      : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
+      address,
       accountInfo,
       this.store
     )
@@ -246,8 +288,8 @@ class polkadotAPI {
     const { free, reserved, feeFrozen } = account.data.toJSON()
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
-    const stakedBalance = stakingLedger
-      ? BigNumber(JSON.parse(JSON.stringify(stakingLedger)).active)
+    const stakedBalance = stakingLedger.toJSON()
+      ? BigNumber(stakingLedger.toJSON().active)
       : 0
     const fiatValueAPI = this.fiatValuesAPI
     return [
@@ -734,10 +776,13 @@ class polkadotAPI {
     return {
       ...proposal,
       description,
-      proposer: proposal.proposer || proposer, // default to the already existing one if any
+      proposer: proposal.proposal.proposer || proposer, // default to the already existing one if any
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime,
-      beneficiary: await this.getNetworkAccountInfo(proposal.beneficiary, api)
+      beneficiary: await this.getNetworkAccountInfo(
+        proposal.proposal.beneficiary,
+        api
+      )
     }
   }
 
@@ -751,9 +796,9 @@ class polkadotAPI {
       BigNumber(proposal.balance).times(proposal.seconds.length).toNumber()
     )
     const deposits = await Promise.all(
-      proposal.seconds.map(async (second) => {
+      proposal.seconds.map(async (secondAddress) => {
         const secondDepositer = await this.getNetworkAccountInfo(
-          second.toHuman(),
+          secondAddress.toHuman(),
           api
         )
         return {
@@ -767,17 +812,6 @@ class polkadotAPI {
         }
       })
     )
-    const votes = await Promise.all(
-      proposal.seconds.map(async (secondAddress) => {
-        const voter = await this.getNetworkAccountInfo(secondAddress, api)
-        return {
-          id: voter.address,
-          voter,
-          option: `Yes`
-        }
-      })
-    )
-    const votesSum = proposal.seconds.length
     const percentageDepositsNeeded = BigNumber(depositsSum)
       .times(100)
       .div(toViewDenom(this.network, api.consts.democracy.minimumDeposit))
@@ -785,8 +819,6 @@ class polkadotAPI {
     return {
       deposits,
       depositsSum,
-      votes,
-      votesSum,
       votingPercentageYes: `100`,
       votingPercentagedNo: `0`,
       percentageDepositsNeeded,
@@ -1136,7 +1168,7 @@ class polkadotAPI {
                 index: proposal.id,
                 deposit: proposal.proposal.bond,
                 beneficiary: await this.getNetworkAccountInfo(
-                  proposal.beneficiary,
+                  proposal.proposal.beneficiary,
                   api
                 )
               },

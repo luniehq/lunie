@@ -516,16 +516,23 @@ function depositReducer(deposit, depositer, network) {
   }
 }
 
-function networkAccountReducer(account, store) {
-  const validator = account ? store.validators[account.accountId] : undefined
+function networkAccountReducer(address, account, store) {
+  const validator = address ? store.validators[address] : undefined
+  if (validator) {
+    return {
+      name: validator.name,
+      address,
+      picture: validator.picture,
+      validator
+    }
+  }
   return {
     name:
       account && account.identity && account.identity.display
         ? account.identity.display
-        : undefined,
-    address: account && account.accountId ? account.accountId : '',
-    picture: validator ? validator.picture : account ? account.twitter : '',
-    validator
+        : '',
+    address,
+    picture: account ? account.twitter : ''
   }
 }
 
