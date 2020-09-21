@@ -450,7 +450,7 @@ async function extractInvolvedAddresses(
       involvedRwards.map(({ address }) => address)
     )
     if (involvedRwards.length > 0) {
-      involvedAddresses = involvedAddresses.concat(involvedRwards[0].validator)
+      involvedAddresses = involvedAddresses.concat(involvedRewards[0].validator)
     }
   } else {
     involvedAddresses = involvedAddresses.concat([signer])
