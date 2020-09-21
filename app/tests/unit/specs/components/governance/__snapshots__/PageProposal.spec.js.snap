@@ -7,7 +7,7 @@ exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
     <proposalstatusbar-stub status="[object Object]" statusbegintime="2019-08-25T08:46:16.394157593Z" proposal="[object Object]" total-votes="0"></proposalstatusbar-stub>
     <!---->
     <timeline-stub timeline="[object Object]"></timeline-stub>
-    <proposaldescription-stub description="test" supportinglinks="" type="cosmos-sdk/TextProposal"></proposaldescription-stub>
+    <proposaldescription-stub proposal="[object Object]" supportinglinks=""></proposaldescription-stub>
     <!---->
     <modalvote-stub proposalid="33" proposaltitle="test" number-of-seconds="0" lastvoteoption="Yes"></modalvote-stub>
   </div>
@@ -44,9 +44,8 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
     />
      
     <proposaldescription-stub
-      description="test"
+      proposal="[object Object]"
       supportinglinks=""
-      type="cosmos-sdk/TextProposal"
     />
      
     <!---->
