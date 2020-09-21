@@ -12,15 +12,18 @@ const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const config = require('../../config.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 const { toViewDenom } = require('../../common/numbers')
+const { RESTDataSource } = require('apollo-datasource-rest')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
-class polkadotAPI {
+class polkadotAPI extends RESTDataSource {
   constructor(network, store, fiatValuesAPI, db) {
+    super()
+    this.baseURL = network.api_url
+    this.initialize({})
     this.network = network
     this.networkId = network.id
     this.stakingViewDenom = network.coinLookup[0].viewDenom
-    this.httpRPC = network.api_url
     this.setReducers()
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
@@ -154,9 +157,14 @@ class polkadotAPI {
     //   data
     // )
 
-    const block = await this.get(`${this.httpRPC}/block/${blockHeight}`)
-    const { currentIndex } = await this.get(`${this.httpRPC}/pallets/session/storage/currentIndex`)
-    const { value } = await this.get(`${this.httpRPC}/pallets/staking/storage/eraElectionStatus`)
+    let block
+    if (blockHeight) {
+      block = await this.get(`${this.baseURL}/block/${blockHeight}`)
+    } else {
+      block = await this.get(`${this.baseURL}/block`)
+    }
+    const { currentIndex } = await this.get(`${this.baseURL}/pallets/session/storage/currentIndex`)
+    const { value } = await this.get(`${this.baseURL}/pallets/staking/storage/eraElectionStatus`)
     const data = {
       isInElection: value === `Close` ? false : true
     }
