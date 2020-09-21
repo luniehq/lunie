@@ -208,7 +208,6 @@ h2 {
   border-radius: 0.5rem;
   outline: none;
   height: 2.25rem;
-  width: auto;
   font-size: 14px;
   background: transparent;
   color: #7a88b8;
