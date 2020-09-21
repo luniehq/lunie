@@ -37,7 +37,10 @@
         bar-color="var(--highlight)"
       />
     </div>
-    <div v-if="status.value === governanceStatusEnum.VOTING" class="bottom row">
+    <div
+      v-if="status.value !== governanceStatusEnum.DEPOSITING"
+      class="bottom row"
+    >
       <div class="row votes">
         <div class="yes vote-box">
           <div>
