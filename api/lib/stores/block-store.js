@@ -22,6 +22,7 @@ class BlockStore {
     this.proposals = []
     this.newValidators = {}
     this.db = database
+    this.data = {}
 
     // system to stop queries to proceed if store data is not yet available
     this.dataReady = new Promise((resolve) => {

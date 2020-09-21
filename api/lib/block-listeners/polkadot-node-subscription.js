@@ -17,7 +17,7 @@ class PolkadotNodeSubscription extends BaseNodeSubscription {
   async initPolkadotRPC(network, store) {
     const api = new ApiPromise({
       provider: new WsProvider(
-        network.rpc_url || thisnetwork.public_rpc_url
+        network.rpc_url || network.public_rpc_url
       )
     })
     store.polkadotRPC = api

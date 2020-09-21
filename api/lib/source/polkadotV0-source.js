@@ -129,6 +129,8 @@ class polkadotAPI {
       api.query.babe.epochIndex()
     ])
 
+    // in the case we didn't provide a height
+    blockHeight = block.header.number.toJSON()
     const transactions = await this.getTransactionsV2(
       block.extrinsics,
       blockEvents,
