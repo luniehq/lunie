@@ -7,6 +7,7 @@
           <pre v-if="type === `PARAMETER_CHANGE` || type === `TREASURY`">
           {{ description }}
           <p class="parameter">New Parameter: {{ parameter }}</p>
+          <p v-if="beneficiary">Beneficiary: {{ beneficiary }}</p>
         </pre>
           <p v-else>{{ description }}</p>
         </div>
@@ -44,6 +45,10 @@ export default {
     type: {
       type: String,
       default: `UNKNOWN`,
+    },
+    beneficiary: {
+      type: String,
+      default: undefined,
     },
     parameter: {
       type: String,

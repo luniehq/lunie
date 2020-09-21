@@ -30,6 +30,7 @@
       <ProposalDescription
         :description="proposal.description"
         :type="proposal.type"
+        :beneficiary="proposal.beneficiary.address"
         :parameter="proposal.changes"
         :supporting-links="proposal.detailedVotes.links"
       />
