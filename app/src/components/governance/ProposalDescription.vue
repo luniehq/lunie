@@ -1,15 +1,20 @@
 <template>
   <div id="proposal-description" class="proposal-description">
     <div class="description-content-container">
-      <section v-if="description">
+      <section v-if="proposal && proposal.description">
         <h4>Description</h4>
         <div class="description">
-          <pre v-if="type === `PARAMETER_CHANGE` || type === `TREASURY`">
-          {{ description }}
-          <p class="parameter">New Parameter: {{ parameter }}</p>
-          <p v-if="beneficiary">Beneficiary: {{ beneficiary }}</p>
+          <pre
+            v-if="
+              proposal.type === `PARAMETER_CHANGE` ||
+              proposal.type === `TREASURY`
+            "
+          >
+          {{ proposal.description }}
+          <p class="parameter">New Parameter: {{ proposal.changes }}</p>
+          <p v-if="proposal.beneficiary">Beneficiary: {{ proposal.beneficiary.address }}</p>
         </pre>
-          <p v-else>{{ description }}</p>
+          <p v-else>{{ proposal.description }}</p>
         </div>
       </section>
       <aside
@@ -34,25 +39,13 @@
 export default {
   name: `proposal-description`,
   props: {
-    description: {
-      type: String,
-      default: null,
+    proposal: {
+      type: Object,
+      default: () => {},
     },
     supportingLinks: {
       type: Array,
       default: () => [],
-    },
-    type: {
-      type: String,
-      default: `UNKNOWN`,
-    },
-    beneficiary: {
-      type: String,
-      default: undefined,
-    },
-    parameter: {
-      type: String,
-      default: undefined,
     },
   },
 }

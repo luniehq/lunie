@@ -28,10 +28,7 @@
       </template>
 
       <ProposalDescription
-        :description="proposal.description"
-        :type="proposal.type"
-        :beneficiary="proposal.beneficiary.address"
-        :parameter="proposal.changes"
+        :proposal="proposal"
         :supporting-links="proposal.detailedVotes.links"
       />
 
