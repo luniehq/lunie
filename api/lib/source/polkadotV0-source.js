@@ -667,14 +667,13 @@ class polkadotAPI {
 
   async getDemocracyProposalMetadata(
     proposal,
-    description,
     proposer,
     proposalMethod,
     creationTime
   ) {
     const api = await this.getAPI()
 
-    description = `This is a Democracy Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
+    const description = `This is a Democracy Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
       proposal.proposer || proposer
     }) is able to change it.`
     if (proposal.image) {
@@ -708,7 +707,6 @@ class polkadotAPI {
 
   async getReferendumProposalMetadata(
     proposal,
-    description,
     proposer,
     proposalMethod,
     creationTime
@@ -720,7 +718,7 @@ class polkadotAPI {
         proposal.image.proposal.callIndex
       )
       proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
-      description = meta.documentation.toString()
+      const description = meta.documentation.toString()
       proposalMethod = method
 
       // get creationTime
@@ -736,10 +734,27 @@ class polkadotAPI {
     }
   }
 
-  async getProposalWithMetadata(proposal, type) {
+  async getTreasuryProposalMetadata(
+    proposal,
+    proposer,
+    proposalMethod
+  ) {
     const api = await this.getAPI()
+    const beneficiary = await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
+    const value = Number(toViewDenom(this.network, proposal.proposal.value)).toFixed(
+      2
+    )
+    return {
+      ...proposal,
+      description: `${beneficiary.address} is asking to receive ${value} ${this.network.stakingDenom} from the treasury.`,
+      proposer: proposal.proposal.proposer || proposer, // default to the already existing one if any
+      method: proposalMethod,
+      creationTime: proposal.creationTime || creationTime,
+      beneficiary
+    }
+  }
 
-    let description = ''
+  async getProposalWithMetadata(proposal, type) {
     let proposer = ''
     let proposalMethod = ''
     let creationTime = undefined
@@ -747,7 +762,6 @@ class polkadotAPI {
     if (type === `democracy`) {
       return await this.getDemocracyProposalMetadata(
         proposal,
-        description,
         proposer,
         proposalMethod,
         creationTime
@@ -756,31 +770,15 @@ class polkadotAPI {
     if (type === `referendum`) {
       return await this.getReferendumProposalMetadata(
         proposal,
-        description,
         proposer,
         proposalMethod,
         creationTime
       )
     }
     if (type === `treasury`) {
-      const { meta } =
-        proposal.council[0] && proposal.council[0].proposal
-          ? api.registry.findMetaCall(proposal.council[0].proposal.callIndex)
-          : { meta: undefined }
-      description = meta
-        ? meta.documentation.toString()
-        : `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
-            proposal.proposal.proposer || proposer
-          }) is able to change it.`
+      return await this.getTreasuryProposalMetadata(proposal, proposer, proposalMethod)
     }
-    return {
-      ...proposal,
-      description,
-      proposer: proposal.proposal.proposer || proposer, // default to the already existing one if any
-      method: proposalMethod,
-      creationTime: proposal.creationTime || creationTime,
-      beneficiary: await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
-    }
+    throw new Error(`Proposal with type ${type} not supported`)
   }
 
   async getDemocracyProposalDetailedVotes(proposal, links) {

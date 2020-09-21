@@ -93,13 +93,19 @@ class BaseNodeSubscription {
     // overwrite chain_id with the network's one, making sure it is correct
     this.store.network.chain_id = block.chainId
     if (block && this.height !== block.height) {
-      // apparently the cosmos db takes a while to serve the content after a block has been updated
-      // if we don't do this, we run into errors as the data is not yet available
-      setTimeout(() => this.newBlockHandler(block, dataSource), COSMOS_DB_DELAY)
-      this.height = block.height // this needs to be set somewhere
-
-      // we are safe, that the chain produced a block so it didn't hang up
-      if (this.chainHangup) clearTimeout(this.chainHangup)
+      // get missed blocks
+      while (this.height < block.height) {
+        const currentBlock = this.height + 1 === block.height
+          ? block 
+          : await dataSource.getBlockByHeightV2(this.height + 1)
+        // apparently the cosmos db takes a while to serve the content after a block has been updated
+        // if we don't do this, we run into errors as the data is not yet available
+        setTimeout(() => this.newBlockHandler(currentBlock, dataSource), COSMOS_DB_DELAY)
+        this.height++
+  
+        // we are safe, that the chain produced a block so it didn't hang up
+        if (this.chainHangup) clearTimeout(this.chainHangup)
+      }
     }
   }
 
