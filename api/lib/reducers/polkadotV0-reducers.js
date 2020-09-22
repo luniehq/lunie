@@ -191,21 +191,11 @@ function undelegationReducer(undelegation, address, network) {
   }
 }
 
-function transactionsReducerV2(
-  network,
-  extrinsics,
-  blockHeight,
-  reducers
-) {
+function transactionsReducerV2(network, extrinsics, blockHeight, reducers) {
   // Filter Polkadot tx to Lunie supported types
   return extrinsics.reduce((collection, extrinsic) => {
     return collection.concat(
-      transactionReducerV2(
-        network,
-        extrinsic,
-        blockHeight,
-        reducers
-      )
+      transactionReducerV2(network, extrinsic, blockHeight, reducers)
     )
   }, [])
 }
@@ -281,19 +271,18 @@ function getExtrinsicSuccess(extrinsicIndex, blockEvents, isBatch) {
   )
 }
 
-function transactionReducerV2(
-  network,
-  extrinsic,
-  blockHeight,
-  reducers
-) {
+function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
   const hash = extrinsic.hash
-  const signer = extrinsic.signature === null ? "" : extrinsic.signature.signer
+  const signer = extrinsic.signature === null ? '' : extrinsic.signature.signer
   const isBatch = extrinsic.method === `utility.batch`
   const messages = aggregateLunieStaking(
     isBatch ? extrinsic.args.calls : [extrinsic]
   )
-  const success = extrinsic.events.find(event => event.method === "system.ExtrinsicSuccess") ?  true : false
+  const success = extrinsic.events.find(
+    (event) => event.method === 'system.ExtrinsicSuccess'
+  )
+    ? true
+    : false
   return messages.map((message, messageIndex) =>
     parsePolkadotTransaction(
       hash,
@@ -328,7 +317,7 @@ function aggregateLunieStaking(messages) {
         aggregatedLunieStaking.amount + current.args.value
       hasBond = true
     }
-    
+
     if (current.method === 'staking.bondExtra') {
       aggregatedLunieStaking.amount =
         aggregatedLunieStaking.amount + current.args.max_additional
@@ -342,8 +331,8 @@ function aggregateLunieStaking(messages) {
       hasNominate = true
     }
     reducedMessages.push({
-      section: current.method.split(".")[0],
-      method: current.method.split(".")[1],
+      section: current.method.split('.')[0],
+      method: current.method.split('.')[1],
       args: JSON.stringify(current.args, null, 2)
     })
   })

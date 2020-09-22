@@ -91,7 +91,9 @@ class polkadotAPI extends RESTDataSource {
   }
 
   getBlockTime(block) {
-    const setTimestamp = block.extrinsics.find(extrinsic => extrinsic.method === "timestamp.set")
+    const setTimestamp = block.extrinsics.find(
+      (extrinsic) => extrinsic.method === 'timestamp.set'
+    )
     return new Date(Number(setTimestamp.args.now)).toUTCString()
   }
 
@@ -112,9 +114,13 @@ class polkadotAPI extends RESTDataSource {
     } else {
       block = await this.query(`${this.baseURL}/block`)
     }
-    const currentIndex = await this.query(`${this.baseURL}/pallets/session/storage/currentIndex`)
+    const currentIndex = await this.query(
+      `${this.baseURL}/pallets/session/storage/currentIndex`
+    )
     const sessionIndex = currentIndex.value
-    const { value } = await this.query(`${this.baseURL}/pallets/staking/storage/eraElectionStatus`)
+    const { value } = await this.query(
+      `${this.baseURL}/pallets/staking/storage/eraElectionStatus`
+    )
     const data = {
       isInElection: value.Close === null ? false : true
     }
@@ -127,7 +133,7 @@ class polkadotAPI extends RESTDataSource {
       block.number
     )
     // console.log(transactions)
-  
+
     return this.reducers.blockReducer(
       this.network.id,
       this.network.chain_id,
