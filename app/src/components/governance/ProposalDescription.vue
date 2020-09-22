@@ -11,8 +11,7 @@
             "
           >
           {{ proposal.description }}
-          <p class="parameter">New Parameter: {{ proposal.changes }}</p>
-          <p v-if="proposal.beneficiary">Beneficiary: {{ proposal.beneficiary.address }}</p>
+          <p v-if="proposal.beneficiary" class="parameter">Beneficiary: {{ proposal.beneficiary.address }}</p>
         </pre>
           <p v-else>{{ proposal.description }}</p>
         </div>
