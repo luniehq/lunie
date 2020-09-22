@@ -527,7 +527,8 @@ function networkAccountReducer(address, account, store) {
     }
   }
   return {
-    name: account && account.identity && account.identity.display
+    name:
+      account && account.identity && account.identity.display
         ? account.identity.display
         : '',
     address,
@@ -547,7 +548,7 @@ function democracyProposalReducer(
     proposalId: proposal.index,
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
-    title: `Preliminary Proposal #${proposal.index}`,
+    title: `Proposal #${proposal.index}`,
     description: proposal.description,
     creationTime: proposal.creationTime,
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
@@ -564,7 +565,6 @@ function democracyProposalReducer(
 function democracyReferendumReducer(
   network,
   proposal,
-  parameter,
   totalIssuance,
   blockHeight,
   detailedVotes
@@ -583,7 +583,6 @@ function democracyReferendumReducer(
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
     summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
-    changes: parameter,
     proposer: proposal.proposer,
     detailedVotes
   }
@@ -592,7 +591,6 @@ function democracyReferendumReducer(
 function treasuryProposalReducer(
   network,
   proposal,
-  parameter,
   councilMembers,
   blockHeight,
   electionInfo,
@@ -618,7 +616,6 @@ function treasuryProposalReducer(
     proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
     summary: getProposalSummary(proposalTypeEnum.TREASURY),
-    changes: parameter.concat(` ${network.stakingDenom}s`),
     detailedVotes
   }
 }

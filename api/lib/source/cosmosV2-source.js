@@ -6,8 +6,8 @@ class CosmosV2API extends CosmosV0API {
     this.reducers = require('../reducers/cosmosV2-reducers')
   }
 
-  async query(url, noRetry, resultSelector = 'result') {
-    const response = await this.getRetry(url, noRetry ? 3 : 0)
+  async query(url, resultSelector = 'result') {
+    const response = await this.getRetry(url)
     return response[resultSelector]
   }
 

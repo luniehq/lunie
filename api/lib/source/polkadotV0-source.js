@@ -6,7 +6,7 @@ const Sentry = require('@sentry/node')
 const fetch = require('node-fetch')
 const {
   getPassingThreshold,
-  getFailingThreshold,
+  getFailingThreshold
 } = require('@polkassembly/util')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const config = require('../../config.js')
@@ -37,48 +37,12 @@ class polkadotAPI {
     return api
   }
 
-  async newBlockHandler() {
-    const api = await this.getAPI()
-    const era = await api.query.staking.activeEra().then(async (era) => {
-      return era.toJSON().index
-    })
-    const { era: currentEra } = this.store.data
-    if (currentEra < era || !currentEra) {
-      console.log(
-        `\x1b[36mCurrent staking era is ${era}, fetching rewards!\x1b[0m`
-      )
-      this.store.update({
-        data: {
-          era
-        }
-      })
-
-      console.log(
-        'Starting Polkadot rewards script on',
-        config.scriptRunnerEndpoint
-      )
-      // runs async, we don't need to wait for this
-      fetch(`${config.scriptRunnerEndpoint}/polkadotrewards`, {
-        method: 'POST',
-        headers: {
-          Authorization: config.scriptRunnerAuthenticationToken,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          era,
-          networkId: this.network.id
-        })
-      }).catch((error) => {
-        console.error('Failed running Polkadot rewards script', error)
-        Sentry.captureException(error)
-      })
-    }
-  }
-
   async getNetworkAccountInfo(address, api) {
     if (typeof address === `object`) address = address.toHuman()
     if (this.store.identities[address]) return this.store.identities[address]
-    const accountInfo = !this.store.validators[address] ? await api.derive.accounts.info(address) : undefined
+    const accountInfo = !this.store.validators[address]
+      ? await api.derive.accounts.info(address)
+      : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
       address,
       accountInfo,
@@ -112,22 +76,27 @@ class polkadotAPI {
   async getBlockByHeightV2(blockHeight) {
     const api = await this.getAPI()
 
+    let blockHash
+    if (blockHeight) {
+      blockHash = await api.rpc.chain.getBlockHash(blockHeight)
+    } else {
+      blockHash = await api.rpc.chain.getFinalizedHead()
+    }
     // heavy nesting to provide optimal parallelization here
     const [
-      [{ author }, { block }, blockEvents, blockHash],
+      { number, author },
+      { block },
+      blockEvents,
       sessionIndex
     ] = await Promise.all([
-      api.rpc.chain.getBlockHash(blockHeight).then(async (blockHash) => {
-        const [{ author }, { block }, blockEvents] = await Promise.all([
-          api.derive.chain.getHeader(blockHash),
-          api.rpc.chain.getBlock(blockHash),
-          api.query.system.events.at(blockHash)
-        ])
-
-        return [{ author }, { block }, blockEvents, blockHash]
-      }),
+      api.derive.chain.getHeader(blockHash),
+      api.rpc.chain.getBlock(blockHash),
+      api.query.system.events.at(blockHash),
       api.query.babe.epochIndex()
     ])
+
+    // in the case the height was not set
+    blockHeight = number.toJSON()
 
     const transactions = await this.getTransactionsV2(
       block.extrinsics,
@@ -777,7 +746,10 @@ class polkadotAPI {
       proposer: proposal.proposal.proposer || proposer, // default to the already existing one if any
       method: proposalMethod,
       creationTime: proposal.creationTime || creationTime,
-      beneficiary: await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
+      beneficiary: await this.getNetworkAccountInfo(
+        proposal.proposal.beneficiary,
+        api
+      )
     }
   }
 
@@ -791,9 +763,9 @@ class polkadotAPI {
       BigNumber(proposal.balance).times(proposal.seconds.length).toNumber()
     )
     const deposits = await Promise.all(
-      proposal.seconds.map(async (second) => {
+      proposal.seconds.map(async (secondAddress) => {
         const secondDepositer = await this.getNetworkAccountInfo(
-          second.toHuman(),
+          secondAddress.toHuman(),
           api
         )
         return {
@@ -807,17 +779,6 @@ class polkadotAPI {
         }
       })
     )
-    const votes = await Promise.all(
-      proposal.seconds.map(async (secondAddress) => {
-        const voter = await this.getNetworkAccountInfo(secondAddress, api)
-        return {
-          id: voter.address,
-          voter,
-          option: `Yes`
-        }
-      })
-    )
-    const votesSum = proposal.seconds.length
     const percentageDepositsNeeded = BigNumber(depositsSum)
       .times(100)
       .div(toViewDenom(this.network, api.consts.democracy.minimumDeposit))
@@ -825,15 +786,11 @@ class polkadotAPI {
     return {
       deposits,
       depositsSum,
-      votes,
-      votesSum,
       votingPercentageYes: `100`,
       votingPercentagedNo: `0`,
       percentageDepositsNeeded,
       links,
-      timeline: proposal.creationTime
-        ? [{ title: `Created`, time: proposal.creationTime }]
-        : undefined,
+      timeline: [{ title: `Created`, time: proposal.creationTime }],
       council: false
     }
   }
@@ -1000,24 +957,18 @@ class polkadotAPI {
       links,
       timeline: [
         // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
-        proposal.creationTime
-          ? {
-              title: `Created`,
-              time: proposal.creationTime
-            }
-          : undefined,
-        proposalVotingPeriodStarted
-          ? {
-              title: `Voting Period Started`,
-              time: proposalVotingPeriodStarted
-            }
-          : undefined,
-        proposalEndTime
-          ? {
-              title: `Voting Period Ended`,
-              time: proposalEndTime
-            }
-          : undefined
+        {
+          title: `Created`,
+          time: proposal.creationTime
+        },
+        {
+          title: `Voting Period Started`,
+          time: proposalVotingPeriodStarted
+        },
+        {
+          title: `Voting Period Ended`,
+          time: proposalEndTime
+        }
       ],
       council: false
     }

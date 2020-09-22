@@ -127,6 +127,7 @@ export default {
           amount: this.amount,
           denom: this.denom,
         },
+        depositsCount: this.deposits.length,
       }
     },
     notifyMessage() {
