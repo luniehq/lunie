@@ -30,12 +30,7 @@
         <span>{{ votePercentage | percentInt }} of {{ stakingDenom }}</span>
         <span v-if="voteCount">({{ voteCount }} Votes)</span>
       </div>
-      <ProgressBar
-        size="large"
-        :val="votePercentage * 100"
-        :bar-border-radius="8"
-        bar-color="var(--highlight)"
-      />
+      <LunieVotingChart class="lunie-chart" :vote-values="voteValues" />
     </div>
     <div
       v-if="status.value !== governanceStatusEnum.DEPOSITING"
@@ -87,13 +82,13 @@
 import { mapGetters } from "vuex"
 import moment from "moment"
 import { governanceStatusEnum } from "scripts/proposal-status"
-import ProgressBar from "vue-simple-progress"
+import LunieVotingChart from "governance/LunieVotingChart"
 import { prettyInt, percentInt, percent } from "src/scripts/num"
 
 export default {
   name: `proposal-status-bar`,
   components: {
-    ProgressBar,
+    LunieVotingChart,
   },
   filters: {
     moment: function (date) {
@@ -148,6 +143,14 @@ export default {
     },
     percentageAbstain() {
       return this.proposal.tally.abstain / this.proposal.tally.total
+    },
+    voteValues() {
+      return [
+        this.percentageYes.toFixed(4),
+        this.percentageNo.toFixed(4),
+        this.percentageVeto.toFixed(4),
+        this.percentageAbstain.toFixed(4),
+      ]
     },
   },
 }
@@ -209,6 +212,11 @@ export default {
   letter-spacing: 0.5px;
   border: 2px solid var(--bc);
   border-radius: 0.25rem;
+}
+
+.lunie-chart {
+  display: flex;
+  justify-content: center;
 }
 
 .vote-box:last-child {
