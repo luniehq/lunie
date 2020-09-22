@@ -307,33 +307,33 @@ class CosmosV0API extends RESTDataSource {
           : undefined,
         proposal.deposit_end_time
           ? {
-              title: `Deposit Period Ended`,
-              // the deposit period can end before the time as the limit is reached already
-              time:
-                proposal.voting_start_time !== `0001-01-01T00:00:00Z` &&
+            title: `Deposit Period Ends`,
+            // the deposit period can end before the time as the limit is reached already
+            time:
+              proposal.voting_start_time !== `0001-01-01T00:00:00Z` &&
                 new Date(proposal.voting_start_time) <
-                  new Date(proposal.deposit_end_time)
-                  ? proposal.voting_start_time
-                  : proposal.deposit_end_time
-            }
+                new Date(proposal.deposit_end_time)
+                ? proposal.voting_start_time
+                : proposal.deposit_end_time
+          }
           : undefined,
         proposal.voting_start_time
           ? {
-              title: `Voting Period Started`,
-              time:
-                proposal.voting_start_time !== `0001-01-01T00:00:00Z`
-                  ? proposal.voting_start_time
-                  : undefined
-            }
+            title: `Voting Period Starts`,
+            time:
+              proposal.voting_start_time !== `0001-01-01T00:00:00Z`
+                ? proposal.voting_start_time
+                : undefined
+          }
           : undefined,
         proposal.voting_end_time
           ? {
-              title: `Voting Period Ended`,
-              time:
-                proposal.voting_end_time !== `0001-01-01T00:00:00Z`
-                  ? proposal.voting_end_time
-                  : undefined
-            }
+            title: `Voting Period Ends`,
+            time:
+              proposal.voting_end_time !== `0001-01-01T00:00:00Z`
+                ? proposal.voting_end_time
+                : undefined
+          }
           : undefined
       ].filter((x) => !!x)
     }

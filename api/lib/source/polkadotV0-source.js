@@ -995,11 +995,11 @@ class polkadotAPI {
           time: proposal.creationTime
         },
         {
-          title: `Voting Period Started`,
+          title: `Voting Period Starts`,
           time: proposalVotingPeriodStarted
         },
         {
-          title: `Voting Period Ended`,
+          title: `Voting Period Ends`,
           time: proposalEndTime
         }
       ],

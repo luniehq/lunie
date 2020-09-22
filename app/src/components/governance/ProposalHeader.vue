@@ -23,6 +23,7 @@
           <TmBtn
             v-if="status.value === governanceStatusEnum.DEPOSITING"
             id="deposit-btn"
+            class="action-button"
             value="Deposit"
             color="primary"
             @click.native="$emit(`open-deposit-modal`)"
@@ -30,6 +31,7 @@
           <TmBtn
             v-if="showVoteButton"
             id="vote-btn"
+            class="action-button"
             value="Vote"
             color="primary"
             @click.native="$emit(`open-vote-modal`)"
@@ -172,6 +174,10 @@ h2 {
 .page-links li {
   display: inline-block;
   padding: 2rem 2rem 2rem 0;
+}
+
+.action-button {
+  margin-left: 0.5rem;
 }
 
 .buttons {
