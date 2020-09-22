@@ -43,19 +43,6 @@
       </div>
     </div>
 
-    <div
-      v-if="
-        currentNetwork.network_type === 'polkadot' &&
-        proposal.type === `TREASURY`
-      "
-      class="polkadot-treasury-message"
-    >
-      <Bar :show="true" bar-type="info">
-        Treasury proposals in {{ currentNetwork.title }} can only be voted by
-        the council members.
-      </Bar>
-    </div>
-
     <div class="content-container">
       <h2>{{ proposal.title }}</h2>
 
@@ -87,7 +74,6 @@ import BackButton from "common/BackButton"
 import { formatAddress } from "src/filters"
 import Status from "common/Status"
 import TmBtn from "common/TmBtn"
-import Bar from "common/Bar"
 
 export default {
   name: `proposal-header`,
@@ -95,7 +81,6 @@ export default {
     BackButton,
     Status,
     TmBtn,
-    Bar,
   },
   filters: {
     formatAddress,
@@ -251,10 +236,6 @@ h2 {
 
 .outer-status {
   display: none;
-}
-
-.polkadot-treasury-message {
-  margin-bottom: 2rem;
 }
 
 @media screen and (max-width: 667px) {
