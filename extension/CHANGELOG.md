@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.38] - 2020-09-11
+
+### Changed
+
+- Ping the frontend until it replys to make sure events are triggered after all required listeners are setup @faboweb
+
+### Fixed
+
+- [#4849](https://github.com/cosmos/lunie/issues/4849) Change Westend RPC @mariopino
+
 ## [1.0.37] - 2020-09-08
 
 ### Changed
