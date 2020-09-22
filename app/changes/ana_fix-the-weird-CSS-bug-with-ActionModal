@@ -1,0 +1,2 @@
+[Fixed] [#4930](https://github.com/cosmos/lunie/pull/4930) Fixes the weird CSS bug appearing when opening ActionModal and not being on the top @Bitcoinera
+[Changed] [#4930](https://github.com/cosmos/lunie/pull/4930) Remove the no-scroll plugin @Bitcoinera

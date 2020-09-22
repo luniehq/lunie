@@ -1,0 +1,2 @@
+[Changed] [#4897](https://github.com/cosmos/lunie/pull/4897) Add ID field to type Deposit @Bitcoinera
+[Fixed] [#4897](https://github.com/cosmos/lunie/pull/4897) Fix duplicate voters for Cosmos @Bitcoinera

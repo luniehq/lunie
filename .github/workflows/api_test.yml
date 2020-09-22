@@ -3,7 +3,7 @@ name: API Testing Workflow
 on:
   pull_request:
     branches:
-      - "*"
+      - '*'
     paths:
       - 'api/**'
 env:

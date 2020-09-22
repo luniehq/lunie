@@ -1,0 +1,2 @@
+[Fixed] Do not retry proposer queries as they usually fail @faboweb
+[Fixed] Fix overview token displaying by looking for stakingDenom instead of random position 1 token @faboweb

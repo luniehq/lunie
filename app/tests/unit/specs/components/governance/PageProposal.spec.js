@@ -25,6 +25,8 @@ describe(`PageProposal`, () => {
     connected: true,
     address: `cosmos1xxxx`,
     currentNetwork: {
+      id: "cosmos-hub-mainnet",
+      stakingDenom: `ATOM`,
       network_type: `cosmos`,
     },
   }
@@ -66,6 +68,9 @@ describe(`PageProposal`, () => {
       mocks: {
         $store,
         $apollo,
+        $route: {
+          params: { proposalId: 19 },
+        },
       },
       stubs: [`router-link`],
     }
@@ -90,53 +95,12 @@ describe(`PageProposal`, () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 
-  it(`should show Unknown proposer if proposer is unknown`, () => {
-    wrapper = shallowMount(PageProposal, args)
-    wrapper.setData({
-      proposal: proposals[0],
-      found: true,
-    })
-    expect(wrapper.html()).toContain("Unknown proposer")
-  })
-
-  it(`should show proposer`, () => {
-    wrapper.setData({
-      proposal: proposals[1],
-    })
-    expect(wrapper.html()).toContain(
-      "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
-    )
-  })
-
-  it(`should show moniker if proposer address is a validator address`, () => {
-    wrapper.setData({
-      proposal: proposals[2],
-    })
-    expect(wrapper.html()).toContain(
-      "cosmos1z8mzakma7vnaajysmtkwt4wgjqr2m84tzvyfkz"
-    )
-    expect(wrapper.html()).toContain("Big Daddy Validator")
-  })
-
-  it(`should return the index within the array of a proposal`, () => {
-    wrapper.setData({
-      proposals: proposals,
-    })
-    expect(wrapper.vm.getProposalIndex(1)).toEqual(32)
-  })
-
-  it(`should set loaded to false on route change`, () => {
-    wrapper.vm.loaded = true
-    // Call directly watcher function
-    wrapper.vm.$options.watch.$route.call(wrapper.vm, { path: "xxxx" })
-    expect(wrapper.vm.loaded).toBe(false)
-  })
-
   describe(`Proposal status`, () => {
     it(`displays correctly a proposal that 'Passed'`, () => {
       wrapper.vm.proposal.status = `Passed`
       expect(wrapper.vm.status).toMatchObject({
-        badge: `Passed`,
+        title: `Passed`,
+        value: `PASSED`,
         color: `green`,
       })
     })
@@ -144,7 +108,8 @@ describe(`PageProposal`, () => {
     it(`displays correctly a 'Rejected' proposal`, () => {
       wrapper.vm.proposal.status = `Rejected`
       expect(wrapper.vm.status).toMatchObject({
-        badge: `Rejected`,
+        title: `Rejected`,
+        value: `REJECTED`,
         color: `red`,
       })
     })
@@ -152,7 +117,8 @@ describe(`PageProposal`, () => {
     it(`displays correctly a proposal on 'DepositPeriod'`, () => {
       wrapper.vm.proposal.status = `DepositPeriod`
       expect(wrapper.vm.status).toMatchObject({
-        badge: `Deposit Period`,
+        title: `Deposit Period`,
+        value: `DEPOSITING`,
         color: `orange`,
       })
     })
@@ -160,37 +126,21 @@ describe(`PageProposal`, () => {
     it(`displays correctly a proposal on 'VotingPeriod'`, () => {
       wrapper.vm.proposal.status = `VotingPeriod`
       expect(wrapper.vm.status).toMatchObject({
-        badge: `Voting Period`,
-        color: `pink`,
+        title: `Voting Period`,
+        color: `highlight`,
       })
     })
 
     it(`shows error status`, () => {
       wrapper.vm.proposal.status = ``
       expect(wrapper.vm.status).toMatchObject({
-        badge: `Error`,
+        title: `Error`,
         color: `grey`,
       })
     })
   })
 
   describe(`Modal onVote`, () => {
-    it(`enables voting if the proposal is on the 'VotingPeriod'`, async () => {
-      wrapper.vm.$refs.modalVote.open = jest.fn()
-      wrapper.find("#vote-btn").trigger("click")
-      expect(wrapper.vm.$refs.modalVote.open).not.toHaveBeenCalled()
-
-      wrapper.setData({
-        proposal: {
-          ...wrapper.vm.proposal,
-          status: "VotingPeriod",
-        },
-      })
-      expect(wrapper.html()).toMatchSnapshot()
-      wrapper.find("#vote-btn").trigger("click")
-      expect(wrapper.vm.$refs.modalVote.open).toHaveBeenCalled()
-    })
-
     it(`shows the last valid vote`, async () => {
       wrapper.setData({ vote: "Yes" })
       expect(wrapper.html()).toMatchSnapshot()
@@ -207,6 +157,7 @@ describe(`PageProposal`, () => {
     it(`opens deposit modal`, async () => {
       const self = {
         $refs: { modalDeposit: { open: jest.fn() } },
+        proposalId: `666`,
       }
 
       await PageProposal.methods.onDeposit.call(self)

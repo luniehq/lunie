@@ -204,25 +204,6 @@ export default class TransactionManager {
       throw Error("Broadcast was not successful: " + result.error)
     }
   }
-
-  /* istanbul ignore next */
-  async getPolkadotFees({ messageType, message, senderAddress, network }) {
-    const chainMessage = await getMessage(
-      network,
-      messageType,
-      senderAddress,
-      message
-    )
-
-    const { partialFee } = await chainMessage.transaction.paymentInfo(
-      senderAddress
-    )
-    const chainFees = partialFee.toJSON()
-    const viewFees = BigNumber(chainFees)
-      .times(network.coinLookup[0].chainToViewConversionFactor)
-      .toNumber()
-    return viewFees
-  }
 }
 
 // limitation of the Ledger Nano S, so we pick the top 5 rewards and inform the user.

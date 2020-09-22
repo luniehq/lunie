@@ -90,10 +90,12 @@
       </div>
       <Bar
         v-if="currentNetwork.network_type === 'polkadot'"
+        class="reward-bar"
         :show="true"
         bar-type="info"
-        >
-        Rewards in Polkadot are typically distributed by your validator. You may not need to claim them.
+      >
+        Rewards in {{ currentNetwork.title }} are typically distributed by your
+        validator. You may not need to claim them to receive them.
       </Bar>
 
       <TableBalances
@@ -145,7 +147,7 @@ export default {
     ModalWithdrawRewards,
     ModalTutorial,
     TableBalances,
-    Bar
+    Bar,
   },
   filters: {
     noBlanks,
@@ -530,6 +532,11 @@ select option {
 
 .tutorial-button:hover {
   background-color: rgba(255, 255, 255, 0.02);
+}
+
+.reward-bar {
+  width: auto;
+  margin: 0 2rem;
 }
 
 @media screen and (max-width: 667px) {

@@ -4,9 +4,12 @@
       <img
         class="currency-flag"
         :src="
-          currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom)
-            ? currentNetwork.coinLookup.find(({ viewDenom }) => balance.denom)
-                .icon
+          currentNetwork.coinLookup.find(
+            ({ viewDenom }) => viewDenom === balance.denom
+          )
+            ? currentNetwork.coinLookup.find(
+                ({ viewDenom }) => viewDenom === balance.denom
+              ).icon
             : '/img/icons/currencies/' + balance.denom.toLowerCase() + '.png'
         "
         :alt="`${balance.denom}` + ' currency'"
