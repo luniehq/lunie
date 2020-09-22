@@ -11,8 +11,6 @@
             "
           >
           {{ proposal.description }}
-          <p class="parameter">New Parameter: {{ proposal.changes }}</p>
-          <p v-if="proposal.beneficiary">Beneficiary: {{ proposal.beneficiary.address }}</p>
         </pre>
           <p v-else>{{ proposal.description }}</p>
         </div>
@@ -107,11 +105,6 @@ pre {
   font-size: 14px;
   padding: 1rem;
   white-space: pre-line;
-  word-break: break-word;
-}
-
-.parameter {
-  margin-top: 1rem;
   word-break: break-word;
 }
 

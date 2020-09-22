@@ -182,8 +182,13 @@ function proposalReducer(
     networkId,
     type: proposal.proposal_content.type,
     title: proposal.proposal_content.value.title,
-    description: proposal.proposal_content.value.description,
-    changes: JSON.stringify(proposal.proposal_content.value.changes, null, 4),
+    description: proposal.content.value.changes
+      ? `Parameter: ${JSON.stringify(
+          proposal.proposal_content.value.changes,
+          null,
+          4
+        )}`
+      : `` + `\nDescription: ${proposal.proposal_content.value.description}`,
     creationTime: proposal.submit_time,
     status: proposal.proposal_status,
     statusBeginTime: proposalBeginTime(proposal),

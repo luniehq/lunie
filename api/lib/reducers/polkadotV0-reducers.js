@@ -536,13 +536,7 @@ function networkAccountReducer(address, account, store) {
   }
 }
 
-function democracyProposalReducer(
-  network,
-  proposal,
-  parameter,
-  detailedVotes,
-  proposer
-) {
+function democracyProposalReducer(network, proposal, detailedVotes) {
   return {
     id: `democracy-`.concat(proposal.index),
     proposalId: proposal.index,
@@ -556,8 +550,7 @@ function democracyProposalReducer(
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
     summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
-    changes: parameter,
-    proposer,
+    proposer: proposal.proposer,
     detailedVotes
   }
 }
@@ -594,8 +587,7 @@ function treasuryProposalReducer(
   councilMembers,
   blockHeight,
   electionInfo,
-  detailedVotes,
-  proposer
+  detailedVotes
 ) {
   return {
     id: `treasury-`.concat(proposal.index || proposal.votes.index),
@@ -613,7 +605,7 @@ function treasuryProposalReducer(
       ? councilTallyReducer(proposal.votes, councilMembers, electionInfo)
       : {},
     deposit: toViewDenom(network, Number(proposal.deposit)),
-    proposer,
+    proposer: proposal.proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
     summary: getProposalSummary(proposalTypeEnum.TREASURY),
     detailedVotes
