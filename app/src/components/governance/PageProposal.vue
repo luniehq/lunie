@@ -23,7 +23,7 @@
         :show-amounts="true"
       />
 
-      <template v-if="proposal.detailedVotes.timeline.length">
+      <template v-if="proposal.detailedVotes.timeline">
         <Timeline :timeline="proposal.detailedVotes.timeline" />
       </template>
 
@@ -215,6 +215,7 @@ export default {
       },
       /* istanbul ignore next */
       result(data) {
+        console.log(data)
         if (data.proposal) this.found = true
         this.error = data.error
       },
@@ -240,6 +241,7 @@ export default {
       },
       /* istanbul ignore next */
       result(data) {
+        console.log(data)
         this.error = data.error
       },
     },
@@ -265,6 +267,7 @@ export default {
       },
       /* istanbul ignore next */
       result(data) {
+        console.log(data)
         this.error = data.error
       },
     },
