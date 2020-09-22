@@ -306,7 +306,7 @@ class CosmosV0API extends RESTDataSource {
           : undefined,
         proposal.deposit_end_time
           ? {
-              title: `Deposit Period Ended`,
+              title: `Deposit Period Ends`,
               // the deposit period can end before the time as the limit is reached already
               time:
                 proposal.voting_start_time !== `0001-01-01T00:00:00Z` &&
@@ -318,7 +318,7 @@ class CosmosV0API extends RESTDataSource {
           : undefined,
         proposal.voting_start_time
           ? {
-              title: `Voting Period Started`,
+              title: `Voting Period Starts`,
               time:
                 proposal.voting_start_time !== `0001-01-01T00:00:00Z`
                   ? proposal.voting_start_time
@@ -327,7 +327,7 @@ class CosmosV0API extends RESTDataSource {
           : undefined,
         proposal.voting_end_time
           ? {
-              title: `Voting Period Ended`,
+              title: `Voting Period Ends`,
               time:
                 proposal.voting_end_time !== `0001-01-01T00:00:00Z`
                   ? proposal.voting_end_time
