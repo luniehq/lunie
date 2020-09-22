@@ -796,9 +796,9 @@ class polkadotAPI {
       BigNumber(proposal.balance).times(proposal.seconds.length).toNumber()
     )
     const deposits = await Promise.all(
-      proposal.seconds.map(async (second) => {
+      proposal.seconds.map(async (secondAddress) => {
         const secondDepositer = await this.getNetworkAccountInfo(
-          second.toHuman(),
+          secondAddress.toHuman(),
           api
         )
         return {
@@ -812,17 +812,6 @@ class polkadotAPI {
         }
       })
     )
-    const votes = await Promise.all(
-      proposal.seconds.map(async (secondAddress) => {
-        const voter = await this.getNetworkAccountInfo(secondAddress, api)
-        return {
-          id: voter.address,
-          voter,
-          option: `Yes`
-        }
-      })
-    )
-    const votesSum = proposal.seconds.length
     const percentageDepositsNeeded = BigNumber(depositsSum)
       .times(100)
       .div(toViewDenom(this.network, api.consts.democracy.minimumDeposit))
@@ -830,15 +819,11 @@ class polkadotAPI {
     return {
       deposits,
       depositsSum,
-      votes,
-      votesSum,
       votingPercentageYes: `100`,
       votingPercentagedNo: `0`,
       percentageDepositsNeeded,
       links,
-      timeline: proposal.creationTime
-        ? [{ title: `Created`, time: proposal.creationTime }]
-        : undefined,
+      timeline: [{ title: `Created`, time: proposal.creationTime }],
       council: false
     }
   }
@@ -1005,24 +990,18 @@ class polkadotAPI {
       links,
       timeline: [
         // warning: sometimes status.end - status.delay doesn't return the creation block. Don't know why
-        proposal.creationTime
-          ? {
-              title: `Created`,
-              time: proposal.creationTime
-            }
-          : undefined,
-        proposalVotingPeriodStarted
-          ? {
-              title: `Voting Period Started`,
-              time: proposalVotingPeriodStarted
-            }
-          : undefined,
-        proposalEndTime
-          ? {
-              title: `Voting Period Ended`,
-              time: proposalEndTime
-            }
-          : undefined
+        {
+          title: `Created`,
+          time: proposal.creationTime
+        },
+        {
+          title: `Voting Period Started`,
+          time: proposalVotingPeriodStarted
+        },
+        {
+          title: `Voting Period Ended`,
+          time: proposalEndTime
+        }
       ],
       council: false
     }

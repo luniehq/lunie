@@ -1,0 +1,1 @@
+[Code Improvements] skip querying proposals to avoid console errors when switching networks @jbibla
