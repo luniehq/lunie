@@ -9,7 +9,13 @@
       >
         <div class="first-column">
           <span class="icon">
-            <img v-if="participant.picture" :src="participant.picture" />
+            <img
+              v-if="
+                participant.picture ||
+                (participant.validator && participant.validator.picture)
+              "
+              :src="participant.picture || participant.validator.picture"
+            />
             <img v-else :src="currentNetwork.icon" />
           </span>
           <span v-if="participant.name" class="name">{{
