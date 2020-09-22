@@ -251,6 +251,7 @@ export default {
                 name
                 address
                 votingPower
+                picture
                 validator {
                   name
                   picture
@@ -378,11 +379,11 @@ h4 {
   border-radius: 0.25rem;
   width: 100%;
   margin: 0 0.5rem;
+  white-space: nowrap;
 }
 
 .data-row div:first-child {
   margin-left: 0;
-  min-width: 360px;
 }
 
 .data-row div:last-child {

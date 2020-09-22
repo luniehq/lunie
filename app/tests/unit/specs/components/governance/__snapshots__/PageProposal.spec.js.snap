@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PageProposal Modal onVote shows the last valid vote 1`] = `
-<tmpage-stub loaderpath="" emptytitle="No data" emptysubtitle="" data-title="Proposal">
+<tmpage-stub loaderpath="" emptytitle="No data" emptysubtitle="" data-title="Proposal" proposalid="33">
   <div class="proposal">
     <proposalheader-stub proposal="[object Object]" status="[object Object]"></proposalheader-stub>
     <proposalstatusbar-stub status="[object Object]" statusbegintime="2019-08-25T08:46:16.394157593Z" proposal="[object Object]" total-votes="0"></proposalstatusbar-stub>
     <!---->
     <timeline-stub timeline="[object Object]"></timeline-stub>
-    <proposaldescription-stub description="test" supportinglinks="" type="cosmos-sdk/TextProposal"></proposaldescription-stub>
+    <proposaldescription-stub proposal="[object Object]" supportinglinks=""></proposaldescription-stub>
     <!---->
-    <modalvote-stub proposalid="33" proposaltitle="test" number-of-seconds="0" lastvoteoption="Yes"></modalvote-stub>
+    <modalvote-stub proposalid="19" proposaltitle="test" number-of-seconds="0" lastvoteoption="Yes"></modalvote-stub>
   </div>
 </tmpage-stub>
 `;
@@ -21,6 +21,7 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
   emptytitle="No data"
   loaderpath=""
   loading="true"
+  proposalid="33"
 >
   <div
     class="proposal"
@@ -44,16 +45,15 @@ exports[`PageProposal should show a loader if the necessary data hasen't been lo
     />
      
     <proposaldescription-stub
-      description="test"
+      proposal="[object Object]"
       supportinglinks=""
-      type="cosmos-sdk/TextProposal"
     />
      
     <!---->
      
     <modalvote-stub
       number-of-seconds="0"
-      proposalid="33"
+      proposalid="19"
       proposaltitle="test"
     />
   </div>
@@ -66,6 +66,7 @@ exports[`PageProposal shows an error if the proposal couldn't be found 1`] = `
   emptysubtitle=""
   emptytitle="No data"
   loaderpath=""
+  proposalid="666"
 >
   <tmdatanotfound-stub />
 </tmpage-stub>
