@@ -341,7 +341,9 @@ class CosmosV0API extends RESTDataSource {
   // we can't query the proposer of blocks from past chains
   async getProposer(proposal, firstBlock) {
     let proposer = { proposer: undefined }
-    const proposalIsFromPastChain = proposal.voting_end_time !== `0001-01-01T00:00:00Z` && new Date(firstBlock.time) > new Date(proposal.voting_end_time)
+    const proposalIsFromPastChain =
+      proposal.voting_end_time !== `0001-01-01T00:00:00Z` &&
+      new Date(firstBlock.time) > new Date(proposal.voting_end_time)
     if (!proposalIsFromPastChain) {
       proposer = await this.query(`gov/proposals/${proposal.id}/proposer`)
     }
@@ -349,10 +351,7 @@ class CosmosV0API extends RESTDataSource {
   }
 
   async getProposal(proposal, totalBondedTokens, validators, firstBlock) {
-    const [
-      tally,
-      detailedVotes
-    ] = await Promise.all([
+    const [tally, detailedVotes] = await Promise.all([
       this.query(`gov/proposals/${proposal.id}/tally`),
       this.getDetailedVotes(proposal)
     ])
@@ -370,17 +369,24 @@ class CosmosV0API extends RESTDataSource {
   }
 
   async getAllProposals(validators) {
-    const [proposalsResponse, firstBlock, { bonded_tokens: totalBondedTokens }] = await Promise.all([
+    const [
+      proposalsResponse,
+      firstBlock,
+      { bonded_tokens: totalBondedTokens }
+    ] = await Promise.all([
       this.query('gov/proposals'),
       this.getBlockByHeightV2(1),
-      this.query(
-        '/staking/pool'
-      )
+      this.query('/staking/pool')
     ])
     if (!Array.isArray(proposalsResponse)) return []
     const proposals = await Promise.all(
       proposalsResponse.map(async (proposal) => {
-        return await this.getProposal(proposal, totalBondedTokens, validators, firstBlock)
+        return await this.getProposal(
+          proposal,
+          totalBondedTokens,
+          validators,
+          firstBlock
+        )
       })
     )
 
@@ -393,12 +399,11 @@ class CosmosV0API extends RESTDataSource {
       { bonded_tokens: totalBondedTokens },
       firstBlock
     ] = await Promise.all([
-      this.query(`gov/proposals/${proposalId}`).catch(
-        () => {
-          throw new UserInputError(
-            `There is no proposal in the network with ID '${proposalId}'`
-          )
-        }),
+      this.query(`gov/proposals/${proposalId}`).catch(() => {
+        throw new UserInputError(
+          `There is no proposal in the network with ID '${proposalId}'`
+        )
+      }),
       this.query(`/staking/pool`),
       this.getBlockByHeightV2(1)
     ])
