@@ -1,3 +1,5 @@
+const { RESTDataSource, HTTPCache } = require('apollo-datasource-rest')
+const { InMemoryLRUCache } = require('apollo-server-caching')
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith, isNull } = require('lodash')
@@ -10,7 +12,6 @@ const {
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 const { toViewDenom } = require('../../common/numbers')
-const { RESTDataSource } = require('apollo-datasource-rest')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
@@ -28,8 +29,44 @@ class polkadotAPI extends RESTDataSource {
     this.db = db
   }
 
+  initialize(config) {
+    this.context = config.context
+    // manually set cache to checking it
+    this.cache = new InMemoryLRUCache()
+    this.httpCache = new HTTPCache(this.cache, this.httpFetch)
+  }
+
   setReducers() {
     this.reducers = require('../reducers/polkadotV0-reducers')
+  }
+
+  async getRetry(url, intent = 0) {
+    // check cache size, and flush it if it's bigger than something
+    if ((await this.cache.getTotalSize()) > 100000) {
+      await this.cache.flush()
+    }
+    // clearing memoizedResults
+    this.memoizedResults.clear()
+    try {
+      return await this.get(url, null, { cacheOptions: { ttl: 1 } }) // normally setting cacheOptions should be enought, but...
+    } catch (error) {
+      // give up
+      if (intent >= 3) {
+        console.error(
+          `Error for query ${url} in network ${this.networkId} (tried 3 times)`
+        )
+        throw error
+      }
+
+      // retry
+      await new Promise((resolve) => setTimeout(() => resolve(), 1000))
+      return this.getRetry(url, intent + 1)
+    }
+  }
+
+  // querying data from the sidecar REST API
+  async query(url) {
+    return this.getRetry(url)
   }
 
   // rpc initialization is async so we always need to assume we need to wait for it to be initialized
@@ -121,24 +158,23 @@ class polkadotAPI extends RESTDataSource {
 
     let block
     if (blockHeight) {
-      block = await this.get(`${this.baseURL}/block/${blockHeight}`)
+      block = await this.query(`${this.baseURL}/block/${blockHeight}`)
     } else {
-      block = await this.get(`${this.baseURL}/block`)
+      block = await this.query(`${this.baseURL}/block`)
     }
-    const { currentIndex } = await this.get(`${this.baseURL}/pallets/session/storage/currentIndex`)
-    const { value } = await this.get(`${this.baseURL}/pallets/staking/storage/eraElectionStatus`)
+    const { currentIndex } = await this.query(`${this.baseURL}/pallets/session/storage/currentIndex`)
+    const { value } = await this.query(`${this.baseURL}/pallets/staking/storage/eraElectionStatus`)
     const data = {
       isInElection: value.Close === null ? false : true
     }
 
     // in the case the height was not set
-    blockHeight = number.toJSON()
+    blockHeight = block.number
 
     const transactions = await this.getTransactionsV2(
       block.extrinsics,
       block.number
     )
-
     console.log(transactions)
   
     return this.reducers.blockReducer(
