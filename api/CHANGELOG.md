@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.47] - 2020-09-22
+
+### Added
+
+- Add staked to BalanceV2 @mariopino
+
+### Changed
+
+- [#4861](https://github.com/cosmos/lunie/pull/4861) Cache Substrate identities in blockStore to make AllProposals query faster @Bitcoinera
+
+### Fixed
+
+- [#4872](https://github.com/cosmos/lunie/pull/4872) Fix referendum timeline @Bitcoinera
+- [#4812](https://github.com/cosmos/lunie/issues/4812) Fix voter cache in proposal -> detailedVotes query for FE by adding a distinct ID @Bitcoinera
+
 ## [1.0.46] - 2020-09-08
 
 ### Changed
