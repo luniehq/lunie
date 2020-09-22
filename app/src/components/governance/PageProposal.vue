@@ -112,12 +112,6 @@ export default {
     fromNow,
     lowerCase: (text) => (text ? text.toLowerCase() : ""),
   },
-  props: {
-    proposalId: {
-      type: String,
-      required: true,
-    },
-  },
   data: () => ({
     proposals: [],
     vote: undefined,
@@ -137,6 +131,9 @@ export default {
   }),
   computed: {
     ...mapGetters([`address`, `network`, `currentNetwork`]),
+    proposalId() {
+      return this.$route.params.proposalId
+    },
     status() {
       return getProposalStatus(this.proposal)
     },
@@ -204,10 +201,6 @@ export default {
         return data.proposal || {}
       },
       /* istanbul ignore next */
-      skip() {
-        return this.found
-      },
-      /* istanbul ignore next */
       variables() {
         return {
           id: this.proposalId,
@@ -231,12 +224,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         // only Tendermint networks have this network-wide "governance parameters" logic
-        return (
-          !this.found ||
-          this.currentNetwork.network_type !== `cosmos` ||
-          this.currentNetwork.id === `emoney-mainnet` ||
-          this.currentNetwork.id === `emoney-testnet`
-        )
+        return this.currentNetwork.network_type !== `cosmos`
       },
       /* istanbul ignore next */
       result(data) {
