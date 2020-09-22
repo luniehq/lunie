@@ -215,6 +215,7 @@ function topVoterReducer(topVoter) {
     name: topVoter.name,
     address: topVoter.operatorAddress,
     votingPower: topVoter.votingPower,
+    picture: topVoter.picture,
     validator: topVoter
   }
 }

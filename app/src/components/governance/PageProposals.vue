@@ -251,6 +251,7 @@ export default {
                 name
                 address
                 votingPower
+                picture
                 validator {
                   name
                   picture
