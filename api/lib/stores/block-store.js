@@ -12,7 +12,6 @@ const {
 class BlockStore {
   constructor(network, database) {
     this.network = network
-    this.latestHeight = 0
     this.block = {}
     this.stakingDenom = ''
     this.annualProvision = 0
@@ -22,6 +21,7 @@ class BlockStore {
     this.proposals = []
     this.newValidators = {}
     this.db = database
+    this.data = {}
 
     // system to stop queries to proceed if store data is not yet available
     this.dataReady = new Promise((resolve) => {
@@ -82,7 +82,6 @@ class BlockStore {
       this.validators = validators
     }
 
-    this.latestHeight = Number(height)
     this.block = block
     this.data = Object.assign({}, this.data, data)
 

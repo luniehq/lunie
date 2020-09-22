@@ -95,6 +95,7 @@ class polkadotAPI {
 
     // in the case the height was not set
     blockHeight = number.toJSON()
+
     const transactions = await this.getTransactionsV2(
       block.extrinsics,
       blockEvents,
