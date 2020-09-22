@@ -722,6 +722,9 @@ function topVoterReducer(
             .div(BigNumber(totalIssuance))
             .toNumber()
         : '',
+    picture: validators[topVoterAddress]
+      ? validators[topVoterAddress].picture
+      : undefined,
     validator: validators[topVoterAddress]
   }
 }
