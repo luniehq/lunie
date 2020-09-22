@@ -24,8 +24,7 @@
             {{ participant.votingPower | bigFigureOrPercent }}
           </div>
           <div v-else>
-            {{ participant.votingPower | bigFigure }}
-            {{ currentNetwork.stakingDenom }}
+            {{ participant.votingPower | bigFigureOrPercent }}
           </div>
         </template>
         <div v-if="showAmounts && participant.option">
