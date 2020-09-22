@@ -37,7 +37,10 @@
         bar-color="var(--highlight)"
       />
     </div>
-    <div class="bottom row">
+    <div
+      v-if="status.value !== governanceStatusEnum.DEPOSITING"
+      class="bottom row"
+    >
       <div class="row votes">
         <div class="yes vote-box">
           <div>
@@ -224,7 +227,7 @@ export default {
   font-size: 14px;
 }
 
-.dot:before {
+.dot::before {
   display: inline-block;
   content: "";
   width: 0.65rem;
@@ -233,19 +236,19 @@ export default {
   margin-right: 0.5rem;
 }
 
-.yes .dot:before {
+.yes .dot::before {
   background: var(--success);
 }
 
-.no .dot:before {
+.no .dot::before {
   background: var(--danger);
 }
 
-.veto .dot:before {
+.veto .dot::before {
   background: var(--warning);
 }
 
-.abstain .dot:before {
+.abstain .dot::before {
   background: var(--dim);
 }
 
