@@ -108,7 +108,7 @@ class BaseNodeSubscription {
       // afterwards we load all blocks that follow that block
       // TODO we should store the last analyzed block in the db to not forget to query missed blocks
       if (!this.height) {
-        this.height = latestBlock.height
+        this.height = Number(latestBlock.height)
       } else {
         this.height++
       }
