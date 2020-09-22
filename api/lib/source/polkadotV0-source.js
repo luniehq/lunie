@@ -84,7 +84,9 @@ class polkadotAPI {
     }
     // heavy nesting to provide optimal parallelization here
     const [
-      { number, author }, { block }, blockEvents,
+      { number, author },
+      { block },
+      blockEvents,
       sessionIndex
     ] = await Promise.all([
       api.derive.chain.getHeader(blockHash),

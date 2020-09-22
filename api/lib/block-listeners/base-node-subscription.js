@@ -98,15 +98,16 @@ class BaseNodeSubscription {
     // get missed blocks
     while (!this.height || this.height < latestBlock.height) {
       // if we now we missed a block, load passed blocks
-      const currentBlock = !this.height || this.height + 1 !== latestBlock.height
-        ? await dataSource.getBlockByHeightV2(this.height + 1) 
-        : latestBlock
+      const currentBlock =
+        !this.height || this.height + 1 !== latestBlock.height
+          ? await dataSource.getBlockByHeightV2(this.height + 1)
+          : latestBlock
 
       this.newBlockHandler(currentBlock, dataSource)
       // if we have no last block analyzed we start analyzing from the current block
       // afterwards we load all blocks that follow that block
       // TODO we should store the last analyzed block in the db to not forget to query missed blocks
-      if (!this.height) { 
+      if (!this.height) {
         this.height = latestBlock.height
       } else {
         this.height++
@@ -118,8 +119,7 @@ class BaseNodeSubscription {
   }
 
   async getValidators(block, dataSource) {
-    dataSource.getAllValidators(block.height)
-    .then(validators => {
+    dataSource.getAllValidators(block.height).then((validators) => {
       this.store.update({
         validators: validators
       })

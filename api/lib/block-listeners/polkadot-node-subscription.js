@@ -19,9 +19,7 @@ class PolkadotNodeSubscription extends BaseNodeSubscription {
   // the class gets stored in the store to be used by all instances
   async initPolkadotRPC(network, store) {
     const api = new ApiPromise({
-      provider: new WsProvider(
-        network.rpc_url || network.public_rpc_url
-      )
+      provider: new WsProvider(network.rpc_url || network.public_rpc_url)
     })
     store.polkadotRPC = api
     store.polkadotRPCOpened = Date.now()
@@ -31,10 +29,7 @@ class PolkadotNodeSubscription extends BaseNodeSubscription {
 
   async getValidators(block, dataSource) {
     const { sessionIndex, era: currentEra } = this.store.data
-    if (
-      sessionIndex < block.sessionIndex ||
-      !sessionIndex
-    ) {
+    if (sessionIndex < block.sessionIndex || !sessionIndex) {
       this.store.update({
         data: {
           sessionIndex: block.sessionIndex
@@ -55,12 +50,12 @@ class PolkadotNodeSubscription extends BaseNodeSubscription {
         },
         validators
       })
-      
+
       if (currentEra < era || !currentEra) {
         console.log(
           `\x1b[36mCurrent staking era is ${era}, fetching rewards!\x1b[0m`
         )
-  
+
         console.log(
           'Starting Polkadot rewards script on',
           config.scriptRunnerEndpoint

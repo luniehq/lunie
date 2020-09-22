@@ -12,7 +12,15 @@ class CosmosNodeSubscription extends BaseNodeSubscription {
   }
 
   newBlockHandler(currentBlock, dataSource) {
-    setTimeout(() => BaseNodeSubscription.prototype.newBlockHandler.call(this, currentBlock, dataSource), COSMOS_DB_DELAY)
+    setTimeout(
+      () =>
+        BaseNodeSubscription.prototype.newBlockHandler.call(
+          this,
+          currentBlock,
+          dataSource
+        ),
+      COSMOS_DB_DELAY
+    )
   }
 }
 

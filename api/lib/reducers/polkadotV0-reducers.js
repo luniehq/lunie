@@ -174,8 +174,8 @@ function delegationReducer(network, delegation, validator, active) {
     validator,
     amount: delegation.value
       ? BigNumber(delegation.value)
-        .times(network.coinLookup[0].chainToViewConversionFactor)
-        .toFixed(6)
+          .times(network.coinLookup[0].chainToViewConversionFactor)
+          .toFixed(6)
       : 0,
     active
   }
