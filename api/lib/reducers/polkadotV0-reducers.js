@@ -174,8 +174,8 @@ function delegationReducer(network, delegation, validator, active) {
     validator,
     amount: delegation.value
       ? BigNumber(delegation.value)
-        .times(network.coinLookup[0].chainToViewConversionFactor)
-        .toFixed(6)
+          .times(network.coinLookup[0].chainToViewConversionFactor)
+          .toFixed(6)
       : 0,
     active
   }
@@ -565,7 +565,6 @@ function democracyProposalReducer(
 function democracyReferendumReducer(
   network,
   proposal,
-  parameter,
   totalIssuance,
   blockHeight,
   detailedVotes
@@ -584,7 +583,6 @@ function democracyReferendumReducer(
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
     summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
-    changes: parameter,
     proposer: proposal.proposer,
     detailedVotes
   }
@@ -593,7 +591,6 @@ function democracyReferendumReducer(
 function treasuryProposalReducer(
   network,
   proposal,
-  parameter,
   councilMembers,
   blockHeight,
   electionInfo,
@@ -619,7 +616,6 @@ function treasuryProposalReducer(
     proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
     summary: getProposalSummary(proposalTypeEnum.TREASURY),
-    changes: parameter.concat(` ${network.stakingDenom}s`),
     detailedVotes
   }
 }
