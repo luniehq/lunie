@@ -91,71 +91,21 @@ class polkadotAPI extends RESTDataSource {
   }
 
   getBlockTime(block) {
-    const args = block.block.extrinsics.map((extrinsic) =>
-      extrinsic.method.args.find((arg) => arg)
-    )
-    const blockTimestamp = args[0]
-    return new Date(Number(blockTimestamp)).toUTCString()
+    const setTimestamp = block.extrinsics.find(extrinsic => extrinsic.method === "timestamp.set")
+    return new Date(Number(setTimestamp.args.now)).toUTCString()
   }
 
   async getDateForBlockHeight(blockHeight) {
-    const api = await this.getAPI()
-
-    const blockHash = await api.rpc.chain.getBlockHash(blockHeight)
-    const block = await api.rpc.chain.getBlock(blockHash)
+    const block = await this.query(`${this.baseURL}/block/${blockHeight}`)
     return this.getBlockTime(block)
   }
 
   async getBlockHeight() {
-    const api = await this.getAPI()
-    const block = await api.rpc.chain.getBlock()
-    return block.block.header.number.toNumber()
+    const latestBlock = await this.query(`${this.baseURL}/block`)
+    return latestBlock.number
   }
 
   async getBlockByHeightV2(blockHeight) {
-    // const api = await this.getAPI()
-
-    // let blockHash
-    // if (blockHeight) {
-    //   blockHash = await api.rpc.chain.getBlockHash(blockHeight)
-    // } else {
-    //   blockHash = await api.rpc.chain.getFinalizedHead()
-    // }
-    // // heavy nesting to provide optimal parallelization here
-    // const [
-    //   { author, number }, { block }, blockEvents,
-    //   sessionIndex
-    // ] = await Promise.all([
-    //   api.derive.chain.getHeader(blockHash),
-    //   api.rpc.chain.getBlock(blockHash),
-    //   api.query.system.events.at(blockHash),
-    //   api.query.babe.epochIndex()
-    // ])
-
-    // // in the case the height was not set
-    // blockHeight = number.toJSON()
-    // const transactions = await this.getTransactionsV2(
-    //   block.extrinsics,
-    //   blockEvents,
-    //   parseInt(blockHeight)
-    // )
-
-    // const eraElectionStatus = await api.query.staking.eraElectionStatus()
-    // const data = {
-    //   isInElection: eraElectionStatus.toString() === `Close` ? false : true
-    // }
-
-    // return this.reducers.blockReducer(
-    //   this.network.id,
-    //   this.network.chain_id,
-    //   blockHeight,
-    //   blockHash,
-    //   sessionIndex.toNumber(),
-    //   author,
-    //   transactions,
-    //   data
-    // )
-
     let block
     if (blockHeight) {
       block = await this.query(`${this.baseURL}/block/${blockHeight}`)
