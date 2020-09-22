@@ -72,8 +72,8 @@ class CosmosV0API extends RESTDataSource {
   // querying data from the cosmos REST API
   // is overwritten in cosmos v2 to extract from a differnt result format
   // some endpoints /blocks and /txs have a different response format so they use this.get directly
-  async query(url, noRetry) {
-    return this.getRetry(url, noRetry ? 3 : 0)
+  async query(url) {
+    return this.getRetry(url)
   }
 
   async getSignedBlockWindow() {
@@ -121,8 +121,7 @@ class CosmosV0API extends RESTDataSource {
         throw Error()
       }
       const response = await this.query(
-        `slashing/validators/${validatorConsensusPubKey}/signing_info`,
-        { cacheOptions: { ttl: 60 } }
+        `slashing/validators/${validatorConsensusPubKey}/signing_info`
       )
       return {
         address: pubkeyToAddress(
