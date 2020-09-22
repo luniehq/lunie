@@ -609,7 +609,7 @@ function treasuryProposalReducer(
     beneficiary: proposal.beneficiary, // the account getting the tip
     summary:
       getProposalSummary(proposalTypeEnum.TREASURY) +
-      `\nTreasury proposals in ${network.title} can only be voted by the council members.`,
+      `\nTreasury proposals on ${network.title} can only be voted on by council members.`,
     detailedVotes
   }
 }
