@@ -338,60 +338,25 @@ class CosmosV0API extends RESTDataSource {
     }
   }
 
-  async getAllProposals(validators) {
-    const response = await this.query('gov/proposals')
-    const { bonded_tokens: totalBondedTokens } = await this.query(
-      '/staking/pool'
-    )
-    if (!Array.isArray(response)) return []
-    const proposals = await Promise.all(
-      response.map(async (proposal) => {
-        const [tally, proposer] = await Promise.all([
-          this.query(`gov/proposals/${proposal.id}/tally`),
-          this.query(`gov/proposals/${proposal.id}/proposer`, true).catch(
-            () => {
-              return { proposer: undefined }
-            }
-          )
-        ])
-        const detailedVotes = await this.getDetailedVotes(proposal)
-        return this.reducers.proposalReducer(
-          this.network.id,
-          proposal,
-          tally,
-          proposer,
-          totalBondedTokens,
-          detailedVotes,
-          this.reducers,
-          validators
-        )
-      })
-    )
-
-    return _.orderBy(proposals, 'id', 'desc')
+  // we can't query the proposer of blocks from past chains
+  async getProposer(proposal, firstBlock) {
+    let proposer = { proposer: undefined }
+    const proposalIsFromPastChain = proposal.voting_end_time !== `0001-01-01T00:00:00Z` && new Date(firstBlock.time) > new Date(proposal.voting_end_time)
+    if (!proposalIsFromPastChain) {
+      proposer = await this.query(`gov/proposals/${proposal.id}/proposer`)
+    }
+    return proposer
   }
 
-  async getProposalById(proposalId, validators) {
-    const proposal = await this.query(`gov/proposals/${proposalId}`).catch(
-      () => {
-        throw new UserInputError(
-          `There is no proposal in the network with ID '${proposalId}'`
-        )
-      }
-    )
+  async getProposal(proposal, totalBondedTokens, validators, firstBlock) {
     const [
       tally,
-      proposer,
-      { bonded_tokens: totalBondedTokens },
       detailedVotes
     ] = await Promise.all([
-      this.query(`gov/proposals/${proposalId}/tally`),
-      this.query(`gov/proposals/${proposalId}/proposer`, true).catch(() => {
-        return { proposer: undefined }
-      }),
-      this.query(`/staking/pool`),
+      this.query(`gov/proposals/${proposal.id}/tally`),
       this.getDetailedVotes(proposal)
     ])
+    const proposer = await this.getProposer(proposal, firstBlock)
     return this.reducers.proposalReducer(
       this.network.id,
       proposal,
@@ -402,6 +367,42 @@ class CosmosV0API extends RESTDataSource {
       this.reducers,
       validators
     )
+  }
+
+  async getAllProposals(validators) {
+    const [proposalsResponse, firstBlock, { bonded_tokens: totalBondedTokens }] = await Promise.all([
+      this.query('gov/proposals'),
+      this.getBlockByHeightV2(1),
+      this.query(
+        '/staking/pool'
+      )
+    ])
+    if (!Array.isArray(proposalsResponse)) return []
+    const proposals = await Promise.all(
+      proposalsResponse.map(async (proposal) => {
+        return await this.getProposal(proposal, totalBondedTokens, validators, firstBlock)
+      })
+    )
+
+    return _.orderBy(proposals, 'id', 'desc')
+  }
+
+  async getProposalById(proposalId, validators) {
+    const [
+      proposal,
+      { bonded_tokens: totalBondedTokens },
+      firstBlock
+    ] = await Promise.all([
+      this.query(`gov/proposals/${proposalId}`).catch(
+        () => {
+          throw new UserInputError(
+            `There is no proposal in the network with ID '${proposalId}'`
+          )
+        }),
+      this.query(`/staking/pool`),
+      this.getBlockByHeightV2(1)
+    ])
+    return this.getProposal(proposal, totalBondedTokens, validators, firstBlock)
   }
 
   async getGovernanceParameters() {
