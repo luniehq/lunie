@@ -162,7 +162,8 @@ class polkadotAPI extends RESTDataSource {
     } else {
       block = await this.query(`${this.baseURL}/block`)
     }
-    const { currentIndex } = await this.query(`${this.baseURL}/pallets/session/storage/currentIndex`)
+    const currentIndex = await this.query(`${this.baseURL}/pallets/session/storage/currentIndex`)
+    const sessionIndex = currentIndex.value
     const { value } = await this.query(`${this.baseURL}/pallets/staking/storage/eraElectionStatus`)
     const data = {
       isInElection: value.Close === null ? false : true
@@ -175,14 +176,14 @@ class polkadotAPI extends RESTDataSource {
       block.extrinsics,
       block.number
     )
-    console.log(transactions)
+    // console.log(transactions)
   
     return this.reducers.blockReducer(
       this.network.id,
       this.network.chain_id,
       block.number,
       block.hash,
-      currentIndex,
+      sessionIndex,
       block.authorId,
       transactions,
       data
