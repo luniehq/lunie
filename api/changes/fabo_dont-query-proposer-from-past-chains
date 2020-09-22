@@ -1,0 +1,2 @@
+[Fixed] don't query for proposals of past chains in Cosmos @faboweb
+[Code Improvements] Reduced code for getting proposals @faboweb
