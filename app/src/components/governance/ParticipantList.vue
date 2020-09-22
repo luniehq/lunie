@@ -33,7 +33,7 @@
         </div>
         <div v-if="showAmounts && participant.amount">
           <span class="amount"
-            >{{ participant.amount.amount }}
+            >{{ participant.amount.amount | prettyInt }}
             {{ participant.amount.denom }}</span
           >
         </div>
@@ -54,6 +54,7 @@
 import { mapGetters } from "vuex"
 import { formatAddress } from "src/filters"
 import { bigFigure, bigFigureOrPercent } from "scripts/num"
+import { prettyInt } from "src/scripts/num"
 import TmBtn from "src/components/common/TmBtn"
 
 export default {
@@ -65,6 +66,7 @@ export default {
     formatAddress,
     bigFigure,
     bigFigureOrPercent,
+    prettyInt,
   },
   props: {
     title: {
@@ -151,12 +153,6 @@ h4 {
   justify-content: flex-start;
 }
 
-.name::-webkit-scrollbar,
-.option::-webkit-scrollbar,
-.amount::-webkit-scrollbar {
-  display: none;
-}
-
 .name,
 .option,
 .amount {
@@ -167,6 +163,17 @@ h4 {
   overflow: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+.icon,
+.option {
+  margin-right: 1rem;
+}
+
+.name::-webkit-scrollbar,
+.option::-webkit-scrollbar,
+.amount::-webkit-scrollbar {
+  display: none;
 }
 
 .voter,
@@ -184,11 +191,6 @@ h4 {
   height: 2.25rem;
   width: 2.25rem;
   border-radius: 50%;
-}
-
-.icon,
-.option {
-  margin-right: 1rem;
 }
 
 .loadmore-button-container {

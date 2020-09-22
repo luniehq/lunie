@@ -1,14 +1,20 @@
 <template>
   <div id="proposal-description" class="proposal-description">
     <div class="description-content-container">
-      <section v-if="description">
+      <section v-if="proposal && proposal.description">
         <h4>Description</h4>
         <div class="description">
-          <pre v-if="type === `PARAMETER_CHANGE` || type === `TREASURY`">
-          {{ description }}
-          <p class="parameter">New Parameter: {{ parameter }}</p>
+          <pre
+            v-if="
+              proposal.type === `PARAMETER_CHANGE` ||
+              proposal.type === `TREASURY`
+            "
+          >
+          {{ proposal.description }}
+          <p class="parameter">New Parameter: {{ proposal.changes }}</p>
+          <p v-if="proposal.beneficiary">Beneficiary: {{ proposal.beneficiary.address }}</p>
         </pre>
-          <p v-else>{{ description }}</p>
+          <p v-else>{{ proposal.description }}</p>
         </div>
       </section>
       <aside
@@ -33,21 +39,13 @@
 export default {
   name: `proposal-description`,
   props: {
-    description: {
-      type: String,
-      default: null,
+    proposal: {
+      type: Object,
+      default: () => {},
     },
     supportingLinks: {
       type: Array,
       default: () => [],
-    },
-    type: {
-      type: String,
-      default: `UNKNOWN`,
-    },
-    parameter: {
-      type: String,
-      default: undefined,
     },
   },
 }
@@ -71,7 +69,6 @@ h4 {
   margin: 0 auto;
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
 }
 
 .description {
@@ -110,6 +107,7 @@ pre {
   font-size: 14px;
   padding: 1rem;
   white-space: pre-line;
+  word-break: break-word;
 }
 
 .parameter {
