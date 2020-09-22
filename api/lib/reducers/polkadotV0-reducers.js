@@ -584,7 +584,6 @@ function democracyReferendumReducer(
 function treasuryProposalReducer(
   network,
   proposal,
-  parameter,
   councilMembers,
   blockHeight,
   electionInfo,
