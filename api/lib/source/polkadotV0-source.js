@@ -650,7 +650,7 @@ class polkadotAPI {
     const amount = Number(toViewDenom(this.network, proposal.proposal.value)).toFixed(
       2
     )
-    const description = `Beneficiary: ${beneficiary.name} ${beneficiary.address !== beneficiary.name ? "(" + beneficiary.address + ")" : ""}
+    const description = `Beneficiary: ${beneficiary.name ? beneficiary.name + " - " : ""} ${beneficiary.address}
     Amount: ${amount} ${this.network.stakingDenom}
     `
     const proposer = await this.getNetworkAccountInfo(proposal.proposal.proposer, api)
@@ -951,11 +951,15 @@ class polkadotAPI {
       const { meta: { documentation }, method, section } = api.registry.findMetaCall(
         proposal.image.proposal.callIndex
       )
-      parameterDescription += `Parameter: ${section}.${method}\nDescription: ${documentation[0]}`
+      parameterDescription += `Parameter: ${section}.${method}`
+      if (documentation[0]) {
+        parameterDescription += `\nDescription: ${documentation[0]}`
+      }
       const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
       Object.keys(imageProposal.args).forEach(key => {
         const value = imageProposal.args[key]
-        const resolvedValue = typeof value === "string" && value.startsWith("0x") ? hexToString(value) : value
+        const ethAddressRegexp = /^0x[a-fA-F0-9]{40}$/g
+        const resolvedValue = typeof value === "string" && value.startsWith("0x") && !ethAddressRegexp.test(value) ? hexToString(value) : value
         parameterDescription += `\n${key[0].toUpperCase() + key.substr(1)}: ${resolvedValue}`
       })
     }
