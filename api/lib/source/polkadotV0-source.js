@@ -963,7 +963,7 @@ class polkadotAPI {
       } = api.registry.findMetaCall(proposal.image.proposal.callIndex)
       parameterDescription += `Parameter: ${section}.${method}`
       if (documentation[0]) {
-        parameterDescription += `\nDescription: ${documentation[0]}`
+        parameterDescription += `\n\nDescription: ${documentation[0]}`
       }
       const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
       Object.keys(imageProposal.args).forEach((key) => {
@@ -975,7 +975,7 @@ class polkadotAPI {
           !ethAddressRegexp.test(value)
             ? hexToString(value)
             : value
-        parameterDescription += `\n${
+        parameterDescription += `\n\n${
           key[0].toUpperCase() + key.substr(1)
         }: ${resolvedValue}`
       })
