@@ -194,18 +194,15 @@ function undelegationReducer(undelegation, address, network) {
 function transactionsReducerV2(
   network,
   extrinsics,
-  blockEvents,
   blockHeight,
   reducers
 ) {
   // Filter Polkadot tx to Lunie supported types
-  return extrinsics.reduce((collection, extrinsic, index) => {
+  return extrinsics.reduce((collection, extrinsic) => {
     return collection.concat(
       transactionReducerV2(
         network,
         extrinsic,
-        index,
-        blockEvents,
         blockHeight,
         reducers
       )
@@ -287,18 +284,16 @@ function getExtrinsicSuccess(extrinsicIndex, blockEvents, isBatch) {
 function transactionReducerV2(
   network,
   extrinsic,
-  index,
-  blockEvents,
   blockHeight,
   reducers
 ) {
-  const hash = extrinsic.hash.toHex()
-  const signer = extrinsic.signer.toString()
-  const isBatch = extrinsic.method.meta.name.toString() === `batch`
+  const hash = extrinsic.hash
+  const signer = extrinsic.signature === null ? "" : extrinsic.signature.signer
+  const isBatch = extrinsic.method === `utility.batch`
   const messages = aggregateLunieStaking(
-    isBatch ? extrinsic.method.args[0] : [extrinsic.method]
+    isBatch ? extrinsic.args.calls : [extrinsic]
   )
-  const success = reducers.getExtrinsicSuccess(index, blockEvents, isBatch)
+  const success = extrinsic.events.find(event => event.method === "system.ExtrinsicSuccess") ?  true : false
   return messages.map((message, messageIndex) =>
     parsePolkadotTransaction(
       hash,
@@ -328,37 +323,28 @@ function aggregateLunieStaking(messages) {
   let hasNominate = false
   let reducedMessages = []
   messages.forEach((current) => {
-    if (
-      current.toHuman().section === 'staking' &&
-      current.toHuman().method === 'bond'
-    ) {
+    if (current.method === 'staking.bond') {
       aggregatedLunieStaking.amount =
         aggregatedLunieStaking.amount + current.args.value
       hasBond = true
     }
-
-    if (
-      current.toHuman().section === 'staking' &&
-      current.toHuman().method === 'bondExtra'
-    ) {
+    
+    if (current.method === 'staking.bondExtra') {
       aggregatedLunieStaking.amount =
         aggregatedLunieStaking.amount + current.args.max_additional
       hasBond = true
     }
 
-    if (
-      current.toHuman().section === 'staking' &&
-      current.toHuman().method === 'nominate'
-    ) {
+    if (current.method === 'staking.nominate') {
       aggregatedLunieStaking.validators = aggregatedLunieStaking.validators.concat(
-        current.args[0].toHuman()
+        current.args[0]
       )
       hasNominate = true
     }
     reducedMessages.push({
-      section: current.toHuman().section,
-      method: current.toHuman().method,
-      args: JSON.parse(JSON.stringify(current.args, null, 2))
+      section: current.method.split(".")[0],
+      method: current.method.split(".")[1],
+      args: JSON.stringify(current.args, null, 2)
     })
   })
   return hasBond && hasNominate

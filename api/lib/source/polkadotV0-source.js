@@ -1,6 +1,6 @@
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
-const { orderBy, uniqWith } = require('lodash')
+const { orderBy, uniqWith, isNull } = require('lodash')
 const { stringToU8a, hexToString } = require('@polkadot/util')
 const Sentry = require('@sentry/node')
 const fetch = require('node-fetch')
@@ -166,19 +166,15 @@ class polkadotAPI extends RESTDataSource {
     const { currentIndex } = await this.get(`${this.baseURL}/pallets/session/storage/currentIndex`)
     const { value } = await this.get(`${this.baseURL}/pallets/staking/storage/eraElectionStatus`)
     const data = {
-      isInElection: value === `Close` ? false : true
+      isInElection: value.Close === null ? false : true
     }
-
-    let blockEvents = []
-    block.extrinsics.forEach( extrinsic => {
-      blockEvents.concat(extrinsic.events)
-    })
 
     const transactions = await this.getTransactionsV2(
       block.extrinsics,
-      blockEvents,
       block.number
     )
+
+    console.log(transactions)
   
     return this.reducers.blockReducer(
       this.network.id,
@@ -200,12 +196,11 @@ class polkadotAPI extends RESTDataSource {
     }
   }
 
-  async getTransactionsV2(extrinsics, blockEvents, blockHeight) {
+  async getTransactionsV2(extrinsics, blockHeight) {
     return Array.isArray(extrinsics)
       ? this.reducers.transactionsReducerV2(
           this.network,
           extrinsics,
-          blockEvents,
           blockHeight,
           this.reducers
         )
