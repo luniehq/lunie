@@ -1,6 +1,7 @@
 const { ApiPromise, WsProvider } = require('@polkadot/api')
 const BaseNodeSubscription = require('./base-node-subscription')
 const fetch = require('node-fetch')
+const Sentry = require('@sentry/node')
 const config = require('../../config.js')
 
 // This class polls for new blocks
