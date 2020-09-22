@@ -125,9 +125,6 @@ class polkadotAPI extends RESTDataSource {
       isInElection: value.Close === null ? false : true
     }
 
-    // in the case the height was not set
-    blockHeight = block.number
-
     const transactions = await this.getTransactionsV2(
       block.extrinsics,
       block.number
