@@ -2,7 +2,7 @@ const { RESTDataSource, HTTPCache } = require('apollo-datasource-rest')
 const { InMemoryLRUCache } = require('apollo-server-caching')
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
-const { orderBy, uniqWith, isNull } = require('lodash')
+const { orderBy, uniqWith } = require('lodash')
 const { stringToU8a, hexToString } = require('@polkadot/util')
 const Sentry = require('@sentry/node')
 const {
