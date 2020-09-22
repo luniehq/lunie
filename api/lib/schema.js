@@ -109,8 +109,6 @@ const typeDefs = gql`
     validator: Validator
     beneficiary: NetworkAccount
     summary: String
-    parameter: String # Deprecate?
-    changes: String # Deprecate?
     detailedVotes: DetailedVotes
   }
 
