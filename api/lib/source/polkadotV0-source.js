@@ -3,13 +3,11 @@ const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
 const { stringToU8a, hexToString } = require('@polkadot/util')
 const Sentry = require('@sentry/node')
-const fetch = require('node-fetch')
 const {
   getPassingThreshold,
   getFailingThreshold,
 } = require('@polkassembly/util')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
-const config = require('../../config.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 const { toViewDenom } = require('../../common/numbers')
 
@@ -74,23 +72,25 @@ class polkadotAPI {
   async getBlockByHeightV2(blockHeight) {
     const api = await this.getAPI()
 
+    let blockHash
+    if (blockHeight) {
+      blockHash = await api.rpc.chain.getBlockHash(blockHeight)
+    } else {
+      blockHash = await api.rpc.chain.getFinalizedHead()
+    }
     // heavy nesting to provide optimal parallelization here
     const [
-      [{ author }, { block }, blockEvents, blockHash],
+      { author, number }, { block }, blockEvents,
       sessionIndex
     ] = await Promise.all([
-      api.rpc.chain.getBlockHash(blockHeight).then(async (blockHash) => {
-        const [{ author }, { block }, blockEvents] = await Promise.all([
-          api.derive.chain.getHeader(blockHash),
-          api.rpc.chain.getBlock(blockHash),
-          api.query.system.events.at(blockHash)
-        ])
-
-        return [{ author }, { block }, blockEvents, blockHash]
-      }),
+      api.derive.chain.getHeader(blockHash),
+      api.rpc.chain.getBlock(blockHash),
+      api.query.system.events.at(blockHash),
       api.query.babe.epochIndex()
     ])
 
+    // in the case the height was not set
+    blockHeight = number.toJSON()
     const transactions = await this.getTransactionsV2(
       block.extrinsics,
       blockEvents,
@@ -627,15 +627,12 @@ class polkadotAPI {
 
   async getDemocracyProposalMetadata(
     proposal,
-    description,
-    proposer,
-    proposalMethod,
     creationTime
   ) {
     const api = await this.getAPI()
 
-    description = `This is a Democracy Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
-      proposal.proposer || proposer
+    let description = `This is a Democracy Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
+      proposal.proposer
     }) is able to change it.`
     if (proposal.image) {
       const blockHash = await api.rpc.chain.getBlockHash(proposal.image.at)
@@ -646,11 +643,11 @@ class polkadotAPI {
       const preimage = preimageRaw.unwrapOr(null)
       const { data } = preimage.asAvailable
       const proposalWithIndex = this.constructProposal(api, data)
-      const { meta, method } = api.registry.findMetaCall(
+      const { meta } = api.registry.findMetaCall(
         proposalWithIndex.callIndex
       )
       description = meta.documentation.toString()
-      proposalMethod = method
+      description += `\n` + this.getProposalParameter(proposal)
 
       // get creationTime
       const block = await api.rpc.chain.getBlock(blockHash)
@@ -661,27 +658,24 @@ class polkadotAPI {
       ...proposal,
       description,
       proposer: proposal.proposer || proposer, // default to the already existing one if any
-      method: proposalMethod,
       creationTime: proposal.creationTime || creationTime
     }
   }
 
   async getReferendumProposalMetadata(
     proposal,
-    description,
-    proposer,
-    proposalMethod,
     creationTime
   ) {
     const api = await this.getAPI()
 
+    let proposer = { name: '', address: '' }
+    let description = ""
     if (proposal.image) {
-      const { meta, method } = api.registry.findMetaCall(
+      const { meta } = api.registry.findMetaCall(
         proposal.image.proposal.callIndex
       )
       proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
       description = meta.documentation.toString()
-      proposalMethod = method
 
       // get creationTime
       const referendumBlockHeight = proposal.image.at
@@ -690,57 +684,51 @@ class polkadotAPI {
     return {
       ...proposal,
       description,
-      proposer: proposer || { name: '', address: '' },
-      method: proposalMethod,
+      proposer,
       creationTime: proposal.creationTime || creationTime
     }
   }
 
-  async getProposalWithMetadata(proposal, type) {
-    const api = await this.getAPI()
+  async getTreasuryProposalMetadata(
+    proposal
+  ) {
+    const beneficiary = await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
+    const amount = Number(toViewDenom(this.network, proposal.proposal.value)).toFixed(
+      2
+    )
+    const description = `Beneficiary: ${beneficiary.name} ${beneficiary.address !== beneficiary.name ? "(" + beneficiary.address + ")" : ""}
+    Amount: ${amount} ${this.network.stakingDenom}
+    `
+    return {
+      ...proposal,
+      description,
+      proposer: proposal.proposal.proposer, // default to the already existing one if any
+      beneficiary: await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
+    }
+  }
 
-    let description = ''
-    let proposer = ''
-    let proposalMethod = ''
+  async getProposalWithMetadata(proposal, type) {
     let creationTime = undefined
 
     if (type === `democracy`) {
       return await this.getDemocracyProposalMetadata(
         proposal,
-        description,
-        proposer,
-        proposalMethod,
         creationTime
       )
     }
     if (type === `referendum`) {
       return await this.getReferendumProposalMetadata(
         proposal,
-        description,
-        proposer,
-        proposalMethod,
         creationTime
       )
     }
     if (type === `treasury`) {
-      const { meta } =
-        proposal.council[0] && proposal.council[0].proposal
-          ? api.registry.findMetaCall(proposal.council[0].proposal.callIndex)
-          : { meta: undefined }
-      description = meta
-        ? meta.documentation.toString()
-        : `This is a Treasury Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
-            proposal.proposal.proposer || proposer
-          }) is able to change it.`
+      return await this.getTreasuryProposalMetadata(
+        proposal,
+        creationTime
+      )
     }
-    return {
-      ...proposal,
-      description,
-      proposer: proposal.proposal.proposer || proposer, // default to the already existing one if any
-      method: proposalMethod,
-      creationTime: proposal.creationTime || creationTime,
-      beneficiary: await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
-    }
+    throw Error(`Proposal type ${type} is not supported by the Lunie API`)
   }
 
   async getDemocracyProposalDetailedVotes(proposal, links) {
@@ -1046,21 +1034,20 @@ class polkadotAPI {
 
   getProposalParameter(proposal) {
     // democracy proposals in Polkadot contain a parameter which is what is going to be changed
+    let parameterDescription = ""
     if (proposal.image) {
-      const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
-      if (imageProposal.args.old) {
-        return `Old: ${imageProposal.args.old} | New: ${imageProposal.args.new}`
-      } else if (imageProposal.args.code) {
-        return hexToString(imageProposal.args.code)
-      } else if (imageProposal.args.new) {
-        return String(imageProposal.args.new)
-      }
-    }
-    if (proposal.council) {
-      return Number(toViewDenom(this.network, proposal.proposal.value)).toFixed(
-        2
+      const { meta, method } = api.registry.findMetaCall(
+        proposal.image.proposal.callIndex
       )
+      parameterDescription += `Parameter: ${meta}.${method}`
+      const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
+      Object.keys(imageProposal.args).forEach(key => {
+        const value = imageProposal.args[key]
+        const resolvedValue = value.startsWith("0x") ? hexToString(value) : value
+        parameterDescription += `\n${key[0].toUpperCase() + key.substr(1)}: ${resolvedValue}`
+      })
     }
+    return parameterDescription
   }
 
   async getAllProposals() {
@@ -1111,7 +1098,6 @@ class polkadotAPI {
             return this.reducers.democracyReferendumReducer(
               this.network,
               proposalWithMetadata,
-              this.getProposalParameter(proposal),
               totalIssuance,
               blockHeight,
               await this.getDetailedVotes(proposalWithMetadata, `referendum`)
@@ -1142,7 +1128,6 @@ class polkadotAPI {
                   api
                 )
               },
-              this.getProposalParameter(proposal),
               councilMembers,
               blockHeight,
               electionInfo,
