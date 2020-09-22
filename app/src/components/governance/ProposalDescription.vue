@@ -11,7 +11,6 @@
             "
           >
           {{ proposal.description }}
-          <p v-if="proposal.beneficiary">Beneficiary: {{ proposal.beneficiary.address }}</p>
         </pre>
           <p v-else>{{ proposal.description }}</p>
         </div>

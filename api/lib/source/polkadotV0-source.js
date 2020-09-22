@@ -653,7 +653,7 @@ class polkadotAPI {
     const description = `Beneficiary: ${
       beneficiary.name ? beneficiary.name + ' - ' : ''
     } ${beneficiary.address}
-    Amount: ${amount} ${this.network.stakingDenom}
+    \nAmount: ${amount} ${this.network.stakingDenom}
     `
     const proposer = await this.getNetworkAccountInfo(
       proposal.proposal.proposer,
