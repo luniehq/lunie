@@ -1201,12 +1201,14 @@ class polkadotAPI {
     const electionInfo = await api.derive.elections.info()
     const [
       erasTotalStake,
+      totalIssuance,
       treasurySize,
       links,
       totalVoters,
       topVoters
     ] = await Promise.all([
       api.query.staking.erasTotalStake(activeEra),
+      api.query.balances.totalIssuance(),
       this.getTreasurySize(),
       this.db.getNetworkLinks(this.network.id),
       this.getTotalActiveAccounts(),
@@ -1236,6 +1238,7 @@ class polkadotAPI {
             topVoterAddress,
             electionInfo,
             accountInfo,
+            totalIssuance,
             this.store.validators,
             this.network
           )

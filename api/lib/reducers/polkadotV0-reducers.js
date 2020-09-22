@@ -713,6 +713,7 @@ function topVoterReducer(
   topVoterAddress,
   electionInfo,
   accountInfo,
+  totalIssuance,
   validators,
   network
 ) {
@@ -723,9 +724,12 @@ function topVoterReducer(
   return {
     name: accountInfo.name,
     address: topVoterAddress,
-    votingPower: councilMemberInfo
-      ? toViewDenom(network, councilMemberInfo[1])
-      : '',
+    votingPower:
+      councilMemberInfo && totalIssuance
+        ? BigNumber(councilMemberInfo[1])
+            .div(BigNumber(totalIssuance))
+            .toNumber()
+        : '',
     validator: validators[topVoterAddress]
   }
 }
