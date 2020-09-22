@@ -1,11 +1,70 @@
 # Changelog
-  
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.47] - 2020-09-22
+
+### Added
+
+- [#4873](https://github.com/cosmos/lunie/issues/4873) Allow to query Polkadot rewards by era @faboweb
+- [#4878](https://github.com/cosmos/lunie/issues/4878) Allow new withdraw unstaked tx type @faboweb
+- Create events for Polkadot proposals @faboweb
+- Add staked to BalanceV2 @mariopino
+
+### Changed
+
+- [#4954](https://github.com/cosmos/lunie/pull/4954) Fix displaying deposits for Polkadot in FE @Bitcoinera
+- [#4812](https://github.com/cosmos/lunie/issues/4812) Change Proposals timelines titles @Bitcoinera
+- [#4916](https://github.com/cosmos/lunie/issues/4916) Council members voting power is a percentage @Bitcoinera
+- [#4917](https://github.com/cosmos/lunie/issues/4917) Add parameter as a field for Polkadot democracy proposals @Bitcoinera
+- [#4897](https://github.com/cosmos/lunie/pull/4897) Add ID field to type Deposit @Bitcoinera
+- [#4955](https://github.com/cosmos/lunie/pull/4955) Add message about council members for Polkadot Treasury proposals summaries @Bitcoinera
+- [#4861](https://github.com/cosmos/lunie/pull/4861) Cache Substrate identities in blockStore to make AllProposals query faster @Bitcoinera
+- [#4812](https://github.com/cosmos/lunie/issues/4812) Beneficiary is also a NetworkAccount Object @Bitcoinera
+- [#4926](https://github.com/cosmos/lunie/pull/4926) Make name for NetworkAccount nullable @Bitcoinera
+- [#4566](https://github.com/cosmos/lunie/pull/4566) Lots of small fixes and adjustment to wrap up governance @Bitcoinera
+- [#4978](https://github.com/cosmos/lunie/pull/4978) Fix display picture for topVoters @Bitcoinera
+- [#4884](https://github.com/cosmos/lunie/pull/4884) Update to @polkadot/api 1.33.1 @Bitcoinera
+- [#4952](https://github.com/cosmos/lunie/pull/4952) Update to polkadot/api-1.34.1 @Bitcoinera
+- Show parameters as description @faboweb
+- Show all proposal step always @faboweb
+- switched "preliminary" proposals to "democracy" proposals to reduce concepts @jbibla
+- [#4935](https://github.com/cosmos/lunie/pull/4935) Add changes/parameters to Cosmos proposals. Also to Treasury and Referendum in Polkadot @jbibla
+- changed timeline language again for optimal grammar @jbibla
+
+### Fixed
+
+- [#4913](https://github.com/cosmos/lunie/pull/4913) Fix unknown proposal type in Terra @Bitcoinera
+- [#4897](https://github.com/cosmos/lunie/pull/4897) Fix duplicate voters for Cosmos @Bitcoinera
+- [#4905](https://github.com/cosmos/lunie/pull/4905) Fix democracy proposals progress bar for Polkadot by adding percentageDepositsNeeded @Bitcoinera
+- [#4907](https://github.com/cosmos/lunie/pull/4907) Fix Polkadot undelegations endTime @Bitcoinera
+- [#4937](https://github.com/cosmos/lunie/pull/4937) Fix proposer being null for Cosmos @Bitcoinera
+- [#4872](https://github.com/cosmos/lunie/pull/4872) Fix referendum timeline @Bitcoinera
+- [#4812](https://github.com/cosmos/lunie/issues/4812) Fix voter cache in proposal -> detailedVotes query for FE by adding a distinct ID @Bitcoinera
+- don't query for proposals of past chains in Cosmos @faboweb
+- Do not show depositors double @faboweb
+- Fix new polkadot node subscriptions @faboweb
+- Do not retry proposer queries as they usually fail @faboweb
+- Fix overview token displaying by looking for stakingDenom instead of random position 1 token @faboweb
+- Handle early deposit end in Cosmos proposals @faboweb
+- Handle unknown future timeline items in Cosmos @faboweb
+- Fix breaking balance query for users without stake @faboweb
+- Fix validators not showing correctly in governance participation @faboweb
+- Get validator pictures in governance correctly @faboweb
+- Show undelegations when they are ready to claim instead of hiding them @faboweb
+- Fix the staked balance @faboweb
+- Add staked balance also for Cosmos @faboweb
+
+### Code Improvements
+
+- [#4879](https://github.com/cosmos/lunie/issues/4879) Reuse messageCreator file from APP (polkadot-transactions.js) in API @Bitcoinera
+- Reduced code for getting proposals @faboweb
+- Standardize the node subscription leveraging the source classes @faboweb
 
 ## [1.0.46] - 2020-09-08
 
