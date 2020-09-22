@@ -37,44 +37,6 @@ class polkadotAPI {
     return api
   }
 
-  async newBlockHandler() {
-    const api = await this.getAPI()
-    const era = await api.query.staking.activeEra().then(async (era) => {
-      return era.toJSON().index
-    })
-    const { era: currentEra } = this.store.data
-    if (currentEra < era || !currentEra) {
-      console.log(
-        `\x1b[36mCurrent staking era is ${era}, fetching rewards!\x1b[0m`
-      )
-      this.store.update({
-        data: {
-          era
-        }
-      })
-
-      console.log(
-        'Starting Polkadot rewards script on',
-        config.scriptRunnerEndpoint
-      )
-      // runs async, we don't need to wait for this
-      fetch(`${config.scriptRunnerEndpoint}/polkadotrewards`, {
-        method: 'POST',
-        headers: {
-          Authorization: config.scriptRunnerAuthenticationToken,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          era,
-          networkId: this.network.id
-        })
-      }).catch((error) => {
-        console.error('Failed running Polkadot rewards script', error)
-        Sentry.captureException(error)
-      })
-    }
-  }
-
   async getNetworkAccountInfo(address, api) {
     if (typeof address === `object`) address = address.toHuman()
     if (this.store.identities[address]) return this.store.identities[address]
