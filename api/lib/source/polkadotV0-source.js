@@ -649,7 +649,7 @@ class polkadotAPI {
         proposalWithIndex.callIndex
       )
       description = meta.documentation.toString()
-      description += `\n` + this.getProposalParameter(proposal)
+      description += `\n` + await this.getProposalParameterDescriptionString(proposal)
 
       // get creationTime
       const block = await api.rpc.chain.getBlock(blockHash)
@@ -694,6 +694,8 @@ class polkadotAPI {
   async getTreasuryProposalMetadata(
     proposal
   ) {
+    const api = await this.getAPI()
+    
     const beneficiary = await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
     const amount = Number(toViewDenom(this.network, proposal.proposal.value)).toFixed(
       2
@@ -1013,7 +1015,9 @@ class polkadotAPI {
     }
   }
 
-  getProposalParameter(proposal) {
+  async getProposalParameterDescriptionString(proposal) {
+    const api = await this.getAPI()
+
     // democracy proposals in Polkadot contain a parameter which is what is going to be changed
     let parameterDescription = ""
     if (proposal.image) {
@@ -1024,7 +1028,7 @@ class polkadotAPI {
       const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
       Object.keys(imageProposal.args).forEach(key => {
         const value = imageProposal.args[key]
-        const resolvedValue = value.startsWith("0x") ? hexToString(value) : value
+        const resolvedValue = typeof value === "string" && value.startsWith("0x") ? hexToString(value) : value
         parameterDescription += `\n${key[0].toUpperCase() + key.substr(1)}: ${resolvedValue}`
       })
     }
@@ -1065,7 +1069,7 @@ class polkadotAPI {
           return this.reducers.democracyProposalReducer(
             this.network,
             proposalWithMetadata,
-            this.getProposalParameter(proposal),
+            await this.getProposalParameterDescriptionString(proposal),
             await this.getDetailedVotes(proposalWithMetadata, `democracy`),
             proposer
           )
