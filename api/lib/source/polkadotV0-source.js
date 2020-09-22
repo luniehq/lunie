@@ -623,7 +623,7 @@ class polkadotAPI {
 
     let creationTime
     let proposer = { name: '', address: '' }
-    let description = `This is a Democracy Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${proposal.proposer}) is able to change it.`
+    let description = ``
     if (proposal.image) {
       proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
       description = await this.getProposalParameterDescriptionString(proposal)
