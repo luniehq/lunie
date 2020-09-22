@@ -82,7 +82,9 @@ class polkadotAPI {
     }
     // heavy nesting to provide optimal parallelization here
     const [
-      { author, number }, { block }, blockEvents,
+      { author, number },
+      { block },
+      blockEvents,
       sessionIndex
     ] = await Promise.all([
       api.derive.chain.getHeader(blockHash),
@@ -615,20 +617,16 @@ class polkadotAPI {
     )
   }
 
-  async getDemocracyProposalMetadata(
-    proposal
-  ) {
+  async getDemocracyProposalMetadata(proposal) {
     const api = await this.getAPI()
 
     let creationTime
     let proposer = { name: '', address: '' }
-    let description = `This is a Democracy Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${
-      proposal.proposer
-    }) is able to change it.`
+    let description = `This is a Democracy Proposal whose description and title have not yet been edited on-chain. Only the proposer address (${proposal.proposer}) is able to change it.`
     if (proposal.image) {
       proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
       description = await this.getProposalParameterDescriptionString(proposal)
-      
+
       // get creationTime
       creationTime = await this.getDateForBlockHeight(proposal.image.at)
     }
@@ -641,24 +639,33 @@ class polkadotAPI {
     }
   }
 
-  async getTreasuryProposalMetadata(
-    proposal
-  ) {
+  async getTreasuryProposalMetadata(proposal) {
     const api = await this.getAPI()
-    
-    const beneficiary = await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
-    const amount = Number(toViewDenom(this.network, proposal.proposal.value)).toFixed(
-      2
+
+    const beneficiary = await this.getNetworkAccountInfo(
+      proposal.proposal.beneficiary,
+      api
     )
-    const description = `Beneficiary: ${beneficiary.name ? beneficiary.name + " - " : ""} ${beneficiary.address}
+    const amount = Number(
+      toViewDenom(this.network, proposal.proposal.value)
+    ).toFixed(2)
+    const description = `Beneficiary: ${
+      beneficiary.name ? beneficiary.name + ' - ' : ''
+    } ${beneficiary.address}
     Amount: ${amount} ${this.network.stakingDenom}
     `
-    const proposer = await this.getNetworkAccountInfo(proposal.proposal.proposer, api)
+    const proposer = await this.getNetworkAccountInfo(
+      proposal.proposal.proposer,
+      api
+    )
     return {
       ...proposal,
       description,
       proposer,
-      beneficiary: await this.getNetworkAccountInfo(proposal.proposal.beneficiary, api)
+      beneficiary: await this.getNetworkAccountInfo(
+        proposal.proposal.beneficiary,
+        api
+      )
     }
   }
 
@@ -946,21 +953,30 @@ class polkadotAPI {
     const api = await this.getAPI()
 
     // democracy proposals in Polkadot contain a parameter which is what is going to be changed
-    let parameterDescription = ""
+    let parameterDescription = ''
     if (proposal.image) {
-      const { meta: { documentation }, method, section } = api.registry.findMetaCall(
-        proposal.image.proposal.callIndex
-      )
+      const {
+        meta: { documentation },
+        method,
+        section
+      } = api.registry.findMetaCall(proposal.image.proposal.callIndex)
       parameterDescription += `Parameter: ${section}.${method}`
       if (documentation[0]) {
         parameterDescription += `\nDescription: ${documentation[0]}`
       }
       const imageProposal = JSON.parse(JSON.stringify(proposal.image.proposal))
-      Object.keys(imageProposal.args).forEach(key => {
+      Object.keys(imageProposal.args).forEach((key) => {
         const value = imageProposal.args[key]
         const ethAddressRegexp = /^0x[a-fA-F0-9]{40}$/g
-        const resolvedValue = typeof value === "string" && value.startsWith("0x") && !ethAddressRegexp.test(value) ? hexToString(value) : value
-        parameterDescription += `\n${key[0].toUpperCase() + key.substr(1)}: ${resolvedValue}`
+        const resolvedValue =
+          typeof value === 'string' &&
+          value.startsWith('0x') &&
+          !ethAddressRegexp.test(value)
+            ? hexToString(value)
+            : value
+        parameterDescription += `\n${
+          key[0].toUpperCase() + key.substr(1)
+        }: ${resolvedValue}`
       })
     }
     return parameterDescription
@@ -1031,7 +1047,9 @@ class polkadotAPI {
                 {
                   ...proposal,
                   // will get voted on by council, might not be up for voting by council yet
-                  votes: proposal.council[0] ? proposal.council[0].votes : undefined
+                  votes: proposal.council[0]
+                    ? proposal.council[0].votes
+                    : undefined
                 },
                 `treasury`
               )

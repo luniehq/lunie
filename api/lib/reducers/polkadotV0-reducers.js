@@ -174,8 +174,8 @@ function delegationReducer(network, delegation, validator, active) {
     validator,
     amount: delegation.value
       ? BigNumber(delegation.value)
-        .times(network.coinLookup[0].chainToViewConversionFactor)
-        .toFixed(6)
+          .times(network.coinLookup[0].chainToViewConversionFactor)
+          .toFixed(6)
       : 0,
     active
   }
@@ -536,11 +536,7 @@ function networkAccountReducer(address, account, store) {
   }
 }
 
-function democracyProposalReducer(
-  network,
-  proposal,
-  detailedVotes
-) {
+function democracyProposalReducer(network, proposal, detailedVotes) {
   return {
     id: `democracy-`.concat(proposal.index),
     proposalId: proposal.index,
