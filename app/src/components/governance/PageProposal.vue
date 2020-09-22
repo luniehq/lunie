@@ -215,7 +215,6 @@ export default {
       },
       /* istanbul ignore next */
       result(data) {
-        console.log(data)
         if (data.proposal) this.found = true
         this.error = data.error
       },
@@ -241,7 +240,6 @@ export default {
       },
       /* istanbul ignore next */
       result(data) {
-        console.log(data)
         this.error = data.error
       },
     },
@@ -267,7 +265,6 @@ export default {
       },
       /* istanbul ignore next */
       result(data) {
-        console.log(data)
         this.error = data.error
       },
     },
