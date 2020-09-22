@@ -247,44 +247,46 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getBalancesFromAddress(address, fiatCurrency) {
-    const api = await this.getAPI()
-    const account = await api.query.system.account(address)
-    const { free, reserved, feeFrozen } = account.data.toJSON()
+    const balanceInfo = await this.query(
+      `${this.baseURL}/accounts/${address}/balance-info`
+    )
+    const { free, reserved, feeFrozen } = balanceInfo
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
     const fiatValueAPI = this.fiatValuesAPI
     return this.reducers.balanceReducer(
       this.network,
-      freeBalance.toString(),
-      totalBalance.toString(),
+      freeBalance,
+      totalBalance,
       fiatValueAPI,
       fiatCurrency
     )
   }
 
   async getBalancesV2FromAddress(address, fiatCurrency) {
-    const api = await this.getAPI()
-    const [account, stakingLedger] = await Promise.all([
-      api.query.system.account(address),
-      api.query.staking.ledger(address)
-    ])
     // -> Free balance is NOT transferable balance
     // -> Total balance is equal to reserved plus free balance
     // -> Locks (due to staking o voting) are set over free balance, they overlap rather than add
     // -> Reserved balance (due to identity set) can not be used for anything
     // See https://wiki.polkadot.network/docs/en/build-protocol-info#free-vs-reserved-vs-locked-vs-vesting-balance
-    const { free, reserved, feeFrozen } = account.data.toJSON()
+    const balanceInfo = await this.query(
+      `${this.baseURL}/accounts/${address}/balance-info`
+    )
+    const stakingInfo = await this.query(
+      `${this.baseURL}/accounts/${address}/staking-info`
+    )
+    const { free, reserved, feeFrozen } = balanceInfo
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
-    const stakedBalance = stakingLedger.toJSON()
-      ? BigNumber(stakingLedger.toJSON().active)
+    const stakedBalance = stakingInfo.staking
+      ? stakingInfo.staking.active
       : 0
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
         this.network,
-        freeBalance.toString(),
-        totalBalance.toString(),
+        freeBalance,
+        totalBalance,
         stakedBalance,
         fiatValueAPI,
         fiatCurrency
