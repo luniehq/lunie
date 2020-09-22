@@ -7,6 +7,62 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.228] - 2020-09-22
+
+### Added
+
+- [#4870](https://github.com/cosmos/lunie/issues/4870) Added message about rewards being automatically claimed by validators @faboweb
+- [#4878](https://github.com/cosmos/lunie/issues/4878) Add withdraw unstaked button @faboweb
+- Adds tracking of address to Sentry for easier debugging of queries @faboweb
+- new components for page proposal @jbibla
+- [#4902](https://github.com/cosmos/lunie/issues/4902) New governance layout date format @mariopino
+- [#4923](https://github.com/cosmos/lunie/issues/4923) Governance number formats @mariopino
+- [#4925](https://github.com/cosmos/lunie/issues/4925) Add anchors to governance @mariopino
+
+### Changed
+
+- [#4899](https://github.com/cosmos/lunie/issues/4899) Use ModalDeposit for Polkadot Democracy proposals @Bitcoinera
+- [#4903](https://github.com/cosmos/lunie/issues/4903) Use loadMore logic to load participants in batches in ParticipantList if the user clicks a button @Bitcoinera
+- [#4917](https://github.com/cosmos/lunie/issues/4917) Add parameters to Polkadot Democracy proposals @Bitcoinera
+- [#4930](https://github.com/cosmos/lunie/pull/4930) Remove the no-scroll plugin @Bitcoinera
+- [#4926](https://github.com/cosmos/lunie/pull/4926) Format addresses on ParticipantList when participants have no name @Bitcoinera
+- [#4939](https://github.com/cosmos/lunie/pull/4939) Fix the showAmounts logic for ParticipantList @Bitcoinera
+- [#4940](https://github.com/cosmos/lunie/pull/4940) Improve loading logic for PageProposals @Bitcoinera
+- [#4857](https://github.com/cosmos/lunie/pull/4857) Recover Browser Extension sign in for now on CardSignInRequired @Bitcoinera
+- [#4978](https://github.com/cosmos/lunie/pull/4978) Query for topVoter picture @Bitcoinera
+- [#4884](https://github.com/cosmos/lunie/pull/4884) Update to @polkadot/api 1.33.1 @Bitcoinera
+- [#4952](https://github.com/cosmos/lunie/pull/4952) Update to polkadot/api-1.34.1 @Bitcoinera
+- [#4805](https://github.com/cosmos/lunie/issues/4805) Notifications are now the homepage when user is signed in @faboweb
+- [#4873](https://github.com/cosmos/lunie/issues/4873) Use our API to stitch Polkadot claim txs to improve performance @faboweb
+- Sort participants to show validators first @faboweb
+- [#4960](https://github.com/cosmos/lunie/pull/4960) Remove New Parameter in ProposalDescription @faboweb
+- hide vote summary on deposit proposals @jbibla
+- [#4935](https://github.com/cosmos/lunie/pull/4935) Fix ProposalDescription to display changes. Also for other proposal types @Bitcoinera
+
+### Fixed
+
+- [#4954](https://github.com/cosmos/lunie/pull/4954) Fix Polkadot deposits not displaying on FE @Bitcoinera
+- [#4913](https://github.com/cosmos/lunie/pull/4913) Fix Polkadot voting having wrong proposalId (text with proposal type) @Bitcoinera
+- [#4912](https://github.com/cosmos/lunie/pull/4912) Fix currencies icons in BalanceRow component @Bitcoinera
+- [#4976](https://github.com/cosmos/lunie/pull/4976) Fix old proposalId messing up proposal query and co. @Bitcoinera
+- [#4930](https://github.com/cosmos/lunie/pull/4930) Fixes the weird CSS bug appearing when opening ActionModal and not being on the top @Bitcoinera
+- Show actual deposit for seconding in Polkadot @faboweb
+- Show network images for participants with images @faboweb
+- Handle unknown future timeline items @faboweb
+- Show images for validators in participation @faboweb
+- Show validator images in governance for Polkadot @faboweb
+- [#4858](https://github.com/cosmos/lunie/issues/4858) Show that unstaking balance is claimable @faboweb
+- changed colors on vote modal to improve visibility of text @jbibla
+- styling and layout fixes for governance @jbibla
+- proposal status bar and tally should display correct data for all proposal types @jbibla
+- [#4849](https://github.com/cosmos/lunie/issues/4849) Change Westend RPC @mariopino
+- [#4885](https://github.com/cosmos/lunie/issues/4885) Fix Google Analytics CSP error @mariopino
+
+### Code Improvements
+
+- Use staked balance from API @faboweb
+- skip querying proposals to avoid console errors when switching networks @jbibla
+
 ## [1.0.227] - 2020-09-08
 
 ### Added
