@@ -151,6 +151,13 @@ class polkadotAPI extends RESTDataSource {
     }
   }
 
+  async getActiveEra() {
+    const activeEra = await this.query(
+      `${this.baseURL}/pallets/staking/storage/activeEra`
+    )
+    return activeEra.value.index
+  }
+
   async getTransactionsV2(extrinsics, blockHeight) {
     return Array.isArray(extrinsics)
       ? this.reducers.transactionsReducerV2(
@@ -315,10 +322,7 @@ class polkadotAPI extends RESTDataSource {
     const api = await this.getAPI()
 
     // We want the rewards for the last rewarded era (active - 1)
-    const activeEra = parseInt(
-      JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
-    )
-    const lastEra = activeEra - 1
+    const lastEra = await this.getActiveEra() - 1
 
     // Get last era reward
     const eraRewards = await api.query.staking.erasValidatorReward(lastEra)
@@ -1146,9 +1150,7 @@ class polkadotAPI extends RESTDataSource {
 
   async getGovernanceOverview() {
     const api = await this.getAPI()
-    const activeEra = parseInt(
-      JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
-    )
+    const activeEra = await this.getActiveEra()
     const electionInfo = await api.derive.elections.info()
     const [
       erasTotalStake,
