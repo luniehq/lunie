@@ -110,10 +110,20 @@ export default {
   },
   methods: {
     async forgetAccount() {
+      this.wrongPasswordError = false
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
       }
+      const pwCorrect = await this.$store.dispatch("testLogin", { 
+        address: this.address, 
+        password: this.password
+      })
+      if (!pwCorrect) {
+        this.wrongPasswordError = true
+        return
+      }
+
       this.forgottenAccountsList.push(this.address)
       localStorage.setItem(
         `forgottenAccountsList`,
