@@ -272,15 +272,23 @@ class polkadotAPI extends RESTDataSource {
     const balanceInfo = await this.query(
       `${this.baseURL}/accounts/${address}/balance-info`
     )
-    const stakingInfo = await this.query(
-      `${this.baseURL}/accounts/${address}/staking-info`
-    )
+
+    // we need addressRole, as /accounts/:address/staking-info 
+    // query throws an error if address is not a stash
+    const addressRole = this.getAddressRole(address)
+    let stakedBalance
+    if (addressRole === `stash` || addressRole === `stash/controller`) {
+      const stakingInfo = await this.query(
+        `${this.baseURL}/accounts/${address}/staking-info`
+      )
+      stakedBalance = stakingInfo.staking.active
+    } else {
+      stakedBalance = 0
+    }
+
     const { free, reserved, feeFrozen } = balanceInfo
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
-    const stakedBalance = stakingInfo.staking
-      ? stakingInfo.staking.active
-      : 0
     const fiatValueAPI = this.fiatValuesAPI
     return [
       await this.reducers.balanceV2Reducer(
@@ -580,7 +588,7 @@ class polkadotAPI extends RESTDataSource {
     const sessionsPerEra = api.consts.staking.sessionsPerEra
     const eraLength = epochDuration * sessionsPerEra
     const eraRemainingBlocks = BigNumber(stakingProgress.nextActiveEraEstimate).minus(BigNumber(blockHeight))
-    const allUndelegations = stakingLedger.unlocking
+    const allUndelegations = stakingLedger.unlocking || []
 
     const undelegationsWithEndTime = allUndelegations.map((undelegation) => {
       const remainingEras = undelegation.era - stakingProgress.activeEra
