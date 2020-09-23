@@ -127,23 +127,8 @@ function getMessageType(type) {
   }
 }
 
-function denomLookup(denom) {
-  const lookup = {
-    uatom: 'ATOM',
-    umuon: 'MUON',
-    uluna: 'LUNA',
-    ukrw: 'KRT',
-    umnt: 'MNT',
-    usdr: 'SDT',
-    uusd: 'UST',
-    seed: 'TREE',
-    ungm: 'NGM',
-    eeur: 'eEUR',
-    echf: 'eCHF',
-    ejpy: 'eJPY',
-    eusd: 'eUSD'
-  }
-  return lookup[denom] ? lookup[denom] : denom.toUpperCase()
+function denomLookup(coinLookup, denom) {
+  return coinLookup.find(({ chainDenom }) => chainDenom === denom) ? coinLookup.find(({ chainDenom }) => chainDenom === denom).viewDenom : chainDenom.toUpperCase()
 }
 
 function coinReducer(coin) {
