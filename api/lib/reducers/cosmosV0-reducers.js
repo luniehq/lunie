@@ -306,12 +306,13 @@ function blockReducer(networkId, block, transactions, data = {}) {
 }
 
 function denomLookup(coinLookup, denom) {
-  return Array.isArray(coinLookup) &&
+  if (
+    Array.isArray(coinLookup) &&
     coinLookup.find(({ chainDenom }) => chainDenom === denom)
-    ? coinLookup.find(({ chainDenom }) => chainDenom === denom).viewDenom
-    : coinLookup.viewDenom
-    ? coinLookup.viewDenom
-    : denom.toUpperCase()
+  ) {
+    return coinLookup.find(({ chainDenom }) => chainDenom === denom).viewDenom
+  }
+  return coinLookup.viewDenom ? coinLookup.viewDenom : denom.toUpperCase()
 }
 
 function coinReducer(coin, coinLookup, network) {
