@@ -3,7 +3,7 @@
 let polkadotAPIs = {}
 
 export async function getPolkadotAPI(polkadotNetwork) {
-  if (!polkadotAPIs[polkadotNetwork.id] && polkadotNetwork.rpc_url) {
+  if (!polkadotAPIs[polkadotNetwork.id]) {
     const { WsProvider, ApiPromise } = await import('@polkadot/api')
     const endpoint = polkadotNetwork.rpc_url
     const polkadotAPI = new ApiPromise({
@@ -12,6 +12,8 @@ export async function getPolkadotAPI(polkadotNetwork) {
     // store it in the polkadotAPIs Object for a later use
     polkadotAPIs[polkadotNetwork.id] = polkadotAPI
   }
+  console.log(polkadotNetwork)
+  console.log(polkadotAPIs[polkadotNetwork.id])
   await polkadotAPIs[polkadotNetwork.id].isReady
   return polkadotAPIs[polkadotNetwork.id]
 }
