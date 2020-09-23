@@ -398,16 +398,14 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async loadClaimedRewardsForValidators(allValidators) {
-    const api = await this.getAPI()
-
     const allStakingLedgers = {}
-
     for (let i = 0; i < allValidators.length; i++) {
       const stashId = allValidators[i]
-      const result = await api.derive.staking.account(stashId)
-      allStakingLedgers[stashId] = result.stakingLedger.claimedRewards
+      const { staking } = await this.query(
+        `${this.baseURL}/accounts/${stashId}/staking-info`
+      )
+      allStakingLedgers[stashId] = staking.claimedRewards
     }
-
     return allStakingLedgers
   }
 
