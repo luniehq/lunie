@@ -38,7 +38,6 @@ function getCoinLookup(network, denom, coinLookupDenomType = `chainDenom`) {
 
 async function createApolloServer(httpServer) {
   const networksFromDBList = await db.getNetworks()
-  console.log('\n NETWORKS FROM DB', networksFromDBList, '\n')
   const networkList = networksFromDBList
     .filter((network) => network.enabled)
     // add the getCoinLookup function

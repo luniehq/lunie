@@ -12,8 +12,6 @@ export async function getPolkadotAPI(polkadotNetwork) {
     // store it in the polkadotAPIs Object for a later use
     polkadotAPIs[polkadotNetwork.id] = polkadotAPI
   }
-  console.log(polkadotNetwork)
-  console.log(polkadotAPIs[polkadotNetwork.id])
   await polkadotAPIs[polkadotNetwork.id].isReady
   return polkadotAPIs[polkadotNetwork.id]
 }
