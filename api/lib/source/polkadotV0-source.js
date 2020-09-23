@@ -539,15 +539,16 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getInactiveDelegationsForDelegatorAddress(delegatorAddress) {
-    const api = await this.getAPI()
     let inactiveDelegations = []
 
     // We always use stash address to query delegations
     delegatorAddress = await this.getStashAddress(delegatorAddress)
 
-    const stakingInfo = await api.query.staking.nominators(delegatorAddress)
+    const stakingInfo = await this.query(
+      `${this.baseURL}/pallets/staking/storage/nominators?key1=${delegatorAddress}`
+    )
     const allDelegations =
-      stakingInfo && stakingInfo.toJSON() ? stakingInfo.toJSON().targets : []
+      stakingInfo.value ? stakingInfo.value.targets : []
     allDelegations
       .filter((nomination) => !!this.store.validators[nomination])
       .forEach((nomination) => {
@@ -564,24 +565,29 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getUndelegationsForDelegatorAddress(address) {
-    const api = await this.getAPI()
-
-    const [stakingLedger, progress] = await Promise.all([
-      api.query.staking.ledger(address),
-      api.derive.session.progress()
-    ])
-    if (!stakingLedger.toJSON()) {
+    const stakingLedger = await this.query(
+      `${this.baseURL}/pallets/staking/storage/ledger?key1=${address}`
+    )
+    if (!stakingLedger.value) {
       return []
     }
-    const allUndelegations = stakingLedger.toJSON().unlocking
+    const stakingProgress = await this.query(
+      `${this.baseURL}/pallets/staking/storage/progress`
+    )
+    const blockHeight = this.getBlockHeight()
+    const api = await this.getAPI() // only needed for constants
+    const epochDuration = api.consts.babe.epochDuration
+    const sessionsPerEra = api.consts.staking.sessionsPerEra
+    const eraLength = epochDuration * sessionsPerEra
+    const eraRemainingBlocks = BigNumber(stakingProgress.nextActiveEraEstimate).minus(BigNumber(blockHeight))
+    const allUndelegations = stakingLedger.unlocking
 
     const undelegationsWithEndTime = allUndelegations.map((undelegation) => {
-      const remainingEras = undelegation.era - progress.activeEra
+      const remainingEras = undelegation.era - stakingProgress.activeEra
       const remainingBlocks = BigNumber(remainingEras)
         .minus(BigNumber(1))
-        .times(progress.eraLength)
-        .plus(progress.eraLength)
-        .minus(progress.eraProgress)
+        .times(eraLength)
+        .plus(eraRemainingBlocks)
         .toNumber()
       const totalMilliseconds = Number(remainingBlocks) * 6 * 1000
       return {
