@@ -305,28 +305,13 @@ function blockReducer(networkId, block, transactions, data = {}) {
   }
 }
 
-function denomLookup(denom) {
-  const lookup = {
-    uatom: 'ATOM',
-    umuon: 'MUON',
-    uluna: 'LUNA',
-    ukrw: 'KRT',
-    umnt: 'MNT',
-    usdr: 'SDT',
-    uusd: 'UST',
-    seed: 'TREE',
-    ungm: 'NGM',
-    eeur: 'eEUR',
-    echf: 'eCHF',
-    ejpy: 'eJPY',
-    eusd: 'eUSD',
-    edkk: 'eDKK',
-    enok: 'eNOK',
-    esek: 'eSEK',
-    ukava: 'KAVA',
-    uakt: 'AKT'
-  }
-  return lookup[denom] ? lookup[denom] : denom.toUpperCase()
+function denomLookup(coinLookup, denom) {
+  return Array.isArray(coinLookup) &&
+    coinLookup.find(({ chainDenom }) => chainDenom === denom)
+    ? coinLookup.find(({ chainDenom }) => chainDenom === denom).viewDenom
+    : coinLookup.viewDenom
+    ? coinLookup.viewDenom
+    : denom.toUpperCase()
 }
 
 function coinReducer(coin, coinLookup, network) {
@@ -343,7 +328,8 @@ function coinReducer(coin, coinLookup, network) {
     )
 
   // we want to show only atoms as this is what users know
-  const denom = denomLookup(coin.denom)
+  const denom = denomLookup(coinLookup, coin.denom)
+
   return {
     denom: denom,
     amount: BigNumber(coin.amount).times(
@@ -360,7 +346,7 @@ function gasPriceReducer(gasPrice) {
   }
 
   // we want to show only atoms as this is what users know
-  const denom = denomLookup(gasPrice.denom)
+  const denom = denomLookup(coinLookup, gasPrice.denom)
   return {
     denom: denom,
     price: BigNumber(gasPrice.price).div(1000000) // Danger: this might not be the case for all future tokens
@@ -374,7 +360,7 @@ function gasPriceReducer(gasPrice) {
 function rewardCoinReducer(reward, network) {
   const multiDenomRewardsArray = reward.split(`,`)
   const mappedMultiDenomRewardsArray = multiDenomRewardsArray.map((reward) => {
-    const denom = denomLookup(reward.match(/[a-z]+/gi)[0])
+    const denom = denomLookup(network.coinLookup, reward.match(/[a-z]+/gi)[0])
     const coinLookup = network.getCoinLookup(network, denom, `viewDenom`)
     return {
       denom,
@@ -386,7 +372,7 @@ function rewardCoinReducer(reward, network) {
   return mappedMultiDenomRewardsArray
 }
 
-async function balanceReducer(coin, gasPrices, fiatValue) {
+async function balanceReducer(coin, gasPrices, fiatValue, network) {
   return {
     id: coin.denom,
     ...coin,
@@ -394,7 +380,8 @@ async function balanceReducer(coin, gasPrices, fiatValue) {
     gasPrice: gasPrices
       ? gasPriceReducer(
           gasPrices.find(
-            (gasPrice) => denomLookup(gasPrice.denom) === coin.denom
+            (gasPrice) =>
+              denomLookup(network.coinLookup, gasPrice.denom) === coin.denom
           )
         ).price
       : null

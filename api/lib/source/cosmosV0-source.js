@@ -526,7 +526,8 @@ class CosmosV0API extends RESTDataSource {
           coin,
           this.gasPrices,
           fiatValues[coin.denom],
-          fiatCurrency
+          fiatCurrency,
+          this.network
         )
       })
     )
