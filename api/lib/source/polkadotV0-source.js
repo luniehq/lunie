@@ -1137,13 +1137,12 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getTreasurySize() {
-    const api = await this.getAPI()
-
     const TREASURY_ADDRESS = stringToU8a('modlpy/trsry'.padEnd(32, '\0'))
-    const treasuryAccount = await api.query.system.account(TREASURY_ADDRESS)
-    const totalBalance = treasuryAccount.data.free
-    const freeBalance = BigNumber(totalBalance.toString()).minus(
-      treasuryAccount.data.miscFrozen.toString()
+    const { free, miscFrozen } = await this.query(
+      `${this.baseURL}/accounts/${TREASURY_ADDRESS}/balance-info`
+    )
+    const freeBalance = BigNumber(free.toString()).minus(
+      miscFrozen.toString()
     )
     return freeBalance.toString()
   }
