@@ -128,6 +128,7 @@ const kavaGasEstimates = {
 const networkGasEstimatesDictionary = {
   'cosmos-hub-mainnet': cosmosGasEstimates,
   'cosmos-hub-testnet': cosmosGasEstimates,
+  'cosmos-hub-4-testnet': cosmosGasEstimates,
   'terra-mainnet': terraGasEstimates,
   'terra-testnet': terraGasEstimates,
   'emoney-mainnet': emoneyGasEstimates,
@@ -147,6 +148,10 @@ const cosmosGasPrices = [
   },
   {
     denom: 'umuon',
+    price: '0.65e-2'
+  },
+  {
+    denom: 'muon',
     price: '0.65e-2'
   }
 ]
@@ -201,6 +206,7 @@ const polkadotGasPrices = []
 let networkGasPricesDictionary = {
   'cosmos-hub-mainnet': cosmosGasPrices,
   'cosmos-hub-testnet': cosmosGasPrices,
+  'cosmos-hub-4-testnet': cosmosGasPrices,
   'terra-mainnet': terraGasPrices,
   'terra-testnet': terraGasPrices,
   'emoney-mainnet': emoneyGasPrices,
