@@ -10,6 +10,15 @@
         </router-link>
         <span class="account-menu-button-span">Show Seed</span>
       </div>
+      <div class="account-menu-button-container">
+        <router-link
+          class="account-menu-button account-menu-forget-account"
+          :to="{ name: 'forget', params: { address } }"
+        >
+          <i class="material-icons notranslate show-seed">clear</i>
+        </router-link>
+        <span class="account-menu-button-span">Forget Account</span>
+      </div>
     </div>
   </div>
 </template>

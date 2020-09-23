@@ -54,6 +54,11 @@ export default (store) => {
       component: require('account/RevealSeedModal').default
     },
     {
+      path: `/forget/:address`,
+      name: `forget`,
+      component: require('account/ForgetAccountModal').default
+    },
+    {
       path: `/select-network`,
       name: `select-network`,
       component: require('common/TmSelectNetwork').default
