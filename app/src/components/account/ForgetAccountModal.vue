@@ -1,6 +1,9 @@
 <template>
   <SessionFrame ref="sessionFrame">
-    <div v-if="!wallet" class="session-container">
+    <div
+      v-if="forgottenAccountsList.length === forgottenAccountsListLength"
+      class="session-container"
+    >
       <h2 class="title forget-title">
         You are about to delete<br />
         <span class="pill">your account.</span>
@@ -49,9 +52,12 @@
       </TmFormGroup>
     </div>
     <div v-else class="session-container">
-      <div v-if="wallet.seedPhrase" class="seed-container">
-        <p class="title">Account successfully deleted!</p>
-        <span>{{ address }} won't appear anymore among your accounts</span>
+      <div>
+        <p class="session-title">Account successfully deleted!</p>
+        <span class="success-paragraph"
+          >Account {{ address | formatAddress }} won't appear anymore among your
+          accounts</span
+        >
       </div>
     </div>
   </SessionFrame>
@@ -63,11 +69,15 @@ import TmFormGroup from "common/TmFormGroup"
 import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmBtn from "common/TmBtn"
+import { formatAddress } from "src/filters"
 import config from "src/../config"
 import { required } from "vuelidate/lib/validators"
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex"
 export default {
   name: `forget-account`,
+  filters: {
+    formatAddress,
+  },
   components: {
     SessionFrame,
     TmFormGroup,
@@ -88,6 +98,15 @@ export default {
     address() {
       return this.$route.params.address
     },
+    forgottenAccountsList() {
+      return localStorage.getItem(`forgottenAccountsList`) &&
+        localStorage.getItem(`forgottenAccountsList`).length > 0
+        ? JSON.parse(localStorage.getItem(`forgottenAccountsList`))
+        : []
+    },
+    forgottenAccountsListLength() {
+      return this.forgottenAccountsList ? this.forgottenAccountsList.length : 0
+    },
   },
   methods: {
     async forgetAccount() {
@@ -95,29 +114,11 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      const forgottenAccountsList = localStorage.getItem(
-        `forgottenAccountsList`
+      this.forgottenAccountsList.push(this.address)
+      localStorage.setItem(
+        `forgottenAccountsList`,
+        JSON.stringify(this.forgottenAccountsList)
       )
-      if (!forgottenAccountsList) {
-        localStorage.setItem(
-          `forgottenAccountsList`,
-          JSON.stringify([this.address])
-        )
-      } else {
-        JSON.parse(forgottenAccountsList).push(this.address)
-        localStorage.setItem(`forgottenAccountsList`, forgottenAccountsList)
-      }
-      // go back to homepage
-      if (this.isExtension) {
-        this.$router.push(`/`)
-      } else {
-          this.$router.push({
-              name: `portfolio`,
-              params: {
-                  networkId: this.currentNetwork.slug,
-              }
-          })
-      }
     },
     close() {
       this.$router.go(`-1`)
@@ -142,7 +143,7 @@ export default {
       password: {
         required,
         // TODO: how to check if password is valid
-        passwordCorrect: () => !this.wrongPasswordError
+        passwordCorrect: () => !this.wrongPasswordError,
       },
     }
   },
@@ -226,6 +227,10 @@ h2.forget-title {
   margin-top: 4em;
   color: var(--bright);
   font-size: 70%;
+}
+
+.success-paragraph {
+  text-align: center;
 }
 
 .copy-to-clipboard {
