@@ -612,14 +612,15 @@ class polkadotAPI extends RESTDataSource {
       (nomination) => delegatorAddress === nomination.who
     )
     if (!delegation) {
-      const api = await this.getAPI()
       // in Polkadot nominations are inactive in the beginning until session change
       // so we also need to check the user's inactive delegations
-      const stakingInfo = await api.query.staking.nominators(delegatorAddress)
+      const stakingInfo = await this.query(
+        `${this.baseURL}/pallets/staking/storage/nominators?key1=${delegatorAddress}`
+      )
       const allDelegations =
-        (stakingInfo && stakingInfo.raw && stakingInfo.raw.targets) || []
+        (stakingInfo.value && stakingInfo.value.targets) || []
       const inactiveDelegation = allDelegations.find(
-        (nomination) => validator.operatorAddress === nomination.toHuman()
+        (nomination) => validator.operatorAddress === nomination
       )
       if (inactiveDelegation) {
         return this.reducers.delegationReducer(
