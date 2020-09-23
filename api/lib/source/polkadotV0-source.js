@@ -572,7 +572,7 @@ class polkadotAPI extends RESTDataSource {
       return []
     }
     const stakingProgress = await this.query(
-      `${this.baseURL}/pallets/staking/storage/progress`
+      `${this.baseURL}/pallets/staking/progress`
     )
     const blockHeight = this.getBlockHeight()
     const api = await this.getAPI() // only needed for constants
