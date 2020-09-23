@@ -1,0 +1,1 @@
+[Fixed] [#4977](https://github.com/cosmos/lunie/pull/4977) Fix rpc_url being null on API launch @Bitcoinera
