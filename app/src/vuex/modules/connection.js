@@ -139,6 +139,7 @@ export default function ({ apollo }) {
         variables: { experimental: experimentalMode },
         fetchPolicy: "network-only",
       })
+      console.log(data)
       commit("setNetworks", data.networks)
     },
     async setNetwork({ commit, dispatch }, network) {
