@@ -97,7 +97,7 @@ export default {
 }
 
 .account-menu-button.account-menu-delete-account {
-  background: #FAD3CD;
-  color: #F67F70;
+  background: #fad3cd;
+  color: #f67f70;
 }
 </style>

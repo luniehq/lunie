@@ -1,7 +1,7 @@
 <template>
   <SessionFrame ref="sessionFrame">
     <div v-if="!wallet" class="session-container">
-      <h2 class="title reveal-title">
+      <h2 class="title forget-title">
         You are about to delete<br />
         <span class="pill">your account.</span>
       </h2>
@@ -9,7 +9,7 @@
         :error="
           ($v.password.$error && $v.password.$invalid) || wrongPasswordError
         "
-        class="reveal-seed-form-group"
+        class="forget-account-form-group"
         field-id="password"
       >
         <TmField
@@ -21,7 +21,7 @@
           :type="passwordInputType"
           placeholder="Password"
         />
-        <div class="reveal-seed-show-password" @click="showPassword">
+        <div class="forget-account-password" @click="showPassword">
           <i class="material-icons notranslate">visibility</i>
         </div>
         <TmFormMsg v-if="$v.password.$error" name="Password" type="required" />
@@ -40,20 +40,20 @@
           type="custom"
           msg="Your seed couldn't be recovered. Please try again on extension"
         />
-        <div class="reveal-seed-buttons">
+        <div class="forget-account-buttons">
           <TmBtn
             value="Dismiss"
             type="secondary"
-            class="reveal-seed-button"
+            class="forget-account-button"
             @click.native="close"
             @click.enter.native="close"
           />
           <TmBtn
             value="Delete"
             type="primary"
-            class="reveal-seed-button"
-            @click.native="revealSeedPhrase"
-            @click.enter.native="revealSeedPhrase"
+            class="forget-account-button"
+            @click.native="forgetAccount"
+            @click.enter.native="forgetAccount"
           />
         </div>
       </TmFormGroup>
@@ -61,8 +61,7 @@
     <div v-else class="session-container">
       <div v-if="wallet.seedPhrase" class="seed-container">
         <p class="title">Account successfully deleted!</p>
-        <span>{{ address }} won't appear anymore among your accounts</span
-        >
+        <span>{{ address }} won't appear anymore among your accounts</span>
       </div>
     </div>
   </SessionFrame>
@@ -77,7 +76,7 @@ import TmBtn from "common/TmBtn"
 import config from "src/../config"
 import { required } from "vuelidate/lib/validators"
 export default {
-  name: `reveal-seed`,
+  name: `forget-account`,
   components: {
     SessionFrame,
     TmFormGroup,
@@ -99,37 +98,25 @@ export default {
     address() {
       return this.$route.params.address
     },
-    seedOrPrivateKey() {
-      if (this.wallet.seedPhrase) {
-        return this.wallet.seedPhrase
-      } else if (this.wallet.privateKey) {
-        return this.wallet.privateKey
-      } else {
-        return ``
-      }
-    },
   },
   methods: {
-    async revealSeedPhrase() {
+    async forgetAccount() {
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
       }
-      let wallet
-      try {
-        wallet = await this.$store.dispatch(`getWallet`, {
-          address: this.address,
-          password: this.password,
-        })
-      } catch (error) {
-        this.wrongPasswordError = true
-        return
-      }
-      // check if seedPhrase or privKey is present
-      if (wallet && (wallet.seedPhrase || wallet.privateKey)) {
-        this.wallet = wallet
+      const forgottenAccountsList = localStorage.getItem(
+        `forgottenAccountsList`
+      )
+      console.log(forgottenAccountsList)
+      if (!forgottenAccountsList) {
+        localStorage.setItem(
+          `forgottenAccountsList`,
+          JSON.stringify([this.address])
+        )
       } else {
-        this.recoveryError = true
+        JSON.parse(forgottenAccountsList).push(this.address)
+        localStorage.setItem(`forgottenAccountsList`, forgottenAccountsList)
       }
     },
     close() {
@@ -175,22 +162,22 @@ export default {
   direction: ltr;
 }
 
-.reveal-seed-buttons {
+.forget-account-buttons {
   display: flex;
   justify-content: space-between;
   margin: 1em 0 0;
 }
 
-.reveal-seed-button {
+.forget-account-button {
   flex: 0.5;
   height: 4em;
 }
 
-.reveal-seed-button.button.secondary {
+.forget-account-button.button.secondary {
   margin-right: 1em;
 }
 
-.reveal-seed-show-password {
+.forget-account-password {
   color: var(--txt);
   cursor: pointer;
   border-radius: 50%;
@@ -201,7 +188,7 @@ export default {
   right: 0;
 }
 
-.reveal-seed-show-password .copied {
+.forget-account-password .copied {
   font-size: 20px;
 }
 
@@ -214,11 +201,11 @@ h2.title {
   text-align: center;
 }
 
-h2.reveal-title {
+h2.forget-title {
   margin-top: 3.5em;
 }
 
-.reveal-seed-form-group.tm-form-group {
+.forget-account-form-group.tm-form-group {
   margin-top: 5em;
 }
 
@@ -231,45 +218,6 @@ h2.reveal-title {
 
 .passwordInput {
   height: 4em !important;
-}
-
-.private-key-container,
-.seed-container {
-  position: relative;
-  margin-top: 2em;
-  background-color: #07080c;
-  padding: 0.5em;
-  border-radius: 0.25em;
-}
-
-.seed-word {
-  background-color: #b0bade;
-  color: #07080c;
-  display: inline-block;
-  padding: 0.2em 0.8em 0.3em 0.8em;
-  border-radius: 0.2em;
-  font-weight: 500;
-  margin: 0.25rem;
-}
-
-.private-key-container .title,
-.seed-container .title {
-  color: var(--bright);
-  font-size: 70%;
-  margin: 0 0 0.5rem 0.25em;
-}
-
-.seed-container .length {
-  position: absolute;
-  color: #9ca6c7;
-  font-size: 70%;
-  top: 0.25em;
-  right: 0.75em;
-}
-
-.private-key-container .private-key {
-  word-break: break-all;
-  color: var(--bright);
 }
 
 .message {
