@@ -3,21 +3,21 @@
     <div class="account-menu-buttons">
       <div class="account-menu-button-container">
         <router-link
+          class="account-menu-button account-menu-delete-account"
+          :to="{ name: 'delete', params: { address } }"
+        >
+          <i class="material-icons notranslate show-seed">delete</i>
+        </router-link>
+        <span class="account-menu-button-span">Delete Account</span>
+      </div>
+      <div class="account-menu-button-container">
+        <router-link
           class="account-menu-button account-menu-show-seed"
           :to="{ name: 'reveal', params: { address } }"
         >
           <i class="material-icons notranslate show-seed">visibility</i>
         </router-link>
         <span class="account-menu-button-span">Show Seed</span>
-      </div>
-      <div class="account-menu-button-container">
-        <router-link
-          class="account-menu-button account-menu-forget-account"
-          :to="{ name: 'forget', params: { address } }"
-        >
-          <i class="material-icons notranslate show-seed">clear</i>
-        </router-link>
-        <span class="account-menu-button-span">Forget Account</span>
       </div>
     </div>
   </div>
@@ -78,6 +78,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 0.25rem 0 0;
 }
 
 .account-menu-button-span {
@@ -90,12 +91,13 @@ export default {
   background: #dbf7e6;
 }
 
-.account-menu-button.account-menu-delete {
-  background: #fad3cd;
-}
-
 .account-menu-button.account-menu-show-seed {
   background: #b0d1e3;
   color: #3d728e;
+}
+
+.account-menu-button.account-menu-delete-account {
+  background: #FAD3CD;
+  color: #F67F70;
 }
 </style>

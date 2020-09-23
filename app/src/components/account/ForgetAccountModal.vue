@@ -49,7 +49,7 @@
             @click.enter.native="close"
           />
           <TmBtn
-            value="Reveal"
+            value="Delete"
             type="primary"
             class="reveal-seed-button"
             @click.native="revealSeedPhrase"

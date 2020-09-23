@@ -270,8 +270,8 @@ export default (store) => {
       component: require("account/RevealSeedModal").default,
     },
     {
-      path: `/forget/:address`,
-      name: `forget`,
+      path: `/delete/:address`,
+      name: `delete`,
       component: require("account/ForgetAccountModal").default,
     },
     {
