@@ -468,15 +468,18 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getAddressRole(address) {
-    const api = await this.getAPI()
-    const bonded = await api.query.staking.bonded(address)
-    if (bonded.toString() && bonded.toString() === address) {
+    const bonded = await this.query(
+      `${this.baseURL}/pallets/staking/storage/bonded?key1=${address}`
+    )
+    if (bonded.value && bonded.value === address) {
       return `stash/controller`
-    } else if (bonded.toString() && bonded.toString() !== address) {
+    } else if (bonded.value && bonded.value !== address) {
       return `stash`
     } else {
-      const stakingLedger = await api.query.staking.ledger(address)
-      if (stakingLedger.toString()) {
+      const ledger = await this.query(
+        `${this.baseURL}/pallets/staking/storage/ledger?key1=${address}`
+      )
+      if (ledger.value) {
         return `controller`
       } else {
         return `none`
@@ -485,9 +488,10 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getStashAddress(address) {
-    const api = await this.getAPI()
-    const stakingLedger = await api.query.staking.ledger(address)
-    return stakingLedger.toString() ? stakingLedger.toJSON().stash : address
+    const ledger = await this.query(
+      `${this.baseURL}/pallets/staking/storage/ledger?key1=${address}`
+    )
+    return ledger.value ? ledger.value.stash : address
   }
 
   async getDelegationsForDelegatorAddress(delegatorAddress) {
