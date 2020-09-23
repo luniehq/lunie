@@ -30,16 +30,6 @@
           type="custom"
           msg="Wrong password"
         />
-        <TmFormMsg
-          v-if="recoveryError && isExtension"
-          type="custom"
-          msg="Your seed couldn't be recovered. Please contact our team"
-        />
-        <TmFormMsg
-          v-if="recoveryError && !isExtension"
-          type="custom"
-          msg="Your seed couldn't be recovered. Please try again on extension"
-        />
         <div class="forget-account-buttons">
           <TmBtn
             value="Dismiss"
@@ -75,6 +65,7 @@ import TmFormMsg from "common/TmFormMsg"
 import TmBtn from "common/TmBtn"
 import config from "src/../config"
 import { required } from "vuelidate/lib/validators"
+import { mapGetters } from 'vuex'
 export default {
   name: `forget-account`,
   components: {
@@ -87,14 +78,13 @@ export default {
   data: () => ({
     password: "",
     isExtension: config.isExtension,
-    wallet: undefined,
     passwordInputType: `password`,
     passwordInputKey: 0,
     wrongPasswordError: false,
-    recoveryError: false,
     copySuccess: false,
   }),
   computed: {
+    ...mapGetters([`currentNetwork`]),
     address() {
       return this.$route.params.address
     },
@@ -108,7 +98,6 @@ export default {
       const forgottenAccountsList = localStorage.getItem(
         `forgottenAccountsList`
       )
-      console.log(forgottenAccountsList)
       if (!forgottenAccountsList) {
         localStorage.setItem(
           `forgottenAccountsList`,
@@ -117,6 +106,17 @@ export default {
       } else {
         JSON.parse(forgottenAccountsList).push(this.address)
         localStorage.setItem(`forgottenAccountsList`, forgottenAccountsList)
+      }
+      // go back to homepage
+      if (this.isExtension) {
+        this.$router.push(`/`)
+      } else {
+          this.$router.push({
+              name: `portfolio`,
+              params: {
+                  networkId: this.currentNetwork.slug,
+              }
+          })
       }
     },
     close() {
@@ -141,6 +141,8 @@ export default {
     return {
       password: {
         required,
+        // TODO: how to check if password is valid
+        passwordCorrect: () => !this.wrongPasswordError
       },
     }
   },
