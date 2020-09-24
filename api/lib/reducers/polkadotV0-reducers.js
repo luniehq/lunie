@@ -504,11 +504,11 @@ function networkAccountReducer(address, account, store) {
   }
   return {
     name:
-      account
+      account.value
         ? u8aToString(account.value.info.display)
         : '',
     address,
-    picture: account ? u8aToString(account.value.info.twitter) : ''
+    picture: account.value ? u8aToString(account.value.info.twitter) : ''
   }
 }
 
