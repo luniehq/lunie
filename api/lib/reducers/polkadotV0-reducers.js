@@ -505,10 +505,10 @@ function networkAccountReducer(address, account, store) {
   return {
     name:
       account
-        ? u8aToString(account.info.display)
+        ? u8aToString(account.value.info.display)
         : '',
     address,
-    picture: account ? u8aToString(account.info.twitter) : ''
+    picture: account ? u8aToString(account.value.info.twitter) : ''
   }
 }
 

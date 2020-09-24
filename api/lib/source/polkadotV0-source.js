@@ -87,7 +87,7 @@ class polkadotAPI extends RESTDataSource {
       : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
       address,
-      accountInfo.value,
+      accountInfo,
       this.store
     )
     return this.store.identities[address]
