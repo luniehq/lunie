@@ -281,37 +281,39 @@ export default ({ apollo }) => {
     return wallet.cosmosAddress
   }
 
-  const forgetAccount = async (store, { networkId, address, seedPhrase }) => {
+  const testSeed = async (store, { networkId, address, seedPhrase }) => {
     const networkObject = store.getters.networks.find(
-      ({ id }) => id === networkID
+      ({ id }) => id === networkId
     )
-    const walletVariations = networkObject.HDPaths.reduce((all, HDPath) => {
-      return networkObject.curves.reduce((all2, curve) => {
-        all2.push({ HDPath, curve })
-      }, [])
-    }, [])
+    const walletVariations = JSON.parse(networkObject.HDPaths).reduce(
+      (all, HDPath) => {
+        return JSON.parse(networkObject.curves).reduce((all2, curve) => {
+          all2.push({ HDPath, curve })
+          return all2
+        }, [])
+      },
+      []
+    )
     const foundCombination = await walletVariations.find(
       async ({ HDPath, curve }) => {
         const { result: wallet } = await getWalletFromSandbox(
           seedPhrase,
           networkObject,
-          HDPath,
-          curve
+          HDPath.value,
+          curve.value
         )
-        return wallet.cosmosAddress === address
+        return wallet ? wallet.cosmosAddress === address : false
       }
     )
-    if (!foundCombination) throw new Error('Seed is incorrect for this address')
+    if (!foundCombination) return false
     return true
-    // TODO
-    // deleteLocalAccount(store, { address, networkId })
   }
 
   return {
     createSeed,
     createKey,
     loadLocalAccounts,
-    forgetAccount,
+    testSeed,
     getWallet,
     getNetworkByAddress,
     testLogin,

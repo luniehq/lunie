@@ -57,6 +57,33 @@ export default () => {
       const { getSeed } = await import("@lunie/cosmos-keys")
       return getSeed()
     },
+    async testSeed(store, { networkId, address, seedPhrase }) {
+      const networkObject = store.getters.networks.find(
+        ({ id }) => id === networkId
+      )
+      const walletVariations = JSON.parse(networkObject.HDPaths).reduce(
+        (all, HDPath) => {
+          return JSON.parse(networkObject.curves).reduce((all2, curve) => {
+            all2.push({ HDPath, curve })
+            return all2
+          }, [])
+        },
+        []
+      )
+      const foundCombination = await walletVariations.find(
+        async ({ HDPath, curve }) => {
+          const { result: wallet } = await getWallet(
+            seedPhrase,
+            networkObject,
+            HDPath.value,
+            curve.value
+          )
+          return wallet ? wallet.cosmosAddress === address : false
+        }
+      )
+      if (!foundCombination) return false
+      return true
+    },
     async createKey(
       store,
       { seedPhrase, password, name, HDPath, curve, network }

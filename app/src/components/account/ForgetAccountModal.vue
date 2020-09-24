@@ -1,37 +1,46 @@
 <template>
   <SessionFrame ref="sessionFrame">
-    <div
-      v-if="forgottenAccountsList.length === forgottenAccountsListLength"
-      class="session-container"
-    >
+    <div v-if="!isAccountDeleted" class="session-container">
       <h2 class="title forget-title">
         You are about to delete<br />
         <span class="pill">your account.</span>
       </h2>
       <TmFormGroup
-        :error="
-          ($v.password.$error && $v.password.$invalid) || wrongPasswordError
-        "
+        :error="$v.$error && $v.seed.$invalid"
         class="forget-account-form-group"
         field-id="password"
       >
-        <TmField
-          id="password"
-          ref="passwordInput"
-          :key="passwordInputKey"
-          v-model="password"
-          class="passwordInput"
-          :type="passwordInputType"
-          placeholder="Password"
+        <FieldSeed
+          id="import-seed"
+          v-model="seed"
+          :value="seed"
+          :placeholder="
+            isPolkadot
+              ? 'Must be your seed phrase or private key hash'
+              : 'Must be exactly 12 or 24 words'
+          "
+          @input="(val) => (seed = val)"
         />
-        <div class="forget-account-password" @click="showPassword">
-          <i class="material-icons notranslate">visibility</i>
-        </div>
-        <TmFormMsg v-if="$v.password.$error" name="Password" type="required" />
         <TmFormMsg
-          v-else-if="wrongPasswordError"
+          v-if="$v.seed.$error && !$v.seed.required"
+          name="Seed"
+          type="required"
+        />
+        <TmFormMsg
+          v-else-if="$v.seed.$error && !$v.seed.seedHasCorrectLength"
+          name="Seed"
+          :type="isPolkadot ? 'incorrectPolkadotSeed' : 'words12or24'"
+        />
+        <TmFormMsg
+          v-else-if="$v.seed.$error && !$v.seed.seedIsLowerCaseAndSpaces"
+          name="Seed"
+          :type="isPolkadot ? 'incorrectPolkadotSeed' : 'lowercaseAndSpaces'"
+        />
+        <TmFormMsg
+          v-else-if="!isCorrectSeed"
+          name="Seed"
           type="custom"
-          msg="Wrong password"
+          msg="Seed is incorrect for this address"
         />
         <div class="forget-account-buttons">
           <TmBtn
@@ -66,13 +75,45 @@
 <script>
 import SessionFrame from "common/SessionFrame"
 import TmFormGroup from "common/TmFormGroup"
-import TmField from "common/TmField"
 import TmFormMsg from "common/TmFormMsg"
 import TmBtn from "common/TmBtn"
+import FieldSeed from "common/TmFieldSeed"
 import { formatAddress } from "src/filters"
 import config from "src/../config"
+import { deleteAccount } from "scripts/extension-utils"
 import { required } from "vuelidate/lib/validators"
 import { mapGetters } from "vuex"
+import { mnemonicValidate } from "@polkadot/util-crypto"
+
+const has12or24words = (param) => {
+  return (
+    param && (param.split(` `).length === 12 || param.split(` `).length === 24)
+  )
+}
+const isHex = (value) => {
+  return /0x[0-9a-f]+/i.test(value)
+}
+
+const lowerCaseAndSpaces = (param) => {
+  const seedWordsAreLowerCaseAndSpaces = /^([a-z]+\s)*[a-z]+$/g
+  if (param.match(seedWordsAreLowerCaseAndSpaces)) {
+    return param === param.match(seedWordsAreLowerCaseAndSpaces)[0]
+  }
+  return false
+}
+// exporting these for testing
+export const isPolkadotHexSeed = (seed) => {
+  return isHex(seed) && seed.length === 66
+}
+
+export const polkadotRawSeedValidate = (seed) => {
+  return (seed.length > 0 && seed.length <= 32) || isPolkadotHexSeed(seed)
+}
+
+export const polkadotValidation = (seed) => {
+  return mnemonicValidate(seed) || polkadotRawSeedValidate(seed)
+}
+
 export default {
   name: `forget-account`,
   filters: {
@@ -81,16 +122,14 @@ export default {
   components: {
     SessionFrame,
     TmFormGroup,
+    FieldSeed,
     TmFormMsg,
-    TmField,
     TmBtn,
   },
   data: () => ({
-    password: "",
     isExtension: config.isExtension,
-    passwordInputType: `password`,
-    passwordInputKey: 0,
-    wrongPasswordError: false,
+    isAccountDeleted: false,
+    isCorrectSeed: `undefined`,
     copySuccess: false,
   }),
   computed: {
@@ -98,37 +137,36 @@ export default {
     address() {
       return this.$route.params.address
     },
-    forgottenAccountsList() {
-      return localStorage.getItem(`forgottenAccountsList`) &&
-        localStorage.getItem(`forgottenAccountsList`).length > 0
-        ? JSON.parse(localStorage.getItem(`forgottenAccountsList`))
-        : []
+    seed: {
+      get() {
+        return this.$store.state.recover.seed
+      },
+      set(value) {
+        this.$store.commit(`updateField`, {
+          field: `seed`,
+          value: value.trim(), // remove spaces from beginning and end of string
+        })
+      },
     },
-    forgottenAccountsListLength() {
-      return this.forgottenAccountsList ? this.forgottenAccountsList.length : 0
+    isPolkadot() {
+      return this.currentNetwork.network_type === "polkadot"
     },
   },
   methods: {
     async forgetAccount() {
-      this.wrongPasswordError = false
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
       }
-      const pwCorrect = await this.$store.dispatch("testLogin", {
+      this.isCorrectSeed = await this.$store.dispatch(`testSeed`, {
+        networkId: this.currentNetwork.id,
         address: this.address,
-        password: this.password,
+        seedPhrase: this.seed,
       })
-      if (!pwCorrect) {
-        this.wrongPasswordError = true
-        return
+      if (this.isCorrectSeed) {
+        this.isAccountDeleted = true
+        // deleteAccount(this.address)
       }
-
-      this.forgottenAccountsList.push(this.address)
-      localStorage.setItem(
-        `forgottenAccountsList`,
-        JSON.stringify(this.forgottenAccountsList)
-      )
     },
     close() {
       this.$router.go(`-1`)
@@ -150,10 +188,14 @@ export default {
   },
   validations() {
     return {
-      password: {
+      seed: {
         required,
-        // TODO: how to check if password is valid
-        passwordCorrect: () => !this.wrongPasswordError,
+        seedIsLowerCaseAndSpaces: (param) =>
+          this.isPolkadot
+            ? polkadotValidation(param)
+            : lowerCaseAndSpaces(param),
+        seedHasCorrectLength: (param) =>
+          this.isPolkadot ? polkadotValidation(param) : has12or24words(param),
       },
     }
   },

@@ -58,13 +58,7 @@ export default {
     ...mapState([`extension`]),
     ...mapGetters([`networks`]),
     accounts() {
-      // filter forgotten accounts
-      const forgottenAccountsList = localStorage.getItem(
-        `forgottenAccountsList`
-      )
-      return this.extension.accounts.filter(
-        (account) => !forgottenAccountsList.includes(account.address)
-      )
+      return this.extension.accounts
     },
   },
   mounted() {
