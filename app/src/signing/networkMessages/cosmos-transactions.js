@@ -58,11 +58,9 @@ function createSignMessage(
   )
 }
 
-function formatSignature(signature, accountSequence, accountNumber, publicKey) {
+function formatSignature(signature, publicKey) {
   return {
     signature: signature.toString(`base64`),
-    account_number: accountNumber,
-    sequence: accountSequence,
     pub_key: {
       type: `tendermint/PubKeySecp256k1`, // TODO: allow other keytypes
       value: publicKey.toString(`base64`),
@@ -108,14 +106,12 @@ export async function getSignableObject(
 
 export async function getBroadcastableObject(
   chainMessages,
-  { accountSequence, accountNumber, gasEstimate, fee, memo },
+  { gasEstimate, fee, memo },
   { signature, publicKey }
 ) {
   const stdTx = createStdTx({ gasEstimate, fee, memo }, chainMessages)
   const signatureObject = formatSignature(
     Buffer.from(signature, "hex"),
-    accountSequence,
-    accountNumber,
     Buffer.from(publicKey, "hex")
   )
   const signedTx = createSignedTransactionObject(stdTx, signatureObject)

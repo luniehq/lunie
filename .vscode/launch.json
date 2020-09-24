@@ -11,6 +11,9 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
+            "outFiles": [
+                "${workspaceFolder}/api/**"
+            ],
             "program": "${workspaceFolder}/api/index.js",
             "envFile": "${workspaceFolder}/api/.env",
         },
