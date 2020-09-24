@@ -76,7 +76,7 @@ class polkadotAPI extends RESTDataSource {
     return api
   }
 
-  async getNetworkAccountInfo(address, api) {
+  async getNetworkAccountInfo(address) {
     if (typeof address === `object`) address = address.toHuman()
     if (this.store.identities[address]) return this.store.identities[address]
     // TODO: We are not handling sub-identities
@@ -668,13 +668,11 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getDemocracyProposalMetadata(proposal) {
-    const api = await this.getAPI()
-
     let creationTime
     let proposer = { name: '', address: '' }
     let description = ``
     if (proposal.image) {
-      proposer = await this.getNetworkAccountInfo(proposal.image.proposer, api)
+      proposer = await this.getNetworkAccountInfo(proposal.image.proposer)
       description = await this.getProposalParameterDescriptionString(proposal)
 
       // get creationTime
@@ -690,11 +688,8 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getTreasuryProposalMetadata(proposal) {
-    const api = await this.getAPI()
-
     const beneficiary = await this.getNetworkAccountInfo(
-      proposal.proposal.beneficiary,
-      api
+      proposal.proposal.beneficiary
     )
     const amount = Number(
       toViewDenom(this.network, proposal.proposal.value)
@@ -705,16 +700,14 @@ class polkadotAPI extends RESTDataSource {
     \nAmount: ${amount} ${this.network.stakingDenom}
     `
     const proposer = await this.getNetworkAccountInfo(
-      proposal.proposal.proposer,
-      api
+      proposal.proposal.proposer
     )
     return {
       ...proposal,
       description,
       proposer,
       beneficiary: await this.getNetworkAccountInfo(
-        proposal.proposal.beneficiary,
-        api
+        proposal.proposal.beneficiary
       )
     }
   }
@@ -731,8 +724,7 @@ class polkadotAPI extends RESTDataSource {
     const deposits = await Promise.all(
       proposal.seconds.map(async (secondAddress) => {
         const secondDepositer = await this.getNetworkAccountInfo(
-          secondAddress.toHuman(),
-          api
+          secondAddress.toHuman()
         )
         return {
           depositer: secondDepositer,
@@ -762,10 +754,12 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getReferendumThreshold(proposal) {
-    const api = await this.getAPI()
-
     const thresholdType = proposal.status.threshold
-    const electorate = await api.query.balances.totalIssuance()
+    const totalIssuance = await this.query(
+      `${this.baseURL}/pallets/balances/storage/totalIssuance`
+    )
+    const electorate = totalIssuance.value
+
     const ayeVotesWithoutConviction = proposal.allAye.reduce(
       (ayeAggregator, aye) => {
         return (ayeAggregator += Number(aye.balance))
@@ -828,8 +822,6 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getReferendumProposalDetailedVotes(proposal, links) {
-    const api = await this.getAPI()
-
     let proposalDelayInDays
     let proposalEndTime
     let proposalVotingPeriodStarted
@@ -841,8 +833,7 @@ class polkadotAPI extends RESTDataSource {
     const deposits = await Promise.all(
       allDeposits.map(async (deposit) => {
         const depositer = await this.getNetworkAccountInfo(
-          deposit.accountId,
-          api
+          deposit.accountId
         )
         return this.reducers.depositReducer(deposit, depositer, this.network)
       })
@@ -850,7 +841,7 @@ class polkadotAPI extends RESTDataSource {
     const votes = await Promise.all(
       proposal.allAye
         .map(async (aye) => {
-          const voter = await this.getNetworkAccountInfo(aye.accountId, api)
+          const voter = await this.getNetworkAccountInfo(aye.accountId)
           return {
             id: voter.address,
             voter,
@@ -860,7 +851,7 @@ class polkadotAPI extends RESTDataSource {
         })
         .concat(
           proposal.allNay.map(async (nay) => {
-            const voter = await this.getNetworkAccountInfo(nay.accountId, api)
+            const voter = await this.getNetworkAccountInfo(nay.accountId)
             return {
               id: voter.address,
               voter,
@@ -941,14 +932,13 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getTreasuryProposalDetailedVotes(proposal, links) {
-    const api = await this.getAPI()
     let votes
 
     if (proposal.votes) {
       votes = await Promise.all(
         proposal.votes.ayes
           .map(async (aye) => {
-            const voter = await this.getNetworkAccountInfo(aye, api)
+            const voter = await this.getNetworkAccountInfo(aye)
             return {
               id: voter.address,
               voter,
@@ -957,7 +947,7 @@ class polkadotAPI extends RESTDataSource {
           })
           .concat(
             proposal.votes.nays.map(async (nay) => {
-              const voter = await this.getNetworkAccountInfo(nay, api)
+              const voter = await this.getNetworkAccountInfo(nay)
               return {
                 id: voter.address,
                 voter,
@@ -1184,8 +1174,7 @@ class polkadotAPI extends RESTDataSource {
       topVoters: await Promise.all(
         topVoters.map(async (topVoterAddress) => {
           const accountInfo = await this.getNetworkAccountInfo(
-            topVoterAddress,
-            api
+            topVoterAddress
           )
           return this.reducers.topVoterReducer(
             topVoterAddress,
