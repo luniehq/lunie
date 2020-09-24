@@ -89,6 +89,18 @@ export default ({ apollo }) => {
     )
   }
 
+  const deleteAccountWithoutPassword = async (address) => {
+    const boolean = await sendAsyncMessageToContentScript(
+      {
+        type: "DELETE_WALLET_WITHOUT_PASSWORD",
+        payload: { address },
+      },
+      true
+    )
+  
+    return boolean
+  }
+
   const getWallet = (store, { address, password }) => {
     return new Promise((resolve, reject) => {
       chrome.runtime.sendMessage(
@@ -314,6 +326,8 @@ export default ({ apollo }) => {
     createKey,
     loadLocalAccounts,
     testSeed,
+    deleteAccount,
+    deleteAccountWithoutPassword,
     getWallet,
     getNetworkByAddress,
     testLogin,
