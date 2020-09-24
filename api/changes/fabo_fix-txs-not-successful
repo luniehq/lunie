@@ -1,0 +1,1 @@
+[Fixed] Fix transaction reducer in polling for tx success failing @faboweb
