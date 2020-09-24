@@ -103,6 +103,8 @@ export default class TransactionManager {
     HDPath,
     curve,
   }) {
+    message = await resolveStarnameInMessage(message, network.id)
+
     let broadcastableObject
     if (signingType === "extension") {
       broadcastableObject = await signWithExtension(

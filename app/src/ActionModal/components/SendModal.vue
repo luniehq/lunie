@@ -177,6 +177,11 @@ const isPolkadotAddress = (address) => {
   return polkadotRegexp.test(address)
 }
 
+const isStarname = (address) => {
+  const starnameRegexp = /^[a-z\-]*\*[a-z\-]+$/
+  return starnameRegexp.test(address)
+}
+
 export default {
   name: `send-modal`,
   components: {
@@ -366,7 +371,7 @@ export default {
       address: {
         required,
         validAddress: (address) =>
-          this.bech32Validate(address) || isPolkadotAddress(address),
+          this.bech32Validate(address) || isPolkadotAddress(address) || isStarname(address),
       },
       amount: {
         required: (x) => !!x && x !== `0`,
