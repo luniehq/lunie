@@ -504,7 +504,7 @@ function networkAccountReducer(address, account, store) {
   }
   return {
     name:
-      typeof account.value
+      account.value
         ? u8aToString(account.value.info.display.Raw)
         : '',
     address,
