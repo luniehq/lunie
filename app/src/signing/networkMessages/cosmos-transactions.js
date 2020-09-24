@@ -61,9 +61,6 @@ function createSignMessage(
 function formatSignature(signature, accountSequence, accountNumber, publicKey) {
   return {
     signature: signature.toString(`base64`),
-    // TODO check if needed in other cosmos version
-    // account_number: accountNumber,
-    // sequence: accountSequence,
     pub_key: {
       type: `tendermint/PubKeySecp256k1`, // TODO: allow other keytypes
       value: publicKey.toString(`base64`),
