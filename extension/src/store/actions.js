@@ -77,7 +77,7 @@ export default ({ apollo }) => {
     )
   }
 
-  const deleteAccount = ({ commit }, {address, password}) => {
+  const deleteAccount = ({ commit }, { address, password }) => {
     chrome.runtime.sendMessage(
       {
         type: 'DELETE_WALLET',
@@ -287,19 +287,21 @@ export default ({ apollo }) => {
     )
     const walletVariations = networkObject.HDPaths.reduce((all, HDPath) => {
       return networkObject.curves.reduce((all2, curve) => {
-        all2.push({ HDPath, curve})
+        all2.push({ HDPath, curve })
       }, [])
     }, [])
-    const foundCombination = await walletVariations.find(async ({ HDPath, curve }) => {
-      const { result: wallet } = await getWalletFromSandbox(
-        seedPhrase,
-        networkObject,
-        HDPath,
-        curve
-      )
-      return wallet.cosmosAddress === address
-    })
-    if (!foundCombination) throw new Error("Seed is incorrect for this address")
+    const foundCombination = await walletVariations.find(
+      async ({ HDPath, curve }) => {
+        const { result: wallet } = await getWalletFromSandbox(
+          seedPhrase,
+          networkObject,
+          HDPath,
+          curve
+        )
+        return wallet.cosmosAddress === address
+      }
+    )
+    if (!foundCombination) throw new Error('Seed is incorrect for this address')
     return true
     // TODO
     // deleteLocalAccount(store, { address, networkId })

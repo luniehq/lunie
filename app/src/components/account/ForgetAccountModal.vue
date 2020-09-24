@@ -115,9 +115,9 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      const pwCorrect = await this.$store.dispatch("testLogin", { 
-        address: this.address, 
-        password: this.password
+      const pwCorrect = await this.$store.dispatch("testLogin", {
+        address: this.address,
+        password: this.password,
       })
       if (!pwCorrect) {
         this.wrongPasswordError = true
