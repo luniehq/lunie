@@ -79,12 +79,15 @@ class polkadotAPI extends RESTDataSource {
   async getNetworkAccountInfo(address, api) {
     if (typeof address === `object`) address = address.toHuman()
     if (this.store.identities[address]) return this.store.identities[address]
+    // TODO: We are not handling sub-identities
     const accountInfo = !this.store.validators[address]
-      ? await api.derive.accounts.info(address)
+      ? await await this.query(
+        `${this.baseURL}/pallets/identity/storage/identityOf?key1=${address}`
+      )
       : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
       address,
-      accountInfo,
+      accountInfo.value.info,
       this.store
     )
     return this.store.identities[address]
