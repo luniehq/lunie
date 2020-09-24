@@ -337,9 +337,9 @@ class polkadotAPI extends RESTDataSource {
     const erasRewardPoints = await this.query(
       `${this.baseURL}/pallets/staking/storage/erasRewardPoints?key1=${lastEra}`
     )
-    const eraPoints = erasRewardPoints.value
-    const totalEraPoints = erasRewardPoints.total
-    eraPoints.individual.forEach((val, index) => {
+    const individualEraPoints = erasRewardPoints.value.individual
+    const totalEraPoints = erasRewardPoints.value.total
+    individualEraPoints.forEach((val, index) => {
       validatorEraPoints.push({ accountId: index, points: val })
       endEraValidatorList.push(index)
     })
