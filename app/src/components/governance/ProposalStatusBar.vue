@@ -26,13 +26,23 @@
         </div>
         <div>ID: {{ proposal.proposalId }}</div>
       </div>
-      <div class="vote-data">
-        <span>{{ votePercentage | percentInt }} of {{ stakingDenom }}</span>
-        <span v-if="voteCount">({{ voteCount }} Votes)</span>
+      <div class="vote-data-container">
+        <div class="vote-data">
+          <span>{{ votePercentage | percentInt }} of {{ stakingDenom }}</span>
+          <span v-if="voteCount">({{ voteCount }} Votes)</span>
+        </div>
+        <div v-if="proposal.type === 'TREASURY'" class="vote-data">
+          <span>Threshold:</span>
+          <span>{{ proposal.detailedVotes.votingThresholdYes }} Votes</span>
+        </div>
       </div>
       <ProgressBar
         size="large"
-        :val="votePercentage * 100"
+        :val="
+          proposal.type === 'TREASURY'
+            ? proposal.detailedVotes.votingThresholdYes
+            : votePercentage * 100
+        "
         :bar-border-radius="8"
         bar-color="var(--highlight)"
       />
@@ -180,6 +190,11 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+}
+
+.vote-data-container {
+  display: flex;
+  justify-content: space-between;
 }
 
 .vote-data {
