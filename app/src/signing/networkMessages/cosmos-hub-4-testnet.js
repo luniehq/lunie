@@ -1,1 +1,1 @@
-import * as CosmosMessages from "./cosmos-hub-mainnet.js"
+export * from "./cosmos-hub-mainnet.js"
