@@ -339,7 +339,7 @@ function coinReducer(coin, coinLookup, network) {
   }
 }
 
-function gasPriceReducer(gasPrice) {
+function gasPriceReducer(gasPrice, coinLookup) {
   if (!gasPrice) {
     throw new Error(
       'The token you are trying to request data for is not supported by Lunie.'
@@ -373,7 +373,13 @@ function rewardCoinReducer(reward, network) {
   return mappedMultiDenomRewardsArray
 }
 
-async function balanceReducer(coin, gasPrices, fiatValue, network) {
+async function balanceReducer(
+  coin,
+  gasPrices,
+  fiatValue,
+  fiatCurrency,
+  network
+) {
   return {
     id: coin.denom,
     ...coin,
@@ -383,7 +389,8 @@ async function balanceReducer(coin, gasPrices, fiatValue, network) {
           gasPrices.find(
             (gasPrice) =>
               denomLookup(network.coinLookup, gasPrice.denom) === coin.denom
-          )
+          ),
+          network.coinLookup
         ).price
       : null
   }
