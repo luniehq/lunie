@@ -603,9 +603,6 @@ class CosmosV0API extends RESTDataSource {
       (await this.query(`staking/delegators/${address}/delegations`)) || []
 
     return delegations
-      .filter((delegation) =>
-        BigNumber(delegation.balance).isGreaterThanOrEqualTo(1)
-      )
       .map((delegation) =>
         this.reducers.delegationReducer(
           delegation,
@@ -613,6 +610,9 @@ class CosmosV0API extends RESTDataSource {
           delegationEnum.ACTIVE,
           this.network
         )
+      )
+      .filter((delegation) =>
+        delegation.amount.gt(0)
       )
   }
 
@@ -654,7 +654,7 @@ class CosmosV0API extends RESTDataSource {
     const delegation = await this.query(
       `staking/delegators/${delegatorAddress}/delegations/${operatorAddress}`
       ).catch(() => {
-      const coinLookup = this.network.getCoinLookup(network, this.network.stakingDenom, "viewDenom")
+      const coinLookup = this.network.getCoinLookup(this.network, this.network.stakingDenom, "viewDenom")
       return {
         validator_address: operatorAddress,
         delegator_address: delegatorAddress,
