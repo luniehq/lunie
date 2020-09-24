@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.48] - 2020-09-24
+
+### Fixed
+
+- Notifications were not showing in some cases @faboweb
+- Fix transaction reducer in polling for tx success failing @faboweb
+- Id was not unique for undelegations @faboweb
+
 ## [1.0.47] - 2020-09-22
 
 ### Added
