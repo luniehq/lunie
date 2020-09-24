@@ -129,7 +129,9 @@ function getMessageType(type) {
 }
 
 function denomLookup(coinLookup, denom) {
-  return coinLookup.find(({ chainDenom }) => chainDenom === denom) ? coinLookup.find(({ chainDenom }) => chainDenom === denom).viewDenom : chainDenom.toUpperCase()
+  return coinLookup.find(({ chainDenom }) => chainDenom === denom)
+    ? coinLookup.find(({ chainDenom }) => chainDenom === denom).viewDenom
+    : chainDenom.toUpperCase()
 }
 
 function coinReducer(coin, coinLookup) {
@@ -158,7 +160,9 @@ function transactionReducerV2(
   // TODO check if this is anywhere not an array
   let fees
   if (Array.isArray(transaction.tx.value.fee.amount)) {
-    fees = transaction.tx.value.fee.amount.map(amount => coinReducer(amount, network.coinLookup))
+    fees = transaction.tx.value.fee.amount.map((amount) =>
+      coinReducer(amount, network.coinLookup)
+    )
   } else {
     fees = [coinReducer(transaction.tx.value.fee.amount, network.coinLookup)]
   }

@@ -11,7 +11,11 @@ let store = {
       {
         id: `localnet`,
         address_prefix: 'lcl',
-        network_type: 'cosmos'
+        network_type: 'cosmos',
+        coinLookup: [{
+          chainDenom: 'uatom',
+          viewDenom: 'ATOM',
+        }]
       }
     ]
   }
@@ -99,7 +103,8 @@ describe('actions', () => {
       signMessage: '',
       id: 12345,
       senderAddress: 'cosmos1234',
-      tabId: 123
+      tabId: 123,
+      network: 'localnet',
     }
     const commit = jest.fn()
     window.chrome.runtime.sendMessage.mockImplementationOnce((args, callback) =>
@@ -126,14 +131,19 @@ describe('actions', () => {
         senderAddress: 'cosmos1234',
         fee: []
       },
-      tabId: 123
+      tabId: 123,
+      network: 'localnet',
     }
     const getters = {
       networks: [
         {
           id: `localnet`,
           address_prefix: 'lcl',
-          network_type: 'cosmos'
+          network_type: 'cosmos',
+          coinLookup: [{
+            chainDenom: 'uatom',
+            viewDenom: 'ATOM',
+          }]
         }
       ]
     }
@@ -171,7 +181,8 @@ describe('actions', () => {
       signMessage: '',
       id: 12345,
       senderAddress: 'cosmos1234',
-      tabId: 123
+      tabId: 123,
+      network: 'localnet',
     }
     const getters = {
       networks: [
@@ -199,7 +210,8 @@ describe('actions', () => {
       signMessage: '',
       id: 12345,
       senderAddress: 'cosmos1234',
-      tabId: 123
+      tabId: 123,
+      network: 'localnet',
     }
     const commit = jest.fn()
     window.chrome.runtime.sendMessage.mockImplementationOnce((args, callback) =>
