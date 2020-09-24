@@ -2,7 +2,8 @@ const {
   getWalletIndex,
   getStoredWallet,
   testPassword,
-  removeWallet
+  removeWallet,
+  removeFromStorage
 } = require('@lunie/cosmos-keys')
 const {
   default: TransactionManager
@@ -127,14 +128,14 @@ export async function walletMessageHandler(message, sender, sendResponse) {
     }
     case 'DELETE_WALLET': {
       const { address, password } = message.payload
-      removeWallet(address, password)
-      sendResponse()
+      const response = removeWallet(address, password)
+      sendResponse(response)
       break
     }
     case 'DELETE_WALLET_WITHOUT_PASSWORD': {
       const { address } = message.payload
-      removeWallet(address)
-      sendResponse()
+      const response = removeFromStorage(address)
+      sendResponse(response)
       break
     }
     case 'TEST_PASSWORD': {

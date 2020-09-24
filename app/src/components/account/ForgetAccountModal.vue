@@ -164,8 +164,7 @@ export default {
         seedPhrase: this.seed,
       })
       if (this.isCorrectSeed) {
-        this.isAccountDeleted = true
-        // deleteAccount(this.address)
+        this.isAccountDeleted = deleteAccount(this.address)
       }
     },
     close() {
