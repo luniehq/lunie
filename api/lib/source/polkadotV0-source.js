@@ -322,39 +322,43 @@ class polkadotAPI extends RESTDataSource {
   async getAllValidatorsExpectedReturns() {
     let expectedReturns = []
     let validatorEraPoints = []
-    const api = await this.getAPI()
+    let endEraValidatorList = []
 
     // We want the rewards for the last rewarded era (active - 1)
     const lastEra = await this.getActiveEra() - 1
 
     // Get last era reward
-    const eraRewards = await api.query.staking.erasValidatorReward(lastEra)
+    const erasValidatorReward = await this.query(
+      `${this.baseURL}/pallets/staking/storage/erasValidatorReward?key1=${lastEra}`
+    )
+    const eraRewards = erasValidatorReward.value
 
     // Get last era reward points
-    const eraPoints = await api.query.staking.erasRewardPoints(lastEra)
+    const erasRewardPoints = await this.query(
+      `${this.baseURL}/pallets/staking/storage/erasRewardPoints?key1=${lastEra}`
+    )
+    const eraPoints = erasRewardPoints.value
+    const totalEraPoints = erasRewardPoints.total
     eraPoints.individual.forEach((val, index) => {
-      validatorEraPoints.push({ accountId: index.toHuman(), points: val })
+      validatorEraPoints.push({ accountId: index, points: val })
+      endEraValidatorList.push(index)
     })
-    const totalEraPoints = eraPoints.total.toNumber()
 
     // Get exposures for the last era
-    const erasStakers = await api.query.staking.erasStakers.entries(lastEra)
-    const eraExposures = erasStakers.map(([key, exposure]) => {
-      return {
-        accountId: key.args[1].toHuman(),
-        exposure: JSON.parse(JSON.stringify(exposure))
-      }
-    })
-
-    // Get validator addresses for the last era
-    const endEraValidatorList = eraExposures.map((exposure) => {
-      return exposure.accountId
-    })
+    const eraExposures = await Promise.all(
+      endEraValidatorList.map((accountId) =>
+        this.query(
+          `${this.baseURL}/pallets/staking/storage/erasStakers?key1=${lastEra}&key2=${accountId}`
+        ).then(({ value }) => { return { accountId, exposure: value} })
+      )
+    )
 
     // Get validator commission for the last era (same order as endEraValidatorList)
     const eraValidatorCommission = await Promise.all(
       endEraValidatorList.map((accountId) =>
-        api.query.staking.erasValidatorPrefs(lastEra, accountId)
+        this.query(
+          `${this.baseURL}/pallets/staking/storage/erasValidatorPrefs?key1=${lastEra}&key2=${accountId}`
+        ).then(preferences => preferences.value)
       )
     )
 
@@ -366,7 +370,7 @@ class polkadotAPI extends RESTDataSource {
         (item) => item.accountId === validator
       )
       const eraPoints = endEraValidatorWithPoints
-        ? endEraValidatorWithPoints.points.toNumber()
+        ? endEraValidatorWithPoints.points
         : 0
       const eraPointsPercent = eraPoints / totalEraPoints
       const poolRewardWithCommission = new BigNumber(eraRewards).multipliedBy(
