@@ -280,7 +280,7 @@ const resolvers = (networkList, notificationController) => ({
         .map((network) => {
           // the server side nodes are mostly whitelisted or secret so we don't want to send them to the FE
           return Object.assign({}, network, {
-            rpc_url: network.public_rpc_url || network.rpc_url,
+            rpc_url: network.public_rpc_url,
             public_rpc_url: undefined
           })
         })
