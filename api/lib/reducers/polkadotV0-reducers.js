@@ -7,7 +7,7 @@ const {
 } = require('../../common/numbers.js')
 const { getProposalSummary } = require('./common')
 const { lunieMessageTypes } = require('../../lib/message-types')
-const { u8aToString } = require('@polkadot/util')
+const { hexToString } = require('@polkadot/util')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
@@ -505,10 +505,10 @@ function networkAccountReducer(address, account, store) {
   return {
     name:
       account.value
-        ? u8aToString(account.value.info.display.Raw)
+        ? hexToString(account.value.info.display.Raw)
         : '',
     address,
-    picture: account.value ? u8aToString(account.value.info.twitter.Raw) : ''
+    picture: account.value ? hexToString(account.value.info.twitter.Raw) : ''
   }
 }
 
