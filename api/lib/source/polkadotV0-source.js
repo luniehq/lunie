@@ -666,7 +666,8 @@ class polkadotAPI {
       beneficiary: await this.getNetworkAccountInfo(
         proposal.proposal.beneficiary,
         api
-      )
+      ),
+      votes: proposal.council[0] ? proposal.council[0].votes : undefined
     }
   }
 
