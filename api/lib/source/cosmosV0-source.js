@@ -611,7 +611,7 @@ class CosmosV0API extends RESTDataSource {
           this.network
         )
       )
-      .filter((delegation) => delegation.amount.gt(0))
+      .filter((delegation) => BigNumber(delegation.amount).gt(0))
   }
 
   async getUndelegationsForDelegatorAddress(address) {
