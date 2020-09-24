@@ -11,8 +11,14 @@ const resolveStarname = async (starname, networkId) => {
 
     const result = await fetch("https://iovnscli-rest-api.iov-mainnet-2.iov.one/starname/query/resolve", {
         method: "POST",
-        body: JSON.stringify(`{"starname":"${starname}"}`)
+        body: JSON.stringify({starname}),
+        headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
     }).then(res => res.json())
+
+    if (result.error) throw new Error(result.error)
 
     const address = result.account.ressources.find(({uri}) => uri === asset)
     if (!address) throw new Error("Couldn't resolve starname " + starname)
@@ -21,7 +27,7 @@ const resolveStarname = async (starname, networkId) => {
 
 const resolveStarnames = async (addresses, networkId) => {
     if (addresses) {
-        return await Promise.all(addresses.map(address => {
+        return await Promise.all(addresses.map(async address => {
             if (isStarname(address)) return await resolveStarname(address, networkId)
             return address
         }))
