@@ -203,12 +203,19 @@ function proposalReducer(
   }
 }
 
-function governanceParameterReducer(depositParameters, tallyingParamers) {
+function governanceParameterReducer(
+  depositParameters,
+  tallyingParamers,
+  network
+) {
   return {
     votingThreshold: tallyingParamers.threshold,
     vetoThreshold: tallyingParamers.veto,
     // for now assuming one deposit denom
-    depositDenom: denomLookup(depositParameters.min_deposit[0].denom),
+    depositDenom: denomLookup(
+      network.coinLookup,
+      depositParameters.min_deposit[0].denom
+    ),
     depositThreshold: BigNumber(depositParameters.min_deposit[0].amount).div(
       1000000
     )
