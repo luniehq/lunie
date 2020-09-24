@@ -118,20 +118,20 @@ export default {
     ...mapGetters(['signRequest', 'networks']),
     tx() {
       if (!this.signRequest) return undefined
-
+      if (this.networks.length === 0) return undefined
+      // new format
+      const network = this.networks.find(
+        ({ id }) => id === this.signRequest.network
+      )
       // enrich with parsed lunie transaction
       // DEPRECATE old format
       if (this.signRequest.signMessage) {
         return parseTx(
           this.signRequest.signMessage,
-          this.signRequest.displayedProperties
+          this.signRequest.displayedProperties,
+          network
         )
       } else {
-        if (this.networks.length === 0) return undefined
-        // new format
-        const network = this.networks.find(
-          ({ id }) => id === this.signRequest.network
-        )
         return getDisplayTransaction(
           network,
           this.signRequest.messageType,
