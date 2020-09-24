@@ -266,15 +266,14 @@ const getNotifications = (networks) => async (
     timestamp
   )
 
-  const notifications = relevantNotifications
-    .map((notification) => ({
-      id: notification.id, // used for correctly handling cache in Apollo
-      networkId: notification.networkId, // used for filtering per network
-      timestamp: notification.created_at, // used for grouping / sorting
-      title: getMessageTitle(networks, notification), // title of notification
-      link: getPushLink(networks, notification), // link for click-through action
-      icon: getIcon(notification) // icon link
-    }))
+  const notifications = relevantNotifications.map((notification) => ({
+    id: notification.id, // used for correctly handling cache in Apollo
+    networkId: notification.networkId, // used for filtering per network
+    timestamp: notification.created_at, // used for grouping / sorting
+    title: getMessageTitle(networks, notification), // title of notification
+    link: getPushLink(networks, notification), // link for click-through action
+    icon: getIcon(notification) // icon link
+  }))
 
   return notifications
 }

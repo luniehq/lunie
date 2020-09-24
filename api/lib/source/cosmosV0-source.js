@@ -649,7 +649,7 @@ class CosmosV0API extends RESTDataSource {
 
   async getDelegationForValidator(delegatorAddress, validator) {
     this.checkAddress(delegatorAddress)
-    
+
     const operatorAddress = validator.operatorAddress
     const delegation = await this.query(
       `staking/delegators/${delegatorAddress}/delegations/${operatorAddress}`

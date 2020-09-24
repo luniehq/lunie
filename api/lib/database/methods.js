@@ -95,7 +95,6 @@ const getNotifications = ({ hasura_url, hasura_admin_key }) => (
   )
 }
 
-
 function getCoinLookup(network, denom, coinLookupDenomType = `chainDenom`) {
   return network.coinLookup.find((coin) => coin[coinLookupDenomType] === denom)
 }
@@ -177,10 +176,9 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
   // only run networks that are set to be enabled
   // if we want to run a specific network we ignore the enabled flag
   else {
-    selectedNetworks = allNetworks.filter(({enabled}) => enabled)
+    selectedNetworks = allNetworks.filter(({ enabled }) => enabled)
   }
-  return selectedNetworks
-  .map((network) => {
+  return selectedNetworks.map((network) => {
     return {
       ...network,
       getCoinLookup

@@ -1,10 +1,7 @@
 const Sentry = require('@sentry/node')
 const { uniq } = require('lodash')
 const cosmosV2Reducers = require('./cosmosV2-reducers')
-const {
-  atoms,
-  coinReducer
-} = require('./cosmosV0-reducers')
+const { atoms, coinReducer } = require('./cosmosV0-reducers')
 const { lunieMessageTypes } = require('../../lib/message-types')
 
 function blockReducer(networkId, block, transactions, data = {}) {
@@ -59,16 +56,16 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
 
 function delegationReducer(delegation, validator, active, network) {
   const coinLookup = network.getCoinLookup(network, delegation.balance.denom)
-  const {amount, denom} = coinReducer(delegation.balance, coinLookup)
+  const { amount, denom } = coinReducer(delegation.balance, coinLookup)
 
-  return {  
+  return {
     id: delegation.delegation.validator_address.concat(`-${denom}`),
     validatorAddress: delegation.delegation.validator_address,
     delegatorAddress: delegation.delegation.delegator_address,
     validator,
     amount,
     active
-  } 
+  }
 }
 
 function getValidatorStatus(validator) {
@@ -107,16 +104,13 @@ function transactionReducerV2(network, transaction, reducers) {
         return coinReducer(coin, coinLookup, network)
       })
     } else {
-      fees = transaction.tx.auth_info.fee.amount.map(fee => {
-        const coinLookup = network.getCoinLookup(
-          network,
-          fee.denom
-        )
+      fees = transaction.tx.auth_info.fee.amount.map((fee) => {
+        const coinLookup = network.getCoinLookup(network, fee.denom)
         return coinReducer(fee, coinLookup, network)
       })
     }
     // We do display only the transactions we support in Lunie
-    const filteredMessages = transaction.tx.body.messages.filter(
+    const filteredMessages = transaction.tx.value.msg.filter(
       ({ type }) => reducers.getMessageType(type) !== 'Unknown'
     )
     const { claimMessages, otherMessages } = filteredMessages.reduce(
@@ -158,7 +152,7 @@ function transactionReducerV2(network, transaction, reducers) {
         network
       ),
       timestamp: transaction.timestamp,
-      memo: transaction.tx.body.memo,
+      memo: transaction.tx.value.memo,
       fees,
       success: reducers.setTransactionSuccess(transaction, index, network.id),
       log:
@@ -181,34 +175,37 @@ function transactionReducerV2(network, transaction, reducers) {
 }
 
 function extractInvolvedAddresses(transaction) {
-  const events = transaction.logs.reduce((events, log) => log.events ? events.concat(log.events) : events, [])
-
-  // extract all addresses from events that are either sender or recipient
-  const involvedAddresses = events.reduce(
-    (involvedAddresses, event) => {
-      const senderAttributes = event.attributes
-        .filter(({ key }) => key === 'sender')
-        .map((sender) => sender.value)
-      if (senderAttributes.length) {
-        involvedAddresses = [...involvedAddresses, ...senderAttributes]
-      }
-
-      const recipientAttribute = event.attributes.find(
-        ({ key }) => key === 'recipient'
-      )
-      if (recipientAttribute) {
-        involvedAddresses.push(recipientAttribute.value)
-      }
-
-      return involvedAddresses
-    },
+  const events = transaction.logs.reduce(
+    (events, log) => (log.events ? events.concat(log.events) : events),
     []
   )
+
+  // extract all addresses from events that are either sender or recipient
+  const involvedAddresses = events.reduce((involvedAddresses, event) => {
+    const senderAttributes = event.attributes
+      .filter(({ key }) => key === 'sender')
+      .map((sender) => sender.value)
+    if (senderAttributes.length) {
+      involvedAddresses = [...involvedAddresses, ...senderAttributes]
+    }
+
+    const recipientAttribute = event.attributes.find(
+      ({ key }) => key === 'recipient'
+    )
+    if (recipientAttribute) {
+      involvedAddresses.push(recipientAttribute.value)
+    }
+
+    return involvedAddresses
+  }, [])
   return involvedAddresses
 }
 
 function undelegationEndTimeReducer(transaction) {
-  const events = transaction.logs.reduce((events, log) => log.events ? events.concat(log.events) : events, [])
+  const events = transaction.logs.reduce(
+    (events, log) => (log.events ? events.concat(log.events) : events),
+    []
+  )
 
   let completionTimeAttribute
   events.find(({ attributes }) => {

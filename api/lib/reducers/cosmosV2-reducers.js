@@ -142,7 +142,11 @@ function submitProposalDetailsReducer(message, reducers, network) {
     proposalType: message.content.type,
     proposalTitle: message.content.value.title,
     proposalDescription: message.content.value.description,
-    initialDeposit: reducers.coinReducer(message.initial_deposit[0], coinLookup, network)
+    initialDeposit: reducers.coinReducer(
+      message.initial_deposit[0],
+      coinLookup,
+      network
+    )
   }
 }
 
