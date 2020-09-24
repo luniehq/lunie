@@ -21,7 +21,10 @@ const resolveStarname = async (starname, networkId) => {
 
 const resolveStarnames = async (addresses, networkId) => {
     if (addresses) {
-        return await Promise.all(message.to.map(address => await resolveStarname(address, networkId)))
+        return await Promise.all(addresses.map(address => {
+            if (isStarname(address)) return await resolveStarname(address, networkId)
+            return address
+        }))
     }
 }
 
@@ -29,4 +32,9 @@ export const resolveStarnameInMessage = async (messageWithStarnames, networkId) 
     const message = JSON.parse(JSON.stringify(messageWithStarnames))
     message.to = await resolveStarnames(message.to, networkId)
     message.from = await resolveStarnames(message.from, networkId)
+}
+
+export const isStarname = (address) => {
+  const starnameRegexp = /^[a-z\-]*\*[a-z\-]+$/
+  return starnameRegexp.test(address)
 }

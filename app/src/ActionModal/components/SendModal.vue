@@ -169,17 +169,13 @@ import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
 import BigNumber from "bignumber.js"
 import { formatAddress } from "src/filters"
+import { isStarname } from "src/../../common/starname"
 
 const defaultMemo = ""
 
 const isPolkadotAddress = (address) => {
   const polkadotRegexp = /^(([0-9a-zA-Z]{47})|([0-9a-zA-Z]{48}))$/
   return polkadotRegexp.test(address)
-}
-
-const isStarname = (address) => {
-  const starnameRegexp = /^[a-z\-]*\*[a-z\-]+$/
-  return starnameRegexp.test(address)
 }
 
 export default {
