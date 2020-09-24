@@ -339,9 +339,9 @@ class polkadotAPI extends RESTDataSource {
     )
     const individualEraPoints = erasRewardPoints.value.individual
     const totalEraPoints = erasRewardPoints.value.total
-    individualEraPoints.forEach((val, index) => {
-      validatorEraPoints.push({ accountId: index, points: val })
-      endEraValidatorList.push(index)
+    Object.keys(individualEraPoints).forEach((accountId) => {
+      validatorEraPoints.push({ accountId, points: individualEraPoints[accountId] })
+      endEraValidatorList.push(accountId)
     })
 
     // Get exposures for the last era
@@ -384,7 +384,7 @@ class polkadotAPI extends RESTDataSource {
         commissionAmount
       )
 
-      // Estimated earnings per era for 1 KSM
+      // Estimated earnings per era for 1 token
       const stakeAmount = new BigNumber(1).dividedBy(
         this.network.coinLookup[0].chainToViewConversionFactor
       )
