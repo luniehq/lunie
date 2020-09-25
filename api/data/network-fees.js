@@ -215,6 +215,7 @@ let networkGasPricesDictionary = {
   'kava-mainnet': kavaGasPrices,
   'kava-testnet': kavaGasPrices,
   'akash-testnet': akashGasPrices,
+  'akash-mainnet': akashGasPrices,
   'kusama': polkadotGasPrices,
   'polkadot': polkadotGasPrices,
   'polkadot-testnet': polkadotGasPrices,
