@@ -45,9 +45,14 @@ function getMessageType(type) {
 }
 
 function setTransactionSuccess(transaction, index) {
-  return transaction.logs && transaction.logs[index]
+  if (transaction.code) {
+    return false
+  }
+  return transaction.logs &&
+    transaction.logs[index] &&
+    Object.keys(transaction.logs).find((key) => key === 'success')
     ? transaction.logs[index].success || false
-    : false
+    : true
 }
 
 function sendDetailsReducer(message, reducers, network) {
