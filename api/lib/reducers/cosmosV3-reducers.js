@@ -174,6 +174,14 @@ function transactionReducerV2(network, transaction, reducers) {
   }
 }
 
+function setTransactionSuccess(transaction, index) {
+  // TODO identify logs per message
+  if (transaction.code) {
+    return false
+  }
+  return true
+}
+
 function extractInvolvedAddresses(transaction) {
   const events = transaction.logs.reduce(
     (events, log) => (log.events ? events.concat(log.events) : events),
@@ -226,5 +234,6 @@ module.exports = {
   delegationReducer,
   transactionReducerV2,
   undelegationEndTimeReducer,
-  extractInvolvedAddresses
+  extractInvolvedAddresses,
+  setTransactionSuccess
 }
