@@ -19,7 +19,10 @@ function delegationReducer(delegation, validator, active, network) {
 }
 
 function accountInfoReducer(accountValue, accountType) {
-  if (accountType.includes(`VestingAccount`) && !accountType.includes(`PeriodicVestingAccount`)) {
+  if (
+    accountType.includes(`VestingAccount`) &&
+    !accountType.includes(`PeriodicVestingAccount`)
+  ) {
     accountValue = accountValue.BaseVestingAccount.BaseAccount
   }
   return {
