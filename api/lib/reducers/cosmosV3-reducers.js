@@ -94,6 +94,10 @@ function getValidatorStatus(validator) {
   }
 }
 
+function setTransactionSuccess(transaction) {
+  return transaction.code ? false : true
+}
+
 function transactionReducerV2(network, transaction, reducers) {
   try {
     // TODO check if this is anywhere not an array
@@ -160,7 +164,7 @@ function transactionReducerV2(network, transaction, reducers) {
       timestamp: transaction.timestamp,
       memo: transaction.tx.body.memo,
       fees,
-      success: reducers.setTransactionSuccess(transaction, index, network.id),
+      success: setTransactionSuccess(transaction, index, network.id),
       log:
         transaction.logs && transaction.logs[index]
           ? transaction.logs[index].log
