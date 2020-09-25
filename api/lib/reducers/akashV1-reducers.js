@@ -28,7 +28,8 @@ function accountInfoReducer(accountValue, accountType) {
   return {
     address: accountValue.address,
     accountNumber: accountValue.account_number,
-    sequence: accountValue.sequence || 0
+    sequence: accountValue.sequence || 0,
+    vestingAccount: accountType.includes(`VestingAccount`) || accountType.includes(`PeriodicVestingAccount`)
   }
 }
 
