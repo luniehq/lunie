@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.49] - 2020-09-25
+
+### Fixed
+
+- [#4994](https://github.com/cosmos/lunie/pull/4994) Fix cannot read AKT of undefined @Bitcoinera
+
 ## [1.0.48] - 2020-09-24
 
 ### Fixed
