@@ -2,9 +2,7 @@
   <div class="address-item" @click="$emit('click')">
     <img
       class="network-icon"
-      :src="
-        address.icon || `/img/networks/${address.networkId}.png`
-      "
+      :src="address.icon || `/img/networks/${address.networkId}.png`"
       alt="little circle with network logo"
     />
     <div class="address-infos">
