@@ -60,14 +60,14 @@
         </div>
       </TmFormGroup>
     </div>
-    <div v-else class="session-container">
-      <div>
-        <p class="session-title">Account successfully deleted!</p>
-        <span class="success-paragraph"
+    <div v-else class="session-container success-paragraph">
+      <TmDataMsg icon="check" icon-color="var(--success)" :success="true">  
+        <p slot="title">Account successfully deleted!</p>
+        <p slot="subtitle"
           >Account {{ address | formatAddress }} won't appear anymore among your
-          accounts</span
+          accounts</p
         >
-      </div>
+      </TmDataMsg>
     </div>
   </SessionFrame>
 </template>
@@ -76,6 +76,7 @@
 import SessionFrame from "common/SessionFrame"
 import TmFormGroup from "common/TmFormGroup"
 import TmFormMsg from "common/TmFormMsg"
+import TmDataMsg from "common/TmDataMsg"
 import TmBtn from "common/TmBtn"
 import FieldSeed from "common/TmFieldSeed"
 import { formatAddress } from "src/filters"
@@ -124,6 +125,7 @@ export default {
     TmFormGroup,
     FieldSeed,
     TmFormMsg,
+    TmDataMsg,
     TmBtn,
   },
   data: () => ({
@@ -285,7 +287,9 @@ h2.forget-title {
 }
 
 .success-paragraph {
-  text-align: center;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .copy-to-clipboard {
