@@ -167,6 +167,7 @@ export default {
           .map((address) => ({
             ...address,
             sessionType: address.sessionType ? address.sessionType : "explore",
+            icon: this.networks.find(({ id }) => id === address.networkId).icon
           }))
         const allAddresses = uniqWith(
           sortBy(
