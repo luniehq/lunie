@@ -39,30 +39,6 @@ export function getDisplayTransaction(
   }
 }
 
-// DEPRECATE
-export const parseTx = (signMessage, displayedProperties, network) => {
-  const { msgs, fee, memo } = JSON.parse(signMessage)
-
-  const tx = {
-    tx: {
-      type: 'auth/StdTx',
-      value: {
-        msg: msgs,
-        fee,
-        memo
-      }
-    }
-  }
-
-  return transactionReducerV2(
-    tx,
-    displayedProperties,
-    { coinReducer, rewardCoinReducer },
-    'STAKE',
-    network
-  )[0] // TODO get staking denom (apollo/networks)
-}
-
 // delegations rewards in Tendermint are located in events as strings with this form:
 // amount: {"15000umuon"}, or in multidenom networks they look like this:
 // amount: {"15000ungm,100000uchf,110000ueur,2000000ujpy"}
