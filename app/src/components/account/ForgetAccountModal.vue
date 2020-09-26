@@ -154,7 +154,6 @@ export default {
       },
     },
     isPolkadot() {
-      console.log(this.network)
       return this.currentNetwork.network_type === "polkadot"
     },
   },
