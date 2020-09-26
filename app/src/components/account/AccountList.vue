@@ -33,7 +33,7 @@
               <i
                 v-else
                 class="material-icons notranslate"
-                @click="openAccount = account"
+                @click="setNetwork(account)"
                 >more_vert</i
               >
             </div>
@@ -74,6 +74,14 @@ export default {
     openAccount: undefined,
     isExtension: config.isExtension,
   }),
+  methods: {
+    setNetwork(account) {
+      this.openAccount = account
+      if (this.isExtension) {
+        this.$store.commit(`setNetworkId`, account.network)
+      }
+    }
+  }
 }
 </script>
 <style scoped>

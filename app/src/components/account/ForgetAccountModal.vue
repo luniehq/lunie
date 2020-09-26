@@ -133,7 +133,10 @@ export default {
     copySuccess: false,
   }),
   computed: {
-    ...mapGetters([`currentNetwork`]),
+    ...mapGetters([`networks`, `network`]),
+    currentNetwork() {
+      return this.networks.find(({ id }) => id === this.network)
+    },
     address() {
       return this.$route.params.address
     },
@@ -149,6 +152,7 @@ export default {
       },
     },
     isPolkadot() {
+      console.log(this.network)
       return this.currentNetwork.network_type === "polkadot"
     },
   },
