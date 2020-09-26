@@ -179,7 +179,7 @@ export default {
           },
           // Transform the previous result with new data
           updateQuery: (previousResult, { fetchMoreResult }) => {
-            this.moreAvailable = !(fetchMoreResult.transactionsV2.length === 0)
+            this.moreAvailable = fetchMoreResult.transactionsV2.length > 0
             return {
               // DEPRECATE uniqBy, should be resolved via API
               transactionsV2: uniqBy(
