@@ -3,9 +3,7 @@
     <img
       class="network-icon"
       :src="
-        address.icon ||
-        currentNetwork.icon ||
-        `/img/networks/${address.networkId}.png`
+        address.icon || `/img/networks/${address.networkId}.png`
       "
       alt="little circle with network logo"
     />
@@ -34,7 +32,6 @@
 <script>
 import { formatAddress } from "src/filters"
 import { capitalizeFirstLetter } from "scripts/common"
-import { mapGetters } from "vuex"
 export default {
   name: `user-account-row`,
   filters: {
@@ -45,9 +42,6 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  computed: {
-    ...mapGetters([`currentNetwork`]),
   },
   methods: {
     capitalizeFirstLetter,
