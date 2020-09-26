@@ -1,11 +1,25 @@
 # Changelog
-
+ 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.49] - 2020-09-25
+
+### Fixed
+
+- [#4994](https://github.com/cosmos/lunie/pull/4994) Fix cannot read AKT of undefined @Bitcoinera
+
+## [1.0.48] - 2020-09-24
+
+### Fixed
+
+- Notifications were not showing in some cases @faboweb
+- Fix transaction reducer in polling for tx success failing @faboweb
+- Id was not unique for undelegations @faboweb
 
 ## [1.0.47] - 2020-09-22
 
