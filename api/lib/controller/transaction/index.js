@@ -288,7 +288,7 @@ async function pollTransactionSuccess(
     }
 
     transactions.forEach((transaction) =>
-      publishUserTransactionAddedV2(networkId, senderAddress, transaction)
+      publishUserTransactionAddedV2(network.id, senderAddress, transaction)
     )
 
     Sentry.withScope((scope) => {

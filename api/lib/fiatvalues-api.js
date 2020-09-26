@@ -84,6 +84,7 @@ class fiatValueAPI {
     this.fiatCurrenciesSymbolsDictionary = fiatCurrenciesSymbolsDictionary
     this.coins = ['ATOM', 'LUNA', 'KRT', 'SDT', 'KAVA', 'BNB', 'KSM', 'DOT'] // Lunie coins currently being traded in the open
     this.priceFeed = {}
+    this.allFiatValues = {}
 
     this.pollNewPriceFeed()
   }
