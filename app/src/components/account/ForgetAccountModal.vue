@@ -63,7 +63,7 @@
     <div v-else class="session-container success-paragraph">
       <TmDataMsg icon="check" icon-color="var(--success)" :success="true">  
         <p slot="title">Account successfully deleted!</p>
-        <p slot="subtitle"
+        <p slot="subtitle" class="success-paragraph-message"
           >Account {{ address | formatAddress }} won't appear anymore among your
           accounts</p
         >
@@ -290,6 +290,10 @@ h2.forget-title {
   height: 100%;
   display: flex;
   justify-content: center;
+}
+
+.success-paragraph-message {
+  margin-top: 1rem;
 }
 
 .copy-to-clipboard {
