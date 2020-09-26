@@ -92,12 +92,12 @@ export default ({ apollo }) => {
   const deleteAccountWithoutPassword = async (address) => {
     const boolean = await sendAsyncMessageToContentScript(
       {
-        type: "DELETE_WALLET_WITHOUT_PASSWORD",
-        payload: { address },
+        type: 'DELETE_WALLET_WITHOUT_PASSWORD',
+        payload: { address }
       },
       true
     )
-  
+
     return boolean
   }
 
