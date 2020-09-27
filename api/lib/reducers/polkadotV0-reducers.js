@@ -583,7 +583,9 @@ function treasuryProposalReducer(
     deposit: toViewDenom(network, Number(proposal.deposit)),
     proposer: proposal.proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
-    summary: getProposalSummary(proposalTypeEnum.TREASURY),
+    summary:
+      getProposalSummary(proposalTypeEnum.TREASURY) +
+      `\nTreasury proposals on ${network.title} can only be voted on by council members.`,
     detailedVotes
   }
 }

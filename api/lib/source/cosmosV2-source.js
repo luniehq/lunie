@@ -22,7 +22,7 @@ class CosmosV2API extends CosmosV0API {
     }
     const pagination = `&limit=${PAGE_RECORDS_COUNT}&page=${page}`
     const { txs } = await this.getRetry(`${url}${pagination}`)
-    return txs
+    return txs || []
   }
 
   async getPageCount(url) {
