@@ -119,7 +119,7 @@ class polkadotAPI extends RESTDataSource {
     if (blockHeight) {
       block = await this.query(`${this.baseURL}/blocks/${blockHeight}`)
     } else {
-      block = await this.query(`${this.baseURL}/blocks/head`)
+      block = await this.query(`${this.baseURL}/blocks/head?finalized=false`)
     }
     const currentIndex = await this.query(
       `${this.baseURL}/pallets/session/storage/currentIndex`
