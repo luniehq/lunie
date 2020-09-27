@@ -334,7 +334,7 @@ function aggregateLunieStaking(messages) {
       current.method.method === 'nominate'
     ) {
       aggregatedLunieStaking.validators = aggregatedLunieStaking.validators.concat(
-        current.args[0]
+        current.args.targets
       )
       hasNominate = true
     }
@@ -396,8 +396,8 @@ function coinReducer(network, amount, decimals = 6) {
 function sendDetailsReducer(network, message, signer, reducers) {
   return {
     from: [signer],
-    to: [message.args[0]],
-    amount: reducers.coinReducer(network, message.args[1])
+    to: [message.args.dest],
+    amount: reducers.coinReducer(network, message.value)
   }
 }
 
@@ -412,7 +412,7 @@ function stakeDetailsReducer(network, message, reducers) {
 function extractInvolvedAddresses(lunieTransactionType, signer, message) {
   let involvedAddresses = []
   if (lunieTransactionType === lunieMessageTypes.SEND) {
-    involvedAddresses = involvedAddresses.concat([signer, message.args[0]])
+    involvedAddresses = involvedAddresses.concat([signer, message.args.dest])
   } else if (lunieTransactionType === lunieMessageTypes.STAKE) {
     involvedAddresses = involvedAddresses.concat([signer], message.validators)
   } else {
