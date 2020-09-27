@@ -769,11 +769,9 @@ class polkadotAPI extends RESTDataSource {
 
   async getReferendumThreshold(proposal) {
     const thresholdType = proposal.status.threshold
-    const totalIssuance = await this.query(
+    const electorate = await this.query(
       `${this.baseURL}/pallets/balances/storage/totalIssuance`
-    )
-    const electorate = totalIssuance.value
-
+    ).then(({ value }) => value)
     const ayeVotesWithoutConviction = proposal.allAye.reduce(
       (ayeAggregator, aye) => {
         return (ayeAggregator += Number(aye.balance))
