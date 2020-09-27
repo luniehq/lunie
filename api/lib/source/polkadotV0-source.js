@@ -175,11 +175,15 @@ class polkadotAPI extends RESTDataSource {
   async getAllValidators() {
     const api = await this.getAPI()
 
-    // Fetch all stash addresses for current session (including validators and intentions)
-    const allStashAddresses = await api.derive.staking.stashes()
-
-    // Fetch active validator addresses for current session.
-    const validatorAddresses = await api.query.session.validators()
+    const [
+      allStashAddresses,
+      validatorAddresses
+    ] = await Promise.all([
+      api.derive.staking.stashes(),
+      this.query(
+        `${this.baseURL}/pallets/session/storage/validators`
+      ).then(result => result.value)
+    ])
 
     // Fetch all validators staking info
     let allValidators = await Promise.all(
