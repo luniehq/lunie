@@ -108,7 +108,7 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getBlockHeight() {
-    const latestBlock = await this.query(`${this.baseURL}/blocks/head`)
+    const latestBlock = await this.query(`${this.baseURL}/blocks/head?finalized=false`)
     return latestBlock.number
   }
 
