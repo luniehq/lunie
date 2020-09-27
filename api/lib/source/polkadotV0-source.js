@@ -95,7 +95,9 @@ class polkadotAPI extends RESTDataSource {
 
   getBlockTime(block) {
     const setTimestamp = block.extrinsics.find(
-      (extrinsic) => extrinsic.method.pallet === 'timestamp' && extrinsic.method.method === 'set'
+      (extrinsic) =>
+        extrinsic.method.pallet === 'timestamp' &&
+        extrinsic.method.method === 'set'
     )
     return new Date(Number(setTimestamp.args.now)).toUTCString()
   }
