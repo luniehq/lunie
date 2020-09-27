@@ -1039,11 +1039,15 @@ class polkadotAPI extends RESTDataSource {
       electionInfo
     ] = await Promise.all([
       this.getBlockHeight(),
-      api.query.balances.totalIssuance(),
+      this.query(
+        `${this.baseURL}/pallets/balances/storage/totalIssuance`
+      ).then(result => result.value),
       api.derive.democracy.proposals(),
       api.derive.democracy.referendums(),
       api.derive.treasury.proposals(),
-      api.query.council.members(),
+      this.query(
+        `${this.baseURL}/pallets/council/storage/members`
+      ).then(result => result.value),
       api.derive.elections.info()
     ])
     const allProposals = await Promise.all(
@@ -1142,7 +1146,6 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getGovernanceOverview() {
-    const api = await this.getAPI()
     const activeEra = await this.getActiveEra()
     const [
       erasTotalStake,
