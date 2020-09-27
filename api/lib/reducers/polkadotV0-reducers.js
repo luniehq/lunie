@@ -341,7 +341,7 @@ function aggregateLunieStaking(messages) {
     reducedMessages.push({
       section: current.method.pallet,
       method: current.method.method,
-      args: JSON.stringify(current.args, null, 2)
+      args: current.args
     })
   })
   return hasBond && hasNominate

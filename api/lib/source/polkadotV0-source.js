@@ -134,7 +134,6 @@ class polkadotAPI extends RESTDataSource {
       block.extrinsics,
       block.number
     )
-    console.log(JSON.stringify(transactions, null, 2))
 
     return this.reducers.blockReducer(
       this.network.id,
