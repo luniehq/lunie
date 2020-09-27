@@ -202,9 +202,11 @@ function transactionsReducerV2(network, extrinsics, blockHeight, reducers) {
 }
 
 // Map Polkadot event method to Lunie message types
-function getMessageType(method) {
-  switch (`${method.pallet}.${method.method}`) {
+function getMessageType(section, method) {
+  switch (`${section}.${method}`) {
     case 'balances.transfer':
+      return lunieMessageTypes.SEND
+    case 'balances.transferKeepAlive':
       return lunieMessageTypes.SEND
     case 'lunie.staking':
       return lunieMessageTypes.STAKE
@@ -223,7 +225,7 @@ function parsePolkadotTransaction(
   blockHeight,
   reducers
 ) {
-  const lunieTransactionType = getMessageType(message.method)
+  const lunieTransactionType = getMessageType(message.section, message.method)
   return {
     id: hash,
     type: lunieTransactionType,
