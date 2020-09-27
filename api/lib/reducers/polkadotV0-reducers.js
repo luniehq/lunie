@@ -258,22 +258,25 @@ function parsePolkadotTransaction(
 function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
   const hash = extrinsic.hash
   const signer = extrinsic.signature === null ? '' : extrinsic.signature.signer
-  const isBatch = extrinsic.method.pallet === `utility` && extrinsic.method.method === `batch`
+  const isBatch =
+    extrinsic.method.pallet === `utility` && extrinsic.method.method === `batch`
   const messages = aggregateLunieStaking(
     isBatch ? extrinsic.args.calls : [extrinsic]
   )
-  
+
   // if tx is a batch, we need to check if all of the batched txs went through
   let success
   if (isBatch) {
     success = !!extrinsic.events.find(
-      ({ event }) =>
-      event.method.pallet === `utility` && event.method.method === `BatchCompleted`
+      (event) =>
+        event.method.pallet === `utility` &&
+        event.method.method === `BatchCompleted`
     )
   } else {
     success = !!extrinsic.events.find(
-      ({ event }) =>
-      event.method.pallet === `system` && event.method.method === `ExtrinsicSuccess`
+      (event) =>
+        event.method.pallet === `system` &&
+        event.method.method === `ExtrinsicSuccess`
     )
   }
 
@@ -306,19 +309,28 @@ function aggregateLunieStaking(messages) {
   let hasNominate = false
   let reducedMessages = []
   messages.forEach((current) => {
-    if (current.method.pallet === 'staking' && current.method.method === 'bond') {
+    if (
+      current.method.pallet === 'staking' &&
+      current.method.method === 'bond'
+    ) {
       aggregatedLunieStaking.amount =
         aggregatedLunieStaking.amount + current.args.value
       hasBond = true
     }
 
-    if (current.method.pallet === 'staking' && current.method.method === 'bondExtra') {
+    if (
+      current.method.pallet === 'staking' &&
+      current.method.method === 'bondExtra'
+    ) {
       aggregatedLunieStaking.amount =
         aggregatedLunieStaking.amount + current.args.max_additional
       hasBond = true
     }
 
-    if (current.method.pallet === 'staking' && current.method.method === 'nominate') {
+    if (
+      current.method.pallet === 'staking' &&
+      current.method.method === 'nominate'
+    ) {
       aggregatedLunieStaking.validators = aggregatedLunieStaking.validators.concat(
         current.args[0]
       )
@@ -496,10 +508,7 @@ function networkAccountReducer(address, account, store) {
     }
   }
   return {
-    name:
-      account.value
-        ? hexToString(account.value.info.display.Raw)
-        : '',
+    name: account.value ? hexToString(account.value.info.display.Raw) : '',
     address,
     picture: account.value ? hexToString(account.value.info.twitter.Raw) : ''
   }

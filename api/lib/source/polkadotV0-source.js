@@ -82,8 +82,8 @@ class polkadotAPI extends RESTDataSource {
     // TODO: We are not handling sub-identities
     const accountInfo = !this.store.validators[address]
       ? await this.query(
-        `${this.baseURL}/pallets/identity/storage/identityOf?key1=${address}`
-      )
+          `${this.baseURL}/pallets/identity/storage/identityOf?key1=${address}`
+        )
       : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
       address,
@@ -175,14 +175,11 @@ class polkadotAPI extends RESTDataSource {
   async getAllValidators() {
     const api = await this.getAPI()
 
-    const [
-      allStashAddresses,
-      validatorAddresses
-    ] = await Promise.all([
+    const [allStashAddresses, validatorAddresses] = await Promise.all([
       api.derive.staking.stashes(),
-      this.query(
-        `${this.baseURL}/pallets/session/storage/validators`
-      ).then(result => result.value)
+      this.query(`${this.baseURL}/pallets/session/storage/validators`).then(
+        (result) => result.value
+      )
     ])
 
     // Fetch all validators staking info
@@ -287,7 +284,7 @@ class polkadotAPI extends RESTDataSource {
       `${this.baseURL}/accounts/${address}/balance-info`
     )
 
-    // we need addressRole, as /accounts/:address/staking-info 
+    // we need addressRole, as /accounts/:address/staking-info
     // query throws an error if address is not a stash
     const addressRole = this.getAddressRole(address)
     let stakedBalance
@@ -329,7 +326,7 @@ class polkadotAPI extends RESTDataSource {
     let endEraValidatorList = []
 
     // We want the rewards for the last rewarded era (active - 1)
-    const lastEra = await this.getActiveEra() - 1
+    const lastEra = (await this.getActiveEra()) - 1
 
     // Get last era reward
     const erasValidatorReward = await this.query(
@@ -344,7 +341,10 @@ class polkadotAPI extends RESTDataSource {
     const individualEraPoints = erasRewardPoints.value.individual
     const totalEraPoints = erasRewardPoints.value.total
     Object.keys(individualEraPoints).forEach((accountId) => {
-      validatorEraPoints.push({ accountId, points: individualEraPoints[accountId] })
+      validatorEraPoints.push({
+        accountId,
+        points: individualEraPoints[accountId]
+      })
       endEraValidatorList.push(accountId)
     })
 
@@ -353,7 +353,9 @@ class polkadotAPI extends RESTDataSource {
       endEraValidatorList.map((accountId) =>
         this.query(
           `${this.baseURL}/pallets/staking/storage/erasStakers?key1=${lastEra}&key2=${accountId}`
-        ).then(({ value }) => { return { accountId, exposure: value} })
+        ).then(({ value }) => {
+          return { accountId, exposure: value }
+        })
       )
     )
 
@@ -362,7 +364,7 @@ class polkadotAPI extends RESTDataSource {
       endEraValidatorList.map((accountId) =>
         this.query(
           `${this.baseURL}/pallets/staking/storage/erasValidatorPrefs?key1=${lastEra}&key2=${accountId}`
-        ).then(preferences => preferences.value)
+        ).then((preferences) => preferences.value)
       )
     )
 
@@ -568,8 +570,7 @@ class polkadotAPI extends RESTDataSource {
     const stakingInfo = await this.query(
       `${this.baseURL}/pallets/staking/storage/nominators?key1=${delegatorAddress}`
     )
-    const allDelegations =
-      stakingInfo.value ? stakingInfo.value.targets : []
+    const allDelegations = stakingInfo.value ? stakingInfo.value.targets : []
     allDelegations
       .filter((nomination) => !!this.store.validators[nomination])
       .forEach((nomination) => {
@@ -600,7 +601,9 @@ class polkadotAPI extends RESTDataSource {
     const epochDuration = api.consts.babe.epochDuration
     const sessionsPerEra = api.consts.staking.sessionsPerEra
     const eraLength = epochDuration * sessionsPerEra
-    const eraRemainingBlocks = BigNumber(stakingProgress.nextActiveEraEstimate).minus(BigNumber(blockHeight))
+    const eraRemainingBlocks = BigNumber(
+      stakingProgress.nextActiveEraEstimate
+    ).minus(BigNumber(blockHeight))
     const allUndelegations = stakingLedger.unlocking || []
 
     const undelegationsWithEndTime = allUndelegations.map((undelegation) => {
@@ -840,9 +843,7 @@ class polkadotAPI extends RESTDataSource {
     }, 0)
     const deposits = await Promise.all(
       allDeposits.map(async (deposit) => {
-        const depositer = await this.getNetworkAccountInfo(
-          deposit.accountId
-        )
+        const depositer = await this.getNetworkAccountInfo(deposit.accountId)
         return this.reducers.depositReducer(deposit, depositer, this.network)
       })
     )
@@ -1043,15 +1044,15 @@ class polkadotAPI extends RESTDataSource {
       electionInfo
     ] = await Promise.all([
       this.getBlockHeight(),
-      this.query(
-        `${this.baseURL}/pallets/balances/storage/totalIssuance`
-      ).then(result => result.value),
+      this.query(`${this.baseURL}/pallets/balances/storage/totalIssuance`).then(
+        (result) => result.value
+      ),
       api.derive.democracy.proposals(),
       api.derive.democracy.referendums(),
       api.derive.treasury.proposals(),
-      this.query(
-        `${this.baseURL}/pallets/council/storage/members`
-      ).then(result => result.value),
+      this.query(`${this.baseURL}/pallets/council/storage/members`).then(
+        (result) => result.value
+      ),
       api.derive.elections.info()
     ])
     const allProposals = await Promise.all(
@@ -1143,9 +1144,7 @@ class polkadotAPI extends RESTDataSource {
     const { free, miscFrozen } = await this.query(
       `${this.baseURL}/accounts/${TREASURY_ADDRESS}/balance-info`
     )
-    const freeBalance = BigNumber(free.toString()).minus(
-      miscFrozen.toString()
-    )
+    const freeBalance = BigNumber(free.toString()).minus(miscFrozen.toString())
     return freeBalance.toString()
   }
 
@@ -1161,10 +1160,10 @@ class polkadotAPI extends RESTDataSource {
     ] = await Promise.all([
       this.query(
         `${this.baseURL}/pallets/staking/storage/erasTotalStake?key1=${activeEra}`
-      ).then(result => result.value),
-      this.query(
-        `${this.baseURL}/pallets/balances/storage/totalIssuance`
-      ).then(result => result.value),
+      ).then((result) => result.value),
+      this.query(`${this.baseURL}/pallets/balances/storage/totalIssuance`).then(
+        (result) => result.value
+      ),
       this.getTreasurySize(),
       this.db.getNetworkLinks(this.network.id),
       this.getTotalActiveAccounts(),
@@ -1186,9 +1185,7 @@ class polkadotAPI extends RESTDataSource {
       ),
       topVoters: await Promise.all(
         topVoters.map(async (topVoterAddress) => {
-          const accountInfo = await this.getNetworkAccountInfo(
-            topVoterAddress
-          )
+          const accountInfo = await this.getNetworkAccountInfo(topVoterAddress)
           return this.reducers.topVoterReducer(
             topVoterAddress,
             electionInfo,
