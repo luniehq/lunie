@@ -203,7 +203,7 @@ function transactionsReducerV2(network, extrinsics, blockHeight, reducers) {
 
 // Map Polkadot event method to Lunie message types
 function getMessageType(method) {
-  switch (method) {
+  switch (`${method.pallet}.${method.method}`) {
     case 'balances.transfer':
       return lunieMessageTypes.SEND
     case 'lunie.staking':
@@ -255,35 +255,28 @@ function parsePolkadotTransaction(
   }
 }
 
-function getExtrinsicSuccess(extrinsicIndex, blockEvents, isBatch) {
-  const events = blockEvents.filter(({ phase }) => {
-    return parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex // index is a string
-  })
-  // if tx is a batch, we need to check if all of the batched txs went through
-  if (isBatch) {
-    return !!events.find(
-      ({ event }) =>
-        event.section === `utility` && event.method === `BatchCompleted`
-    )
-  }
-  return !!events.find(
-    ({ event }) =>
-      event.section === `system` && event.method === `ExtrinsicSuccess`
-  )
-}
-
 function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
   const hash = extrinsic.hash
   const signer = extrinsic.signature === null ? '' : extrinsic.signature.signer
-  const isBatch = extrinsic.method === `utility.batch`
+  const isBatch = extrinsic.method.pallet === `utility` && extrinsic.method.method === `batch`
   const messages = aggregateLunieStaking(
     isBatch ? extrinsic.args.calls : [extrinsic]
   )
-  const success = extrinsic.events.find(
-    (event) => event.method === 'system.ExtrinsicSuccess'
-  )
-    ? true
-    : false
+  
+  // if tx is a batch, we need to check if all of the batched txs went through
+  let success
+  if (isBatch) {
+    success = !!extrinsic.events.find(
+      ({ event }) =>
+      event.method.pallet === `utility` && event.method.method === `BatchCompleted`
+    )
+  } else {
+    success = !!extrinsic.events.find(
+      ({ event }) =>
+      event.method.pallet === `system` && event.method.method === `ExtrinsicSuccess`
+    )
+  }
+
   return messages.map((message, messageIndex) =>
     parsePolkadotTransaction(
       hash,
@@ -313,27 +306,27 @@ function aggregateLunieStaking(messages) {
   let hasNominate = false
   let reducedMessages = []
   messages.forEach((current) => {
-    if (current.method === 'staking.bond') {
+    if (current.method.pallet === 'staking' && current.method.method === 'bond') {
       aggregatedLunieStaking.amount =
         aggregatedLunieStaking.amount + current.args.value
       hasBond = true
     }
 
-    if (current.method === 'staking.bondExtra') {
+    if (current.method.pallet === 'staking' && current.method.method === 'bondExtra') {
       aggregatedLunieStaking.amount =
         aggregatedLunieStaking.amount + current.args.max_additional
       hasBond = true
     }
 
-    if (current.method === 'staking.nominate') {
+    if (current.method.pallet === 'staking' && current.method.method === 'nominate') {
       aggregatedLunieStaking.validators = aggregatedLunieStaking.validators.concat(
         current.args[0]
       )
       hasNominate = true
     }
     reducedMessages.push({
-      section: current.method.split('.')[0],
-      method: current.method.split('.')[1],
+      section: current.method.pallet,
+      method: current.method.method,
       args: JSON.stringify(current.args, null, 2)
     })
   })
@@ -731,7 +724,6 @@ module.exports = {
   dbRewardsReducer,
   depositReducer,
   networkAccountReducer,
-  getExtrinsicSuccess,
   identityReducer,
   democracyProposalReducer,
   democracyReferendumReducer,

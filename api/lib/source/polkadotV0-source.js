@@ -101,21 +101,21 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getDateForBlockHeight(blockHeight) {
-    const block = await this.query(`${this.baseURL}/block/${blockHeight}`)
+    const block = await this.query(`${this.baseURL}/blocks/${blockHeight}`)
     return this.getBlockTime(block)
   }
 
   async getBlockHeight() {
-    const latestBlock = await this.query(`${this.baseURL}/block`)
+    const latestBlock = await this.query(`${this.baseURL}/blocks/head`)
     return latestBlock.number
   }
 
   async getBlockByHeightV2(blockHeight) {
     let block
     if (blockHeight) {
-      block = await this.query(`${this.baseURL}/block/${blockHeight}`)
+      block = await this.query(`${this.baseURL}/blocks/${blockHeight}`)
     } else {
-      block = await this.query(`${this.baseURL}/block`)
+      block = await this.query(`${this.baseURL}/blocks/head`)
     }
     const currentIndex = await this.query(
       `${this.baseURL}/pallets/session/storage/currentIndex`
