@@ -397,7 +397,7 @@ function sendDetailsReducer(network, message, signer, reducers) {
   return {
     from: [signer],
     to: [message.args.dest],
-    amount: reducers.coinReducer(network, message.value)
+    amount: reducers.coinReducer(network, message.args.value)
   }
 }
 
