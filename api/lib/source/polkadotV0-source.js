@@ -1123,12 +1123,11 @@ class polkadotAPI extends RESTDataSource {
     return accounts.length || 0
   }
 
-  async getTopVoters(electionInfo) {
+  async getTopVoters() {
     // in Substrate we simply return council members
-    const councilMembersInRelevanceOrder = electionInfo.members.map(
-      (runnerUp) => runnerUp[0]
-    )
-    return councilMembersInRelevanceOrder
+    return await this.query(
+      `${this.baseURL}/pallets/electionsPhragmen/storage/members`
+    ).map(([member]) => member)
   }
 
   async getTreasurySize() {
@@ -1145,7 +1144,6 @@ class polkadotAPI extends RESTDataSource {
   async getGovernanceOverview() {
     const api = await this.getAPI()
     const activeEra = await this.getActiveEra()
-    const electionInfo = await api.derive.elections.info()
     const [
       erasTotalStake,
       totalIssuance,
@@ -1159,7 +1157,7 @@ class polkadotAPI extends RESTDataSource {
       this.getTreasurySize(),
       this.db.getNetworkLinks(this.network.id),
       this.getTotalActiveAccounts(),
-      this.getTopVoters(electionInfo)
+      this.getTopVoters()
     ])
     return {
       totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
