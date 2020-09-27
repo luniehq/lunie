@@ -1152,8 +1152,12 @@ class polkadotAPI extends RESTDataSource {
       totalVoters,
       topVoters
     ] = await Promise.all([
-      api.query.staking.erasTotalStake(activeEra),
-      api.query.balances.totalIssuance(),
+      this.query(
+        `${this.baseURL}/pallets/staking/storage/erasTotalStake?key1=${activeEra}`
+      ).then(result => result.value),
+      this.query(
+        `${this.baseURL}/pallets/balances/storage/totalIssuance`
+      ).then(result => result.value),
       this.getTreasurySize(),
       this.db.getNetworkLinks(this.network.id),
       this.getTotalActiveAccounts(),
