@@ -512,7 +512,7 @@ function networkAccountReducer(address, account, store) {
   return {
     name: account.value ? hexToString(account.value.info.display.Raw) : '',
     address,
-    picture: account.value ? hexToString(account.value.info.twitter.Raw) : ''
+    picture: '' // TODO: we need to get images from twitter account
   }
 }
 
@@ -692,8 +692,7 @@ function topVoterReducer(
   network
 ) {
   const councilMemberInfo = electionInfo.members.find(
-    (electionInfoMember) =>
-      electionInfoMember[0].toHuman() === topVoterAddress.toHuman()
+    (electionInfoMember) => electionInfoMember[0].toHuman() === topVoterAddress
   )
   return {
     name: accountInfo.name,

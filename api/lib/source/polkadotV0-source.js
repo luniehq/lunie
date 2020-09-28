@@ -4,6 +4,7 @@ const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
 const { stringToU8a, hexToString } = require('@polkadot/util')
+const { encodeAddress } = require('@polkadot/keyring')
 const Sentry = require('@sentry/node')
 const {
   getPassingThreshold,
@@ -1135,13 +1136,19 @@ class polkadotAPI extends RESTDataSource {
 
   async getTopVoters() {
     // in Substrate we simply return council members
-    return await this.query(
+    const members = await this.query(
       `${this.baseURL}/pallets/electionsPhragmen/storage/members`
-    ).map(([member]) => member)
+    ).then(({ value }) => value)
+
+    return members.map(([member]) => member)
   }
 
   async getTreasurySize() {
-    const TREASURY_ADDRESS = stringToU8a('modlpy/trsry'.padEnd(32, '\0'))
+    const TREASURY_ADDRESS = encodeAddress(
+      stringToU8a('modlpy/trsry'.padEnd(32, '\0')),
+      false,
+      this.network.prefix
+    )
     const { free, miscFrozen } = await this.query(
       `${this.baseURL}/accounts/${TREASURY_ADDRESS}/balance-info`
     )
@@ -1150,6 +1157,8 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getGovernanceOverview() {
+    const api = await this.getAPI()
+
     const activeEra = await this.getActiveEra()
     const [
       erasTotalStake,
@@ -1157,7 +1166,8 @@ class polkadotAPI extends RESTDataSource {
       treasurySize,
       links,
       totalVoters,
-      topVoters
+      topVoters,
+      electionInfo
     ] = await Promise.all([
       this.query(
         `${this.baseURL}/pallets/staking/storage/erasTotalStake?key1=${activeEra}`
@@ -1168,7 +1178,8 @@ class polkadotAPI extends RESTDataSource {
       this.getTreasurySize(),
       this.db.getNetworkLinks(this.network.id),
       this.getTotalActiveAccounts(),
-      this.getTopVoters()
+      this.getTopVoters(),
+      api.derive.elections.info()
     ])
     return {
       totalStakedAssets: fixDecimalsAndRoundUpBigNumbers(
