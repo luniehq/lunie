@@ -9,10 +9,7 @@
       >
         <div class="first-column">
           <span class="icon">
-            <img
-              v-if="participant.validator"
-              :src="participant.validator.picture"
-            />
+            <img v-if="participant.picture" :src="participant.picture" />
             <img v-else :src="currentNetwork.icon" />
           </span>
           <span v-if="participant.name" class="name">{{
@@ -27,16 +24,17 @@
             {{ participant.votingPower | bigFigureOrPercent }}
           </div>
           <div v-else>
-            {{ participant.votingPower | bigFigure }}
-            {{ currentNetwork.stakingDenom }}
+            {{ participant.votingPower | bigFigureOrPercent }}
           </div>
         </template>
-        <div v-if="!showAmounts && participant.option">
+        <div v-if="showAmounts && participant.option">
           <span class="option">{{ participant.option }}</span>
         </div>
-        <div v-if="!showAmounts && participant.amount">
-          <span class="amount">{{ participant.amount.amount }}</span>
-          <span>{{ participant.amount.denom.concat(`s`) }}</span>
+        <div v-if="showAmounts && participant.amount">
+          <span class="amount"
+            >{{ participant.amount.amount | prettyInt }}
+            {{ participant.amount.denom }}</span
+          >
         </div>
       </li>
     </ul>
@@ -55,6 +53,7 @@
 import { mapGetters } from "vuex"
 import { formatAddress } from "src/filters"
 import { bigFigure, bigFigureOrPercent } from "scripts/num"
+import { prettyInt } from "src/scripts/num"
 import TmBtn from "src/components/common/TmBtn"
 
 export default {
@@ -66,6 +65,7 @@ export default {
     formatAddress,
     bigFigure,
     bigFigureOrPercent,
+    prettyInt,
   },
   props: {
     title: {
@@ -76,6 +76,10 @@ export default {
       type: Array,
       required: true,
     },
+    showAmounts: {
+      type: Boolean,
+      default: false,
+    },
   },
   data: () => ({
     showing: 5,
@@ -84,12 +88,9 @@ export default {
   computed: {
     ...mapGetters([`currentNetwork`]),
     showingParticipants() {
-      return this.participants.slice(0, this.showing)
-    },
-    showAmounts() {
-      return ["Council Members", "Top Voters"].includes(this.title)
-        ? true
-        : false
+      return JSON.parse(JSON.stringify(this.participants))
+        .sort((a, b) => !!b.picture - !!a.picture)
+        .slice(0, this.showing)
     },
     moreAvailable() {
       return this.showingParticipants.length < this.participants.length
@@ -142,6 +143,13 @@ h4 {
 .participant div {
   display: flex;
   align-items: center;
+  max-width: 33%;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.participant div:first-child {
+  justify-content: flex-start;
 }
 
 .name,
@@ -149,6 +157,22 @@ h4 {
 .amount {
   color: var(--bright);
   margin-right: 0.5rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.icon,
+.option {
+  margin-right: 1rem;
+}
+
+.name::-webkit-scrollbar,
+.option::-webkit-scrollbar,
+.amount::-webkit-scrollbar {
+  display: none;
 }
 
 .voter,
@@ -166,11 +190,6 @@ h4 {
   height: 2.25rem;
   width: 2.25rem;
   border-radius: 50%;
-}
-
-.icon,
-.option {
-  margin-right: 1rem;
 }
 
 .loadmore-button-container {

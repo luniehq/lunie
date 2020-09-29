@@ -90,7 +90,8 @@ describe(`PageProposals`, () => {
 
   it(`opens a create proposal modal`, () => {
     wrapper.setData({
-      loaded: true,
+      proposalsLoaded: true,
+      governanceOverviewLoaded: true,
       governanceOverview,
     })
     const $refs = { modalPropose: { open: jest.fn() } }

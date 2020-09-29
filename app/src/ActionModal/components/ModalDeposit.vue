@@ -76,7 +76,6 @@ import TmFormGroup from "src/components/common/TmFormGroup"
 import TmFormMsg from "src/components/common/TmFormMsg"
 import ActionModal from "./ActionModal"
 import { messageType } from "../../components/transactions/messageTypes"
-import { getPolkadotAPI } from "../../../../common/polkadotApiConnector"
 
 export default {
   name: `modal-deposit`,
@@ -99,9 +98,9 @@ export default {
       type: String,
       required: true,
     },
-    numberOfSeconds: {
-      type: Number,
-      default: 0,
+    deposits: {
+      type: Array,
+      default: () => [],
     },
   },
   data: () => ({
@@ -113,22 +112,6 @@ export default {
     messageType,
     smallestAmount: SMALLEST,
   }),
-  asyncComputed: {
-    async minimumDeposit() {
-      if (this.currentNetwork.network_type === `polkadot`) {
-        const polkadotAPI = await getPolkadotAPI(this.currentNetwork)
-        return BigNumber(polkadotAPI.consts.democracy.minimumDeposit)
-          .times(
-            this.currentNetwork.coinLookup.find(
-              ({ viewDenom }) => viewDenom === this.currentNetwork.stakingDenom
-            ).chainToViewConversionFactor
-          )
-          .toNumber()
-      } else {
-        return undefined
-      }
-    },
-  },
   computed: {
     ...mapGetters([`currentNetwork`]),
     ...mapGetters({ userAddress: `address` }),
@@ -143,7 +126,7 @@ export default {
           amount: this.amount,
           denom: this.denom,
         },
-        numberOfSeconds: this.numberOfSeconds,
+        depositsCount: this.deposits.length,
       }
     },
     notifyMessage() {
@@ -175,7 +158,7 @@ export default {
   methods: {
     open() {
       if (this.currentNetwork.network_type === `polkadot`) {
-        this.amount = this.minimumDeposit
+        this.amount = this.deposits[0].amount[0].amount
       }
       this.$refs.actionModal.open()
     },

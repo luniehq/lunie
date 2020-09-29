@@ -16,14 +16,14 @@
             v-clipboard:success="() => onCopy()"
             class="share-button"
           >
-            <i class="material-icons">link</i>
+            <span v-if="copySuccess" class="copy-message">Copied!</span>
+            <i v-if="copySuccess" class="material-icons check-icon">check</i>
+            <i v-else class="material-icons">link</i>
           </button>
-          <div :class="{ active: copySuccess }" class="icon-container">
-            <i class="material-icons notranslate success">check</i>
-          </div>
           <TmBtn
             v-if="status.value === governanceStatusEnum.DEPOSITING"
             id="deposit-btn"
+            class="action-button"
             value="Deposit"
             color="primary"
             @click.native="$emit(`open-deposit-modal`)"
@@ -31,6 +31,7 @@
           <TmBtn
             v-if="showVoteButton"
             id="vote-btn"
+            class="action-button"
             value="Vote"
             color="primary"
             @click.native="$emit(`open-vote-modal`)"
@@ -47,7 +48,7 @@
       <h2>{{ proposal.title }}</h2>
 
       <div class="proposer-and-summary-container">
-        <div class="proposer">
+        <div v-if="proposal.proposer" class="proposer">
           Proposed By:
           {{ proposal.proposer.address | formatAddress }}
         </div>
@@ -163,6 +164,7 @@ h2 {
   margin-bottom: 2rem;
   max-width: 500px;
   color: var(--bright);
+  padding-right: 2rem;
 }
 
 .page-links {
@@ -172,6 +174,10 @@ h2 {
 .page-links li {
   display: inline-block;
   padding: 2rem 2rem 2rem 0;
+}
+
+.action-button {
+  margin-left: 0.5rem;
 }
 
 .buttons {
@@ -208,12 +214,13 @@ h2 {
   border-radius: 0.5rem;
   outline: none;
   height: 2.25rem;
-  width: auto;
   font-size: 14px;
   background: transparent;
   color: #7a88b8;
   border: 2px solid rgb(122, 136, 184, 0.1);
   cursor: pointer;
+  width: 3rem;
+  position: relative;
 }
 
 .share-button:hover {
@@ -237,6 +244,18 @@ h2 {
   display: none;
 }
 
+.check-icon {
+  font-size: 18px;
+  color: var(--success);
+}
+
+.copy-message {
+  position: absolute;
+  font-size: 10px;
+  top: -1.25rem;
+  color: var(--success);
+}
+
 @media screen and (max-width: 667px) {
   .inner-status {
     display: none;
@@ -256,6 +275,10 @@ h2 {
 }
 
 @media screen and (max-width: 1023px) {
+  h2 {
+    padding-right: 0;
+  }
+
   .content-container {
     flex-direction: column;
     text-align: center;

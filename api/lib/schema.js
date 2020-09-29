@@ -112,7 +112,6 @@ const typeDefs = gql`
     validator: Validator
     beneficiary: NetworkAccount
     summary: String
-    parameter: String
     detailedVotes: DetailedVotes
   }
 
@@ -284,7 +283,7 @@ const typeDefs = gql`
     voteOption: String
     lockedBalance: Float
     timeLock: String
-    numberOfSeconds: Int
+    depositsCount: Int
     addressRole: String
     rewards: [RewardInput]
   }
@@ -386,6 +385,7 @@ const typeDefs = gql`
     name: String
     address: String!
     picture: String
+    validator: Validator
   }
 
   type TopVoter {

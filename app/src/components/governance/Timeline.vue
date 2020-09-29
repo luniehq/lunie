@@ -8,7 +8,10 @@
         :class="{ done: wasInThePast(phase.time) }"
       >
         <h4>{{ phase.title }}</h4>
-        <span class="time">{{ phase.time | moment }}</span>
+        <span class="time">
+          <template v-if="phase.time">{{ phase.time | moment }}</template>
+          <template v-else>?</template>
+        </span>
       </li>
     </ul>
   </section>

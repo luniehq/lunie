@@ -43,7 +43,7 @@ function accountInfoReducer(accountValue, accountType) {
   return {
     address: accountValue.address,
     accountNumber: accountValue.account_number,
-    sequence: accountValue.sequence
+    sequence: accountValue.sequence || 0
   }
 }
 
@@ -135,18 +135,18 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
   }
 }
 
-function depositReducer(deposit, network) {
+function depositReducer(deposit, network, store) {
   return {
     id: deposit.depositor,
     amount: [coinReducer(deposit.amount[0], undefined, network)],
-    depositer: networkAccountReducer(deposit.depositor)
+    depositer: networkAccountReducer(deposit.depositor, store.validators)
   }
 }
 
-function voteReducer(vote) {
+function voteReducer(vote, store) {
   return {
     id: String(vote.proposal_id.concat(`_${vote.voter}`)),
-    voter: networkAccountReducer(vote.voter),
+    voter: networkAccountReducer(vote.voter, store.validators),
     option: vote.option
   }
 }
@@ -162,7 +162,8 @@ function networkAccountReducer(address, validators) {
   return {
     name: validator ? validator.name : undefined,
     address: address || '',
-    picture: validator ? validator.picture : ''
+    picture: validator ? validator.picture : '',
+    validator
   }
 }
 
@@ -173,7 +174,6 @@ function proposalReducer(
   proposer,
   totalBondedTokens,
   detailedVotes,
-  reducers,
   validators
 ) {
   return {
@@ -182,14 +182,22 @@ function proposalReducer(
     networkId,
     type: proposal.proposal_content.type,
     title: proposal.proposal_content.value.title,
-    description: proposal.proposal_content.value.description,
+    description: proposal.content.value.changes
+      ? `Parameter: ${JSON.stringify(
+          proposal.proposal_content.value.changes,
+          null,
+          4
+        )}`
+      : `` + `\nDescription: ${proposal.proposal_content.value.description}`,
     creationTime: proposal.submit_time,
     status: proposal.proposal_status,
     statusBeginTime: proposalBeginTime(proposal),
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal),
-    proposer: networkAccountReducer(proposer.proposer, validators),
+    proposer: proposer
+      ? networkAccountReducer(proposer.proposer, validators)
+      : undefined,
     summary: getProposalSummary(proposal.proposal_content.type),
     detailedVotes
   }
@@ -212,6 +220,7 @@ function topVoterReducer(topVoter) {
     name: topVoter.name,
     address: topVoter.operatorAddress,
     votingPower: topVoter.votingPower,
+    picture: topVoter.picture,
     validator: topVoter
   }
 }
@@ -299,6 +308,7 @@ function blockReducer(networkId, block, transactions, data = {}) {
 function denomLookup(denom) {
   const lookup = {
     uatom: 'ATOM',
+    stake: 'STAKE',
     umuon: 'MUON',
     uluna: 'LUNA',
     ukrw: 'KRT',
@@ -520,24 +530,6 @@ async function rewardReducer(
     )
   )
   return multiDenomRewardsArray
-}
-
-async function totalStakeFiatValueReducer(
-  fiatValueAPI,
-  fiatCurrency,
-  totalStake,
-  stakingDenom
-) {
-  const fiatValue = await fiatValueAPI.calculateFiatValues(
-    [
-      {
-        amount: totalStake,
-        denom: stakingDenom
-      }
-    ],
-    fiatCurrency
-  )
-  return fiatValue[stakingDenom]
 }
 
 function extractInvolvedAddresses(transaction) {

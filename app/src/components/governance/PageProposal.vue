@@ -17,16 +17,18 @@
         :proposal="proposal"
       />
 
-      <ParticipantList v-if="participants" :participants="participants" />
+      <ParticipantList
+        v-if="participants"
+        :participants="participants"
+        :show-amounts="true"
+      />
 
-      <template v-if="proposal.detailedVotes.timeline">
+      <template v-if="proposal.detailedVotes.timeline.length">
         <Timeline :timeline="proposal.detailedVotes.timeline" />
       </template>
 
       <ProposalDescription
-        :description="proposal.description"
-        :type="proposal.type"
-        :parameter="proposal.parameter"
+        :proposal="proposal"
         :supporting-links="proposal.detailedVotes.links"
       />
 
@@ -40,9 +42,7 @@
         "
         :proposal-title="proposal.title || ''"
         :denom="parameters.depositDenom || currentNetwork.stakingDenom"
-        :number-of-seconds="
-          isPolkadotDemocracy ? Number(proposal.detailedVotes.votesSum) : 0
-        "
+        :deposits="proposal.detailedVotes.deposits"
         @success="() => afterDeposit()"
       />
       <ModalVotePolkadot
@@ -112,12 +112,6 @@ export default {
     fromNow,
     lowerCase: (text) => (text ? text.toLowerCase() : ""),
   },
-  props: {
-    proposalId: {
-      type: String,
-      required: true,
-    },
-  },
   data: () => ({
     proposals: [],
     vote: undefined,
@@ -137,6 +131,9 @@ export default {
   }),
   computed: {
     ...mapGetters([`address`, `network`, `currentNetwork`]),
+    proposalId() {
+      return this.$route.params.proposalId
+    },
     status() {
       return getProposalStatus(this.proposal)
     },
@@ -227,7 +224,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         // only Tendermint networks have this network-wide "governance parameters" logic
-        return !this.found || this.currentNetwork.network_type !== `cosmos`
+        return this.currentNetwork.network_type !== `cosmos`
       },
       /* istanbul ignore next */
       result(data) {
