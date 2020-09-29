@@ -23,7 +23,7 @@
               color="primary"
               @click.native="buttonAction(account)"
             />
-            <div v-if="true" class="account-menu-toggle">
+            <div v-if="isExtension" class="account-menu-toggle">
               <i
                 v-if="openAccount && openAccount.name === account.name"
                 class="material-icons notranslate"
