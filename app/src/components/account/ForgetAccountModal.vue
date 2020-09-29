@@ -169,7 +169,10 @@ export default {
         seedPhrase: this.seed,
       })
       if (this.isCorrectSeed && this.isExtension) {
-        this.isAccountDeleted = await this.$store.dispatch(`deleteAccountWithoutPassword`, this.address)
+        this.isAccountDeleted = await this.$store.dispatch(
+          `deleteAccountWithoutPassword`,
+          { address: this.address }
+        )
       } else if (this.isCorrectSeed && !this.isExtension) {
         this.isAccountDeleted = await deleteAccount(this.address)
       }
