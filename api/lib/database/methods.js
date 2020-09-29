@@ -114,6 +114,7 @@ const getNetworks = ({ hasura_url, hasura_admin_key }) => () => async () => {
         chain_id
         rpc_url
         api_url
+        public_rpc_url
         bech32_prefix
         testnet
         default
