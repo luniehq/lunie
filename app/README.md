@@ -1,12 +1,12 @@
 ![Lunie logo — right half circle with dotted left circle](/public/img/readme-header.svg)
- 
+
 # Welcome to [Lunie.io](https://lunie.io)!
 
 [![CircleCI](https://circleci.com/gh/luniehq/lunie/tree/develop.svg?style=svg)](https://circleci.com/gh/luniehq/lunie/tree/develop)
 [![codecov](https://codecov.io/gh/luniehq/lunie/branch/develop/graph/badge.svg)](https://codecov.io/gh/luniehq/lunie)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
-👋 Welcome to Lunie. We're making staking easy and accessible for everyone. This is the repo for the Lunie web and mobile apps.
+👋  Welcome to Lunie. We're making staking easy and accessible for everyone. This is the repo for the Lunie web and mobile apps.
 
 ## Development Dependencies
 

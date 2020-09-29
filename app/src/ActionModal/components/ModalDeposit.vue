@@ -25,6 +25,7 @@
         id="amount"
         v-model="amount"
         v-focus
+        :disabled="currentNetwork.network_type === `polkadot`"
         type="number"
         placeholder="0"
       />
@@ -66,6 +67,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import BigNumber from "bignumber.js"
 import gql from "graphql-tag"
 import { SMALLEST } from "src/scripts/num"
 import { decimal } from "vuelidate/lib/validators"
@@ -96,6 +98,10 @@ export default {
       type: String,
       required: true,
     },
+    deposits: {
+      type: Array,
+      default: () => [],
+    },
   },
   data: () => ({
     amount: null,
@@ -107,7 +113,7 @@ export default {
     smallestAmount: SMALLEST,
   }),
   computed: {
-    ...mapGetters([`network`, `networks`]),
+    ...mapGetters([`currentNetwork`]),
     ...mapGetters({ userAddress: `address` }),
     transactionData() {
       if (isNaN(this.amount) || !this.proposalId || !this.denom) {
@@ -120,6 +126,7 @@ export default {
           amount: this.amount,
           denom: this.denom,
         },
+        depositsCount: this.deposits.length,
       }
     },
     notifyMessage() {
@@ -150,6 +157,9 @@ export default {
   },
   methods: {
     open() {
+      if (this.currentNetwork.network_type === `polkadot`) {
+        this.amount = this.deposits[0].amount[0].amount
+      }
       this.$refs.actionModal.open()
     },
     validateForm() {
@@ -191,7 +201,7 @@ export default {
       /* istanbul ignore next */
       variables() {
         return {
-          networkId: this.network,
+          networkId: this.currentNetwork.id,
           address: this.userAddress,
           denom: this.denom,
         }

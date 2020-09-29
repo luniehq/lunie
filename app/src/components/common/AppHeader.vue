@@ -70,7 +70,6 @@
 
 <script>
 import { mapState } from "vuex"
-import noScroll from "no-scroll"
 import AppMenu from "common/AppMenu"
 import UserMenu from "account/UserMenu"
 export default {
@@ -103,14 +102,12 @@ export default {
   methods: {
     close() {
       this.open = false
-      noScroll.off()
     },
     show() {
       if (this.session.currrentModalOpen) {
         this.session.currrentModalOpen.close()
       }
       this.open = true
-      noScroll.on()
     },
     watchWindowSize() {
       const w = Math.max(

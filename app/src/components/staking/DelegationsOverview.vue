@@ -14,6 +14,7 @@
       <div v-else-if="delegations.length > 0 || stakedBalance.total > 0">
         <h1>Your Stake</h1>
         <BalanceRow
+          v-if="stakedBalance.total > 0"
           :balance="stakedBalance"
           :total-rewards-per-denom="totalRewardsPerDenom"
           :stake="currentNetwork.network_type === 'polkadot'"
@@ -68,11 +69,9 @@ export default {
   },
   data: () => ({
     delegations: [],
-    undelegations: [],
     balances: [],
     rewards: [],
     delegationsLoaded: false,
-    undelegationsLoaded: false,
     preferredCurrency: "USD",
   }),
   computed: {
@@ -89,18 +88,10 @@ export default {
       const stakingDenomBalance = this.balances.find(
         ({ denom }) => denom === this.currentNetwork.stakingDenom
       )
-      let stakedAmount =
-        Number(stakingDenomBalance.total) -
-        Number(stakingDenomBalance.available)
-      // substract the already unbonding balance in the case of Substrate networks.
-      if (this.undelegationsLoaded && this.undelegations.length > 0) {
-        stakedAmount = this.undelegations.reduce(
-          (stakedAmount, { amount }) => stakedAmount - Number(amount),
-          stakedAmount
-        )
-      }
       return {
-        total: stakedAmount.toFixed(3),
+        total: stakingDenomBalance
+          ? Number(stakingDenomBalance.staked).toFixed(3)
+          : 0,
         denom: this.currentNetwork.stakingDenom,
       }
     },
@@ -142,6 +133,7 @@ export default {
             denom
             available
             total
+            staked
           }
         }
       `,
@@ -176,40 +168,6 @@ export default {
       update(data) {
         this.delegationsLoaded = true
         return data.delegations || []
-      },
-    },
-    undelegations: {
-      query() {
-        /* istanbul ignore next */
-        return gql`
-        query undelegations($networkId: String!, $delegatorAddress: String!) {
-          undelegations(networkId: $networkId, delegatorAddress: $delegatorAddress) {
-            id
-            validator {
-              ${ValidatorFragment}
-            }
-            amount
-            startHeight
-            endTime
-          }
-        }
-      `
-      },
-      /* istanbul ignore next */
-      variables() {
-        return {
-          networkId: this.currentNetwork.id,
-          delegatorAddress: this.address,
-        }
-      },
-      /* istanbul ignore next */
-      skip() {
-        return this.currentNetwork.network_type !== `polkadot` // we only need undelegations for Polkadot networks
-      },
-      /* istanbul ignore next */
-      update(data) {
-        this.undelegationsLoaded = true
-        return data.undelegations
       },
     },
     rewards: {

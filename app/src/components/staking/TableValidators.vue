@@ -149,12 +149,6 @@ export default {
     },
   },
   watch: {
-    "sort.property": function () {
-      this.showing = 15
-    },
-    "sort.order": function () {
-      this.showing = 15
-    },
     address: {
       handler() {
         if (!this.address) {

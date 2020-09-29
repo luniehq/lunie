@@ -2,7 +2,7 @@ name: App Production Deployment Workflow
 on:
   push:
     branches:
-      - "master"
+      - 'master'
     paths:
       - 'app/CHANGELOG.md'
 
@@ -32,7 +32,7 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_APP }}
         working-directory: ${{env.WORKING_DIRECTORY}}
       - name: Deploy to Production
-        uses: nwtgck/actions-netlify@v1.1.4
+        uses: nwtgck/actions-netlify@v1.1.10
         id: deploy
         with:
           production-branch: master

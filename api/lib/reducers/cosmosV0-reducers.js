@@ -1,6 +1,7 @@
 const BigNumber = require('bignumber.js')
 const { encodeB32, decodeB32 } = require('../tools')
 const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
+const { getProposalSummary } = require('./common')
 /**
  * Modify the following reducers with care as they are used for ./cosmosV2-reducer.js as well
  * [proposalBeginTime, proposalEndTime, getDeposit, tallyReducer, atoms, getValidatorStatus, coinReducer]
@@ -42,7 +43,7 @@ function accountInfoReducer(accountValue, accountType) {
   return {
     address: accountValue.address,
     accountNumber: accountValue.account_number,
-    sequence: accountValue.sequence
+    sequence: accountValue.sequence || 0
   }
 }
 
@@ -102,7 +103,9 @@ function getTotalVotePercentage(proposal, totalBondedTokens, totalVoted) {
   if (proposalFinalized(proposal)) return -1
   if (BigNumber(totalVoted).eq(0)) return 0
   if (!totalBondedTokens) return -1
-  return BigNumber(totalVoted).div(atoms(totalBondedTokens)).toNumber()
+  return Number(
+    BigNumber(totalVoted).div(atoms(totalBondedTokens)).toNumber().toFixed(6)
+  )
 }
 
 function tallyReducer(proposal, tally, totalBondedTokens) {
@@ -132,17 +135,18 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
   }
 }
 
-function depositReducer(deposit, network) {
+function depositReducer(deposit, network, store) {
   return {
+    id: deposit.depositor,
     amount: [coinReducer(deposit.amount[0], undefined, network)],
-    depositer: networkAccountReducer(deposit.depositor)
+    depositer: networkAccountReducer(deposit.depositor, store.validators)
   }
 }
 
-function voteReducer(vote) {
+function voteReducer(vote, store) {
   return {
-    id: String(vote.proposal_id),
-    voter: networkAccountReducer(vote.voter),
+    id: String(vote.proposal_id.concat(`_${vote.voter}`)),
+    voter: networkAccountReducer(vote.voter, store.validators),
     option: vote.option
   }
 }
@@ -156,9 +160,10 @@ function networkAccountReducer(address, validators) {
       ? validators[proposerValAddress]
       : undefined
   return {
-    name: validator ? validator.name : address || '',
+    name: validator ? validator.name : undefined,
     address: address || '',
-    picture: validator ? validator.picture : ''
+    picture: validator ? validator.picture : '',
+    validator
   }
 }
 
@@ -169,22 +174,31 @@ function proposalReducer(
   proposer,
   totalBondedTokens,
   detailedVotes,
-  reducers,
   validators
 ) {
   return {
     id: Number(proposal.proposal_id),
+    proposalId: String(proposal.proposal_id),
     networkId,
     type: proposal.proposal_content.type,
     title: proposal.proposal_content.value.title,
-    description: proposal.proposal_content.value.description,
+    description: proposal.content.value.changes
+      ? `Parameter: ${JSON.stringify(
+          proposal.proposal_content.value.changes,
+          null,
+          4
+        )}`
+      : `` + `\nDescription: ${proposal.proposal_content.value.description}`,
     creationTime: proposal.submit_time,
     status: proposal.proposal_status,
     statusBeginTime: proposalBeginTime(proposal),
     statusEndTime: proposalEndTime(proposal),
     tally: tallyReducer(proposal, tally, totalBondedTokens),
     deposit: getDeposit(proposal),
-    proposer: networkAccountReducer(proposer.proposer, validators),
+    proposer: proposer
+      ? networkAccountReducer(proposer.proposer, validators)
+      : undefined,
+    summary: getProposalSummary(proposal.proposal_content.type),
     detailedVotes
   }
 }
@@ -206,6 +220,7 @@ function topVoterReducer(topVoter) {
     name: topVoter.name,
     address: topVoter.operatorAddress,
     votingPower: topVoter.votingPower,
+    picture: topVoter.picture,
     validator: topVoter
   }
 }
@@ -293,6 +308,7 @@ function blockReducer(networkId, block, transactions, data = {}) {
 function denomLookup(denom) {
   const lookup = {
     uatom: 'ATOM',
+    stake: 'STAKE',
     umuon: 'MUON',
     uluna: 'LUNA',
     ukrw: 'KRT',
@@ -427,6 +443,7 @@ async function balanceV2Reducer(
     denom: lunieCoin.denom,
     fiatValue: fiatValue[lunieCoin.denom],
     available: lunieCoin.amount,
+    staked: delegatedStake.amount || 0,
     availableFiatValue: availableFiatValue[stakingDenom]
   }
 }
@@ -515,24 +532,6 @@ async function rewardReducer(
   return multiDenomRewardsArray
 }
 
-async function totalStakeFiatValueReducer(
-  fiatValueAPI,
-  fiatCurrency,
-  totalStake,
-  stakingDenom
-) {
-  const fiatValue = await fiatValueAPI.calculateFiatValues(
-    [
-      {
-        amount: totalStake,
-        denom: stakingDenom
-      }
-    ],
-    fiatCurrency
-  )
-  return fiatValue[stakingDenom]
-}
-
 function extractInvolvedAddresses(transaction) {
   // If the transaction has failed, it doesn't get tagged
   if (!Array.isArray(transaction.tags)) return []
@@ -579,5 +578,6 @@ module.exports = {
   getValidatorStatus,
   expectedRewardsPerToken,
   denomLookup,
-  extractInvolvedAddresses
+  extractInvolvedAddresses,
+  getProposalSummary
 }

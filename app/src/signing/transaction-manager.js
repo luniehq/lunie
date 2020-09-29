@@ -166,6 +166,7 @@ export default class TransactionManager {
       config // only needed for Ledger
     )
 
+    // TODO need to get the transaction types from db
     const { getSignableObject, getBroadcastableObject } = await import(
       `./networkMessages/${network.network_type}-transactions.js`
     )
@@ -203,25 +204,6 @@ export default class TransactionManager {
     } else {
       throw Error("Broadcast was not successful: " + result.error)
     }
-  }
-
-  /* istanbul ignore next */
-  async getPolkadotFees({ messageType, message, senderAddress, network }) {
-    const chainMessage = await getMessage(
-      network,
-      messageType,
-      senderAddress,
-      message
-    )
-
-    const { partialFee } = await chainMessage.transaction.paymentInfo(
-      senderAddress
-    )
-    const chainFees = partialFee.toJSON()
-    const viewFees = BigNumber(chainFees)
-      .times(network.coinLookup[0].chainToViewConversionFactor)
-      .toNumber()
-    return viewFees
   }
 }
 
