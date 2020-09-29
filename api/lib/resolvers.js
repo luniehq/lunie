@@ -177,8 +177,6 @@ const transactionMetadata = async (
   }
 }
 
-const getValidatorProfile = async (name, dataSources, networks) => {}
-
 const governanceOverview = () => async (_, { networkId }, { dataSources }) => {
   const overview = await remoteFetch(
     dataSources,
@@ -425,8 +423,14 @@ const resolvers = (networkList, notificationController) => ({
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
     },
-    validatorProfile: (_, { name }, { dataSources }) => {
-      getValidatorProfile(name, dataSources, networkList)
+    validatorProfile: async (
+      _,
+      { operatorAddress, networkId },
+      { dataSources }
+    ) => {
+      return await remoteFetch(dataSources, networkId).getValidatorProfile(
+        operatorAddress
+      )
     },
     governanceOverview: governanceOverview()
   },

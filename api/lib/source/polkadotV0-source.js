@@ -261,6 +261,10 @@ class polkadotAPI extends RESTDataSource {
     return validator.selfStake
   }
 
+  async getValidatorProfile(operatorAddress) {
+    return this.store.validators[operatorAddress].profile
+  }
+
   async getBalancesFromAddress(address, fiatCurrency) {
     const balanceInfo = await this.query(
       `${this.baseURL}/accounts/${address}/balance-info`

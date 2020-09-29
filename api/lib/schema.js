@@ -142,6 +142,7 @@ const typeDefs = gql`
     name: String
     picture: String
     popularity: Int
+    profile: ValidatorProfile
   }
 
   type BlockV2 @cacheControl(maxAge: 10) {
@@ -499,11 +500,9 @@ const typeDefs = gql`
   }
 
   type ValidatorProfile {
-    name: String
     rank: Int
     description: String
     teamMembers: [ValidatorTeamMember]
-    website: String
     telegram: String
     github: String
     twitter: String
@@ -512,7 +511,6 @@ const typeDefs = gql`
     totalStakedAssets: Int
     uptimePercentage: String
     contributionLinks: [ContributionLink]
-    networks: [ValidatorNetwork]
     feed: [Notification]
   }
 
@@ -596,7 +594,7 @@ const typeDefs = gql`
       addressObjects: [NotificationInput]!
     ): [Notification]!
     accountRole(networkId: String!, address: String!): String
-    validatorProfile(name: String!): ValidatorProfile
+    validatorProfile(operatorAddress: String!): ValidatorProfile
   }
 `
 

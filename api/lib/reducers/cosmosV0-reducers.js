@@ -291,6 +291,26 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
   }
 }
 
+function validatorProfileReducer(validator, feed) {
+  return {
+    ...validator,
+    profile: {
+      rank: validator.rank,
+      description: validator.description,
+      teamMembers: validator.teamMembers,
+      telegram: validator.telegram,
+      github: validator.github,
+      twitter: validator.twitter,
+      blog: validator.blog,
+      numberStakers: validator.numberStakers,
+      totalStakedAssets: validator.totalStakedAssets,
+      uptimePercentage: validator.uptimePercentage,
+      contributionLinks: validator.contributionLinks,
+      feed
+    }
+  }
+}
+
 function blockReducer(networkId, block, transactions, data = {}) {
   return {
     id: block.block_meta.block_id.hash,
@@ -558,6 +578,7 @@ module.exports = {
   depositReducer,
   voteReducer,
   validatorReducer,
+  validatorProfileReducer,
   blockReducer,
   delegationReducer,
   coinReducer,
