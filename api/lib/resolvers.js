@@ -45,13 +45,6 @@ function localStore(dataSources, networkId) {
   }
 }
 
-function globalStore(dataSources, networks) {
-  // actually we can access the GlobalStore from any of the networks sources
-  if (dataSources[networks[0].id]) {
-    return dataSources[networks[0].id].globalStore
-  }
-}
-
 async function validators(
   _,
   { networkId, searchTerm, activeOnly, popularSort },
@@ -184,12 +177,7 @@ const transactionMetadata = async (
   }
 }
 
-const getValidatorProfile = async (name, dataSources, networks) => {
-  await globalStore(dataSources, networks).dataReady
-  const globalsStoreConst = globalStore(dataSources, networks)
-  const globalValidators = await globalsStoreConst.getGlobalValidators()
-  return globalValidators[name]
-}
+const getValidatorProfile = async (name, dataSources, networks) => {}
 
 const governanceOverview = () => async (_, { networkId }, { dataSources }) => {
   const overview = await remoteFetch(

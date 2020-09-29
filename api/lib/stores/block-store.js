@@ -9,8 +9,8 @@ const {
   resourceTypes
 } = require('../notifications/notifications-types')
 
-class NetworkStore {
-  constructor(network, database, globalStore) {
+class BlockStore {
+  constructor(network, database) {
     this.network = network
     this.block = {}
     this.stakingDenom = ''
@@ -74,9 +74,6 @@ class NetworkStore {
 
       // write validators to db to have all validators in the db to add pictures
       this.updateDBValidatorProfiles(validators)
-
-      // add this NetworkStore into the global store stores
-      this.globalStore.upsertStoreToGlobalStore(this)
 
       if (Object.keys(this.validators).length !== 0) {
         this.checkValidatorUpdates(validators)
@@ -336,5 +333,5 @@ async function storeStoreInDB(store) {
   })
 }
 
-module.exports = NetworkStore
+module.exports = BlockStore
 module.exports.enrichValidator = enrichValidator

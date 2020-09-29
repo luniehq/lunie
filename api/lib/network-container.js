@@ -1,5 +1,4 @@
-const NetworkStore = require('./stores/network-store')
-const GlobalStore = require('./stores/global-store')
+const BlockStore = require('./stores/block-store')
 const FiatValuesAPI = require('./fiatvalues-api')
 const SlashingMonitor = require('./subscription/slashing')
 const database = require('./database')
@@ -9,9 +8,6 @@ function createDBInstance(networkId) {
   const networkSchemaName = networkId ? networkId.replace(/-/g, '_') : false
   return new database(config)(networkSchemaName)
 }
-
-// make persistent across networks
-const globalStore = new GlobalStore(database(config)(''))
 
 /*
   This class handles creation and management of each network.
@@ -35,7 +31,7 @@ class NetworkContainer {
   }
 
   initialize() {
-    this.createNetworkStore()
+    this.createStore()
     this.createBlockListener()
     this.createFiatValuesAPI()
 
@@ -43,8 +39,8 @@ class NetworkContainer {
       this.slashingMonitor.initialize()
   }
 
-  createNetworkStore() {
-    this.store = new NetworkStore(this.network, this.db, globalStore)
+  createStore() {
+    this.store = new BlockStore(this.network, this.db)
   }
 
   createFiatValuesAPI() {
@@ -78,8 +74,7 @@ class NetworkContainer {
           this.fiatValuesAPI,
           this.db
         ),
-        store: this.store,
-        globalStore: globalStore
+        store: this.store
       }
     }
   }

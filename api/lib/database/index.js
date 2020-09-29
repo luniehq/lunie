@@ -31,10 +31,7 @@ function database(dbConfig) {
       read: read(dbConfig)(schema),
       query: query(dbConfig),
       getValidatorsInfo: getValidatorsInfo(dbConfig)(schema),
-      getPremiumValidators: getPremiumValidators({
-        hasura_url,
-        hasura_admin_key
-      })(schema),
+      getPremiumValidators: getPremiumValidators(dbConfig)(schema),
       getNotifications: getNotifications(dbConfig)(schema),
       getValidatorInfoByAddress: async (validatorId) => {
         const validatorInfo = await getValidatorsInfo(dbConfig)(schema)(
