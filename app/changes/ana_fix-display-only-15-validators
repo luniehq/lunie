@@ -1,0 +1,1 @@
+[Fixed] [#5012](https://github.com/cosmos/lunie/pull/5012) Fix displaying only 15 validators on TableValidators when filters are used @Bitcoinera
