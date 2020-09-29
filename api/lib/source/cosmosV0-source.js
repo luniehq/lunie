@@ -186,16 +186,12 @@ class CosmosV0API extends RESTDataSource {
       validators,
       annualProvision,
       validatorSet,
-      signedBlocksWindow,
-      latestValidatorNotifications,
-      allValidatorDelegations
+      signedBlocksWindow
     ] = await Promise.all([
       Promise.all([
         this.query(`staking/validators?status=unbonding`),
         this.query(`staking/validators?status=bonded`),
-        this.query(`staking/validators?status=unbonded`),
-        this.db.getLatestValidatorNotifications(operatorAddress),
-        getAllValidatorDelegations(operatorAddress)
+        this.query(`staking/validators?status=unbonded`)
       ]).then((validatorGroups) => [].concat(...validatorGroups)),
       this.getAnnualProvision(),
       this.getAllValidatorSets(height),
@@ -236,13 +232,22 @@ class CosmosV0API extends RESTDataSource {
         annualProvision
       )
     )
-    return validatorsWithoutProfiles.map((validator) => {
-      this.reducers.validatorProfileReducer(
-        validator,
-        allValidatorDelegations.length,
-        latestValidatorNotifications
-      )
-    })
+    return Promise.all(
+      validatorsWithoutProfiles.map(async (validator) => {
+        const [
+          latestValidatorNotifications,
+          allValidatorDelegations
+        ] = await Promise.all([
+          this.db.getLatestValidatorNotifications(validator.operatorAddress),
+          getAllValidatorDelegations(validator.operatorAddress)
+        ])
+        return this.reducers.validatorProfileReducer(
+          validator,
+          allValidatorDelegations.length,
+          latestValidatorNotifications
+        )
+      })
+    )
   }
 
   async getValidatorProfile(operatorAddress) {
