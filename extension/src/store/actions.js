@@ -89,16 +89,18 @@ export default ({ apollo }) => {
     )
   }
 
-  const deleteAccountWithoutPassword = async (address) => {
-    const boolean = await sendAsyncMessageToContentScript(
+  const deleteAccountWithoutPassword = async ({ commit }, { address }) => {
+    chrome.runtime.sendMessage(
       {
         type: 'DELETE_WALLET_WITHOUT_PASSWORD',
         payload: { address }
       },
-      true
+      function (response) {
+        commit('setAccounts', response || [])
+        resolve(response)
+      }
     )
-
-    return boolean
+    return true
   }
 
   const getWallet = (store, { address, password }) => {

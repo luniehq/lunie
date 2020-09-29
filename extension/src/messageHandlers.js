@@ -128,14 +128,14 @@ export async function walletMessageHandler(message, sender, sendResponse) {
     }
     case 'DELETE_WALLET': {
       const { address, password } = message.payload
-      const response = removeWallet(address, password)
-      sendResponse(response)
+      removeWallet(address, password)
+      sendResponse()
       break
     }
     case 'DELETE_WALLET_WITHOUT_PASSWORD': {
       const { address } = message.payload
-      const response = removeFromStorage(address)
-      sendResponse(response)
+      removeFromStorage(address)
+      sendResponse()
       break
     }
     case 'TEST_PASSWORD': {
