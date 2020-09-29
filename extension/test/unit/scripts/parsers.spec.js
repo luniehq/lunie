@@ -53,21 +53,11 @@ const signedMessage = {
 }
 
 describe(`parsers helper`, () => {
-  it.skip(`should parse a signedmessaged ParseTx`, () => {
+  it(`should parse a signedmessaged ParseTx`, () => {
     const parsedTx = {
       type: 'SendTx',
-      hash: undefined,
-      height: undefined,
-      details: {
-        type: 'SendTx',
-        from: ['cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e'],
-        to: ['cosmos1324vt5j3wzx0xsc32mjhkrvy5gn5ef2hrwcg29'],
-        amount: { denom: 'ATOM', amount: 10 }
-      },
-      timestamp: undefined,
-      memo: '',
-      fees: [{ denom: 'ATOM', amount: 0.00004 }],
-      success: false
+      details: JSON.stringify(signedMessage),
+      fees: [{ denom: 'ATOM', amount: "0.00004" }],
     }
     expect(getDisplayTransaction(network, parsedTx.type, JSON.stringify(signedMessage), transactionData)).toEqual(parsedTx)
   })
