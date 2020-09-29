@@ -1,2 +1,1 @@
-[Added] [#4337](https://github.com/cosmos/lunie/issues/4337) Add the validator profile endpoint @Bitcoinera
-[Added] [#4468](https://github.com/cosmos/lunie/pull/4468) Add global store to have a cross-network store @Bitcoinera
+[Changed] [#4337](https://github.com/cosmos/lunie/issues/4337) Add the new validator profile endpoint @Bitcoinera
