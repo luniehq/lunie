@@ -68,7 +68,7 @@
     "autosize": "^4.0.2",
     "bech32": "^1.1.4",
     "bignumber.js": "^9.0.0",
-    "concurrently": "^4.1.1",
+    "concurrently": "^5.3.0",
     "core-js": "^3.6.5",
     "graphql": "15.3.0",
     "graphql-tag": "2.10.1",
