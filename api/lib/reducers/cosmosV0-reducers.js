@@ -291,19 +291,20 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
   }
 }
 
-function validatorProfileReducer(validator, feed) {
+function validatorProfileReducer(validator, numberStakers, feed) {
   return {
     ...validator,
     profile: {
+      name: validator.description.moniker,
       rank: validator.rank,
-      description: validator.description,
+      description: validator.description.details,
       teamMembers: validator.teamMembers,
+      website: validator.description.website,
       telegram: validator.telegram,
       github: validator.github,
       twitter: validator.twitter,
       blog: validator.blog,
-      numberStakers: validator.numberStakers,
-      totalStakedAssets: validator.totalStakedAssets,
+      numberStakers,
       uptimePercentage: validator.uptimePercentage,
       contributionLinks: validator.contributionLinks,
       feed

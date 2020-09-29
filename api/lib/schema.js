@@ -500,15 +500,16 @@ const typeDefs = gql`
   }
 
   type ValidatorProfile {
+    name: String
     rank: Int
     description: String
     teamMembers: [ValidatorTeamMember]
+    website: String
     telegram: String
     github: String
     twitter: String
     blog: String
     numberStakers: Int
-    totalStakedAssets: Int
     uptimePercentage: String
     contributionLinks: [ContributionLink]
     feed: [Notification]
