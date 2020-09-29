@@ -556,19 +556,13 @@ function networkAccountReducer(address, account, store) {
   }
 }
 
-function democracyProposalReducer(
-  network,
-  proposal,
-  parameter,
-  detailedVotes,
-  proposer
-) {
+function democracyProposalReducer(network, proposal, detailedVotes) {
   return {
     id: `democracy-`.concat(proposal.index),
     proposalId: proposal.index,
     networkId: network.id,
     type: proposalTypeEnum.PARAMETER_CHANGE,
-    title: `Preliminary Proposal #${proposal.index}`,
+    title: `Proposal #${proposal.index}`,
     description: proposal.description,
     creationTime: proposal.creationTime,
     status: `DepositPeriod`, // trying to adjust to the Cosmos status
@@ -576,8 +570,7 @@ function democracyProposalReducer(
     tally: democracyTallyReducer(proposal),
     deposit: toViewDenom(network, proposal.balance),
     summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
-    changes: parameter,
-    proposer,
+    proposer: proposal.proposer,
     detailedVotes
   }
 }
@@ -585,7 +578,6 @@ function democracyProposalReducer(
 function democracyReferendumReducer(
   network,
   proposal,
-  parameter,
   totalIssuance,
   blockHeight,
   detailedVotes
@@ -604,7 +596,6 @@ function democracyReferendumReducer(
     tally: tallyReducer(network, proposal.status.tally, totalIssuance),
     deposit: toViewDenom(network, proposal.status.tally.turnout),
     summary: getProposalSummary(proposalTypeEnum.PARAMETER_CHANGE),
-    changes: parameter,
     proposer: proposal.proposer,
     detailedVotes
   }
@@ -613,12 +604,10 @@ function democracyReferendumReducer(
 function treasuryProposalReducer(
   network,
   proposal,
-  parameter,
   councilMembers,
   blockHeight,
   electionInfo,
-  detailedVotes,
-  proposer
+  detailedVotes
 ) {
   return {
     id: `treasury-`.concat(proposal.index || proposal.votes.index),
@@ -636,10 +625,11 @@ function treasuryProposalReducer(
       ? councilTallyReducer(proposal.votes, councilMembers, electionInfo)
       : {},
     deposit: toViewDenom(network, Number(proposal.deposit)),
-    proposer,
+    proposer: proposal.proposer,
     beneficiary: proposal.beneficiary, // the account getting the tip
-    summary: getProposalSummary(proposalTypeEnum.TREASURY),
-    changes: parameter.concat(` ${network.stakingDenom}s`),
+    summary:
+      getProposalSummary(proposalTypeEnum.TREASURY) +
+      `\nTreasury proposals on ${network.title} can only be voted on by council members.`,
     detailedVotes
   }
 }
@@ -737,6 +727,7 @@ function topVoterReducer(
   topVoterAddress,
   electionInfo,
   accountInfo,
+  totalIssuance,
   validators,
   network
 ) {
@@ -747,9 +738,15 @@ function topVoterReducer(
   return {
     name: accountInfo.name,
     address: topVoterAddress,
-    votingPower: councilMemberInfo
-      ? toViewDenom(network, councilMemberInfo[1])
-      : '',
+    votingPower:
+      councilMemberInfo && totalIssuance
+        ? BigNumber(councilMemberInfo[1])
+            .div(BigNumber(totalIssuance))
+            .toNumber()
+        : '',
+    picture: validators[topVoterAddress]
+      ? validators[topVoterAddress].picture
+      : undefined,
     validator: validators[topVoterAddress]
   }
 }

@@ -68,6 +68,9 @@ describe(`PageProposal`, () => {
       mocks: {
         $store,
         $apollo,
+        $route: {
+          params: { proposalId: 19 },
+        },
       },
       stubs: [`router-link`],
     }

@@ -55,7 +55,7 @@ function sendDetailsReducer(message, reducers, network) {
   return {
     from: [message.from_address],
     to: [message.to_address],
-    amount: reducers.coinReducer(message.amount[0], coinLookup)
+    amount: reducers.coinReducer(message.amount[0], coinLookup, network)
   }
 }
 
@@ -63,7 +63,7 @@ function stakeDetailsReducer(message, reducers, network) {
   const coinLookup = network.getCoinLookup(network, message.amount.denom)
   return {
     to: [message.validator_address],
-    amount: reducers.coinReducer(message.amount, coinLookup)
+    amount: reducers.coinReducer(message.amount, coinLookup, network)
   }
 }
 
@@ -72,7 +72,7 @@ function restakeDetailsReducer(message, reducers, network) {
   return {
     from: [message.validator_src_address],
     to: [message.validator_dst_address],
-    amount: reducers.coinReducer(message.amount, coinLookup)
+    amount: reducers.coinReducer(message.amount, coinLookup, network)
   }
 }
 
@@ -80,7 +80,7 @@ function unstakeDetailsReducer(message, reducers, network) {
   const coinLookup = network.getCoinLookup(network, message.amount.denom)
   return {
     from: [message.validator_address],
-    amount: reducers.coinReducer(message.amount, coinLookup)
+    amount: reducers.coinReducer(message.amount, coinLookup, network)
   }
 }
 
@@ -142,7 +142,11 @@ function submitProposalDetailsReducer(message, reducers, network) {
     proposalType: message.content.type,
     proposalTitle: message.content.value.title,
     proposalDescription: message.content.value.description,
-    initialDeposit: reducers.coinReducer(message.initial_deposit[0], coinLookup)
+    initialDeposit: reducers.coinReducer(
+      message.initial_deposit[0],
+      coinLookup,
+      network
+    )
   }
 }
 
@@ -157,7 +161,7 @@ function depositDetailsReducer(message, reducers, network) {
   const coinLookup = network.getCoinLookup(network, message.amount[0].denom)
   return {
     proposalId: message.proposal_id,
-    amount: reducers.coinReducer(message.amount[0], coinLookup)
+    amount: reducers.coinReducer(message.amount[0], coinLookup, network)
   }
 }
 
@@ -243,8 +247,9 @@ function proposalReducer(
     proposalId: String(proposal.id),
     type: proposalTypeEnumDictionary[proposal.content.type.split('/')[1]],
     title: proposal.content.value.title,
-    description: proposal.content.value.description,
-    changes: JSON.stringify(proposal.content.value.changes, null, 4),
+    description: proposal.content.value.changes
+      ? `Parameter: ${JSON.stringify(proposal.content.value.changes, null, 4)}`
+      : `` + `\nDescription: ${proposal.content.value.description}`,
     creationTime: proposal.submit_time,
     status: proposal.proposal_status,
     statusBeginTime: proposalBeginTime(proposal),
@@ -271,14 +276,14 @@ function transactionReducerV2(network, transaction, reducers) {
     ) {
       fees = transaction.tx.value.fee.amount.map((coin) => {
         const coinLookup = network.getCoinLookup(network, coin.denom)
-        return coinReducer(coin, coinLookup)
+        return coinReducer(coin, coinLookup, network)
       })
     } else {
       const coinLookup = network.getCoinLookup(
         network,
         transaction.tx.value.fee.amount.denom
       )
-      fees = [coinReducer(transaction.tx.value.fee.amount, coinLookup)]
+      fees = [coinReducer(transaction.tx.value.fee.amount, coinLookup, network)]
     }
     // We do display only the transactions we support in Lunie
     const filteredMessages = transaction.tx.value.msg.filter(
@@ -352,7 +357,7 @@ function transactionsReducerV2(network, txs, reducers) {
   // here we filter out all transactions related to validators
   return reversedTxs.reduce((collection, transaction) => {
     return collection.concat(
-      transactionReducerV2(network, transaction, reducers)
+      reducers.transactionReducerV2(network, transaction, reducers)
     )
   }, [])
 }
@@ -460,6 +465,7 @@ module.exports = {
   // CosmosV0 Reducers
   ...cosmosV0Reducers,
   transactionsReducerV2,
+  transactionDetailsReducer,
   transactionReducerV2,
   sendDetailsReducer,
   stakeDetailsReducer,

@@ -309,7 +309,6 @@ export default (store) => {
             networkSpecificRoute: true,
           },
           component: () => import(`./components/governance/PageProposal`),
-          props: true,
         },
         // for deprecated routes
         {

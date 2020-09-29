@@ -13,11 +13,8 @@ const {
   eventTypes,
   resourceTypes
 } = require('../notifications/notifications-types')
-const BLOCK_POLLING_INTERVAL = 1000
+const BLOCK_POLLING_INTERVAL = 5000
 const EXPECTED_MAX_BLOCK_WINDOW = 120000
-// apparently the cosmos db takes a while to serve the content after a block has been updated
-// if we don't do this, we run into errors as the data is not yet available
-const COSMOS_DB_DELAY = 2000
 const PROPOSAL_POLLING_INTERVAL = 600000 // 10min
 const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
 
@@ -93,14 +90,40 @@ class BaseNodeSubscription {
     // overwrite chain_id with the network's one, making sure it is correct
     this.store.network.chain_id = block.chainId
     if (block && this.height !== block.height) {
-      // apparently the cosmos db takes a while to serve the content after a block has been updated
-      // if we don't do this, we run into errors as the data is not yet available
-      setTimeout(() => this.newBlockHandler(block, dataSource), COSMOS_DB_DELAY)
-      this.height = block.height // this needs to be set somewhere
+      this.loadNewBlocks(block, dataSource)
+    }
+  }
+
+  async loadNewBlocks(latestBlock, dataSource) {
+    // get missed blocks
+    while (!this.height || this.height < latestBlock.height) {
+      // if we now we missed a block, load passed blocks
+      const currentBlock =
+        !this.height || this.height + 1 !== latestBlock.height
+          ? await dataSource.getBlockByHeightV2(this.height + 1)
+          : latestBlock
+
+      this.newBlockHandler(currentBlock, dataSource)
+      // if we have no last block analyzed we start analyzing from the current block
+      // afterwards we load all blocks that follow that block
+      // TODO we should store the last analyzed block in the db to not forget to query missed blocks
+      if (!this.height) {
+        this.height = Number(latestBlock.height)
+      } else {
+        this.height++
+      }
 
       // we are safe, that the chain produced a block so it didn't hang up
       if (this.chainHangup) clearTimeout(this.chainHangup)
     }
+  }
+
+  async getValidators(block, dataSource) {
+    dataSource.getAllValidators(block.height).then((validators) => {
+      this.store.update({
+        validators: validators
+      })
+    })
   }
 
   async pollForNewBlock() {
@@ -134,18 +157,17 @@ class BaseNodeSubscription {
         scope.setExtra('height', block.height)
       })
 
+      this.store.update({
+        block
+      })
+      publishBlockAdded(this.network.id, block)
+
       // allow for network specific block handlers
       if (dataSource.newBlockHandler) {
         await dataSource.newBlockHandler(block, this.store)
       }
 
-      const validators = await dataSource.getAllValidators(block.height)
-      await this.store.update({
-        height: block.height,
-        block,
-        validators: validators
-      })
-      publishBlockAdded(this.network.id, block)
+      this.getValidators(block, dataSource)
 
       // For each transaction listed in a block we extract the relevant addresses. This is published to the network.
       // A GraphQL resolver is listening for these messages and sends the
@@ -182,8 +204,6 @@ class BaseNodeSubscription {
           }
         })
       })
-
-      if (this.postNewBlockHandler) this.postNewBlockHandler(block)
     } catch (error) {
       console.error('newBlockHandler failed', error)
       Sentry.captureException(error)
