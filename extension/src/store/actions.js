@@ -319,7 +319,7 @@ export default ({ apollo }) => {
       }
     )
     if (!foundCombination) return false
-    return true
+    return foundCombination.cosmosAddress === address
   }
 
   return {
