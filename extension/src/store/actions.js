@@ -97,7 +97,6 @@ export default ({ apollo }) => {
       },
       function (response) {
         commit('setAccounts', response || [])
-        resolve(response)
       }
     )
     return true
