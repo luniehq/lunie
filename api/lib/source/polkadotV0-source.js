@@ -251,9 +251,32 @@ class polkadotAPI extends RESTDataSource {
         validator.votingPower = 0
       }
     })
-
-    return allValidators.map((validator) =>
+    const allValidatorsWithoutProfile = allValidators.map((validator) =>
       this.reducers.validatorReducer(this.network, validator)
+    )
+    return await Promise.all(
+      allValidatorsWithoutProfile.map(async (validator) => {
+        const [
+          validatorProfile,
+          latestValidatorNotifications
+        ] = await Promise.all([
+          this.db.getValidatorProfile(validator.operatorAddress),
+          this.db.getLatestValidatorNotifications(validator.operatorAddress)
+        ])
+        const primitiveValidator = allValidators.find(
+          ({ accountId }) => accountId === validator.operatorAddress
+        )
+        return this.reducers.validatorProfileReducer(
+          validator,
+          primitiveValidator,
+          validatorProfile,
+          this.store.validators[validator.operatorAddress]
+            ? this.store.validators[validator.operatorAddress].nominations
+                .length
+            : undefined,
+          latestValidatorNotifications
+        )
+      })
     )
   }
 
@@ -262,7 +285,9 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getValidatorProfile(operatorAddress) {
-    return this.store.validators[operatorAddress].profile
+    return this.store.validators[operatorAddress]
+      ? this.store.validators[operatorAddress].profile
+      : undefined
   }
 
   async getBalancesFromAddress(address, fiatCurrency) {

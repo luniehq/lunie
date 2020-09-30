@@ -78,6 +78,33 @@ function validatorReducer(network, validator) {
   }
 }
 
+function validatorProfileReducer(
+  validator,
+  primitiveValidator,
+  validatorProfile,
+  numberStakers,
+  feed
+) {
+  return {
+    ...validator,
+    profile: {
+      name: validator.name,
+      rank: validatorProfile.rank,
+      description: validator.details,
+      teamMembers: JSON.parse(validatorProfile.teamMembers),
+      website: validator.website,
+      telegram: validatorProfile.telegram,
+      github: validatorProfile.github,
+      twitter: validatorProfile.twitter,
+      blog: validatorProfile.blog,
+      numberStakers,
+      uptimePercentage: validator.uptimePercentage,
+      contributionLinks: JSON.parse(validatorProfile.contributionLinks),
+      feed
+    }
+  }
+}
+
 function identityReducer(address, identity) {
   if (
     identity.displayParent &&
@@ -720,6 +747,7 @@ function getStatusEndTime(blockHeight, endBlock) {
 module.exports = {
   blockReducer,
   validatorReducer,
+  validatorProfileReducer,
   balanceReducer,
   balanceV2Reducer,
   delegationReducer,
