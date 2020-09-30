@@ -113,7 +113,7 @@ const getValidatorsInfo = ({ hasura_url, hasura_admin_key }) => (
 const getValidatorProfile = ({ hasura_url, hasura_admin_key }) => (
   schema
 ) => async (operatorAddress) => {
-  return await read({
+  const validatorProfile = await read({
     hasura_url,
     hasura_admin_key
   })(schema)(
@@ -134,6 +134,7 @@ const getValidatorProfile = ({ hasura_url, hasura_admin_key }) => (
       ? `where: {operator_address: {_eq: "${operatorAddress}"}}`
       : false
   )
+  return validatorProfile[0]
 }
 
 const getNotifications = ({ hasura_url, hasura_admin_key }) => (
