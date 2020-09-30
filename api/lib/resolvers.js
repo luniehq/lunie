@@ -1,6 +1,5 @@
 const { sortBy } = require('lodash')
 const { UserInputError, withFilter } = require('apollo-server')
-const BigNumber = require('bignumber.js')
 const {
   blockAdded,
   notificationAdded,
@@ -8,7 +7,6 @@ const {
   userTransactionV2Added,
   event
 } = require('./subscriptions')
-const { encodeB32, decodeB32 } = require('./tools')
 const {
   getNetworkTransactionGasEstimates,
   getPolkadotFee,
