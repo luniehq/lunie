@@ -304,7 +304,7 @@ function validatorProfileReducer(
       name: primitiveValidator.description.moniker,
       rank: validatorProfile.rank,
       description: primitiveValidator.description.details,
-      teamMembers: validatorProfile.teamMembers,
+      teamMembers: JSON.parse(validatorProfile.teamMembers),
       website: primitiveValidator.description.website,
       telegram: validatorProfile.telegram,
       github: validatorProfile.github,
@@ -312,7 +312,7 @@ function validatorProfileReducer(
       blog: validatorProfile.blog,
       numberStakers,
       uptimePercentage: validator.uptimePercentage,
-      contributionLinks: JSON.stringify(validatorProfile.contributionLinks),
+      contributionLinks: JSON.parse(validatorProfile.contributionLinks),
       feed
     }
   }
