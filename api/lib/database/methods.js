@@ -1,8 +1,9 @@
 const { read, insert, query } = require('./helpers')
 
-const getLatestValidatorNotifications = ({ hasura_url, hasura_admin_key }) => (
-  schema
-) => async (validatorAddress) => {
+const getLatestValidatorNotifications = ({
+  hasura_url,
+  hasura_admin_key
+}) => () => async (validatorAddress) => {
   const now = new Date().toISOString()
   const dateOffset = 24 * 60 * 60 * 1000 * 3 //3 days
   const threeDaysAgo = new Date(Date.now() - dateOffset).toISOString()
@@ -10,7 +11,7 @@ const getLatestValidatorNotifications = ({ hasura_url, hasura_admin_key }) => (
   return await read({
     hasura_url,
     hasura_admin_key
-  })(schema)(
+  })()(
     `notifications`,
     `notifications`,
     [

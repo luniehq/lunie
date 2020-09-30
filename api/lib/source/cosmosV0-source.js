@@ -239,12 +239,12 @@ class CosmosV0API extends RESTDataSource {
           allValidatorDelegations
         ] = await Promise.all([
           this.db.getLatestValidatorNotifications(validator.operatorAddress),
-          getAllValidatorDelegations(validator.operatorAddress)
+          this.getAllValidatorDelegations(validator.operatorAddress)
         ])
         return this.reducers.validatorProfileReducer(
           validator,
-          allValidatorDelegations.length,
-          latestValidatorNotifications
+          latestValidatorNotifications,
+          allValidatorDelegations.length
         )
       })
     )
@@ -255,7 +255,7 @@ class CosmosV0API extends RESTDataSource {
   }
 
   async getAllValidatorDelegations(operatorAddress) {
-    const allValidatorDelegations = this.query(
+    const allValidatorDelegations = await this.query(
       `/staking/validators/${operatorAddress}/delegations`
     )
     return allValidatorDelegations.map((delegation) =>
