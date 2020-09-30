@@ -291,22 +291,28 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
   }
 }
 
-function validatorProfileReducer(validator, numberStakers, feed) {
+function validatorProfileReducer(
+  validator,
+  primitiveValidator,
+  validatorProfile,
+  numberStakers,
+  feed
+) {
   return {
     ...validator,
     profile: {
-      name: validator.description.moniker,
-      rank: validator.rank,
-      description: validator.description.details,
-      teamMembers: validator.teamMembers,
-      website: validator.description.website,
-      telegram: validator.telegram,
-      github: validator.github,
-      twitter: validator.twitter,
-      blog: validator.blog,
+      name: primitiveValidator.description.moniker,
+      rank: validatorProfile.rank,
+      description: primitiveValidator.description.details,
+      teamMembers: validatorProfile.teamMembers,
+      website: primitiveValidator.description.website,
+      telegram: validatorProfile.telegram,
+      github: validatorProfile.github,
+      twitter: validatorProfile.twitter,
+      blog: validatorProfile.blog,
       numberStakers,
       uptimePercentage: validator.uptimePercentage,
-      contributionLinks: validator.contributionLinks,
+      contributionLinks: validatorProfile.contributionLinks,
       feed
     }
   }

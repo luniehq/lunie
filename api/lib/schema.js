@@ -503,7 +503,7 @@ const typeDefs = gql`
     name: String
     rank: Int
     description: String
-    teamMembers: [ValidatorTeamMember]
+    teamMembers: [String]
     website: String
     telegram: String
     github: String

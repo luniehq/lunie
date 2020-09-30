@@ -4,6 +4,17 @@ const getLatestValidatorNotifications = ({
   hasura_url,
   hasura_admin_key
 }) => () => async (validatorAddress) => {
+  // return [
+  //   {
+  //     id: '1',
+  //     topic:
+  //       'cosmos1nynns8ex9fq6sjjfj8k79ymkdz4sqth06xexae_transactionSend_cosmos-hub-mainnet',
+  //     eventType: 'transactionReceive',
+  //     resourceType: 'transaction',
+  //     resourceId: 'cosmos1nynns8ex9fq6sjjfj8k79ymkdz4sqth06xexae',
+  //     network: 'cosmos-hub-mainnet'
+  //   }
+  // ]
   const now = new Date().toISOString()
   const dateOffset = 24 * 60 * 60 * 1000 * 3 //3 days
   const threeDaysAgo = new Date(Date.now() - dateOffset).toISOString()
@@ -24,7 +35,7 @@ const getLatestValidatorNotifications = ({
       'id',
       'created_at'
     ],
-    `where: { 
+    `where: {
       topic: {_like: "${validatorAddress}%"},
       created_at: {_lt: "${now}", _gt: "${threeDaysAgo}"}
     } limit: ${limit}, order_by: {created_at: desc}`
@@ -99,27 +110,30 @@ const getValidatorsInfo = ({ hasura_url, hasura_admin_key }) => (
   )
 }
 
-const getPremiumValidators = ({
-  hasura_url,
-  hasura_admin_key
-}) => () => async () => {
-  const premiumValidators = await read({
+const getValidatorProfile = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (operatorAddress) => {
+  return await read({
     hasura_url,
     hasura_admin_key
-  })('')(`premiumValidators`, `premiumValidators`, [
-    'name',
-    'networks',
-    'operatorAddresses',
-    'rank',
-    'teamMembers',
-    'website',
-    'telegram',
-    'github',
-    'twitter',
-    'blog',
-    'contributionLinks'
-  ])
-  return premiumValidators
+  })(schema)(
+    `validatorprofiles`,
+    `validatorprofiles`,
+    [
+      'name',
+      'rank',
+      'teamMembers',
+      'website',
+      'telegram',
+      'github',
+      'twitter',
+      'blog',
+      'contributionLinks'
+    ],
+    operatorAddress
+      ? `where: {operator_address: {_eq: "${operatorAddress}"}}`
+      : false
+  )
 }
 
 const getNotifications = ({ hasura_url, hasura_admin_key }) => (
@@ -554,7 +568,7 @@ module.exports = {
   incrementValidatorViews,
   getValidatorsViews,
   getValidatorsInfo,
-  getPremiumValidators,
+  getValidatorProfile,
   getMaintenance,
   storeStatistics,
   storeNotification,
