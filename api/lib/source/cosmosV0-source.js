@@ -252,7 +252,7 @@ class CosmosV0API extends RESTDataSource {
           primitiveValidator,
           validatorProfile,
           allValidatorDelegations.length,
-          latestValidatorNotifications,
+          latestValidatorNotifications
         )
       })
     )
