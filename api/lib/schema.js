@@ -595,7 +595,10 @@ const typeDefs = gql`
       addressObjects: [NotificationInput]!
     ): [Notification]!
     accountRole(networkId: String!, address: String!): String
-    validatorProfile(operatorAddress: String!): ValidatorProfile
+    validatorProfile(
+      networkId: String!
+      operatorAddress: String!
+    ): ValidatorProfile
   }
 `
 
