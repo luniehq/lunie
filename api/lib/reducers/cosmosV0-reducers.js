@@ -576,6 +576,17 @@ function extractInvolvedAddresses(transaction) {
   return involvedAddresses
 }
 
+function notificationReducer(notification, networks) {
+  return {
+    id: notification.id,
+    networkId: notification.networkId,
+    timestamp: notification.created_at,
+    title: getMessageTitle(networks, notification),
+    link: getPushLink(networks, notification),
+    icon: getIcon(notification)
+  }
+}
+
 module.exports = {
   proposalReducer,
   networkAccountReducer,
@@ -597,6 +608,7 @@ module.exports = {
   rewardReducer,
   accountInfoReducer,
   calculateTokens,
+  notificationReducer,
 
   atoms,
   proposalBeginTime,

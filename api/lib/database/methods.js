@@ -1,45 +1,29 @@
 const { read, insert, query } = require('./helpers')
 
-const getLatestValidatorNotifications = ({
+const getValidatorNotifications = ({
   hasura_url,
   hasura_admin_key
 }) => () => async (validatorAddress) => {
-  return [
-    {
-      id: '1',
-      topic:
-        'cosmos1nynns8ex9fq6sjjfj8k79ymkdz4sqth06xexae_transactionSend_cosmos-hub-mainnet',
-      eventType: 'transactionReceive',
-      resourceType: 'transaction',
-      resourceId: 'cosmos1nynns8ex9fq6sjjfj8k79ymkdz4sqth06xexae',
-      network: 'cosmos-hub-mainnet'
-    }
-  ]
-  // const now = new Date().toISOString()
-  // const dateOffset = 24 * 60 * 60 * 1000 * 3 //3 days
-  // const threeDaysAgo = new Date(Date.now() - dateOffset).toISOString()
-  // const limit = 20
-  // return await read({
-  //   hasura_url,
-  //   hasura_admin_key
-  // })()(
-  //   `notifications`,
-  //   `notifications`,
-  //   [
-  //     'topic',
-  //     'eventType',
-  //     'resourceType',
-  //     'resourceId',
-  //     'networkId',
-  //     'data',
-  //     'id',
-  //     'created_at'
-  //   ],
-  //   `where: {
-  //     topic: {_like: "${validatorAddress}%"},
-  //     created_at: {_lt: "${now}", _gt: "${threeDaysAgo}"}
-  //   } limit: ${limit}, order_by: {created_at: desc}`
-  // )
+  return await read({
+    hasura_url,
+    hasura_admin_key
+  })()(
+    `notifications`,
+    `notifications`,
+    [
+      'topic',
+      'eventType',
+      'resourceType',
+      'resourceId',
+      'networkId',
+      'data',
+      'id',
+      'created_at'
+    ],
+    `where: {
+      topic: {_like: "${validatorAddress}%"},
+    }, order_by: {created_at: desc}`
+  )
 }
 
 const incrementValidatorViews = ({
@@ -565,7 +549,7 @@ const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
 }
 
 module.exports = {
-  getLatestValidatorNotifications,
+  getValidatorNotifications,
   incrementValidatorViews,
   getValidatorsViews,
   getValidatorsInfo,
