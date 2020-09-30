@@ -39,43 +39,20 @@ export function getDisplayTransaction(
   }
 }
 
-// DEPRECATE
-export const parseTx = (signMessage, displayedProperties) => {
-  const { msgs, fee, memo } = JSON.parse(signMessage)
-
-  const tx = {
-    tx: {
-      type: 'auth/StdTx',
-      value: {
-        msg: msgs,
-        fee,
-        memo
-      }
-    }
-  }
-
-  return transactionReducerV2(
-    tx,
-    displayedProperties,
-    { coinReducer, rewardCoinReducer },
-    'STAKE'
-  )[0] // TODO get staking denom (apollo/networks)
-}
-
 // delegations rewards in Tendermint are located in events as strings with this form:
 // amount: {"15000umuon"}, or in multidenom networks they look like this:
 // amount: {"15000ungm,100000uchf,110000ueur,2000000ujpy"}
 // That is why we need this separate function to extract those amounts in this format
-function rewardCoinReducer(reward, stakingDenom) {
+function rewardCoinReducer(reward, network) {
   const numBit = reward.match(/[0-9]+/gi)
   const stringBit = reward.match(/[a-z]+/gi)
   const multiDenomRewardsArray = reward.split(`,`)
   if (multiDenomRewardsArray.length > 1) {
     const mappedMultiDenomRewardsArray = multiDenomRewardsArray.map((reward) =>
-      rewardCoinReducer(reward)
+      rewardCoinReducer(reward, network)
     )
     let stakingDenomRewards = mappedMultiDenomRewardsArray.find(
-      ({ denom }) => denom === denomLookup(stakingDenom)
+      ({ denom }) => denom === network.stakingDenom
     )
     // if there is no staking denom reward we will display the first alt-token reward
     return (
@@ -84,7 +61,7 @@ function rewardCoinReducer(reward, stakingDenom) {
     )
   }
   return {
-    denom: denomLookup(stringBit),
+    denom: denomLookup(network.coinLookup, stringBit),
     amount: BigNumber(numBit).div(1000000)
   }
 }
@@ -127,26 +104,13 @@ function getMessageType(type) {
   }
 }
 
-function denomLookup(denom) {
-  const lookup = {
-    uatom: 'ATOM',
-    umuon: 'MUON',
-    uluna: 'LUNA',
-    ukrw: 'KRT',
-    umnt: 'MNT',
-    usdr: 'SDT',
-    uusd: 'UST',
-    seed: 'TREE',
-    ungm: 'NGM',
-    eeur: 'eEUR',
-    echf: 'eCHF',
-    ejpy: 'eJPY',
-    eusd: 'eUSD'
-  }
-  return lookup[denom] ? lookup[denom] : denom.toUpperCase()
+function denomLookup(coinLookup, denom) {
+  return coinLookup.find(({ chainDenom }) => chainDenom === denom)
+    ? coinLookup.find(({ chainDenom }) => chainDenom === denom).viewDenom
+    : chainDenom.toUpperCase()
 }
 
-function coinReducer(coin) {
+function coinReducer(coin, coinLookup) {
   if (!coin) {
     return {
       amount: 0,
@@ -155,7 +119,7 @@ function coinReducer(coin) {
   }
 
   // we want to show only atoms as this is what users know
-  const denom = denomLookup(coin.denom)
+  const denom = denomLookup(coinLookup, coin.denom)
   return {
     denom: denom,
     amount: BigNumber(coin.amount).div(1000000).toNumber() // Danger: this might not be the case for all future tokens
@@ -166,14 +130,17 @@ function transactionReducerV2(
   transaction,
   displayedProperties,
   reducers,
-  stakingDenom
+  stakingDenom,
+  network
 ) {
   // TODO check if this is anywhere not an array
   let fees
   if (Array.isArray(transaction.tx.value.fee.amount)) {
-    fees = transaction.tx.value.fee.amount.map(coinReducer)
+    fees = transaction.tx.value.fee.amount.map((amount) =>
+      coinReducer(amount, network.coinLookup)
+    )
   } else {
-    fees = [coinReducer(transaction.tx.value.fee.amount)]
+    fees = [coinReducer(transaction.tx.value.fee.amount, network.coinLookup)]
   }
   // We do display only the transactions we support in Lunie
   const filteredMessages = transaction.tx.value.msg.filter(
