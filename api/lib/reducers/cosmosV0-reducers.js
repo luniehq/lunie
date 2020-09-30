@@ -312,7 +312,7 @@ function validatorProfileReducer(
       blog: validatorProfile.blog,
       numberStakers,
       uptimePercentage: validator.uptimePercentage,
-      contributionLinks: validatorProfile.contributionLinks,
+      contributionLinks: JSON.stringify(validatorProfile.contributionLinks),
       feed
     }
   }

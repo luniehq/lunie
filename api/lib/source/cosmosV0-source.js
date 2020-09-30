@@ -232,7 +232,7 @@ class CosmosV0API extends RESTDataSource {
         annualProvision
       )
     )
-    return Promise.all(
+    return await Promise.all(
       validatorsWithoutProfiles.map(async (validator) => {
         const [
           validatorProfile,
@@ -251,8 +251,8 @@ class CosmosV0API extends RESTDataSource {
           validator,
           primitiveValidator,
           validatorProfile,
+          allValidatorDelegations.length,
           latestValidatorNotifications,
-          allValidatorDelegations.length
         )
       })
     )
