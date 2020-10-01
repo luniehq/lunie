@@ -264,13 +264,7 @@ class polkadotAPI extends RESTDataSource {
     primitiveValidators,
     validatorsWithoutProfiles
   ) {
-    // TODO: get ranks
-    validatorsWithoutProfiles = validatorsWithoutProfiles.map(
-      (validator, index) => ({
-        ...validator,
-        rank: ++index
-      })
-    )
+    primitiveValidators = this.getRanksForValidators(primitiveValidators)
     return await Promise.all(
       validatorsWithoutProfiles.map(async (validator) => {
         const [
@@ -295,6 +289,19 @@ class polkadotAPI extends RESTDataSource {
         )
       })
     )
+  }
+
+  getRanksForValidators(validators) {
+    return validators
+      .sort((a, b) => {
+        const A = new BigNumber(a.exposure.total)
+        const B = new BigNumber(b.exposure.total)
+        return A.lt(B) ? 1 : -1
+      })
+      .map((validator, index) => ({
+        ...validator,
+        rank: ++index
+      }))
   }
 
   async getSelfStake(validator) {

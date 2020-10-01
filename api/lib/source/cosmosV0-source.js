@@ -279,7 +279,11 @@ class CosmosV0API extends RESTDataSource {
 
   getRanksForValidators(validators) {
     return validators
-      .sort((a, b) => Number(b.tokens) - Number(a.tokens))
+      .sort((a, b) => {
+        const A = new BigNumber(a.tokens)
+        const B = new BigNumber(b.tokens)
+        return A.lt(B) ? 1 : -1
+      })
       .map((validator, index) => ({
         ...validator,
         rank: ++index
