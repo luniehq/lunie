@@ -89,7 +89,7 @@ function validatorProfileReducer(
     ...validator,
     profile: {
       name: validator.name,
-      rank: validatorProfile.rank,
+      rank: validator.rank,
       description: validator.details,
       teamMembers: JSON.parse(validatorProfile.teamMembers),
       website: validator.website,

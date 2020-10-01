@@ -254,16 +254,33 @@ class polkadotAPI extends RESTDataSource {
     const allValidatorsWithoutProfile = allValidators.map((validator) =>
       this.reducers.validatorReducer(this.network, validator)
     )
+    return await this.getProfilesForValidators(
+      allValidators,
+      allValidatorsWithoutProfile
+    )
+  }
+
+  async getProfilesForValidators(
+    primitiveValidators,
+    validatorsWithoutProfiles
+  ) {
+    // TODO: get ranks
+    validatorsWithoutProfiles = validatorsWithoutProfiles.map(
+      (validator, index) => ({
+        ...validator,
+        rank: ++index
+      })
+    )
     return await Promise.all(
-      allValidatorsWithoutProfile.map(async (validator) => {
+      validatorsWithoutProfiles.map(async (validator) => {
         const [
-          validatorProfile,
+          validatorProfile
           // latestValidatorNotifications
         ] = await Promise.all([
-          this.db.getValidatorProfile(validator.operatorAddress),
+          this.db.getValidatorProfile(validator.operatorAddress)
           // this.db.getAccountNotifications(validator.operatorAddress)
         ])
-        const primitiveValidator = allValidators.find(
+        const primitiveValidator = primitiveValidators.find(
           ({ accountId }) => accountId === validator.operatorAddress
         )
         return this.reducers.validatorProfileReducer(
@@ -273,7 +290,7 @@ class polkadotAPI extends RESTDataSource {
           this.store.validators[validator.operatorAddress]
             ? this.store.validators[validator.operatorAddress].nominations
                 .length
-            : undefined,
+            : undefined
           // latestValidatorNotifications
         )
       })
