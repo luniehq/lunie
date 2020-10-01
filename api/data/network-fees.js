@@ -28,25 +28,25 @@ let emoneyGasPrices
 
 const pollForNewFees = async () => {
   const terraTaxRateResponse = await fetch(TERRA_TAX_RATE_ENDPOINT)
-  .then((r) => r.json())
-  .catch((err) => {
-    Sentry.withScope(function (scope) {
-      scope.setExtra('terra tax rate endpoint', TERRA_TAX_RATE_ENDPOINT)
-      Sentry.captureException(err)
+    .then((r) => r.json())
+    .catch((err) => {
+      Sentry.withScope(function (scope) {
+        scope.setExtra('terra tax rate endpoint', TERRA_TAX_RATE_ENDPOINT)
+        Sentry.captureException(err)
+      })
+      return {}
     })
-    return {}
-  })
   const emoneyGasPricesResponse = await fetch(EMONEY_GAS_PRICES_ENDPOINT)
-  .then((r) => r.json())
-  .catch((err) => {
-    Sentry.withScope(function (scope) {
-      scope.setExtra('emoney gas prices endpoint', EMONEY_GAS_PRICES_ENDPOINT)
-      Sentry.captureException(err)
+    .then((r) => r.json())
+    .catch((err) => {
+      Sentry.withScope(function (scope) {
+        scope.setExtra('emoney gas prices endpoint', EMONEY_GAS_PRICES_ENDPOINT)
+        Sentry.captureException(err)
+      })
     })
-  })
   terraTaxRate = Number(terraTaxRateResponse.result)
   emoneyGasPrices = emoneyGasPricesResponse.result.min_gas_prices.map(gasPrice => gasPrice = {
-    denom: gasPrice.denom, 
+    denom: gasPrice.denom,
     price: gasPrice.amount
   })
   setTimeout(async () => {
@@ -96,8 +96,8 @@ const getNetworkTransactionChainAppliedFees = (networkId, transactionType) => {
 }
 
 const terraGasEstimates = {
-    default: 350000,
-    ClaimRewardsTx: 550000
+  default: 350000,
+  ClaimRewardsTx: 550000
 }
 
 const cosmosGasEstimates = {
@@ -134,6 +134,7 @@ const networkGasEstimatesDictionary = {
   'emoney-mainnet': emoneyGasEstimates,
   'emoney-testnet': emoneyGasEstimates,
   'akash-testnet': akashGasEstimates,
+  'akash-mainnet': akashGasEstimates,
   'kusama': polkadotGasEstimates,
   'polkadot': polkadotGasEstimates,
   'polkadot-testnet': polkadotGasEstimates,
@@ -214,6 +215,7 @@ let networkGasPricesDictionary = {
   'kava-mainnet': kavaGasPrices,
   'kava-testnet': kavaGasPrices,
   'akash-testnet': akashGasPrices,
+  'akash-mainnet': akashGasPrices,
   'kusama': polkadotGasPrices,
   'polkadot': polkadotGasPrices,
   'polkadot-testnet': polkadotGasPrices,
@@ -249,12 +251,12 @@ const getPolkadotFee = async ({ messageType, message, senderAddress, network, ne
     if (message.amounts) {
       const { amounts } = message
       amount = amounts[0]
-    }  
+    }
     return {
       denom: (amount && amount.denom) || network.stakingDenom,
       amount: viewFees
     }
-  } catch(error) {
+  } catch (error) {
     Sentry.captureException(error)
     // back up plan. Send most common fee
     // TODO: check it this is the same for Polkadot network
@@ -301,7 +303,7 @@ const getTransactionAmount = (message, feeDenom) => {
   }
   // check if there is an amounts field
   if (message.amounts) {
-    return message.amounts.find(({denom}) => denom === feeDenom).amount
+    return message.amounts.find(({ denom }) => denom === feeDenom).amount
   }
   return 0
 }
@@ -339,7 +341,10 @@ const selectAlternativeFee = (balances, feeDenom, gasEstimate) => {
 
 const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, message, gasEstimate) => {
   // query for this address balances
-  const balances = await cosmosSource.getBalancesFromAddress(senderAddress, '', network)
+  const [balances, accountInfo] = await Promise.all([
+    cosmosSource.getBalancesFromAddress(senderAddress, '', network),
+    cosmosSource.getAccountInfo(senderAddress)
+  ])
   const feeDenom = getFeeDenomFromMessage(message, network)
   const gasPrice = BigNumber(
     getNetworkGasPrices(network.id).find(({ denom }) => {
@@ -365,7 +370,11 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
     ),
     denom: feeDenom
   }
-  const selectedBalance = balances.find(({denom}) => denom === feeDenom) || { amount: 0, denom: feeDenom }
+  const selectedBalance = balances.find(({ denom }) => denom === feeDenom) || { amount: 0, denom: feeDenom }
+  // HACK, should check the not vested balance for fees
+  if (accountInfo.vestingAccount) {
+    selectedBalance.amount = 0
+  }
   if (
     Number(transactionAmount) + Number(estimatedFee.amount) >
     Number(selectedBalance.amount) &&
@@ -390,12 +399,12 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
   }
 }
 
-module.exports = { 
-  getNetworkTransactionGasEstimates, 
-  getNetworkTransactionChainAppliedFees, 
-  getNetworkGasPrices, 
-  getPolkadotFee, 
-  getPolkadotMessage, 
-  getFeeDenomFromMessage, 
+module.exports = {
+  getNetworkTransactionGasEstimates,
+  getNetworkTransactionChainAppliedFees,
+  getNetworkGasPrices,
+  getPolkadotFee,
+  getPolkadotMessage,
+  getFeeDenomFromMessage,
   getCosmosFee,
 }
