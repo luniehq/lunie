@@ -404,6 +404,9 @@ export default {
           this.$apollo.queries.balances.refetch()
           this.$apollo.queries.rewards.refetch()
         },
+        skip() {
+          return this.currentNetwork.networ_type === 'polkadot'
+        }
       },
     },
   },

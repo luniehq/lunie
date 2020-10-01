@@ -520,6 +520,10 @@ export default {
         result() {
           this.$apollo.queries.rewards.refetch()
         },
+        /* istanbul ignore next */
+        skip() {
+          return !this.found || this.currentNetwork.network_type !== `polkadot`
+        },
       },
       userTransactionAdded: {
         /* istanbul ignore next */
@@ -531,7 +535,7 @@ export default {
         },
         /* istanbul ignore next */
         skip() {
-          return !this.userAddress
+          return !this.userAddress || this.currentNetwork.network_type !== `polkadot`
         },
         /* istanbul ignore next */
         query: UserTransactionAdded,

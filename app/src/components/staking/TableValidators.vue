@@ -74,6 +74,7 @@ import orderBy from "lodash.orderby"
 import LiValidator from "staking/LiValidator"
 import PanelSort from "staking/PanelSort"
 import gql from "graphql-tag"
+import { currentNetwork } from '../../vuex/getters'
 
 export default {
   name: `table-validators`,
@@ -108,7 +109,7 @@ export default {
     showing: 15,
   }),
   computed: {
-    ...mapGetters([`address`, `network`, `stakingDenom`]),
+    ...mapGetters([`address`, `network`, `stakingDenom`, `currentNetwork`]),
     sortedEnrichedValidators() {
       const orderedValidators = orderBy(
         this.validators.map((validator) => ({
@@ -245,6 +246,10 @@ export default {
         /* istanbul ignore next */
         result() {
           this.$apollo.queries.rewards.refetch()
+        },
+        /* istanbul ignore next */
+        skip() {
+          return this.currentNetwork.network_type !== `polkadot`
         },
       },
     },

@@ -315,6 +315,10 @@ export default {
         result() {
           this.$apollo.queries.proposals.refetch()
         },
+        /* istanbul ignore next */
+        skip() {
+          return this.currentNetwork.network_type !== `polkadot`
+        },
       },
     },
   },

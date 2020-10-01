@@ -276,7 +276,7 @@ export default {
         },
         /* istanbul ignore next */
         skip() {
-          return !this.found
+          return !this.found || this.currentNetwork.network_type !== `polkadot`
         },
         /* istanbul ignore next */
         result() {

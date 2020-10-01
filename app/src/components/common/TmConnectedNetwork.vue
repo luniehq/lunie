@@ -168,6 +168,10 @@ export default {
           /* istanbul ignore next */
           this.block = data.blockAdded
         },
+        /* istanbul ignore next */
+        skip() {
+          return this.currentNetwork.network_type === 'polkadot'
+        }
       },
     },
   },
