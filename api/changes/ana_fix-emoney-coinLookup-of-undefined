@@ -1,0 +1,1 @@
+[Fixed] [#5017](https://github.com/cosmos/lunie/pull/5017) Prevent coinLookup of undefined when not running emoney network @Bitcoinera
