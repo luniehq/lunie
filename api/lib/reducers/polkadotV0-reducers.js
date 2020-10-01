@@ -82,7 +82,6 @@ function validatorProfileReducer(
   validator,
   primitiveValidator,
   validatorProfile,
-  numberStakers,
   feed
 ) {
   return {
@@ -97,7 +96,7 @@ function validatorProfileReducer(
       github: validatorProfile.github,
       twitter: validatorProfile.twitter,
       blog: validatorProfile.blog,
-      numberStakers,
+      numberStakers: validator.nominations.length,
       uptimePercentage: validator.uptimePercentage,
       contributionLinks: JSON.parse(validatorProfile.contributionLinks),
       feed

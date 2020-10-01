@@ -280,11 +280,7 @@ class polkadotAPI extends RESTDataSource {
         return this.reducers.validatorProfileReducer(
           validator,
           primitiveValidator,
-          validatorProfile,
-          this.store.validators[validator.operatorAddress]
-            ? this.store.validators[validator.operatorAddress].nominations
-                .length
-            : undefined
+          validatorProfile
           // latestValidatorNotifications
         )
       })
