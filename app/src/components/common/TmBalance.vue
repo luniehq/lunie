@@ -556,6 +556,10 @@ select option {
   .currency-selector {
     display: none;
   }
+
+  .reward-bar {
+    margin: 2rem 2rem;
+  }
 }
 
 @media screen and (min-width: 1254px) {

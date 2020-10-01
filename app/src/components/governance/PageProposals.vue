@@ -55,7 +55,7 @@
     <ModalPropose
       v-if="parameters && Object.keys(parameters).length > 0"
       ref="modalPropose"
-      :denom="parameters.depositDenom"
+      :denom="parameters.depositDenom || currentNetwork.stakingDenom"
       @success="() => afterPropose()"
     />
 

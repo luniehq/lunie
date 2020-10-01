@@ -11,7 +11,11 @@ let store = {
       {
         id: `localnet`,
         address_prefix: 'lcl',
-        network_type: 'cosmos'
+        network_type: 'cosmos',
+        coinLookup: [{
+          chainDenom: 'uatom',
+          viewDenom: 'ATOM',
+        }]
       }
     ]
   }
@@ -25,7 +29,6 @@ const {
   approveSignRequest,
   rejectSignRequest,
   getValidatorsData,
-  parseTx
 } = actions({
   apollo: mockApollo
 })
@@ -99,7 +102,8 @@ describe('actions', () => {
       signMessage: '',
       id: 12345,
       senderAddress: 'cosmos1234',
-      tabId: 123
+      tabId: 123,
+      network: 'localnet',
     }
     const commit = jest.fn()
     window.chrome.runtime.sendMessage.mockImplementationOnce((args, callback) =>
@@ -126,14 +130,21 @@ describe('actions', () => {
         senderAddress: 'cosmos1234',
         fee: []
       },
-      tabId: 123
+      tabId: 123,
+      network: 'localnet',
+      HDPath: `m/44'/118'/0'/0/0`,
+      curve: 'ed25519'
     }
     const getters = {
       networks: [
         {
           id: `localnet`,
           address_prefix: 'lcl',
-          network_type: 'cosmos'
+          network_type: 'cosmos',
+          coinLookup: [{
+            chainDenom: 'uatom',
+            viewDenom: 'ATOM',
+          }],
         }
       ]
     }
@@ -158,7 +169,20 @@ describe('actions', () => {
           },
           senderAddress: 'cosmos1234',
           password: '1234567890',
-          id: 12345
+          id: 12345,
+          HDPath: `m/44'/118'/0'/0/0`,
+          curve: 'ed25519',
+          network: {
+            id: 'localnet',
+            network_type: 'cosmos',
+            address_prefix: 'lcl',
+            coinLookup: [
+              {
+                chainDenom: 'uatom',
+                viewDenom: 'ATOM'
+              }
+            ],
+          }
         }
       },
       expect.any(Function)
@@ -171,7 +195,8 @@ describe('actions', () => {
       signMessage: '',
       id: 12345,
       senderAddress: 'cosmos1234',
-      tabId: 123
+      tabId: 123,
+      network: 'localnet',
     }
     const getters = {
       networks: [
@@ -199,7 +224,8 @@ describe('actions', () => {
       signMessage: '',
       id: 12345,
       senderAddress: 'cosmos1234',
-      tabId: 123
+      tabId: 123,
+      network: 'localnet',
     }
     const commit = jest.fn()
     window.chrome.runtime.sendMessage.mockImplementationOnce((args, callback) =>
@@ -214,90 +240,6 @@ describe('actions', () => {
       expect.any(Function)
     )
     expect(commit).toHaveBeenCalledWith('setSignRequest', null)
-  })
-
-  it('Get Validators Name when Un/Delegating', async () => {
-    const mockSuccessResponse = { data: { validator: { name: 'name1' } } }
-    const mockJsonPromise = Promise.resolve(mockSuccessResponse)
-    const mockFetchPromise = Promise.resolve({
-      json: () => mockJsonPromise
-    })
-    window.fetch = jest.fn(() => mockFetchPromise)
-
-    const v1 = {
-      msgs: [
-        {
-          type: 'cosmos-sdk/MsgDelegate',
-          value: {
-            validator_address: 'address1'
-          }
-        }
-      ],
-      fee: {
-        amount: {
-          amount: 1,
-          denom: 'stake'
-        }
-      }
-    }
-
-    await expect(
-      getValidatorsData(parseTx(JSON.stringify(v1)))
-    ).resolves.toEqual([
-      {
-        name: 'name1',
-        operatorAddress: 'address1',
-        picture: undefined
-      }
-    ])
-  })
-
-  it('Get Validators Name when Redelegating', async () => {
-    const mockFetchPromise = Promise.resolve({
-      json: () => Promise.resolve({ data: { validator: { name: 'dst' } } })
-    })
-
-    const mockFetchPromise2 = Promise.resolve({
-      json: () => Promise.resolve({ data: { validator: { name: 'src' } } })
-    })
-
-    window.fetch = jest
-      .fn()
-      .mockImplementationOnce(() => mockFetchPromise)
-      .mockImplementationOnce(() => mockFetchPromise2)
-
-    const validatorAddress = {
-      msgs: [
-        {
-          type: 'cosmos-sdk/MsgBeginRedelegate',
-          value: {
-            validator_src_address: 'srcaddress1',
-            validator_dst_address: 'dstaddress1'
-          }
-        }
-      ],
-      fee: {
-        amount: {
-          amount: 1,
-          denom: 'stake'
-        }
-      }
-    }
-
-    await expect(
-      getValidatorsData(parseTx(JSON.stringify(validatorAddress)))
-    ).resolves.toEqual([
-      {
-        operatorAddress: 'dstaddress1',
-        name: 'dst',
-        picture: undefined
-      },
-      {
-        operatorAddress: 'srcaddress1',
-        name: 'src',
-        picture: undefined
-      }
-    ])
   })
 
   it('Get Validators Name with incorrect message type', async () => {

@@ -6,7 +6,11 @@ describe('Cosmos V2 Reducer', function () {
       const network = {
         id: `cosmos-hub-mainnet`,
         getCoinLookup() {
-          return { chainDenom: 'uatom', chainToViewConversionFactor: 0.000001 }
+          return {
+            chainDenom: 'uatom',
+            viewDenom: 'ATOM',
+            chainToViewConversionFactor: 0.000001
+          }
         }
       }
       //Arrange
