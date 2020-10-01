@@ -82,6 +82,8 @@ function validatorProfileReducer(
   validator,
   primitiveValidator,
   validatorProfile,
+  totalStakedAssets,
+  network,
   feed
 ) {
   return {
@@ -89,7 +91,10 @@ function validatorProfileReducer(
     profile: {
       name: validator.name,
       rank: primitiveValidator.rank,
+      nationality: validatorProfile.nationality,
+      headerImage: validatorProfile.headerImage,
       description: validator.details,
+      totalStakedAssets,
       teamMembers: JSON.parse(validatorProfile.teamMembers),
       website: validator.website,
       telegram: validatorProfile.telegram,
@@ -99,6 +104,7 @@ function validatorProfileReducer(
       numberStakers: validator.nominations.length,
       uptimePercentage: validator.uptimePercentage,
       contributionLinks: JSON.parse(validatorProfile.contributionLinks),
+      network,
       feed
     }
   }

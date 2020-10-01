@@ -503,6 +503,9 @@ const typeDefs = gql`
     name: String
     rank: Int
     description: String
+    nationality: String
+    headerImage: String
+    totalStakedAssets: String
     teamMembers: [NetworkAccount]
     website: String
     telegram: String
@@ -512,6 +515,7 @@ const typeDefs = gql`
     numberStakers: Int
     uptimePercentage: String
     contributionLinks: [ContributionLink]
+    network: Network
     feed: [Notification]
   }
 
@@ -598,6 +602,7 @@ const typeDefs = gql`
     validatorProfile(
       networkId: String!
       operatorAddress: String!
+      fiatCurrency: String
     ): ValidatorProfile
   }
 `

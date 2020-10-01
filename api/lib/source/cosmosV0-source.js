@@ -243,7 +243,8 @@ class CosmosV0API extends RESTDataSource {
 
   async getProfilesForValidators(
     primitiveValidators,
-    validatorsWithoutProfiles
+    validatorsWithoutProfiles,
+    fiatCurrency = 'USD'
   ) {
     const networkList = await db.getNetworks()
     validatorsWithoutProfiles = this.getRanksForValidators(
@@ -264,11 +265,26 @@ class CosmosV0API extends RESTDataSource {
           ({ operator_address }) =>
             operator_address === validator.operatorAddress
         )
+        // TODO: this.fiatValuesAPI is undefined on startup (very strange)
+        const totalStakedAssets = this.fiatValuesAPI
+          ? await this.fiatValuesAPI.calculateFiatValue(
+              [
+                this.reducers.coinReducer(
+                  validator.tokens,
+                  this.network.coinLookup,
+                  this.network
+                )
+              ],
+              fiatCurrency
+            )
+          : 0
         return this.reducers.validatorProfileReducer(
           validator,
           primitiveValidator,
           validatorProfile,
-          allValidatorDelegations.length
+          totalStakedAssets,
+          allValidatorDelegations.length,
+          this.network
           // latestValidatorNotifications.map((notification) =>
           //   this.reducers.notificationReducer(notification, networkList)
           // )

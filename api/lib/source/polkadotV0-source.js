@@ -262,7 +262,8 @@ class polkadotAPI extends RESTDataSource {
 
   async getProfilesForValidators(
     primitiveValidators,
-    validatorsWithoutProfiles
+    validatorsWithoutProfiles,
+    fiatCurrency = 'USD'
   ) {
     primitiveValidators = this.getRanksForValidators(primitiveValidators)
     return await Promise.all(
@@ -277,10 +278,25 @@ class polkadotAPI extends RESTDataSource {
         const primitiveValidator = primitiveValidators.find(
           ({ accountId }) => accountId === validator.operatorAddress
         )
+        // TODO: this.fiatValuesAPI is undefined on startup (very strange)
+        const totalStakedAssets = (await this.fiatValuesAPI)
+          ? this.fiatValuesAPI.calculateFiatValue(
+              [
+                this.reducers.coinReducer(
+                  validator.tokens,
+                  this.network.coinLookup,
+                  this.network
+                )
+              ],
+              fiatCurrency
+            )
+          : 0
         return this.reducers.validatorProfileReducer(
           validator,
           primitiveValidator,
-          validatorProfile
+          validatorProfile,
+          totalStakedAssets,
+          this.network
           // latestValidatorNotifications
         )
       })

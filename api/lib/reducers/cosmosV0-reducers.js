@@ -295,7 +295,9 @@ function validatorProfileReducer(
   validator,
   primitiveValidator,
   validatorProfile,
+  totalStakedAssets,
   numberStakers,
+  network,
   feed
 ) {
   return {
@@ -303,7 +305,10 @@ function validatorProfileReducer(
     profile: {
       name: primitiveValidator.description.moniker,
       rank: validator.rank,
+      nationality: validatorProfile.nationality,
+      headerImage: validatorProfile.headerImage,
       description: primitiveValidator.description.details,
+      totalStakedAssets,
       teamMembers: JSON.parse(validatorProfile.teamMembers),
       website: primitiveValidator.description.website,
       telegram: validatorProfile.telegram,
@@ -313,6 +318,7 @@ function validatorProfileReducer(
       numberStakers,
       uptimePercentage: validator.uptimePercentage,
       contributionLinks: JSON.parse(validatorProfile.contributionLinks),
+      network,
       feed
     }
   }
