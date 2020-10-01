@@ -302,7 +302,7 @@ function validatorProfileReducer(
     ...validator,
     profile: {
       name: primitiveValidator.description.moniker,
-      rank: validatorProfile.rank,
+      rank: validator.rank,
       description: primitiveValidator.description.details,
       teamMembers: JSON.parse(validatorProfile.teamMembers),
       website: primitiveValidator.description.website,

@@ -105,7 +105,6 @@ const getValidatorProfile = ({ hasura_url, hasura_admin_key }) => (
     `validatorprofiles`,
     [
       'name',
-      'rank',
       'teamMembers',
       'website',
       'telegram',
