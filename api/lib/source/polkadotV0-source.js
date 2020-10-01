@@ -306,8 +306,8 @@ class polkadotAPI extends RESTDataSource {
   getRanksForValidators(validators) {
     return validators
       .sort((a, b) => {
-        const A = new BigNumber(a.exposure.total)
-        const B = new BigNumber(b.exposure.total)
+        const A = new BigNumber(a.tokens)
+        const B = new BigNumber(b.tokens)
         return A.lt(B) ? 1 : -1
       })
       .map((validator, index) => ({
