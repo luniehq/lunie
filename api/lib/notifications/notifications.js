@@ -290,5 +290,6 @@ module.exports = {
   getTopic,
   getPushLink,
   getMessageTitle,
-  getNotifications
+  getNotifications,
+  getIcon
 }

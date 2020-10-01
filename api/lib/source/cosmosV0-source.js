@@ -254,11 +254,14 @@ class CosmosV0API extends RESTDataSource {
       validatorsWithoutProfiles.map(async (validator) => {
         const [
           validatorProfile,
-          // latestValidatorNotifications,
+          latestValidatorNotifications,
           allValidatorDelegations
         ] = await Promise.all([
           this.db.getValidatorProfile(validator.operatorAddress),
-          // this.db.getAccountNotifications(validator.operatorAddress),
+          this.db.getAccountNotifications(
+            validator.operatorAddress,
+            this.network.id
+          ),
           this.getAllValidatorDelegations(validator)
         ])
         const primitiveValidator = primitiveValidators.find(
@@ -284,10 +287,10 @@ class CosmosV0API extends RESTDataSource {
           validatorProfile,
           totalStakedAssets,
           allValidatorDelegations.length,
-          this.network
-          // latestValidatorNotifications.map((notification) =>
-          //   this.reducers.notificationReducer(notification, networkList)
-          // )
+          this.network,
+          latestValidatorNotifications.map((notification) =>
+            this.reducers.notificationReducer(notification, networkList)
+          )
         )
       })
     )

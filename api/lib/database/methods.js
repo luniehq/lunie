@@ -3,7 +3,7 @@ const { read, insert, query } = require('./helpers')
 const getAccountNotifications = ({
   hasura_url,
   hasura_admin_key
-}) => () => async (address) => {
+}) => () => async (address, networkId) => {
   return await read({
     hasura_url,
     hasura_admin_key
@@ -21,8 +21,10 @@ const getAccountNotifications = ({
       'created_at'
     ],
     `where: {
-      topic: {_like: "${address}%"},
-    }, order_by: {created_at: desc}`
+      networkId: {_eq: "${networkId}"},
+      resourceId: {_eq: "${address}"},
+    } limit: 10`
+    // , order_by: {created_at: desc}
   )
 }
 

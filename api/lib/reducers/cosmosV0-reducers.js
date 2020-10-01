@@ -2,6 +2,11 @@ const BigNumber = require('bignumber.js')
 const { encodeB32, decodeB32 } = require('../tools')
 const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
 const { getProposalSummary } = require('./common')
+const {
+  getMessageTitle,
+  getPushLink,
+  getIcon
+} = require('../notifications/notifications')
 /**
  * Modify the following reducers with care as they are used for ./cosmosV2-reducer.js as well
  * [proposalBeginTime, proposalEndTime, getDeposit, tallyReducer, atoms, getValidatorStatus, coinReducer]
