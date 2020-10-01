@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "1.0.49",
+  "version": "1.0.50",
   "description": "GraphQL API for Lunie.io",
   "repository": {
     "type": "git",
