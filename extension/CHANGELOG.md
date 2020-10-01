@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.41] - 2020-09-25
+
+### Added
+
+- Added akash mainnet transactions @faboweb
+
 ## [1.0.40] - 2020-09-25
 
 ### Changed
