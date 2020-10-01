@@ -382,10 +382,18 @@ const typeDefs = gql`
     picture: String
   }
 
+  type SocialLinks {
+    github: String
+    linkedin: String
+    telegram: String
+    twitter: String
+  }
+
   type NetworkAccount {
     name: String
     address: String!
     picture: String
+    links: SocialLinks
     validator: Validator
   }
 
