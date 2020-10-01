@@ -1,7 +1,7 @@
 import config from '../../config.js'
 import gql from 'graphql-tag'
 import { NetworksAll } from '../popup/gql'
-import { lunieMessageTypes, parseTx } from '../scripts/parsers'
+import { lunieMessageTypes } from '../scripts/parsers'
 import { storeWallet } from '@lunie/cosmos-keys'
 
 export default ({ apollo }) => {
@@ -285,7 +285,6 @@ export default ({ apollo }) => {
     resetRecoverData,
     getAddressFromSeed,
     setNetwork,
-    preloadNetworkCapabilities,
-    parseTx
+    preloadNetworkCapabilities
   }
 }

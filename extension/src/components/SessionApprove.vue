@@ -91,7 +91,7 @@ import TableInvoice from 'src/ActionModal/components/TableInvoice'
 import Address from 'common/Address'
 import { required } from 'vuelidate/lib/validators'
 import actions from '../store/actions.js'
-import { getDisplayTransaction, parseTx } from '../scripts/parsers'
+import { getDisplayTransaction } from '../scripts/parsers'
 
 const getValidatorsData = actions({}).getValidatorsData
 
@@ -118,27 +118,17 @@ export default {
     ...mapGetters(['signRequest', 'networks']),
     tx() {
       if (!this.signRequest) return undefined
-
-      // enrich with parsed lunie transaction
-      // DEPRECATE old format
-      if (this.signRequest.signMessage) {
-        return parseTx(
-          this.signRequest.signMessage,
-          this.signRequest.displayedProperties
-        )
-      } else {
-        if (this.networks.length === 0) return undefined
-        // new format
-        const network = this.networks.find(
-          ({ id }) => id === this.signRequest.network
-        )
-        return getDisplayTransaction(
-          network,
-          this.signRequest.messageType,
-          this.signRequest.message,
-          this.signRequest.transactionData
-        )
-      }
+      if (this.networks.length === 0) return undefined
+      // new format
+      const network = this.networks.find(
+        ({ id }) => id === this.signRequest.network
+      )
+      return getDisplayTransaction(
+        network,
+        this.signRequest.messageType,
+        this.signRequest.message,
+        this.signRequest.transactionData
+      )
     },
     network() {
       return this.signRequest ? this.signRequest.network : null
