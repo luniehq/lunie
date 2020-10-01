@@ -417,7 +417,8 @@ class CosmosV0API extends RESTDataSource {
 
     return this.reducers.governanceParameterReducer(
       depositParameters,
-      tallyingParamers
+      tallyingParamers,
+      this.network
     )
   }
 
@@ -527,7 +528,8 @@ class CosmosV0API extends RESTDataSource {
           coin,
           this.gasPrices,
           fiatValues[coin.denom],
-          fiatCurrency
+          fiatCurrency,
+          this.network
         )
       })
     )
