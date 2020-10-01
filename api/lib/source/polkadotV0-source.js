@@ -258,10 +258,10 @@ class polkadotAPI extends RESTDataSource {
       allValidatorsWithoutProfile.map(async (validator) => {
         const [
           validatorProfile,
-          latestValidatorNotifications
+          // latestValidatorNotifications
         ] = await Promise.all([
           this.db.getValidatorProfile(validator.operatorAddress),
-          this.db.getValidatorNotifications(validator.operatorAddress)
+          // this.db.getValidatorNotifications(validator.operatorAddress)
         ])
         const primitiveValidator = allValidators.find(
           ({ accountId }) => accountId === validator.operatorAddress
@@ -274,7 +274,7 @@ class polkadotAPI extends RESTDataSource {
             ? this.store.validators[validator.operatorAddress].nominations
                 .length
             : undefined,
-          latestValidatorNotifications
+          // latestValidatorNotifications
         )
       })
     )
