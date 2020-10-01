@@ -1,10 +1,7 @@
-const { RESTDataSource, HTTPCache } = require('apollo-datasource-rest')
-const { InMemoryLRUCache } = require('apollo-server-caching')
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
 const { stringToU8a, hexToString } = require('@polkadot/util')
-const { encodeAddress } = require('@polkadot/keyring')
 const Sentry = require('@sentry/node')
 const {
   getPassingThreshold,
@@ -16,11 +13,9 @@ const { toViewDenom } = require('../../common/numbers')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
-class polkadotAPI extends RESTDataSource {
+class polkadotAPI {
   constructor(network, store, fiatValuesAPI, db) {
     super()
-    this.baseURL = network.api_url
-    this.initialize({})
     this.network = network
     this.networkId = network.id
     this.stakingViewDenom = network.coinLookup[0].viewDenom
@@ -30,44 +25,8 @@ class polkadotAPI extends RESTDataSource {
     this.db = db
   }
 
-  initialize(config) {
-    this.context = config.context
-    // manually set cache to checking it
-    this.cache = new InMemoryLRUCache()
-    this.httpCache = new HTTPCache(this.cache, this.httpFetch)
-  }
-
   setReducers() {
     this.reducers = require('../reducers/polkadotV0-reducers')
-  }
-
-  async getRetry(url, intent = 0) {
-    // check cache size, and flush it if it's bigger than something
-    if ((await this.cache.getTotalSize()) > 100000) {
-      await this.cache.flush()
-    }
-    // clearing memoizedResults
-    this.memoizedResults.clear()
-    try {
-      return await this.get(url, null, { cacheOptions: { ttl: 1 } }) // normally setting cacheOptions should be enought, but...
-    } catch (error) {
-      // give up
-      if (intent >= 3) {
-        console.error(
-          `Error for query ${url} in network ${this.networkId} (tried 3 times)`
-        )
-        throw error
-      }
-
-      // retry
-      await new Promise((resolve) => setTimeout(() => resolve(), 1000))
-      return this.getRetry(url, intent + 1)
-    }
-  }
-
-  // querying data from the sidecar REST API
-  async query(url) {
-    return this.getRetry(url)
   }
 
   // rpc initialization is async so we always need to assume we need to wait for it to be initialized
@@ -77,14 +36,11 @@ class polkadotAPI extends RESTDataSource {
     return api
   }
 
-  async getNetworkAccountInfo(address) {
+  async getNetworkAccountInfo(address, api) {
     if (typeof address === `object`) address = address.toHuman()
     if (this.store.identities[address]) return this.store.identities[address]
-    // TODO: We are not handling sub-identities
     const accountInfo = !this.store.validators[address]
-      ? await this.query(
-          `${this.baseURL}/pallets/identity/storage/identityOf?key1=${address}`
-        )
+      ? await api.derive.accounts.info(address)
       : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
       address,
@@ -95,12 +51,11 @@ class polkadotAPI extends RESTDataSource {
   }
 
   getBlockTime(block) {
-    const setTimestamp = block.extrinsics.find(
-      (extrinsic) =>
-        extrinsic.method.pallet === 'timestamp' &&
-        extrinsic.method.method === 'set'
+    const args = block.block.extrinsics.map((extrinsic) =>
+      extrinsic.method.args.find((arg) => arg)
     )
-    return new Date(Number(setTimestamp.args.now)).toUTCString()
+    const blockTimestamp = args[0]
+    return new Date(Number(blockTimestamp)).toUTCString()
   }
 
   async getDateForBlockHeight(blockHeight) {
