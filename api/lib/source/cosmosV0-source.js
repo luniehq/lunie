@@ -244,7 +244,7 @@ class CosmosV0API extends RESTDataSource {
           allValidatorDelegations
         ] = await Promise.all([
           this.db.getValidatorProfile(validator.operatorAddress),
-          // this.db.getValidatorNotifications(validator.operatorAddress),
+          // this.db.getAccountNotifications(validator.operatorAddress),
           this.getAllValidatorDelegations(validator)
         ])
         const primitiveValidator = validators.find(

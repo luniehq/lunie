@@ -1,9 +1,9 @@
 const { read, insert, query } = require('./helpers')
 
-const getValidatorNotifications = ({
+const getAccountNotifications = ({
   hasura_url,
   hasura_admin_key
-}) => () => async (validatorAddress) => {
+}) => () => async (address) => {
   return await read({
     hasura_url,
     hasura_admin_key
@@ -21,7 +21,7 @@ const getValidatorNotifications = ({
       'created_at'
     ],
     `where: {
-      topic: {_like: "${validatorAddress}%"},
+      topic: {_like: "${address}%"},
     }, order_by: {created_at: desc}`
   )
 }
@@ -549,7 +549,7 @@ const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
 }
 
 module.exports = {
-  getValidatorNotifications,
+  getAccountNotifications,
   incrementValidatorViews,
   getValidatorsViews,
   getValidatorsInfo,

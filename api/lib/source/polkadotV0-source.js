@@ -261,7 +261,7 @@ class polkadotAPI extends RESTDataSource {
           // latestValidatorNotifications
         ] = await Promise.all([
           this.db.getValidatorProfile(validator.operatorAddress),
-          // this.db.getValidatorNotifications(validator.operatorAddress)
+          // this.db.getAccountNotifications(validator.operatorAddress)
         ])
         const primitiveValidator = allValidators.find(
           ({ accountId }) => accountId === validator.operatorAddress
