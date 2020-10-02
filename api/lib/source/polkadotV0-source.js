@@ -278,19 +278,16 @@ class polkadotAPI extends RESTDataSource {
         const primitiveValidator = primitiveValidators.find(
           ({ accountId }) => accountId === validator.operatorAddress
         )
-        // TODO: this.fiatValuesAPI is undefined on startup (very strange)
-        const totalStakedAssets = (await this.fiatValuesAPI)
-          ? this.fiatValuesAPI.calculateFiatValue(
-              [
-                this.reducers.coinReducer(
-                  validator.tokens,
-                  this.network.coinLookup,
-                  this.network
-                )
-              ],
-              fiatCurrency
+        const totalStakedAssets = this.fiatValuesAPI.calculateFiatValue(
+          [
+            this.reducers.coinReducer(
+              validator.tokens,
+              this.network.coinLookup,
+              this.network
             )
-          : 0
+          ],
+          fiatCurrency
+        )
         return this.reducers.validatorProfileReducer(
           validator,
           primitiveValidator,

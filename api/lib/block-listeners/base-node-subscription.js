@@ -21,7 +21,7 @@ const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
 class BaseNodeSubscription {
-  constructor(network, dataSourceClass, store) {
+  constructor(network, dataSourceClass, store, fiatValuesAPI) {
     this.network = network
     this.dataSourceClass = dataSourceClass
     this.store = store
@@ -30,9 +30,10 @@ class BaseNodeSubscription {
     this.db = new database(config)(networkSchemaName)
     this.chainHangup = undefined
     this.height = undefined
+    this.fiatValuesAPI = fiatValuesAPI
 
     // we can't use async/await in a constructor
-    this.setup(network, dataSourceClass, store).then(() => {
+    this.setup(network, dataSourceClass, store, fiatValuesAPI).then(() => {
       this.pollForNewBlock()
       // start one minute loop to update networks from db
       this.pollForUpdateNetworks()
@@ -52,7 +53,7 @@ class BaseNodeSubscription {
     return new this.dataSourceClass(
       this.network,
       this.store,
-      undefined,
+      this.fiatValuesAPI,
       this.db
     )
   }

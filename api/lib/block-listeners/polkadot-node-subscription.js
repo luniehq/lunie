@@ -7,8 +7,8 @@ const config = require('../../config.js')
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
 class PolkadotNodeSubscription extends BaseNodeSubscription {
-  constructor(network, PolkadotDataSourceClass, store) {
-    super(network, PolkadotDataSourceClass, store)
+  constructor(network, PolkadotDataSourceClass, store, fiatValuesAPI) {
+    super(network, PolkadotDataSourceClass, store, fiatValuesAPI)
   }
 
   async setup(network, PolkadotDataSourceClass, store) {

@@ -254,33 +254,30 @@ class CosmosV0API extends RESTDataSource {
       validatorsWithoutProfiles.map(async (validator) => {
         const [
           validatorProfile,
-          latestValidatorNotifications,
+          // latestValidatorNotifications,
           allValidatorDelegations
         ] = await Promise.all([
           this.db.getValidatorProfile(validator.operatorAddress),
-          this.db.getAccountNotifications(
-            validator.operatorAddress,
-            this.network.id
-          ),
+          // this.db.getAccountNotifications(
+          //   validator.operatorAddress,
+          //   this.network.id
+          // ),
           this.getAllValidatorDelegations(validator)
         ])
         const primitiveValidator = primitiveValidators.find(
           ({ operator_address }) =>
             operator_address === validator.operatorAddress
         )
-        // TODO: this.fiatValuesAPI is undefined on startup (very strange)
-        const totalStakedAssets = this.fiatValuesAPI
-          ? await this.fiatValuesAPI.calculateFiatValue(
-              [
-                this.reducers.coinReducer(
-                  validator.tokens,
-                  this.network.coinLookup,
-                  this.network
-                )
-              ],
-              fiatCurrency
+        const totalStakedAssets = await this.fiatValuesAPI.calculateFiatValue(
+          [
+            this.reducers.coinReducer(
+              validator.tokens,
+              this.network.coinLookup,
+              this.network
             )
-          : 0
+          ],
+          fiatCurrency
+        )
         return this.reducers.validatorProfileReducer(
           validator,
           primitiveValidator,
@@ -288,9 +285,9 @@ class CosmosV0API extends RESTDataSource {
           totalStakedAssets,
           allValidatorDelegations.length,
           this.network,
-          latestValidatorNotifications.map((notification) =>
-            this.reducers.notificationReducer(notification, networkList)
-          )
+          // latestValidatorNotifications.map((notification) =>
+          //   this.reducers.notificationReducer(notification, networkList)
+          // )
         )
       })
     )
