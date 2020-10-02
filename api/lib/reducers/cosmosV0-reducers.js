@@ -190,10 +190,10 @@ function proposalReducer(
     title: proposal.proposal_content.value.title,
     description: proposal.content.value.changes
       ? `Parameter: ${JSON.stringify(
-        proposal.proposal_content.value.changes,
-        null,
-        4
-      )}`
+          proposal.proposal_content.value.changes,
+          null,
+          4
+        )}`
       : `` + `\nDescription: ${proposal.proposal_content.value.description}`,
     creationTime: proposal.submit_time,
     status: proposal.proposal_status,
@@ -291,7 +291,7 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
           ? validator.signing_info.missed_blocks_counter
           : 0
       ) /
-      Number(signedBlocksWindow),
+        Number(signedBlocksWindow),
     tokens: atoms(validator.tokens),
     commissionUpdateTime: validator.commission.update_time,
     commission: validator.commission.rate,
