@@ -1,3 +1,4 @@
+const cosmosV3Reducers = require('./cosmosV3-reducers')
 const cosmosV2Reducers = require('./cosmosV2-reducers')
 
 // Terra has a slightly different structure and needs its own undelegationEndTimeReducer
@@ -25,5 +26,6 @@ function undelegationEndTimeReducer(transaction) {
 
 module.exports = {
   ...cosmosV2Reducers,
+  blockReducer: cosmosV3Reducers.blockReducer,
   undelegationEndTimeReducer
 }
