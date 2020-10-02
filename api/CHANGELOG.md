@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.50] - 2020-10-01
+
+### Added
+
+- [#4974](https://github.com/cosmos/lunie/issues/4974) Implement substrate API sidecar @mariopino
+
+### Changed
+
+- [#5011](https://github.com/cosmos/lunie/pull/5011) Update to polkadot/api-2.0.1 @Bitcoinera
+
+### Fixed
+
+- [#5000](https://github.com/cosmos/lunie/pull/5000) Fixes Akash mainnet fees @Bitcoinera
+- [#4977](https://github.com/cosmos/lunie/pull/4977) Fix rpc_url being null on API launch @Bitcoinera
+
+### Code Improvements
+
+- [#4771](https://github.com/cosmos/lunie/issues/4771) Remove hardcoded denomLookup @Bitcoinera
+
 ## [1.0.49] - 2020-09-25
 
 ### Fixed
