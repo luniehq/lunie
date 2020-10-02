@@ -278,8 +278,7 @@ class CosmosV0API extends RESTDataSource {
           ],
           fiatCurrency
         )
-        const totalStakedAssets =
-          fiatValuesResponse[this.network.stakingDenom].amount
+        const totalStakedAssets = fiatValuesResponse[this.network.stakingDenom]
         return this.reducers.validatorProfileReducer(
           validator,
           primitiveValidator,

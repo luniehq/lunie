@@ -513,7 +513,7 @@ const typeDefs = gql`
     description: String
     nationality: String
     headerImage: String
-    totalStakedAssets: String
+    totalStakedAssets: FiatValue
     teamMembers: [NetworkAccount]
     website: String
     telegram: String

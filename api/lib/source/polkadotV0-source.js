@@ -282,8 +282,7 @@ class polkadotAPI extends RESTDataSource {
           [this.reducers.coinReducer(this.network, validator.tokens)],
           fiatCurrency
         )
-        const totalStakedAssets =
-          fiatValuesResponse[this.network.stakingDenom].amount
+        const totalStakedAssets = fiatValuesResponse[this.network.stakingDenom]
         return this.reducers.validatorProfileReducer(
           validator,
           primitiveValidator,
