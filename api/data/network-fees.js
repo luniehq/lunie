@@ -364,9 +364,7 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
   const transactionAmount = getTransactionAmount(message, feeDenom)
   let estimatedFee = {
     amount: String(
-      chainAppliedFees && chainAppliedFees.rate > 0
-        ? fixDecimalsAndRoundUp(BigNumber(transactionAmount).times(chainAppliedFees.rate).toNumber(), 6)
-        : fixDecimalsAndRoundUp(gasEstimate * gasPrice, 6)
+      fixDecimalsAndRoundUp(gasEstimate * gasPrice, 6)
     ),
     denom: feeDenom
   }
