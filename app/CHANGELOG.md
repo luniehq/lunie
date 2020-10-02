@@ -1,11 +1,31 @@
 # Changelog
-   
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.229] - 2020-10-01
+
+### Added
+
+- added another app ID to app site association @jbibla
+
+### Changed
+
+- [#5011](https://github.com/cosmos/lunie/pull/5011) Update to polkadot/api-2.0.1 @Bitcoinera
+
+### Fixed
+
+- [#4986](https://github.com/cosmos/lunie/pull/4986) Fix ModalPropose when no governance parameters query @Bitcoinera
+- [#4991](https://github.com/cosmos/lunie/issues/4991) Fix loader constantly appearing on PageTransactions @Bitcoinera
+- [#5001](https://github.com/cosmos/lunie/pull/5001) Fix missing Akash Mainnet icon for accounts on UserMenu @Bitcoinera
+- [#5012](https://github.com/cosmos/lunie/pull/5012) Fix displaying only 15 validators on TableValidators when filters are used @Bitcoinera
+- [#5002](https://github.com/cosmos/lunie/pull/5002) Fix signing for Akash Mainnet not enabled @Bitcoinera
+- [#4627](https://github.com/cosmos/lunie/pull/4627) Fix navigation duplicated in recover flow by deleting duplicate goToNetwork logic @Bitcoinera
+- Accounts would not be created in desired network @faboweb
 
 ## [1.0.228] - 2020-09-22
 

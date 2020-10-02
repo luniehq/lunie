@@ -18,9 +18,25 @@ function delegationReducer(delegation, validator, active, network) {
   }
 }
 
+function accountInfoReducer(accountValue, accountType) {
+  if (
+    accountType.includes(`VestingAccount`) &&
+    !accountType.includes(`PeriodicVestingAccount`)
+  ) {
+    accountValue = accountValue.BaseVestingAccount.BaseAccount
+  }
+  return {
+    address: accountValue.address,
+    accountNumber: accountValue.account_number,
+    sequence: accountValue.sequence || 0,
+    vestingAccount: accountType.includes(`VestingAccount`) || accountType.includes(`PeriodicVestingAccount`)
+  }
+}
+
 module.exports = {
   ...cosmosV3Reducers,
   validatorReducer: cosmosV2Reducers.validatorReducer,
   transactionReducerV2: cosmosV2Reducers.transactionReducerV2,
-  delegationReducer
+  delegationReducer,
+  accountInfoReducer
 }

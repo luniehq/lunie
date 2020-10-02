@@ -341,7 +341,10 @@ const selectAlternativeFee = (balances, feeDenom, gasEstimate) => {
 
 const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, message, gasEstimate) => {
   // query for this address balances
-  const balances = await cosmosSource.getBalancesFromAddress(senderAddress, '', network)
+  const [balances, accountInfo] = await Promise.all([
+    cosmosSource.getBalancesFromAddress(senderAddress, '', network),
+    cosmosSource.getAccountInfo(senderAddress)
+  ])
   const feeDenom = getFeeDenomFromMessage(message, network)
   const gasPrice = BigNumber(
     getNetworkGasPrices(network.id).find(({ denom }) => {
@@ -368,6 +371,10 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
     denom: feeDenom
   }
   const selectedBalance = balances.find(({ denom }) => denom === feeDenom) || { amount: 0, denom: feeDenom }
+  // HACK, should check the not vested balance for fees
+  if (accountInfo.vestingAccount) {
+    selectedBalance.amount = 0
+  }
   if (
     Number(transactionAmount) + Number(estimatedFee.amount) >
     Number(selectedBalance.amount) &&

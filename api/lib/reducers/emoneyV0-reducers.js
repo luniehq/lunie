@@ -78,7 +78,8 @@ function calculateTokenExchangeRates(
   supportedFiatCurrencies,
   emoneyTokenExchangeRates,
   fiatExchangeRates,
-  reducers
+  reducers,
+  network
 ) {
   return Object.entries(emoneyTokenExchangeRates).reduce(
     (all, [denom, emoneyTokenToFiatExchangeRate]) => {
@@ -87,9 +88,11 @@ function calculateTokenExchangeRates(
       )[0] // TODO dangerous if there will be more rates from the API directly
       // precalculate the exchange rates for all denom currency pairs
       supportedFiatCurrencies.forEach((supportedCurrency) => {
-        all[reducers.denomLookup(denom)] =
-          all[reducers.denomLookup(denom)] || {}
-        all[reducers.denomLookup(denom)][supportedCurrency] =
+        all[reducers.denomLookup(network.coinLookup, denom)] =
+          all[reducers.denomLookup(network.coinLookup, denom)] || {}
+        all[reducers.denomLookup(network.coinLookup, denom)][
+          supportedCurrency
+        ] =
           supportedCurrency === fiatCurrency
             ? rate
             : rate * fiatExchangeRates[fiatCurrency][supportedCurrency]
