@@ -164,7 +164,7 @@ const terraGasPrices = [
   },
   {
     denom: 'uluna',
-    price: '0.015'
+    price: '0.15'
   },
   {
     denom: 'umnt',
