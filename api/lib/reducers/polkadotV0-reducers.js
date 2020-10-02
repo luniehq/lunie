@@ -407,7 +407,7 @@ function transactionDetailsReducer(
 }
 
 function coinReducer(network, amount, decimals = 6) {
-  if (!amount) {
+  if (!amount && amount !== 0) {
     return {
       amount: 0,
       denom: ''
@@ -415,7 +415,7 @@ function coinReducer(network, amount, decimals = 6) {
   }
 
   return {
-    denom: network.coinLookup[0].viewDenom,
+    denom: network.stakingDenom || network.coinLookup[0].viewDenom,
     amount: fixDecimalsAndRoundUp(
       BigNumber(amount).times(
         network.coinLookup[0].chainToViewConversionFactor
