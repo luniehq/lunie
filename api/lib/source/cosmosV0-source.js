@@ -271,7 +271,7 @@ class CosmosV0API extends RESTDataSource {
         const totalStakedAssets = await this.fiatValuesAPI.calculateFiatValue(
           [
             this.reducers.coinReducer(
-              validator.tokens,
+              { amount: validator.tokens, denom: this.network.stakingDenom },
               this.network.coinLookup,
               this.network
             )
@@ -284,7 +284,7 @@ class CosmosV0API extends RESTDataSource {
           validatorProfile,
           totalStakedAssets,
           allValidatorDelegations.length,
-          this.network,
+          this.network
           // latestValidatorNotifications.map((notification) =>
           //   this.reducers.notificationReducer(notification, networkList)
           // )
