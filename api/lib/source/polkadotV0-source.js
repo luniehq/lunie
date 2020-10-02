@@ -278,7 +278,7 @@ class polkadotAPI extends RESTDataSource {
         const primitiveValidator = primitiveValidators.find(
           ({ accountId }) => accountId === validator.operatorAddress
         )
-        const totalStakedAssets = this.fiatValuesAPI.calculateFiatValue(
+        const totalStakedAssets = await this.fiatValuesAPI.calculateFiatValues(
           [this.reducers.coinReducer(this.network, validator.tokens)],
           fiatCurrency
         )
