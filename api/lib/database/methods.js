@@ -11,13 +11,9 @@ const getAccountNotifications = ({
     `notifications`,
     `notifications`,
     [
-      'topic',
       'eventType',
       'resourceType',
-      'resourceId',
-      'networkId',
       'data',
-      'id',
       'created_at'
     ],
     `where: {
