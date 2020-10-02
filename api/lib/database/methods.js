@@ -10,12 +10,7 @@ const getAccountNotifications = ({
   })()(
     `notifications`,
     `notifications`,
-    [
-      'eventType',
-      'resourceType',
-      'data',
-      'created_at'
-    ],
+    ['eventType', 'resourceType', 'data', 'created_at'],
     `where: {
       networkId: {_eq: "${networkId}"},
       resourceId: {_eq: "${address}"},
