@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- [#4974](https://github.com/cosmos/lunie/issues/4974) Implement substrate API sidecar @mariopino
+- [#4974](https://github.com/cosmos/lunie/issues/4974) Implement substrate api sidecar @mariopino
 
 ### Changed
 
