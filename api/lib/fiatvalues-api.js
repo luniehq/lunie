@@ -196,22 +196,25 @@ class fiatValueAPI {
         this.fetchEmoneyTokenExchangeRates(EMoneyAPIUrlTestnet),
         db.getNetworks()
       ])
-      const eMoneyExchangeRatesMainnet = calculateTokenExchangeRates(
-        allFiatCurrenciesSet,
-        tokenExchangeRatesMainnet,
-        fiatExchangeRates,
-        EMoneyV0Reducers,
-        networks.find(({ id }) => id === `emoney-mainnet`)
-      )
-      const eMoneyExchangeRatesTestnet = calculateTokenExchangeRates(
-        allFiatCurrenciesSet,
-        tokenExchangeRatesTestnet,
-        fiatExchangeRates,
-        EMoneyV0Reducers,
-        networks.find(
-          ({ id }) => id === `emoney-mainnet` || id === `emoney-testnet`
-        )
-      )
+      const eMoneyNetwork = networks.find(({ id }) => id === `emoney-mainnet`)
+      const eMoneyExchangeRatesMainnet = eMoneyNetwork
+        ? calculateTokenExchangeRates(
+            allFiatCurrenciesSet,
+            tokenExchangeRatesMainnet,
+            fiatExchangeRates,
+            EMoneyV0Reducers,
+            eMoneyNetwork
+          )
+        : undefined
+      const eMoneyExchangeRatesTestnet = eMoneyNetwork
+        ? calculateTokenExchangeRates(
+            allFiatCurrenciesSet,
+            tokenExchangeRatesTestnet,
+            fiatExchangeRates,
+            EMoneyV0Reducers,
+            eMoneyNetwork
+          )
+        : undefined
       // now we combine both exchange rates, mainnet and testnet, in one single Object
       // mainnet values override duplicate testnet values
       this.eMoneyExchangeRates = {
