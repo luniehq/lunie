@@ -161,23 +161,23 @@ class fiatValueAPI {
     const fiatValuesArray = await Promise.all(
       coins.map((coin) =>
         this.allFiatValues[coin.denom] &&
-        this.allFiatValues[coin.denom][fiatCurrency]
+          this.allFiatValues[coin.denom][fiatCurrency]
           ? {
-              coinDenom: coin.denom, // only used to identify values
-              amount: fixDecimalsAndRoundUp(
-                Number(coin.amount) *
-                  this.allFiatValues[coin.denom][fiatCurrency],
-                6
-              ),
-              denom: fiatCurrency,
-              symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
-            }
+            coinDenom: coin.denom, // only used to identify values
+            amount: fixDecimalsAndRoundUp(
+              Number(coin.amount) *
+              this.allFiatValues[coin.denom][fiatCurrency],
+              6
+            ),
+            denom: fiatCurrency,
+            symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
+          }
           : {
-              coinDenom: coin.denom, // only used to identify values
-              amount: 0,
-              denom: fiatCurrency,
-              symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
-            }
+            coinDenom: coin.denom, // only used to identify values
+            amount: 0,
+            denom: fiatCurrency,
+            symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
+          }
       )
     )
     return keyBy(fiatValuesArray, 'coinDenom')
@@ -199,21 +199,21 @@ class fiatValueAPI {
       const eMoneyNetwork = networks.find(({ id }) => id === `emoney-mainnet`)
       const eMoneyExchangeRatesMainnet = eMoneyNetwork
         ? calculateTokenExchangeRates(
-            allFiatCurrenciesSet,
-            tokenExchangeRatesMainnet,
-            fiatExchangeRates,
-            EMoneyV0Reducers,
-            eMoneyNetwork
-          )
+          allFiatCurrenciesSet,
+          tokenExchangeRatesMainnet,
+          fiatExchangeRates,
+          EMoneyV0Reducers,
+          eMoneyNetwork
+        )
         : undefined
       const eMoneyExchangeRatesTestnet = eMoneyNetwork
         ? calculateTokenExchangeRates(
-            allFiatCurrenciesSet,
-            tokenExchangeRatesTestnet,
-            fiatExchangeRates,
-            EMoneyV0Reducers,
-            eMoneyNetwork
-          )
+          allFiatCurrenciesSet,
+          tokenExchangeRatesTestnet,
+          fiatExchangeRates,
+          EMoneyV0Reducers,
+          eMoneyNetwork
+        )
         : undefined
       // now we combine both exchange rates, mainnet and testnet, in one single Object
       // mainnet values override duplicate testnet values
