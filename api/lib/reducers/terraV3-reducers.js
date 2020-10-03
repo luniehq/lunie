@@ -42,6 +42,7 @@ function delegationReducer(delegation, validator, active, network) {
 module.exports = {
   ...cosmosV2Reducers,
   blockReducer: cosmosV3Reducers.blockReducer,
+  setTransactionSuccess: cosmosV3Reducers.setTransactionSuccess,
   undelegationEndTimeReducer,
   delegationReducer
 }
