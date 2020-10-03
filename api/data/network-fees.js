@@ -160,23 +160,23 @@ const cosmosGasPrices = [
 const terraGasPrices = [
   {
     denom: 'ukrw',
-    price: '0.01'
+    price: '180'
   },
   {
     denom: 'uluna',
-    price: '0.015'
+    price: '0.15'
   },
   {
     denom: 'umnt',
-    price: '0.01'
+    price: '450'
   },
   {
     denom: 'usdr',
-    price: '0.01'
+    price: '0.1'
   },
   {
     denom: 'uusd',
-    price: '0.01'
+    price: '0.15'
   }
 ]
 
@@ -365,9 +365,9 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
   let estimatedFee = {
     amount: String(
       chainAppliedFees && chainAppliedFees.rate > 0
-        ? fixDecimalsAndRoundUp(BigNumber(transactionAmount).times(chainAppliedFees.rate).toNumber(), 6)
-        : fixDecimalsAndRoundUp(gasEstimate * gasPrice, 6)
-    ),
+        ? fixDecimalsAndRoundUp(BigNumber(transactionAmount).times(chainAppliedFees.rate).plus(BigNumber(gasEstimate * gasPrice)).toNumber(), 6)
+        : fixDecimalsAndRoundUp(gasEstimate * gasPrice, 6)    
+      ),
     denom: feeDenom
   }
   const selectedBalance = balances.find(({ denom }) => denom === feeDenom) || { amount: 0, denom: feeDenom }
