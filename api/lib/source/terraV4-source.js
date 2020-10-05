@@ -1,9 +1,9 @@
-const CosmosV2API = require('./cosmosV2-source')
+const CosmosV3API = require('./cosmosV3-source')
 const BigNumber = require('bignumber.js')
 const { keyBy } = require('lodash')
 const { pubkeyToAddress } = require('../tools')
 
-class TerraV3API extends CosmosV2API {
+class TerraV3API extends CosmosV3API {
   setReducers() {
     this.reducers = require('../reducers/terraV3-reducers')
   }
