@@ -44,8 +44,8 @@ class EMoneyV0API extends TerraV3API {
     return slashingParams.signed_blocks_window_duration
   }
 
-  async getAllValidators(height) {
-    return CosmosV0API.prototype.getAllValidators.call(this, height)
+  async getAllValidators(height, profile = false) {
+    return CosmosV0API.prototype.getAllValidators.call(this, height, profile)
   }
 
   async getExpectedReturns(validator) {

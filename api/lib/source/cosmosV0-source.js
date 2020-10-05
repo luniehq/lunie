@@ -184,7 +184,7 @@ class CosmosV0API extends RESTDataSource {
     ).amount
   }
 
-  async getAllValidators(height) {
+  async getAllValidators(height, profile = false) {
     let [
       validators,
       annualProvision,
@@ -235,10 +235,11 @@ class CosmosV0API extends RESTDataSource {
         annualProvision
       )
     )
-    return await this.getProfilesForValidators(
-      validators,
-      validatorsWithoutProfiles
-    )
+    if (profile) {
+      return { validators, validatorsWithoutProfiles }
+    } else {
+      return validatorsWithoutProfiles
+    }
   }
 
   async getProfilesForValidators(
@@ -246,7 +247,7 @@ class CosmosV0API extends RESTDataSource {
     validatorsWithoutProfiles,
     fiatCurrency = 'USD'
   ) {
-    const networkList = await db.getNetworks()
+    // const networkList = await db.getNetworks()
     validatorsWithoutProfiles = this.getRanksForValidators(
       validatorsWithoutProfiles
     )
@@ -308,9 +309,21 @@ class CosmosV0API extends RESTDataSource {
   }
 
   async getValidatorProfile(operatorAddress) {
-    return this.store.validators[operatorAddress]
-      ? this.store.validators[operatorAddress].profile
-      : undefined
+    if (!this.validatorsWithProfiles) {
+      const {
+        validators,
+        validatorsWithoutProfiles
+      } = await this.getAllValidators(this.blockHeight, true)
+      const validatorsWithProfiles = await this.getProfilesForValidators(
+        validators,
+        validatorsWithoutProfiles
+      )
+      this.validatorsWithProfiles = _.keyBy(
+        validatorsWithProfiles,
+        'operatorAddress'
+      )
+    }
+    return this.validatorsWithProfiles[operatorAddress].profile
   }
 
   async getAllValidatorDelegations(validator) {
@@ -591,6 +604,7 @@ class CosmosV0API extends RESTDataSource {
         block.block_meta.header.height
       )
     }
+    this.blockHeight = block.block_meta.header.height
     return this.reducers.blockReducer(this.network.id, block, transactions)
   }
 

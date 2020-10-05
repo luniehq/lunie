@@ -139,7 +139,7 @@ class polkadotAPI {
       : []
   }
 
-  async getAllValidators() {
+  async getAllValidators(height, profile = false) {
     const api = await this.getAPI()
 
     // Fetch all stash addresses for current session (including validators and intentions)
@@ -213,13 +213,14 @@ class polkadotAPI {
         validator.votingPower = 0
       }
     })
-    const allValidatorsWithoutProfile = allValidators.map((validator) =>
+    const validatorsWithoutProfiles = allValidators.map((validator) =>
       this.reducers.validatorReducer(this.network, validator)
     )
-    return await this.getProfilesForValidators(
-      allValidators,
-      allValidatorsWithoutProfile
-    )
+    if (profile) {
+      return { validators: allValidators, validatorsWithoutProfiles }
+    } else {
+      return validatorsWithoutProfiles
+    }
   }
 
   async getProfilesForValidators(
@@ -275,9 +276,21 @@ class polkadotAPI {
   }
 
   async getValidatorProfile(operatorAddress) {
-    return this.store.validators[operatorAddress]
-      ? this.store.validators[operatorAddress].profile
-      : undefined
+    if (!this.validatorsWithProfiles) {
+      const {
+        validators,
+        validatorsWithoutProfiles
+      } = await this.getAllValidators(this.blockHeight, true)
+      const validatorsWithProfiles = await this.getProfilesForValidators(
+        validators,
+        validatorsWithoutProfiles
+      )
+      this.validatorsWithProfiles = _.keyBy(
+        validatorsWithProfiles,
+        'operatorAddress'
+      )
+    }
+    return this.validatorsWithProfiles[operatorAddress]
   }
 
   async getBalancesFromAddress(address, fiatCurrency) {
