@@ -5,7 +5,7 @@ const { pubkeyToAddress } = require('../tools')
 
 class TerraV3API extends CosmosV3API {
   setReducers() {
-    this.reducers = require('../reducers/terraV3-reducers')
+    this.reducers = require('../reducers/terraV4-reducers')
   }
 
   async getAllValidators(height) {
