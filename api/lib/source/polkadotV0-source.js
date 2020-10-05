@@ -290,7 +290,9 @@ class polkadotAPI {
         'operatorAddress'
       )
     }
-    return this.validatorsWithProfiles[operatorAddress].profile
+    return this.validatorsWithProfiles[operatorAddress]
+      ? this.validatorsWithProfiles[operatorAddress].profile
+      : undefined
   }
 
   async getBalancesFromAddress(address, fiatCurrency) {

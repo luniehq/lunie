@@ -323,7 +323,9 @@ class CosmosV0API extends RESTDataSource {
         'operatorAddress'
       )
     }
-    return this.validatorsWithProfiles[operatorAddress].profile
+    return this.validatorsWithProfiles[operatorAddress]
+      ? this.validatorsWithProfiles[operatorAddress].profile
+      : undefined
   }
 
   async getAllValidatorDelegations(validator) {
