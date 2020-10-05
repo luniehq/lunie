@@ -161,23 +161,23 @@ class fiatValueAPI {
     const fiatValuesArray = await Promise.all(
       coins.map((coin) =>
         this.allFiatValues[coin.denom] &&
-        this.allFiatValues[coin.denom][fiatCurrency]
+          this.allFiatValues[coin.denom][fiatCurrency]
           ? {
-              coinDenom: coin.denom, // only used to identify values
-              amount: fixDecimalsAndRoundUp(
-                Number(coin.amount) *
-                  this.allFiatValues[coin.denom][fiatCurrency],
-                6
-              ),
-              denom: fiatCurrency,
-              symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
-            }
+            coinDenom: coin.denom, // only used to identify values
+            amount: fixDecimalsAndRoundUp(
+              Number(coin.amount) *
+              this.allFiatValues[coin.denom][fiatCurrency],
+              6
+            ),
+            denom: fiatCurrency,
+            symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
+          }
           : {
-              coinDenom: coin.denom, // only used to identify values
-              amount: 0,
-              denom: fiatCurrency,
-              symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
-            }
+            coinDenom: coin.denom, // only used to identify values
+            amount: 0,
+            denom: fiatCurrency,
+            symbol: this.fiatCurrenciesSymbolsDictionary[fiatCurrency]
+          }
       )
     )
     return keyBy(fiatValuesArray, 'coinDenom')
