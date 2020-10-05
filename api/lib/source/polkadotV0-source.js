@@ -974,7 +974,7 @@ class polkadotAPI {
           value.startsWith('0x') &&
           !ethAddressRegexp.test(value)
             ? hexToString(value)
-            : value
+            : JSON.stringify(value)
         parameterDescription += `\n\n${
           key[0].toUpperCase() + key.substr(1)
         }: ${resolvedValue}`
