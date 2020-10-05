@@ -1,6 +1,6 @@
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
-const { orderBy, uniqWith } = require('lodash')
+const { orderBy, uniqWith, keyBy } = require('lodash')
 const { stringToU8a, hexToString } = require('@polkadot/util')
 const Sentry = require('@sentry/node')
 const {
@@ -285,7 +285,7 @@ class polkadotAPI {
         validators,
         validatorsWithoutProfiles
       )
-      this.validatorsWithProfiles = _.keyBy(
+      this.validatorsWithProfiles = keyBy(
         validatorsWithProfiles,
         'operatorAddress'
       )
