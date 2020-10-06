@@ -10,12 +10,20 @@ const getAccountNotifications = ({
   })()(
     `notifications`,
     `notifications`,
-    ['eventType', 'resourceType', 'data', 'created_at'],
-    `where: {
+    [
+      'topic',
+      'eventType',
+      'resourceType',
+      'resourceId',
+      'networkId',
+      'data',
+      'id',
+      'created_at'
+    ],
+      `where: {
       networkId: {_eq: "${networkId}"},
       resourceId: {_eq: "${address}"},
-    } limit: 10`
-    // , order_by: {created_at: desc}
+    } limit: 10, order_by: {created_at: desc}`
   )
 }
 
