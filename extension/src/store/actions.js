@@ -307,19 +307,18 @@ export default ({ apollo }) => {
       },
       []
     )
-    const foundCombination = await walletVariations.find(
-      async ({ HDPath, curve }) => {
+    const foundCombination = await Promise.all(
+      walletVariations.map(async ({ HDPath, curve }) => {
         const { result: wallet } = await getWalletFromSandbox(
           seedPhrase,
           networkObject,
           HDPath.value,
           curve.value
         )
-        return wallet ? wallet.cosmosAddress === address : false
-      }
+        return wallet && wallet.cosmosAddress === address ? true : false
+      })
     )
-    if (!foundCombination) return false
-    return foundCombination
+    return foundCombination.find((combination) => combination) ? true : false
   }
 
   return {
