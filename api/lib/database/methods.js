@@ -20,7 +20,7 @@ const getAccountNotifications = ({
       'id',
       'created_at'
     ],
-      `where: {
+    `where: {
       networkId: {_eq: "${networkId}"},
       resourceId: {_eq: "${address}"},
     } limit: 10, order_by: {created_at: desc}`
