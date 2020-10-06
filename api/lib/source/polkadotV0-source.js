@@ -1,7 +1,7 @@
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
-const { stringToU8a, hexToString } = require('@polkadot/util')
+const { stringToU8a, hexToString, hexToU8a } = require('@polkadot/util')
 const Sentry = require('@sentry/node')
 const {
   getPassingThreshold,
@@ -974,7 +974,15 @@ class polkadotAPI {
           value.startsWith('0x') &&
           !ethAddressRegexp.test(value)
             ? hexToString(value)
-            : JSON.stringify(value)
+            : typeof value === 'object' && value.callIndex
+            ? api.registry
+                .findMetaCall(hexToU8a(value.callIndex))
+                .section.concat(
+                  `.${
+                    api.registry.findMetaCall(hexToU8a(value.callIndex)).method
+                  }`
+                )
+            : value
         parameterDescription += `\n\n${
           key[0].toUpperCase() + key.substr(1)
         }: ${resolvedValue}`
