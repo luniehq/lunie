@@ -4,7 +4,7 @@
       <div class="account-menu-button-container">
         <router-link
           class="account-menu-button account-menu-delete-account"
-          :to="{ name: 'delete', params: { address } }"
+          :to="{ name: 'delete', params: { address, networkId } }"
         >
           <i class="material-icons notranslate show-seed">delete</i>
         </router-link>
@@ -30,6 +30,10 @@ export default {
   name: `account-menu`,
   props: {
     address: {
+      type: String,
+      required: true,
+    },
+    networkId: {
       type: String,
       required: true,
     },

@@ -5,6 +5,7 @@
         <AccountMenu
           v-if="openAccount && openAccount.name === account.name"
           :address="account.address"
+          :networkId="account.network"
         />
 
         <div

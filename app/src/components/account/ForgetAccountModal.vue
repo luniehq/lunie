@@ -83,7 +83,6 @@ import { formatAddress } from "src/filters"
 import config from "src/../config"
 import { deleteAccount } from "scripts/extension-utils"
 import { required } from "vuelidate/lib/validators"
-import { mapGetters } from "vuex"
 import { mnemonicValidate } from "@polkadot/util-crypto"
 
 const has12or24words = (param) => {
@@ -135,12 +134,11 @@ export default {
     copySuccess: false,
   }),
   computed: {
-    ...mapGetters([`networks`, `network`]),
-    currentNetwork() {
-      return this.networks.find(({ id }) => id === this.network)
-    },
     address() {
       return this.$route.params.address
+    },
+    addressNetwork() {
+      return this.$route.params.networkId
     },
     seed: {
       get() {
@@ -154,7 +152,7 @@ export default {
       },
     },
     isPolkadot() {
-      return this.currentNetwork.network_type === "polkadot"
+      return this.addressNetwork === "polkadot" || this.addressNetwork === "kusama"
     },
   },
   methods: {
@@ -164,7 +162,7 @@ export default {
         return
       }
       this.isCorrectSeed = await this.$store.dispatch(`testSeed`, {
-        networkId: this.currentNetwork.id,
+        networkId: this.addressNetwork,
         address: this.address,
         seedPhrase: this.seed,
       })

@@ -54,7 +54,7 @@ export default (store) => {
       component: require('account/RevealSeedModal').default
     },
     {
-      path: `/delete/:address`,
+      path: `/delete/:networkId/:address`,
       name: `delete`,
       component: require('account/ForgetAccountModal').default
     },
