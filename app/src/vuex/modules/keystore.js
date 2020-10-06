@@ -73,7 +73,7 @@ export default () => {
       const foundCombination = await Promise.all(
         walletVariations.map(
         async ({ HDPath, curve }) => {
-          const { result: wallet } = await getWallet(
+          const wallet = await getWallet(
             seedPhrase,
             networkObject,
             HDPath.value,
