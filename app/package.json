@@ -124,7 +124,7 @@
     "sass": "^1.26.10",
     "sass-loader": "10.0.2",
     "simsala": "0.0.21",
-    "stylelint": "13.6.1",
+    "stylelint": "13.7.2",
     "stylelint-config-standard": "20.0.0",
     "stylelint-webpack-plugin": "2.1.0",
     "vue-jest": "3.0.5",
