@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.42] - 2020-10-06
+
+### Changed
+
+- [#4771](https://github.com/cosmos/lunie/issues/4771) Remove hardcoded denomLookup @Bitcoinera
+- [#5011](https://github.com/cosmos/lunie/pull/5011) Update to polkadot/api-2.0.1 @Bitcoinera
+- [#5040](https://github.com/cosmos/lunie/pull/5040) Upgrade to polkadot/api-2.1.1 @Bitcoinera
+
 ## [1.0.41] - 2020-09-25
 
 ### Added
