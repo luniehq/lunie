@@ -321,7 +321,10 @@ function validatorProfileReducer(
       nationality: validatorProfile.nationality,
       headerImage: validatorProfile.headerImage,
       description: primitiveValidator.description.details,
-      totalStakedAssets,
+      totalStakedAssets: {
+        ...totalStakedAssets,
+        amount: totalStakedAssets.amount.toFixed(2)
+      },
       teamMembers: JSON.parse(validatorProfile.teamMembers),
       website: primitiveValidator.description.website,
       telegram: validatorProfile.telegram,

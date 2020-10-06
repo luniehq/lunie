@@ -270,13 +270,7 @@ class CosmosV0API extends RESTDataSource {
             operator_address === validator.operatorAddress
         )
         const fiatValuesResponse = await this.fiatValuesAPI.calculateFiatValues(
-          [
-            this.reducers.coinReducer(
-              { amount: validator.tokens, denom: this.network.stakingDenom },
-              this.network.coinLookup,
-              this.network
-            )
-          ],
+          [{ amount: validator.tokens, denom: this.network.stakingDenom }],
           fiatCurrency
         )
         const totalStakedAssets = fiatValuesResponse[this.network.stakingDenom]
