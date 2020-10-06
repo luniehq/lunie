@@ -29,6 +29,7 @@ const EMONEY_GAS_PRICES_ENDPOINT = `http://emoney.validator.network/light/author
 let terraTaxRate
 let emoneyGasPrices
 let networkGasPricesDictionary = {}
+let networkGasEstimatesDictionary = {}
 
 const pollForNewFees = async () => {
   const terraTaxRateResponse = await fetch(TERRA_TAX_RATE_ENDPOINT)
@@ -58,8 +59,31 @@ const pollForNewFees = async () => {
   }, FEES_POLLING_INTERVAL)
 }
 
+const getNetworkGasPrices = async (networkId) => {
+  const networkGasPrices = await db.getNetworkGasPrices()
+  networkGasPrices.forEach(networkGasPrice => {
+    if (!networkGasPricesDictionary[networkGasPrice.id]) networkGasPricesDictionary[networkGasPrice.id] = []
+    networkGasPricesDictionary[networkGasPrice.id].push({ denom: networkGasPrice.denom,
+      gasPrice: networkGasPrice.gasPrice
+    })
+  })
+  // update emoneyGasPrices
+  networkGasPricesDictionary['emoney-mainnet'] = emoneyGasPrices
+  return networkGasPricesDictionary[networkId] || []
+}
+
+const getNetworkGasEstimates = async (networkId) => {
+  const networkGasEstimates = await db.getNetworkGasEstimates()
+  networkGasEstimates.forEach(networkGasEstimate => {
+    if (!networkGasEstimatesDictionary[networkGasEstimate.id]) networkGasEstimatesDictionary[networkGasEstimate.id] = {}
+    networkGasEstimatesDictionary[networkGasEstimate.id][networkGasEstimate.transactionType] = networkGasEstimate.gasEstimate
+  })
+  return networkGasEstimatesDictionary[networkId] || []
+}
+
 // run on API launch
 pollForNewFees()
+getNetworkGasEstimates()
 
 const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
   if (transactionType && !transactionTypesSet.has(transactionType)) {
@@ -82,19 +106,6 @@ const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
     : networkGasEstimates.default
 }
 
-const getNetworkGasPrices = async (networkId) => {
-  const networkGasPrices = await db.getNetworkGasPrices()
-  networkGasPrices.forEach(networkGasPrice => {
-    if (!networkGasPricesDictionary[networkGasPrice.id]) networkGasPricesDictionary[networkGasPrice.id] = []
-    networkGasPricesDictionary[networkGasPrice.id].push({ denom: networkGasPrice.denom,
-      gasPrice: networkGasPrice.gasPrice
-    })
-  })
-  // update emoneyGasPrices
-  networkGasPricesDictionary['emoney-mainnet'] = emoneyGasPrices
-  return networkGasPricesDictionary[networkId] || []
-}
-
 const getNetworkTransactionChainAppliedFees = (networkId, transactionType) => {
   if (networkId.startsWith('terra') && transactionType === 'SendTx') {
     return {
@@ -104,53 +115,6 @@ const getNetworkTransactionChainAppliedFees = (networkId, transactionType) => {
   } else {
     return null
   }
-}
-
-const terraGasEstimates = {
-  default: 350000,
-  ClaimRewardsTx: 550000
-}
-
-const cosmosGasEstimates = {
-  default: 550000
-}
-
-const emoneyGasEstimates = {
-  default: 300000,
-  SendTx: 75000,
-  StakeTx: 550000,
-  UnstakeTx: 550000,
-  ClaimRewardsTx: 550000,
-  RestakeTx: 550000
-}
-
-const akashGasEstimates = {
-  default: 550000
-}
-
-const polkadotGasEstimates = {
-  default: 0
-}
-
-const kavaGasEstimates = {
-  default: 550000
-}
-
-const networkGasEstimatesDictionary = {
-  'cosmos-hub-mainnet': cosmosGasEstimates,
-  'cosmos-hub-testnet': cosmosGasEstimates,
-  'cosmos-hub-4-testnet': cosmosGasEstimates,
-  'terra-mainnet': terraGasEstimates,
-  'terra-testnet': terraGasEstimates,
-  'emoney-mainnet': emoneyGasEstimates,
-  'emoney-testnet': emoneyGasEstimates,
-  'akash-testnet': akashGasEstimates,
-  'akash-mainnet': akashGasEstimates,
-  'kusama': polkadotGasEstimates,
-  'polkadot': polkadotGasEstimates,
-  'polkadot-testnet': polkadotGasEstimates,
-  'kava-mainnet': kavaGasEstimates,
-  'kava-testnet': kavaGasEstimates
 }
 
 const getPolkadotMessage = async (messageType, senderAddress, message, network, networkSource) => {
@@ -333,6 +297,7 @@ module.exports = {
   getNetworkTransactionGasEstimates,
   getNetworkTransactionChainAppliedFees,
   getNetworkGasPrices,
+  getNetworkGasEstimates,
   getPolkadotFee,
   getPolkadotMessage,
   getFeeDenomFromMessage,
