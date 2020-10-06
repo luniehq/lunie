@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.53] - 2020-10-06
+
+### Changed
+
+- [#5025](https://github.com/cosmos/lunie/pull/5025) Revert polkadot sidecar @Bitcoinera
+- [#5033](https://github.com/cosmos/lunie/pull/5033) Upgrade Terra to Columbus-4 (Cosmos-Hub 4) @Bitcoinera
+
+### Fixed
+
+- [#5041](https://github.com/cosmos/lunie/pull/5041) Fix e-Money correcting the Terra Columbus-4 upgrade to make it the proper way @Bitcoinera
+- [#5017](https://github.com/cosmos/lunie/pull/5017) Prevent coinLookup of undefined when not running emoney network @Bitcoinera
+
 ## [1.0.52] - 2020-10-03
 
 ### Changed
