@@ -3,6 +3,9 @@ const fetch = require('node-fetch')
 const Sentry = require('@sentry/node')
 const BigNumber = require('bignumber.js')
 const { fixDecimalsAndRoundUp } = require('../common/numbers.js')
+const database = require('../lib/database')
+const config = require('../config')
+const db = database(config)('')
 
 const transactionTypesSet = new Set([
   'SendTx',
@@ -25,6 +28,7 @@ const EMONEY_GAS_PRICES_ENDPOINT = `http://emoney.validator.network/light/author
 
 let terraTaxRate
 let emoneyGasPrices
+let networkGasPricesDictionary = {}
 
 const pollForNewFees = async () => {
   const terraTaxRateResponse = await fetch(TERRA_TAX_RATE_ENDPOINT)
@@ -78,10 +82,17 @@ const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
     : networkGasEstimates.default
 }
 
-const getNetworkGasPrices = (networkId) => {
+const getNetworkGasPrices = async (networkId) => {
+  const networkGasPrices = await db.getNetworkGasPrices()
+  networkGasPrices.forEach(networkGasPrice => {
+    if (!networkGasPricesDictionary[networkGasPrice.id]) networkGasPricesDictionary[networkGasPrice.id] = []
+    networkGasPricesDictionary[networkGasPrice.id].push({ denom: networkGasPrice.denom,
+      gasPrice: networkGasPrice.gasPrice
+    })
+  })
   // update emoneyGasPrices
   networkGasPricesDictionary['emoney-mainnet'] = emoneyGasPrices
-  return networkGasPricesDictionary[networkId]
+  return networkGasPricesDictionary[networkId] || []
 }
 
 const getNetworkTransactionChainAppliedFees = (networkId, transactionType) => {
@@ -140,85 +151,6 @@ const networkGasEstimatesDictionary = {
   'polkadot-testnet': polkadotGasEstimates,
   'kava-mainnet': kavaGasEstimates,
   'kava-testnet': kavaGasEstimates
-}
-
-const cosmosGasPrices = [
-  {
-    denom: 'uatom',
-    price: '0.65e-2'
-  },
-  {
-    denom: 'umuon',
-    price: '0.65e-2'
-  },
-  {
-    denom: 'muon',
-    price: '0.65e-2'
-  }
-]
-
-const terraGasPrices = [
-  {
-    denom: 'ukrw',
-    price: '180'
-  },
-  {
-    denom: 'uluna',
-    price: '0.15'
-  },
-  {
-    denom: 'umnt',
-    price: '450'
-  },
-  {
-    denom: 'usdr',
-    price: '0.1'
-  },
-  {
-    denom: 'uusd',
-    price: '0.15'
-  }
-]
-
-const kavaGasPrices = [
-  {
-    denom: 'ukava',
-    price: '0.1'
-  },
-  {
-    denom: 'usdx',
-    price: '0.1'
-  },
-  {
-    denom: 'bnb',
-    price: '0.1'
-  },
-]
-
-const akashGasPrices = [
-  {
-    denom: 'uakt',
-    price: '0.01'
-  }
-]
-
-const polkadotGasPrices = []
-
-let networkGasPricesDictionary = {
-  'cosmos-hub-mainnet': cosmosGasPrices,
-  'cosmos-hub-testnet': cosmosGasPrices,
-  'cosmos-hub-4-testnet': cosmosGasPrices,
-  'terra-mainnet': terraGasPrices,
-  'terra-testnet': terraGasPrices,
-  'emoney-mainnet': emoneyGasPrices,
-  'emoney-testnet': emoneyGasPrices,
-  'kava-mainnet': kavaGasPrices,
-  'kava-testnet': kavaGasPrices,
-  'akash-testnet': akashGasPrices,
-  'akash-mainnet': akashGasPrices,
-  'kusama': polkadotGasPrices,
-  'polkadot': polkadotGasPrices,
-  'polkadot-testnet': polkadotGasPrices,
 }
 
 const getPolkadotMessage = async (messageType, senderAddress, message, network, networkSource) => {
@@ -346,12 +278,10 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
     cosmosSource.getAccountInfo(senderAddress)
   ])
   const feeDenom = getFeeDenomFromMessage(message, network)
-  const gasPrice = BigNumber(
-    getNetworkGasPrices(network.id).find(({ denom }) => {
-      const coinLookup = network.getCoinLookup(network, denom)
-      return coinLookup ? coinLookup.viewDenom === feeDenom : false
-    }).price
-  )
+  const gasPrice = BigNumber(networkGasPricesDictionary[network.id].find(({ denom }) => {
+    const coinLookup = network.getCoinLookup(network, denom)
+    return coinLookup ? coinLookup.viewDenom === feeDenom : false
+  }).gasPrice)
     .times(
       network.getCoinLookup(network, feeDenom, `viewDenom`)
         .chainToViewConversionFactor

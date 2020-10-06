@@ -288,6 +288,48 @@ const getNetworkLinks = ({ hasura_url, hasura_admin_key }) => () => async (
   return JSON.parse(network.links)
 }
 
+const getNetworkGasEstimates = ({
+  hasura_url,
+  hasura_admin_key
+}) => () => async () => {
+  const {
+    data: { networksGasEstimates }
+  } = await query({
+    hasura_url,
+    hasura_admin_key
+  })(`
+    query {
+      networksGasEstimates: networksGasEstimates {
+        id
+        transactionType
+        gasEstimate
+      }
+    }
+    `)
+  return networksGasEstimates
+}
+
+const getNetworkGasPrices = ({
+  hasura_url,
+  hasura_admin_key
+}) => () => async () => {
+  const {
+    data: { networksGasPrices }
+  } = await query({
+    hasura_url,
+    hasura_admin_key
+  })(`
+      query {
+        networksGasPrices: networksGasPrices {
+          id
+          denom
+          gasPrice
+        }
+      }
+      `)
+  return networksGasPrices
+}
+
 const storeCoinLookups = (
   hasura_url,
   hasura_admin_key,
@@ -507,6 +549,8 @@ module.exports = {
   getNetwork,
   getNetworks,
   getNetworkLinks,
+  getNetworkGasEstimates,
+  getNetworkGasPrices,
   storeUser,
   getUser,
   storeStore,
