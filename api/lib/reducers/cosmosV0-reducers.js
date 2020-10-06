@@ -280,13 +280,17 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
       ? validator.signing_info.start_height
       : undefined,
     uptimePercentage:
-      1 -
-      Number(
-        validator.signing_info
-          ? validator.signing_info.missed_blocks_counter
-          : 0
-      ) /
-        Number(signedBlocksWindow),
+      validator.signing_info &&
+      validator.signing_info.missed_blocks_counter &&
+      signedBlocksWindow
+        ? 1 -
+          Number(
+            validator.signing_info
+              ? validator.signing_info.missed_blocks_counter
+              : 0
+          ) /
+            Number(signedBlocksWindow)
+        : undefined,
     tokens: atoms(validator.tokens),
     commissionUpdateTime: validator.commission.update_time,
     commission: validator.commission.rate,
@@ -423,7 +427,7 @@ async function balanceV2Reducer(
     0
   )
   const total = isStakingDenom
-    ? lunieCoin.amount.plus(delegatedStake).plus(undelegatingStake)
+    ? BigNumber(lunieCoin.amount).plus(delegatedStake).plus(undelegatingStake)
     : lunieCoin.amount
   const fiatValue = await fiatValueAPI.calculateFiatValues(
     [
