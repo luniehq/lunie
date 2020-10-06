@@ -405,7 +405,7 @@ export default {
           this.$apollo.queries.rewards.refetch()
         },
         skip() {
-          return this.currentNetwork.networ_type === 'polkadot'
+          return this.currentNetwork.network_type === 'polkadot'
         }
       },
     },
