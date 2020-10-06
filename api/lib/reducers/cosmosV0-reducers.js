@@ -423,7 +423,7 @@ async function balanceV2Reducer(
     0
   )
   const total = isStakingDenom
-    ? lunieCoin.amount.plus(delegatedStake).plus(undelegatingStake)
+    ? BigNumber(lunieCoin.amount).plus(delegatedStake).plus(undelegatingStake)
     : lunieCoin.amount
   const fiatValue = await fiatValueAPI.calculateFiatValues(
     [
