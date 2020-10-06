@@ -242,7 +242,7 @@ class polkadotAPI {
           ({ accountId }) => accountId === validator.operatorAddress
         )
         const fiatValuesResponse = await this.fiatValuesAPI.calculateFiatValues(
-          [this.reducers.coinReducer(this.network, validator.tokens)],
+          [{ amount: validator.tokens, denom: this.network.stakingDenom }],
           fiatCurrency
         )
         const totalStakedAssets = fiatValuesResponse[this.network.stakingDenom]
