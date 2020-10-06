@@ -11,7 +11,8 @@
             "
           >
           {{ proposal.description }}
-        </pre>
+        </pre
+          >
           <p v-else>{{ proposal.description }}</p>
         </div>
       </section>
