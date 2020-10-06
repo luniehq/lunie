@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [#5017](https://github.com/cosmos/lunie/pull/5017) Prevent coinLookup of undefined when not running emoney network @Bitcoinera
 
+
 ## [1.0.51] - 2020-10-02
 
 ### Changed
