@@ -5,7 +5,7 @@
         <AccountMenu
           v-if="openAccount && openAccount.name === account.name"
           :address="account.address"
-          :networkId="account.network"
+          :network-id="account.network"
         />
 
         <div
@@ -81,8 +81,8 @@ export default {
       if (this.isExtension) {
         this.$store.commit(`setNetworkId`, account.network)
       }
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

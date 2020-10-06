@@ -71,8 +71,7 @@ export default () => {
         []
       )
       const foundCombination = await Promise.all(
-        walletVariations.map(
-        async ({ HDPath, curve }) => {
+        walletVariations.map(async ({ HDPath, curve }) => {
           const wallet = await getWallet(
             seedPhrase,
             networkObject,
@@ -80,9 +79,9 @@ export default () => {
             curve.value
           )
           return wallet && wallet.cosmosAddress === address ? true : false
-        }
-      ))
-      return foundCombination.find(combination => combination) ? true : false
+        })
+      )
+      return foundCombination.find((combination) => combination) ? true : false
     },
     async createKey(
       store,

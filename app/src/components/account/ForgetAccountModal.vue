@@ -61,12 +61,12 @@
       </TmFormGroup>
     </div>
     <div v-else class="session-container success-paragraph">
-      <TmDataMsg icon="check" icon-color="var(--success)" :success="true">  
+      <TmDataMsg icon="check" icon-color="var(--success)" :success="true">
         <p slot="title">Account successfully deleted!</p>
-        <p slot="subtitle" class="success-paragraph-message"
-          >Account {{ address | formatAddress }} won't appear anymore among your
-          accounts</p
-        >
+        <p slot="subtitle" class="success-paragraph-message">
+          Account {{ address | formatAddress }} won't appear anymore among your
+          accounts
+        </p>
       </TmDataMsg>
     </div>
   </SessionFrame>
@@ -152,7 +152,9 @@ export default {
       },
     },
     isPolkadot() {
-      return this.addressNetwork === "polkadot" || this.addressNetwork === "kusama"
+      return (
+        this.addressNetwork === "polkadot" || this.addressNetwork === "kusama"
+      )
     },
   },
   methods: {
