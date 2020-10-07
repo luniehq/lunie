@@ -507,6 +507,14 @@ const typeDefs = gql`
     networkId: String!
   }
 
+  type SocialLinks {
+    website: String
+    telegram: String
+    github: String
+    twitter: String
+    blog: String
+  }
+
   type ValidatorProfile {
     name: String
     rank: Int
@@ -515,11 +523,7 @@ const typeDefs = gql`
     headerImage: String
     totalStakedAssets: FiatValue
     teamMembers: [NetworkAccount]
-    website: String
-    telegram: String
-    github: String
-    twitter: String
-    blog: String
+    socialLinks: SocialLinks
     numberStakers: Int
     uptimePercentage: String
     contributionLinks: [ContributionLink]

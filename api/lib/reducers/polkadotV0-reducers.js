@@ -98,11 +98,13 @@ function validatorProfileReducer(
         amount: totalStakedAssets.amount.toFixed(2)
       },
       teamMembers: JSON.parse(validatorProfile.teamMembers),
-      website: validator.website,
-      telegram: validatorProfile.telegram,
-      github: validatorProfile.github,
-      twitter: validatorProfile.twitter,
-      blog: validatorProfile.blog,
+      socialLinks: {
+        website: validator.website,
+        telegram: validatorProfile.telegram,
+        github: validatorProfile.github,
+        twitter: validatorProfile.twitter,
+        blog: validatorProfile.blog
+      },
       numberStakers: validator.nominations.length,
       uptimePercentage: validator.uptimePercentage,
       contributionLinks: JSON.parse(validatorProfile.contributionLinks),
