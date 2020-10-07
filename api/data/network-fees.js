@@ -94,8 +94,6 @@ const getNetworkTransactionGasEstimates = (networkId, transactionType) => {
     )
   }
   const networkGasEstimates = networkGasEstimatesDictionary[networkId]
-  console.log(`\n Ǹetwork Gas Estimates Dict`, networkGasEstimatesDictionary)
-  console.log(`\n Ǹetwork Gas Estimates`, networkGasEstimates)
   if (!networkGasEstimates) {
     throw new UserInputError(
       `Unrecognized network. Currently only ${Object.keys(
