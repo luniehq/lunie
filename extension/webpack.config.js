@@ -36,6 +36,7 @@ const config = {
       account: resolve('../app/src/components/account'),
       network: resolve('../app/src/components/network'),
       transactions: resolve('../app/src/components/transactions'),
+      session: resolve('../app/src/components/session'),
       modules: resolve('../app/src/vuex/modules'),
       config: resolve('config.js'),
       src: resolve('../app/src'),
