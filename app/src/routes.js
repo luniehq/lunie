@@ -345,7 +345,7 @@ export default (store) => {
         {
           path: `portfolio`,
           name: `portfolio`,
-          component: () => import(`./components/wallet/PagePortfolio`),
+          component: () => import(`./components/common/PagePortfolio`),
           meta: {
             requiresAuth: true,
             feature: "portfolio",
@@ -355,7 +355,7 @@ export default (store) => {
         {
           path: `transactions`,
           name: `transactions`,
-          component: () => import(`./components/wallet/PageTransactions`),
+          component: () => import(`./components/transactions/PageTransactions`),
           meta: {
             requiresAuth: true,
             feature: "activity",
