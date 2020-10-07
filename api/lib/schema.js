@@ -383,10 +383,12 @@ const typeDefs = gql`
   }
 
   type SocialLinks {
-    github: String
+    website: String
     linkedin: String
     telegram: String
+    github: String
     twitter: String
+    blog: String
   }
 
   type NetworkAccount {
@@ -505,14 +507,6 @@ const typeDefs = gql`
   input NotificationInput {
     address: String!
     networkId: String!
-  }
-
-  type SocialLinks {
-    website: String
-    telegram: String
-    github: String
-    twitter: String
-    blog: String
   }
 
   type ValidatorProfile {
