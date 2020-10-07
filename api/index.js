@@ -23,7 +23,11 @@ async function main() {
 
   const apolloServer = await createApolloServer(httpServer)
   app.use(
-    apolloServer.getMiddleware({ app, path: config.queryPath, cors: { origin: '*' } })
+    apolloServer.getMiddleware({
+      app,
+      path: config.queryPath,
+      cors: { origin: '*' }
+    })
   )
 
   httpServer.listen({ port: config.port }, () => {
