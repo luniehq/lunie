@@ -11,8 +11,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- [#5025](https://github.com/cosmos/lunie/pull/5025) Revert polkadot sidecar @Bitcoinera
-- [#5033](https://github.com/cosmos/lunie/pull/5033) Upgrade Terra to Columbus-4 (Cosmos-Hub 4) @Bitcoinera
 - [#5040](https://github.com/cosmos/lunie/pull/5040) Upgrade to polkadot/api-2.1.1 @Bitcoinera
 
 ### Fixed
@@ -36,7 +34,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- [#5025](https://github.com/cosmos/lunie/pull/5025) Revert polkadot sidecar @Bitcoinera
+- [#5033](https://github.com/cosmos/lunie/pull/5033) Upgrade Terra to Columbus-4 (Cosmos-Hub 4) @Bitcoinera
 
 ### Fixed
 
