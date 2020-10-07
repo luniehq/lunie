@@ -7,7 +7,7 @@ const validatorTypeDefs = gql`
     GITHUB
   }
 
-  type ProfileLink {
+  type ProfileLinks {
     twitter: String
     linkedin: String
     github: String
@@ -16,7 +16,7 @@ const validatorTypeDefs = gql`
   type ValidatorTeamMember {
     name: String
     photoUrl: String
-    profileLink: ProfileLink
+    profileLinks: ProfileLinks
   }
 
   type ContributionLink {
