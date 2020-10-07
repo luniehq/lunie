@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
+- [#5066](https://github.com/cosmos/lunie/pull/5066) Add the kava-testnet network icon @Bitcoinera 
 - [#5040](https://github.com/cosmos/lunie/pull/5040) Upgrade to polkadot/api-2.1.1 @Bitcoinera
 
 ## [1.0.230] - 2020-10-02
