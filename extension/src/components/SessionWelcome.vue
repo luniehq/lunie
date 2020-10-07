@@ -81,7 +81,7 @@
 
 <script>
 import SessionFrame from 'common/SessionFrame'
-import LiSession from 'common/TmLiSession'
+import LiSession from 'session/TmLiSession'
 export default {
   name: `session-welcome`,
   components: {
