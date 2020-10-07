@@ -1,12 +1,12 @@
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import TmSessionImport from "common/TmSessionImport"
+import TmSessionImport from "session/TmSessionImport"
 import {
   isPolkadotHexSeed,
   polkadotRawSeedValidate,
   polkadotValidation,
-} from "common/TmSessionImport"
+} from "session/TmSessionImport"
 jest.mock(`scripts/google-analytics.js`, () => () => {})
 const localVue = createLocalVue()
 localVue.use(Vuex)

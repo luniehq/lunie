@@ -1,6 +1,6 @@
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import TmSessionSignUp from "common/TmSessionSignUp"
+import TmSessionSignUp from "session/TmSessionSignUp"
 jest.mock("@lunie/cosmos-keys", () => ({
   getWalletIndex: function () {
     return [{ name: `Happy Lunie User`, address: `xyz123` }]

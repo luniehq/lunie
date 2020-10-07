@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import TmSessionExtension from "common/TmSessionExtension"
+import TmSessionExtension from "session/TmSessionExtension"
 
 describe(`TmSessionExtension`, () => {
   let wrapper, $store, $router
