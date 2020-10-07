@@ -1,7 +1,7 @@
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith, keyBy } = require('lodash')
-const { stringToU8a, hexToString } = require('@polkadot/util')
+const { stringToU8a, hexToString, hexToU8a } = require('@polkadot/util')
 const Sentry = require('@sentry/node')
 const {
   getPassingThreshold,
@@ -1046,6 +1046,8 @@ class polkadotAPI {
           value.startsWith('0x') &&
           !ethAddressRegexp.test(value)
             ? hexToString(value)
+            : typeof value === 'object' && value && value.callIndex
+            ? this.getProposalArguments(value, api)
             : value
         parameterDescription += `\n\n${
           key[0].toUpperCase() + key.substr(1)
@@ -1053,6 +1055,23 @@ class polkadotAPI {
       })
     }
     return parameterDescription
+  }
+
+  getProposalArguments(proposalArguments, api) {
+    const keys = Object.keys(proposalArguments)
+    let formattedArguments = {}
+    keys.forEach((key) => {
+      const value = proposalArguments[key]
+      if (key === `callIndex`) {
+        const { method, section } = api.registry.findMetaCall(hexToU8a(value))
+        formattedArguments[`function`] = method
+        formattedArguments[`module`] = section
+        formattedArguments[`index`] = value
+      } else {
+        formattedArguments[key] = value
+      }
+    })
+    return JSON.stringify(formattedArguments)
   }
 
   async getAllProposals() {

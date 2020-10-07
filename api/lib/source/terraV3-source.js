@@ -1,4 +1,4 @@
-const CosmosV2API = require('./cosmosV2-source')
+const CosmosV2API = require('./cosmosV3-source')
 const BigNumber = require('bignumber.js')
 const { keyBy } = require('lodash')
 const { pubkeyToAddress } = require('../tools')

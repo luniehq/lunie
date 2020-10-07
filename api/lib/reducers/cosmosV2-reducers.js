@@ -397,13 +397,17 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
       ? validator.signing_info.start_height
       : undefined,
     uptimePercentage:
-      1 -
-      Number(
-        validator.signing_info
-          ? validator.signing_info.missed_blocks_counter
-          : 0
-      ) /
-        Number(signedBlocksWindow),
+      validator.signing_info &&
+      validator.signing_info.missed_blocks_counter &&
+      signedBlocksWindow
+        ? 1 -
+          Number(
+            validator.signing_info
+              ? validator.signing_info.missed_blocks_counter
+              : 0
+          ) /
+            Number(signedBlocksWindow)
+        : undefined,
     tokens: atoms(validator.tokens),
     commissionUpdateTime: validator.commission.update_time,
     commission: Number(validator.commission.commission_rates.rate).toFixed(6),

@@ -7,11 +7,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
-## [1.0.51] - 2020-10-02
+## [1.0.53] - 2020-10-06
+
+### Changed
+
+- [#5040](https://github.com/cosmos/lunie/pull/5040) Upgrade to polkadot/api-2.1.1 @Bitcoinera
+
+### Fixed
+
+- [#5055](https://github.com/cosmos/lunie/issues/5055) Fix Akash balance query: lunieCoin.amount.plus is not a function @Bitcoinera
+- [#5044](https://github.com/cosmos/lunie/issues/5044) Fix eMoney PageValidator by fixing validator uptimePercentage @Bitcoinera
+- [#5041](https://github.com/cosmos/lunie/pull/5041) Fix e-Money correcting the Terra Columbus-4 upgrade to make it the proper way @Bitcoinera
+- [#5045](https://github.com/cosmos/lunie/pull/5045) Fix objectObject in Polkadot referendum description @Bitcoinera
+
+## [1.0.52] - 2020-10-03
 
 ### Changed
 
 - [#5025](https://github.com/cosmos/lunie/pull/5025) Revert polkadot sidecar @Bitcoinera
+
+### Fixed
+
+- [#5017](https://github.com/cosmos/lunie/pull/5017) Prevent coinLookup of undefined when not running emoney network @Bitcoinera
+
+## [1.0.51] - 2020-10-02
+
+### Changed
+
+- [#5033](https://github.com/cosmos/lunie/pull/5033) Upgrade Terra to Columbus-4 (Cosmos-Hub 4) @Bitcoinera
 
 ### Fixed
 
