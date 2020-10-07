@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.53] - 2020-10-07
+
+- [#5069](https://github.com/cosmos/lunie/pull/5069) adding missing API fixes for e-Money @jbibla
+
 ## [1.0.53] - 2020-10-06
 
 ### Changed
