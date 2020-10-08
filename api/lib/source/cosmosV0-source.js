@@ -260,7 +260,7 @@ class CosmosV0API extends RESTDataSource {
         ] = await Promise.all([
           this.db.getValidatorProfile(enrichedValidator.operatorAddress),
           // this.db.getAccountNotifications(
-          //   validator.operatorAddress,
+          //   enrichedValidator.operatorAddress,
           //   this.network.id
           // ),
           this.getAllValidatorDelegations(enrichedValidator)

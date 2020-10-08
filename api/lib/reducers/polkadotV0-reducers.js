@@ -7,6 +7,11 @@ const {
 } = require('../../common/numbers.js')
 const { getProposalSummary } = require('./common')
 const { lunieMessageTypes } = require('../../lib/message-types')
+const {
+  getMessageTitle,
+  getPushLink,
+  getIcon
+} = require('../notifications/notifications')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
@@ -14,6 +19,17 @@ const proposalTypeEnum = {
   TEXT: 'TEXT',
   TREASURY: 'TREASURY',
   PARAMETER_CHANGE: 'PARAMETER_CHANGE'
+}
+
+function notificationReducer(notification, networks) {
+  return {
+    id: notification.id,
+    networkId: notification.networkId,
+    timestamp: notification.created_at,
+    title: getMessageTitle(networks, notification),
+    link: getPushLink(networks, notification),
+    icon: getIcon(notification)
+  }
 }
 
 function blockReducer(
@@ -776,6 +792,7 @@ function getStatusEndTime(blockHeight, endBlock) {
 }
 
 module.exports = {
+  notificationReducer,
   blockReducer,
   validatorReducer,
   validatorProfileReducer,

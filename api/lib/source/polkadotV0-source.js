@@ -10,6 +10,9 @@ const {
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 const { toViewDenom } = require('../../common/numbers')
+const database = require('../database')
+const config = require('../../config')
+const db = database(config)('')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
@@ -228,15 +231,19 @@ class polkadotAPI {
     validatorsWithoutProfiles,
     fiatCurrency = 'USD'
   ) {
+    const networkList = await db.getNetworks()
     validators = this.getRanksForValidators(validators)
     return await Promise.all(
       validatorsWithoutProfiles.map(async (enrichedValidator) => {
         const [
-          validatorProfile
-          // latestValidatorNotifications
+          validatorProfile,
+          latestValidatorNotifications
         ] = await Promise.all([
-          this.db.getValidatorProfile(enrichedValidator.operatorAddress)
-          // this.db.getAccountNotifications(validator.operatorAddress)
+          this.db.getValidatorProfile(enrichedValidator.operatorAddress),
+          this.db.getAccountNotifications(
+            enrichedValidator.operatorAddress,
+            this.network.id
+          )
         ])
         const validator = validators.find(
           ({ accountId }) => accountId === enrichedValidator.operatorAddress
@@ -256,8 +263,10 @@ class polkadotAPI {
           validator,
           validatorProfile,
           totalStakedAssets,
-          this.network
-          // latestValidatorNotifications
+          this.network,
+          latestValidatorNotifications.map((notification) =>
+            this.reducers.notificationReducer(notification, networkList)
+          )
         )
       })
     )
