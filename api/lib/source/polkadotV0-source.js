@@ -224,31 +224,36 @@ class polkadotAPI {
   }
 
   async getProfilesForValidators(
-    primitiveValidators,
+    validators,
     validatorsWithoutProfiles,
     fiatCurrency = 'USD'
   ) {
-    primitiveValidators = this.getRanksForValidators(primitiveValidators)
+    validators = this.getRanksForValidators(validators)
     return await Promise.all(
-      validatorsWithoutProfiles.map(async (validator) => {
+      validatorsWithoutProfiles.map(async (enrichedValidator) => {
         const [
           validatorProfile
           // latestValidatorNotifications
         ] = await Promise.all([
-          this.db.getValidatorProfile(validator.operatorAddress)
+          this.db.getValidatorProfile(enrichedValidator.operatorAddress)
           // this.db.getAccountNotifications(validator.operatorAddress)
         ])
-        const primitiveValidator = primitiveValidators.find(
-          ({ accountId }) => accountId === validator.operatorAddress
+        const validator = validators.find(
+          ({ accountId }) => accountId === enrichedValidator.operatorAddress
         )
         const fiatValuesResponse = await this.fiatValuesAPI.calculateFiatValues(
-          [{ amount: validator.tokens, denom: this.network.stakingDenom }],
+          [
+            {
+              amount: enrichedValidator.tokens,
+              denom: this.network.stakingDenom
+            }
+          ],
           fiatCurrency
         )
         const totalStakedAssets = fiatValuesResponse[this.network.stakingDenom]
         return this.reducers.validatorProfileReducer(
+          enrichedValidator,
           validator,
-          primitiveValidator,
           validatorProfile,
           totalStakedAssets,
           this.network

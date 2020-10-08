@@ -243,7 +243,7 @@ class CosmosV0API extends RESTDataSource {
   }
 
   async getProfilesForValidators(
-    primitiveValidators,
+    validators,
     validatorsWithoutProfiles,
     fiatCurrency = 'USD'
   ) {
@@ -252,31 +252,36 @@ class CosmosV0API extends RESTDataSource {
       validatorsWithoutProfiles
     )
     return await Promise.all(
-      validatorsWithoutProfiles.map(async (validator) => {
+      validatorsWithoutProfiles.map(async (enrichedValidator) => {
         const [
           validatorProfile,
           // latestValidatorNotifications,
           allValidatorDelegations
         ] = await Promise.all([
-          this.db.getValidatorProfile(validator.operatorAddress),
+          this.db.getValidatorProfile(enrichedValidator.operatorAddress),
           // this.db.getAccountNotifications(
           //   validator.operatorAddress,
           //   this.network.id
           // ),
-          this.getAllValidatorDelegations(validator)
+          this.getAllValidatorDelegations(enrichedValidator)
         ])
-        const primitiveValidator = primitiveValidators.find(
+        const validator = validators.find(
           ({ operator_address }) =>
-            operator_address === validator.operatorAddress
+            operator_address === enrichedValidator.operatorAddress
         )
         const fiatValuesResponse = await this.fiatValuesAPI.calculateFiatValues(
-          [{ amount: validator.tokens, denom: this.network.stakingDenom }],
+          [
+            {
+              amount: enrichedValidator.tokens,
+              denom: this.network.stakingDenom
+            }
+          ],
           fiatCurrency
         )
         const totalStakedAssets = fiatValuesResponse[this.network.stakingDenom]
         return this.reducers.validatorProfileReducer(
+          enrichedValidator,
           validator,
-          primitiveValidator,
           validatorProfile,
           totalStakedAssets,
           allValidatorDelegations.length,

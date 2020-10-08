@@ -78,35 +78,35 @@ function validatorReducer(network, validator) {
 }
 
 function validatorProfileReducer(
+  enrichedValidator,
   validator,
-  primitiveValidator,
   validatorProfile,
   totalStakedAssets,
   network,
   feed
 ) {
   return {
-    ...validator,
+    ...enrichedValidator,
     profile: {
-      name: validator.name,
-      rank: primitiveValidator.rank,
+      name: enrichedValidator.name,
+      rank: validator.rank,
       nationality: validatorProfile.nationality,
       headerImage: validatorProfile.headerImage,
-      description: validator.details,
+      description: enrichedValidator.details,
       totalStakedAssets: {
         ...totalStakedAssets,
         amount: totalStakedAssets.amount.toFixed(2)
       },
       teamMembers: JSON.parse(validatorProfile.teamMembers),
       socialLinks: {
-        website: validator.website,
+        website: enrichedValidator.website,
         telegram: validatorProfile.telegram,
         github: validatorProfile.github,
         twitter: validatorProfile.twitter,
         blog: validatorProfile.blog
       },
-      numberStakers: validator.nominations.length,
-      uptimePercentage: validator.uptimePercentage,
+      numberStakers: enrichedValidator.nominations.length,
+      uptimePercentage: enrichedValidator.uptimePercentage,
       contributionLinks: JSON.parse(validatorProfile.contributionLinks),
       network,
       feed
