@@ -266,6 +266,10 @@ function proposalReducer(
   }
 }
 
+function getTransactionMessageAddresses(agentAddress, transactionDetails) {
+  return [agentAddress, transactionDetails.to || transactionDetails.from]
+}
+
 function transactionReducerV2(network, transaction, reducers) {
   try {
     // TODO check if this is anywhere not an array
@@ -337,7 +341,17 @@ function transactionReducerV2(network, transaction, reducers) {
             ? transaction.logs[index].log || transaction.logs[0] // failing txs show the first logs
             : transaction.logs[0].log || ''
           : JSON.parse(JSON.stringify(transaction.raw_log)).message,
-      involvedAddresses: uniq(reducers.extractInvolvedAddresses(transaction))
+      involvedAddresses: uniq(reducers.extractInvolvedAddresses(transaction)),
+      transactionMessageAddresses: getTransactionMessageAddresses(
+        uniq(reducers.extractInvolvedAddresses(transaction))[0],
+        transactionDetailsReducer(
+          reducers.getMessageType(type),
+          value,
+          reducers,
+          transaction,
+          network
+        )
+      )
     }))
     return returnedMessages
   } catch (error) {
@@ -485,5 +499,6 @@ module.exports = {
   validatorReducer,
   undelegationEndTimeReducer,
   extractInvolvedAddresses,
+  getTransactionMessageAddresses,
   setTransactionSuccess
 }

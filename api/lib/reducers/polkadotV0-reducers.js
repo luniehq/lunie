@@ -225,6 +225,10 @@ function getMessageType(section, method) {
   }
 }
 
+function getTransactionMessageAddresses(agentAddress, transactionDetails) {
+  return [agentAddress, transactionDetails.to || transactionDetails.from]
+}
+
 function parsePolkadotTransaction(
   hash,
   message,
@@ -263,6 +267,20 @@ function parsePolkadotTransaction(
       lunieTransactionType,
       signer,
       message
+    ),
+    transactionMessageAddresses: getTransactionMessageAddresses(
+      reducers.extractInvolvedAddresses(
+        lunieTransactionType,
+        signer,
+        message
+      )[0],
+      transactionDetailsReducer(
+        network,
+        lunieTransactionType,
+        reducers,
+        signer,
+        message
+      )
     )
   }
 }
@@ -746,6 +764,7 @@ module.exports = {
   delegationReducer,
   undelegationReducer,
   extractInvolvedAddresses,
+  getTransactionMessageAddresses,
   transactionsReducerV2,
   transactionDetailsReducer,
   sendDetailsReducer,
