@@ -226,7 +226,12 @@ function getMessageType(section, method) {
 }
 
 function getTransactionMessageAddresses(agentAddress, transactionDetails) {
-  return [agentAddress, transactionDetails.to || transactionDetails.from]
+  const passiveAddress = transactionDetails.to
+    ? transactionDetails.to[0]
+    : transactionDetails.from
+    ? transactionDetails.from[0]
+    : undefined
+  return [agentAddress, passiveAddress]
 }
 
 function parsePolkadotTransaction(
