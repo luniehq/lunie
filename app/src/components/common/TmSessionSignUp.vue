@@ -1,9 +1,7 @@
 <template>
   <SessionFrame icon="person_add">
     <TmFormStruct :submit="onSubmit">
-      <h2 class="session-title">
-        Create a new address
-      </h2>
+      <h2 class="session-title">Create a new address</h2>
       <div
         v-if="
           !isExtension && !session.insecureMode && !session.mobile && !isTestnet

@@ -1,9 +1,7 @@
 <template>
   <SessionFrame>
     <TmFormStruct :submit="onSubmit.bind(this)">
-      <h2 class="session-title">
-        Backup code
-      </h2>
+      <h2 class="session-title">Backup code</h2>
       <div>
         <div class="session-main bottom-indent reorder">
           <Steps

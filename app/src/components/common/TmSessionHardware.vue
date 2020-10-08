@@ -1,8 +1,6 @@
 <template>
   <SessionFrame :icon="`vpn_key`">
-    <h2 class="session-title">
-      Use my Ledger Nano
-    </h2>
+    <h2 class="session-title">Use my Ledger Nano</h2>
 
     <template v-if="session.browserWithLedgerSupport">
       <div class="session-main">

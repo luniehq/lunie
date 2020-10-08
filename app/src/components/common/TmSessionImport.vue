@@ -1,9 +1,7 @@
 <template>
   <SessionFrame :icon="`settings_backup_restore`">
     <TmFormStruct :submit="onSubmit">
-      <h2 class="session-title">
-        Recover with backup code
-      </h2>
+      <h2 class="session-title">Recover with backup code</h2>
       <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Recover" />
         <TmFormGroup

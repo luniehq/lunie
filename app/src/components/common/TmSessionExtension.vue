@@ -1,9 +1,7 @@
 <template>
   <SessionFrame :icon="`laptop`">
     <div class="session-container">
-      <h2 class="session-title">
-        Use Lunie Browser Extension
-      </h2>
+      <h2 class="session-title">Use Lunie Browser Extension</h2>
       <div v-if="!extension.enabled" class="session-main">
         <p>
           Looks like you don't have the Lunie browser extension installed yet.
