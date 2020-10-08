@@ -160,23 +160,23 @@ const cosmosGasPrices = [
 const terraGasPrices = [
   {
     denom: 'ukrw',
-    price: '0.01'
+    price: '180'
   },
   {
     denom: 'uluna',
-    price: '0.015'
+    price: '0.15'
   },
   {
     denom: 'umnt',
-    price: '0.01'
+    price: '450'
   },
   {
     denom: 'usdr',
-    price: '0.01'
+    price: '0.1'
   },
   {
     denom: 'uusd',
-    price: '0.01'
+    price: '0.15'
   }
 ]
 
@@ -341,7 +341,10 @@ const selectAlternativeFee = (balances, feeDenom, gasEstimate) => {
 
 const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, message, gasEstimate) => {
   // query for this address balances
-  const balances = await cosmosSource.getBalancesFromAddress(senderAddress, '', network)
+  const [balances, accountInfo] = await Promise.all([
+    cosmosSource.getBalancesFromAddress(senderAddress, '', network),
+    cosmosSource.getAccountInfo(senderAddress)
+  ])
   const feeDenom = getFeeDenomFromMessage(message, network)
   const gasPrice = BigNumber(
     getNetworkGasPrices(network.id).find(({ denom }) => {
@@ -362,12 +365,16 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
   let estimatedFee = {
     amount: String(
       chainAppliedFees && chainAppliedFees.rate > 0
-        ? fixDecimalsAndRoundUp(BigNumber(transactionAmount).times(chainAppliedFees.rate).toNumber(), 6)
-        : fixDecimalsAndRoundUp(gasEstimate * gasPrice, 6)
-    ),
+        ? fixDecimalsAndRoundUp(BigNumber(transactionAmount).times(chainAppliedFees.rate).plus(BigNumber(gasEstimate * gasPrice)).toNumber(), 6)
+        : fixDecimalsAndRoundUp(gasEstimate * gasPrice, 6)    
+      ),
     denom: feeDenom
   }
   const selectedBalance = balances.find(({ denom }) => denom === feeDenom) || { amount: 0, denom: feeDenom }
+  // HACK, should check the not vested balance for fees
+  if (accountInfo.vestingAccount) {
+    selectedBalance.amount = 0
+  }
   if (
     Number(transactionAmount) + Number(estimatedFee.amount) >
     Number(selectedBalance.amount) &&

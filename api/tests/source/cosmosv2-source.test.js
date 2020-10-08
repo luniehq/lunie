@@ -28,7 +28,11 @@ jest.mock('apollo-datasource-rest', () => {
 
 const network = {
   getCoinLookup() {
-    return { chainDenom: 'umuon', chainToViewConversionFactor: 0.000001 }
+    return {
+      chainDenom: 'umuon',
+      viewDenom: 'MUON',
+      chainToViewConversionFactor: 0.000001
+    }
   }
 }
 

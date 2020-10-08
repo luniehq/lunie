@@ -183,10 +183,12 @@ function setTransactionSuccess(transaction, index) {
 }
 
 function extractInvolvedAddresses(transaction) {
-  const events = transaction.logs ? transaction.logs.reduce(
-    (events, log) => (log.events ? events.concat(log.events) : events),
-    []
-  ) : []
+  const events = transaction.logs
+    ? transaction.logs.reduce(
+        (events, log) => (log.events ? events.concat(log.events) : events),
+        []
+      )
+    : []
 
   // extract all addresses from events that are either sender or recipient
   const involvedAddresses = events.reduce((involvedAddresses, event) => {
