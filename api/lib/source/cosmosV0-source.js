@@ -7,9 +7,6 @@ const { UserInputError } = require('apollo-server')
 const { getNetworkGasPrices } = require('../../data/network-fees')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
-const database = require('../database')
-const config = require('../../config')
-const db = database(config)('')
 
 class CosmosV0API extends RESTDataSource {
   constructor(network, store, fiatValuesAPI, db) {
@@ -247,22 +244,13 @@ class CosmosV0API extends RESTDataSource {
     validatorsWithoutProfiles,
     fiatCurrency = 'USD'
   ) {
-    // const networkList = await db.getNetworks()
     validatorsWithoutProfiles = this.getRanksForValidators(
       validatorsWithoutProfiles
     )
     return await Promise.all(
       validatorsWithoutProfiles.map(async (enrichedValidator) => {
-        const [
-          validatorProfile,
-          // latestValidatorNotifications,
-          allValidatorDelegations
-        ] = await Promise.all([
+        const [validatorProfile, allValidatorDelegations] = await Promise.all([
           this.db.getValidatorProfile(enrichedValidator.operatorAddress),
-          // this.db.getAccountNotifications(
-          //   enrichedValidator.operatorAddress,
-          //   this.network.id
-          // ),
           this.getAllValidatorDelegations(enrichedValidator)
         ])
         const validator = validators.find(
@@ -286,9 +274,6 @@ class CosmosV0API extends RESTDataSource {
           totalStakedAssets,
           allValidatorDelegations.length,
           this.network
-          // latestValidatorNotifications.map((notification) =>
-          //   this.reducers.notificationReducer(notification, networkList)
-          // )
         )
       })
     )
