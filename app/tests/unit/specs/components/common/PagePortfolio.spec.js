@@ -1,4 +1,4 @@
-import PagePortfolio from "wallet/PagePortfolio"
+import PagePortfolio from "common/PagePortfolio"
 import { shallowMount } from "@vue/test-utils"
 
 describe(`PagePortfolio`, () => {

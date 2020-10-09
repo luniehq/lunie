@@ -1,6 +1,6 @@
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import TmSessionSignUpPassword from "common/TmSessionSignUpPassword"
+import TmSessionSignUpPassword from "session/TmSessionSignUpPassword"
 
 describe(`TmSessionSignUpPassword`, () => {
   const localVue = createLocalVue()

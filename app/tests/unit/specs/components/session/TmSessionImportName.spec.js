@@ -1,7 +1,7 @@
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { shallowMount, createLocalVue } from "@vue/test-utils"
-import TmSessionImportName from "common/TmSessionImportName"
+import TmSessionImportName from "session/TmSessionImportName"
 jest.mock(`scripts/google-analytics.js`, () => () => {})
 jest.mock("@lunie/cosmos-keys", () => ({
   getWalletIndex: function () {
