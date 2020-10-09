@@ -11,9 +11,7 @@ exports[`TmSessionImportName has the expected html structure 1`] = `
     <h2
       class="session-title"
     >
-      
       Choose name
-    
     </h2>
      
     <div

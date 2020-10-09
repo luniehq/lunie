@@ -20,9 +20,7 @@ exports[`PageTransactions Renders correctly and does not load transactions if th
       iconcolor="var(--warning)"
     >
       <div>
-        
-          Looking for older transactions?
-        
+        Looking for older transactions?
       </div>
        
       <div>
@@ -71,9 +69,7 @@ exports[`PageTransactions Renders correctly and loads transactions 1`] = `
       iconcolor="var(--warning)"
     >
       <div>
-        
-          Looking for older transactions?
-        
+        Looking for older transactions?
       </div>
        
       <div>

@@ -11,9 +11,7 @@ exports[`TmSessionImport has the expected html structure 1`] = `
     <h2
       class="session-title"
     >
-      
       Recover with backup code
-    
     </h2>
      
     <div

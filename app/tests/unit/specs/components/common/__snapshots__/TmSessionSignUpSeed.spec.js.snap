@@ -11,9 +11,7 @@ exports[`TmSessionSignUpSeed renders 1`] = `
     <h2
       class="session-title"
     >
-      
       Backup code
-    
     </h2>
      
     <div>

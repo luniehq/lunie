@@ -7,9 +7,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
       <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
         <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
       </div>
-      <h2 class="session-title">
-        Use my Ledger Nano
-      </h2>
+      <h2 class="session-title">Use my Ledger Nano</h2>
       <div class="session-main">
         <div class="tm-hardware-state">
           <div class="tm-hardware-state-content">
@@ -38,9 +36,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
       <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
         <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
       </div>
-      <h2 class="session-title">
-        Use my Ledger Nano
-      </h2>
+      <h2 class="session-title">Use my Ledger Nano</h2>
       <div class="session-main">
         <div class="tm-hardware-state">
           <div class="tm-hardware-state-content"><img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" class="tm-hardware-state__icon">
@@ -68,9 +64,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
       <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
         <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
       </div>
-      <h2 class="session-title">
-        Use my Ledger Nano
-      </h2>
+      <h2 class="session-title">Use my Ledger Nano</h2>
       <div class="session-main">
         <div class="tm-hardware-state">
           <div class="tm-hardware-state-content"><img src="~assets/images/loader.svg" alt="a small spinning circle to display loading" class="tm-hardware-state__icon">
@@ -135,9 +129,7 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
       <h2
         class="session-title"
       >
-        
-    Use my Ledger Nano
-  
+        Use my Ledger Nano
       </h2>
        
       <div
@@ -233,9 +225,7 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
       <h2
         class="session-title"
       >
-        
-    Use my Ledger Nano
-  
+        Use my Ledger Nano
       </h2>
        
       <div
@@ -284,9 +274,7 @@ exports[`TmSessionHardware sign in does show the instructions to enable HID on W
       <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
         <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
       </div>
-      <h2 class="session-title">
-        Use my Ledger Nano
-      </h2>
+      <h2 class="session-title">Use my Ledger Nano</h2>
       <div class="session-main">
         <div class="tm-hardware-state">
           <div class="tm-hardware-state-content">
@@ -313,9 +301,7 @@ exports[`TmSessionHardware sign in does show the instructions to fix connection 
       <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
         <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
       </div>
-      <h2 class="session-title">
-        Use my Ledger Nano
-      </h2>
+      <h2 class="session-title">Use my Ledger Nano</h2>
       <div class="session-main">
         <div class="tm-hardware-state">
           <div class="tm-hardware-state-content">
