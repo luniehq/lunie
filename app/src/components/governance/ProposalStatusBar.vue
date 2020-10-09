@@ -1,8 +1,8 @@
 <template>
   <section id="proposal-votes" class="status-bar">
     <div v-if="status.value === governanceStatusEnum.DEPOSITING">
-      <div v-if="statusBeginTime" class="top row">
-        <div class="time">
+      <div class="top row">
+        <div v-if="statusBeginTime" class="time">
           Entered {{ status.title }} {{ statusBeginTime | moment }}
         </div>
         <div>ID: {{ proposal.proposalId }}</div>
@@ -21,7 +21,7 @@
     </div>
     <div v-if="status.value === governanceStatusEnum.VOTING">
       <div class="top row">
-        <div class="time">
+        <div v-if="statusBeginTime" class="time">
           Entered Voting Period {{ new Date(statusBeginTime) | moment }}
         </div>
         <div>ID: {{ proposal.proposalId }}</div>
