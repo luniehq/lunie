@@ -100,8 +100,8 @@ describe('Cosmos V2 Reducer', function () {
         },
         timestamp: '2020-04-16T21:55:10Z',
         transactionMessageAddresses: [
-          "cosmos1fh44aqn7m4v570ujtjlmt3dytq80qyfwj07ckc",
-          "cosmosvaloper1ey69r37gfxvxg62sh4r0ktpuc46pzjrm873ae8",
+          'cosmos1fh44aqn7m4v570ujtjlmt3dytq80qyfwj07ckc',
+          'cosmosvaloper1ey69r37gfxvxg62sh4r0ktpuc46pzjrm873ae8'
         ],
         events: [
           {
