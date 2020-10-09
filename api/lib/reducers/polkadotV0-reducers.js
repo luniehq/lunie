@@ -450,10 +450,10 @@ function extractInvolvedAddresses(
     // we get all reward target addresses from block events, we don't include signer
     // as sender address doesn't need to be a nominator or validator
     involvedAddresses = blockEvents
-      .filter(({ phase, event}) => parseInt(
-        phase.toHuman().ApplyExtrinsic) === messageIndex &&
-        event.section === 'staking' &&
-        event.method === `Reward`)
+      .filter(({ phase, event}) => 
+        parseInt(phase.toHuman().ApplyExtrinsic) === messageIndex &&
+          event.section === 'staking' &&
+          event.method === `Reward`)
       .map(({ event }) => event.toHuman().data[0])
   } else {
     involvedAddresses = involvedAddresses.concat([signer])
