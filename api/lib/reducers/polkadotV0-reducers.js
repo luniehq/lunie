@@ -230,6 +230,7 @@ function getMessageType(section, method) {
 function parsePolkadotTransaction(
   hash,
   message,
+  index,
   messageIndex,
   signer,
   success,
@@ -237,6 +238,7 @@ function parsePolkadotTransaction(
   blockHeight,
   reducers,
   blockEvents,
+  isBatch
 ) {
   const lunieTransactionType = getMessageType(message.section, message.method)
   return {
@@ -244,7 +246,7 @@ function parsePolkadotTransaction(
     type: lunieTransactionType,
     hash,
     height: blockHeight,
-    key: `${hash}_${messageIndex}`,
+    key: isBatch ? `${hash}_${index}_${messageIndex}` : `${hash}_${index}`,
     details: transactionDetailsReducer(
       network,
       lunieTransactionType,
@@ -266,7 +268,7 @@ function parsePolkadotTransaction(
       lunieTransactionType,
       signer,
       message,
-      messageIndex,
+      index,
       blockEvents,
     )
   }
@@ -308,13 +310,15 @@ function transactionReducerV2(
     parsePolkadotTransaction(
       hash,
       message,
+      index,
       messageIndex,
       signer,
       success,
       network,
       blockHeight,
       reducers,
-      blockEvents
+      blockEvents,
+      isBatch
     )
   )
   console.log(`reducedTxs:`, JSON.stringify(reducedTxs, null, 2))
