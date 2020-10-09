@@ -447,8 +447,7 @@ function extractInvolvedAddresses(
   } else if (lunieTransactionType === lunieMessageTypes.STAKE) {
     involvedAddresses = involvedAddresses.concat([signer], message.validators)
   } else if (lunieTransactionType === lunieMessageTypes.CLAIM_REWARDS) {
-    // we get all reward target addresses from block events, we don't include signer
-    // as sender address doesn't need to be a nominator or validator
+    // we get all reward target addresses from block events
     involvedAddresses = blockEvents
       .filter(({ phase, event}) => 
         parseInt(phase.toHuman().ApplyExtrinsic) === messageIndex &&
