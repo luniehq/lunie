@@ -19,7 +19,8 @@ const {
   getNotificationRegistrations,
   storeAndGetNewSession,
   getSession,
-  getRewards
+  getRewards,
+  getRewardsValidatorHeight
 } = require('./methods')
 
 function database(dbConfig) {
@@ -53,6 +54,7 @@ function database(dbConfig) {
       storeStore: storeStore(dbConfig)(schema),
       getStore: getStore(dbConfig)(schema),
       getRewards: getRewards(dbConfig)(schema),
+      getRewardsValidatorHeight: getRewardsValidatorHeight(dbConfig)(schema),
       storeNotificationRegistrations: storeNotificationRegistrations(dbConfig)(
         schema
       ),
