@@ -235,7 +235,8 @@ function parsePolkadotTransaction(
   success,
   network,
   blockHeight,
-  reducers
+  reducers,
+  blockEvents,
 ) {
   const lunieTransactionType = getMessageType(message.section, message.method)
   return {
@@ -264,7 +265,9 @@ function parsePolkadotTransaction(
     involvedAddresses: reducers.extractInvolvedAddresses(
       lunieTransactionType,
       signer,
-      message
+      message,
+      messageIndex,
+      blockEvents,
     )
   }
 }
@@ -301,7 +304,7 @@ function transactionReducerV2(
     isBatch ? extrinsic.method.args[0] : [extrinsic.method]
   )
   const success = reducers.getExtrinsicSuccess(index, blockEvents, isBatch)
-  return messages.map((message, messageIndex) =>
+  const reducedTxs = messages.map((message, messageIndex) =>
     parsePolkadotTransaction(
       hash,
       message,
@@ -310,9 +313,12 @@ function transactionReducerV2(
       success,
       network,
       blockHeight,
-      reducers
+      reducers,
+      blockEvents
     )
   )
+  console.log(`reducedTxs:`, JSON.stringify(reducedTxs, null, 2))
+  return reducedTxs
 }
 
 // we display staking as one tx where in Polkadot this can be 2
@@ -428,11 +434,12 @@ function stakeDetailsReducer(network, message, reducers) {
   }
 }
 
-async function extractInvolvedAddresses(
+function extractInvolvedAddresses(
   lunieTransactionType,
   signer,
   message,
-  db
+  messageIndex,
+  blockEvents,
 ) {
   let involvedAddresses = []
   if (lunieTransactionType === lunieMessageTypes.SEND) {
@@ -440,18 +447,11 @@ async function extractInvolvedAddresses(
   } else if (lunieTransactionType === lunieMessageTypes.STAKE) {
     involvedAddresses = involvedAddresses.concat([signer], message.validators)
   } else if (lunieTransactionType === lunieMessageTypes.CLAIM_REWARDS) {
-    // the rewards claiming happens for all delegators so we get the rewards for the claimed era and extract all addresses from there
-    const dbRewards = (await db.getRewards(delegatorAddress)) || []
-    const involvedRewards = dbRewards.filter(({ height, validator }) => {
-      return height === String(message.args[1]) && validator === message.args[0]
-    })
-    involvedAddresses = involvedAddresses.concat(
-      [signer],
-      involvedRewards.map(({ address }) => address)
-    )
-    if (involvedRewards.length > 0) {
-      involvedAddresses = involvedAddresses.concat(involvedRewards[0].validator)
-    }
+    // we get all reward target addresses from block events, we don't include signer
+    // as sender address doesn't need to be a nominator or validator
+    involvedAddresses = blockEvents
+      .filter(({ phase }) => parseInt(phase.toHuman().ApplyExtrinsic) === messageIndex)
+      .map(({ event }) => event.toHuman().data[0])
   } else {
     involvedAddresses = involvedAddresses.concat([signer])
   }
