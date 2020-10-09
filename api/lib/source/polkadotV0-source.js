@@ -134,7 +134,8 @@ class polkadotAPI {
           extrinsics,
           blockEvents,
           blockHeight,
-          this.reducers
+          this.reducers,
+          this.db
         )
       : []
   }

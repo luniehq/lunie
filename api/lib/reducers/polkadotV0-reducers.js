@@ -191,26 +191,31 @@ function undelegationReducer(undelegation, address, network) {
   }
 }
 
-function transactionsReducerV2(
+async function transactionsReducerV2(
   network,
   extrinsics,
   blockEvents,
   blockHeight,
-  reducers
+  reducers,
+  db
 ) {
   // Filter Polkadot tx to Lunie supported types
-  return extrinsics.reduce((collection, extrinsic, index) => {
-    return collection.concat(
-      transactionReducerV2(
+  let reducedTxs = []
+  for(let index = 0; index < extrinsics.length; index++) {
+    const extrinsic = extrinsics[index]
+    reducedTxs.concat(
+      await transactionReducerV2(
         network,
         extrinsic,
         index,
         blockEvents,
         blockHeight,
-        reducers
+        reducers,
+        db
       )
     )
-  }, [])
+  }
+  return reducedTxs
 }
 
 // Map Polkadot event method to Lunie message types
@@ -227,7 +232,7 @@ function getMessageType(section, method) {
   }
 }
 
-function parsePolkadotTransaction(
+async function parsePolkadotTransaction(
   hash,
   message,
   index,
@@ -238,7 +243,8 @@ function parsePolkadotTransaction(
   blockHeight,
   reducers,
   blockEvents,
-  isBatch
+  isBatch,
+  db
 ) {
   const lunieTransactionType = getMessageType(message.section, message.method)
   return {
@@ -247,12 +253,13 @@ function parsePolkadotTransaction(
     hash,
     height: blockHeight,
     key: isBatch ? `${hash}_${index}_${messageIndex}` : `${hash}_${index}`,
-    details: transactionDetailsReducer(
+    details: await transactionDetailsReducer(
       network,
       lunieTransactionType,
       reducers,
       signer,
-      message
+      message,
+      db
     ),
     timestamp: new Date().getTime(), // FIXME!: pass it from block, we should get current timestamp from blockchain for new blocks
     memo: ``,
@@ -291,13 +298,14 @@ function getExtrinsicSuccess(extrinsicIndex, blockEvents, isBatch) {
   )
 }
 
-function transactionReducerV2(
+async function transactionReducerV2(
   network,
   extrinsic,
   index,
   blockEvents,
   blockHeight,
-  reducers
+  reducers,
+  db
 ) {
   const hash = extrinsic.hash.toHex()
   const signer = extrinsic.signer.toString()
@@ -306,7 +314,7 @@ function transactionReducerV2(
     isBatch ? extrinsic.method.args[0] : [extrinsic.method]
   )
   const success = reducers.getExtrinsicSuccess(index, blockEvents, isBatch)
-  const reducedTxs = messages.map((message, messageIndex) =>
+  const reducedTxs = await Promise.all(messages.map((message, messageIndex) =>
     parsePolkadotTransaction(
       hash,
       message,
@@ -318,9 +326,10 @@ function transactionReducerV2(
       blockHeight,
       reducers,
       blockEvents,
-      isBatch
+      isBatch,
+      db
     )
-  )
+  ))
   console.log(`reducedTxs:`, JSON.stringify(reducedTxs, null, 2))
   return reducedTxs
 }
@@ -379,12 +388,13 @@ function aggregateLunieStaking(messages) {
 }
 
 // Map polkadot messages to our details format
-function transactionDetailsReducer(
+async function transactionDetailsReducer(
   network,
   lunieTransactionType,
   reducers,
   signer,
-  message
+  message,
+  db
 ) {
   let details
   switch (lunieTransactionType) {
@@ -394,6 +404,9 @@ function transactionDetailsReducer(
     case lunieMessageTypes.STAKE:
       details = stakeDetailsReducer(network, message, reducers)
       break
+    case lunieMessageTypes.CLAIM_REWARDS:
+      details = await claimRewardsDetailsReducer(network, message, reducers, db)
+      break    
     default:
       details = {}
   }
@@ -435,6 +448,17 @@ function stakeDetailsReducer(network, message, reducers) {
   return {
     to: message.validators,
     amount: reducers.coinReducer(network, message.amount)
+  }
+}
+
+async function claimRewardsDetailsReducer(network, message, reducers, db) {
+  const validator = message.args[0]
+  const height = message.args[1]
+  const dbRewards = (await db.getRewardsValidatorHeight(validator, height)) || []
+  return {
+    amounts: [], // TODO
+    from: [], // TODO
+    rewards: dbRewards
   }
 }
 
