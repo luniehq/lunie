@@ -31,7 +31,7 @@
           <span>{{ votePercentage | percentInt }} of {{ stakingDenom }}</span>
           <span v-if="voteCount">({{ voteCount }} Votes)</span>
         </div>
-        <div v-if="proposal.type === 'TREASURY'" class="vote-data">
+        <div v-if="true" class="vote-data">
           <span>Threshold:</span>
           <span>{{ proposal.detailedVotes.votingThresholdYes }} Votes</span>
         </div>
@@ -148,16 +148,16 @@ export default {
       return this.proposal.detailedVotes.percentageDepositsNeeded
     },
     percentageYes() {
-      return this.proposal.tally.yes / this.proposal.tally.total
+      return Number(this.proposal.tally.yes) / Number(this.proposal.tally.total) || 0
     },
     percentageNo() {
-      return this.proposal.tally.no / this.proposal.tally.total
+      return Number(this.proposal.tally.no) / Number(this.proposal.tally.total) || 0
     },
     percentageVeto() {
-      return this.proposal.tally.veto / this.proposal.tally.total
+      return Number(this.proposal.tally.veto) / Number(this.proposal.tally.total) || 0
     },
     percentageAbstain() {
-      return this.proposal.tally.abstain / this.proposal.tally.total
+      return Number(this.proposal.tally.abstain) / Number(this.proposal.tally.total) || 0
     },
   },
 }
