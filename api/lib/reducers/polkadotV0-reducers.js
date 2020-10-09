@@ -454,11 +454,12 @@ function stakeDetailsReducer(network, message, reducers) {
 async function claimRewardsDetailsReducer(network, message, reducers, db) {
   const validator = message.args[0]
   const height = message.args[1]
-  const dbRewards = (await db.getRewardsValidatorHeight(validator, height)) || []
+  const dbRewards = await db.getRewardsValidatorHeight(validator, height)
+  console.log(`dbRewards:`, JSON.stringify(dbRewards, null, 2))
   return {
     amounts: [], // TODO
     from: [], // TODO
-    rewards: dbRewards
+    rewards: dbRewards || []
   }
 }
 
