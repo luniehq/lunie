@@ -455,6 +455,7 @@ function extractInvolvedAddresses(
           event.section === 'staking' &&
           event.method === `Reward`)
       .map(({ event }) => event.toHuman().data[0])
+      .concat([signer])
   } else {
     involvedAddresses = involvedAddresses.concat([signer])
   }
