@@ -2554,10 +2554,10 @@
   dependencies:
     axios "^0.19.0"
 
-"@lunie/cosmos-keys@0.3.1", "@lunie/cosmos-keys@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.3.1.tgz#d715358ccddbf3baa5088134fba31b61a68dad7f"
-  integrity sha512-CpXJBfEY/BaRYcLOsflxZ7n0x4xKRQ+Rj3xncIRB9aU/fLk46AekkAfNZ2B4geGtTgaeIan39/HL8GUcSjIuVw==
+"@lunie/cosmos-keys@0.3.2", "@lunie/cosmos-keys@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-keys/-/cosmos-keys-0.3.2.tgz#90102661de2aef9570105ebb9a5dd8d5372f46f9"
+  integrity sha512-QXEA0xY+hb5IeUIduQKzIqlqbl1zd2phKc/KVQnrAGH8QdepvdI0M6w0rXMq1wqJNN+m/MuwIf+UAT5q1eRj0A==
   dependencies:
     bcrypto "^5.1.0"
     bech32 "^1.1.3"

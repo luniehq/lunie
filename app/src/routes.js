@@ -270,6 +270,11 @@ export default (store) => {
       component: require("account/RevealSeedModal").default,
     },
     {
+      path: `/delete/:networkId/:address`,
+      name: `delete`,
+      component: require("account/ForgetAccountModal").default,
+    },
+    {
       path: `/email-authentication`,
       name: `email-authentication`,
       component: () => import(`./components/account/EmailAuthentication`),
