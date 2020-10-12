@@ -228,6 +228,13 @@ const resolvers = (networkList, notificationController) => ({
       return remoteFetch(dataSources, validator.networkId).getSelfStake(
         validator
       )
+    },
+    profile: (validator, _, { dataSources }) => {
+      return localStore(dataSources, validator.networkId).validators
+        ? localStore(dataSources, validator.networkId).validators[
+            validator.operatorAddress
+          ].profile
+        : undefined
     }
   },
   Query: {
@@ -420,15 +427,6 @@ const resolvers = (networkList, notificationController) => ({
       if (!remoteFetch(dataSources, networkId).getAddressRole) return undefined
 
       return await remoteFetch(dataSources, networkId).getAddressRole(address)
-    },
-    validatorProfile: async (
-      _,
-      { operatorAddress, networkId },
-      { dataSources }
-    ) => {
-      return await remoteFetch(dataSources, networkId).getValidatorProfile(
-        operatorAddress
-      )
     },
     governanceOverview: governanceOverview()
   },

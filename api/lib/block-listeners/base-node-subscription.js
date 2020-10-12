@@ -13,8 +13,13 @@ const {
   eventTypes,
   resourceTypes
 } = require('../notifications/notifications-types')
+const { keyBy } = require('lodash')
+
+const db = database(config)('')
+
 const BLOCK_POLLING_INTERVAL = 5000
 const EXPECTED_MAX_BLOCK_WINDOW = 120000
+const VALIDATOR_PROFILE_POLLING_INTERVAL = 120000 // 2min
 const PROPOSAL_POLLING_INTERVAL = 600000 // 10min
 const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
 
@@ -37,6 +42,8 @@ class BaseNodeSubscription {
       this.pollForNewBlock()
       // start one minute loop to update networks from db
       this.pollForUpdateNetworks()
+      // start polling for validator profiles
+      this.pollForValidatorsProfiles()
     })
 
     this.store.dataReady.then(() => {
@@ -56,6 +63,15 @@ class BaseNodeSubscription {
       this.fiatValuesAPI,
       this.db
     )
+  }
+
+  async pollForValidatorsProfiles() {
+    const dataSource = this.getDataSource()
+    this.getValidatorProfiles(dataSource)
+
+    this.validatorProfilePollingTimeout = setTimeout(async () => {
+      this.pollForValidatorsProfiles()
+    }, VALIDATOR_PROFILE_POLLING_INTERVAL)
   }
 
   async pollForProposalChanges() {
@@ -125,6 +141,85 @@ class BaseNodeSubscription {
         validators: validators
       })
     })
+  }
+
+  async getValidatorsProfilesFromDB(allValidatorsAddresses) {
+    const allValidatorsProfiles = await this.db.getAllValidatorsProfiles(
+      allValidatorsAddresses,
+      this.network.id
+    )
+    return keyBy(allValidatorsProfiles, `operator_address`)
+  }
+
+  async getAllValidatorsFeed(
+    validators,
+    allValidatorsAddresses,
+    networkList,
+    dataSource
+  ) {
+    const allValidatorsFeed = await this.db.getAccountsNotifications(
+      allValidatorsAddresses,
+      this.network.id
+    )
+    return validators.map((validator) => {
+      const validatorFeed = allValidatorsFeed.filter(
+        ({ resourceId }) => resourceId === validator.operatorAddress
+      )
+      return {
+        ...validator,
+        feed:
+          validatorFeed && Array.isArray(validatorFeed)
+            ? validatorFeed.map((notification) =>
+                dataSource.reducers.notificationReducer(
+                  notification,
+                  networkList
+                )
+              )
+            : []
+      }
+    })
+  }
+
+  async getAllValidatorsProfiles(validators, dataSource) {
+    const networkList = await db.getNetworks()
+    validators = dataSource.getRanksForValidators(validators)
+    const allValidatorsAddresses = validators.map(
+      ({ operatorAddress }) => operatorAddress
+    )
+    validators = await this.getAllValidatorsFeed(
+      validators,
+      allValidatorsAddresses,
+      networkList,
+      dataSource
+    )
+    const validatorProfilesDictionary = await this.getValidatorsProfilesFromDB(
+      allValidatorsAddresses
+    )
+    return await Promise.all(
+      validators.map(async (enrichedValidator) => {
+        const allValidatorDelegations = await dataSource.getAllValidatorDelegations(
+          enrichedValidator
+        )
+        return this.reducers.validatorProfileReducer(
+          enrichedValidator,
+          validatorProfilesDictionary[enrichedValidator.operatorAddress],
+          allValidatorDelegations.length,
+          this.network,
+          enrichedValidator.feed
+        )
+      })
+    )
+  }
+
+  async getValidatorProfiles(dataSource) {
+    const validators = Object.values(this.store.validators, dataSource)
+    await this.getAllValidatorsProfiles(validators, dataSource).then(
+      (validatorsWithProfiles) => {
+        this.store.update({
+          validators: validatorsWithProfiles
+        })
+      }
+    )
   }
 
   async pollForNewBlock() {

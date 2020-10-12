@@ -605,11 +605,6 @@ const typeDefs = gql`
       addressObjects: [NotificationInput]!
     ): [Notification]!
     accountRole(networkId: String!, address: String!): String
-    validatorProfile(
-      networkId: String!
-      operatorAddress: String!
-      fiatCurrency: String
-    ): ValidatorProfile
   }
 `
 

@@ -7,10 +7,6 @@ const { UserInputError } = require('apollo-server')
 const { getNetworkGasPrices } = require('../../data/network-fees')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
-const database = require('../database')
-const config = require('../../config')
-const { keyBy } = require('lodash')
-const db = database(config)('')
 
 class CosmosV0API extends RESTDataSource {
   constructor(network, store, fiatValuesAPI, db) {
@@ -238,76 +234,6 @@ class CosmosV0API extends RESTDataSource {
     )
   }
 
-  async getAllValidatorsFeed(validators, allValidatorsAddresses, networkList) {
-    const allValidatorsFeed = await this.db.getAccountsNotifications(
-      allValidatorsAddresses,
-      this.network.id
-    )
-    return validators.map((validator) => {
-      const validatorFeed = allValidatorsFeed.filter(
-        ({ resourceId }) => resourceId === validator.operatorAddress
-      )
-      return {
-        ...validator,
-        feed:
-          validatorFeed && Array.isArray(validatorFeed)
-            ? validatorFeed.map((notification) =>
-                this.reducers.notificationReducer(notification, networkList)
-              )
-            : []
-      }
-    })
-  }
-
-  async getAllValidatorsProfiles(allValidatorsAddresses) {
-    const allValidatorsProfiles = await this.db.getAllValidatorsProfiles(
-      allValidatorsAddresses,
-      this.network.id
-    )
-    return keyBy(allValidatorsProfiles, `operator_address`)
-  }
-
-  async getProfilesForValidators(validators, fiatCurrency = 'USD') {
-    const networkList = await db.getNetworks()
-    validators = this.getRanksForValidators(validators)
-    const allValidatorsAddresses = validators.map(
-      ({ operatorAddress }) => operatorAddress
-    )
-    validators = await this.getAllValidatorsFeed(
-      validators,
-      allValidatorsAddresses,
-      networkList
-    )
-    const validatorProfilesDictionary = await this.getAllValidatorsProfiles(
-      allValidatorsAddresses
-    )
-    return await Promise.all(
-      validators.map(async (enrichedValidator) => {
-        const allValidatorDelegations = await this.getAllValidatorDelegations(
-          enrichedValidator
-        )
-        const fiatValuesResponse = await this.fiatValuesAPI.calculateFiatValues(
-          [
-            {
-              amount: enrichedValidator.tokens,
-              denom: this.network.stakingDenom
-            }
-          ],
-          fiatCurrency
-        )
-        const totalStakedAssets = fiatValuesResponse[this.network.stakingDenom]
-        return this.reducers.validatorProfileReducer(
-          enrichedValidator,
-          validatorProfilesDictionary[enrichedValidator.operatorAddress],
-          totalStakedAssets,
-          allValidatorDelegations.length,
-          this.network,
-          enrichedValidator.feed
-        )
-      })
-    )
-  }
-
   getRanksForValidators(validators) {
     return validators
       .sort((a, b) => {
@@ -319,22 +245,6 @@ class CosmosV0API extends RESTDataSource {
         ...validator,
         rank: ++index
       }))
-  }
-
-  async getValidatorProfile(operatorAddress) {
-    if (!this.validatorsWithProfiles) {
-      const validators = await this.getAllValidators(this.blockHeight)
-      const validatorsWithProfiles = await this.getProfilesForValidators(
-        validators
-      )
-      this.validatorsWithProfiles = _.keyBy(
-        validatorsWithProfiles,
-        'operatorAddress'
-      )
-    }
-    return this.validatorsWithProfiles[operatorAddress]
-      ? this.validatorsWithProfiles[operatorAddress].profile
-      : undefined
   }
 
   async getAllValidatorDelegations(validator) {
