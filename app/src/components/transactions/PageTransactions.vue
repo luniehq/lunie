@@ -28,9 +28,7 @@
           v-if="!$apollo.queries.transactions.loading"
           icon="calendar_today"
         >
-          <div slot="title">
-            Looking for older transactions?
-          </div>
+          <div slot="title">Looking for older transactions?</div>
           <div slot="subtitle">
             <p>
               Lunie cannot display transactions from previous chains in your

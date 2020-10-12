@@ -12,9 +12,7 @@ exports[`TmSessionSignIn has the expected html structure 1`] = `
     <h2
       class="session-title"
     >
-      
       Sign in with account
-    
     </h2>
      
     <div

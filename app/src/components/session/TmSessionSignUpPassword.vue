@@ -1,9 +1,7 @@
 <template>
   <SessionFrame>
     <TmFormStruct :submit="onSubmit">
-      <h2 class="session-title">
-        Choose a password
-      </h2>
+      <h2 class="session-title">Choose a password</h2>
       <div>
         <Steps
           v-if="!session.mobile"

@@ -1,9 +1,7 @@
 <template>
   <SessionFrame :icon="`lock`">
     <TmFormStruct :submit="onSubmit" class="session-container">
-      <h2 class="session-title">
-        Sign in with account
-      </h2>
+      <h2 class="session-title">Sign in with account</h2>
       <div class="session-main bottom-indent">
         <TmFormGroup field-id="sign-in-name" field-label="Select Account">
           <TmField

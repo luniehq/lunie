@@ -10,9 +10,7 @@ exports[`TmSessionExtension should show a guide to install the extension if no e
     <h2
       class="session-title"
     >
-      
       Use Lunie Browser Extension
-    
     </h2>
      
     <div
@@ -49,9 +47,7 @@ exports[`TmSessionExtension should show a list of all accounts in the extension 
     <h2
       class="session-title"
     >
-      
       Use Lunie Browser Extension
-    
     </h2>
      
     <div

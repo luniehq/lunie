@@ -1,9 +1,7 @@
 <template>
   <SessionFrame>
     <TmFormStruct :submit="onSubmit.bind(this)">
-      <h2 class="session-title">
-        Choose password
-      </h2>
+      <h2 class="session-title">Choose password</h2>
       <div class="session-main bottom-indent">
         <Steps
           :steps="[`Recover`, `Name`, `Password`]"

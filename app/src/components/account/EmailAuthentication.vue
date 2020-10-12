@@ -11,9 +11,7 @@
     </template>
 
     <template v-else>
-      <h2 class="session-title">
-        Magic link success! 👍
-      </h2>
+      <h2 class="session-title">Magic link success! 👍</h2>
       <div class="session-main">
         <p class="session-subtitle">
           You're now signed in to Lunie with your email address. Head over to

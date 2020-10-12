@@ -11,9 +11,7 @@ exports[`TmSessionSignUp renders 1`] = `
     <h2
       class="session-title"
     >
-      
       Create a new address
-    
     </h2>
      
     <div>

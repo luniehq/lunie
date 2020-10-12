@@ -1,9 +1,7 @@
 <template>
   <SessionFrame>
     <TmFormStruct :submit="onSubmit">
-      <h2 class="session-title">
-        Choose name
-      </h2>
+      <h2 class="session-title">Choose name</h2>
       <div class="session-main bottom-indent">
         <Steps :steps="[`Recover`, `Name`, `Password`]" active-step="Name" />
         <TmFormGroup field-id="import-name" :field-label="fieldLabel">
