@@ -9,6 +9,7 @@ const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 const database = require('../database')
 const config = require('../../config')
+const { keyBy } = require('lodash')
 const db = database(config)('')
 
 class CosmosV0API extends RESTDataSource {
@@ -242,6 +243,35 @@ class CosmosV0API extends RESTDataSource {
     }
   }
 
+  async getAllValidatorsFeed(validators, allValidatorsAddresses, networkList) {
+    const allValidatorsFeed = await this.db.getAccountsNotifications(
+      allValidatorsAddresses,
+      this.network.id
+    )
+    return validators.map((validator) => {
+      const validatorFeed = allValidatorsFeed.filter(
+        ({ resourceId }) => resourceId === validator.operatorAddress
+      )
+      return {
+        ...validator,
+        feed:
+          validatorFeed && Array.isArray(validatorFeed)
+            ? validatorFeed.map((notification) =>
+                this.reducers.notificationReducer(notification, networkList)
+              )
+            : []
+      }
+    })
+  }
+
+  async getAllValidatorsProfiles(allValidatorsAddresses) {
+    const allValidatorsProfiles = await this.db.getAllValidatorsProfiles(
+      allValidatorsAddresses,
+      this.network.id
+    )
+    return keyBy(allValidatorsProfiles, `operator_address`)
+  }
+
   async getProfilesForValidators(
     validators,
     validatorsWithoutProfiles,
@@ -251,20 +281,22 @@ class CosmosV0API extends RESTDataSource {
     validatorsWithoutProfiles = this.getRanksForValidators(
       validatorsWithoutProfiles
     )
+    const allValidatorsAddresses = validators.map(
+      ({ operatorAddress }) => operatorAddress
+    )
+    validatorsWithoutProfiles = await this.getAllValidatorsFeed(
+      validatorsWithoutProfiles,
+      allValidatorsAddresses,
+      networkList
+    )
+    const validatorProfilesDictionary = await this.getAllValidatorsProfiles(
+      allValidatorsAddresses
+    )
     return await Promise.all(
       validatorsWithoutProfiles.map(async (enrichedValidator) => {
-        const [
-          validatorProfile,
-          latestValidatorNotifications,
-          allValidatorDelegations
-        ] = await Promise.all([
-          this.db.getValidatorProfile(enrichedValidator.operatorAddress),
-          this.db.getAccountNotifications(
-            enrichedValidator.operatorAddress,
-            this.network.id
-          ),
-          this.getAllValidatorDelegations(enrichedValidator)
-        ])
+        const allValidatorDelegations = await this.getAllValidatorDelegations(
+          enrichedValidator
+        )
         const validator = validators.find(
           ({ operator_address }) =>
             operator_address === enrichedValidator.operatorAddress
@@ -282,13 +314,11 @@ class CosmosV0API extends RESTDataSource {
         return this.reducers.validatorProfileReducer(
           enrichedValidator,
           validator,
-          validatorProfile,
+          validatorProfilesDictionary[enrichedValidator.operatorAddress],
           totalStakedAssets,
           allValidatorDelegations.length,
           this.network,
-          latestValidatorNotifications.map((notification) =>
-            this.reducers.notificationReducer(notification, networkList)
-          )
+          enrichedValidator.feed
         )
       })
     )

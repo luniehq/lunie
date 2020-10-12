@@ -226,25 +226,47 @@ class polkadotAPI {
     }
   }
 
+  async getAllValidatorsFeed(validators, allValidatorsAddresses, networkList) {
+    const allValidatorsFeed = await this.db.getAccountsNotifications(
+      allValidatorsAddresses,
+      this.network.id
+    )
+    return validators.map((validator) => {
+      const validatorFeed = allValidatorsFeed.filter(
+        ({ resourceId }) => resourceId === validator.operatorAddress
+      )
+      return {
+        ...validator,
+        feed:
+          validatorFeed && Array.isArray(validatorFeed)
+            ? validatorFeed.map((notification) =>
+                this.reducers.notificationReducer(notification, networkList)
+              )
+            : []
+      }
+    })
+  }
+
   async getProfilesForValidators(
     validators,
     validatorsWithoutProfiles,
     fiatCurrency = 'USD'
   ) {
     const networkList = await db.getNetworks()
+    const allValidatorsAddresses = validators.map(
+      ({ operatorAddress }) => operatorAddress
+    )
     validators = this.getRanksForValidators(validators)
+    validatorsWithoutProfiles = this.getAllValidatorsFeed(
+      validatorsWithoutProfiles,
+      allValidatorsAddresses,
+      networkList
+    )
     return await Promise.all(
       validatorsWithoutProfiles.map(async (enrichedValidator) => {
-        const [
-          validatorProfile,
-          latestValidatorNotifications
-        ] = await Promise.all([
-          this.db.getValidatorProfile(enrichedValidator.operatorAddress),
-          this.db.getAccountNotifications(
-            enrichedValidator.operatorAddress,
-            this.network.id
-          )
-        ])
+        const validatorProfile = this.db.getValidatorProfile(
+          enrichedValidator.operatorAddress
+        )
         const validator = validators.find(
           ({ accountId }) => accountId === enrichedValidator.operatorAddress
         )
@@ -264,9 +286,7 @@ class polkadotAPI {
           validatorProfile,
           totalStakedAssets,
           this.network,
-          latestValidatorNotifications.map((notification) =>
-            this.reducers.notificationReducer(notification, networkList)
-          )
+          enrichedValidator.feed
         )
       })
     )

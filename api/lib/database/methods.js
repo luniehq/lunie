@@ -1,9 +1,9 @@
 const { read, insert, query } = require('./helpers')
 
-const getAccountNotifications = ({
+const getAccountsNotifications = ({
   hasura_url,
   hasura_admin_key
-}) => () => async (address, networkId) => {
+}) => () => async (addresses, networkId) => {
   return await read({
     hasura_url,
     hasura_admin_key
@@ -22,7 +22,7 @@ const getAccountNotifications = ({
     ],
     `where: {
       networkId: {_eq: "${networkId}"},
-      resourceId: {_eq: "${address}"},
+      resourceId: {_in: [${addresses.map((address) => `"${address}"`)}]},
     } limit: 10, order_by: {created_at: desc}`
   )
 }
@@ -95,16 +95,17 @@ const getValidatorsInfo = ({ hasura_url, hasura_admin_key }) => (
   )
 }
 
-const getValidatorProfile = ({ hasura_url, hasura_admin_key }) => (
+const getAllValidatorsProfiles = ({ hasura_url, hasura_admin_key }) => (
   schema
-) => async (operatorAddress) => {
-  const validatorProfile = await read({
+) => async (addresses) => {
+  return await read({
     hasura_url,
     hasura_admin_key
   })(schema)(
     `validatorprofiles`,
     `validatorprofiles`,
     [
+      'operator_address',
       'name',
       'nationality',
       'headerImage',
@@ -116,11 +117,10 @@ const getValidatorProfile = ({ hasura_url, hasura_admin_key }) => (
       'blog',
       'contributionLinks'
     ],
-    operatorAddress
-      ? `where: {operator_address: {_eq: "${operatorAddress}"}}`
-      : false
+    `where: {operator_address: {_in: [${addresses.map(
+      (address) => `"${address}"`
+    )}]}}`
   )
-  return validatorProfile[0] || {}
 }
 
 const getNotifications = ({ hasura_url, hasura_admin_key }) => (
@@ -551,11 +551,11 @@ const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
 }
 
 module.exports = {
-  getAccountNotifications,
+  getAccountsNotifications,
   incrementValidatorViews,
   getValidatorsViews,
   getValidatorsInfo,
-  getValidatorProfile,
+  getAllValidatorsProfiles,
   getMaintenance,
   storeStatistics,
   storeNotification,
