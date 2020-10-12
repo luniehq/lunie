@@ -161,17 +161,7 @@ function transactionReducerV2(network, transaction, reducers) {
             ? transaction.logs[index].log || transaction.logs[0] // failing txs show the first logs
             : transaction.logs[0].log || ''
           : JSON.parse(JSON.stringify(transaction.raw_log)).message,
-      involvedAddresses: uniq(reducers.extractInvolvedAddresses(transaction)),
-      transactionMessageAddresses: reducers.getTransactionMessageAddresses(
-        uniq(reducers.extractInvolvedAddresses(transaction))[0],
-        transactionDetailsReducer(
-          reducers.getMessageType(type),
-          value,
-          reducers,
-          transaction,
-          network
-        )
-      )
+      involvedAddresses: uniq(reducers.extractInvolvedAddresses(transaction))
     }))
     return returnedMessages
   } catch (error) {

@@ -174,8 +174,7 @@ class BaseNodeSubscription {
       // transaction to each subscribed user.
       // TODO doesn't handle failing txs as it doesn't extract addresses from those txs (they are not tagged)
       block.transactions.forEach((tx) => {
-        tx.transactionMessageAddresses.forEach((address) => {
-          if (!address) return // case for governance transactions where there is no recipient
+        tx.involvedAddresses.forEach((address) => {
           const involvedAddress = address
           publishUserTransactionAddedV2(this.network.id, involvedAddress, tx)
 

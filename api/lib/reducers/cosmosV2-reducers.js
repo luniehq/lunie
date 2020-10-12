@@ -11,6 +11,7 @@ const {
   getValidatorStatus,
   coinReducer
 } = cosmosV0Reducers
+const { getTransactionMessageAddresses } = require('./common')
 
 const proposalTypeEnumDictionary = {
   TextProposal: 'TEXT',
@@ -266,15 +267,6 @@ function proposalReducer(
   }
 }
 
-function getTransactionMessageAddresses(agentAddress, transactionDetails) {
-  const passiveAddress = transactionDetails.to
-    ? transactionDetails.to[0]
-    : transactionDetails.from
-    ? transactionDetails.from[0]
-    : undefined
-  return [agentAddress, passiveAddress]
-}
-
 function transactionReducerV2(network, transaction, reducers) {
   try {
     // TODO check if this is anywhere not an array
@@ -346,17 +338,7 @@ function transactionReducerV2(network, transaction, reducers) {
             ? transaction.logs[index].log || transaction.logs[0] // failing txs show the first logs
             : transaction.logs[0].log || ''
           : JSON.parse(JSON.stringify(transaction.raw_log)).message,
-      involvedAddresses: uniq(reducers.extractInvolvedAddresses(transaction)),
-      transactionMessageAddresses: getTransactionMessageAddresses(
-        uniq(reducers.extractInvolvedAddresses(transaction))[0],
-        transactionDetailsReducer(
-          reducers.getMessageType(type),
-          value,
-          reducers,
-          transaction,
-          network
-        )
-      )
+      involvedAddresses: uniq(reducers.extractInvolvedAddresses(transaction))
     }))
     return returnedMessages
   } catch (error) {

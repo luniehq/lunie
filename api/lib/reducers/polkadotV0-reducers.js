@@ -5,7 +5,10 @@ const {
   fixDecimalsAndRoundUpBigNumbers,
   toViewDenom
 } = require('../../common/numbers.js')
-const { getProposalSummary } = require('./common')
+const {
+  getProposalSummary,
+  getTransactionMessageAddresses
+} = require('./common')
 const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -225,15 +228,6 @@ function getMessageType(section, method) {
   }
 }
 
-function getTransactionMessageAddresses(agentAddress, transactionDetails) {
-  const passiveAddress = transactionDetails.to
-    ? transactionDetails.to[0]
-    : transactionDetails.from
-    ? transactionDetails.from[0]
-    : undefined
-  return [agentAddress, passiveAddress]
-}
-
 function parsePolkadotTransaction(
   hash,
   message,
@@ -272,20 +266,6 @@ function parsePolkadotTransaction(
       lunieTransactionType,
       signer,
       message
-    ),
-    transactionMessageAddresses: getTransactionMessageAddresses(
-      reducers.extractInvolvedAddresses(
-        lunieTransactionType,
-        signer,
-        message
-      )[0],
-      transactionDetailsReducer(
-        network,
-        lunieTransactionType,
-        reducers,
-        signer,
-        message
-      )
     )
   }
 }
