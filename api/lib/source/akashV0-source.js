@@ -8,8 +8,8 @@ class AkashV0API extends TerraV3API {
     this.reducers = require('../reducers/akashV0-reducers')
   }
 
-  async getAllValidators(height, profile = false) {
-    return CosmosV0API.prototype.getAllValidators.call(this, height, profile)
+  async getAllValidators(height) {
+    return CosmosV0API.prototype.getAllValidators.call(this, height)
   }
 
   async getExpectedReturns(validator) {

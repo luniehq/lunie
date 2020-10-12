@@ -185,7 +185,7 @@ class CosmosV0API extends RESTDataSource {
     ).amount
   }
 
-  async getAllValidators(height, profile = false) {
+  async getAllValidators(height) {
     let [
       validators,
       annualProvision,
@@ -228,7 +228,7 @@ class CosmosV0API extends RESTDataSource {
       validator.signing_info = signingInfos[consensusAddress]
     })
 
-    const validatorsWithoutProfiles = validators.map((validator) =>
+    return validators.map((validator) =>
       this.reducers.validatorReducer(
         this.network.id,
         signedBlocksWindow,
@@ -236,11 +236,6 @@ class CosmosV0API extends RESTDataSource {
         annualProvision
       )
     )
-    if (profile) {
-      return { validators, validatorsWithoutProfiles }
-    } else {
-      return validatorsWithoutProfiles
-    }
   }
 
   async getAllValidatorsFeed(validators, allValidatorsAddresses, networkList) {
@@ -272,20 +267,14 @@ class CosmosV0API extends RESTDataSource {
     return keyBy(allValidatorsProfiles, `operator_address`)
   }
 
-  async getProfilesForValidators(
-    validators,
-    validatorsWithoutProfiles,
-    fiatCurrency = 'USD'
-  ) {
+  async getProfilesForValidators(validators, fiatCurrency = 'USD') {
     const networkList = await db.getNetworks()
-    validatorsWithoutProfiles = this.getRanksForValidators(
-      validatorsWithoutProfiles
-    )
+    validators = this.getRanksForValidators(validators)
     const allValidatorsAddresses = validators.map(
       ({ operatorAddress }) => operatorAddress
     )
-    validatorsWithoutProfiles = await this.getAllValidatorsFeed(
-      validatorsWithoutProfiles,
+    validators = await this.getAllValidatorsFeed(
+      validators,
       allValidatorsAddresses,
       networkList
     )
@@ -293,13 +282,9 @@ class CosmosV0API extends RESTDataSource {
       allValidatorsAddresses
     )
     return await Promise.all(
-      validatorsWithoutProfiles.map(async (enrichedValidator) => {
+      validators.map(async (enrichedValidator) => {
         const allValidatorDelegations = await this.getAllValidatorDelegations(
           enrichedValidator
-        )
-        const validator = validators.find(
-          ({ operator_address }) =>
-            operator_address === enrichedValidator.operatorAddress
         )
         const fiatValuesResponse = await this.fiatValuesAPI.calculateFiatValues(
           [
@@ -313,7 +298,6 @@ class CosmosV0API extends RESTDataSource {
         const totalStakedAssets = fiatValuesResponse[this.network.stakingDenom]
         return this.reducers.validatorProfileReducer(
           enrichedValidator,
-          validator,
           validatorProfilesDictionary[enrichedValidator.operatorAddress],
           totalStakedAssets,
           allValidatorDelegations.length,
@@ -339,13 +323,9 @@ class CosmosV0API extends RESTDataSource {
 
   async getValidatorProfile(operatorAddress) {
     if (!this.validatorsWithProfiles) {
-      const {
-        validators,
-        validatorsWithoutProfiles
-      } = await this.getAllValidators(this.blockHeight, true)
+      const validators = await this.getAllValidators(this.blockHeight)
       const validatorsWithProfiles = await this.getProfilesForValidators(
-        validators,
-        validatorsWithoutProfiles
+        validators
       )
       this.validatorsWithProfiles = _.keyBy(
         validatorsWithProfiles,

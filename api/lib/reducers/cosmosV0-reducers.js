@@ -309,7 +309,6 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
 }
 
 function validatorProfileReducer(
-  enrichedValidator,
   validator,
   validatorProfile,
   totalStakedAssets,
@@ -318,27 +317,27 @@ function validatorProfileReducer(
   feed
 ) {
   return {
-    ...enrichedValidator,
+    ...validator,
     profile: {
-      name: validator.description.moniker,
-      rank: enrichedValidator.rank,
+      name: validator.name,
+      rank: validator.rank,
       nationality: validatorProfile.nationality,
       headerImage: validatorProfile.headerImage,
-      description: validator.description.details,
+      description: validator.description,
       totalStakedAssets: {
         ...totalStakedAssets,
         amount: totalStakedAssets.amount.toFixed(2)
       },
       teamMembers: JSON.parse(validatorProfile.teamMembers),
       socialLinks: {
-        website: validator.description.website,
+        website: validator.website,
         telegram: validatorProfile.telegram,
         github: validatorProfile.github,
         twitter: validatorProfile.twitter,
         blog: validatorProfile.blog
       },
       numberStakers,
-      uptimePercentage: enrichedValidator.uptimePercentage,
+      uptimePercentage: validator.uptimePercentage,
       contributionLinks: JSON.parse(validatorProfile.contributionLinks),
       network,
       feed

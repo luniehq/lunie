@@ -142,7 +142,7 @@ class polkadotAPI {
       : []
   }
 
-  async getAllValidators(height, profile = false) {
+  async getAllValidators() {
     const api = await this.getAPI()
 
     // Fetch all stash addresses for current session (including validators and intentions)
@@ -216,14 +216,9 @@ class polkadotAPI {
         validator.votingPower = 0
       }
     })
-    const validatorsWithoutProfiles = allValidators.map((validator) =>
+    return allValidators.map((validator) =>
       this.reducers.validatorReducer(this.network, validator)
     )
-    if (profile) {
-      return { validators: allValidators, validatorsWithoutProfiles }
-    } else {
-      return validatorsWithoutProfiles
-    }
   }
 
   async getAllValidatorsFeed(validators, allValidatorsAddresses, networkList) {
@@ -314,7 +309,7 @@ class polkadotAPI {
       const {
         validators,
         validatorsWithoutProfiles
-      } = await this.getAllValidators(this.blockHeight, true)
+      } = await this.getAllValidators(this.blockHeight)
       const validatorsWithProfiles = await this.getProfilesForValidators(
         validators,
         validatorsWithoutProfiles

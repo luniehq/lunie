@@ -8,7 +8,7 @@ class TerraV3API extends CosmosV2API {
     this.reducers = require('../reducers/terraV3-reducers')
   }
 
-  async getAllValidators(height, profile = false) {
+  async getAllValidators(height) {
     let [
       validators,
       validatorSet,
@@ -53,7 +53,7 @@ class TerraV3API extends CosmosV2API {
       validator.signing_info = signingInfos[consensusAddress]
     })
 
-    const validatorsWithoutProfiles = validators.map((validator) => {
+    return validators.map((validator) => {
       const lunieValidator = this.reducers.validatorReducer(
         this.networkId,
         signedBlocksWindow,
@@ -68,11 +68,6 @@ class TerraV3API extends CosmosV2API {
 
       return lunieValidator
     })
-    if (profile) {
-      return { validators, validatorsWithoutProfiles }
-    } else {
-      return validatorsWithoutProfiles
-    }
   }
 
   async getExpectedReturns(validator) {
