@@ -304,7 +304,11 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
     status: statusInfo.status,
     statusDetailed: statusInfo.status_detailed,
     delegatorShares: validator.delegator_shares, // needed to calculate delegation token amounts from shares
-    popularity: validator.popularity
+    popularity: validator.popularity,
+    // totalStakedAssets: {
+    //   ...totalStakedAssets,
+    //   amount: totalStakedAssets.amount.toFixed(2)
+    // }
   }
 }
 
@@ -324,10 +328,6 @@ function validatorProfileReducer(
       nationality: validatorProfile.nationality,
       headerImage: validatorProfile.headerImage,
       description: validator.description,
-      totalStakedAssets: {
-        ...totalStakedAssets,
-        amount: totalStakedAssets.amount.toFixed(2)
-      },
       teamMembers: JSON.parse(validatorProfile.teamMembers),
       socialLinks: {
         website: validator.website,

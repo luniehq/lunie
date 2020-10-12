@@ -42,8 +42,6 @@ class BaseNodeSubscription {
       this.pollForNewBlock()
       // start one minute loop to update networks from db
       this.pollForUpdateNetworks()
-      // start polling for validator profiles
-      this.pollForValidatorsProfiles()
     })
 
     this.store.dataReady.then(() => {
@@ -65,9 +63,9 @@ class BaseNodeSubscription {
     )
   }
 
-  async pollForValidatorsProfiles() {
+  async pollForValidatorsProfiles(validators) {
     const dataSource = this.getDataSource()
-    this.getValidatorProfiles(dataSource)
+    this.getValidatorProfiles(validators, dataSource)
 
     this.validatorProfilePollingTimeout = setTimeout(async () => {
       this.pollForValidatorsProfiles()
@@ -140,6 +138,11 @@ class BaseNodeSubscription {
       this.store.update({
         validators: validators
       })
+      const storeValidators = Object.values(this.store.validators)
+      if (storeValidators.length > 0) {
+        // now that we have validators in store start polling for validator profiles
+        this.pollForValidatorsProfiles(storeValidators)
+      }
     })
   }
 
@@ -196,23 +199,22 @@ class BaseNodeSubscription {
       allValidatorsAddresses
     )
     return await Promise.all(
-      validators.map(async (enrichedValidator) => {
+      validators.map(async (validator) => {
         const allValidatorDelegations = await dataSource.getAllValidatorDelegations(
-          enrichedValidator
+          validator
         )
-        return this.reducers.validatorProfileReducer(
-          enrichedValidator,
-          validatorProfilesDictionary[enrichedValidator.operatorAddress],
+        return dataSource.reducers.validatorProfileReducer(
+          validator,
+          validatorProfilesDictionary[validator.operatorAddress],
           allValidatorDelegations.length,
           this.network,
-          enrichedValidator.feed
+          validator.feed
         )
       })
     )
   }
 
-  async getValidatorProfiles(dataSource) {
-    const validators = Object.values(this.store.validators, dataSource)
+  async getValidatorProfiles(validators, dataSource) {
     await this.getAllValidatorsProfiles(validators, dataSource).then(
       (validatorsWithProfiles) => {
         this.store.update({
