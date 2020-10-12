@@ -77,18 +77,6 @@ export default ({ apollo }) => {
     )
   }
 
-  const deleteAccount = ({ commit }, { address, password }) => {
-    chrome.runtime.sendMessage(
-      {
-        type: 'DELETE_WALLET',
-        payload: { address, password }
-      },
-      function (response) {
-        commit('setAccounts', response || [])
-      }
-    )
-  }
-
   const deleteAccountWithoutPassword = async ({ commit }, { address }) => {
     chrome.runtime.sendMessage(
       {
@@ -326,7 +314,6 @@ export default ({ apollo }) => {
     createKey,
     loadLocalAccounts,
     testSeed,
-    deleteAccount,
     deleteAccountWithoutPassword,
     getWallet,
     getNetworkByAddress,
