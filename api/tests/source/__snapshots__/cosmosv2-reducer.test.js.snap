@@ -33,10 +33,6 @@ Array [
     "networkId": "cosmos-hub-mainnet",
     "success": true,
     "timestamp": "2020-04-16T21:55:10Z",
-    "transactionMessageAddresses": Array [
-      "cosmos1fh44aqn7m4v570ujtjlmt3dytq80qyfwj07ckc",
-      "cosmosvaloper1ey69r37gfxvxg62sh4r0ktpuc46pzjrm873ae8",
-    ],
     "type": "ClaimRewardsTx",
   },
 ]

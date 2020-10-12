@@ -10,15 +10,3 @@ module.exports.getProposalSummary = function getProposalSummary(type) {
       return `Unknown proposal type`
   }
 }
-
-module.exports.getTransactionMessageAddresses = function getTransactionMessageAddresses(
-  senderAddress,
-  transactionDetails
-) {
-  const passiveAddress = transactionDetails.to
-    ? transactionDetails.to[0]
-    : transactionDetails.from
-    ? transactionDetails.from[0]
-    : undefined
-  return [senderAddress, passiveAddress]
-}

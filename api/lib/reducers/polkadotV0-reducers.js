@@ -5,10 +5,7 @@ const {
   fixDecimalsAndRoundUpBigNumbers,
   toViewDenom
 } = require('../../common/numbers.js')
-const {
-  getProposalSummary,
-  getTransactionMessageAddresses
-} = require('./common')
+const { getProposalSummary } = require('./common')
 const { lunieMessageTypes } = require('../../lib/message-types')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -749,7 +746,6 @@ module.exports = {
   delegationReducer,
   undelegationReducer,
   extractInvolvedAddresses,
-  getTransactionMessageAddresses,
   transactionsReducerV2,
   transactionDetailsReducer,
   sendDetailsReducer,

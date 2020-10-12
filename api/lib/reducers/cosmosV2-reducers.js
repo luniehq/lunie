@@ -11,7 +11,6 @@ const {
   getValidatorStatus,
   coinReducer
 } = cosmosV0Reducers
-const { getTransactionMessageAddresses } = require('./common')
 
 const proposalTypeEnumDictionary = {
   TextProposal: 'TEXT',
@@ -338,7 +337,9 @@ function transactionReducerV2(network, transaction, reducers) {
             ? transaction.logs[index].log || transaction.logs[0] // failing txs show the first logs
             : transaction.logs[0].log || ''
           : JSON.parse(JSON.stringify(transaction.raw_log)).message,
-      involvedAddresses: uniq(reducers.extractInvolvedAddresses(transaction))
+      involvedAddresses: Array.isArray(transaction.events)
+        ? uniq(reducers.extractInvolvedAddresses(transaction.events[index]))
+        : []
     }))
     return returnedMessages
   } catch (error) {
@@ -421,31 +422,23 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
   }
 }
 
-function extractInvolvedAddresses(transaction) {
-  // If the transaction has failed, it doesn't get tagged
-  if (!Array.isArray(transaction.events)) return []
-
+function extractInvolvedAddresses(event) {
+  let involvedAddresses = []
   // extract all addresses from events that are either sender or recipient
-  const involvedAddresses = transaction.events.reduce(
-    (involvedAddresses, event) => {
-      const senderAttributes = event.attributes
-        .filter(({ key }) => key === 'sender')
-        .map((sender) => sender.value)
-      if (senderAttributes.length) {
-        involvedAddresses = [...involvedAddresses, ...senderAttributes]
-      }
+  const senderAttributes = event.attributes
+    .filter(({ key }) => key === 'sender')
+    .map((sender) => sender.value)
+  if (senderAttributes.length) {
+    involvedAddresses = [...involvedAddresses, ...senderAttributes]
+  }
 
-      const recipientAttribute = event.attributes.find(
-        ({ key }) => key === 'recipient'
-      )
-      if (recipientAttribute) {
-        involvedAddresses.push(recipientAttribute.value)
-      }
-
-      return involvedAddresses
-    },
-    []
+  const recipientAttribute = event.attributes.find(
+    ({ key }) => key === 'recipient'
   )
+  if (recipientAttribute) {
+    involvedAddresses.push(recipientAttribute.value)
+  }
+
   return involvedAddresses
 }
 
@@ -486,6 +479,5 @@ module.exports = {
   validatorReducer,
   undelegationEndTimeReducer,
   extractInvolvedAddresses,
-  getTransactionMessageAddresses,
   setTransactionSuccess
 }
