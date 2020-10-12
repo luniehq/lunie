@@ -143,6 +143,7 @@ const typeDefs = gql`
     picture: String
     popularity: Int
     profile: ValidatorProfile
+    totalStakedAssets: FiatValue
   }
 
   type BlockV2 @cacheControl(maxAge: 10) {
@@ -515,7 +516,6 @@ const typeDefs = gql`
     description: String
     nationality: String
     headerImage: String
-    totalStakedAssets: FiatValue
     teamMembers: [NetworkAccount]
     socialLinks: SocialLinks
     numberStakers: Int

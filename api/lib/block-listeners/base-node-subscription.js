@@ -14,6 +14,7 @@ const {
   resourceTypes
 } = require('../notifications/notifications-types')
 const { keyBy } = require('lodash')
+const { getRanksForValidators } = require('../reducers/common')
 
 const db = database(config)('')
 
@@ -185,7 +186,7 @@ class BaseNodeSubscription {
 
   async getAllValidatorsProfiles(validators, dataSource) {
     const networkList = await db.getNetworks()
-    validators = dataSource.getRanksForValidators(validators)
+    validators = getRanksForValidators(validators)
     const allValidatorsAddresses = validators.map(
       ({ operatorAddress }) => operatorAddress
     )

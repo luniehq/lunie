@@ -18,7 +18,12 @@ function blockReducer(networkId, block, transactions, data = {}) {
   }
 }
 
-function validatorReducer(networkId, signedBlocksWindow, validator) {
+function validatorReducer(
+  networkId,
+  signedBlocksWindow,
+  validator,
+  fiatValuesResponse
+) {
   const statusInfo = getValidatorStatus(validator)
   let websiteURL = validator.description.website
   if (!websiteURL || websiteURL === '[do-not-modify]') {
@@ -50,7 +55,11 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
     status: statusInfo.status,
     statusDetailed: statusInfo.status_detailed,
     delegatorShares: validator.delegator_shares, // needed to calculate delegation token amounts from shares
-    popularity: validator.popularity
+    popularity: validator.popularity,
+    totalStakedAssets: {
+      ...fiatValuesResponse[network.stakingDenom],
+      amount: fiatValuesResponse[network.stakingDenom].amount.toFixed(2)
+    }
   }
 }
 

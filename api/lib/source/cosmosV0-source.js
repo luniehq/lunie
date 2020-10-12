@@ -181,7 +181,7 @@ class CosmosV0API extends RESTDataSource {
     ).amount
   }
 
-  async getAllValidators(height) {
+  async getAllValidators(height, fiatCurrency = 'USD') {
     let [
       validators,
       annualProvision,
@@ -224,27 +224,25 @@ class CosmosV0API extends RESTDataSource {
       validator.signing_info = signingInfos[consensusAddress]
     })
 
-    return validators.map((validator) =>
-      this.reducers.validatorReducer(
-        this.network.id,
-        signedBlocksWindow,
-        validator,
-        annualProvision
-      )
-    )
-  }
-
-  getRanksForValidators(validators) {
-    return validators
-      .sort((a, b) => {
-        const A = new BigNumber(a.tokens)
-        const B = new BigNumber(b.tokens)
-        return A.lt(B) ? 1 : -1
+    return Promise.all(
+      validators.map(async (validator) => {
+        const fiatValuesResponse = await this.fiatValuesAPI.calculateFiatValues(
+          [
+            {
+              amount: this.reducers.atoms(validator.tokens),
+              denom: this.network.stakingDenom
+            }
+          ],
+          fiatCurrency
+        )
+        return this.reducers.validatorReducer(
+          this.network.id,
+          signedBlocksWindow,
+          validator,
+          fiatValuesResponse[this.network.stakingDenom]
+        )
       })
-      .map((validator, index) => ({
-        ...validator,
-        rank: ++index
-      }))
+    )
   }
 
   async getAllValidatorDelegations(validator) {
