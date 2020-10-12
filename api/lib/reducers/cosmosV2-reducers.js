@@ -337,7 +337,14 @@ function transactionReducerV2(network, transaction, reducers) {
             ? transaction.logs[index].log || transaction.logs[0] // failing txs show the first logs
             : transaction.logs[0].log || ''
           : JSON.parse(JSON.stringify(transaction.raw_log)).message,
-      involvedAddresses: uniq(reducers.extractInvolvedAddresses(transaction))
+      involvedAddresses: Array.isArray(transaction.logs)
+        ? uniq(
+            reducers.extractInvolvedAddresses(
+              transaction.logs.find(({ msg_index }) => msg_index === index)
+                .events
+            )
+          )
+        : []
     }))
     return returnedMessages
   } catch (error) {
@@ -420,14 +427,7 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
   }
 }
 
-function extractInvolvedAddresses(transaction) {
-  const events = transaction.logs
-    ? transaction.logs.reduce(
-        (events, log) => (log.events ? events.concat(log.events) : events),
-        []
-      )
-    : []
-
+function extractInvolvedAddresses(events) {
   // extract all addresses from events that are either sender or recipient
   const involvedAddresses = events.reduce((involvedAddresses, event) => {
     const senderAttributes = event.attributes
