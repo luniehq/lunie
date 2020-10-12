@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import TmSessionExplore from "common/TmSessionExplore"
+import TmSessionExplore from "session/TmSessionExplore"
 
 describe(`TmSessionExplore`, () => {
   const localVue = createLocalVue()

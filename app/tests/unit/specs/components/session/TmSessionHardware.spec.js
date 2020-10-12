@@ -1,7 +1,7 @@
 import Vuex from "vuex"
 import Vuelidate from "vuelidate"
 import { mount, createLocalVue } from "@vue/test-utils"
-import TmSessionHardware from "common/TmSessionHardware"
+import TmSessionHardware from "session/TmSessionHardware"
 import { focusParentLast } from "src/directives"
 
 const localVue = createLocalVue()
@@ -93,7 +93,7 @@ describe(`TmSessionHardware`, () => {
         getAddressFromLedger: () =>
           Promise.reject(new Error(`No Ledger found`)),
       }))
-      const TmSessionHardware = require("common/TmSessionHardware").default
+      const TmSessionHardware = require("session/TmSessionHardware").default
 
       const $store = {
         dispatch: jest.fn(() => "cosmos1234"),

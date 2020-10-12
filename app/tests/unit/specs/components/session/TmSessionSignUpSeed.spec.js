@@ -1,6 +1,6 @@
 import { createLocalVue, shallowMount } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
-import TmSessionSignUpSeed from "common/TmSessionSignUpSeed"
+import TmSessionSignUpSeed from "session/TmSessionSignUpSeed"
 
 describe(`TmSessionSignUpSeed`, () => {
   const localVue = createLocalVue()

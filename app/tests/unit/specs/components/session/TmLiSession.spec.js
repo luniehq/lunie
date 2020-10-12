@@ -1,5 +1,5 @@
 import { shallowMount } from "@vue/test-utils"
-import TmLiSession from "common/TmLiSession"
+import TmLiSession from "session/TmLiSession"
 
 describe(`TmLiSession`, () => {
   let wrapper
