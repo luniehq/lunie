@@ -73,8 +73,9 @@
                 value=""
                 :selected="preferredCurrency"
                 hidden
-                >{{ preferredCurrency }}</option
               >
+                {{ preferredCurrency }}
+              </option>
               <option value="USD">USD</option>
               <option value="EUR">EUR</option>
               <option value="CAD">CAD</option>

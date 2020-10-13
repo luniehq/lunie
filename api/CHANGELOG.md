@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.54] - 2020-10-13
+
+### Changed
+
+- [#5053](https://github.com/cosmos/lunie/issues/5053) Send only one notification even when the notification originates from a multi-message transaction (avoid using involvedAddresses) @Bitcoinera
+- [#4429](https://github.com/cosmos/lunie/issues/4429) Get gas prices and gas estimates from DB @Bitcoinera
+- [#5084](https://github.com/cosmos/lunie/pull/5084) Upgrate to polkadot/api-2.2.1 @Bitcoinera
+- [#5040](https://github.com/cosmos/lunie/pull/5040) Upgrade to polkadot/api-2.1.1 @Bitcoinera
+
+### Fixed
+
+- [#5055](https://github.com/cosmos/lunie/issues/5055) Fix Akash balance query: lunieCoin.amount.plus is not a function @Bitcoinera
+- [#5044](https://github.com/cosmos/lunie/issues/5044) Fix eMoney PageValidator by fixing validator uptimePercentage @Bitcoinera
+- [#5045](https://github.com/cosmos/lunie/pull/5045) Fix objectObject in Polkadot referendum description @Bitcoinera
+
 ## [1.0.53] - 2020-10-07
 
 - [#5069](https://github.com/cosmos/lunie/pull/5069) adding missing API fixes for e-Money @jbibla
