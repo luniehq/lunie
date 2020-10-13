@@ -23,7 +23,7 @@ const getAccountsNotifications = ({
     `where: {
       networkId: {_eq: "${networkId}"},
       resourceId: {_in: [${addresses.map((address) => `"${address}"`)}]},
-    }, order_by: {created_at: desc}`
+    } limit: 10, order_by: {created_at: desc}`
   )
 }
 
