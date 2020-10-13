@@ -158,12 +158,8 @@ class BaseNodeSubscription {
       })
 
       this.store.update({
-<<<<<<< HEAD
         block,
         height: block.height
-=======
-        block
->>>>>>> develop
       })
       publishBlockAdded(this.network.id, block)
 
@@ -172,16 +168,13 @@ class BaseNodeSubscription {
         await dataSource.newBlockHandler(block, this.store)
       }
 
-<<<<<<< HEAD
       dataSource.getAllValidators(block.height)
       .then(validators => {
         this.store.update({
           validators: validators
         })
       })
-=======
       this.getValidators(block, dataSource)
->>>>>>> develop
 
       // For each transaction listed in a block we extract the relevant addresses. This is published to the network.
       // A GraphQL resolver is listening for these messages and sends the
