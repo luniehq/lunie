@@ -1575,7 +1575,7 @@
     core-js-pure "^3.0.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.4", "@babel/runtime@^7.10.5", "@babel/runtime@^7.11.0", "@babel/runtime@^7.11.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.7.4", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.6":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.10.4", "@babel/runtime@^7.10.5", "@babel/runtime@^7.11.0", "@babel/runtime@^7.11.2", "@babel/runtime@^7.3.4", "@babel/runtime@^7.5.4", "@babel/runtime@^7.7.4", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.6":
   version "7.11.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.11.2.tgz#f549c13c754cc40b87644b9fa9f09a6a95fe0736"
   integrity sha512-TeWkU52so0mPtDcaCTxNBI/IHiz0pZgr8VEFqXFtZWpYD08ZB6FaSwVAS8MKRQAP3bYKiVjwysOJgMFY28o6Tw==
@@ -2547,11 +2547,12 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-5.15.0.tgz#870524ade408b50ce74971509aa170e9d85c0575"
   integrity sha512-QuAva3K3YFDtQidi8xAfOQcb+aExJus3p0GhPNscOE+r152klBdiZUHLp818zEeQZT7PRSm83gEknmeUYjGU9A==
 
-"@lunie/cosmos-api@^0.0.23":
-  version "0.0.23"
-  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.0.23.tgz#ffa04e5b9b786495540684ff3815d7319d87a112"
-  integrity sha512-51YLxgW6pr1N4qR2UbJ9hv0lXzl5qXVQCIXN//jW9jnYDCdHvPBw/qU/CKnePk3YUS8+yn8POwk24kPsVbPxFg==
+"@lunie/cosmos-api@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@lunie/cosmos-api/-/cosmos-api-0.2.5.tgz#77bf93a14a9a68eabffa99d07f9e6c297a26fd19"
+  integrity sha512-4p2lNr1ByYeVGGQwKkp+BdK8fI5yZwOYNoDfFSOpJ80ybQeOF8ox5jTRZrWOetEP47fqBZA0Gv5jt5tTtJWW2A==
   dependencies:
+    "@babel/runtime" "^7.5.4"
     axios "^0.19.0"
 
 "@lunie/cosmos-keys@0.3.2", "@lunie/cosmos-keys@^0.3.2":
