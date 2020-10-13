@@ -55,10 +55,7 @@ async function validators(
   let validators = []
   const dataSource = remoteFetch(dataSources, networkId)
   if (fiatCurrency) {
-    validators = dataSource.getValidators(
-      dataSource.blockHeight,
-      fiatCurrency
-    )
+    validators = dataSource.getValidators(dataSource.blockHeight, fiatCurrency)
   } else {
     validators = Object.values(localStore(dataSources, networkId).validators)
   }

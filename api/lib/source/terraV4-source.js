@@ -8,7 +8,7 @@ class TerraV3API extends CosmosV3API {
     this.reducers = require('../reducers/terraV4-reducers')
   }
 
-  async getValidators(height) {
+  async getValidators(height, fiatCurrency = 'USD') {
     let [
       validators,
       validatorSet,
@@ -53,21 +53,33 @@ class TerraV3API extends CosmosV3API {
       validator.signing_info = signingInfos[consensusAddress]
     })
 
-    return validators.map((validator) => {
-      const lunieValidator = this.reducers.validatorReducer(
-        this.networkId,
-        signedBlocksWindow,
-        validator
-      )
+    return Promise.all(
+      validators.map(async (validator) => {
+        const fiatValuesResponse = await this.fiatValuesAPI.calculateFiatValues(
+          [
+            {
+              amount: validator.tokens,
+              denom: this.network.stakingDenom
+            }
+          ],
+          fiatCurrency
+        )
+        const lunieValidator = this.reducers.validatorReducer(
+          this.networkId,
+          signedBlocksWindow,
+          validator,
+          fiatValuesResponse[this.network.stakingDenom]
+        )
 
-      lunieValidator.expectedReturns = expectedReturnsMap[
-        lunieValidator.operatorAddress
-      ]
-        ? expectedReturnsMap[lunieValidator.operatorAddress].stakingReturn
-        : 0
+        lunieValidator.expectedReturns = expectedReturnsMap[
+          lunieValidator.operatorAddress
+        ]
+          ? expectedReturnsMap[lunieValidator.operatorAddress].stakingReturn
+          : 0
 
-      return lunieValidator
-    })
+        return lunieValidator
+      })
+    )
   }
 
   async getExpectedReturns(validator) {
