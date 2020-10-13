@@ -201,15 +201,17 @@ class BaseNodeSubscription {
     )
     return await Promise.all(
       validators.map(async (validator) => {
-        const allValidatorDelegations = await dataSource.getAllValidatorDelegations(
-          validator
-        )
+        let allValidatorDelegations = validator.nominations // for polkadot networks
+        if (!allValidatorDelegations) {
+          allValidatorDelegations = await dataSource.getAllValidatorDelegations(
+            validator
+          )
+        }
         return dataSource.reducers.validatorProfileReducer(
           validator,
           validatorProfilesDictionary[validator.operatorAddress],
           allValidatorDelegations.length,
-          this.network,
-          validator.feed
+          this.network
         )
       })
     )

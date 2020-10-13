@@ -319,10 +319,8 @@ function validatorReducer(
 function validatorProfileReducer(
   validator,
   validatorProfile,
-  totalStakedAssets,
   numberStakers,
-  network,
-  feed
+  network
 ) {
   return {
     ...validator,
@@ -344,7 +342,7 @@ function validatorProfileReducer(
       uptimePercentage: validator.uptimePercentage,
       contributionLinks: JSON.parse(validatorProfile.contributionLinks),
       network,
-      feed
+      feed: validator.feed
     }
   }
 }

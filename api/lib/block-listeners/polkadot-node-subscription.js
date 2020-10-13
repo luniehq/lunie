@@ -29,6 +29,12 @@ class PolkadotNodeSubscription extends BaseNodeSubscription {
 
   async getValidators(block, dataSource) {
     const { sessionIndex, era: currentEra } = this.store.data
+    const storeValidators = Object.values(this.store.validators)
+    if (storeValidators.length > 0) {
+      // now that we have validators in store start polling for validator profiles
+      this.pollForValidatorsProfiles(storeValidators)
+    }
+
     if (sessionIndex < block.sessionIndex || !sessionIndex) {
       this.store.update({
         data: {
