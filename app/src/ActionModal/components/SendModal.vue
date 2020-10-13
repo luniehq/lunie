@@ -11,7 +11,11 @@
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"
     feature-flag="send"
-    :disabled="sendingNgm"
+    :disabled="
+      sendingNgm ||
+      $asyncComputed.transactionData.updating ||
+      $asyncComputed.transactionData.error
+    "
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -27,7 +31,7 @@
         v-model="address"
         v-focus
         type="text"
-        placeholder="Address"
+        placeholder="Address or Starname"
         @change.native="trimSendAddress"
         @keyup.enter.native="refocusOnAmount"
       />
@@ -42,6 +46,18 @@
         type="custom"
         msg="doesn't have a format known by Lunie"
       />
+      <span class="memo-span" v-if="$asyncComputed.transactionData.updating">
+        Getting address for Starname...
+      </span>
+      <TmFormMsg
+        v-else-if="$asyncComputed.transactionData.error"
+        msg="could not be resolved to an address"
+        name="Starname"
+        type="custom"
+      />
+      <span class="memo-span" v-else>
+        Lunie supports <a href="https://starname.me/">IOV Starnames</a>
+      </span>
     </TmFormGroup>
     <TmFormGroup
       id="form-group-amount"
@@ -169,7 +185,7 @@ import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
 import BigNumber from "bignumber.js"
 import { formatAddress } from "src/filters"
-import { isStarname } from "src/../../common/starname"
+import { isStarname, resolveStarname } from "src/../../common/starname"
 
 const defaultMemo = ""
 
@@ -216,21 +232,6 @@ export default {
         }
       )
     },
-    transactionData() {
-      if (isNaN(this.amount) || !this.address || !this.selectedToken) {
-        return {}
-      }
-      return {
-        type: messageType.SEND,
-        to: [this.address],
-        from: [this.userAddress],
-        amount: {
-          amount: this.amount,
-          denom: this.selectedToken,
-        },
-        memo: this.memo,
-      }
-    },
     notifyMessage() {
       return {
         title: `Successful Send`,
@@ -270,6 +271,27 @@ export default {
         )
       } else {
         return this.maxDecimals(this.selectedBalance.amount, 6)
+      }
+    },
+  },
+  asyncComputed: {
+    async transactionData() {
+      if (isNaN(this.amount) || !this.address || !this.selectedToken) {
+        return {}
+      }
+      // resolve starname to address
+      const to = isStarname(this.address)
+        ? [await resolveStarname(this.address, this.network)]
+        : [this.address]
+      return {
+        type: messageType.SEND,
+        to,
+        from: [this.userAddress],
+        amount: {
+          amount: this.amount,
+          denom: this.selectedToken,
+        },
+        memo: this.memo,
       }
     },
   },
@@ -367,7 +389,9 @@ export default {
       address: {
         required,
         validAddress: (address) =>
-          this.bech32Validate(address) || isPolkadotAddress(address) || isStarname(address),
+          this.bech32Validate(address) ||
+          isPolkadotAddress(address) ||
+          isStarname(address),
       },
       amount: {
         required: (x) => !!x && x !== `0`,

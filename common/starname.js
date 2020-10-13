@@ -5,7 +5,7 @@ const networkToAsset = {
     "kava-testnet": "asset:kava"
 }
 
-const resolveStarname = async (starname, networkId) => {
+export const resolveStarname = async (starname, networkId) => {
     const asset = networkToAsset[networkId]
     if (!asset) throw new Error("Starname for this network is not supported.")
 
@@ -20,24 +20,9 @@ const resolveStarname = async (starname, networkId) => {
 
     if (result.error) throw new Error(result.error)
 
-    const address = result.account.ressources.find(({uri}) => uri === asset)
+    const address = result.result.account.resources.find(({uri}) => uri === asset)
     if (!address) throw new Error("Couldn't resolve starname " + starname)
-    return address.ressource
-}
-
-const resolveStarnames = async (addresses, networkId) => {
-    if (addresses) {
-        return await Promise.all(addresses.map(async address => {
-            if (isStarname(address)) return await resolveStarname(address, networkId)
-            return address
-        }))
-    }
-}
-
-export const resolveStarnameInMessage = async (messageWithStarnames, networkId) => {
-    const message = JSON.parse(JSON.stringify(messageWithStarnames))
-    message.to = await resolveStarnames(message.to, networkId)
-    message.from = await resolveStarnames(message.from, networkId)
+    return address.resource
 }
 
 export const isStarname = (address) => {

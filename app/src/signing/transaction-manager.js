@@ -3,7 +3,6 @@ import { getSigner, cancelSign, signQueue } from "./signer"
 import { getGraphqlHost } from "scripts/url"
 import { getFingerprint } from "scripts/fingerprint"
 import { getMessage } from "./message-creator.js"
-import { resolveStarnameInMessage } from "src/../../common/starname"
 import { signWithExtension } from "scripts/extension-utils"
 import gql from "graphql-tag"
 import BigNumber from "bignumber.js"
@@ -104,8 +103,6 @@ export default class TransactionManager {
     HDPath,
     curve,
   }) {
-    message = await resolveStarnameInMessage(message, network.id)
-
     let broadcastableObject
     if (signingType === "extension") {
       broadcastableObject = await signWithExtension(
