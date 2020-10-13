@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageTransactions Renders correctly and does not load transactions if the user has not signed in 1`] = `
+<tmpage-stub
+  data-title="Transactions"
+  empty="true"
+  emptysubtitle="There are no transactions associated with this address yet."
+  emptytitle="No Transaction History"
+  loaderpath=""
+  signinrequired="true"
+>
+  <template>
+    <eventlist-stub
+      events=""
+      moreavailable="true"
+    />
+     
+    <tmdatamsg-stub
+      icon="calendar_today"
+      iconcolor="var(--warning)"
+    >
+      <div>
+        Looking for older transactions?
+      </div>
+       
+      <div>
+        <p>
+          
+            Lunie cannot display transactions from previous chains in your
+            activity page.
+          
+        </p>
+         
+        <p>
+          
+            If you would like to view information from previous chain upgrades
+            please visit our
+            
+          <a
+            href="https://intercom.help/lunie/en/articles/3787014-how-to-get-blockchain-data-from-previous-chain-upgrades"
+          >
+            Help Center.
+          </a>
+        </p>
+      </div>
+    </tmdatamsg-stub>
+  </template>
+</tmpage-stub>
+`;
+
+exports[`PageTransactions Renders correctly and loads transactions 1`] = `
+<tmpage-stub
+  data-title="Transactions"
+  emptysubtitle="There are no transactions associated with this address yet."
+  emptytitle="No Transaction History"
+  loaderpath=""
+  signinrequired="true"
+  transactions="[object Object],[object Object],[object Object],[object Object]"
+  validators="[object Object],[object Object],[object Object]"
+>
+  <template>
+    <eventlist-stub
+      events="[object Object],[object Object],[object Object],[object Object]"
+      moreavailable="true"
+    />
+     
+    <tmdatamsg-stub
+      icon="calendar_today"
+      iconcolor="var(--warning)"
+    >
+      <div>
+        Looking for older transactions?
+      </div>
+       
+      <div>
+        <p>
+          
+            Lunie cannot display transactions from previous chains in your
+            activity page.
+          
+        </p>
+         
+        <p>
+          
+            If you would like to view information from previous chain upgrades
+            please visit our
+            
+          <a
+            href="https://intercom.help/lunie/en/articles/3787014-how-to-get-blockchain-data-from-previous-chain-upgrades"
+          >
+            Help Center.
+          </a>
+        </p>
+      </div>
+    </tmdatamsg-stub>
+  </template>
+</tmpage-stub>
+`;

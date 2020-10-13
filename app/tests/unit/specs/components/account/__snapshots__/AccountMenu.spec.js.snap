@@ -11,6 +11,27 @@ exports[`AccountMenu should show the AccountMenu page 1`] = `
       class="account-menu-button-container"
     >
       <router-link-stub
+        class="account-menu-button account-menu-delete-account"
+        to="[object Object]"
+      >
+        <i
+          class="material-icons notranslate show-seed"
+        >
+          delete
+        </i>
+      </router-link-stub>
+       
+      <span
+        class="account-menu-button-span"
+      >
+        Delete Account
+      </span>
+    </div>
+     
+    <div
+      class="account-menu-button-container"
+    >
+      <router-link-stub
         class="account-menu-button account-menu-show-seed"
         to="[object Object]"
       >
