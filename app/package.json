@@ -122,7 +122,7 @@
     "numeral": "^2.0.6",
     "prettier": "^2.1.2",
     "sass": "^1.26.10",
-    "sass-loader": "10.0.2",
+    "sass-loader": "10.0.3",
     "simsala": "0.0.21",
     "stylelint": "13.7.2",
     "stylelint-config-standard": "20.0.0",
