@@ -1,6 +1,6 @@
 {
   "name": "extension",
-  "version": "1.0.41",
+  "version": "1.0.42",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
   "licenses": [
@@ -125,7 +125,7 @@
     "node-sass": "^4.14.1",
     "sass-loader": "^10.0.3",
     "selenium-server": "^3.141.59",
-    "simsala": "^0.0.21",
+    "simsala": "^0.0.23",
     "stylelint": "^13.7.2",
     "stylelint-config-standard": "^18.3.0",
     "vue-jest": "^3.0.5",
