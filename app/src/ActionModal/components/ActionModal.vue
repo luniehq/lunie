@@ -412,8 +412,7 @@ export default {
     requiresSignIn() {
       return (
         !this.session.signedIn ||
-        (this.session.sessionType === sessionType.EXPLORE &&
-          !config.development)
+        this.session.sessionType === sessionType.EXPLORE
       )
     },
     subTotal() {

@@ -73,8 +73,9 @@
                 value=""
                 :selected="preferredCurrency"
                 hidden
-                >{{ preferredCurrency }}</option
               >
+                {{ preferredCurrency }}
+              </option>
               <option value="USD">USD</option>
               <option value="EUR">EUR</option>
               <option value="CAD">CAD</option>
@@ -90,11 +91,12 @@
       </div>
       <Bar
         v-if="currentNetwork.network_type === 'polkadot'"
+        class="reward-bar"
         :show="true"
         bar-type="info"
       >
-        Rewards in Polkadot are typically distributed by your validator. You may
-        not need to claim them.
+        Rewards in {{ currentNetwork.title }} are typically distributed by your
+        validator. You may not need to claim them to receive them.
       </Bar>
 
       <TableBalances
@@ -533,6 +535,11 @@ select option {
   background-color: rgba(255, 255, 255, 0.02);
 }
 
+.reward-bar {
+  width: auto;
+  margin: 0 2rem;
+}
+
 @media screen and (max-width: 667px) {
   h1 {
     padding-bottom: 2rem;
@@ -549,6 +556,10 @@ select option {
 
   .currency-selector {
     display: none;
+  }
+
+  .reward-bar {
+    margin: 2rem 2rem;
   }
 }
 

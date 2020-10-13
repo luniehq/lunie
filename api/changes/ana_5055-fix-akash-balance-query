@@ -1,0 +1,1 @@
+[Fixed] [#5055](https://github.com/cosmos/lunie/issues/5055) Fix Akash balance query: lunieCoin.amount.plus is not a function @Bitcoinera

@@ -43,7 +43,8 @@ function accountInfoReducer(accountValue, accountType) {
   return {
     address: accountValue.address,
     accountNumber: accountValue.account_number,
-    sequence: accountValue.sequence
+    sequence: accountValue.sequence || 0,
+    vestingAccount: accountType.includes(`VestingAccount`)
   }
 }
 
@@ -182,8 +183,13 @@ function proposalReducer(
     networkId,
     type: proposal.proposal_content.type,
     title: proposal.proposal_content.value.title,
-    description: proposal.proposal_content.value.description,
-    changes: JSON.stringify(proposal.proposal_content.value.changes, null, 4),
+    description: proposal.content.value.changes
+      ? `Parameter: ${JSON.stringify(
+          proposal.proposal_content.value.changes,
+          null,
+          4
+        )}`
+      : `` + `\nDescription: ${proposal.proposal_content.value.description}`,
     creationTime: proposal.submit_time,
     status: proposal.proposal_status,
     statusBeginTime: proposalBeginTime(proposal),
@@ -198,12 +204,19 @@ function proposalReducer(
   }
 }
 
-function governanceParameterReducer(depositParameters, tallyingParamers) {
+function governanceParameterReducer(
+  depositParameters,
+  tallyingParamers,
+  network
+) {
   return {
     votingThreshold: tallyingParamers.threshold,
     vetoThreshold: tallyingParamers.veto,
     // for now assuming one deposit denom
-    depositDenom: denomLookup(depositParameters.min_deposit[0].denom),
+    depositDenom: denomLookup(
+      network.coinLookup,
+      depositParameters.min_deposit[0].denom
+    ),
     depositThreshold: BigNumber(depositParameters.min_deposit[0].amount).div(
       1000000
     )
@@ -215,6 +228,7 @@ function topVoterReducer(topVoter) {
     name: topVoter.name,
     address: topVoter.operatorAddress,
     votingPower: topVoter.votingPower,
+    picture: topVoter.picture,
     validator: topVoter
   }
 }
@@ -266,13 +280,17 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
       ? validator.signing_info.start_height
       : undefined,
     uptimePercentage:
-      1 -
-      Number(
-        validator.signing_info
-          ? validator.signing_info.missed_blocks_counter
-          : 0
-      ) /
-        Number(signedBlocksWindow),
+      validator.signing_info &&
+      validator.signing_info.missed_blocks_counter &&
+      signedBlocksWindow
+        ? 1 -
+          Number(
+            validator.signing_info
+              ? validator.signing_info.missed_blocks_counter
+              : 0
+          ) /
+            Number(signedBlocksWindow)
+        : undefined,
     tokens: atoms(validator.tokens),
     commissionUpdateTime: validator.commission.update_time,
     commission: validator.commission.rate,
@@ -299,28 +317,14 @@ function blockReducer(networkId, block, transactions, data = {}) {
   }
 }
 
-function denomLookup(denom) {
-  const lookup = {
-    uatom: 'ATOM',
-    umuon: 'MUON',
-    uluna: 'LUNA',
-    ukrw: 'KRT',
-    umnt: 'MNT',
-    usdr: 'SDT',
-    uusd: 'UST',
-    seed: 'TREE',
-    ungm: 'NGM',
-    eeur: 'eEUR',
-    echf: 'eCHF',
-    ejpy: 'eJPY',
-    eusd: 'eUSD',
-    edkk: 'eDKK',
-    enok: 'eNOK',
-    esek: 'eSEK',
-    ukava: 'KAVA',
-    uakt: 'AKT'
+function denomLookup(coinLookup, denom) {
+  if (
+    Array.isArray(coinLookup) &&
+    coinLookup.find(({ chainDenom }) => chainDenom === denom)
+  ) {
+    return coinLookup.find(({ chainDenom }) => chainDenom === denom).viewDenom
   }
-  return lookup[denom] ? lookup[denom] : denom.toUpperCase()
+  return coinLookup.viewDenom ? coinLookup.viewDenom : denom.toUpperCase()
 }
 
 function coinReducer(coin, coinLookup, network) {
@@ -337,7 +341,8 @@ function coinReducer(coin, coinLookup, network) {
     )
 
   // we want to show only atoms as this is what users know
-  const denom = denomLookup(coin.denom)
+  const denom = denomLookup(coinLookup, coin.denom)
+
   return {
     denom: denom,
     amount: BigNumber(coin.amount).times(
@@ -346,7 +351,7 @@ function coinReducer(coin, coinLookup, network) {
   }
 }
 
-function gasPriceReducer(gasPrice) {
+function gasPriceReducer(gasPrice, coinLookup) {
   if (!gasPrice) {
     throw new Error(
       'The token you are trying to request data for is not supported by Lunie.'
@@ -354,10 +359,15 @@ function gasPriceReducer(gasPrice) {
   }
 
   // we want to show only atoms as this is what users know
-  const denom = denomLookup(gasPrice.denom)
+  const denom = denomLookup(coinLookup, gasPrice.denom)
   return {
     denom: denom,
-    price: BigNumber(gasPrice.price).div(1000000) // Danger: this might not be the case for all future tokens
+    price: BigNumber(gasPrice.gasPrice)
+      .times(
+        coinLookup.find(({ chainDenom }) => chainDenom === gasPrice.denom)
+          .chainToViewConversionFactor
+      )
+      .toNumber()
   }
 }
 
@@ -368,7 +378,7 @@ function gasPriceReducer(gasPrice) {
 function rewardCoinReducer(reward, network) {
   const multiDenomRewardsArray = reward.split(`,`)
   const mappedMultiDenomRewardsArray = multiDenomRewardsArray.map((reward) => {
-    const denom = denomLookup(reward.match(/[a-z]+/gi)[0])
+    const denom = denomLookup(network.coinLookup, reward.match(/[a-z]+/gi)[0])
     const coinLookup = network.getCoinLookup(network, denom, `viewDenom`)
     return {
       denom,
@@ -380,7 +390,13 @@ function rewardCoinReducer(reward, network) {
   return mappedMultiDenomRewardsArray
 }
 
-async function balanceReducer(coin, gasPrices, fiatValue) {
+async function balanceReducer(
+  coin,
+  gasPrices,
+  fiatValue,
+  fiatCurrency,
+  network
+) {
   return {
     id: coin.denom,
     ...coin,
@@ -388,8 +404,10 @@ async function balanceReducer(coin, gasPrices, fiatValue) {
     gasPrice: gasPrices
       ? gasPriceReducer(
           gasPrices.find(
-            (gasPrice) => denomLookup(gasPrice.denom) === coin.denom
-          )
+            (gasPrice) =>
+              denomLookup(network.coinLookup, gasPrice.denom) === coin.denom
+          ),
+          network.coinLookup
         ).price
       : null
   }
@@ -414,7 +432,7 @@ async function balanceV2Reducer(
     0
   )
   const total = isStakingDenom
-    ? lunieCoin.amount.plus(delegatedStake).plus(undelegatingStake)
+    ? BigNumber(lunieCoin.amount).plus(delegatedStake).plus(undelegatingStake)
     : lunieCoin.amount
   const fiatValue = await fiatValueAPI.calculateFiatValues(
     [
@@ -523,24 +541,6 @@ async function rewardReducer(
     )
   )
   return multiDenomRewardsArray
-}
-
-async function totalStakeFiatValueReducer(
-  fiatValueAPI,
-  fiatCurrency,
-  totalStake,
-  stakingDenom
-) {
-  const fiatValue = await fiatValueAPI.calculateFiatValues(
-    [
-      {
-        amount: totalStake,
-        denom: stakingDenom
-      }
-    ],
-    fiatCurrency
-  )
-  return fiatValue[stakingDenom]
 }
 
 function extractInvolvedAddresses(transaction) {

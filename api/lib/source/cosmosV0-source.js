@@ -17,12 +17,12 @@ class CosmosV0API extends RESTDataSource {
     this.networkId = network.id
     this.delegatorBech32Prefix = network.address_prefix
     this.validatorConsensusBech32Prefix = `${network.address_prefix}valcons`
-    this.gasPrices = getNetworkGasPrices(network.id)
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
     this.db = db
 
     this.setReducers()
+    this.getNetworkGasPrices()
   }
 
   initialize(config) {
@@ -34,6 +34,10 @@ class CosmosV0API extends RESTDataSource {
 
   setReducers() {
     this.reducers = require('../reducers/cosmosV0-reducers')
+  }
+
+  async getNetworkGasPrices() {
+    this.gasPrices = await getNetworkGasPrices(this.network.id)
   }
 
   // hacky way to get error text
@@ -72,8 +76,8 @@ class CosmosV0API extends RESTDataSource {
   // querying data from the cosmos REST API
   // is overwritten in cosmos v2 to extract from a differnt result format
   // some endpoints /blocks and /txs have a different response format so they use this.get directly
-  async query(url, noRetry) {
-    return this.getRetry(url, noRetry ? 3 : 0)
+  async query(url) {
+    return this.getRetry(url)
   }
 
   async getSignedBlockWindow() {
@@ -121,8 +125,7 @@ class CosmosV0API extends RESTDataSource {
         throw Error()
       }
       const response = await this.query(
-        `slashing/validators/${validatorConsensusPubKey}/signing_info`,
-        { cacheOptions: { ttl: 60 } }
+        `slashing/validators/${validatorConsensusPubKey}/signing_info`
       )
       return {
         address: pubkeyToAddress(
@@ -177,7 +180,8 @@ class CosmosV0API extends RESTDataSource {
     return this.reducers.delegationReducer(
       selfDelegation,
       validator,
-      delegationEnum.ACTIVE
+      delegationEnum.ACTIVE,
+      this.network
     ).amount
   }
 
@@ -307,7 +311,7 @@ class CosmosV0API extends RESTDataSource {
           : undefined,
         proposal.deposit_end_time
           ? {
-              title: `Deposit Period Ended`,
+              title: `Deposit Period Ends`,
               // the deposit period can end before the time as the limit is reached already
               time:
                 proposal.voting_start_time !== `0001-01-01T00:00:00Z` &&
@@ -319,7 +323,7 @@ class CosmosV0API extends RESTDataSource {
           : undefined,
         proposal.voting_start_time
           ? {
-              title: `Voting Period Started`,
+              title: `Voting Period Starts`,
               time:
                 proposal.voting_start_time !== `0001-01-01T00:00:00Z`
                   ? proposal.voting_start_time
@@ -328,7 +332,7 @@ class CosmosV0API extends RESTDataSource {
           : undefined,
         proposal.voting_end_time
           ? {
-              title: `Voting Period Ended`,
+              title: `Voting Period Ends`,
               time:
                 proposal.voting_end_time !== `0001-01-01T00:00:00Z`
                   ? proposal.voting_end_time
@@ -339,60 +343,24 @@ class CosmosV0API extends RESTDataSource {
     }
   }
 
-  async getAllProposals(validators) {
-    const response = await this.query('gov/proposals')
-    const { bonded_tokens: totalBondedTokens } = await this.query(
-      '/staking/pool'
-    )
-    if (!Array.isArray(response)) return []
-    const proposals = await Promise.all(
-      response.map(async (proposal) => {
-        const [tally, proposer] = await Promise.all([
-          this.query(`gov/proposals/${proposal.id}/tally`),
-          this.query(`gov/proposals/${proposal.id}/proposer`, true).catch(
-            () => {
-              return { proposer: undefined }
-            }
-          )
-        ])
-        const detailedVotes = await this.getDetailedVotes(proposal)
-        return this.reducers.proposalReducer(
-          this.network.id,
-          proposal,
-          tally,
-          proposer,
-          totalBondedTokens,
-          detailedVotes,
-          this.reducers,
-          validators
-        )
-      })
-    )
-
-    return _.orderBy(proposals, 'id', 'desc')
+  // we can't query the proposer of blocks from past chains
+  async getProposer(proposal, firstBlock) {
+    let proposer = { proposer: undefined }
+    const proposalIsFromPastChain =
+      proposal.voting_end_time !== `0001-01-01T00:00:00Z` &&
+      new Date(firstBlock.time) > new Date(proposal.voting_end_time)
+    if (!proposalIsFromPastChain) {
+      proposer = await this.query(`gov/proposals/${proposal.id}/proposer`)
+    }
+    return proposer
   }
 
-  async getProposalById(proposalId, validators) {
-    const proposal = await this.query(`gov/proposals/${proposalId}`).catch(
-      () => {
-        throw new UserInputError(
-          `There is no proposal in the network with ID '${proposalId}'`
-        )
-      }
-    )
-    const [
-      tally,
-      proposer,
-      { bonded_tokens: totalBondedTokens },
-      detailedVotes
-    ] = await Promise.all([
-      this.query(`gov/proposals/${proposalId}/tally`),
-      this.query(`gov/proposals/${proposalId}/proposer`, true).catch(() => {
-        return { proposer: undefined }
-      }),
-      this.query(`/staking/pool`),
+  async getProposal(proposal, totalBondedTokens, validators, firstBlock) {
+    const [tally, detailedVotes] = await Promise.all([
+      this.query(`gov/proposals/${proposal.id}/tally`),
       this.getDetailedVotes(proposal)
     ])
+    const proposer = await this.getProposer(proposal, firstBlock)
     return this.reducers.proposalReducer(
       this.network.id,
       proposal,
@@ -405,13 +373,56 @@ class CosmosV0API extends RESTDataSource {
     )
   }
 
+  async getAllProposals(validators) {
+    const [
+      proposalsResponse,
+      firstBlock,
+      { bonded_tokens: totalBondedTokens }
+    ] = await Promise.all([
+      this.query('gov/proposals'),
+      this.getBlockByHeightV2(1),
+      this.query('/staking/pool')
+    ])
+    if (!Array.isArray(proposalsResponse)) return []
+    const proposals = await Promise.all(
+      proposalsResponse.map(async (proposal) => {
+        return await this.getProposal(
+          proposal,
+          totalBondedTokens,
+          validators,
+          firstBlock
+        )
+      })
+    )
+
+    return _.orderBy(proposals, 'id', 'desc')
+  }
+
+  async getProposalById(proposalId, validators) {
+    const [
+      proposal,
+      { bonded_tokens: totalBondedTokens },
+      firstBlock
+    ] = await Promise.all([
+      this.query(`gov/proposals/${proposalId}`).catch(() => {
+        throw new UserInputError(
+          `There is no proposal in the network with ID '${proposalId}'`
+        )
+      }),
+      this.query(`/staking/pool`),
+      this.getBlockByHeightV2(1)
+    ])
+    return this.getProposal(proposal, totalBondedTokens, validators, firstBlock)
+  }
+
   async getGovernanceParameters() {
     const depositParameters = await this.query(`gov/parameters/deposit`)
     const tallyingParamers = await this.query(`gov/parameters/tallying`)
 
     return this.reducers.governanceParameterReducer(
       depositParameters,
-      tallyingParamers
+      tallyingParamers,
+      this.network
     )
   }
 
@@ -515,13 +526,17 @@ class CosmosV0API extends RESTDataSource {
       coins,
       fiatCurrency
     )
+    const gasPrices =
+      this.gasPrices || (await getNetworkGasPrices(this.network.id))
+    this.gasPrices = gasPrices
     return await Promise.all(
       coins.map((coin) => {
         return this.reducers.balanceReducer(
           coin,
-          this.gasPrices,
+          gasPrices,
           fiatValues[coin.denom],
-          fiatCurrency
+          fiatCurrency,
+          this.network
         )
       })
     )
@@ -597,16 +612,15 @@ class CosmosV0API extends RESTDataSource {
       (await this.query(`staking/delegators/${address}/delegations`)) || []
 
     return delegations
-      .filter((delegation) =>
-        BigNumber(delegation.balance).isGreaterThanOrEqualTo(1)
-      )
       .map((delegation) =>
         this.reducers.delegationReducer(
           delegation,
           this.store.validators[delegation.validator_address],
-          delegationEnum.ACTIVE
+          delegationEnum.ACTIVE,
+          this.network
         )
       )
+      .filter((delegation) => BigNumber(delegation.amount).gt(0))
   }
 
   async getUndelegationsForDelegatorAddress(address) {
@@ -642,18 +656,31 @@ class CosmosV0API extends RESTDataSource {
 
   async getDelegationForValidator(delegatorAddress, validator) {
     this.checkAddress(delegatorAddress)
+
     const operatorAddress = validator.operatorAddress
     const delegation = await this.query(
       `staking/delegators/${delegatorAddress}/delegations/${operatorAddress}`
-    ).catch(() => ({
-      validator_address: operatorAddress,
-      delegator_address: delegatorAddress,
-      shares: 0
-    }))
+    ).catch(() => {
+      const coinLookup = this.network.getCoinLookup(
+        this.network,
+        this.network.stakingDenom,
+        'viewDenom'
+      )
+      return {
+        validator_address: operatorAddress,
+        delegator_address: delegatorAddress,
+        shares: 0,
+        balance: {
+          amount: 0,
+          denom: coinLookup.chainDenom
+        }
+      }
+    })
     return this.reducers.delegationReducer(
       delegation,
       validator,
-      delegationEnum.ACTIVE
+      delegationEnum.ACTIVE,
+      this.network
     )
   }
 

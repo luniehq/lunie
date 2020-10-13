@@ -12,7 +12,6 @@ const {
 class BlockStore {
   constructor(network, database) {
     this.network = network
-    this.latestHeight = 0
     this.block = {}
     this.stakingDenom = ''
     this.annualProvision = 0
@@ -83,7 +82,6 @@ class BlockStore {
       this.validators = validators
     }
 
-    this.latestHeight = Number(height)
     this.block = block
     this.data = Object.assign({}, this.data, data)
 

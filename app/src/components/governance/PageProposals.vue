@@ -55,16 +55,14 @@
     <ModalPropose
       v-if="parameters && Object.keys(parameters).length > 0"
       ref="modalPropose"
-      :denom="parameters.depositDenom"
+      :denom="parameters.depositDenom || currentNetwork.stakingDenom"
       @success="() => afterPropose()"
     />
 
     <div v-if="!$apollo.loading && proposals.length === 0">
       <div>
         <TmDataMsg icon="gavel">
-          <div slot="title">
-            No Governance Proposals
-          </div>
+          <div slot="title">No Governance Proposals</div>
           <div slot="subtitle">
             There are currently no governance proposals to display. Click the
             'Create Proposal' button to submit the first network proposal!
@@ -251,6 +249,7 @@ export default {
                 name
                 address
                 votingPower
+                picture
                 validator {
                   name
                   picture
@@ -378,11 +377,11 @@ h4 {
   border-radius: 0.25rem;
   width: 100%;
   margin: 0 0.5rem;
+  white-space: nowrap;
 }
 
 .data-row div:first-child {
   margin-left: 0;
-  min-width: 360px;
 }
 
 .data-row div:last-child {

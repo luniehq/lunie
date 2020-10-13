@@ -47,9 +47,7 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
       class="tm-connected-network__string"
       id="tm-connected-network__block"
     >
-      
-        --
-      
+       -- 
     </div>
   </div>
    

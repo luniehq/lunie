@@ -1,7 +1,7 @@
 import config from '../../config.js'
 import gql from 'graphql-tag'
 import { NetworksAll } from '../popup/gql'
-import { lunieMessageTypes, parseTx } from '../scripts/parsers'
+import { lunieMessageTypes } from '../scripts/parsers'
 import { storeWallet } from '@lunie/cosmos-keys'
 
 export default ({ apollo }) => {
@@ -75,6 +75,19 @@ export default ({ apollo }) => {
         commit('setAccounts', response || [])
       }
     )
+  }
+
+  const deleteAccountWithoutPassword = async ({ commit }, { address }) => {
+    chrome.runtime.sendMessage(
+      {
+        type: 'DELETE_WALLET_WITHOUT_PASSWORD',
+        payload: { address }
+      },
+      function (response) {
+        commit('setAccounts', response || [])
+      }
+    )
+    return true
   }
 
   const getWallet = (store, { address, password }) => {
@@ -269,10 +282,39 @@ export default ({ apollo }) => {
     return wallet.cosmosAddress
   }
 
+  const testSeed = async (store, { networkId, address, seedPhrase }) => {
+    const networkObject = store.getters.networks.find(
+      ({ id }) => id === networkId
+    )
+    const walletVariations = JSON.parse(networkObject.HDPaths).reduce(
+      (all, HDPath) => {
+        return JSON.parse(networkObject.curves).reduce((all2, curve) => {
+          all2.push({ HDPath, curve })
+          return all2
+        }, [])
+      },
+      []
+    )
+    const foundCombination = await Promise.all(
+      walletVariations.map(async ({ HDPath, curve }) => {
+        const { result: wallet } = await getWalletFromSandbox(
+          seedPhrase,
+          networkObject,
+          HDPath.value,
+          curve.value
+        )
+        return wallet && wallet.cosmosAddress === address ? true : false
+      })
+    )
+    return foundCombination.find((combination) => combination) ? true : false
+  }
+
   return {
     createSeed,
     createKey,
     loadLocalAccounts,
+    testSeed,
+    deleteAccountWithoutPassword,
     getWallet,
     getNetworkByAddress,
     testLogin,
@@ -285,7 +327,6 @@ export default ({ apollo }) => {
     resetRecoverData,
     getAddressFromSeed,
     setNetwork,
-    preloadNetworkCapabilities,
-    parseTx
+    preloadNetworkCapabilities
   }
 }

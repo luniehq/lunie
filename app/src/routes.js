@@ -49,7 +49,7 @@ export default (store) => {
       path: `/login`,
       name: `login`,
       components: {
-        session: () => import(`./components/common/TmSessionSignIn`),
+        session: () => import(`./components/session/TmSessionSignIn`),
       },
       meta: {
         feature: "session",
@@ -89,7 +89,7 @@ export default (store) => {
       path: `/create`,
       name: `create`,
       components: {
-        session: () => import(`./components/common/TmSessionSignUp`),
+        session: () => import(`./components/session/TmSessionSignUp`),
       },
       meta: {
         feature: "session",
@@ -99,7 +99,7 @@ export default (store) => {
       path: `/create/password`,
       name: `create-password`,
       components: {
-        session: () => import(`./components/common/TmSessionSignUpPassword`),
+        session: () => import(`./components/session/TmSessionSignUpPassword`),
       },
       meta: {
         feature: "session",
@@ -116,7 +116,7 @@ export default (store) => {
       path: `/create/confirm`,
       name: `create-confirm`,
       components: {
-        session: () => import(`./components/common/TmSessionSignUpSeed`),
+        session: () => import(`./components/session/TmSessionSignUpSeed`),
       },
       meta: {
         feature: "session",
@@ -133,7 +133,7 @@ export default (store) => {
       path: `/recover`,
       name: `recover`,
       components: {
-        session: () => import(`./components/common/TmSessionImport`),
+        session: () => import(`./components/session/TmSessionImport`),
       },
       meta: {
         feature: "session",
@@ -143,7 +143,7 @@ export default (store) => {
       path: `/recover/name`,
       name: `recover-name`,
       components: {
-        session: () => import(`./components/common/TmSessionImportName`),
+        session: () => import(`./components/session/TmSessionImportName`),
       },
       meta: {
         feature: "session",
@@ -160,7 +160,7 @@ export default (store) => {
       path: `/recover/password`,
       name: `recover-password`,
       components: {
-        session: () => import(`./components/common/TmSessionImportPassword`),
+        session: () => import(`./components/session/TmSessionImportPassword`),
       },
       meta: {
         feature: "session",
@@ -177,7 +177,7 @@ export default (store) => {
       path: `/explore`,
       name: `explore`,
       components: {
-        session: () => import(`./components/common/TmSessionExplore`),
+        session: () => import(`./components/session/TmSessionExplore`),
       },
       meta: {
         feature: "session",
@@ -187,7 +187,7 @@ export default (store) => {
       path: `/ledger`,
       name: `ledger`,
       components: {
-        session: () => import(`./components/common/TmSessionHardware`),
+        session: () => import(`./components/session/TmSessionHardware`),
       },
       meta: {
         feature: "session",
@@ -205,7 +205,7 @@ export default (store) => {
       path: `/extension`,
       name: `extension`,
       components: {
-        session: () => import(`./components/common/TmSessionExtension`),
+        session: () => import(`./components/session/TmSessionExtension`),
       },
       meta: {
         feature: "session",
@@ -270,6 +270,11 @@ export default (store) => {
       component: require("account/RevealSeedModal").default,
     },
     {
+      path: `/delete/:networkId/:address`,
+      name: `delete`,
+      component: require("account/ForgetAccountModal").default,
+    },
+    {
       path: `/email-authentication`,
       name: `email-authentication`,
       component: () => import(`./components/account/EmailAuthentication`),
@@ -309,7 +314,6 @@ export default (store) => {
             networkSpecificRoute: true,
           },
           component: () => import(`./components/governance/PageProposal`),
-          props: true,
         },
         // for deprecated routes
         {
@@ -346,7 +350,7 @@ export default (store) => {
         {
           path: `portfolio`,
           name: `portfolio`,
-          component: () => import(`./components/wallet/PagePortfolio`),
+          component: () => import(`./components/common/PagePortfolio`),
           meta: {
             requiresAuth: true,
             feature: "portfolio",
@@ -356,7 +360,7 @@ export default (store) => {
         {
           path: `transactions`,
           name: `transactions`,
-          component: () => import(`./components/wallet/PageTransactions`),
+          component: () => import(`./components/transactions/PageTransactions`),
           meta: {
             requiresAuth: true,
             feature: "activity",

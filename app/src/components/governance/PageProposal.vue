@@ -28,9 +28,7 @@
       </template>
 
       <ProposalDescription
-        :description="proposal.description"
-        :type="proposal.type"
-        :parameter="proposal.changes"
+        :proposal="proposal"
         :supporting-links="proposal.detailedVotes.links"
       />
 
@@ -114,12 +112,6 @@ export default {
     fromNow,
     lowerCase: (text) => (text ? text.toLowerCase() : ""),
   },
-  props: {
-    proposalId: {
-      type: String,
-      required: true,
-    },
-  },
   data: () => ({
     proposals: [],
     vote: undefined,
@@ -139,6 +131,9 @@ export default {
   }),
   computed: {
     ...mapGetters([`address`, `network`, `currentNetwork`]),
+    proposalId() {
+      return this.$route.params.proposalId
+    },
     status() {
       return getProposalStatus(this.proposal)
     },
@@ -229,7 +224,7 @@ export default {
       /* istanbul ignore next */
       skip() {
         // only Tendermint networks have this network-wide "governance parameters" logic
-        return !this.found || this.currentNetwork.network_type !== `cosmos`
+        return this.currentNetwork.network_type !== `cosmos`
       },
       /* istanbul ignore next */
       result(data) {
