@@ -17,6 +17,7 @@ const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
 const { registerUser } = require('./accounts')
+const { getAllValidatorsFeed } = require('./reducers/common')
 
 const db = database(config)('')
 
@@ -43,33 +44,6 @@ function localStore(dataSources, networkId) {
       `The network with the ID '${networkId}' is not supported by the Lunie API`
     )
   }
-}
-
-async function getAllValidatorsFeed(
-  validators,
-  allValidatorsAddresses,
-  networkList,
-  dataSource,
-  network
-) {
-  const allValidatorsFeed = await dataSource.db.getAccountsNotifications(
-    allValidatorsAddresses,
-    network.id
-  )
-  return validators.map((validator) => {
-    const validatorFeed = allValidatorsFeed.filter(
-      ({ resourceId }) => resourceId === validator.operatorAddress
-    )
-    return {
-      ...validator,
-      feed:
-        validatorFeed && Array.isArray(validatorFeed)
-          ? validatorFeed.map((notification) =>
-              dataSource.reducers.notificationReducer(notification, networkList)
-            )
-          : []
-    }
-  })
 }
 
 async function validators(
