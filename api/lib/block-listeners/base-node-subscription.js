@@ -66,7 +66,7 @@ class BaseNodeSubscription {
     const dataSource = this.getDataSource()
     this.getValidatorProfiles(validators, dataSource)
 
-    this.validatorProfilePollingTimeout = setTimeout(async () => {
+    setTimeout(async () => {
       this.pollForValidatorsProfiles(validators)
     }, VALIDATOR_PROFILE_POLLING_INTERVAL)
   }
