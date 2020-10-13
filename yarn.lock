@@ -3783,12 +3783,12 @@
     webpack "^4.0.0"
     yorkie "^2.0.0"
 
-"@vue/cli-plugin-pwa@^4.4.6":
-  version "4.4.6"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-pwa/-/cli-plugin-pwa-4.4.6.tgz#f1b8e35822e28c3b6b196673d00a9127f7953937"
-  integrity sha512-TbYKZ60phCdVFiamvaGrIDTKJA0068WJ1i8FiKNEgQaXdGEFCWII3KK4QTIEwgXSNtgY+m2hYx7mZB/y5/9/RA==
+"@vue/cli-plugin-pwa@^4.5.7":
+  version "4.5.7"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-pwa/-/cli-plugin-pwa-4.5.7.tgz#fab75e43cfb506347983ed9258690c8d6450af03"
+  integrity sha512-mOaEgoLCT2yE8Pdvlz8LhXKqIs3w4xJjDr2dLrOrxh0+OhSpOHJdJ3yHswlgvkxgg0/FGS6t8haj0DfInQ+fYg==
   dependencies:
-    "@vue/cli-shared-utils" "^4.4.6"
+    "@vue/cli-shared-utils" "^4.5.7"
     webpack "^4.0.0"
     workbox-webpack-plugin "^4.3.1"
 
@@ -3883,7 +3883,25 @@
     webpack-dev-server "^3.9.0"
     webpack-merge "^4.2.2"
 
-"@vue/cli-shared-utils@^4.1.2", "@vue/cli-shared-utils@^4.3.1", "@vue/cli-shared-utils@^4.4.1", "@vue/cli-shared-utils@^4.4.6", "@vue/cli-shared-utils@^4.5.4", "@vue/cli-shared-utils@^4.5.7":
+"@vue/cli-shared-utils@^3.12.1":
+  version "3.12.1"
+  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-3.12.1.tgz#bcf076287ddadeebbb97c6a748dfe9ff50ec8df0"
+  integrity sha512-jFblzRFjutGwu5utOKdVlPlsbA1lBUNNQlAThzNqej+JtTKJjnvjlhjKX0Gq0oOny5FjKWhoyfQ74p9h1qE6JQ==
+  dependencies:
+    "@hapi/joi" "^15.0.1"
+    chalk "^2.4.1"
+    execa "^1.0.0"
+    launch-editor "^2.2.1"
+    lru-cache "^5.1.1"
+    node-ipc "^9.1.1"
+    open "^6.3.0"
+    ora "^3.4.0"
+    request "^2.87.0"
+    request-promise-native "^1.0.7"
+    semver "^6.0.0"
+    string.prototype.padstart "^3.0.0"
+
+"@vue/cli-shared-utils@^4.1.2", "@vue/cli-shared-utils@^4.3.1", "@vue/cli-shared-utils@^4.4.1", "@vue/cli-shared-utils@^4.5.4", "@vue/cli-shared-utils@^4.5.7":
   version "4.5.7"
   resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-4.5.7.tgz#b8e911c2f9b6b77123f5d26988b9613d92dcda95"
   integrity sha512-oicFfx9PvgupxN/LW0s2ktdn1U6bBu8J4lPcW2xj6TtTWUkkxwzis4Tm+XOvgvZnu44+d7216y0Y4TX90q645w==

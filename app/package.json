@@ -94,7 +94,7 @@
     "@vue/babel-preset-app": "4.4.5",
     "@vue/cli-plugin-babel": "^4.5.4",
     "@vue/cli-plugin-eslint": "^4.5.7",
-    "@vue/cli-plugin-pwa": "^4.4.6",
+    "@vue/cli-plugin-pwa": "^4.5.7",
     "@vue/cli-plugin-unit-jest": "4.3.1",
     "@vue/cli-service": "4.1.2",
     "@vue/eslint-config-prettier": "^6.0.0",
