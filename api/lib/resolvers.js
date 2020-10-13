@@ -45,11 +45,20 @@ function localStore(dataSources, networkId) {
 
 async function validators(
   _,
-  { networkId, searchTerm, activeOnly, popularSort },
+  { networkId, searchTerm, activeOnly, popularSort, fiatCurrency },
   { dataSources }
 ) {
   await localStore(dataSources, networkId).dataReady
-  let validators = Object.values(localStore(dataSources, networkId).validators)
+  let validators = []
+  const dataSource = remoteFetch(dataSources, networkId)
+  if (fiatCurrency) {
+    validators = dataSource.getAllValidators(
+      dataSource.blockHeight,
+      fiatCurrency
+    )
+  } else {
+    validators = Object.values(localStore(dataSources, networkId).validators)
+  }
   if (activeOnly) {
     validators = validators.filter(({ status }) => status === 'ACTIVE')
   }

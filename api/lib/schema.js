@@ -540,6 +540,7 @@ const typeDefs = gql`
       searchTerm: String
       activeOnly: Boolean
       popularSort: Boolean
+      fiatCurrency: String
     ): [Validator]
     allDelegators(networkId: String!): [String]
     vote(networkId: String!, proposalId: String!, address: String!): Vote
