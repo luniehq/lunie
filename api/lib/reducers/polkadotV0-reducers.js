@@ -56,7 +56,7 @@ function blockReducer(
   }
 }
 
-function validatorReducer(network, validator) {
+function validatorReducer(network, validator, fiatValuesResponse) {
   return {
     id: validator.accountId,
     networkId: network.id,
@@ -89,7 +89,11 @@ function validatorReducer(network, validator) {
       ).toFixed(6) || 0,
     expectedReturns: validator.expectedReturns,
     nominations: validator.nominations,
-    popularity: validator.popularity
+    popularity: validator.popularity,
+    totalStakedAssets: {
+      ...fiatValuesResponse,
+      amount: fiatValuesResponse.amount.toFixed(2)
+    }
   }
 }
 

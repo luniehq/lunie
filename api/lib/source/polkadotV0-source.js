@@ -142,7 +142,7 @@ class polkadotAPI {
       : []
   }
 
-  async getAllValidators() {
+  async getAllValidators(blockHeight, fiatCurrency = 'USD') {
     const api = await this.getAPI()
 
     // Fetch all stash addresses for current session (including validators and intentions)
@@ -216,8 +216,23 @@ class polkadotAPI {
         validator.votingPower = 0
       }
     })
-    return allValidators.map((validator) =>
-      this.reducers.validatorReducer(this.network, validator)
+    return Promise.all(
+      allValidators.map(async (validator) => {
+        const fiatValuesResponse = await this.fiatValuesAPI.calculateFiatValues(
+          [
+            {
+              amount: validator.tokens,
+              denom: this.network.stakingDenom
+            }
+          ],
+          fiatCurrency
+        )
+        return this.reducers.validatorReducer(
+          this.network,
+          validator,
+          fiatValuesResponse[this.network.stakingDenom]
+        )
+      })
     )
   }
 
