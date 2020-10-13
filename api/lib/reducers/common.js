@@ -28,7 +28,7 @@ module.exports.getRanksForValidators = function getRanksForValidators(
     }))
 }
 
-module.exports.getAllValidatorsFeed = async function getAllValidatorsFeed(
+module.exports.getValidatorsFeed = async function getValidatorsFeed(
   validators,
   allValidatorsAddresses,
   networkList,

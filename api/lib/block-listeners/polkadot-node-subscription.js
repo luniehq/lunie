@@ -45,7 +45,7 @@ class PolkadotNodeSubscription extends BaseNodeSubscription {
         `\x1b[36mCurrent session index is ${block.sessionIndex}, fetching validators!\x1b[0m`
       )
       const [validators, era] = await Promise.all([
-        dataSource.getAllValidators(),
+        dataSource.getValidators(),
         this.store.polkadotRPC.query.staking.activeEra().then(async (era) => {
           return era.toJSON().index
         })

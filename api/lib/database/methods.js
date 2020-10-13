@@ -95,7 +95,7 @@ const getValidatorsInfo = ({ hasura_url, hasura_admin_key }) => (
   )
 }
 
-const getAllValidatorsProfiles = ({ hasura_url, hasura_admin_key }) => (
+const getValidatorsProfiles = ({ hasura_url, hasura_admin_key }) => (
   schema
 ) => async (addresses) => {
   return await read({
@@ -555,7 +555,7 @@ module.exports = {
   incrementValidatorViews,
   getValidatorsViews,
   getValidatorsInfo,
-  getAllValidatorsProfiles,
+  getValidatorsProfiles,
   getMaintenance,
   storeStatistics,
   storeNotification,

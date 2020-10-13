@@ -142,7 +142,7 @@ class polkadotAPI {
       : []
   }
 
-  async getAllValidators(blockHeight, fiatCurrency = 'USD') {
+  async getValidators(blockHeight, fiatCurrency = 'USD') {
     const api = await this.getAPI()
 
     // Fetch all stash addresses for current session (including validators and intentions)
@@ -179,7 +179,7 @@ class polkadotAPI {
     allValidatorsIdentity = JSON.parse(JSON.stringify(allValidatorsIdentity))
 
     // Get annualized validator rewards
-    const expectedReturns = await this.getAllValidatorsExpectedReturns()
+    const expectedReturns = await this.getValidatorsExpectedReturns()
 
     allValidators.forEach((validator) => {
       if (expectedReturns[validator.accountId.toString()]) {
@@ -293,7 +293,7 @@ class polkadotAPI {
   //
   // Annualized validator rewards
   //
-  async getAllValidatorsExpectedReturns() {
+  async getValidatorsExpectedReturns() {
     let expectedReturns = []
     let validatorEraPoints = []
     const api = await this.getAPI()

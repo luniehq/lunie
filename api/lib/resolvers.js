@@ -17,7 +17,7 @@ const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
 const { registerUser } = require('./accounts')
-const { getAllValidatorsFeed } = require('./reducers/common')
+const { getValidatorsFeed } = require('./reducers/common')
 
 const db = database(config)('')
 
@@ -55,7 +55,7 @@ async function validators(
   let validators = []
   const dataSource = remoteFetch(dataSources, networkId)
   if (fiatCurrency) {
-    validators = dataSource.getAllValidators(
+    validators = dataSource.getValidators(
       dataSource.blockHeight,
       fiatCurrency
     )
@@ -89,7 +89,7 @@ async function validator(
   await localStore(dataSources, networkId).dataReady
   if (getFeed) {
     const networkList = await db.getNetworks()
-    const validatorsWithFeed = await getAllValidatorsFeed(
+    const validatorsWithFeed = await getValidatorsFeed(
       Object.values(localStore(dataSources, networkId).validators),
       Object.keys(localStore(dataSources, networkId).validators),
       networkList,

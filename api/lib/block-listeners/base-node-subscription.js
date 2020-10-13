@@ -133,7 +133,7 @@ class BaseNodeSubscription {
   }
 
   async getValidators(block, dataSource) {
-    dataSource.getAllValidators(block.height).then((validators) => {
+    dataSource.getValidators(block.height).then((validators) => {
       this.store.update({
         validators: validators
       })
@@ -146,14 +146,14 @@ class BaseNodeSubscription {
   }
 
   async getValidatorsProfilesFromDB(allValidatorsAddresses) {
-    const allValidatorsProfiles = await this.db.getAllValidatorsProfiles(
+    const allValidatorsProfiles = await this.db.getValidatorsProfiles(
       allValidatorsAddresses,
       this.network.id
     )
     return keyBy(allValidatorsProfiles, `operator_address`)
   }
 
-  async getAllValidatorsProfiles(validators, dataSource) {
+  async getValidatorsProfiles(validators, dataSource) {
     validators = getRanksForValidators(validators)
     const allValidatorsAddresses = validators.map(
       ({ operatorAddress }) => operatorAddress
@@ -180,7 +180,7 @@ class BaseNodeSubscription {
   }
 
   async getValidatorProfiles(validators, dataSource) {
-    await this.getAllValidatorsProfiles(validators, dataSource).then(
+    await this.getValidatorsProfiles(validators, dataSource).then(
       (validatorsWithProfiles) => {
         this.store.update({
           validators: validatorsWithProfiles

@@ -142,7 +142,7 @@ class CosmosV0API extends RESTDataSource {
     }
   }
 
-  async getAllValidatorSets(height = 'latest') {
+  async getValidatorsets(height = 'latest') {
     const response = await this.query(`validatorsets/${height}`)
     return response
   }
@@ -181,7 +181,7 @@ class CosmosV0API extends RESTDataSource {
     ).amount
   }
 
-  async getAllValidators(height, fiatCurrency = 'USD') {
+  async getValidators(height, fiatCurrency = 'USD') {
     let [
       validators,
       annualProvision,
@@ -194,7 +194,7 @@ class CosmosV0API extends RESTDataSource {
         this.query(`staking/validators?status=unbonded`)
       ]).then((validatorGroups) => [].concat(...validatorGroups)),
       this.getAnnualProvision(),
-      this.getAllValidatorSets(height),
+      this.getValidatorsets(height),
       this.getSignedBlockWindow()
     ])
 
