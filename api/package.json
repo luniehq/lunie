@@ -1,6 +1,6 @@
 {
   "name": "api",
-  "version": "1.0.53",
+  "version": "1.0.54",
   "description": "GraphQL API for Lunie.io",
   "repository": {
     "type": "git",
@@ -58,7 +58,7 @@
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.2",
-    "simsala": "^0.0.21"
+    "simsala": "^0.0.23"
   },
   "resolutions": {
     "yargs-parser": ">=18.1.2",
