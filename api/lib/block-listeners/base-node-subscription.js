@@ -158,8 +158,7 @@ class BaseNodeSubscription {
       })
 
       this.store.update({
-        block,
-        height: block.height
+        block
       })
       publishBlockAdded(this.network.id, block)
 
@@ -168,12 +167,6 @@ class BaseNodeSubscription {
         await dataSource.newBlockHandler(block, this.store)
       }
 
-      dataSource.getAllValidators(block.height)
-      .then(validators => {
-        this.store.update({
-          validators: validators
-        })
-      })
       this.getValidators(block, dataSource)
 
       // For each transaction listed in a block we extract the relevant addresses. This is published to the network.
