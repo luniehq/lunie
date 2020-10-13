@@ -133,15 +133,13 @@ class BaseNodeSubscription {
   }
 
   async getValidators(block, dataSource) {
-    dataSource.getValidators(block.height).then((validators) => {
-      this.store.update({
+    dataSource.getValidators(block.height).then(async (validators) => {
+      await this.store.update({
         validators: validators
       })
       const storeValidators = Object.values(this.store.validators)
-      if (storeValidators.length > 0) {
-        // now that we have validators in store start polling for validator profiles
-        this.pollForValidatorsProfiles(storeValidators)
-      }
+      // now that we have validators in store start polling for validator profiles
+      this.pollForValidatorsProfiles(storeValidators)
     })
   }
 
