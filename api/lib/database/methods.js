@@ -510,10 +510,9 @@ const getRewards = ({ hasura_url, hasura_admin_key }) => (schema) => async (
   return data
 }
 
-const getRewardsValidatorHeight = ({ hasura_url, hasura_admin_key }) => (schema) => async (
-  validatorAddress,
-  height
-) => {
+const getRewardsValidatorHeight = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (validatorAddress, height) => {
   const data = await read({
     hasura_url,
     hasura_admin_key

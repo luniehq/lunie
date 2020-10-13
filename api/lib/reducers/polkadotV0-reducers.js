@@ -201,7 +201,7 @@ async function transactionsReducerV2(
 ) {
   // Filter Polkadot tx to Lunie supported types
   let reducedTxs = []
-  for(let index = 0; index < extrinsics.length; index++) {
+  for (let index = 0; index < extrinsics.length; index++) {
     const extrinsic = extrinsics[index]
     reducedTxs.concat(
       await transactionReducerV2(
@@ -276,7 +276,7 @@ async function parsePolkadotTransaction(
       signer,
       message,
       index,
-      blockEvents,
+      blockEvents
     )
   }
 }
@@ -314,22 +314,24 @@ async function transactionReducerV2(
     isBatch ? extrinsic.method.args[0] : [extrinsic.method]
   )
   const success = reducers.getExtrinsicSuccess(index, blockEvents, isBatch)
-  const reducedTxs = await Promise.all(messages.map((message, messageIndex) =>
-    parsePolkadotTransaction(
-      hash,
-      message,
-      index,
-      messageIndex,
-      signer,
-      success,
-      network,
-      blockHeight,
-      reducers,
-      blockEvents,
-      isBatch,
-      db
+  const reducedTxs = await Promise.all(
+    messages.map((message, messageIndex) =>
+      parsePolkadotTransaction(
+        hash,
+        message,
+        index,
+        messageIndex,
+        signer,
+        success,
+        network,
+        blockHeight,
+        reducers,
+        blockEvents,
+        isBatch,
+        db
+      )
     )
-  ))
+  )
   console.log(`reducedTxs:`, JSON.stringify(reducedTxs, null, 2))
   return reducedTxs
 }
@@ -406,7 +408,7 @@ async function transactionDetailsReducer(
       break
     case lunieMessageTypes.CLAIM_REWARDS:
       details = await claimRewardsDetailsReducer(network, message, reducers, db)
-      break    
+      break
     default:
       details = {}
   }
@@ -452,10 +454,16 @@ function stakeDetailsReducer(network, message, reducers) {
 }
 
 async function claimRewardsDetailsReducer(network, message, reducers, db) {
-  const validator = message.args[0]
+  const validator = message.args[0].toString()
   const height = message.args[1]
   const dbRewards = await db.getRewardsValidatorHeight(validator, height)
-  console.log(`dbRewards:`, JSON.stringify(dbRewards, null, 2))
+  console.log(
+    `############# message:`,
+    JSON.stringify(message.toHuman(), null, 2)
+  )
+  console.log(`############# validator:`, validator)
+  console.log(`############# height:`, height)
+  console.log(`############# dbRewards:`, JSON.stringify(dbRewards, null, 2))
   return {
     amounts: [], // TODO
     from: [], // TODO
@@ -468,7 +476,7 @@ function extractInvolvedAddresses(
   signer,
   message,
   messageIndex,
-  blockEvents,
+  blockEvents
 ) {
   let involvedAddresses = []
   if (lunieTransactionType === lunieMessageTypes.SEND) {
@@ -478,10 +486,12 @@ function extractInvolvedAddresses(
   } else if (lunieTransactionType === lunieMessageTypes.CLAIM_REWARDS) {
     // we get all reward target addresses from block events
     involvedAddresses = blockEvents
-      .filter(({ phase, event}) => 
-        parseInt(phase.toHuman().ApplyExtrinsic) === messageIndex &&
+      .filter(
+        ({ phase, event }) =>
+          parseInt(phase.toHuman().ApplyExtrinsic) === messageIndex &&
           event.section === 'staking' &&
-          event.method === `Reward`)
+          event.method === `Reward`
+      )
       .map(({ event }) => event.toHuman().data[0])
       .concat([signer])
   } else {
