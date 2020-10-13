@@ -115,7 +115,6 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getBlockByHeightV2(blockHeight) {
-
     let block
     if (blockHeight) {
       block = await this.query(`${this.baseURL}/blocks/${blockHeight}`)
