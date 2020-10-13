@@ -16,8 +16,6 @@ const {
 const { keyBy } = require('lodash')
 const { getRanksForValidators } = require('../reducers/common')
 
-const db = database(config)('')
-
 const BLOCK_POLLING_INTERVAL = 5000
 const EXPECTED_MAX_BLOCK_WINDOW = 120000
 const VALIDATOR_PROFILE_POLLING_INTERVAL = 120000 // 2min
@@ -155,46 +153,10 @@ class BaseNodeSubscription {
     return keyBy(allValidatorsProfiles, `operator_address`)
   }
 
-  async getAllValidatorsFeed(
-    validators,
-    allValidatorsAddresses,
-    networkList,
-    dataSource
-  ) {
-    const allValidatorsFeed = await this.db.getAccountsNotifications(
-      allValidatorsAddresses,
-      this.network.id
-    )
-    return validators.map((validator) => {
-      const validatorFeed = allValidatorsFeed.filter(
-        ({ resourceId }) => resourceId === validator.operatorAddress
-      )
-      return {
-        ...validator,
-        feed:
-          validatorFeed && Array.isArray(validatorFeed)
-            ? validatorFeed.map((notification) =>
-                dataSource.reducers.notificationReducer(
-                  notification,
-                  networkList
-                )
-              )
-            : []
-      }
-    })
-  }
-
   async getAllValidatorsProfiles(validators, dataSource) {
-    const networkList = await db.getNetworks()
     validators = getRanksForValidators(validators)
     const allValidatorsAddresses = validators.map(
       ({ operatorAddress }) => operatorAddress
-    )
-    validators = await this.getAllValidatorsFeed(
-      validators,
-      allValidatorsAddresses,
-      networkList,
-      dataSource
     )
     const validatorProfilesDictionary = await this.getValidatorsProfilesFromDB(
       allValidatorsAddresses

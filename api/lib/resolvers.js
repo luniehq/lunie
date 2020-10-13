@@ -1,4 +1,4 @@
-const { sortBy } = require('lodash')
+const { sortBy, keyBy } = require('lodash')
 const { UserInputError, withFilter } = require('apollo-server')
 const {
   blockAdded,
@@ -17,6 +17,8 @@ const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
 const { registerUser } = require('./accounts')
+
+const db = database(config)('')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -41,6 +43,33 @@ function localStore(dataSources, networkId) {
       `The network with the ID '${networkId}' is not supported by the Lunie API`
     )
   }
+}
+
+async function getAllValidatorsFeed(
+  validators,
+  allValidatorsAddresses,
+  networkList,
+  dataSource,
+  network
+) {
+  const allValidatorsFeed = await dataSource.db.getAccountsNotifications(
+    allValidatorsAddresses,
+    network.id
+  )
+  return validators.map((validator) => {
+    const validatorFeed = allValidatorsFeed.filter(
+      ({ resourceId }) => resourceId === validator.operatorAddress
+    )
+    return {
+      ...validator,
+      feed:
+        validatorFeed && Array.isArray(validatorFeed)
+          ? validatorFeed.map((notification) =>
+              dataSource.reducers.notificationReducer(notification, networkList)
+            )
+          : []
+    }
+  })
 }
 
 async function validators(
@@ -78,8 +107,26 @@ async function validators(
   return validators
 }
 
-async function validator(_, { networkId, operatorAddress }, { dataSources }) {
+async function validator(
+  _,
+  { networkId, operatorAddress, getFeed },
+  { dataSources }
+) {
   await localStore(dataSources, networkId).dataReady
+  if (getFeed) {
+    const networkList = await db.getNetworks()
+    const validatorsWithFeed = await getAllValidatorsFeed(
+      Object.values(localStore(dataSources, networkId).validators),
+      Object.keys(localStore(dataSources, networkId).validators),
+      networkList,
+      remoteFetch(dataSources, networkId),
+      networkList.find(({ id }) => id === networkId)
+    )
+    localStore(dataSources, networkId).validators = keyBy(
+      validatorsWithFeed,
+      `operatorAddress`
+    )
+  }
   return localStore(dataSources, networkId).validators[operatorAddress]
 }
 

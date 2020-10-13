@@ -142,8 +142,9 @@ const typeDefs = gql`
     name: String
     picture: String
     popularity: Int
-    profile: ValidatorProfile
     totalStakedAssets: FiatValue
+    feed: [Notification]
+    profile: ValidatorProfile
   }
 
   type BlockV2 @cacheControl(maxAge: 10) {
@@ -522,7 +523,6 @@ const typeDefs = gql`
     uptimePercentage: String
     contributionLinks: [ContributionLink]
     network: Network
-    feed: [Notification]
   }
 
   input NotificationSetting {
@@ -546,7 +546,11 @@ const typeDefs = gql`
     vote(networkId: String!, proposalId: String!, address: String!): Vote
     governanceParameters(networkId: String!): GovernanceParameters
     governanceOverview(networkId: String!): GovernanceOverview
-    validator(networkId: String!, operatorAddress: String!): Validator
+    validator(
+      networkId: String!
+      operatorAddress: String!
+      getFeed: Boolean
+    ): Validator
     networks(experimental: Boolean): [Network]
     network(id: String): Network
     maintenance: [Maintenance]

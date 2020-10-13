@@ -122,8 +122,7 @@ function validatorProfileReducer(
       numberStakers,
       uptimePercentage: validator.uptimePercentage,
       contributionLinks: JSON.parse(validatorProfile.contributionLinks),
-      network,
-      feed: validator.feed
+      network
     }
   }
 }
