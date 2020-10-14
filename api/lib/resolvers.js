@@ -86,9 +86,10 @@ async function validator(
   await localStore(dataSources, networkId).dataReady
   if (getFeed) {
     const networkList = await db.getNetworks()
+    // get feed for this single validator
     const validatorsWithFeed = await getValidatorsFeed(
       Object.values(localStore(dataSources, networkId).validators),
-      Object.keys(localStore(dataSources, networkId).validators),
+      [operatorAddress],
       networkList,
       remoteFetch(dataSources, networkId),
       networkList.find(({ id }) => id === networkId)
