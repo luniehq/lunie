@@ -128,12 +128,10 @@ describe("Transaction Manager", () => {
         ],
         signatures: [
           {
-            account_number: 1,
             pub_key: {
               type: "tendermint/PubKeySecp256k1",
               value: "c3VwZXJwdWJrZXk=",
             },
-            sequence: 1,
             signature: "q80=",
           },
         ],

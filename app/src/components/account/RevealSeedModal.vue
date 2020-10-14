@@ -90,9 +90,7 @@
         >
           check
         </i>
-        <i class="material-icons notranslate copy-icon">
-          content_copy
-        </i>
+        <i class="material-icons notranslate copy-icon"> content_copy </i>
       </div>
     </div>
   </SessionFrame>

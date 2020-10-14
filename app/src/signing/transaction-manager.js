@@ -166,6 +166,7 @@ export default class TransactionManager {
       config // only needed for Ledger
     )
 
+    // TODO need to get the transaction types from db
     const { getSignableObject, getBroadcastableObject } = await import(
       `./networkMessages/${network.network_type}-transactions.js`
     )

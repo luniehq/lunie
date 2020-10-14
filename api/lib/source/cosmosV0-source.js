@@ -17,12 +17,12 @@ class CosmosV0API extends RESTDataSource {
     this.networkId = network.id
     this.delegatorBech32Prefix = network.address_prefix
     this.validatorConsensusBech32Prefix = `${network.address_prefix}valcons`
-    this.gasPrices = getNetworkGasPrices(network.id)
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
     this.db = db
 
     this.setReducers()
+    this.getNetworkGasPrices()
   }
 
   initialize(config) {
@@ -34,6 +34,10 @@ class CosmosV0API extends RESTDataSource {
 
   setReducers() {
     this.reducers = require('../reducers/cosmosV0-reducers')
+  }
+
+  async getNetworkGasPrices() {
+    this.gasPrices = await getNetworkGasPrices(this.network.id)
   }
 
   // hacky way to get error text
@@ -176,7 +180,8 @@ class CosmosV0API extends RESTDataSource {
     return this.reducers.delegationReducer(
       selfDelegation,
       validator,
-      delegationEnum.ACTIVE
+      delegationEnum.ACTIVE,
+      this.network
     ).amount
   }
 
@@ -416,7 +421,8 @@ class CosmosV0API extends RESTDataSource {
 
     return this.reducers.governanceParameterReducer(
       depositParameters,
-      tallyingParamers
+      tallyingParamers,
+      this.network
     )
   }
 
@@ -520,13 +526,17 @@ class CosmosV0API extends RESTDataSource {
       coins,
       fiatCurrency
     )
+    const gasPrices =
+      this.gasPrices || (await getNetworkGasPrices(this.network.id))
+    this.gasPrices = gasPrices
     return await Promise.all(
       coins.map((coin) => {
         return this.reducers.balanceReducer(
           coin,
-          this.gasPrices,
+          gasPrices,
           fiatValues[coin.denom],
-          fiatCurrency
+          fiatCurrency,
+          this.network
         )
       })
     )
@@ -602,16 +612,15 @@ class CosmosV0API extends RESTDataSource {
       (await this.query(`staking/delegators/${address}/delegations`)) || []
 
     return delegations
-      .filter((delegation) =>
-        BigNumber(delegation.balance).isGreaterThanOrEqualTo(1)
-      )
       .map((delegation) =>
         this.reducers.delegationReducer(
           delegation,
           this.store.validators[delegation.validator_address],
-          delegationEnum.ACTIVE
+          delegationEnum.ACTIVE,
+          this.network
         )
       )
+      .filter((delegation) => BigNumber(delegation.amount).gt(0))
   }
 
   async getUndelegationsForDelegatorAddress(address) {
@@ -647,18 +656,31 @@ class CosmosV0API extends RESTDataSource {
 
   async getDelegationForValidator(delegatorAddress, validator) {
     this.checkAddress(delegatorAddress)
+
     const operatorAddress = validator.operatorAddress
     const delegation = await this.query(
       `staking/delegators/${delegatorAddress}/delegations/${operatorAddress}`
-    ).catch(() => ({
-      validator_address: operatorAddress,
-      delegator_address: delegatorAddress,
-      shares: 0
-    }))
+    ).catch(() => {
+      const coinLookup = this.network.getCoinLookup(
+        this.network,
+        this.network.stakingDenom,
+        'viewDenom'
+      )
+      return {
+        validator_address: operatorAddress,
+        delegator_address: delegatorAddress,
+        shares: 0,
+        balance: {
+          amount: 0,
+          denom: coinLookup.chainDenom
+        }
+      }
+    })
     return this.reducers.delegationReducer(
       delegation,
       validator,
-      delegationEnum.ACTIVE
+      delegationEnum.ACTIVE,
+      this.network
     )
   }
 
