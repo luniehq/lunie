@@ -28,29 +28,23 @@ module.exports.getRanksForValidators = function getRanksForValidators(
     }))
 }
 
-module.exports.getValidatorsFeed = async function getValidatorsFeed(
-  validators,
-  allValidatorsAddresses,
+module.exports.getValidatorFeed = async function getValidatorFeed(
+  validator,
+  operatorAddress,
   networkList,
   dataSource,
   network
 ) {
-  const allValidatorsFeed = await dataSource.db.getAccountsNotifications(
-    allValidatorsAddresses,
+  const validatorFeed = await dataSource.db.getAccountNotifications(
+    operatorAddress,
     network.id
   )
-  return validators.map((validator) => {
-    const validatorFeed = allValidatorsFeed.filter(
-      ({ resourceId }) => resourceId === validator.operatorAddress
-    )
-    return {
-      ...validator,
-      feed:
-        validatorFeed && Array.isArray(validatorFeed)
-          ? validatorFeed.map((notification) =>
-              dataSource.reducers.notificationReducer(notification, networkList)
-            )
-          : []
-    }
-  })
+  return {
+    ...validator,
+    feed: validatorFeed
+      ? validatorFeed.map((notification) =>
+          dataSource.reducers.notificationReducer(notification, networkList)
+        )
+      : undefined
+  }
 }

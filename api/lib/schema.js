@@ -546,11 +546,7 @@ const typeDefs = gql`
     vote(networkId: String!, proposalId: String!, address: String!): Vote
     governanceParameters(networkId: String!): GovernanceParameters
     governanceOverview(networkId: String!): GovernanceOverview
-    validator(
-      networkId: String!
-      operatorAddress: String!
-      getFeed: Boolean
-    ): Validator
+    validator(networkId: String!, operatorAddress: String!): Validator
     networks(experimental: Boolean): [Network]
     network(id: String): Network
     maintenance: [Maintenance]

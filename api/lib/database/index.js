@@ -1,6 +1,6 @@
 const { insert, read, query } = require('./helpers')
 const {
-  getAccountsNotifications,
+  getAccountNotifications,
   getValidatorsInfo,
   getValidatorsProfiles,
   getMaintenance,
@@ -52,7 +52,7 @@ function database(dbConfig) {
       getMaintenance: getMaintenance(dbConfig)(schema),
       incrementValidatorViews: incrementValidatorViews(dbConfig)(schema),
       getValidatorsViews: getValidatorsViews(dbConfig)(schema),
-      getAccountsNotifications: getAccountsNotifications(dbConfig)(schema),
+      getAccountNotifications: getAccountNotifications(dbConfig)(schema),
       storeUser: storeUser(dbConfig)(schema),
       getUser: getUser(dbConfig)(schema),
       getSession: getSession(dbConfig)(schema),

@@ -17,7 +17,7 @@ const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
 const { registerUser } = require('./accounts')
-const { getValidatorsFeed } = require('./reducers/common')
+const { getValidatorFeed } = require('./reducers/common')
 
 const db = database(config)('')
 
@@ -78,27 +78,8 @@ async function validators(
   return validators
 }
 
-async function validator(
-  _,
-  { networkId, operatorAddress, getFeed },
-  { dataSources }
-) {
+async function validator(_, { networkId, operatorAddress }, { dataSources }) {
   await localStore(dataSources, networkId).dataReady
-  if (getFeed) {
-    const networkList = await db.getNetworks()
-    // get feed for this single validator
-    const validatorsWithFeed = await getValidatorsFeed(
-      Object.values(localStore(dataSources, networkId).validators),
-      [operatorAddress],
-      networkList,
-      remoteFetch(dataSources, networkId),
-      networkList.find(({ id }) => id === networkId)
-    )
-    localStore(dataSources, networkId).validators = keyBy(
-      validatorsWithFeed,
-      `operatorAddress`
-    )
-  }
   return localStore(dataSources, networkId).validators[operatorAddress]
 }
 
@@ -257,12 +238,22 @@ const resolvers = (networkList, notificationController) => ({
         validator
       )
     },
-    profile: (validator, _, { dataSources }) => {
-      return localStore(dataSources, validator.networkId).validators
-        ? localStore(dataSources, validator.networkId).validators[
-            validator.operatorAddress
-          ].profile
-        : undefined
+    profile: async (validator, _, { dataSources }) => {
+      const networkList = await db.getNetworks()
+      // get feed for this single validator
+      const validatorWithFeed = await getValidatorFeed(
+        validator,
+        validator.operatorAddress,
+        networkList,
+        remoteFetch(dataSources, validator.networkId),
+        networkList.find(({ id }) => id === validator.networkId)
+      )
+      localStore(dataSources, validator.networkId).validators[
+        validator.operatorAddress
+      ] = validatorWithFeed
+      return localStore(dataSources, validator.networkId).validators[
+        validator.operatorAddress
+      ].profile
     }
   },
   Query: {

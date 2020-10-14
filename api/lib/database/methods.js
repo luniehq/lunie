@@ -1,9 +1,9 @@
 const { read, insert, query } = require('./helpers')
 
-const getAccountsNotifications = ({
+const getAccountNotifications = ({
   hasura_url,
   hasura_admin_key
-}) => () => async (addresses, networkId) => {
+}) => () => async (address, networkId) => {
   return await read({
     hasura_url,
     hasura_admin_key
@@ -22,7 +22,7 @@ const getAccountsNotifications = ({
     ],
     `where: {
       networkId: {_eq: "${networkId}"},
-      resourceId: {_in: [${addresses.map((address) => `"${address}"`)}]},
+      resourceId: {_in: ["${address}"]},
     }, order_by: {created_at: desc}`
   )
 }
@@ -593,7 +593,7 @@ const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
 }
 
 module.exports = {
-  getAccountsNotifications,
+  getAccountNotifications,
   incrementValidatorViews,
   getValidatorsViews,
   getValidatorsInfo,
