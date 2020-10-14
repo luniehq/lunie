@@ -62,9 +62,7 @@
     <div v-if="!$apollo.loading && proposals.length === 0">
       <div>
         <TmDataMsg icon="gavel">
-          <div slot="title">
-            No Governance Proposals
-          </div>
+          <div slot="title">No Governance Proposals</div>
           <div slot="subtitle">
             There are currently no governance proposals to display. Click the
             'Create Proposal' button to submit the first network proposal!

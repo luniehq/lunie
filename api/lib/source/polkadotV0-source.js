@@ -1,8 +1,7 @@
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
-const { stringToU8a, hexToString } = require('@polkadot/util')
-const { encodeAddress } = require('@polkadot/keyring')
+const { stringToU8a, hexToString, hexToU8a } = require('@polkadot/util')
 const Sentry = require('@sentry/node')
 const {
   getPassingThreshold,
@@ -43,9 +42,7 @@ class polkadotAPI extends BaseRESTDataSource {
     if (this.store.identities[address]) return this.store.identities[address]
     // TODO: We are not handling sub-identities
     const accountInfo = !this.store.validators[address]
-      ? await this.query(
-          `${this.baseURL}/pallets/identity/storage/identityOf?key1=${address}`
-        )
+      ? await this.query(`pallets/identity/storage/identityOf?key1=${address}`)
       : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
       address,
@@ -65,30 +62,28 @@ class polkadotAPI extends BaseRESTDataSource {
   }
 
   async getDateForBlockHeight(blockHeight) {
-    const block = await this.query(`${this.baseURL}/blocks/${blockHeight}`)
+    const block = await this.query(`blocks/${blockHeight}`)
     return this.getBlockTime(block)
   }
 
   async getBlockHeight() {
-    const latestBlock = await this.query(
-      `${this.baseURL}/blocks/head?finalized=false`
-    )
+    const latestBlock = await this.query(`blocks/head?finalized=false`)
     return latestBlock.number
   }
 
   async getBlockByHeightV2(blockHeight) {
     let block
     if (blockHeight) {
-      block = await this.query(`${this.baseURL}/blocks/${blockHeight}`)
+      block = await this.query(`blocks/${blockHeight}`)
     } else {
-      block = await this.query(`${this.baseURL}/blocks/head?finalized=false`)
+      block = await this.query(`blocks/head?finalized=false`)
     }
     const currentIndex = await this.query(
-      `${this.baseURL}/pallets/session/storage/currentIndex`
+      `pallets/session/storage/currentIndex`
     )
     const sessionIndex = currentIndex.value
     const { value } = await this.query(
-      `${this.baseURL}/pallets/staking/storage/eraElectionStatus`
+      `pallets/staking/storage/eraElectionStatus`
     )
     const data = {
       isInElection: value.Close === null ? false : true
@@ -120,9 +115,7 @@ class polkadotAPI extends BaseRESTDataSource {
   }
 
   async getActiveEra() {
-    const activeEra = await this.query(
-      `${this.baseURL}/pallets/staking/storage/activeEra`
-    )
+    const activeEra = await this.query(`pallets/staking/storage/activeEra`)
     return activeEra.value.index
   }
 
@@ -142,7 +135,7 @@ class polkadotAPI extends BaseRESTDataSource {
 
     const [allStashAddresses, validatorAddresses] = await Promise.all([
       api.derive.staking.stashes(),
-      this.query(`${this.baseURL}/pallets/session/storage/validators`).then(
+      this.query(`pallets/session/storage/validators`).then(
         (result) => result.value
       )
     ])
@@ -223,9 +216,7 @@ class polkadotAPI extends BaseRESTDataSource {
   }
 
   async getBalancesFromAddress(address, fiatCurrency) {
-    const balanceInfo = await this.query(
-      `${this.baseURL}/accounts/${address}/balance-info`
-    )
+    const balanceInfo = await this.query(`accounts/${address}/balance-info`)
     const { free, reserved, feeFrozen } = balanceInfo
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
@@ -245,18 +236,14 @@ class polkadotAPI extends BaseRESTDataSource {
     // -> Locks (due to staking o voting) are set over free balance, they overlap rather than add
     // -> Reserved balance (due to identity set) can not be used for anything
     // See https://wiki.polkadot.network/docs/en/build-protocol-info#free-vs-reserved-vs-locked-vs-vesting-balance
-    const balanceInfo = await this.query(
-      `${this.baseURL}/accounts/${address}/balance-info`
-    )
+    const balanceInfo = await this.query(`accounts/${address}/balance-info`)
 
     // we need addressRole, as /accounts/:address/staking-info
     // query throws an error if address is not a stash
-    const addressRole = this.getAddressRole(address)
+    const addressRole = await this.getAddressRole(address)
     let stakedBalance
     if (addressRole === `stash` || addressRole === `stash/controller`) {
-      const stakingInfo = await this.query(
-        `${this.baseURL}/accounts/${address}/staking-info`
-      )
+      const stakingInfo = await this.query(`accounts/${address}/staking-info`)
       stakedBalance = stakingInfo.staking.active
     } else {
       stakedBalance = 0
@@ -295,13 +282,13 @@ class polkadotAPI extends BaseRESTDataSource {
 
     // Get last era reward
     const erasValidatorReward = await this.query(
-      `${this.baseURL}/pallets/staking/storage/erasValidatorReward?key1=${lastEra}`
+      `pallets/staking/storage/erasValidatorReward?key1=${lastEra}`
     )
     const eraRewards = erasValidatorReward.value
 
     // Get last era reward points
     const erasRewardPoints = await this.query(
-      `${this.baseURL}/pallets/staking/storage/erasRewardPoints?key1=${lastEra}`
+      `pallets/staking/storage/erasRewardPoints?key1=${lastEra}`
     )
     const individualEraPoints = erasRewardPoints.value.individual
     const totalEraPoints = erasRewardPoints.value.total
@@ -317,7 +304,7 @@ class polkadotAPI extends BaseRESTDataSource {
     const eraExposures = await Promise.all(
       endEraValidatorList.map((accountId) =>
         this.query(
-          `${this.baseURL}/pallets/staking/storage/erasStakers?key1=${lastEra}&key2=${accountId}`
+          `pallets/staking/storage/erasStakers?key1=${lastEra}&key2=${accountId}`
         ).then(({ value }) => {
           return { accountId, exposure: value }
         })
@@ -328,7 +315,7 @@ class polkadotAPI extends BaseRESTDataSource {
     const eraValidatorCommission = await Promise.all(
       endEraValidatorList.map((accountId) =>
         this.query(
-          `${this.baseURL}/pallets/staking/storage/erasValidatorPrefs?key1=${lastEra}&key2=${accountId}`
+          `pallets/staking/storage/erasValidatorPrefs?key1=${lastEra}&key2=${accountId}`
         ).then((preferences) => preferences.value)
       )
     )
@@ -379,9 +366,7 @@ class polkadotAPI extends BaseRESTDataSource {
     const allStakingLedgers = {}
     for (let i = 0; i < allValidators.length; i++) {
       const stashId = allValidators[i]
-      const { staking } = await this.query(
-        `${this.baseURL}/accounts/${stashId}/staking-info`
-      )
+      const { staking } = await this.query(`accounts/${stashId}/staking-info`)
       allStakingLedgers[stashId] = staking.claimedRewards
     }
     return allStakingLedgers
@@ -457,7 +442,7 @@ class polkadotAPI extends BaseRESTDataSource {
 
   async getAddressRole(address) {
     const bonded = await this.query(
-      `${this.baseURL}/pallets/staking/storage/bonded?key1=${address}`
+      `pallets/staking/storage/bonded?key1=${address}`
     )
     if (bonded.value && bonded.value === address) {
       return `stash/controller`
@@ -465,7 +450,7 @@ class polkadotAPI extends BaseRESTDataSource {
       return `stash`
     } else {
       const ledger = await this.query(
-        `${this.baseURL}/pallets/staking/storage/ledger?key1=${address}`
+        `pallets/staking/storage/ledger?key1=${address}`
       )
       if (ledger.value) {
         return `controller`
@@ -477,7 +462,7 @@ class polkadotAPI extends BaseRESTDataSource {
 
   async getStashAddress(address) {
     const ledger = await this.query(
-      `${this.baseURL}/pallets/staking/storage/ledger?key1=${address}`
+      `pallets/staking/storage/ledger?key1=${address}`
     )
     return ledger.value ? ledger.value.stash : address
   }
@@ -533,7 +518,7 @@ class polkadotAPI extends BaseRESTDataSource {
     delegatorAddress = await this.getStashAddress(delegatorAddress)
 
     const stakingInfo = await this.query(
-      `${this.baseURL}/pallets/staking/storage/nominators?key1=${delegatorAddress}`
+      `pallets/staking/storage/nominators?key1=${delegatorAddress}`
     )
     const allDelegations = stakingInfo.value ? stakingInfo.value.targets : []
     allDelegations
@@ -553,14 +538,12 @@ class polkadotAPI extends BaseRESTDataSource {
 
   async getUndelegationsForDelegatorAddress(address) {
     const stakingLedger = await this.query(
-      `${this.baseURL}/pallets/staking/storage/ledger?key1=${address}`
+      `pallets/staking/storage/ledger?key1=${address}`
     )
     if (!stakingLedger.value) {
       return []
     }
-    const stakingProgress = await this.query(
-      `${this.baseURL}/pallets/staking/progress`
-    )
+    const stakingProgress = await this.query(`pallets/staking/progress`)
     const blockHeight = this.getBlockHeight()
     const api = await this.getAPI() // only needed for constants
     const epochDuration = api.consts.babe.epochDuration
@@ -604,7 +587,7 @@ class polkadotAPI extends BaseRESTDataSource {
       // in Polkadot nominations are inactive in the beginning until session change
       // so we also need to check the user's inactive delegations
       const stakingInfo = await this.query(
-        `${this.baseURL}/pallets/staking/storage/nominators?key1=${delegatorAddress}`
+        `pallets/staking/storage/nominators?key1=${delegatorAddress}`
       )
       const allDelegations =
         (stakingInfo.value && stakingInfo.value.targets) || []
@@ -732,7 +715,7 @@ class polkadotAPI extends BaseRESTDataSource {
   async getReferendumThreshold(proposal) {
     const thresholdType = proposal.status.threshold
     const electorate = await this.query(
-      `${this.baseURL}/pallets/balances/storage/totalIssuance`
+      `pallets/balances/storage/totalIssuance`
     ).then(({ value }) => value)
     const ayeVotesWithoutConviction = proposal.allAye.reduce(
       (ayeAggregator, aye) => {
@@ -985,6 +968,8 @@ class polkadotAPI extends BaseRESTDataSource {
           value.startsWith('0x') &&
           !ethAddressRegexp.test(value)
             ? hexToString(value)
+            : typeof value === 'object' && value && value.callIndex
+            ? this.getProposalArguments(value, api)
             : value
         parameterDescription += `\n\n${
           key[0].toUpperCase() + key.substr(1)
@@ -992,6 +977,23 @@ class polkadotAPI extends BaseRESTDataSource {
       })
     }
     return parameterDescription
+  }
+
+  getProposalArguments(proposalArguments, api) {
+    const keys = Object.keys(proposalArguments)
+    let formattedArguments = {}
+    keys.forEach((key) => {
+      const value = proposalArguments[key]
+      if (key === `callIndex`) {
+        const { method, section } = api.registry.findMetaCall(hexToU8a(value))
+        formattedArguments[`function`] = method
+        formattedArguments[`module`] = section
+        formattedArguments[`index`] = value
+      } else {
+        formattedArguments[key] = value
+      }
+    })
+    return JSON.stringify(formattedArguments)
   }
 
   async getAllProposals() {
@@ -1007,13 +1009,13 @@ class polkadotAPI extends BaseRESTDataSource {
       electionInfo
     ] = await Promise.all([
       this.getBlockHeight(),
-      this.query(`${this.baseURL}/pallets/balances/storage/totalIssuance`).then(
+      this.query(`pallets/balances/storage/totalIssuance`).then(
         (result) => result.value
       ),
       api.derive.democracy.proposals(),
       api.derive.democracy.referendums(),
       api.derive.treasury.proposals(),
-      this.query(`${this.baseURL}/pallets/council/storage/members`).then(
+      this.query(`pallets/council/storage/members`).then(
         (result) => result.value
       ),
       api.derive.elections.info()
@@ -1098,7 +1100,7 @@ class polkadotAPI extends BaseRESTDataSource {
   async getTopVoters() {
     // in Substrate we simply return council members
     const members = await this.query(
-      `${this.baseURL}/pallets/electionsPhragmen/storage/members`
+      `pallets/electionsPhragmen/storage/members`
     ).then(({ value }) => value)
 
     return members.map(([member]) => member)
@@ -1111,7 +1113,7 @@ class polkadotAPI extends BaseRESTDataSource {
       this.network.prefix
     )
     const { free, miscFrozen } = await this.query(
-      `${this.baseURL}/accounts/${TREASURY_ADDRESS}/balance-info`
+      `accounts/${TREASURY_ADDRESS}/balance-info`
     )
     const freeBalance = BigNumber(free.toString()).minus(miscFrozen.toString())
     return freeBalance.toString()
@@ -1131,9 +1133,9 @@ class polkadotAPI extends BaseRESTDataSource {
       electionInfo
     ] = await Promise.all([
       this.query(
-        `${this.baseURL}/pallets/staking/storage/erasTotalStake?key1=${activeEra}`
+        `pallets/staking/storage/erasTotalStake?key1=${activeEra}`
       ).then((result) => result.value),
-      this.query(`${this.baseURL}/pallets/balances/storage/totalIssuance`).then(
+      this.query(`pallets/balances/storage/totalIssuance`).then(
         (result) => result.value
       ),
       this.getTreasurySize(),

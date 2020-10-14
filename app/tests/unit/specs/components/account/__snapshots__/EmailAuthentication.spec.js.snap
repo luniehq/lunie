@@ -8,9 +8,7 @@ exports[`EmailAuthentication should show the EmailAuthentication page 1`] = `
   <h2
     class="session-title"
   >
-    
-      Magic link success! 👍
-    
+    Magic link success! 👍
   </h2>
    
   <div

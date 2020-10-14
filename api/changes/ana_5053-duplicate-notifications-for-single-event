@@ -1,0 +1,1 @@
+[Changed] [#5053](https://github.com/cosmos/lunie/issues/5053) Send only one notification even when the notification originates from a multi-message transaction (avoid using involvedAddresses) @Bitcoinera

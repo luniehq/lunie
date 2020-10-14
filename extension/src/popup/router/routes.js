@@ -31,27 +31,32 @@ export default (store) => {
     {
       path: `/create`,
       name: `create`,
-      component: require('common/TmSessionSignUp').default
+      component: require('session/TmSessionSignUp').default
     },
     {
       path: `/create/password`,
       name: `create-password`,
-      component: require('common/TmSessionSignUpPassword').default
+      component: require('session/TmSessionSignUpPassword').default
     },
     {
       path: `/create/confirm`,
       name: `create-confirm`,
-      component: require('common/TmSessionSignUpSeed').default
+      component: require('session/TmSessionSignUpSeed').default
     },
     {
       path: `/recover`,
       name: `recover`,
-      component: require('common/TmSessionImport').default
+      component: require('session/TmSessionImport').default
     },
     {
       path: `/reveal/:address`,
       name: `reveal`,
       component: require('account/RevealSeedModal').default
+    },
+    {
+      path: `/delete/:networkId/:address`,
+      name: `delete`,
+      component: require('account/ForgetAccountModal').default
     },
     {
       path: `/select-network`,
@@ -71,12 +76,12 @@ export default (store) => {
     {
       path: `/recover/name`,
       name: `recover-name`,
-      component: require('common/TmSessionImportName').default
+      component: require('session/TmSessionImportName').default
     },
     {
       path: `/recover/password`,
       name: `recover-password`,
-      component: require('common/TmSessionImportPassword').default
+      component: require('session/TmSessionImportPassword').default
     },
     {
       path: `/approve`,

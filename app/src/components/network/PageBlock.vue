@@ -33,9 +33,7 @@
           </h3>
 
           <TmDataMsg v-if="block.transactions.length === 0" icon="info_outline">
-            <div slot="title">
-              No Transactions
-            </div>
+            <div slot="title">No Transactions</div>
             <div slot="subtitle">
               This block doesn't contain any transactions.
             </div>
