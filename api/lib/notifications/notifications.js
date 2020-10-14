@@ -212,7 +212,7 @@ const startNotificationService = (networks) => {
         topic,
         eventType: event.eventType,
         resourceType: event.resourceType,
-        resourceId: event.resourceId,
+        resourceId: String(event.resourceId),
         networkId: event.networkId,
         data: event.properties
       })
