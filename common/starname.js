@@ -23,14 +23,15 @@ export const resolveStarname = async (starname, networkId) => {
 
   if (result.error) throw new Error(result.error)
 
-  const address = result.result.account.resources.find(
-    ({ uri }) => uri === asset
-  )
+  let address = result.result.account.resources
+    ? result.result.account.resources.find(({ uri }) => uri === asset)
+    : undefined
+
   if (!address) throw new Error("Couldn't resolve starname " + starname)
   return address.resource
 }
 
 export const isStarname = (address) => {
-  const starnameRegexp = /^[a-z\-]*\*[a-z\-]+$/
+  const starnameRegexp = /^[a-z0-9\-]*\*[a-z0-9\-]+$/
   return starnameRegexp.test(address)
 }
