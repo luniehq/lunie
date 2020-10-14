@@ -444,7 +444,8 @@ const getMaintenance = ({ hasura_url, hasura_admin_key }) => (
     'linkCaption',
     'message',
     'show',
-    'type'
+    'type',
+    'networkId'
   ])
 }
 
