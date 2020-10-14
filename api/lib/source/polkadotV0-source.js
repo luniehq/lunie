@@ -81,9 +81,7 @@ class polkadotAPI extends RESTDataSource {
     if (this.store.identities[address]) return this.store.identities[address]
     // TODO: We are not handling sub-identities
     const accountInfo = !this.store.validators[address]
-      ? await this.query(
-          `pallets/identity/storage/identityOf?key1=${address}`
-        )
+      ? await this.query(`pallets/identity/storage/identityOf?key1=${address}`)
       : undefined
     this.store.identities[address] = this.reducers.networkAccountReducer(
       address,
@@ -108,9 +106,7 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getBlockHeight() {
-    const latestBlock = await this.query(
-      `blocks/head?finalized=false`
-    )
+    const latestBlock = await this.query(`blocks/head?finalized=false`)
     return latestBlock.number
   }
 
@@ -158,9 +154,7 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getActiveEra() {
-    const activeEra = await this.query(
-      `pallets/staking/storage/activeEra`
-    )
+    const activeEra = await this.query(`pallets/staking/storage/activeEra`)
     return activeEra.value.index
   }
 
@@ -261,9 +255,7 @@ class polkadotAPI extends RESTDataSource {
   }
 
   async getBalancesFromAddress(address, fiatCurrency) {
-    const balanceInfo = await this.query(
-      `accounts/${address}/balance-info`
-    )
+    const balanceInfo = await this.query(`accounts/${address}/balance-info`)
     const { free, reserved, feeFrozen } = balanceInfo
     const totalBalance = BigNumber(free).plus(BigNumber(reserved))
     const freeBalance = BigNumber(free).minus(feeFrozen)
@@ -283,18 +275,14 @@ class polkadotAPI extends RESTDataSource {
     // -> Locks (due to staking o voting) are set over free balance, they overlap rather than add
     // -> Reserved balance (due to identity set) can not be used for anything
     // See https://wiki.polkadot.network/docs/en/build-protocol-info#free-vs-reserved-vs-locked-vs-vesting-balance
-    const balanceInfo = await this.query(
-      `accounts/${address}/balance-info`
-    )
+    const balanceInfo = await this.query(`accounts/${address}/balance-info`)
 
     // we need addressRole, as /accounts/:address/staking-info
     // query throws an error if address is not a stash
     const addressRole = await this.getAddressRole(address)
     let stakedBalance
     if (addressRole === `stash` || addressRole === `stash/controller`) {
-      const stakingInfo = await this.query(
-        `accounts/${address}/staking-info`
-      )
+      const stakingInfo = await this.query(`accounts/${address}/staking-info`)
       stakedBalance = stakingInfo.staking.active
     } else {
       stakedBalance = 0
@@ -417,9 +405,7 @@ class polkadotAPI extends RESTDataSource {
     const allStakingLedgers = {}
     for (let i = 0; i < allValidators.length; i++) {
       const stashId = allValidators[i]
-      const { staking } = await this.query(
-        `accounts/${stashId}/staking-info`
-      )
+      const { staking } = await this.query(`accounts/${stashId}/staking-info`)
       allStakingLedgers[stashId] = staking.claimedRewards
     }
     return allStakingLedgers
@@ -596,9 +582,7 @@ class polkadotAPI extends RESTDataSource {
     if (!stakingLedger.value) {
       return []
     }
-    const stakingProgress = await this.query(
-      `pallets/staking/progress`
-    )
+    const stakingProgress = await this.query(`pallets/staking/progress`)
     const blockHeight = this.getBlockHeight()
     const api = await this.getAPI() // only needed for constants
     const epochDuration = api.consts.babe.epochDuration
