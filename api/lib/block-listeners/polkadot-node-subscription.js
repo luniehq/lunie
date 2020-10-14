@@ -40,9 +40,7 @@ class PolkadotNodeSubscription extends BaseNodeSubscription {
       )
       const [validators, era] = await Promise.all([
         dataSource.getAllValidators(),
-        this.store.polkadotRPC.query.staking.activeEra().then(async (era) => {
-          return era.toJSON().index
-        })
+        dataSource.getActiveEra()
       ])
       this.store.update({
         data: {
