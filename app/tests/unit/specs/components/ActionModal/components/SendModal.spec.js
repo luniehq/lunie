@@ -1,10 +1,12 @@
 import { shallowMount, createLocalVue } from "@vue/test-utils"
 import Vuelidate from "vuelidate"
 import SendModal from "src/ActionModal/components/SendModal"
+import AsyncComputed from "vue-async-computed"
 
 describe(`SendModal`, () => {
   const localVue = createLocalVue()
   localVue.use(Vuelidate)
+  localVue.use(AsyncComputed)
   localVue.directive(`focus`, () => {})
 
   let wrapper, $store
