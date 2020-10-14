@@ -26,7 +26,7 @@ jobs:
               git remote set-url origin https://${GIT_BOT_TOKEN}@github.com/luniehq/lunie.git &&
               git checkout master &&
               git pull &&
-              git merge --no-edit origin/develop &&
+              git merge origin/develop -X theirs &&
               git push;
             else
               echo "No release detected, so not publishing";
