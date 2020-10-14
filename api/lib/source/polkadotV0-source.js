@@ -2,6 +2,7 @@ const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
 const { stringToU8a, hexToString, hexToU8a } = require('@polkadot/util')
+const { encodeAddress } = require('@polkadot/util-crypto')
 const Sentry = require('@sentry/node')
 const {
   getPassingThreshold,
