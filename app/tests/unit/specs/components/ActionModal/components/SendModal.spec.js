@@ -78,6 +78,7 @@ describe(`SendModal`, () => {
   })
 
   it(`should display send modal form`, async () => {
+    await waitForTxDataLoaded(wrapper)
     expect(wrapper.element).toMatchSnapshot()
   })
 
@@ -105,6 +106,7 @@ describe(`SendModal`, () => {
       wrapper.vm.validateForm()
       await wrapper.vm.$nextTick()
       expect(wrapper.vm.$v.$error).toBe(true)
+      await waitForTxDataLoaded(wrapper)
       expect(wrapper.element).toMatchSnapshot()
     })
 
@@ -119,6 +121,7 @@ describe(`SendModal`, () => {
       const valid = wrapper.vm.validateForm()
       expect(valid).toBe(false)
       await wrapper.vm.$nextTick()
+      await waitForTxDataLoaded(wrapper)
       expect(wrapper.element).toMatchSnapshot()
     })
 
@@ -133,6 +136,7 @@ describe(`SendModal`, () => {
       const valid = wrapper.vm.validateForm()
       expect(valid).toBe(false)
       await wrapper.vm.$nextTick()
+      await waitForTxDataLoaded(wrapper)
       expect(wrapper.element).toMatchSnapshot()
     })
   })
@@ -184,11 +188,7 @@ describe(`SendModal`, () => {
       address: `cosmos12345`,
       amount: 2,
     })
-    // need to wait for transactionData to be resolved (very dirty solution)
-    while(wrapper.vm.$asyncComputed.transactionData.updating) {
-      await new Promise(resolve => setTimeout(resolve, 100))
-    }
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await waitForTxDataLoaded(wrapper)
     expect(wrapper.vm.transactionData).toEqual({
       type: "SendTx",
       amount: {
@@ -367,3 +367,11 @@ describe(`SendModal`, () => {
     })
   })
 })
+
+async function waitForTxDataLoaded(wrapper) {
+    // need to wait for transactionData to be resolved (very dirty solution)
+    while(wrapper.vm.$asyncComputed.transactionData.updating) {
+      await new Promise(resolve => setTimeout(resolve, 100))
+    }
+    await new Promise(resolve => setTimeout(resolve, 100))
+}
