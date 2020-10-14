@@ -81,7 +81,9 @@ export default () => {
           return wallet && wallet.cosmosAddress === address ? true : false
         })
       )
-      return foundCombination.find((combination) => !!combination) ? true : false
+      return foundCombination.find((combination) => !!combination)
+        ? true
+        : false
     },
     async createKey(
       store,
