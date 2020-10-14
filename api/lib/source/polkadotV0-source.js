@@ -1,5 +1,3 @@
-const { RESTDataSource, HTTPCache } = require('apollo-datasource-rest')
-const { InMemoryLRUCache } = require('apollo-server-caching')
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
 const { orderBy, uniqWith } = require('lodash')
@@ -10,17 +8,16 @@ const {
   getPassingThreshold,
   getFailingThreshold
 } = require('@polkassembly/util')
-const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
+const { fixDecimalsAndRoundUpBigNumbers, toViewDenom } = require('../../common/numbers.js')
+const { BaseRESTDataSource } = require('./BaseRESTDataSource.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
-const { toViewDenom } = require('../../common/numbers')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
-class polkadotAPI extends RESTDataSource {
+class polkadotAPI extends BaseRESTDataSource {
   constructor(network, store, fiatValuesAPI, db) {
     super()
     this.baseURL = network.api_url
-    this.initialize({})
     this.network = network
     this.networkId = network.id
     this.stakingViewDenom = network.coinLookup[0].viewDenom
@@ -30,44 +27,8 @@ class polkadotAPI extends RESTDataSource {
     this.db = db
   }
 
-  initialize(config) {
-    this.context = config.context
-    // manually set cache to checking it
-    this.cache = new InMemoryLRUCache()
-    this.httpCache = new HTTPCache(this.cache, this.httpFetch)
-  }
-
   setReducers() {
     this.reducers = require('../reducers/polkadotV0-reducers')
-  }
-
-  async getRetry(url, intent = 0) {
-    // check cache size, and flush it if it's bigger than something
-    if ((await this.cache.getTotalSize()) > 100000) {
-      await this.cache.flush()
-    }
-    // clearing memoizedResults
-    this.memoizedResults.clear()
-    try {
-      return await this.get(url, null, { cacheOptions: { ttl: 1 } }) // normally setting cacheOptions should be enought, but...
-    } catch (error) {
-      // give up
-      if (intent >= 3) {
-        console.error(
-          `Error for query ${url} in network ${this.networkId} (tried 3 times)`
-        )
-        throw error
-      }
-
-      // retry
-      await new Promise((resolve) => setTimeout(() => resolve(), 1000))
-      return this.getRetry(url, intent + 1)
-    }
-  }
-
-  // querying data from the sidecar REST API
-  async query(url) {
-    return this.getRetry(url)
   }
 
   // rpc initialization is async so we always need to assume we need to wait for it to be initialized
