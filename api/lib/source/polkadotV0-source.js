@@ -289,7 +289,7 @@ class polkadotAPI extends RESTDataSource {
 
     // we need addressRole, as /accounts/:address/staking-info
     // query throws an error if address is not a stash
-    const addressRole = this.getAddressRole(address)
+    const addressRole = await this.getAddressRole(address)
     let stakedBalance
     if (addressRole === `stash` || addressRole === `stash/controller`) {
       const stakingInfo = await this.query(
