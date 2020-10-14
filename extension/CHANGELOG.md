@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.42] - 2020-10-13
+
+### Added
+
+- [#4513](https://github.com/cosmos/lunie/issues/4513) Add "Forget Account" feature to AccountMenu @Bitcoinera
+
+### Changed
+
+- [#4771](https://github.com/cosmos/lunie/issues/4771) Remove hardcoded denomLookup @Bitcoinera
+- [#5011](https://github.com/cosmos/lunie/pull/5011) Update to polkadot/api-2.0.1 @Bitcoinera
+- [#5084](https://github.com/cosmos/lunie/pull/5084) Upgrate to polkadot/api-2.2.1 @Bitcoinera
+- [#5040](https://github.com/cosmos/lunie/pull/5040) Upgrade to polkadot/api-2.1.1 @Bitcoinera
+
+### Repository
+
+- [#5068](https://github.com/cosmos/lunie/pull/5068) Add the components/session folder @Bitcoinera
+
 ## [1.0.41] - 2020-09-25
 
 ### Added

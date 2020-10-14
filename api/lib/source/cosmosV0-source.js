@@ -17,12 +17,12 @@ class CosmosV0API extends RESTDataSource {
     this.networkId = network.id
     this.delegatorBech32Prefix = network.address_prefix
     this.validatorConsensusBech32Prefix = `${network.address_prefix}valcons`
-    this.gasPrices = getNetworkGasPrices(network.id)
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
     this.db = db
 
     this.setReducers()
+    this.getNetworkGasPrices()
   }
 
   initialize(config) {
@@ -34,6 +34,10 @@ class CosmosV0API extends RESTDataSource {
 
   setReducers() {
     this.reducers = require('../reducers/cosmosV0-reducers')
+  }
+
+  async getNetworkGasPrices() {
+    this.gasPrices = await getNetworkGasPrices(this.network.id)
   }
 
   // hacky way to get error text
@@ -548,11 +552,14 @@ class CosmosV0API extends RESTDataSource {
       coins,
       fiatCurrency
     )
+    const gasPrices =
+      this.gasPrices || (await getNetworkGasPrices(this.network.id))
+    this.gasPrices = gasPrices
     return await Promise.all(
       coins.map((coin) => {
         return this.reducers.balanceReducer(
           coin,
-          this.gasPrices,
+          gasPrices,
           fiatValues[coin.denom],
           fiatCurrency,
           this.network

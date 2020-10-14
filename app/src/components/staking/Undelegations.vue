@@ -13,9 +13,7 @@
       </div>
       <div v-else>
         <div class="header-container">
-          <h1>
-            Unstaking
-          </h1>
+          <h1>Unstaking</h1>
           <div class="buttons">
             <TmBtn
               v-if="currentNetwork.network_type === `polkadot`"

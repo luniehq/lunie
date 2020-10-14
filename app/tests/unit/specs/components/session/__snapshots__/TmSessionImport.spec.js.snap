@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionImport has the expected html structure 1`] = `
+<sessionframe-stub
+  icon="settings_backup_restore"
+>
+  <tmformstruct-stub
+    submit="function () { [native code] }"
+    width=""
+  >
+    <h2
+      class="session-title"
+    >
+      Recover with backup code
+    </h2>
+     
+    <div
+      class="session-main bottom-indent"
+    >
+      <steps-stub
+        activestep="Recover"
+        steps="Recover,Name,Password"
+      />
+       
+      <tmformgroup-stub
+        fieldid="import-seed"
+        fieldlabel="Backup code"
+      >
+        <fieldseed-stub
+          id="import-seed"
+          placeholder="Must be your seed phrase or private key hash"
+          value=""
+        />
+         
+        <!---->
+      </tmformgroup-stub>
+    </div>
+     
+    <div
+      class="session-footer"
+    >
+      <tmbtn-stub
+        customclass=""
+        type="submit"
+        value="Next"
+      />
+    </div>
+  </tmformstruct-stub>
+</sessionframe-stub>
+`;
