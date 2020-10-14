@@ -238,7 +238,14 @@ const resolvers = (networkList, notificationController) => ({
         validator
       )
     },
-    profile: async (validator, _, { dataSources }) => {
+    profile: (validator, _, { dataSources }) => {
+      return localStore(dataSources, validator.networkId).validators
+        ? localStore(dataSources, validator.networkId).validators[
+            validator.operatorAddress
+          ].profile
+        : undefined
+    },
+    feed: async (validator, _, { dataSources }) => {
       const networkList = await db.getNetworks()
       // get feed for this single validator
       const validatorWithFeed = await getValidatorFeed(
@@ -253,7 +260,7 @@ const resolvers = (networkList, notificationController) => ({
       ] = validatorWithFeed
       return localStore(dataSources, validator.networkId).validators[
         validator.operatorAddress
-      ].profile
+      ].feed
     }
   },
   Query: {
