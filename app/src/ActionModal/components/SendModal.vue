@@ -46,7 +46,7 @@
         type="custom"
         msg="doesn't have a format known by Lunie"
       />
-      <span class="memo-span" v-if="$asyncComputed.transactionData.updating">
+      <span v-if="$asyncComputed.transactionData.updating" class="memo-span">
         Getting address for Starname...
       </span>
       <TmFormMsg
@@ -55,7 +55,7 @@
         name="Starname"
         type="custom"
       />
-      <span class="memo-span" v-else>
+      <span v-else class="memo-span">
         Lunie supports <a href="https://starname.me/">IOV Starnames</a>
       </span>
     </TmFormGroup>

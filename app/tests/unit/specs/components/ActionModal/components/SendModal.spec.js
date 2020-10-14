@@ -369,9 +369,9 @@ describe(`SendModal`, () => {
 })
 
 async function waitForTxDataLoaded(wrapper) {
-    // need to wait for transactionData to be resolved (very dirty solution)
-    while(wrapper.vm.$asyncComputed.transactionData.updating) {
-      await new Promise(resolve => setTimeout(resolve, 100))
-    }
-    await new Promise(resolve => setTimeout(resolve, 100))
+  // need to wait for transactionData to be resolved (very dirty solution)
+  while (wrapper.vm.$asyncComputed.transactionData.updating) {
+    await new Promise((resolve) => setTimeout(resolve, 100))
+  }
+  await new Promise((resolve) => setTimeout(resolve, 100))
 }
