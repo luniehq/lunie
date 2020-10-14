@@ -1,0 +1,1 @@
+[Fixed] Proposal notifications would not be sotred for Cosmos chains as the ressource Id was not a string @faboweb
