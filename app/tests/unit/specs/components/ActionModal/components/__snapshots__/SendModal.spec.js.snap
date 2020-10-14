@@ -20,12 +20,24 @@ exports[`SendModal should display send modal form 1`] = `
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address or Starname"
       type="text"
       value=""
     />
      
     <!---->
+     
+    <span
+      class="memo-span"
+    >
+      
+      Lunie supports 
+      <a
+        href="https://starname.me/"
+      >
+        IOV Starnames
+      </a>
+    </span>
   </tmformgroup-stub>
    
   <tmformgroup-stub
@@ -100,6 +112,7 @@ exports[`SendModal should display send modal form 1`] = `
 exports[`SendModal validation should show address required error 1`] = `
 <actionmodal-stub
   amount="2"
+  disabled="true"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -119,7 +132,7 @@ exports[`SendModal validation should show address required error 1`] = `
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address or Starname"
       type="text"
       value=""
     />
@@ -129,6 +142,14 @@ exports[`SendModal validation should show address required error 1`] = `
       name="Address"
       type="required"
     />
+     
+    <span
+      class="memo-span"
+    >
+      
+      Getting address for Starname...
+    
+    </span>
   </tmformgroup-stub>
    
   <tmformgroup-stub
@@ -204,6 +225,7 @@ exports[`SendModal validation should show address required error 1`] = `
 exports[`SendModal validation should show an error if trying to send more then the max amount of tokens 1`] = `
 <actionmodal-stub
   amount="1000"
+  disabled="true"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -223,7 +245,7 @@ exports[`SendModal validation should show an error if trying to send more then t
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address or Starname"
       type="text"
       value="cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767"
     />
@@ -233,6 +255,14 @@ exports[`SendModal validation should show an error if trying to send more then t
       name="Address"
       type="custom"
     />
+     
+    <span
+      class="memo-span"
+    >
+      
+      Getting address for Starname...
+    
+    </span>
   </tmformgroup-stub>
    
   <tmformgroup-stub
@@ -308,6 +338,7 @@ exports[`SendModal validation should show an error if trying to send more then t
 exports[`SendModal validation should show bech32 error when address is not bech32 1`] = `
 <actionmodal-stub
   amount="2"
+  disabled="true"
   featureflag="send"
   id="send-modal"
   notifymessage="[object Object]"
@@ -327,7 +358,7 @@ exports[`SendModal validation should show bech32 error when address is not bech3
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address or Starname"
       type="text"
       value="cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767"
     />
@@ -337,6 +368,14 @@ exports[`SendModal validation should show bech32 error when address is not bech3
       name="Address"
       type="custom"
     />
+     
+    <span
+      class="memo-span"
+    >
+      
+      Getting address for Starname...
+    
+    </span>
   </tmformgroup-stub>
    
   <tmformgroup-stub

@@ -176,7 +176,7 @@ describe(`SendModal`, () => {
     ).toBe(false)
   })
 
-  it("should return transaction data in correct form", () => {
+  it("should return transaction data in correct form", async () => {
     wrapper.setProps({
       denom: `STAKE`,
     })
@@ -184,6 +184,11 @@ describe(`SendModal`, () => {
       address: `cosmos12345`,
       amount: 2,
     })
+    // need to wait for transactionData to be resolved (very dirty solution)
+    while(wrapper.vm.$asyncComputed.transactionData.updating) {
+      await new Promise(resolve => setTimeout(resolve, 100))
+    }
+    await new Promise(resolve => setTimeout(resolve, 100))
     expect(wrapper.vm.transactionData).toEqual({
       type: "SendTx",
       amount: {
