@@ -19,7 +19,6 @@ const { logRewards, logBalances } = require('./statistics')
 const { registerUser } = require('./accounts')
 const { getValidatorFeed } = require('./reducers/common')
 
-const db = database(config)('')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -246,7 +245,6 @@ const resolvers = (networkList, notificationController) => ({
         : undefined
     },
     feed: async (validator, _, { dataSources }) => {
-      const networkList = await db.getNetworks()
       // get feed for this single validator
       const validatorWithFeed = await getValidatorFeed(
         validator,
