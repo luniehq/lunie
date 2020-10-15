@@ -11,7 +11,6 @@ const {
 const { fixDecimalsAndRoundUpBigNumbers, toViewDenom } = require('../../common/numbers.js')
 const { BaseRESTDataSource } = require('./BaseRESTDataSource.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
-const { toViewDenom } = require('../../common/numbers')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
