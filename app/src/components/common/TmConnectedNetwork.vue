@@ -53,9 +53,7 @@
         >
           #{{ block.height | prettyInt }}
         </router-link>
-        <template v-else>
-          --
-        </template>
+        <template v-else> -- </template>
       </div>
     </div>
     <div

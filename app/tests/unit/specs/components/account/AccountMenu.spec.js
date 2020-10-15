@@ -8,6 +8,7 @@ describe(`AccountMenu`, () => {
     wrapper = shallowMount(AccountMenu, {
       props: {
         address: `cosmos1234`,
+        networkId: `cosmos-hub-mainnet`,
       },
       stubs: [`router-link`],
     })

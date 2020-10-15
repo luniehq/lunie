@@ -174,9 +174,7 @@ exports[`PageProposals shows a message if there is nothing to display 1`] = `
         iconcolor="var(--warning)"
       >
         <div>
-          
           No Governance Proposals
-        
         </div>
          
         <div>

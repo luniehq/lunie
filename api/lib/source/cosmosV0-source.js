@@ -1,39 +1,34 @@
-const { RESTDataSource, HTTPCache } = require('apollo-datasource-rest')
-const { InMemoryLRUCache } = require('apollo-server-caching')
 const BigNumber = require('bignumber.js')
 const _ = require('lodash')
 const { encodeB32, decodeB32, pubkeyToAddress } = require('../tools')
 const { UserInputError } = require('apollo-server')
 const { getNetworkGasPrices } = require('../../data/network-fees')
 const { fixDecimalsAndRoundUpBigNumbers } = require('../../common/numbers.js')
+const { BaseRESTDataSource } = require('./BaseRESTDataSource.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
-class CosmosV0API extends RESTDataSource {
+class CosmosV0API extends BaseRESTDataSource {
   constructor(network, store, fiatValuesAPI, db) {
     super()
     this.baseURL = network.api_url
-    this.initialize({})
     this.network = network
     this.networkId = network.id
     this.delegatorBech32Prefix = network.address_prefix
     this.validatorConsensusBech32Prefix = `${network.address_prefix}valcons`
-    this.gasPrices = getNetworkGasPrices(network.id)
     this.store = store
     this.fiatValuesAPI = fiatValuesAPI
     this.db = db
 
     this.setReducers()
-  }
-
-  initialize(config) {
-    this.context = config.context
-    // manually set cache to checking it
-    this.cache = new InMemoryLRUCache()
-    this.httpCache = new HTTPCache(this.cache, this.httpFetch)
+    this.getNetworkGasPrices()
   }
 
   setReducers() {
     this.reducers = require('../reducers/cosmosV0-reducers')
+  }
+
+  async getNetworkGasPrices() {
+    this.gasPrices = await getNetworkGasPrices(this.network.id)
   }
 
   // hacky way to get error text
@@ -43,37 +38,6 @@ class CosmosV0API extends RESTDataSource {
     } catch (error) {
       return error.extensions.response.body.error
     }
-  }
-
-  async getRetry(url, intent = 0) {
-    // check cache size, and flush it if it's bigger than something
-    if ((await this.cache.getTotalSize()) > 100000) {
-      await this.cache.flush()
-    }
-    // clearing memoizedResults
-    this.memoizedResults.clear()
-    try {
-      return await this.get(url, null, { cacheOptions: { ttl: 1 } }) // normally setting cacheOptions should be enought, but...
-    } catch (error) {
-      // give up
-      if (intent >= 3) {
-        console.error(
-          `Error for query ${url} in network ${this.networkId} (tried 3 times)`
-        )
-        throw error
-      }
-
-      // retry
-      await new Promise((resolve) => setTimeout(() => resolve(), 1000))
-      return this.getRetry(url, intent + 1)
-    }
-  }
-
-  // querying data from the cosmos REST API
-  // is overwritten in cosmos v2 to extract from a differnt result format
-  // some endpoints /blocks and /txs have a different response format so they use this.get directly
-  async query(url) {
-    return this.getRetry(url)
   }
 
   async getSignedBlockWindow() {
@@ -522,11 +486,14 @@ class CosmosV0API extends RESTDataSource {
       coins,
       fiatCurrency
     )
+    const gasPrices =
+      this.gasPrices || (await getNetworkGasPrices(this.network.id))
+    this.gasPrices = gasPrices
     return await Promise.all(
       coins.map((coin) => {
         return this.reducers.balanceReducer(
           coin,
-          this.gasPrices,
+          gasPrices,
           fiatValues[coin.denom],
           fiatCurrency,
           this.network

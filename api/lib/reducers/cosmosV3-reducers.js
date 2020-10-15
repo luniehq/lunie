@@ -161,7 +161,14 @@ function transactionReducerV2(network, transaction, reducers) {
             ? transaction.logs[index].log || transaction.logs[0] // failing txs show the first logs
             : transaction.logs[0].log || ''
           : JSON.parse(JSON.stringify(transaction.raw_log)).message,
-      involvedAddresses: uniq(reducers.extractInvolvedAddresses(transaction))
+      involvedAddresses: Array.isArray(transaction.logs)
+        ? uniq(
+            reducers.extractInvolvedAddresses(
+              transaction.logs.find(({ msg_index }) => msg_index === index)
+                .events
+            )
+          )
+        : []
     }))
     return returnedMessages
   } catch (error) {
@@ -180,35 +187,6 @@ function setTransactionSuccess(transaction, index) {
     return false
   }
   return true
-}
-
-function extractInvolvedAddresses(transaction) {
-  const events = transaction.logs
-    ? transaction.logs.reduce(
-        (events, log) => (log.events ? events.concat(log.events) : events),
-        []
-      )
-    : []
-
-  // extract all addresses from events that are either sender or recipient
-  const involvedAddresses = events.reduce((involvedAddresses, event) => {
-    const senderAttributes = event.attributes
-      .filter(({ key }) => key === 'sender')
-      .map((sender) => sender.value)
-    if (senderAttributes.length) {
-      involvedAddresses = [...involvedAddresses, ...senderAttributes]
-    }
-
-    const recipientAttribute = event.attributes.find(
-      ({ key }) => key === 'recipient'
-    )
-    if (recipientAttribute) {
-      involvedAddresses.push(recipientAttribute.value)
-    }
-
-    return involvedAddresses
-  }, [])
-  return involvedAddresses
 }
 
 function undelegationEndTimeReducer(transaction) {
@@ -236,6 +214,5 @@ module.exports = {
   delegationReducer,
   transactionReducerV2,
   undelegationEndTimeReducer,
-  extractInvolvedAddresses,
   setTransactionSuccess
 }
