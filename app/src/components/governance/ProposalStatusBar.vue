@@ -143,16 +143,26 @@ export default {
       return this.proposal.detailedVotes.percentageDepositsNeeded
     },
     percentageYes() {
-      return Number(this.proposal.tally.yes) / Number(this.proposal.tally.total) || 0
+      return (
+        Number(this.proposal.tally.yes) / Number(this.proposal.tally.total) || 0
+      )
     },
     percentageNo() {
-      return Number(this.proposal.tally.no) / Number(this.proposal.tally.total) || 0
+      return (
+        Number(this.proposal.tally.no) / Number(this.proposal.tally.total) || 0
+      )
     },
     percentageVeto() {
-      return Number(this.proposal.tally.veto) / Number(this.proposal.tally.total) || 0
+      return (
+        Number(this.proposal.tally.veto) / Number(this.proposal.tally.total) ||
+        0
+      )
     },
     percentageAbstain() {
-      return Number(this.proposal.tally.abstain) / Number(this.proposal.tally.total) || 0
+      return (
+        Number(this.proposal.tally.abstain) /
+          Number(this.proposal.tally.total) || 0
+      )
     },
   },
 }
