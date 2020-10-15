@@ -31,10 +31,6 @@
           <span>{{ votePercentage | percentInt }} of {{ stakingDenom }}</span>
           <span v-if="voteCount">({{ voteCount }} Votes)</span>
         </div>
-        <div v-if="proposal.type === governanceStatusEnum.TREASURY" class="vote-data">
-          <span>Threshold:</span>
-          <span>{{ proposal.detailedVotes.votingThresholdYes }} Votes</span>
-        </div>
       </div>
       <ProgressBar
         size="large"
