@@ -16,7 +16,7 @@ env:
   VUE_APP_INTERCOM_ID: ${{ secrets.INTERCOM_ID_FE }}
   VUE_APP_FIREBASE_CONFIG: ${{ secrets.VUE_APP_FIREBASE_CONFIG }}
 jobs:
-  publish:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,7 +36,7 @@ jobs:
         id: deploy
         with:
           alias: staging
-          publish-dir: './app/dist'
+          deploy-dir: './app/dist'
           github-token: ${{ secrets.GIT_BOT_TOKEN }}
           deploy-message: "Deployed via GitHub Actions"
           enable-pull-request-comment: true
