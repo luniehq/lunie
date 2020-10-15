@@ -2,12 +2,12 @@ const { RESTDataSource, HTTPCache } = require('apollo-datasource-rest')
 const { InMemoryLRUCache } = require('apollo-server-caching')
 
 module.exports.BaseRESTDataSource = class BaseRESTDataSource extends RESTDataSource {
-    constructor() {
-        super()
-        // manually set cache to checking it
-        this.cache = new InMemoryLRUCache()
-        this.httpCache = new HTTPCache(this.cache, this.httpFetch)
-    }
+  constructor() {
+    super()
+    // manually set cache to checking it
+    this.cache = new InMemoryLRUCache()
+    this.httpCache = new HTTPCache(this.cache, this.httpFetch)
+  }
 
   async getRetry(url, intent = 0) {
     // check cache size, and flush it if it's bigger than something
