@@ -56,7 +56,7 @@
         type="custom"
       />
       <span v-else class="memo-span">
-        Lunie supports <a href="https://starname.me/">IOV Starnames</a>
+        Lunie supports <a href="https://starname.me/" target="_blank">IOV Starnames</a>
       </span>
     </TmFormGroup>
     <TmFormGroup
