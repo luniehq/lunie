@@ -1001,7 +1001,7 @@ class polkadotAPI extends BaseRESTDataSource {
   }
 
   async getAllProposals() {
-    if (this.network.feature_proposals === 'DISABLED') {
+    if (this.network.feature_proposals !== 'ENABLED') {
       return []
     }
     const api = await this.getAPI()
