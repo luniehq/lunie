@@ -8,7 +8,7 @@ on:
       - 'api/**'
 env:
   WORKING_DIRECTORY: ./api
-  HASURA_URL: "https://staging-db.lunie.io/v1/graphql"
+  HASURA_URL: "http://178.128.234.2:8080/v1/graphql"
   HASURA_ADMIN_KEY: ${{ secrets.LUNIE_STAGING_DB_KEY }}
   SENTRY_DSN: ${{ secrets.SENTRY_DSN_API_STAGING }}
   SCRIPT_RUNNER_ENDPOINT: ${{ secrets.SCRIPT_RUNNER_ENDPOINT }}
