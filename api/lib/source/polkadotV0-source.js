@@ -8,7 +8,10 @@ const {
   getPassingThreshold,
   getFailingThreshold
 } = require('@polkassembly/util')
-const { fixDecimalsAndRoundUpBigNumbers, toViewDenom } = require('../../common/numbers.js')
+const {
+  fixDecimalsAndRoundUpBigNumbers,
+  toViewDenom
+} = require('../../common/numbers.js')
 const { BaseRESTDataSource } = require('./BaseRESTDataSource.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
@@ -998,8 +1001,10 @@ class polkadotAPI extends BaseRESTDataSource {
   }
 
   async getAllProposals() {
+    if (this.network.feature_proposals !== 'ENABLED') {
+      return []
+    }
     const api = await this.getAPI()
-
     const [
       blockHeight,
       totalIssuance,
