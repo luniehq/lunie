@@ -12,6 +12,7 @@ const {
   getPushLink,
   getIcon
 } = require('../notifications/notifications')
+const { hexToString } = require('@polkadot/util')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
 
@@ -241,24 +242,11 @@ function undelegationReducer(undelegation, address, network) {
   }
 }
 
-function transactionsReducerV2(
-  network,
-  extrinsics,
-  blockEvents,
-  blockHeight,
-  reducers
-) {
+function transactionsReducerV2(network, extrinsics, blockHeight, reducers) {
   // Filter Polkadot tx to Lunie supported types
-  return extrinsics.reduce((collection, extrinsic, index) => {
+  return extrinsics.reduce((collection, extrinsic) => {
     return collection.concat(
-      transactionReducerV2(
-        network,
-        extrinsic,
-        index,
-        blockEvents,
-        blockHeight,
-        reducers
-      )
+      transactionReducerV2(network, extrinsic, blockHeight, reducers)
     )
   }, [])
 }
@@ -267,6 +255,8 @@ function transactionsReducerV2(
 function getMessageType(section, method) {
   switch (`${section}.${method}`) {
     case 'balances.transfer':
+      return lunieMessageTypes.SEND
+    case 'balances.transferKeepAlive':
       return lunieMessageTypes.SEND
     case 'lunie.staking':
       return lunieMessageTypes.STAKE
@@ -317,38 +307,31 @@ function parsePolkadotTransaction(
   }
 }
 
-function getExtrinsicSuccess(extrinsicIndex, blockEvents, isBatch) {
-  const events = blockEvents.filter(({ phase }) => {
-    return parseInt(phase.toHuman().ApplyExtrinsic) === extrinsicIndex // index is a string
-  })
+function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
+  const hash = extrinsic.hash
+  const signer = extrinsic.signature === null ? '' : extrinsic.signature.signer
+  const isBatch =
+    extrinsic.method.pallet === `utility` && extrinsic.method.method === `batch`
+  const messages = aggregateLunieStaking(
+    isBatch ? extrinsic.args.calls : [extrinsic]
+  )
+
   // if tx is a batch, we need to check if all of the batched txs went through
+  let success
   if (isBatch) {
-    return !!events.find(
-      ({ event }) =>
-        event.section === `utility` && event.method === `BatchCompleted`
+    success = !!extrinsic.events.find(
+      (event) =>
+        event.method.pallet === `utility` &&
+        event.method.method === `BatchCompleted`
+    )
+  } else {
+    success = !!extrinsic.events.find(
+      (event) =>
+        event.method.pallet === `system` &&
+        event.method.method === `ExtrinsicSuccess`
     )
   }
-  return !!events.find(
-    ({ event }) =>
-      event.section === `system` && event.method === `ExtrinsicSuccess`
-  )
-}
 
-function transactionReducerV2(
-  network,
-  extrinsic,
-  index,
-  blockEvents,
-  blockHeight,
-  reducers
-) {
-  const hash = extrinsic.hash.toHex()
-  const signer = extrinsic.signer.toString()
-  const isBatch = extrinsic.method.meta.name.toString() === `batch`
-  const messages = aggregateLunieStaking(
-    isBatch ? extrinsic.method.args[0] : [extrinsic.method]
-  )
-  const success = reducers.getExtrinsicSuccess(index, blockEvents, isBatch)
   return messages.map((message, messageIndex) =>
     parsePolkadotTransaction(
       hash,
@@ -379,8 +362,8 @@ function aggregateLunieStaking(messages) {
   let reducedMessages = []
   messages.forEach((current) => {
     if (
-      current.toHuman().section === 'staking' &&
-      current.toHuman().method === 'bond'
+      current.method.pallet === 'staking' &&
+      current.method.method === 'bond'
     ) {
       aggregatedLunieStaking.amount =
         aggregatedLunieStaking.amount + current.args.value
@@ -388,8 +371,8 @@ function aggregateLunieStaking(messages) {
     }
 
     if (
-      current.toHuman().section === 'staking' &&
-      current.toHuman().method === 'bondExtra'
+      current.method.pallet === 'staking' &&
+      current.method.method === 'bondExtra'
     ) {
       aggregatedLunieStaking.amount =
         aggregatedLunieStaking.amount + current.args.max_additional
@@ -397,18 +380,18 @@ function aggregateLunieStaking(messages) {
     }
 
     if (
-      current.toHuman().section === 'staking' &&
-      current.toHuman().method === 'nominate'
+      current.method.pallet === 'staking' &&
+      current.method.method === 'nominate'
     ) {
       aggregatedLunieStaking.validators = aggregatedLunieStaking.validators.concat(
-        current.args[0].toHuman()
+        current.args.targets
       )
       hasNominate = true
     }
     reducedMessages.push({
-      section: current.toHuman().section,
-      method: current.toHuman().method,
-      args: JSON.parse(JSON.stringify(current.args, null, 2))
+      section: current.method.pallet,
+      method: current.method.method,
+      args: current.args
     })
   })
   return hasBond && hasNominate
@@ -463,8 +446,8 @@ function coinReducer(network, amount, decimals = 6) {
 function sendDetailsReducer(network, message, signer, reducers) {
   return {
     from: [signer],
-    to: [message.args[0]],
-    amount: reducers.coinReducer(network, message.args[1])
+    to: [message.args.dest],
+    amount: reducers.coinReducer(network, message.args.value)
   }
 }
 
@@ -479,7 +462,7 @@ function stakeDetailsReducer(network, message, reducers) {
 function extractInvolvedAddresses(lunieTransactionType, signer, message) {
   let involvedAddresses = []
   if (lunieTransactionType === lunieMessageTypes.SEND) {
-    involvedAddresses = involvedAddresses.concat([signer, message.args[0]])
+    involvedAddresses = involvedAddresses.concat([signer, message.args.dest])
   } else if (lunieTransactionType === lunieMessageTypes.STAKE) {
     involvedAddresses = involvedAddresses.concat([signer], message.validators)
   } else {
@@ -577,12 +560,9 @@ function networkAccountReducer(address, account, store) {
     }
   }
   return {
-    name:
-      account && account.identity && account.identity.display
-        ? account.identity.display
-        : '',
+    name: account.value ? hexToString(account.value.info.display.Raw) : '',
     address,
-    picture: account ? account.twitter : ''
+    picture: '' // TODO: we need to get images from twitter account
   }
 }
 
@@ -762,8 +742,7 @@ function topVoterReducer(
   network
 ) {
   const councilMemberInfo = electionInfo.members.find(
-    (electionInfoMember) =>
-      electionInfoMember[0].toHuman() === topVoterAddress.toHuman()
+    (electionInfoMember) => electionInfoMember[0].toHuman() === topVoterAddress
   )
   return {
     name: accountInfo.name,
@@ -807,7 +786,6 @@ module.exports = {
   dbRewardsReducer,
   depositReducer,
   networkAccountReducer,
-  getExtrinsicSuccess,
   identityReducer,
   democracyProposalReducer,
   democracyReferendumReducer,

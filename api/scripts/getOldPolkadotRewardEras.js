@@ -265,121 +265,126 @@ async function getMissingEras(lastStoredEra, currentEra) {
 }
 
 async function main() {
+  try {
 
-  // get previously stored data
-  let {
-    storedEraPoints,
-    storedEraPreferences,
-    storedEraRewards,
-    storedExposures,
-    lastStoredEra
-  } = loadStoredEraData(networkId)
-
-  if (currentEra && currentEra <= lastStoredEra) {
-    console.log('Rewards for this era are already stored')
-    process.exit(0)
-  }
-
-  console.log("Getting rewards from era:", currentEra || 'latest')
-
-  const networks = await database(config)("").getNetworks()
-  const network = networks.find(({ id }) => id === networkId)
-  const PolkadotApiClass = require('../lib/' + network.source_class_name)
-  const store = {}
-  await initPolkadotRPC(network, store)
-  let api = store.polkadotRPC
-  const polkadotAPI = new PolkadotApiClass(network, store)
-
-  if (!currentEra) {
-    const activeEra = parseInt(
-      JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
-    )
-    const lastEra = activeEra - 1
-    currentEra = lastEra
-  }
-
-  const validators = await polkadotAPI.getValidators()
-  store.validators = _.keyBy(validators, 'operatorAddress')
-  const delegators = await polkadotAPI.getAllDelegators()
-  console.log(`Querying rewards for ${delegators.length} delegators.`)
-
-  const { minDesiredEra, missingEras, maxDesiredEra } = await getMissingEras(
-    lastStoredEra,
-    currentEra
-  )
-  console.log({ minDesiredEra, missingEras, maxDesiredEra })
-
-  const [eraPoints, eraPreferences, eraRewards, exposures] = await loadEraData(
-    missingEras,
-    api
-  )
-
-  // disconnect from the API WS
-  api.disconnect()
-
-  // filter out not needed data and stitch old and new data together
-  const newEraData = cropEraData(
-    minDesiredEra,
-    [storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures],
-    [eraPoints, eraPreferences, eraRewards, exposures]
-  )
-
-  // store data to only load missing data the next run
-  storeEraData(networkId, newEraData)
-
-  // calculate the actual rewards from the inputs
-  console.time('calculating rewards')
-  const polkadotRewards = [].concat(
-    ...delegators.map(delegator =>
-      getRewardsForDelegator(delegator, ...newEraData)
-    )
-  )
-
-  console.timeEnd('calculating rewards')
-
-  // parse to lunie format
-  console.time('parsing lunie rewards')
-  const lunieRewards = polkadotAPI.reducers.rewardsReducer(
-    network,
-    validators,
-    polkadotRewards,
-    polkadotAPI.reducers
-  )
-  console.timeEnd('parsing lunie rewards')
-
-  // store
-  const storableRewards = _.uniqBy(lunieRewards
-    ? lunieRewards.filter(({ amount }) => amount > 0)
-    : [], reward => `${reward.address}_${reward.validatorAddress}_${reward.height}_${reward.chain_id}`) // HACK somehow we get some rewards twice which causes the insert to fail 
-
-  if (storableRewards.length === 0) {
-    const error = `No storable rewards for era ${maxDesiredEra}`
-    console.error(`Error: ${error}`)
-    Sentry.captureException({ error })
-  } else {
-    console.log(
-      `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
-    )
-    const rewardChunks = _.chunk(storableRewards, 1000)
-    for (let i = 0; i < rewardChunks.length; i++) {
-      const res = await storeRewards(
-        rewardChunks[i].map(reward => ({
-          amount: reward.amount,
-          height: reward.height,
-          denom: reward.denom,
-          address: reward.address,
-          validator: reward.validatorAddress
-        })),
-        network.chain_id
-      )
+    // get previously stored data
+    let {
+      storedEraPoints,
+      storedEraPreferences,
+      storedEraRewards,
+      storedExposures,
+      lastStoredEra
+    } = loadStoredEraData(networkId)
+  
+    if (currentEra && currentEra <= lastStoredEra) {
+      console.log('Rewards for this era are already stored')
+      process.exit(0)
     }
+  
+    console.log("Getting rewards from era:", currentEra || 'latest')
+  
+    const networks = await database(config)("").getNetworks()
+    const network = networks.find(({ id }) => id === networkId)
+    const PolkadotApiClass = require('../lib/' + network.source_class_name)
+    const store = {}
+    await initPolkadotRPC(network, store)
+    let api = store.polkadotRPC
+    const polkadotAPI = new PolkadotApiClass(network, store)
+  
+    if (!currentEra) {
+      const activeEra = parseInt(
+        JSON.parse(JSON.stringify(await api.query.staking.activeEra())).index
+      )
+      const lastEra = activeEra - 1
+      currentEra = lastEra
+    }
+  
+    const validators = await polkadotAPI.getValidators()
+    store.validators = _.keyBy(validators, 'operatorAddress')
+    const delegators = await polkadotAPI.getAllDelegators()
+    console.log(`Querying rewards for ${delegators.length} delegators.`)
+  
+    const { minDesiredEra, missingEras, maxDesiredEra } = await getMissingEras(
+      lastStoredEra,
+      currentEra
+    )
+    console.log({ minDesiredEra, missingEras, maxDesiredEra })
+  
+    const [eraPoints, eraPreferences, eraRewards, exposures] = await loadEraData(
+      missingEras,
+      api
+    )
+  
+    // disconnect from the API WS
+    api.disconnect()
+  
+    // filter out not needed data and stitch old and new data together
+    const newEraData = cropEraData(
+      minDesiredEra,
+      [storedEraPoints, storedEraPreferences, storedEraRewards, storedExposures],
+      [eraPoints, eraPreferences, eraRewards, exposures]
+    )
+  
+    // store data to only load missing data the next run
+    storeEraData(networkId, newEraData)
+  
+    // calculate the actual rewards from the inputs
+    console.time('calculating rewards')
+    const polkadotRewards = [].concat(
+      ...delegators.map(delegator =>
+        getRewardsForDelegator(delegator, ...newEraData)
+      )
+    )
+  
+    console.timeEnd('calculating rewards')
+  
+    // parse to lunie format
+    console.time('parsing lunie rewards')
+    const lunieRewards = polkadotAPI.reducers.rewardsReducer(
+      network,
+      validators,
+      polkadotRewards,
+      polkadotAPI.reducers
+    )
+    console.timeEnd('parsing lunie rewards')
+  
+    // store
+    const storableRewards = _.uniqBy(lunieRewards
+      ? lunieRewards.filter(({ amount }) => amount > 0)
+      : [], reward => `${reward.address}_${reward.validatorAddress}_${reward.height}_${reward.chain_id}`) // HACK somehow we get some rewards twice which causes the insert to fail 
+  
+    if (storableRewards.length === 0) {
+      const error = `No storable rewards for era ${maxDesiredEra}`
+      console.error(`Error: ${error}`)
+      Sentry.captureException({ error })
+    } else {
+      console.log(
+        `Storing ${storableRewards.length} rewards for era ${maxDesiredEra}.`
+      )
+      const rewardChunks = _.chunk(storableRewards, 1000)
+      for (let i = 0; i < rewardChunks.length; i++) {
+        const res = await storeRewards(
+          rewardChunks[i].map(reward => ({
+            amount: reward.amount,
+            height: reward.height,
+            denom: reward.denom,
+            address: reward.address,
+            validator: reward.validatorAddress
+          })),
+          network.chain_id
+        )
+      }
+    }
+    console.log(
+      `Cleaning old rewards for era ${maxDesiredEra}.`
+    )
+    await cleanOldRewards(minDesiredEra)
+    console.log('Finished querying, storing and cleaning rewards')
+    process.exit(0)
+  } catch (error) {
+    console.error(error)
+    process.exit(1)
   }
-  console.log(
-    `Cleaning old rewards for era ${maxDesiredEra}.`
-  )
-  await cleanOldRewards(minDesiredEra)
-  console.log('Finished querying, storing and cleaning rewards')
-  process.exit(0)
 }
 
 main()

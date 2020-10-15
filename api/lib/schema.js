@@ -166,6 +166,7 @@ const typeDefs = gql`
     message: String
     show: Boolean
     type: String
+    networkId: String
   }
 
   type coinLookup {
