@@ -8,7 +8,10 @@ const {
   getPassingThreshold,
   getFailingThreshold
 } = require('@polkassembly/util')
-const { fixDecimalsAndRoundUpBigNumbers, toViewDenom } = require('../../common/numbers.js')
+const {
+  fixDecimalsAndRoundUpBigNumbers,
+  toViewDenom
+} = require('../../common/numbers.js')
 const { BaseRESTDataSource } = require('./BaseRESTDataSource.js')
 const delegationEnum = { ACTIVE: 'ACTIVE', INACTIVE: 'INACTIVE' }
 
