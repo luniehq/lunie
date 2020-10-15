@@ -19,7 +19,6 @@ const { logRewards, logBalances } = require('./statistics')
 const { registerUser } = require('./accounts')
 const { getValidatorFeed } = require('./reducers/common')
 
-
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
   return new database(config)(networkSchemaName)
@@ -246,19 +245,12 @@ const resolvers = (networkList, notificationController) => ({
     },
     feed: async (validator, _, { dataSources }) => {
       // get feed for this single validator
-      const validatorWithFeed = await getValidatorFeed(
-        validator,
+      return await getValidatorFeed(
         validator.operatorAddress,
         networkList,
         remoteFetch(dataSources, validator.networkId),
         networkList.find(({ id }) => id === validator.networkId)
       )
-      localStore(dataSources, validator.networkId).validators[
-        validator.operatorAddress
-      ] = validatorWithFeed
-      return localStore(dataSources, validator.networkId).validators[
-        validator.operatorAddress
-      ].feed
     }
   },
   Query: {

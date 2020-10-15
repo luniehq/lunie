@@ -29,7 +29,6 @@ module.exports.getRanksForValidators = function getRanksForValidators(
 }
 
 module.exports.getValidatorFeed = async function getValidatorFeed(
-  validator,
   operatorAddress,
   networkList,
   dataSource,
@@ -39,12 +38,7 @@ module.exports.getValidatorFeed = async function getValidatorFeed(
     operatorAddress,
     network.id
   )
-  return {
-    ...validator,
-    feed: validatorFeed
-      ? validatorFeed.map((notification) =>
-          dataSource.reducers.notificationReducer(notification, networkList)
-        )
-      : undefined
-  }
+  return validatorFeed.map((notification) =>
+    dataSource.reducers.notificationReducer(notification, networkList)
+  )
 }
