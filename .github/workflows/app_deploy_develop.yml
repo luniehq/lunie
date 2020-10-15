@@ -36,7 +36,7 @@ jobs:
         id: deploy
         with:
           alias: staging
-          deploy-dir: './app/dist'
+          publish-dir: './app/dist'
           github-token: ${{ secrets.GIT_BOT_TOKEN }}
           deploy-message: "Deployed via GitHub Actions"
           enable-pull-request-comment: true

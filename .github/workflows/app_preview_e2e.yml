@@ -30,7 +30,7 @@ jobs:
         uses: nwtgck/actions-netlify@v1.1.10
         id: deploy
         with:
-          deploy-dir: './app/dist'
+          publish-dir: './app/dist'
           github-token: ${{ secrets.GIT_BOT_TOKEN }}
           deploy-message: "Deployed via GitHub Actions"
           enable-pull-request-comment: true
