@@ -998,8 +998,10 @@ class polkadotAPI extends BaseRESTDataSource {
   }
 
   async getAllProposals() {
+    if (this.network.feature_proposals === 'DISABLED') {
+      return []
+    }
     const api = await this.getAPI()
-
     const [
       blockHeight,
       totalIssuance,
