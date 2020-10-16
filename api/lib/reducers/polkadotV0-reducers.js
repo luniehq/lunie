@@ -492,7 +492,7 @@ function extractInvolvedAddresses(
       )
       .map(event => event.data[0])
       .concat([signer])
-  } else {
+  } else if (signer) {
     involvedAddresses = involvedAddresses.concat([signer])
   }
   return _.uniq(involvedAddresses)
