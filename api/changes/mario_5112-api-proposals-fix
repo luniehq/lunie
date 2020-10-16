@@ -1,0 +1,1 @@
+[Fixed] [#5112](https://github.com/cosmos/lunie/issues/5112) Don't fetch polkadot proposals if feature is not enabled @mariopino

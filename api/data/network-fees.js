@@ -60,24 +60,28 @@ const pollForNewFees = async () => {
 }
 
 const getNetworkGasPrices = async (networkId) => {
-  const networkGasPrices = await db.getNetworkGasPrices()
-  networkGasPrices.forEach(networkGasPrice => {
-    if (!networkGasPricesDictionary[networkGasPrice.id]) networkGasPricesDictionary[networkGasPrice.id] = []
-    networkGasPricesDictionary[networkGasPrice.id].push({ denom: networkGasPrice.denom,
-      gasPrice: networkGasPrice.gasPrice
+  if (!networkGasPricesDictionary[networkId]) {
+    const networkGasPrices = await db.getNetworkGasPrices()
+    networkGasPrices.forEach(networkGasPrice => {
+      if (!networkGasPricesDictionary[networkGasPrice.id]) networkGasPricesDictionary[networkGasPrice.id] = []
+      networkGasPricesDictionary[networkGasPrice.id].push({ denom: networkGasPrice.denom,
+        gasPrice: networkGasPrice.gasPrice
+      })
     })
-  })
+  }
   // update emoneyGasPrices
   networkGasPricesDictionary['emoney-mainnet'] = emoneyGasPrices
-  return networkGasPricesDictionary[networkId] || []
+  return networkGasPricesDictionary[networkId]
 }
 
 const getNetworkGasEstimates = async (networkId) => {
-  const networkGasEstimates = await db.getNetworkGasEstimates()
-  networkGasEstimates.forEach(networkGasEstimate => {
-    if (!networkGasEstimatesDictionary[networkGasEstimate.id]) networkGasEstimatesDictionary[networkGasEstimate.id] = {}
-    networkGasEstimatesDictionary[networkGasEstimate.id][networkGasEstimate.transactionType] = networkGasEstimate.gasEstimate
-  })
+  if (!networkGasEstimatesDictionary[networkId]) {
+    const networkGasEstimates = await db.getNetworkGasEstimates()
+    networkGasEstimates.forEach(networkGasEstimate => {
+      if (!networkGasEstimatesDictionary[networkGasEstimate.id]) networkGasEstimatesDictionary[networkGasEstimate.id] = {}
+      networkGasEstimatesDictionary[networkGasEstimate.id][networkGasEstimate.transactionType] = networkGasEstimate.gasEstimate
+    })
+  }
   return networkGasEstimatesDictionary[networkId]
 }
 
