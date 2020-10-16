@@ -129,7 +129,6 @@ class polkadotAPI extends BaseRESTDataSource {
           this.network,
           extrinsics,
           blockHeight,
-          this.reducers,
           this.db
         )
       : []
