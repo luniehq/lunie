@@ -269,13 +269,13 @@ class BlockStore {
     }
   }
 
-  checkProposalsUpdate(oldPropsals, newProposals) {
-    const oldProposalsDictionary = keyBy(oldPropsals, 'id')
+  checkProposalsUpdate(oldProposals, newProposals) {
+    const oldProposalsDictionary = keyBy(oldProposals, 'id')
     const newProposalsDictionary = keyBy(newProposals, 'id')
 
     // Safety check
     // On the first run we don't have old proposals in the store
-    if (oldPropsals.length === 0) return
+    if (oldProposals.length === 0) return
 
     // case 1: New proposal
     const newProposalIds = difference(
