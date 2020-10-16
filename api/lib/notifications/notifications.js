@@ -210,10 +210,10 @@ const startNotificationService = (networks) => {
         ''
       ).storeNotification({
         topic,
-        eventType: event.eventType,
-        resourceType: event.resourceType,
-        resourceId: event.resourceId,
-        networkId: event.networkId,
+        eventType: String(event.eventType),
+        resourceType: String(event.resourceType),
+        resourceId: String(event.resourceId),
+        networkId: String(event.networkId),
         data: event.properties
       })
 
