@@ -125,7 +125,7 @@ class polkadotAPI extends BaseRESTDataSource {
 
   async getTransactionsV2(extrinsics, blockHeight) {
     return Array.isArray(extrinsics)
-      ? this.reducers.transactionsReducerV2(
+      ? await this.reducers.transactionsReducerV2(
           this.network,
           extrinsics,
           blockHeight,

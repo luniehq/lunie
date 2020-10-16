@@ -197,7 +197,7 @@ async function transactionsReducerV2(network, extrinsics, blockHeight, db) {
   let reducedTxs = []
   for (let index = 0; index < extrinsics.length; index++) {
     const extrinsic = extrinsics[index]
-    reducedTxs.concat(
+    reducedTxs.push(
       await transactionReducerV2(network, extrinsic, index, blockHeight, db)
     )
   }
@@ -299,23 +299,26 @@ async function transactionReducerV2(
   }
 
   const reducedTxs = await Promise.all(
-    messages.map((message, messageIndex) =>
-      parsePolkadotTransaction(
-        hash,
-        message,
-        index,
-        messageIndex,
-        signer,
-        success,
-        network,
-        blockHeight,
-        isBatch,
-        db,
-        events
-      )
+    messages.map(
+      async (message, messageIndex) =>
+        await parsePolkadotTransaction(
+          hash,
+          message,
+          index,
+          messageIndex,
+          signer,
+          success,
+          network,
+          blockHeight,
+          isBatch,
+          db,
+          events
+        )
     )
   )
-  return reducedTxs
+  return reducedTxs[0]
+  // TO DISCUSS: is this actually a message? I think so.
+  // Line 177 in base-node-subscription suggests so, tx.involvedAddresses is undefined if this is an Array
 }
 
 // we display staking as one tx where in Polkadot this can be 2
@@ -437,7 +440,10 @@ function stakeDetailsReducer(network, message) {
 async function claimRewardsDetailsReducer(network, message, db) {
   const validator = message.args.validator_stash
   const height = message.args.era
-  const dbRewards = await db.getRewardsValidatorHeight(validator, height)
+  const dbRewards =
+    validator && height
+      ? await db.getRewardsValidatorHeight(validator, height)
+      : []
   return {
     amounts: [], // not used in polkadot, included in rewards[]
     from: [validator],
