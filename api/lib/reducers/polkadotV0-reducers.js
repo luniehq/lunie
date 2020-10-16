@@ -326,7 +326,6 @@ async function transactionReducerV2(
       )
     )
   )
-  console.log(`reducedTxs:`, JSON.stringify(reducedTxs, null, 2))
   return reducedTxs
 }
 
