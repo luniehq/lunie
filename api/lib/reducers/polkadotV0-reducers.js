@@ -192,24 +192,13 @@ function undelegationReducer(undelegation, address, network) {
   }
 }
 
-async function transactionsReducerV2(
-  network,
-  extrinsics,
-  blockHeight,
-  db
-) {
+async function transactionsReducerV2(network, extrinsics, blockHeight, db) {
   // Filter Polkadot tx to Lunie supported types
   let reducedTxs = []
   for (let index = 0; index < extrinsics.length; index++) {
     const extrinsic = extrinsics[index]
     reducedTxs.concat(
-      await transactionReducerV2(
-        network,
-        extrinsic,
-        index,
-        blockHeight,
-        db
-      )
+      await transactionReducerV2(network, extrinsic, index, blockHeight, db)
     )
   }
   return reducedTxs
@@ -471,11 +460,10 @@ function extractInvolvedAddresses(
     // we get all reward target addresses from extrinsic events
     involvedAddresses = events
       .filter(
-        event =>
-          event.method.pallet === 'staking' &&
-          event.method.method === `Reward`
+        (event) =>
+          event.method.pallet === 'staking' && event.method.method === `Reward`
       )
-      .map(event => event.data[0])
+      .map((event) => event.data[0])
       .concat([signer])
   } else if (signer) {
     involvedAddresses = involvedAddresses.concat([signer])
