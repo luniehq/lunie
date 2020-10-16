@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": "https://github.com/luniehq/lunie.git",
   "author": "hello@lunie.io",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "private": true,
   "workspaces": [
     "app",

@@ -3,11 +3,7 @@
   "version": "1.0.42",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
-  "licenses": [
-    {
-      "type": "Apache-2"
-    }
-  ],
+  "license": "Apache-2.0",
   "scripts": {
     "lint": "yarn lint:css && yarn lint:js",
     "lint:fix": "eslint --ext .js,.vue src --fix && stylelint \"src/**/*.{css,vue}\" --fix",
