@@ -488,9 +488,7 @@ function rewardsReducer(network, validators, rewards) {
   const validatorsDict = _.keyBy(validators, 'operatorAddress')
   rewards.forEach((reward) => {
     // reward reducer returns an array
-    allRewards.push(
-      ...rewardReducer(network, validatorsDict, reward)
-    )
+    allRewards.push(...rewardReducer(network, validatorsDict, reward))
   })
   return allRewards
 }
