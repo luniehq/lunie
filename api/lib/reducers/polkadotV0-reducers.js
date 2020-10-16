@@ -197,7 +197,7 @@ async function transactionsReducerV2(network, extrinsics, blockHeight, db) {
   let reducedTxs = []
   for (let index = 0; index < extrinsics.length; index++) {
     const extrinsic = extrinsics[index]
-    reducedTxs.push(
+    reducedTxs = reducedTxs.concat(
       await transactionReducerV2(network, extrinsic, index, blockHeight, db)
     )
   }
@@ -298,7 +298,7 @@ async function transactionReducerV2(
     )
   }
 
-  const reducedTxs = await Promise.all(
+  const returnedMessages = await Promise.all(
     messages.map(
       async (message, messageIndex) =>
         await parsePolkadotTransaction(
@@ -316,9 +316,7 @@ async function transactionReducerV2(
         )
     )
   )
-  return reducedTxs[0]
-  // TO DISCUSS: is this actually a message? I think so.
-  // Line 177 in base-node-subscription suggests so, tx.involvedAddresses is undefined if this is an Array
+  return returnedMessages
 }
 
 // we display staking as one tx where in Polkadot this can be 2
