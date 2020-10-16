@@ -20,7 +20,7 @@ services:
       replicas: 1
       resources:
         limits:
-          memory: 2.5G
+          memory: 3.5G
     environment:
       - PORT=$PORT
       - HASURA_URL=$HASURA_URL
@@ -34,25 +34,6 @@ services:
       - EMONEY_EXCHANGE_API_RATES_ENDPOINT=https://api.exchangeratesapi.io/latest?
       - EMONEY_API_MAINNET=https://api.e-money.com/v1/
       - EMONEY_API_TESTNET=https://beta-api.e-money.com/v1/
-  node-exporter:
-    image: prom/node-exporter
-    container_name: node_exporter
-    volumes:
-    - /proc:/host/proc:ro
-    - /sys:/host/sys:ro
-    - ./root/textfile_collector:/var/www
-    - /:/rootfs:ro
-    command:
-    - --path.procfs=/host/proc
-    - --path.sysfs=/host/sys
-    - --collector.textfile.directory=/var/www
-    - --collector.filesystem.ignored-mount-points
-    - ^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)
-    restart: always
-    networks:
-       - general
-    deploy:
-      mode: global
   caddy:
     image: abiosoft/caddy:1.0.3-no-stats
     depends_on:

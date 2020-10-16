@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.55] - 2020-10-16
+
+### Added
+
+- Reenable substrate sidecar @mariopino
+
+### Changed
+
+- [#5096](https://github.com/cosmos/lunie/pull/5096) Remove the validator picture update notification @Bitcoinera
+- [#5098](https://github.com/cosmos/lunie/issues/5098) Receive networkId field for MaintenanceBar @Bitcoinera
+
+### Fixed
+
+- [#5082](https://github.com/cosmos/lunie/issues/5082) Fix Terra validators expectedReturns being all 0 @Bitcoinera
+- [#5120](https://github.com/cosmos/lunie/pull/5120) Try to fix slow mem leak @Bitcoinera
+- Proposal notifications would not be stored for Cosmos chains as the resource id was not a string @faboweb
+- [#5112](https://github.com/cosmos/lunie/issues/5112) Don't fetch polkadot proposals if feature is not enabled @mariopino
+ 
 ## [1.0.54] - 2020-10-13
 
 ### Changed
