@@ -445,7 +445,17 @@ async function claimRewardsDetailsReducer(network, message, db) {
       ? await db.getRewardsValidatorHeight(validator, height)
       : []
   return {
-    amounts: [], // not used in polkadot, included in rewards[]
+    amounts: [
+      {
+        amount: dbRewards
+          .map(({ amount }) => ({ amount }))
+          .reduce((amountAccumulator, reward) => {
+            return (amountAccumulator += reward.amount)
+          }, 0)
+          .toFixed(6),
+        denom: network.stakingDenom
+      }
+    ],
     from: [validator],
     rewards: dbRewards || []
   }
