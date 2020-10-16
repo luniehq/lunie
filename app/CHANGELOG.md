@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.233] - 2020-10-16
+
+### Deprecated
+
+- [#5114](https://github.com/cosmos/lunie/pull/5114) Remove unused publish.sh from tasks folder @Bitcoinera
+
 ## [1.0.232] - 2020-10-13
 
 ### Added
