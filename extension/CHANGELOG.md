@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.43] - 2020-10-16
+
+### Fixed
+
+- [#5097](https://github.com/cosmos/lunie/issues/5097) Fix all accounts apparently deleted after Delete Account @Bitcoinera
+
+### Repository
+
+- [#4762](https://github.com/cosmos/lunie/issues/4762) Fix HMR @faboweb
+
 ## [1.0.42] - 2020-10-13
 
 ### Added
