@@ -195,7 +195,6 @@ function undelegationReducer(undelegation, address, network) {
 async function transactionsReducerV2(
   network,
   extrinsics,
-  blockEvents,
   blockHeight,
   reducers,
   db
@@ -209,7 +208,6 @@ async function transactionsReducerV2(
         network,
         extrinsic,
         index,
-        blockEvents,
         blockHeight,
         reducers,
         db
@@ -245,9 +243,9 @@ async function parsePolkadotTransaction(
   network,
   blockHeight,
   reducers,
-  blockEvents,
   isBatch,
-  db
+  db,
+  events
 ) {
   const lunieTransactionType = getMessageType(message.section, message.method)
   return {
@@ -274,17 +272,23 @@ async function parsePolkadotTransaction(
     ], // FIXME!
     success,
     log: ``,
-    involvedAddresses: reducers.extractInvolvedAddresses(
+    involvedAddresses: extractInvolvedAddresses(
       lunieTransactionType,
       signer,
       message,
-      index,
-      blockEvents
+      events
     )
   }
 }
 
-function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
+async function transactionReducerV2(
+  network,
+  extrinsic,
+  index,
+  blockHeight,
+  reducers,
+  db
+) {
   const hash = extrinsic.hash
   const signer = extrinsic.signature === null ? '' : extrinsic.signature.signer
   const isBatch =
@@ -292,6 +296,7 @@ function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
   const messages = aggregateLunieStaking(
     isBatch ? extrinsic.args.calls : [extrinsic]
   )
+  const events = extrinsic.events
 
   // if tx is a batch, we need to check if all of the batched txs went through
   let success
@@ -309,22 +314,6 @@ function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
     )
   }
 
-async function transactionReducerV2(
-  network,
-  extrinsic,
-  index,
-  blockEvents,
-  blockHeight,
-  reducers,
-  db
-) {
-  const hash = extrinsic.hash.toHex()
-  const signer = extrinsic.signer.toString()
-  const isBatch = extrinsic.method.meta.name.toString() === `batch`
-  const messages = aggregateLunieStaking(
-    isBatch ? extrinsic.method.args[0] : [extrinsic.method]
-  )
-  const success = reducers.getExtrinsicSuccess(index, blockEvents, isBatch)
   const reducedTxs = await Promise.all(
     messages.map((message, messageIndex) =>
       parsePolkadotTransaction(
@@ -337,9 +326,9 @@ async function transactionReducerV2(
         network,
         blockHeight,
         reducers,
-        blockEvents,
         isBatch,
-        db
+        db,
+        events
       )
     )
   )
@@ -452,7 +441,7 @@ function sendDetailsReducer(network, message, signer, reducers) {
   return {
     from: [signer],
     to: [message.args.dest],
-    amount: reducers.coinReducer(network, message.args.value)
+    amount: coinReducer(network, message.args.value)
   }
 }
 
@@ -460,7 +449,7 @@ function sendDetailsReducer(network, message, signer, reducers) {
 function stakeDetailsReducer(network, message, reducers) {
   return {
     to: message.validators,
-    amount: reducers.coinReducer(network, message.amount)
+    amount: coinReducer(network, message.amount)
   }
 }
 
@@ -486,8 +475,7 @@ function extractInvolvedAddresses(
   lunieTransactionType,
   signer,
   message,
-  messageIndex,
-  blockEvents
+  events
 ) {
   let involvedAddresses = []
   if (lunieTransactionType === lunieMessageTypes.SEND) {
@@ -495,15 +483,14 @@ function extractInvolvedAddresses(
   } else if (lunieTransactionType === lunieMessageTypes.STAKE) {
     involvedAddresses = involvedAddresses.concat([signer], message.validators)
   } else if (lunieTransactionType === lunieMessageTypes.CLAIM_REWARDS) {
-    // we get all reward target addresses from block events
-    involvedAddresses = blockEvents
+    // we get all reward target addresses from extrinsic events
+    involvedAddresses = events
       .filter(
-        ({ phase, event }) =>
-          parseInt(phase.toHuman().ApplyExtrinsic) === messageIndex &&
-          event.section === 'staking' &&
-          event.method === `Reward`
+        event =>
+          event.method.pallet === 'staking' &&
+          event.method.method === `Reward`
       )
-      .map(({ event }) => event.toHuman().data[0])
+      .map(event => event.data[0])
       .concat([signer])
   } else {
     involvedAddresses = involvedAddresses.concat([signer])
@@ -517,7 +504,7 @@ function rewardsReducer(network, validators, rewards, reducers) {
   rewards.forEach((reward) => {
     // reward reducer returns an array
     allRewards.push(
-      ...reducers.rewardReducer(network, validatorsDict, reward, reducers)
+      ...rewardReducer(network, validatorsDict, reward, reducers)
     )
   })
   return allRewards
@@ -565,7 +552,7 @@ function rewardReducer(network, validators, reward, reducers) {
     if (!validator) return
     const lunieReward = {
       id: validatorReward[0] + (reward.era ? '_' + reward.era : ''),
-      ...reducers.coinReducer(network, validatorReward[1].toString(10)),
+      ...coinReducer(network, validatorReward[1].toString(10)),
       height: reward.era,
       address: reward.address,
       validator, // used for user facing rewards in the API
