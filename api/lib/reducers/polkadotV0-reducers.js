@@ -454,19 +454,12 @@ function stakeDetailsReducer(network, message, reducers) {
 }
 
 async function claimRewardsDetailsReducer(network, message, reducers, db) {
-  const validator = message.args[0].toString()
-  const height = message.args[1]
+  const validator = message.args.validator_stash
+  const height = message.args.era
   const dbRewards = await db.getRewardsValidatorHeight(validator, height)
-  console.log(
-    `############# message:`,
-    JSON.stringify(message.toHuman(), null, 2)
-  )
-  console.log(`############# validator:`, validator)
-  console.log(`############# height:`, height)
-  console.log(`############# dbRewards:`, JSON.stringify(dbRewards, null, 2))
   return {
     amounts: [], // TODO
-    from: [], // TODO
+    from: [validator],
     rewards: dbRewards || []
   }
 }
