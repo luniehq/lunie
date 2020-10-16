@@ -1,0 +1,41 @@
+name: Deploy Release Workflow
+
+on:
+  push:
+    branches:
+      - 'develop'
+    paths:
+      - 'api/CHANGELOG.md'
+      - 'app/CHANGELOG.md'
+      - 'extension/CHANGELOG.md'
+
+jobs:
+    deploy:
+        name: Deploy Release
+        runs-on: ubuntu-latest
+        timeout-minutes: 3
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v1
+        - name: Setup Node.js
+          uses: actions/setup-node@v1
+        - name: Open PR from Develop to Master
+          uses: peter-evans/create-pull-request@v3
+          with:
+            token: ${{ secrets.GIT_BOT_TOKEN }}
+            commit-message: Deploy Release
+            committer: Happy Release Bot 💃
+            branch: master
+            delete-branch: false
+            title: 'Deploy release'
+            body: |
+              This PR will merge develop into master.
+
+              Once merged, it will be deployed into production. Be careful! ⚠️⚠️⚠️
+            draft: false
+        - name: Check outputs
+          run: |
+            echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+            echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+          env:
+            GIT_BOT_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}     

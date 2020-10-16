@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.232] - 2020-10-13
+
+### Added
+
+- [#4513](https://github.com/cosmos/lunie/issues/4513) Add "Forget Account" feature to AccountMenu @Bitcoinera
+
+### Changed
+
+- [#5066](https://github.com/cosmos/lunie/pull/5066) Add the kava-testnet network icon @Bitcoinera
+- [#5079](https://github.com/cosmos/lunie/pull/5079) Lint the whole app subrepo (22 files) @Bitcoinera
+- [#5084](https://github.com/cosmos/lunie/pull/5084) Upgrate to polkadot/api-2.2.1 @Bitcoinera
+- [#5040](https://github.com/cosmos/lunie/pull/5040) Upgrade to polkadot/api-2.1.1 @Bitcoinera
+
+### Fixed
+
+- [#5071](https://github.com/cosmos/lunie/pull/5071) Fix ActionModal opening when in Explore mode @Bitcoinera
+
+### Repository
+
+- [#3699](https://github.com/cosmos/lunie/issues/3699) Delete the components/wallet folder @Bitcoinera
+- [#5068](https://github.com/cosmos/lunie/pull/5068) Add the components/session folder @Bitcoinera
+
 ## [1.0.231] - 2020-10-06
 
 ### Changed

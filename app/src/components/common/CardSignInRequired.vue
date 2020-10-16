@@ -51,7 +51,7 @@
 <script>
 import config from "src/../config"
 import { mapState, mapGetters } from "vuex"
-import LiSession from "common/TmLiSession"
+import LiSession from "session/TmLiSession"
 import SessionFrame from "common/SessionFrame"
 import TmDataLoading from "src/components/common/TmDataLoading"
 

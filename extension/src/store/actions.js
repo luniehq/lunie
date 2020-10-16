@@ -77,6 +77,22 @@ export default ({ apollo }) => {
     )
   }
 
+  const deleteAccountWithoutPassword = async (store, { address }) => {
+    chrome.runtime.sendMessage(
+      {
+        type: 'DELETE_WALLET_WITHOUT_PASSWORD',
+        payload: { address }
+      },
+      function () {
+        const remainingAccounts = store.state.accounts.filter(
+          (account) => account.address !== address
+        )
+        store.commit('setAccounts', remainingAccounts || [])
+      }
+    )
+    return true
+  }
+
   const getWallet = (store, { address, password }) => {
     return new Promise((resolve, reject) => {
       chrome.runtime.sendMessage(
@@ -269,10 +285,39 @@ export default ({ apollo }) => {
     return wallet.cosmosAddress
   }
 
+  const testSeed = async (store, { networkId, address, seedPhrase }) => {
+    const networkObject = store.getters.networks.find(
+      ({ id }) => id === networkId
+    )
+    const walletVariations = JSON.parse(networkObject.HDPaths).reduce(
+      (all, HDPath) => {
+        return JSON.parse(networkObject.curves).reduce((all2, curve) => {
+          all2.push({ HDPath, curve })
+          return all2
+        }, [])
+      },
+      []
+    )
+    const foundCombination = await Promise.all(
+      walletVariations.map(async ({ HDPath, curve }) => {
+        const { result: wallet } = await getWalletFromSandbox(
+          seedPhrase,
+          networkObject,
+          HDPath.value,
+          curve.value
+        )
+        return wallet && wallet.cosmosAddress === address ? true : false
+      })
+    )
+    return foundCombination.find((combination) => combination) ? true : false
+  }
+
   return {
     createSeed,
     createKey,
     loadLocalAccounts,
+    testSeed,
+    deleteAccountWithoutPassword,
     getWallet,
     getNetworkByAddress,
     testLogin,

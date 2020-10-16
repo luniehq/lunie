@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ExtensionReloader = require('webpack-extension-reloader')
 const { VueLoaderPlugin } = require('vue-loader')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { version } = require('./package.json')
 const path = require('path')
 
@@ -36,6 +35,7 @@ const config = {
       account: resolve('../app/src/components/account'),
       network: resolve('../app/src/components/network'),
       transactions: resolve('../app/src/components/transactions'),
+      session: resolve('../app/src/components/session'),
       modules: resolve('../app/src/vuex/modules'),
       config: resolve('config.js'),
       src: resolve('../app/src'),
@@ -98,7 +98,6 @@ const config = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       global: 'window',
       'process.env': {
