@@ -196,7 +196,6 @@ async function transactionsReducerV2(
   network,
   extrinsics,
   blockHeight,
-  reducers,
   db
 ) {
   // Filter Polkadot tx to Lunie supported types
@@ -209,7 +208,6 @@ async function transactionsReducerV2(
         extrinsic,
         index,
         blockHeight,
-        reducers,
         db
       )
     )
@@ -242,7 +240,6 @@ async function parsePolkadotTransaction(
   success,
   network,
   blockHeight,
-  reducers,
   isBatch,
   db,
   events
@@ -257,7 +254,6 @@ async function parsePolkadotTransaction(
     details: await transactionDetailsReducer(
       network,
       lunieTransactionType,
-      reducers,
       signer,
       message,
       db
@@ -286,7 +282,6 @@ async function transactionReducerV2(
   extrinsic,
   index,
   blockHeight,
-  reducers,
   db
 ) {
   const hash = extrinsic.hash
@@ -325,7 +320,6 @@ async function transactionReducerV2(
         success,
         network,
         blockHeight,
-        reducers,
         isBatch,
         db,
         events
@@ -393,7 +387,6 @@ function aggregateLunieStaking(messages) {
 async function transactionDetailsReducer(
   network,
   lunieTransactionType,
-  reducers,
   signer,
   message,
   db
@@ -401,13 +394,13 @@ async function transactionDetailsReducer(
   let details
   switch (lunieTransactionType) {
     case lunieMessageTypes.SEND:
-      details = sendDetailsReducer(network, message, signer, reducers)
+      details = sendDetailsReducer(network, message, signer)
       break
     case lunieMessageTypes.STAKE:
-      details = stakeDetailsReducer(network, message, reducers)
+      details = stakeDetailsReducer(network, message)
       break
     case lunieMessageTypes.CLAIM_REWARDS:
-      details = await claimRewardsDetailsReducer(network, message, reducers, db)
+      details = await claimRewardsDetailsReducer(network, message, db)
       break
     default:
       details = {}
@@ -437,7 +430,7 @@ function coinReducer(network, amount, decimals = 6) {
   }
 }
 
-function sendDetailsReducer(network, message, signer, reducers) {
+function sendDetailsReducer(network, message, signer) {
   return {
     from: [signer],
     to: [message.args.dest],
@@ -446,19 +439,19 @@ function sendDetailsReducer(network, message, signer, reducers) {
 }
 
 // the message for staking is created by `aggregateLunieStaking`
-function stakeDetailsReducer(network, message, reducers) {
+function stakeDetailsReducer(network, message) {
   return {
     to: message.validators,
     amount: coinReducer(network, message.amount)
   }
 }
 
-async function claimRewardsDetailsReducer(network, message, reducers, db) {
+async function claimRewardsDetailsReducer(network, message, db) {
   const validator = message.args.validator_stash
   const height = message.args.era
   const dbRewards = await db.getRewardsValidatorHeight(validator, height)
   return {
-    amounts: [], // TODO
+    amounts: [], // not used in polkadot, included in rewards[]
     from: [validator],
     rewards: dbRewards || []
   }
@@ -491,13 +484,13 @@ function extractInvolvedAddresses(
   return _.uniq(involvedAddresses)
 }
 
-function rewardsReducer(network, validators, rewards, reducers) {
+function rewardsReducer(network, validators, rewards) {
   const allRewards = []
   const validatorsDict = _.keyBy(validators, 'operatorAddress')
   rewards.forEach((reward) => {
     // reward reducer returns an array
     allRewards.push(
-      ...rewardReducer(network, validatorsDict, reward, reducers)
+      ...rewardReducer(network, validatorsDict, reward)
     )
   })
   return allRewards
@@ -538,7 +531,7 @@ function dbRewardsReducer(validatorsDictionary, dbRewards, withHeight) {
   }))
 }
 
-function rewardReducer(network, validators, reward, reducers) {
+function rewardReducer(network, validators, reward) {
   let parsedRewards = []
   Object.entries(reward.validators).forEach((validatorReward) => {
     const validator = validators[validatorReward[0]]
