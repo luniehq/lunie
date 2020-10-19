@@ -7,6 +7,11 @@ const {
 } = require('../../common/numbers.js')
 const { getProposalSummary } = require('./common')
 const { lunieMessageTypes } = require('../../lib/message-types')
+const {
+  getMessageTitle,
+  getPushLink,
+  getIcon
+} = require('../notifications/notifications')
 const { hexToString } = require('@polkadot/util')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -15,6 +20,17 @@ const proposalTypeEnum = {
   TEXT: 'TEXT',
   TREASURY: 'TREASURY',
   PARAMETER_CHANGE: 'PARAMETER_CHANGE'
+}
+
+function notificationReducer(notification, networks) {
+  return {
+    id: notification.id,
+    networkId: notification.networkId,
+    timestamp: notification.created_at,
+    title: getMessageTitle(networks, notification),
+    link: getPushLink(networks, notification),
+    icon: getIcon(notification)
+  }
 }
 
 function blockReducer(
@@ -41,7 +57,7 @@ function blockReducer(
   }
 }
 
-function validatorReducer(network, validator) {
+function validatorReducer(network, validator, fiatValuesResponse) {
   return {
     id: validator.accountId,
     networkId: network.id,
@@ -74,7 +90,41 @@ function validatorReducer(network, validator) {
       ).toFixed(6) || 0,
     expectedReturns: validator.expectedReturns,
     nominations: validator.nominations,
-    popularity: validator.popularity
+    popularity: validator.popularity,
+    totalStakedAssets: {
+      ...fiatValuesResponse,
+      amount: fiatValuesResponse.amount.toFixed(2)
+    }
+  }
+}
+
+function validatorProfileReducer(
+  validator,
+  validatorProfile,
+  numberStakers,
+  network
+) {
+  return {
+    ...validator,
+    profile: {
+      name: validator.name,
+      rank: validator.rank,
+      nationality: validatorProfile.nationality,
+      headerImage: validatorProfile.headerImage,
+      description: validator.details,
+      teamMembers: JSON.parse(validatorProfile.teamMembers),
+      socialLinks: {
+        website: validator.website,
+        telegram: validatorProfile.telegram,
+        github: validatorProfile.github,
+        twitter: validatorProfile.twitter,
+        blog: validatorProfile.blog
+      },
+      numberStakers,
+      uptimePercentage: validator.uptimePercentage,
+      contributionLinks: JSON.parse(validatorProfile.contributionLinks),
+      network
+    }
   }
 }
 
@@ -375,7 +425,7 @@ function transactionDetailsReducer(
 }
 
 function coinReducer(network, amount, decimals = 6) {
-  if (!amount) {
+  if (!amount && amount !== 0) {
     return {
       amount: 0,
       denom: ''
@@ -383,7 +433,7 @@ function coinReducer(network, amount, decimals = 6) {
   }
 
   return {
-    denom: network.coinLookup[0].viewDenom,
+    denom: network.stakingDenom || network.coinLookup[0].viewDenom,
     amount: fixDecimalsAndRoundUp(
       BigNumber(amount).times(
         network.coinLookup[0].chainToViewConversionFactor
@@ -718,8 +768,10 @@ function getStatusEndTime(blockHeight, endBlock) {
 }
 
 module.exports = {
+  notificationReducer,
   blockReducer,
   validatorReducer,
+  validatorProfileReducer,
   balanceReducer,
   balanceV2Reducer,
   delegationReducer,

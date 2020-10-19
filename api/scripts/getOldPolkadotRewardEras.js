@@ -299,7 +299,7 @@ async function main() {
       currentEra = lastEra
     }
   
-    const validators = await polkadotAPI.getAllValidators()
+    const validators = await polkadotAPI.getValidators()
     store.validators = _.keyBy(validators, 'operatorAddress')
     const delegators = await polkadotAPI.getAllDelegators()
     console.log(`Querying rewards for ${delegators.length} delegators.`)
