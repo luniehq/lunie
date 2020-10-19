@@ -562,7 +562,7 @@ class polkadotAPI extends BaseRESTDataSource {
       return []
     }
     const stakingProgress = await this.query(`pallets/staking/progress`)
-    const blockHeight = this.getBlockHeight()
+    const blockHeight = await this.getBlockHeight()
     const api = await this.getAPI() // only needed for constants
     const epochDuration = api.consts.babe.epochDuration
     const sessionsPerEra = api.consts.staking.sessionsPerEra
