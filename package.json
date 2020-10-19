@@ -17,6 +17,7 @@
     "changelog:api": "cd api && yarn changelog",
     "changelog:app": "cd app && yarn changelog",
     "changelog:extension": "cd extension && yarn changelog",
+    "changelog:scriptrunner": "cd scriptRunner && yarn changelog",
     "start": "cd api && yarn start",
     "serve": "cd app && yarn serve",
     "serve:win": "cd app && yarn serve:win",
