@@ -24,11 +24,11 @@ export const resolveStarname = async (starname, networkId) => {
   if (result.error) throw new Error(result.error)
 
   let address = result.result.account.resources
-    ? result.result.account.resources.find(({ uri }) => uri === asset)
+    ? result.result.account.resources.find(({ uri }) => uri === asset).resource
     : undefined
 
   if (!address) throw new Error("Couldn't resolve starname " + starname)
-  return address.resource
+  return address
 }
 
 export const isStarname = (address) => {

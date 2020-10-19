@@ -284,6 +284,7 @@ export default {
       const to = isStarname(this.address)
         ? [await resolveStarname(this.address, this.network)]
         : [this.address]
+      this.setAddress(to[0])
       return {
         type: messageType.SEND,
         to,
@@ -351,6 +352,9 @@ export default {
     },
     setMaxAmount() {
       this.amount = this.maxAmount
+    },
+    setAddress(recipientAddress) {
+      this.address = recipientAddress
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
