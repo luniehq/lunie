@@ -570,7 +570,7 @@ class polkadotAPI extends BaseRESTDataSource {
     const eraRemainingBlocks = BigNumber(
       stakingProgress.nextActiveEraEstimate
     ).minus(BigNumber(blockHeight))
-    const allUndelegations = stakingLedger.unlocking || []
+    const allUndelegations = stakingLedger.value.unlocking || []
 
     const undelegationsWithEndTime = allUndelegations.map((undelegation) => {
       const remainingEras = undelegation.era - stakingProgress.activeEra
