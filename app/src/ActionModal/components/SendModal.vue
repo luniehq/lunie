@@ -280,14 +280,9 @@ export default {
       if (isNaN(this.amount) || !this.address || !this.selectedToken) {
         return {}
       }
-      // resolve starname to address
-      const to = isStarname(this.address)
-        ? [await resolveStarname(this.address, this.network)]
-        : [this.address]
-      this.setAddress(to[0])
       return {
         type: messageType.SEND,
-        to,
+        to: [this.address],
         from: [this.userAddress],
         amount: {
           amount: this.amount,
@@ -318,6 +313,13 @@ export default {
         this.selectedToken = balances[0].denom
       }
     },
+    address: async function (address) {
+      if (isStarname(this.address)) {
+        // resolve starname to address
+        const recipientAddress = await resolveStarname(this.address, this.network)
+        this.setAddress(recipientAddress)
+      }
+    }
   },
   mounted() {
     this.$apollo.queries.balances.refetch()
