@@ -1,0 +1,1 @@
+[Fixed] [#5134](https://github.com/cosmos/lunie/issues/5134) Fix fiat value error in getOldPolkadotRewardEras.js @mariopino
