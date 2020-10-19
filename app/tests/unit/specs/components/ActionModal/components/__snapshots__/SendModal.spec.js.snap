@@ -31,7 +31,8 @@ exports[`SendModal should display send modal form 1`] = `
       class="memo-span"
     >
       
-      Lunie supports 
+      Lunie supports
+      
       <a
         href="https://starname.me/"
         target="_blank"
@@ -147,7 +148,8 @@ exports[`SendModal validation should show address required error 1`] = `
       class="memo-span"
     >
       
-      Lunie supports 
+      Lunie supports
+      
       <a
         href="https://starname.me/"
         target="_blank"
@@ -264,7 +266,8 @@ exports[`SendModal validation should show an error if trying to send more then t
       class="memo-span"
     >
       
-      Lunie supports 
+      Lunie supports
+      
       <a
         href="https://starname.me/"
         target="_blank"
@@ -381,7 +384,8 @@ exports[`SendModal validation should show bech32 error when address is not bech3
       class="memo-span"
     >
       
-      Lunie supports 
+      Lunie supports
+      
       <a
         href="https://starname.me/"
         target="_blank"
