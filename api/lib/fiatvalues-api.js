@@ -91,7 +91,9 @@ class fiatValueAPI {
 
   async pollNewPriceFeed() {
     this.priceFeed = await this.getNewPriceFeed()
-    await this.updateEMoneyExchangeRates()
+    if (EMoneyFiatExchangeRateApi && EMoneyAPIUrlMainnet && EMoneyAPIUrlTestnet) {
+      await this.updateEMoneyExchangeRates()
+    }
     await this.getFiatValuesForAllCoins()
 
     setTimeout(async () => {
