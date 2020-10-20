@@ -1,7 +1,6 @@
 const BigNumber = require('bignumber.js')
 const { keyBy } = require('lodash')
 
-const { getRanksForValidators } = require('../reducers/common')
 const database = require('../database')
 const config = require('../../config.js')
 
@@ -18,7 +17,7 @@ module.exports.getProposalSummary = function getProposalSummary(type) {
   }
 }
 
-module.exports.getRanksForValidators = function getRanksForValidators(
+function getRanksForValidators(
   validators
 ) {
   return validators
@@ -32,6 +31,8 @@ module.exports.getRanksForValidators = function getRanksForValidators(
       rank: ++index
     }))
 }
+
+module.exports.getRanksForValidators = getRanksForValidators
 
 module.exports.getValidatorFeed = async function getValidatorFeed(
   operatorAddress,
@@ -48,7 +49,7 @@ module.exports.getValidatorFeed = async function getValidatorFeed(
   )
 }
 
-module.exports.getValidatorsProfilesFromDB = async function getValidatorsProfilesFromDB(
+async function getValidatorsProfilesFromDB(
   allValidatorsAddresses,
   networkId
 ) {
@@ -60,6 +61,8 @@ module.exports.getValidatorsProfilesFromDB = async function getValidatorsProfile
   )
   return keyBy(allValidatorsProfiles, `operator_address`)
 }
+
+module.exports.getValidatorsProfilesFromDB = getValidatorsProfilesFromDB
 
 module.exports.getValidatorsProfiles = async function getValidatorsProfiles(
   validators,

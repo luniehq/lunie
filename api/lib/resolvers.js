@@ -239,6 +239,7 @@ const resolvers = (networkList, notificationController) => ({
     profile: async (validator, _, { dataSources }) => {
       const validators = localStore(dataSources, validator.networkId).validators
       const network = networkList.find(({ id }) => id === validator.networkId)
+      const dataSource = dataSources[validator.networkId]
       if (validators && !validators[validator.operatorAddress].profile) {
         await getValidatorsProfiles( Object.values(validators), dataSource, network).then(
           (validatorsWithProfiles) => {
