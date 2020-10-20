@@ -704,18 +704,20 @@ class CosmosV0API extends BaseRESTDataSource {
   }
 
   async getAllDelegators() {
-    const allDelegations = await Object.keys(this.store.validators).reduce(
-      async (all, validator) => {
-        const delegations = await this.query(
-          `staking/validators/${validator}/delegations`
-        )
-        return (await all).concat(delegations)
-      },
-      []
-    )
-    return _.uniqBy(allDelegations, 'delegator_address').map(
-      ({ delegator_address }) => delegator_address
-    )
+    // THIS QUERY KILLS THE LCD
+    // const allDelegations = await Object.keys(this.store.validators).reduce(
+    //   async (all, validator) => {
+    //     const delegations = await this.query(
+    //       `staking/validators/${validator}/delegations`
+    //     )
+    //     return (await all).concat(delegations)
+    //   },
+    //   []
+    // )
+    // return _.uniqBy(allDelegations, 'delegator_address').map(
+    //   ({ delegator_address }) => delegator_address
+    // )
+    return []
   }
 
   async getTransactions(address) {
