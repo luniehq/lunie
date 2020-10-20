@@ -327,16 +327,16 @@ function validatorProfileReducer(
     profile: {
       name: validator.name,
       rank: validator.rank,
-      nationality: validatorProfile.nationality,
-      headerImage: validatorProfile.headerImage,
+      nationality: validatorProfile ? validatorProfile.nationality : undefined,
+      headerImage: validatorProfile ? validatorProfile.headerImage : undefined,
       description: validator.description,
       teamMembers: JSON.parse(validatorProfile.teamMembers),
       socialLinks: {
-        website: validator.website,
-        telegram: validatorProfile.telegram,
-        github: validatorProfile.github,
-        twitter: validatorProfile.twitter,
-        blog: validatorProfile.blog
+        website: validatorProfile ? validatorProfile.website : undefined,
+        telegram: validatorProfile ? validatorProfile.telegram : undefined,
+        github: validatorProfile ? validatorProfile.github : undefined,
+        twitter: validatorProfile ? validatorProfile.twitter : undefined,
+        blog: validatorProfile ? validatorProfile.blog : undefined
       },
       numberStakers,
       uptimePercentage: validator.uptimePercentage,
