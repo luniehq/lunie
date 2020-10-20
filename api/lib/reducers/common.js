@@ -17,9 +17,7 @@ module.exports.getProposalSummary = function getProposalSummary(type) {
   }
 }
 
-function getRanksForValidators(
-  validators
-) {
+function getRanksForValidators(validators) {
   return validators
     .sort((a, b) => {
       const A = new BigNumber(a.tokens)
@@ -51,10 +49,9 @@ module.exports.getValidatorFeed = async function getValidatorFeed(
 
 async function getValidatorsProfilesFromDB(
   allValidatorsAddresses,
-  networkId
+  networkId,
+  db
 ) {
-  const networkSchemaName = networkId.replace(/-/g, '_')
-  const db = new database(config)(networkSchemaName)
   const allValidatorsProfiles = await db.getValidatorsProfiles(
     allValidatorsAddresses,
     networkId
@@ -67,7 +64,8 @@ module.exports.getValidatorsProfilesFromDB = getValidatorsProfilesFromDB
 module.exports.getValidatorsProfiles = async function getValidatorsProfiles(
   validators,
   dataSource,
-  network
+  network,
+  db
 ) {
   validators = getRanksForValidators(validators)
   const allValidatorsAddresses = validators.map(
@@ -75,7 +73,8 @@ module.exports.getValidatorsProfiles = async function getValidatorsProfiles(
   )
   const validatorProfilesDictionary = await getValidatorsProfilesFromDB(
     allValidatorsAddresses,
-    validators.find((validator) => validator).networkId
+    validators.find((validator) => validator).networkId,
+    db
   )
   return await Promise.all(
     validators.map(async (validator) => {

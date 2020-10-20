@@ -18,6 +18,7 @@ const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
 const { registerUser } = require('./accounts')
 const { getValidatorsProfiles, getValidatorFeed } = require('./reducers/common')
+const FiatValuesAPI = require('./fiatvalues-api')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -239,15 +240,27 @@ const resolvers = (networkList, notificationController) => ({
     profile: async (validator, _, { dataSources }) => {
       const validators = localStore(dataSources, validator.networkId).validators
       const network = networkList.find(({ id }) => id === validator.networkId)
-      const dataSource = dataSources[validator.networkId]
+      const dataSourceClass = require(`./${network.source_class_name}`)
+      const fiatValuesAPI = new FiatValuesAPI()
+      const networkSchemaName = validator.networkId.replace(/-/g, '_')
+      const db = new database(config)(networkSchemaName)
+      const dataSource = new dataSourceClass(
+        network,
+        localStore(dataSources, validator.networkId),
+        fiatValuesAPI,
+        db
+      )
       if (validators && !validators[validator.operatorAddress].profile) {
-        await getValidatorsProfiles( Object.values(validators), dataSource, network).then(
-          (validatorsWithProfiles) => {
-            this.store.update({
-              validators: validatorsWithProfiles
-            })
-          }
-        )
+        await getValidatorsProfiles(
+          Object.values(validators),
+          dataSource,
+          network,
+          db
+        ).then((validatorsWithProfiles) => {
+          localStore(dataSources, validator.networkId).update({
+            validators: validatorsWithProfiles
+          })
+        })
       }
       return validators
         ? validators[validator.operatorAddress].profile
