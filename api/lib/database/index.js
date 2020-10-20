@@ -2,7 +2,7 @@ const { insert, read, query } = require('./helpers')
 const {
   getAccountNotifications,
   getValidatorsInfo,
-  getValidatorsProfiles,
+  getValidatorProfile,
   getMaintenance,
   storeNetwork,
   getNetwork,
@@ -33,7 +33,7 @@ function database(dbConfig) {
       read: read(dbConfig)(schema),
       query: query(dbConfig),
       getValidatorsInfo: getValidatorsInfo(dbConfig)(schema),
-      getValidatorsProfiles: getValidatorsProfiles(dbConfig)(schema),
+      getValidatorProfile: getValidatorProfile(dbConfig)(schema),
       getNotifications: getNotifications(dbConfig)(schema),
       getValidatorInfoByAddress: async (validatorId) => {
         const validatorInfo = await getValidatorsInfo(dbConfig)(schema)(

@@ -47,49 +47,31 @@ module.exports.getValidatorFeed = async function getValidatorFeed(
   )
 }
 
-async function getValidatorsProfilesFromDB(
-  allValidatorsAddresses,
-  networkId,
-  db
-) {
-  const allValidatorsProfiles = await db.getValidatorsProfiles(
-    allValidatorsAddresses,
-    networkId
-  )
-  return keyBy(allValidatorsProfiles, `operator_address`)
-}
-
-module.exports.getValidatorsProfilesFromDB = getValidatorsProfilesFromDB
-
-module.exports.getValidatorsProfiles = async function getValidatorsProfiles(
+module.exports.getValidatorProfile = async function getValidatorProfile(
   validators,
+  validator,
   dataSource,
   network,
   db
 ) {
   validators = getRanksForValidators(validators)
-  const allValidatorsAddresses = validators.map(
-    ({ operatorAddress }) => operatorAddress
+  validator.rank = validators.find(
+    ({ operatorAddress }) => operatorAddress === validator.operatorAddress
+  ).rank
+  const validatorProfile = await db.getValidatorProfile(
+    validator.operatorAddress,
+    network.id
   )
-  const validatorProfilesDictionary = await getValidatorsProfilesFromDB(
-    allValidatorsAddresses,
-    validators.find((validator) => validator).networkId,
-    db
-  )
-  return await Promise.all(
-    validators.map(async (validator) => {
-      let allValidatorDelegations = validator.nominations // for polkadot networks
-      if (!allValidatorDelegations) {
-        allValidatorDelegations = await dataSource.getAllValidatorDelegations(
-          validator
-        )
-      }
-      return dataSource.reducers.validatorProfileReducer(
-        validator,
-        validatorProfilesDictionary[validator.operatorAddress],
-        allValidatorDelegations.length,
-        network
-      )
-    })
+  let allValidatorDelegations = validator.nominations // for polkadot networks
+  if (!allValidatorDelegations) {
+    allValidatorDelegations = await dataSource.getAllValidatorDelegations(
+      validator
+    )
+  }
+  return dataSource.reducers.validatorProfileReducer(
+    validator,
+    validatorProfile,
+    allValidatorDelegations.length,
+    network
   )
 }
