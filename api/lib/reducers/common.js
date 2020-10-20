@@ -1,3 +1,5 @@
+const BigNumber = require('bignumber.js')
+
 module.exports.getProposalSummary = function getProposalSummary(type) {
   switch (type) {
     case `TEXT`:
@@ -9,4 +11,34 @@ module.exports.getProposalSummary = function getProposalSummary(type) {
     default:
       return `Unknown proposal type`
   }
+}
+
+module.exports.getRanksForValidators = function getRanksForValidators(
+  validators
+) {
+  return validators
+    .sort((a, b) => {
+      const A = new BigNumber(a.tokens)
+      const B = new BigNumber(b.tokens)
+      return A.lt(B) ? 1 : -1
+    })
+    .map((validator, index) => ({
+      ...validator,
+      rank: ++index
+    }))
+}
+
+module.exports.getValidatorFeed = async function getValidatorFeed(
+  operatorAddress,
+  networkList,
+  dataSource,
+  network
+) {
+  const validatorFeed = await dataSource.db.getAccountNotifications(
+    operatorAddress,
+    network.id
+  )
+  return validatorFeed.map((notification) =>
+    dataSource.reducers.notificationReducer(notification, networkList)
+  )
 }

@@ -1,6 +1,5 @@
-const { sortBy } = require('lodash')
+const { sortBy, keyBy } = require('lodash')
 const { UserInputError, withFilter } = require('apollo-server')
-const BigNumber = require('bignumber.js')
 const {
   blockAdded,
   notificationAdded,
@@ -8,7 +7,6 @@ const {
   userTransactionV2Added,
   event
 } = require('./subscriptions')
-const { encodeB32, decodeB32 } = require('./tools')
 const {
   getNetworkTransactionGasEstimates,
   getPolkadotFee,
@@ -19,6 +17,7 @@ const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
 const { registerUser } = require('./accounts')
+const { getValidatorFeed } = require('./reducers/common')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -47,11 +46,17 @@ function localStore(dataSources, networkId) {
 
 async function validators(
   _,
-  { networkId, searchTerm, activeOnly, popularSort },
+  { networkId, searchTerm, activeOnly, popularSort, fiatCurrency },
   { dataSources }
 ) {
   await localStore(dataSources, networkId).dataReady
-  let validators = Object.values(localStore(dataSources, networkId).validators)
+  let validators = []
+  const dataSource = remoteFetch(dataSources, networkId)
+  if (fiatCurrency) {
+    validators = dataSource.getValidators(dataSource.blockHeight, fiatCurrency)
+  } else {
+    validators = Object.values(localStore(dataSources, networkId).validators)
+  }
   if (activeOnly) {
     validators = validators.filter(({ status }) => status === 'ACTIVE')
   }
@@ -229,6 +234,22 @@ const resolvers = (networkList, notificationController) => ({
     selfStake: (validator, _, { dataSources }) => {
       return remoteFetch(dataSources, validator.networkId).getSelfStake(
         validator
+      )
+    },
+    profile: (validator, _, { dataSources }) => {
+      return localStore(dataSources, validator.networkId).validators
+        ? localStore(dataSources, validator.networkId).validators[
+            validator.operatorAddress
+          ].profile
+        : undefined
+    },
+    feed: async (validator, _, { dataSources }) => {
+      // get feed for this single validator
+      return await getValidatorFeed(
+        validator.operatorAddress,
+        networkList,
+        remoteFetch(dataSources, validator.networkId),
+        networkList.find(({ id }) => id === validator.networkId)
       )
     }
   },

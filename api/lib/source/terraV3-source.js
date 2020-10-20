@@ -8,7 +8,7 @@ class TerraV3API extends CosmosV2API {
     this.reducers = require('../reducers/terraV3-reducers')
   }
 
-  async getAllValidators(height) {
+  async getValidators(height) {
     let [
       validators,
       validatorSet,
@@ -20,7 +20,7 @@ class TerraV3API extends CosmosV2API {
         this.query(`staking/validators?status=bonded`),
         this.query(`staking/validators?status=unbonded`)
       ]).then((validatorGroups) => [].concat(...validatorGroups)),
-      this.getAllValidatorSets(height),
+      this.getValidatorsets(height),
       this.getSignedBlockWindow(),
       this.query(`https://fcd.terra.dev/v1/staking`, undefined, 'validators')
     ])

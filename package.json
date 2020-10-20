@@ -17,11 +17,14 @@
     "changelog:api": "cd api && yarn changelog",
     "changelog:app": "cd app && yarn changelog",
     "changelog:extension": "cd extension && yarn changelog",
+    "changelog:scriptrunner": "cd scriptRunner && yarn changelog",
     "start": "cd api && yarn start",
     "serve": "cd app && yarn serve",
     "serve:win": "cd app && yarn serve:win",
     "lint:global": "cd api && yarn lint --fix && cd .. && cd app && yarn lint --fix && cd .. && cd extension && yarn lint:fix && cd ..",
-    "release": "git stash && git fetch --all && git checkout origin/develop -B develop && git pull && git checkout origin/release -B release && git pull && git merge origin/master && git merge origin/develop && git push && git stash pop"
+    "release:api": "bash release.sh api",
+    "release:app": "bash release.sh app",
+    "release:extension": "bash release.sh extension"
   },
   "resolutions": {
     "node-addon-api": "^2.0.1"

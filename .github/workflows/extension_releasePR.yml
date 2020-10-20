@@ -3,7 +3,7 @@ name: Extension Release Workflow
 on:
   push:
     branches:
-      - 'release'
+      - 'release-extension'
     paths:
       - 'extension/**'
 env:
