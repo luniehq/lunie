@@ -17,7 +17,8 @@ const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
 const { registerUser } = require('./accounts')
-const { getValidatorFeed } = require('./reducers/common')
+const { getValidatorProfile, getValidatorFeed } = require('./reducers/common')
+const FiatValuesAPI = require('./fiatvalues-api')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -236,12 +237,20 @@ const resolvers = (networkList, notificationController) => ({
         validator
       )
     },
-    profile: (validator, _, { dataSources }) => {
-      return localStore(dataSources, validator.networkId).validators
-        ? localStore(dataSources, validator.networkId).validators[
-            validator.operatorAddress
-          ].profile
-        : undefined
+    profile: async (validator, _, { dataSources }) => {
+      const validators = Object.values(
+        localStore(dataSources, validator.networkId).validators
+      )
+      if (validators) {
+        const network = networkList.find(({ id }) => id === validator.networkId)
+        return await getValidatorProfile(
+          validators,
+          validator,
+          remoteFetch(dataSources, validator.networkId),
+          network,
+          createDBInstance(validator.networkId)
+        )
+      }
     },
     feed: async (validator, _, { dataSources }) => {
       // get feed for this single validator

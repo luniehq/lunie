@@ -112,7 +112,9 @@ function validatorProfileReducer(
       nationality: validatorProfile ? validatorProfile.nationality : undefined,
       headerImage: validatorProfile ? validatorProfile.headerImage : undefined,
       description: validator.details,
-      teamMembers: JSON.parse(validatorProfile.teamMembers),
+      teamMembers: validatorProfile
+        ? JSON.parse(validatorProfile.teamMembers)
+        : undefined,
       socialLinks: {
         website: validatorProfile ? validatorProfile.website : undefined,
         telegram: validatorProfile ? validatorProfile.telegram : undefined,
