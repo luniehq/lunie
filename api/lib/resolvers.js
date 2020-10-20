@@ -241,32 +241,15 @@ const resolvers = (networkList, notificationController) => ({
       const validators = Object.values(
         localStore(dataSources, validator.networkId).validators
       )
-      const network = networkList.find(({ id }) => id === validator.networkId)
-      const dataSourceClass = require(`./${network.source_class_name}`)
-      const fiatValuesAPI = new FiatValuesAPI()
-      const networkSchemaName = validator.networkId.replace(/-/g, '_')
-      const db = new database(config)(networkSchemaName)
-      const dataSource = new dataSourceClass(
-        network,
-        localStore(dataSources, validator.networkId),
-        fiatValuesAPI,
-        db
-      )
       if (validators) {
-        await getValidatorProfile(
+        const network = networkList.find(({ id }) => id === validator.networkId)
+        return await getValidatorProfile(
           validators,
           validator,
-          dataSource,
+          remoteFetch(dataSources, validator.networkId),
           network,
-          db
-        ).then((validatorWithProfile) => {
-          localStore(dataSources, validator.networkId)[
-            validator.operatorAddress
-          ] = validatorWithProfile
-        })
-        return localStore(dataSources, validator.networkId)[
-          validator.operatorAddress
-        ].profile
+          createDBInstance(validator.networkId)
+        )
       }
     },
     feed: async (validator, _, { dataSources }) => {
