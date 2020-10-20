@@ -54,9 +54,14 @@ module.exports.getTwitterImages = async () => {
     }))
     const rows = updatedValidators
       .map(({name, operator_address, picture}) => {
-        return {
-          name, operator_address, picture, last_updated: new Date().toISOString()
+        let row = {
+          name, operator_address, last_updated: new Date().toISOString()
         }
+        // avoid overwriting picture in the db with null values
+        if (picture) {
+          row.picture = picture
+        }
+        return row
       })
     db(schema).upsert("validatorprofiles", rows)
   })

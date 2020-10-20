@@ -2,6 +2,11 @@ const BigNumber = require('bignumber.js')
 const { encodeB32, decodeB32 } = require('../tools')
 const { fixDecimalsAndRoundUp } = require('../../common/numbers.js')
 const { getProposalSummary } = require('./common')
+const {
+  getMessageTitle,
+  getPushLink,
+  getIcon
+} = require('../notifications/notifications')
 /**
  * Modify the following reducers with care as they are used for ./cosmosV2-reducer.js as well
  * [proposalBeginTime, proposalEndTime, getDeposit, tallyReducer, atoms, getValidatorStatus, coinReducer]
@@ -256,7 +261,12 @@ function getValidatorStatus(validator) {
   }
 }
 
-function validatorReducer(networkId, signedBlocksWindow, validator) {
+function validatorReducer(
+  networkId,
+  signedBlocksWindow,
+  validator,
+  fiatValuesResponse
+) {
   const statusInfo = getValidatorStatus(validator)
   let websiteURL = validator.description.website
   if (!websiteURL || websiteURL === '[do-not-modify]') {
@@ -264,7 +274,6 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
   } else if (!websiteURL.match(/http[s]?/)) {
     websiteURL = `https://` + websiteURL
   }
-
   return {
     id: validator.operator_address,
     networkId,
@@ -299,7 +308,41 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
     status: statusInfo.status,
     statusDetailed: statusInfo.status_detailed,
     delegatorShares: validator.delegator_shares, // needed to calculate delegation token amounts from shares
-    popularity: validator.popularity
+    popularity: validator.popularity,
+    totalStakedAssets: {
+      ...fiatValuesResponse,
+      amount: fiatValuesResponse.amount.toFixed(2)
+    }
+  }
+}
+
+function validatorProfileReducer(
+  validator,
+  validatorProfile,
+  numberStakers,
+  network
+) {
+  return {
+    ...validator,
+    profile: {
+      name: validator.name,
+      rank: validator.rank,
+      nationality: validatorProfile ? validatorProfile.nationality : undefined,
+      headerImage: validatorProfile ? validatorProfile.headerImage : undefined,
+      description: validator.description,
+      teamMembers: JSON.parse(validatorProfile.teamMembers),
+      socialLinks: {
+        website: validatorProfile ? validatorProfile.website : undefined,
+        telegram: validatorProfile ? validatorProfile.telegram : undefined,
+        github: validatorProfile ? validatorProfile.github : undefined,
+        twitter: validatorProfile ? validatorProfile.twitter : undefined,
+        blog: validatorProfile ? validatorProfile.blog : undefined
+      },
+      numberStakers,
+      uptimePercentage: validator.uptimePercentage,
+      contributionLinks: JSON.parse(validatorProfile.contributionLinks),
+      network
+    }
   }
 }
 
@@ -560,6 +603,17 @@ function extractInvolvedAddresses(transaction) {
   return involvedAddresses
 }
 
+function notificationReducer(notification, networks) {
+  return {
+    id: notification.id,
+    networkId: notification.networkId,
+    timestamp: notification.created_at,
+    title: getMessageTitle(networks, notification),
+    link: getPushLink(networks, notification),
+    icon: getIcon(notification)
+  }
+}
+
 module.exports = {
   proposalReducer,
   networkAccountReducer,
@@ -569,6 +623,7 @@ module.exports = {
   depositReducer,
   voteReducer,
   validatorReducer,
+  validatorProfileReducer,
   blockReducer,
   delegationReducer,
   coinReducer,
@@ -580,6 +635,7 @@ module.exports = {
   rewardReducer,
   accountInfoReducer,
   calculateTokens,
+  notificationReducer,
 
   atoms,
   proposalBeginTime,

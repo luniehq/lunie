@@ -1,6 +1,6 @@
 const BigNumber = require('bignumber.js')
 const BN = require('bn.js')
-const { orderBy, uniqWith } = require('lodash')
+const { orderBy, uniqWith, keyBy } = require('lodash')
 const { stringToU8a, hexToString, hexToU8a } = require('@polkadot/util')
 const { encodeAddress } = require('@polkadot/util-crypto')
 const Sentry = require('@sentry/node')
@@ -134,7 +134,7 @@ class polkadotAPI extends BaseRESTDataSource {
       : []
   }
 
-  async getAllValidators() {
+  async getValidators(blockHeight, fiatCurrency = 'USD') {
     const api = await this.getAPI()
 
     const [allStashAddresses, validatorAddresses] = await Promise.all([
@@ -172,7 +172,7 @@ class polkadotAPI extends BaseRESTDataSource {
     allValidatorsIdentity = JSON.parse(JSON.stringify(allValidatorsIdentity))
 
     // Get annualized validator rewards
-    const expectedReturns = await this.getAllValidatorsExpectedReturns()
+    const expectedReturns = await this.getValidatorsExpectedReturns()
 
     allValidators.forEach((validator) => {
       if (expectedReturns[validator.accountId.toString()]) {
@@ -209,9 +209,23 @@ class polkadotAPI extends BaseRESTDataSource {
         validator.votingPower = 0
       }
     })
-
-    return allValidators.map((validator) =>
-      this.reducers.validatorReducer(this.network, validator)
+    return Promise.all(
+      allValidators.map(async (validator) => {
+        const fiatValuesResponse = await this.fiatValuesAPI.calculateFiatValues(
+          [
+            {
+              amount: validator.tokens,
+              denom: this.network.stakingDenom
+            }
+          ],
+          fiatCurrency
+        )
+        return this.reducers.validatorReducer(
+          this.network,
+          validator,
+          fiatValuesResponse[this.network.stakingDenom]
+        )
+      })
     )
   }
 
@@ -276,7 +290,7 @@ class polkadotAPI extends BaseRESTDataSource {
   //
   // Annualized validator rewards
   //
-  async getAllValidatorsExpectedReturns() {
+  async getValidatorsExpectedReturns() {
     let expectedReturns = []
     let validatorEraPoints = []
     let endEraValidatorList = []
@@ -548,7 +562,7 @@ class polkadotAPI extends BaseRESTDataSource {
       return []
     }
     const stakingProgress = await this.query(`pallets/staking/progress`)
-    const blockHeight = this.getBlockHeight()
+    const blockHeight = await this.getBlockHeight()
     const api = await this.getAPI() // only needed for constants
     const epochDuration = api.consts.babe.epochDuration
     const sessionsPerEra = api.consts.staking.sessionsPerEra
@@ -556,7 +570,7 @@ class polkadotAPI extends BaseRESTDataSource {
     const eraRemainingBlocks = BigNumber(
       stakingProgress.nextActiveEraEstimate
     ).minus(BigNumber(blockHeight))
-    const allUndelegations = stakingLedger.unlocking || []
+    const allUndelegations = stakingLedger.value.unlocking || []
 
     const undelegationsWithEndTime = allUndelegations.map((undelegation) => {
       const remainingEras = undelegation.era - stakingProgress.activeEra
