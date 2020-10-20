@@ -1634,10 +1634,10 @@
   dependencies:
     "@capacitor/core" "^2.0.0"
 
-"@capacitor/android@2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-2.4.0.tgz#e75b01b5ce5b60f4ef400c7867e81fd2c1782b47"
-  integrity sha512-5sJicZjtuBRgtmBuV1kvWnIjlu7bnw2TGGp62UXf0ZrjvMUCYSFHBqIHZ8neffW7a3xM5cdGMUlxJ+HfA9ntAg==
+"@capacitor/android@2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-2.4.2.tgz#ddc55bf0ea78214a0a760330a439916093792d00"
+  integrity sha512-0OpOmsno6yFyN0tOEhE9LkAqQrnTGUxz49+ZdivieI3axFe3CpxbFhcfIsJtr96q9jhkspkYPMqGNZm3gPKjaA==
 
 "@capacitor/cli@2.4.0":
   version "2.4.0"
@@ -1670,10 +1670,10 @@
   dependencies:
     tslib "^1.9.0"
 
-"@capacitor/ios@2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-2.4.0.tgz#41302eee5c0b232755b61f7a978550f191e2a030"
-  integrity sha512-G4WcQHS4RuK94Ncoi5K+r12DWPqkB8yZKupQrJaGT1S/Zyc3mcA9m1f4HwRPlYCwyxQ6lCd8+N9GYxLu7Kv+SA==
+"@capacitor/ios@2.4.2":
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-2.4.2.tgz#cb608c8009a4609f2c654d78bf21967ecf3b0724"
+  integrity sha512-DqfDBrbaVKV2nkjMF7uL58G5QbJHoQVu/qdw/Uh5QSVkHqsY0lBKyi5nxhH3+cqBBMl+oGNB9EMBHovRVdR0EQ==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
