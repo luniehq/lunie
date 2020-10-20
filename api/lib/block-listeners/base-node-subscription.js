@@ -13,12 +13,9 @@ const {
   eventTypes,
   resourceTypes
 } = require('../notifications/notifications-types')
-const { keyBy } = require('lodash')
-const { getRanksForValidators } = require('../reducers/common')
 
 const BLOCK_POLLING_INTERVAL = 5000
-const EXPECTED_MAX_BLOCK_WINDOW = 120000
-const VALIDATOR_PROFILE_POLLING_INTERVAL = 120000 // 2min
+const EXPECTED_MAX_BLOCK_WINDOW = 120000 // 2min
 const PROPOSAL_POLLING_INTERVAL = 600000 // 10min
 const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
 
@@ -60,15 +57,6 @@ class BaseNodeSubscription {
       this.fiatValuesAPI,
       this.db
     )
-  }
-
-  async pollForValidatorsProfiles(validators) {
-    const dataSource = this.getDataSource()
-    this.getValidatorProfiles(validators, dataSource)
-
-    setTimeout(async () => {
-      this.pollForValidatorsProfiles(validators)
-    }, VALIDATOR_PROFILE_POLLING_INTERVAL)
   }
 
   async pollForProposalChanges() {
@@ -137,54 +125,7 @@ class BaseNodeSubscription {
       await this.store.update({
         validators
       })
-      const storeValidators = Object.values(this.store.validators)
-      // now that we have validators in store start polling for validator profiles
-      this.pollForValidatorsProfiles(storeValidators)
     })
-  }
-
-  async getValidatorsProfilesFromDB(allValidatorsAddresses) {
-    const allValidatorsProfiles = await this.db.getValidatorsProfiles(
-      allValidatorsAddresses,
-      this.network.id
-    )
-    return keyBy(allValidatorsProfiles, `operator_address`)
-  }
-
-  async getValidatorsProfiles(validators, dataSource) {
-    validators = getRanksForValidators(validators)
-    const allValidatorsAddresses = validators.map(
-      ({ operatorAddress }) => operatorAddress
-    )
-    const validatorProfilesDictionary = await this.getValidatorsProfilesFromDB(
-      allValidatorsAddresses
-    )
-    return await Promise.all(
-      validators.map(async (validator) => {
-        let allValidatorDelegations = validator.nominations // for polkadot networks
-        if (!allValidatorDelegations) {
-          allValidatorDelegations = await dataSource.getAllValidatorDelegations(
-            validator
-          )
-        }
-        return dataSource.reducers.validatorProfileReducer(
-          validator,
-          validatorProfilesDictionary[validator.operatorAddress],
-          allValidatorDelegations.length,
-          this.network
-        )
-      })
-    )
-  }
-
-  async getValidatorProfiles(validators, dataSource) {
-    await this.getValidatorsProfiles(validators, dataSource).then(
-      (validatorsWithProfiles) => {
-        this.store.update({
-          validators: validatorsWithProfiles
-        })
-      }
-    )
   }
 
   async pollForNewBlock() {

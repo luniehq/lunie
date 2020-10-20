@@ -95,10 +95,10 @@ const getValidatorsInfo = ({ hasura_url, hasura_admin_key }) => (
   )
 }
 
-const getValidatorsProfiles = ({ hasura_url, hasura_admin_key }) => (
+const getValidatorProfile = ({ hasura_url, hasura_admin_key }) => (
   schema
-) => async (addresses) => {
-  return await read({
+) => async (address) => {
+  const validatorProfileResponse = await read({
     hasura_url,
     hasura_admin_key
   })(schema)(
@@ -117,10 +117,9 @@ const getValidatorsProfiles = ({ hasura_url, hasura_admin_key }) => (
       'blog',
       'contributionLinks'
     ],
-    `where: {operator_address: {_in: [${addresses.map(
-      (address) => `"${address}"`
-    )}]}}`
+    `where: {operator_address: {_in: ["${address}"]}}`
   )
+  return validatorProfileResponse[0]
 }
 
 const getNotifications = ({ hasura_url, hasura_admin_key }) => (
@@ -598,7 +597,7 @@ module.exports = {
   incrementValidatorViews,
   getValidatorsViews,
   getValidatorsInfo,
-  getValidatorsProfiles,
+  getValidatorProfile,
   getMaintenance,
   storeStatistics,
   storeNotification,
