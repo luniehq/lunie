@@ -1,4 +1,9 @@
 const BigNumber = require('bignumber.js')
+const { keyBy } = require('lodash')
+
+const { getRanksForValidators } = require('../reducers/common')
+const database = require('../database')
+const config = require('../../config.js')
 
 module.exports.getProposalSummary = function getProposalSummary(type) {
   switch (type) {
@@ -40,5 +45,49 @@ module.exports.getValidatorFeed = async function getValidatorFeed(
   )
   return validatorFeed.map((notification) =>
     dataSource.reducers.notificationReducer(notification, networkList)
+  )
+}
+
+module.exports.getValidatorsProfilesFromDB = async function getValidatorsProfilesFromDB(
+  allValidatorsAddresses,
+  networkId
+) {
+  const networkSchemaName = networkId.replace(/-/g, '_')
+  const db = new database(config)(networkSchemaName)
+  const allValidatorsProfiles = await db.getValidatorsProfiles(
+    allValidatorsAddresses,
+    networkId
+  )
+  return keyBy(allValidatorsProfiles, `operator_address`)
+}
+
+module.exports.getValidatorsProfiles = async function getValidatorsProfiles(
+  validators,
+  dataSource,
+  network
+) {
+  validators = getRanksForValidators(validators)
+  const allValidatorsAddresses = validators.map(
+    ({ operatorAddress }) => operatorAddress
+  )
+  const validatorProfilesDictionary = await getValidatorsProfilesFromDB(
+    allValidatorsAddresses,
+    validators.find((validator) => validator).networkId
+  )
+  return await Promise.all(
+    validators.map(async (validator) => {
+      let allValidatorDelegations = validator.nominations // for polkadot networks
+      if (!allValidatorDelegations) {
+        allValidatorDelegations = await dataSource.getAllValidatorDelegations(
+          validator
+        )
+      }
+      return dataSource.reducers.validatorProfileReducer(
+        validator,
+        validatorProfilesDictionary[validator.operatorAddress],
+        allValidatorDelegations.length,
+        network
+      )
+    })
   )
 }

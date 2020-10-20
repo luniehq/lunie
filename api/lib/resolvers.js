@@ -17,7 +17,7 @@ const { getNotifications } = require('./notifications/notifications')
 const config = require('../config.js')
 const { logRewards, logBalances } = require('./statistics')
 const { registerUser } = require('./accounts')
-const { getValidatorFeed } = require('./reducers/common')
+const { getValidatorsProfiles, getValidatorFeed } = require('./reducers/common')
 
 function createDBInstance(network) {
   const networkSchemaName = network ? network.replace(/-/g, '_') : false
@@ -236,11 +236,20 @@ const resolvers = (networkList, notificationController) => ({
         validator
       )
     },
-    profile: (validator, _, { dataSources }) => {
-      return localStore(dataSources, validator.networkId).validators
-        ? localStore(dataSources, validator.networkId).validators[
-            validator.operatorAddress
-          ].profile
+    profile: async (validator, _, { dataSources }) => {
+      const validators = localStore(dataSources, validator.networkId).validators
+      const network = networkList.find(({ id }) => id === validator.networkId)
+      if (validators && !validators[validator.operatorAddress].profile) {
+        await getValidatorsProfiles( Object.values(validators), dataSource, network).then(
+          (validatorsWithProfiles) => {
+            this.store.update({
+              validators: validatorsWithProfiles
+            })
+          }
+        )
+      }
+      return validators
+        ? validators[validator.operatorAddress].profile
         : undefined
     },
     feed: async (validator, _, { dataSources }) => {
