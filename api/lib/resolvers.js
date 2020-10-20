@@ -250,7 +250,7 @@ const resolvers = (networkList, notificationController) => ({
         fiatValuesAPI,
         db
       )
-      if (validators && !validators[validator.operatorAddress].profile) {
+      if (validators) {
         await getValidatorsProfiles(
           Object.values(validators),
           dataSource,
@@ -261,10 +261,8 @@ const resolvers = (networkList, notificationController) => ({
             validators: validatorsWithProfiles
           })
         })
+        return validators[validator.operatorAddress].profile
       }
-      return validators
-        ? validators[validator.operatorAddress].profile
-        : undefined
     },
     feed: async (validator, _, { dataSources }) => {
       // get feed for this single validator
