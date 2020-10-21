@@ -8,7 +8,7 @@
         <AccountMenu
           v-if="openAccount && isSameAccount(account)"
           :address="account.address"
-          :network-slug="accountNetworkSlug(account)"
+          :network-id="account.network || account.networkId"
         />
 
         <div
@@ -102,11 +102,6 @@ export default {
         this.openAccount.address === account.address &&
         this.openAccount.sessionType === account.sessionType
       )
-    },
-    accountNetworkSlug(account) {
-      return this.networks.find(
-        ({ id }) => id === account.network || id === account.networkId
-      ).slug
     },
   },
 }

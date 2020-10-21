@@ -138,7 +138,7 @@ export default {
       return this.$route.params.address
     },
     addressNetwork() {
-      return this.$route.params.networkId
+      return this.$route.params.addressNetworkId
     },
     seed: {
       get() {

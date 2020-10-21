@@ -4,7 +4,7 @@
       <div class="account-menu-button-container">
         <router-link
           class="account-menu-button account-menu-delete-account"
-          :to="{ name: 'delete', params: { address, networkId: networkSlug } }"
+          :to="{ name: 'delete', params: { address, addressNetworkId: networkId } }"
         >
           <i class="material-icons notranslate show-seed">delete</i>
         </router-link>
@@ -33,7 +33,7 @@ export default {
       type: String,
       required: true,
     },
-    networkSlug: {
+    networkId: {
       type: String,
       required: true,
     },
