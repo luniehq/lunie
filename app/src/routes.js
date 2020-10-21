@@ -288,9 +288,9 @@ export default (store) => {
       },
     },
     {
-      path: `/select-account`,
-      name: `select-account-modal`,
-      component: () => import(`./components/common/SelectAccountModal`),
+      path: `/manage-accounts`,
+      name: `manage-accounts-modal`,
+      component: () => import(`./components/account/ManageAccountsModal`),
       meta: {
         networkSpecificRoute: true,
       },

@@ -252,8 +252,8 @@ export default {
       }
     },
     goToSelectAccount() {
-      if (this.$route.name !== `select-account-modal`) {
-        this.$router.push({ name: `select-account-modal` })
+      if (this.$route.name !== `manage-accounts-modal`) {
+        this.$router.push({ name: `manage-accounts-modal` })
       }
     },
     signUpForPremium() {

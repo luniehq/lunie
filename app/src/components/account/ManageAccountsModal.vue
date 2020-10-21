@@ -12,7 +12,7 @@ import AccountList from "account/AccountList"
 import { mapState } from "vuex"
 
 export default {
-  name: `select-account-modal`,
+  name: `manage-accounts-modal`,
   components: {
     SessionFrame,
     AccountList,
