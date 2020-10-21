@@ -7,8 +7,7 @@
       >
         <AccountMenu
           v-if="openAccount && isSameAccount(account)"
-          :address="account.address"
-          :network-id="account.network || account.networkId"
+          :account="account"
         />
 
         <div

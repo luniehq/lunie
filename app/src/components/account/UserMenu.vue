@@ -55,12 +55,6 @@
               :address="address"
               @click="selectAddress(address)"
             />
-            <i
-              v-if="['ledger', 'explore'].includes(address.sessionType)"
-              class="material-icons notranslate"
-              @click="signOutOfAddress(address)"
-              >close</i
-            >
           </div>
         </div>
         <div
@@ -76,7 +70,7 @@
           id="show-seed"
           v-close-popover
           class="menu-list-item"
-          @click="goToSelectAccount()"
+          @click="goToManageAccounts()"
         >
           <span>Manage Addresses</span>
           <i class="material-icons">build</i>
@@ -240,9 +234,6 @@ export default {
         networkId: address.networkId,
       })
     },
-    signOutOfAddress(address) {
-      this.$store.dispatch(`signOutAddress`, address)
-    },
     signOut() {
       this.$store.dispatch(`signOutUser`)
     },
@@ -251,7 +242,7 @@ export default {
         this.$router.push({ name: `welcome` })
       }
     },
-    goToSelectAccount() {
+    goToManageAccounts() {
       if (this.$route.name !== `manage-accounts-modal`) {
         this.$router.push({ name: `manage-accounts-modal` })
       }
