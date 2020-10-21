@@ -5,7 +5,6 @@ const {
   notificationAdded,
   userTransactionAdded,
   userTransactionV2Added,
-  userTransactionV3Added,
   event
 } = require('./subscriptions')
 const {
@@ -490,10 +489,6 @@ const resolvers = (networkList, notificationController) => ({
     userTransactionAddedV2: {
       subscribe: (_, { networkId, address }) =>
         userTransactionV2Added(networkId, address)
-    },
-    userTransactionAddedV3: {
-      subscribe: (_, { networkId, address }) =>
-        userTransactionV3Added(networkId, address)
     },
     event: {
       subscribe: withFilter(
