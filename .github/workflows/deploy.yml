@@ -25,7 +25,6 @@ jobs:
           with:
             token: ${{ secrets.GIT_BOT_TOKEN }}
             commit-message: Deploy Release
-            committer: Happy Release Bot 💃
             branch: develop
             base: master
             delete-branch: false
