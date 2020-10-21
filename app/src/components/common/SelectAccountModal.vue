@@ -1,5 +1,5 @@
 <template>
-  <SessionFrame ref="sessionFrame" icon="account_box" hide-back>
+  <SessionFrame icon="account_box" hide-back>
     <div class="select-account">
       <AccountList
         :accounts="accounts"
@@ -28,11 +28,13 @@ export default {
     },
   },
   methods: {
-    showSeed() {
-      console.log(`Show Seed`)
-    },
-    close() {
-      this.$refs.sessionFrame.closeModal()
+    showSeed(account) {
+      if (this.$route.name !== `reveal`) {
+        this.$router.push({
+          name: `reveal`,
+          params: { address: account.address },
+        })
+      }
     },
   },
 }
