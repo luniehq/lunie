@@ -72,6 +72,15 @@
           <span>Add an address</span>
           <i class="material-icons">add_circle</i>
         </div>
+        <div
+          id="show-seed"
+          v-close-popover
+          class="menu-list-item"
+          @click="goToSelectAccount()"
+        >
+          <span>Show seed</span>
+          <i class="material-icons">visibility</i>
+        </div>
         <div v-if="account.userSignedIn">
           <div
             v-if="false"
@@ -182,6 +191,7 @@ export default {
         let allAddressesWithAddressRole = await this.getAllAddressesRoles(
           allAddresses.filter(({ address }) => address)
         )
+        this.$store.commit(`setUserAccounts`, allAddressesWithAddressRole)
         return allAddressesWithAddressRole
       },
     },
@@ -239,6 +249,11 @@ export default {
     goToWelcome() {
       if (this.$route.name !== `welcome`) {
         this.$router.push({ name: `welcome` })
+      }
+    },
+    goToSelectAccount() {
+      if (this.$route.name !== `select-account-modal`) {
+        this.$router.push({ name: `select-account-modal` })
       }
     },
     signUpForPremium() {

@@ -288,6 +288,14 @@ export default (store) => {
       },
     },
     {
+      path: `/select-account`,
+      name: `select-account-modal`,
+      component: () => import(`./components/common/SelectAccountModal`),
+      meta: {
+        networkSpecificRoute: true,
+      },
+    },
+    {
       path: `/:networkId`,
       component: () => import(`./components/common/NetworkSetter`),
       redirect: `/:networkId/portfolio`,

@@ -1,7 +1,10 @@
 <template>
   <div>
     <ul class="account-list">
-      <li v-for="account in accounts" :key="account.name">
+      <li
+        v-for="account in accounts"
+        :key="`${account.sessionType}_${account.name}`"
+      >
         <AccountMenu
           v-if="openAccount && openAccount.name === account.name"
           :address="account.address"
