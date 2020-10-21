@@ -1,8 +1,8 @@
 <template>
   <section id="proposal-votes" class="status-bar">
     <div v-if="status.value === governanceStatusEnum.DEPOSITING">
-      <div v-if="statusBeginTime" class="top row">
-        <div class="time">
+      <div class="top row">
+        <div v-if="statusBeginTime" class="time">
           Entered {{ status.title }} {{ statusBeginTime | moment }}
         </div>
         <div>ID: {{ proposal.proposalId }}</div>
@@ -21,18 +21,20 @@
     </div>
     <div v-if="status.value === governanceStatusEnum.VOTING">
       <div class="top row">
-        <div class="time">
+        <div v-if="statusBeginTime" class="time">
           Entered Voting Period {{ new Date(statusBeginTime) | moment }}
         </div>
         <div>ID: {{ proposal.proposalId }}</div>
       </div>
-      <div class="vote-data">
-        <span>{{ votePercentage | percentInt }} of {{ stakingDenom }}</span>
-        <span v-if="voteCount">({{ voteCount }} Votes)</span>
+      <div class="vote-data-container">
+        <div class="vote-data">
+          <span>{{ votePercentage | percentInt }} of {{ stakingDenom }}</span>
+          <span v-if="voteCount">({{ voteCount }} Votes)</span>
+        </div>
       </div>
       <ProgressBar
         size="large"
-        :val="votePercentage * 100"
+        :val="proposal.detailedVotes.votingThresholdYes"
         :bar-border-radius="8"
         bar-color="var(--highlight)"
       />
@@ -128,6 +130,9 @@ export default {
     votePercentage() {
       return this.proposal.tally.totalVotedPercentage
     },
+    totalVotes() {
+      return this.proposal.detailedVotes.votesSum
+    },
     depositCount() {
       return this.proposal.detailedVotes.deposits.length
     },
@@ -138,16 +143,26 @@ export default {
       return this.proposal.detailedVotes.percentageDepositsNeeded
     },
     percentageYes() {
-      return this.proposal.tally.yes / this.proposal.tally.total
+      return (
+        Number(this.proposal.tally.yes) / Number(this.proposal.tally.total) || 0
+      )
     },
     percentageNo() {
-      return this.proposal.tally.no / this.proposal.tally.total
+      return (
+        Number(this.proposal.tally.no) / Number(this.proposal.tally.total) || 0
+      )
     },
     percentageVeto() {
-      return this.proposal.tally.veto / this.proposal.tally.total
+      return (
+        Number(this.proposal.tally.veto) / Number(this.proposal.tally.total) ||
+        0
+      )
     },
     percentageAbstain() {
-      return this.proposal.tally.abstain / this.proposal.tally.total
+      return (
+        Number(this.proposal.tally.abstain) /
+          Number(this.proposal.tally.total) || 0
+      )
     },
   },
 }
@@ -180,6 +195,11 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+}
+
+.vote-data-container {
+  display: flex;
+  justify-content: space-between;
 }
 
 .vote-data {

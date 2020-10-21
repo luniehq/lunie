@@ -669,7 +669,8 @@ class polkadotAPI extends BaseRESTDataSource {
       proposer,
       beneficiary: await this.getNetworkAccountInfo(
         proposal.proposal.beneficiary
-      )
+      ),
+      votes: proposal.council[0] ? proposal.council[0].votes : undefined
     }
   }
 
