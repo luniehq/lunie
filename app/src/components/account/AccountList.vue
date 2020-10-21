@@ -3,7 +3,7 @@
     <ul class="account-list">
       <li
         v-for="account in accounts"
-        :key="`${account.sessionType}_${account.name}`"
+        :key="`${account.sessionType}_${account.name || account.address}`"
       >
         <AccountMenu
           v-if="openAccount && openAccount.name === account.name"
