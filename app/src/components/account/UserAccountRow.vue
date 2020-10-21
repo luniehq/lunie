@@ -1,14 +1,5 @@
 <template>
-  <div
-    class="address-item"
-    :class="{ open: openAccount && openAccount.address === address.address }"
-    @click="$emit('click')"
-  >
-    <AccountMenu
-      v-if="openAccount && openAccount.address === address.address"
-      :address="address.address"
-      :network-id="address.networkId"
-    />
+  <div class="address-item" @click="$emit('click')">
     <img
       class="network-icon"
       :src="address.icon || `/img/networks/${address.networkId}.png`"
@@ -34,28 +25,13 @@
         capitalizeFirstLetter(address.sessionType)
       }}</span>
     </div>
-    <div class="account-menu-toggle">
-      <i
-        v-if="openAccount && openAccount.address === address.address"
-        class="material-icons notranslate"
-        @click="openAccount = undefined"
-        >close</i
-      >
-      <i v-else class="material-icons notranslate" @click="setNetwork(address)"
-        >more_vert</i
-      >
-    </div>
   </div>
 </template>
 <script>
-import AccountMenu from "account/AccountMenu"
 import { formatAddress } from "src/filters"
 import { capitalizeFirstLetter } from "scripts/common"
 export default {
   name: `user-account-row`,
-  components: {
-    AccountMenu,
-  },
   filters: {
     formatAddress,
   },
@@ -65,17 +41,8 @@ export default {
       required: true,
     },
   },
-  data: () => ({
-    openAccount: undefined,
-  }),
   methods: {
     capitalizeFirstLetter,
-    setNetwork(account) {
-      this.openAccount = account
-      if (this.isExtension) {
-        this.$store.commit(`setNetworkId`, account.network)
-      }
-    },
   },
 }
 </script>
@@ -111,16 +78,5 @@ export default {
 .address-name-role {
   display: flex;
   white-space: break-spaces;
-}
-
-.account-menu-toggle {
-  cursor: pointer;
-  color: #b0bade;
-  display: flex;
-  margin-left: 1rem;
-}
-
-.account.open {
-  transform: translate(-9rem);
 }
 </style>
