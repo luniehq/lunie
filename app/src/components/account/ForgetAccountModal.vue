@@ -276,7 +276,7 @@ h2.forget-title {
 .pill {
   background-color: #2d2e31;
   display: inline-block;
-  color: var(--bc);
+  color: var(--menu-bright);
   padding: 0 0.6em 0.2em;
   border-radius: 2em;
 }
