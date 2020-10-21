@@ -11,7 +11,11 @@
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"
     feature-flag="send"
-    :disabled="sendingNgm"
+    :disabled="
+      sendingNgm ||
+      $asyncComputed.transactionData.updating ||
+      $asyncComputed.transactionData.error
+    "
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -27,7 +31,7 @@
         v-model="address"
         v-focus
         type="text"
-        placeholder="Address"
+        placeholder="Address or Starname"
         @change.native="trimSendAddress"
         @keyup.enter.native="refocusOnAmount"
       />
@@ -42,6 +46,19 @@
         type="custom"
         msg="doesn't have a format known by Lunie"
       />
+      <span v-if="$asyncComputed.transactionData.updating" class="memo-span">
+        Getting address for Starname...
+      </span>
+      <TmFormMsg
+        v-else-if="$asyncComputed.transactionData.error"
+        msg="could not be resolved to an address"
+        name="Starname"
+        type="custom"
+      />
+      <span v-else class="memo-span">
+        Lunie supports
+        <a href="https://starname.me/" target="_blank">IOV Starnames</a>
+      </span>
     </TmFormGroup>
     <TmFormGroup
       id="form-group-amount"
@@ -169,6 +186,7 @@ import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
 import BigNumber from "bignumber.js"
 import { formatAddress } from "src/filters"
+import { isStarname, resolveStarname } from "src/../../common/starname"
 
 const defaultMemo = ""
 
@@ -215,21 +233,6 @@ export default {
         }
       )
     },
-    transactionData() {
-      if (isNaN(this.amount) || !this.address || !this.selectedToken) {
-        return {}
-      }
-      return {
-        type: messageType.SEND,
-        to: [this.address],
-        from: [this.userAddress],
-        amount: {
-          amount: this.amount,
-          denom: this.selectedToken,
-        },
-        memo: this.memo,
-      }
-    },
     notifyMessage() {
       return {
         title: `Successful Send`,
@@ -272,6 +275,23 @@ export default {
       }
     },
   },
+  asyncComputed: {
+    async transactionData() {
+      if (isNaN(this.amount) || !this.address || !this.selectedToken) {
+        return {}
+      }
+      return {
+        type: messageType.SEND,
+        to: [this.address],
+        from: [this.userAddress],
+        amount: {
+          amount: this.amount,
+          denom: this.selectedToken,
+        },
+        memo: this.memo,
+      }
+    },
+  },
   watch: {
     // we set the amount in the input to zero every time the user selects another token so they
     // realize they are dealing with a different balance each time
@@ -293,6 +313,13 @@ export default {
         this.selectedToken = balances[0].denom
       }
     },
+    address: async function (address) {
+      if (isStarname(this.address)) {
+        // resolve starname to address
+        const recipientAddress = await resolveStarname(this.address, this.network)
+        this.setAddress(recipientAddress)
+      }
+    }
   },
   mounted() {
     this.$apollo.queries.balances.refetch()
@@ -327,6 +354,9 @@ export default {
     },
     setMaxAmount() {
       this.amount = this.maxAmount
+    },
+    setAddress(recipientAddress) {
+      this.address = recipientAddress
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
@@ -366,7 +396,9 @@ export default {
       address: {
         required,
         validAddress: (address) =>
-          this.bech32Validate(address) || isPolkadotAddress(address),
+          this.bech32Validate(address) ||
+          isPolkadotAddress(address) ||
+          isStarname(address),
       },
       amount: {
         required: (x) => !!x && x !== `0`,
