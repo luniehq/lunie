@@ -25,6 +25,10 @@ function getMessageTitle(networks, notification) {
       return `You sent ${data.details.amount.amount} ${
         data.details.amount.denom
       }${data.details.amount.amount !== 1 ? 's' : ''} on ${networkTitle}`
+    case eventTypes.TRANSACTION_CLAIM:
+      return `You claimed ${data.details.amounts[0].amount} ${
+        data.details.amounts[0].denom
+      }${data.details.amounts[0].amount !== 1 ? 's' : ''} on ${networkTitle}`
     case eventTypes.PROPOSAL_CREATE:
       return `New proposal created for ${networkTitle}: '${data.title}'`
     case eventTypes.PROPOSAL_UPDATE:
@@ -150,6 +154,8 @@ function getIcon({ eventType, data, properties }) {
       return `/img/icons/activity/Received.svg`
     case eventTypes.TRANSACTION_SEND:
       return `/img/icons/activity/Sent.svg`
+    case eventTypes.TRANSACTION_CLAIM:
+      return `/img/icons/activity/Claimed.svg`
     case eventTypes.PROPOSAL_CREATE:
     case eventTypes.PROPOSAL_UPDATE:
       return `/img/icons/activity/Submitted.svg`
@@ -290,5 +296,6 @@ module.exports = {
   getTopic,
   getPushLink,
   getMessageTitle,
-  getNotifications
+  getNotifications,
+  getIcon
 }

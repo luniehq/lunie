@@ -1,13 +1,9 @@
 {
   "name": "extension",
-  "version": "1.0.42",
+  "version": "1.0.43",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
-  "licenses": [
-    {
-      "type": "Apache-2"
-    }
-  ],
+  "license": "Apache-2.0",
   "scripts": {
     "lint": "yarn lint:css && yarn lint:js",
     "lint:fix": "eslint --ext .js,.vue src --fix && stylelint \"src/**/*.{css,vue}\" --fix",
@@ -53,7 +49,7 @@
     "@babel/runtime-corejs3": "^7.10.4",
     "@lunie/cosmos-api": "^0.2.5",
     "@lunie/cosmos-keys": "^0.3.2",
-    "@polkadot/api": "^2.2.1",
+    "@polkadot/api": "^2.3.1",
     "@sentry/browser": "^5.17.0",
     "@sentry/integrations": "^5.25.0",
     "apollo-boost": "^0.4.9",

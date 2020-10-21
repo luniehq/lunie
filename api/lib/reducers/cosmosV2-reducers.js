@@ -380,7 +380,12 @@ function delegationReducer(delegation, validator, active) {
   }
 }
 
-function validatorReducer(networkId, signedBlocksWindow, validator) {
+function validatorReducer(
+  networkId,
+  signedBlocksWindow,
+  validator,
+  fiatValuesResponse
+) {
   const statusInfo = getValidatorStatus(validator)
   let websiteURL = validator.description.website
   if (!websiteURL || websiteURL === '[do-not-modify]') {
@@ -388,7 +393,6 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
   } else if (!websiteURL.match(/http[s]?/)) {
     websiteURL = `https://` + websiteURL
   }
-
   return {
     id: validator.operator_address,
     networkId,
@@ -423,7 +427,11 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
     status: statusInfo.status,
     statusDetailed: statusInfo.status_detailed,
     delegatorShares: validator.delegator_shares, // needed to calculate delegation token amounts from shares
-    popularity: validator.popularity
+    popularity: validator.popularity,
+    totalStakedAssets: {
+      ...fiatValuesResponse,
+      amount: fiatValuesResponse.amount.toFixed(2)
+    }
   }
 }
 

@@ -1,5 +1,32 @@
 const { read, insert, query } = require('./helpers')
 
+const getAccountNotifications = ({
+  hasura_url,
+  hasura_admin_key
+}) => () => async (address, networkId) => {
+  return await read({
+    hasura_url,
+    hasura_admin_key
+  })()(
+    `notifications`,
+    `notifications`,
+    [
+      'topic',
+      'eventType',
+      'resourceType',
+      'resourceId',
+      'networkId',
+      'data',
+      'id',
+      'created_at'
+    ],
+    `where: {
+      networkId: {_eq: "${networkId}"},
+      resourceId: {_in: ["${address}"]},
+    }, order_by: {created_at: desc}`
+  )
+}
+
 const incrementValidatorViews = ({
   hasura_url,
   hasura_admin_key
@@ -66,6 +93,33 @@ const getValidatorsInfo = ({ hasura_url, hasura_admin_key }) => (
     ['operator_address', 'name', 'picture'],
     validatorId ? `where: {operator_address: {_eq: "${validatorId}"}}` : false
   )
+}
+
+const getValidatorProfile = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (address) => {
+  const validatorProfileResponse = await read({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(
+    `validatorprofiles`,
+    `validatorprofiles`,
+    [
+      'operator_address',
+      'name',
+      'nationality',
+      'headerImage',
+      'teamMembers',
+      'website',
+      'telegram',
+      'github',
+      'twitter',
+      'blog',
+      'contributionLinks'
+    ],
+    `where: {operator_address: {_in: ["${address}"]}}`
+  )
+  return validatorProfileResponse[0]
 }
 
 const getNotifications = ({ hasura_url, hasura_admin_key }) => (
@@ -538,10 +592,42 @@ const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
   return data[0]
 }
 
+const getRewards = ({ hasura_url, hasura_admin_key }) => (schema) => async (
+  delegatorAddress
+) => {
+  const data = await read({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(
+    `rewards`,
+    `rewards`,
+    ['address', 'validator', 'amount', 'denom', 'height'],
+    `where:{address:{_eq: "${delegatorAddress}"}}`
+  )
+  return data
+}
+
+const getRewardsValidatorHeight = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (validatorAddress, height) => {
+  const data = await read({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(
+    `rewards`,
+    `rewards`,
+    ['address', 'validator', 'amount', 'denom', 'height'],
+    `where:{validator:{_eq: "${validatorAddress}"},height:{_eq: "${height}"}}`
+  )
+  return data
+}
+
 module.exports = {
+  getAccountNotifications,
   incrementValidatorViews,
   getValidatorsViews,
   getValidatorsInfo,
+  getValidatorProfile,
   getMaintenance,
   storeStatistics,
   storeNotification,
@@ -559,5 +645,7 @@ module.exports = {
   storeNotificationRegistrations,
   getNotificationRegistrations,
   storeAndGetNewSession,
-  getSession
+  getSession,
+  getRewards,
+  getRewardsValidatorHeight
 }

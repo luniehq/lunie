@@ -1,5 +1,8 @@
 const { gql } = require('apollo-server')
+const validatorTypeDefs = require('./validator-schemas')
 const typeDefs = gql`
+  ${validatorTypeDefs}
+
   enum ValidatorStatusEnum {
     ACTIVE
     INACTIVE
@@ -139,6 +142,9 @@ const typeDefs = gql`
     name: String
     picture: String
     popularity: Int
+    totalStakedAssets: FiatValue
+    feed: [Notification]
+    profile: ValidatorProfile
   }
 
   type BlockV2 @cacheControl(maxAge: 10) {
@@ -379,10 +385,20 @@ const typeDefs = gql`
     picture: String
   }
 
+  type SocialLinks {
+    website: String
+    linkedin: String
+    telegram: String
+    github: String
+    twitter: String
+    blog: String
+  }
+
   type NetworkAccount {
     name: String
     address: String!
     picture: String
+    links: SocialLinks
     validator: Validator
   }
 
@@ -496,6 +512,20 @@ const typeDefs = gql`
     networkId: String!
   }
 
+  type ValidatorProfile {
+    name: String
+    rank: Int
+    description: String
+    nationality: String
+    headerImage: String
+    teamMembers: [NetworkAccount]
+    socialLinks: SocialLinks
+    numberStakers: Int
+    uptimePercentage: String
+    contributionLinks: [ContributionLink]
+    network: Network
+  }
+
   input NotificationSetting {
     topic: String!
     type: String!
@@ -511,6 +541,7 @@ const typeDefs = gql`
       searchTerm: String
       activeOnly: Boolean
       popularSort: Boolean
+      fiatCurrency: String
     ): [Validator]
     allDelegators(networkId: String!): [String]
     vote(networkId: String!, proposalId: String!, address: String!): Vote

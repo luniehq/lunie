@@ -6,6 +6,49 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.57] - 2020-10-21
+
+### Added
+
+- [#4613](https://github.com/cosmos/lunie/issues/4613) Add substrate transaction error @mariopino
+
+## [1.0.56] - 2020-10-21
+
+### Added
+
+- [#4821](https://github.com/cosmos/lunie/issues/4821) Add events for claiming txs @faboweb @bitcoinera @mariopino
+- [#5127](https://github.com/cosmos/lunie/issues/5127) Update polkadot-js/api to release v2.3.1 @mariopino
+
+### Changed
+
+- [#4337](https://github.com/cosmos/lunie/issues/4337) Add the new validator profile endpoint @Bitcoinera
+- [#5121](https://github.com/cosmos/lunie/issues/5121) Handle case of missing eMoney variables in FiatValuesAPI for scriptRunner @Bitcoinera
+- [#4989](https://github.com/cosmos/lunie/pull/4989) Add votes to Treasury metada @Bitcoinera
+
+### Fixed
+
+- [#5141](https://github.com/cosmos/lunie/issues/5141) Fix mem leak produced by validators profiles @Bitcoinera
+- [#5133](https://github.com/cosmos/lunie/issues/5133) Fix missing Polkadot undelegations @Bitcoinera
+- [#5134](https://github.com/cosmos/lunie/issues/5134) Fix fiat value error in getOldPolkadotRewardEras.js @mariopino
+
+## [1.0.55] - 2020-10-16
+
+### Added
+
+- Reenable substrate sidecar @mariopino
+
+### Changed
+
+- [#5096](https://github.com/cosmos/lunie/pull/5096) Remove the validator picture update notification @Bitcoinera
+- [#5098](https://github.com/cosmos/lunie/issues/5098) Receive networkId field for MaintenanceBar @Bitcoinera
+
+### Fixed
+
+- [#5082](https://github.com/cosmos/lunie/issues/5082) Fix Terra validators expectedReturns being all 0 @Bitcoinera
+- [#5120](https://github.com/cosmos/lunie/pull/5120) Try to fix slow mem leak @Bitcoinera
+- Proposal notifications would not be stored for Cosmos chains as the resource id was not a string @faboweb
+- [#5112](https://github.com/cosmos/lunie/issues/5112) Don't fetch polkadot proposals if feature is not enabled @mariopino
  
 ## [1.0.54] - 2020-10-13
 

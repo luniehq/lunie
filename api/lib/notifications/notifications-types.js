@@ -8,6 +8,7 @@ const eventTypes = {
   /* Transactions */
   TRANSACTION_RECEIVE: 'transactionReceive',
   TRANSACTION_SEND: 'transactionSend',
+  TRANSACTION_CLAIM: 'transactionClaim',
 
   /* Validators */
   VALIDATOR_ADDED: 'validatorAdded',
@@ -53,7 +54,9 @@ const getDefaultSubscriptions = async (addresses, dataSources) => {
   for (const { address, networkId } of addresses) {
     const dataSource = dataSources[networkId]
     if (!dataSource) continue
-    const delegations = await dataSource.api.getDelegationsForDelegatorAddress(address)
+    const delegations = await dataSource.api.getDelegationsForDelegatorAddress(
+      address
+    )
 
     delegations.forEach((delegation) => {
       subscriptions.push(

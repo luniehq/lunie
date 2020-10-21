@@ -20,12 +20,13 @@ jobs:
         - name: Setup Node.js
           uses: actions/setup-node@v1
         - name: Open PR from Develop to Master
+          id: cpr
           uses: peter-evans/create-pull-request@v3
           with:
             token: ${{ secrets.GIT_BOT_TOKEN }}
             commit-message: Deploy Release
-            committer: Happy Release Bot 💃
-            branch: master
+            branch: develop
+            base: master
             delete-branch: false
             title: 'Deploy release'
             body: |
