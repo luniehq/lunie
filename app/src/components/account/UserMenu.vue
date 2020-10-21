@@ -78,8 +78,8 @@
           class="menu-list-item"
           @click="goToSelectAccount()"
         >
-          <span>Show seed</span>
-          <i class="material-icons">visibility</i>
+          <span>Manage Addresses</span>
+          <i class="material-icons">build</i>
         </div>
         <div v-if="account.userSignedIn">
           <div

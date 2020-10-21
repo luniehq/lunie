@@ -1,11 +1,7 @@
 <template>
-  <SessionFrame icon="account_box" hide-back>
+  <SessionFrame icon="build" hide-back>
     <div class="select-account">
-      <AccountList
-        :accounts="accounts"
-        :button-action="showSeed"
-        :button-text="`Show Seed`"
-      />
+      <AccountList :accounts="accounts" is-select-account />
     </div>
   </SessionFrame>
 </template>

@@ -6,14 +6,14 @@
         :key="`${account.sessionType}_${account.name || account.address}`"
       >
         <AccountMenu
-          v-if="openAccount && openAccount.name === account.name"
+          v-if="openAccount && isSameAccount(account)"
           :address="account.address"
-          :network-id="account.network"
+          :network-id="account.network || account.networkId"
         />
 
         <div
           class="account"
-          :class="{ open: openAccount && openAccount.name === account.name }"
+          :class="{ open: openAccount && isSameAccount(account) }"
         >
           <div class="account-info">
             <h3>{{ account.name }}</h3>
@@ -27,9 +27,12 @@
               color="primary"
               @click.native="buttonAction(account)"
             />
-            <div v-if="isExtension" class="account-menu-toggle">
+            <div
+              v-if="isExtension || isSelectAccount"
+              class="account-menu-toggle"
+            >
               <i
-                v-if="openAccount && openAccount.name === account.name"
+                v-if="openAccount && isSameAccount(account)"
                 class="material-icons notranslate"
                 @click="openAccount = undefined"
                 >close</i
@@ -67,11 +70,15 @@ export default {
     },
     buttonAction: {
       type: Function,
-      required: true,
+      default: undefined,
     },
     buttonText: {
       type: String,
-      required: true,
+      default: "",
+    },
+    isSelectAccount: {
+      type: Boolean,
+      default: false,
     },
   },
   data: () => ({
@@ -84,6 +91,12 @@ export default {
       if (this.isExtension) {
         this.$store.commit(`setNetworkId`, account.network)
       }
+    },
+    isSameAccount(account) {
+      return (
+        this.openAccount.address === account.address &&
+        this.openAccount.sessionType === account.sessionType
+      )
     },
   },
 }
@@ -107,6 +120,7 @@ export default {
   border-radius: 0.25rem;
   border: 2px solid var(--bc-dim);
   width: 100%;
+  height: 4.5rem;
   transition: 0.5s;
 }
 
