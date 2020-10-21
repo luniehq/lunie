@@ -244,13 +244,26 @@ function undelegationReducer(undelegation, address, network) {
   }
 }
 
-async function transactionsReducerV2(network, extrinsics, blockHeight, db) {
+async function transactionsReducerV2(
+  network,
+  extrinsics,
+  blockHeight,
+  db,
+  api
+) {
   // Filter Polkadot tx to Lunie supported types
   let reducedTxs = []
   for (let index = 0; index < extrinsics.length; index++) {
     const extrinsic = extrinsics[index]
     reducedTxs = reducedTxs.concat(
-      await transactionReducerV2(network, extrinsic, index, blockHeight, db)
+      await transactionReducerV2(
+        network,
+        extrinsic,
+        index,
+        blockHeight,
+        db,
+        api
+      )
     )
   }
   return reducedTxs
@@ -279,6 +292,7 @@ async function parsePolkadotTransaction(
   messageIndex,
   signer,
   success,
+  log,
   network,
   blockHeight,
   isBatch,
@@ -308,7 +322,7 @@ async function parsePolkadotTransaction(
       }
     ], // FIXME!
     success,
-    log: ``,
+    log,
     involvedAddresses: extractInvolvedAddresses(
       lunieTransactionType,
       signer,
@@ -323,7 +337,8 @@ async function transactionReducerV2(
   extrinsic,
   index,
   blockHeight,
-  db
+  db,
+  api
 ) {
   const hash = extrinsic.hash
   const signer = extrinsic.signature === null ? '' : extrinsic.signature.signer
@@ -350,6 +365,19 @@ async function transactionReducerV2(
     )
   }
 
+  // add error
+  let log = undefined
+  if (!success) {
+    const { index, error } = extrinsic.events.find(
+      (event) =>
+        event.method.pallet === `system` &&
+        event.method.method === `ExtrinsicFailed`
+    ).data[0].Module
+    const errorIndex = new Uint8Array([index, error])
+    const { documentation } = api.registry.findMetaError(errorIndex)
+    log = documentation.join(' ').trim()
+  }
+
   const returnedMessages = await Promise.all(
     messages.map(
       async (message, messageIndex) =>
@@ -360,6 +388,7 @@ async function transactionReducerV2(
           messageIndex,
           signer,
           success,
+          log,
           network,
           blockHeight,
           isBatch,
