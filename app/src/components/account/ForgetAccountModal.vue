@@ -259,7 +259,7 @@ export default {
 h2.title {
   font-size: var(--h1);
   line-height: 42px;
-  color: #fff7c4;
+  color: var(--bright);
   font-weight: 400;
   padding: 0.5rem 0 1rem 0;
   text-align: center;
@@ -276,6 +276,7 @@ h2.forget-title {
 .pill {
   background-color: #2d2e31;
   display: inline-block;
+  color: var(--bc);
   padding: 0 0.6em 0.2em;
   border-radius: 2em;
 }

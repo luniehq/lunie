@@ -8,7 +8,7 @@
         <AccountMenu
           v-if="openAccount && isSameAccount(account)"
           :address="account.address"
-          :network-id="account.network || account.networkId"
+          :network-slug="accountNetworkSlug(account)"
         />
 
         <div
@@ -56,6 +56,8 @@ import AccountMenu from "account/AccountMenu"
 import Address from "common/Address"
 import TmBtn from "common/TmBtn"
 import config from "src/../config"
+import { mapGetters } from "vuex"
+
 export default {
   name: `account-list`,
   components: {
@@ -85,6 +87,9 @@ export default {
     openAccount: undefined,
     isExtension: config.isExtension,
   }),
+  computed: {
+    ...mapGetters([`networks`]),
+  },
   methods: {
     setNetwork(account) {
       this.openAccount = account
@@ -97,6 +102,11 @@ export default {
         this.openAccount.address === account.address &&
         this.openAccount.sessionType === account.sessionType
       )
+    },
+    accountNetworkSlug(account) {
+      return this.networks.find(
+        ({ id }) => id === account.network || id === account.networkId
+      ).slug
     },
   },
 }
