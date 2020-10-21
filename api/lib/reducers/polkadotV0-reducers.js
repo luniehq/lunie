@@ -244,13 +244,16 @@ function undelegationReducer(undelegation, address, network) {
   }
 }
 
-function transactionsReducerV2(network, extrinsics, blockHeight, reducers) {
+async function transactionsReducerV2(network, extrinsics, blockHeight, db) {
   // Filter Polkadot tx to Lunie supported types
-  return extrinsics.reduce((collection, extrinsic) => {
-    return collection.concat(
-      transactionReducerV2(network, extrinsic, blockHeight, reducers)
+  let reducedTxs = []
+  for (let index = 0; index < extrinsics.length; index++) {
+    const extrinsic = extrinsics[index]
+    reducedTxs = reducedTxs.concat(
+      await transactionReducerV2(network, extrinsic, index, blockHeight, db)
     )
-  }, [])
+  }
+  return reducedTxs
 }
 
 // Map Polkadot event method to Lunie message types
@@ -260,6 +263,8 @@ function getMessageType(section, method) {
       return lunieMessageTypes.SEND
     case 'balances.transferKeepAlive':
       return lunieMessageTypes.SEND
+    case 'staking.payoutStakers':
+      return lunieMessageTypes.CLAIM_REWARDS
     case 'lunie.staking':
       return lunieMessageTypes.STAKE
     default:
@@ -267,15 +272,18 @@ function getMessageType(section, method) {
   }
 }
 
-function parsePolkadotTransaction(
+async function parsePolkadotTransaction(
   hash,
   message,
+  index,
   messageIndex,
   signer,
   success,
   network,
   blockHeight,
-  reducers
+  isBatch,
+  db,
+  events
 ) {
   const lunieTransactionType = getMessageType(message.section, message.method)
   return {
@@ -283,13 +291,13 @@ function parsePolkadotTransaction(
     type: lunieTransactionType,
     hash,
     height: blockHeight,
-    key: `${hash}_${messageIndex}`,
-    details: transactionDetailsReducer(
+    key: isBatch ? `${hash}_${index}_${messageIndex}` : `${hash}_${index}`,
+    details: await transactionDetailsReducer(
       network,
       lunieTransactionType,
-      reducers,
       signer,
-      message
+      message,
+      db
     ),
     timestamp: new Date().getTime(), // FIXME!: pass it from block, we should get current timestamp from blockchain for new blocks
     memo: ``,
@@ -301,15 +309,22 @@ function parsePolkadotTransaction(
     ], // FIXME!
     success,
     log: ``,
-    involvedAddresses: reducers.extractInvolvedAddresses(
+    involvedAddresses: extractInvolvedAddresses(
       lunieTransactionType,
       signer,
-      message
+      message,
+      events
     )
   }
 }
 
-function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
+async function transactionReducerV2(
+  network,
+  extrinsic,
+  index,
+  blockHeight,
+  db
+) {
   const hash = extrinsic.hash
   const signer = extrinsic.signature === null ? '' : extrinsic.signature.signer
   const isBatch =
@@ -317,6 +332,7 @@ function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
   const messages = aggregateLunieStaking(
     isBatch ? extrinsic.args.calls : [extrinsic]
   )
+  const events = extrinsic.events
 
   // if tx is a batch, we need to check if all of the batched txs went through
   let success
@@ -334,18 +350,25 @@ function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
     )
   }
 
-  return messages.map((message, messageIndex) =>
-    parsePolkadotTransaction(
-      hash,
-      message,
-      messageIndex,
-      signer,
-      success,
-      network,
-      blockHeight,
-      reducers
+  const returnedMessages = await Promise.all(
+    messages.map(
+      async (message, messageIndex) =>
+        await parsePolkadotTransaction(
+          hash,
+          message,
+          index,
+          messageIndex,
+          signer,
+          success,
+          network,
+          blockHeight,
+          isBatch,
+          db,
+          events
+        )
     )
   )
+  return returnedMessages
 }
 
 // we display staking as one tx where in Polkadot this can be 2
@@ -402,20 +425,23 @@ function aggregateLunieStaking(messages) {
 }
 
 // Map polkadot messages to our details format
-function transactionDetailsReducer(
+async function transactionDetailsReducer(
   network,
   lunieTransactionType,
-  reducers,
   signer,
-  message
+  message,
+  db
 ) {
   let details
   switch (lunieTransactionType) {
     case lunieMessageTypes.SEND:
-      details = sendDetailsReducer(network, message, signer, reducers)
+      details = sendDetailsReducer(network, message, signer)
       break
     case lunieMessageTypes.STAKE:
-      details = stakeDetailsReducer(network, message, reducers)
+      details = stakeDetailsReducer(network, message)
+      break
+    case lunieMessageTypes.CLAIM_REWARDS:
+      details = await claimRewardsDetailsReducer(network, message, db)
       break
     default:
       details = {}
@@ -445,42 +471,78 @@ function coinReducer(network, amount, decimals = 6) {
   }
 }
 
-function sendDetailsReducer(network, message, signer, reducers) {
+function sendDetailsReducer(network, message, signer) {
   return {
     from: [signer],
     to: [message.args.dest],
-    amount: reducers.coinReducer(network, message.args.value)
+    amount: coinReducer(network, message.args.value)
   }
 }
 
 // the message for staking is created by `aggregateLunieStaking`
-function stakeDetailsReducer(network, message, reducers) {
+function stakeDetailsReducer(network, message) {
   return {
     to: message.validators,
-    amount: reducers.coinReducer(network, message.amount)
+    amount: coinReducer(network, message.amount)
   }
 }
 
-function extractInvolvedAddresses(lunieTransactionType, signer, message) {
+async function claimRewardsDetailsReducer(network, message, db) {
+  const validator = message.args.validator_stash
+  const height = message.args.era
+  const dbRewards =
+    validator && height
+      ? await db.getRewardsValidatorHeight(validator, height)
+      : []
+  return {
+    amounts: [
+      {
+        amount: dbRewards
+          .map(({ amount }) => ({ amount }))
+          .reduce((amountAccumulator, reward) => {
+            return (amountAccumulator += reward.amount)
+          }, 0)
+          .toFixed(6),
+        denom: network.stakingDenom
+      }
+    ],
+    from: [validator],
+    rewards: dbRewards || []
+  }
+}
+
+function extractInvolvedAddresses(
+  lunieTransactionType,
+  signer,
+  message,
+  events
+) {
   let involvedAddresses = []
   if (lunieTransactionType === lunieMessageTypes.SEND) {
     involvedAddresses = involvedAddresses.concat([signer, message.args.dest])
   } else if (lunieTransactionType === lunieMessageTypes.STAKE) {
     involvedAddresses = involvedAddresses.concat([signer], message.validators)
-  } else {
+  } else if (lunieTransactionType === lunieMessageTypes.CLAIM_REWARDS) {
+    // we get all reward target addresses from extrinsic events
+    involvedAddresses = events
+      .filter(
+        (event) =>
+          event.method.pallet === 'staking' && event.method.method === `Reward`
+      )
+      .map((event) => event.data[0])
+      .concat([signer])
+  } else if (signer) {
     involvedAddresses = involvedAddresses.concat([signer])
   }
   return _.uniq(involvedAddresses)
 }
 
-function rewardsReducer(network, validators, rewards, reducers) {
+function rewardsReducer(network, validators, rewards) {
   const allRewards = []
   const validatorsDict = _.keyBy(validators, 'operatorAddress')
   rewards.forEach((reward) => {
     // reward reducer returns an array
-    allRewards.push(
-      ...reducers.rewardReducer(network, validatorsDict, reward, reducers)
-    )
+    allRewards.push(...rewardReducer(network, validatorsDict, reward))
   })
   return allRewards
 }
@@ -520,14 +582,14 @@ function dbRewardsReducer(validatorsDictionary, dbRewards, withHeight) {
   }))
 }
 
-function rewardReducer(network, validators, reward, reducers) {
+function rewardReducer(network, validators, reward) {
   let parsedRewards = []
   Object.entries(reward.validators).forEach((validatorReward) => {
     const validator = validators[validatorReward[0]]
     if (!validator) return
     const lunieReward = {
       id: validatorReward[0] + (reward.era ? '_' + reward.era : ''),
-      ...reducers.coinReducer(network, validatorReward[1].toString(10)),
+      ...coinReducer(network, validatorReward[1].toString(10)),
       height: reward.era,
       address: reward.address,
       validator, // used for user facing rewards in the API

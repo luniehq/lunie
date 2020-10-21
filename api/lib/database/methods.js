@@ -592,6 +592,36 @@ const getStore = ({ hasura_url, hasura_admin_key }) => () => async (id) => {
   return data[0]
 }
 
+const getRewards = ({ hasura_url, hasura_admin_key }) => (schema) => async (
+  delegatorAddress
+) => {
+  const data = await read({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(
+    `rewards`,
+    `rewards`,
+    ['address', 'validator', 'amount', 'denom', 'height'],
+    `where:{address:{_eq: "${delegatorAddress}"}}`
+  )
+  return data
+}
+
+const getRewardsValidatorHeight = ({ hasura_url, hasura_admin_key }) => (
+  schema
+) => async (validatorAddress, height) => {
+  const data = await read({
+    hasura_url,
+    hasura_admin_key
+  })(schema)(
+    `rewards`,
+    `rewards`,
+    ['address', 'validator', 'amount', 'denom', 'height'],
+    `where:{validator:{_eq: "${validatorAddress}"},height:{_eq: "${height}"}}`
+  )
+  return data
+}
+
 module.exports = {
   getAccountNotifications,
   incrementValidatorViews,
@@ -615,5 +645,7 @@ module.exports = {
   storeNotificationRegistrations,
   getNotificationRegistrations,
   storeAndGetNewSession,
-  getSession
+  getSession,
+  getRewards,
+  getRewardsValidatorHeight
 }

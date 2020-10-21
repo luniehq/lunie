@@ -7,7 +7,7 @@ const Sentry = require('@sentry/node')
 const database = require('../database')
 const config = require('../../config.js')
 const {
-  lunieMessageTypes: { SEND }
+  lunieMessageTypes: { SEND, CLAIM_REWARDS }
 } = require('../message-types.js')
 const {
   eventTypes,
@@ -189,6 +189,17 @@ class BaseNodeSubscription {
               this.network.id,
               resourceTypes.TRANSACTION,
               eventType,
+              involvedAddress,
+              tx
+            )
+          }
+
+          // TODO add claim events based on block events in Cosmos as claiming can happen also when undelegating/redelegating
+          if (tx.type === CLAIM_REWARDS) {
+            publishEvent(
+              this.network.id,
+              resourceTypes.TRANSACTION,
+              eventTypes.TRANSACTION_CLAIM,
               involvedAddress,
               tx
             )
