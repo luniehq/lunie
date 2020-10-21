@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.57] - 2020-10-21
+
+### Added
+
+- [#4613](https://github.com/cosmos/lunie/issues/4613) Add substrate transaction error @mariopino
+
 ## [1.0.56] - 2020-10-21
 
 ### Added
