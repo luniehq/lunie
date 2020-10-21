@@ -253,7 +253,6 @@ async function transactionsReducerV2(network, extrinsics, blockHeight, db, api) 
       await transactionReducerV2(network, extrinsic, index, blockHeight, db, api)
     )
   }
-  console.log(`reducedTxs:`, JSON.stringify(reducedTxs, null, 2))
   return reducedTxs
 }
 
