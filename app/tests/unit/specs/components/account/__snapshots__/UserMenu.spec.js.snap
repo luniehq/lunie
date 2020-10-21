@@ -84,13 +84,13 @@ exports[`UserMenu should show the UserMenu page 1`] = `
         id="show-seed"
       >
         <span>
-          Show seed
+          Manage Addresses
         </span>
          
         <i
           class="material-icons"
         >
-          visibility
+          build
         </i>
       </div>
        
