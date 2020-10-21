@@ -6,7 +6,7 @@ describe(`AccountMenu`, () => {
 
   beforeEach(() => {
     wrapper = shallowMount(AccountMenu, {
-      props: {
+      propsData: {
         account: {
           address: `cosmos1234`,
           networkId: `cosmos-hub-mainnet`,
@@ -17,7 +17,7 @@ describe(`AccountMenu`, () => {
     })
   })
 
-  it.skip(`should show the AccountMenu page`, async () => {
+  it(`should show the AccountMenu page`, async () => {
     expect(wrapper.element).toMatchSnapshot()
   })
 })
