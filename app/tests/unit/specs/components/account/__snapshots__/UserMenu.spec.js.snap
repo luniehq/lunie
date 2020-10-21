@@ -79,6 +79,21 @@ exports[`UserMenu should show the UserMenu page 1`] = `
         </i>
       </div>
        
+      <div
+        class="menu-list-item"
+        id="show-seed"
+      >
+        <span>
+          Show seed
+        </span>
+         
+        <i
+          class="material-icons"
+        >
+          visibility
+        </i>
+      </div>
+       
       <div>
         <!---->
          
