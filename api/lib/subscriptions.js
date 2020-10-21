@@ -41,6 +41,11 @@ module.exports = {
       `${networkId}_${NEW_USER_TRANSACTION}_${userAddress}_v2`
     ]),
 
+  userTransactionV3Added: (networkId, userAddress) =>
+    pubsub.asyncIterator([
+      `${networkId}_${NEW_USER_TRANSACTION}_${userAddress}_v3`
+    ]),
+
   publishUserTransactionAdded: (networkId, userAddress, transaction) => {
     return pubsub.publish(
       `${networkId}_${NEW_USER_TRANSACTION}_${userAddress}`,

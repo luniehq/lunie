@@ -159,6 +159,18 @@ const typeDefs = gql`
     data: String
   }
 
+  type BlockV3 @cacheControl(maxAge: 10) {
+    id: String # the block hash
+    networkId: String!
+    height: Int
+    hash: String
+    chainId: String
+    time: String
+    transactions: [TransactionV3]
+    proposer_address: String
+    data: String
+  }
+
   type Maintenance {
     id: Int!
     link: String
@@ -318,6 +330,22 @@ const typeDefs = gql`
     log: String
   }
 
+  type TransactionV3 {
+    id: String!
+    type: String!
+    hash: String!
+    networkId: String
+    key: String!
+    height: Int!
+    details: TransactionDetails!
+    timestamp: String!
+    memo: String
+    fees: [Coin]!
+    success: Boolean!
+    log: String
+    error: String
+  }
+
   type SendTx {
     amount: Coin!
     from: [String]!
@@ -455,6 +483,7 @@ const typeDefs = gql`
     notificationAdded(addressObjects: [NotificationInput]!): Notification
     userTransactionAdded(networkId: String!, address: String!): Transaction
     userTransactionAddedV2(networkId: String!, address: String!): TransactionV2
+    userTransactionAddedV3(networkId: String!, address: String!): TransactionV3
     event(networkId: String!, eventType: String!, resourceId: String): Event
   }
 
@@ -588,6 +617,11 @@ const typeDefs = gql`
       address: String!
       pageNumber: Int
     ): [TransactionV2]
+    transactionsV3(
+      networkId: String!
+      address: String!
+      pageNumber: Int
+    ): [TransactionV3]
     networkFees(
       networkId: String!
       messageType: String # Make required
