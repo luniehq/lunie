@@ -244,13 +244,26 @@ function undelegationReducer(undelegation, address, network) {
   }
 }
 
-async function transactionsReducerV2(network, extrinsics, blockHeight, db, api) {
+async function transactionsReducerV2(
+  network,
+  extrinsics,
+  blockHeight,
+  db,
+  api
+) {
   // Filter Polkadot tx to Lunie supported types
   let reducedTxs = []
   for (let index = 0; index < extrinsics.length; index++) {
     const extrinsic = extrinsics[index]
     reducedTxs = reducedTxs.concat(
-      await transactionReducerV2(network, extrinsic, index, blockHeight, db, api)
+      await transactionReducerV2(
+        network,
+        extrinsic,
+        index,
+        blockHeight,
+        db,
+        api
+      )
     )
   }
   return reducedTxs
@@ -360,7 +373,7 @@ async function transactionReducerV2(
         event.method.pallet === `system` &&
         event.method.method === `ExtrinsicFailed`
     ).data[0].Module
-    const errorIndex = new Uint8Array([ index, error ])
+    const errorIndex = new Uint8Array([index, error])
     const { documentation } = api.registry.findMetaError(errorIndex)
     log = documentation.join(' ').trim()
   }
