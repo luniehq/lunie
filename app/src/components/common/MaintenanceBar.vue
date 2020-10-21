@@ -2,6 +2,7 @@
   <div>
     <div v-for="message in maintenance" :key="message.id">
       <Bar
+        v-if="message.networkId === network || !message.networkId"
         :bar-type="message.type"
         :show="message.show"
         :link="message.link"
@@ -13,6 +14,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 import gql from "graphql-tag"
 import Bar from "common/Bar"
 export default {
@@ -23,6 +25,9 @@ export default {
   data: () => ({
     maintenance: [],
   }),
+  computed: {
+    ...mapGetters([`network`]),
+  },
   apollo: {
     maintenance: {
       query: gql`
@@ -33,6 +38,7 @@ export default {
             linkCaption
             type
             show
+            networkId
           }
         }
       `,
