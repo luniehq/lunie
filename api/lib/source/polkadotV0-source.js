@@ -124,12 +124,14 @@ class polkadotAPI extends BaseRESTDataSource {
   }
 
   async getTransactionsV2(extrinsics, blockHeight) {
+    const api = await this.getAPI()
     return Array.isArray(extrinsics)
       ? await this.reducers.transactionsReducerV2(
           this.network,
           extrinsics,
           blockHeight,
-          this.db
+          this.db,
+          api
         )
       : []
   }
