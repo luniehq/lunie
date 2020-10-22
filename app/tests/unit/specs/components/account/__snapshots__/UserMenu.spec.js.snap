@@ -81,7 +81,7 @@ exports[`UserMenu should show the UserMenu page 1`] = `
        
       <div
         class="menu-list-item"
-        id="show-seed"
+        id="manage-accounts"
       >
         <span>
           Manage Addresses

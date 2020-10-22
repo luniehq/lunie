@@ -67,7 +67,7 @@
           <i class="material-icons">add_circle</i>
         </div>
         <div
-          id="show-seed"
+          id="manage-accounts"
           v-close-popover
           class="menu-list-item"
           @click="goToManageAccounts()"
