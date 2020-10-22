@@ -24,7 +24,7 @@ exports[`AccountMenu should show the AccountMenu page 1`] = `
       <span
         class="account-menu-button-span"
       >
-        Delete Account
+        Remove Account
       </span>
     </div>
      
