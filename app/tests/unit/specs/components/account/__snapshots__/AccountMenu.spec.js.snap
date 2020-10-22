@@ -28,6 +28,8 @@ exports[`AccountMenu should show the AccountMenu page 1`] = `
       </span>
     </div>
      
+    <!---->
+     
     <div
       class="account-menu-button-container"
     >
