@@ -23,9 +23,19 @@
               (isExtension || account.sessionType === 'local'),
           }"
         >
+          <!-- <div class="address-type-icon">
+            <i class="material-icons notranslate circle">{{
+              getAddressIcon(account.sessionType)
+            }}</i>
+          </div> -->
           <div class="account-info">
             <h3>{{ account.name }}</h3>
             <Address :address="account.address" />
+            <span
+              v-if="account.sessionType && !isExtension"
+              class="session-type"
+              >{{ account.sessionType | capitalizeFirstLetter }}</span
+            >
           </div>
           <div class="action-container">
             <TmBtn
@@ -64,6 +74,7 @@ import AccountMenu from "account/AccountMenu"
 import Address from "common/Address"
 import TmBtn from "common/TmBtn"
 import config from "src/../config"
+import { capitalizeFirstLetter } from "scripts/common"
 
 export default {
   name: `account-list`,
@@ -90,6 +101,9 @@ export default {
       default: false,
     },
   },
+  filters: {
+    capitalizeFirstLetter,
+  },
   data: () => ({
     openAccount: undefined,
     isExtension: config.isExtension,
@@ -106,6 +120,12 @@ export default {
         this.openAccount.address === account.address &&
         this.openAccount.sessionType === account.sessionType
       )
+    },
+    getAddressIcon(addressType) {
+      if (addressType === "explore") return `language`
+      if (addressType === "ledger") return `vpn_key`
+      if (addressType === "extension") return `laptop`
+      if (addressType === "local") return `phone_iphone`
     },
   },
 }
@@ -154,6 +174,7 @@ export default {
 .account-info {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .account-button {
@@ -175,5 +196,9 @@ export default {
 .action-container {
   display: flex;
   align-items: center;
+}
+
+.session-type {
+  font-size: 12px;
 }
 </style>

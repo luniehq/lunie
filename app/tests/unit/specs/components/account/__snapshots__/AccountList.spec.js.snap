@@ -22,6 +22,8 @@ exports[`AccountList should show the AccountList page 1`] = `
             address="cosmos123"
             tooltiptext=""
           />
+           
+          <!---->
         </div>
          
         <div
@@ -55,6 +57,8 @@ exports[`AccountList should show the AccountList page 1`] = `
             address="cosmos456"
             tooltiptext=""
           />
+           
+          <!---->
         </div>
          
         <div
