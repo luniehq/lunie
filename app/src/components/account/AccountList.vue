@@ -12,7 +12,16 @@
 
         <div
           class="account"
-          :class="{ open: openAccount && isSameAccount(account) }"
+          :class="{
+            'open-1':
+              openAccount &&
+              isSameAccount(account) &&
+              !(isExtension || account.sessionType === 'local'),
+            'open-2':
+              openAccount &&
+              isSameAccount(account) &&
+              (isExtension || account.sessionType === 'local'),
+          }"
         >
           <div class="account-info">
             <h3>{{ account.name }}</h3>
@@ -128,7 +137,11 @@ export default {
   border-color: var(--link);
 }
 
-.account.open {
+.account.open-1 {
+  transform: translate(-4.5rem);
+}
+
+.account.open-2 {
   transform: translate(-9rem);
 }
 

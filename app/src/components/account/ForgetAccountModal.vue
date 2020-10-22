@@ -81,7 +81,6 @@ import TmBtn from "common/TmBtn"
 import FieldSeed from "common/TmFieldSeed"
 import { formatAddress } from "src/filters"
 import config from "src/../config"
-import { deleteAccount } from "scripts/extension-utils"
 import { required } from "vuelidate/lib/validators"
 import { mnemonicValidate } from "@polkadot/util-crypto"
 
@@ -163,18 +162,33 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      this.isCorrectSeed = await this.$store.dispatch(`testSeed`, {
-        networkId: this.addressNetwork,
-        address: this.address,
-        seedPhrase: this.seed,
-      })
-      if (this.isCorrectSeed && this.isExtension) {
-        this.isAccountDeleted = await this.$store.dispatch(
-          `deleteAccountWithoutPassword`,
-          { address: this.address }
-        )
-      } else if (this.isCorrectSeed && !this.isExtension) {
-        this.isAccountDeleted = await deleteAccount(this.address)
+      try {
+        this.isCorrectSeed = await this.$store.dispatch(`testSeed`, {
+          networkId: this.addressNetwork,
+          address: this.address,
+          seedPhrase: this.seed,
+        })
+        if (this.isCorrectSeed) {
+          if (this.isExtension) {
+            this.isAccountDeleted = await this.$store.dispatch(
+              `deleteAccountWithoutPassword`,
+              { address: this.address }
+            )
+          } else {
+            this.isAccountDeleted = await this.$store.dispatch(
+              `deleteKey`,
+              this.address
+            )
+          }
+          if (this.isAccountDeleted) {
+            this.$store.commit(`updateField`, {
+              field: `seed`,
+              value: ``,
+            })
+          }
+        }
+      } catch (err) {
+        console.error(er)
       }
     },
     close() {

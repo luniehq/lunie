@@ -3,9 +3,7 @@
     <div class="account-menu-buttons">
       <!-- Remove account for accounts with seed -->
       <div
-        v-if="
-          account.sessionType === `local` || account.sessionType === `extension`
-        "
+        v-if="account.sessionType === `local` || isExtension"
         class="account-menu-button-container"
       >
         <router-link
@@ -20,7 +18,7 @@
         >
           <i class="material-icons notranslate show-seed">delete</i>
         </router-link>
-        <span class="account-menu-button-span">Delete Account</span>
+        <span class="account-menu-button-span">Remove Account</span>
       </div>
       <!-- Remove account for explore and ledger accounts  -->
       <div
@@ -57,6 +55,8 @@
 </template>
 
 <script>
+import config from "src/../config"
+
 export default {
   name: `account-menu`,
   props: {
@@ -69,6 +69,7 @@ export default {
     return {
       seed: "",
       command: "",
+      isExtension: config.isExtension,
     }
   },
   methods: {
