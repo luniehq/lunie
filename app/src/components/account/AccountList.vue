@@ -56,7 +56,10 @@
                 >close</i
               >
               <i
-                v-else
+                v-else-if="
+                  isExtension ||
+                  ['explore', 'local', 'ledger'].includes(account.sessionType)
+                "
                 class="material-icons notranslate"
                 @click="setNetwork(account)"
                 >more_vert</i
