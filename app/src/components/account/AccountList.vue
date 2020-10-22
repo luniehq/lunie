@@ -55,7 +55,6 @@ import AccountMenu from "account/AccountMenu"
 import Address from "common/Address"
 import TmBtn from "common/TmBtn"
 import config from "src/../config"
-import { mapGetters } from "vuex"
 
 export default {
   name: `account-list`,
@@ -86,9 +85,6 @@ export default {
     openAccount: undefined,
     isExtension: config.isExtension,
   }),
-  computed: {
-    ...mapGetters([`networks`]),
-  },
   methods: {
     setNetwork(account) {
       this.openAccount = account
