@@ -270,7 +270,7 @@ export default (store) => {
       component: require("account/RevealSeedModal").default,
     },
     {
-      path: `/delete/:networkId/:address`,
+      path: `/delete/:address/:addressNetworkId`,
       name: `delete`,
       component: require("account/ForgetAccountModal").default,
     },
@@ -283,6 +283,14 @@ export default (store) => {
       path: `/welcome`,
       name: `welcome`,
       component: () => import(`./components/common/CardSignInRequired`),
+      meta: {
+        networkSpecificRoute: true,
+      },
+    },
+    {
+      path: `/manage-accounts`,
+      name: `manage-accounts-modal`,
+      component: () => import(`./components/account/ManageAccountsModal`),
       meta: {
         networkSpecificRoute: true,
       },

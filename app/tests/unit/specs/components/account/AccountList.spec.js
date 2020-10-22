@@ -6,7 +6,7 @@ describe(`AccountList`, () => {
 
   beforeEach(() => {
     wrapper = shallowMount(AccountList, {
-      props: {
+      propsData: {
         accounts: [
           {
             name: "account1",

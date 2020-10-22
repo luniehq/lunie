@@ -4,6 +4,73 @@ exports[`AccountList should show the AccountList page 1`] = `
 <div>
   <ul
     class="account-list"
-  />
+  >
+    <li>
+      <!---->
+       
+      <div
+        class="account"
+      >
+        <div
+          class="account-info"
+        >
+          <h3>
+            account1
+          </h3>
+           
+          <address-stub
+            address="cosmos123"
+            tooltiptext=""
+          />
+        </div>
+         
+        <div
+          class="action-container"
+        >
+          <tmbtn-stub
+            class="account-button"
+            color="primary"
+            customclass=""
+            value="Text"
+          />
+           
+          <!---->
+        </div>
+      </div>
+    </li>
+    <li>
+      <!---->
+       
+      <div
+        class="account"
+      >
+        <div
+          class="account-info"
+        >
+          <h3>
+            account2
+          </h3>
+           
+          <address-stub
+            address="cosmos456"
+            tooltiptext=""
+          />
+        </div>
+         
+        <div
+          class="action-container"
+        >
+          <tmbtn-stub
+            class="account-button"
+            color="primary"
+            customclass=""
+            value="Text"
+          />
+           
+          <!---->
+        </div>
+      </div>
+    </li>
+  </ul>
 </div>
 `;
