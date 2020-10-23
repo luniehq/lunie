@@ -58,7 +58,7 @@ module.exports.getTwitterImages = async () => {
           name, operator_address, last_updated: new Date().toISOString()
         }
         // avoid overwriting picture in the db with null values
-        if (picture) {
+        if (picture && picture !== `https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png`) {
           row.picture = picture
         }
         return row
