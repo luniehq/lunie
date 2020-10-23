@@ -114,6 +114,15 @@ export default () => {
 
       return wallet.cosmosAddress
     },
+    async deleteKey(store, address) {
+      const { removeFromStorage } = await import("@lunie/cosmos-keys")
+      removeFromStorage(address)
+
+      // reload accounts as we just removed one
+      store.dispatch("loadLocalAccounts")
+
+      return true
+    }
   }
 
   async function getNetworkInfo(networkId, store) {
