@@ -372,9 +372,9 @@ async function transactionReducerV2(
       const failureEvent = extrinsic.events.find(
         (event) =>
           (event.method.pallet === `system` &&
-          event.method.method === `ExtrinsicFailed`) || 
+            event.method.method === `ExtrinsicFailed`) ||
           (event.method.pallet === `utility` &&
-          event.method.method === `BatchInterrupted`)
+            event.method.method === `BatchInterrupted`)
       )
       const failureEventData = failureEvent.data.find(({ Module }) => !!Module) // data has Module property to get error
       const { index, error } = failureEventData.Module
