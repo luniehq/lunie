@@ -55,12 +55,6 @@
               :address="address"
               @click="selectAddress(address)"
             />
-            <i
-              v-if="['ledger', 'explore'].includes(address.sessionType)"
-              class="material-icons notranslate"
-              @click="signOutOfAddress(address)"
-              >close</i
-            >
           </div>
         </div>
         <div
@@ -71,6 +65,15 @@
         >
           <span>Add an address</span>
           <i class="material-icons">add_circle</i>
+        </div>
+        <div
+          id="manage-accounts"
+          v-close-popover
+          class="menu-list-item"
+          @click="goToManageAccounts()"
+        >
+          <span>Manage Addresses</span>
+          <i class="material-icons">build</i>
         </div>
         <div v-if="account.userSignedIn">
           <div
@@ -182,6 +185,7 @@ export default {
         let allAddressesWithAddressRole = await this.getAllAddressesRoles(
           allAddresses.filter(({ address }) => address)
         )
+        this.$store.commit(`setUserAccounts`, allAddressesWithAddressRole)
         return allAddressesWithAddressRole
       },
     },
@@ -230,15 +234,17 @@ export default {
         networkId: address.networkId,
       })
     },
-    signOutOfAddress(address) {
-      this.$store.dispatch(`signOutAddress`, address)
-    },
     signOut() {
       this.$store.dispatch(`signOutUser`)
     },
     goToWelcome() {
       if (this.$route.name !== `welcome`) {
         this.$router.push({ name: `welcome` })
+      }
+    },
+    goToManageAccounts() {
+      if (this.$route.name !== `manage-accounts-modal`) {
+        this.$router.push({ name: `manage-accounts-modal` })
       }
     },
     signUpForPremium() {

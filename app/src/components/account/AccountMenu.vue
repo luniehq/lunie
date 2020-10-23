@@ -1,19 +1,50 @@
 <template>
   <div class="account-menu">
     <div class="account-menu-buttons">
-      <div class="account-menu-button-container">
+      <!-- Remove account for accounts with seed -->
+      <div
+        v-if="account.sessionType === `local` || isExtension"
+        class="account-menu-button-container"
+      >
         <router-link
           class="account-menu-button account-menu-delete-account"
-          :to="{ name: 'delete', params: { address, networkId } }"
+          :to="{
+            name: 'delete',
+            params: {
+              address: account.address,
+              addressNetworkId: account.network || account.networkId,
+            },
+          }"
         >
           <i class="material-icons notranslate show-seed">delete</i>
         </router-link>
+        <span class="account-menu-button-span">Remove Account</span>
+      </div>
+      <!-- Remove account for explore and ledger accounts  -->
+      <div
+        v-if="
+          account.sessionType === `explore` || account.sessionType === `ledger`
+        "
+        class="account-menu-button-container"
+      >
+        <div
+          class="account-menu-button account-menu-delete-account"
+          @click="signOutOfAddress(account)"
+        >
+          <i class="material-icons notranslate show-seed">delete</i>
+        </div>
         <span class="account-menu-button-span">Delete Account</span>
       </div>
-      <div class="account-menu-button-container">
+      <!-- Show seed -->
+      <div
+        v-if="
+          account.sessionType === `local` || account.sessionType === `extension`
+        "
+        class="account-menu-button-container"
+      >
         <router-link
           class="account-menu-button account-menu-show-seed"
-          :to="{ name: 'reveal', params: { address } }"
+          :to="{ name: 'reveal', params: { address: account.address } }"
         >
           <i class="material-icons notranslate show-seed">visibility</i>
         </router-link>
@@ -24,17 +55,13 @@
 </template>
 
 <script>
-import gql from "graphql-tag"
+import config from "src/../config"
 
 export default {
   name: `account-menu`,
   props: {
-    address: {
-      type: String,
-      required: true,
-    },
-    networkId: {
-      type: String,
+    account: {
+      type: Object,
       required: true,
     },
   },
@@ -42,7 +69,13 @@ export default {
     return {
       seed: "",
       command: "",
+      isExtension: config.isExtension,
     }
+  },
+  methods: {
+    async signOutOfAddress(account) {
+      await this.$store.dispatch(`signOutAddress`, account)
+    },
   },
 }
 </script>
