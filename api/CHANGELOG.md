@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.58] - 2020-10-23
+
+### Fixed
+
+- Handle Polkadot batch failure @faboweb
+- [#5132](https://github.com/cosmos/lunie/issues/5132) Fix unstake amount being added for low balance for fee calculation @faboweb
+
 ## [1.0.57] - 2020-10-21
 
 ### Added
