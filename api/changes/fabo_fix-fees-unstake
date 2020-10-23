@@ -1,1 +1,0 @@
-[Fixed] [#5132](https://github.com/cosmos/lunie/issues/5132) Fix unstake amount being added for low balance for fee calculation @faboweb
