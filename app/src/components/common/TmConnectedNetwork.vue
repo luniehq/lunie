@@ -100,6 +100,7 @@ export default {
   },
   data: () => ({
     block: {},
+    config,
   }),
   computed: {
     ...mapState([`connection`]),
