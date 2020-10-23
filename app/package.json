@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
-    "@capacitor-community/intercom": "1.0.3",
+    "@capacitor-community/intercom": "1.1.0",
     "@capacitor/android": "2.4.2",
     "@capacitor/core": "2.4.2",
     "@capacitor/ios": "2.4.2",
