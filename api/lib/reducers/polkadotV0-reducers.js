@@ -368,14 +368,29 @@ async function transactionReducerV2(
   // add error
   let log = undefined
   if (!success) {
-    const { index, error } = extrinsic.events.find(
-      (event) =>
-        event.method.pallet === `system` &&
-        event.method.method === `ExtrinsicFailed`
-    ).data[0].Module
-    const errorIndex = new Uint8Array([index, error])
-    const { documentation } = api.registry.findMetaError(errorIndex)
-    log = documentation.join(' ').trim()
+    try {
+      const failureEvent = extrinsic.events.find(
+        (event) =>
+          (event.method.pallet === `system` &&
+          event.method.method === `ExtrinsicFailed`) || 
+          (event.method.pallet === `utility` &&
+          event.method.method === `BatchInterrupted`)
+      )
+      const failureEventData = failureEvent.data.find(({ Module }) => !!Module) // data has Module property to get error
+      const { index, error } = failureEventData.Module
+      const errorIndex = new Uint8Array([index, error])
+      const { documentation } = api.registry.findMetaError(errorIndex)
+      log = documentation.join(' ').trim()
+    } catch (err) {
+      console.error(err)
+      Sentry.withScope(function (scope) {
+        scope.setExtra('extrinsic', extrinsic)
+        scope.setExtra('height', blockHeight)
+        scope.setExtra('hash', hash)
+        Sentry.captureException(error)
+      })
+      log = `Transaction failed. Exact error could not been extracted. Extrinsic was included in block ${blockHeight} and has hash ${hash}.`
+    }
   }
 
   const returnedMessages = await Promise.all(
