@@ -1,6 +1,7 @@
 <template>
   <div class="sidebar-bottom">
     <TmBtn
+      v-if="!config.mobileApp"
       id="intercom-button"
       class="intercom-button secondary"
       value="Help / Feedback"
