@@ -382,14 +382,15 @@ class polkadotAPI extends BaseRESTDataSource {
     return expectedReturns
   }
 
-  async loadClaimedRewardsForValidators(allValidators) {
-    const allStakingLedgers = {}
+  async loadLastClaimedErasForValidators(allValidators) {
+    const lastClaimedEras = []
     for (let i = 0; i < allValidators.length; i++) {
       const stashId = allValidators[i]
       const { staking } = await this.query(`accounts/${stashId}/staking-info`)
-      allStakingLedgers[stashId] = staking.claimedRewards
+      const claimedEras = staking.claimedRewards.map(era => parseInt(era))
+      lastClaimedEras[stashId] = Math.max(...claimedEras)
     }
-    return allStakingLedgers
+    return lastClaimedEras
   }
 
   async filterRewards(rewards) {
@@ -397,17 +398,11 @@ class polkadotAPI extends BaseRESTDataSource {
       return []
     }
     const allValidators = rewards.map(({ validator }) => validator)
-    const stakingLedgers = await this.loadClaimedRewardsForValidators(
+    const lastClaimedEras = await this.loadLastClaimedErasForValidators(
       allValidators
     )
 
-    const filteredRewards = rewards.filter(({ height: era, validator }) => {
-      return (
-        !stakingLedgers[validator] ||
-        !stakingLedgers[validator].includes(Number(era))
-      )
-    })
-
+    const filteredRewards = rewards.filter(({ height, validator }) => height > lastClaimedEras[validator] )
     return filteredRewards
   }
 
