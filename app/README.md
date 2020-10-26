@@ -102,8 +102,8 @@ To run the Android version of Lunie in development:
 
 ```bash
 $ yarn build:mobile
-$ yarn remove @capacitor/core @capacitor/android @capacitor-community/intercom
-$ npm install @capacitor/core @capacitor/android @capacitor-community/intercom
+$ yarn remove @capacitor/core @capacitor/android 
+$ npm install @capacitor/core @capacitor/android 
 $ npx cap sync android
 $ npx cap open android
 ```
