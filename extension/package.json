@@ -79,7 +79,7 @@
     "vue-clipboard2": "^0.3.0",
     "vue-directive-tooltip": "1.6.3",
     "vue-router": "^3.0.1",
-    "vuelidate": "^0.7.4",
+    "vuelidate": "^0.7.6",
     "vuex": "^3.4.0",
     "webextension-polyfill": "^0.6.0"
   },
