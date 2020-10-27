@@ -60,7 +60,7 @@
     "graphql": "15.3.0",
     "graphql-tag": "2.11.0",
     "https-proxy-agent": ">=3.0.0",
-    "jdenticon": "2.2.0",
+    "jdenticon": "3.0.1",
     "lodash.groupby": "4.6.0",
     "lodash.isempty": "^4.4.0",
     "lodash.orderby": "^4.6.0",
