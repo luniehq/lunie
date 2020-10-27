@@ -42,6 +42,7 @@
           type="custom"
           msg="Seed is incorrect for this address"
         />
+        <TmFormMsg v-else-if="error" type="custom" :msg="error" />
         <div class="forget-account-buttons">
           <TmBtn
             value="Dismiss"
@@ -131,6 +132,7 @@ export default {
     isAccountDeleted: false,
     isCorrectSeed: `undefined`,
     copySuccess: false,
+    error: undefined,
   }),
   computed: {
     address() {
@@ -188,7 +190,8 @@ export default {
           }
         }
       } catch (err) {
-        console.error(er)
+        console.error(err)
+        this.error = err.message
       }
     },
     close() {
