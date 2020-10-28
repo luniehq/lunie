@@ -142,9 +142,10 @@ function tallyReducer(proposal, tally, totalBondedTokens) {
 }
 
 function depositReducer(deposit, network, store) {
+  const coinLookup = network.getCoinLookup(network, network.stakingDenom)
   return {
     id: deposit.depositor,
-    amount: [coinReducer(deposit.amount[0], undefined, network)],
+    amount: [coinReducer(deposit.amount[0], coinLookup)],
     depositer: networkAccountReducer(deposit.depositor, store.validators)
   }
 }
@@ -372,18 +373,20 @@ function denomLookup(coinLookup, denom) {
   return coinLookup.viewDenom ? coinLookup.viewDenom : denom.toUpperCase()
 }
 
-function coinReducer(coin, coinLookup, network) {
+function coinReducer(coin, coinLookup) {
   if (!coin) {
     return {
       amount: 0,
       denom: ''
     }
   }
-  coinLookup =
-    coinLookup ||
-    network.coinLookup.find(
-      ({ viewDenom }) => viewDenom === network.stakingDenom
-    )
+
+  if (!coinLookup) {
+    return {
+      amount: -1,
+      denom: '[UNSUPPORTED] ' + coin.denom
+    }
+  }
 
   // we want to show only atoms as this is what users know
   const denom = denomLookup(coinLookup, coin.denom)

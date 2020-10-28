@@ -110,12 +110,12 @@ function transactionReducerV2(network, transaction, reducers) {
     ) {
       fees = transaction.tx.value.fee.amount.map((coin) => {
         const coinLookup = network.getCoinLookup(network, coin.denom)
-        return coinReducer(coin, coinLookup, network)
+        return coinReducer(coin, coinLookup)
       })
     } else {
       fees = transaction.tx.auth_info.fee.amount.map((fee) => {
         const coinLookup = network.getCoinLookup(network, fee.denom)
-        return coinReducer(fee, coinLookup, network)
+        return coinReducer(fee, coinLookup)
       })
     }
     // We do display only the transactions we support in Lunie
