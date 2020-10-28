@@ -161,6 +161,10 @@ export default {
           )
         const sessionAddressesWithoutKeys = this.session.addresses
           .filter(
+            ({ sessionType }) =>
+              sessionType === "explore" || sessionType === "ledger"
+          )
+          .filter(
             ({ address }) =>
               // pick only addresses where there is no addres with key already
               !addressesWithKeys.find(
