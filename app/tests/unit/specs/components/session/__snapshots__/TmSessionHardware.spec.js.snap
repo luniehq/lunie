@@ -72,8 +72,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
               <!---->
               <!----> <button class="button" disabled="disabled">
 
-              </button>
-            </div>
+              </button></div>
           </div>
         </div>
       </div>
@@ -286,8 +285,7 @@ exports[`TmSessionHardware sign in does show the instructions to enable HID on W
               <!---->
               <!----> <button class="button">
                 Sign In
-              </button>
-            </div>
+              </button></div>
           </div>
         </div>
       </div>
@@ -317,12 +315,10 @@ exports[`TmSessionHardware sign in does show the instructions to fix connection 
                 https://support.ledger.com/hc/en-us/articles/360019301813-Fix-USB-issues
                 <i class="material-icons notranslate copied">
                   check
-                </i>
-              </div> <br> <br>
+                </i></div> <br> <br>
               <!----> <button class="button">
                 Sign In
-              </button>
-            </div>
+              </button></div>
           </div>
         </div>
       </div>
