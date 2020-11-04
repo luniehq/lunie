@@ -13,9 +13,11 @@ async function totalBackedValueReducer(
   const lunieCoin = reducers.coinReducer(totalBackedValue, coinLookup)
 
   // The total net EUR value of the token's total supply
-  const fiatValue = BigNumber(lunieCoin.amount)
-    .times(exchangeRates[lunieCoin.denom][aggregatingCurrency])
-    .toNumber()
+  const fiatValue = exchangeRates
+    ? BigNumber(lunieCoin.amount)
+        .times(exchangeRates[lunieCoin.denom][aggregatingCurrency])
+        .toNumber()
+    : 0
   return {
     ...lunieCoin,
     eurValue: fiatValue
@@ -68,7 +70,9 @@ async function expectedRewardsPerToken(
   // How many NGM tokens can we buy with the total gain in EUR we make in a year's time?
   // 0.50€ is the price the NGM tokens will be first sold. Therefore, this is the official value
   // until they reach an exchange
-  const pricePerNGM = exchangeRates[stakingToken][aggregatingCurrency]
+  const pricePerNGM = exchangeRates
+    ? exchangeRates[stakingToken][aggregatingCurrency]
+    : 0
   const ngmGains = totalEURGainsPerTokenInvested.div(pricePerNGM)
 
   return ngmGains.toFixed(4) // we don't need more then a precision of 2 (0.1 = 10%)
