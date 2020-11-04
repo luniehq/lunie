@@ -78,7 +78,7 @@
     "vue-apollo": "3.0.3",
     "vue-clipboard2": "^0.3.0",
     "vue-directive-tooltip": "1.6.3",
-    "vue-router": "^3.0.1",
+    "vue-router": "^3.4.8",
     "vuelidate": "^0.7.6",
     "vuex": "^3.4.0",
     "webextension-polyfill": "^0.6.0"
@@ -102,7 +102,7 @@
     "ejs": "^3.1.5",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard": "^16.0.1",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.1",

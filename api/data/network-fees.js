@@ -60,12 +60,12 @@ const pollForNewFees = async () => {
 }
 
 const getNetworkGasPrices = async (networkId) => {
-  if (!networkGasPricesDictionary[networkId]) {
+  if (!networkGasPricesDictionary[networkId] && !networkId.startsWith('emoney')) {
     const networkGasPrices = await db.getNetworkGasPrices()
     networkGasPrices.forEach(networkGasPrice => {
       if (!networkGasPricesDictionary[networkGasPrice.id]) networkGasPricesDictionary[networkGasPrice.id] = []
       networkGasPricesDictionary[networkGasPrice.id].push({ denom: networkGasPrice.denom,
-        gasPrice: networkGasPrice.gasPrice
+        price: networkGasPrice.price
       })
     })
   }
@@ -252,7 +252,7 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
   const gasPrice = BigNumber(networkGasPricesDictionary[network.id].find(({ denom }) => {
     const coinLookup = network.getCoinLookup(network, denom)
     return coinLookup ? coinLookup.viewDenom === feeDenom : false
-  }).gasPrice)
+  }).price)
     .times(
       network.getCoinLookup(network, feeDenom, `viewDenom`)
         .chainToViewConversionFactor

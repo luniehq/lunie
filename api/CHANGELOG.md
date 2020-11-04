@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.59] - 2020-11-04
+
+### Changed
+
+- [#5183](https://github.com/cosmos/lunie/pull/5183) Upgrade to emoney-2 @Bitcoinera
+
+### Fixed
+
+- [#5182](https://github.com/cosmos/lunie/pull/5182) Fix e-Money gasprices by changing column name from gasPrice to price @Bitcoinera
+- [#5184](https://github.com/cosmos/lunie/pull/5184) Fix the last gasPrice @Bitcoinera
+- [#5165](https://github.com/cosmos/lunie/issues/5165) Handle Kava vesting accounts @faboweb
+- [#5166](https://github.com/cosmos/lunie/issues/5166) Handle unknown coins @faboweb
+- [#5164](https://github.com/cosmos/lunie/issues/5164) Fix claim rewards in polkadot @mariopino
+
 ## [1.0.58] - 2020-10-23
 
 ### Fixed
