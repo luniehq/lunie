@@ -111,6 +111,7 @@ function calculateTokenExchangeRates(
 module.exports = {
   ...terraV3Reducers,
   blockReducer: cosmosV3Reducers.blockReducer,
+  setTransactionSuccess: cosmosV3Reducers.setTransactionSuccess,
   expectedRewardsPerToken,
   totalBackedValueReducer,
   getTotalNetworkAnnualRewards,
