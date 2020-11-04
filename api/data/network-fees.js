@@ -60,7 +60,7 @@ const pollForNewFees = async () => {
 }
 
 const getNetworkGasPrices = async (networkId) => {
-  if (!networkGasPricesDictionary[networkId]) {
+  if (!networkGasPricesDictionary[networkId] && !networkId.startsWith('emoney')) {
     const networkGasPrices = await db.getNetworkGasPrices()
     networkGasPrices.forEach(networkGasPrice => {
       if (!networkGasPricesDictionary[networkGasPrice.id]) networkGasPricesDictionary[networkGasPrice.id] = []
