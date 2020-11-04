@@ -1,4 +1,5 @@
 const terraV3Reducers = require('./terraV3-reducers')
+const cosmosV3Reducers = require('./cosmosV3-reducers')
 const BigNumber = require('bignumber.js')
 const _ = require('lodash')
 
@@ -109,6 +110,8 @@ function calculateTokenExchangeRates(
 
 module.exports = {
   ...terraV3Reducers,
+  blockReducer: cosmosV3Reducers.blockReducer,
+  setTransactionSuccess: cosmosV3Reducers.setTransactionSuccess,
   expectedRewardsPerToken,
   totalBackedValueReducer,
   getTotalNetworkAnnualRewards,
