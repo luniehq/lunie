@@ -65,7 +65,7 @@ const getNetworkGasPrices = async (networkId) => {
     networkGasPrices.forEach(networkGasPrice => {
       if (!networkGasPricesDictionary[networkGasPrice.id]) networkGasPricesDictionary[networkGasPrice.id] = []
       networkGasPricesDictionary[networkGasPrice.id].push({ denom: networkGasPrice.denom,
-        gasPrice: networkGasPrice.gasPrice
+        gasPrice: networkGasPrice.price
       })
     })
   }
