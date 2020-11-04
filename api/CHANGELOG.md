@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.59] - 2020-11-04
+
+### Changed
+
+- [#5183](https://github.com/cosmos/lunie/pull/5183) Upgrade to emoney-2 @Bitcoinera
+
+### Fixed
+
+- [#5182](https://github.com/cosmos/lunie/pull/5182) Fix e-Money gasprices by changing column name from gasPrice to price @Bitcoinera
+- [#5184](https://github.com/cosmos/lunie/pull/5184) Fix the last gasPrice @Bitcoinera
+- [#5165](https://github.com/cosmos/lunie/issues/5165) Handle Kava vesting accounts @faboweb
+- [#5166](https://github.com/cosmos/lunie/issues/5166) Handle unknown coins @faboweb
+- [#5164](https://github.com/cosmos/lunie/issues/5164) Fix claim rewards in polkadot @mariopino
+
 ## [1.0.58] - 2020-10-23
 
 ### Fixed
@@ -56,7 +70,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [#5120](https://github.com/cosmos/lunie/pull/5120) Try to fix slow mem leak @Bitcoinera
 - Proposal notifications would not be stored for Cosmos chains as the resource id was not a string @faboweb
 - [#5112](https://github.com/cosmos/lunie/issues/5112) Don't fetch polkadot proposals if feature is not enabled @mariopino
- 
+
 ## [1.0.54] - 2020-10-13
 
 ### Changed
@@ -265,7 +279,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 - Send push notification and register devices for push notifications @faboweb
-- [#	4518](https://github.com/cosmos/lunie/issues/	4518) Add sessions to allow multiple sign ins @faboweb
+- [# 4518](https://github.com/cosmos/lunie/issues/ 4518) Add sessions to allow multiple sign ins @faboweb
 
 ### Changed
 
@@ -395,7 +409,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [#4506](https://github.com/cosmos/lunie/pull/4506) Fix double balances in Tendermint networks @Bitcoinera
 - [#4470](https://github.com/cosmos/lunie/issues/4470) Takes always onchain names to fix amp; issue @faboweb
 - [#4515](https://github.com/cosmos/lunie/issues/4515) Show staking balance of 0 if user has no delegations and no tokens @faboweb
-- [#4490](https://github.com/cosmos/lunie/issues/4490) Total was not showing if no staking  denom in balances @faboweb
+- [#4490](https://github.com/cosmos/lunie/issues/4490) Total was not showing if no staking denom in balances @faboweb
 - [#4511](https://github.com/cosmos/lunie/issues/4511) Added denom to rewards id to prevent caching issues @faboweb
 - [#4510](https://github.com/cosmos/lunie/issues/4510) Fix polkadot rewards @mariopino
 
@@ -430,7 +444,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - [#4373](https://github.com/cosmos/lunie/pull/4373) Use Polkadot connection script @faboweb
-- [#4235](https://github.com/cosmos/lunie/pull/4235) Enabled field in network can be overwritten by its value on DB table "networks"  @Bitcoinera
+- [#4235](https://github.com/cosmos/lunie/pull/4235) Enabled field in network can be overwritten by its value on DB table "networks" @Bitcoinera
 
 ### Fixed
 
@@ -516,7 +530,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 
-- [#4295](https://github.com/cosmos/lunie/issues/4295) Adds some user management to API with the store and getUser functions  @Bitcoinera
+- [#4295](https://github.com/cosmos/lunie/issues/4295) Adds some user management to API with the store and getUser functions @Bitcoinera
 - [#3894](https://github.com/cosmos/lunie/issues/3894) Upgrade @polkadot/api to v1.19.1 @Bitcoinera @mariopino
 - [#3995](https://github.com/cosmos/lunie/issues/3995) Handle polkadot election period @mariopino
 
@@ -643,7 +657,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Handle fees if user has 0 balance in that token @faboweb
 - Fix memory leaks in Polkadot API by reconnecting every hour @faboweb
 - Update Polkadot dependency @faboweb
-- [#4161](https://github.com/cosmos/lunie/issues/4161) Fix wrong status detailed in kusama validators  @mariopino
+- [#4161](https://github.com/cosmos/lunie/issues/4161) Fix wrong status detailed in kusama validators @mariopino
 - [#857](https://github.com/cosmos/lunie/issues/857) Fix getOldPolkadotRewardEras.js script @mariopino
 
 ### Repository
@@ -738,7 +752,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - [#798](https://github.com/cosmos/lunie/pull/798) Returns undefined on accountRole resolver when network has no getAddressRole method @Bitcoinera
 - [#795](https://github.com/cosmos/lunie/pull/795) Enables Akash activiy and proposals @Bitcoinera
-- [#801](https://github.com/cosmos/lunie/pull/801) Releases Kava by enabling it  @Bitcoinera
+- [#801](https://github.com/cosmos/lunie/pull/801) Releases Kava by enabling it @Bitcoinera
 - [#797](https://github.com/cosmos/lunie/pull/797) Fetches e-Money gas prices dynamically @Bitcoinera
 - [#791](https://github.com/cosmos/lunie/pull/791) Update Kava-testnet to kava-testnet-6000 @Bitcoinera
 
@@ -896,7 +910,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - [#634](https://github.com/cosmos/lunie/issues/634) Fixes denom.toUpperCase is not a function @Bitcoinera
-- 	Handle no delegations in Polkadot better @faboweb
+-     Handle no delegations in Polkadot better @faboweb
 - Inactive Polkadot delegation where not showing correctly @faboweb
 - [#637](https://github.com/cosmos/lunie/issues/637) Fix empty polkadot rewards @mariopino
 

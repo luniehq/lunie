@@ -387,7 +387,7 @@ class polkadotAPI extends BaseRESTDataSource {
     for (let i = 0; i < allValidators.length; i++) {
       const stashId = allValidators[i]
       const { staking } = await this.query(`accounts/${stashId}/staking-info`)
-      const claimedEras = staking.claimedRewards.map(era => parseInt(era))
+      const claimedEras = staking.claimedRewards.map((era) => parseInt(era))
       lastClaimedEras[stashId] = Math.max(...claimedEras)
     }
     return lastClaimedEras
@@ -402,7 +402,9 @@ class polkadotAPI extends BaseRESTDataSource {
       allValidators
     )
 
-    const filteredRewards = rewards.filter(({ height, validator }) => height > lastClaimedEras[validator] )
+    const filteredRewards = rewards.filter(
+      ({ height, validator }) => height > lastClaimedEras[validator]
+    )
     return filteredRewards
   }
 
