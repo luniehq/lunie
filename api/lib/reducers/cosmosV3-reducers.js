@@ -216,6 +216,15 @@ function undelegationEndTimeReducer(transaction) {
   return completionTimeAttribute ? completionTimeAttribute.value : undefined
 }
 
+function accountInfoReducer(accountValue, accountType) {
+  return {
+    address: accountValue.address,
+    accountNumber: accountValue.account_number,
+    sequence: accountValue.sequence || 0,
+    vestingAccount: accountType.includes(`VestingAccount`)
+  }
+}
+
 module.exports = {
   ...cosmosV2Reducers,
   blockReducer,
@@ -223,5 +232,6 @@ module.exports = {
   delegationReducer,
   transactionReducerV2,
   undelegationEndTimeReducer,
-  setTransactionSuccess
+  setTransactionSuccess,
+  accountInfoReducer
 }

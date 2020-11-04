@@ -112,6 +112,7 @@ module.exports = {
   ...terraV3Reducers,
   blockReducer: cosmosV3Reducers.blockReducer,
   setTransactionSuccess: cosmosV3Reducers.setTransactionSuccess,
+  accountInfoReducer: cosmosV3Reducers.accountInfoReducer,
   expectedRewardsPerToken,
   totalBackedValueReducer,
   getTotalNetworkAnnualRewards,
