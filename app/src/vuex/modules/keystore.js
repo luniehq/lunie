@@ -61,6 +61,7 @@ export default () => {
       const networkObject = store.getters.networks.find(
         ({ id }) => id === networkId
       )
+      if (!networkObject) throw new Error("Couldn't get network for key.")
       const walletVariations = JSON.parse(networkObject.HDPaths).reduce(
         (all, HDPath) => {
           return JSON.parse(networkObject.curves).reduce((all2, curve) => {

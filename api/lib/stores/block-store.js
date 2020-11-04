@@ -52,7 +52,6 @@ class BlockStore {
   }
 
   async update({
-    height,
     block = this.block,
     validators,
     proposals,

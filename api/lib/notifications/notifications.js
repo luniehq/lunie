@@ -202,7 +202,7 @@ function getTopic({ resourceType, networkId, eventType, resourceId }) {
 const startNotificationService = (networks) => {
   // Disable for development mode
   // (only activate for staging/production to avoid duplicate notifications)
-  if (config.env !== 'development') {
+  // if (config.env !== 'development') {
     // listens on the graphQL subscription for events
     eventSubscription(async (event) => {
       if (event.properties.type === 'UnknownTx') return
@@ -242,7 +242,7 @@ const startNotificationService = (networks) => {
         })
       }
     })
-  }
+  // }
 }
 
 // Resolver for retrieving notifications
