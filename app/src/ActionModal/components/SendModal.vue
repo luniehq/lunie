@@ -12,7 +12,6 @@
     :notify-message="notifyMessage"
     feature-flag="send"
     :disabled="
-      sendingNgm ||
       $asyncComputed.transactionData.updating ||
       $asyncComputed.transactionData.error
     "
@@ -160,11 +159,6 @@
         type="maxLength"
         :max="max_memo_characters"
       />
-      <TmFormMsg
-        v-if="sendingNgm"
-        type="custom"
-        msg="Sending NGM is currently disabled."
-      />
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -245,23 +239,6 @@ export default {
       return this.denoms
         ? this.denoms.map((denom) => (denom = { key: denom, value: denom }))
         : []
-    },
-    sendingNgm() {
-      const whitelistedAccount = [
-        "emoney1cs4323dyzu0wxfj4vc62m8q3xsczfavqx9x3zd",
-        "emoney147verqcxwdkgrn663x2qj66zyqc5mu479afw9n",
-        "emoney14r5rva8qk5ee6rvk5sdtmxea40uf74k7uh4yjv",
-        "emoney1s73cel9vxllx700eaeuqr70663w5f0twzcks3l",
-        "emoney1uae5c48qjdc9psfzkwvre0shm9z8wlsfnse2nz",
-      ]
-      return (
-        this.selectedToken === "NGM" &&
-        this.network === "emoney-mainnet" &&
-        !(
-          whitelistedAccount.includes(this.userAddress) ||
-          whitelistedAccount.includes(this.address)
-        )
-      )
     },
     // TODO: maxAmount should be handled from ActionModal
     maxAmount() {

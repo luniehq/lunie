@@ -1,5 +1,5 @@
 const TerraV3API = require('./terraV3-source')
-const CosmosV0API = require('./cosmosV0-source')
+const CosmosV3API = require('./cosmosV3-source')
 
 class EMoneyV0API extends TerraV3API {
   setReducers() {
@@ -45,7 +45,11 @@ class EMoneyV0API extends TerraV3API {
   }
 
   async getValidators(height) {
-    return CosmosV0API.prototype.getValidators.call(this, height)
+    return CosmosV3API.prototype.getValidators.call(this, height)
+  }
+
+  async getBlockByHeightV2(height) {
+    return CosmosV3API.prototype.getBlockByHeightV2.call(this, height)
   }
 
   async getExpectedReturns(validator) {
