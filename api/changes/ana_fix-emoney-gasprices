@@ -1,0 +1,1 @@
+[Fixed] [#5182](https://github.com/cosmos/lunie/pull/5182) Fix e-Money gasprices by changing column name from gasPrice to price @Bitcoinera

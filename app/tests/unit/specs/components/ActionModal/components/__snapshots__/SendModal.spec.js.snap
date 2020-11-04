@@ -105,8 +105,6 @@ exports[`SendModal should display send modal form 1`] = `
     </span>
      
     <!---->
-     
-    <!---->
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
@@ -221,8 +219,6 @@ exports[`SendModal validation should show address required error 1`] = `
       </a>
       .
     </span>
-     
-    <!---->
      
     <!---->
   </tmformgroup-stub>
@@ -341,8 +337,6 @@ exports[`SendModal validation should show an error if trying to send more then t
     </span>
      
     <!---->
-     
-    <!---->
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
@@ -457,8 +451,6 @@ exports[`SendModal validation should show bech32 error when address is not bech3
       </a>
       .
     </span>
-     
-    <!---->
      
     <!---->
   </tmformgroup-stub>

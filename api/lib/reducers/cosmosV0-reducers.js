@@ -410,7 +410,7 @@ function gasPriceReducer(gasPrice, coinLookup) {
   const denom = denomLookup(coinLookup, gasPrice.denom)
   return {
     denom: denom,
-    price: BigNumber(gasPrice.gasPrice)
+    price: BigNumber(gasPrice.price)
       .times(
         coinLookup.find(({ chainDenom }) => chainDenom === gasPrice.denom)
           .chainToViewConversionFactor
