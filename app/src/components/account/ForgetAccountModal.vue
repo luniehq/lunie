@@ -2,7 +2,7 @@
   <SessionFrame ref="sessionFrame">
     <div v-if="!isAccountDeleted" class="session-container">
       <h2 class="title forget-title">
-        You are about to delete<br />
+        You are about to remove<br />
         <span class="pill">your account.</span>
       </h2>
       <TmFormGroup
@@ -42,6 +42,7 @@
           type="custom"
           msg="Seed is incorrect for this address"
         />
+        <TmFormMsg v-else-if="error" type="custom" :msg="error" />
         <div class="forget-account-buttons">
           <TmBtn
             value="Dismiss"
@@ -62,7 +63,7 @@
     </div>
     <div v-else class="session-container success-paragraph">
       <TmDataMsg icon="check" icon-color="var(--success)" :success="true">
-        <p slot="title">Account successfully deleted!</p>
+        <p slot="title">Account successfully removed!</p>
         <p slot="subtitle" class="success-paragraph-message">
           Account {{ address | formatAddress }} won't appear anymore among your
           accounts
@@ -131,6 +132,7 @@ export default {
     isAccountDeleted: false,
     isCorrectSeed: `undefined`,
     copySuccess: false,
+    error: undefined,
   }),
   computed: {
     address() {
@@ -188,7 +190,8 @@ export default {
           }
         }
       } catch (err) {
-        console.error(er)
+        console.error(err)
+        this.error = err.message
       }
     },
     close() {
