@@ -377,7 +377,7 @@ const getNetworkGasPrices = ({
         networksGasPrices: networksGasPrices {
           id
           denom
-          gasPrice
+          price
         }
       }
       `)
