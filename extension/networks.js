@@ -16,6 +16,8 @@ export default [{
     ],
     address_prefix: 'cosmos',
     network_type: 'cosmos',
+    HDPaths: `[{"value":"m/44'/118'/0'/0/0", "name":"Cosmos HD Path"}]`,
+    curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
     HDPath: `m/44'/118'/0'/0/0`,
     curve: 'ed25519',
     lockUpPeriod: `21 days`,
