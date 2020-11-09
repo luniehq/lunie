@@ -189,7 +189,7 @@ export default ({ apollo }) => {
       })
       .catch(function (error) {
         console.log('Error: ', error)
-        return validators.validators
+        return validators
       })
   }
 
