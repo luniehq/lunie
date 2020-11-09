@@ -1,5 +1,5 @@
 export default [{
-    id: 'cosmos-mainnet',
+    id: 'cosmos-hub-mainnet',
     chain_id: 'cosmoshub-3',
     title: 'Cosmos Hub',
     icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png`,
@@ -7,6 +7,7 @@ export default [{
     api_url: 'https://lcd.nylira.net',
     stakingDenom: 'ATOM',
     slug: 'cosmos-hub',
+    testnet: false,
     coinLookup: [
       {
         viewDenom: 'ATOM',
