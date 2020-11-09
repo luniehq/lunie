@@ -115,3 +115,7 @@ The final step would be to request your website domain is added to the allowed l
 
 The CI handles publishing. The publish script can be found in `scripts/deploy.sh`.
 If publishing fails, the refresh token could be outdated. In that case, follow these instructions: https://developer.chrome.com/webstore/using_webstore_api. After having used the console (not after the OAuth screen) you will receive a refresh token. Now set the environment variable `GAPI_REFRESH_TOKEN` in CircleCI with this token.
+
+# Using without API
+
+Since we will be shutting down our API, we have introduced a way to feed hardcoded data to the extension through the `network.js` and `validators.js` files. Each file includes one example with the necessary data for the extension to work properly. The env variable `LUNIE_API` is no longer needed to build the extension.
