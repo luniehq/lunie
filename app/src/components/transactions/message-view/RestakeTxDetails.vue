@@ -9,7 +9,10 @@
           v-if="sourceValidator && sourceValidator.picture"
           :src="sourceValidator.picture"
           class="validator-image"
-          :alt="`validator logo for ` + sourceValidator.name"
+          :alt="
+            `validator logo for ` +
+            (sourceValidator.name || sourceValidator.operatorAddress)
+          "
         />
         {{
           transaction.details.from[0] | resolveValidatorName(validators)
@@ -25,7 +28,10 @@
           v-if="destinationValidator && destinationValidator.picture"
           :src="destinationValidator.picture"
           class="validator-image"
-          :alt="`validator logo for ` + destinationValidator.name"
+          :alt="
+            `validator logo for ` +
+            (destinationValidator.name || destinationValidator.operatorAddress)
+          "
         />
         {{ transaction.details.to[0] | resolveValidatorName(validators) }}
       </router-link>

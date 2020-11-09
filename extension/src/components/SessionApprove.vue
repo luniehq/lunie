@@ -90,6 +90,7 @@ import TransactionItem from 'transactions/TransactionItem'
 import TableInvoice from 'src/ActionModal/components/TableInvoice'
 import Address from 'common/Address'
 import { required } from 'vuelidate/lib/validators'
+import hardcodedValidators from '../../validators'
 import actions from '../store/actions.js'
 import { getDisplayTransaction } from '../scripts/parsers'
 
@@ -156,7 +157,11 @@ export default {
     },
     validatorsAddressMap() {
       const names = {}
-      this.validators.forEach((item) => {
+      const validators =
+        Object.keys(this.validators).length > 0
+          ? this.validators
+          : hardcodedValidators // in case we are not connected to API (extension)
+      validators.forEach((item) => {
         names[item.operatorAddress] = item
       })
       return names

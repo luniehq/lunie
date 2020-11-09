@@ -189,7 +189,13 @@ export default ({ apollo }) => {
       })
       .catch(function (error) {
         console.log('Error: ', error)
-        return validators
+        const validator = validators.find(
+          ({ operatorAddress }) => operatorAddress === validatorAddress
+        )
+        return {
+          name: validator.operatorAddress,
+          picture: validator.picture
+        }
       })
   }
 

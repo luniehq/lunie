@@ -17,7 +17,10 @@
           v-if="validator && validator.picture"
           :src="validator.picture"
           class="validator-image"
-          :alt="`validator logo for ` + validator.name"
+          :alt="
+            `validator logo for ` +
+            (validator.name || validator.operatorAddress)
+          "
         />
         {{ transaction.details.from[0] | resolveValidatorName(validators) }}
       </router-link>
