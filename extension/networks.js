@@ -1,13 +1,12 @@
 export default [{
     id: 'cosmos-mainnet',
-    chainId: 'cosmoshub-3', // TODO get from chain?
-    name: 'Cosmos Hub',
-    description:
-      'Cosmos is a decentralized network of independent parallel blockchains, each powered by BFT consensus algorithms like Tendermint consensus.',
-    logo: `logo.svg`,
+    chain_id: 'cosmoshub-3',
+    title: 'Cosmos Hub',
+    icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png`,
     website: 'https://cosmos.network',
-    apiURL: 'https://lcd.nylira.net',
+    api_url: 'https://lcd.nylira.net',
     stakingDenom: 'ATOM',
+    slug: 'cosmos-hub',
     coinLookup: [
       {
         viewDenom: 'ATOM',
@@ -15,7 +14,7 @@ export default [{
         chainToViewConversionFactor: 1e-6,
       },
     ],
-    addressPrefix: 'cosmos',
+    address_prefix: 'cosmos',
     HDPath: `m/44'/118'/0'/0/0`,
     curve: 'ed25519',
     lockUpPeriod: `21 days`,
@@ -30,6 +29,5 @@ export default [{
         ],
       },
     },
-    localSigning: false,
   }]
   
