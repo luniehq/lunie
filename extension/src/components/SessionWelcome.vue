@@ -37,6 +37,8 @@
         />
       </svg>
 
+      <SunsettingWarningBar />
+
       <div class="session-list">
         <LiSession
           id="create-new-address"
@@ -82,11 +84,14 @@
 <script>
 import SessionFrame from 'common/SessionFrame'
 import LiSession from 'session/TmLiSession'
+import SunsettingWarningBar from './SunsettingWarningBar'
+
 export default {
   name: `session-welcome`,
   components: {
     SessionFrame,
-    LiSession
+    LiSession,
+    SunsettingWarningBar
   },
   computed: {
     accounts() {
