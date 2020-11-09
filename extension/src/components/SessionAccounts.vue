@@ -5,7 +5,9 @@
         <h2 class="session-title">
           <img class="lunie-logo" src="../images/lunie-logo-white.svg" />
         </h2>
-        <SunsettingWarningBar />
+      </div>
+      <SunsettingWarningBar />
+      <div class="accounts-header">
         <p>
           You can use the account(s) below to explore Lunie.io and to approve
           transactions.
