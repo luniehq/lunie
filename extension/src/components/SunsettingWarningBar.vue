@@ -1,7 +1,7 @@
 <template>
   <Bar class="sunsetting-warning-bar" :show="true" bar-type="info">
     Lunie Extension will be soon sunset and won't receive further support. More
-    infos can be found
+    infos
     <a
       href="https://medium.com/luniehq/sunsetting-lunie-io-66d566c14ba1"
       target="_blank"
@@ -26,12 +26,16 @@ export default {
   margin: 0;
 }
 
-.left {
-  padding: 0;
-  font-size: 12px;
+.bar-container {
+  margin: 0 0 1rem !important;
 }
 
 .bar {
   padding: 0.75rem 0.75rem 0 !important;
+}
+
+.left {
+  padding: 0;
+  font-size: 12px;
 }
 </style>
