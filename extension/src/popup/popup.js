@@ -16,7 +16,9 @@ global.browser = require('webextension-polyfill')
 Vue.prototype.$browser = global.browser
 
 const apolloProvider = createApolloProvider()
-const apolloClient = apolloProvider.clients.defaultClient
+const apolloClient = apolloProvider
+  ? apolloProvider.clients.defaultClient
+  : null
 const store = Store({ apollo: apolloClient })
 store.dispatch('loadLocalAccounts')
 store.dispatch(`preloadNetworkCapabilities`)
