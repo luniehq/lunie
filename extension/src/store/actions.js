@@ -1,4 +1,5 @@
 import config from '../../config.js'
+import validators from '../../validators'
 import gql from 'graphql-tag'
 import { NetworksAll } from '../popup/gql'
 import { lunieMessageTypes } from '../scripts/parsers'
@@ -183,6 +184,7 @@ export default ({ apollo }) => {
       })
       .catch(function (error) {
         console.log('Error: ', error)
+        return validators.validators
       })
   }
 
