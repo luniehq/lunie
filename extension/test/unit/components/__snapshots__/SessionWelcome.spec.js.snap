@@ -49,6 +49,8 @@ exports[`SessionWelcome has the expected html structure 1`] = `
       />
     </svg>
      
+    <sunsettingwarningbar-stub />
+     
     <div
       class="session-list"
     >
