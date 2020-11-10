@@ -1,6 +1,12 @@
 <template>
-  <Bar class="sunsetting-warning-bar" :show="true" bar-type="info">
-    We are sunsetting the Lunie Browser Extension. Please read our announcement for more information.
+  <Bar
+    class="sunsetting-warning-bar"
+    :show="true"
+    :hide-close="true"
+    bar-type="info"
+  >
+    We are sunsetting the Lunie Browser Extension. Please read our announcement
+    for more information.
     <a
       href="https://medium.com/luniehq/sunsetting-lunie-io-66d566c14ba1"
       target="_blank"
