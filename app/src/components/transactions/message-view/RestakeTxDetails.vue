@@ -9,10 +9,7 @@
           v-if="sourceValidator && sourceValidator.picture"
           :src="sourceValidator.picture"
           class="validator-image"
-          :alt="
-            `validator logo for ` +
-            (sourceValidator.name || sourceValidator.operatorAddress)
-          "
+          :alt="`validator logo for ` + validator.name"
         />
         {{
           transaction.details.from[0] | resolveValidatorName(validators)

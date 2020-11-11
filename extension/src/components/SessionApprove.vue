@@ -120,19 +120,17 @@ export default {
     tx() {
       if (!this.signRequest) return undefined
       if (this.networks.length === 0) return undefined
-      // new format
-      const network = this.networks.find(
-        ({ id }) => id === this.signRequest.network
-      )
       return getDisplayTransaction(
-        network,
+        this.network,
         this.signRequest.messageType,
         this.signRequest.message,
         this.signRequest.transactionData
       )
     },
     network() {
-      return this.signRequest ? this.signRequest.network : null
+      return this.signRequest ? this.networks.find(
+          ({ id }) => id === this.signRequest.network
+        ) : null
     },
     fees() {
       return this.tx && this.tx.fees[0] ? this.tx.fees[0] : {}
@@ -157,12 +155,10 @@ export default {
     },
     validatorsAddressMap() {
       const names = {}
-      const validators =
-        Object.keys(this.validators).length > 0
-          ? this.validators
-          : hardcodedValidators // in case we are not connected to API (extension)
-      validators.forEach((item) => {
-        names[item.operatorAddress] = item
+      
+      this.validators.forEach((item) => {
+        names[item.operatorAddress] = hardcodedValidators[item.operatorAddress] || item
+        names[item.operatorAddress].picture = names[item.operatorAddress].picture || this.network.icon
       })
       return names
     }
@@ -171,10 +167,13 @@ export default {
     password: function () {
       this.passwordError = false
     },
-    tx: async function (tx) {
-      if (tx) {
-        const validatorsObject = await getValidatorsData(tx, this.network)
-        this.validators = validatorsObject
+    tx: {
+      immediate: true,
+      handler: async function (tx) {
+        if (tx) {
+          const validatorsObject = await getValidatorsData(tx)
+          this.validators = validatorsObject
+        }
       }
     }
   },
@@ -191,15 +190,12 @@ export default {
         const thisAccount = this.accounts.find(
           ({ address }) => address === this.signRequest.senderAddress
         )
-        const network = this.networks.find(
-          ({ id }) => id === this.signRequest.network
-        )
         await this.$store
           .dispatch('approveSignRequest', {
             ...this.signRequest,
             password: this.password,
-            HDPath: thisAccount.HDPath || network.defaultHDPath,
-            curve: thisAccount.curve || network.defaultCurve
+            HDPath: thisAccount.HDPath || this.network.defaultHDPath,
+            curve: thisAccount.curve || this.network.defaultCurve
           })
           .catch((error) => {
             this.errorOnApproval = error

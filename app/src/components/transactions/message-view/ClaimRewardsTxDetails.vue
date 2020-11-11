@@ -8,9 +8,7 @@
           <span>From</span>
           <router-link
             v-for="(validator, index) in getValidators"
-            :key="
-              (validator.name || validator.operatorAddress).concat(`-${index}`)
-            "
+            :key="validator.operatorAddress.concat(`-${index}`)"
             :to="{
               name: `validator`,
               params: {
@@ -24,10 +22,7 @@
               v-if="validator && validator.picture"
               :src="validator.picture"
               class="validator-image"
-              :alt="
-                `validator logo for ` +
-                (validator.name || validator.operatorAddress)
-              "
+              :alt="`validator logo for ` + validator.name"
             />
             <Avatar
               v-else

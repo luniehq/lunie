@@ -142,7 +142,7 @@ export default ({ apollo }) => {
     })
   }
 
-  const getValidatorsData = async (lunieTx, network) => {
+  const getValidatorsData = async (lunieTx) => {
     let validators = []
     if (
       lunieTx.type === lunieMessageTypes.STAKE ||
@@ -159,44 +159,12 @@ export default ({ apollo }) => {
     }
     return await Promise.all(
       validators.map(async (validatorAddress) => {
-        const { name: validatorToMoniker, picture } = await fetchValidatorData(
-          validatorAddress,
-          network
-        )
         return {
           operatorAddress: validatorAddress,
-          name: validatorToMoniker,
-          picture
+          name: validatorAddress
         }
       })
     )
-  }
-
-  const fetchValidatorData = async (validatorAddress, network) => {
-    return fetch(`${config.graphqlHost}/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: `{"query": "query{validator(operatorAddress: \\"${validatorAddress}\\", networkId: \\"${network}\\"){ name picture }}"}`
-    })
-      .then(async function (response) {
-        const validatorObject = await response.json()
-        return {
-          name: validatorObject.data.validator.name,
-          picture: validatorObject.data.validator.picture
-        }
-      })
-      .catch(function (error) {
-        console.log('Error: ', error)
-        const validator = validators.find(
-          ({ operatorAddress }) => operatorAddress === validatorAddress
-        )
-        return {
-          name: validator.operatorAddress,
-          picture: validator.picture
-        }
-      })
   }
 
   const approveSignRequest = (
