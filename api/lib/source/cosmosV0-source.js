@@ -146,18 +146,12 @@ class CosmosV0API extends BaseRESTDataSource {
   }
 
   async getValidators(height, fiatCurrency = 'USD') {
-    let [
-      validators,
-      annualProvision,
-      validatorSet,
-      signedBlocksWindow
-    ] = await Promise.all([
+    let [validators, validatorSet, signedBlocksWindow] = await Promise.all([
       Promise.all([
         this.query(`staking/validators?status=unbonding`),
         this.query(`staking/validators?status=bonded`),
         this.query(`staking/validators?status=unbonded`)
       ]).then((validatorGroups) => [].concat(...validatorGroups)),
-      this.getAnnualProvision(),
       this.getValidatorsets(height),
       this.getSignedBlockWindow()
     ])

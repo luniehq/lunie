@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/luniehq/lunie/branch/develop/graph/badge.svg)](https://codecov.io/gh/luniehq/lunie)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a99a88d28ad37a79dbf6/maintainability)](https://codeclimate.com/github/codeclimate/codeclimate/maintainability)
 
-👋  Welcome to Lunie. We're making staking easy and accessible for everyone. This is the repo for the Lunie web and mobile apps.
+👋 Welcome to Lunie. We're making staking easy and accessible for everyone. This is the repo for the Lunie web and mobile apps.
 
 ## Development Dependencies
 
@@ -65,17 +65,18 @@ Lunie supports sending transactions through the `Cosmos` app for [Ledger Nano](h
 3. Go to the Ledger Live App Store, and download the `Cøsmos` application (this can take a while). **Note:** You may have to enable `Dev Mode` in the Ledger Live Settings to be able to download the `Cøsmos` application
 4. Navigate to the `Cøsmos` app on your Ledger device
 
-
 ### Code Conventions / Coding Style
 
 All code needs to conform to our linting rules. This will be tested in our continuous integration.
 
 To test if your code conforms to the rules run:
+
 ```
 yarn lint
 ```
 
 To fix linting errors automatically (as long as this is possible) run:
+
 ```
 yarn lint --fix
 ```
@@ -92,7 +93,8 @@ yarn build
 
 #### Android
 
-Dependencies: 
+Dependencies:
+
 - Android Studio
 - Gradle updated to 5.1.1 (Android Studio > File > Project Structure)
 
@@ -102,8 +104,8 @@ To run the Android version of Lunie in development:
 
 ```bash
 $ yarn build:mobile
-$ yarn remove @capacitor/core @capacitor/android 
-$ npm install @capacitor/core @capacitor/android 
+$ yarn remove @capacitor/core @capacitor/android
+$ npm install @capacitor/core @capacitor/android
 $ npx cap sync android
 $ npx cap open android
 ```
@@ -111,28 +113,35 @@ $ npx cap open android
 #### iOS
 
 Dependencies:
+
 - [Capacitor](https://capacitor.ionicframework.com/docs/getting-started/dependencies/#ios-development)
 - [Xcode 10](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
 - [Cocoapods](https://guides.cocoapods.org/using/getting-started.html#installation)
 
-To open Lunie in Xcode: 
+To open Lunie in Xcode:
+
 1. Build Lunie for production
+
 ```bash
 $ yarn build:mobile
 ```
+
 or ...
 
 1. Build Lunie for development
+
 ```bash
 $ yarn build:mobile:dev
 ```
 
 2. After a new build, you need to run the following command. This step can take up to 20 minutes to complete if you've never used Cocoapods before.
+
 ```bash
 $ npx cap sync ios
 ```
 
 3. This will open Xcode with Lunie loaded
+
 ```bash
 $ npx cap open ios
 ```
@@ -141,7 +150,7 @@ Once Xcode is open, just click the Play button to run Lunie on your preferred Si
 
 ## Testing
 
-If you would like to run all the tests you can run:~ 
+If you would like to run all the tests you can run:~
 
 ```bash
 yarn test
@@ -199,14 +208,14 @@ yarn test:e2e:browserstack --fe=https://app.lunie.io --api=https://staging-api.l
 
 A list of all environment variables and their purpose:
 
-| Variable        | Values                      | default | Purpose                                                                                                                                                           |
-|-----------------|-----------------------------|---------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `NODE_ENV`      | `production`, `development` |         |                                                                                                                                                                   |
-| `ALLOW_CONSOLE` | `true`, `false`             | `false` | Unit tests fail if they use `console.error` or `console.warn`. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
-| `VUE_APP_GRAPHQL_URL` |              | `http://localhost:4000` | URL of the Lunie Backend GraphQL API. |
-| `VUE_APP_E2E` | `true`, `false`             | `false` | Switches Lunie to run/build in e2e test mode. Disables some tracking. |
-| `GOOGLE_ANALYTICS_UID` |             |  | Google Analytics UID to be used in production builds. |
-| `MOBILE_APP` | `true`, `false`             | `false` | Build for mobile. Handles some interactions differently. |
+| Variable               | Values                      | default                 | Purpose                                                                                                                                                           |
+| ---------------------- | --------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NODE_ENV`             | `production`, `development` |                         |                                                                                                                                                                   |
+| `ALLOW_CONSOLE`        | `true`, `false`             | `false`                 | Unit tests fail if they use `console.error` or `console.warn`. To see the initial use/occurences of those callings, you can escape this behavior using this flag. |
+| `VUE_APP_GRAPHQL_URL`  |                             | `http://localhost:4000` | URL of the Lunie Backend GraphQL API.                                                                                                                             |
+| `VUE_APP_E2E`          | `true`, `false`             | `false`                 | Switches Lunie to run/build in e2e test mode. Disables some tracking.                                                                                             |
+| `GOOGLE_ANALYTICS_UID` |                             |                         | Google Analytics UID to be used in production builds.                                                                                                             |
+| `MOBILE_APP`           | `true`, `false`             | `false`                 | Build for mobile. Handles some interactions differently.                                                                                                          |
 
 ## Thanks
 

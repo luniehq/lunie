@@ -123,7 +123,7 @@ export default () => {
       store.dispatch("loadLocalAccounts")
 
       return true
-    }
+    },
   }
 
   async function getNetworkInfo(networkId, store) {
