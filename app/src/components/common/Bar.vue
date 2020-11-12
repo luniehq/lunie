@@ -13,7 +13,7 @@
           @click.native="goToLink(link)"
         />
       </div>
-      <div class="right">
+      <div v-if="!hideClose" class="right">
         <i class="material-icons notranslate close-icon" @click="close()"
           >close</i
         >
@@ -36,6 +36,7 @@ export default {
       default: "primary",
     },
     show: Boolean,
+    hideClose: Boolean,
     link: {
       type: String,
       default: "",

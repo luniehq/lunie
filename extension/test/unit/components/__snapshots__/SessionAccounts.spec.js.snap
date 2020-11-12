@@ -19,7 +19,13 @@ exports[`SessionAccounts has the expected html structure 1`] = `
           src="../images/lunie-logo-white.svg"
         />
       </h2>
-       
+    </div>
+     
+    <sunsettingwarningbar-stub />
+     
+    <div
+      class="accounts-header"
+    >
       <p>
         
         You can use the account(s) below to explore Lunie.io and to approve
