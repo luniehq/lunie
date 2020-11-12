@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.44] - 2020-11-12
+
+### Changed
+
+- [#5189](https://github.com/cosmos/lunie/issues/5189) Add hardcoded validators and networks for extension so it doesn't break without API @Bitcoinera
+- [#5190](https://github.com/cosmos/lunie/issues/5190) Add sunsetting warning banner to extension @Bitcoinera
+- [#5127](https://github.com/cosmos/lunie/issues/5127) Update polkadot-js/api to release v2.3.1 @mariopino
+
 ## [1.0.43] - 2020-10-16
 
 ### Fixed
