@@ -86,6 +86,9 @@ export default {
     Address,
     TmBtn,
   },
+  filters: {
+    capitalizeFirstLetter,
+  },
   props: {
     accounts: {
       type: Array,
@@ -103,9 +106,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  filters: {
-    capitalizeFirstLetter,
   },
   data: () => ({
     openAccount: undefined,

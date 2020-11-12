@@ -58,13 +58,17 @@ const createApolloClient = () => {
 }
 
 export const createApolloProvider = () => {
-  return new VueApollo({
-    defaultClient: createApolloClient(),
-    defaultOptions: {
-      // apollo options applied to all queries in components
-      $query: {
-        fetchPolicy: 'cache-and-network'
+  if (process.env.LUNIE_API) {
+    return new VueApollo({
+      defaultClient: createApolloClient(),
+      defaultOptions: {
+        // apollo options applied to all queries in components
+        $query: {
+          fetchPolicy: 'cache-and-network'
+        }
       }
-    }
-  })
+    })
+  } else {
+    return null
+  }
 }

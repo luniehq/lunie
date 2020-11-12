@@ -203,45 +203,43 @@ const startNotificationService = (networks) => {
   // Disable for development mode
   // (only activate for staging/production to avoid duplicate notifications)
   // if (config.env !== 'development') {
-    // listens on the graphQL subscription for events
-    eventSubscription(async (event) => {
-      if (event.properties.type === 'UnknownTx') return
+  // listens on the graphQL subscription for events
+  eventSubscription(async (event) => {
+    if (event.properties.type === 'UnknownTx') return
 
-      // hack to not spam users on every liveness failure
-      // need to figure out how to handle this
-      if (event.eventType === eventTypes.LIVENESS) return
+    // hack to not spam users on every liveness failure
+    // need to figure out how to handle this
+    if (event.eventType === eventTypes.LIVENESS) return
 
-      const topic = getTopic(event)
-      const insertedNotifications = await database(config)(
-        ''
-      ).storeNotification({
-        topic,
-        eventType: String(event.eventType),
-        resourceType: String(event.resourceType),
-        resourceId: String(event.resourceId),
-        networkId: String(event.networkId),
-        data: event.properties
-      })
-
-      const notificationResponse = insertedNotifications[0]
-      try {
-        const notification = {
-          id: notificationResponse.id,
-          networkId: event.networkId,
-          timestamp: notificationResponse.created_at,
-          title: getMessageTitle(networks, notificationResponse),
-          link: getPushLink(networks, notificationResponse),
-          icon: getIcon(notificationResponse)
-        }
-        publishNotificationAdded(notification, topic)
-      } catch (error) {
-        console.error(error, notificationResponse)
-        Sentry.withScope(function (scope) {
-          scope.setExtra('notificationResponse', notificationResponse)
-          Sentry.captureException(error)
-        })
-      }
+    const topic = getTopic(event)
+    const insertedNotifications = await database(config)('').storeNotification({
+      topic,
+      eventType: String(event.eventType),
+      resourceType: String(event.resourceType),
+      resourceId: String(event.resourceId),
+      networkId: String(event.networkId),
+      data: event.properties
     })
+
+    const notificationResponse = insertedNotifications[0]
+    try {
+      const notification = {
+        id: notificationResponse.id,
+        networkId: event.networkId,
+        timestamp: notificationResponse.created_at,
+        title: getMessageTitle(networks, notificationResponse),
+        link: getPushLink(networks, notificationResponse),
+        icon: getIcon(notificationResponse)
+      }
+      publishNotificationAdded(notification, topic)
+    } catch (error) {
+      console.error(error, notificationResponse)
+      Sentry.withScope(function (scope) {
+        scope.setExtra('notificationResponse', notificationResponse)
+        Sentry.captureException(error)
+      })
+    }
+  })
   // }
 }
 
