@@ -1,4 +1,6 @@
 import config from '../../config.js'
+import validators from '../../validators'
+import networks from '../../networks'
 import gql from 'graphql-tag'
 import { NetworksAll } from '../popup/gql'
 import { lunieMessageTypes } from '../scripts/parsers'
@@ -11,12 +13,16 @@ export default ({ apollo }) => {
   }
 
   const preloadNetworkCapabilities = async ({ commit }) => {
-    const { data } = await apollo.query({
-      query: NetworksAll,
-      variables: { experimental: config.development },
-      fetchPolicy: 'cache-first'
-    })
-    commit('setNetworks', data.networks)
+    if (apollo) {
+      const { data } = await apollo.query({
+        query: NetworksAll,
+        variables: { experimental: config.development },
+        fetchPolicy: 'cache-first'
+      })
+      commit('setNetworks', data.networks)
+    } else {
+      commit('setNetworks', networks)
+    }
   }
 
   const setNetwork = ({ commit }, network) => {
@@ -136,7 +142,7 @@ export default ({ apollo }) => {
     })
   }
 
-  const getValidatorsData = async (lunieTx, network) => {
+  const getValidatorsData = async (lunieTx) => {
     let validators = []
     if (
       lunieTx.type === lunieMessageTypes.STAKE ||
@@ -153,37 +159,12 @@ export default ({ apollo }) => {
     }
     return await Promise.all(
       validators.map(async (validatorAddress) => {
-        const { name: validatorToMoniker, picture } = await fetchValidatorData(
-          validatorAddress,
-          network
-        )
         return {
           operatorAddress: validatorAddress,
-          name: validatorToMoniker,
-          picture
+          name: validatorAddress
         }
       })
     )
-  }
-
-  const fetchValidatorData = async (validatorAddress, network) => {
-    return fetch(`${config.graphqlHost}/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: `{"query": "query{validator(operatorAddress: \\"${validatorAddress}\\", networkId: \\"${network}\\"){ name picture }}"}`
-    })
-      .then(async function (response) {
-        const validatorObject = await response.json()
-        return {
-          name: validatorObject.data.validator.name,
-          picture: validatorObject.data.validator.picture
-        }
-      })
-      .catch(function (error) {
-        console.log('Error: ', error)
-      })
   }
 
   const approveSignRequest = (
@@ -228,23 +209,27 @@ export default ({ apollo }) => {
   }
 
   const getNetworkByAddress = async (store, address) => {
-    const { data } = await apollo.query({
-      query: gql`
-        query Networks {
-          networks {
-            testnet
-            id
-            address_prefix
+    if (apollo) {
+      const { data } = await apollo.query({
+        query: gql`
+          query Networks {
+            networks {
+              testnet
+              id
+              address_prefix
+            }
           }
-        }
-      `,
-      fetchPolicy: 'cache-first'
-    })
-    const network = data.networks
-      .filter((network) => address.indexOf(network.address_prefix) == 0)
-      .sort((a) => a.testnet)
-      .shift()
-    return network ? network.id : ''
+        `,
+        fetchPolicy: 'cache-first'
+      })
+      const network = data.networks
+        .filter((network) => address.indexOf(network.address_prefix) == 0)
+        .sort((a) => a.testnet)
+        .shift()
+      return network ? network.id : ''
+    } else {
+      commit('setNetworks', networks)
+    }
   }
 
   const rejectSignRequest = ({ commit }, signRequest) => {
