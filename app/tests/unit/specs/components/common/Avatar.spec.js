@@ -4,7 +4,7 @@ import Avatar from "common/Avatar"
 describe(`Avatar`, () => {
   it("should show an avatar", () => {
     const wrapper = shallowMount(Avatar, {
-      props: {
+      propsData: {
         address: "cosmos1234",
       },
     })

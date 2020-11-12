@@ -60,24 +60,28 @@ const pollForNewFees = async () => {
 }
 
 const getNetworkGasPrices = async (networkId) => {
-  const networkGasPrices = await db.getNetworkGasPrices()
-  networkGasPrices.forEach(networkGasPrice => {
-    if (!networkGasPricesDictionary[networkGasPrice.id]) networkGasPricesDictionary[networkGasPrice.id] = []
-    networkGasPricesDictionary[networkGasPrice.id].push({ denom: networkGasPrice.denom,
-      gasPrice: networkGasPrice.gasPrice
+  if (!networkGasPricesDictionary[networkId] && !networkId.startsWith('emoney')) {
+    const networkGasPrices = await db.getNetworkGasPrices()
+    networkGasPrices.forEach(networkGasPrice => {
+      if (!networkGasPricesDictionary[networkGasPrice.id]) networkGasPricesDictionary[networkGasPrice.id] = []
+      networkGasPricesDictionary[networkGasPrice.id].push({ denom: networkGasPrice.denom,
+        price: networkGasPrice.price
+      })
     })
-  })
+  }
   // update emoneyGasPrices
   networkGasPricesDictionary['emoney-mainnet'] = emoneyGasPrices
-  return networkGasPricesDictionary[networkId] || []
+  return networkGasPricesDictionary[networkId]
 }
 
 const getNetworkGasEstimates = async (networkId) => {
-  const networkGasEstimates = await db.getNetworkGasEstimates()
-  networkGasEstimates.forEach(networkGasEstimate => {
-    if (!networkGasEstimatesDictionary[networkGasEstimate.id]) networkGasEstimatesDictionary[networkGasEstimate.id] = {}
-    networkGasEstimatesDictionary[networkGasEstimate.id][networkGasEstimate.transactionType] = networkGasEstimate.gasEstimate
-  })
+  if (!networkGasEstimatesDictionary[networkId]) {
+    const networkGasEstimates = await db.getNetworkGasEstimates()
+    networkGasEstimates.forEach(networkGasEstimate => {
+      if (!networkGasEstimatesDictionary[networkGasEstimate.id]) networkGasEstimatesDictionary[networkGasEstimate.id] = {}
+      networkGasEstimatesDictionary[networkGasEstimate.id][networkGasEstimate.transactionType] = networkGasEstimate.gasEstimate
+    })
+  }
   return networkGasEstimatesDictionary[networkId]
 }
 
@@ -192,7 +196,10 @@ const getFeeDenomFromMessage = (message, network) => {
   return network.stakingDenom
 }
 
-const getTransactionAmount = (message, feeDenom) => {
+const getTransactionAmount = (message, messageType, feeDenom) => {
+  // unstake txs value doesn't count against total payable value (you don't loose the amount when sending the tx)
+  if (messageType === `UnstakeTx`) return 0
+
   // check if there is an amount field
   if (message.amount) {
     return message.amount.amount
@@ -245,7 +252,7 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
   const gasPrice = BigNumber(networkGasPricesDictionary[network.id].find(({ denom }) => {
     const coinLookup = network.getCoinLookup(network, denom)
     return coinLookup ? coinLookup.viewDenom === feeDenom : false
-  }).gasPrice)
+  }).price)
     .times(
       network.getCoinLookup(network, feeDenom, `viewDenom`)
         .chainToViewConversionFactor
@@ -255,7 +262,7 @@ const getCosmosFee = async (network, cosmosSource, senderAddress, messageType, m
     network.id,
     messageType
   )
-  const transactionAmount = getTransactionAmount(message, feeDenom)
+  const transactionAmount = getTransactionAmount(message, messageType, feeDenom)
   let estimatedFee = {
     amount: String(
       chainAppliedFees && chainAppliedFees.rate > 0

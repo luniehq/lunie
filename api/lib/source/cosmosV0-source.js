@@ -106,7 +106,7 @@ class CosmosV0API extends BaseRESTDataSource {
     }
   }
 
-  async getAllValidatorSets(height = 'latest') {
+  async getValidatorsets(height = 'latest') {
     const response = await this.query(`validatorsets/${height}`)
     return response
   }
@@ -145,20 +145,14 @@ class CosmosV0API extends BaseRESTDataSource {
     ).amount
   }
 
-  async getAllValidators(height) {
-    let [
-      validators,
-      annualProvision,
-      validatorSet,
-      signedBlocksWindow
-    ] = await Promise.all([
+  async getValidators(height, fiatCurrency = 'USD') {
+    let [validators, validatorSet, signedBlocksWindow] = await Promise.all([
       Promise.all([
         this.query(`staking/validators?status=unbonding`),
         this.query(`staking/validators?status=bonded`),
         this.query(`staking/validators?status=unbonded`)
       ]).then((validatorGroups) => [].concat(...validatorGroups)),
-      this.getAnnualProvision(),
-      this.getAllValidatorSets(height),
+      this.getValidatorsets(height),
       this.getSignedBlockWindow()
     ])
 
@@ -188,12 +182,37 @@ class CosmosV0API extends BaseRESTDataSource {
       validator.signing_info = signingInfos[consensusAddress]
     })
 
-    return validators.map((validator) =>
-      this.reducers.validatorReducer(
-        this.network.id,
-        signedBlocksWindow,
+    return Promise.all(
+      validators.map(async (validator) => {
+        const fiatValuesResponse = await this.fiatValuesAPI.calculateFiatValues(
+          [
+            {
+              amount: this.reducers.atoms(validator.tokens),
+              denom: this.network.stakingDenom
+            }
+          ],
+          fiatCurrency
+        )
+        return this.reducers.validatorReducer(
+          this.network.id,
+          signedBlocksWindow,
+          validator,
+          fiatValuesResponse[this.network.stakingDenom]
+        )
+      })
+    )
+  }
+
+  async getAllValidatorDelegations(validator) {
+    const allValidatorDelegations = await this.query(
+      `/staking/validators/${validator.operatorAddress}/delegations`
+    )
+    return allValidatorDelegations.map((delegation) =>
+      this.reducers.delegationReducer(
+        delegation,
         validator,
-        annualProvision
+        undefined,
+        this.network
       )
     )
   }
@@ -462,6 +481,7 @@ class CosmosV0API extends BaseRESTDataSource {
         block.block_meta.header.height
       )
     }
+    this.blockHeight = block.block_meta.header.height
     return this.reducers.blockReducer(this.network.id, block, transactions)
   }
 
@@ -678,18 +698,20 @@ class CosmosV0API extends BaseRESTDataSource {
   }
 
   async getAllDelegators() {
-    const allDelegations = await Object.keys(this.store.validators).reduce(
-      async (all, validator) => {
-        const delegations = await this.query(
-          `staking/validators/${validator}/delegations`
-        )
-        return (await all).concat(delegations)
-      },
-      []
-    )
-    return _.uniqBy(allDelegations, 'delegator_address').map(
-      ({ delegator_address }) => delegator_address
-    )
+    // THIS QUERY KILLS THE LCD
+    // const allDelegations = await Object.keys(this.store.validators).reduce(
+    //   async (all, validator) => {
+    //     const delegations = await this.query(
+    //       `staking/validators/${validator}/delegations`
+    //     )
+    //     return (await all).concat(delegations)
+    //   },
+    //   []
+    // )
+    // return _.uniqBy(allDelegations, 'delegator_address').map(
+    //   ({ delegator_address }) => delegator_address
+    // )
+    return []
   }
 
   async getTransactions(address) {

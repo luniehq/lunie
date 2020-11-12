@@ -61,6 +61,7 @@ export default () => {
       const networkObject = store.getters.networks.find(
         ({ id }) => id === networkId
       )
+      if (!networkObject) throw new Error("Couldn't get network for key.")
       const walletVariations = JSON.parse(networkObject.HDPaths).reduce(
         (all, HDPath) => {
           return JSON.parse(networkObject.curves).reduce((all2, curve) => {
@@ -81,7 +82,9 @@ export default () => {
           return wallet && wallet.cosmosAddress === address ? true : false
         })
       )
-      return foundCombination.find((combination) => !!combination) ? true : false
+      return foundCombination.find((combination) => !!combination)
+        ? true
+        : false
     },
     async createKey(
       store,
@@ -112,6 +115,15 @@ export default () => {
 
       return wallet.cosmosAddress
     },
+    async deleteKey(store, address) {
+      const { removeFromStorage } = await import("@lunie/cosmos-keys")
+      removeFromStorage(address)
+
+      // reload accounts as we just removed one
+      store.dispatch("loadLocalAccounts")
+
+      return true
+    }
   }
 
   async function getNetworkInfo(networkId, store) {

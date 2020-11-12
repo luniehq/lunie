@@ -1,13 +1,9 @@
 {
   "name": "extension",
-  "version": "1.0.42",
+  "version": "1.0.43",
   "description": "A browser extension to securely manage accounts and addresses, for use with Lunie.io.",
   "author": "Lunie <hello@lunie.io> (https://lunie.io)",
-  "licenses": [
-    {
-      "type": "Apache-2"
-    }
-  ],
+  "license": "Apache-2.0",
   "scripts": {
     "lint": "yarn lint:css && yarn lint:js",
     "lint:fix": "eslint --ext .js,.vue src --fix && stylelint \"src/**/*.{css,vue}\" --fix",
@@ -53,7 +49,7 @@
     "@babel/runtime-corejs3": "^7.10.4",
     "@lunie/cosmos-api": "^0.2.5",
     "@lunie/cosmos-keys": "^0.3.2",
-    "@polkadot/api": "^2.2.1",
+    "@polkadot/api": "^2.3.1",
     "@sentry/browser": "^5.17.0",
     "@sentry/integrations": "^5.25.0",
     "apollo-boost": "^0.4.9",
@@ -82,8 +78,8 @@
     "vue-apollo": "3.0.3",
     "vue-clipboard2": "^0.3.0",
     "vue-directive-tooltip": "1.6.3",
-    "vue-router": "^3.0.1",
-    "vuelidate": "^0.7.4",
+    "vue-router": "^3.4.8",
+    "vuelidate": "^0.7.6",
     "vuex": "^3.4.0",
     "webextension-polyfill": "^0.6.0"
   },
@@ -96,17 +92,17 @@
     "archiver": "^5.0.2",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
-    "babel-jest": "^26.0.1",
+    "babel-jest": "^26.6.1",
     "babel-loader": "^8.0.2",
     "chromedriver": "^81.0.0",
     "copy-webpack-plugin": "^4.5.3",
     "cross-env": "^5.2.0",
-    "css-loader": "^3.5.3",
+    "css-loader": "^5.0.0",
     "del-cli": "^3.0.1",
     "ejs": "^3.1.5",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-config-standard": "^12.0.0",
+    "eslint-config-standard": "^16.0.1",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.1",

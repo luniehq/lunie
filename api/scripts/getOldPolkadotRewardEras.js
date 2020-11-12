@@ -286,10 +286,12 @@ async function main() {
     const networks = await database(config)("").getNetworks()
     const network = networks.find(({ id }) => id === networkId)
     const PolkadotApiClass = require('../lib/' + network.source_class_name)
+    const FiatValuesAPI = require('../lib/fiatvalues-api')
     const store = {}
     await initPolkadotRPC(network, store)
     let api = store.polkadotRPC
-    const polkadotAPI = new PolkadotApiClass(network, store)
+    
+    const polkadotAPI = new PolkadotApiClass(network, store, new FiatValuesAPI())
   
     if (!currentEra) {
       const activeEra = parseInt(
@@ -299,7 +301,7 @@ async function main() {
       currentEra = lastEra
     }
   
-    const validators = await polkadotAPI.getAllValidators()
+    const validators = await polkadotAPI.getValidators()
     store.validators = _.keyBy(validators, 'operatorAddress')
     const delegators = await polkadotAPI.getAllDelegators()
     console.log(`Querying rewards for ${delegators.length} delegators.`)

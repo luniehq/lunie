@@ -4,14 +4,7 @@ exports[`TmConnectedNetwork has a connecting state 1`] = `
 <div
   class="sidebar-bottom"
 >
-  <tmbtn-stub
-    class="intercom-button secondary"
-    customclass=""
-    id="intercom-button"
-    size="small"
-    type="sidebar"
-    value="Help / Feedback"
-  />
+  <!---->
    
   <div
     class="tm-connected-network"
@@ -64,14 +57,7 @@ exports[`TmConnectedNetwork has the expected html structure when connected 1`] =
 <div
   class="sidebar-bottom"
 >
-  <tmbtn-stub
-    class="intercom-button secondary"
-    customclass=""
-    id="intercom-button"
-    size="small"
-    type="sidebar"
-    value="Help / Feedback"
-  />
+  <!---->
    
   <div
     class="tm-connected-network"

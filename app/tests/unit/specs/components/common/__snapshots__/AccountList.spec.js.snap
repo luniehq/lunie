@@ -22,6 +22,8 @@ exports[`AccountList has the expected html structure 1`] = `
             address="cosmos1ek9cd8ewgxg9w5xllq9um0uf4aaxaruvcw4v9e"
             tooltiptext=""
           />
+           
+          <!---->
         </div>
          
         <div
@@ -55,6 +57,8 @@ exports[`AccountList has the expected html structure 1`] = `
             address="cosmos1ek9cd8ewgxgyoyocolinyo4aaxaruvcw4v9e"
             tooltiptext=""
           />
+           
+          <!---->
         </div>
          
         <div

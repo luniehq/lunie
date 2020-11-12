@@ -7,21 +7,22 @@ const Sentry = require('@sentry/node')
 const database = require('../database')
 const config = require('../../config.js')
 const {
-  lunieMessageTypes: { SEND }
+  lunieMessageTypes: { SEND, CLAIM_REWARDS }
 } = require('../message-types.js')
 const {
   eventTypes,
   resourceTypes
 } = require('../notifications/notifications-types')
+
 const BLOCK_POLLING_INTERVAL = 5000
-const EXPECTED_MAX_BLOCK_WINDOW = 120000
+const EXPECTED_MAX_BLOCK_WINDOW = 120000 // 2min
 const PROPOSAL_POLLING_INTERVAL = 600000 // 10min
 const UPDATE_NETWORKS_POLLING_INTERVAL = 60000 // 1min
 
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
 class BaseNodeSubscription {
-  constructor(network, dataSourceClass, store) {
+  constructor(network, dataSourceClass, store, fiatValuesAPI) {
     this.network = network
     this.dataSourceClass = dataSourceClass
     this.store = store
@@ -30,9 +31,10 @@ class BaseNodeSubscription {
     this.db = new database(config)(networkSchemaName)
     this.chainHangup = undefined
     this.height = undefined
+    this.fiatValuesAPI = fiatValuesAPI
 
     // we can't use async/await in a constructor
-    this.setup(network, dataSourceClass, store).then(() => {
+    this.setup(network, dataSourceClass, store, fiatValuesAPI).then(() => {
       this.pollForNewBlock()
       // start one minute loop to update networks from db
       this.pollForUpdateNetworks()
@@ -52,7 +54,7 @@ class BaseNodeSubscription {
     return new this.dataSourceClass(
       this.network,
       this.store,
-      undefined,
+      this.fiatValuesAPI,
       this.db
     )
   }
@@ -119,9 +121,9 @@ class BaseNodeSubscription {
   }
 
   async getValidators(block, dataSource) {
-    dataSource.getAllValidators(block.height).then((validators) => {
-      this.store.update({
-        validators: validators
+    dataSource.getValidators(block.height).then(async (validators) => {
+      await this.store.update({
+        validators
       })
     })
   }
@@ -187,6 +189,17 @@ class BaseNodeSubscription {
               this.network.id,
               resourceTypes.TRANSACTION,
               eventType,
+              involvedAddress,
+              tx
+            )
+          }
+
+          // TODO add claim events based on block events in Cosmos as claiming can happen also when undelegating/redelegating
+          if (tx.type === CLAIM_REWARDS) {
+            publishEvent(
+              this.network.id,
+              resourceTypes.TRANSACTION,
+              eventTypes.TRANSACTION_CLAIM,
               involvedAddress,
               tx
             )

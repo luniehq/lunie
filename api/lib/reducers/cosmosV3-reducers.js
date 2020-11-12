@@ -18,7 +18,12 @@ function blockReducer(networkId, block, transactions, data = {}) {
   }
 }
 
-function validatorReducer(networkId, signedBlocksWindow, validator) {
+function validatorReducer(
+  networkId,
+  signedBlocksWindow,
+  validator,
+  fiatValuesResponse
+) {
   const statusInfo = getValidatorStatus(validator)
   let websiteURL = validator.description.website
   if (!websiteURL || websiteURL === '[do-not-modify]') {
@@ -50,7 +55,11 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
     status: statusInfo.status,
     statusDetailed: statusInfo.status_detailed,
     delegatorShares: validator.delegator_shares, // needed to calculate delegation token amounts from shares
-    popularity: validator.popularity
+    popularity: validator.popularity,
+    totalStakedAssets: {
+      ...fiatValuesResponse[network.stakingDenom],
+      amount: fiatValuesResponse[network.stakingDenom].amount.toFixed(2)
+    }
   }
 }
 
@@ -101,12 +110,12 @@ function transactionReducerV2(network, transaction, reducers) {
     ) {
       fees = transaction.tx.value.fee.amount.map((coin) => {
         const coinLookup = network.getCoinLookup(network, coin.denom)
-        return coinReducer(coin, coinLookup, network)
+        return coinReducer(coin, coinLookup)
       })
     } else {
       fees = transaction.tx.auth_info.fee.amount.map((fee) => {
         const coinLookup = network.getCoinLookup(network, fee.denom)
-        return coinReducer(fee, coinLookup, network)
+        return coinReducer(fee, coinLookup)
       })
     }
     // We do display only the transactions we support in Lunie
@@ -207,6 +216,15 @@ function undelegationEndTimeReducer(transaction) {
   return completionTimeAttribute ? completionTimeAttribute.value : undefined
 }
 
+function accountInfoReducer(accountValue, accountType) {
+  return {
+    address: accountValue.address,
+    accountNumber: accountValue.account_number,
+    sequence: accountValue.sequence || 0,
+    vestingAccount: accountType.includes(`VestingAccount`)
+  }
+}
+
 module.exports = {
   ...cosmosV2Reducers,
   blockReducer,
@@ -214,5 +232,6 @@ module.exports = {
   delegationReducer,
   transactionReducerV2,
   undelegationEndTimeReducer,
-  setTransactionSuccess
+  setTransactionSuccess,
+  accountInfoReducer
 }

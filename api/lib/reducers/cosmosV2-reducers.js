@@ -55,7 +55,7 @@ function sendDetailsReducer(message, reducers, network) {
   return {
     from: [message.from_address],
     to: [message.to_address],
-    amount: reducers.coinReducer(message.amount[0], coinLookup, network)
+    amount: reducers.coinReducer(message.amount[0], coinLookup)
   }
 }
 
@@ -63,7 +63,7 @@ function stakeDetailsReducer(message, reducers, network) {
   const coinLookup = network.getCoinLookup(network, message.amount.denom)
   return {
     to: [message.validator_address],
-    amount: reducers.coinReducer(message.amount, coinLookup, network)
+    amount: reducers.coinReducer(message.amount, coinLookup)
   }
 }
 
@@ -72,7 +72,7 @@ function restakeDetailsReducer(message, reducers, network) {
   return {
     from: [message.validator_src_address],
     to: [message.validator_dst_address],
-    amount: reducers.coinReducer(message.amount, coinLookup, network)
+    amount: reducers.coinReducer(message.amount, coinLookup)
   }
 }
 
@@ -80,7 +80,7 @@ function unstakeDetailsReducer(message, reducers, network) {
   const coinLookup = network.getCoinLookup(network, message.amount.denom)
   return {
     from: [message.validator_address],
-    amount: reducers.coinReducer(message.amount, coinLookup, network)
+    amount: reducers.coinReducer(message.amount, coinLookup)
   }
 }
 
@@ -142,11 +142,7 @@ function submitProposalDetailsReducer(message, reducers, network) {
     proposalType: message.content.type,
     proposalTitle: message.content.value.title,
     proposalDescription: message.content.value.description,
-    initialDeposit: reducers.coinReducer(
-      message.initial_deposit[0],
-      coinLookup,
-      network
-    )
+    initialDeposit: reducers.coinReducer(message.initial_deposit[0], coinLookup)
   }
 }
 
@@ -161,7 +157,7 @@ function depositDetailsReducer(message, reducers, network) {
   const coinLookup = network.getCoinLookup(network, message.amount[0].denom)
   return {
     proposalId: message.proposal_id,
-    amount: reducers.coinReducer(message.amount[0], coinLookup, network)
+    amount: reducers.coinReducer(message.amount[0], coinLookup)
   }
 }
 
@@ -276,14 +272,14 @@ function transactionReducerV2(network, transaction, reducers) {
     ) {
       fees = transaction.tx.value.fee.amount.map((coin) => {
         const coinLookup = network.getCoinLookup(network, coin.denom)
-        return coinReducer(coin, coinLookup, network)
+        return coinReducer(coin, coinLookup)
       })
     } else {
       const coinLookup = network.getCoinLookup(
         network,
         transaction.tx.value.fee.amount.denom
       )
-      fees = [coinReducer(transaction.tx.value.fee.amount, coinLookup, network)]
+      fees = [coinReducer(transaction.tx.value.fee.amount, coinLookup)]
     }
     // We do display only the transactions we support in Lunie
     const filteredMessages = transaction.tx.value.msg.filter(
@@ -380,7 +376,12 @@ function delegationReducer(delegation, validator, active) {
   }
 }
 
-function validatorReducer(networkId, signedBlocksWindow, validator) {
+function validatorReducer(
+  networkId,
+  signedBlocksWindow,
+  validator,
+  fiatValuesResponse
+) {
   const statusInfo = getValidatorStatus(validator)
   let websiteURL = validator.description.website
   if (!websiteURL || websiteURL === '[do-not-modify]') {
@@ -388,7 +389,6 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
   } else if (!websiteURL.match(/http[s]?/)) {
     websiteURL = `https://` + websiteURL
   }
-
   return {
     id: validator.operator_address,
     networkId,
@@ -423,7 +423,11 @@ function validatorReducer(networkId, signedBlocksWindow, validator) {
     status: statusInfo.status,
     statusDetailed: statusInfo.status_detailed,
     delegatorShares: validator.delegator_shares, // needed to calculate delegation token amounts from shares
-    popularity: validator.popularity
+    popularity: validator.popularity,
+    totalStakedAssets: {
+      ...fiatValuesResponse,
+      amount: fiatValuesResponse.amount.toFixed(2)
+    }
   }
 }
 

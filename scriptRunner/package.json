@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "build": "docker build --file ./Dockerfile ../ --tag lunie-script-runner"
+    "build": "docker build --file ./Dockerfile ../ --tag lunie-script-runner",
+    "changelog": "simsala log --pending-path ./changes"
   },
   "author": "",
   "license": "ISC",

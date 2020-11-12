@@ -2,9 +2,18 @@ import { shallowMount } from "@vue/test-utils"
 import MaintenanceBar from "common/MaintenanceBar"
 
 describe(`MaintenanceBar`, () => {
-  let wrapper
+  let wrapper, $store
   beforeEach(async () => {
-    wrapper = shallowMount(MaintenanceBar)
+    $store = {
+      getters: {
+        network: `cosmos-hub-mainnet`,
+      },
+    }
+    wrapper = shallowMount(MaintenanceBar, {
+      mocks: {
+        $store,
+      },
+    })
   })
 
   it(`has the expected html structure`, () => {
@@ -14,6 +23,7 @@ describe(`MaintenanceBar`, () => {
           message: "success test message",
           barType: "success",
           show: true,
+          networkId: undefined,
         },
       ],
     })
@@ -27,6 +37,7 @@ describe(`MaintenanceBar`, () => {
           message: "success test message",
           barType: "success",
           show: true,
+          networkId: undefined,
         },
       ],
     })

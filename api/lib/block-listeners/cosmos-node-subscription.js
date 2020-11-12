@@ -7,8 +7,8 @@ const COSMOS_DB_DELAY = 2000
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
 class CosmosNodeSubscription extends BaseNodeSubscription {
-  constructor(network, CosmosDataSourceClass, store) {
-    super(network, CosmosDataSourceClass, store)
+  constructor(network, CosmosDataSourceClass, store, fiatValuesAPI) {
+    super(network, CosmosDataSourceClass, store, fiatValuesAPI)
   }
 
   newBlockHandler(currentBlock, dataSource) {

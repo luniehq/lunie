@@ -6,9 +6,12 @@ describe(`AccountMenu`, () => {
 
   beforeEach(() => {
     wrapper = shallowMount(AccountMenu, {
-      props: {
-        address: `cosmos1234`,
-        networkId: `cosmos-hub-mainnet`,
+      propsData: {
+        account: {
+          address: `cosmos1234`,
+          networkId: `cosmos-hub-mainnet`,
+          sessionType: `local`,
+        },
       },
       stubs: [`router-link`],
     })

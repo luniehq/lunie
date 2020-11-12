@@ -2,7 +2,7 @@
   <SessionFrame ref="sessionFrame">
     <div v-if="!isAccountDeleted" class="session-container">
       <h2 class="title forget-title">
-        You are about to delete<br />
+        You are about to remove<br />
         <span class="pill">your account.</span>
       </h2>
       <TmFormGroup
@@ -42,6 +42,7 @@
           type="custom"
           msg="Seed is incorrect for this address"
         />
+        <TmFormMsg v-else-if="error" type="custom" :msg="error" />
         <div class="forget-account-buttons">
           <TmBtn
             value="Dismiss"
@@ -62,7 +63,7 @@
     </div>
     <div v-else class="session-container success-paragraph">
       <TmDataMsg icon="check" icon-color="var(--success)" :success="true">
-        <p slot="title">Account successfully deleted!</p>
+        <p slot="title">Account successfully removed!</p>
         <p slot="subtitle" class="success-paragraph-message">
           Account {{ address | formatAddress }} won't appear anymore among your
           accounts
@@ -81,7 +82,6 @@ import TmBtn from "common/TmBtn"
 import FieldSeed from "common/TmFieldSeed"
 import { formatAddress } from "src/filters"
 import config from "src/../config"
-import { deleteAccount } from "scripts/extension-utils"
 import { required } from "vuelidate/lib/validators"
 import { mnemonicValidate } from "@polkadot/util-crypto"
 
@@ -132,13 +132,14 @@ export default {
     isAccountDeleted: false,
     isCorrectSeed: `undefined`,
     copySuccess: false,
+    error: undefined,
   }),
   computed: {
     address() {
       return this.$route.params.address
     },
     addressNetwork() {
-      return this.$route.params.networkId
+      return this.$route.params.addressNetworkId
     },
     seed: {
       get() {
@@ -163,18 +164,34 @@ export default {
       if (this.$v.$invalid) {
         return
       }
-      this.isCorrectSeed = await this.$store.dispatch(`testSeed`, {
-        networkId: this.addressNetwork,
-        address: this.address,
-        seedPhrase: this.seed,
-      })
-      if (this.isCorrectSeed && this.isExtension) {
-        this.isAccountDeleted = await this.$store.dispatch(
-          `deleteAccountWithoutPassword`,
-          { address: this.address }
-        )
-      } else if (this.isCorrectSeed && !this.isExtension) {
-        this.isAccountDeleted = await deleteAccount(this.address)
+      try {
+        this.isCorrectSeed = await this.$store.dispatch(`testSeed`, {
+          networkId: this.addressNetwork,
+          address: this.address,
+          seedPhrase: this.seed,
+        })
+        if (this.isCorrectSeed) {
+          if (this.isExtension) {
+            this.isAccountDeleted = await this.$store.dispatch(
+              `deleteAccountWithoutPassword`,
+              { address: this.address }
+            )
+          } else {
+            this.isAccountDeleted = await this.$store.dispatch(
+              `deleteKey`,
+              this.address
+            )
+          }
+          if (this.isAccountDeleted) {
+            this.$store.commit(`updateField`, {
+              field: `seed`,
+              value: ``,
+            })
+          }
+        }
+      } catch (err) {
+        console.error(err)
+        this.error = err.message
       }
     },
     close() {
@@ -259,7 +276,7 @@ export default {
 h2.title {
   font-size: var(--h1);
   line-height: 42px;
-  color: #fff7c4;
+  color: var(--bright);
   font-weight: 400;
   padding: 0.5rem 0 1rem 0;
   text-align: center;
@@ -276,6 +293,7 @@ h2.forget-title {
 .pill {
   background-color: #2d2e31;
   display: inline-block;
+  color: var(--menu-bright);
   padding: 0 0.6em 0.2em;
   border-radius: 2em;
 }

@@ -20,12 +20,26 @@ exports[`SendModal should display send modal form 1`] = `
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address or Starname"
       type="text"
       value=""
     />
      
     <!---->
+     
+    <span
+      class="memo-span"
+    >
+      
+      Lunie supports
+      
+      <a
+        href="https://starname.me/"
+        target="_blank"
+      >
+        IOV Starnames
+      </a>
+    </span>
   </tmformgroup-stub>
    
   <tmformgroup-stub
@@ -91,8 +105,6 @@ exports[`SendModal should display send modal form 1`] = `
     </span>
      
     <!---->
-     
-    <!---->
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
@@ -119,7 +131,7 @@ exports[`SendModal validation should show address required error 1`] = `
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address or Starname"
       type="text"
       value=""
     />
@@ -129,6 +141,20 @@ exports[`SendModal validation should show address required error 1`] = `
       name="Address"
       type="required"
     />
+     
+    <span
+      class="memo-span"
+    >
+      
+      Lunie supports
+      
+      <a
+        href="https://starname.me/"
+        target="_blank"
+      >
+        IOV Starnames
+      </a>
+    </span>
   </tmformgroup-stub>
    
   <tmformgroup-stub
@@ -195,8 +221,6 @@ exports[`SendModal validation should show address required error 1`] = `
     </span>
      
     <!---->
-     
-    <!---->
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
@@ -223,7 +247,7 @@ exports[`SendModal validation should show an error if trying to send more then t
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address or Starname"
       type="text"
       value="cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767"
     />
@@ -233,6 +257,20 @@ exports[`SendModal validation should show an error if trying to send more then t
       name="Address"
       type="custom"
     />
+     
+    <span
+      class="memo-span"
+    >
+      
+      Lunie supports
+      
+      <a
+        href="https://starname.me/"
+        target="_blank"
+      >
+        IOV Starnames
+      </a>
+    </span>
   </tmformgroup-stub>
    
   <tmformgroup-stub
@@ -299,8 +337,6 @@ exports[`SendModal validation should show an error if trying to send more then t
     </span>
      
     <!---->
-     
-    <!---->
   </tmformgroup-stub>
 </actionmodal-stub>
 `;
@@ -327,7 +363,7 @@ exports[`SendModal validation should show bech32 error when address is not bech3
   >
     <tmfield-stub
       id="send-address"
-      placeholder="Address"
+      placeholder="Address or Starname"
       type="text"
       value="cosmos1thyn8gfapk2d0zsp6dysn99ynhcs2y759kwznx1234767"
     />
@@ -337,6 +373,20 @@ exports[`SendModal validation should show bech32 error when address is not bech3
       name="Address"
       type="custom"
     />
+     
+    <span
+      class="memo-span"
+    >
+      
+      Lunie supports
+      
+      <a
+        href="https://starname.me/"
+        target="_blank"
+      >
+        IOV Starnames
+      </a>
+    </span>
   </tmformgroup-stub>
    
   <tmformgroup-stub
@@ -401,8 +451,6 @@ exports[`SendModal validation should show bech32 error when address is not bech3
       </a>
       .
     </span>
-     
-    <!---->
      
     <!---->
   </tmformgroup-stub>

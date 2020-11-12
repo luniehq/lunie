@@ -7,8 +7,8 @@ const config = require('../../config.js')
 // This class polls for new blocks
 // Used for listening to events, such as new blocks.
 class PolkadotNodeSubscription extends BaseNodeSubscription {
-  constructor(network, PolkadotDataSourceClass, store) {
-    super(network, PolkadotDataSourceClass, store)
+  constructor(network, PolkadotDataSourceClass, store, fiatValuesAPI) {
+    super(network, PolkadotDataSourceClass, store, fiatValuesAPI)
   }
 
   async setup(network, PolkadotDataSourceClass, store) {
@@ -39,7 +39,7 @@ class PolkadotNodeSubscription extends BaseNodeSubscription {
         `\x1b[36mCurrent session index is ${block.sessionIndex}, fetching validators!\x1b[0m`
       )
       const [validators, era] = await Promise.all([
-        dataSource.getAllValidators(),
+        dataSource.getValidators(),
         dataSource.getActiveEra()
       ])
       this.store.update({
