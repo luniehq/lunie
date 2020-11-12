@@ -293,10 +293,13 @@ export default {
     address: async function (address) {
       if (isStarname(this.address)) {
         // resolve starname to address
-        const recipientAddress = await resolveStarname(this.address, this.network)
+        const recipientAddress = await resolveStarname(
+          this.address,
+          this.network
+        )
         this.setAddress(recipientAddress)
       }
-    }
+    },
   },
   mounted() {
     this.$apollo.queries.balances.refetch()
