@@ -128,9 +128,9 @@ export default {
       )
     },
     network() {
-      return this.signRequest ? this.networks.find(
-          ({ id }) => id === this.signRequest.network
-        ) : null
+      return this.signRequest
+        ? this.networks.find(({ id }) => id === this.signRequest.network)
+        : null
     },
     fees() {
       return this.tx && this.tx.fees[0] ? this.tx.fees[0] : {}
@@ -155,10 +155,12 @@ export default {
     },
     validatorsAddressMap() {
       const names = {}
-      
+
       this.validators.forEach((item) => {
-        names[item.operatorAddress] = hardcodedValidators[item.operatorAddress] || item
-        names[item.operatorAddress].picture = names[item.operatorAddress].picture || this.network.icon
+        names[item.operatorAddress] =
+          hardcodedValidators[item.operatorAddress] || item
+        names[item.operatorAddress].picture =
+          names[item.operatorAddress].picture || this.network.icon
       })
       return names
     }
