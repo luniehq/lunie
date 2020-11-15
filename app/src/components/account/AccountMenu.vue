@@ -38,7 +38,7 @@
       <!-- Show seed -->
       <div
         v-if="
-          account.sessionType === `local` || account.sessionType === `extension`
+          account.sessionType === `local` || account.sessionType === `extension` || isExtension
         "
         class="account-menu-button-container"
       >
