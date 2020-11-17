@@ -1,0 +1,1 @@
+[Fixed] [#5204](https://github.com/cosmos/lunie/pull/5204) Emoney delegations would not show as due to a change in the api @faboweb

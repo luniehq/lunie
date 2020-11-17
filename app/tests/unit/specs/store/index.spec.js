@@ -1,5 +1,5 @@
 jest.mock(`src/firebase.js`, () => ({
-  auth: () => { },
+  auth: () => {},
 }))
 const Modules = require(`src/vuex/modules`).default
 
