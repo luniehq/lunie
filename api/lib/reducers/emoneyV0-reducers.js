@@ -1,6 +1,5 @@
 const terraV3Reducers = require('./terraV3-reducers')
 const cosmosV3Reducers = require('./cosmosV3-reducers')
-const { atoms } = require('./cosmosV0-reducers')
 
 function calculateTokenExchangeRates(
   supportedFiatCurrencies,
@@ -47,9 +46,5 @@ module.exports = {
   blockReducer: cosmosV3Reducers.blockReducer,
   setTransactionSuccess: cosmosV3Reducers.setTransactionSuccess,
   accountInfoReducer: cosmosV3Reducers.accountInfoReducer,
-  expectedRewardsPerToken,
-  totalBackedValueReducer,
-  getTotalNetworkAnnualRewards,
-  calculateTokenExchangeRates,
-  delegationReducer
+  calculateTokenExchangeRates
 }
