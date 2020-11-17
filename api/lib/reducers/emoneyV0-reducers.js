@@ -1,7 +1,5 @@
 const terraV3Reducers = require('./terraV3-reducers')
 const cosmosV3Reducers = require('./cosmosV3-reducers')
-const BigNumber = require('bignumber.js')
-const _ = require('lodash')
 
 function calculateTokenExchangeRates(
   supportedFiatCurrencies,

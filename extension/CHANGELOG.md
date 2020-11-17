@@ -1,11 +1,17 @@
 # Changelog
- 
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.45] - 2020-11-17
+
+### Fixed
+
+- Bring back the seed reveal @faboweb
 
 ## [1.0.44] - 2020-11-12
 
@@ -275,7 +281,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - [#191](https://github.com/cosmos/lunie/pull/191) Refactor createKey in actions to not depend on store. Create wallet.js for the refactor @Bitcoinera
-- [#184](https://github.com/cosmos/lunie/pull/184) Changes submodule for a Lunie version where  ClaimRewardsTxDetails doesn't open inside extension @Bitcoinera
+- [#184](https://github.com/cosmos/lunie/pull/184) Changes submodule for a Lunie version where ClaimRewardsTxDetails doesn't open inside extension @Bitcoinera
 - Adjust allowed pages to new Netlify link schema @faboweb
 - Change title of extension @faboweb
 - minor style updates, changes to route names @jbibla
@@ -347,7 +353,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix unsafe-eval being used in development @faboweb
 - Added release note to readme @faboweb
 
-## [1.0.11] - 2020-02-04 
+## [1.0.11] - 2020-02-04
 
 ### Added
 
