@@ -1,6 +1,5 @@
 const terraV3Reducers = require('./terraV3-reducers')
 const cosmosV3Reducers = require('./cosmosV3-reducers')
-const { atoms } = require('./cosmosV0-reducers')
 
 function calculateTokenExchangeRates(
   supportedFiatCurrencies,
@@ -31,25 +30,11 @@ function calculateTokenExchangeRates(
   )
 }
 
-function delegationReducer(delegation, validator, active) {
-  return {
-    id: delegation.validator_address,
-    validatorAddress: delegation.validator_address,
-    delegatorAddress: delegation.delegator_address,
-    validator,
-    amount: delegation.balance ? atoms(delegation.balance.amount) : 0,
-    active
-  }
-}
-
 module.exports = {
   ...terraV3Reducers,
   blockReducer: cosmosV3Reducers.blockReducer,
   setTransactionSuccess: cosmosV3Reducers.setTransactionSuccess,
   accountInfoReducer: cosmosV3Reducers.accountInfoReducer,
-  expectedRewardsPerToken,
-  totalBackedValueReducer,
-  getTotalNetworkAnnualRewards,
-  calculateTokenExchangeRates,
-  delegationReducer
+  delegationReducer: cosmosV3Reducers.delegationReducer,
+  calculateTokenExchangeRates
 }

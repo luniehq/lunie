@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Bring back the seed reveal @faboweb
 
-## [1.0.44] -- 2020-11-12
+## [1.0.44] - 2020-11-12
 
 ### Changed
 
