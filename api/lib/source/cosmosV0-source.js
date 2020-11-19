@@ -197,7 +197,8 @@ class CosmosV0API extends BaseRESTDataSource {
           this.network.id,
           signedBlocksWindow,
           validator,
-          fiatValuesResponse[this.network.stakingDenom]
+          fiatValuesResponse[this.network.stakingDenom],
+          this.network
         )
       })
     )

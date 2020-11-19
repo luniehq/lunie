@@ -401,9 +401,7 @@ function coinReducer(coin, coinLookup) {
 
 function gasPriceReducer(gasPrice, coinLookup) {
   if (!gasPrice) {
-    throw new Error(
-      'The token you are trying to request data for is not supported by Lunie.'
-    )
+    return 0
   }
 
   // we want to show only atoms as this is what users know

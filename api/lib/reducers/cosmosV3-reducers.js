@@ -22,7 +22,8 @@ function validatorReducer(
   networkId,
   signedBlocksWindow,
   validator,
-  fiatValuesResponse
+  fiatValuesResponse,
+  network
 ) {
   const statusInfo = getValidatorStatus(validator)
   let websiteURL = validator.description.website
@@ -58,7 +59,7 @@ function validatorReducer(
     popularity: validator.popularity,
     totalStakedAssets: {
       ...fiatValuesResponse[network.stakingDenom],
-      amount: fiatValuesResponse[network.stakingDenom].amount.toFixed(2)
+      amount: fiatValuesResponse[network.stakingDenom] ? fiatValuesResponse[network.stakingDenom].amount.toFixed(2) : 0
     }
   }
 }
