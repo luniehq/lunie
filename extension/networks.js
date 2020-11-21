@@ -1,4 +1,5 @@
-export default [{
+export default [
+  {
     id: 'cosmos-hub-mainnet',
     chain_id: 'cosmoshub-3',
     title: 'Cosmos Hub',
@@ -10,8 +11,8 @@ export default [{
       {
         viewDenom: 'ATOM',
         chainDenom: 'uatom',
-        chainToViewConversionFactor: 1e-6,
-      },
+        chainToViewConversionFactor: 1e-6
+      }
     ],
     address_prefix: 'cosmos',
     network_type: 'cosmos',
@@ -19,30 +20,30 @@ export default [{
     curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
     HDPath: `m/44'/118'/0'/0/0`,
     curve: 'ed25519',
-    lockUpPeriod: `21 days`,
-    },
+    lockUpPeriod: `21 days`
   },
   {
     id: 'cosmos-hub-testnet',
     chain_id: 'gaia-13007',
     title: 'Gaia Testnet',
     icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png`,
-    api_url: 'https://gaia-13007--lcd--archive.datahub.figment.io/apikey/950cdf50adf68fe53d7f784b11437c79',
+    api_url:
+      'https://gaia-13007--lcd--archive.datahub.figment.io/apikey/950cdf50adf68fe53d7f784b11437c79',
     stakingDenom: 'MUON',
     testnet: true,
     coinLookup: [
       {
         viewDenom: 'MUON',
         chainDenom: 'umuon',
-        chainToViewConversionFactor: 1e-6,
-      },
+        chainToViewConversionFactor: 1e-6
+      }
     ],
     address_prefix: 'cosmos',
     network_type: 'cosmos',
     HDPaths: `[{"value":"m/44'/118'/0'/0/0", "name":"Cosmos HD Path"}]`,
     curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
     HDPath: `m/44'/118'/0'/0/0`,
-    curve: 'ed25519',
+    curve: 'ed25519'
   },
   {
     id: 'terra-mainnet',
@@ -56,15 +57,15 @@ export default [{
       {
         viewDenom: 'LUNA',
         chainDenom: 'uluna',
-        chainToViewConversionFactor: 1e-6,
-      },
+        chainToViewConversionFactor: 1e-6
+      }
     ],
     address_prefix: 'terra',
     network_type: 'cosmos',
     HDPaths: `[{"value":"m/44'/118'/0'/0/0", "name":"Cosmos HD Path"}]`,
     curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
     HDPath: `m/44'/118'/0'/0/0`,
-    curve: 'ed25519',
+    curve: 'ed25519'
   },
   {
     id: 'terra-testnet',
@@ -78,15 +79,15 @@ export default [{
       {
         viewDenom: 'LUNA',
         chainDenom: 'uluna',
-        chainToViewConversionFactor: 1e-6,
-      },
+        chainToViewConversionFactor: 1e-6
+      }
     ],
     address_prefix: 'terra',
     network_type: 'cosmos',
     HDPaths: `[{"value":"m/44'/118'/0'/0/0", "name":"Cosmos HD Path"}]`,
     curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
     HDPath: `m/44'/118'/0'/0/0`,
-    curve: 'ed25519',
+    curve: 'ed25519'
   },
   {
     id: 'akash-mainnet',
@@ -100,15 +101,15 @@ export default [{
       {
         viewDenom: 'AKT',
         chainDenom: 'uakt',
-        chainToViewConversionFactor: 1e-6,
-      },
+        chainToViewConversionFactor: 1e-6
+      }
     ],
     address_prefix: 'akash',
     network_type: 'cosmos',
     HDPaths: `[{"value":"m/44'/118'/0'/0/0", "name":"Cosmos HD Path"}]`,
     curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
     HDPath: `m/44'/118'/0'/0/0`,
-    curve: 'ed25519',
+    curve: 'ed25519'
   },
   {
     id: 'akash-testnet',
@@ -122,15 +123,15 @@ export default [{
       {
         viewDenom: 'AKT',
         chainDenom: 'uakt',
-        chainToViewConversionFactor: 1e-6,
-      },
+        chainToViewConversionFactor: 1e-6
+      }
     ],
     address_prefix: 'akash',
     network_type: 'cosmos',
     HDPaths: `[{"value":"m/44'/118'/0'/0/0", "name":"Cosmos HD Path"}]`,
     curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
     HDPath: `m/44'/118'/0'/0/0`,
-    curve: 'ed25519',
+    curve: 'ed25519'
   },
   {
     id: 'emoney-mainnet',
@@ -144,40 +145,40 @@ export default [{
       {
         viewDenom: 'NGM',
         chainDenom: 'ungm',
-        chainToViewConversionFactor: 1e-6,
+        chainToViewConversionFactor: 1e-6
       },
       {
         viewDenom: 'eEUR',
         chainDenom: 'eeur',
-        chainToViewConversionFactor: 1e-6,
+        chainToViewConversionFactor: 1e-6
       },
       {
         viewDenom: 'eCHF',
         chainDenom: 'echf',
-        chainToViewConversionFactor: 1e-6,
+        chainToViewConversionFactor: 1e-6
       },
       {
         viewDenom: 'eSEK',
         chainDenom: 'esek',
-        chainToViewConversionFactor: 1e-6,
+        chainToViewConversionFactor: 1e-6
       },
       {
         viewDenom: 'eNOK',
         chainDenom: 'enok',
-        chainToViewConversionFactor: 1e-6,
+        chainToViewConversionFactor: 1e-6
       },
       {
         viewDenom: 'eDKK',
         chainDenom: 'edkk',
-        chainToViewConversionFactor: 1e-6,
-      },
+        chainToViewConversionFactor: 1e-6
+      }
     ],
     address_prefix: 'emoney',
     network_type: 'cosmos',
     HDPaths: `[{"value":"m/44'/118'/0'/0/0", "name":"Cosmos HD Path"}]`,
     curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
     HDPath: `m/44'/118'/0'/0/0`,
-    curve: 'ed25519',
+    curve: 'ed25519'
   },
   {
     id: 'kava-mainnet',
@@ -191,26 +192,24 @@ export default [{
       {
         viewDenom: 'KAVA',
         chainDenom: 'ukava',
-        chainToViewConversionFactor: 1e-6,
+        chainToViewConversionFactor: 1e-6
       },
       {
         viewDenom: 'BNB',
         chainDenom: 'bnb',
-        chainToViewConversionFactor: 1e-6,
+        chainToViewConversionFactor: 1e-6
       },
       {
         viewDenom: 'HARD',
         chainDenom: 'hard',
-        chainToViewConversionFactor: 1e-6,
-      },
+        chainToViewConversionFactor: 1e-6
+      }
     ],
     address_prefix: 'kava',
     network_type: 'cosmos',
     HDPaths: `[{"value":"m/44'/118'/0'/0/0", "name":"Cosmos HD Path"}]`,
     curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
     HDPath: `m/44'/118'/0'/0/0`,
-    curve: 'ed25519',
-  },
+    curve: 'ed25519'
+  }
 ]
-
-  
