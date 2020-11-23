@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.47] - 2020-11-23
+
+### Added
+
+- Allow connection from Lunie 3 @faboweb
+
 ## [1.0.46] - 2020-11-21
 
 ### Changed
