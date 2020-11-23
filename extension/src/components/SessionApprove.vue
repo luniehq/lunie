@@ -136,10 +136,10 @@ export default {
       return this.tx && this.tx.fees[0] ? this.tx.fees[0] : {}
     },
     senderAddress() {
-      return this.signRequest ? this.signRequest.senderAddress : null
+      return this.signRequest ? this.signRequest.senderAddress : "null"
     },
     amountCoin() {
-      return this.tx ? this.tx.details.amount : null
+      return this.tx ? (this.tx.details.amount || this.tx.details.amounts[0]) : null
     },
     amount() {
       return this.amountCoin ? Number(this.amountCoin.amount) : 0

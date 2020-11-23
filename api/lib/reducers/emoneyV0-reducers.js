@@ -35,6 +35,5 @@ module.exports = {
   blockReducer: cosmosV3Reducers.blockReducer,
   setTransactionSuccess: cosmosV3Reducers.setTransactionSuccess,
   accountInfoReducer: cosmosV3Reducers.accountInfoReducer,
-  delegationReducer: cosmosV3Reducers.delegationReducer,
   calculateTokenExchangeRates
 }
