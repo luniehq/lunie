@@ -3,10 +3,8 @@
 import Vue from "vue"
 import VTooltip from "v-tooltip"
 import Vuelidate from "vuelidate"
-import InfiniteScroll from "vue-infinite-scroll"
 import VueClipboard from "vue-clipboard2"
-import { DynamicReactiveRefs } from "vue-reactive-refs"
-import { focusElement, focusParentLast } from "src/directives"
+import { focusParentLast } from "src/directives"
 import App from "./App.vue"
 import init, { bootError } from "./initializeApp"
 import { getURLParams } from "scripts/url"
@@ -16,7 +14,6 @@ import * as Sentry from "@sentry/browser"
 import * as Integrations from "@sentry/integrations"
 import "material-design-icons-iconfont/dist/material-design-icons.css"
 import AsyncComputed from "vue-async-computed"
-import VueScrollTo from "vue-scrollto"
 
 if (config.sentryDSN) {
   Sentry.init({
@@ -32,24 +29,19 @@ Vue.use(VTooltip)
 
 Vue.use(Vuelidate)
 Vue.use(VueClipboard)
-Vue.use(InfiniteScroll)
 Vue.use(AsyncComputed)
-Vue.use(DynamicReactiveRefs)
-Vue.use(VueScrollTo)
 
-Vue.directive(`focus`, focusElement)
 Vue.directive(`focus-last`, focusParentLast)
 
 const urlParams = getURLParams(window)
 init(urlParams)
-  .then(({ store, router, apolloProvider }) => {
+  .then(({ store, router }) => {
     const { SplashScreen, StatusBar } = Plugins
 
     new Vue({
       router,
       ...App,
       store,
-      apolloProvider,
       mounted() {
         if (config.mobileApp) {
           SplashScreen.hide()

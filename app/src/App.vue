@@ -1,18 +1,11 @@
 <template>
   <div id="app" :class="themeClass">
-    <NetworkSelector />
-    <AppHeader />
     <div id="app-content">
       <div id="bar-container">
         <CookieBar v-if="!isMobileApp" />
-        <MaintenanceBar />
-        <DisconnectedBar />
       </div>
-      <UserMenu v-if="!isMobileApp" />
-      <router-view name="session" />
       <router-view />
     </div>
-    <MobileMenu />
   </div>
 </template>
 
@@ -30,24 +23,15 @@ import store from "./vuex/store"
 export default {
   name: `app`,
   components: {
-    AppHeader,
     CookieBar,
-    DisconnectedBar,
-    UserMenu,
-    MaintenanceBar,
-    MobileMenu,
-    NetworkSelector,
   },
   computed: {
     ...mapState([`session`]),
-    ...mapGetters([`network`]),
     isMobileApp() {
       return this.session.mobile
     },
     themeClass() {
-      return !this.$route.meta.networkSpecificRoute
-        ? `lunie-light`
-        : this.network
+      return `lunie-light`
     },
   },
   store,

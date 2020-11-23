@@ -26,11 +26,6 @@
             <a :class="{ invisible: hideBack }" @click="goBack">
               <i class="material-icons notranslate circle back">arrow_back</i>
             </a>
-            <div v-if="!isExtension" class="session-close">
-              <a @click="closeModal()">
-                <i class="material-icons notranslate circle back">close</i>
-              </a>
-            </div>
           </div>
           <slot></slot>
         </div>

@@ -1,8 +1,21 @@
 <template>
-  <SessionFrame icon="build" hide-back>
-    <div class="select-account">
-      <AccountList :accounts="accounts" is-select-account />
-    </div>
+  <SessionFrame icon="exit_to_app" hide-back>
+    <p>
+      The Lunie Web Wallet has sunset. Thank you for your support!
+    </p>
+    <br />
+    <a href="http://help.lunie.io/en/collections/2624438-lunie-address-migration-guides">
+      Migration Guides
+    </a>
+    <br/>
+    <template v-if="accounts.length > 0">
+      <p>
+        Extract your seeds by clicking on the 3 dots, right side of your key.
+      </p>
+      <div class="select-account">
+        <AccountList :accounts="accounts" is-select-account />
+      </div>
+    </template>
   </SessionFrame>
 </template>
 
@@ -18,9 +31,12 @@ export default {
     AccountList,
   },
   computed: {
-    ...mapState([`session`]),
+    ...mapState([`keystore`]),
     accounts() {
-      return this.session.userAccounts
+      return this.keystore.accounts.map(account => ({
+        ...account,
+        sessionType: "local"
+      }))
     },
   },
   methods: {
@@ -33,6 +49,9 @@ export default {
       }
     },
   },
+   mounted() {
+     this.$store.dispatch("loadLocalAccounts")
+   }
 }
 </script>
 

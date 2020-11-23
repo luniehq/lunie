@@ -1,9 +1,8 @@
 import { track, deanonymize, anonymize } from "scripts/google-analytics"
 import * as Sentry from "@sentry/browser"
 import config from "src/../config"
-import { AddressRole } from "../../gql"
 
-export default ({ apollo }) => {
+export default () => {
   const USER_PREFERENCES_KEY = `lunie_user_preferences`
 
   const state = {
@@ -225,16 +224,7 @@ export default ({ apollo }) => {
       const addresses = state.addresses
       dispatch(`persistAddresses`, addresses)
 
-      // In Polkadot there are different account types for staking. To be able to signal allowed interactions
-      // for the user in Lunie we need to query for the type of the account.
-      if (currentNetwork.network_type === "polkadot") {
-        await dispatch(`checkAddressRole`, {
-          address,
-          networkId: currentNetwork.id,
-        })
-      } else {
-        commit(`setUserAddressRole`, undefined)
-      }
+      commit(`setUserAddressRole`, undefined)
 
       // update session addresses
       const allSessionAddresses = await dispatch("getAllSessionAddresses")
@@ -353,15 +343,6 @@ export default ({ apollo }) => {
     setPreferredCurrency({ state, dispatch }, currency) {
       state.preferredCurrency = currency
       dispatch(`storeLocalPreferences`)
-    },
-    /* istanbul ignore next */
-    async checkAddressRole({ commit }, { address, networkId }) {
-      const { data } = await apollo.query({
-        query: AddressRole,
-        variables: { networkId, address },
-        fetchPolicy: "network-only",
-      })
-      commit(`setUserAddressRole`, data.accountRole)
     },
     async getAllSessionAddresses({
       rootState: {
