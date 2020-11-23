@@ -1619,10 +1619,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@capacitor/android@2.4.2":
-  version "2.4.2"
-  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-2.4.2.tgz#ddc55bf0ea78214a0a760330a439916093792d00"
-  integrity sha512-0OpOmsno6yFyN0tOEhE9LkAqQrnTGUxz49+ZdivieI3axFe3CpxbFhcfIsJtr96q9jhkspkYPMqGNZm3gPKjaA==
+"@capacitor/android@2.4.3":
+  version "2.4.3"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-2.4.3.tgz#0107071f61984c7e0f83ba0716a5518ad9f9ce18"
+  integrity sha512-hM3xmdO8VZ8FfQI5gmyTAOOSSFw6x5UTh4IPwHGg/JhhFK3nG5Hamr/ic7MeUIVwchEQKrUQFFESYHA0A1ZwJg==
 
 "@capacitor/cli@2.4.2":
   version "2.4.2"
