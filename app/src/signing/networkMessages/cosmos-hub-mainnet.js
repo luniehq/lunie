@@ -3,13 +3,15 @@
 import BigNumber from "bignumber.js"
 
 /* istanbul ignore next */
-export function SendTx(senderAddress, { to, amount }, network) {
+export function SendTx(senderAddress, { to, amount, amounts }, network) {
   return {
     type: `cosmos-sdk/MsgSend`,
     value: {
       from_address: senderAddress,
       to_address: to[0],
-      amount: [Coin(amount, network.coinLookup)],
+      amount: amount
+        ? [Coin(amount, network.coinLookup)]
+        : amounts.map((amount) => Coin(amount, network.coinLookup)),
     },
   }
 }
