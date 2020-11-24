@@ -210,5 +210,72 @@ export default [
     curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
     HDPath: `m/44'/118'/0'/0/0`,
     curve: 'ed25519'
+  },
+  // POLKADOT NETWORKS
+  {
+    id: 'polkadot',
+    chain_id: 'polkadot-cc1',
+    title: 'Polkadot',
+    icon: `https://lunie.fra1.digitaloceanspaces.com/polkadot.png`,
+    api_url: 'https://polkadot.polkastats.io/sidecar',
+    stakingDenom: 'DOT',
+    testnet: false,
+    coinLookup: [
+      {
+        viewDenom: 'DOT',
+        chainDenom: 'Planck',
+        chainToViewConversionFactor: 1e-10
+      },
+    ],
+    address_prefix: '0',
+    network_type: 'polkadot',
+    HDPaths: `[{"value":""}]`,
+    curves: `[{"value":"sr25519", "name":"Schnorrkel curve"},{"value":"ed25519", "name":"Edwards curve"},{"value":"ecdsa", "name":"ECDSA curve"}]`,
+    HDPath: `""`,
+    curve: 'sr25519'
+  },
+  {
+    id: 'kusama',
+    chain_id: 'kusama-cc3',
+    title: 'Kusama',
+    icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/kusama.png`,
+    api_url: 'https://kusama.polkastats.io/sidecar',
+    stakingDenom: 'KSM',
+    testnet: false,
+    coinLookup: [
+      {
+        viewDenom: 'KSM',
+        chainDenom: 'Planck',
+        chainToViewConversionFactor: 1e-12
+      },
+    ],
+    address_prefix: '0',
+    network_type: 'polkadot',
+    HDPaths: `[{"value":""}]`,
+    curves: `[{"value":"sr25519", "name":"Schnorrkel curve"},{"value":"ed25519", "name":"Edwards curve"},{"value":"ecdsa", "name":"ECDSA curve"}]`,
+    HDPath: `""`,
+    curve: 'sr25519'
+  },
+  {
+    id: 'polkadot-testnet',
+    chain_id: 'westend',
+    title: 'Polkadot Testnet',
+    icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/westend.png`,
+    api_url: 'https://westend.polkastats.io/sidecar',
+    stakingDenom: 'WND',
+    testnet: false,
+    coinLookup: [
+      {
+        viewDenom: 'WND',
+        chainDenom: 'Planck',
+        chainToViewConversionFactor: 1e-12
+      },
+    ],
+    address_prefix: '0',
+    network_type: 'polkadot',
+    HDPaths: `[{"value":""}]`,
+    curves: `[{"value":"sr25519", "name":"Schnorrkel curve"},{"value":"ed25519", "name":"Edwards curve"},{"value":"ecdsa", "name":"ECDSA curve"}]`,
+    HDPath: `""`,
+    curve: 'sr25519'
   }
 ]
