@@ -42,7 +42,8 @@ const config = {
       lunie: resolve('../app'),
       app: resolve('../app'),
       scripts: resolve('../app/src/scripts'),
-      '/img/tutorials': resolve('../app/public/img/tutorials')
+      '/img/tutorials': resolve('../app/public/img/tutorials'),
+      '/img/currencies': resolve('../app/public/img/icons/currencies')
     },
     extensions: ['.js', '.vue', '.css']
   },
@@ -79,8 +80,8 @@ const config = {
           {
             loader: 'file-loader',
             options: {
-              esModule: false,
-            },
+              esModule: false
+            }
           }
         ]
       },
@@ -114,7 +115,7 @@ const config = {
     }),
     new CopyWebpackPlugin([
       { from: 'icons', to: 'icons', ignore: ['icon.xcf'] },
-      { from: '[...]/app/public/img', to: 'img' },
+      { from: 'images/networks', to: 'popup/images/networks' },
       {
         from: 'popup/popup.html',
         to: 'popup/popup.html',
