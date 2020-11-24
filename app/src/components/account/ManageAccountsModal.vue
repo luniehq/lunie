@@ -1,16 +1,13 @@
 <template>
   <SessionFrame icon="exit_to_app" hide-back>
     <p>
-      The Lunie Web Wallet has sunset. Thank you for your support!
+      🌅 The Lunie web wallet has sunset. Thank you for your support! Please read these helpful <a href="http://help.lunie.io/en/collections/2624438-lunie-address-migration-guides">
+      migration guides</a>. If you have any questions please email us at support@lunie.io.
     </p>
-    <br />
-    <a href="http://help.lunie.io/en/collections/2624438-lunie-address-migration-guides">
-      Migration Guides
-    </a>
-    <br/>
+
     <template v-if="accounts.length > 0">
       <p>
-        Extract your seeds by clicking on the 3 dots, right side of your key.
+        You can reveal your seed phrase by clicking the 3 dots on right side of your account.
       </p>
       <div class="select-account">
         <AccountList :accounts="accounts" is-select-account />
