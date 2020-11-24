@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.48] - 2020-11-24
+
+### Added
+
+- Bring back polkadot networks @faboweb
+- Bring in icons to not be queried from Digital Ocean @faboweb
+
+### Deprecated
+
+- Disable account creation @faboweb
+
 ## [1.0.47] - 2020-11-23
 
 ### Added

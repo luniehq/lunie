@@ -43,13 +43,6 @@ exports[`SessionAccounts has the expected html structure 1`] = `
         buttontext="Go to Lunie"
       />
     </div>
-     
-    <router-link-stub
-      class="back-link"
-      to="/welcome"
-    >
-      Want to add another account?
-    </router-link-stub>
   </div>
 </sessionframe-stub>
 `;
