@@ -20,9 +20,6 @@
           button-text="Go to Lunie"
         />
       </div>
-      <router-link class="back-link" to="/welcome"
-        >Want to add another account?</router-link
-      >
     </div>
   </SessionFrame>
 </template>
