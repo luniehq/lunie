@@ -2,11 +2,7 @@
   <div class="network-item" :class="{ disabled: disabled }">
     <div class="network-icon">
       <img
-        :src="
-          isExtension
-            ? `img/currencies/${networkItem.icon}.png`
-            : `${networkItem.icon}`
-        "
+        :src="networkItem.icon"
         :alt="`logo for network ${networkItem.title}`"
       />
     </div>
