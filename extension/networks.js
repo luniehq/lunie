@@ -3,7 +3,7 @@ export default [
     id: 'cosmos-hub-mainnet',
     chain_id: 'cosmoshub-3',
     title: 'Cosmos Hub',
-    icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png`,
+    icon: `images/networks/atom.png`,
     api_url: 'https://lcd.nylira.net',
     stakingDenom: 'ATOM',
     testnet: false,
@@ -25,7 +25,7 @@ export default [
     id: 'cosmos-hub-testnet',
     chain_id: 'gaia-13007',
     title: 'Gaia Testnet',
-    icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png`,
+    icon: `images/networks/atom.png`,
     api_url:
       'https://gaia-13007--lcd--archive.datahub.figment.io/apikey/950cdf50adf68fe53d7f784b11437c79',
     stakingDenom: 'MUON',
@@ -48,7 +48,7 @@ export default [
     id: 'terra-mainnet',
     chain_id: 'columbus-4',
     title: 'Terra',
-    icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/terra.png`,
+    icon: `images/networks/luna.png`,
     api_url: 'https://lcd-terra.p2p.org',
     stakingDenom: 'LUNA',
     testnet: false,
@@ -70,7 +70,7 @@ export default [
     id: 'terra-testnet',
     chain_id: 'tequila-0004',
     title: 'Terra Testnet',
-    icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/terra.png`,
+    icon: `images/networks/luna.png`,
     api_url: 'https://tequila-lcd.terra.dev',
     stakingDenom: 'LUNA',
     testnet: true,
@@ -92,7 +92,7 @@ export default [
     id: 'akash-mainnet',
     chain_id: 'akashnet-1',
     title: 'Akash',
-    icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/akash.png`,
+    icon: `images/networks/akash.png`,
     api_url: 'http://lcd.akash.forbole.com:80',
     stakingDenom: 'AKT',
     testnet: false,
@@ -114,7 +114,7 @@ export default [
     id: 'akash-testnet',
     chain_id: 'prenet-1',
     title: 'Akash Testnet',
-    icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/akash.png`,
+    icon: `images/networks/akash.png`,
     api_url: 'http://lcd.akash-testnet.forbole.com',
     stakingDenom: 'AKT',
     testnet: true,
@@ -136,7 +136,7 @@ export default [
     id: 'emoney-mainnet',
     chain_id: 'emoney-2',
     title: 'e-Money',
-    icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/emoney.png`,
+    icon: `images/networks/ngm.png`,
     api_url: 'https://emoney.validator.network/light',
     stakingDenom: 'NGM',
     testnet: false,
@@ -183,7 +183,7 @@ export default [
     id: 'kava-mainnet',
     chain_id: 'kava-4',
     title: 'Kava',
-    icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/kava.png`,
+    icon: `images/networks/kava.png`,
     api_url: 'http://lcd.kava.forbole.com',
     stakingDenom: 'KAVA',
     testnet: false,
@@ -210,5 +210,72 @@ export default [
     curves: `[{"value":"ed25519", "name":"Edwards curve"}]`,
     HDPath: `m/44'/118'/0'/0/0`,
     curve: 'ed25519'
+  },
+  // POLKADOT NETWORKS
+  {
+    id: 'polkadot',
+    chain_id: 'polkadot-cc1',
+    title: 'Polkadot',
+    icon: `images/networks/dot.png`,
+    api_url: 'https://polkadot.polkastats.io/sidecar',
+    stakingDenom: 'DOT',
+    testnet: false,
+    coinLookup: [
+      {
+        viewDenom: 'DOT',
+        chainDenom: 'Planck',
+        chainToViewConversionFactor: 1e-10
+      }
+    ],
+    address_prefix: '0',
+    network_type: 'polkadot',
+    HDPaths: `[{"value":""}]`,
+    curves: `[{"value":"sr25519", "name":"Schnorrkel curve"},{"value":"ed25519", "name":"Edwards curve"},{"value":"ecdsa", "name":"ECDSA curve"}]`,
+    HDPath: `""`,
+    curve: 'sr25519'
+  },
+  {
+    id: 'kusama',
+    chain_id: 'kusama-cc3',
+    title: 'Kusama',
+    icon: `images/networks/ksm.png`,
+    api_url: 'https://kusama.polkastats.io/sidecar',
+    stakingDenom: 'KSM',
+    testnet: false,
+    coinLookup: [
+      {
+        viewDenom: 'KSM',
+        chainDenom: 'Planck',
+        chainToViewConversionFactor: 1e-12
+      }
+    ],
+    address_prefix: '0',
+    network_type: 'polkadot',
+    HDPaths: `[{"value":""}]`,
+    curves: `[{"value":"sr25519", "name":"Schnorrkel curve"},{"value":"ed25519", "name":"Edwards curve"},{"value":"ecdsa", "name":"ECDSA curve"}]`,
+    HDPath: `""`,
+    curve: 'sr25519'
+  },
+  {
+    id: 'polkadot-testnet',
+    chain_id: 'westend',
+    title: 'Polkadot Testnet',
+    icon: `images/networks/wnd.png`,
+    api_url: 'https://westend.polkastats.io/sidecar',
+    stakingDenom: 'WND',
+    testnet: true,
+    coinLookup: [
+      {
+        viewDenom: 'WND',
+        chainDenom: 'Planck',
+        chainToViewConversionFactor: 1e-12
+      }
+    ],
+    address_prefix: '0',
+    network_type: 'polkadot',
+    HDPaths: `[{"value":""}]`,
+    curves: `[{"value":"sr25519", "name":"Schnorrkel curve"},{"value":"ed25519", "name":"Edwards curve"},{"value":"ecdsa", "name":"ECDSA curve"}]`,
+    HDPath: `""`,
+    curve: 'sr25519'
   }
 ]
