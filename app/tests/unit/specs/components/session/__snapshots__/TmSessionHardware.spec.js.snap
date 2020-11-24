@@ -4,9 +4,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div tabindex="0" class="session-frame" name="component-fade" mode="out-in">
   <div class="session-outer-container"><i class="material-icons notranslate circle modal-icon">vpn_key</i>
     <div class="session">
-      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
-        <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
-      </div>
+      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a></div>
       <h2 class="session-title">Use my Ledger Nano</h2>
       <div class="session-main">
         <div class="tm-hardware-state">
@@ -33,9 +31,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div tabindex="0" class="session-frame" name="component-fade" mode="out-in">
   <div class="session-outer-container"><i class="material-icons notranslate circle modal-icon">vpn_key</i>
     <div class="session">
-      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
-        <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
-      </div>
+      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a></div>
       <h2 class="session-title">Use my Ledger Nano</h2>
       <div class="session-main">
         <div class="tm-hardware-state">
@@ -61,9 +57,7 @@ exports[`TmSessionHardware should show a state indicator for different states of
 <div tabindex="0" class="session-frame" name="component-fade" mode="out-in">
   <div class="session-outer-container"><i class="material-icons notranslate circle modal-icon">vpn_key</i>
     <div class="session">
-      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
-        <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
-      </div>
+      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a></div>
       <h2 class="session-title">Use my Ledger Nano</h2>
       <div class="session-main">
         <div class="tm-hardware-state">
@@ -112,18 +106,6 @@ exports[`TmSessionHardware shows the ledger conection view when there're errors 
             arrow_back
           </i>
         </a>
-         
-        <div
-          class="session-close"
-        >
-          <a>
-            <i
-              class="material-icons notranslate circle back"
-            >
-              close
-            </i>
-          </a>
-        </div>
       </div>
        
       <h2
@@ -208,18 +190,6 @@ exports[`TmSessionHardware shows the ledger conection view with no errors 1`] = 
             arrow_back
           </i>
         </a>
-         
-        <div
-          class="session-close"
-        >
-          <a>
-            <i
-              class="material-icons notranslate circle back"
-            >
-              close
-            </i>
-          </a>
-        </div>
       </div>
        
       <h2
@@ -271,9 +241,7 @@ exports[`TmSessionHardware sign in does show the instructions to enable HID on W
 <div tabindex="0" class="session-frame" name="component-fade" mode="out-in">
   <div class="session-outer-container"><i class="material-icons notranslate circle modal-icon">vpn_key</i>
     <div class="session">
-      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
-        <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
-      </div>
+      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a></div>
       <h2 class="session-title">Use my Ledger Nano</h2>
       <div class="session-main">
         <div class="tm-hardware-state">
@@ -298,9 +266,7 @@ exports[`TmSessionHardware sign in does show the instructions to fix connection 
 <div tabindex="0" class="session-frame" name="component-fade" mode="out-in">
   <div class="session-outer-container"><i class="material-icons notranslate circle modal-icon">vpn_key</i>
     <div class="session">
-      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a>
-        <div class="session-close"><a><i class="material-icons notranslate circle back">close</i></a></div>
-      </div>
+      <div class="session-header"><a class=""><i class="material-icons notranslate circle back">arrow_back</i></a></div>
       <h2 class="session-title">Use my Ledger Nano</h2>
       <div class="session-main">
         <div class="tm-hardware-state">

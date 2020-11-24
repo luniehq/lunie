@@ -27,18 +27,6 @@ exports[`SessionFrame shows an overview of all wallets to sign in with from the 
             arrow_back
           </i>
         </a>
-         
-        <div
-          class="session-close"
-        >
-          <a>
-            <i
-              class="material-icons notranslate circle back"
-            >
-              close
-            </i>
-          </a>
-        </div>
       </div>
        
     </div>
