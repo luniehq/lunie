@@ -263,7 +263,7 @@ export default [
     icon: `wnd`,
     api_url: 'https://westend.polkastats.io/sidecar',
     stakingDenom: 'WND',
-    testnet: false,
+    testnet: true,
     coinLookup: [
       {
         viewDenom: 'WND',
