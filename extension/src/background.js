@@ -9,6 +9,9 @@ global.browser = require('webextension-polyfill')
 const extensionHost = location.origin
 const whitelisted = [
   'https://app.lunie.io',
+  'https://wallet.e-money.com',
+  'https://lunie.cosmos.network',
+  'https://lunie-akash.vitwit.com',
   /https:\/\/\w+--lunieio.netlify.com/, // to use the extension with deployment previews
   extensionHost
 ]
