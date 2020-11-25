@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Whitelist wallet partners @faboweb
 
+### Fixed
+
+- Also inject the extension on partner sites @faboweb
+
 ## [1.0.48] - 2020-11-24
 
 ### Added
