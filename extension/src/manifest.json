@@ -24,20 +24,25 @@
     "fonts/*.woff2"
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/analytics.js; object-src 'self'; connect-src 'self' wss://production-api.lunie.io/graphql https://production-api.lunie.io wss://staging-api.lunie.io/graphql https://staging-api.lunie.io https://monitoring.lunie.io:9000 wss://kusama-rpc.polkadot.io wss://rpc.polkadot.io wss://westend-rpc.polkadot.io wss://westend.polkastats.io/rpc https://www.google-analytics.com https://static.intercomassets.com https://js.intercomcdn.com/images;",
-  "content_scripts": [{
-    "matches": [
-      "http://localhost/*",
-      "https://localhost/*",
-      "https://lunie.io/*",
-      "https://app.lunie.io/*",
-      "https://www.lunie.io/*",
-      "https://*.netlify.com/*",
-      "https://*.netlify.app/*"
-    ],
-    "js": [
-      "contentScript.js"
-    ]
-  }],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://localhost/*",
+        "https://localhost/*",
+        "https://lunie.io/*",
+        "https://app.lunie.io/*",
+        "https://wallet.e-money.com/*",
+        "https://lunie.cosmos.network/*",
+        "https://lunie-akash.vitwit.com/*",
+        "https://www.lunie.io/*",
+        "https://*.netlify.com/*",
+        "https://*.netlify.app/*"
+      ],
+      "js": [
+        "contentScript.js"
+      ]
+    }
+  ],
   "permissions": [
     "tabs"
   ]
