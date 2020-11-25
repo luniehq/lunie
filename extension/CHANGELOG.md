@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.49] - 2020-11-25
+
+### Added
+
+- Whitelist wallet partners @faboweb
+
 ## [1.0.48] - 2020-11-24
 
 ### Added
