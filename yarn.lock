@@ -1661,18 +1661,18 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@dicebear/avatars-female-sprites@^4.2.5":
-  version "4.2.5"
-  resolved "https://registry.yarnpkg.com/@dicebear/avatars-female-sprites/-/avatars-female-sprites-4.2.5.tgz#6008d8d424f47904f969812e90cb1b48bab85bed"
-  integrity sha512-Zv8tizk1Tz7wcIVWYFFrlHcylF9Tvktbhl+cp9BMm2TFkWBWr/8b0VN0vMAPdfDvdfNeC0iwd3IKWOE/dWf3Qg==
+"@dicebear/avatars-female-sprites@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@dicebear/avatars-female-sprites/-/avatars-female-sprites-4.4.1.tgz#ca1d28e0bae5d1fad319f23d93396a5c8fe427f1"
+  integrity sha512-iTukUEiOuJFBzeUt6TIo+rMJD0VVjQN+ANubYxhkzO/d/d157Qk5w+xYGhDkiOO0BrhHiEExknDM2OCq7Axf7A==
 
-"@dicebear/avatars-human-sprites@4.2.5":
-  version "4.2.5"
-  resolved "https://registry.yarnpkg.com/@dicebear/avatars-human-sprites/-/avatars-human-sprites-4.2.5.tgz#b942457b0ebfca6b205898ad0d9a36de91d041fe"
-  integrity sha512-HVsoslCy2dBUPc2N1SKfSmZJ3Qg72sNQfMbRKPEfwKtqI/VngmF9EbvvAb3inO2asbYw/y22D5N/qx28q6pM6Q==
+"@dicebear/avatars-human-sprites@4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@dicebear/avatars-human-sprites/-/avatars-human-sprites-4.4.1.tgz#fc7b3207087bd39de58695d6d72e91f40928a07c"
+  integrity sha512-eqNt1B12gOIV1yeepx8Gg2RKk8MsXwY5LbE3KCFLf0FDXD5IZKM+90u792DlZBd9ZqaS7QJwAVn/lP17qdY/BQ==
   dependencies:
-    "@dicebear/avatars-female-sprites" "^4.2.5"
-    "@dicebear/avatars-male-sprites" "^4.2.5"
+    "@dicebear/avatars-female-sprites" "^4.4.1"
+    "@dicebear/avatars-male-sprites" "^4.4.1"
 
 "@dicebear/avatars-jdenticon-sprites@4.1.1":
   version "4.1.1"
@@ -1681,10 +1681,10 @@
   dependencies:
     jdenticon "^2.1.1"
 
-"@dicebear/avatars-male-sprites@^4.2.5":
-  version "4.2.5"
-  resolved "https://registry.yarnpkg.com/@dicebear/avatars-male-sprites/-/avatars-male-sprites-4.2.5.tgz#7d093931a264f6eb142ec069514c62a6ad236982"
-  integrity sha512-8rzOmOefiAfd/t2PEvjQKa04pHyJZven5uzTWk7uYvHUG/YN/+t9+NTkTkMBAFjNiUCvJ1TDdG15aV23x64wIQ==
+"@dicebear/avatars-male-sprites@^4.4.1":
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/@dicebear/avatars-male-sprites/-/avatars-male-sprites-4.4.1.tgz#78c775bd8c5f572139498e2dc402d7232c151231"
+  integrity sha512-Esx3auRQroD4uOXYmKjqBUO1Tqv2XN/KUMPvGvyg0Vyg5+GDBQnYzB6lCWoUD7HMj2cdtE812U+1QtksMtDLYg==
 
 "@dicebear/avatars@4.1.1":
   version "4.1.1"
