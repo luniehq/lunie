@@ -130,7 +130,7 @@
     "vue-template-compiler": "^2.6.12",
     "webdriverio": "6.5.0",
     "webpack": "4.44.1",
-    "webpack-bundle-analyzer": "3.9.0"
+    "webpack-bundle-analyzer": "4.2.0"
   },
   "husky": {
     "hooks": {
