@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.52] - 2020-12-09
+
+### Added
+
+- Readd import account to allow testing of Terra addresses @faboweb
+
 ## [1.0.51] - 2020-12-07
 
 ### Fixed
