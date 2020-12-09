@@ -42,6 +42,12 @@ exports[`SessionAccounts has the expected html structure 1`] = `
         buttonaction="function () { [native code] }"
         buttontext="Go to Lunie"
       />
+       
+      <router-link-stub
+        to="/select-network/recover"
+      >
+        Import Account
+      </router-link-stub>
     </div>
   </div>
 </sessionframe-stub>
