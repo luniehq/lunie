@@ -3,9 +3,9 @@ name: Extension Deployment Workflow
 on:
   push:
     branches:
-      - 'master'
+      - "master"
     paths:
-      - 'extension/CHANGELOG.md'
+      - "extension/CHANGELOG.md"
 env:
   WORKING_DIRECTORY: ./extension
 jobs:
@@ -19,7 +19,7 @@ jobs:
       - name: NPM Install
         uses: bahmutov/npm-install@v1
       - name: Build Extension
-        run: LUNIE_API=${{ secrets.LUNIE_API }} yarn build
+        run: yarn build
         working-directory: ${{env.WORKING_DIRECTORY}}
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_EXTENSION }}

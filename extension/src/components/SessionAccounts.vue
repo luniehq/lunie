@@ -19,6 +19,7 @@
           :button-action="goToLunie"
           button-text="Go to Lunie"
         />
+        <router-link to="/select-network/recover">Import Account</router-link>
       </div>
     </div>
   </SessionFrame>
