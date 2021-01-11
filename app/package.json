@@ -72,7 +72,7 @@
     "serialize-javascript": ">=2.1.1",
     "subscriptions-transport-ws": "0.9.16",
     "timezone-mock": "^1.1.1",
-    "v-tooltip": "2.0.3",
+    "v-tooltip": "2.1.2",
     "vue": "2.6.12",
     "vue-apollo": "3.0.3",
     "vue-async-computed": "3.9.0",
