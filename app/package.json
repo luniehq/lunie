@@ -83,7 +83,7 @@
     "vue-scrollto": "2.20.0",
     "vue-simple-progress": "1.1.1",
     "vuelidate": "0.7.6",
-    "vuex": "3.4.0"
+    "vuex": "3.6.0"
   },
   "devDependencies": {
     "@ascendancyy/vue-cli-plugin-stylelint": "1.1.2",
