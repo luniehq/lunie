@@ -2,7 +2,7 @@
   <div class="network-item" :class="{ disabled: disabled }">
     <div class="network-icon">
       <img
-        :src="`${networkItem.icon}`"
+        :src="networkItem.icon"
         :alt="`logo for network ${networkItem.title}`"
       />
     </div>
@@ -36,6 +36,7 @@
 <script>
 import { mapGetters, mapState } from "vuex"
 import PoweredBy from "./PoweredBy"
+import config from "src/../config"
 
 export default {
   name: `network-item`,
@@ -52,6 +53,9 @@ export default {
       default: false,
     },
   },
+  data: () => ({
+    isExtension: config.isExtension,
+  }),
   computed: {
     ...mapState([`session`]),
     ...mapGetters([`network`]),

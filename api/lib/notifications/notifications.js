@@ -25,6 +25,10 @@ function getMessageTitle(networks, notification) {
       return `You sent ${data.details.amount.amount} ${
         data.details.amount.denom
       }${data.details.amount.amount !== 1 ? 's' : ''} on ${networkTitle}`
+    case eventTypes.TRANSACTION_CLAIM:
+      return `You claimed ${data.details.amounts[0].amount} ${
+        data.details.amounts[0].denom
+      }${data.details.amounts[0].amount !== 1 ? 's' : ''} on ${networkTitle}`
     case eventTypes.PROPOSAL_CREATE:
       return `New proposal created for ${networkTitle}: '${data.title}'`
     case eventTypes.PROPOSAL_UPDATE:
@@ -150,6 +154,8 @@ function getIcon({ eventType, data, properties }) {
       return `/img/icons/activity/Received.svg`
     case eventTypes.TRANSACTION_SEND:
       return `/img/icons/activity/Sent.svg`
+    case eventTypes.TRANSACTION_CLAIM:
+      return `/img/icons/activity/Claimed.svg`
     case eventTypes.PROPOSAL_CREATE:
     case eventTypes.PROPOSAL_UPDATE:
       return `/img/icons/activity/Submitted.svg`
@@ -196,47 +202,45 @@ function getTopic({ resourceType, networkId, eventType, resourceId }) {
 const startNotificationService = (networks) => {
   // Disable for development mode
   // (only activate for staging/production to avoid duplicate notifications)
-  if (config.env !== 'development') {
-    // listens on the graphQL subscription for events
-    eventSubscription(async (event) => {
-      if (event.properties.type === 'UnknownTx') return
+  // if (config.env !== 'development') {
+  // listens on the graphQL subscription for events
+  eventSubscription(async (event) => {
+    if (event.properties.type === 'UnknownTx') return
 
-      // hack to not spam users on every liveness failure
-      // need to figure out how to handle this
-      if (event.eventType === eventTypes.LIVENESS) return
+    // hack to not spam users on every liveness failure
+    // need to figure out how to handle this
+    if (event.eventType === eventTypes.LIVENESS) return
 
-      const topic = getTopic(event)
-      const insertedNotifications = await database(config)(
-        ''
-      ).storeNotification({
-        topic,
-        eventType: event.eventType,
-        resourceType: event.resourceType,
-        resourceId: event.resourceId,
-        networkId: event.networkId,
-        data: event.properties
-      })
-
-      const notificationResponse = insertedNotifications[0]
-      try {
-        const notification = {
-          id: notificationResponse.id,
-          networkId: event.networkId,
-          timestamp: notificationResponse.created_at,
-          title: getMessageTitle(networks, notificationResponse),
-          link: getPushLink(networks, notificationResponse),
-          icon: getIcon(notificationResponse)
-        }
-        publishNotificationAdded(notification, topic)
-      } catch (error) {
-        console.error(error, notificationResponse)
-        Sentry.withScope(function (scope) {
-          scope.setExtra('notificationResponse', notificationResponse)
-          Sentry.captureException(error)
-        })
-      }
+    const topic = getTopic(event)
+    const insertedNotifications = await database(config)('').storeNotification({
+      topic,
+      eventType: String(event.eventType),
+      resourceType: String(event.resourceType),
+      resourceId: String(event.resourceId),
+      networkId: String(event.networkId),
+      data: event.properties
     })
-  }
+
+    const notificationResponse = insertedNotifications[0]
+    try {
+      const notification = {
+        id: notificationResponse.id,
+        networkId: event.networkId,
+        timestamp: notificationResponse.created_at,
+        title: getMessageTitle(networks, notificationResponse),
+        link: getPushLink(networks, notificationResponse),
+        icon: getIcon(notificationResponse)
+      }
+      publishNotificationAdded(notification, topic)
+    } catch (error) {
+      console.error(error, notificationResponse)
+      Sentry.withScope(function (scope) {
+        scope.setExtra('notificationResponse', notificationResponse)
+        Sentry.captureException(error)
+      })
+    }
+  })
+  // }
 }
 
 // Resolver for retrieving notifications
@@ -290,5 +294,6 @@ module.exports = {
   getTopic,
   getPushLink,
   getMessageTitle,
-  getNotifications
+  getNotifications,
+  getIcon
 }

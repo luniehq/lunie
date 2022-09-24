@@ -1,6 +1,5 @@
 const { ApolloServer } = require('apollo-server-express')
 const responseCachePlugin = require('apollo-server-plugin-response-cache')
-const Sentry = require('@sentry/node')
 
 const typeDefs = require('./schema')
 const resolvers = require('./resolvers')

@@ -19,7 +19,13 @@ exports[`SessionAccounts has the expected html structure 1`] = `
           src="../images/lunie-logo-white.svg"
         />
       </h2>
-       
+    </div>
+     
+    <sunsettingwarningbar-stub />
+     
+    <div
+      class="accounts-header"
+    >
       <p>
         
         You can use the account(s) below to explore Lunie.io and to approve
@@ -36,14 +42,13 @@ exports[`SessionAccounts has the expected html structure 1`] = `
         buttonaction="function () { [native code] }"
         buttontext="Go to Lunie"
       />
+       
+      <router-link-stub
+        to="/select-network/recover"
+      >
+        Import Account
+      </router-link-stub>
     </div>
-     
-    <router-link-stub
-      class="back-link"
-      to="/welcome"
-    >
-      Want to add another account?
-    </router-link-stub>
   </div>
 </sessionframe-stub>
 `;

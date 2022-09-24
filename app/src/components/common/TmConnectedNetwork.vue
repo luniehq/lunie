@@ -1,6 +1,7 @@
 <template>
   <div class="sidebar-bottom">
     <TmBtn
+      v-if="!config.mobileApp"
       id="intercom-button"
       class="intercom-button secondary"
       value="Help / Feedback"
@@ -53,9 +54,7 @@
         >
           #{{ block.height | prettyInt }}
         </router-link>
-        <template v-else>
-          --
-        </template>
+        <template v-else> -- </template>
       </div>
     </div>
     <div
@@ -101,6 +100,7 @@ export default {
   },
   data: () => ({
     block: {},
+    config,
   }),
   computed: {
     ...mapState([`connection`]),

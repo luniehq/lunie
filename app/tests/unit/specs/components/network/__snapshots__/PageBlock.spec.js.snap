@@ -137,9 +137,7 @@ exports[`PageBlock shows the block page with no txs 1`] = `
         iconcolor="var(--warning)"
       >
         <div>
-          
-            No Transactions
-          
+          No Transactions
         </div>
          
         <div>

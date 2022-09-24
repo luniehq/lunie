@@ -8,7 +8,7 @@
           <span>From</span>
           <router-link
             v-for="(validator, index) in getValidators"
-            :key="validator.name.concat(`-${index}`)"
+            :key="validator.operatorAddress.concat(`-${index}`)"
             :to="{
               name: `validator`,
               params: {

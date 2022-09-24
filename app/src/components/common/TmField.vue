@@ -9,16 +9,17 @@
       @keyup="onKeyup"
       @keydown="onKeydown"
     >
-      <option value disabled="disabled" selected="selected" hidden="hidden">{{
-        selectPlaceholder
-      }}</option>
+      <option value disabled="disabled" selected="selected" hidden="hidden">
+        {{ selectPlaceholder }}
+      </option>
       <template>
         <option
           v-for="(option, index) in resolvedOptions"
           :key="index"
           :value="option.value"
-          >{{ option.key }}</option
         >
+          {{ option.key }}
+        </option>
       </template>
     </select>
     <div class="tm-field-select-addon">

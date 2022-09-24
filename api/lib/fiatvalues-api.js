@@ -91,7 +91,13 @@ class fiatValueAPI {
 
   async pollNewPriceFeed() {
     this.priceFeed = await this.getNewPriceFeed()
-    await this.updateEMoneyExchangeRates()
+    if (
+      EMoneyFiatExchangeRateApi &&
+      EMoneyAPIUrlMainnet &&
+      EMoneyAPIUrlTestnet
+    ) {
+      await this.updateEMoneyExchangeRates()
+    }
     await this.getFiatValuesForAllCoins()
 
     setTimeout(async () => {
@@ -196,6 +202,7 @@ class fiatValueAPI {
         this.fetchEmoneyTokenExchangeRates(EMoneyAPIUrlTestnet),
         db.getNetworks()
       ])
+
       const eMoneyNetwork = networks.find(({ id }) => id === `emoney-mainnet`)
       const eMoneyExchangeRatesMainnet = eMoneyNetwork
         ? calculateTokenExchangeRates(
@@ -215,6 +222,7 @@ class fiatValueAPI {
             eMoneyNetwork
           )
         : undefined
+
       // now we combine both exchange rates, mainnet and testnet, in one single Object
       // mainnet values override duplicate testnet values
       this.eMoneyExchangeRates = {

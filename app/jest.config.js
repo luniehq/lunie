@@ -13,6 +13,7 @@ module.exports = {
     "^common/(.*)$": `<rootDir>/src/components/common/$1`,
     "^account/(.*)$": `<rootDir>/src/components/account/$1`,
     "^governance/(.*)$": `<rootDir>/src/components/governance/$1`,
+    "^session/(.*)$": `<rootDir>/src/components/session/$1`,
     "^network/(.*)$": `<rootDir>/src/components/network/$1`,
     "^staking/(.*)$": `<rootDir>/src/components/staking/$1`,
     "^transactions/(.*)$": `<rootDir>/src/components/transactions/$1`,

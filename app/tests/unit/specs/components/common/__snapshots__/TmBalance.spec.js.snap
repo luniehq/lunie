@@ -57,7 +57,9 @@ exports[`TmBalance do not show available atoms when the user has none in the fir
               hidden="hidden"
               value=""
             >
+              
               USD
+            
             </option>
              
             <option
@@ -201,7 +203,9 @@ exports[`TmBalance show the balance header when signed in 1`] = `
               hidden="hidden"
               value=""
             >
+              
               USD
+            
             </option>
              
             <option

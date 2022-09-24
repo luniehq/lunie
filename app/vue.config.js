@@ -27,7 +27,7 @@ const config = {
           network: resolve(`src/components/network`),
           staking: resolve(`src/components/staking`),
           transactions: resolve(`src/components/transactions`),
-          wallet: resolve(`src/components/wallet`),
+          session: resolve(`src/components/session`),
           test: resolve(`test`),
         },
         extensions: [`.js`, `.vue`, `.css`],

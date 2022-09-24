@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TmSessionSignUp renders 1`] = `
+<sessionframe-stub
+  icon="person_add"
+>
+  <tmformstruct-stub
+    submit="function () { [native code] }"
+    width=""
+  >
+    <h2
+      class="session-title"
+    >
+      Create a new address
+    </h2>
+     
+    <div>
+      <div
+        class="session-main bottom-indent"
+      >
+        <steps-stub
+          activestep="Create"
+          steps="Create,Password,Backup"
+        />
+         
+        <dangerzonewarning-stub />
+         
+        <tmformgroup-stub
+          fieldid="sign-up-name"
+          fieldlabel="Account Name"
+        >
+          <tmfield-stub
+            id="sign-up-name"
+            placeholder="Must be at least 3 characters"
+            type="text"
+            value=""
+            vue-focus="vue-focus"
+          />
+           
+          <!---->
+           
+          <!---->
+           
+          <!---->
+        </tmformgroup-stub>
+      </div>
+       
+      <div
+        class="session-footer"
+      >
+        <tmbtn-stub
+          customclass=""
+          type="submit"
+          value="Next"
+        />
+      </div>
+    </div>
+  </tmformstruct-stub>
+</sessionframe-stub>
+`;

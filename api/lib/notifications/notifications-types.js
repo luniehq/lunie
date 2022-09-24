@@ -8,6 +8,7 @@ const eventTypes = {
   /* Transactions */
   TRANSACTION_RECEIVE: 'transactionReceive',
   TRANSACTION_SEND: 'transactionSend',
+  TRANSACTION_CLAIM: 'transactionClaim',
 
   /* Validators */
   VALIDATOR_ADDED: 'validatorAdded',
@@ -51,9 +52,11 @@ const getDefaultSubscriptions = async (addresses, dataSources) => {
   let subscriptions = []
 
   for (const { address, networkId } of addresses) {
-    const delegations = await dataSources[
-      networkId
-    ].api.getDelegationsForDelegatorAddress(address)
+    const dataSource = dataSources[networkId]
+    if (!dataSource) continue
+    const delegations = await dataSource.api.getDelegationsForDelegatorAddress(
+      address
+    )
 
     delegations.forEach((delegation) => {
       subscriptions.push(
@@ -61,7 +64,7 @@ const getDefaultSubscriptions = async (addresses, dataSources) => {
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_STATUS}_${networkId}`,
         // `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_INCREASE}_${networkId}`,
         // `${delegation.validatorAddress}_${eventTypes.VALIDATOR_VOTING_POWER_DECREASE}_${networkId}`,
-        `${delegation.validatorAddress}_${eventTypes.VALIDATOR_PICTURE}_${networkId}`,
+        // `${delegation.validatorAddress}_${eventTypes.VALIDATOR_PICTURE}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_WEBSITE}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_MAX_CHANGE_COMMISSION}_${networkId}`,
         `${delegation.validatorAddress}_${eventTypes.VALIDATOR_DESCRIPTION}_${networkId}`

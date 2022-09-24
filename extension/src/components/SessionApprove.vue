@@ -90,6 +90,7 @@ import TransactionItem from 'transactions/TransactionItem'
 import TableInvoice from 'src/ActionModal/components/TableInvoice'
 import Address from 'common/Address'
 import { required } from 'vuelidate/lib/validators'
+import hardcodedValidators from '../../validators'
 import actions from '../store/actions.js'
 import { getDisplayTransaction } from '../scripts/parsers'
 
@@ -119,28 +120,26 @@ export default {
     tx() {
       if (!this.signRequest) return undefined
       if (this.networks.length === 0) return undefined
-      // new format
-      const network = this.networks.find(
-        ({ id }) => id === this.signRequest.network
-      )
       return getDisplayTransaction(
-        network,
+        this.network,
         this.signRequest.messageType,
         this.signRequest.message,
         this.signRequest.transactionData
       )
     },
     network() {
-      return this.signRequest ? this.signRequest.network : null
+      return this.signRequest
+        ? this.networks.find(({ id }) => id === this.signRequest.network)
+        : null
     },
     fees() {
       return this.tx && this.tx.fees[0] ? this.tx.fees[0] : {}
     },
     senderAddress() {
-      return this.signRequest ? this.signRequest.senderAddress : null
+      return this.signRequest ? this.signRequest.senderAddress : "null"
     },
     amountCoin() {
-      return this.tx ? this.tx.details.amount : null
+      return this.tx ? (this.tx.details.amount || this.tx.details.amounts[0]) : null
     },
     amount() {
       return this.amountCoin ? Number(this.amountCoin.amount) : 0
@@ -156,8 +155,12 @@ export default {
     },
     validatorsAddressMap() {
       const names = {}
+
       this.validators.forEach((item) => {
-        names[item.operatorAddress] = item
+        names[item.operatorAddress] =
+          hardcodedValidators[item.operatorAddress] || item
+        names[item.operatorAddress].picture =
+          names[item.operatorAddress].picture || this.network.icon
       })
       return names
     }
@@ -166,10 +169,13 @@ export default {
     password: function () {
       this.passwordError = false
     },
-    tx: async function (tx) {
-      if (tx) {
-        const validatorsObject = await getValidatorsData(tx, this.network)
-        this.validators = validatorsObject
+    tx: {
+      immediate: true,
+      handler: async function (tx) {
+        if (tx) {
+          const validatorsObject = await getValidatorsData(tx)
+          this.validators = validatorsObject
+        }
       }
     }
   },
@@ -186,15 +192,12 @@ export default {
         const thisAccount = this.accounts.find(
           ({ address }) => address === this.signRequest.senderAddress
         )
-        const network = this.networks.find(
-          ({ id }) => id === this.signRequest.network
-        )
         await this.$store
           .dispatch('approveSignRequest', {
             ...this.signRequest,
             password: this.password,
-            HDPath: thisAccount.HDPath || network.defaultHDPath,
-            curve: thisAccount.curve || network.defaultCurve
+            HDPath: thisAccount.HDPath || this.network.defaultHDPath,
+            curve: thisAccount.curve || this.network.defaultCurve
           })
           .catch((error) => {
             this.errorOnApproval = error

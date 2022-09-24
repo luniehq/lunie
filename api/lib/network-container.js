@@ -32,8 +32,8 @@ class NetworkContainer {
 
   initialize() {
     this.createStore()
-    this.createBlockListener()
     this.createFiatValuesAPI()
+    this.createBlockListener()
 
     if (this.network.network_type === 'cosmos')
       this.slashingMonitor.initialize()
@@ -85,6 +85,7 @@ class NetworkContainer {
         this.network,
         this.sourceClass,
         this.store,
+        this.fiatValuesAPI,
         this.db
       )
     }

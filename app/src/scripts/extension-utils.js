@@ -110,6 +110,18 @@ export const getSignQueue = async () => {
   return amount
 }
 
+export const deleteAccount = async (address) => {
+  const boolean = await sendAsyncMessageToContentScript(
+    {
+      type: "DELETE_WALLET_WITHOUT_PASSWORD",
+      payload: { address },
+    },
+    true
+  )
+
+  return boolean
+}
+
 export const signWithExtension = async (
   messageType,
   message,

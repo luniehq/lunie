@@ -7,6 +7,65 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
 
+## [1.0.234] - 2020-11-04
+
+### Changed
+
+- [#5183](https://github.com/cosmos/lunie/pull/5183) Upgrade to emoney-2 @Bitcoinera
+
+## [1.0.233] - 2020-10-23
+
+### Added
+
+- [#5143](https://github.com/cosmos/lunie/issues/5143) Add Show Seed feature to UserMenu @Bitcoinera
+- [#5117](https://github.com/cosmos/lunie/issues/5117) Lunie supports now IOV starnames @faboweb
+
+### Changed
+
+- [#5098](https://github.com/cosmos/lunie/issues/5098) Make possible for MaintenanceBar to be network specific @Bitcoinera
+- [#5119](https://github.com/cosmos/lunie/issues/5119) Don't encourage proposal creation for Polkadot networks @Bitcoinera
+- [#5147](https://github.com/cosmos/lunie/pull/5147) Some little improvements from suggestions regarding the Manage address feature on UserMenu @Bitcoinera
+- remove intercom capacitor from mobile to resolve build issue @jbibla
+- bump capacitor version @jbibla
+- [#5127](https://github.com/cosmos/lunie/issues/5127) Update polkadot-js/api to release v2.3.1 @mariopino
+
+### Fixed
+
+- [#4989](https://github.com/cosmos/lunie/pull/4989) Fix vote display on PageProposal @Bitcoinera
+
+### Deprecated
+
+- [#5114](https://github.com/cosmos/lunie/pull/5114) Remove unused publish.sh from tasks folder @Bitcoinera
+
+## [1.0.232] - 2020-10-13
+
+### Added
+
+- [#4513](https://github.com/cosmos/lunie/issues/4513) Add "Forget Account" feature to AccountMenu @Bitcoinera
+
+### Changed
+
+- [#5066](https://github.com/cosmos/lunie/pull/5066) Add the kava-testnet network icon @Bitcoinera
+- [#5079](https://github.com/cosmos/lunie/pull/5079) Lint the whole app subrepo (22 files) @Bitcoinera
+- [#5084](https://github.com/cosmos/lunie/pull/5084) Upgrate to polkadot/api-2.2.1 @Bitcoinera
+- [#5040](https://github.com/cosmos/lunie/pull/5040) Upgrade to polkadot/api-2.1.1 @Bitcoinera
+
+### Fixed
+
+- [#5071](https://github.com/cosmos/lunie/pull/5071) Fix ActionModal opening when in Explore mode @Bitcoinera
+
+### Repository
+
+- [#3699](https://github.com/cosmos/lunie/issues/3699) Delete the components/wallet folder @Bitcoinera
+- [#5068](https://github.com/cosmos/lunie/pull/5068) Add the components/session folder @Bitcoinera
+
+## [1.0.231] - 2020-10-06
+
+### Changed
+
+- [#5066](https://github.com/cosmos/lunie/pull/5066) Add the kava-testnet network icon @Bitcoinera 
+- [#5040](https://github.com/cosmos/lunie/pull/5040) Upgrade to polkadot/api-2.1.1 @Bitcoinera
+
 ## [1.0.230] - 2020-10-02
 
 ### Changed

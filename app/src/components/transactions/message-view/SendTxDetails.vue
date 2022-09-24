@@ -17,7 +17,11 @@
       </template>
     </div>
     <div class="tx__content__right">
-      <p class="amount">
+      <p class="amount" v-if="transaction.details.amounts"> <!-- lunie 3 format -->
+        {{ transaction.details.amounts[0].amount | prettyLong }}&nbsp;
+        {{ transaction.details.amounts[0].denom }}
+      </p>
+      <p class="amount" v-else> <!-- old format -->
         {{ transaction.details.amount.amount | prettyLong }}&nbsp;
         {{ transaction.details.amount.denom }}
       </p>

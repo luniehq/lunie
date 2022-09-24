@@ -12,9 +12,7 @@ exports[`Undelegations should show unbonding validators 1`] = `
         class="header-container"
       >
         <h1>
-          
           Unstaking
-        
         </h1>
          
         <div

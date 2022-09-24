@@ -3,7 +3,7 @@ name: API Release Workflow
 on:
   push:
     branches:
-      - 'release'
+      - 'release-api'
     paths:
       - 'api/**'
 env:

@@ -1,0 +1,2 @@
+[Repository] Added changelog script @faboweb
+[Fixed] Don't overwrite pictures in db with Null values @faboweb

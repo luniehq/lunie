@@ -1,10 +1,50 @@
 <template>
   <div class="account-menu">
     <div class="account-menu-buttons">
-      <div class="account-menu-button-container">
+      <!-- Remove account for accounts with seed -->
+      <div
+        v-if="account.sessionType === `local` || isExtension"
+        class="account-menu-button-container"
+      >
+        <router-link
+          class="account-menu-button account-menu-delete-account"
+          :to="{
+            name: 'delete',
+            params: {
+              address: account.address,
+              addressNetworkId: account.network || account.networkId,
+            },
+          }"
+        >
+          <i class="material-icons notranslate show-seed">delete</i>
+        </router-link>
+        <span class="account-menu-button-span">Remove Account</span>
+      </div>
+      <!-- Remove account for explore and ledger accounts  -->
+      <div
+        v-if="
+          account.sessionType === `explore` || account.sessionType === `ledger`
+        "
+        class="account-menu-button-container"
+      >
+        <div
+          class="account-menu-button account-menu-delete-account"
+          @click="signOutOfAddress(account)"
+        >
+          <i class="material-icons notranslate show-seed">delete</i>
+        </div>
+        <span class="account-menu-button-span">Delete Account</span>
+      </div>
+      <!-- Show seed -->
+      <div
+        v-if="
+          account.sessionType === `local` || account.sessionType === `extension` || isExtension
+        "
+        class="account-menu-button-container"
+      >
         <router-link
           class="account-menu-button account-menu-show-seed"
-          :to="{ name: 'reveal', params: { address } }"
+          :to="{ name: 'reveal', params: { address: account.address } }"
         >
           <i class="material-icons notranslate show-seed">visibility</i>
         </router-link>
@@ -15,13 +55,13 @@
 </template>
 
 <script>
-import gql from "graphql-tag"
+import config from "src/../config"
 
 export default {
   name: `account-menu`,
   props: {
-    address: {
-      type: String,
+    account: {
+      type: Object,
       required: true,
     },
   },
@@ -29,7 +69,13 @@ export default {
     return {
       seed: "",
       command: "",
+      isExtension: config.isExtension,
     }
+  },
+  methods: {
+    async signOutOfAddress(account) {
+      await this.$store.dispatch(`signOutAddress`, account)
+    },
   },
 }
 </script>
@@ -69,6 +115,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 0.25rem 0 0;
 }
 
 .account-menu-button-span {
@@ -81,12 +128,13 @@ export default {
   background: #dbf7e6;
 }
 
-.account-menu-button.account-menu-delete {
-  background: #fad3cd;
-}
-
 .account-menu-button.account-menu-show-seed {
   background: #b0d1e3;
   color: #3d728e;
+}
+
+.account-menu-button.account-menu-delete-account {
+  background: #fad3cd;
+  color: #f67f70;
 }
 </style>

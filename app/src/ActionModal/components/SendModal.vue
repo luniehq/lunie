@@ -11,7 +11,10 @@
     :selected-denom="selectedToken"
     :notify-message="notifyMessage"
     feature-flag="send"
-    :disabled="sendingNgm"
+    :disabled="
+      $asyncComputed.transactionData.updating ||
+      $asyncComputed.transactionData.error
+    "
     @close="clear"
     @txIncluded="onSuccess"
   >
@@ -27,7 +30,7 @@
         v-model="address"
         v-focus
         type="text"
-        placeholder="Address"
+        placeholder="Address or Starname"
         @change.native="trimSendAddress"
         @keyup.enter.native="refocusOnAmount"
       />
@@ -42,6 +45,19 @@
         type="custom"
         msg="doesn't have a format known by Lunie"
       />
+      <span v-if="$asyncComputed.transactionData.updating" class="memo-span">
+        Getting address for Starname...
+      </span>
+      <TmFormMsg
+        v-else-if="$asyncComputed.transactionData.error"
+        msg="could not be resolved to an address"
+        name="Starname"
+        type="custom"
+      />
+      <span v-else class="memo-span">
+        Lunie supports
+        <a href="https://starname.me/" target="_blank">IOV Starnames</a>
+      </span>
     </TmFormGroup>
     <TmFormGroup
       id="form-group-amount"
@@ -143,11 +159,6 @@
         type="maxLength"
         :max="max_memo_characters"
       />
-      <TmFormMsg
-        v-if="sendingNgm"
-        type="custom"
-        msg="Sending NGM is currently disabled."
-      />
     </TmFormGroup>
   </ActionModal>
 </template>
@@ -169,6 +180,7 @@ import config from "src/../config"
 import { UserTransactionAdded } from "src/gql"
 import BigNumber from "bignumber.js"
 import { formatAddress } from "src/filters"
+import { isStarname, resolveStarname } from "src/../../common/starname"
 
 const defaultMemo = ""
 
@@ -215,21 +227,6 @@ export default {
         }
       )
     },
-    transactionData() {
-      if (isNaN(this.amount) || !this.address || !this.selectedToken) {
-        return {}
-      }
-      return {
-        type: messageType.SEND,
-        to: [this.address],
-        from: [this.userAddress],
-        amount: {
-          amount: this.amount,
-          denom: this.selectedToken,
-        },
-        memo: this.memo,
-      }
-    },
     notifyMessage() {
       return {
         title: `Successful Send`,
@@ -243,23 +240,6 @@ export default {
         ? this.denoms.map((denom) => (denom = { key: denom, value: denom }))
         : []
     },
-    sendingNgm() {
-      const whitelistedAccount = [
-        "emoney1cs4323dyzu0wxfj4vc62m8q3xsczfavqx9x3zd",
-        "emoney147verqcxwdkgrn663x2qj66zyqc5mu479afw9n",
-        "emoney14r5rva8qk5ee6rvk5sdtmxea40uf74k7uh4yjv",
-        "emoney1s73cel9vxllx700eaeuqr70663w5f0twzcks3l",
-        "emoney1uae5c48qjdc9psfzkwvre0shm9z8wlsfnse2nz",
-      ]
-      return (
-        this.selectedToken === "NGM" &&
-        this.network === "emoney-mainnet" &&
-        !(
-          whitelistedAccount.includes(this.userAddress) ||
-          whitelistedAccount.includes(this.address)
-        )
-      )
-    },
     // TODO: maxAmount should be handled from ActionModal
     maxAmount() {
       if (this.networkFeesLoaded) {
@@ -269,6 +249,23 @@ export default {
         )
       } else {
         return this.maxDecimals(this.selectedBalance.amount, 6)
+      }
+    },
+  },
+  asyncComputed: {
+    async transactionData() {
+      if (isNaN(this.amount) || !this.address || !this.selectedToken) {
+        return {}
+      }
+      return {
+        type: messageType.SEND,
+        to: [this.address],
+        from: [this.userAddress],
+        amount: {
+          amount: this.amount,
+          denom: this.selectedToken,
+        },
+        memo: this.memo,
       }
     },
   },
@@ -291,6 +288,16 @@ export default {
         this.selectedToken = this.stakingDenom
       } else {
         this.selectedToken = balances[0].denom
+      }
+    },
+    address: async function (address) {
+      if (isStarname(this.address)) {
+        // resolve starname to address
+        const recipientAddress = await resolveStarname(
+          this.address,
+          this.network
+        )
+        this.setAddress(recipientAddress)
       }
     },
   },
@@ -327,6 +334,9 @@ export default {
     },
     setMaxAmount() {
       this.amount = this.maxAmount
+    },
+    setAddress(recipientAddress) {
+      this.address = recipientAddress
     },
     isMaxAmount() {
       if (this.selectedBalance.amount === 0) {
@@ -366,7 +376,9 @@ export default {
       address: {
         required,
         validAddress: (address) =>
-          this.bech32Validate(address) || isPolkadotAddress(address),
+          this.bech32Validate(address) ||
+          isPolkadotAddress(address) ||
+          isStarname(address),
       },
       amount: {
         required: (x) => !!x && x !== `0`,

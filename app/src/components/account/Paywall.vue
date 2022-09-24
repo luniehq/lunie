@@ -16,12 +16,8 @@
         <ul>
           <li class="table-cell check">Unclaimed Rewards</li>
           <li class="table-cell check">Balance Updates</li>
-          <li class="table-cell check">
-            Undelegation Reminders
-          </li>
-          <li class="table-cell check">
-            Transaction Confirmations
-          </li>
+          <li class="table-cell check">Undelegation Reminders</li>
+          <li class="table-cell check">Transaction Confirmations</li>
         </ul>
       </div>
 
@@ -29,15 +25,9 @@
         <h4>Governance</h4>
         <ul>
           <li class="table-cell check">New Proposals</li>
-          <li class="table-cell check">
-            Proposal State Changes
-          </li>
-          <li class="table-cell check">
-            Deposit and Voting Reminders
-          </li>
-          <li class="table-cell check">
-            Know How Your Validators Vote
-          </li>
+          <li class="table-cell check">Proposal State Changes</li>
+          <li class="table-cell check">Deposit and Voting Reminders</li>
+          <li class="table-cell check">Know How Your Validators Vote</li>
         </ul>
       </div>
 

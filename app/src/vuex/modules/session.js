@@ -29,6 +29,7 @@ export default ({ apollo }) => {
     stateLoaded: false, // shows if the persisted state is already loaded. used to prevent overwriting the persisted state before it is loaded
     error: null,
     currrentModalOpen: false,
+    userAccounts: [],
     modals: {
       error: { active: false },
       help: { active: false },
@@ -101,6 +102,9 @@ export default ({ apollo }) => {
     },
     setUserAddressRole(state, addressRole) {
       state.addressRole = addressRole
+    },
+    setUserAccounts(state, accounts) {
+      state.userAccounts = accounts
     },
   }
 

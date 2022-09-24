@@ -7,6 +7,12 @@ const {
 } = require('../../common/numbers.js')
 const { getProposalSummary } = require('./common')
 const { lunieMessageTypes } = require('../../lib/message-types')
+
+const {
+  getMessageTitle,
+  getPushLink,
+  getIcon
+} = require('../notifications/notifications')
 const { hexToString } = require('@polkadot/util')
 
 const CHAIN_TO_VIEW_COMMISSION_CONVERSION_FACTOR = 1e-9
@@ -15,6 +21,17 @@ const proposalTypeEnum = {
   TEXT: 'TEXT',
   TREASURY: 'TREASURY',
   PARAMETER_CHANGE: 'PARAMETER_CHANGE'
+}
+
+function notificationReducer(notification, networks) {
+  return {
+    id: notification.id,
+    networkId: notification.networkId,
+    timestamp: notification.created_at,
+    title: getMessageTitle(networks, notification),
+    link: getPushLink(networks, notification),
+    icon: getIcon(notification)
+  }
 }
 
 function blockReducer(
@@ -41,7 +58,7 @@ function blockReducer(
   }
 }
 
-function validatorReducer(network, validator) {
+function validatorReducer(network, validator, fiatValuesResponse) {
   return {
     id: validator.accountId,
     networkId: network.id,
@@ -74,7 +91,43 @@ function validatorReducer(network, validator) {
       ).toFixed(6) || 0,
     expectedReturns: validator.expectedReturns,
     nominations: validator.nominations,
-    popularity: validator.popularity
+    popularity: validator.popularity,
+    totalStakedAssets: {
+      ...fiatValuesResponse,
+      amount: fiatValuesResponse.amount.toFixed(2)
+    }
+  }
+}
+
+function validatorProfileReducer(
+  validator,
+  validatorProfile,
+  numberStakers,
+  network
+) {
+  return {
+    ...validator,
+    profile: {
+      name: validator.name,
+      rank: validator.rank,
+      nationality: validatorProfile ? validatorProfile.nationality : undefined,
+      headerImage: validatorProfile ? validatorProfile.headerImage : undefined,
+      description: validator.details,
+      teamMembers: validatorProfile
+        ? JSON.parse(validatorProfile.teamMembers)
+        : undefined,
+      socialLinks: {
+        website: validatorProfile ? validatorProfile.website : undefined,
+        telegram: validatorProfile ? validatorProfile.telegram : undefined,
+        github: validatorProfile ? validatorProfile.github : undefined,
+        twitter: validatorProfile ? validatorProfile.twitter : undefined,
+        blog: validatorProfile ? validatorProfile.blog : undefined
+      },
+      numberStakers,
+      uptimePercentage: validator.uptimePercentage,
+      contributionLinks: JSON.parse(validatorProfile.contributionLinks),
+      network
+    }
   }
 }
 
@@ -197,8 +250,29 @@ function transactionsReducerV2(network, extrinsics, blockHeight, reducers) {
   return extrinsics.reduce((collection, extrinsic) => {
     return collection.concat(
       transactionReducerV2(network, extrinsic, blockHeight, reducers)
+async function transactionsReducerV2(
+  network,
+  extrinsics,
+  blockHeight,
+  db,
+  api
+) {
+  // Filter Polkadot tx to Lunie supported types
+  let reducedTxs = []
+  for (let index = 0; index < extrinsics.length; index++) {
+    const extrinsic = extrinsics[index]
+    reducedTxs = reducedTxs.concat(
+      await transactionReducerV2(
+        network,
+        extrinsic,
+        index,
+        blockHeight,
+        db,
+        api
+      )
     )
-  }, [])
+  }
+  return reducedTxs
 }
 
 // Map Polkadot event method to Lunie message types
@@ -208,6 +282,8 @@ function getMessageType(section, method) {
       return lunieMessageTypes.SEND
     case 'balances.transferKeepAlive':
       return lunieMessageTypes.SEND
+    case 'staking.payoutStakers':
+      return lunieMessageTypes.CLAIM_REWARDS
     case 'lunie.staking':
       return lunieMessageTypes.STAKE
     default:
@@ -215,15 +291,19 @@ function getMessageType(section, method) {
   }
 }
 
-function parsePolkadotTransaction(
+async function parsePolkadotTransaction(
   hash,
   message,
+  index,
   messageIndex,
   signer,
   success,
+  log,
   network,
   blockHeight,
-  reducers
+  isBatch,
+  db,
+  events
 ) {
   const lunieTransactionType = getMessageType(message.section, message.method)
   return {
@@ -231,13 +311,13 @@ function parsePolkadotTransaction(
     type: lunieTransactionType,
     hash,
     height: blockHeight,
-    key: `${hash}_${messageIndex}`,
-    details: transactionDetailsReducer(
+    key: isBatch ? `${hash}_${index}_${messageIndex}` : `${hash}_${index}`,
+    details: await transactionDetailsReducer(
       network,
       lunieTransactionType,
-      reducers,
       signer,
-      message
+      message,
+      db
     ),
     timestamp: new Date().getTime(), // FIXME!: pass it from block, we should get current timestamp from blockchain for new blocks
     memo: ``,
@@ -248,8 +328,8 @@ function parsePolkadotTransaction(
       }
     ], // FIXME!
     success,
-    log: ``,
-    involvedAddresses: reducers.extractInvolvedAddresses(
+    log,
+    involvedAddresses: extractInvolvedAddresses(
       lunieTransactionType,
       signer,
       message
@@ -292,8 +372,93 @@ function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
       network,
       blockHeight,
       reducers
+      message,
+      events
+    )
+  }
+}
+
+async function transactionReducerV2(
+  network,
+  extrinsic,
+  index,
+  blockHeight,
+  db,
+  api
+) {
+  const hash = extrinsic.hash
+  const signer = extrinsic.signature === null ? '' : extrinsic.signature.signer
+  const isBatch =
+    extrinsic.method.pallet === `utility` && extrinsic.method.method === `batch`
+  const messages = aggregateLunieStaking(
+    isBatch ? extrinsic.args.calls : [extrinsic]
+  )
+  const events = extrinsic.events
+
+  // if tx is a batch, we need to check if all of the batched txs went through
+  let success
+  if (isBatch) {
+    success = !!extrinsic.events.find(
+      (event) =>
+        event.method.pallet === `utility` &&
+        event.method.method === `BatchCompleted`
+    )
+  } else {
+    success = !!extrinsic.events.find(
+      (event) =>
+        event.method.pallet === `system` &&
+        event.method.method === `ExtrinsicSuccess`
+    )
+  }
+
+  // add error
+  let log = undefined
+  if (!success) {
+    try {
+      const failureEvent = extrinsic.events.find(
+        (event) =>
+          (event.method.pallet === `system` &&
+            event.method.method === `ExtrinsicFailed`) ||
+          (event.method.pallet === `utility` &&
+            event.method.method === `BatchInterrupted`)
+      )
+      const failureEventData = failureEvent.data.find(({ Module }) => !!Module) // data has Module property to get error
+      const { index, error } = failureEventData.Module
+      const errorIndex = new Uint8Array([index, error])
+      const { documentation } = api.registry.findMetaError(errorIndex)
+      log = documentation.join(' ').trim()
+    } catch (err) {
+      console.error(err)
+      Sentry.withScope(function (scope) {
+        scope.setExtra('extrinsic', extrinsic)
+        scope.setExtra('height', blockHeight)
+        scope.setExtra('hash', hash)
+        Sentry.captureException(error)
+      })
+      log = `Transaction failed. Exact error could not been extracted. Extrinsic was included in block ${blockHeight} and has hash ${hash}.`
+    }
+  }
+
+  const returnedMessages = await Promise.all(
+    messages.map(
+      async (message, messageIndex) =>
+        await parsePolkadotTransaction(
+          hash,
+          message,
+          index,
+          messageIndex,
+          signer,
+          success,
+          log,
+          network,
+          blockHeight,
+          isBatch,
+          db,
+          events
+        )
     )
   )
+  return returnedMessages
 }
 
 // we display staking as one tx where in Polkadot this can be 2
@@ -350,20 +515,23 @@ function aggregateLunieStaking(messages) {
 }
 
 // Map polkadot messages to our details format
-function transactionDetailsReducer(
+async function transactionDetailsReducer(
   network,
   lunieTransactionType,
-  reducers,
   signer,
-  message
+  message,
+  db
 ) {
   let details
   switch (lunieTransactionType) {
     case lunieMessageTypes.SEND:
-      details = sendDetailsReducer(network, message, signer, reducers)
+      details = sendDetailsReducer(network, message, signer)
       break
     case lunieMessageTypes.STAKE:
-      details = stakeDetailsReducer(network, message, reducers)
+      details = stakeDetailsReducer(network, message)
+      break
+    case lunieMessageTypes.CLAIM_REWARDS:
+      details = await claimRewardsDetailsReducer(network, message, db)
       break
     default:
       details = {}
@@ -375,7 +543,7 @@ function transactionDetailsReducer(
 }
 
 function coinReducer(network, amount, decimals = 6) {
-  if (!amount) {
+  if (!amount && amount !== 0) {
     return {
       amount: 0,
       denom: ''
@@ -383,7 +551,7 @@ function coinReducer(network, amount, decimals = 6) {
   }
 
   return {
-    denom: network.coinLookup[0].viewDenom,
+    denom: network.stakingDenom || network.coinLookup[0].viewDenom,
     amount: fixDecimalsAndRoundUp(
       BigNumber(amount).times(
         network.coinLookup[0].chainToViewConversionFactor
@@ -393,42 +561,79 @@ function coinReducer(network, amount, decimals = 6) {
   }
 }
 
-function sendDetailsReducer(network, message, signer, reducers) {
+function sendDetailsReducer(network, message, signer) {
   return {
     from: [signer],
     to: [message.args.dest],
     amount: reducers.coinReducer(network, message.args.value)
+    amount: coinReducer(network, message.args.value)
   }
 }
 
 // the message for staking is created by `aggregateLunieStaking`
-function stakeDetailsReducer(network, message, reducers) {
+function stakeDetailsReducer(network, message) {
   return {
     to: message.validators,
-    amount: reducers.coinReducer(network, message.amount)
+    amount: coinReducer(network, message.amount)
   }
 }
 
-function extractInvolvedAddresses(lunieTransactionType, signer, message) {
+async function claimRewardsDetailsReducer(network, message, db) {
+  const validator = message.args.validator_stash
+  const height = message.args.era
+  const dbRewards =
+    validator && height
+      ? await db.getRewardsValidatorHeight(validator, height)
+      : []
+  return {
+    amounts: [
+      {
+        amount: dbRewards
+          .map(({ amount }) => ({ amount }))
+          .reduce((amountAccumulator, reward) => {
+            return (amountAccumulator += reward.amount)
+          }, 0)
+          .toFixed(6),
+        denom: network.stakingDenom
+      }
+    ],
+    from: [validator],
+    rewards: dbRewards || []
+  }
+}
+
+function extractInvolvedAddresses(
+  lunieTransactionType,
+  signer,
+  message,
+  events
+) {
   let involvedAddresses = []
   if (lunieTransactionType === lunieMessageTypes.SEND) {
     involvedAddresses = involvedAddresses.concat([signer, message.args.dest])
   } else if (lunieTransactionType === lunieMessageTypes.STAKE) {
     involvedAddresses = involvedAddresses.concat([signer], message.validators)
-  } else {
+  } else if (lunieTransactionType === lunieMessageTypes.CLAIM_REWARDS) {
+    // we get all reward target addresses from extrinsic events
+    involvedAddresses = events
+      .filter(
+        (event) =>
+          event.method.pallet === 'staking' && event.method.method === `Reward`
+      )
+      .map((event) => event.data[0])
+      .concat([signer])
+  } else if (signer) {
     involvedAddresses = involvedAddresses.concat([signer])
   }
   return _.uniq(involvedAddresses)
 }
 
-function rewardsReducer(network, validators, rewards, reducers) {
+function rewardsReducer(network, validators, rewards) {
   const allRewards = []
   const validatorsDict = _.keyBy(validators, 'operatorAddress')
   rewards.forEach((reward) => {
     // reward reducer returns an array
-    allRewards.push(
-      ...reducers.rewardReducer(network, validatorsDict, reward, reducers)
-    )
+    allRewards.push(...rewardReducer(network, validatorsDict, reward))
   })
   return allRewards
 }
@@ -468,14 +673,14 @@ function dbRewardsReducer(validatorsDictionary, dbRewards, withHeight) {
   }))
 }
 
-function rewardReducer(network, validators, reward, reducers) {
+function rewardReducer(network, validators, reward) {
   let parsedRewards = []
   Object.entries(reward.validators).forEach((validatorReward) => {
     const validator = validators[validatorReward[0]]
     if (!validator) return
     const lunieReward = {
       id: validatorReward[0] + (reward.era ? '_' + reward.era : ''),
-      ...reducers.coinReducer(network, validatorReward[1].toString(10)),
+      ...coinReducer(network, validatorReward[1].toString(10)),
       height: reward.era,
       address: reward.address,
       validator, // used for user facing rewards in the API
@@ -718,8 +923,10 @@ function getStatusEndTime(blockHeight, endBlock) {
 }
 
 module.exports = {
+  notificationReducer,
   blockReducer,
   validatorReducer,
+  validatorProfileReducer,
   balanceReducer,
   balanceV2Reducer,
   delegationReducer,

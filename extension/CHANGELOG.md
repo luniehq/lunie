@@ -1,11 +1,97 @@
 # Changelog
- 
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- SIMSALA --> <!-- DON'T DELETE, used for automatic changelog updates -->
+
+## [1.0.51] - 2020-12-07
+
+### Fixed
+
+- Deploy withut api being set @faboweb
+
+## [1.0.50] - 2020-12-04
+
+### Fixed
+
+- Fix delete in extension @faboweb
+
+## [1.0.49] - 2020-11-25
+
+### Added
+
+- Whitelist wallet partners @faboweb
+
+### Fixed
+
+- Also inject the extension on partner sites @faboweb
+
+## [1.0.48] - 2020-11-24
+
+### Added
+
+- Bring back polkadot networks @faboweb
+- Bring in icons to not be queried from Digital Ocean @faboweb
+
+### Deprecated
+
+- Disable account creation @faboweb
+
+## [1.0.47] - 2020-11-23
+
+### Added
+
+- Allow connection from Lunie 3 @faboweb
+
+## [1.0.46] - 2020-11-21
+
+### Changed
+
+- [#5215](https://github.com/cosmos/lunie/pull/5215) Hardcoded networks.js now includes all networks present in Lunie @Bitcoinera
+
+## [1.0.45] - 2020-11-17
+
+### Fixed
+
+- Bring back the seed reveal @faboweb
+
+## [1.0.44] - 2020-11-12
+
+### Changed
+
+- [#5189](https://github.com/cosmos/lunie/issues/5189) Add hardcoded validators and networks for extension so it doesn't break without API @Bitcoinera
+- [#5190](https://github.com/cosmos/lunie/issues/5190) Add sunsetting warning banner to extension @Bitcoinera
+- [#5127](https://github.com/cosmos/lunie/issues/5127) Update polkadot-js/api to release v2.3.1 @mariopino
+
+## [1.0.43] - 2020-10-16
+
+### Fixed
+
+- [#5097](https://github.com/cosmos/lunie/issues/5097) Fix all accounts apparently deleted after Delete Account @Bitcoinera
+
+### Repository
+
+- [#4762](https://github.com/cosmos/lunie/issues/4762) Fix HMR @faboweb
+
+## [1.0.42] - 2020-10-13
+
+### Added
+
+- [#4513](https://github.com/cosmos/lunie/issues/4513) Add "Forget Account" feature to AccountMenu @Bitcoinera
+
+### Changed
+
+- [#4771](https://github.com/cosmos/lunie/issues/4771) Remove hardcoded denomLookup @Bitcoinera
+- [#5011](https://github.com/cosmos/lunie/pull/5011) Update to polkadot/api-2.0.1 @Bitcoinera
+- [#5084](https://github.com/cosmos/lunie/pull/5084) Upgrate to polkadot/api-2.2.1 @Bitcoinera
+- [#5040](https://github.com/cosmos/lunie/pull/5040) Upgrade to polkadot/api-2.1.1 @Bitcoinera
+
+### Repository
+
+- [#5068](https://github.com/cosmos/lunie/pull/5068) Add the components/session folder @Bitcoinera
 
 ## [1.0.41] - 2020-09-25
 
@@ -240,7 +326,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - [#191](https://github.com/cosmos/lunie/pull/191) Refactor createKey in actions to not depend on store. Create wallet.js for the refactor @Bitcoinera
-- [#184](https://github.com/cosmos/lunie/pull/184) Changes submodule for a Lunie version where  ClaimRewardsTxDetails doesn't open inside extension @Bitcoinera
+- [#184](https://github.com/cosmos/lunie/pull/184) Changes submodule for a Lunie version where ClaimRewardsTxDetails doesn't open inside extension @Bitcoinera
 - Adjust allowed pages to new Netlify link schema @faboweb
 - Change title of extension @faboweb
 - minor style updates, changes to route names @jbibla
@@ -312,7 +398,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix unsafe-eval being used in development @faboweb
 - Added release note to readme @faboweb
 
-## [1.0.11] - 2020-02-04 
+## [1.0.11] - 2020-02-04
 
 ### Added
 

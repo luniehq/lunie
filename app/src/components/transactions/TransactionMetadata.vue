@@ -24,9 +24,7 @@
           <b>{{ transaction.fees[0].amount }}</b>
           <span> {{ transaction.fees[0].denom }}</span>
         </span>
-        <span v-else>
-          0
-        </span>
+        <span v-else> 0 </span>
       </p>
       <p class="hash-container">
         Hash: <span class="hash">{{ transaction.hash }}</span>

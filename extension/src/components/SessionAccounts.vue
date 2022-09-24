@@ -5,6 +5,9 @@
         <h2 class="session-title">
           <img class="lunie-logo" src="../images/lunie-logo-white.svg" />
         </h2>
+      </div>
+      <SunsettingWarningBar />
+      <div class="accounts-header">
         <p>
           You can use the account(s) below to explore Lunie.io and to approve
           transactions.
@@ -16,10 +19,8 @@
           :button-action="goToLunie"
           button-text="Go to Lunie"
         />
+        <router-link to="/select-network/recover">Import Account</router-link>
       </div>
-      <router-link class="back-link" to="/welcome"
-        >Want to add another account?</router-link
-      >
     </div>
   </SessionFrame>
 </template>
@@ -27,13 +28,15 @@
 <script>
 import AccountList from 'account/AccountList'
 import SessionFrame from 'common/SessionFrame'
+import SunsettingWarningBar from './SunsettingWarningBar'
 import config from 'config'
 
 export default {
   name: `session-accounts`,
   components: {
     AccountList,
-    SessionFrame
+    SessionFrame,
+    SunsettingWarningBar
   },
   computed: {
     accounts() {

@@ -1,11 +1,7 @@
 <template>
   <TmDataMsg icon="sentiment_very_dissatisfied">
-    <div slot="title">
-      Not found!
-    </div>
-    <div slot="subtitle">
-      We could not find the requested resource
-    </div>
+    <div slot="title">Not found!</div>
+    <div slot="subtitle">We could not find the requested resource</div>
   </TmDataMsg>
 </template>
 
