@@ -7,6 +7,7 @@ const {
 } = require('../../common/numbers.js')
 const { getProposalSummary } = require('./common')
 const { lunieMessageTypes } = require('../../lib/message-types')
+
 const {
   getMessageTitle,
   getPushLink,
@@ -244,6 +245,11 @@ function undelegationReducer(undelegation, address, network) {
   }
 }
 
+function transactionsReducerV2(network, extrinsics, blockHeight, reducers) {
+  // Filter Polkadot tx to Lunie supported types
+  return extrinsics.reduce((collection, extrinsic) => {
+    return collection.concat(
+      transactionReducerV2(network, extrinsic, blockHeight, reducers)
 async function transactionsReducerV2(
   network,
   extrinsics,
@@ -326,6 +332,46 @@ async function parsePolkadotTransaction(
     involvedAddresses: extractInvolvedAddresses(
       lunieTransactionType,
       signer,
+      message
+    )
+  }
+}
+
+function transactionReducerV2(network, extrinsic, blockHeight, reducers) {
+  const hash = extrinsic.hash
+  const signer = extrinsic.signature === null ? '' : extrinsic.signature.signer
+  const isBatch =
+    extrinsic.method.pallet === `utility` && extrinsic.method.method === `batch`
+  const messages = aggregateLunieStaking(
+    isBatch ? extrinsic.args.calls : [extrinsic]
+  )
+
+  // if tx is a batch, we need to check if all of the batched txs went through
+  let success
+  if (isBatch) {
+    success = !!extrinsic.events.find(
+      (event) =>
+        event.method.pallet === `utility` &&
+        event.method.method === `BatchCompleted`
+    )
+  } else {
+    success = !!extrinsic.events.find(
+      (event) =>
+        event.method.pallet === `system` &&
+        event.method.method === `ExtrinsicSuccess`
+    )
+  }
+
+  return messages.map((message, messageIndex) =>
+    parsePolkadotTransaction(
+      hash,
+      message,
+      messageIndex,
+      signer,
+      success,
+      network,
+      blockHeight,
+      reducers
       message,
       events
     )
@@ -519,6 +565,7 @@ function sendDetailsReducer(network, message, signer) {
   return {
     from: [signer],
     to: [message.args.dest],
+    amount: reducers.coinReducer(network, message.args.value)
     amount: coinReducer(network, message.args.value)
   }
 }
